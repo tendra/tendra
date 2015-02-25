@@ -191,5 +191,42 @@
 			by the same <code>#pragma TenDRA begin</code>
 			directive described by the &tcpplus-userguide.doc;.</para>
 	</section>
+
+	<section id="spec">
+		<title>Intermodule analysis</title>
+
+		<warning>
+			<para>The C++ spec linking routines have not yet been completely implemented,
+					and so are disabled in the current version of the C++ producer.</para>
+		</warning>
+
+		<para>A C++ spec file is a dump of the C++ producer's internal
+			representation of a translation unit.  Such files can be written
+			to, and read from, disk to perform such operations as intermodule
+			analysis.</para>
+
+		<para>Note that the format of a C++ spec file is specific to the C++ producer
+			and may change between releases to reflect modifications in the internal
+			type system.  The C producer has a similar dump format, called a C
+			spec file, however the two are incompatible.  If intermodule analysis
+			between C and C++ source files is required then the &tdfcdump.5; symbol
+			table dump format should be used.</para>
+	</section>
+
+	<section id="catch_all">
+		<title>Other checks</title>
+
+		<para>Several checks of varying utility have been implemented in the C++
+			producer but do not as yet have individual directives controlling
+			their use.	These can be enabled <emphasis>en masse</emphasis> using the directive:</para>
+
+			<programlisting language="cpp">#pragma TenDRA++ catch all <emphasis>allow</emphasis></programlisting>
+
+		<para>It is intended that this directive will be phased out as these checks
+			are assigned controlling directives.	It is possible to achieve finer
+			control over these checks by enabling their individual error messages
+			<link linkend="low">as described above</link>.</para>
+	</section>
+
 </chapter>
 

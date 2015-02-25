@@ -129,11 +129,12 @@
 	<xi:include href="configuring.xml"/>
 	<xi:include href="types.xml"/>
 	<xi:include href="integers.xml"/>
-	<xi:include href="analysis.xml"/>
+	<xi:include href="flow.xml"/>
+	<xi:include href="operator.xml"/>
+	<xi:include href="variable.xml"/>
+	<xi:include href="discard.xml"/>
 	<xi:include href="preprocessor.xml"/>
-	<xi:include href="errors.xml"/>
 	<xi:include href="apichecking.xml"/>
-	<xi:include href="miscellaneous.xml"/>
 
 	<xi:include href="bibliography.xml"/>
 

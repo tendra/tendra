@@ -1,0 +1,319 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<chapter>
+	<title>Control Flow Analysis</title>
+
+	<para>The checker has a number of features which can be used to help track
+		down potential programming errors relating to the use of variables
+		within a source file and the flow of control through the program.
+		Examples of this are detecting sections of unused code, and flagging
+		expressions that depend upon the order of evaluation where the order is
+		not defined.</para>
+
+	<section id="unreachable">
+		<title>Unreachable code analysis</title>
+
+		<para>Consider the following function definition:</para>
+
+		<programlisting language="c">int f ( int n )
+{
+	if ( n ) {
+		return ( 1 );
+	} else {
+		return ( 0 );
+	}
+	return ( 2 );
+}
+</programlisting>
+
+		<para>The final return statement is redundant since it can never be reached. The test for unreachable code is controlled by:</para>
+
+		<programlisting language="c">#pragma TenDRA unreachable code <emphasis>permit</emphasis></programlisting>
+
+		<para>where <emphasis>permit</emphasis> is replaced by <code>disallow</code>
+			to give an error if unreached code is detected, <code>warning</code>
+			to give a warning, or <code>allow</code> to disable the test (this is the
+			default).</para>
+
+		<para>There are also equivalent command-line options to tchk of the
+			form <code>-X:unreached=</code><code>state</code>, where
+			<code>state</code> can be <code>check</code>, <code>warn</code> or
+			<code>dont</code>.</para>
+
+		<para>Annotations to the code in the form of user-defined keywords may
+			be used to indicate that a certain statement is genuinely reached
+			or unreached. These keywords are introduced using:</para>
+
+		<programlisting language="c">#pragma TenDRA keyword REACHED for set reachable
+#pragma TenDRA keyword UNREACHED for set unreachable</programlisting>
+
+		<para>The statement <code>REACHED</code> then indicates that this
+			portion of the program is actually reachable, whereas
+			<code>UNREACHED</code> indicates that it is unreachable.
+			For example, one way of fixing the program above
+			might be to say that the final return is reachable (this is a
+			blatant lie, but never mind). This would be done as follows:</para>
+
+		<programlisting language="c">int f ( int n ) {
+	if ( n ) {
+		return ( 1 );
+	} else {
+		return ( 0 );
+	}
+	REACHED
+	return ( 2 );
+}
+</programlisting>
+
+		<para>An example of the use of <code>UNREACHED</code> might be
+			in the function below which falls out of the bottom without a
+			return statement. We might know that, because it is never
+			called with c equal to zero, the end of the function is never
+			reached. This could be indicated as follows:</para>
+
+		<programlisting language="c">int f ( int c ) {
+	if ( c ) return ( 1 );
+	UNREACHED
+}</programlisting>
+
+		<para>As always, if new keywords are introduced into a program then
+			definitions need to be provided for conventional compilers. In this
+			case, this can be done as follows:</para>
+
+		<programlisting language="c">#ifdef __TenDRA__
+#pragma TenDRA keyword REACHED for set reachable
+#pragma TenDRA keyword UNREACHED for set unreachable
+#else
+#define REACHED
+#define UNREACHED
+#endif</programlisting>
+
+		<!-- TODO: tcpplus content: -->
+
+		<para>The directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA unreachable code <emphasis>allow</emphasis></programlisting>
+
+		<para>enables a flow analysis check to detect unreachable code.	It is possible
+			to assert that a statement is reached or not reached by preceding
+			it by a keyword introduced by one of the directives:</para>
+
+		<programlisting language="cpp">#pragma TenDRA keyword <emphasis>identifier</emphasis> for set reachable
+#pragma TenDRA keyword <emphasis>identifier</emphasis> for set unreachable</programlisting>
+
+		<para>The fact that certain functions, such as <code>exit</code>, do not
+			return a value can be exploited in the flow analysis routines.	The
+			equivalent directives:</para>
+
+		<programlisting language="cpp">#pragma TenDRA bottom <emphasis>identifier</emphasis>
+#pragma TenDRA++ type <emphasis>identifier</emphasis> for bottom</programlisting>
+
+		<para>can be used to introduce a <code>typedef</code> declaration for the
+			type, bottom, returned by such functions.	The TenDRA API headers
+			declare
+			<code>exit</code> and similar functions in this way, for example:</para>
+
+		<programlisting language="cpp">#pragma TenDRA bottom __bottom
+__bottom exit ( int ) ;
+__bottom abort ( void ) ;</programlisting>
+
+		<para>The bottom type is compatible with <code>void</code> in function declarations
+			to allow such functions to be redeclared in their conventional form.</para>
+	</section>
+
+	<section>
+		<title>Case fall through</title>
+
+		<para>Another flow analysis check concerns fall through in case
+			statements. For example, in:</para>
+
+		<programlisting language="c">void f ( int n )
+{
+	switch ( n ) {
+		case 1 : puts ( "one" );
+		case 2 : puts ( "two" );
+	}
+}</programlisting>
+
+		<para>the control falls through from the first case to the second. This
+			may be due to an error in the program (a missing break statement),
+			or be deliberate. Even in the latter case, the code is not
+			particularly maintainable as it stands - there is always the risk
+			when adding a new case that it will interrupt this carefully
+			contrived flow. Thus it is customary to comment all case fall
+			throughs to serve as a warning.</para>
+
+		<para>In the default mode, the TenDRA C checker ignores all such fall
+			throughs. A check to detect fall through in case statements is
+			controlled by:</para>
+
+		<programlisting language="c">#pragma TenDRA fall into case <emphasis>permit</emphasis></programlisting>
+
+		<para>where <emphasis>permit</emphasis> is <code>allow</code> (no
+			errors), <code>warning</code> (warn about case fall through)
+			or <code>disallow</code> (raise errors for case fall through).</para>
+
+		<para>There are also equivalent command-line options to tcc of the
+			form -<code>X:fall_thru=</code><code>state</code>, where
+			<code>state</code> can be <code>check</code>, <code>warn</code> or
+			<code>dont</code>.</para>
+
+		<para>Deliberate case fall throughs can be indicated by means of a
+			keyword, which has been introduced using:</para>
+
+		<programlisting language="c">#pragma TenDRA keyword FALL_THROUGH for fall into case</programlisting>
+
+		<para>Then, if the example above were deliberate, this could be indicated by:</para>
+
+		<programlisting language="c">void f ( int n ) {
+	switch ( n ) {
+		case 1 : puts ( "one" );
+		FALL_THROUGH
+		case 2 : puts ( "two" );
+	}
+}</programlisting>
+
+		<para>Note that <code>FALL_THROUGH</code> is inserted between the two
+			cases, rather than at the end of the list of statements following
+			the first case.</para>
+
+		<para>If a keyword is introduced in this way, then an alternative
+			definition needs to be introduced for conventional compilers. This
+			might be done as follows:</para>
+
+	<programlisting language="c">#ifdef __TenDRA__
+#pragma TenDRA keyword FALL_THROUGH for fall into case
+#else
+#define FALL_THROUGH
+#endif</programlisting>
+	</section>
+
+	<section>
+		<title>Enumerations controlling switch statements</title>
+
+		<para>Enumerations are commonly used as control expressions in switch
+			statements. When case labels for some of the enumeration constant
+			belonging to the enumeration type do not exist and there is no
+			default label, the switch statement has no effect for certain
+			possible values of the control expression. Checks to detect such
+			switch statements are controlled by:</para>
+
+		<programlisting language="c">#pragma TenDRA enum switch analysis <emphasis>status</emphasis></programlisting>
+
+		<para>where <emphasis>status</emphasis> is <code>on</code> (raise
+			an error), <code>warning</code> (produce a warning), or
+			<code>off</code> (the default mode when no errors are
+			produced).</para>
+	</section>
+
+	<section>
+		<title>Empty if statements</title>
+
+		<para>Consider the following C statements:</para>
+
+		<programlisting language="c">if ( var1 == 1 ) ;
+	var2 = 0 ;</programlisting>
+
+		<para>The conditional statement serves no purpose here and the
+			second statement will always be executed regardless of the
+			value of var1. This is almost certainly not what the programmer
+			intended to write. A test for if statements with no body is
+			controlled by:</para>
+
+		<programlisting language="c">#pragma TenDRA extra ; after conditional <emphasis>permit</emphasis></programlisting>
+
+		<para>with the usual <code>allow</code> (this is the default setting),
+			<code>warning</code> and <code>disallow</code> options for
+			<emphasis>permit</emphasis>.</para>
+	</section>
+
+	<section id="uoaace">
+		<title>Use of assignments as control expressions</title>
+
+		<para>Using the C assignment operator, <code>=</code>, when the
+			equality operator <code>==</code> was intended is an extremely
+			common problem. The pragma:</para>
+
+		<programlisting language="c">#pragma TenDRA assignment as bool <emphasis>permit</emphasis></programlisting>
+
+		<para>is used to control the treatment of assignments used as the
+			controlling expression of a conditional statement or a loop,
+			e.g.</para>
+
+		<programlisting language="c">if( var = 1 ) { ...</programlisting>
+
+		<para>The options for <emphasis>permit</emphasis> are <code>allow</code>,
+			<code>warning</code> and <code>disallow</code>. The default
+			setting allows assignments to be used as control statements
+			without raising an error.</para>
+	</section>
+
+	<section>
+		<title>Constant control expressions</title>
+
+		<para>Statements with constant control expressions are not really
+			conditional at all since the value of the control statement can
+			be evaluated statically. Although this feature is sometimes
+			used in loops, relying on a break, goto or return statement to
+			end the loop, it may be useful to detect all constant control
+			expressions to check that they are deliberate. The check for
+			statically constant control expressions is controlled using:</para>
+
+		<programlisting language="c">#pragma TenDRA const conditional <emphasis>permit</emphasis></programlisting>
+
+		<para>where <emphasis>permit</emphasis> may be replaced by
+			<code>disallow</code> to give an error when constant control
+			expressions are encountered, <code>warning</code> to replace
+			the error by a warning, or the check may be switched off using
+			<code>allow</code> (this is the default).</para>
+	</section>
+
+	<section id="if">
+		<title>Conditional and iteration statements</title>
+
+		<para>The directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA const conditional <emphasis>allow</emphasis></programlisting>
+
+		<para>can be used to enable a check for constant expressions used in conditional
+			contexts.	A literal constant is allowed in the condition of a <code>while
+			</code>, <code>for</code> or <code>do</code> statement to allow for
+			such common constructs as:</para>
+
+		<programlisting language="cpp">while ( true ) {
+	// while statement body
+}</programlisting>
+
+		<para>and target dependent constant expressions are allowed in the condition
+			of an <code>if</code> statement, but otherwise constant conditions
+			are reported according to the status of this check.</para>
+
+		<para>The common error of writing <code>=</code> rather than <code>==</code>
+			in conditions can be detected using the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA assignment as bool <emphasis>allow</emphasis></programlisting>
+
+		<para>which can be used to disallow such assignment expressions in contexts
+			where a boolean is expected.	The error message can be suppressed
+			by enclosing the assignment within parentheses.</para>
+
+		<para>Another common error associated with iteration statements, particularly
+			with certain brace styles, is the
+			accidental insertion of an extra semicolon as in:</para>
+
+		<programlisting language="cpp">for ( init ; cond ; step ) ;
+{
+	// for statement body
+}</programlisting>
+
+		<para>The directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA extra ; after conditional <emphasis>allow</emphasis></programlisting>
+
+		<para>can be used to enable a check for such suspicious empty iteration
+			statement bodies (it actually checks for <code>;{</code>).</para>
+	</section>
+
+</chapter>
+

@@ -1,0 +1,381 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<chapter>
+	<title>Operator Analysis</title>
+
+	<section>
+		<title>Order of evaluation</title>
+
+		<para>The ISO C standard specifies certain points in the expression
+			syntax at which all prior expressions encountered are
+			guaranteed to have been evaluated. These positions are called
+			sequence points and occur:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>after the arguments and function expression of a function call
+					have been evaluated but before the call itself;</para>
+			</listitem>
+
+			<listitem>
+				<para>after the first operand of a logical &amp;&amp;, or ||
+					operator;</para>
+			</listitem>
+
+			<listitem>
+				<para>after the first operand of the conditional operator, ?:;</para>
+			</listitem>
+
+			<listitem>
+				<para>after the first operand of the comma operator;</para>
+			</listitem>
+
+			<listitem>
+				<para>at the end of any full expression (a full expression may take
+					one of the following forms: an initialiser; the expression in an
+					expression statement; the controlling expression in an
+					<code>if</code>, <code>while</code>, <code>do</code> or
+					<code>switch</code> statement; each of the three optional
+					expressions of a <code>for</code> statement; or the optional
+					expression of a <code>return</code> statement).</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>Between two sequence points however, the order in which the
+			operands of an operator are evaluated, and the order in which
+			side effects take place is unspecified - any order which
+			conforms to the operator precedence rules above is permitted.
+			For example:</para>
+		<!-- TODO not true, is it? this is UB, not unspecified -->
+
+		<programlisting language="c">var = i + arr[ i++ ] ;</programlisting>
+
+		<para>may evaluate to different values on different machines,
+			depending on which argument of the <code>+</code> operator is
+			evaluated first. The checker can detect expressions which
+			depend on the order of evaluation of sub-expressions between
+			sequence points and these are flagged as errors or warnings
+			when the variable analysis is enabled.</para>
+	</section>
+
+	<section>
+		<title>Operator precedence</title>
+
+		<para>The ISO C standard section 6.3, provides a set of rules governing
+			the order in which operators within expressions should be applied.
+			These rules are said to specify the operator precedence and are
+			summarised in the table over the page. Operators on the same line
+			have the same precedence and the rows are in order of decreasing
+			precedence. Note that the unary <code>+</code>, <code>-</code>,
+			<code>*</code> and <code>&amp;</code> operators have higher
+			precedence than the binary forms and thus appear higher in the
+			table.</para>
+
+		<para>The precedence of operators is not always intuitive and often
+			leads to unexpected results when expressions are evaluated. A
+			particularly common example is to write:</para>
+
+		<programlisting language="c">if ( var &amp; TEST == 1) { ...
+}
+else { ...
+</programlisting>
+
+		<para>assuming that the control expression will be evaluated as:</para>
+
+		<programlisting language="c">( ( var &amp; TEST ) == 1 )</programlisting>
+
+		<para>However, the <code>==</code> operator has a higher precedence
+			than the bitwise <code>&amp;</code> operator and the control
+			expression is evaluated as:</para>
+
+		<programlisting language="c">( var &amp; ( TEST == 1 ) )</programlisting>
+
+		<para>which in general will give a different result.</para>
+
+		<table>
+			<title>ISO C Rules for Operator Precedence</title>
+
+			<col align="left"/>
+			<col align="left"/>
+
+			<thead>
+				<tr>
+					<th>Operators</th>
+					<th>Precedence</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td>
+						<code><emphasis>function call</emphasis>()</code> <code>[]</code>
+						<code>-&gt;</code> <code>.</code>
+						<code>++<emphasis>(postfix)</emphasis></code>
+						<code>--<emphasis>(postfix)</emphasis></code></td>
+					<td>highest</td>
+				</tr>
+
+				<tr>
+					<td>
+						<code>!</code> <code>~</code> <code>++</code> <code>--</code>
+						<code>+</code> <code>-</code> <code>*</code> <code>&amp;</code>
+						<code>(<emphasis>type</emphasis>)</code> <code>sizeof</code></td>
+					<td/>
+				</tr>
+
+				<tr>
+					<td>
+						<code>*</code> <code>/</code> <code>%</code></td>
+					<td/>
+				</tr>
+
+				<tr>
+					<td>
+						<code>+</code><emphasis>(binary)</emphasis>
+						<code>-</code><emphasis>(binary)</emphasis></td>
+					<td/>
+				</tr>
+
+				<tr>
+					<td>
+						<code>&lt;&lt;</code> <code>&gt;&gt;</code></td>
+					<td/>
+				</tr>
+
+				<tr>
+					<td>
+						<code>&lt;</code> <code>&lt;=</code> <code>&gt;</code> <code>&gt;=</code></td>
+					<td/>
+				</tr>
+
+				<tr>
+					<td>
+						<code>==</code> <code>!=</code></td>
+					<td/>
+				</tr>
+
+				<tr>
+					<td>
+						<code>&amp;</code></td>
+					<td/>
+				</tr>
+
+				<tr>
+					<td>
+						<code>^</code></td>
+					<td/>
+				</tr>
+
+				<tr>
+					<td>
+						<code>|</code></td>
+					<td/>
+				</tr>
+
+				<tr>
+					<td>
+						<code>&amp;&amp;</code></td>
+					<td/>
+				</tr>
+
+				<tr>
+					<td>
+						<code>||</code></td>
+					<td/>
+				</tr>
+
+				<tr>
+					<td>
+						<code>?:</code></td>
+					<td/>
+				</tr>
+
+				<tr>
+					<td>
+						<code>=</code> <code>+=</code> <code>-=</code> <code>*=</code>
+						<code>/=</code> <code>%=</code> <code>&amp;=</code> <code>^=</code>
+						<code>|=</code> <code>&lt;&lt;=</code> <code>&gt;&gt;=</code></td>
+					<td/>
+				</tr>
+
+				<tr>
+					<td>,</td>
+					<td>lowest</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<para>The TenDRA C checker can be configured to flag expressions
+			containing certain operators whose precedence is commonly confused,
+			namely:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para><code>&amp;&amp;</code> <emphasis>versus</emphasis>
+					<code>||</code></para>
+			</listitem>
+
+			<listitem>
+				<para><code>&lt;&lt;</code> <emphasis>and</emphasis>
+					<code>&gt;&gt;</code> <emphasis>versus</emphasis>
+					<code>+</code> <emphasis>and</emphasis> <code>-</code></para>
+			</listitem>
+
+			<listitem>
+				<para><code>&amp;</code> <emphasis>versus</emphasis> <code>==</code>
+					<code>!=</code> <code>&lt;</code> <code>&gt;</code>
+					<code>&lt;=</code> <code>&gt;=</code> <code>+</code>
+					<emphasis>and</emphasis> <code>-</code></para>
+			</listitem>
+
+			<listitem>
+				<para><code>^</code> <emphasis>versus</emphasis> <code>&amp;</code>
+					<code>==</code> <code>|=</code> <code>&lt;</code> <code>&gt;</code>
+					<code>&lt;=</code> <code>&gt;=</code> <code>+</code>
+					<emphasis>and</emphasis> <code>-</code></para>
+			</listitem>
+
+			<listitem>
+				<para><code>|</code> <emphasis>versus</emphasis> <code>^</code>
+					<code>&amp;</code> <code>==</code> <code>|=</code>
+					<code>&lt;</code> <code>&gt;</code> <code>&lt;=</code>
+					<code>&gt;=</code> <code>+</code> <emphasis>and</emphasis>
+					<code>-</code></para>
+			</listitem>
+		</itemizedlist>
+
+		<para>The check is switched off by default. The the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA operator precedence analysis <emphasis>on</emphasis></programlisting>
+
+		<para>can be used to enable a check for expressions where the operator precedence
+			is not necessarily what might be expected.	The intended precedence
+			can be clarified by means of explicit parentheses.	The precedence
+			levels checked are as follows:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para><code>&amp;&amp;</code> versus <code>||</code>.</para>
+			</listitem>
+
+			<listitem>
+				<para><code>&lt;&lt;</code> and <code>&gt;&gt;</code> versus binary
+					<code>+</code> and <code>-</code>.</para>
+			</listitem>
+
+			<listitem>
+				<para>Binary <code>&amp;</code> versus binary <code>+</code>,		 <code>-</code>,
+					<code>==</code>, <code>!=</code>, <code>&gt;</code>,		 <code>&gt;=</code>,
+					<code>&lt;</code> and <code>&lt;=</code>.</para>
+			</listitem>
+
+			<listitem>
+				<para><code>^</code> versus binary <code>&amp;</code>, <code>+</code>,
+					<code>-</code>, <code>==</code>, <code>!=</code>, <code>&gt;</code>,
+					<code>&gt;=</code>, <code>&lt;</code> and <code>&lt;=</code>.</para>
+			</listitem>
+
+			<listitem>
+				<para><code>|</code> versus binary <code>^</code>, <code>&amp;</code>,
+					<code>+</code>, <code>-</code>, <code>==</code>, <code>!=</code>,
+					<code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code> and
+					<code>&lt;=</code>.</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>Also checked are expressions such as <code>a &lt; b &lt; c</code>
+			which do not have their normal mathematical meaning.	For example,
+			in:</para>
+
+		<programlisting language="cpp">d = a &lt;&lt; b + c ;	// precedence is a &lt;&lt; ( b + c )</programlisting>
+
+		<para>the precedence is counter-intuitive, although strangely enough, it
+			isn't in:</para>
+
+		<programlisting language="cpp">cout &lt;&lt; b + c ;		// precedence is cout &lt;&lt; ( b + c )</programlisting>
+
+		<para>Other dubious arithmetic operations can be checked for using the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA integer operator analysis <emphasis>on</emphasis></programlisting>
+
+		<para>This includes checks for operations, such as division by a negative
+			value, which are implementation dependent, and those such as testing
+			whether an unsigned value is less than zero, which serve no purpose.
+			Similarly the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA++ pointer operator analysis <emphasis>on</emphasis></programlisting>
+
+		<para>checks for dubious pointer operations.	This includes very simple
+			bounds checking for arrays and checking that only the simple literal
+			<code>0</code>
+			is used in null pointer constants:</para>
+
+		<programlisting language="cpp">char *p = 1 - 1 ;	// valid, but weird</programlisting>
+
+		<para>The directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA integer overflow analysis <emphasis>on</emphasis></programlisting>
+
+		<para>is used to control the treatment of overflows in the evaluation of
+			integer constant expressions.	This includes the detection of division
+			by zero.</para>
+	</section>
+
+	<section>
+		<title>Floating point equality</title>
+
+		<para>Due to the rounding errors that occur in the handling of floating
+			point values, comparison for equality between two floating point
+			values is a hazardous and unpredictable operation. Tests for
+			equality of two floating point numbers are controlled by:</para>
+
+		<programlisting language="c">#pragma TenDRA floating equality <emphasis>permit</emphasis></programlisting>
+
+		<para>where <emphasis>permit</emphasis> is <code>allow</code>,
+			<code>warning</code> or <code>disallow</code>. By default the check
+			is switched off.</para>
+	</section>
+
+	<section id="exception">
+		<title>Exception analysis</title>
+
+		<para>The ISO C++ rules do not require exception specifications to be checked
+			statically.	This is to facilitate the integration of large systems
+			where a single change in an exception specification could have ramifications
+			throughout the system.	However it is often useful to apply such checks,
+			which can be enabled using the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA++ throw analysis <emphasis>on</emphasis></programlisting>
+
+		<para>This detects any potentially uncaught exceptions and other exception
+			problems.	In the error messages arising from this check, an uncaught
+			exception of type <code>...</code> means that an uncaught exception
+			of an unknown type (arising, for example, from a function without
+			an exception specification) may be thrown.	For example:</para>
+
+		<programlisting language="cpp">void f ( int ) throw ( int ) ;
+void g ( int ) throw ( long ) ;
+void h ( int ) ;
+
+void e () throw ( int )
+{
+	f ( 1 ) ;	// OK
+	g ( 2 ) ;	// uncaught 'long' exception
+	h ( 3 ) ;	// uncaught '...' exception
+}</programlisting>
+	</section>
+
+	<section>
+		<title>Operand of <code>sizeof</code></title>
+
+		<para>According to the ISO C standard, section 6.3.3.4, the operand
+			of the <code>sizeof</code> operator is not itself evaluated. If
+			the operand has any side-effects these will not occur. When the
+			variable analysis is enabled, the checker detects the use of
+			expressions with side-effects in the operand of the sizeof
+			operator.</para>
+	</section>
+
+</chapter>
+

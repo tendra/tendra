@@ -1,0 +1,188 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<chapter>
+	<title>Discard Analysis</title>
+
+	<para>A couple of examples of what might be termed <quote>discard
+		analysis</quote> have already been described - discarded (unused)
+		local variables and discarded (unused) assignments to local
+		variables (see section 5.6.4 and 5.6.5). The checker can perform
+		three more types of discard analysis: discarded function returns,
+		discarded computations and unused static variables and procedures.
+		These three tests may be controlled as a group using:</para>
+
+	<programlisting language="c">#pragma TenDRA discard analysis <emphasis>status</emphasis></programlisting>
+
+	<para>where <emphasis>status</emphasis> is <code>on</code>,
+		<code>warning</code> or <code>off</code>.</para>
+
+	<para>In addition, each of the component tests may be switched on and
+		off independently using pragmas of the form:</para>
+
+	<programlisting language="c">#pragma TenDRA discard analysis (function return) <emphasis>status</emphasis>
+#pragma TenDRA discard analysis (value) <emphasis>status</emphasis>
+#pragma TenDRA discard analysis (static) <emphasis>status</emphasis></programlisting>
+
+	<para>There are also equivalent command line options to tchk of the form
+		<code>-X:test=state</code>, where <emphasis>test</emphasis> can be
+		<code>discard_all</code>, <code>discard_func_ret</code>,
+		<code>discard_value</code> or <code>unused_static</code>, and
+		<emphasis>state</emphasis> can be <code>check</code>,
+		<code>warn</code> or <code>dont</code>. These checks are all
+		switched off in the default mode.</para>
+
+	<para>Detailed descriptions of the individual checks follow in
+		sections 5.8.1 - 5.8.3. Section 5.9 describes the facilities for
+		fine-tuning the discard analysis.</para>
+
+	<section>
+		<title>Discarded function returns</title>
+
+		<para>Functions which return a value which is not used form the
+			commonest instances of discarded values. For example, in:</para>
+
+		<programlisting language="c">#include &lt;stdio.h&gt;
+int main ()
+{
+	puts ( "hello" );
+	return ( 0 );
+}</programlisting>
+
+		<para>the function, <code>puts</code>, returns an <code>int</code>
+			value, indicating whether an error has occurred, which is
+			ignored.</para>
+	</section>
+
+	<section>
+		<title>Discarded computed values</title>
+
+		<para>A rarer instance of a discarded object, and one which is
+			almost always an error, is where a value is computed but not
+			used. For example, in:</para>
+
+		<programlisting language="c">int f ( int n )
+{
+	int r = 4;
+	if ( n == 3 )
+	{
+		r == 5;
+	}
+	return ( r );
+}</programlisting>
+
+		<para>the value <code>r == 5</code> is computed but not used.
+			This is actually because it is a misprint for
+			<code>r = 5</code>.</para>
+	</section>
+
+	<section>
+		<title>Unused static variables and procedures</title>
+
+		<para>The final example of discarded values, which perhaps more
+			properly belongs with the variable analysis tests mentioned
+			above, is for static objects which are unused in the source
+			module in which they are defined. Of course this means that
+			they are unused in the entire program. Such objects can
+			usually be removed.</para>
+	</section>
+
+	<section id="discard">
+		<title>Discarded expressions</title>
+
+		<para>The directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA discard analysis <emphasis>on</emphasis></programlisting>
+
+		<para>can be used to enable a check for values which are calculated but
+			not used.	There are three checks controlled by this directive, each
+			of which can be controlled independently.	The directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA discard analysis (function return) <emphasis>on</emphasis></programlisting>
+
+		<para>checks for functions which return a value which is not used.	The
+			check needs to be enabled for both the declaration and the call of
+			the function in order for a discarded function return to be reported.
+			Discarded returns for overloaded operator functions are never reported.
+			The directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA discard analysis (value) <emphasis>on</emphasis></programlisting>
+
+		<para>checks for other expressions which are not used.	Finally, the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA discard analysis (static) <emphasis>on</emphasis></programlisting>
+
+		<para>checks for variables with internal linkage which are defined but not
+			used.</para>
+
+		<para>An unused function return or other expression can be asserted to be
+			deliberately discarded by explicitly casting it to <code>void</code>
+			or, equivalently, preceding it by a keyword introduced using the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA keyword <emphasis>identifier</emphasis> for discard value</programlisting>
+
+		<para>A static variable can be asserted to be deliberately unused by including
+			it in list of identifiers in a directive of the form:</para>
+
+		<programlisting language="cpp">#pragma TenDRA suspend static <emphasis>identifier-list</emphasis></programlisting>
+	</section>
+
+	<section>
+		<title>Overriding the discard analysis</title>
+
+		<para>As with the variable analysis, certain constructs may be used to
+			provide the checker with extra information about a program, to
+			convey the programmer's intentions more clearly.</para>
+
+		<section>
+			<title>Discarding function returns and computed values</title>
+
+			<para>Unwanted function returns and, more rarely, discarded
+				computed values, may be actively ignored to indicate to the
+				discard analysis that the value is being discarded
+				deliberately. This can be done using the traditional method of
+				casting the value to <code>void</code>:</para>
+
+			<programlisting language="c">( void ) puts ( "hello" );</programlisting>
+
+			<para>or by introducing a keyword, <code>IGNORE</code> say, for
+				discarding a value. This is done using a pragma of the
+				form:</para>
+
+			<programlisting language="c">#pragma TenDRA keyword IGNORE for discard value</programlisting>
+
+			<para>The example discarded value then becomes:</para>
+
+			<programlisting language="c">IGNORE puts ( "hello" );</programlisting>
+
+			<para>Of course it is necessary to introduce a definition of
+				<code>IGNORE</code> for conventional compilers in order to
+				maintain compilability. A suitable definition might be:</para>
+
+			<programlisting language="c">#ifdef __TenDRA__
+#pragma TenDRA keyword IGNORE for discard value
+#else
+#define IGNORE ( void )
+#endif</programlisting>
+		</section>
+
+		<section>
+			<title>Preserving unused statics</title>
+
+			<para>Occasionally unused static values are introduced deliberately
+				into programs. The fact that the static variables or procedures
+				<code>x</code>, <code>y</code> and <code>z</code> are
+				deliberately unused may be indicated by introducing the
+				pragma:</para>
+
+			<programlisting language="c">#pragma TenDRA suspend static x y z</programlisting>
+
+			<para>at the outer level after the definition of all three
+				objects.</para>
+
+			<!-- TODO examples, please. rcsid, providing symbols for dlsym -->
+		</section>
+	</section>
+
+</chapter>
+
