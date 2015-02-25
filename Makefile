@@ -232,7 +232,7 @@ bootstrap-regen:
 
 test-doc:
 	@echo "===> validating documents"
-.for project in calculus trans lexi make_err \
+.for project in calculus lexi make_err \
 	osdep tdf tdfc2 sid tcc doc tld tnc tpl tspec
 	cd ${.CURDIR}/${project}/doc && ${MAKE} test
 .endfor
