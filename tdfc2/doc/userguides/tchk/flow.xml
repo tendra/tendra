@@ -315,5 +315,34 @@ __bottom abort ( void ) ;</programlisting>
 			statement bodies (it actually checks for <code>;{</code>).</para>
 	</section>
 
+	<section id="exception">
+		<title>Exception analysis</title>
+
+		<para>The ISO C++ rules do not require exception specifications to be checked
+			statically. This is to facilitate the integration of large systems
+			where a single change in an exception specification could have ramifications
+			throughout the system.  However it is often useful to apply such checks,
+			which can be enabled using the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA++ throw analysis <emphasis>on</emphasis></programlisting>
+
+		<para>This detects any potentially uncaught exceptions and other exception
+			problems.   In the error messages arising from this check, an uncaught
+			exception of type <code>...</code> means that an uncaught exception
+			of an unknown type (arising, for example, from a function without
+			an exception specification) may be thrown.  For example:</para>
+
+		<programlisting language="cpp">void f ( int ) throw ( int ) ;
+void g ( int ) throw ( long ) ;
+void h ( int ) ;
+
+void e () throw ( int )
+{
+	f ( 1 ) ;   // OK
+	g ( 2 ) ;   // uncaught 'long' exception
+	h ( 3 ) ;   // uncaught '...' exception
+}</programlisting>
+    </section>
+
 </chapter>
 
