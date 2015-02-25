@@ -223,25 +223,6 @@
 			<replaceable>TEMP</replaceable>, the better.</para>
 	</section>
 
-	<section>
-		<title>The tcc Option Interpreter</title>
-
-		<para>All &tcc; command-line options and environmental directives
-			are actually processed by the same method, namely the &tcc;
-			option interpreter.
-			A simple pattern matching algorithm is applied to the input
-			and, if a match is found, the corresponding instructions are
-			sent to the low-level option interpreter.
-			The command-line option
-			<option>--<replaceable>str</replaceable>,&nbsp;...</option>
-			causes <replaceable>str</replaceable> to be passed directly
-			to the option interpreter.
-			This is intended primarily to help in debugging &tcc; and not
-			for use by the general user.
-			However, if you are interested, <option>--1DB</option> is a
-			good place to start.</para>
-	</section>
-
 <!-- TODO: bibliography -->
 <literallayout>
 [1]	<replaceable>&tdf; and Portability</replaceable>, DRA, 1994.
