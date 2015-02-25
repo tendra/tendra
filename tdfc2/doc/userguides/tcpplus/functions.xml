@@ -5,7 +5,7 @@
 	<title>Configuration for functions</title>
 
 	<section id="ellipsis">
-		<title>Ellipsis functions</title>
+		<title>Ellipsis in function calls</title>
 
 		<para>The directive:</para>
 
@@ -17,6 +17,51 @@
 			is used in the definition of the <code>va_start</code> macro in the
 			<code>&lt;stdarg.h&gt;</code> header.
 			This header automatically enables this switch.</para>
+
+		<!-- TODO: merged in content -->
+
+		<para>An ellipsis is not an identifier and should not be used in a
+			function call, even if, as in the program below, the function
+			prototype contains an ellipsis:</para>
+
+		<programlisting language="c">int f (int a, ...)
+{
+    return 1;
+}
+
+int main()
+{
+    int x, y;
+    x = f(y, ...);
+    return 1;
+}</programlisting>
+
+		<para>In default mode the checker raises an error if an ellipsis is
+			used as a parameter in a function call. The severity of this
+			error can be modified by using:</para>
+
+		<programlisting language="c">#pragma TenDRA ident ... <emphasis>permit</emphasis></programlisting>
+
+		<para>If <emphasis>permit</emphasis> is replaced by <code>allow</code>
+			the ellipsis is ignored, if <code>warning</code> is used tchk
+			produces a warning and if <code>disallow</code> is used the default
+			behaviour is restored.</para>
+	</section>
+
+	<section>
+		<title>Static block level functions</title>
+
+		<para>The ISO C standard (Section 6.5.1) states that the declaration of
+			an identifier for a function that has block scope shall have no
+			explicit storage-class specifier other than extern. By default,
+			tchk raises an error for declarations which do not conform to this
+			rule. The behaviour can be modified using:</para>
+
+		<programlisting language="c">#pragma TenDRA block function static <emphasis>permit</emphasis></programlisting>
+
+		<para>where <emphasis>permit</emphasis> is <code>allow</code>
+			(accept block scope function declarations with other storage-class
+			specifiers), <code>disallow</code> or <code>warning</code>.</para>
 	</section>
 
 </chapter>

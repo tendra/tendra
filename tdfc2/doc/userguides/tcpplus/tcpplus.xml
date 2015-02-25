@@ -302,18 +302,16 @@ int main(void) {}</programlisting>
 	<xi:include href="limits.xml"/>
 	<xi:include href="lexing.xml"/>
 	<xi:include href="preprocessor.xml"/>
-	<xi:include href="integral.xml"/>
-	<xi:include href="literals.xml"/>
 	<xi:include href="types.xml"/>
+	<xi:include href="literals.xml"/>
 	<xi:include href="declarations.xml"/>
+	<xi:include href="initialisers.xml"/>
 	<xi:include href="expressions.xml"/>
-	<xi:include href="statements.xml"/>
 	<xi:include href="functions.xml"/>
-	<xi:include href="dialect.xml"/>
-	<xi:include href="miscellaneous.xml"/>
+	<xi:include href="linkage.xml"/>
 
 	<xi:include href="stdlib.xml"/>
-	<xi:include href="references.xml"/>
+	<xi:include href="bibliography.xml"/>
 
 </book>
 

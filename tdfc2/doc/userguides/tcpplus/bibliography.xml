@@ -1,13 +1,8 @@
 <?xml version="1.0"?>
 <!DOCTYPE appendix SYSTEM "minidocbook.dtd">
 
-<appendix id="refs">
-	<title>References</title>
-
-	<para>TODO</para>
-
-<!-- TODO:
 <bibliography>
+<!-- TODO:
 
 	<title>References</title>
 
@@ -29,7 +24,6 @@
 	<biblioentry>
 		<para><dt:doc name="user/guides/tdfc"/>: attached.</para>
 	</biblioentry>
-</bibliography>
 -->
-</appendix>
+</bibliography>
 

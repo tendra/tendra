@@ -86,6 +86,39 @@
 
 		<para>however it is recommended that programs using this feature should
 			be modified.</para>
+
+		<!-- TODO: merged in content -->
+
+		<para>The <code>?</code> operator cannot normally be used to define an
+			lvalue, so that for example, the program:</para>
+
+		<programlisting language="c">struct s {
+    int a, b;
+};
+
+void f ( int n, struct s *s1, struct s *s2 )
+{
+    ( n ? s1 : s2) -&gt; a = 0;
+}</programlisting>
+
+		<para>is not allowed in ISO C. The pragma:</para>
+
+		<programlisting language="c">#pragma TenDRA conditional lvalue allow</programlisting>
+
+		<para>allows conditional lvalues if:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>Both options of the conditional operator have compatible
+					compound types;</para>
+			</listitem>
+			<listitem>
+				<para>Both options of the conditional are lvalues.</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>(there is also a <code>disallow</code> variant, but
+			<code>warning</code> is not permitted in this case).</para>
 	</section>
 
 </chapter>

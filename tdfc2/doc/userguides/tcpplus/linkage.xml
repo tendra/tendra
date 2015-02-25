@@ -1,0 +1,297 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<chapter>
+	<title>Configuration for linkage</title>
+
+	<section>
+		<title>Default linkage</title>
+
+		<para>It is possible to set the default language linkage using the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA++ external linkage <emphasis>string-literal</emphasis></programlisting>
+
+		<para>This is equivalent to enclosing the rest of the current checking scope
+			in:</para>
+
+		<programlisting language="cpp">extern <emphasis>string-literal</emphasis> {
+	....
+}</programlisting>
+
+		<para>It is unspecified what happens if such a directive is used within
+			an explicit linkage specification and does not nest correctly.	This
+			directive is particularly useful when used in a <link linkend="scope">named
+			environment</link> associated with an include directory.	For example,
+			it can be used to express the fact that all the objects declared in
+			headers included from that directory have C linkage.</para>
+	</section>
+
+	<section>
+		<title>Identifier linkage</title>
+
+		<para>The ISO C standard, section 6.1.2.2, states that <quote>if,
+			within a translation unit, an identifier appears with both internal
+			and external linkage, the behaviour is undefined</quote>. By
+			default, the checker silently declares the variable with external
+			linkage. The check to detect variables which are redeclared with
+			incompatible linkage is controlled using:</para>
+
+		<programlisting language="c">#pragma TenDRA incompatible linkage <emphasis>permit</emphasis></programlisting>
+
+		<para>where <emphasis>permit</emphasis> may be <code>allow</code>
+			(default mode), <code>warning</code> (warn about incompatible
+			linkage) or <code>disallow</code> (raise errors for redeclarations
+			with incompatible linkage).</para>
+
+		<!-- TODO: merged in content -->
+
+		<para>If an object is declared with both external and internal linkage in
+			the same translation unit then, by default, an error is given.	This
+			behaviour can be changed using the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA incompatible linkage <emphasis>allow</emphasis></programlisting>
+
+		<para>When incompatible linkages are allowed, whether the resultant identifier
+			has external or internal linkage can be set using one of the directives:</para>
+
+		<programlisting language="cpp">#pragma TenDRA linkage resolution : off
+#pragma TenDRA linkage resolution : (external) <emphasis>on</emphasis>
+#pragma TenDRA linkage resolution : (internal) <emphasis>on</emphasis></programlisting>
+
+		<para>It is possible to declare objects with external linkage in a block.
+			C leaves it undefined whether declarations of the same object in different
+			blocks, such as:</para>
+
+		<programlisting language="c">void f ()
+{
+	extern int a ;
+	....
+}
+
+void g ()
+{
+	extern double a ;
+	....
+}</programlisting>
+
+		<para>are checked for compatibility.	However in C++ the one definition
+			rule implies that such declarations are indeed checked for compatibility.
+			The status of this check can be set using the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA unify external linkage <emphasis>on</emphasis></programlisting>
+	</section>
+
+	<section id="static">
+		<title>Static identifiers</title>
+
+		<para>By default, objects and functions with internal linkage are mapped
+			to tags without external names in the output TDF capsule.	Thus such
+			names are not available to the installer and it needs to make up internal
+			names to represent such objects in its output.	This is not desirable
+			in such operations as profiling, where a meaningful internal name
+			is needed to make sense of the output.	The directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA preserve <emphasis>identifier-list</emphasis></programlisting>
+
+		<para>can be used to preserve the names of the given list of identifiers
+			with internal linkage.	This is done using the <code>static_name_def</code>
+			TDF construct.	The form:</para>
+
+		<programlisting language="cpp">#pragma TenDRA preserve *</programlisting>
+
+		<para>will preserve the names of all identifiers with internal linkage in
+			this way.</para>
+	</section>
+
+	<section>
+		<title>External volatility</title>
+
+		<para>Older dialects of C treated all identifiers with external linkage
+			as if they had been declared <code>volatile</code> (i.e. by being
+			conservative in optimising such values).	This behaviour can be enabled
+			using the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA external volatile_t</programlisting>
+
+		<!-- TODO: merged in content -->
+
+		<programlisting language="c">#pragma TenDRA external volatile_t</programlisting>
+
+		<para>instructs the checker thereafter to treat any object declared
+			with external linkage (ISO C standard Section 6.1.2.2) as if it
+			were volatile (ISO C standard Section 6.5.3). This was a feature of
+			some traditional C dialects. In the default mode, objects with
+			external linkage are only treated as volatile if they were declared
+			with the <code>volatile</code> type qualifier.</para>
+	</section>
+
+	<section>
+		<title>Function linkage</title>
+
+		<para>A change in ISO C++ relative to older dialects is that the language
+			linkage of a function now forms part of the function type.	For example:</para>
+
+		<programlisting language="cpp">extern &quot;C&quot; int f ( int ) ;
+int ( *pf ) ( int ) = f ;		// error</programlisting>
+
+		<para>The directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA++ external function linkage <emphasis>on</emphasis></programlisting>
+
+		<para>can be used to control whether function types with differing language
+			linkages, but which are otherwise compatible, are considered compatible
+			or not.</para>
+
+		<!-- TODO: merged in content -->
+
+		<para>Note that it is not possible in ISO C or C++ to declare objects or
+			functions with internal linkage in a block.	While <code>static</code>
+			object definitions in a block have a specific meaning, there is no
+			real reason why <code>static</code> functions should not be declared
+			in a block.	This behaviour can be enabled using the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA block function static <emphasis>allow</emphasis></programlisting>
+
+		<para>Inline functions have external linkage by default in ISO C++, but
+			internal linkage in older dialects.	The default linkage can be set
+			using the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA++ inline linkage <emphasis>linkage-spec</emphasis></programlisting>
+
+		<para>where <emphasis>linkage-spec</emphasis> can be <code>external</code> or
+			<code>internal</code>.	Similarly <code>const</code> objects have
+			internal linkage by default in C++, but external linkage in C.	The
+			default linkage can be set using the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA++ const linkage <emphasis>linkage-spec</emphasis></programlisting>
+	</section>
+
+	<section>
+		<title>Resolving linkage problems</title>
+
+		<para>Often the way that identifier names are resolved can alter the
+			semantics of a program. For example, in:</para>
+
+		<programlisting language="c">void f () {
+	{
+		extern void g ();
+		g ( 3 );
+	}
+	g ( 7 );
+}</programlisting>
+
+		<para>the external declaration of <code>g</code> is only in scope in
+			the inner block of <code>f</code>. Thus, at the second call of
+			<code>g</code>, it is not in scope, and so is inferred to have
+			declaration:</para>
+
+		<programlisting language="c">extern int g ();</programlisting>
+
+		<para>(see 3.4). This conflicts with the previous declaration of
+			<code>g</code> which, although not in scope, has been registered
+			in the external namespace. The pragma:</para>
+
+		<programlisting language="c">#pragma TenDRA unify external linkage on</programlisting>
+
+		<para>modifies the algorithm for resolving external linkage by
+			searching the external namespace before inferring a declaration. In
+			the example above, this results in the second use of <code>g</code>
+			being resolved to the previous external declaration. The
+			<emphasis>on</emphasis> can be replaced by <code>warning</code>
+			to give a warning when such resolutions are detected, or
+			<code>off</code> to switch this feature off.</para>
+
+		<para>Another linkage problem, which is left undefined in the ISO C
+			standard, is illustrated by the following program:</para>
+
+		<programlisting language="c">int f ()
+{
+	extern int g ();
+	return ( g () );
+}
+
+static int g ()
+{
+	return ( 0 );
+}</programlisting>
+
+		<para>Is the external variable <code>g</code> (the declaration of which
+			would be inferred if it was omitted) the same as the static variable
+			<code>g</code>? Of course, had the order of the two functions been
+			reversed, there would be no doubt that they were, however, in the
+			given case it is undefined. By default, the linkage is resolved
+			externally, so that the two uses of g are not identified. However,
+			the checker can be made to resolve its linkage internally, so that
+			the two uses of <code>g</code> are identified. The resolution
+			algorithm can be set using:</para>
+
+		<programlisting language="c">#pragma TenDRA linkage resolution : <emphasis>action</emphasis></programlisting>
+
+		<para>where <emphasis>action</emphasis> can be one of:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>
+					<code>(internal) on</code>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<code>(internal) warning</code>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<code>(external) on</code>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<code>(external) warning</code>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<code>off</code>
+				</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>depending on whether the linkage resolution is internal,
+			external, or default, and whether a warning message is required.
+			The most useful behaviour is to issue a warning for all such
+			occurrences (by setting action to <code>(internal) warning</code>,
+			for example) so that the programmer can be alerted to clarify what
+			was intended.</para>
+	</section>
+
+	<section id="template">
+		<title>Template compilation</title>
+
+		<para>The C++ producer makes the distinction between exported templates,
+			which may be used in one module and defined in another, and non-exported
+			templates, which must be defined in every module in which they are
+			used. As in the ISO C++ standard, the <code>export</code> keyword
+			is used to distinguish between the two cases.	In the past, different
+			compilers have had different template compilation models; either all
+			templates were exported or no templates were exported.	The latter
+			is easily emulated - if the <code>export</code> keyword is not used
+			then no templates will be exported.	To emulate the former behaviour
+			the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA++ implicit export template <emphasis>on</emphasis></programlisting>
+
+		<para>can be used to treat all templates as if they had been declared using
+			the <code>export</code> keyword.</para>
+
+		<warning>
+			<para>The automatic instantiation of exported templates has not yet been
+				implemented correctly.	It is intended that such instantiations will
+				be generated during <link linkend="spec">intermodule analysis</link>
+				(where they conceptually belong).	At present it is necessary to work
+				round this using explicit instantiations.</para>
+		</warning>
+	</section>
+
+</chapter>
+

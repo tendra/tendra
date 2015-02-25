@@ -13,10 +13,24 @@
 			the directive:</para>
 
 		<programlisting language="cpp">#pragma TenDRA no external declaration <emphasis>allow</emphasis></programlisting>
+
+		<!-- TODO: merged in content -->
+
+		<para>The ISO standard states that each source file should contain at
+			least one declaration or definition. Source files which contain no
+			external declarations or definitions are flagged as errors by the
+			checker in default mode. The severity of the error may be altered
+			using:</para>
+
+		<programlisting language="c">#pragma TenDRA no external declaration <emphasis>permit</emphasis></programlisting>
+
+		<para>where the options for <emphasis>permit</emphasis> are
+			<code>allow</code> (no errors raised), <code>warning</code>
+			or <code>disallow</code>.</para>
 	</section>
 
 	<section id="decl_none">
-		<title>Empty declarations</title>
+		<title>Untagged compound types</title>
 
 		<para>ISO C++ requires every declaration or member declaration to introduce
 			one or more names into the program.	The directive:</para>
@@ -25,8 +39,37 @@
 
 		<para>can be used to relax one particular instance of this rule, by allowing
 			anonymous class definitions (recall that anonymous unions are objects,
-			not types, in C++ and so are not covered by this rule).	The C++ grammar
-			also allows a solitary semicolon as a declaration or member declaration;
+			not types, in C++ and so are not covered by this rule).</para>
+
+		<!-- TODO: merged in content -->
+
+		<para>The ISO C standard states that a declaration must declare at
+			least a declarator, a tag or the members of an enumeration. The
+			checker detects such declarations and, by default, raises an error.
+			The severity of the errors can be altered by:</para>
+
+		<programlisting language="c">#pragma TenDRA unknown struct/union <emphasis>permit</emphasis></programlisting>
+
+		<para>where <emphasis>permit</emphasis> may be <code>allow</code> to
+			allow code such as:</para>
+
+		<programlisting language="c">struct {
+	int i;
+	int j;
+};</programlisting>
+
+		<para>through without errors (statements such as this occur in some
+			system headers) or <code>disallow</code> to restore the default
+			behaviour.</para>
+	</section>
+
+	<section>
+		<title>Empty declarations</title>
+
+		<!-- TODO: merged in content -->
+
+		<para>The C++ grammar also allows a solitary semicolon as a declaration
+			or member declaration;
 			however such a declaration does not introduce a name and so contravenes
 			the rule above.	The rule can be relaxed in this case using the directive:</para>
 
@@ -38,6 +81,64 @@
 			of the form above.	A solitary semicolon in a statement is interpreted
 			as an empty expression statement rather than an empty declaration
 			statement.</para>
+
+		<!-- TODO: merged in content -->
+
+		<para>Some dialects of C allow extra semicolons at the external
+			declaration and definition level in contravention of the ISO C
+			standard. For example, the program:</para>
+
+		<programlisting language="c">int f ()
+{
+    return ( 0 );
+};</programlisting>
+
+		<para>is not ISO compliant. The checker enforces the ISO rules by
+			default, but the errors raised may be reduced to warning or
+			suppressed entirely using:</para>
+
+		<programlisting language="c">#pragma TenDRA extra ; <emphasis>permit</emphasis></programlisting>
+
+		<para>with <emphasis>permit</emphasis> as <code>warning</code> or
+			<code>allow</code>. The <code>disallow</code> options restores
+			the default behaviour.</para>
+	</section>
+
+	<section>
+		<title>Unifying the tag name space</title>
+
+		<para>Each object in the tag name space is associated with a
+			classification (<code>struct</code>, <code>union</code> or
+			<code>enum</code>) of the type to which it refers. If such a tag is
+			used, it must be preceded by the correct classification, otherwise
+			the checker produces an error by default. However, the
+			pragma:</para>
+
+		<programlisting language="c">#pragma TenDRA ignore struct/union/enum tag <emphasis>status</emphasis></programlisting>
+
+		<para>may be used to change the severity of the error. The options for
+			<emphasis>status</emphasis> are: <code>on</code> (allows a tag to
+			be used with any of the three classifications, the correct
+			classification being inferred from the type definition),
+			<code>warning</code> or <code>off</code>.</para>
+	</section>
+
+	<section>
+		<title>Extra commas</title>
+
+		<para>The ISO C standard does not allow extra commas in enumeration
+			type declarations e.g.</para>
+
+		<programlisting language="c">enum e = { red , orange , yellow , };</programlisting>
+
+		<para>The extra comma at the end of the declaration is flagged as an
+			error by default, but this behaviour may be changed by using:</para>
+
+		<programlisting language="c">#pragma TenDRA extra , <emphasis>permit</emphasis></programlisting>
+
+		<para>where <emphasis>permit</emphasis> has the usual
+			<code>allow</code>, <code>disallow</code> and <code>warning</code>
+			options.</para>
 	</section>
 
 	<section id="implicit">
@@ -82,6 +183,43 @@ f ()	// implicit function return
 }
 
 c = 3 ;	// error: not allowed in C++</programlisting>
+
+		<!-- TODO: merged in content -->
+
+		<para>Older C dialects allow external variables to be specified without
+			a type, the type <code>int</code> being inferred. Thus, for
+			example:</para>
+
+		<programlisting language="c">a, b;</programlisting>
+
+		<para>is equivalent to:</para>
+
+		<programlisting language="c">int a, b;</programlisting>
+
+		<para>By default these inferred declarations are not permitted, though
+			tchk's behaviour can be modified using:</para>
+
+		<programlisting language="c">#pragma TenDRA implicit int type for external declaration <emphasis>permit</emphasis></programlisting>
+
+		<para>where <emphasis>permit</emphasis> is <code>allow</code>,
+			<code>warning</code> or <code>disallow</code>.</para>
+
+		<para>A more common feature, allowed by the ISO C standard, but
+			considered bad style by some, is the inference of an int return
+			type for functions defined in the form:</para>
+
+		<programlisting language="c">f ( int n )
+{
+    ....
+}</programlisting>
+
+		<para>the checker's treatment of such functions can be determined
+			using:</para>
+
+		<programlisting language="c">#pragma TenDRA implicit int type for function return <emphasis>permit</emphasis></programlisting>
+
+		<para>where <emphasis>permit</emphasis> can be <code>allow</code>,
+			<code>warning</code> or <code>disallow</code>.</para>
 	</section>
 
 	<section id="impl_func">
@@ -95,6 +233,48 @@ c = 3 ;	// error: not allowed in C++</programlisting>
 
 		<para>Such implicitly declared functions have C linkage and type
 			<code>int ( ... )</code>.</para>
+	</section>
+
+	<section>
+		<title>Forward enumeration declarations</title>
+
+		<para>The ISO C Standard (Section 6.5.2.3) states that the first
+			introduction of an enumeration tag shall declare the constants
+			associated with that tag. This rule is enforced by the checker in
+			default mode, however it can be relaxed using the pragma:</para>
+
+		<programlisting language="c">#pragma TenDRA forward enum declaration <emphasis>permit</emphasis></programlisting>
+
+		<para>where replacing <emphasis>permit</emphasis> by <code>allow</code>
+			permits the declaration and use of an enumeration tag before the
+			declaration of its associated enumeration constants.
+			A <code>disallow</code> variant which restores the default
+			behaviour is also available.</para>
+	</section>
+
+	<section id="for">
+		<title>Variable scope in <code>for</code> statements</title>
+
+		<para>In ISO C++ the scope of a variable declared in a for-init-statement
+			is the body of the <code>for</code> statement; in older dialects it
+			extended to the end of the enclosing block.	So:</para>
+
+		<programlisting language="cpp">for ( int i = 0 ; i &lt; 10 ; i++ ) {
+	// for statement body
+}
+return i ;	// OK in older dialects, error in ISO C++</programlisting>
+
+		<para>This behaviour is controlled by the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA++ for initialization block <emphasis>on</emphasis></programlisting>
+
+		<para>a state of <code>on</code> corresponding to the ISO rules and
+			<code>off</code> to the older rules.	Perhaps most useful is the
+			<code>warning</code> state which implements the old rules but gives
+			a warning if a variable declared in a for-init-statement is used outside
+			the corresponding <code>for</code> statement body.	A program which
+			does not give such warnings should compile correctly under either
+			set of rules.</para>
 	</section>
 
 </chapter>

@@ -75,7 +75,7 @@
 	</section>
 
 	<section id="char">
-		<title>Character literals and built-in types</title>
+		<title>Character literals</title>
 
 		<para>By default, a simple character literal has type <code>int</code> in
 			C and type <code>char</code> in C++.	The type of such literals can
@@ -93,47 +93,11 @@
 
 		<programlisting language="cpp">#pragma TenDRA set wchar_t : <emphasis>type-id</emphasis></programlisting>
 
-		<para>for an integral type <emphasis>type-id</emphasis>.	Similarly, the definitions of
-			the other implementation dependent integral types which arise naturally
-			within the language - the type of the difference of two pointers,
-			<code>ptrdiff_t</code>, and the type of the <code>sizeof</code>
-			operator, <code>size_t</code> - given in the <code>&lt;stddef.h&gt;</code>
-			header can be overridden using the directives:</para>
-
-		<programlisting language="cpp">#pragma TenDRA set ptrdiff_t : <emphasis>type-id</emphasis>
-#pragma TenDRA set size_t : <emphasis>type-id</emphasis></programlisting>
-
-		<para>These directives are useful when targeting a specific machine on which
-			the definitions of these types are known; while they may not affect
-			the code generated they can cut down on spurious conversion warnings.
-			Note that although these types are built into the producer they are
-			not visible to the user unless an appropriate header is included (with
-			the exception of the keyword <code>wchar_t</code> in ISO C++), however
-			the directives:</para>
-
-		<programlisting language="cpp">#pragma TenDRA++ type <emphasis>identifier</emphasis> for <emphasis>type-name</emphasis></programlisting>
-
-		<para>can be used to make these types visible.	They are equivalent to a
-			<code>typedef</code> declaration of <emphasis>identifier</emphasis> as the given
-			built-in type, <code>ptrdiff_t</code>, <code>size_t</code> or
-			<code>wchar_t</code>.</para>
-
-		<para>Whether plain <code>char</code> is signed or unsigned is implementation
-			dependent.	By default the implementation is determined by the definition
-			of the <code>~char</code> token, however
-			this can be overridden in the producer either by means of the
-			<link linkend="table">portability table</link> or by the directive:</para>
-
-			<programlisting language="cpp">#pragma TenDRA character <emphasis>character-sign</emphasis></programlisting>
-
-		<para>where <emphasis>character-sign</emphasis> can be <code>signed</code>,
-			<code>unsigned</code> or <code>either</code> (the default).	Again
-			this directive is useful primarily when targeting a specific machine
-			on which the signedness of <code>char</code> is known.</para>
+		<para>for an integral type <emphasis>type-id</emphasis>.</para>
 	</section>
 
 	<section id="string">
-		<title>String literals</title>
+		<title>Writeable String literals</title>
 
 		<para>By default, character string literals have type <code>char [n]</code>
 			in C and older dialects of C++, but type <code>const char [n]</code>
@@ -154,6 +118,33 @@
 		<para>(yes, I know that that should be <code>writable</code>).	Note that
 			this directive has a slightly different meaning in the C producer.</para>
 
+		<!-- TODO: merged in content -->
+
+		<para>The ISO C standard, section 6.1.4, states that <quote>if the
+			program attempts to modify a string literal of either form, the
+			behaviour is undefined</quote>. Assignments to string literals of
+			the form:</para>
+
+		<programlisting language="c">"abc" = '3';</programlisting>
+
+		<para>always result in errors. Other attempts to modify members of
+			string literals, e.g.</para>
+
+		<programlisting language="c">"abc"[1] = '3';</programlisting>
+
+		<para>are permitted in the default checking mode. This behaviour can be
+			changed using:</para>
+
+		<programlisting language="c">#pragma TenDRA writeable string literal <emphasis>permit</emphasis></programlisting>
+
+		<para>where <emphasis>permit</emphasis> may be <code>allow</code>,
+			<code>warning</code> or <code>disallow</code>.</para>
+	</section>
+
+	<section>
+		<title>Concatenation of character string literals
+			and wide character string literals</title>
+
 		<para>Adjacent string literals tokens of similar types (either both character
 			string literals or both wide string literals) are concatenated at
 			an early stage in parser, however it is unspecified what happens if
@@ -173,6 +164,22 @@
 			using the directive:</para>
 
 		<programlisting language="cpp">#pragma TenDRA unmatched quote <emphasis>allow</emphasis></programlisting>
+
+		<!-- TODO: merged in content -->
+
+		<para>The ISO C standard, section 6.1.4, states that if a character
+			string literal is adjacent to a wide character string literal, the
+			behaviour is undefined. By default, this is flagged as an error by
+			the checker. If the pragma:</para>
+
+		<programlisting language="c">#pragma TenDRA unify incompatible string literal <emphasis>permit</emphasis></programlisting>
+
+		<para>is used, with <emphasis>permit</emphasis> set to
+			<code>allow</code> or <code>warning</code> the character string
+			literal is converted to a wide character string literal and the
+			strings are concatenated, although in the <code>warning</code> case
+			a warning is output. The <code>disallow</code> version of the pragma
+			restores the default behaviour.</para>
 	</section>
 
 	<section id="escape">
@@ -209,6 +216,20 @@
 		<programlisting language="cpp">#pragma TenDRA character escape overflow <emphasis>allow</emphasis></programlisting>
 
 		<para>the value being converted to its type in the normal way.</para>
+
+		<!-- TODO: merged in content -->
+
+		<para>The ISO C standard specifies a small set of escape sequences in
+			strings, for example <code>\n</code> as newline. Unknown escape
+			sequences lead to an error in the default mode , however the
+			severity of the error may be altered using:</para>
+
+		<programlisting language="c">#pragma TenDRA unknown escape <emphasis>permit</emphasis></programlisting>
+
+		<para>where <emphasis>permit</emphasis> is <code>allow</code> (silently
+			replaces the unknown escape sequence, <emphasis>\z</emphasis> say,
+			by <code>z</code>), <code>warning</code> or
+			<code>disallow</code>.</para>
 	</section>
 
 </chapter>

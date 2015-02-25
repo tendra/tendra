@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<chapter>
+	<title>Configuration for initialisers</title>
+
+	<section>
+		<title>Initialisation of compound types</title>
+
+		<para>Many older C dialects do not allow the initialisation of automatic
+			variables of compound type. Thus, for example:</para>
+
+		<programlisting language="c">void f ()
+{
+	struct {
+		int a;
+		int b;
+	} x = { 3, 2 };
+}</programlisting>
+
+		<para>would not be allowed by some older compilers, although by default
+			tchk does not raise any errors since the code is legal according to
+			the ISO C standard. The checker's behaviour may be changed
+			using:</para>
+
+		<programlisting language="c">#pragma TenDRA initialization of struct/union (auto) <emphasis>permit</emphasis></programlisting>
+
+		<para>where <emphasis>permit</emphasis> is <code>allow</code>,
+			<code>warning</code> or <code>disallow</code>. This feature is
+			particularly useful when developing a program which is intended to
+			be compiled with a compiler which does not support automatic
+			compound initialisations.</para>
+	</section>
+
+	<section>
+		<title>Variable initialisation</title>
+
+		<para>The ISO C standard (Section 6.5.7) states that all expressions in
+			an initialiser for an object that has static storage duration or in
+			an initialiser-list for an object that has aggregate or union type
+			shall be constant expressions. The pragma:</para>
+
+		<programlisting language="c">#pragma TenDRA variable initialization <emphasis>permit</emphasis></programlisting>
+
+		<para>may be used to allow non-constant initialisers if
+			<emphasis>permit</emphasis> is replaced by <code>allow</code>. The
+			other option for <emphasis>permit</emphasis> is <code>disallow</code>
+			which restores the default behaviour of flagging non-constant
+			initialisers for objects of static storage duration as errors.</para>
+	</section>
+
+</chapter>

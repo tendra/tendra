@@ -44,7 +44,7 @@
 	</section>
 
 	<section id="comment">
-		<title>Comments</title>
+		<title>Nested comments</title>
 
 		<para>C-style comments do not nest.	The directive:</para>
 
@@ -52,6 +52,21 @@
 
 		<para>enables a check for the characters <code>/*</code> within C-style
 			comments.</para>
+
+		<!-- TODO: merged in content -->
+
+		<para>The occurence of the <code>/*</code> characters inside a C
+			comment, i.e. text surrounded by the <code>/*</code> and
+			<code>*/</code> symbols, is usually a mistake and can lead to the
+			termination of a comment unexpectedly. By default such nested
+			comments are processed silently, however an error or warning can be
+			produced by setting:</para>
+
+		<programlisting language="c">#pragma TenDRA nested comment analysis <emphasis>status</emphasis></programlisting>
+
+		<para>with <emphasis>status</emphasis> as <code>on</code> or
+			<code>warning</code>. If <emphasis>status</emphasis> is
+			<code>off</code> the default behaviour is restored.</para>
 	</section>
 
 	<section id="lex-identifier-names">
@@ -88,6 +103,29 @@
 
 		<programlisting language="cpp">#pragma TenDRA dollar as ident <emphasis>allow</emphasis></programlisting>
 
+		<!-- TODO: merged in content -->
+
+		<para>The ISO C standard (Section 6.1) states that the use of the character
+			<code>$</code> in identifier names is illegal. The pragma:</para>
+
+		<programlisting language="c">#pragma TenDRA dollar as ident allow</programlisting>
+
+		<para>can be used to allow such identifiers, which by default are flagged
+			as errors. There is also a <code>disallow</code> variant which restores
+			the default behaviour.</para>
+	</section>
+
+	<section>
+		<title>Identifier name length</title>
+
+		<para>Under the ISO C standard rules on identifier name length, an
+			implementation is only required to treat the first 31 characters
+			of an internal name and the first 6 characters of an external name
+			as significant. The TenDRA C checker provides a facility for users
+			to specify the maximum number of characters allowed in an identifier
+			name, to prevent unexpected results when the application is moved to
+			a new implementation.</para>
+
 		<para>The maximum number of characters allowed in an identifier name can
 			be set using the directives:</para>
 
@@ -97,6 +135,14 @@
 		<para>This length is given by the <code>name_limit</code> implementation
 			quantity <link linkend="limits">mentioned above</link>.	Identifiers which exceed this
 			length raise an error or a warning, but are not truncated.</para>
+
+		<!-- TODO: merged in content -->
+
+		<programlisting language="c">#pragma TenDRA set name limit <emphasis>integer_constant</emphasis></programlisting>
+
+		<para>There is currently no distinction made between external and
+			internal names for length checking. Identifier name lengths are not
+			checked in the default mode.</para>
 	</section>
 
 </chapter>

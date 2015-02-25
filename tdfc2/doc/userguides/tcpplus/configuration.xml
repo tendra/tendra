@@ -4,6 +4,14 @@
 <chapter>
 	<title>Configuring the Compiler</title>
 
+	<!-- TODO: merged in content -->
+	<para>This document describes the capabilities of the TenDRA C checker for
+		enforcing the ISO C standard as well as features for detecting areas
+		left undefined by the standard. It also lists the non-ISO dialect
+		features supported by the checker in order to provide compatibility
+		with older versions of C and allow the use of third-party source which
+		may contain non-standard constructs.</para>
+
 	<para>This majority of this document describes how the C++ producer can
 		be configured to apply extra static checks or to support various
 		dialects of C++.
@@ -11,7 +19,7 @@
 		the ISO C++ standard with no extra checks.</para>
 
 	<para>Certain very basic configuration information is specified using a
-		<link linkend="table">portability table</link>, however the primary
+		<link linkend="portabilitytable">portability table</link>, however the primary
 		method of configuration is by means of <code>#pragma</code>
 		directives.
 		These directives may be placed within the program itself, however
@@ -45,41 +53,6 @@
 		Other syntactic items are described in the text.
 		A complete grammar for the <code>#pragma</code>
 		directives accepted by the C++ producer is given in &pragmatoken.doc;.</para>
-
-	<!-- TODO: these sections are probably repeated by the tdfc/tchk document; consolidate -->
-	<section id="table">
-		<title>Portability tables</title>
-
-		<para>Certain very basic configuration information is read from a file called
-			a portability table, which may be specified to the producer using
-			a <code>-n</code> option.
-			This information includes the minimum sizes of the basic integral types, the
-			<link linkend="char">sign of plain <code>char</code></link>, and whether signed
-			types can be assumed to be symmetric (for example, [-127,127]) or
-			maximum (for example, [-128,127]).</para>
-
-		<!-- TODO: see <invent a .5 manpage> for the portability file format.
-
-		<para>The default portability table values, which are built into the producer,
-			can be expressed in the form:</para>
-
-		TODO: take table from tdfc appendix
-		<programlisting>
-char_bits			8
-short_bits			16
-int_bits			16
-long_bits			32
-signed_range			symmetric
-char_type			either
-ptr_int				none
-ptr_fn				no
-non_prototype_checks		yes
-multibyte			1</programlisting>
-
-		<para>This illustrates the syntax for the portability table; note that all
-			ten entries are required, even though the last four are ignored.</para>
--->
-	</section>
 
 	<section id="low">
 		<title>Low level configuration</title>
