@@ -20,14 +20,18 @@
 	<section>
 		<title>Configuration files</title>
 
-		<para>Certain very basic configuration information is specified using a
+		<para>Certain basic type information is specified using a
 			<link linkend="portabilitytable">portability table</link>, which
-			may be specified to the producer using a <code>-n</code> option.
-			The syntax for this file is documented by &portability.5;</para>
+			may be specified to the producer using the <code>-n</code> option.
+			The syntax for this file is documented by &portability.5;.</para>
 
-		<!-- TODO: mention charset.5 here -->
+		<para>Mappings to arbitary execution character sets may be specified
+			using the <code>-C</code> option.
+			The default is to the use the same character set as the host system. <!-- TODO: right? -->
+			The syntax for this file is documented by &charset.5;.</para>
 
-		<!-- TODO: mention that &tcc; is typically responsible for providing these -->
+		<para>The &tcc; frontend is typically responsible for providing these
+			files; see the &tcc-userguide.doc; for details.</para>
 	</section>
 
 	<section id="low">
