@@ -21,22 +21,23 @@
 		<xsl:variable name="l" select="'abcdefghijklmnopqrstuvwxyz-'" />
 		<xsl:variable name="u" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ '" />
 
-		<section>
-			<xsl:if test="not(@id) and title">
-				<xsl:attribute name="id">
-					<xsl:choose>
-						<xsl:when test="translate(title, $l, $u) = title">
-							<xsl:value-of select="title"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:value-of select="translate(title, $u, $l)"/>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:attribute>
-			</xsl:if>
+		<xsl:element name="{name()}">
+			<xsl:attribute name="id">
+				<xsl:choose>
+					<xsl:when test="@id">
+						<xsl:value-of select="@id"/>
+					</xsl:when>
+					<xsl:when test="title and translate(title, $l, $u) = title">
+						<xsl:value-of select="title"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="translate(title, $u, $l)"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:attribute>
 
 			<xsl:apply-templates/>
-		</section>
+		</xsl:element>
 	</xsl:template>
 </xsl:stylesheet>
 
