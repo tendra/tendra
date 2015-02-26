@@ -96,7 +96,7 @@ init(void)
 	load_ptr_pars          = 1;
 	use_link_stuff         = 1;
 
-	target_dbl_maxexp   = 4932; /* I am not sure what's significant about 4932, and not 16384 */
+	target_dbl_maxexp   = 4932; /* this is .~rep_fv_max_10_exp[.~abi_longdouble_rep] for ieee754-ext80.tpl */
 
 	ptr_null  = 0x0; /* NULL value for pointer */
 	proc_null = 0x0; /* NULL value for proc */
