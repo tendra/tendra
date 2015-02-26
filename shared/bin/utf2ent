@@ -1,0 +1,18 @@
+#!/bin/sed -f
+# $Id$
+
+# Convert subtle UTF-8 things to SGML entities.
+#
+# I prefer to keep easily missed things in entity form rather
+# than their UTF-8 equivalents, just because it's easier to spot
+# them in the source. Whereas e.g. accented letters I'd rather
+# have as UTF-8 characters.
+
+s/‘/\&lsquo;/g
+s/’/\&rsquo;/g
+s/“/\&ldquo;/g
+s/”/\&rdquo;/g
+
+s/–/\&ndash;/g
+s/—/\&mdash;/g
+
