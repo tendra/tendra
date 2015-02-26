@@ -98,7 +98,5 @@
 	<xi:include href="notation.xml"/>
 	<xi:include href="language.xml"/>
 
-	<xi:include href="examples.xml"/>
-
 </book>
 
