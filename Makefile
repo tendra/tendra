@@ -232,7 +232,7 @@ bootstrap-regen:
 
 test-doc:
 	@echo "===> validating documents"
-.for project in calculus lexi make_err \
+.for project in calculus lexi \
 	osdep tdf tdfc2 sid tcc doc tld tnc tpl tspec
 	cd ${.CURDIR}/${project}/doc && ${MAKE} test
 .endfor
@@ -246,7 +246,7 @@ test-doc:
 # XXX: need the per-project prefix that -DWEBSITE uses
 doc:
 	@echo "===> building documents"
-.for project in calculus trans lexi make_err \
+.for project in calculus trans lexi \
 	osdep tdf tdfc2 sid tcc doc tld tnc tpl tspec
 	cd ${.CURDIR}/${project}/doc && ${MAKE} \
 	    OBJ_DIR=${OBJ_DOC}/${project}
