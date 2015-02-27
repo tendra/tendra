@@ -3,6 +3,7 @@
 	<!ENTITY V.opt "<option>-V</option>">
 	<!ENTITY I.opt "<option>-I&nbsp;path</option>">
 	<!ENTITY v.opt "<option>-v</option>">
+	<!ENTITY g.opt "<option>-g</option>">
 ]>
 
 <!-- $Id$ -->
@@ -71,7 +72,7 @@
 
 	<refnamediv>
 		<refname>tpl</refname>
-		<refpurpose>PL_TDF compiler producing TDF;</refpurpose>
+		<refpurpose>&pl_tdf; compiler producing &tdf;</refpurpose>
 	</refnamediv>
 
 	<refsynopsisdiv>
@@ -79,6 +80,7 @@
 			<command>tpl</command>
 
 			<arg choice="opt">&V.opt;</arg>
+			<arg choice="opt">&g.opt;</arg>
 			<arg choice="opt" rep="repeat">&I.opt;</arg>
 
 			<sbr/>
@@ -102,7 +104,9 @@
 		<para>The action of &tpl; is to compile a &pl_tdf; text in &in-file.arg;
 			to a &tdf; capsule in &out-file.arg;. (See &pl_tdf.doc;).
 			The resulting &j.ext; file is suitable for linking and translation
-			by &tcc;.</para> 
+			just as any other &j.ext; file by &tcc;.
+			Conventionally, &pl_tdf; programs are held in normal text files with
+			suffix <literal>.tpl</literal>.</para>
 	</refsection>
 
 	<refsection>
@@ -113,8 +117,10 @@
 				<term>&V.opt;</term>
 
 				<listitem>
-					<para>This option produces a <quote>pretty print</quote>
-						of the &tdf; capsule on the standard output.</para>
+					<para>This option produces a cut-down &lsquo;pretty print&rsquo;
+						of the &tdf; capsule on the standard output. This shows
+						the definitions and declarations of the tags, tokens and
+						<code>al_tags</code> of the program.</para>
 				</listitem>
   			</varlistentry>
 
@@ -129,6 +135,15 @@
 			</varlistentry>
 
 			<varlistentry>
+				<term>&g.opt;</term>
+
+				<listitem>
+					<para>The &g.opt; option will put line number information into the
+						&tdf;.</para>
+				</listitem>
+  			</varlistentry>
+
+			<varlistentry>
 				<term>&v.opt;</term>
 
 				<listitem>
@@ -138,6 +153,32 @@
 				</listitem>
 			</varlistentry>
 		</variablelist>
+	</refsection>
+
+	<refsection>
+		<title>Caveats</title>
+
+		<para>Compile-time error reporting is rather rudimentary and error
+			recovery non-existent. Only the first error found will be reported on
+			the standard error channel. This will give some indication of the type
+			of error, together with the text line number and a print-out of the
+			line, marking the place within the line where the error was
+			detected.</para>
+
+		<para>Errors which can only be detected at translate-time are much more
+			difficult to correct. These are usually shape or alignment errors,
+			particularly in the construction of offsets. Try compiling and
+			translating with the &g.opt; option. On the error, the translator will
+			output the source filename and an approximate line-number
+			corresponding to the position of the error in the &pl_tdf;.</para>
+
+		<para>Translating with the &g.opt; option may sometimes give warning messages
+			from the system assembler being used; some assemblers object to being
+			given line number information in anything else but the <code>.text</code> segment
+			of the program. The main intention of the &g.opt; option is to detect and
+			correct errors errors thrown up by the translators and not for
+			run-time de-bugging, so do not regard a warning like this as a bug in
+			the system.</para>
 	</refsection>
 
 	<refsection>

@@ -40,6 +40,15 @@
 		</copyright>
 
 		<revhistory>
+			<revision role="docs">
+				<date>2015-02-27</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Moved out examples to the source tree.
+						Moved out usage to &tpl.1;.</para>
+				</revdescription>
+			</revision>
+
 			<revision role="version">
 				<date>2010-02-21</date>
 				<authorinitials>kate</authorinitials>
@@ -94,7 +103,6 @@
 	</bookinfo>
 
 	<xi:include href="introduction.xml"/>
-	<xi:include href="use.xml"/>
 	<xi:include href="notation.xml"/>
 	<xi:include href="language.xml"/>
 	<xi:include href="sorts.xml"/>
