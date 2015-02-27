@@ -451,7 +451,7 @@ typedef struct {
 	</section>
 
 	<section>
-		<title>Abstract API headers and API usage analysis</title>
+		<title>API usage analysis</title>
 
 		<para>The abstract standard headers provided with the tool are the
 			basis for the API usage analysis checking on dump files described
@@ -495,6 +495,21 @@ SEH		 position				ref_no</programlisting>
 			and libraries, and can be compared with API reference information,
 			provided by dump output files produced from the abstract standard
 			headers, to determine the applications API usage.</para>
+
+		<!-- TODO: probably obsoleted -->
+		<para>Analysis performed on the set of dump files produced for an
+			entire application can detect the objects, types, etc. from
+			external APIs which are used by the application. The API usage
+			analysis is enabled by passing one or more
+			<code>-api_check<replaceable>API</replaceable></code> flags to tchk
+			where <replaceable>API</replaceable> may be any of the standard APIs
+			listed in section 2.1.
+			The <code>-api_check_out<replaceable>FILE</replaceable></code> flag
+			may be used to direct the API analysis information to the file
+			<replaceable>FILE</replaceable> (by default it is written to stdout).
+			The APIs used to perform API usage analysis may be different
+			from those used to process the application. Annex G.8 contains
+			details of the methods used to perform the API usage analysis.</para>
 	</section>
 
 </chapter>
