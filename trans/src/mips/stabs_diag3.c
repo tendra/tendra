@@ -100,7 +100,7 @@ symnosforfiles(void)
 }
 
 static void
-stab_file(int i, bool internal)
+stab_file(long i, bool internal)
 {	/* output .file directive for file i */
   int   l;
 

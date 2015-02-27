@@ -124,7 +124,7 @@ static const char eb_stab[] = ".eb";	/* end block */
  * Location in the source program
  */
 
-static int current_fileno;	/* file number of last file output */
+static long current_fileno;	/* file number of last file output */
 static int current_lineno;	/* the last line number output */
 static int files_stabbed;	/* number of .file or .bi output */
 static int first_fileno;
@@ -134,7 +134,7 @@ static int current_procstart_lineno;	/* line proc started on */
 static int block_depth;		/* .bb/.eb nesting depth */
 
 static filename *fds;		/* known files numbered from 0 */
-static int mainfile_fd = -1;	/* index into fds of 'main source file' */
+static long mainfile_fd = -1;	/* index into fds of 'main source file' */
 static int szfds = 0;		/* space malloc'd for fds */
 static int nofds = 0;		/* how many are known */
 
@@ -174,10 +174,10 @@ static int find_file(char *);
 static void stab_relativeline(const char *);
 static void stab_begin_block(void);
 static void stab_end_block(void);
-static void stabn(int, int);
-static void stab_file(int, bool);
-static void diagbr_open(int);
-static void diagbr_close(int);
+static void stabn(long, int);
+static void stab_file(long , bool);
+static void diagbr_open(long);
+static void diagbr_close(long);
 static int next_typen(void);
 static int TypeNo_of_shape(shape);
 static bool eq_sutype(diag_type, diag_type);
@@ -188,7 +188,7 @@ static void out_dt_TypeDef(diag_type);
 static void out_dt_NewTypeId(diag_type, int);
 static void out_dt_TypeId(diag_type);
 static void stab_types(void);
-static void stab_local(char *, diag_type, exp, int, int);
+static void stab_local(char *, diag_type, exp, int, long);
 
 #if defined(__AIX) || defined(CROSS_INCLUDE)
 static void stab_internal_types(diag_type, bool);
@@ -745,7 +745,7 @@ static void stab_end_block(void)
  * Generate stabs for current file and line number.
  * Note that line number stabs are relative to start of current proc.
  */
-static void stabn(int findex, int lno)
+static void stabn(long findex, int lno)
 {
   if (findex == current_fileno && lno == current_lineno)
   {
@@ -779,7 +779,7 @@ void stab_end_file(void)
 /*
  * output file name if changed
  */
-static void stab_file(int findex, bool internal)
+static void stab_file(long findex, bool internal)
 {
   bool stabbed = 0;
 
@@ -855,7 +855,7 @@ static void stab_file(int findex, bool internal)
 /*
  * start of a new lex level
  */
-static void diagbr_open(int findex)
+static void diagbr_open(long findex)
 {
   stab_file(findex, false);
   stab_begin_block();
@@ -864,7 +864,7 @@ static void diagbr_open(int findex)
 /*
  * end of a lex level
  */
-static void diagbr_close(int findex)
+static void diagbr_close(long findex)
 {
   stab_file(findex, false);
   stab_end_block();
@@ -1759,7 +1759,7 @@ void stab_endproc(exp proc, char *id, bool ext)
  * whether dbx can actually use them.
  */
 static void
-stab_local(char *nm, diag_type dt, exp id, int disp, int findex)
+stab_local(char *nm, diag_type dt, exp id, int disp, long findex)
 {
   UNUSED(nm);
   UNUSED(dt);

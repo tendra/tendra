@@ -56,9 +56,9 @@
 #include "cross.h"
 
 extern bool last_param(exp e);
-extern int currentfile;
+extern long currentfile;
 /* our current fileno  */
-extern int mainfile;
+extern long mainfile;
 /* default fileno for no diags or shape output */
 
 
@@ -104,7 +104,7 @@ void symnosforfiles
 
 /* output .file directive for file i */
 static void
-stab_file(int i, bool internal)
+stab_file(long i, bool internal)
 {
   int l;
 
@@ -147,7 +147,7 @@ static char lexlev[] = "0";	/* historic !!! */
 
 
 static void
-diagbr_open(int findex)
+diagbr_open(long findex)
 {
   int symno;
   stab_file(findex, false);
@@ -161,7 +161,7 @@ diagbr_open(int findex)
 }
 
 static void
-diagbr_close(int findex)
+diagbr_close(long findex)
 {
   int symno;
   stab_file(findex, false);
@@ -185,7 +185,7 @@ diagbr_close(int findex)
    actually use them.
 */
 static void
-stab_local(char *nm, diag_type dt, exp ldid, int disp, int findex)
+stab_local(char *nm, diag_type dt, exp ldid, int disp, long findex)
 {
 
   int fs = frame_size >> 3;
