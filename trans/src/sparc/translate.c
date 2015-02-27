@@ -712,6 +712,9 @@ translate_capsule (void){
 		diag3_driver->stab_proc(diag_props, stg, id, extnamed);
 #endif
 		break;
+
+	default:
+		;
 	}
 	if ( optim_level >= 0 ) {
 	  /* .optim must go after .proc */
