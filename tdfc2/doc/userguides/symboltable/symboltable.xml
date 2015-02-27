@@ -146,56 +146,6 @@
 			details of the methods used to perform the API usage analysis.</para>
 	</section>
 
-	<section>
-		<title>Intermodular checks</title>
-
-		<para>All the checks discussed in earlier chapters have been concerned
-			with a single source file. However, tchk also contains a linking
-			phase in which it is able to perform intermodular checks (i.e.
-			checks between source files). In the linking phase, the dumps file
-			generated from each translation unit processed are combined into a
-			single dump file containing information on all external objects
-			within the application, and type consistency checks are applied to
-			ensure that the definitions and declarations of each object are
-			consistent and external objects and functions have at most one
-			definition.</para>
-
-		<para>The amount of information about an object stored in a dump file
-			depends on the compilation mode used to produce that file. For
-			example, if extra prototype checks are enabled (see section 3.3),
-			the dump file contains any information inferred about a function
-			from its traditional style definition or from applications of that
-			function. For example, if one file contains:</para>
-
-		<programlisting language="c">extern void f () ;
-void g ()
-{
-	f ( "hello" ) ;
-}</programlisting>
-
-		<para>and another contained:</para>
-
-		<programlisting language="c">void f ( n )
-int n ;
-{
-	return ;
-}</programlisting>
-
-		<para>then the inferred prototype:</para>
-
-		<programlisting language="c">void f WEAK ( char * ) ;</programlisting>
-
-		<para>from the call of <code>f</code> would be included in the first
-			dump file, whereas the weak prototype deduced from the definition
-			of <code>f</code>:</para>
-
-		<programlisting language="c">void f WEAK ( int ) ;</programlisting>
-
-		<para>would be included in the second. When these two dump files are
-			linked, the inconsistency is discovered and an error is
-			reported.</para>
-	</section>
-
 	<!-- TODO hereafter is from tcpplus -->
 
 	<section>

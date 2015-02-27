@@ -53,7 +53,9 @@
 						from &tdfc2-userguide.doc;.</para>
 
 					<para>Merged appendix of &cli; portability
-						options into body text.</para>
+						options into body text.
+						Merged in linking for symbol table dump
+						files from the &symboltable.doc; document.</para>
 				</revdescription>
 			</revision>
 
@@ -135,6 +137,7 @@
 	<xi:include href="discard.xml"/>
 	<xi:include href="preprocessor.xml"/>
 	<xi:include href="apichecking.xml"/>
+	<xi:include href="intermodular.xml"/>
 
 	<xi:include href="bibliography.xml"/>
 
