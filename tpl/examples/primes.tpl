@@ -22,7 +22,7 @@ Proc main = top ()
         {   /* set i-th element of n to 1 */
          N[* i] = 1(Char);
          i = (* i + 1(Int));
-         ?(* i &gt;= 10000(Int))	/* NB assertion fails to continue loop */
+         ?(* i >= 10000(Int))	/* NB assertion fails to continue loop */
         }
     Rep (i = 2(Int) )
         {
@@ -32,12 +32,12 @@ Proc main = top ()
                 {	/*... wipe out composites */
                 N[* j] = 0(Char);
                 j = (* j + * i);
-                ?(* j &gt;= 10000(Int))
+                ?(* j >= 10000(Int))
          }
          | make_top
          };
          i = (* i + 1(Int));
-         ?(* i &gt;= 100(Int))
+         ?(* i >= 100(Int))
          };
      Rep (i = 2(Int); j = 0(Int) )
         {   ?{  ?( *(Char)N[* i] == 1(Char));
@@ -53,7 +53,7 @@ Proc main = top ()
             | make_top
             };
             i = (* i + 1(Int));
-            ?(* i &gt;= 10000(Int))
+            ?(* i >= 10000(Int))
          };
      return(make_top)
      };
