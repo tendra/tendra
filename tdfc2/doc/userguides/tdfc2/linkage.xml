@@ -265,33 +265,5 @@ static int g ()
 			was intended.</para>
 	</section>
 
-	<section id="template">
-		<title>Template compilation</title>
-
-		<para>The C++ producer makes the distinction between exported templates,
-			which may be used in one module and defined in another, and non-exported
-			templates, which must be defined in every module in which they are
-			used. As in the ISO C++ standard, the <code>export</code> keyword
-			is used to distinguish between the two cases.	In the past, different
-			compilers have had different template compilation models; either all
-			templates were exported or no templates were exported.	The latter
-			is easily emulated - if the <code>export</code> keyword is not used
-			then no templates will be exported.	To emulate the former behaviour
-			the directive:</para>
-
-		<programlisting language="cpp">#pragma TenDRA++ implicit export template <emphasis>on</emphasis></programlisting>
-
-		<para>can be used to treat all templates as if they had been declared using
-			the <code>export</code> keyword.</para>
-
-		<warning>
-			<para>The automatic instantiation of exported templates has not yet been
-				implemented correctly.	It is intended that such instantiations will
-				be generated during <link linkend="spec">intermodule analysis</link>
-				(where they conceptually belong).	At present it is necessary to work
-				round this using explicit instantiations.</para>
-		</warning>
-	</section>
-
 </chapter>
 

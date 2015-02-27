@@ -55,7 +55,9 @@
 					<para>Merged appendix of &cli; portability
 						options into body text.
 						Merged in linking for symbol table dump
-						files from the &symboltable.doc; document.</para>
+						files from the &symboltable.doc; document.
+						Merged in compilation scheme for linking
+						C++ spec files from &tdfc2-userguide.doc;.</para>
 				</revdescription>
 			</revision>
 

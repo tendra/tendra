@@ -57,7 +57,9 @@
 					<para>Moved out documentation for the supplied
 						portability tables from the &tdfc2-userguide.doc;.
 						Moved out portability table syntax
-						to create a &portability.5; manpage.</para>
+						to create a &portability.5; manpage.
+						Moved out compilation scheme for C++ spec file
+						linking to &tchk.doc;.</para>
 				</revdescription>
 			</revision>
 

@@ -2,7 +2,7 @@
 <!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter>
-	<title>Intermodular checks</title>
+	<title>Intermodular analysis</title>
 
 	<para>All the checks discussed in earlier chapters have been concerned
 		with a single source file. However, tchk also contains a linking
@@ -60,15 +60,52 @@ int n ;
 	<section>
 		<title>Linking C++ spec files</title>
 
-		<warning>
-			<para>The C++ spec linking routines have not yet been completely implemented,
-					and so are disabled in the current version of the C++ producer.</para>
-		</warning>
+		<para>The overall compilation scheme controlled by <code>tcc</code>, as
+			it relates to the C++ producer, can be represented as follows:</para>
+
+		<figure>
+			<title>Compilation Scheme</title>
+
+			<graphic fileref="images/compile.svg"/>
+		</figure>
+
+		<para>Each C++ source file, <code>a.cc</code> say, is processed using
+			<code>tcpplus</code> to give an output TDF capsule, <code>a.j</code>,
+			which is passed to the installer phase of <code>tcc</code>.  The capsule
+			is linked with any target dependent token definition libraries, translated
+			to assembler and assembled to give a binary object file,
+			<code>a.o</code>.  The various object files comprising the program
+			are then linked with the system libraries to give a final executable,
+			<code>a.out</code>.</para>
 
 		<para>A C++ spec file is a dump of the C++ producer's internal
 			representation of a translation unit.  Such files can be written
 			to, and read from, disk to perform such operations as intermodule
 			analysis.</para>
+
+		<para>In addition to this main compilation scheme, <code>tcpplus</code>
+			can additionally be made to output a C++ spec file
+			for each C++ source file, <code>a.K</code> say.  These C++ spec files
+			can be linked, using <code>tcpplus</code> in its spec linker mode,
+			to give an additional TDF capsule, <code>x.j</code> say, and a combined
+			C++ spec file, <code>x.K</code>.  The main purpose of this C++ spec
+			linking is to perform intermodule checks on the program, however in
+			the course of this checking exported templates which are defined in
+			one module and used in another are instantiated.  This extra code
+			is output to <code>x.j</code>, which is then installed and linked
+			in the normal way.</para>
+
+		<para>Note that intermodule checks, and hence intermodule template instantiations,
+			are only performed if the <code>-im</code> option is passed to <code>tcc</code>.</para>
+
+		<para>The TenDRA checker, <code>tchk</code>, is similar to <code>tcc</code>
+			except that it disables TDF output and has intermodule analysis enabled
+			by default.</para>
+
+		<warning>
+			<para>The C++ spec linking routines have not yet been completely implemented,
+					and so are disabled in the current version of the C++ producer.</para>
+		</warning>
 
 		<para>Note that the format of a C++ spec file is specific to the C++ producer
 			and may change between releases to reflect modifications in the internal
@@ -77,5 +114,34 @@ int n ;
 			between C and C++ source files is required then the &tdfcdump.5; symbol
 			table dump format should be used.</para>
 	</section>
+
+	<section id="template">
+		<title>Template compilation</title>
+
+		<para>The C++ producer makes the distinction between exported templates,
+			which may be used in one module and defined in another, and non-exported
+			templates, which must be defined in every module in which they are
+			used. As in the ISO C++ standard, the <code>export</code> keyword
+			is used to distinguish between the two cases.	In the past, different
+			compilers have had different template compilation models; either all
+			templates were exported or no templates were exported.	The latter
+			is easily emulated - if the <code>export</code> keyword is not used
+			then no templates will be exported.	To emulate the former behaviour
+			the directive:</para>
+
+		<programlisting language="cpp">#pragma TenDRA++ implicit export template <emphasis>on</emphasis></programlisting>
+
+		<para>can be used to treat all templates as if they had been declared using
+			the <code>export</code> keyword.</para>
+
+		<warning>
+			<para>The automatic instantiation of exported templates has not yet been
+				implemented correctly.	It is intended that such instantiations will
+				be generated during <link linkend="spec">intermodule analysis</link>
+				(where they conceptually belong).	At present it is necessary to work
+				round this using explicit instantiations.</para>
+		</warning>
+	</section>
+
 </chapter>
 

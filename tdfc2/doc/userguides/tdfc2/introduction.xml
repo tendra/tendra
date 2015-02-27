@@ -98,46 +98,5 @@
 			such libraries</link> with the C++ producer are given.</para>
 	</section>
 
-	<section id="compile">
-		<title>Compilation scheme</title>
-
-		<para>The overall compilation scheme controlled by <code>tcc</code>, as
-			it relates to the C++ producer, can be represented as follows:</para>
-
-		<figure>
-			<title>Compilation Scheme</title>
-
-			<graphic fileref="images/compile.svg"/>
-		</figure>
-
-		<para>Each C++ source file, <code>a.cc</code> say, is processed using
-			<code>tcpplus</code> to give an output TDF capsule, <code>a.j</code>,
-			which is passed to the installer phase of <code>tcc</code>.  The capsule
-			is linked with any target dependent token definition libraries, translated
-			to assembler and assembled to give a binary object file,
-			<code>a.o</code>.  The various object files comprising the program
-			are then linked with the system libraries to give a final executable,
-			<code>a.out</code>.</para>
-
-		<para>In addition to this main compilation scheme, <code>tcpplus</code>
-			can additionally be made to output a C++ spec file
-			for each C++ source file, <code>a.K</code> say.  These C++ spec files
-			can be linked, using <code>tcpplus</code> in its spec linker mode,
-			to give an additional TDF capsule, <code>x.j</code> say, and a combined
-			C++ spec file, <code>x.K</code>.  The main purpose of this C++ spec
-			linking is to perform intermodule checks on the program, however in
-			the course of this checking exported templates which are defined in
-			one module and used in another are instantiated.  This extra code
-			is output to <code>x.j</code>, which is then installed and linked
-			in the normal way.</para>
-
-		<para>Note that intermodule checks, and hence intermodule template instantiations,
-			are only performed if the <code>-im</code> option is passed to <code>tcc</code>.</para>
-
-		<para>The TenDRA checker, <code>tchk</code>, is similar to <code>tcc</code>
-			except that it disables TDF output and has intermodule analysis enabled
-			by default.</para>
-	</section>
-
 </preface>
 
