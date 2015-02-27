@@ -4,7 +4,6 @@
 
 
 SUBDIR+=	pragmatoken
-SUBDIR+=	symboltable
 SUBDIR+=	tdfc2
 SUBDIR+=	tchk
 
