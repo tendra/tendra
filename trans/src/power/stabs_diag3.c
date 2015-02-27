@@ -1976,7 +1976,6 @@ const struct diag3_driver diag3_driver_stabs = {
 	stab_proc_file,
 	stab_proc,
 	NULL,
-	NULL,
 
 	output_diag,
 	output_end_scope,
