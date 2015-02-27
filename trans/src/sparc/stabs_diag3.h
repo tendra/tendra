@@ -20,7 +20,6 @@
 extern void init_stab(void);
 extern void init_stab_aux(void);
 extern void stab_types(void);
-extern void stabd(long, long, int);
 extern long currentfile;
 
 #endif /* SPARCDDECS_INCLUDED */
