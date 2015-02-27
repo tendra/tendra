@@ -9,7 +9,7 @@ $Id$
 	<title>First-class SORT expansions</title>
 
 	<para>All of the first-class sorts have similar expansions for native
-		TDF constructions and for token applications. I shall take
+		&tdf; constructions and for token applications. I shall take
 		&lt;Shape&gt; as the paradigm sort and allow the reader to conjugate
 		the following for the the other sorts.</para>
 
@@ -26,7 +26,7 @@ $Id$
 	<programlisting language="bnf">&lt;Shape&gt; ::= &lt;shape_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt</programlisting>
 
 	<para>Each &lt;constructor_param&gt; will be the first_class SORT
-		expansion, required by the &lt;shape_constructor&gt; as in the TDF
+		expansion, required by the &lt;shape_constructor&gt; as in the &tdf;
 		specification eg the constructor, pointer, requires a
 		&lt;constructor_param&gt; ::= &lt;Alignment&gt;.</para>
 
@@ -156,10 +156,10 @@ $Id$
 				<tr>
 
 					<th>&lt;BinaryOp&gt;</th>
-					<th>TDF constructor</th>
+					<th>&tdf; constructor</th>
 					<th role="gap"/>
 					<th>&lt;BinaryOp&gt;</th>
-					<th>TDF constructor</th>
+					<th>&tdf; constructor</th>
 				</tr>
 
 			</thead>
@@ -386,7 +386,7 @@ $Id$
 
 		<programlisting language="bnf">&lt;ExpTerm&gt; ::= # &lt;String&gt;</programlisting>
 
-		<para>This produces a TDF fail_installer; this construction is useful
+		<para>This produces a &tdf; fail_installer; this construction is useful
 			for narrowing down SHAPE errors detected by the translator.</para>
 	</section>
 

@@ -8,7 +8,7 @@
 <chapter id="intro">
 	<title>Introduction</title>
 
-	<para>PL_TDF is a language in the lineage of Wirth's PL360 and its later
+	<para>&pl_tdf; is a language in the lineage of Wirth's PL360 and its later
 		derivatives. The basic idea in PL360 was to give one an assembler in
 		which one could express all of the order-code of the IBM 360 while
 		still preserving the logical structure of the program using familiar
@@ -17,20 +17,20 @@
 		assembly code using a traditional assembler, as anyone who has used
 		both can testify.</para>
 
-	<para>In the TDF <quote>machine</quote> the problem is not lack of structure at its
+	<para>In the &tdf; <quote>machine</quote> the problem is not lack of structure at its
 		<quote>assembly</quote> level, but rather too much of it; one loses the sense of a
-		TDF program because of its deeply nested structure.  Also the naming
-		conventions of TDF are designed to make them tractable to machine
+		&tdf; program because of its deeply nested structure.  Also the naming
+		conventions of &tdf; are designed to make them tractable to machine
 		manipulation, rather than human reading and writing. However, the
-		approach is basically the same. PL_TDF provides shorthand notations
+		approach is basically the same. &pl_tdf; provides shorthand notations
 		for the commonly occuring control structures and operations while
-		still allowing one to use the standard TDF constructors which, in
+		still allowing one to use the standard &tdf; constructors which, in
 		turn, may have shorthand notations for their parameters. The naming is
 		always done by identifiers where the sort of the name is determined by
 		its declaration, or by context.</para>
 
-	<para>The TDF derived from PL_TDF is guaranteed to be SORT correct;
+	<para>The &tdf; derived from &pl_tdf; is guaranteed to be SORT correct;
 		however, there is no SHAPE checking, so one can still make illegal
-		TDF.</para>
+		&tdf;.</para>
 </chapter>
 

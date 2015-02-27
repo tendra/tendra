@@ -11,8 +11,8 @@
 	<section>
 		<title>Semantics</title>
 
-		<para>The basic philosophy of PL_TDF is to provide the <quote>glue</quote>
-			constructors of TDF automatically, while still allowing the programmer
+		<para>The basic philosophy of &pl_tdf; is to provide the <quote>glue</quote>
+			constructors of &tdf; automatically, while still allowing the programmer
 			to use the significant constructors in their most general form. By
 			<quote>glue</quote> constructors, I mean those like make_link, make_group etc.
 			which are there to provide tedious, but vital, constructions concerned
@@ -23,7 +23,7 @@
 			hand, the first-class SORTs, like EXP, can be used in those situations
 			and generally have a much richer set of constructors.	These
 			first-class SORTs are precisely those which have SORTNAMEs.	These
-			SORTNAMEs appear in PL_TDF as expansions of &lt;Sortname&gt;:</para>
+			SORTNAMEs appear in &pl_tdf; as expansions of &lt;Sortname&gt;:</para>
 
 			<programlisting language="bnf">&lt;Sortname&gt; ::= ACCESS
 &lt;Sortname&gt; ::= AL_TAG
@@ -48,7 +48,7 @@
 			names related to their resulting SORT e.g. all EXPs are expanded by
 			&lt;Exp&gt; and all TOKDECs are expanded by &lt;Tokdec&gt;. Any
 			first-class SORT can be expanded by using the constructor names given
-			in the TDF specification, provided that the parameter SORTs are also
+			in the &tdf; specification, provided that the parameter SORTs are also
 			first-class. For example, the following are all valid expansions of
 			&lt;Exp&gt; :</para>
 
@@ -58,13 +58,13 @@ return(E)									where E is an expansion of &lt;Exp&gt;
 goto(L)										where L is an expansion of &lt;Label&gt;
 assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisting>
 
-		<para>Any such use of TDF constructors will be checked for the
+		<para>Any such use of &tdf; constructors will be checked for the
 			SORT-correctness of their parameters. I will denote such a constructor
 			as an &lt;exp_constructor&gt;; similarly for all the other first-class
 			sorts.</para>
 
 		<para>Any of the first-class sorts may also be expanded by a token
-			application. Tokens in PL_TDF are given &lt;ident&gt; names by
+			application. Tokens in &pl_tdf; are given &lt;ident&gt; names by
 			&lt;Tokdef&gt; or &lt;Tokdec&gt; which must occur before their use in
 			applications. In applications, these names will be denoted by
 			&lt;exp_token&gt;, &lt;shape_token&gt; etc. , depending on the result
@@ -77,7 +77,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 	<section>
 		<title>Program</title>
 
-		<para>The root expansion of a PL_TDF program is given by
+		<para>The root expansion of a &pl_tdf; program is given by
 			&lt;Program&gt;:</para>
 
 		<programlisting language="bnf">&lt;Program&gt; ::= &lt;ElementList&gt; Keep ( &lt;Item&gt;-List-Opt )
@@ -104,7 +104,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 			other names which are declared but not defined will also be linked
 			externally.</para>
 
-		<para>A &lt;Program&gt; will produce a single TDF CAPSULE.</para>
+		<para>A &lt;Program&gt; will produce a single &tdf; CAPSULE.</para>
 	</section>
 
 	<section>
@@ -205,7 +205,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 		<para>This is a shorthand for producing names which have the properties
 			of C strings. The &lt;Variety&gt;-Opt gives the variety of the
 			characters with the string, an empty option giving unsigned chars.
-			The TDF produced is a make_var_tagdef initialised by a
+			The &tdf; produced is a make_var_tagdef initialised by a
 			make_nof_int. This means that given a String definition:</para>
 
 		<programlisting language="bnf">String format = "Result = %d\n"</programlisting>
@@ -244,7 +244,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 		<para>This produces a TOKDEF in a tokdef UNIT defining
 			&lt;Structname&gt; as a SHAPE token whose expansion is an EXP
 			OFFSET(a1,a2) where the OFFSET is the size of the structure with
-			standard TDF padding and offset addition of the component SHAPEs
+			standard &tdf; padding and offset addition of the component SHAPEs
 			and sizes (note that this may not correspond precisely with C
 			sizes).Each &lt;Fieldname&gt; will produce two TOKENs. The first
 			is named by &lt;Fieldname&gt; itself and is a [EXP]EXP which gives

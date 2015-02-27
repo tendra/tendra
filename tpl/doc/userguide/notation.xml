@@ -67,12 +67,12 @@
 
 		<para>All other terminal symbols are sequences of ACSII symbols not
 			including the above. These are divided into seven classes: keywords,
-			TDF constructors, operators, &lt;integer_denotation&gt;s,
+			&tdf; constructors, operators, &lt;integer_denotation&gt;s,
 			&lt;floating_denotation&gt;s, &lt;string&gt;s and
 			&lt;ident&gt;s.</para>
 
 		<para>The keywords and operators are expressed directly in the syntax
-			description. The TDF constructors are those given in the TDF
+			description. The &tdf; constructors are those given in the &tdf;
 			specification which have first-class SORTs as parameters and
 			results.</para>
 

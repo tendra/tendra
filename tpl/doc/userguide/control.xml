@@ -16,7 +16,7 @@ $Id$
 &lt;ExpSeq&gt; ::= &lt;Exp&gt;-Opt
 &lt;ExpSeq&gt; ::= &lt;ExpSeq&gt; ; &lt;Exp&gt;-Opt</programlisting>
 
-	<para>This produces a TDF sequence if there is more than one
+	<para>This produces a &tdf; sequence if there is more than one
 		&lt;Exp&gt;-Opt; if there is only one it is simply the production
 		for &lt;Exp&gt;-Opt; any empty &lt;Exp&gt;-Opt produce make_top.</para>
 
@@ -35,11 +35,11 @@ $Id$
 
 &lt;LabelSetting&gt; ::= : &lt;Label&gt; :</programlisting>
 
-		<para>This produces a TDF conditional. The scope of a LABEL
+		<para>This produces a &tdf; conditional. The scope of a LABEL
 			&lt;ident&gt; which may be introduced by &lt;Label&gt; is the
 			first &lt;ExpSeq&gt;. A branch to the second half of the
 			conditional will usually be made by the failure of an
-			&lt;Assertion&gt; ( ie a TDF _test) in the first half.</para>
+			&lt;Assertion&gt; ( ie a &tdf; _test) in the first half.</para>
 
 			<programlisting language="bnf">&lt;Assertion&gt; ::= &lt;Query&gt; ( &lt;Exp&gt; &lt;Ntest&gt; &lt;Exp&gt; &lt;FailDest&gt;-Opt )
 
@@ -92,7 +92,7 @@ $Id$
 
 &lt;Starter&gt; = ( &lt;ExpSeq&gt; )</programlisting>
 
-		<para>This produces a TDF repeat. The loop will usually repeat by an
+		<para>This produces a &tdf; repeat. The loop will usually repeat by an
 			&lt;Assertion&gt; failing to the &lt;LabelSetting&gt;-Opt; an
 			empty &lt;LabelSetting&gt;-Opt will follow the same conventions as
 			one in a &lt;Conditional&gt;. An empty &lt;Starter&gt;-Opt will
@@ -109,7 +109,7 @@ $Id$
 
 &lt;Place&gt; ::= | : &lt;Label&gt; : &lt;ExpSeq&gt;</programlisting>
 
-		<para>This produces a TDF labelled with the obvious parameters. The
+		<para>This produces a &tdf; labelled with the obvious parameters. The
 			scope of any LABEL &lt;idents&gt; introduced by the &lt;Label&gt;s
 			is the &lt;LabelledExp&gt;.</para>
 	</section>
@@ -126,12 +126,12 @@ $Id$
 
 &lt;VarInit&gt; ::= = &lt;Exp&gt;</programlisting>
 
-		<para>This &lt;Local_Defn&gt; produces a TDF variable with the obvious
+		<para>This &lt;Local_Defn&gt; produces a &tdf; variable with the obvious
 			parameters.</para>
 
 		<programlisting language="bnf">&lt;Local_Defn&gt; ::= Var &lt;ident&gt; &lt;Access&gt;-Opt : &lt;Shape&gt; &lt;VarInit&gt;-Opt &lt;ClosedExp&gt;</programlisting>
 
-		<para>Also a TDF variable. An empty &lt;VarInit&gt;-Opt gives
+		<para>Also a &tdf; variable. An empty &lt;VarInit&gt;-Opt gives
 			make_value(&lt;Shape&gt;) as the initialisation to the variable.
 			Using this form of variable definition also has the advantage of
 			allowing one to use the simple form of the contents operation (*
@@ -139,7 +139,7 @@ $Id$
 
 		<programlisting language="bnf">&lt;Local_Defn&gt; ::= Let &lt;ident&gt; &lt;Access&gt;-Opt = &lt;Exp&gt; &lt;ClosedExp&gt;</programlisting>
 
-		<para>This produces a TDF identify with the obvious parameters.</para>
+		<para>This produces a &tdf; identify with the obvious parameters.</para>
 	</section>
 </chapter>
 
