@@ -8,7 +8,7 @@
 <chapter id="others">
 	<title>Other tspec Constructs</title>
 
-	<para>Although most <code>tspec</code> constructs are concerned either
+	<para>Although most &tspec; constructs are concerned either
 		with specifying new objects or imposing structure upon various sets of
 		objects, there are a few which do not fall into these
 		categories.</para>
@@ -16,7 +16,7 @@
 	<section id="IF-ELSE-ENDIF">
 		<title>+IF, +ELSE and +ENDIF</title>
 
-		<para>It is possible to introduce conditional compilation into the API
+		<para>It is possible to introduce conditional compilation into the &api;
 			description by means of the constructs:</para>
 
 		<programlisting language="tspec">+IF %% text %%
@@ -46,9 +46,9 @@
 
 		<para>The macros in these constructs expand respectively to <code>
 			__BUILDING_LIBS</code> which, by convention is defined if and only
-			if TDF library building is taking place (see
+			if &tdf; library building is taking place (see
 			<link linkend="libraries">section 6.4</link>), and the protection
-			macro <code>tspec</code> makes up to protect the file
+			macro &tspec; makes up to protect the file
 			<code>api:header</code> against multiple inclusion (see
 			<link linkend="protect">section 6.2</link>).</para>
 	</section>
@@ -119,7 +119,7 @@
 				<tr>
 					<td><code>APINAME</code></td>
 					<td>string</td>
-					<td>Used to override the API name of the current set of
+					<td>Used to override the &api; name of the current set of
 						objects.</td>
 				</tr>
 			
@@ -127,7 +127,7 @@
 					<td><code>FILE</code></td>
 					<td>string</td>
 					<td>Used by
-						the <code>tspec</code> preprocessor to indicate the current
+						the &tspec; preprocessor to indicate the current
 						input file name.</td>
 				</tr>
 			
@@ -151,9 +151,9 @@
 				<tr>
 					<td><code>INFO</code></td>
 					<td>string</td>
-					<td>The formal name of the API. This is intended to be a complete
+					<td>The formal name of the &api;. This is intended to be a complete
 						and unambigious name which can be used to find the relevant
-						standards which define this API. For example,
+						standards which define this &api;. For example,
 						<code>&quot;ISO/IEC 9899:1990/Amendment 1:1995 (E)&quot;</code>.
 						This is to be set in the master file only.</td>
 				</tr>
@@ -169,14 +169,14 @@
 					<td><code>LINE</code></td>
 					<td>numeric</td>
 					<td>Used by
-						the <code>tspec</code> preprocessor to indicate the current
+						the &tspec; preprocessor to indicate the current
 						input file line number.</td>
 				</tr>
 			
 				<tr>
 					<td><code>METHOD</code></td>
 					<td>string</td>
-					<td>Specify alternative construction methods for TDF library
+					<td>Specify alternative construction methods for &tdf; library
 						building (see
 						<link linkend="libraries">section 6.4</link>).</td>
 				</tr>
@@ -184,7 +184,7 @@
 				<tr>
 					<td><code>PREFIX</code></td>
 					<td>string</td>
-					<td>A prefix to unique token names in place of the API and
+					<td>A prefix to unique token names in place of the &api; and
 						header names (see
 						<link linkend="names">section 4.1.1</link>).</td>
 				</tr>
@@ -192,7 +192,7 @@
 				<tr>
 					<td><code>PROTECT</code></td>
 					<td>string</td>
-					<td>Set the macro used by <code>tspec</code> to protect
+					<td>Set the macro used by &tspec; to protect
 						the include output file against multiple inclusions (see
 						<link linkend="protect">section 6.2</link>). Setting the
 						property to the empty string suppresses this macro.</td>
@@ -220,8 +220,8 @@
 					<td><code>UNIQUE</code></td>
 					<td>numeric</td>
 					<td>Switch the unique token name flag on and off (see
-						<link linkend="names">section 4.1.1</link>). For standard APIs
-						it is recommended that this property is set to 1 in the API
+						<link linkend="names">section 4.1.1</link>). For standard &api;s
+						it is recommended that this property is set to 1 in the &api;
 						<code>master.ts</code> file.</td>
 				</tr>
 			
@@ -236,7 +236,7 @@
 					<td><code>VERSION</code></td>
 					<td>string</td>
 					<td>Assign a version number or other identification to a
-						<code>tspec</code> description. This information is reproduced
+						&tspec; description. This information is reproduced
 						in the corresponding include output file.</td>
 				</tr>
 			</tbody>

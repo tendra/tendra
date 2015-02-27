@@ -8,49 +8,49 @@
 <chapter id="objects">
 	<title>Specifying Objects</title>
 
-	<para>The main body of any <code>tspec</code> description of an API
+	<para>The main body of any &tspec; description of an &api;
 		consists of a list of object specifications. Most of this section
-		is concerned with the various <code>tspec</code> constructs for
+		is concerned with the various &tspec; constructs for
 		specifying objects of various kinds, however we start with a few
 		remarks on object names.</para>
 	
 	<section id="names">
 		<title>Internal and External Names</title>
 
-		<para>All objects specified using <code>tspec</code> actually have
+		<para>All objects specified using &tspec; actually have
 			two names. The first is the internal name by which it is
 			identified within the program, the second is the external name by
-			which the TDF construct (actually a token) representing this
-			object is referred to for the purposes of TDF linking. The
+			which the &tdf; construct (actually a token) representing this
+			object is referred to for the purposes of &tdf; linking. The
 			internal names are normal C identifiers and obey the normal C
-			namespace rules (indeed one of the roles of <code>tspec</code> is
+			namespace rules (indeed one of the roles of &tspec; is
 			to keep track of these namespaces). The external token name is
-			constructed by <code>tspec</code> from the internal name.</para>
+			constructed by &tspec; from the internal name.</para>
 	
-		<para><code>tspec</code> has two strategies for making up these
+		<para>&tspec; has two strategies for making up these
 			token names. The first, which is default, is to use the internal
 			name as the external name (there is an exception to this simple
 			rule, namely field selectors - see
 			<link linkend="FIELD">section 4.9</link>). The second, which is preferred
-			for standard APIs, is to construct a "unique name" from the API
+			for standard &api;s, is to construct a "unique name" from the &api;
 			name, the header and the internal name. For example, under the
 			first strategy, the external name of the type <code>FILE</code>
 			specified in <code>c/c89:stdio.h</code> would be <code>FILE</code>,
 			whereas under the second it would be <code>c_c89.stdio.FILE</code>.
 			The unique name strategy may be specified by passing the
-			<option>-u</option> command-line option to <code>tspec</code> (see
+			<option>-u</option> command-line option to &tspec; (see
 			<link linkend="options">section 2.5</link>) or by setting the
 			<code>UNIQUE</code> property to 1 (see
 			<link linkend="properties">section 5.4</link>).</para>
 		
 		<para>Both strategies involve flattening the several C namespaces
-			into the single TDF token namespace, which can lead to clashes.
+			into the single &tdf; token namespace, which can lead to clashes.
 			For example, in <code>posix:sys/stat.h</code> both a structure,
 			<code>struct stat</code>, and a procedure, <code>stat</code>, are
 			specified. In C the two uses of <code>stat</code> are in different
 			namespaces and so present no difficulty, however they are mapped
-			onto the same name in the TDF token namespace. To work round such
-			difficulties, <code>tspec</code> allows an alternative external
+			onto the same name in the &tdf; token namespace. To work round such
+			difficulties, &tspec; allows an alternative external
 			form to be specified. When the object is specified the form:</para>
 
 		<programlisting language="bnf">iname | ename</programlisting>
@@ -83,33 +83,33 @@
 	<section id="namespaces">
 		<title>Namespaces</title>
 
-		<para>Basically the legal identifiers in <code>tspec</code> (for
+		<para>Basically the legal identifiers in &tspec; (for
 			both internal and external names) are the same as those in C -
 			strings of upper and lower case letters, decimal digits or
 			underscores, which do not begin with a decimal digit. However
 			there is a second class of local identifiers - those consisting of
 			a tilde followed by any number of letters, digits or underscores -
-			which are intended to indicate objects which are local to the API
+			which are intended to indicate objects which are local to the &api;
 			description and should not be visible to any application using the
-			API. For example, to express the specification that <code>t</code>
+			&api;. For example, to express the specification that <code>t</code>
 			is a pointer type, we could say that there is a locally named type
 			to which <code>t</code> is a pointer:</para>
 
 			<programlisting language="tspec">+TYPE ~t ;
 +TYPEDEF ~t *t ;</programlisting>
 
-		<para>Finally it is possible to cheat the <code>tspec</code>
+		<para>Finally it is possible to cheat the &tspec;
 			namespaces. It may actually be legal to have two objects of the
-			same name in an API - they may lie in different branches of a
+			same name in an &api; - they may lie in different branches of a
 			conditional compilation, or not be allowed to coexist. To allow
-			for this, <code>tspec</code> allows version numbers, consisting of
+			for this, &tspec; allows version numbers, consisting of
 			a decimal pointer plus a number of digits, to be appended to an
 			identifier name when it is first introduced. These version numbers
-			are purely to tell <code>tspec</code> that this version of the
+			are purely to tell &tspec; that this version of the
 			object is different from a previous version with a different
 			version number (or indeed without any version number).	If more
 			than one version of an object is specified then which version is
-			retrieved by <code>tspec</code> in any look-up operation is
+			retrieved by &tspec; in any look-up operation is
 			undefined.</para>
 	</section>
 
@@ -149,7 +149,7 @@
 		<para>would mean that <code>strcpy</code> was only a library function and
 			not a macro.</para>
 
-		<para>Increasingly standard APIs are using prototypes to express their
+		<para>Increasingly standard &api;s are using prototypes to express their
 			procedures. However it still may be necessary on occasion to specify
 			procedures declared using old style declarations. In most cases
 			these can be easily transcribed into prototype declarations, however
@@ -169,7 +169,7 @@ size_t sz ;</programlisting>
 			as a <code>size_t</code> . In general we only know that
 			<code>size_t</code> is an unsigned integral type, so we cannot
 			assert that it is its own integral promotion. One possible solution
-			would be to use the C to TDF producer's weak prototypes (see
+			would be to use the C to &tdf; producer's weak prototypes (see
 			reference 3). The form:</para>
 
 		<programlisting language="tspec">+FUNC (weak) void *malloc ( size_t ) ;</programlisting>
@@ -281,7 +281,7 @@ size_t sz ;</programlisting>
 		<title>+DEFINE</title>
 
 		<para>It is possible to insert macro definitions directly into
-			<code>tspec</code> using the <code>+DEFINE</code> construct. This
+			&tspec; using the <code>+DEFINE</code> construct. This
 			has two forms depending on whether the macro has arguments:</para>
 
 		<programlisting language="tspec">+DEFINE name %% text %% ;
@@ -418,9 +418,9 @@ size_t sz ;</programlisting>
 			note that C uses <code>void</code> function returns for two
 			purposes.	Firstly to indicate that the function does not return a
 			value, and secondly to indicate that the function does not return at
-			all (<code>exit</code> is an example of this second usage). In TDF
+			all (<code>exit</code> is an example of this second usage). In &tdf;
 			terms, in the first case the function returns <code>TOP</code>, in
-			the second it returns <code>BOTTOM</code> .	<code>tspec</code>
+			the second it returns <code>BOTTOM</code> .	&tspec;
 			allows types to be introduced which have the second meaning. For
 			example, we could have:</para>
 
@@ -541,7 +541,7 @@ int tm_isdst ;
 			order, nor do they have to comprise the whole structure.</para>
 
 		<para>As was mentioned above (in <link linkend="names">4.1.1</link>),
-			field selectors form a special case when <code>tspec</code> is
+			field selectors form a special case when &tspec; is
 			making up external token names. For example, in the case above, the
 			token name for the <code>tm_sec</code> field is either
 			<code>tm.tm_sec</code> or <code>c_c89.time.tm.tm_sec</code>,
@@ -611,7 +611,7 @@ char d_name [ ~dirent_d_name_size ] ;
 	<section id="ENUM">
 		<title>+ENUM</title>
 
-		<para>Currently <code>tspec</code> only has limited support for
+		<para>Currently &tspec; only has limited support for
 			enumeration types. A <code>+ENUM</code> construct is translated
 			directly into a C definition of an enumeration type. The
 			<code>+ENUM</code> construct has the form:</para>
@@ -640,9 +640,9 @@ name = number</programlisting>
 
 		<para>As was mentioned in <link linkend="introduction">section 1</link>, the
 			<code>#pragma token</code> syntax is highly complex, and the token
-			descriptions output by <code>tspec</code> form only a small subset
+			descriptions output by &tspec; form only a small subset
 			of those possible. It is possible to directly access the full
-			<code>#pragma token</code> syntax from <code>tspec</code> using the
+			<code>#pragma token</code> syntax from &tspec; using the
 			construct:</para>
 
 			<programlisting language="tspec">+TOKEN name %% text %% ;</programlisting>
@@ -655,7 +655,7 @@ name = number</programlisting>
 
 		<para>No checks are applied to <code>text</code>. A more sophisticated
 			mechanism for defining complex tokens may be introduced in a later
-			version of <code>tspec</code>.</para>
+			version of &tspec;.</para>
 
 		<para>For example, in <code>c/c89:stdarg.h</code> a token
 			<code>va_arg</code> is defined which takes a variable of type

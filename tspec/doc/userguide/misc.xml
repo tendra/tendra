@@ -19,7 +19,7 @@
 			corresponding inclusion command in both the include and source
 			output files.	Occasionally this is not desirable - in particular
 			the inclusion in the source output file can cause problems during
-			TDF library building. For this reason the <code>tspec</code> syntax
+			&tdf; library building. For this reason the &tspec; syntax
 			has been extended to allow for fine control of the output
 			corresponding to <code>+IMPLEMENT</code> and <code>+USE</code>
 			commands. This takes the forms:</para>
@@ -66,29 +66,29 @@
 			</tbody>
 		</table>
 
-		<para>The second refinement comes from the fact that APIs fall into
-			two categories - the base APIs, such as <code>c/c89</code>,
-			<code>posix</code> and <code>xpg3</code>, and the extension APIs,
-			such as <code>x11</code>, the X Windows API. The latter can be
+		<para>The second refinement comes from the fact that &api;s fall into
+			two categories - the base &api;s, such as <code>c/c89</code>,
+			<code>posix</code> and <code>xpg3</code>, and the extension &api;s,
+			such as <code>x11</code>, the X Windows &api;. The latter can be
 			used to extend the former, so that we can form <code>c/c89</code>
 			plus <code>x11</code>, <code>posix</code> plus <code>x11</code>,
-			and so on. Base APIs may be distinguished in <code>tspec</code>
+			and so on. Base &api;s may be distinguished in &tspec;
 			by including the command:</para>
 
 		<programlisting language="tspec">+BASE_API ;</programlisting>
 
 		<!-- TODO: update master.ts when the filename changes -->
 		<para>in their <code>master.ts</code> file. Occasionally, in an extension
-			API, we may wish to include a version of a header from the base API,
-			but, because this base API is not fixed, not be able to use a simple
+			&api;, we may wish to include a version of a header from the base &api;,
+			but, because this base &api; is not fixed, not be able to use a simple
 			<code>+USE</code> command. Instead the special form:</para>
 
 		<programlisting language="tspec">+USE ( "api" ), "header" ;</programlisting>
 
 		<para>is provided for this purpose (this is the only permitted form). It
-			indicates that <code>tspec</code> should use the <code>api</code>
+			indicates that &tspec; should use the <code>api</code>
 			version of <code>header</code> for checking purposes, but allow the
-			inclusion of the version from the base API in normal use.</para>
+			inclusion of the version from the base &api; in normal use.</para>
 	</section>
 
 	<section id="protect">
@@ -103,7 +103,7 @@
 #endif /* MACRO */</programlisting>
 
 		<para>to protect it against multiple inclusions. Normally
-			<code>tspec</code> will generate the macro name, <code>MACRO</code>,
+			&tspec; will generate the macro name, <code>MACRO</code>,
 			but it can be set using the <code>PROTECT</code> file property (see
 			<link linkend="properties">section 5.4</link>). Setting
 			<code>PROTECT</code> to the empty string suppresses the protection
@@ -115,50 +115,50 @@
 		<title>Index Printing</title>
 
 		<para>If it is invoked with the <option>-i</option> command-line
-			option, instead of creating its output file, <code>tspec</code>
+			option, instead of creating its output file, &tspec;
 			prints an index of all the objects it has read to the standard
 			output. This information includes the external token name associated
 			with the object, whether the object is implemented or used, and
-			where in the API description it is defined. It also includes a brief
+			where in the &api; description it is defined. It also includes a brief
 			description of the object.	It is intended that these indexes should
-			be usable as quick reference guides to the underlying APIs.</para>
+			be usable as quick reference guides to the underlying &api;s.</para>
 	</section>
 
 	<section id="environment">
 		<title>Environment Generation</title>
 
 		<para>When invoked with the <option>-y</option> command-line
-			option, <code>tspec</code> outputs an environment file suitable
+			option, &tspec; outputs an environment file suitable
 			for use with the &tcc; frontend. This contains a description of
-			the API (per its <code>$INFO</code> field) which can be presented
+			the &api; (per its <code>$INFO</code> field) which can be presented
 			to the user, along with internal configuration and library
-			dependencies for how &tcc; is to invoke that API.</para>
+			dependencies for how &tcc; is to invoke that &api;.</para>
 	</section>
 
 	<section id="libraries">
-		<title>TDF Library Building</title>
+		<title>&tdf; Library Building</title>
 
 		<para>As was explained in reference 1, the <code>#pragma token</code>
-			headers output by <code>tspec</code> are used for two purposes -
-			checking applications against the API during normal compilation and
-			checking implementations against the API during TDF library
+			headers output by &tspec; are used for two purposes -
+			checking applications against the &api; during normal compilation and
+			checking implementations against the &api; during &tdf; library
 			building. This dual use does necessitate some extra work for
-			<code>tspec</code>. It is not always possible to use exactly the
+			&tspec;. It is not always possible to use exactly the
 			same code in the two cases (usually because the C rules on, for
 			example, structure definitions get in the way during library
-			building). <code>tspec</code> uses a standard macro,
+			building). &tspec; uses a standard macro,
 			<code>__BUILDING_LIBS</code>, to distinguish between the two cases.
 			It is assumed to be defined if and only if library building is
-			taking place. <code>tspec</code> descriptions can access this macro
+			taking place. &tspec; descriptions can access this macro
 			directly using <code>~building_libs</code> (see
 			<link linkend="IF-ELSE-ENDIF">section 5.1</link>).</para>
 
 		<para>The actual library building process consists of compiling the
 			<code>#pragma token</code> descriptions of the objects comprising
-			the API along with the implementation of that API from the system
+			the &api; along with the implementation of that &api; from the system
 			headers (or wherever). This creates the local token definitions for
-			this API, which may be stored in a token library. To facilitate this
-			process <code>tspec</code> creates the source output files for each
+			this &api;, which may be stored in a token library. To facilitate this
+			process &tspec; creates the source output files for each
 			implemented header <code>api:header</code> containing something
 			like:</para>
 
@@ -184,9 +184,9 @@
 		<programlisting language="tnc">( make_tokdef fl_abs ( exp x ) exp
 	( floating_abs impossible x ) )</programlisting>
 
-		<para>is an input file for the TDF notation compiler, <code>tnc</code>
+		<para>is an input file for the &tdf; notation compiler, <code>tnc</code>
 			(see reference 2). Thus we have defined a token which directly
-			accesses the TDF <code>floating_abs</code> construct.</para>
+			accesses the &tdf; <code>floating_abs</code> construct.</para>
 	</section>
 </chapter>
 

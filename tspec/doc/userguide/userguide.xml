@@ -6,7 +6,7 @@
 <book xmlns:xi="http://www.w3.org/2001/XInclude">
 
 	<bookinfo>
-		<title>Tspec - An API Specification Tool</title>
+		<title>Tspec - An &api; Specification Tool</title>
 
 		<authorgroup>
 			<othercredit class="copyeditor">
@@ -115,10 +115,10 @@
 				<revnumber>Tspec 2.0</revnumber>
 				<authorinitials>DERA</authorinitials>
 				<revdescription>
-					<para>This document describes <code>tspec</code> version 2.
-						<code>tspec</code> 2 contains significant changes from previous
+					<para>This document describes &tspec; version 2.
+						&tspec; 2 contains significant changes from previous
 						releases. For convenience the main changes which are visible to the
-						<code>tspec</code> user are listed here.</para>
+						&tspec; user are listed here.</para>
 
 					<para>The added specification level of named subsets of headers
 						has been introduced (see

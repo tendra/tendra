@@ -8,61 +8,61 @@
 <preface id="introduction">
 	<title>Introduction</title>
 
-	<para>As explained in &tdf-portability.doc;, TDF may be regarded as an abstract
+	<para>As explained in &tdf-portability.doc;, &tdf; may be regarded as an abstract
 		target machine which can be used to facilitate the separation of
 		target independent and target dependent code which characterises
 		portable programs. An important aspect of this separation is the
-		Application Programming Interface, or API, of the program. Just as,
-		for a conventional machine, the API needs to be implemented on that
+		Application Programming Interface, or &api;, of the program. Just as,
+		for a conventional machine, the &api; needs to be implemented on that
 		machine before the program can be ported to it, so for that program to
-		be ported to the abstract TDF machine, an "abstract implementation" of
-		the API needs to be provided.</para>
+		be ported to the abstract &tdf; machine, an "abstract implementation" of
+		the &api; needs to be provided.</para>
 
 	<para>But of course, an "abstract implementation" is precisely what is
-		provided by the API specification - it is an abstraction of all the
-		possible API implementations. Therefore the TDF representation of an
-		API must reflect the API specification. As a consequence, compiling a
-		program to the abstract TDF machine is to check it against the API
+		provided by the &api; specification - it is an abstraction of all the
+		possible &api; implementations. Therefore the &tdf; representation of an
+		&api; must reflect the &api; specification. As a consequence, compiling a
+		program to the abstract &tdf; machine is to check it against the &api;
 		specification rather than, as with compiling to a conventional
 		machine, against at best a particular implementation of that
-		API.</para>
+		&api;.</para>
 
 	<para>In this document we address the problem of how to translate a
-		standard API specification into its TDF representation, by describing
+		standard &api; specification into its &tdf; representation, by describing
 		a tool, <command>tspec</command>, which has been developed for
 		this purpose.</para>
 
-	<para>The low level form which is used to represent APIs to the C to TDF
+	<para>The low level form which is used to represent &api;s to the C to &tdf;
 		producer is the <code>#pragma token</code> syntax described in
 		reference 3. However this is not a suitable form in which to describe
-		API specifications. The <code>#pragma token</code> syntax is
+		&api; specifications. The <code>#pragma token</code> syntax is
 		necessarily complex, and can only be checked through extensive testing
 		using the producer. Instead an alternative form, close to C, has been
-		developed for this purpose. API specifications in this form are
+		developed for this purpose. &api; specifications in this form are
 		transformed by <command>tspec</command> into the corresponding
 		<code>#pragma token</code> statements, while it applies various
-		internal checks to the API description.</para>
+		internal checks to the &api; description.</para>
 
-	<para>Another reason for introducing <code>tspec</code> is that the
+	<para>Another reason for introducing &tspec; is that the
 		<code>#pragma token</code> syntax is currently limited in some areas.
 		For example, at present it has very limited support for expressing
-		constancy of expressions. By allowing the <code>tspec</code> syntax to
-		express this information, the API description will contain all the
+		constancy of expressions. By allowing the &tspec; syntax to
+		express this information, the &api; description will contain all the
 		information which may be needed in future upgrades to the
-		<code>#pragma token</code> syntax. Thus describing an API using
-		<code>tspec</code> is hopefully a one off process, whereas describing
+		<code>#pragma token</code> syntax. Thus describing an &api; using
+		&tspec; is hopefully a one off process, whereas describing
 		it directly to the <code>#pragma token</code> syntax could require
 		periodic reworkings. Improvements in the <code>#pragma token</code>
 		syntax will be reflected in the translations produced by future
 		versions of <command>tspec</command>.</para>
 
-	<para>The <code>tspec</code> syntax is not designed to be a formal
+	<para>The &tspec; syntax is not designed to be a formal
 		specification language. Instead it is a pragmatic attempt to capture
-		the common specification idioms of standard API specifications. A
+		the common specification idioms of standard &api; specifications. A
 		glance at these specifications shows that they are predominantly C
 		based, but with an added layer of abstraction - instead of saying that
 		<code>t</code> is a specific C type, they say, there exists a type
-		<code>t</code>, and so on. The <code>tspec</code> syntax is designed
+		<code>t</code>, and so on. The &tspec; syntax is designed
 		to reflect this.</para>
 </preface>
 

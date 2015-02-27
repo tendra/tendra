@@ -14,33 +14,33 @@
 		<para>Let us begin by examining the various levels of specification
 			with which <command>tspec</command> is concerned. At the
 			lowest level it is concerned with objects - the types, expressions,
-			constants etc.	which comprise the API - and indeed most of this
+			constants etc.	which comprise the &api; - and indeed most of this
 			document is concerned with how <command>tspec</command>
 			describes these objects. At the highest level,
-			<command>tspec</command> is concerned with APIs. We could
-			just describe an API as being a set of objects, however this is to
-			ignore the internal structure of APIs.</para>
+			<command>tspec</command> is concerned with &api;s. We could
+			just describe an &api; as being a set of objects, however this is to
+			ignore the internal structure of &api;s.</para>
 	
-		<para>At the most obvious level the objects in an API are spread over
+		<para>At the most obvious level the objects in an &api; are spread over
 			a number of different system headers. For example, in ANSI, the
 			objects concerned with file input and output are grouped in
 			<code>stdio.h</code>, whereas those concerned with string
 			manipulation are in <code>string.h</code>. But a further level of
 			refinement is also required. For example, ANSI specifies that the
 			type <code>size_t</code> is defined in both <code>stdio.h</code> and
-			<code>string.h</code>. Therefore <code>tspec</code> needs to be able
+			<code>string.h</code>. Therefore &tspec; needs to be able
 			to represent subsets of headers in order to express this
 			intersection relation.</para>
 	
-		<para>To conclude, <code>tspec</code> distinguishes four levels of
-			specification - APIs (which are sets of headers), headers (which are
+		<para>To conclude, &tspec; distinguishes four levels of
+			specification - &api;s (which are sets of headers), headers (which are
 			sets of objects), subsets of headers, and objects. It identifies
-			APIs by an identifying name chosen by the person performing the API
+			&api;s by an identifying name chosen by the person performing the &api;
 			description. The (purely arbitrary) convention is for short, lower
 			case names, for example:</para>
 	
 		<table>
-			<title>Example API names</title>
+			<title>Example &api; names</title>
 
 			<col align="left"/>
 			<col align="left"/>
@@ -70,9 +70,9 @@
 			</tbody>
 		</table>
 	
-		<para>In this document, headers are identified by the API they belong
+		<para>In this document, headers are identified by the &api; they belong
 			to and the header name. Thus <code>c/c89:stdio.h</code> refers to the
-			<code>stdio.h</code> header of the ANSI API.	Finally subsets of
+			<code>stdio.h</code> header of the ANSI &api;.	Finally subsets of
 			headers are identified by the header and the subset name. If, for
 			example, the <code>stdio.h</code> header of ANSI has a subset named
 			<code>file</code>, then this is referred to as
@@ -82,21 +82,21 @@
 	<section id="input">
 		<title>Input Layout</title>
 
-		<para>The <code>tspec</code> representation of an API is arranged as a
-			directory with the same name as the API, containing a number of
-			files, one for each API header. For example, the ANSI C89 API is
+		<para>The &tspec; representation of an &api; is arranged as a
+			directory with the same name as the &api;, containing a number of
+			files, one for each &api; header. For example, the ANSI C89 &api; is
 			represented by a directory <code>c/c89</code> containing files
 			<code>c/c89/stdio.h</code>, <code>c/c89/string.h.ts</code> etc. In
-			addition each API directory contains a master file (for ANSI C89 it
+			addition each &api; directory contains a master file (for ANSI C89 it
 			would be called <code>c/c89/master.ts</code>) which lists all the
-			headers comprising that API.</para>
+			headers comprising that &api;.</para>
 <!-- TODO: update for .ts files -->
 	
-		<para>When <code>tspec</code> needs to find an API directory it does
+		<para>When &tspec; needs to find an &api; directory it does
 			so by searching along its input directory path. This is a colon
 			separated list of directories to be searched. This may be specified
 			in a number of ways. A default search list is built into
-			<code>tspec</code>, however this may be overridden by the system
+			&tspec;, however this may be overridden by the system
 			variable <code>TSPEC_INPUT</code>. Directories may be added to the
 			start of the path using the
 			<option>-I</option><filename>dir</filename> command-line option (see
@@ -108,15 +108,15 @@
 	<section id="output">
 		<title>Output Layout</title>
 
-		<para><code>tspec</code> actually outputs two sets of output files,
+		<para>&tspec; actually outputs two sets of output files,
 			the include output files, containing the <code>#pragma token</code>
-			directives corresponding to the input API, and the source output
-			files, which provide a rig for TDF library building (see
+			directives corresponding to the input &api;, and the source output
+			files, which provide a rig for &tdf; library building (see
 			<link linkend="libraries">section 6.4</link>). These output files and
 			directories are built up under two standard output directories - the
 			include output directory, <filename>incl_dir</filename> say, and the
 			source output directory, <filename>src_dir</filename> say.
-			<code>tspec</code> has default values for these directories built
+			&tspec; has default values for these directories built
 			in, but these may be overridden in a number of ways. Firstly, if the
 			system variable <code>TSPEC_OUTPUT</code> is defined to be
 			<filename>dir</filename>, say, then <filename>incl_dir</filename> is
@@ -143,20 +143,20 @@
 			<code>INCLNAME</code> and <code>SOURCENAME</code> file properties
 			described in <link linkend="properties">section 5.4</link>.</para>
 	
-		<para>By default, <code>tspec</code> only creates an output file if
+		<para>By default, &tspec; only creates an output file if
 			the date stamps on all the input files it depends on indicate that
-			it needs updating. In effect, <code>tspec</code> creates an internal
+			it needs updating. In effect, &tspec; creates an internal
 			makefile from the dependencies it deduces. This behaviour can be
 			overridden by means of the <option>-f</option> command-line option,
 			which forces all output files to be created.</para>
 	
-		<para>In addition, <code>tspec</code> only creates the source output
-			file if it is needed for TDF library building. If the corresponding
+		<para>In addition, &tspec; only creates the source output
+			file if it is needed for &tdf; library building. If the corresponding
 			include output file does not contain any token specifications then
 			the source output file is suppressed (see
 			<link linkend="libraries">section 5.5</link>).</para>
 
-		<para><code>tspec</code> can also generate environment files suitable
+		<para>&tspec; can also generate environment files suitable
 			for &tcc; (see <link linkend="environment">section 5.4</link>).</para>
 	</section>
 </chapter>
