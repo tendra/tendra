@@ -377,6 +377,9 @@ translate_capsule (void){
       init_stab_aux () ;
 #endif
       break;
+
+  default:
+      ;
   }
 
   /* apply all optimisations */
