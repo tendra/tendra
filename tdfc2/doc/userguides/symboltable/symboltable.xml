@@ -207,66 +207,61 @@
 	</section>
 
 	<section>
-		<title>Identifiers</title>
+		<title>Identifier names</title>
 
 		<para>Each identifier is represented in the symbol table dump by a unique
-			number.	The same number always represents the same identifier.</para>
+			number. The number representing an identifier is introduced in the
+			first declaration or use of that identifier and thereafter the number
+			alone is used to denote the identifier:</para>
 
-		<section>
-			<title>Identifier names</title>
-
-			<para>The number representing an identifier is introduced in the first declaration
-				or use of that identifier and thereafter the number alone is used
-				to denote the identifier:</para>
-
-			<programlisting language="bnf"><replaceable>identifier</replaceable> :
+		<programlisting language="bnf"><replaceable>identifier</replaceable> :
 	<replaceable>number</replaceable> = <replaceable>identifier-name access&opt.bnf; scope-identifier</replaceable>
 	<replaceable>number</replaceable></programlisting>
 
-			<para>The identifier name is given by:</para>
+		<para>The identifier name is given by:</para>
 
-			<programlisting language="bnf"><replaceable>identifier-name</replaceable> :
+		<programlisting language="bnf"><replaceable>identifier-name</replaceable> :
 	<replaceable>string</replaceable>
 	C <replaceable>type</replaceable>
 	D <replaceable>type</replaceable>
 	O <replaceable>string</replaceable>
 	T <replaceable>type</replaceable></programlisting>
 
-			<para>denoting respectively, a simple identifier name, a constructor for
-				a type, a destructor for a type, an overloaded operator function name,
-				and a conversion function name.	The empty string is used for anonymous
-				identifiers.</para>
+		<para>denoting respectively, a simple identifier name, a constructor for
+			a type, a destructor for a type, an overloaded operator function name,
+			and a conversion function name.	The empty string is used for anonymous
+			identifiers.</para>
 
-			<para>The optional identifier access is given by:</para>
+		<para>The optional identifier access is given by:</para>
 
-				<programlisting language="bnf"><replaceable>access</replaceable> :
+			<programlisting language="bnf"><replaceable>access</replaceable> :
 	N
 	B
 	P</programlisting>
 
-			<para>denoting <code>public</code>, <code>protected</code> and
-				<code>private</code> respectively.	An absent <replaceable>access</replaceable> is equivalent
-				to <code>public</code>.	Note that all identifiers, not just class
-				members, can have access specifiers; however the access of a non-member
-				is always <code>public</code>.</para>
+		<para>denoting <code>public</code>, <code>protected</code> and
+			<code>private</code> respectively.	An absent <replaceable>access</replaceable> is equivalent
+			to <code>public</code>.	Note that all identifiers, not just class
+			members, can have access specifiers; however the access of a non-member
+			is always <code>public</code>.</para>
 
-			<para>The scope (i.e. class, namespace, block etc.)
-				in which an identifier is declared is given by:</para>
+		<para>The scope (i.e. class, namespace, block etc.)
+			in which an identifier is declared is given by:</para>
 
-			<programlisting language="bnf"><replaceable>scope-identifier</replaceable> :
+		<programlisting language="bnf"><replaceable>scope-identifier</replaceable> :
 	<replaceable>identifier</replaceable>
 	*</programlisting>
 
-			<para>denoting either a named or an unnamed scope.</para>
-		</section>
+		<para>denoting either a named or an unnamed scope.</para>
+	</section>
 
-		<section>
-			<title>Identifier uses</title>
+	<section>
+		<title>Identifier uses</title>
 
-			<para>Each declaration or use of an identifier is represented by a command
-				of the form:</para>
+		<para>Each declaration or use of an identifier is represented by a command
+			of the form:</para>
 
-			<programlisting language="bnf"><replaceable>identifier-command</replaceable> :
+		<programlisting language="bnf"><replaceable>identifier-command</replaceable> :
 	D <replaceable>identifier-info type-info</replaceable>
 	M <replaceable>identifier-info type-info</replaceable>
 	T <replaceable>identifier-info type-info</replaceable>
@@ -276,256 +271,256 @@
 	C <replaceable>identifier-info</replaceable>
 	W <replaceable>identifier-info type-info</replaceable></programlisting>
 
-			<para>where:</para>
+		<para>where:</para>
 
-			<programlisting language="bnf"><replaceable>identifier-info</replaceable> :
-	<replaceable>identifier-key location identifier</replaceable></programlisting>
+		<programlisting language="bnf"><replaceable>identifier-info</replaceable> :
+<replaceable>identifier-key location identifier</replaceable></programlisting>
 
-			<para>gives the kind of identifier being declared or used, the location
-				of the declaration or use, and the number associated with the identifier.
-				Each declaration may, depending on the <replaceable>identifier-key</replaceable>, associate
-				various <replaceable>type-info</replaceable> with the identifier, giving its type etc.</para>
+		<para>gives the kind of identifier being declared or used, the location
+			of the declaration or use, and the number associated with the identifier.
+			Each declaration may, depending on the <replaceable>identifier-key</replaceable>, associate
+			various <replaceable>type-info</replaceable> with the identifier, giving its type etc.</para>
 
-			<para>The various kinds of <replaceable>identifier-command</replaceable> are described below.
-				Any can be preceded by <code>I</code> to indicate an implicit declaration
-				or use.	<code>D</code> denotes a definition.	<code>M</code> (make)
-				denotes a declaration.	<code>T</code> denotes a tentative definition
-				(C only).	<code>Q</code> denotes the end of a definition, for those
-				identifiers such as classes and functions whose definitions may be
-				spread over several lines.	<code>U</code> denotes an undefine operation
-				(such as <code>#undef</code> for macro identifiers).	<code>C</code>
-				denotes a call to a function identifier; <code>L</code> (load) denotes
-				other identifier uses.	Finally <code>W</code> denotes implicit type
-				information such as the C producer gleans from its
-				weak prototype analysis (see &tchk.doc;).</para>
+		<para>The various kinds of <replaceable>identifier-command</replaceable> are described below.
+			Any can be preceded by <code>I</code> to indicate an implicit declaration
+			or use.	<code>D</code> denotes a definition.	<code>M</code> (make)
+			denotes a declaration.	<code>T</code> denotes a tentative definition
+			(C only).	<code>Q</code> denotes the end of a definition, for those
+			identifiers such as classes and functions whose definitions may be
+			spread over several lines.	<code>U</code> denotes an undefine operation
+			(such as <code>#undef</code> for macro identifiers).	<code>C</code>
+			denotes a call to a function identifier; <code>L</code> (load) denotes
+			other identifier uses.	Finally <code>W</code> denotes implicit type
+			information such as the C producer gleans from its
+			weak prototype analysis (see &tchk.doc;).</para>
 
-			<para>The various <replaceable>identifier-key</replaceable>s are their
-				associated <replaceable>type-info</replaceable>
-				fields are given by the following table:</para>
+		<para>The various <replaceable>identifier-key</replaceable>s are their
+			associated <replaceable>type-info</replaceable>
+			fields are given by the following table:</para>
 
-			<table>
-				<col align="center"/>
-				<col align="left"/>
-				<col align="left"/>
+		<table>
+			<col align="center"/>
+			<col align="left"/>
+			<col align="left"/>
 
-				<thead>
-					<tr>
-						<th>Key</th>
-						<th>Type information</th>
-						<th>Description</th>
-					</tr>
-				</thead>
+			<thead>
+				<tr>
+					<th>Key</th>
+					<th>Type information</th>
+					<th>Description</th>
+				</tr>
+			</thead>
 
-				<tbody>
-					<tr>
-						<td><code>K</code></td>
-						<td><code>*</code></td>
-						<td>keyword</td>
-					</tr>
+			<tbody>
+				<tr>
+					<td><code>K</code></td>
+					<td><code>*</code></td>
+					<td>keyword</td>
+				</tr>
 
-					<tr>
-						<td><code>MO</code></td>
-						<td><replaceable>sort</replaceable></td>
-						<td>object macro</td>
-					</tr>
+				<tr>
+					<td><code>MO</code></td>
+					<td><replaceable>sort</replaceable></td>
+					<td>object macro</td>
+				</tr>
 
-					<tr>
-						<td><code>MF</code></td>
-						<td><replaceable>sort</replaceable></td>
-						<td>function macro</td>
-					</tr>
+				<tr>
+					<td><code>MF</code></td>
+					<td><replaceable>sort</replaceable></td>
+					<td>function macro</td>
+				</tr>
 
-					<tr>
-						<td><code>MB</code></td>
-						<td><replaceable>sort</replaceable></td>
-						<td>built-in macro</td>
-					</tr>
+				<tr>
+					<td><code>MB</code></td>
+					<td><replaceable>sort</replaceable></td>
+					<td>built-in macro</td>
+				</tr>
 
-					<tr>
-						<td><code>TC</code></td>
-						<td><replaceable>type</replaceable></td>
-						<td>class tag</td>
-					</tr>
+				<tr>
+					<td><code>TC</code></td>
+					<td><replaceable>type</replaceable></td>
+					<td>class tag</td>
+				</tr>
 
-					<tr>
-						<td><code>TS</code></td>
-						<td><replaceable>type</replaceable></td>
-						<td>structure tag</td>
-					</tr>
+				<tr>
+					<td><code>TS</code></td>
+					<td><replaceable>type</replaceable></td>
+					<td>structure tag</td>
+				</tr>
 
-					<tr>
-						<td><code>TU</code></td>
-						<td><replaceable>type</replaceable></td>
-						<td>union tag</td>
-					</tr>
+				<tr>
+					<td><code>TU</code></td>
+					<td><replaceable>type</replaceable></td>
+					<td>union tag</td>
+				</tr>
 
-					<tr>
-						<td><code>TE</code></td>
-						<td><replaceable>type</replaceable></td>
-						<td>enumeration tag</td>
-					</tr>
+				<tr>
+					<td><code>TE</code></td>
+					<td><replaceable>type</replaceable></td>
+					<td>enumeration tag</td>
+				</tr>
 
-					<tr>
-						<td><code>TA</code></td>
-						<td><replaceable>type</replaceable></td>
-						<td><code>typedef</code> name</td>
-					</tr>
+				<tr>
+					<td><code>TA</code></td>
+					<td><replaceable>type</replaceable></td>
+					<td><code>typedef</code> name</td>
+				</tr>
 
-					<tr>
-						<td><code>NN</code></td>
-						<td><code>*</code></td>
-						<td>namespace name</td>
-					</tr>
+				<tr>
+					<td><code>NN</code></td>
+					<td><code>*</code></td>
+					<td>namespace name</td>
+				</tr>
 
-					<tr>
-						<td><code>NA</code></td>
-						<td><replaceable>scope-identifier</replaceable></td>
-						<td>namespace alias</td>
-					</tr>
+				<tr>
+					<td><code>NA</code></td>
+					<td><replaceable>scope-identifier</replaceable></td>
+					<td>namespace alias</td>
+				</tr>
 
-					<tr>
-						<td><code>VA</code></td>
-						<td><replaceable>type</replaceable></td>
-						<td>automatic variable</td>
-					</tr>
+				<tr>
+					<td><code>VA</code></td>
+					<td><replaceable>type</replaceable></td>
+					<td>automatic variable</td>
+				</tr>
 
-					<tr>
-						<td><code>VP</code></td>
-						<td><replaceable>type</replaceable></td>
-						<td>function parameter</td>
-					</tr>
+				<tr>
+					<td><code>VP</code></td>
+					<td><replaceable>type</replaceable></td>
+					<td>function parameter</td>
+				</tr>
 
-					<tr>
-						<td><code>VE</code></td>
-						<td><replaceable>type</replaceable></td>
-						<td><code>extern</code> variable</td>
-					</tr>
+				<tr>
+					<td><code>VE</code></td>
+					<td><replaceable>type</replaceable></td>
+					<td><code>extern</code> variable</td>
+				</tr>
 
-					<tr>
-						<td><code>VS</code></td>
-						<td><replaceable>type</replaceable></td>
-						<td><code>static</code> variable</td>
-					</tr>
+				<tr>
+					<td><code>VS</code></td>
+					<td><replaceable>type</replaceable></td>
+					<td><code>static</code> variable</td>
+				</tr>
 
-					<tr>
-						<td><code>FE</code></td>
-						<td><replaceable>type identifier&opt.bnf;</replaceable></td>
-						<td><code>extern</code> function</td>
-					</tr>
+				<tr>
+					<td><code>FE</code></td>
+					<td><replaceable>type identifier&opt.bnf;</replaceable></td>
+					<td><code>extern</code> function</td>
+				</tr>
 
-					<tr>
-						<td><code>FS</code></td>
-						<td><replaceable>type identifier&opt.bnf;</replaceable></td>
-						<td><code>static</code> function</td>
-					</tr>
+				<tr>
+					<td><code>FS</code></td>
+					<td><replaceable>type identifier&opt.bnf;</replaceable></td>
+					<td><code>static</code> function</td>
+				</tr>
 
-					<tr>
-						<td><code>FB</code></td>
-						<td><replaceable>type identifier&opt.bnf;</replaceable></td>
-						<td>built-in operator function</td>
-					</tr>
+				<tr>
+					<td><code>FB</code></td>
+					<td><replaceable>type identifier&opt.bnf;</replaceable></td>
+					<td>built-in operator function</td>
+				</tr>
 
-					<tr>
-						<td><code>CF</code></td>
-						<td><replaceable>type identifier&opt.bnf;</replaceable></td>
-						<td>member function</td>
-					</tr>
+				<tr>
+					<td><code>CF</code></td>
+					<td><replaceable>type identifier&opt.bnf;</replaceable></td>
+					<td>member function</td>
+				</tr>
 
-					<tr>
-						<td><code>CS</code></td>
-						<td><replaceable>type identifier&opt.bnf;</replaceable></td>
-						<td><code>static</code> member function</td>
-					</tr>
+				<tr>
+					<td><code>CS</code></td>
+					<td><replaceable>type identifier&opt.bnf;</replaceable></td>
+					<td><code>static</code> member function</td>
+				</tr>
 
-					<tr>
-						<td><code>CV</code></td>
-						<td><replaceable>type identifier&opt.bnf;</replaceable></td>
-						<td>virtual member function</td>
-					</tr>
+				<tr>
+					<td><code>CV</code></td>
+					<td><replaceable>type identifier&opt.bnf;</replaceable></td>
+					<td>virtual member function</td>
+				</tr>
 
-					<tr>
-						<td><code>CM</code></td>
-						<td><replaceable>type</replaceable></td>
-						<td>data member</td>
-					</tr>
+				<tr>
+					<td><code>CM</code></td>
+					<td><replaceable>type</replaceable></td>
+					<td>data member</td>
+				</tr>
 
-					<tr>
-						<td><code>CD</code></td>
-						<td><replaceable>type</replaceable></td>
-						<td><code>static</code> data member</td>
-					</tr>
+				<tr>
+					<td><code>CD</code></td>
+					<td><replaceable>type</replaceable></td>
+					<td><code>static</code> data member</td>
+				</tr>
 
-					<tr>
-						<td><code>E</code></td>
-						<td><replaceable>type</replaceable></td>
-						<td>enumerator</td>
-					</tr>
+				<tr>
+					<td><code>E</code></td>
+					<td><replaceable>type</replaceable></td>
+					<td>enumerator</td>
+				</tr>
 
-					<tr>
-						<td><code>L</code></td>
-						<td><code>*</code></td>
-						<td>label</td>
-					</tr>
+				<tr>
+					<td><code>L</code></td>
+					<td><code>*</code></td>
+					<td>label</td>
+				</tr>
 
-					<tr>
-						<td><code>XO</code></td>
-						<td><replaceable>sort</replaceable></td>
-						<td>object token</td>
-					</tr>
+				<tr>
+					<td><code>XO</code></td>
+					<td><replaceable>sort</replaceable></td>
+					<td>object token</td>
+				</tr>
 
-					<tr>
-						<td><code>XF</code></td>
-						<td><replaceable>sort</replaceable></td>
-						<td>procedure token</td>
-					</tr>
+				<tr>
+					<td><code>XF</code></td>
+					<td><replaceable>sort</replaceable></td>
+					<td>procedure token</td>
+				</tr>
 
-					<tr>
-						<td><code>XP</code></td>
-						<td><replaceable>sort</replaceable></td>
-						<td>token parameter</td>
-					</tr>
+				<tr>
+					<td><code>XP</code></td>
+					<td><replaceable>sort</replaceable></td>
+					<td>token parameter</td>
+				</tr>
 
-					<tr>
-						<td><code>XT</code></td>
-						<td><replaceable>sort</replaceable></td>
-						<td>template parameter</td>
-					</tr>
-				</tbody>
-			</table>
+				<tr>
+					<td><code>XT</code></td>
+					<td><replaceable>sort</replaceable></td>
+					<td>template parameter</td>
+				</tr>
+			</tbody>
+		</table>
 
-			<para>The function identifier keys can optionally be followed by
-				<code>C</code> indicating that the function has C linkage, and
-				<code>I</code> indicating that the function is inline.	By default,
-				functions declared in a C++ dump file have C++ linkage and functions
-				declared in a C dump file have C linkage.	The optional
-				<replaceable>identifier</replaceable> which forms part of the <replaceable>type-info</replaceable> of these
-				functions is used to form linked lists of overloaded functions.</para>
-		</section>
+		<para>The function identifier keys can optionally be followed by
+			<code>C</code> indicating that the function has C linkage, and
+			<code>I</code> indicating that the function is inline.	By default,
+			functions declared in a C++ dump file have C++ linkage and functions
+			declared in a C dump file have C linkage.	The optional
+			<replaceable>identifier</replaceable> which forms part of the <replaceable>type-info</replaceable> of these
+			functions is used to form linked lists of overloaded functions.</para>
+	</section>
 
-		<section>
-			<title>Identifier scopes</title>
+	<section>
+		<title>Identifier scopes</title>
 
-			<para>Each identifier belongs to a scope, called its parent scope, in which
-				it is declared.	For example, the parent of a member of a class is
-				the class itself.	This information is expressed in an identifier
-				declaration using a <replaceable>scope-identifier</replaceable>.
-				In addition to the obvious scopes such as classes and namespaces,
-				there are other scopes such as blocks in function definitions.
-				It is possible to introduce dummy identifiers to name such scopes.
-				The parent of such a dummy identifier will be the enclosing scope identifier,
-				so these dummy identifiers naturally represent the block structure.
-				The parent of the top-level block in a function definition can be
-				considered to be the function itself.</para>
+		<para>Each identifier belongs to a scope, called its parent scope, in which
+			it is declared.	For example, the parent of a member of a class is
+			the class itself.	This information is expressed in an identifier
+			declaration using a <replaceable>scope-identifier</replaceable>.
+			In addition to the obvious scopes such as classes and namespaces,
+			there are other scopes such as blocks in function definitions.
+			It is possible to introduce dummy identifiers to name such scopes.
+			The parent of such a dummy identifier will be the enclosing scope identifier,
+			so these dummy identifiers naturally represent the block structure.
+			The parent of the top-level block in a function definition can be
+			considered to be the function itself.</para>
 
-			<para>Information on the start and end of such scopes is given by:</para>
+		<para>Information on the start and end of such scopes is given by:</para>
 
-			<programlisting language="bnf"><replaceable>scope-command</replaceable> :
+		<programlisting language="bnf"><replaceable>scope-command</replaceable> :
 	SS <replaceable>scope-key location identifier</replaceable>
 	SE <replaceable>scope-key location identifier</replaceable></programlisting>
 
-			<para>where:</para>
+		<para>where:</para>
 
-			<programlisting language="bnf"><replaceable>scope-key</replaceable> :
+		<programlisting language="bnf"><replaceable>scope-key</replaceable> :
 	N
 	S
 	B
@@ -535,39 +530,39 @@
 	CF
 	CC</programlisting>
 
-			<para>gives the kind of scope involved: a namespace, a class, a block, some
-				other declarative scope, a declaration block (see below), a true conditional
-				scope, a false conditional scope or a target dependent conditional
-				scope.</para>
+		<para>gives the kind of scope involved: a namespace, a class, a block, some
+			other declarative scope, a declaration block (see below), a true conditional
+			scope, a false conditional scope or a target dependent conditional
+			scope.</para>
 
-			<para>A declaration block is a sequence of declarations enclosed in directives
-				of the form:</para>
+		<para>A declaration block is a sequence of declarations enclosed in directives
+			of the form:</para>
 
-			<programlisting language="cpp">#pragma TenDRA declaration block <replaceable>identifier</replaceable> begin
+		<programlisting language="cpp">#pragma TenDRA declaration block <replaceable>identifier</replaceable> begin
 ....
 #pragma TenDRA declaration block end</programlisting>
 
-			<para>This allows the sequence of declarations to be associated with the given
-				<replaceable>identifier</replaceable> in the symbol dump file.	This technique is used
-				in the API description files to aid analysis tools in determining
-				which declarations are part of the API.</para>
-		</section>
+		<para>This allows the sequence of declarations to be associated with the given
+			<replaceable>identifier</replaceable> in the symbol dump file.	This technique is used
+			in the API description files to aid analysis tools in determining
+			which declarations are part of the API.</para>
+	</section>
 
-		<section>
-			<title>Other identifier information</title>
+	<section>
+		<title>Other identifier information</title>
 
-			<para>Other information associated with an identifier may be expressed using
-				other dump commands.	For example:</para>
+		<para>Other information associated with an identifier may be expressed using
+			other dump commands.	For example:</para>
 
-			<programlisting language="bnf"><replaceable>override-command</replaceable> :
+		<programlisting language="bnf"><replaceable>override-command</replaceable> :
 	O <replaceable>identifier identifier</replaceable></programlisting>
 
-			<para>is used to express the fact that the two <replaceable>identifier</replaceable>s are virtual
-				member functions, the first of which overrides the second.</para>
+		<para>is used to express the fact that the two <replaceable>identifier</replaceable>s are virtual
+			member functions, the first of which overrides the second.</para>
 
-			<para>The command:</para>
+		<para>The command:</para>
 
-			<programlisting language="bnf"><replaceable>base-command</replaceable> :
+		<programlisting language="bnf"><replaceable>base-command</replaceable> :
 	B <replaceable>identifier-key identifier base-graph</replaceable>
 
 <replaceable>base-graph</replaceable> :
@@ -581,44 +576,43 @@
 <replaceable>base-list</replaceable> :
 	<replaceable>base-graph base-list&opt.bnf;</replaceable></programlisting>
 
-			<para>associates a base class graph with a class identifier.	Any class
-				which does not have an associated <replaceable>base-command</replaceable> can be assumed
-				to have no base classes.	Each node in the graph is a <replaceable>type-name</replaceable>
-				with an associated list of base classes.	A <code>V</code> is used
-				to indicate a virtual base class.	Each node is numbered; duplicate
-				numbers are used to indicate bases identified via the virtual base
-				class structure.	Any base class can then be referred to as:</para>
+		<para>associates a base class graph with a class identifier.	Any class
+			which does not have an associated <replaceable>base-command</replaceable> can be assumed
+			to have no base classes.	Each node in the graph is a <replaceable>type-name</replaceable>
+			with an associated list of base classes.	A <code>V</code> is used
+			to indicate a virtual base class.	Each node is numbered; duplicate
+			numbers are used to indicate bases identified via the virtual base
+			class structure.	Any base class can then be referred to as:</para>
 
-			<programlisting language="bnf"><replaceable>base-number</replaceable> :
+		<programlisting language="bnf"><replaceable>base-number</replaceable> :
 	<replaceable>number</replaceable> : <replaceable>type-name</replaceable></programlisting>
 
-			<para>indicating the base class with the given number in the given class.</para>
+		<para>indicating the base class with the given number in the given class.</para>
 
-			<para>The command:</para>
+		<para>The command:</para>
 
-			<programlisting language="bnf"><replaceable>api-command</replaceable> :
+		<programlisting language="bnf"><replaceable>api-command</replaceable> :
 	X <replaceable>identifier-key identifier string</replaceable></programlisting>
 
-			<para>associates the external token name given by the <replaceable>string</replaceable> with
-				the given tokenised identifier.</para>
+		<para>associates the external token name given by the <replaceable>string</replaceable> with
+			the given tokenised identifier.</para>
 
-			<para>The command:</para>
+		<para>The command:</para>
 
-			<programlisting language="bnf"><replaceable>template-command</replaceable> :
+		<programlisting language="bnf"><replaceable>template-command</replaceable> :
 	Z <replaceable>identifier-key identifier token-application specialise-info</replaceable></programlisting>
 
-			<para>is used to introduce an identifier corresponding to an instance of
-				a template, <replaceable>token-application</replaceable>.	This instance may correspond
-				to a specialisation of the primary template; this information is represented
-				by:</para>
+		<para>is used to introduce an identifier corresponding to an instance of
+			a template, <replaceable>token-application</replaceable>.	This instance may correspond
+			to a specialisation of the primary template; this information is represented
+			by:</para>
 
-			<programlisting language="bnf"><replaceable>specialise-info</replaceable> :
+		<programlisting language="bnf"><replaceable>specialise-info</replaceable> :
 	<replaceable>identifier</replaceable>
 	<replaceable>token-application</replaceable>
 	*</programlisting>
 
-			<para>where <code>*</code> indicates a non-specialised instance.</para>
-		</section>
+		<para>where <code>*</code> indicates a non-specialised instance.</para>
 	</section>
 
 	<section>
