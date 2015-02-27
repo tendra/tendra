@@ -43,8 +43,7 @@ $Id$
 	<section>
 		<title>Access</title>
 
-		<programlisting language="bnf">
-&lt;Access&gt; ::= ACCESS ? ( &lt;Exp&gt; , &lt;Access&gt; , &lt;Access&gt; )
+		<programlisting language="bnf">&lt;Access&gt; ::= ACCESS ? ( &lt;Exp&gt; , &lt;Access&gt; , &lt;Access&gt; )
 &lt;Access&gt; ::= &lt;access_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
 &lt;Access&gt; ::= &lt;access_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt</programlisting>
 
@@ -68,8 +67,7 @@ $Id$
 	<section>
 		<title>Alignment</title>
 
-		<programlisting language="bnf">
-&lt;Alignment&gt; ::= ALIGNMENT ? ( &lt;Exp&gt; , &lt;Alignment&gt; , &lt;Alignment&gt; )
+		<programlisting language="bnf">&lt;Alignment&gt; ::= ALIGNMENT ? ( &lt;Exp&gt; , &lt;Alignment&gt; , &lt;Alignment&gt; )
 &lt;Alignment&gt; ::= &lt;alignment_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
 &lt;Alignment&gt; ::= &lt;alignment_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt</programlisting>
 
@@ -89,8 +87,7 @@ $Id$
 	<section>
 		<title>Bitfield_variety</title>
 
-		<programlisting language="bnf">
-&lt;Bitfield_variety&gt; ::= BITFIELD_VARIETY ? ( &lt;Exp&gt; , &lt;Bitfield_variety&gt;, &lt;Bitfield_variety&gt;)
+		<programlisting language="bnf">&lt;Bitfield_variety&gt; ::= BITFIELD_VARIETY ? ( &lt;Exp&gt; , &lt;Bitfield_variety&gt;, &lt;Bitfield_variety&gt;)
 &lt;Bitfield_variety&gt; ::= &lt;bitfield_variety_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
 &lt;Bitfield_variety&gt; ::= &lt;bitfield_variety__token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt</programlisting>
 
@@ -108,8 +105,7 @@ $Id$
 	<section>
 		<title>Bool</title>
 
-		<programlisting language="bnf">
-&lt;Bool&gt; ::= BOOL ? ( &lt;Exp&gt; , &lt;Bool&gt;, &lt;Bool&gt;)
+		<programlisting language="bnf">&lt;Bool&gt; ::= BOOL ? ( &lt;Exp&gt; , &lt;Bool&gt;, &lt;Bool&gt;)
 &lt;Bool&gt; ::= &lt;bool_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
 &lt;Bool&gt; ::= &lt;bool_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt</programlisting>
 
@@ -142,8 +138,7 @@ $Id$
 	<section id="exp">
 		<title>Exp</title>
 
-		<programlisting language="bnf">
-&lt;Exp&gt; ::= &lt;ExpTerm&gt;
+		<programlisting language="bnf">&lt;Exp&gt; ::= &lt;ExpTerm&gt;
 &lt;Exp&gt; ::= &lt;ExpTerm&gt; &lt;BinaryOp&gt; &lt;ExpTerm&gt;</programlisting>
 
 		<para>The &lt;BinaryOp&gt;s include the arithmetic, offset, logical
@@ -286,8 +281,7 @@ $Id$
 		<section>
 			<title>ExpTerm</title>
 
-			<programlisting language="bnf">
-&lt;ExpTerm&gt; ::= EXP ? ( &lt;Exp&gt; , &lt;Exp&gt;, &lt;Exp&gt;)
+			<programlisting language="bnf">&lt;ExpTerm&gt; ::= EXP ? ( &lt;Exp&gt; , &lt;Exp&gt;, &lt;Exp&gt;)
 &lt;ExpTerm&gt; ::= &lt;exp_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
 &lt;ExpTerm&gt; ::= &lt;exp_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt</programlisting>
 
@@ -449,8 +443,7 @@ $Id$
 	<section>
 		<title>Ntest</title>
 
-		<programlisting language="bnf">
-&lt;Ntest&gt; ::= NTEST ? ( &lt;Exp&gt; , &lt;Ntest&gt;, &lt;Ntest&gt;)
+		<programlisting language="bnf">&lt;Ntest&gt; ::= NTEST ? ( &lt;Exp&gt; , &lt;Ntest&gt;, &lt;Ntest&gt;)
 &lt;Ntest&gt; ::= &lt;ntest_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
 &lt;Ntest&gt; ::= &lt;ntest_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt</programlisting>
 

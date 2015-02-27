@@ -25,8 +25,7 @@
 			first-class SORTs are precisely those which have SORTNAMEs.	These
 			SORTNAMEs appear in PL_TDF as expansions of &lt;Sortname&gt;:</para>
 
-			<programlisting language="bnf">
-&lt;Sortname&gt; ::= ACCESS
+			<programlisting language="bnf">&lt;Sortname&gt; ::= ACCESS
 &lt;Sortname&gt; ::= AL_TAG
 &lt;Sortname&gt; ::= ALIGNMENT
 &lt;Sortname&gt; ::= BITFIELD_VARIETY
@@ -54,8 +53,7 @@
 			&lt;Exp&gt; :</para>
 
 <!-- TODO <comment> perhaps, or a table -->
-			<programlisting language="bnf">
-make_top
+			<programlisting language="bnf">make_top
 return(E)									where E is an expansion of &lt;Exp&gt;
 goto(L)										where L is an expansion of &lt;Label&gt;
 assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisting>
@@ -82,8 +80,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 		<para>The root expansion of a PL_TDF program is given by
 			&lt;Program&gt;:</para>
 
-		<programlisting language="bnf">
-&lt;Program&gt; ::= &lt;ElementList&gt; Keep ( &lt;Item&gt;-List-Opt )
+		<programlisting language="bnf">&lt;Program&gt; ::= &lt;ElementList&gt; Keep ( &lt;Item&gt;-List-Opt )
 
 &lt;ElementList&gt; ::= &lt;Element&gt; ;
 &lt;ElementList&gt; ::= &lt;Element&gt; ; &lt;ElementList&gt;
@@ -115,8 +112,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 
 		<para>A &lt;Tokdec&gt; introduces an &lt;ident&gt; as a TOKEN:</para>
 
-		<programlisting language="bnf">
-&lt;Tokdec&gt; ::= Tokdec &lt;ident&gt;&lt;Signature&gt;: [ &lt;TokDecPar&gt;-List-Opt ] &lt;ResultSort&gt;
+		<programlisting language="bnf">&lt;Tokdec&gt; ::= Tokdec &lt;ident&gt;&lt;Signature&gt;: [ &lt;TokDecPar&gt;-List-Opt ] &lt;ResultSort&gt;
 
 &lt;ResultSort&gt; ::= &lt;Sortname&gt;
 &lt;TokDecPar&gt; ::= &lt;Sortname&gt;
@@ -135,8 +131,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 			&lt;ident&gt; may have previously been introduced by a
 			&lt;Tokdec&gt;:</para>
 
-		<programlisting language="bnf">
-&lt;Tokdef&gt; ::= Tokdef &lt;ident&gt;&lt;Signature&gt; = &lt;Tok_Defn&gt;
+		<programlisting language="bnf">&lt;Tokdef&gt; ::= Tokdef &lt;ident&gt;&lt;Signature&gt; = &lt;Tok_Defn&gt;
 
 &lt;Tok_Defn&gt; ::= [ &lt;TokDefPar&gt;-List-Opt ] &lt;ResultSort&gt; &lt;result_sort&gt;
 	&lt;TokDefPar&gt; ::= &lt;ident&gt; : &lt;TokDecPar&gt;
@@ -169,8 +164,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 
 		<para>A &lt;Tagdec&gt; introduces an &lt;ident&gt; as a TAG:</para>
 
-		<programlisting language="bnf">
-&lt;Tagdec&gt; ::= &lt;DecType&gt; &lt;ident&gt; &lt;Signature&gt; &lt;Access&gt;-Opt : &lt;Shape&gt;
+		<programlisting language="bnf">&lt;Tagdec&gt; ::= &lt;DecType&gt; &lt;ident&gt; &lt;Signature&gt; &lt;Access&gt;-Opt : &lt;Shape&gt;
 
 &lt;DecType&gt; ::= Vardec
 &lt;DecType&gt; ::= Iddec
