@@ -1801,12 +1801,13 @@ makeans make_tail_call_tag
   makeans mka;
   baseoff bproc;
 
-  UNUSED(dest);
-
   bool glob = ((name(fn) == name_tag) && (name(son(fn)) == ident_tag) &&
 	      ((son(son(fn)) == NULL) || (name(son(son(fn))) == proc_tag)
 		|| (name(son(son(fn))) == general_proc_tag)));
   bool trad_proc = 0;
+
+  UNUSED(dest);
+
   if (gencompat && !vc) {
     if (name(cllees) == make_callee_list_tag) {
       if (no(cllees) == 0)
