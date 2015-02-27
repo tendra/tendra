@@ -1,0 +1,673 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!--
+$Id$
+-->
+
+<chapter>
+	<title>First-class SORT expansions</title>
+
+	<para>All of the first-class sorts have similar expansions for native
+		TDF constructions and for token applications. I shall take
+		&lt;Shape&gt; as the paradigm sort and allow the reader to conjugate
+		the following for the the other sorts.</para>
+
+	<para>Those first-class sorts which include the _cond constructions
+		denote them in the same way:</para>
+
+	<programlisting language="bnf">&lt;Shape&gt; ::= SHAPE ? ( &lt;Exp&gt;, &lt;Shape&gt;, &lt;Shape&gt; )</programlisting>
+
+	<para>This produces a shape_cond with the obvious parameters.</para>
+
+	<para>Each constructor for &lt;Shape&gt; with parameters which are
+		first-class sorts can be expanded:</para>
+
+	<programlisting language="bnf">&lt;Shape&gt; ::= &lt;shape_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt</programlisting>
+
+	<para>Each &lt;constructor_param&gt; will be the first_class SORT
+		expansion, required by the &lt;shape_constructor&gt; as in the TDF
+		specification eg the constructor, pointer, requires a
+		&lt;constructor_param&gt; ::= &lt;Alignment&gt;.</para>
+
+	<para>Any &lt;ident&gt; which is declared to be a
+		&lt;shape_token&gt; by a TOKDEF or TOKDEC can be expanded:</para>
+
+	<programlisting language="bnf">&lt;Shape&gt; ::= &lt;shape_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt</programlisting>
+
+	<para>This will produce a shape_apply_token with the appropriate
+		parameters. Each &lt;token_param&gt; will be the first-class SORT
+		expansion required by the SORT given by the &lt;TokDecPar&gt; of the
+		TOKDEF or TOKDEC which introduced &lt;shape_token&gt;.</para>
+
+	<section>
+		<title>Access</title>
+
+		<programlisting language="bnf">
+&lt;Access&gt; ::= ACCESS ? ( &lt;Exp&gt; , &lt;Access&gt; , &lt;Access&gt; )
+&lt;Access&gt; ::= &lt;access_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+&lt;Access&gt; ::= &lt;access_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt</programlisting>
+
+		<para>There are no expansions of &lt;Access&gt; other than the standard
+			ones.</para>
+	</section>
+
+	<section>
+		<title>Al_tag</title>
+
+		<programlisting language="bnf">&lt;Al_tag&gt; ::= &lt;al_tag_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt</programlisting>
+
+		<para>The standard token expansion.</para>
+
+		<programlisting language="bnf">&lt;Al_tag&gt; ::= &lt;ident&gt;</programlisting>
+
+		<para>Any &lt;ident&gt; found as an expansion of &lt;Al_tag&gt; will be
+			declared as the name for an AL_TAG.</para>
+	</section>
+
+	<section>
+		<title>Alignment</title>
+
+		<programlisting language="bnf">
+&lt;Alignment&gt; ::= ALIGNMENT ? ( &lt;Exp&gt; , &lt;Alignment&gt; , &lt;Alignment&gt; )
+&lt;Alignment&gt; ::= &lt;alignment_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+&lt;Alignment&gt; ::= &lt;alignment_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt</programlisting>
+
+		<para>The standard expansions.</para>
+
+		<programlisting language="bnf">&lt;Alignment&gt; ::= &lt;Al_tag&gt;</programlisting>
+
+		<para>This results in an obtain_al_tag of the AL_TAG.</para>
+
+		<programlisting language="bnf">&lt;Alignment&gt; ::= ( &lt;Alignment&gt;-List-Opt )</programlisting>
+
+		<para>The &lt;Alignment&gt;s in the &lt;Alignment&gt;-List are united
+			using unite_alignments. The empty option results in the top
+			ALIGNMENT.</para>
+	</section>
+
+	<section>
+		<title>Bitfield_variety</title>
+
+		<programlisting language="bnf">
+&lt;Bitfield_variety&gt; ::= BITFIELD_VARIETY ? ( &lt;Exp&gt; , &lt;Bitfield_variety&gt;, &lt;Bitfield_variety&gt;)
+&lt;Bitfield_variety&gt; ::= &lt;bitfield_variety_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+&lt;Bitfield_variety&gt; ::= &lt;bitfield_variety__token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt</programlisting>
+
+		<para>The standard expansions.</para>
+
+		<programlisting language="bnf">&lt;Bitfield_variety&gt; ::= &lt;BfSign&gt;-Opt &lt;Nat&gt;
+&lt;BfSign&gt; ::= &lt;Bool&gt;
+&lt;BfSign&gt; ::= Signed
+&lt;BfSign&gt; ::= Unsigned</programlisting>
+
+		<para>This expands to bfvar_bits. The empty default on the sign is
+			Signed.</para>
+	</section>
+
+	<section>
+		<title>Bool</title>
+
+		<programlisting language="bnf">
+&lt;Bool&gt; ::= BOOL ? ( &lt;Exp&gt; , &lt;Bool&gt;, &lt;Bool&gt;)
+&lt;Bool&gt; ::= &lt;bool_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+&lt;Bool&gt; ::= &lt;bool_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt</programlisting>
+
+		<para>There are no expansions of &lt;Bool&gt; other than the standard
+			ones.</para>
+	</section>
+
+	<section>
+		<title>Error_treatment</title>
+
+		<programlisting language="bnf">&lt;Error_treatment&gt; ::= ERROR_TREATMENT ?
+																											 ( &lt;Exp&gt; , &lt;Error_treatment&gt;, &lt;Error_treatment&gt;)
+&lt;Error_treatment&gt; ::= &lt;error_treatment_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+&lt;Error_treatment&gt; ::= &lt;error_treatment__token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt</programlisting>
+
+		<para>The standard expansions.</para>
+
+		<programlisting language="bnf">&lt;Error_treatment&gt; ::= &lt;Label&gt;</programlisting>
+
+		<para>This gives an error_jump to the label.</para>
+
+		<programlisting language="bnf">&lt;Error_treatment&gt; ::= [ &lt;Error_code&gt;-List]
+&lt;Error_code&gt; ::= overflow
+&lt;Error_code&gt; ::= nil_access
+&lt;Error_code&gt; ::= stack_overflow</programlisting>
+
+		<para>Produces trap with the &lt;Error_code&gt;s as arguments.</para>
+	</section>
+
+	<section id="exp">
+		<title>Exp</title>
+
+		<programlisting language="bnf">
+&lt;Exp&gt; ::= &lt;ExpTerm&gt;
+&lt;Exp&gt; ::= &lt;ExpTerm&gt; &lt;BinaryOp&gt; &lt;ExpTerm&gt;</programlisting>
+
+		<para>The &lt;BinaryOp&gt;s include the arithmetic, offset, logical
+			operators and assignment and are given in table 1. In this
+			expansion, any error_treatments are taken to be wrap.</para>
+
+		<table>
+			<col align="center"/>
+			<col align="left"/>
+			<col align="center"/>
+			<col align="center"/>
+			<col align="left"/>
+
+			<thead>
+				<tr>
+
+					<th>&lt;BinaryOp&gt;</th>
+					<th>TDF constructor</th>
+					<th role="gap"/>
+					<th>&lt;BinaryOp&gt;</th>
+					<th>TDF constructor</th>
+				</tr>
+
+			</thead>
+
+			<tbody>
+				<tr>
+					<td><code>And</code></td>
+					<td><code>and</code></td>
+					<td role="gap"/>
+					<td><code>Or</code></td>
+					<td><code>or</code></td>
+				</tr>
+
+				<tr>
+					<td><code>Xor</code></td>
+					<td><code>xor</code></td>
+					<td role="gap"/>
+					<td><code>*+.</code></td>
+					<td><code>add_to_ptr</code></td>
+				</tr>
+
+				<tr>
+					<td><code>*-*</code></td>
+					<td><code>subtract_ptrs</code></td>
+					<td role="gap"/>
+					<td><code>.*</code></td>
+					<td><code>offset_mult</code></td>
+				</tr>
+
+				<tr>
+					<td><code>.+.</code></td>
+					<td><code>offset_add</code></td>
+					<td role="gap"/>
+					<td><code>.-.</code></td>
+					<td><code>offset_subtract</code></td>
+				</tr>
+
+				<tr>
+					<td><code>./</code></td>
+					<td><code>offset_div_by_int</code></td>
+					<td role="gap"/>
+					<td><code>./.</code></td>
+					<td><code>offset_div</code></td>
+				</tr>
+
+				<tr>
+					<td><code>.max.</code></td>
+					<td><code>offset_max</code></td>
+					<td role="gap"/>
+					<td><code>%</code></td>
+					<td><code>rem2</code></td>
+				</tr>
+
+				<tr>
+					<td><code>%1</code></td>
+					<td><code>rem1</code></td>
+					<td role="gap"/>
+					<td><code>*</code></td>
+					<td><code>mult</code></td>
+				</tr>
+
+				<tr>
+					<td><code>+</code></td>
+					<td><code>plus</code></td>
+					<td role="gap"/>
+					<td><code>-</code></td>
+					<td><code>minus</code></td>
+				</tr>
+
+				<tr>
+					<td><code>/</code></td>
+					<td><code>div2</code></td>
+					<td role="gap"/>
+					<td><code>/1</code></td>
+					<td><code>div1</code></td>
+				</tr>
+
+				<tr>
+					<td><code>&lt;&lt;</code></td>
+					<td><code>shift_left</code></td>
+					<td role="gap"/>
+					<td><code>&gt;&gt;</code></td>
+					<td><code>shift_right</code></td>
+				</tr>
+
+				<tr>
+					<td><code>F*</code></td>
+					<td><code>floating_mult</code></td>
+					<td role="gap"/>
+					<td><code>F+</code></td>
+					<td><code>floating_plus</code></td>
+				</tr>
+
+				<tr>
+					<td><code>F-</code></td>
+					<td><code>floating_minus</code></td>
+					<td role="gap"/>
+					<td><code>F/</code></td>
+					<td><code>floating_div</code></td>
+				</tr>
+
+				<tr>
+					<td><code>=</code></td>
+					<td><code>assign</code></td>
+					<td role="gap"/>
+					<td role="na" align="center">&ndash;</td>
+					<td role="na" align="center">&ndash;</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<para>The names like *+. (i.e. add_to_ptr) do have a certain logic;
+			the * indicates that the left operand must be a pointer expression
+			and the. that the other is an offset</para>
+
+		<para>The further expansions of &lt;Exp&gt; are all
+			&lt;ExpTerm&gt;s</para>
+
+		<section>
+			<title>ExpTerm</title>
+
+			<programlisting language="bnf">
+&lt;ExpTerm&gt; ::= EXP ? ( &lt;Exp&gt; , &lt;Exp&gt;, &lt;Exp&gt;)
+&lt;ExpTerm&gt; ::= &lt;exp_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+&lt;ExpTerm&gt; ::= &lt;exp_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt</programlisting>
+
+			<para>The standard expansions.</para>
+
+			<programlisting language="bnf">&lt;ExpTerm&gt; ::= &lt;ClosedExp&gt;</programlisting>
+
+			<para>For &lt;ClosedExp&gt;, see <link linkend="control-structure">section 3.3</link>.</para>
+
+			<programlisting language="bnf">&lt;ExpTerm&gt; ::= ( &lt;Exp&gt; )
+&lt;ExpTerm&gt; ::= - ( &lt;Exp&gt; )</programlisting>
+
+			<para>The negate constructor.</para>
+
+			<programlisting language="bnf">&lt;ExpTerm&gt; ::= Sizeof ( &lt;Shape&gt; )</programlisting>
+
+			<para>This produces the EXP OFFSET for an index multiplier for arrays of
+			&lt;Shape&gt;. It is the shape_offset of &lt;Shape&gt; padded up
+			to its alignment.</para>
+
+			<programlisting language="bnf">&lt;ExpTerm&gt; ::= &lt;Tag&gt;</programlisting>
+
+			<para>This produces an obtain_tag.</para>
+
+			<programlisting language="bnf">&lt;ExpTerm&gt; ::= * &lt;ident&gt;</programlisting>
+
+			<para>The &lt;ident&gt; must have been declared as a variable TAG and
+			the construction produces a contents operation with its declared
+			SHAPE.</para>
+
+			<programlisting language="bnf">&lt;ExpTerm&gt; ::= * ( &lt;Shape&gt; ) &lt;ExpTerm&gt;</programlisting>
+
+			<para>This produces a contents operation with the given &lt;Shape&gt;.</para>
+
+			<programlisting language="bnf">&lt;ExpTerm&gt; ::= &lt;Assertion&gt;</programlisting>
+
+			<para>For &lt;Assertion&gt;, see <link linkend="conditionalexp-and-assertion">section 3.3.1</link></para>
+
+			<programlisting language="bnf">&lt;ExpTerm&gt; ::= Case &lt;Exp&gt; ( &lt;RangeDest&gt;-List )
+&lt;RangeDest&gt; ::= &lt;Signed_Nat&gt; &lt; : &lt;Signed_Nat&gt; &gt;-Opt -&gt; &lt;Label&gt;</programlisting>
+
+			<para>This produces a case operation.</para>
+
+			<programlisting language="bnf">&lt;ExpTerm&gt; ::= Cons [ &lt;Exp&gt; ] ( &lt; &lt;Offset&gt; : &lt;Exp&gt; &gt;-List )
+&lt;Offset&gt; ::= &lt;Exp&gt;</programlisting>
+
+			<para>This produces a make_compound with the [ &lt;Exp&gt; ] as the size
+			and fields given by &lt; &lt;Offset&gt; : &lt;Exp&gt; &gt;-List.</para>
+
+			<programlisting language="bnf">&lt;ExpTerm&gt; ::= [ &lt;Variety&gt; ] &lt;ExpTerm&gt;</programlisting>
+
+			<para>This produces a change_variety with a wrap error_treatment.</para>
+
+			<programlisting language="bnf">&lt;ExpTerm&gt; ::= &lt;Signed_Nat&gt; ( &lt;Variety&gt; )</programlisting>
+
+			<para>This produces a make_int of the &lt;Signed_Nat&gt; with the given
+				variety.</para>
+
+			<programlisting language="bnf">&lt;ExpTerm&gt; ::= &lt;floating_denotation&gt; &lt; E &lt;Signed_Nat&gt; &gt;-Opt &lt;Rounding_Mode&gt;-Opt
+&lt;ExpTerm&gt; ::= - &lt;floating_denotation&gt; &lt; E &lt;Signed_Nat&gt; &gt;-Opt &lt;Rounding_Mode&gt;-Opt</programlisting>
+
+			<para>Produces a make_floating.</para>
+
+			<programlisting language="bnf">&lt;ExpTerm&gt; ::= &lt;ProcVal&gt; [ &lt;Shape&gt; ] ( &lt;Exp&gt;-List-Opt &lt; Varpar &lt;Exp&gt; &gt;-Opt)
+
+&lt;ProcVal&gt; ::= &lt;Tag&gt;
+&lt;ProcVal&gt; ::= ( &lt;Exp&gt; )</programlisting>
+
+			<para>Produces an apply_proc with the given parameters returning the
+				given &lt;Shape&gt;.</para>
+
+			<programlisting language="bnf">&lt;ExpTerm&gt; ::=						 &lt;ProcVal&gt; [ &lt;Shape&gt; ]
+[ &lt;Act_Callers&gt;-Opt ; &lt;Act_Callees&gt;-Opt &lt;; &lt;Postlude&gt;&gt;-Opt ]
+&lt;ProcProps&gt;-Opt
+&lt;Act_Callers&gt; ::= &lt;&lt;Exp&gt; &lt;: &lt;ident&gt;&gt;-Opt&gt;-List &lt;...&gt;-Opt
+&lt;Act_Callees&gt; ::= &lt;Exp&gt;-List &lt;...&gt;-Opt
+&lt;Act_Callees&gt; ::= Dynamic ( &lt;Exp&gt; , &lt;Exp&gt; ) &lt;...&gt;-Opt
+&lt;Act_Callees&gt; ::= Same
+&lt;Postlude&gt; ::= &lt;Exp&gt;</programlisting>
+
+			<para>Produces an apply_general_proc with the actual caller parameters
+				given by &lt;Act_Callers&gt; and the calle parameters given by
+				&lt;Act_Callees&gt;; the &lt;...&gt; option indicates that the
+				procedure is expecting a variable number of parameters. Any
+				&lt;ident&gt;s introduced in &lt;Act_Callers&gt; are in scope in
+				&lt;Postlude&gt;.</para>
+
+			<programlisting language="bnf">&lt;Exp&gt; ::= &lt;ProcVal&gt; Tail_call [ &lt;Act_Callees&gt;-Opt ]</programlisting>
+
+			<para>Produces a tail_call with the callee parameters given and same
+				caller parameters as those of the calling procedure.</para>
+
+			<programlisting language="bnf">&lt;ExpTerm&gt; ::= Proc &lt;Proc_defn&gt;</programlisting>
+
+			<para>Produces a make_proc. For &lt;Proc_defn&gt;, see
+				<link linkend="procdef">section 3.1.7</link></para>
+
+			<programlisting language="bnf">&lt;ExpTerm&gt; ::= &lt;String&gt; ( &lt;Variety&gt; )</programlisting>
+
+			<para>Produces a make_nof_int of the given variety.</para>
+
+			<programlisting language="bnf">&lt;ExpTerm&gt; ::= # &lt;String&gt;</programlisting>
+
+			<para>This produces a TDF fail_installer; this construction is useful
+				for narrowing down SHAPE errors detected by the translator.</para>
+		</section>
+	</section>
+
+	<section>
+		<title>Floating_variety</title>
+
+		<programlisting language="bnf">&lt;Floating_variety&gt; ::= FLOATING_VARIETY ?
+( &lt;Exp&gt; , &lt;Floating_variety&gt;, &lt;Floating_variety&gt;)
+&lt;Floating_variety&gt; ::= &lt;floating_variety_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+&lt;Floating_variety&gt; ::= &lt;floating_variety__token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt</programlisting>
+
+		<para>The standard constructions.</para>
+
+		<programlisting language="bnf">&lt;Floating_variety&gt; ::= Float</programlisting>
+
+		<para>An IEEE 32 bit floating variety.</para>
+
+		<programlisting language="bnf">&lt;Floating_variety&gt; ::= Double</programlisting>
+
+		<para>An IEEE 64 bit floating variety.</para>
+	</section>
+
+	<section>
+		<title>Label</title>
+
+		<programlisting language="bnf">&lt;Label&gt; ::= &lt;label_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt</programlisting>
+
+		<para>The standard token application.</para>
+
+		<programlisting language="bnf">&lt;Label&gt; ::= &lt;ident&gt;</programlisting>
+
+		<para>The &lt;ident&gt; will be declared as a LABEL, whose scope is the
+			current procedure.</para>
+	</section>
+
+	<section>
+		<title>Nat</title>
+
+		<programlisting language="bnf">&lt;Nat&gt; ::= NAT ? ( &lt;Exp&gt; , &lt;Nat&gt;, &lt;Nat&gt;)
+&lt;Nat&gt; ::= &lt;nat_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+&lt;Nat&gt; ::= &lt;nat_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt</programlisting>
+
+		<para>The standard expansions.</para>
+
+		<programlisting language="bnf">&lt;Nat&gt; ::= &lt;integer_denotation&gt;</programlisting>
+
+		<para>Produces a make_nat on the integer</para>
+
+		<programlisting language="bnf">&lt;Nat&gt; ::= &lt;character&gt;</programlisting>
+
+		<para>Produces a make_nat on the ASCII value of the character.</para>
+	</section>
+
+	<section>
+		<title>Ntest</title>
+
+		<programlisting language="bnf">
+&lt;Ntest&gt; ::= NTEST ? ( &lt;Exp&gt; , &lt;Ntest&gt;, &lt;Ntest&gt;)
+&lt;Ntest&gt; ::= &lt;ntest_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+&lt;Ntest&gt; ::= &lt;ntest_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt</programlisting>
+
+		<para>The standard expansions.</para>
+
+		<programlisting language="bnf">&lt;Ntest&gt; ::= !&lt;</programlisting>
+
+		<para>Produces not_less_than.</para>
+
+		<programlisting language="bnf">&lt;Ntest&gt; ::= !&lt;=</programlisting>
+
+		<para>Produces not_less_than_or_equal.</para>
+
+		<programlisting language="bnf">&lt;Ntest&gt; ::= !=</programlisting>
+
+		<para>Produces not_equal.</para>
+
+		<programlisting language="bnf">&lt;Ntest&gt; ::= !&gt;</programlisting>
+
+		<para>Produces not_greater_than.</para>
+
+		<programlisting language="bnf">&lt;Ntest&gt; ::= !&gt;=</programlisting>
+
+		<para>Produces not_greater_than_or_equal.</para>
+
+		<programlisting language="bnf">&lt;Ntest&gt; ::= !Comparable</programlisting>
+
+		<para>Produces not_comparable.</para>
+
+		<programlisting language="bnf">&lt;Ntest&gt; ::= &lt;</programlisting>
+
+		<para>Produces less_than.</para>
+
+		<programlisting language="bnf">&lt;Ntest&gt; ::= &lt;=</programlisting>
+
+		<para>Produces less_than_or_equal.</para>
+
+		<programlisting language="bnf">&lt;Ntest&gt; ::= ==</programlisting>
+
+		<para>Produces equal.</para>
+
+		<programlisting language="bnf">&lt;Ntest&gt; ::= &gt;</programlisting>
+
+		<para>Produces greater_than.</para>
+
+		<programlisting language="bnf">&lt;Ntest&gt; ::= &gt;=</programlisting>
+
+		<para>Produces greater_than_or_equal.</para>
+	</section>
+
+	<section>
+		<title>Rounding_mode</title>
+
+		<programlisting language="bnf">&lt;Rounding_mode&gt; ::= ROUNDING_MODE?
+( &lt;Exp&gt; , &lt;Rounding_mode&gt;, &lt;Rounding_mode&gt;)
+&lt;Rounding_mode&gt; ::= &lt;ntest_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+&lt;Rounding_mode&gt; ::= &lt;ntest_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt</programlisting>
+
+		<para>There are no constructions for &lt;Rounding_mode&gt; other than
+			the standard ones.</para>
+	</section>
+
+	<section>
+		<title>Shape</title>
+
+		<programlisting language="bnf">&lt;Shape&gt; ::= SHAPE ? ( &lt;Exp&gt; , &lt;Shape&gt;, &lt;Shape&gt;)
+&lt;Shape&gt; ::= &lt;shape_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+&lt;Shape&gt; ::= &lt;shape_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt</programlisting>
+
+		<para>The standard expansions.</para>
+
+		<programlisting language="bnf">&lt;Shape&gt; ::= Float</programlisting>
+
+		<para>The shape for an IEEE 32 bit float.</para>
+
+		<programlisting language="bnf">&lt;Shape&gt; ::= Double</programlisting>
+
+		<para>The shape for an IEEE 64 bit float.</para>
+
+		<programlisting language="bnf">&lt;Shape&gt; ::= &lt;Sign&gt;-Opt Int
+&lt;Sign&gt; ::= Signed
+&lt;Sign&gt; ::= Unsigned</programlisting>
+
+		<para>The shape for a 32 bit signed or unsigned integer. The default is
+			signed.</para>
+
+		<programlisting language="bnf">&lt;Shape&gt; ::= &lt;Sign&gt;-Opt Long</programlisting>
+
+		<para>The shape for a 32 bit signed or unsigned integer.</para>
+
+		<programlisting language="bnf">&lt;Shape&gt; ::= &lt;Sign&gt;-Opt Short</programlisting>
+
+		<para>The shape for a 16 bit signed or unsigned integer.</para>
+
+		<programlisting language="bnf">&lt;Shape&gt; ::= &lt;Sign&gt;-Opt Char</programlisting>
+
+		<para>The shape for a 8 bit signed or unsigned integer.</para>
+
+		<programlisting language="bnf">&lt;Shape&gt; ::= Ptr &lt;Shape&gt;</programlisting>
+
+		<para>The SHAPE pointer(alignment(&lt;Shape&gt;)).</para>
+	</section>
+
+	<section>
+		<title>Signed_Nat</title>
+
+		<programlisting language="bnf">&lt;Signed_Nat&gt; ::= SIGNED_NAT ? ( &lt;Exp&gt; , &lt;Signed_Nat&gt;, &lt;Signed_Nat&gt;)
+&lt;Signed_Nat&gt; ::= &lt;signed_nat_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+&lt;Signed_Nat&gt; ::= &lt;signed_nat_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt</programlisting>
+
+		<para>The standard expansions.</para>
+
+		<programlisting language="bnf">&lt;Signed_Nat&gt; ::= &lt;integer_denotation&gt;
+&lt;Signed_Nat&gt; ::= - &lt;integer_denotation&gt;</programlisting>
+
+		<para>This produces a make_signed_nat on the integer value.</para>
+
+		<programlisting language="bnf">&lt;Signed_Nat&gt; ::= &lt;character&gt;
+&lt;Signed_Nat&gt; ::= - &lt;character&gt;</programlisting>
+
+		<para>This produces a make_signed_nat on the ASCII value of the
+			character.</para>
+
+		<programlisting language="bnf">&lt;Signed_Nat&gt; ::= LINE</programlisting>
+
+		<para>This produces a make_signed_nat on the current line number of the
+			file being compiled - useful for writing test programs.</para>
+
+		<programlisting language="bnf">&lt;Signed_Nat&gt; ::= + &lt;Nat&gt;
+&lt;Signed_Nat&gt; ::= - &lt;Nat&gt;</programlisting>
+
+		<para>This produces an appropriately signed &lt;Signed_Nat&gt; from a
+			&lt;Nat&gt;.</para>
+	</section>
+
+	<section>
+		<title>String</title>
+
+		<programlisting language="bnf">&lt;String&gt; ::= STRING? ( &lt;Exp&gt; , &lt;String&gt;, &lt;String&gt;)
+&lt;String&gt; ::= &lt;string_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+&lt;String&gt; ::= &lt;string_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt</programlisting>
+
+		<para>The standard expansions</para>
+
+		<programlisting language="bnf">&lt;String&gt; ::= &lt;string&gt;</programlisting>
+
+		<para>Produces a make_string.</para>
+	</section>
+
+	<section>
+		<title>Tag</title>
+
+		<programlisting language="bnf">&lt;Tag&gt; ::= &lt;tag_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt</programlisting>
+
+		<para>The standard token application.</para>
+
+		<programlisting language="bnf">&lt;Tag&gt; ::= &lt;ident&gt;</programlisting>
+
+		<para>This gives an obtain_tag; the &lt;ident&gt; must been declared as
+			a TAG either globally or locally.</para>
+	</section>
+
+	<section>
+		<title>Token</title>
+
+		<para>TOKEN is rather a limited first-class sort. There is no
+			explicit construction given for token_apply_token, since the only
+			place where it can occur is in an expansion of a token parameter
+			of another token; here it is produced implicitly. The only place
+			where &lt;Token&gt; is expanded is in an actual TOKEN parameter of
+			a token application; other uses (e.g. as in &lt;shape_token&gt;)
+			are always &lt;ident&gt;s.</para>
+
+		<programlisting language="bnf">&lt;Token&gt; ::= &lt;ident&gt;</programlisting>
+
+		<para>The &lt;ident&gt; must have been declarered by a &lt;Tokdec&gt; or
+			&lt;Tokdec&gt; or is a formal parameter of TOKEN.</para>
+
+		<programlisting language="bnf">&lt;Token&gt; ::= Use &lt;Tok_Defn&gt;</programlisting>
+
+		<para>This produces a use_tokdef. For &lt;Tok_Defn&gt; see
+			<link linkend="tokdef">section 3.1.2</link>. The critical use of this
+			construction is to provide an actual TOKEN parameter to a token
+			application where the &lt;Tok_Defn&gt; contains uses of tags or
+			labels local to a procedure.</para>
+	</section>
+
+	<section>
+		<title>Transfer_mode</title>
+
+		<programlisting language="bnf">&lt;Transfer_mode&gt; ::= TRANSFER_MODE ? ( &lt;Exp&gt; , &lt;Transfer_mode&gt;, &lt;Transfer_mode&gt;)
+&lt;Transfer_mode&gt; ::= &lt;transfer_mode_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+&lt;Transfer_mode&gt; ::= &lt;transfer_mode_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt</programlisting>
+
+		<para>There are no expansions for &lt;Transfer_mode&gt; other than the
+			standard expansions.</para>
+	</section>
+
+	<section>
+		<title>Variety</title>
+
+		<programlisting language="bnf">&lt;Variety&gt; ::= VARIETY ? ( &lt;Exp&gt; , &lt;Variety&gt;, &lt;Variety&gt;)
+&lt;Variety&gt; ::= &lt;variety_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
+&lt;Variety&gt; ::= &lt;variety_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt</programlisting>
+
+		<para>The standard expansions.</para>
+
+		<programlisting language="bnf">&lt;Variety&gt; ::= &lt;Signed_Nat&gt; : &lt;Signed_Nat&gt;</programlisting>
+
+		<para>This produces var_limits.</para>
+
+		<programlisting language="bnf">&lt;Variety&gt; ::= &lt;Sign&gt;-Opt Int
+&lt;Variety&gt; ::= &lt;Sign&gt;-Opt Long
+&lt;Variety&gt; ::= &lt;Sign&gt;-Opt Short
+&lt;Variety&gt; ::= &lt;Sign&gt;-Opt Char</programlisting>
+
+		<para>This produces the variety of the appropriate integer shape.</para>
+	</section>
+</chapter>
+
