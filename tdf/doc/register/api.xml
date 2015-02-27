@@ -40,7 +40,7 @@
 		code than could be achieved by normal token expansion, for example
 		by inlining standard function calls.</para>
 
-	<section id="S22">
+	<section>
 		<title>ANSI C standard functions</title>
 
 		<para>The set of tokens implied below all have the form:</para>
@@ -67,7 +67,7 @@
 		</section>
 	</section>
 
-	<section id="S23">
+	<section>
 		<title>Common exceptional cases</title>
 
 		<section>

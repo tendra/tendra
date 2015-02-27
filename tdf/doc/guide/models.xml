@@ -59,7 +59,7 @@
 			efficiently accessed if they start at 32 bit boundaries and so
 			on.</para>
 
-		<section id="S91">
+		<section>
 			<title>Alignment model</title>
 
 			<para>The representation of ALIGNMENT in a typical standard
@@ -195,7 +195,7 @@ REPR[offset_mult(X, E)] = REPR[X] * REPR[E]</programlisting>
 			that instruction blocks are just scalar blocks and that block
 			addresses are aligned on 32-bit boundaries.</para>
 
-		<section id="S95">
+		<section>
 			<title>Alignment model</title>
 
 			<para>An ALIGNMENT is represented by a pair consisting of an
@@ -224,7 +224,7 @@ REPR[alignment({local_label_value})] = (s:32, b:TRUE)</programlisting>
 			<programlisting language="tdf">REPR[A ... B] = (REPR[A].s xb3 REPR[B].s) xd9 (REPR[A].b xda REPR[B].b)</programlisting>
 		</section>
 
-		<section id="S96">
+		<section>
 			<title>Offset and pointer model</title>
 
 			<para>A value with SHAPE POINTER A where REPR[A].b is represented
@@ -253,7 +253,7 @@ REPR[alignment({local_label_value})] = (s:32, b:TRUE)</programlisting>
 			<programlisting language="tdf">(sd:scalar_displacement, ad:address_displacement)</programlisting>
 		</section>
 
-		<section id="S97">
+		<section>
 			<title>Size model</title>
 
 			<para>The sizes given by shape_offset are now:</para>
@@ -268,7 +268,7 @@ REPR[shape_offset(nof(N, S))] = N * REPR[offset_pad(alignment(S)), shape_offset(
 REPR[shape_offset(top)] = 0</programlisting>
 		</section>
 
-		<section id="S98">
+		<section>
 			<title>Offset arithmetic</title>
 
 			<para>The other OFFSET constructors are given by:</para>

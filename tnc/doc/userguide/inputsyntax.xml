@@ -1,10 +1,10 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
-<chapter id="S3">
+<chapter>
 	<title>Input syntax</title>
 
-	<section id="S31">
+	<section>
 		<title>Basic syntax</title>
 
 		<para>The basic input syntax is very simple. A construct consists of an
@@ -30,7 +30,7 @@ arglist		: (empty)
 			The two may be used interchangeably.</para>
 	</section>
 
-	<section id="S32">
+	<section>
 		<title>Sorts</title>
 
 		<para>Except at the outermost level, which forms a special case discussed
@@ -101,7 +101,7 @@ arglist		: (empty)
 			use <code>alignment_sort</code>. This confusion cannot occur elsewhere.)</para>
 	</section>
 
-	<section id="S33">
+	<section>
 		<title>Numbers and strings</title>
 
 		<para>Numbers can occur in two contexts, as the argument to the &tdf; constructs
@@ -132,7 +132,7 @@ number <emphasis>for</emphasis> ( make_signed_nat number )</programlisting>
 		<programlisting language="tnc">string <emphasis>for</emphasis> ( make_string string )</programlisting>
 	</section>
 
-	<section id="S34">
+	<section>
 		<title>Tokens, tags, alignment tags and labels</title>
 
 		<para>In &tdf; simple tokens, tags, alignment tags and labels are represented

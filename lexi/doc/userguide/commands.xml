@@ -15,7 +15,7 @@
 		each possible command, and explains their respective
 		intended uses.</para>
 
-	<section id="prepassmappings">
+	<section id="pre-pass-mappings">
 		<title>Pre-pass Mappings</title>
 
 		<para>The lexical analysis runs in two passes. The first pass,
@@ -55,7 +55,7 @@
 		<para>will replace any alphabetic character by a blank,
 			assuming the <quote>alpha</quote> group is suitably
 			defined at that point.
-			See <xref linkend="charactersetssequences"/>
+			See <xref linkend="character-sets-sequences"/>
 			for details of including groups in sequences.</para>
 
 		<para> It is possible to use groups to NOT match characters in the group.</para>
@@ -115,7 +115,7 @@ MAPPING "abcd" -> "y" ;</programlisting>
 		<!-- TODO: ditto tokens? -->
 	</section>
 
-	<section id="groupdefinitions">
+	<section id="group-definitions">
 		<title>Character Group Definitions</title>
 
 		<para>A group is an unordered sets of characters; groups
@@ -149,12 +149,12 @@ GROUP alphanum = "[alpha]" + {0-9} ;</programlisting>
 		<para>assuming the groups <literal>alpha</literal> and
 			<literal>digit</literal> have already
 			been defined at that point.
-			See <xref linkend="charactersetssequences"/> for details of the
+			See <xref linkend="character-sets-sequences"/> for details of the
 			syntax for the chars production.</para>
 
 		<para>Groups may not contain characters which are present
 			in other groups (i.e. they may not overlap). See the
-			<xref linkend="tokendefinitions"/> section for further
+			<xref linkend="token-definitions"/> section for further
 			discussion of why this is so.</para>
 		<!-- TODO: NEW UNDEFINED BEHAVIOUR -->
 
@@ -176,7 +176,7 @@ GROUP alphanum = "[alpha]" + {0-9} ;</programlisting>
 
 		<para>The group name <quote>white</quote> may not be used for groups other
 			than the whitespace definition; see
-			<xref linkend="whitespacedefinitions"/> for details.</para>
+			<xref linkend="whitespace-definitions"/> for details.</para>
 
 		<para>A group name is unique amongst groups; groups may
 			only be defined once.</para>
@@ -184,7 +184,7 @@ GROUP alphanum = "[alpha]" + {0-9} ;</programlisting>
 			somewhere we should explain namespaces for identifiers -->
 	</section>
 
-	<section id="whitespacedefinitions">
+	<section id="whitespace-definitions">
 		<title>Whitespace Definition</title>
 
 		<para>Consecutive whitespace characters outside of tokens
@@ -203,7 +203,7 @@ GROUP alphanum = "[alpha]" + {0-9} ;</programlisting>
 			&lexi.app;.</para>
 
 		<para>The syntax is the same as for any
-			<xref linkend="groupdefinitions"/>, but with the
+			<xref linkend="group-definitions"/>, but with the
 			special group name <code>white</code>:</para>
 
 		<programlisting language="bnf">white-defn := "GROUP" + "white" + "=" + chars ;</programlisting>
@@ -221,7 +221,7 @@ GROUP alphanum = "[alpha]" + {0-9} ;</programlisting>
 		<para>Aside from the additional semantics explained above,
 			the whitespace group is present as any other group:
 			it is present in the <acronym>API</acronym> as <code>is_white()</code>,
-			and may be included in <xref linkend="charactersetssequences"/>
+			and may be included in <xref linkend="character-sets-sequences"/>
 			as <code>[white]</code>.</para>
 
 		<!-- TODO: NEW UNDEFINED BEHAVIOUR -->
@@ -234,7 +234,7 @@ GROUP alphanum = "[alpha]" + {0-9} ;</programlisting>
 			tokens which use whitespace characters. -->
 	</section>
 
-	<section id="tokendefinitions">
+	<section id="token-definitions">
 		<title>Token Definitions</title>
 
 		<para>Tokens are sequences of characters read by the lexical analyser
@@ -349,13 +349,13 @@ TOKEN "[alpha]" -> get_identifier(#0); // return a terminal</programlisting>
 			</varlistentry>
 		</variablelist>
 
-		<para>See <xref linkend="interface_terminals"/> for the C
+		<para>See <xref linkend="interface-terminals"/> for the C
 			representation of the terminals returned by
 			<code>read_token()</code>.</para>
 
 		<para>The second form states that the lexer should return the result
 			of the call to the given function identifier. See
-			<xref linkend="interface_functions"/> for details of the
+			<xref linkend="interface-functions"/> for details of the
 			function call made in C.</para>
 
 		<para><!-- TODO: simple examples here --></para>
@@ -380,7 +380,7 @@ TOKEN "[alpha]" -> get_identifier(#0); // return a terminal</programlisting>
 			user-defined <code>read_identifier()</code> function
 			(or equivalent), &lexi.app; provides
 			the keywords mechanism discussed in
-			<xref linkend="keyworddefinitions"/>.</para>
+			<xref linkend="keyword-definitions"/>.</para>
 		<!-- TODO: mention that most keywords are usually a subset of identifiers -->
 
 		<para>Note that this example does not illustrating storing the
@@ -419,7 +419,7 @@ TOKEN "ID-[digit]" -> $identificationcardsize ;</programlisting>
 
 		<para>Note that <quote>A10</quote> codes for the same lexeme as
 			single-digit <quote>A</quote> sizes. See
-			<xref linkend="functioncalls"/> for further examples of
+			<xref linkend="function-calls"/> for further examples of
 			multiple tokens sharing one function, and the <!-- TODO: sets -->
 			for further examples of using sets within sequences.</para>
 
@@ -460,7 +460,7 @@ if anybody uses them (or indeed if anybody uses lexi...)
 
 	</section>
 
-	<section id="defaultdefinition">
+	<section id="default-definition">
 		<title>Default definition</title>
 
 		<para>A new feature in 2.0 is the ability to specify actions (usually token return)
@@ -473,7 +473,7 @@ TOKEN DEFAULT -> $unknown ;</programlisting>
 			a sequence of character that cannot be mapped to any other specified token.</para>
 	</section>
 
-	<section id="keyworddefinitions">
+	<section id="keyword-definitions">
 		<title>Keyword definitions</title>
 
 		<para>The  syntax of keywords resembles the syntax
@@ -590,7 +590,7 @@ TOKEN "[alpha]" -> get_variable() ;</programlisting>
 		<para><!-- TODO: example of PL/I-esque unreserved keywords --></para>
 	</section>
 
-	<section id="zonedefinitions">
+	<section id="zone-definitions">
 		<title>Zone Definitions</title>
 
 		<para>Zones are the major new feature for 2.0. 
@@ -643,7 +643,7 @@ ZONE string : "\"" -> clear_buffer(#$) [...] "\"" ->$string  {
 		  	in either 2.1 or 2.2.</para>
 	</section>
 
-	<section id="typesdeclaration">
+	<section id="type-definitions">
 		<title>Type Definitions</title>
 
 		<para>We can declare types in lexi. This will be used for type checking of
@@ -688,7 +688,7 @@ TYPE integer;</programlisting>
 		</table>
 	</section>
 
-	<section id="actiondeclaration">
+	<section id="action-declaration">
 		<title>Action prototypes</title>
 
 		<para>Any inline actions called inside a list of instructions

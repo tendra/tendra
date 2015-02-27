@@ -3,11 +3,11 @@
 
 <!-- $Id$ -->
 
-<chapter id="diskoutput">
+<chapter id="disk-output">
 	<title>Disk reading and writing</title>
 
 	<para>One of the facilities which the
-		<link linkend="coutputtypes">homogeneous implementation</link> of the
+		<link linkend="c-output-types">homogeneous implementation</link> of the
 		type system described above allows for is the addition of persistence.
 		Persistence in this context means allowing objects to be written to, and
 		read from, disk. Also discussed in this section is the related topic of
@@ -30,7 +30,7 @@
 		in order to make these available for the disk reading and writing
 		routines to use.</para>
 
-	<section id="diskwrite">
+	<section id="disk-write">
 		<title>Disk writing routines</title>
 
 		<!-- TODO rephrase: file, not disk -->
@@ -70,7 +70,7 @@ VEC_PTR(t)-&gt;vptr_type</literallayout>
 			form <code>-E</code><literal>input</literal> where
 			<literal>input</literal> is a file containing a list of the extra
 			types required.	In the notation
-			<link linkend="textinput">used above</link> the syntax for
+			<link linkend="text-input">used above</link> the syntax for
 			<literal>input</literal> is given by:</para>
 
 		<programlisting language="bnf">extra:
@@ -90,7 +90,7 @@ void WRITE_DIM(name_dim);
 void WRITE_ALIAS(unsigned int);</programlisting>
 
 		<para>for writing a number of bits to disk, writing a vector dimension and
-			writing an <link linkend="diskalias">object alias</link>.</para>
+			writing an <link linkend="disk-alias">object alias</link>.</para>
 
 		<para>Any of the <code>WRITE_</code><literal>type</literal> functions
 			may be overridden by the user by defining a macro
@@ -102,7 +102,7 @@ void WRITE_ALIAS(unsigned int);</programlisting>
 			differently by the disk reading and writing routines.</para>
 	</section>
 
-	<section id="diskread">
+	<section id="disk-read">
 		<title>Disk reading routines</title>
 
 		<para>The disk reading routines output in
@@ -121,12 +121,12 @@ name_dim READ_DIM(void);
 unsigned int READ_ALIAS(void);</programlisting>
 
 		<para>for reading a number of bits from disk, reading a vector dimension and
-			reading an <link linkend="diskalias">object alias</link>. The
+			reading an <link linkend="disk-alias">object alias</link>. The
 			<code>READ_</code><literal>type</literal> functions may be overridden
 			by means of macros as before.</para>
 	</section>
 
-	<section id="diskprint">
+	<section id="disk-print">
 		<title>Object printing routines</title>
 
 		<para>The object printing routines output in
@@ -180,7 +180,7 @@ static int print_list_expand = 0;</programlisting>
 			standard macro <code>NDEBUG</code> is not defined.</para>
 	</section>
 
-	<section id="diskalias">
+	<section id="disk-alias">
 		<title>Aliasing</title>
 
 		<para>An important feature of the disk reading and writing routines,
@@ -201,7 +201,7 @@ static int print_list_expand = 0;</programlisting>
 			this same object.</para>
 
 		<para>The objects on which aliasing can be specified are the
-			<link linkend="inputunion">union fields</link>. A union field may be
+			<link linkend="input-union">union fields</link>. A union field may be
 			qualified by one or two hash symbols to signify that objects of that
 			type should be aliased.</para>
 

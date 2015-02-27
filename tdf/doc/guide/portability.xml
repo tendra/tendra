@@ -14,10 +14,10 @@
 		discussion is very general, and makes no mention of &tdf;, many of
 		the ideas introduced are of importance in the <xref linkend="intro-to-tdf"/>.</para>
 
-	<section id="S3">
+	<section>
 		<title>Portable Programs</title>
 
-		<section id="S4">
+		<section>
 			<title>Definitions and Preliminary Discussion</title>
 
 			<para>Let us firstly say what we mean by a portable program. A
@@ -58,7 +58,7 @@ main()
 				trivial.</para>
 		</section>
 
-		<section id="S5">
+		<section>
 			<title>Separation and Combination of Code</title>
 
 			<para>So why is the second example above more portable (in the sense
@@ -136,7 +136,7 @@ extern int fputs(const char *, FILE *);</programlisting>
 				complete program.</para>
 		</section>
 
-		<section id="S6">
+		<section>
 			<title>Application Programming Interfaces</title>
 
 			<para>As we have seen, the separation of the target dependent
@@ -186,7 +186,7 @@ extern int fputs(const char *, FILE *);</programlisting>
 				accident. We shall have more to say on this subject later.</para>
 		</section>
 
-		<section id="S7">
+		<section>
 			<title>Compilation Phases</title>
 
 			<para>The general plan for how to write the extreme example of a
@@ -245,7 +245,7 @@ extern int fputs(const char *, FILE *);</programlisting>
 		</section>
 	</section>
 
-	<section id="S8">
+	<section>
 		<title>Portability Problems</title>
 
 		<para>We have set out a scheme whereby it should be possible to write
@@ -255,7 +255,7 @@ extern int fputs(const char *, FILE *);</programlisting>
 			code, although most of the points raised apply by extension to all
 			programs.</para>
 
-		<section id="S9">
+		<section>
 			<title>Programming Problems</title>
 
 			<para>A first, obvious class of problems concern the program itself.
@@ -291,7 +291,7 @@ extern int fputs(const char *, FILE *);</programlisting>
 				remains a very difficult area.</para>
 		</section>
 
-		<section id="S10">
+		<section>
 			<title>Code Transformation Problems</title>
 
 			<para>We now move on from programming problems to compilation

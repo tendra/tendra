@@ -11,12 +11,12 @@
 
 		<para>The &api; checking is one of the more interesting areas of
 			TenDRA. An overview of the process of building &api;s is
-			given in <xref linkend="apibuilding"/>.
+			given in <xref linkend="api-building"/>.
 			This diagram expands on the top-right and bottom-right
 			quadrants of the &tdf; compilation phases described in
 			&tdf-portability.doc;.</para>
 
-		<figure id="apibuilding">
+		<figure id="api-building">
 			<title>Files Involved for Building &api;s</title>
 
 			<graphic fileref="images/apibuilding.svg"/>

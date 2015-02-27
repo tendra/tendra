@@ -8,7 +8,7 @@
 <chapter>
 	<title>Notation</title>
 
-	<section id="S3">
+	<section>
 		<title>Syntax description</title>
 
 		<para>Words enclosed in angle brackets, &lt; &gt;, form non-terminal
@@ -52,7 +52,7 @@
 			brackets form an anonymous non-terminal.</para>
 	</section>
 
-	<section id="S4">
+	<section>
 		<title>Lexical Units</title>
 
 		<para>The terminal symbols ( ), [ ], and { } always occur as
@@ -104,7 +104,7 @@
 			be used to form names for TAGs, TOKENs, AL_TAGs and LABELs.</para>
 	</section>
 
-	<section id="S5">
+	<section>
 		<title>Pre-processing</title>
 		
 		<para>At the moment there is only one pre-processing directive. A line

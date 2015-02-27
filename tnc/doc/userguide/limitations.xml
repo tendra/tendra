@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
-<chapter id="S6">
+<chapter>
 	<title>Limitations</title>
 
 	<para>The main limitations in the current version of <code>tnc</code> are

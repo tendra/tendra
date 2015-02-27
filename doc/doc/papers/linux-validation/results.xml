@@ -288,7 +288,7 @@
 				installed the technology appeared to work well.</para>
 		</section>
 
-		<section id="installonalpha">
+		<section id="install-on-alpha">
 			<title>TenDRA installation on DEC/Alpha</title>
 
 			<para>The TenDRA snapshot from November 1995 was the first
@@ -413,10 +413,10 @@ bis $17,$17,$fp
 				the project, in two steps, level1 and level2, as described in <xref linkend="phases"/>.
 				Each step has been performed as an incremental process.
 				Each time new commands were selected, a
-				whole cycle of API definition (<xref linkend="apidef"/>),
+				whole cycle of API definition (<xref linkend="api-definition"/>),
 				command ANDFization (<xref linkend="andfization"/>), API
-				installation (<xref linkend="apiinstallation"/>) and command
-				installation and validation (<xref linkend="installandvalid"/>) was
+				installation (<xref linkend="api-installation"/>) and command
+				installation and validation (<xref linkend="install-and-validation"/>) was
 				performed.</para>
 
 			<para>During the first phase of the project, a number of commands
@@ -469,7 +469,7 @@ bis $17,$17,$fp
 			<para>Then we excluded one package, <code>groff</code>, because it was
 				mostly coded in C++. We found also that some native Linux header files, used in
 				several packages, offer BSD compatibility but in a way that could not be
-				straightforwardly adapted to TenDRA. This issue is discussed in <xref linkend="apidef"/>.</para>
+				straightforwardly adapted to TenDRA. This issue is discussed in <xref linkend="api-definition"/>.</para>
 
 			<para>We have included in the <code>level 2 </code>set of commands some
 				commands which represent quite large amounts of source code: <code>m4, elvis</code>
@@ -854,7 +854,7 @@ char *fields;
 		</section>
 	</section>
 
-	<section id="apidef">
+	<section id="api-definition">
 		<title>Definition of the API for the commands</title>
 
 		<para>We started the experiment with an xpg3 API, and decided to
@@ -1016,7 +1016,7 @@ long xx() { return alarm((long)5); }</programlisting>
 					<para>Three functions of the <code>bin</code> package, <command>time</command>
 						and <command>crontab</command>, and <command>ash</command> (a simple
 						shell), were configured to use some BSD interfaces which had not been
-						included into our API, as discussed in <xref linkend="apidef"/>.</para>
+						included into our API, as discussed in <xref linkend="api-definition"/>.</para>
 
 					<para>For the <command>time</command> command, we found that the support
 						for POSIX interfaces was provided in the source code, so we used it.</para>
@@ -1160,7 +1160,7 @@ long xx() { return alarm((long)5); }</programlisting>
 
 			<para>When we had ANDFized the whole set of commands, we
 				upgraded to TenDRA 4.0 in order to work on the Linux/Alpha platform (see
-				<xref linkend="installonalpha"/>).
+				<xref linkend="install-on-alpha"/>).
 				However, we had to ANDFize again the set of commands with the new TenDRA
 				version, since it was not upward compatible with the previous one. In
 				fact, we only re-ANDFized the commands we tried to install on the
@@ -1230,7 +1230,7 @@ long xx() { return alarm((long)5); }</programlisting>
 		</section>
  	 </section>
 
-	<section id="apiinstallation">
+	<section id="api-installation">
 		<title>Installation of the API for the commands</title>
 
 		<section>
@@ -1238,7 +1238,7 @@ long xx() { return alarm((long)5); }</programlisting>
 
 			<para>The API is made of two parts, a base API, which is a
 				merge between xpg3, svid3, gcc and bsd_extn APIs, and an extension API,
-				which completes the interface required for the commands (see <xref linkend="apidef"/>).</para>
+				which completes the interface required for the commands (see <xref linkend="api-definition"/>).</para>
 
 			<para>The base API was installed on the Linux/i386 platform,
 				without any problem. However, we left some tokens undefined when some parts of
@@ -1379,7 +1379,7 @@ long xx() { return alarm((long)5); }</programlisting>
 		</section>
 	</section>
 
-	<section id="installandvalid">
+	<section id="install-and-validation">
 		<title>Installation and validation of the commands</title>
 
 		<para>On the Linux/i386 platform, we used the TenDRA compiler to
@@ -1390,7 +1390,7 @@ long xx() { return alarm((long)5); }</programlisting>
 		<para>On the Linux/Alpha platform, we used the ANDF files produced
 			on the Linux/i386 platform, and translated them into binary executable files.
 			For this platform, we ran the TenDRA compiler on a Dec/Alpha platform as a
-			cross-compiler for the Linux/Alpha platform (see <xref linkend="installonalpha"/>).</para>
+			cross-compiler for the Linux/Alpha platform (see <xref linkend="install-on-alpha"/>).</para>
 
 		<para>In order to validate the commands we built, we used several
 			different methods, depending on the commands.</para>

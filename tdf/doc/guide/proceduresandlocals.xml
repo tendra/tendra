@@ -46,7 +46,7 @@
 		out_parameters, or more generally, multiple results of
 		procedures.</para>
 
-	<section id="S38">
+	<section>
 		<title>make_proc and apply_proc</title>
 
 		<para>The make_proc constructor has signature:</para>
@@ -167,7 +167,7 @@ varparam:     OPTION(EXP)
 		</section>
 	</section>
 
-	<section id="S40">
+	<section>
 		<title>make_general_proc and apply_general_proc</title>
 
 		<para>A make_general_proc has signature:</para>

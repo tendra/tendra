@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
-<chapter id="S2">
+<chapter>
 	<title>Input classes</title>
 
 	<para>The rest of this paper is concerned with the form required of the

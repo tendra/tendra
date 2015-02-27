@@ -13,7 +13,7 @@
 	<para>There are several concepts common to multiple commands.
 		<!---TODO: blah blah --></para>
 
-	<section id="lexicalconventions">
+	<section id="lexical-conventions">
 		<title>Lexical Conventions</title>
 
 		<!-- <para>TODO: explain our BNF here. Standardise across
@@ -106,7 +106,7 @@ GROUP digit    = {0-9} ;</programlisting>
 			keywords and tokens only.</para>
 	</section>
 
-	<section id="functioncalls">
+	<section id="function-calls">
 		<title>Function Calls</title>
 
 		<para>The parameters specified to functions are stated as empty
@@ -150,7 +150,7 @@ TOKEN "//"  -> get_comment () ;</programlisting>
 		-->
 	</section>
 
-	<section id="charactersetssequences">
+	<section id="character-sets-sequences">
 		<title>Character Sets and Sequences</title>
 
 		<para>Sets and sequences of characters are used by
@@ -319,7 +319,7 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 			the delimiter for a group name (see below).</para>
 
 <!--
-		<bridgehead id="groupinclusion">Group inclusions in
+		<bridgehead id="group-inclusion">Group inclusions in
 			strings</bridgehead>
 -->
 		<!-- TODO: strings or sequences and sets? -->

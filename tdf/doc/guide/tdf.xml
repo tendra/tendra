@@ -20,7 +20,7 @@
 		various constituents of this scheme are considered individually,
 		and their particular roles are described in more detail.</para>
 
-	<section id="S23">
+	<section>
 		<title>Features of &tdf;</title>
 
 		<para>It is not the purpose of this paper
@@ -79,7 +79,7 @@
 				linking scheme.</para>
 		</section>
 
-		<section id="S25">
+		<section>
 			<title>Tokens</title>
 
 			<para>So, the combination of program at this high level is straightforward. But
@@ -116,7 +116,7 @@
 		</section>
 	</section>
 
-	<section id="S26">
+	<section>
 		<title>&tdf; Compilation Phases</title>
 
 		<para>We have seen how one of the
@@ -165,7 +165,7 @@
 			<graphic fileref="images/tdf_scheme.svg"/>
 		</figure>
 
-		<section id="S27">
+		<section>
 			<title>&api; Description (Top Right)</title>
 
 			<para>The method used for this separation is the token
@@ -213,7 +213,7 @@
 				&tdf; libraries are generated.</para>
 		</section>
 
-		<section id="S28">
+		<section>
 			<title>Production (Top Left)</title>
 
 			<para>Now the producer can compile the program using
@@ -236,7 +236,7 @@
 				effect checking the program against the &api; itself.</para>
 		</section>
 
-		<section id="S29">
+		<section>
 			<title>&api; Implementation (Bottom Right)</title>
 
 			<para>Before the &tdf; output by the producer can be
@@ -304,7 +304,7 @@
 				this issue later.</para>
 		</section>
 
-		<section id="S30">
+		<section>
 			<title>Installation (Bottom Left)</title>
 
 			<para>The installation phase is now straightforward. The
@@ -320,7 +320,7 @@
 				system libraries will resolve any tags left undefined in the &tdf;.</para>
 		</section>
 
-		<section id="S31">
+		<section>
 			<title>Illustrated Example</title>
 
 			<para>In order to help clarify exactly what is happening where,
@@ -359,14 +359,14 @@ FILE f ;</programlisting>
 		</section>
 	</section>
 
-	<section id="S32">
+	<section>
 		<title>Aspects of the &tdf; System</title>
 
 		<para>Let us now consider in
 			more detail some of the components of the &tdf; system and how they
 			fit into the compilation scheme.</para>
 
-		<section id="S33">
+		<section>
 			<title>The C to &tdf; Producer</title>
 
 			<para>Above it was emphasised how the design of the
@@ -468,7 +468,7 @@ FILE f ;</programlisting>
 				statements.</para>
 		</section>
 
-		<section id="S34">
+		<section>
 			<title>C to &tdf; Mappings</title>
 
 			<para>The nature of the C to &tdf; transformation implemented by the
@@ -546,7 +546,7 @@ FILE f ;</programlisting>
 				the local values.</para>
 		</section>
 
-		<section id="S35">
+		<section>
 			<title>&tdf; Linking</title>
 
 			<para>We now move
@@ -651,7 +651,7 @@ FILE f ;</programlisting>
 				hiding scheme.</para>
 		</section>
 
-		<section id="S36">
+		<section>
 			<title>The &tdf; Installers</title>
 
 			<para>The &tdf; installer on a given machine typically consists
@@ -739,7 +739,7 @@ FILE f ;</programlisting>
 		</section>
 	</section>
 
-	<section id="S37">
+	<section>
 		<title>&tdf; and &api;s</title>
 
 		<para>What the discussion above has
@@ -747,7 +747,7 @@ FILE f ;</programlisting>
 			target independent headers underpins the entire &tdf; approach to
 			portability. We now consider this in more detail.</para>
 
-		<section id="S38">
+		<section>
 			<title>&api; Description</title>
 
 			<para>The
@@ -757,7 +757,7 @@ FILE f ;</programlisting>
 				discuss some of the issues arising from the process of describing
 				an &api; in this way.</para>
 
-			<section id="S39">
+			<section>
 				<title>The Description Process</title>
 
 				<para>As may be observed from the example given in
@@ -840,7 +840,7 @@ FILE f ;</programlisting>
 					expressed.</para>
 			</section>
 
-			<section id="S40">
+			<section>
 				<title>Resolving Conflicts</title>
 
 				<para>Another consideration during the description
@@ -934,7 +934,7 @@ size_t s;</programlisting>
 					evolutionary path.</para>
 			</section>
 
-			<section id="S41">
+			<section>
 				<title>The Benefits of &api; Description</title>
 
 				<para>The description process is potentially of
@@ -989,7 +989,7 @@ size_t s;</programlisting>
 			</section>
 		</section>
 					
-		<section id="S42">
+		<section>
 			<title>&tdf; Library Building</title>
 
 			<para>As we have said, two of the primary problems with writing portable
@@ -1045,7 +1045,7 @@ size_t s;</programlisting>
 				problems for a particular &api; on a particular machine (bottom
 				right).</para>
 					
-			<section id="S43">
+			<section>
 				<title>System Header Problems</title>
 
 				<para>Values which are defined in the wrong place,
@@ -1091,7 +1091,7 @@ size_t s;</programlisting>
 					system library.</para>
 			</section>
 					
-			<section id="S44">
+			<section>
 				<title>System Library Problems</title>
 
 				<para>Errors in the system libraries will not be
@@ -1126,7 +1126,7 @@ size_t s;</programlisting>
 					into &tdf; (not via C), using the &tdf; notation compiler (see [9]).</para>
 			</section>
 					
-			<section id="S45">
+			<section>
 				<title>&tdf; Library Builders</title>
 
 				<para>The discussion above shows how the &tdf; libraries
@@ -1181,7 +1181,7 @@ size_t s;</programlisting>
 		</section>
 	</section>
 
-	<section id="S46">
+	<section>
 		<title>&tdf; and Conditional Compilation</title>
 
 		<para>So far our
@@ -1205,7 +1205,7 @@ size_t s;</programlisting>
 			for reasons of efficiency or whatever, are genuinely different on
 			different machines. It is this we now consider.</para>
 
-		<section id="S47">
+		<section>
 			<title>User-Defined &api;s</title>
 
 			<para>The things which are done genuinely differently on different machines
@@ -1508,7 +1508,7 @@ int main ()
 				up in this way.</para>
 		</section>
 				
-		<section id="S50">
+		<section>
 			<title>Alternative Program Versions</title>
 
 			<para>Consider again the program described in section

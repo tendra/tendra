@@ -5,7 +5,7 @@
 	$Id$
 -->
 		
-<preface id="Intro">
+<preface id="introduction">
 	<title>Introduction</title>
 
 	<para>As explained in &tdf-portability.doc;, TDF may be regarded as an abstract

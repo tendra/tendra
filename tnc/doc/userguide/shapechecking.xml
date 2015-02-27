@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
-<chapter id="S4">
+<chapter>
 	<title>Shape checking</title>
 
 	<para>The input in <emphasis>read</emphasis> (and to a lesser extent <emphasis>decode</emphasis>) mode

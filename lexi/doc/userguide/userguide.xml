@@ -593,7 +593,7 @@
 	<chapter id="lexing">
 		<title>Lexical Analysis</title>
 
-		<section id="lexingoverview">
+		<section id="lexing-overview">
 			<title>Overview</title>
 
 			<para>Lexical analysis is the process of categorising an input
@@ -627,10 +627,10 @@ firstly define lexemes
 
 			<para>Usually it is the responsibility of the lexical analyser
 				to skip whitespace (and often also comments).
-				<xref linkend="tokenstream"/> illustrates an example of
+				<xref linkend="token-stream"/> illustrates an example of
 				tokenisation:</para>
 
-			<figure id="tokenstream">
+			<figure id="token-stream">
 				<title>Forming a Token Stream</title>
 				<graphic align="center"
 					fileref="images/tokens.svg"/>
@@ -674,7 +674,7 @@ firstly define lexemes
 			<!-- TODO -->
 			<variablelist>
 				<varlistentry>
-					<term><link linkend="keyworddefinitions">Keyword Definitions</link></term>
+					<term><link linkend="keyword-definitions">Keyword Definitions</link></term>
 
 					<listitem>
 						<para>Keywords are sequences of inseparable characters
@@ -692,7 +692,7 @@ firstly define lexemes
 				</varlistentry>
 
 				<varlistentry>
-					<term><link linkend="prepassmappings">Pre-pass Mappings</link></term>
+					<term><link linkend="pre-pass-mappings">Pre-pass Mappings</link></term>
 
 					<listitem>
 						<para>For mappings of sequences of characters to a
@@ -703,7 +703,7 @@ firstly define lexemes
 				</varlistentry>
 
 				<varlistentry>
-					<term><link linkend="whitespacedefinitions">Whitespace Definitions</link></term>
+					<term><link linkend="whitespace-definitions">Whitespace Definitions</link></term>
 
 					<listitem>
 						<para>Whitespace serves both to separate tokens who's
@@ -717,7 +717,7 @@ firstly define lexemes
 				</varlistentry>
 
 				<varlistentry>
-					<term><link linkend="groupdefinitions">Group definitions</link></term>
+					<term><link linkend="group-definitions">Group definitions</link></term>
 
 					<listitem>
 						<para>Group definitions define sets of characters which
@@ -730,7 +730,7 @@ firstly define lexemes
 				</varlistentry>
 
 				<varlistentry>
-					<term><link linkend="tokendefinitions">Token definitions</link></term>
+					<term><link linkend="token-definitions">Token definitions</link></term>
 
 					<listitem>
 						<para>Token definitions specify the set of spellings
@@ -740,7 +740,7 @@ firstly define lexemes
 				</varlistentry>
 
 				<varlistentry>
-					<term><link linkend="defaultdefinition">Default definitions</link></term>
+					<term><link linkend="default-definition">Default definitions</link></term>
 
 					<listitem>
 						<para>Default definitions specify which action
@@ -750,7 +750,7 @@ firstly define lexemes
 				</varlistentry>
 
 				<varlistentry>
-					<term><link linkend="zonedefinitions">Zone definitions</link></term>
+					<term><link linkend="zone-definitions">Zone definitions</link></term>
 
 					<listitem>
 						<para>Zone definitions specify zones in which
@@ -798,7 +798,7 @@ firstly define lexemes
 	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
 		href="commands.xml"/>
 
-	<chapter id="lexiactionfile">
+	<chapter id="action-file">
 		<title>The lexi action file</title>
 
 		<section>
@@ -888,7 +888,7 @@ firstly define lexemes
     -->
 		</section>
 
-		<section id="interface_terminals">
+		<section id="interface-terminals">
 			<title>Terminals</title>
 
 			<para>&lexi.app; does not define the values of
@@ -914,7 +914,7 @@ firstly define lexemes
 				do so yourself -->
 		</section>
 
-		<section id="interface_functions">
+		<section id="interface-functions">
 			<title>Functions</title>
 
 			<!-- TODO: we could express system-defined functions as $x() perhaps -->
@@ -987,8 +987,8 @@ TOKEN "[identstart]" -> read_identifier();</programlisting>
 			<programlisting language="c">is_digit(lookup_char(c))</programlisting>
 
 			<para>assuming a group named <quote>digit</quote> is defined. See the
-				<xref linkend="groupdefinitions"/>
-				and <xref linkend="whitespacedefinitions"/> white sections for
+				<xref linkend="group-definitions"/>
+				and <xref linkend="whitespace-definitions"/> white sections for
 				further details on group names.</para>
 		</section>
 

@@ -5,7 +5,7 @@
 	$Id$
 -->
 
-<chapter id="Others">
+<chapter id="others">
 	<title>Other tspec Constructs</title>
 
 	<para>Although most <code>tspec</code> constructs are concerned either
@@ -13,7 +13,7 @@
 		objects, there are a few which do not fall into these
 		categories.</para>
 
-	<section id="If">
+	<section id="IF-ELSE-ENDIF">
 		<title>+IF, +ELSE and +ENDIF</title>
 
 		<para>It is possible to introduce conditional compilation into the API
@@ -47,13 +47,13 @@
 		<para>The macros in these constructs expand respectively to <code>
 			__BUILDING_LIBS</code> which, by convention is defined if and only
 			if TDF library building is taking place (see
-			<link linkend="Libraries">section 6.4</link>), and the protection
+			<link linkend="libraries">section 6.4</link>), and the protection
 			macro <code>tspec</code> makes up to protect the file
 			<code>api:header</code> against multiple inclusion (see
-			<link linkend="Protect">section 6.2</link>).</para>
+			<link linkend="protect">section 6.2</link>).</para>
 	</section>
 
-	<section id="Text">
+	<section id="text">
 		<title>Quoted Text</title>
 
 		<para>It is sometimes desirable to include text in the specification
@@ -75,7 +75,7 @@
 			used.</para>
 	</section>
 
-	<section id="Comment">
+	<section id="comments">
 		<title>C Comments</title>
 
 		<para>A special case of quoted text are C style comments:</para>
@@ -85,7 +85,7 @@
 			<para>which are copied directly into the include output file.</para>
 	</section>
 
-	<section id="Properties">
+	<section id="properties">
 		<title>File Properties</title>
 
 		<para>Various properties of individual sets of objects or global
@@ -143,7 +143,7 @@
 					<td>string</td>
 					<td>Set the name of the include output file in place of
 						the default name given in
-						<link linkend="Output">section 2.3</link>.	Setting the
+						<link linkend="output">section 2.3</link>.	Setting the
 						property to the empty string suppresses the output of this
 						file.</td>
 				</tr>
@@ -178,7 +178,7 @@
 					<td>string</td>
 					<td>Specify alternative construction methods for TDF library
 						building (see
-						<link linkend="Libraries">section 6.4</link>).</td>
+						<link linkend="libraries">section 6.4</link>).</td>
 				</tr>
 			
 				<tr>
@@ -186,7 +186,7 @@
 					<td>string</td>
 					<td>A prefix to unique token names in place of the API and
 						header names (see
-						<link linkend="Names">section 4.1.1</link>).</td>
+						<link linkend="names">section 4.1.1</link>).</td>
 				</tr>
 			
 				<tr>
@@ -194,7 +194,7 @@
 					<td>string</td>
 					<td>Set the macro used by <code>tspec</code> to protect
 						the include output file against multiple inclusions (see
-						<link linkend="Protect">section 6.2</link>). Setting the
+						<link linkend="protect">section 6.2</link>). Setting the
 						property to the empty string suppresses this macro.</td>
 				</tr>
 			
@@ -203,7 +203,7 @@
 					<td>string</td>
 					<td>Set the name of the source output file in place of the
 						default name given in
-						<link linkend="Output">section 2.3</link>.	Setting the
+						<link linkend="output">section 2.3</link>.	Setting the
 						property to the empty string suppresses the output of this
 						file.</td>
 
@@ -220,7 +220,7 @@
 					<td><code>UNIQUE</code></td>
 					<td>numeric</td>
 					<td>Switch the unique token name flag on and off (see
-						<link linkend="Names">section 4.1.1</link>). For standard APIs
+						<link linkend="names">section 4.1.1</link>). For standard APIs
 						it is recommended that this property is set to 1 in the API
 						<code>master.ts</code> file.</td>
 				</tr>
@@ -229,7 +229,7 @@
 					<td><code>VERBOSE</code></td>
 					<td>numeric</td>
 					<td>Set the level of the verbose option (see
-						<link linkend="Options">section 2.5</link>).</td>
+						<link linkend="options">section 2.5</link>).</td>
 				</tr>
 			
 				<tr>

@@ -1,15 +1,13 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE chapter SYSTEM "minidocbook.dtd">
-
 <!--
   $Id$
 -->
-
-<chapter id="C3">
+<chapter id="describing-the-structure">
 	<title>Describing the structure</title>
 
 	<para>The following examples show how TDF constructs are described in this
-		document. The first is the construct <link linkend="C5S31.6">
+		document. The first is the construct <link linkend="floating">
 		<replaceable>floating</replaceable></link>:</para>
 
 	<programlisting language="tdf">fv:              FLOATING_VARIETY
@@ -34,8 +32,7 @@
 		the syntax and the accompanying English text supplies the semantics.
 		However, in the case of some constructs it is convenient to specify more
 		information in the formal section. For example, the specification of the
-		construct <link
-		linkend="C5S16.39"><replaceable>floating_negate</replaceable></link> not only
+		construct <link linkend="floating_negate"><replaceable>floating_negate</replaceable></link> not only
 		states that it has an <code>EXP</code> argument and an <code>EXP</code>
 		result:</para>
 
@@ -48,7 +45,7 @@ arg1:            EXP FLOATING(f)
 		kind.</para>
 
 	<para>Some construct's arguments are optional. This is denoted as follows (from
-		<link linkend="C5S16.6"><replaceable>apply_proc</replaceable></link>):</para>
+		<link linkend="apply_proc"><replaceable>apply_proc</replaceable></link>):</para>
 
     <programlisting language="tdf">result_shape:    SHAPE
 p:               EXP PROC
@@ -66,8 +63,7 @@ var_param:       OPTION(EXP)
 
 	<para>Some constructs' results are governed by the values of their arguments.
 		This is denoted by the &ldquo;<code>?</code>&rdquo; formation shown in the
-		specification of the <link
-		linkend="C5S16.14"><replaceable>case</replaceable></link> construct
+		specification of the <link linkend="case"><replaceable>case</replaceable></link> construct
 		shown below:</para>
 
     <programlisting language="tdf">exhaustive:      BOOL
@@ -82,7 +78,7 @@ branches:        LIST(CASELIM)
 		arguments need necessarily be processed. For instance, installers do not
 		need to process one of the arguments of the <replaceable>x_cond</replaceable>
 		constructs (where <replaceable>x</replaceable> stands for a <code>SORT</code>,
-		e.g. <link linkend="C5S16.2"><replaceable>exp_cond</replaceable></link> .
+		e.g. <link linkend="exp_cond"><replaceable>exp_cond</replaceable></link> .
 		Secondly, standard tools might want to ignore embedded fragments of TDF
 		adhering to some private standard. In these cases it is desirable for tools
 		to be able to skip the irrelevant pieces of TDF. <code>BITSTREAM</code>s and
@@ -119,7 +115,7 @@ branches:        LIST(CASELIM)
 		<replaceable>token</replaceable> etc.</para>
 
 	<para>The bit encodings are also specified in this document. The details are given
-		in <link linkend="C8">The bit encoding of TDF</link>. This section describes
+		in <link linkend="bit-encoding">The bit encoding of TDF</link>. This section describes
 		the encoding in terms of information given with the descriptions of the
 		<code>SORT</code>s and constructs.</para>
 
@@ -145,4 +141,3 @@ branches:        LIST(CASELIM)
 		byte boundary in the encoding. This is denoted by inserting
 		<code>BYTE_ALIGN</code> before the component <code>SORT</code>.</para>
 </chapter>
-

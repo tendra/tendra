@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
-<chapter id="S1">
+<chapter>
 	<title>Introduction</title>
 
 	<para>The &tdf; notation compiler, <code>tnc</code>, is a tool for translating

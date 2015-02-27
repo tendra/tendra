@@ -114,7 +114,7 @@
 
 					<para>The added specification level of named subsets of headers
 						has been introduced (see
-						<xref linkend="Levels"/>).	This has been done
+						<xref linkend="levels"/>).	This has been done
 						by introducing the <code>+SUBSET</code> construct and extending
 						the <code>+IMPLEMENT</code> and <code>+USE</code> constructs, as
 						well as the command-line options. The previous method of dealing
@@ -123,40 +123,40 @@
 
 					<para>A number of new command-line options have been added, and
 						some of the existing options have been modified slightly (see
-						<xref linkend="Options"/>).</para>
+						<xref linkend="options"/>).</para>
 
 					<para>The suffix <code>.api</code> has been added to the output
-						directories (see <xref linkend="Output"/>) to
+						directories (see <xref linkend="output"/>) to
 						avoid possible confusion with other include file
 						directories.</para>
 
 					<para>The use of identifiers beginning with <code>~</code> as
-						local variables is new (see <xref linkend="Identifiers"/>).</para>
+						local variables is new (see <xref linkend="identifiers"/>).</para>
 
 					<para>The <code>+STATEMENT</code> and <code>+DEFINE</code>
-						constructs (see <xref linkend="Statement"/> and
-						<xref linkend="Define"/>) are new.</para>
+						constructs (see <xref linkend="STATEMENT"/> and
+						<xref linkend="DEFINE"/>) are new.</para>
 
 					<para>The <code>(extern)</code>, <code>(weak)</code> and
 						<code>(const)</code> qualifiers for <code>+FUNC</code> and
-						<code>+EXP</code> (see <xref linkend="Func"/> and
-						<xref linkend="Exp"/>) are new.</para>
+						<code>+EXP</code> (see <xref linkend="FUNC"/> and
+						<xref linkend="EXP-CONST"/>) are new.</para>
 
 					<para>The <code>(signed)</code> and <code>(unsigned)</code>
 						qualifiers for <code>+TYPE</code> (see
-						<xref linkend="Type"/>) are new.</para>
+						<xref linkend="TYPE"/>) are new.</para>
 
 					<para>The <code>~special</code> type constructor (see
-						<xref linkend="Typedef"/>) is new.</para>
+						<xref linkend="TYPEDEF"/>) is new.</para>
 
 					<para>The <code>~abstract</code> type constructor has been
 						abandoned.</para>
 
 					<para>The <code>+BASE_API</code> command described in
-						<xref linkend="FineImpl"/> is new.</para>
+						<xref linkend="fine-implement"/> is new.</para>
 
 					<para>The indexing routines (see
-						<xref linkend="Index"/>) have been greatly
+						<xref linkend="index"/>) have been greatly
 						improved.</para>
 				</revdescription>
 			</revision>

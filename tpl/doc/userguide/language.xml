@@ -72,7 +72,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 	<para>The principle of "no use before declaration" also applies to
 		&lt;ident&gt; names given to TAGs.</para>
 
-	<section id="S7">
+	<section>
 		<title>Program</title>
 
 		<para>The root expansion of a PL_TDF program is given by
@@ -105,7 +105,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 
 		<para>A &lt;Program&gt; will produce a single TDF CAPSULE.</para>
 
-		<section id="S8">
+		<section>
 			<title>Tokdec</title>
 
 			<para>A &lt;Tokdec&gt; introduces an &lt;ident&gt; as a TOKEN:</para>
@@ -123,7 +123,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 				&lt;x-token&gt; where x is given by the &lt;ResultSort&gt;.</para>
 		</section>
 
-		<section id="S9">
+		<section id="tokdef">
 			<title>Tokdef</title>
 
 			<para>A &lt;Tokdef&gt; defines an &lt;ident&gt; as a TOKEN; this
@@ -159,7 +159,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 				a parameter of a token application.</para>
 		</section>
 
-		<section id="S10">
+		<section>
 			<title>Tagdec</title>
 
 			<para>A &lt;Tagdec&gt; introduces an &lt;ident&gt; as a TAG:</para>
@@ -181,7 +181,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 				in various shorthand operations on TAG &lt;ident&gt;s.</para>
 		</section>
 
-		<section id="S11">
+		<section>
 			<title>Tagdef</title>
 
 			<para>A &lt;Tagdef&gt; defines an &lt;ident&gt; as a TAG. This
@@ -212,11 +212,11 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 			<programlisting language="bnf">String format = "Result = %d\n"</programlisting>
 
 			<para>the tag &lt;ident&gt;, format, could be used straightforwardly as
-				the first parameter of printf - see <link linkend="S41">Section 4
+				the first parameter of printf - see <link linkend="examples">Section 4
 				(Example PL_TDF programs)</link>.</para>
 		</section>
 
-		<section id="S12">
+		<section>
 			<title>Altagdef</title>
 
 			<para>An &lt;Altagdef&gt; defines an &lt;ident&gt; as an AL_TAG:</para>
@@ -228,7 +228,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 				&lt;Alignment&gt;.</para>
 		</section>
 
-		<section id="S13">
+		<section>
 			<title>Structdef</title>
 
 			<para>A &lt;Structdef&gt; defines a TOKEN for a structure SHAPE,
@@ -263,7 +263,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 				the start of the structure.</para>
 		</section>
 
-		<section id="S14">
+		<section id="procdef">
 			<title>Procdef</title>
 
 			<para>A &lt;Procdef&gt; defines a TAG to be a procedure; it is
@@ -298,7 +298,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 			<para>A &lt;Simple_Proc&gt; produces a make_proc with the obvious
 				operands. The scope of the tag names introduced by
 				&lt;Parametername&gt; and &lt;Varparname&gt; is the
-				&lt;ClosedExp&gt; (see <link linkend="S36">section
+				&lt;ClosedExp&gt; (see <link linkend="control-structure">section
 				3.3</link>).</para>
 
 			<para>A &lt;General_Proc&gt; produces a make_general_proc with
@@ -310,7 +310,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 		</section>
 	</section>
 
-	<section id="S15">
+	<section>
 		<title>First-class SORT expansions</title>
 
 		<para>All of the first-class sorts have similar expansions for native
@@ -345,7 +345,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 			expansion required by the SORT given by the &lt;TokDecPar&gt; of the
 			TOKDEF or TOKDEC which introduced &lt;shape_token&gt;.</para>
 
-		<section id="S16">
+		<section>
 			<title>Access</title>
 
 			<programlisting language="bnf">
@@ -357,7 +357,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 				ones.</para>
 		</section>
 
-		<section id="S17">
+		<section>
 			<title>Al_tag</title>
 
 			<programlisting language="bnf">&lt;Al_tag&gt; ::= &lt;al_tag_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt</programlisting>
@@ -370,7 +370,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 				declared as the name for an AL_TAG.</para>
 		</section>
 
-		<section id="S18">
+		<section>
 			<title>Alignment</title>
 
 			<programlisting language="bnf">
@@ -391,7 +391,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 				ALIGNMENT.</para>
 		</section>
 
-		<section id="S19">
+		<section>
 			<title>Bitfield_variety</title>
 
 			<programlisting language="bnf">
@@ -410,7 +410,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 				Signed.</para>
 		</section>
 
-		<section id="S20">
+		<section>
 			<title>Bool</title>
 
 			<programlisting language="bnf">
@@ -422,7 +422,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 				ones.</para>
 		</section>
 
-		<section id="S21">
+		<section>
 			<title>Error_treatment</title>
 
 			<programlisting language="bnf">&lt;Error_treatment&gt; ::= ERROR_TREATMENT ?
@@ -444,8 +444,8 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 			<para>Produces trap with the &lt;Error_code&gt;s as arguments.</para>
 		</section>
 
-		<section id="S22">
-			<title>xp</title>
+		<section id="exp">
+			<title>Exp</title>
 
 			<programlisting language="bnf">
 &lt;Exp&gt; ::= &lt;ExpTerm&gt;
@@ -588,7 +588,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 			<para>The further expansions of &lt;Exp&gt; are all
 				&lt;ExpTerm&gt;s</para>
 
-			<section id="S23">
+			<section>
 				<title>ExpTerm</title>
 
 				<programlisting language="bnf">
@@ -600,7 +600,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 
 				<programlisting language="bnf">&lt;ExpTerm&gt; ::= &lt;ClosedExp&gt;</programlisting>
 
-				<para>For &lt;ClosedExp&gt;, see <link linkend="S36">section 3.3</link>.</para>
+				<para>For &lt;ClosedExp&gt;, see <link linkend="control-structure">section 3.3</link>.</para>
 
 				<programlisting language="bnf">&lt;ExpTerm&gt; ::= ( &lt;Exp&gt; )
 &lt;ExpTerm&gt; ::= - ( &lt;Exp&gt; )</programlisting>
@@ -629,7 +629,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 
 				<programlisting language="bnf">&lt;ExpTerm&gt; ::= &lt;Assertion&gt;</programlisting>
 
-				<para>For &lt;Assertion&gt;, see <link linkend="S37">section 3.3.1</link></para>
+				<para>For &lt;Assertion&gt;, see <link linkend="conditionalexp-and-assertion">section 3.3.1</link></para>
 
 				<programlisting language="bnf">&lt;ExpTerm&gt; ::= Case &lt;Exp&gt; ( &lt;RangeDest&gt;-List )
 	&lt;RangeDest&gt; ::= &lt;Signed_Nat&gt; &lt; : &lt;Signed_Nat&gt; &gt;-Opt -&gt; &lt;Label&gt;</programlisting>
@@ -688,7 +688,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 				<programlisting language="bnf">&lt;ExpTerm&gt; ::= Proc &lt;Proc_defn&gt;</programlisting>
 
 				<para>Produces a make_proc. For &lt;Proc_defn&gt;, see
-					<link linkend="S14">section 3.1.7</link></para>
+					<link linkend="procdef">section 3.1.7</link></para>
 
 				<programlisting language="bnf">&lt;ExpTerm&gt; ::= &lt;String&gt; ( &lt;Variety&gt; )</programlisting>
 
@@ -701,7 +701,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 			</section>
 		</section>
 
-		<section id="S24">
+		<section>
 			<title>Floating_variety</title>
 
 			<programlisting language="bnf">&lt;Floating_variety&gt; ::= FLOATING_VARIETY ?
@@ -720,7 +720,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 			<para>An IEEE 64 bit floating variety.</para>
 		</section>
 
-		<section id="S25">
+		<section>
 			<title>Label</title>
 
 			<programlisting language="bnf">&lt;Label&gt; ::= &lt;label_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt</programlisting>
@@ -733,7 +733,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 				current procedure.</para>
 		</section>
 
-		<section id="S26">
+		<section>
 			<title>Nat</title>
 
 			<programlisting language="bnf">&lt;Nat&gt; ::= NAT ? ( &lt;Exp&gt; , &lt;Nat&gt;, &lt;Nat&gt;)
@@ -751,7 +751,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 			<para>Produces a make_nat on the ASCII value of the character.</para>
 		</section>
 
-		<section id="S27">
+		<section>
 			<title>Ntest</title>
 
 			<programlisting language="bnf">
@@ -806,7 +806,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 			<para>Produces greater_than_or_equal.</para>
 		</section>
 
-		<section id="S28">
+		<section>
 			<title>Rounding_mode</title>
 
 			<programlisting language="bnf">&lt;Rounding_mode&gt; ::= ROUNDING_MODE?
@@ -818,7 +818,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 				the standard ones.</para>
 		</section>
 
-		<section id="S29">
+		<section>
 			<title>Shape</title>
 
 			<programlisting language="bnf">&lt;Shape&gt; ::= SHAPE ? ( &lt;Exp&gt; , &lt;Shape&gt;, &lt;Shape&gt;)
@@ -859,7 +859,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 			<para>The SHAPE pointer(alignment(&lt;Shape&gt;)).</para>
 		</section>
 
-		<section id="S30">
+		<section>
 			<title>Signed_Nat</title>
 
 			<programlisting language="bnf">&lt;Signed_Nat&gt; ::= SIGNED_NAT ? ( &lt;Exp&gt; , &lt;Signed_Nat&gt;, &lt;Signed_Nat&gt;)
@@ -891,7 +891,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 				&lt;Nat&gt;.</para>
 		</section>
 
-		<section id="S31">
+		<section>
 			<title>String</title>
 
 			<programlisting language="bnf">&lt;String&gt; ::= STRING? ( &lt;Exp&gt; , &lt;String&gt;, &lt;String&gt;)
@@ -905,7 +905,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 			<para>Produces a make_string.</para>
 		</section>
 
-		<section id="S32">
+		<section>
 			<title>Tag</title>
 
 			<programlisting language="bnf">&lt;Tag&gt; ::= &lt;tag_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt</programlisting>
@@ -918,7 +918,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 				a TAG either globally or locally.</para>
 		</section>
 
-		<section id="S33">
+		<section>
 			<title>Token</title>
 
 			<para>TOKEN is rather a limited first-class sort. There is no
@@ -937,13 +937,13 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 			<programlisting language="bnf">&lt;Token&gt; ::= Use &lt;Tok_Defn&gt;</programlisting>
 
 			<para>This produces a use_tokdef. For &lt;Tok_Defn&gt; see
-				<link linkend="S9">section 3.1.2</link>. The critical use of this
+				<link linkend="tokdef">section 3.1.2</link>. The critical use of this
 				construction is to provide an actual TOKEN parameter to a token
 				application where the &lt;Tok_Defn&gt; contains uses of tags or
 				labels local to a procedure.</para>
 		</section>
 
-		<section id="S34">
+		<section>
 			<title>Transfer_mode</title>
 
 			<programlisting language="bnf">&lt;Transfer_mode&gt; ::= TRANSFER_MODE ? ( &lt;Exp&gt; , &lt;Transfer_mode&gt;, &lt;Transfer_mode&gt;)
@@ -954,7 +954,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 				standard expansions.</para>
 		</section>
 
-		<section id="S35">
+		<section>
 			<title>Variety</title>
 
 			<programlisting language="bnf">&lt;Variety&gt; ::= VARIETY ? ( &lt;Exp&gt; , &lt;Variety&gt;, &lt;Variety&gt;)
@@ -976,7 +976,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 		</section>
 	</section>
 
-	<section id="S36">
+	<section id="control-structure">
 		<title>Control structure and local declarations</title>
 
 		<para>The control and declaration structure is given by
@@ -999,7 +999,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 		<para>The effect of these, together with the expansion of
 			&lt;Assertion&gt; is given below.</para>
 
-		<section id="S37">
+		<section id="conditionalexp-and-assertion">
 			<title>ConditionalExp and Assertion</title>
 
 			<programlisting language="bnf">&lt;ConditionalExp&gt; ::= ? { &lt;ExpSeq&gt; | &lt;LabelSetting&gt;-Opt &lt;ExpSeq&gt; }
@@ -1056,7 +1056,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 				<para>without the hassle of having to invent the LABEL name, L.</para>
 		</section>
 
-		<section id="S38">
+		<section>
 			<title>RepeatExp</title>
 
 			<programlisting language="bnf">&lt;RepeatExp&gt; ::= Rep &lt;Starter&gt;-Opt { &lt;LabelSetting&gt;-Opt &lt;ExpSeq&gt; }
@@ -1070,7 +1070,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 				produce make_top.</para>
 		</section>
 
-		<section id="S39">
+		<section>
 			<title>LabelledExp</title>
 
 			<programlisting language="bnf">&lt;LabelledExp&gt; ::= Labelled { &lt;ExpSeq&gt; &lt;Places&gt; }
@@ -1085,7 +1085,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 				is the &lt;LabelledExp&gt;.</para>
 		</section>
 
-		<section id="S40">
+		<section>
 			<title>Local_Defn</title>
 
 			<para>A &lt;Local_Defn&gt; introduces an &lt;ident&gt; as a TAG for
@@ -1106,7 +1106,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 				make_value(&lt;Shape&gt;) as the initialisation to the variable.
 				Using this form of variable definition also has the advantage of
 				allowing one to use the simple form of the contents operation (*
-				in <link linkend="S22">section 3.2.7</link>).</para>
+				in <link linkend="exp">section 3.2.7</link>).</para>
 
 			<programlisting language="bnf">&lt;Local_Defn&gt; ::= Let &lt;ident&gt; &lt;Access&gt;-Opt = &lt;Exp&gt; &lt;ClosedExp&gt;</programlisting>
 

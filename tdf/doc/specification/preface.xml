@@ -1,17 +1,15 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE preface SYSTEM "minidocbook.dtd">
-
 <!--
   $Id$
 -->
-
 <preface>
 	<title>Preface</title>
 
 	<para>This is Issue 4.0 of the TDF Specification. TDF version 4.0 is not bitwise
 		compatible with earlier versions.</para>
 
-	<section>
+	<section id="major-changes-from-issue-3.1">
 		<title>Major changes from issue 3.1</title>
 
 		<para>A new <code>SORT</code> for <code>STRING</code> is introduced having the
@@ -28,7 +26,7 @@
 acc:            OPTION(ACCESS)
 signature:      OPTION(STRING)
 x:              SHAPE
-          -> TAGDEC</programlisting>
+          -&gt; TAGDEC</programlisting>
 
 		<para>A new <code>EXP</code> constructor, <replaceable>initial_value</replaceable>, is
 			introduced to allow dynamic initialisation of global tags.</para>
@@ -51,7 +49,7 @@ x:              SHAPE
 			consistent with <replaceable>token_definition</replaceable>.</para>
 	</section>
 
-	<section>
+	<section id="notes-on-revision-1">
 		<title>Notes on revision 1</title>
 
 		<para>This Revision 1 of Issue 4.0 incorporates a number of corrections which
@@ -62,8 +60,7 @@ x:              SHAPE
 		<itemizedlist>
 			<listitem>
 				<para>Use of installer-defined <code>TOKEN</code>s for accessing variable
-					parameter lists - see the companion document <ulink
-					url="reference/xhtml/register/">TDF Token Register (Revision
+					parameter lists - see the companion document <ulink url="reference/xhtml/register/">TDF Token Register (Revision
 					1)</ulink>.</para>
 			</listitem>
 

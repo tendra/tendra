@@ -1,13 +1,12 @@
-<?xml version="1.0" standalone="no"?> <!DOCTYPE chapter SYSTEM "minidocbook.dtd">
-
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 <!--
 $Id$
 -->
-
-<chapter id="C5">
+<chapter id="specification-of-tdf-constructs">
 	<title>Specification of TDF constructs</title>
 
-	<section id="C5S1">
+	<section id="tdf-access">
 		<title>Access</title>
 
 		<literallayout>Number of encoding bits: 4</literallayout>
@@ -29,7 +28,7 @@ $Id$
 			<replaceable>standard_access</replaceable> acts like the empty set.
 			<replaceable>add_accesses</replaceable> is the set union operation.</para>
 
-		<section id="C5S1.1">
+		<section id="access_apply_token">
 			<title>access_apply_token</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -52,7 +51,7 @@ token_args:			BITSTREAM param_sorts(token_value)
 				<code>BITSTREAM</code> cannot be read.</para>
 		</section>
 
-		<section id="C5S1.2">
+		<section id="access_cond">
 			<title>access_cond</title>
 
 			<literallayout>Encoding number: 2</literallayout>
@@ -71,7 +70,7 @@ e2:							BITSTREAM ACCESS
 				processed.</para>
 		</section>
 
-		<section id="C5S1.3">
+		<section id="add_access">
 			<title>add_access</title>
 
 			<literallayout>Encoding number: 3</literallayout>
@@ -85,7 +84,7 @@ a2:							ACCESS
 				<replaceable>a2</replaceable>. This operation is associative and commutative.</para>
 		</section>
 
-		<section id="C5S1.4">
+		<section id="constant">
 			<title>constant</title>
 
 			<literallayout>Encoding number: 4</literallayout>
@@ -98,7 +97,7 @@ a2:							ACCESS
 				throughout its lifetime.</para>
 		</section>
 
-		<section id="C5S1.5">
+		<section id="long_jump_access">
 			<title>long_jump_access</title>
 
 			<literallayout>Encoding number: 5</literallayout>
@@ -110,7 +109,7 @@ a2:							ACCESS
 				the object.</para>
 		</section>
 
-		<section id="C5S1.6">
+		<section id="no_other_read">
 			<title>no_other_read</title>
 
 			<literallayout>Encoding number: 6</literallayout>
@@ -135,7 +134,7 @@ a2:							ACCESS
 				<code>POINTER</code>.</para>
 		</section>
 
-		<section id="C5S1.7">
+		<section id="no_other_write">
 			<title>no_other_write</title>
 
 			<literallayout>Encoding number: 7</literallayout>
@@ -160,7 +159,7 @@ a2:							ACCESS
 				<code>POINTER</code>.</para>
 		</section>
 
-		<section id="C5S1.8">
+		<section id="out_par">
 			<title>out_par</title>
 
 			<literallayout>Encoding number: 8</literallayout>
@@ -174,7 +173,7 @@ a2:							ACCESS
 				<replaceable>apply_general_proc</replaceable> of this procedure.</para>
 		</section>
 
-		<section id="C5S1.9">
+		<section id="preserve">
 			<title>preserve</title>
 
 			<literallayout>Encoding number: 9</literallayout>
@@ -187,7 +186,7 @@ a2:							ACCESS
 				of procedure object.</para>
 		</section>
 
-		<section id="C5S1.10">
+		<section id="register">
 			<title>register</title>
 
 			<literallayout>Encoding number: 10</literallayout>
@@ -198,7 +197,7 @@ a2:							ACCESS
 				be taken as a recommendation to place it in a register.</para>
 		</section>
 
-		<section id="C5S1.11">
+		<section id="standard_access">
 			<title>standard_access</title>
 
 			<literallayout>Encoding number: 11</literallayout>
@@ -209,7 +208,7 @@ a2:							ACCESS
 				normal (i.e.	no special) access properties.</para>
 		</section>
 
-		<section id="C5S1.12">
+		<section id="used_as_volatile">
 			<title>used_as_volatile</title>
 
 			<literallayout>Encoding number: 12</literallayout>
@@ -223,7 +222,7 @@ a2:							ACCESS
 				<code>TRANSFER_MODE</code> <replaceable>volatile</replaceable>.</para>
 		</section>
 
-		<section id="C5S1.13">
+		<section id="visible">
 			<title>visible</title>
 
 			<literallayout>Encoding number: 13</literallayout>
@@ -237,7 +236,7 @@ a2:							ACCESS
 		</section>
 	</section>
 
-	<section id="C5S2">
+	<section id="AL_TAG">
 		<title>AL_TAG</title>
 
 		<literallayout>Number of encoding bits: 1</literallayout>
@@ -254,7 +253,7 @@ a2:							ACCESS
 			to x = {pointer}.</replaceable>
 		</para>
 
-		<section id="C5S2.1">
+		<section id="al_tag_apply_token">
 			<title>al_tag_apply_token</title>
 
 			<literallayout>Encoding number: 2</literallayout>
@@ -273,7 +272,7 @@ token_args:			BITSTREAM param_sorts(token_value)
 				parameters, in the order specified.</para>
 		</section>
 
-		<section id="C5S2.2">
+		<section id="make_al_tag">
 			<title>make_al_tag</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -286,7 +285,7 @@ token_args:			BITSTREAM param_sorts(token_value)
 		</section>
 	</section>
 
-	<section id="C5S3">
+	<section id="AL_TAGDEF">
 		<title>AL_TAGDEF</title>
 
 		<literallayout>Number of encoding bits: 1</literallayout>
@@ -295,7 +294,7 @@ token_args:			BITSTREAM param_sorts(token_value)
 		<para>An <code>AL_TAGDEF</code> gives the definition of an <code>AL_TAG</code>
 			for incorporation into a <code>AL_TAGDEF_PROPS</code>.</para>
 
-		<section id="C5S3.1">
+		<section id="make_al_tagdef">
 			<title>make_al_tagdef</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -323,18 +322,18 @@ a:							 ALIGNMENT
 				<replaceable>control</replaceable>.	Simultaneous equations defining
 				<code>ALIGNMENT</code>s can then always be solved.</para>
 
-			<para>See <link linkend="C7S13.3">Circular types in languages</link>.</para>
+			<para>See <link linkend="circular-types">Circular types in languages</link>.</para>
 		</section>
 	</section>
 
-	<section id="C5S4">
+	<section id="AL_TAGDEF_PROPS">
 		<title>AL_TAGDEF_PROPS</title>
 
 		<literallayout>Number of encoding bits: 0</literallayout>
 		<literallayout>Is coding extendable: no</literallayout>
 		<literallayout>Unit identificaiton: aldef</literallayout>
 
-		<section id="C5S4.1">
+		<section id="make_al_tagdefs">
 			<title>make_al_tagdefs</title>
 
 			<literallayout>Encoding number: 0</literallayout>
@@ -350,7 +349,7 @@ tds:						 SLIST(AL_TAGDEF)
 		</section>
 	</section>
 
-	<section id="C5S5">
+	<section id="ALIGNMENT">
 		<title>ALIGNMENT</title>
 
 		<literallayout>Number of encoding bits: 4</literallayout>
@@ -358,7 +357,7 @@ tds:						 SLIST(AL_TAGDEF)
 
 		<para>An <code>ALIGNMENT</code> gives information about the layout of data in
 			memory and hence is a parameter for the <code>POINTER</code> and
-			<code>OFFSET SHAPE</code>s (see <link linkend="C7S13">Memory
+			<code>OFFSET SHAPE</code>s (see <link linkend="memory-model">Memory
 			Model</link>). This information consists of a set of elements.</para>
 
 		<para>The possible values of the elements in such a set are
@@ -405,7 +404,7 @@ tds:						 SLIST(AL_TAGDEF)
 			<replaceable>b</replaceable> will be a subset of <replaceable>a</replaceable> (or
 			equal to <replaceable>a</replaceable>).</para>
 
-		<section id="C5S5.1">
+		<section id="alignment_apply_token">
 			<title>alignment_apply_token</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -424,7 +423,7 @@ token_args:			BITSTREAM param_sorts(token_value)
 				parameters, in the order specified.</para>
 		</section>
 
-		<section id="C5S5.2">
+		<section id="alignment_cond">
 			<title>alignment_cond</title>
 
 			<literallayout>Encoding number: 2</literallayout>
@@ -443,7 +442,7 @@ e2:							BITSTREAM ALIGNMENT
 				processed.</para>
 		</section>
 
-		<section id="C5S5.3">
+		<section id="alignment">
 			<title>alignment</title>
 
 			<literallayout>Encoding number: 3</literallayout>
@@ -515,7 +514,7 @@ e2:							BITSTREAM ALIGNMENT
 			</itemizedlist>
 		</section>
 
-		<section id="C5S5.4">
+		<section id="alloca_allignment">
 			<title>alloca_allignment</title>
 
 			<literallayout>Encoding number: 4</literallayout>
@@ -526,7 +525,7 @@ e2:							BITSTREAM ALIGNMENT
 				from <replaceable>local_alloc</replaceable>.</para>
 		</section>
 
-		<section id="C5S5.5">
+		<section id="callees_alignment">
 			<title>callees_alignment</title>
 
 			<literallayout>Encoding number: 5</literallayout>
@@ -549,7 +548,7 @@ e2:							BITSTREAM ALIGNMENT
 				<code>OFFSET</code>s.</para>
 		</section>
 
-		<section id="C5S5.6">
+		<section id="callers_alignment">
 			<title>callers_alignment</title>
 
 			<literallayout>Encoding number: 6</literallayout>
@@ -572,7 +571,7 @@ e2:							BITSTREAM ALIGNMENT
 				<code>OFFSET</code>s.</para>
 		</section>
 
-		<section id="C5S5.7">
+		<section id="code_alignment">
 			<title>code_alignment</title>
 
 			<literallayout>Encoding number: 7</literallayout>
@@ -583,7 +582,7 @@ e2:							BITSTREAM ALIGNMENT
 				<code>POINTER</code> produced by <replaceable>make_local_lv</replaceable>.</para>
 		</section>
 
-		<section id="C5S5.8">
+		<section id="locals_alignment">
 			<title>locals_alignment</title>
 
 			<literallayout>Encoding number: 8</literallayout>
@@ -598,7 +597,7 @@ e2:							BITSTREAM ALIGNMENT
 				existing <code>OFFSET</code>s.</para>
 		</section>
 
-		<section id="C5S5.9">
+		<section id="obtain_al_tag">
 			<title>obtain_al_tag</title>
 
 			<literallayout>Encoding number: 9</literallayout>
@@ -610,7 +609,7 @@ e2:							BITSTREAM ALIGNMENT
 				with which the <code>AL_TAG</code> <replaceable>at</replaceable> is bound.</para>
 		</section>
 
-		<section id="C5S5.10">
+		<section id="parameter_alignment">
 			<title>parameter_alignment</title>
 
 			<literallayout>Encoding number: 10</literallayout>
@@ -622,7 +621,7 @@ e2:							BITSTREAM ALIGNMENT
 				<code>SHAPE</code> <replaceable>sha</replaceable>.</para>
 		</section>
 
-		<section id="C5S5.11">
+		<section id="unite_alignments">
 			<title>unite_alignments</title>
 
 			<literallayout>Encoding number: 11</literallayout>
@@ -638,7 +637,7 @@ a2:							ALIGNMENT
 				<replaceable>a1</replaceable> and <replaceable>a2</replaceable>.</para>
 		</section>
 
-		<section id="C5S5.12">
+		<section id="var_param_alignment">
 			<title>var_param_alignment</title>
 
 			<literallayout>Encoding number: 12</literallayout>
@@ -650,7 +649,7 @@ a2:							ALIGNMENT
 		</section>
 	</section>
 
-	<section id="C5S6">
+	<section id="BITFIELD_VARIETY">
 		<title>BITFIELD_VARIETY</title>
 
 		<literallayout>Number of encoding bits: 2</literallayout>
@@ -661,10 +660,10 @@ a2:							ALIGNMENT
 			addressing boundaries.</para>
 
 		<para>There is no limit on the size of bitfield values in TDF, but an installer
-			may specify limits. See <link linkend="C7S24">Representing
-			bitfields</link> and <link linkend="C7S25">Permitted limits</link>.</para>
+			may specify limits. See <link linkend="representing-bitfields">Representing
+			bitfields</link> and <link linkend="permitted-limits">Permitted limits</link>.</para>
 
-		<section id="C5S6.1">
+		<section id="bfvar_apply_token">
 			<title>bfvar_apply_token</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -683,7 +682,7 @@ token_args:			BITSTREAM param_sorts(token_value)
 				parameters, in the order specified.</para>
 		</section>
 
-		<section id="C5S6.2">
+		<section id="bfvar_cond">
 			<title>bfvar_cond</title>
 
 			<literallayout>Encoding number: 2</literallayout>
@@ -702,7 +701,7 @@ e2:							BITSTREAM BITFIELD_VARIETY
 				processed.</para>
 		</section>
 
-		<section id="C5S6.3">
+		<section id="bfvar_bits">
 			<title>bfvar_bits</title>
 
 			<literallayout>Encoding number: 3</literallayout>
@@ -720,7 +719,7 @@ twos-complement signed number: otherwise it is considered to be
 		</section>
 	</section>
 
-	<section id="C5S7">
+	<section id="BITSTREAM">
 		<title>BITSTREAM</title>
 
 		<para>A <code>BITSTREAM</code> consists of an encoding of any number of bits.
@@ -733,10 +732,10 @@ twos-complement signed number: otherwise it is considered to be
 			<code>TOKEN</code> available, this will provide the information needed to
 			decode the bitstream.</para>
 
-		<para>See <link linkend="C8S4">The TDF encoding</link>.</para>
+		<para>See <link linkend="tdf-encoding">The TDF encoding</link>.</para>
 	</section>
 
-	<section id="C5S8">
+	<section id="BOOL">
 		<title>BOOL</title>
 
 		<literallayout>Number of encoding bits: 3</literallayout>
@@ -745,7 +744,7 @@ twos-complement signed number: otherwise it is considered to be
 		<para>A <code>BOOL</code> is a piece of TDF which can take two values,
 			<replaceable>true</replaceable> or <replaceable>false</replaceable>.</para>
 
-		<section id="C5S8.1">
+		<section id="bool_apply_token">
 			<title>bool_apply_token</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -764,7 +763,7 @@ token_args:			BITSTREAM param_sorts(token_value)
 				parameters, in the order specified.</para>
 		</section>
 
-		<section id="C5S8.2">
+		<section id="bool_cond">
 			<title>bool_cond</title>
 
 			<literallayout>Encoding number: 2</literallayout>
@@ -783,7 +782,7 @@ e2:							BITSTREAM BOOL
 				processed.</para>
 		</section>
 
-		<section id="C5S8.3">
+		<section id="false">
 			<title>false</title>
 
 			<literallayout>Encoding number: 3</literallayout>
@@ -793,7 +792,7 @@ e2:							BITSTREAM BOOL
 			<para><replaceable>false</replaceable> produces a false <code>BOOL</code>.</para>
 		</section>
 
-		<section id="C5S8.4">
+		<section id="true">
 			<title>true</title>
 
 			<literallayout>Encoding number: 4</literallayout>
@@ -804,16 +803,16 @@ e2:							BITSTREAM BOOL
 		</section>
 	</section>
 
-	<section id="C5S9">
+	<section id="BYTESTREAM">
 		<title>BYTESTREAM</title>
 
 		<para>A <code>BYTESTREAM</code> is analogous to a <code>BITSTREAM</code>, but is
 			encoded to permit fast copying.</para>
 
-		<para>See <link linkend="C8S4">The TDF encoding</link>.</para>
+		<para>See <link linkend="tdf-encoding">The TDF encoding</link>.</para>
 	</section>
 
-	<section id="C5S10">
+	<section id="CALLEES">
 		<title>CALLEES</title>
 
 		<literallayout>Number of encoding bits: 2</literallayout>
@@ -823,7 +822,7 @@ e2:							BITSTREAM BOOL
 			<replaceable>apply_general_proc</replaceable> and <replaceable>tail_call</replaceable>
 			to provide their actual callee parameters.</para>
 
-		<section id="C5S10.1">
+		<section id="make_callee_list">
 			<title>make_callee_list</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -836,7 +835,7 @@ e2:							BITSTREAM BOOL
 				callee parameters of the call.</para>
 		</section>
 
-		<section id="C5S10.2">
+		<section id="make_dynamic_callees">
 			<title>make_dynamic_callees</title>
 
 			<literallayout>Encoding number: 2</literallayout>
@@ -872,7 +871,7 @@ sze:						 EXP OFFSET(x, y)
 				<replaceable>var_callees</replaceable> <code>PROCPROPS</code>.</para>
 		</section>
 
-		<section id="C5S10.3">
+		<section id="same_callees">
 			<title>same_callees</title>
 
 			<literallayout>Encoding number: 3</literallayout>
@@ -884,7 +883,7 @@ sze:						 EXP OFFSET(x, y)
 		</section>
 	</section>
 
-	<section id="C5S11">
+	<section id="CAPSULE">
 		<title>CAPSULE</title>
 
 		<literallayout>Number of encoding bits: 0</literallayout>
@@ -893,7 +892,7 @@ sze:						 EXP OFFSET(x, y)
 		<para>A <code>CAPSULE</code> is an independent piece of TDF. There is only one
 			construction, <replaceable>make_capsule</replaceable>.</para>
 
-		<section id="C5S11.1">
+		<section id="make_capsule">
 			<title>make_capsule</title>
 
 			<literallayout>Encoding number: 0</literallayout>
@@ -905,14 +904,14 @@ groups:					SLIST(GROUP)
 								 -&gt; CAPSULE</programlisting>
 
 			<para><replaceable>make_capsule</replaceable> brings together <code>UNIT</code>s and
-				linking and naming information. See <link linkend="C2S1">The Overall
+				linking and naming information. See <link linkend="overall-structure">The Overall
 				Structure</link>.</para>
 
 			<para>The elements of the list, <replaceable>prop_names</replaceable>, correspond
 				one-to-one with the elements of the list, <replaceable>groups</replaceable>.
 				The element of <replaceable>prop_names</replaceable> is the unit
 				identification of all the <code>UNIT</code>s in the corresponding
-				<code>GROUP</code>. See <link linkend="C5S29"><code>PROPS</code></link>.
+				<code>GROUP</code>. See <link linkend="PROPS"><code>PROPS</code></link>.
 				A <code>CAPSULE</code> need not contain all the kinds of
 				<code>UNIT</code>.</para>
 
@@ -953,7 +952,7 @@ groups:					SLIST(GROUP)
 		</section>
 	</section>
 
-	<section id="C5S12">
+	<section id="CAPSULE_LINK">
 		<title>CAPSULE_LINK</title>
 
 		<literallayout>Number of encoding bits: 0</literallayout>
@@ -963,7 +962,7 @@ groups:					SLIST(GROUP)
 			of a given kind at <code>CAPSULE</code> level. It is used only in
 			<replaceable>make_capsule</replaceable>.</para>
 
-		<section id="C5S12.1">
+		<section id="make_capsule_link">
 			<title>make_capsule_link</title>
 
 			<literallayout>Encoding number: 0</literallayout>
@@ -979,7 +978,7 @@ n:							 TDFINT
 		</section>
 	</section>
 
-	<section id="C5S13">
+	<section id="CASELIM">
 		<title>CASELIM</title>
 
 		<literallayout>Number of encoding bits: 0</literallayout>
@@ -989,7 +988,7 @@ n:							 TDFINT
 			the <code>LABEL</code> destination for the <replaceable>case</replaceable>
 			construction.</para>
 
-		<section id="C5S13.1">
+		<section id="make_caselim">
 			<title>make_caselim</title>
 
 			<literallayout>Encoding number: 0</literallayout>
@@ -1007,13 +1006,13 @@ upper:					 SIGNED_NAT
 		</section>
 	</section>
 
-	<section id="C5S14">
+	<section id="error_code">
 		<title>ERROR_code</title>
 
 		<literallayout>Number of encoding bits: 2</literallayout>
 		<literallayout>Is coding extendable: yes</literallayout>
 
-		<section id="C5S14.1">
+		<section id="nil_access">
 			<title>nil_access</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -1025,7 +1024,7 @@ upper:					 SIGNED_NAT
 				<replaceable>trap_on_nil</replaceable>.</para>
 		</section>
 
-		<section id="C5S14.2">
+		<section id="overflow">
 			<title>overflow</title>
 
 			<literallayout>Encoding number: 2</literallayout>
@@ -1037,7 +1036,7 @@ upper:					 SIGNED_NAT
 				<replaceable>trap</replaceable>(<replaceable>overflow</replaceable>).</para>
 		</section>
 
-		<section id="C5S14.3">
+		<section id="stack_overflow">
 			<title>stack_overflow</title>
 
 			<literallayout>Encoding number: 3</literallayout>
@@ -1051,7 +1050,7 @@ upper:					 SIGNED_NAT
 		</section>
 	</section>
 
-	<section id="C5S15">
+	<section id="ERROR_TREATMENT">
 		<title>ERROR_TREATMENT</title>
 
 		<literallayout>Number of encoding bits: 3</literallayout>
@@ -1063,7 +1062,7 @@ upper:					 SIGNED_NAT
 		<para><replaceable>It is expected that additional <code>ERROR_TREATMENT</code>s
 			will be needed.</replaceable></para>
 
-		<section id="C5S15.1">
+		<section id="errt_apply_token">
 			<title>errt_apply_token</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -1082,7 +1081,7 @@ token_args:			BITSTREAM param_sorts(token_value)
 				parameters, in the order specified.</para>
 		</section>
 
-		<section id="C5S15.2">
+		<section id="errt_cond">
 			<title>errt_cond</title>
 
 			<literallayout>Encoding number: 2</literallayout>
@@ -1101,7 +1100,7 @@ e2:							BITSTREAM ERROR_TREATMENT
 				processed.</para>
 		</section>
 
-		<section id="C5S15.3">
+		<section id="continue">
 			<title>continue</title>
 
 			<literallayout>Encoding number: 3</literallayout>
@@ -1114,7 +1113,7 @@ e2:							BITSTREAM ERROR_TREATMENT
 				properties as is specified in <replaceable>make_value</replaceable>.</para>
 		</section>
 
-		<section id="C5S15.4">
+		<section id="error_jump">
 			<title>error_jump</title>
 
 			<literallayout>Encoding number: 4</literallayout>
@@ -1138,7 +1137,7 @@ e2:							BITSTREAM ERROR_TREATMENT
 			</para>
 		</section>
 
-		<section id="C5S15.5">
+		<section id="trap">
 			<title>trap</title>
 
 			<literallayout>Encoding number: 5</literallayout>
@@ -1150,13 +1149,13 @@ e2:							BITSTREAM ERROR_TREATMENT
 				specifies a set of possible exceptional behaviours. If any of these
 				occur in an construction with <code>ERROR_TREATMENT</code>
 				<replaceable>trap</replaceable>, the TDF exception handling is invoked (see
-				<link linkend="C7S8">section 7.8</link>).</para>
+				<link linkend="exceptions-and-jumps">section 7.8</link>).</para>
 
 			<para>The observations on canonical ordering in
 				<replaceable>error_jump</replaceable> apply equally here.</para>
 		</section>
 
-		<section id="C5S15.6">
+		<section id="wrap">
 			<title>wrap</title>
 
 			<literallayout>Encoding number: 6</literallayout>
@@ -1170,11 +1169,11 @@ e2:							BITSTREAM ERROR_TREATMENT
 				construction is not one of <replaceable>mult, power, div0, div1, div2,
 				rem0, rem1, rem2</replaceable>. The result will be evaluated and any bits
 				in the result lying outside the representing <code>VARIETY</code> will
-				be discarded (see <link linkend="C7S18">Representing integers</link>
+				be discarded (see <link linkend="representing-integers">Representing integers</link>
 			</para>
 		</section>
 
-		<section id="C5S15.7">
+		<section id="impossible">
 			<title>impossible</title>
 
 			<literallayout>Encoding number: 7</literallayout>
@@ -1190,7 +1189,7 @@ e2:							BITSTREAM ERROR_TREATMENT
 		</section>
 	</section>
 
-	<section id="C5S16">
+	<section id="EXP">
 		<title>EXP</title>
 
 		<literallayout>Number of encoding bits: 7</literallayout>
@@ -1204,7 +1203,7 @@ primitive <code>EXP</code>s: most of the constructions take arguments
 			declarations, program structure, procedure calls, assignments, pointer
 			manipulation, arithmetic operations, tests etc. of programming languages.</para>
 
-		<section id="C5S16.1">
+		<section id="exp_apply_token">
 			<title>exp_apply_token</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -1223,7 +1222,7 @@ token_args:			BITSTREAM param_sorts(token_value)
 				parameters, in the order specified.</para>
 		</section>
 
-		<section id="C5S16.2">
+		<section id="exp_cond">
 			<title>exp_cond</title>
 
 			<literallayout>Encoding number: 2</literallayout>
@@ -1242,7 +1241,7 @@ e2:							BITSTREAM EXP y
 				processed.</para>
 		</section>
 
-		<section id="C5S16.3">
+		<section id="abs">
 			<title>abs</title>
 
 			<literallayout>Encoding number: 3</literallayout>
@@ -1259,7 +1258,7 @@ arg1:						EXP INTEGER(v)
 				handled in the way specified by <replaceable>ov_err</replaceable>.</para>
 		</section>
 
-		<section id="C5S16.4">
+		<section id="add_to_ptr">
 			<title>add_to_ptr</title>
 
 			<literallayout>Encoding number: 4</literallayout>
@@ -1292,13 +1291,13 @@ arg2:						EXP OFFSET(y, z)
 				for the original pointer.</para>
 
 			<para><replaceable>In the simple representation of <code>POINTER</code>
-				arithmetic (see <link linkend="C7S13">Memory Model</link>) add_to_ptr is
+				arithmetic (see <link linkend="memory-model">Memory Model</link>) add_to_ptr is
 				represented by addition. The constraint &ldquo;x includes y&rdquo;
 				ensures that no padding has to be inserted in this case.</replaceable>
 			</para>
 		</section>
 
-		<section id="C5S16.5">
+		<section id="and">
 			<title>and</title>
 
 			<literallayout>Encoding number: 5</literallayout>
@@ -1313,10 +1312,10 @@ arg2:						EXP INTEGER(v)
 				<code>VARIETY</code>. The result is delivered with the same
 				<code>SHAPE</code> as the arguments.</para>
 
-			<para>See <link linkend="C7S18">Representing integers</link>.</para>
+			<para>See <link linkend="representing-integers">Representing integers</link>.</para>
 		</section>
 
-		<section id="C5S16.6">
+		<section id="apply_proc">
 			<title>apply_proc</title>
 
 			<literallayout>Encoding number: 6</literallayout>
@@ -1355,7 +1354,7 @@ var_param:			 OPTION(EXP)
 				variable argument lists in the C (<replaceable>&lt;stdarg.h&gt;</replaceable>
 				or <replaceable>&lt;varargs.h&gt;</replaceable>) sense, which are communicated
 				by extending the <replaceable>params</replaceable> list.	This is discussed
-				further in <link linkend="C7S9">section 7.9</link>. If the number of
+				further in <link linkend="procedures">section 7.9</link>. If the number of
 				arguments in the <replaceable>params</replaceable> list differs from the
 				number of elements in the <replaceable>params_intro</replaceable> of the
 				corresponding <replaceable>make_proc</replaceable>, then
@@ -1364,11 +1363,10 @@ var_param:			 OPTION(EXP)
 			<para>All calls to the same procedure will yield results of the same
 				<code>SHAPE</code>.</para>
 
-			<para>For notes on the intended implementation of procedures see <link
-				linkend="C7S9">section 7.9</link>.</para>
+			<para>For notes on the intended implementation of procedures see <link linkend="procedures">section 7.9</link>.</para>
 		</section>
 
-		<section id="C5S16.7">
+		<section id="apply_general_proc">
 			<title>apply_general_proc</title>
 
 			<literallayout>Encoding number: 7</literallayout>
@@ -1477,7 +1475,7 @@ present, the inlining process is modified by: The binding of P is
 				not be freed if P ends with an <replaceable>untidy_return</replaceable>.</para>
 		</section>
 
-		<section id="C5S16.8">
+		<section id="assign">
 			<title>assign</title>
 
 			<literallayout>Encoding number: 8</literallayout>
@@ -1501,8 +1499,7 @@ arg2:						EXP y
 			<para>If the value delivered by <replaceable>arg1</replaceable> is a null pointer
 				the effect is undefined.</para>
 
-			<para>See <link linkend="C7S16">Overlapping</link> and <link
-				linkend="C7S17">Incomplete assignment</link>.</para>
+			<para>See <link linkend="overlapping">Overlapping</link> and <link linkend="incomplete-assignment">Incomplete assignment</link>.</para>
 
 			<para><replaceable>The constraint &ldquo;x will include alignment(y)&rdquo;
 				ensures in the simple memory model that no change is needed to the
@@ -1510,7 +1507,7 @@ arg2:						EXP y
 			</para>
 		</section>
 
-		<section id="C5S16.9">
+		<section id="assign_with_mode">
 			<title>assign_with_mode</title>
 
 			<literallayout>Encoding number: 9</literallayout>
@@ -1541,11 +1538,10 @@ arg2:						EXP y
 			<para>If the value delivered by <replaceable>arg1</replaceable> is a null pointer
 				the effect is undefined.</para>
 
-			<para>See <link linkend="C7S16">Overlapping</link> and <link
-				linkend="C7S17">>Incomplete assignment</link>.</para>
+			<para>See <link linkend="overlapping">Overlapping</link> and <link linkend="incomplete-assignment">&gt;Incomplete assignment</link>.</para>
 		</section>
 
-		<section id="C5S16.10">
+		<section id="bitfield_assign">
 			<title>bitfield_assign</title>
 
 			<literallayout>Encoding number: 10</literallayout>
@@ -1563,11 +1559,10 @@ arg3:						EXP BITFIELD(v)
 				<replaceable>z</replaceable> will include <replaceable>v</replaceable>.</para>
 
 			<para><replaceable>arg2</replaceable>, <code>BITFIELD</code>(<replaceable>v</replaceable>)
-				will be <replaceable>variety-enclosed</replaceable> (see <link
-				linkend="C7S24">section 7.24</link>).</para>
+				will be <replaceable>variety-enclosed</replaceable> (see <link linkend="representing-bitfields">section 7.24</link>).</para>
 		</section>
 
-		<section id="C5S16.11">
+		<section id="bitfield_assign_with_mode">
 			<title>bitfield_assign_with_mode</title>
 
 			<literallayout>Encoding number: 11</literallayout>
@@ -1589,11 +1584,10 @@ arg3:						EXP BITFIELD(v)
 				<replaceable>bitfield_assign</replaceable>.</para>
 
 			<para><replaceable>arg2</replaceable>, <code>BITFIELD</code>(<replaceable>v</replaceable>)
-				will be <replaceable>variety-enclosed</replaceable>.(see <link
-				linkend="C7S24">section 7.24</link>).</para>
+				will be <replaceable>variety-enclosed</replaceable>.(see <link linkend="representing-bitfields">section 7.24</link>).</para>
 		</section>
 
-		<section id="C5S16.12">
+		<section id="bitfield_contents">
 			<title>bitfield_contents</title>
 
 			<literallayout>Encoding number: 12</literallayout>
@@ -1612,11 +1606,10 @@ arg2:						EXP OFFSET(y, z)
 				<replaceable>z</replaceable> will include <replaceable>v</replaceable>.</para>
 
 			<para><replaceable>arg2</replaceable>, <code>BITFIELD</code>(<replaceable>v</replaceable>)
-				will be <replaceable>variety_enclosed</replaceable> (see <link
-				linkend="C7S24">section 7.24</link>).</para>
+				will be <replaceable>variety_enclosed</replaceable> (see <link linkend="representing-bitfields">section 7.24</link>).</para>
 		</section>
 
-		<section id="C5S16.13">
+		<section id="bitfield_contents_with_mode">
 			<title>bitfield_contents_with_mode</title>
 
 			<literallayout>Encoding number: 13</literallayout>
@@ -1642,11 +1635,10 @@ arg2:						EXP OFFSET(y, z)
 				<replaceable>z</replaceable> will include <replaceable>v</replaceable>.</para>
 
 			<para><replaceable>arg2</replaceable>, <code>BITFIELD</code>(<replaceable>v</replaceable>)
-				will be <replaceable>variety_enclosed</replaceable> (see <link
-				linkend="C7S24">section 7.24</link>).</para>
+				will be <replaceable>variety_enclosed</replaceable> (see <link linkend="representing-bitfields">section 7.24</link>).</para>
 		</section>
 
-		<section id="C5S16.14">
+		<section id="case">
 			<title>case</title>
 
 			<literallayout>Encoding number: 14</literallayout>
@@ -1662,7 +1654,7 @@ branches:				LIST(CASELIM)
 				<replaceable>upper</replaceable>, for each element of
 				<replaceable>branches</replaceable>. If this tests succeeds, control passes to
 				the label <replaceable>branch</replaceable> belonging to that
-				<code>CASELIM</code> (see <link linkend="C5S13">section 5.13</link>). If
+				<code>CASELIM</code> (see <link linkend="CASELIM">section 5.13</link>). If
 				<replaceable>c</replaceable> lies between no pair, the construct delivers a
 				value of <code>SHAPE TOP</code>. The order in which the comparisons are
 				made is undefined.</para>
@@ -1675,7 +1667,7 @@ branches:				LIST(CASELIM)
 				<replaceable>lower</replaceable>/<replaceable>upper</replaceable> pairs.</para>
 		</section>
 
-		<section id="C5S16.15">
+		<section id="change_bitfield_to_int">
 			<title>change_bitfield_to_int</title>
 
 			<literallayout>Encoding number: 15</literallayout>
@@ -1691,7 +1683,7 @@ arg1:						EXP BITFIELD(bv)
 				<replaceable>v</replaceable>, the effect is undefined.</para>
 		</section>
 
-		<section id="C5S16.16">
+		<section id="change_floating_variety">
 			<title>change_floating_variety</title>
 
 			<literallayout>Encoding number: 16</literallayout>
@@ -1712,10 +1704,10 @@ arg1:						EXP FLOATING(f)
 			<para>If there is a floating point error it is handled by
 				<replaceable>flpt_err</replaceable>.</para>
 
-			<para>See <link linkend="C7S21">Floating point errors</link>.</para>
+			<para>See <link linkend="float-errors">Floating point errors</link>.</para>
 		</section>
 
-		<section id="C5S16.17">
+		<section id="change_variety">
 			<title>change_variety</title>
 
 			<literallayout>Encoding number: 17</literallayout>
@@ -1735,7 +1727,7 @@ arg1:						EXP INTEGER(v)
 				is handled according to <replaceable>ov_err</replaceable>.</para>
 		</section>
 
-		<section id="C5S16.18">
+		<section id="change_int_to_bitfield">
 			<title>change_int_to_bitfield</title>
 
 			<literallayout>Encoding number: 18</literallayout>
@@ -1751,7 +1743,7 @@ arg1:						EXP INTEGER(v)
 				<replaceable>bv</replaceable>, the effect is undefined.</para>
 		</section>
 
-		<section id="C5S16.19">
+		<section id="complex_conjugate">
 			<title>complex_conjugate</title>
 
 			<literallayout>Encoding number: 19</literallayout>
@@ -1764,7 +1756,7 @@ arg1:						EXP INTEGER(v)
 			<para><replaceable>cv</replaceable> will be a complex floating variety.</para>
 		</section>
 
-		<section id="C5S16.20">
+		<section id="component">
 			<title>component</title>
 
 			<literallayout>Encoding number: 20</literallayout>
@@ -1779,16 +1771,15 @@ arg2:						EXP OFFSET(x, alignment(sha))
 				<code>OFFSET</code> given by <replaceable>arg2</replaceable> is delivered.
 		This will have <code>SHAPE</code> <replaceable>sha</replaceable>.</para>
 
-			<para><replaceable>arg2</replaceable> will be a constant and non-negative (see <link
-				linkend="C7S3">Constant evaluation</link>).</para>
+			<para><replaceable>arg2</replaceable> will be a constant and non-negative (see <link linkend="constant-evaulation">Constant evaluation</link>).</para>
 
 			<para>If <replaceable>sha</replaceable> is a <code>BITFIELD</code> then
 				<replaceable>arg2</replaceable>, <replaceable>sha</replaceable> will be
-				<replaceable>variety_enclosed</replaceable> (see <link linkend="C7S24">section
+				<replaceable>variety_enclosed</replaceable> (see <link linkend="representing-bitfields">section
 				7.24</link>).</para>
 		</section>
 
-		<section id="C5S16.21">
+		<section id="concat_nof">
 			<title>concat_nof</title>
 
 			<literallayout>Encoding number: 21</literallayout>
@@ -1803,7 +1794,7 @@ arg2:						EXP NOF(m, s)
 				derived from <replaceable>arg2</replaceable>.</para>
 		</section>
 
-		<section id="C5S16.22">
+		<section id="conditional">
 			<title>conditional</title>
 
 			<literallayout>Encoding number: 22</literallayout>
@@ -1835,10 +1826,10 @@ alt:						 EXP z
 				obeyed part of <replaceable>alt</replaceable>.	Note that this specifically
 				includes any defined error handling.</para>
 
-			<para>For LUB see <link linkend="C7S26">Least Upper Bound</link>.</para>
+			<para>For LUB see <link linkend="least-upper-bound">Least Upper Bound</link>.</para>
 		</section>
 
-		<section id="C5S16.23">
+		<section id="contents">
 			<title>contents</title>
 
 			<literallayout>Encoding number: 23</literallayout>
@@ -1869,7 +1860,7 @@ arg1:						EXP POINTER(x)
 			</para>
 		</section>
 
-		<section id="C5S16.24">
+		<section id="contents_with_mode">
 			<title>contents_with_mode</title>
 
 			<literallayout>Encoding number: 24</literallayout>
@@ -1902,7 +1893,7 @@ arg1:						EXP POINTER(x)
 				the effect is undefined.</para>
 		</section>
 
-		<section id="C5S16.25">
+		<section id="current_env">
 			<title>current_env</title>
 
 			<literallayout>Encoding number: 25</literallayout>
@@ -1938,14 +1929,14 @@ arg1:						EXP POINTER(x)
 				which contains the declaration of the <code>TAG</code> used by
 				<replaceable>env_offset</replaceable>, then the result is an original
 				<code>POINTER</code>, notwithstanding the normal rules for
-				<replaceable>add_to_ptr</replaceable> (see <link linkend="C7S15">Original
+				<replaceable>add_to_ptr</replaceable> (see <link linkend="original-pointers">Original
 				pointers</link>).</para>
 
 			<para>If an <code>OFFSET</code> produced by env_offset is added to such a
 				pointer from an inappropriate procedure the effect is undefined.</para>
 		</section>
 
-		<section id="C5S16.26">
+		<section id="div0">
 			<title>div0</title>
 
 			<literallayout>Encoding number: 26</literallayout>
@@ -1977,11 +1968,11 @@ arg2:						EXP INTEGER(v)
 			<para>Producers may assume that shifting and <replaceable>div0</replaceable> by a
 				constant which is a power of two yield equally good code.</para>
 
-			<para>See <link linkend="C7S4">Division and modulus</link> for the definitions
+			<para>See <link linkend="division-and-modulus">Division and modulus</link> for the definitions
 				of D1, D2, M1 and M2.</para>
 		</section>
 
-		<section id="C5S16.27">
+		<section id="div1">
 			<title>div1</title>
 
 			<literallayout>Encoding number: 27</literallayout>
@@ -2010,11 +2001,11 @@ arg2:						EXP INTEGER(v)
 			<para>Producers may assume that shifting and <replaceable>div1</replaceable> by a
 				constant which is a power of two yield equally good code.</para>
 
-			<para>See <link linkend="C7S4">Division and modulus</link> for the definitions
+			<para>See <link linkend="division-and-modulus">Division and modulus</link> for the definitions
 				of D1, D2, M1 and M2.</para>
 		</section>
 
-		<section id="C5S16.28">
+		<section id="div2">
 			<title>div2</title>
 
 			<literallayout>Encoding number: 28</literallayout>
@@ -2044,11 +2035,11 @@ arg2:						EXP INTEGER(v)
 				constant which is a power of two yield equally good code if the lower
 				bound of <replaceable>v</replaceable> is zero.</para>
 
-			<para>See <link linkend="C7S4">Division and modulus</link> for the definitions
+			<para>See <link linkend="division-and-modulus">Division and modulus</link> for the definitions
 				of D1, D2, M1 and M2.</para>
 		</section>
 
-		<section id="C5S16.29">
+		<section id="env_offset">
 			<title>env_offset</title>
 
 			<literallayout>Encoding number: 29</literallayout>
@@ -2095,10 +2086,10 @@ t:							 TAG x
 				<replaceable>y</replaceable> will be
 				<replaceable>alignment</replaceable>(<replaceable>x</replaceable>).</para>
 
-			<para>See <link linkend="C7S10">section 7.10</link>.</para>
+			<para>See <link linkend="frames">section 7.10</link>.</para>
 		</section>
 
-		<section id="C5S16.30">
+		<section id="env_size">
 			<title>env_size</title>
 
 			<literallayout>Encoding number: 30</literallayout>
@@ -2118,7 +2109,7 @@ t:							 TAG x
 				<replaceable>make_general_proc</replaceable>.</para>
 		</section>
 
-		<section id="C5S16.31">
+		<section id="fail_installer">
 			<title>fail_installer</title>
 
 			<literallayout>Encoding number: 31</literallayout>
@@ -2132,7 +2123,7 @@ t:							 TAG x
 				passed to the installation manager.</para>
 		</section>
 
-		<section id="C5S16.32">
+		<section id="float_int">
 			<title>float_int</title>
 
 			<literallayout>Encoding number: 32</literallayout>
@@ -2151,11 +2142,11 @@ arg1:						EXP INTEGER(v)
 				zero.</para>
 
 			<para>If there is a floating point error it is handled by
-				<replaceable>flpt_err</replaceable>. See <link linkend="C7S21">Floating point
+				<replaceable>flpt_err</replaceable>. See <link linkend="float-errors">Floating point
 				errors</link>.</para>
 		</section>
 
-		<section id="C5S16.33">
+		<section id="floating_abs">
 			<title>floating_abs</title>
 
 			<literallayout>Encoding number: 33</literallayout>
@@ -2176,10 +2167,10 @@ arg1:						EXP FLOATING(f)
 
 			<para><replaceable>f</replaceable> will not be complex.</para>
 
-			<para>See also <link linkend="C7S23">Floating point accuracy</link>.</para>
+			<para>See also <link linkend="float-accuracy">Floating point accuracy</link>.</para>
 		</section>
 
-		<section id="C5S16.34">
+		<section id="floating_div">
 			<title>floating_div</title>
 
 			<literallayout>Encoding number: 34</literallayout>
@@ -2197,13 +2188,13 @@ arg2:						EXP FLOATING(f)
 				of the construct, with the same <code>SHAPE</code> as the arguments.</para>
 
 			<para>If there is a floating point error it is handled by
-				<replaceable>flpt_err</replaceable>. See <link linkend="C7S21">Floating point
+				<replaceable>flpt_err</replaceable>. See <link linkend="float-errors">Floating point
 				errors</link>.</para>
 
-			<para>See also <link linkend="C7S23">Floating point accuracy</link>.</para>
+			<para>See also <link linkend="float-accuracy">Floating point accuracy</link>.</para>
 		</section>
 
-		<section id="C5S16.35">
+		<section id="floating_minus">
 			<title>floating_minus</title>
 
 			<literallayout>Encoding number: 35</literallayout>
@@ -2221,13 +2212,13 @@ arg2:						EXP FLOATING(f)
 				of the construct, with the same <code>SHAPE</code> as the arguments.</para>
 
 			<para>If there is a floating point error it is handled by
-				<replaceable>flpt_err</replaceable>. See <link linkend="C7S21">Floating point
+				<replaceable>flpt_err</replaceable>. See <link linkend="float-errors">Floating point
 				errors</link>.</para>
 
-			<para>See also <link linkend="C7S23">Floating point accuracy</link>.</para>
+			<para>See also <link linkend="float-accuracy">Floating point accuracy</link>.</para>
 		</section>
 
-		<section id="C5S16.36">
+		<section id="floating_maximum">
 			<title>floating_maximum</title>
 
 			<literallayout>Encoding number: 36</literallayout>
@@ -2244,11 +2235,11 @@ arg2:						EXP FLOATING(f)
 			<para>If <replaceable>arg1</replaceable> and <replaceable>arg2</replaceable> are
 				incomparable, <replaceable>flpt_err</replaceable> will be invoked.</para>
 
-			<para>See also <link linkend="C7S23">Floating
+			<para>See also <link linkend="float-accuracy">Floating
 				point accuracy</link>.</para>
 		</section>
 
-		<section id="C5S16.37">
+		<section id="floating_minimum">
 			<title>floating_minimum</title>
 
 			<literallayout>Encoding number: 37</literallayout>
@@ -2265,11 +2256,11 @@ arg2:						EXP FLOATING(f)
 			<para>If <replaceable>arg1</replaceable> and <replaceable>arg2</replaceable> are
 				incomparable, <replaceable>flpt_err</replaceable> will be invoked.</para>
 
-			<para>See also <link linkend="C7S23">Floating
+			<para>See also <link linkend="float-accuracy">Floating
 				point accuracy</link>.</para>
 		</section>
 
-		<section id="C5S16.38">
+		<section id="floating_mult">
 			<title>floating_mult</title>
 
 			<literallayout>Encoding number: 38</literallayout>
@@ -2285,7 +2276,7 @@ arg1:						LIST(EXP)
 				construct, with the same <code>SHAPE</code> as the arguments.</para>
 
 			<para>If there is a floating point error it is handled by
-				<replaceable>flpt_err</replaceable>. See <link linkend="C7S21">Floating point
+				<replaceable>flpt_err</replaceable>. See <link linkend="float-errors">Floating point
 				errors</link>.</para>
 
 			<para><replaceable>Note that separate floating_mult operations cannot in general
@@ -2299,11 +2290,11 @@ arg1:						LIST(EXP)
 				value of that element. There will be at least one element in
 				<replaceable>arg1</replaceable>.</para>
 
-			<para>See also <link linkend="C7S23">Floating
+			<para>See also <link linkend="float-accuracy">Floating
 				point accuracy</link>.</para>
 		</section>
 
-		<section id="C5S16.39">
+		<section id="floating_negate">
 			<title>floating_negate</title>
 
 			<literallayout>Encoding number: 39</literallayout>
@@ -2322,11 +2313,11 @@ arg1:						EXP FLOATING(f)
 				it can give an invalid operand exception which is handled by
 				<replaceable>flpt_err</replaceable>.</para>
 
-			<para>See also <link linkend="C7S23">Floating
+			<para>See also <link linkend="float-accuracy">Floating
 				point accuracy</link>.</para>
 		</section>
 
-		<section id="C5S16.40">
+		<section id="floating_plus">
 			<title>floating_plus</title>
 
 			<literallayout>Encoding number: 40</literallayout>
@@ -2342,7 +2333,7 @@ arg1:						LIST(EXP)
 				with the same <code>SHAPE</code> as the arguments.</para>
 
 			<para>If there is a floating point error it is handled by
-				<replaceable>flpt_err</replaceable>.	See <link linkend="C7S21">Floating point
+				<replaceable>flpt_err</replaceable>.	See <link linkend="float-errors">Floating point
 				errors</link>.</para>
 
 			<para><replaceable>Note that separate floating_plus operations cannot in general
@@ -2356,11 +2347,11 @@ arg1:						LIST(EXP)
 				value of that element. There will be at least one element in
 				<replaceable>arg1</replaceable>.</para>
 
-			<para>See also <link linkend="C7S23">Floating
+			<para>See also <link linkend="float-accuracy">Floating
 				point accuracy</link>.</para>
 		</section>
 
-		<section id="C5S16.41">
+		<section id="floating_power">
 			<title>floating_power</title>
 
 			<literallayout>Encoding number: 41</literallayout>
@@ -2374,14 +2365,14 @@ arg2:						EXP INTEGER(v)
 				<replaceable>arg2</replaceable>.</para>
 
 			<para>If there is a floating point error it is handled by
-				<replaceable>flpt_err</replaceable>.	See <link linkend="C7S21">Floating point
+				<replaceable>flpt_err</replaceable>.	See <link linkend="float-errors">Floating point
 				errors</link>.</para>
 
-			<para>See also <link linkend="C7S23">Floating
+			<para>See also <link linkend="float-accuracy">Floating
 				point accuracy</link>.</para>
 		</section>
 
-		<section id="C5S16.42">
+		<section id="floating_test">
 			<title>floating_test</title>
 
 			<literallayout>Encoding number: 42</literallayout>
@@ -2412,14 +2403,14 @@ arg2:						EXP FLOATING(f)
 				<replaceable>prob</replaceable> is absent this probability is unknown.</para>
 
 			<para>If there is a floating point error it is handled by
-				<replaceable>flpt_err</replaceable>.	See <link linkend="C7S21">Floating point
+				<replaceable>flpt_err</replaceable>.	See <link linkend="float-errors">Floating point
 				errors</link>.</para>
 
-			<para>See also <link linkend="C7S23">Floating
+			<para>See also <link linkend="float-accuracy">Floating
 				point accuracy</link>.</para>
 		</section>
 
-		<section id="C5S16.43">
+		<section id="goto">
 			<title>goto</title>
 
 			<literallayout>Encoding number: 43</literallayout>
@@ -2432,7 +2423,7 @@ arg2:						EXP FLOATING(f)
 				<replaceable>dest</replaceable> is in scope.</para>
 		</section>
 
-		<section id="C5S16.44">
+		<section id="goto_local_lv">
 			<title>goto_local_lv</title>
 
 			<literallayout>Encoding number: 44</literallayout>
@@ -2452,7 +2443,7 @@ arg2:						EXP FLOATING(f)
 				effect is undefined.</para>
 		</section>
 
-		<section id="C5S16.45">
+		<section id="identify">
 			<title>identify</title>
 
 			<literallayout>Encoding number: 45</literallayout>
@@ -2493,11 +2484,10 @@ of one <code>TAG</code> by another are given: this will not happen. The
 				and <replaceable>body</replaceable> are evaluated shall be indistinguishable
 				in all observable effects (apart from time) from completely evaluating
 				<replaceable>definition</replaceable> before starting
-				<replaceable>body</replaceable>. See the note about order in <link
-				linkend="C5S16.107">sequence</link>.</para>
+				<replaceable>body</replaceable>. See the note about order in <link linkend="sequence">sequence</link>.</para>
 		</section>
 
-		<section id="C5S16.46">
+		<section id="ignorable">
 			<title>ignorable</title>
 
 			<literallayout>Encoding number: 46</literallayout>
@@ -2511,7 +2501,7 @@ of one <code>TAG</code> by another are given: this will not happen. The
 				<replaceable>arg1</replaceable>.</para>
 		</section>
 
-		<section id="C5S16.47">
+		<section id="imaginary_part">
 			<title>imaginary_part</title>
 
 			<literallayout>Encoding number: 47</literallayout>
@@ -2523,7 +2513,7 @@ of one <code>TAG</code> by another are given: this will not happen. The
 				the value produced by <replaceable>arg1</replaceable>.</para>
 		</section>
 
-		<section id="C5S16.48">
+		<section id="initial_value">
 			<title>initial_value</title>
 
 
@@ -2548,10 +2538,10 @@ of one <code>TAG</code> by another are given: this will not happen. The
 			<para>The order of evaluation of the different
 				<replaceable>initial_values</replaceable> in a program is undefined.</para>
 
-			<para>See <link linkend="C7S29">section 7.29</link>.</para>
+			<para>See <link linkend="dynamic-initialisation">section 7.29</link>.</para>
 		</section>
 
-		<section id="C5S16.49">
+		<section id="integer_test">
 			<title>integer_test</title>
 
 			<literallayout>Encoding number: 49</literallayout>
@@ -2578,7 +2568,7 @@ arg2:						EXP INTEGER(v)
 				<replaceable>prob</replaceable> is absent this probability is unknown.</para>
 		</section>
 
-		<section id="C5S16.50">
+		<section id="labelled">
 			<title>labelled</title>
 
 			<literallayout>Encoding number: 50</literallayout>
@@ -2611,7 +2601,7 @@ places:					LIST(EXP)
 
 			<para>The <code>SHAPE</code> <replaceable>w</replaceable> is the LUB of
 				<replaceable>x</replaceable> and all the <replaceable>places</replaceable>. See
-				<link linkend="C7S26">Least Upper Bound</link>.</para>
+				<link linkend="least-upper-bound">Least Upper Bound</link>.</para>
 
 			<para>The actual order of evaluation of the constituents shall be
 				indistinguishable in all observable effects (apart from time) from that
@@ -2624,7 +2614,7 @@ places:					LIST(EXP)
 				<replaceable>places</replaceable>.</para>
 		</section>
 
-		<section id="C5S16.51">
+		<section id="last_local">
 			<title>last_local</title>
 
 			<literallayout>Encoding number: 51</literallayout>
@@ -2646,10 +2636,10 @@ places:					LIST(EXP)
 			<para>The <code>ALIGNMENT</code>, <replaceable>alloca_alignment</replaceable>,
 				includes the set union of all the <code>ALIGNMENT</code>s which can be
 				produced by <replaceable>alignment</replaceable> from any <code>SHAPE</code>.
-				See <link linkend="C7S13.4">Special alignments</link>.</para>
+				See <link linkend="special-alignments">Special alignments</link>.</para>
 		</section>
 
-		<section id="C5S16.52">
+		<section id="local_alloc">
 			<title>local_alloc</title>
 
 			<literallayout>Encoding number: 52</literallayout>
@@ -2693,10 +2683,10 @@ places:					LIST(EXP)
 				inlined, it may be necessary to use <replaceable>local_free</replaceable> to
 				get the correct semantics.</para>
 
-			<para>See also <link linkend="C7S12">section 7.12</link>.</para>
+			<para>See also <link linkend="alloca">section 7.12</link>.</para>
 		</section>
 
-		<section id="C5S16.53">
+		<section id="local_alloc_check">
 			<title>local_alloc_check</title>
 
 			<literallayout>Encoding number: 53</literallayout>
@@ -2705,15 +2695,14 @@ places:					LIST(EXP)
 								 -&gt; EXP POINTER(alloca_alignment)</programlisting>
 
 			<para>If the <code>OFFSET</code> <replaceable>arg1</replaceable> can be accomodated
-				within the limit of the local_alloc stack (see <link
-				linkend="C5S16.108">section 5.16.108</link>), the action is precisely
+				within the limit of the local_alloc stack (see <link linkend="set_stack_limit">section 5.16.108</link>), the action is precisely
 				the same as <replaceable>local_alloc</replaceable>.</para>
 
 			<para>If not, normal action is stopped and a TDF exception is raised with
 				ERROR_code <replaceable>stack_overflow</replaceable>.</para>
 		</section>
 
-		<section id="C5S16.54">
+		<section id="local_free">
 			<title>local_free</title>
 
 			<literallayout>Encoding number: 54</literallayout>
@@ -2734,7 +2723,7 @@ p:							 EXP POINTER(alloca_alignment)
 				undefined.</para>
 		</section>
 
-		<section id="C5S16.55">
+		<section id="local_free_all">
 			<title>local_free_all</title>
 
 			<literallayout>Encoding number: 55</literallayout>
@@ -2752,7 +2741,7 @@ p:							 EXP POINTER(alloca_alignment)
 				to get the correct semantics.</para>
 		</section>
 
-		<section id="C5S16.56">
+		<section id="long_jump">
 			<title>long_jump</title>
 
 			<literallayout>Encoding number: 56</literallayout>
@@ -2777,7 +2766,7 @@ arg2:						EXP POINTER({code})
 				effect is undefined.</para>
 		</section>
 
-		<section id="C5S16.57">
+		<section id="make_complex">
 			<title>make_complex</title>
 
 			<literallayout>Encoding number: 57</literallayout>
@@ -2794,7 +2783,7 @@ arg2:						EXP FLOATING(f)
 				real part and <replaceable>arg2</replaceable> the imaginary.</para>
 		</section>
 
-		<section id="C5S16.58">
+		<section id="make_compound">
 			<title>make_compound</title>
 
 			<literallayout>Encoding number: 58</literallayout>
@@ -2822,7 +2811,7 @@ arg2:						LIST(EXP)
 				<replaceable>z</replaceable><replaceable>k</replaceable>.</para>
 
 			<para><replaceable>arg1</replaceable> will be a constant non-negative
-				<code>OFFSET</code>, see <link linkend="C5S16.87">offset_pad</link>.</para>
+				<code>OFFSET</code>, see <link linkend="offset_pad">offset_pad</link>.</para>
 
 			<para>The values <replaceable>x</replaceable>[2 * <replaceable>k</replaceable> - 1] will
 				be such that the components when in place either do not overlap or
@@ -2839,11 +2828,10 @@ arg2:						LIST(EXP)
 
 			<para>If <replaceable>x[2 * k]</replaceable> is a <code>BITFIELD</code> then
 				<replaceable>x[2 * k - 1]</replaceable>, <replaceable>shape(x[2 * k])</replaceable>
-				will be <replaceable>variety-enclosed</replaceable> (see <link
-				linkend="C7S24">section 7.24</link>).</para>
+				will be <replaceable>variety-enclosed</replaceable> (see <link linkend="representing-bitfields">section 7.24</link>).</para>
 		</section>
 
-		<section id="C5S16.59">
+		<section id="make_floating">
 			<title>make_floating</title>
 
 			<literallayout>Encoding number: 59</literallayout>
@@ -2882,7 +2870,7 @@ exponent:				SIGNED_NAT
 			<para>The result will lie in <replaceable>f</replaceable>.</para>
 		</section>
 
-		<section id="S2260">
+		<section id="make_general_proc">
 			<title>make_general_proc</title>
 
 			<literallayout>Encoding number: 60</literallayout>
@@ -2961,11 +2949,10 @@ body:						EXP BOTTOM
 				<replaceable>no_long_jump_dest</replaceable>, the body of the procedure will
 				never contain the destination label of a <replaceable>long_jump</replaceable>.</para>
 
-			<para>For notes on the intended implementation of procedures see <link
-				linkend="C7S9">section 7.9</link>.</para>
+			<para>For notes on the intended implementation of procedures see <link linkend="procedures">section 7.9</link>.</para>
 		</section>
 
-		<section id="C5S16.61">
+		<section id="make_int">
 			<title>make_int</title>
 
 			<literallayout>Encoding number: 61</literallayout>
@@ -2981,7 +2968,7 @@ value:					 SIGNED_NAT
 				<replaceable>v</replaceable>.</para>
 		</section>
 
-		<section id="C5S16.62">
+		<section id="make_local_lv">
 			<title>make_local_lv</title>
 
 			<literallayout>Encoding number: 62</literallayout>
@@ -2997,7 +2984,7 @@ value:					 SIGNED_NAT
 				<replaceable>lab</replaceable>.</para>
 		</section>
 
-		<section id="C5S16.63">
+		<section id="make_nof">
 			<title>make_nof</title>
 
 			<literallayout>Encoding number: 63</literallayout>
@@ -3013,7 +3000,7 @@ value:					 SIGNED_NAT
 			<para><replaceable>n</replaceable> will not be zero.</para>
 		</section>
 
-		<section id="C5S16.64">
+		<section id="make_nof_int">
 			<title>make_nof_int</title>
 
 			<literallayout>Encoding number: 64</literallayout>
@@ -3029,7 +3016,7 @@ str:						 STRING(k, n)
 				<replaceable>n</replaceable> may be zero.</para>
 		</section>
 
-		<section id="C5S16.65">
+		<section id="make_null_local_lv">
 			<title>make_null_local_lv</title>
 
 			<literallayout>Encoding number: 65</literallayout>
@@ -3045,7 +3032,7 @@ str:						 STRING(k, n)
 				each other and unequal to any other <code>POINTER</code>s.</para>
 		</section>
 
-		<section id="C5S16.66">
+		<section id="make_null_proc">
 			<title>make_null_proc</title>
 
 			<literallayout>Encoding number: 66</literallayout>
@@ -3061,7 +3048,7 @@ str:						 STRING(k, n)
 				other <code>PROC</code>.</para>
 		</section>
 
-		<section id="C5S16.67">
+		<section id="make_null_ptr">
 			<title>make_null_ptr</title>
 
 			<literallayout>Encoding number: 67</literallayout>
@@ -3080,7 +3067,7 @@ str:						 STRING(k, n)
 				<code>POINTER</code>(<replaceable>x</replaceable>).</para>
 		</section>
 
-		<section id="C5S16.68">
+		<section id="make_proc">
 			<title>make_proc</title>
 
 			<literallayout>Encoding number: 68</literallayout>
@@ -3105,7 +3092,7 @@ body:						EXP BOTTOM
 
 			<para>If <replaceable>var_intro</replaceable> is present, it may be used for one of
 				two purposes, with different consequences for corresponding uses of
-				<replaceable>apply_proc</replaceable>. See <link linkend="C7S9">section
+				<replaceable>apply_proc</replaceable>. See <link linkend="procedures">section
 				7.9</link>. The <code>ALIGNMENT</code>,
 				<replaceable>var_param_alignment</replaceable>, includes the set union of all
 				the <code>ALIGNMENT</code>s which can be produced by
@@ -3146,11 +3133,10 @@ body:						EXP BOTTOM
 				using the procedure will specify the <code>SHAPE</code> of it result to
 				be <replaceable>result_shape</replaceable>.</para>
 
-			<para>For notes on the intended implementation of procedures see <link
-				linkend="C7S9">section 7.9</link>.</para>
+			<para>For notes on the intended implementation of procedures see <link linkend="procedures">section 7.9</link>.</para>
 		</section>
 
-		<section id="C5S16.69">
+		<section id="make_stack_limit">
 			<title>make_stack_limit</title>
 
 			<literallayout>Encoding number: 116</literallayout>
@@ -3192,7 +3178,7 @@ alloc_size:			EXP OFFSET(alloca_alignment, y)
 				TDF exception, <replaceable>stack_overflow</replaceable>.</para>
 		</section>
 
-		<section id="C5S16.70">
+		<section id="make_top">
 			<title>make_top</title>
 
 			<literallayout>Encoding number: 69</literallayout>
@@ -3203,7 +3189,7 @@ alloc_size:			EXP OFFSET(alloca_alignment, y)
 				(i.e. <replaceable>void</replaceable>).</para>
 		</section>
 
-		<section id="C5S16.71">
+		<section id="make_value">
 			<title>make_value</title>
 
 			<literallayout>Encoding number: 70</literallayout>
@@ -3232,7 +3218,7 @@ alloc_size:			EXP OFFSET(alloca_alignment, y)
 				<code>BOTTOM</code>.</para>
 		</section>
 
-		<section id="C5S16.72">
+		<section id="maximum">
 			<title>maximum</title>
 
 			<literallayout>Encoding number: 71</literallayout>
@@ -3245,7 +3231,7 @@ arg2:						EXP INTEGER(v)
 				is the result.</para>
 		</section>
 
-		<section id="S2273">
+		<section id="minimum">
 			<title>minimum</title>
 
 			<literallayout>Encoding number: 72</literallayout>
@@ -3258,7 +3244,7 @@ arg2:						EXP INTEGER(v)
 				is the result.</para>
 		</section>
 
-		<section id="C5S16.74">
+		<section id="minus">
 			<title>minus</title>
 
 			<literallayout>Encoding number: 73</literallayout>
@@ -3280,7 +3266,7 @@ arg2:						EXP INTEGER(v)
 				handled in the way specified by <replaceable>ov_err</replaceable>.</para>
 		</section>
 
-		<section id="C5S16.75">
+		<section id="move_some">
 			<title>move_some</title>
 
 			<literallayout>Encoding number: 74</literallayout>
@@ -3302,7 +3288,7 @@ arg3:						EXP OFFSET(z, t)
 				<replaceable>y</replaceable> will include <replaceable>z</replaceable>.</para>
 
 			<para><replaceable>sz</replaceable> will be a non-negative <code>OFFSET</code>, see
-				<link linkend="C5S16.87">offset_pad</link>.</para>
+				<link linkend="offset_pad">offset_pad</link>.</para>
 
 			<para>If the spaces of size <replaceable>sz</replaceable> to which
 				<replaceable>p1</replaceable> and <replaceable>p2</replaceable> point do not lie
@@ -3312,10 +3298,10 @@ arg3:						EXP OFFSET(z, t)
 			<para>If the value delivered by <replaceable>arg1</replaceable> or
 				<replaceable>arg2</replaceable> is a null pointer the effect is undefined.</para>
 
-			<para>See <link linkend="C7S16">Overlapping</link>.</para>
+			<para>See <link linkend="overlapping">Overlapping</link>.</para>
 		</section>
 
-		<section id="C5S16.76">
+		<section id="mult">
 			<title>mult</title>
 
 			<literallayout>Encoding number: 75</literallayout>
@@ -3337,7 +3323,7 @@ arg2:						EXP INTEGER(v)
 				handled in the way specified by <replaceable>ov_err</replaceable>.</para>
 		</section>
 
-		<section id="C5S16.77">
+		<section id="n_copies">
 			<title>n_copies</title>
 
 			<literallayout>Encoding number: 76</literallayout>
@@ -3354,7 +3340,7 @@ arg1:						EXP x
 				initialise arrays of known size.</para>
 		</section>
 
-		<section id="C5S16.78">
+		<section id="negate">
 			<title>negate</title>
 
 			<literallayout>Encoding number: 78</literallayout>
@@ -3373,7 +3359,7 @@ arg1:						EXP INTEGER(v)
 				handled in the way specified by <replaceable>ov_err</replaceable>.</para>
 		</section>
 
-		<section id="C5S16.79">
+		<section id="not">
 			<title>not</title>
 
 			<literallayout>Encoding number: 78</literallayout>
@@ -3387,10 +3373,10 @@ arg1:						EXP INTEGER(v)
 				<code>VARIETY</code>. The result is delivered as the result of the
 				construct, with the same <code>SHAPE</code> as the arguments.</para>
 
-			<para>See <link linkend="C7S18">Representing integers</link>.</para>
+			<para>See <link linkend="representing-integers">Representing integers</link>.</para>
 		</section>
 
-		<section id="C5S16.80">
+		<section id="obtain_tag">
 			<title>obtain_tag</title>
 
 			<literallayout>Encoding number: 79</literallayout>
@@ -3404,7 +3390,7 @@ arg1:						EXP INTEGER(v)
 				bound.</para>
 		</section>
 
-		<section id="C5S16.81">
+		<section id="offset_add">
 			<title>offset_add</title>
 
 			<literallayout>Encoding number: 80</literallayout>
@@ -3426,7 +3412,7 @@ arg2:						EXP OFFSET(z, t)
 			</para>
 		</section>
 
-		<section id="C5S16.82">
+		<section id="offset_div">
 			<title>offset_div</title>
 
 			<literallayout>Encoding number: 81</literallayout>
@@ -3445,7 +3431,7 @@ arg2:						EXP OFFSET(x, x)
 			<para>The value produced by <replaceable>arg2</replaceable> will be non-zero.</para>
 		</section>
 
-		<section id="C5S16.83">
+		<section id="offset_div_by_int">
 			<title>offset_div_by_int</title>
 
 			<literallayout>Encoding number: 82</literallayout>
@@ -3467,7 +3453,7 @@ arg2:						EXP INTEGER(v)
 				n), n) = A</para>
 		</section>
 
-		<section id="C5S16.84">
+		<section id="offset_max">
 			<title>offset_max</title>
 
 			<literallayout>Encoding number: 83</literallayout>
@@ -3479,7 +3465,7 @@ arg2:						EXP OFFSET(z, y)
 			<para>The two arguments deliver <code>OFFSET</code>s. The result is the
 				maximum of these <code>OFFSET</code>s, as an <code>OFFSET</code>.</para>
 
-			<para>See <link linkend="C7S13.2">Comparison of pointers and offsets</link>.</para>
+			<para>See <link linkend="pointers-and-offsets">Comparison of pointers and offsets</link>.</para>
 
 			<para><replaceable>In the simple memory model this operation is represented by
 				maximum. The constraint that the second <code>ALIGNMENT</code>
@@ -3487,7 +3473,7 @@ arg2:						EXP OFFSET(z, y)
 				<code>OFFSET</code>s in installers by a simple homomorphism.</replaceable></para>
 		</section>
 
-		<section id="C5S16.85">
+		<section id="offset_mult">
 			<title>offset_mult</title>
 
 			<literallayout>Encoding number: 84</literallayout>
@@ -3505,7 +3491,7 @@ arg2:						EXP INTEGER(v)
 				times to <replaceable>offset_zero</replaceable>(<replaceable>x</replaceable>).</para>
 		</section>
 
-		<section id="C5S16.86">
+		<section id="offset_negate">
 			<title>offset_negate</title>
 
 			<literallayout>Encoding number: 85</literallayout>
@@ -3519,7 +3505,7 @@ arg2:						EXP INTEGER(v)
 				negate.</replaceable> </para>
 		</section>
 
-		<section id="C5S16.87">
+		<section id="offset_pad">
 			<title>offset_pad</title>
 
 			<literallayout>Encoding number: 86</literallayout>
@@ -3547,7 +3533,7 @@ arg1:						EXP OFFSET(z, t)
 				operation.</replaceable></para>
 		</section>
 
-		<section id="C5S16.88">
+		<section id="offset_subtract">
 			<title>offset_subtract</title>
 
 			<literallayout>Encoding number: 87</literallayout>
@@ -3570,7 +3556,7 @@ arg2:						EXP OFFSET(x, z)
 				regenerated by offset_subtract.</replaceable></para>
 		</section>
 
-		<section id="C5S16.89">
+		<section id="offset_test">
 			<title>offset_test</title>
 
 			<literallayout>Encoding number: 88</literallayout>
@@ -3604,7 +3590,7 @@ arg2:						EXP OFFSET(x, y)
 				integer_test.</replaceable></para>
 		</section>
 
-		<section id="C5S16.90">
+		<section id="offset_zero">
 			<title>offset_zero</title>
 
 			<literallayout>Encoding number: 89</literallayout>
@@ -3622,7 +3608,7 @@ arg2:						EXP OFFSET(x, y)
 				<replaceable>b</replaceable>), <replaceable>b</replaceable>).</para>
 		</section>
 
-		<section id="C5S16.91">
+		<section id="or">
 			<title>or</title>
 
 			<literallayout>Encoding number: 90</literallayout>
@@ -3637,10 +3623,10 @@ arg2:						EXP INTEGER(v)
 				<code>VARIETY</code>. The result is delivered as the result of the
 				construct, with the same <code>SHAPE</code> as the arguments.</para>
 
-			<para>See <link linkend="C7S18">Representing integers</link>.</para>
+			<para>See <link linkend="representing-integers">Representing integers</link>.</para>
 		</section>
 
-		<section id="C5S16.92">
+		<section id="plus">
 			<title>plus</title>
 
 			<literallayout>Encoding number: 91</literallayout>
@@ -3662,7 +3648,7 @@ arg2:						EXP INTEGER(v)
 				handled in the way specified by <replaceable>ov_err</replaceable>.</para>
 		</section>
 
-		<section id="C5S16.93">
+		<section id="pointer_test">
 			<title>pointer_test</title>
 
 			<literallayout>Encoding number: 92</literallayout>
@@ -3699,7 +3685,7 @@ arg2:						EXP POINTER(x)
 				represented by integer_test.</replaceable></para>
 		</section>
 
-		<section id="C5S16.94">
+		<section id="power">
 			<title>power</title>
 
 			<literallayout>Encoding number: 93</literallayout>
@@ -3718,7 +3704,7 @@ arg2:						EXP INTEGER(w)
 				handled in the way specified by <replaceable>ov_err</replaceable>.</para>
 		</section>
 
-		<section id="C5S16.95">
+		<section id="proc_test">
 			<title>proc_test</title>
 
 			<literallayout>Encoding number: 94</literallayout>
@@ -3751,7 +3737,7 @@ arg2:						EXP PROC
 				unequal.</para>
 		</section>
 
-		<section id="C5S16.96">
+		<section id="profile">
 			<title>profile</title>
 
 			<literallayout>Encoding number: 95</literallayout>
@@ -3766,7 +3752,7 @@ arg2:						EXP PROC
 				same scale.	They will be mutually consistent.</para>
 		</section>
 
-		<section id="C5S16.97">
+		<section id="real_part">
 			<title>real_part</title>
 
 			<literallayout>Encoding number: 96</literallayout>
@@ -3778,7 +3764,7 @@ arg2:						EXP PROC
 				value produced by <replaceable>arg1</replaceable>.</para>
 		</section>
 
-		<section id="C5S16.98">
+		<section id="rem0">
 			<title>rem0</title>
 
 			<literallayout>Encoding number: 97</literallayout>
@@ -3819,11 +3805,11 @@ arg2:						EXP INTEGER(v)
 			<para>Producers may assume that suitable masking and <replaceable>rem0</replaceable>
 				by a power of two yield equally good code.</para>
 
-			<para>See <link linkend="C7S4">Division and modulus</link> for the definitions
+			<para>See <link linkend="division-and-modulus">Division and modulus</link> for the definitions
 				of D1, D2, M1 and M2.</para>
 		</section>
 
-		<section id="C5S16.99">
+		<section id="rem1">
 			<title>rem1</title>
 
 			<literallayout>Encoding number: 98</literallayout>
@@ -3853,11 +3839,11 @@ arg2:						EXP INTEGER(v)
 			<para>Producers may assume that suitable masking and <replaceable>rem1</replaceable>
 				by a power of two yield equally good code.</para>
 
-			<para>See <link linkend="C7S4">Division and modulus</link> for the definitions
+			<para>See <link linkend="division-and-modulus">Division and modulus</link> for the definitions
 				of D1, D2, M1 and M2.</para>
 		</section>
 
-		<section id="C5S16.100">
+		<section id="rem2">
 			<title>rem2</title>
 
 			<literallayout>Encoding number: 99</literallayout>
@@ -3888,11 +3874,11 @@ arg2:						EXP INTEGER(v)
 				by a power of two yield equally good code if the lower bound of
 				<replaceable>v</replaceable> is zero.</para>
 
-			<para>See <link linkend="C7S4">Division and modulus</link> for the definitions
+			<para>See <link linkend="division-and-modulus">Division and modulus</link> for the definitions
 				of D1, D2, M1 and M2.</para>
 		</section>
 
-		<section id="C5S16.101">
+		<section id="repeat">
 			<title>repeat</title>
 
 			<literallayout>Encoding number: 100</literallayout>
@@ -3921,7 +3907,7 @@ body:						EXP y
 				handling.</para>
 		</section>
 
-		<section id="C5S16.102">
+		<section id="return">
 			<title>return</title>
 
 			<literallayout>Encoding number: 101</literallayout>
@@ -3943,7 +3929,7 @@ body:						EXP y
 				<replaceable>arg1</replaceable> with the same <code>SHAPE</code>.</para>
 		</section>
 
-		<section id="C5S16.103">
+		<section id="return_to_label">
 			<title>return_to_label</title>
 
 			<literallayout>Encoding number: 102</literallayout>
@@ -3959,7 +3945,7 @@ body:						EXP y
 				<replaceable>lab_val</replaceable>.</para>
 		</section>
 
-		<section id="C5S16.104">
+		<section id="round_with_mode">
 			<title>round_with_mode</title>
 
 			<literallayout>Encoding number: 103</literallayout>
@@ -3980,11 +3966,11 @@ arg1:						EXP FLOATING(f)
 				part of <replaceable>arg1</replaceable>.</para>
 
 			<para>If there is a floating point error it is handled by
-				<replaceable>flpt_err</replaceable>.	See <link linkend="C7S21">Floating point
+				<replaceable>flpt_err</replaceable>.	See <link linkend="float-errors">Floating point
 				errors</link>.</para>
 		</section>
 
-		<section id="C5S16.105">
+		<section id="rotate_left">
 			<title>rotate_left</title>
 
 			<literallayout>Encoding number: 104</literallayout>
@@ -4003,7 +3989,7 @@ arg2:						EXP INTEGER(w)
 				variety of <replaceable>v</replaceable>.</para>
 		</section>
 
-		<section id="C5S16.106">
+		<section id="rotate_right">
 			<title>rotate_right</title>
 
 			<literallayout>Encoding number: 105</literallayout>
@@ -4022,7 +4008,7 @@ arg2:						EXP INTEGER(w)
 				variety of <replaceable>v</replaceable>.</para>
 		</section>
 
-		<section id="C5S16.107">
+		<section id="sequence">
 			<title>sequence</title>
 
 			<literallayout>Encoding number: 106</literallayout>
@@ -4052,7 +4038,7 @@ result:					EXP x
 				the resulting order is otherwise acceptable.</para>
 		</section>
 
-		<section id="C5S16.108">
+		<section id="set_stack_limit">
 			<title>set_stack_limit</title>
 
 			<literallayout>Encoding number: 107</literallayout>
@@ -4081,7 +4067,7 @@ result:					EXP x
 				ERROR_code <replaceable>stack_overflow</replaceable> is raised.</para>
 		</section>
 
-		<section id="C5S16.109">
+		<section id="shape_offset">
 			<title>shape_offset</title>
 
 			<literallayout>Encoding number: 108</literallayout>
@@ -4112,7 +4098,7 @@ result:					EXP x
 				<replaceable>t</replaceable>.</para>
 		</section>
 
-		<section id="C5S16.110">
+		<section id="shift_left">
 			<title>shift_left</title>
 
 			<literallayout>Encoding number: 109</literallayout>
@@ -4139,7 +4125,7 @@ arg2:						EXP INTEGER(w)
 				multiplication by a power of two yield equally efficient code.</para>
 		</section>
 
-		<section id="C5S16.111">
+		<section id="shift_right">
 			<title>shift_right</title>
 
 			<literallayout>Encoding number: 110</literallayout>
@@ -4162,7 +4148,7 @@ arg2:						EXP INTEGER(w)
 				be propagated.</para>
 		</section>
 
-		<section id="C5S16.112">
+		<section id="subtract_ptrs">
 			<title>subtract_ptrs</title>
 
 			<literallayout>Encoding number: 111</literallayout>
@@ -4182,7 +4168,7 @@ arg2:						EXP POINTER(x)
 				<replaceable>r</replaceable>) = <replaceable>p1</replaceable>.</para>
 		</section>
 
-		<section id="C5S16.113">
+		<section id="tail_call">
 			<title>tail_call</title>
 
 			<literallayout>Encoding number: 112</literallayout>
@@ -4210,7 +4196,7 @@ callee_pars:		 CALLEES
 				<code>PROCPROPS</code> of the immediately enclosing procedure.</para>
 		</section>
 
-		<section id="C5S16.114">
+		<section id="untidy_return">
 			<title>untidy_return</title>
 
 			<literallayout>Encoding number: 113</literallayout>
@@ -4229,7 +4215,7 @@ callee_pars:		 CALLEES
 				including <replaceable>untidy</replaceable>.</para>
 		</section>
 
-		<section id="C5S16.115">
+		<section id="variable">
 			<title>variable</title>
 
 			<literallayout>Encoding number: 114</literallayout>
@@ -4272,14 +4258,14 @@ of one <code>TAG</code> by another are given: this will not happen.</para>
 				<replaceable>body</replaceable> are evaluated shall be indistinguishable in
 				all observable effects (apart from time) from completely evaluating
 				<replaceable>init</replaceable> before starting <replaceable>body</replaceable>.
-				See the note about order in <link linkend="C5S16.107">sequence</link>.</para>
+				See the note about order in <link linkend="sequence">sequence</link>.</para>
 
 			<para>When compiling languages which permit uninitialised variable
 				declarations, <replaceable>make_value</replaceable> may be used to provide an
 				initialisation.</para>
 		</section>
 
-		<section id="C5S16.116">
+		<section id="xor">
 			<title>xor</title>
 
 			<literallayout>Encoding number: 115</literallayout>
@@ -4294,11 +4280,11 @@ arg2:						EXP INTEGER(v)
 				<code>VARIETY</code>. The result is delivered as the result of the
 				construct, with the same <code>SHAPE</code> as the arguments.</para>
 
-			<para>See <link linkend="C7S18">Representing integers</link>.</para>
+			<para>See <link linkend="representing-integers">Representing integers</link>.</para>
 		</section>
 	</section>
 
-	<section id="C5S17">
+	<section id="EXTERNAL">
 		<title>EXTERNAL</title>
 
 		<literallayout>Number of encoding bits: 2</literallayout>
@@ -4308,7 +4294,7 @@ arg2:						EXP INTEGER(v)
 			for connecting the internal names inside a <code>CAPSULE</code> to the
 			world outside the <code>CAPSULE</code>.</para>
 
-		<section id="C5S17.1">
+		<section id="string_extern">
 			<title>string_extern</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -4320,7 +4306,7 @@ arg2:						EXP INTEGER(v)
 				identified by the <code>TDFIDENT</code> <replaceable>s</replaceable>.</para>
 		</section>
 
-		<section id="C5S17.2">
+		<section id="unique_extern">
 			<title>unique_extern</title>
 
 			<literallayout>Encoding number: 2</literallayout>
@@ -4332,7 +4318,7 @@ arg2:						EXP INTEGER(v)
 				identified by the <code>UNIQUE</code> <replaceable>u</replaceable>.</para>
 		</section>
 
-		<section id="C5S17.3">
+		<section id="chain_extern">
 			<title>chain_extern</title>
 
 			<literallayout>Encoding number: 3</literallayout>
@@ -4345,7 +4331,7 @@ prev:						TDFINT
 		</section>
 	</section>
 
-	<section id="C5S18">
+	<section id="EXTERN_LINK">
 		<title>EXTERN_LINK</title>
 
 		<literallayout>Number of encoding bits: 0</literallayout>
@@ -4354,7 +4340,7 @@ prev:						TDFINT
 		<para>An auxiliary <code>SORT</code> providing a list of
 			<code>LINKEXTERN</code>.</para>
 
-		<section id="C5S18.1">
+		<section id="make_extern_link">
 			<title>make_extern_link</title>
 
 
@@ -4370,7 +4356,7 @@ prev:						TDFINT
 		</section>
 	</section>
 
-	<section id="C5S19">
+	<section id="FLOATING_VARIETY">
 		<title>FLOATING_VARIETY</title>
 
 		<literallayout>Number of encoding bits: 3</literallayout>
@@ -4378,7 +4364,7 @@ prev:						TDFINT
 
 		<para>These describe kinds of floating point number.</para>
 
-		<section id="C5S19.1">
+		<section id="flvar_apply_token">
 			<title>flvar_apply_token</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -4397,7 +4383,7 @@ token_args:			BITSTREAM param_sorts(token_value)
 				parameters, in the order specified.</para>
 		</section>
 
-		<section id="C5S19.2">
+		<section id="flvar_cond">
 			<title>flvar_cond</title>
 
 			<literallayout>Encoding number: 2</literallayout>
@@ -4416,7 +4402,7 @@ e2:							BITSTREAM FLOATING_VARIETY
 				processed.</para>
 		</section>
 
-		<section id="C5S19.3">
+		<section id="flvar_parms">
 			<title>flvar_parms</title>
 
 			<literallayout>Encoding number: 3</literallayout>
@@ -4463,7 +4449,7 @@ max_exponent:		NAT
 				<code>FLOATING_VARIETY</code>.</para>
 		</section>
 
-		<section id="C5S19.4">
+		<section id="complex_parms">
 			<title>complex_parms</title>
 
 			<literallayout>Encoding number: 4</literallayout>
@@ -4481,7 +4467,7 @@ max_exponent:		NAT
 				arguments.</para>
 		</section>
 
-		<section id="C5S19.5">
+		<section id="float_of_complex">
 			<title>float_of_complex</title>
 
 			<literallayout>Encoding number: 5</literallayout>
@@ -4496,7 +4482,7 @@ max_exponent:		NAT
 				<replaceable>csh</replaceable>.</para>
 		</section>
 
-		<section id="C5S19.6">
+		<section id="complex_of_float">
 			<title>complex_of_float</title>
 
 			<literallayout>Encoding number: 6</literallayout>
@@ -4512,7 +4498,7 @@ max_exponent:		NAT
 		</section>
 	</section>
 
-	<section id="C5S20">
+	<section id="GROUP">
 		<title>GROUP</title>
 
 		<literallayout>Number of encoding bits: 0</literallayout>
@@ -4521,7 +4507,7 @@ max_exponent:		NAT
 		<para>A <code>GROUP</code> is a list of <code>UNIT</code>s with the same unit
 			identification.</para>
 
-		<section id="C5S20.1">
+		<section id="make_group">
 			<title>make_group</title>
 
 			<literallayout>Encoding number: 0</literallayout>
@@ -4536,7 +4522,7 @@ max_exponent:		NAT
 		</section>
 	</section>
 
-	<section id="C5S21">
+	<section id="LABEL">
 		<title>LABEL</title>
 
 		<literallayout>Number of encoding bits: 1</literallayout>
@@ -4546,7 +4532,7 @@ max_exponent:		NAT
 			and is used in jump-like constructions to change the control to the
 			labelled construction.</para>
 
-		<section id="C5S21.1">
+		<section id="label_apply_token">
 			<title>label_apply_token</title>
 
 			<literallayout>Encoding number: 2</literallayout>
@@ -4563,7 +4549,7 @@ token_args:			BITSTREAM param_sorts(token_value)
 				parameters, in the order specified.</para>
 		</section>
 
-		<section id="C5S21.2">
+		<section id="make_label">
 			<title>make_label</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -4577,7 +4563,7 @@ token_args:			BITSTREAM param_sorts(token_value)
 		</section>
 	</section>
 
-	<section id="C5S22">
+	<section id="LINK">
 		<title>LINK</title>
 
 		<literallayout>Number of encoding bits: 0</literallayout>
@@ -4586,7 +4572,7 @@ token_args:			BITSTREAM param_sorts(token_value)
 		<para>A <code>LINK</code> expresses the connection between two variables of the
 			same <code>SORT</code>.</para>
 
-		<section id="C5S22.1">
+		<section id="make_link">
 			<title>make_link</title>
 
 			<literallayout>Encoding number: 0</literallayout>
@@ -4607,7 +4593,7 @@ capsule_name:		TDFINT
 		</section>
 	</section>
 
-	<section id="C5S23">
+	<section id="LINKEXTERN">
 		<title>LINKEXTERN</title>
 
 		<literallayout>Number of encoding bits: 0</literallayout>
@@ -4617,7 +4603,7 @@ capsule_name:		TDFINT
 			the name by which an object is known inside a <code>CAPSULE</code> and a
 			name by which it is known outside.</para>
 
-		<section id="C5S23.1">
+		<section id="make_linkextern">
 			<title>make_linkextern</title>
 
 			<literallayout>Encoding number: 0</literallayout>
@@ -4636,13 +4622,13 @@ ext:						 EXTERNAL
 		</section>
 	</section>
 
-	<section id="C5S24">
+	<section id="LINKS">
 		<title>LINKS</title>
 
 		<literallayout>Number of encoding bits: 0</literallayout>
 		<literallayout>Is coding extendable: no</literallayout>
 
-		<section id="C5S24.1">
+		<section id="make_links">
 			<title>make_links</title>
 
 			<literallayout>Encoding number: 0</literallayout>
@@ -4658,7 +4644,7 @@ ext:						 EXTERNAL
 		</section>
 	</section>
 
-	<section id="C5S25">
+	<section id="NAT">
 		<title>NAT</title>
 
 		<literallayout>Number of encoding bits: 3</literallayout>
@@ -4666,7 +4652,7 @@ ext:						 EXTERNAL
 
 		<para>These are non-negative integers of unlimited size.</para>
 
-		<section id="C5S25.1">
+		<section id="nat_apply_token">
 			<title>nat_apply_token</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -4683,7 +4669,7 @@ token_args:			BITSTREAM param_sorts(token_value)
 				parameters, in the order specified.</para>
 		</section>
 
-		<section id="C5S25.2">
+		<section id="nat_cond">
 			<title>nat_cond</title>
 
 			<literallayout>Encoding number: 2</literallayout>
@@ -4702,7 +4688,7 @@ e2:							BITSTREAM NAT
 				processed.</para>
 		</section>
 
-		<section id="C5S25.3">
+		<section id="computed_nat">
 			<title>computed_nat</title>
 
 			<literallayout>Encoding number: 3</literallayout>
@@ -4714,7 +4700,7 @@ e2:							BITSTREAM NAT
 				The result is that constant.</para>
 		</section>
 
-		<section id="C5S25.4">
+		<section id="error_val">
 			<title>error_val</title>
 
 			<literallayout>Encoding number: 4</literallayout>
@@ -4727,7 +4713,7 @@ e2:							BITSTREAM NAT
 				give a different <code>NAT</code>.</para>
 		</section>
 
-		<section id="C5S25.5">
+		<section id="make_nat">
 			<title>make_nat</title>
 
 			<literallayout>Encoding number: 5</literallayout>
@@ -4739,7 +4725,7 @@ e2:							BITSTREAM NAT
 		</section>
 	</section>
 
-	<section id="C5S26">
+	<section id="NTEST">
 		<title>NTEST</title>
 
 		<literallayout>Number of encoding bits: 4</literallayout>
@@ -4751,7 +4737,7 @@ e2:							BITSTREAM NAT
 			<replaceable>not_less_than_or_equal</replaceable>, since the result need not be
 			defined (e.g. in IEEE floating point).</para>
 
-		<section id="C5S26.1">
+		<section id="ntest_apply">
 			<title>ntest_apply</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -4768,7 +4754,7 @@ token_args:			BITSTREAM param_sorts(token_value)
 				parameters, in the order specified.</para>
 		</section>
 
-		<section id="C5S26.2">
+		<section id="ntest_cond">
 			<title>ntest_cond</title>
 
 			<literallayout>Encoding number: 2</literallayout>
@@ -4787,7 +4773,7 @@ e2:							BITSTREAM NTEST
 				processed.</para>
 		</section>
 
-		<section id="C5S26.3">
+		<section id="equal">
 			<title>equal</title>
 
 			<literallayout>Encoding number: 3</literallayout>
@@ -4797,7 +4783,7 @@ e2:							BITSTREAM NTEST
 			<para>Signifies &ldquo;equal&rdquo; test.</para>
 		</section>
 
-		<section id="C5S26.4">
+		<section id="greater_than">
 			<title>greater_than</title>
 
 			<literallayout>Encoding number: 4</literallayout>
@@ -4807,7 +4793,7 @@ e2:							BITSTREAM NTEST
 			<para>Signifies &ldquo;greater than&rdquo; test.</para>
 		</section>
 
-		<section id="C5S26.5">
+		<section id="greater_than_or_equal">
 			<title>greater_than_or_equal</title>
 
 			<literallayout>Encoding number: 5</literallayout>
@@ -4817,7 +4803,7 @@ e2:							BITSTREAM NTEST
 			<para>Signifies &ldquo;greater than or equal&rdquo; test.</para>
 		</section>
 
-		<section id="C5S26.6">
+		<section id="less_than">
 			<title>less_than</title>
 
 			<literallayout>Encoding number: 6</literallayout>
@@ -4827,7 +4813,7 @@ e2:							BITSTREAM NTEST
 			<para>Signifies &ldquo;less than&rdquo; test.</para>
 		</section>
 
-		<section id="C5S26.7">
+		<section id="less_than_or_equal">
 			<title>less_than_or_equal</title>
 
 			<literallayout>Encoding number: 7</literallayout>
@@ -4837,7 +4823,7 @@ e2:							BITSTREAM NTEST
 			<para>Signifies &ldquo;less than or equal&rdquo; test.</para>
 		</section>
 
-		<section id="C5S26.8">
+		<section id="not_equal">
 			<title>not_equal</title>
 
 			<literallayout>Encoding number: 8</literallayout>
@@ -4847,7 +4833,7 @@ e2:							BITSTREAM NTEST
 			<para>Signifies &ldquo;not equal&rdquo; test.</para>
 		</section>
 
-		<section id="C5S26.9">
+		<section id="not_greater_than">
 			<title>not_greater_than</title>
 
 			<literallayout>Encoding number: 9</literallayout>
@@ -4857,7 +4843,7 @@ e2:							BITSTREAM NTEST
 			<para>Signifies &ldquo;not greater than&rdquo; test.</para>
 		</section>
 
-		<section id="C5S26.10">
+		<section id="not_greater_than_or_equal">
 			<title>not_greater_than_or_equal</title>
 
 			<literallayout>Encoding number: 10</literallayout>
@@ -4867,7 +4853,7 @@ e2:							BITSTREAM NTEST
 			<para>Signifies &ldquo;not (greater than or equal)&rdquo; test.</para>
 		</section>
 
-		<section id="C5S26.11">
+		<section id="not_less_than">
 			<title>not_less_than</title>
 
 			<literallayout>Encoding number: 11</literallayout>
@@ -4877,7 +4863,7 @@ e2:							BITSTREAM NTEST
 			<para>Signifies &ldquo;not less than&rdquo; test.</para>
 		</section>
 
-		<section id="C5S26.12">
+		<section id="not_less_than_or_equal">
 			<title>not_less_than_or_equal</title>
 
 			<literallayout>Encoding number: 12</literallayout>
@@ -4887,7 +4873,7 @@ e2:							BITSTREAM NTEST
 			<para>Signifies &ldquo;not (less than or equal)&rdquo; test.</para>
 		</section>
 
-		<section id="C5S26.13">
+		<section id="less_than_or_greater_than">
 			<title>less_than_or_greater_than</title>
 
 			<literallayout>Encoding number: 13</literallayout>
@@ -4897,7 +4883,7 @@ e2:							BITSTREAM NTEST
 			<para>Signifies &ldquo;less than or greater than&rdquo; test.</para>
 		</section>
 
-		<section id="C5S26.14">
+		<section id="not_less_than_and_not_greater_than">
 			<title>not_less_than_and_not_greater_than</title>
 
 			<literallayout>Encoding number: 14</literallayout>
@@ -4907,7 +4893,7 @@ e2:							BITSTREAM NTEST
 			<para>Signifies &ldquo;not less than and not greater than&rdquo; test.</para>
 		</section>
 
-		<section id="C5S26.15">
+		<section id="comparable">
 			<title>comparable</title>
 
 			<literallayout>Encoding number: 15</literallayout>
@@ -4920,7 +4906,7 @@ e2:							BITSTREAM NTEST
 				comparison is always true.</para>
 		</section>
 
-		<section id="C5S26.16">
+		<section id="not_comparable">
 			<title>not_comparable</title>
 
 			<literallayout>Encoding number: 16</literallayout>
@@ -4934,7 +4920,7 @@ e2:							BITSTREAM NTEST
 		</section>
 	</section>
 
-	<section id="C5S27">
+	<section id="OTAGEXP">
 		<title>OTAGEXP</title>
 
 		<literallayout>Number of encoding bits: 0</literallayout>
@@ -4943,7 +4929,7 @@ e2:							BITSTREAM NTEST
 		<para>This is a auxilliary <code>SORT</code> used in
 			<replaceable>apply_general_proc</replaceable>.</para>
 
-		<section id="C5S27.1">
+		<section id="make_otagexp">
 			<title>make_otagexp</title>
 
 			<literallayout>Encoding number: 0</literallayout>
@@ -4960,7 +4946,7 @@ e:							 EXP x
 		</section>
 	</section>
 
-	<section id="C5S28">
+	<section id="PROCPROPS">
 		<title>PROCPROPS</title>
 
 		<literallayout>Number of encoding bits: 4</literallayout>
@@ -4969,7 +4955,7 @@ e:							 EXP x
 		<para><code>PROCPROPS</code> is a set of properties ascribed to procedure
 			definitions and calls.</para>
 
-		<section id="C5S28.1">
+		<section id="procprops_apply_token">
 			<title>procprops_apply_token</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -4986,7 +4972,7 @@ token_args:			BITSTREAM param_sorts(token_value)
 				parameters in the order specified.</para>
 		</section>
 
-		<section id="C5S28.2">
+		<section id="procprops_cond">
 			<title>procprops_cond</title>
 
 			<literallayout>Encoding number: 2</literallayout>
@@ -5005,7 +4991,7 @@ e2:							BITSTREAM PROCPROPS
 				processed.</para>
 		</section>
 
-		<section id="C5S28.3">
+		<section id="add_procprops">
 			<title>add_procprops</title>
 
 			<literallayout>Encoding number: 3</literallayout>
@@ -5017,7 +5003,7 @@ arg2:						PROCPROPS
 			<para>Delivers the join of <replaceable>arg1</replaceable> and <replaceable>arg2</replaceable>.</para>
 		</section>
 
-		<section id="C5S28.4">
+		<section id="check_stack">
 			<title>check_stack</title>
 
 			<literallayout>Encoding number: 4</literallayout>
@@ -5027,7 +5013,7 @@ arg2:						PROCPROPS
 			<para>The procedure body is required to check for stack overflow.</para>
 		</section>
 
-		<section id="C5S28.5">
+		<section id="inline">
 			<title>inline</title>
 
 			<literallayout>Encoding number: 5</literallayout>
@@ -5037,7 +5023,7 @@ arg2:						PROCPROPS
 			<para>The procedure body is a good candidate for inlining at its application.</para>
 		</section>
 
-		<section id="C5S28.6">
+		<section id="no_long_jump_dest">
 			<title>no_long_jump_dest</title>
 
 			<literallayout>Encoding number: 6</literallayout>
@@ -5048,7 +5034,7 @@ arg2:						PROCPROPS
 				long_jump.</para>
 		</section>
 
-		<section id="C5S28.7">
+		<section id="untidy">
 			<title>untidy</title>
 
 			<literallayout>Encoding number: 7</literallayout>
@@ -5059,7 +5045,7 @@ arg2:						PROCPROPS
 				<replaceable>untidy_return</replaceable>.</para>
 		</section>
 
-		<section id="C5S28.8">
+		<section id="var_callees">
 			<title>var_callees</title>
 
 			<literallayout>Encoding number: 8</literallayout>
@@ -5070,7 +5056,7 @@ arg2:						PROCPROPS
 				callee parameters.</para>
 		</section>
 
-		<section id="C5S28.9">
+		<section id="var_callers">
 			<title>var_callers</title>
 
 			<literallayout>Encoding number: 9</literallayout>
@@ -5082,7 +5068,7 @@ arg2:						PROCPROPS
 		</section>
 	</section>
 
-	<section id="C5S29">
+	<section id="PROPS">
 		<title>PROPS</title>
 
 		<para>A <code>PROPS</code> is an assemblage of program information. This
@@ -5138,10 +5124,10 @@ These are:</para>
 			that <code>GROUP</code> are of the same kind.</para>
 
 		<para>In addition there is a <replaceable>tld</replaceable> <code>UNIT</code>, see
-			<link linkend="C8S4">The TDF encoding</link>.</para>
+			<link linkend="tdf-encoding">The TDF encoding</link>.</para>
 	</section>
 
-	<section id="C5S30">
+	<section id="ROUNDING_MODE">
 		<title>ROUNDING_MODE</title>
 
 		<literallayout>Number of encoding bits: 3</literallayout>
@@ -5150,7 +5136,7 @@ These are:</para>
 		<para><code>ROUNDING_MODE</code> specifies the way rounding is to be performed
 			in floating point arithmetic.</para>
 
-		<section id="C5S30.1">
+		<section id="rounding_mode_apply_token">
 			<title>rounding_mode_apply_token</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -5168,7 +5154,7 @@ token_args:			BITSTREAM param_sorts(token_value)
 				parameters, in the order specified.</para>
 		</section>
 
-		<section id="C5S30.2">
+		<section id="rounding_mode_cond">
 			<title>rounding_mode_cond</title>
 
 			<literallayout>Encoding number: 2</literallayout>
@@ -5187,7 +5173,7 @@ e2:							BITSTREAM ROUNDING_MODE
 				processed.</para>
 		</section>
 
-		<section id="C5S30.3">
+		<section id="round_as_state">
 			<title>round_as_state</title>
 
 			<literallayout>Encoding number: 3</literallayout>
@@ -5197,7 +5183,7 @@ e2:							BITSTREAM ROUNDING_MODE
 			<para>Round as specified by the current state of the machine.</para>
 		</section>
 
-		<section id="C5S30.4">
+		<section id="to_nearest">
 			<title>to_nearest</title>
 
 			<literallayout>Encoding number: 4</literallayout>
@@ -5208,7 +5194,7 @@ e2:							BITSTREAM ROUNDING_MODE
 				is not specified.</para>
 		</section>
 
-		<section id="C5S30.5">
+		<section id="toward_larger">
 			<title>toward_larger</title>
 
 			<literallayout>Encoding number: 5</literallayout>
@@ -5218,7 +5204,7 @@ e2:							BITSTREAM ROUNDING_MODE
 			<para>Signifies rounding toward next largest.</para>
 		</section>
 
-		<section id="C5S30.6">
+		<section id="toward_smaller">
 			<title>toward_smaller</title>
 
 			<literallayout>Encoding number: 6</literallayout>
@@ -5228,7 +5214,7 @@ e2:							BITSTREAM ROUNDING_MODE
 			<para>Signifies rounding toward next smallest.</para>
 		</section>
 
-		<section id="C5S30.7">
+		<section id="toward_zero">
 			<title>toward_zero</title>
 
 			<literallayout>Encoding number: 7</literallayout>
@@ -5239,7 +5225,7 @@ e2:							BITSTREAM ROUNDING_MODE
 		</section>
 	</section>
 
-	<section id="C5S31">
+	<section id="SHAPE">
 		<title>SHAPE</title>
 
 		<literallayout>Number of encoding bits: 4</literallayout>
@@ -5252,7 +5238,7 @@ e2:							BITSTREAM ROUNDING_MODE
 			which describe values such as procedures and integers, and recursively
 			from compound construction in terms of other <code>SHAPE</code>s.</para>
 
-		<section id="C5S31.1">
+		<section id="shape_apply_token">
 			<title>shape_apply_token</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -5269,7 +5255,7 @@ token_args:			BITSTREAM param_sorts(token_value)
 				parameters, in the order specified.</para>
 		</section>
 
-		<section id="C5S31.2">
+		<section id="shape_cond">
 			<title>shape_cond</title>
 
 			<literallayout>Encoding number: 2</literallayout>
@@ -5288,7 +5274,7 @@ e2:							BITSTREAM SHAPE
 				processed.</para>
 		</section>
 
-		<section id="C5S31.3">
+		<section id="bitfield">
 			<title>bitfield</title>
 
 			<literallayout>Encoding number: 3</literallayout>
@@ -5298,7 +5284,7 @@ e2:							BITSTREAM SHAPE
 
 			<para>A <code>BITFIELD</code> is used to represent a pattern of bits which
 				will be packed, provided that the <replaceable>variety_enclosed</replaceable>
-				constraints are not violated.	(see See <link linkend="C7S24">section
+				constraints are not violated.	(see See <link linkend="representing-bitfields">section
 				7.24</link>)
 			</para>
 
@@ -5310,10 +5296,10 @@ e2:							BITSTREAM SHAPE
 				on them.</para>
 
 			<para>An installer may place a limit on the number of bits it implements.	See
-				<link linkend="C7S25">Permitted limits</link>.</para>
+				<link linkend="permitted-limits">Permitted limits</link>.</para>
 		</section>
 
-		<section id="C5S31.4">
+		<section id="bottom">
 			<title>bottom</title>
 
 			<literallayout>Encoding number: 4</literallayout>
@@ -5328,7 +5314,7 @@ e2:							BITSTREAM SHAPE
 				constructor, the result is <code>BOTTOM</code>.</para>
 		</section>
 
-		<section id="C5S31.5">
+		<section id="compound">
 			<title>compound</title>
 
 			<literallayout>Encoding number: 5</literallayout>
@@ -5345,12 +5331,12 @@ e2:							BITSTREAM SHAPE
 				<code>SHAPE</code>s <replaceable>sx</replaceable> and <replaceable>sy</replaceable>.</para>
 
 			<para><replaceable>sz</replaceable> will evaluate to a constant, non-negative
-				<code>OFFSET</code> (see <link linkend="C5S16.87">offset_pad</link>).
+				<code>OFFSET</code> (see <link linkend="offset_pad">offset_pad</link>).
 				The resulting <code>SHAPE</code> describes a value whose size is given
 				by <replaceable>sz</replaceable>.</para>
 		</section>
 
-		<section id="C5S31.6">
+		<section id="floating">
 			<title>floating</title>
 
 			<literallayout>Encoding number: 6</literallayout>
@@ -5365,15 +5351,15 @@ e2:							BITSTREAM SHAPE
 				arguments have to be of the same kind, and the result is of the same
 				kind.</para>
 
-			<para>See <link linkend="C7S20">Representing floating point</link>.</para>
+			<para>See <link linkend="representing-floats">Representing floating point</link>.</para>
 
 			<para>An installer may limit the <code>FLOATING_VARIETY</code>s it can
 				represent. A statement of any such limits shall be part of the
-				specification of an installer. See <link linkend="C7S20">Representing
+				specification of an installer. See <link linkend="representing-floats">Representing
 				floating point</link>.</para>
 		</section>
 
-		<section id="C5S31.7">
+		<section id="integer">
 			<title>integer</title>
 
 			<literallayout>Encoding number: 7</literallayout>
@@ -5412,10 +5398,10 @@ attempted to add two values whose <code>SHAPE</code>s were:</para>
 				on representation are inherently target-defined.</para>
 
 			<para>A particular installer may limit the ranges of integers that it
-				implements. See <link linkend="C7S18">Representing integers</link>.</para>
+				implements. See <link linkend="representing-integers">Representing integers</link>.</para>
 		</section>
 
-		<section id="C5S31.8">
+		<section id="nof">
 			<title>nof</title>
 
 			<literallayout>Encoding number: 8</literallayout>
@@ -5429,7 +5415,7 @@ s:							 SHAPE
 				same <code>SHAPE</code>, <replaceable>s</replaceable>.</para>
 		</section>
 
-		<section id="C5S31.9">
+		<section id="offset">
 			<title>offset</title>
 
 			<literallayout>Encoding number: 9</literallayout>
@@ -5459,10 +5445,10 @@ arg2:						ALIGNMENT
 			<para>The set <replaceable>arg1</replaceable> will include the set
 				<replaceable>arg2</replaceable>.</para>
 
-			<para>See <link linkend="C7S13">Memory Model</link>.</para>
+			<para>See <link linkend="memory-model">Memory Model</link>.</para>
 		</section>
 
-		<section id="C5S31.10">
+		<section id="pointer">
 			<title>pointer</title>
 
 			<literallayout>Encoding number: 10</literallayout>
@@ -5473,11 +5459,11 @@ arg2:						ALIGNMENT
 			<para>A <code>POINTER</code> is a value which points to space allocated in a
 				computer's memory. The <code>POINTER</code> constructor takes an
 				<code>ALIGNMENT</code> argument. This argument will not consist entirely
-				of <code>BITFIELD_VARIETY</code>s. See <link linkend="C7S13">Memory
+				of <code>BITFIELD_VARIETY</code>s. See <link linkend="memory-model">Memory
 				Model</link>.</para>
 		</section>
 
-		<section id="C5S31.11">
+		<section id="proc">
 			<title>proc</title>
 
 			<literallayout>Encoding number: 11</literallayout>
@@ -5488,7 +5474,7 @@ arg2:						ALIGNMENT
 				program.</para>
 		</section>
 
-		<section id="C5S31.12">
+		<section id="top">
 			<title>top</title>
 
 			<literallayout>Encoding number: 12</literallayout>
@@ -5501,7 +5487,7 @@ program which return no useful value. assign is an example: it performs
 		</section>
 	</section>
 
-	<section id="C5S32">
+	<section id="SIGNED_NAT">
 		<title>SIGNED_NAT</title>
 
 		<literallayout>Number of encoding bits: 3</literallayout>
@@ -5509,7 +5495,7 @@ program which return no useful value. assign is an example: it performs
 
 		<para>These are positive or negative integers of unbounded size.</para>
 
-		<section id="C5S32.1">
+		<section id="signed_nat_apply_token">
 			<title>signed_nat_apply_token</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -5526,7 +5512,7 @@ token_args:			BITSTREAM param_sorts(token_value)
 				parameters, in the order specified.</para>
 		</section>
 
-		<section id="C5S32.2">
+		<section id="signed_nat_cond">
 			<title>signed_nat_cond</title>
 
 			<literallayout>Encoding number: 2</literallayout>
@@ -5545,7 +5531,7 @@ e2:							BITSTREAM SIGNED_NAT
 				processed.</para>
 		</section>
 
-		<section id="C5S32.3">
+		<section id="computed_signed_nat">
 			<title>computed_signed_nat</title>
 
 			<literallayout>Encoding number: 3</literallayout>
@@ -5557,7 +5543,7 @@ e2:							BITSTREAM SIGNED_NAT
 				that constant.</para>
 		</section>
 
-		<section id="C5S32.4">
+		<section id="make_signed_nat">
 			<title>make_signed_nat</title>
 
 			<literallayout>Encoding number: 4</literallayout>
@@ -5570,7 +5556,7 @@ n:							 TDFINT
 				The result is negative if and only if <replaceable>neg</replaceable> is true.</para>
 		</section>
 
-		<section id="C5S32.5">
+		<section id="snat_from_nat">
 			<title>snat_from_nat</title>
 
 			<literallayout>Encoding number: 5</literallayout>
@@ -5583,7 +5569,7 @@ n:							 NAT
 		</section>
 	</section>
 
-	<section id="C5S33">
+	<section id="SORTNAME">
 		<title>SORTNAME</title>
 
 		<literallayout>Number of encoding bits: 5</literallayout>
@@ -5592,7 +5578,7 @@ n:							 NAT
 		<para>These are the names of the <code>SORT</code>s which can be parameters of
 			<code>TOKEN</code> definitions.</para>
 
-		<section id="C5S33.1">
+		<section id="access">
 			<title>access</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -5600,7 +5586,7 @@ n:							 NAT
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
 
-		<section id="C5S33.2">
+		<section id="al_tag">
 			<title>al_tag</title>
 
 			<literallayout>Encoding number: 2</literallayout>
@@ -5608,7 +5594,7 @@ n:							 NAT
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
 
-		<section id="C5S33.3">
+		<section id="alignment_sort">
 			<title>alignment_sort</title>
 
 			<literallayout>Encoding number: 3</literallayout>
@@ -5616,7 +5602,7 @@ n:							 NAT
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
 
-		<section id="C5S33.4">
+		<section id="bitfield_variety">
 			<title>bitfield_variety</title>
 
 			<literallayout>Encoding number: 4</literallayout>
@@ -5624,7 +5610,7 @@ n:							 NAT
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
 
-		<section id="C5S33.5">
+		<section id="bool">
 			<title>bool</title>
 
 			<literallayout>Encoding number: 5</literallayout>
@@ -5632,7 +5618,7 @@ n:							 NAT
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
 
-		<section id="C5S33.6">
+		<section id="error_treatment">
 			<title>error_treatment</title>
 
 			<literallayout>Encoding number: 6</literallayout>
@@ -5640,7 +5626,7 @@ n:							 NAT
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
 
-		<section id="C5S33.7">
+		<section id="exp">
 			<title>exp</title>
 
 			<literallayout>Encoding number: 7</literallayout>
@@ -5648,7 +5634,7 @@ n:							 NAT
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
 
-		<section id="C5S33.8">
+		<section id="floating_variety">
 			<title>floating_variety</title>
 
 			<literallayout>Encoding number: 8</literallayout>
@@ -5656,7 +5642,7 @@ n:							 NAT
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
 
-		<section id="C5S33.9">
+		<section id="foreign_sort">
 			<title>foreign_sort</title>
 
 			<literallayout>Encoding number: 9</literallayout>
@@ -5668,7 +5654,7 @@ n:							 NAT
 				placed in TDF.</para>
 		</section>
 
-		<section id="C5S33.10">
+		<section id="label">
 			<title>label</title>
 
 			<literallayout>Encoding number: 10</literallayout>
@@ -5676,7 +5662,7 @@ n:							 NAT
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
 
-		<section id="C5S33.11">
+		<section id="nat">
 			<title>nat</title>
 
 			<literallayout>Encoding number: 11</literallayout>
@@ -5684,7 +5670,7 @@ n:							 NAT
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
 
-		<section id="C5S33.12">
+		<section id="ntest">
 			<title>ntest</title>
 
 			<literallayout>Encoding number: 12</literallayout>
@@ -5692,7 +5678,7 @@ n:							 NAT
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
 
-		<section id="C5S33.13">
+		<section id="procprops">
 			<title>procprops</title>
 
 			<literallayout>Encoding number: 13</literallayout>
@@ -5700,7 +5686,7 @@ n:							 NAT
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
 
-		<section id="C5S33.14">
+		<section id="rounding_mode">
 			<title>rounding_mode</title>
 
 			<literallayout>Encoding number: 14</literallayout>
@@ -5708,7 +5694,7 @@ n:							 NAT
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
 
-		<section id="C5S33.15">
+		<section id="shape">
 			<title>shape</title>
 
 			<literallayout>Encoding number: 15</literallayout>
@@ -5716,7 +5702,7 @@ n:							 NAT
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
 
-		<section id="C5S33.16">
+		<section id="signed_nat">
 			<title>signed_nat</title>
 
 			<literallayout>Encoding number: 16</literallayout>
@@ -5724,7 +5710,7 @@ n:							 NAT
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
 
-		<section id="C5S33.17">
+		<section id="string">
 			<title>string</title>
 
 			<literallayout>Encoding number: 17</literallayout>
@@ -5732,7 +5718,7 @@ n:							 NAT
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
 
-		<section id="C5S33.18">
+		<section id="tag">
 			<title>tag</title>
 
 			<literallayout>Encoding number: 18</literallayout>
@@ -5742,7 +5728,7 @@ n:							 NAT
 			<para>The <code>SORT</code> of <code>TAG</code>.</para>
 		</section>
 
-		<section id="C5S33.19">
+		<section id="transfer_mode">
 			<title>transfer_mode</title>
 
 			<literallayout>Encoding number: 19</literallayout>
@@ -5750,7 +5736,7 @@ n:							 NAT
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
 
-		<section id="C5S33.20">
+		<section id="token">
 			<title>token</title>
 
 			<literallayout>Encoding number: 20</literallayout>
@@ -5764,7 +5750,7 @@ params:					LIST(SORTNAME)
 				tokens as parameters, but not as result.</para>
 		</section>
 
-		<section id="C5S33.21">
+		<section id="variety">
 			<title>variety</title>
 
 			<literallayout>Encoding number: 21</literallayout>
@@ -5774,13 +5760,13 @@ params:					LIST(SORTNAME)
 		</section>
 	</section>
 
-	<section id="C5S34">
+	<section id="STRING">
 		<title>STRING</title>
 
 		<literallayout>Number of encoding bits: 3</literallayout>
 		<literallayout>Is coding extendable: yes</literallayout>
 
-		<section id="C5S34.1">
+		<section id="string_apply_token">
 			<title>string_apply_token</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -5797,7 +5783,7 @@ token_args:			BITSTREAM param_sorts(token_value)
 				parameters, in the order specified.</para>
 		</section>
 
-		<section id="C5S34.2">
+		<section id="string_cond">
 			<title>string_cond</title>
 
 			<literallayout>Encoding number: 2</literallayout>
@@ -5816,7 +5802,7 @@ e2:							BITSTREAM STRING
 				processed.</para>
 		</section>
 
-		<section id="C5S34.3">
+		<section id="concat_string">
 			<title>concat_string</title>
 
 			<literallayout>Encoding number: 3</literallayout>
@@ -5829,7 +5815,7 @@ arg2:						STRING(k, m)
 				<replaceable>arg1</replaceable> with <replaceable>arg2</replaceable>.</para>
 		</section>
 
-		<section id="C5S34.4">
+		<section id="make_string">
 			<title>make_string</title>
 
 			<literallayout>Encoding number: 4</literallayout>
@@ -5842,8 +5828,8 @@ arg2:						STRING(k, m)
 		</section>
 	</section>
 
-	<section id="C5S35">
-		<title>AL_TAG</title>
+	<section id="TAG">
+		<title>TAG</title>
 
 		<literallayout>Number of encoding bits: 1</literallayout>
 		<literallayout>Is coding extendable: yes</literallayout>
@@ -5851,7 +5837,7 @@ arg2:						STRING(k, m)
 
 		<para>These are used to name values and variables in the run time program.</para>
 
-		<section id="C5S35.1">
+		<section id="tag_apply_token">
 			<title>tag_apply_token</title>
 
 			<literallayout>Encoding number: 2</literallayout>
@@ -5868,7 +5854,7 @@ token_args:			BITSTREAM param_sorts(token_value)
 				parameters, in the order specified.</para>
 		</section>
 
-		<section id="C5S35.2">
+		<section id="make_tag">
 			<title>make_tag</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -5881,7 +5867,7 @@ token_args:			BITSTREAM param_sorts(token_value)
 		</section>
 	</section>
 
-	<section id="C5S36">
+	<section id="TAGACC">
 		<title>TAGACC</title>
 
 		<literallayout>Number of encoding bits: 0</literallayout>
@@ -5890,7 +5876,7 @@ token_args:			BITSTREAM param_sorts(token_value)
 		<para>Constructs a pair of a <code>TAG</code> and an <code>OPTION(ACCESS)</code>
 			for use in <replaceable>make_proc</replaceable>.</para>
 
-		<section id="C5S36.1">
+		<section id="make_tagacc">
 			<title>make_tagacc</title>
 
 			<literallayout>Encoding number: 0</literallayout>
@@ -5903,7 +5889,7 @@ acc:						 OPTION(ACCESS)
 		</section>
 	</section>
 
-	<section id="C5S37">
+	<section id="TAGDEC">
 		<title>TAGDEC</title>
 
 		<literallayout>Number of encoding bits: 2</literallayout>
@@ -5912,7 +5898,7 @@ acc:						 OPTION(ACCESS)
 		<para>A <code>TAGDEC</code> declares a <code>TAG</code> for incorporation into a
 			<code>TAGDEC_PROPS.</code></para>
 
-		<section id="C5S37.1">
+		<section id="make_id_tagdec">
 			<title>make_id_tagdec</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -5939,10 +5925,10 @@ x:							 SHAPE
 			<para>If two <replaceable>make_id_tagdecs</replaceable> specify the same tag and
 				both have <replaceable>signatures</replaceable> present, the strings will be
 				identical. Possible uses of this signature argument are outlined in
-				<link linkend="C7S28">section 7.28</link>.</para>
+				<link linkend="signatures">section 7.28</link>.</para>
 		</section>
 
-		<section id="C5S37.2">
+		<section id="make_var_tagdec">
 			<title>make_var_tagdec</title>
 
 			<literallayout>Encoding number: 2</literallayout>
@@ -5971,10 +5957,10 @@ x:							 SHAPE
 			<para>If two <replaceable>make_var_tagdec</replaceable>s specify the same tag and
 				both have <replaceable>signature</replaceable> present, the strings will be
 				identical. Possible uses of this signature argument are outlined in
-				<link linkend="C7S28">section 7.28</link>.</para>
+				<link linkend="signatures">section 7.28</link>.</para>
 		</section>
 
-		<section id="C5S37.3">
+		<section id="common_tagdec">
 			<title>common_tagdec</title>
 
 			<literallayout>Encoding number: 3</literallayout>
@@ -6039,18 +6025,18 @@ is defined as follows:
 			<para>If two <replaceable>common_tagdecs</replaceable> specify the same tag and both
 				have <replaceable>signatures</replaceable> present, the strings will be
 				identical. Possible uses of this signature argument are outlined in
-				<link linkend="C7S28">section 7.28</link>.</para>
+				<link linkend="signatures">section 7.28</link>.</para>
 		</section>
 	</section>
 
-	<section id="C5S38">
+	<section id="TAGDEC_PROPS">
 		<title>TAGDEC_PROPS</title>
 
 		<literallayout>Number of encoding bits: 0</literallayout>
 		<literallayout>Is coding extendable: no</literallayout>
 		<literallayout>Unit identification: tagdec</literallayout>
 
-		<section id="C5S38.1">
+		<section id="make_tagdecs">
 			<title>make_tagdecs</title>
 
 			<literallayout>Encoding number: 0</literallayout>
@@ -6066,7 +6052,7 @@ tds:						 SLIST(TAGDEC)
 		</section>
 	</section>
 
-	<section id="C5S39">
+	<section id="TAGDEF">
 		<title>TAGDEF</title>
 
 		<literallayout>Number of encoding bits: 2</literallayout>
@@ -6075,7 +6061,7 @@ tds:						 SLIST(TAGDEC)
 		<para>A value of <code>SORT TAGDEF</code> gives the definition of a
 			<code>TAG</code> for incorporation into a <code>TAGDEF_PROPS</code>.</para>
 
-		<section id="C5S39.1">
+		<section id="make_id_tagdef">
 			<title>make_id_tagdef</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -6092,8 +6078,7 @@ e:							 EXP x
 
 			<para><replaceable>e</replaceable> will be a constant which can be evaluated at
 				load_time or <replaceable>e</replaceable> will be some
-				<replaceable>initial_value</replaceable>(E) (see <link
-				linkend="C5S16.48">section 5.16.48</link>).</para>
+				<replaceable>initial_value</replaceable>(E) (see <link linkend="initial_value">section 5.16.48</link>).</para>
 
 			<para><replaceable>t</replaceable> will be declared in the <code>CAPSULE</code>
 				using <replaceable>make_id_tagdec</replaceable>.	If both the
@@ -6110,7 +6095,7 @@ e:							 EXP x
 				<replaceable>t</replaceable> in a <code>CAPSULE</code>.</para>
 		</section>
 
-		<section id="C5S39.2">
+		<section id="make_var_tagdef">
 			<title>make_var_tagdef</title>
 
 			<literallayout>Encoding number: 2</literallayout>
@@ -6137,8 +6122,7 @@ e:							 EXP x
 
 			<para><replaceable>e</replaceable> will be a constant which can be evaluated at
 				load_time or <replaceable>e</replaceable> will be some
-				<replaceable>initial_value</replaceable>(<replaceable>e1</replaceable>) (see <link
-				linkend="C5S16.48">section 5.16.48</link>).</para>
+				<replaceable>initial_value</replaceable>(<replaceable>e1</replaceable>) (see <link linkend="initial_value">section 5.16.48</link>).</para>
 
 			<para><replaceable>t</replaceable> will be declared in the <code>CAPSULE</code>
 				using <replaceable>make_var_tagdec</replaceable>.	If both the
@@ -6150,7 +6134,7 @@ e:							 EXP x
 				<replaceable>t</replaceable> in a <code>CAPSULE</code>.</para>
 		</section>
 
-		<section id="C5S39.3">
+		<section id="common_tagdef">
 			<title>common_tagdef</title>
 
 			<literallayout>Encoding number: 3</literallayout>
@@ -6177,16 +6161,14 @@ e:							 EXP x
 
 			<para><replaceable>e</replaceable> will be a constant evaluable at load_time or
 				<replaceable>e</replaceable> will be some
-				<replaceable>initial_value</replaceable>(E) (see <link
-				linkend="C5S16.48">section 5.16.48 </link>).</para>
+				<replaceable>initial_value</replaceable>(E) (see <link linkend="initial_value">section 5.16.48 </link>).</para>
 
 			<para><replaceable>t</replaceable> will be declared in the <code>CAPSULE</code>
 				using <replaceable>common_tagdec</replaceable>.If both the
 				<replaceable>common_tagdec</replaceable> and
 				<replaceable>common_tagdef</replaceable> have <replaceable>signatures</replaceable>
 				present, the strings will be identical. Let the maximum
-				<code>SHAPE</code> of these (see <link
-				linkend="C5S37.3">common_tagdec</link>) be <replaceable>s</replaceable>.</para>
+				<code>SHAPE</code> of these (see <link linkend="common_tagdec">common_tagdec</link>) be <replaceable>s</replaceable>.</para>
 
 			<para>There may be any number of <replaceable>common_tagdef</replaceable>
 				definitions for <replaceable>t</replaceable> in a <code>CAPSULE</code>. Of the
@@ -6250,14 +6232,14 @@ follows:
 		</section>
 	</section>
 
-	<section id="C5S40">
+	<section id="TAGDEF_PROPS">
 		<title>TAGDEF_PROPS</title>
 
 		<literallayout>Number of encoding bits: 0</literallayout>
 		<literallayout>Is coding extendable: no</literallayout>
 		<literallayout>Unit identification: tagdef</literallayout>
 
-		<section id="C5S40.1">
+		<section id="make_tagdefs">
 			<title>make_tagdefs</title>
 
 			<literallayout>Encoding number: 0</literallayout>
@@ -6274,13 +6256,13 @@ tds:						 SLIST(TAGDEF)
 		</section>
 	</section>
 
-	<section id="C5S41">
+	<section id="TAGSHACC">
 		<title>TAGSHACC</title>
 
 		<literallayout>Number of encoding bits: 0</literallayout>
 		<literallayout>Is coding extendable: no</literallayout>
 
-		<section id="C5S41.1">
+		<section id="make_tagshacc">
 			<title>make_tagshacc</title>
 
 			<literallayout>Encoding number: 0</literallayout>
@@ -6295,41 +6277,40 @@ tg_intro:				TAG
 		</section>
 	</section>
 
-	<section id="C5S42">
+	<section id="TDFBOOL">
 		<title>TDFBOOL</title>
 
-		<para>A <code>TDFBOOL</code> is the TDF encoding of a boolean. See <link
-			linkend="C8S2">Fundamental encoding</link>.</para>
+		<para>A <code>TDFBOOL</code> is the TDF encoding of a boolean. See <link linkend="fundamental-encodings">Fundamental encoding</link>.</para>
 	</section>
 
-	<section id="C5S43">
+	<section id="TDFIDENT">
 		<title>TDFIDENT</title>
 
 		<para>A <code>TDFIDENT</code>(<replaceable>k</replaceable>, <replaceable>n</replaceable>)
 			encodes a sequence of <replaceable>n</replaceable> unsigned integers of size
 			<replaceable>k</replaceable> bits. <replaceable>k</replaceable> will be a multiple of
-			8. See <link linkend="C8S2">Fundamental encoding</link>.</para>
+			8. See <link linkend="fundamental-encodings">Fundamental encoding</link>.</para>
 
 		<para>This construction will not be used inside a <code>BITSTREAM</code>.</para>
 	</section>
 
-	<section id="C5S44">
+	<section id="TDFINT">
 		<title>TDFINT</title>
 
 		<para>A <code>TDFINT</code> is the TDF encoding of an unbounded unsigned integer
-			constant. See <link linkend="C8S2">Fundamental encoding</link>.</para>
+			constant. See <link linkend="fundamental-encodings">Fundamental encoding</link>.</para>
 	</section>
 
-	<section id="C5S45">
+	<section id="TDFSTRING">
 		<title>TDFSTRING</title>
 
 		<para>A <code>TDFSTRING</code>(<replaceable>k</replaceable>, <replaceable>n</replaceable>)
 			encodes a sequence of <replaceable>n</replaceable> unsigned integers of size
-			<replaceable>k</replaceable> bits. See <link linkend="C8S2">Fundamental
+			<replaceable>k</replaceable> bits. See <link linkend="fundamental-encodings">Fundamental
 			encoding</link>.</para>
 	</section>
 
-	<section id="C5S46">
+	<section id="TOKDEC">
 		<title>TOKDEC</title>
 
 		<literallayout>Number of encoding bits: 1</literallayout>
@@ -6338,7 +6319,7 @@ tg_intro:				TAG
 		<para>A <code>TOKDEC</code> declares a <code>TOKEN</code> for incorporation into
 			a <code>UNIT</code>.</para>
 
-		<section id="C5S46.1">
+		<section id="make_tokdec">
 			<title>make_tokdec</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -6359,18 +6340,18 @@ s:							 SORTNAME
 			<para>If two <replaceable>make_tokdecs</replaceable> specify the same token and both
 				have <replaceable>signatures</replaceable> present, the strings will be
 				identical. Possible uses of this signature argument are outlined in
-				<link linkend="C7S28">section 7.28</link>.</para>
+				<link linkend="signatures">section 7.28</link>.</para>
 		</section>
 	</section>
 
-	<section id="C5S47">
+	<section id="TOKDEC_PROPS">
 		<title>TOKDEC_PROPS</title>
 
 		<literallayout>Number of encoding bits: 0</literallayout>
 		<literallayout>Is coding extendable: no</literallayout>
 		<literallayout>Unit identification: tokdec</literallayout>
 
-		<section id="C5S47.1">
+		<section id="make_tokdecs">
 			<title>make_tokdecs</title>
 
 			<literallayout>Encoding number: 0</literallayout>
@@ -6383,7 +6364,7 @@ s:							 SORTNAME
 		</section>
 	</section>
 
-	<section id="C5S48">
+	<section id="TOKDEF">
 		<title>TOKDEF</title>
 
 		<literallayout>Number of encoding bits: 1</literallayout>
@@ -6392,7 +6373,7 @@ s:							 SORTNAME
 		<para><replaceable>tds</replaceable> is a list of <code>TOKDEC</code>s which gives the
 			sorts associated with <code>TOKEN</code>s.</para>
 
-		<section id="C5S48.1">
+		<section id="make_tokdef">
 			<title>make_tokdef</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -6407,8 +6388,7 @@ def:						 BITSTREAM TOKEN_DEFN
 				TDF, <replaceable>body</replaceable>, which may be of any <code>SORT</code>
 				with a <code>SORTNAME</code>, except for <replaceable>token</replaceable>. The
 				<code>SORT</code> of the result, <replaceable>result_sort</replaceable>, is
-				given by the first component of the <code>BITSTREAM</code>. See <link
-				linkend="C5S51.1">token_definition</link>.</para>
+				given by the first component of the <code>BITSTREAM</code>. See <link linkend="token_definition">token_definition</link>.</para>
 
 			<para>If <replaceable>signature</replaceable> is present, it will be produced by
 				<replaceable>make_string</replaceable>.</para>
@@ -6428,14 +6408,14 @@ def:						 BITSTREAM TOKEN_DEFN
 		</section>
 	</section>
 
-	<section id="C5S49">
+	<section id="TOKDEF_PROPS">
 		<title>TOKDEF_PROPS</title>
 
 		<literallayout>Number of encoding bits: 0</literallayout>
 		<literallayout>Is coding extendable: no</literallayout>
 		<literallayout>Unit identification: tokdef</literallayout>
 
-		<section id="C5S49.1">
+		<section id="make_tokdefs">
 			<title>make_tokdefs</title>
 
 			<literallayout>Encoding number: 0</literallayout>
@@ -6451,7 +6431,7 @@ tds:						 SLIST(TOKDEF)
 		</section>
 	</section>
 
-	<section id="C5S50">
+	<section id="TOKEN">
 		<title>TOKEN</title>
 
 		<literallayout>Number of encoding bits: 2</literallayout>
@@ -6461,7 +6441,7 @@ tds:						 SLIST(TOKDEF)
 		<para>These are used to stand for functions evaluated at installation time.
 			They are represented by <code>TDFINT</code>s.</para>
 
-		<section id="C5S50.1">
+		<section id="token_apply_token">
 			<title>token_apply_token</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -6478,7 +6458,7 @@ token_args:			BITSTREAM param_sorts(token_value)
 				parameters, in the order specified.</para>
 		</section>
 
-		<section id="C5S50.2">
+		<section id="make_tok">
 			<title>make_tok</title>
 
 			<literallayout>Encoding number: 2</literallayout>
@@ -6490,7 +6470,7 @@ token_args:			BITSTREAM param_sorts(token_value)
 				by <replaceable>tokno</replaceable>.</para>
 		</section>
 
-		<section id="C5S50.3">
+		<section id="use_tokdef">
 			<title>use_tokdef</title>
 
 			<literallayout>Encoding number: 3</literallayout>
@@ -6504,7 +6484,7 @@ token_args:			BITSTREAM param_sorts(token_value)
 		</section>
 	</section>
 
-	<section id="C5S51">
+	<section id="TOKEN_DEFN">
 		<title>TOKEN_DEFN</title>
 
 		<literallayout>Number of encoding bits: 1</literallayout>
@@ -6513,7 +6493,7 @@ token_args:			BITSTREAM param_sorts(token_value)
 		<para>An auxiliary <code>SORT</code> used in <replaceable>make_tokdef</replaceable>
 			and <replaceable>use_tokdef</replaceable>.</para>
 
-		<section id="C5S51.1">
+		<section id="token_definition">
 			<title>token_definition</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -6579,13 +6559,13 @@ body:						result_sort
 		</section>
 	</section>
 
-	<section id="C5S52">
+	<section id="TOKFORMALS">
 		<title>TOKFORMALS</title>
 
 		<literallayout>Number of encoding bits: 0</literallayout>
 		<literallayout>Is coding extendable: no</literallayout>
 
-		<section id="C5S52.1">
+		<section id="make_tokformals">
 			<title>make_tokformals</title>
 
 			<literallayout>Encoding number: 0</literallayout>
@@ -6599,7 +6579,7 @@ tk:							TDFINT
 		</section>
 	</section>
 
-	<section id="C5S53">
+	<section id="TRANSFER_MODE">
 		<title>TRANSFER_MODE</title>
 
 		<literallayout>Number of encoding bits: 3</literallayout>
@@ -6616,7 +6596,7 @@ tk:							TDFINT
 			<replaceable>standard_transfer_mode</replaceable> acts like the empty set.
 			<replaceable>add_modes</replaceable> acts like set union.</para>
 
-		<section id="C5S53.1">
+		<section id="transfer_mode_apply_token">
 			<title>transfer_mode_apply_token</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -6639,7 +6619,7 @@ token_args:			BITSTREAM param_sorts(token_value)
 				<code>BITSTREAM</code> cannot be read.</para>
 		</section>
 
-		<section id="C5S53.2">
+		<section id="transfer_mode_cond">
 			<title>transfer_mode_cond</title>
 
 			<literallayout>Encoding number: 2</literallayout>
@@ -6658,7 +6638,7 @@ e2:							BITSTREAM TRANSFER_MODE
 				processed.</para>
 		</section>
 
-		<section id="C5S53.3">
+		<section id="add_modes">
 			<title>add_modes</title>
 
 			<literallayout>Encoding number: 3</literallayout>
@@ -6675,7 +6655,7 @@ md2:						 TRANSFER_MODE
 				associative and commutative.</para>
 		</section>
 
-		<section id="C5S53.4">
+		<section id="overlap">
 			<title>overlap</title>
 
 			<literallayout>Encoding number: 4</literallayout>
@@ -6690,10 +6670,10 @@ md2:						 TRANSFER_MODE
 				might overlap.	The transfer shall be made as if the data were copied
 				from the source to an independent place and thence to the destination.</para>
 
-			<para>See <link linkend="C7S16">Overlapping</link>.</para>
+			<para>See <link linkend="overlapping">Overlapping</link>.</para>
 		</section>
 
-		<section id="C5S53.5">
+		<section id="standard_transfer_mode">
 			<title>standard_transfer_mode</title>
 
 			<literallayout>Encoding number: 5</literallayout>
@@ -6703,7 +6683,7 @@ md2:						 TRANSFER_MODE
 			<para>This <code>TRANSFER_MODE</code> implies no special properties.</para>
 		</section>
 
-		<section id="C5S53.6">
+		<section id="trap_on_nil">
 			<title>trap_on_nil</title>
 
 			<literallayout>Encoding number: 6</literallayout>
@@ -6718,7 +6698,7 @@ md2:						 TRANSFER_MODE
 				raised.</para>
 		</section>
 
-		<section id="C5S53.7">
+		<section id="volatile">
 			<title>volatile</title>
 
 			<literallayout>Encoding number: 7</literallayout>
@@ -6734,7 +6714,7 @@ md2:						 TRANSFER_MODE
 			</para>
 		</section>
 
-		<section id="C5S53.8">
+		<section id="complete">
 			<title>complete</title>
 
 			<literallayout>Encoding number: 8</literallayout>
@@ -6746,7 +6726,7 @@ md2:						 TRANSFER_MODE
 		</section>
 	</section>
 
-	<section id="C5S54">
+	<section id="UNIQUE">
 		<title>UNIQUE</title>
 
 		<literallayout>Number of encoding bits: 0</literallayout>
@@ -6757,7 +6737,7 @@ md2:						 TRANSFER_MODE
 
 		<para>This implies a registry for allocating <code>UNIQUE</code> values.</para>
 
-		<section id="C5S54.1">
+		<section id="make_unique">
 			<title>make_unique</title>
 
 			<literallayout>Encoding number: 0</literallayout>
@@ -6770,7 +6750,7 @@ md2:						 TRANSFER_MODE
 		</section>
 	</section>
 
-	<section id="C5S55">
+	<section id="UNIT">
 		<title>UNIT</title>
 
 		<literallayout>Number of encoding bits: 0</literallayout>
@@ -6781,7 +6761,7 @@ md2:						 TRANSFER_MODE
 			inside the <code>PROPS</code> and names by which they are to be known
 			across the whole of the enclosing <code>CAPSULE</code>.</para>
 
-		<section id="C5S55.1">
+		<section id="make_unit">
 			<title>make_unit</title>
 
 			<literallayout>Encoding number: 0</literallayout>
@@ -6802,8 +6782,7 @@ properties:			BYTESTREAM PROPS
 				entity in the same order as in <replaceable>local_vars</replaceable>.</para>
 
 			<para>The <replaceable>properties</replaceable> will be a <code>PROPS</code> of a
-				form dictated by the unit identification, see <link
-				linkend="C5S11.1">make_capsule</link>.</para>
+				form dictated by the unit identification, see <link linkend="make_capsule">make_capsule</link>.</para>
 
 			<para>The length of <replaceable>lks</replaceable> will be either 0 or equal to the
 				length of <replaceable>cap_linking</replaceable> in
@@ -6811,7 +6790,7 @@ properties:			BYTESTREAM PROPS
 		</section>
 	</section>
 
-	<section id="C5S56">
+	<section id="VARIETY">
 		<title>VARIETY</title>
 
 		<literallayout>Number of encoding bits: 2</literallayout>
@@ -6823,10 +6802,10 @@ properties:			BYTESTREAM PROPS
 			for the upper bound (inclusive at both ends).</para>
 
 		<para>There is no limitation on the magnitude of these bounds in TDF, but an
-			installer may specify limits. See <link linkend="C7S18">Representing
+			installer may specify limits. See <link linkend="representing-integers">Representing
 			integers</link>.</para>
 
-		<section id="C5S56.1">
+		<section id="var_apply_token">
 			<title>var_apply_token</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -6843,7 +6822,7 @@ token_args:			BITSTREAM param_sorts(token_value)
 				parameters, in the order specified.</para>
 		</section>
 
-		<section id="C5S56.2">
+		<section id="var_cond">
 			<title>var_cond</title>
 
 			<literallayout>Encoding number: 2</literallayout>
@@ -6862,7 +6841,7 @@ e2:							BITSTREAM VARIETY
 				processed.</para>
 		</section>
 
-		<section id="C5S56.3">
+		<section id="var_limits">
 			<title>var_limits</title>
 
 			<literallayout>Encoding number: 3</literallayout>
@@ -6877,7 +6856,7 @@ upper_bound:		 SIGNED_NAT
 				limit (inclusive).</para>
 		</section>
 
-		<section id="C5S56.4">
+		<section id="var_width">
 			<title>var_width</title>
 
 			<literallayout>Encoding number: 4</literallayout>
@@ -6896,7 +6875,7 @@ width:					 NAT
 		</section>
 	</section>
 
-	<section id="C5S57">
+	<section id="VERSION_PROPS">
 		<title>VERSION_PROPS</title>
 
 		<literallayout>Number of encoding bits: 0</literallayout>
@@ -6906,7 +6885,7 @@ width:					 NAT
 		<para>This <code>UNIT</code> gives information about version numbers and user
 			information.</para>
 
-		<section id="C5S57.1">
+		<section id="make_versions">
 			<title>make_versions</title>
 
 			<literallayout>Encoding number: 0</literallayout>
@@ -6918,13 +6897,13 @@ width:					 NAT
 		</section>
 	</section>
 
-	<section id="C5S58">
+	<section id="VERSION">
 		<title>VERSION</title>
 
 		<literallayout>Number of encoding bits: 1</literallayout>
 		<literallayout>Is coding extendable: yes</literallayout>
 
-		<section id="C5S58.1">
+		<section id="make_version">
 			<title>make_version</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -6946,7 +6925,7 @@ minor_version:	 TDFINT
 				<replaceable>make_version</replaceable> construct.</para>
 		</section>
 
-		<section id="C5S58.2">
+		<section id="user_info">
 			<title>user_info</title>
 
 			<literallayout>Encoding number: 2</literallayout>

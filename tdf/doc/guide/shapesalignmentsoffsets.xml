@@ -19,7 +19,7 @@
 		be abstracted so that translations to particular architectures can
 		choose the size that is apposite for the platform.</para>
 
-	<section id="S19">
+	<section>
 		<title>Shapes</title>
 
 		<para>There are ten different basic constructors for the SORT SHAPE
@@ -136,7 +136,7 @@
 			for testing the SHAPE correctness of a &tdf; program would be useful
 			but has yet to be written.</para>
 
-		<section id="S20">
+		<section>
 			<title>TOP, BOTTOM, LUB</title>
 
 			<para>Two of the SHAPE constructions are rather specialised; these
@@ -157,7 +157,7 @@
 				speak quite unambiguously of the LUB of several SHAPEs.</para>
 		</section>
 
-		<section id="S21">
+		<section>
 			<title>INTEGER</title>
 
 			<para>Integer values in &tdf; have shape INTEGER(v) where v is of SORT
@@ -189,7 +189,7 @@ width:        NAT
 -&gt; VARIETY</programlisting>
 		</section>
 
-		<section id="S22">
+		<section>
 			<title>FLOATING and complex</title>
 
 			<para>Similarly, floating point and complex numbers have shape
@@ -225,7 +225,7 @@ maximum_exponent:: NAT
 				operations on the fields.</para>
 		</section>
 
-		<section id="S23">
+		<section>
 			<title>BITFIELD</title>
 
 			<para>A number of contiguous bits have shape BITFIELD, qualified by
@@ -235,7 +235,7 @@ maximum_exponent:: NAT
 				number of bits.</para>
 		</section>
 
-		<section id="S24">
+		<section>
 			<title>PROC</title>
 
 			<para>The representational SHAPEs of procedure values is given by
@@ -243,7 +243,7 @@ maximum_exponent:: NAT
 				description of the operations which use it.</para>
 		</section>
 
-		<section id="S25">
+		<section>
 			<title>Non-primitive SHAPEs</title>
 
 			<para>The construction of the other four SHAPEs involves either
@@ -322,7 +322,7 @@ maximum_exponent:: NAT
 				ALIGNMENT of a parameter of given SHAPE.</para>
 		</section>
 
-		<section id="S28">
+		<section>
 			<title>Special alignments</title>
 
 			<para>There are several other special ALIGNMENTs.</para>
@@ -483,7 +483,7 @@ s: SHAPE
 				<link linkend="tdf-expansions-of-offsets">section 12</link>.</para>
 		</section>
 
-		<section id="S34">
+		<section>
 			<title>offset_mult</title>
 
 			<para>In C, all structures have size known at translate-time. This
@@ -505,7 +505,7 @@ arg2: EXP INTEGER(v)
 				the array with the resulting OFFSET.</para>
 		</section>
 
-		<section id="S35">
+		<section>
 			<title>OFFSET ordering and representation</title>
 
 			<para>There is an ordering defined on OFFSETs with the same

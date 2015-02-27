@@ -1,11 +1,9 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE chapter SYSTEM "minidocbook.dtd">
-
 <!--
   $Id$
 -->
-
-<chapter id="C2">
+<chapter id="structure-of-tdf">
 	<title>Structure of TDF</title>
 
 	<para>Each piece of TDF program is classified as being of a particular
@@ -23,7 +21,7 @@
 		parsed tree it is structured according to this syntax.	When it is
 		constructed and read it is in terms of this syntax.</para>
 
-	<section id="C2S1">
+	<section id="overall-structure">
 		<title>The overall structure</title>
 
 		<para>A separable piece of TDF is called a <code>CAPSULE</code>. A producer
@@ -215,7 +213,7 @@
 			the expense of time in the production of TDF.</para>
 	</section>
 
-	<section id="C2S2">
+	<section id="tokens">
 		<title>Tokens</title>
 
 		<para>Tokens are used (applied) in the TDF at the point where substitutions are
@@ -275,7 +273,7 @@
 			otherwise there will be a proliferation of such definitions.</para>
 	</section>
 
-	<section id="C2S3">
+	<section id="tags">
 		<title>Tags</title>
 
 		<para>Tags are used to identify the actual program components. They can be
@@ -285,7 +283,7 @@
 			value is to be made up).</para>
 	</section>
 
-	<section id="C2S4">
+	<section id="extending-the-format">
 		<title>Extending the format</title>
 
 		<para>TDF can be extended for two major reasons.</para>
@@ -314,8 +312,7 @@
 					indefinitely (except for certain auxiliary <code>SORT</code>s).
 					This mechanism should only be used for extending standard TDF to the
 					next standard, since otherwise extensions made by different groups
-					of people might conflict with each other. See <link
-					linkend="C8S3.3">Extendable integer encoding</link>.</para>
+					of people might conflict with each other. See <link linkend="extendable-integer-encoding">Extendable integer encoding</link>.</para>
 			</listitem>
 
 			<listitem>
@@ -323,7 +320,7 @@
 					unit. It also contains a mechanism for extending these so that other
 					information can be transmitted in a capsule and properly related to
 					basic TDF. The rules for linking this extra information are also
-					laid down. See <link linkend="C5S11.1">make_capsule</link>.</para>
+					laid down. See <link linkend="make_capsule">make_capsule</link>.</para>
 			</listitem>
 
 			<listitem>
@@ -351,8 +348,7 @@
 					information (that is, information which cannot be expressed in the
 					TDF <code>SORT</code>s) can be supplied. This mechanism should only
 					be used for the second purpose, though it could be used to
-					experiment with extensions for future standards. See <link
-					linkend="C8S3"><code>BITSTREAM</code></link>.</para>
+					experiment with extensions for future standards. See <link linkend="BITSTREAM"><code>BITSTREAM</code></link>.</para>
 			</listitem>
 		</itemizedlist>
 	</section>

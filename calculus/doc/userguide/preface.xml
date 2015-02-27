@@ -38,7 +38,7 @@
 		management system can be applied to all the types within the system. It
 		also opens the possibility of writing operations which apply to all
 		types within the system in a straightforward manner. The
-		<link linkend="diskoutput">disk reading and writing routines</link>
+		<link linkend="disk-output">disk reading and writing routines</link>
 		described below are an example of this.</para>
 
 	<section id="options">
@@ -66,16 +66,16 @@
 -->
 
 		<para>The form in which the
-			<link linkend="textinput">input type systems</link>
+			<link linkend="text-input">input type systems</link>
 			are expressed is described below. The form of the output depends on
 			<option>options</option>. By default, the C implementation of the type
 			system is output. If the <option>-t</option> option is passed to
 			<command>calculus</command> then
 			<ulink url="tcpplus.html#token"><code>#pragma token</code></ulink>
 			statements describing the type system specification are output.	This
-			<link linkend="tokenoutput">specification</link> is given below, with
+			<link linkend="token-output">specification</link> is given below, with
 			some of the more important
-			<link linkend="coutput">implementation details</link> being described
+			<link linkend="c-output">implementation details</link> being described
 			in the following section.</para>
 
 		<para>Note that it is necessary to check any program written using
@@ -83,7 +83,7 @@
 			version of the specification in order to get the full benefits of the
 			rigorous type checking provided by the tool. Some sections of the
 			program (if only the
-			<link linkend="coutputsupport">basic functions</link>) may be
+			<link linkend="c-output-support">basic functions</link>) may be
 			dependent upon the implementation, and so not be suitable for this
 			form of checking.</para>
 	</section>

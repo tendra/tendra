@@ -14,7 +14,7 @@
 		TOKENs are their use as abstractions for things defined in libraries
 		or application program interfaces (&api;s).</para>
 
-	<section id="S79">
+	<section>
 		<title>Application programming interfaces</title>
 
 		<para>&api;s usually do not give complete language definitions of the
@@ -73,7 +73,7 @@
 			flexibility across different platforms.</para>
 	</section>
 
-	<section id="S80">
+	<section>
 		<title>Linking to &api;s</title>
 
 		<para>In general, each &api; requires platform-dependent definitions to
@@ -97,7 +97,7 @@
 			identifiers which will be found in the library libc.a.</para>
 	</section>
 
-	<section id="S81">
+	<section>
 		<title>Target independent headers, unique_extern</title>
 
 		<para>Any producer which uses an &api; will use system independent
@@ -141,7 +141,7 @@
 			cause no problems, so we may as well allow them.</para>
 	</section>
 
-	<section id="S82">
+	<section>
 		<title>Language programming interfaces</title>
 
 		<para>So far, I have been speaking as though a TOKENised &api; could

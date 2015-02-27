@@ -5,16 +5,16 @@
 	$Id$
 -->
 
-<chapter id="S6">
+<chapter>
 	<title>Miscellaneous Topics</title>
 
 	<para>In this section we round up a few miscellaneous topics.</para>
 
-	<section id="FineImpl">
+	<section id="fine-implement">
 		<title>Fine Control of Included Files</title>
 
 		<para>The <code>+IMPLEMENT</code> and <code>+USE</code> commands
-			described in <link linkend="Impl">section 3.2</link> are capable of
+			described in <link linkend="IMPLEMENT-USE">section 3.2</link> are capable of
 			further refinement. Normally each such command is translated into a
 			corresponding inclusion command in both the include and source
 			output files.	Occasionally this is not desirable - in particular
@@ -91,7 +91,7 @@
 			inclusion of the version from the base API in normal use.</para>
 	</section>
 
-	<section id="Protect">
+	<section id="protect">
 		<title>Protection Macros</title>
 
 		<para>Each include output file is surrounded by a construct of the
@@ -105,13 +105,13 @@
 		<para>to protect it against multiple inclusions. Normally
 			<code>tspec</code> will generate the macro name, <code>MACRO</code>,
 			but it can be set using the <code>PROTECT</code> file property (see
-			<link linkend="Properties">section 5.4</link>). Setting
+			<link linkend="properties">section 5.4</link>). Setting
 			<code>PROTECT</code> to the empty string suppresses the protection
 			construct altogether.	(Also see
-			<link linkend="If">section 5.1</link>.)</para>
+			<link linkend="IF-ELSE-ENDIF">section 5.1</link>.)</para>
 	</section>
 
-	<section id="Index">
+	<section id="index">
 		<title>Index Printing</title>
 
 		<para>If it is invoked with the <option>-i</option> command-line
@@ -124,7 +124,7 @@
 			be usable as quick reference guides to the underlying APIs.</para>
 	</section>
 
-	<section id="Environment">
+	<section id="environment">
 		<title>Environment Generation</title>
 
 		<para>When invoked with the <option>-y</option> command-line
@@ -135,7 +135,7 @@
 			dependencies for how &tcc; is to invoke that API.</para>
 	</section>
 
-	<section id="Libraries">
+	<section id="libraries">
 		<title>TDF Library Building</title>
 
 		<para>As was explained in reference 1, the <code>#pragma token</code>
@@ -151,7 +151,7 @@
 			It is assumed to be defined if and only if library building is
 			taking place. <code>tspec</code> descriptions can access this macro
 			directly using <code>~building_libs</code> (see
-			<link linkend="If">section 5.1</link>).</para>
+			<link linkend="IF-ELSE-ENDIF">section 5.1</link>).</para>
 
 		<para>The actual library building process consists of compiling the
 			<code>#pragma token</code> descriptions of the objects comprising

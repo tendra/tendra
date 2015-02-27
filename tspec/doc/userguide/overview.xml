@@ -5,10 +5,10 @@
 	$Id$
 -->
 		
-<chapter id="Overview">
+<chapter id="overview">
 	<title>Overview of tspec</title>
 
-	<section id="Levels">
+	<section id="levels">
 		<title>Specification Levels</title>
 
 		<para>Let us begin by examining the various levels of specification
@@ -79,7 +79,7 @@
 			<code>c/c89:stdio.h:file</code>.</para>
 	</section>
 
-	<section id="Input">
+	<section id="input">
 		<title>Input Layout</title>
 
 		<para>The <code>tspec</code> representation of an API is arranged as a
@@ -100,19 +100,19 @@
 			variable <code>TSPEC_INPUT</code>. Directories may be added to the
 			start of the path using the
 			<option>-I</option><filename>dir</filename> command-line option (see
-			<link linkend="Options">section 2.5</link> for a complete list of
+			<link linkend="options">section 2.5</link> for a complete list of
 			options). The current working directory is always added to the start
 			of the path.</para>
 	</section>
 
-	<section id="Output">
+	<section id="output">
 		<title>Output Layout</title>
 
 		<para><code>tspec</code> actually outputs two sets of output files,
 			the include output files, containing the <code>#pragma token</code>
 			directives corresponding to the input API, and the source output
 			files, which provide a rig for TDF library building (see
-			<link linkend="Libraries">section 6.4</link>). These output files and
+			<link linkend="libraries">section 6.4</link>). These output files and
 			directories are built up under two standard output directories - the
 			include output directory, <filename>incl_dir</filename> say, and the
 			source output directory, <filename>src_dir</filename> say.
@@ -141,7 +141,7 @@
 	
 		<para>The default output file names can be overridden by means of the
 			<code>INCLNAME</code> and <code>SOURCENAME</code> file properties
-			described in <link linkend="Properties">section 5.4</link>.</para>
+			described in <link linkend="properties">section 5.4</link>.</para>
 	
 		<para>By default, <code>tspec</code> only creates an output file if
 			the date stamps on all the input files it depends on indicate that
@@ -154,13 +154,13 @@
 			file if it is needed for TDF library building. If the corresponding
 			include output file does not contain any token specifications then
 			the source output file is suppressed (see
-			<link linkend="Libraries">section 5.5</link>).</para>
+			<link linkend="libraries">section 5.5</link>).</para>
 
 		<para><code>tspec</code> can also generate environment files suitable
-			for &tcc; (see <link linkend="Environment">section 5.4</link>).</para>
+			for &tcc; (see <link linkend="environment">section 5.4</link>).</para>
 	</section>
 
-	<section id="Options">
+	<section id="options">
 		<title>Command-line Options</title>
 
 		<para>There are three main forms for invoking <code>tspec</code> on
@@ -180,19 +180,19 @@ tspec [options] api header subset</literallayout>
 			<listitem>
 				<para>The option <option>-I</option><filename>dir</filename>
 					adds a directory to the input directory search path (see
-					<link linkend="Input">section 2.2</link>).</para>
+					<link linkend="input">section 2.2</link>).</para>
 			</listitem>
 	
 			<listitem>
 				<para>The option <option>-O</option><filename>dir</filename>
 					specifies the include output directory (see
-					<link linkend="Output">section 2.3</link>).</para>
+					<link linkend="output">section 2.3</link>).</para>
 			</listitem>
 	
 			<listitem>
 				<para>The option <option>-S</option><filename>dir</filename>
 					specifies the source output directory (see
-					<link linkend="Output">section 2.3</link>).</para>
+					<link linkend="output">section 2.3</link>).</para>
 			</listitem>
 	
 			<listitem>
@@ -216,7 +216,7 @@ tspec [options] api header subset</literallayout>
 			<listitem>
 				<para>The <option>-i</option> option causes <code>tspec</code>
 				to print an index of all the objects in the input files (see
-				<link linkend= "Index">section 6.3</link>).</para>
+				<link linkend= "index">section 6.3</link>).</para>
 			</listitem>
 	
 			<listitem>
@@ -229,7 +229,7 @@ tspec [options] api header subset</literallayout>
 			<listitem>
 				<para>The <option>-r</option> option causes <code>tspec</code>
 				to only produce output for implemented objects, and not used
-				objects (see <link linkend="Impl">section 3.2</link>).</para>
+				objects (see <link linkend="IMPLEMENT-USE">section 3.2</link>).</para>
 			</listitem>
 	
 			<listitem>
@@ -241,7 +241,7 @@ tspec [options] api header subset</literallayout>
 			<listitem>
 				<para>The <option>-u</option> option causes <code>tspec</code>
 				to generate unique token names for the specified objects (see
-				<link linkend="Names">section 4.1.1</link>).</para>
+				<link linkend="names">section 4.1.1</link>).</para>
 			</listitem>
 	
 			<listitem>

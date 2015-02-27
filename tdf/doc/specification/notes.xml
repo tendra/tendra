@@ -1,14 +1,12 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE chapter SYSTEM "minidocbook.dtd">
-
 <!--
   $Id$
 -->
-
-<chapter id="C7">
+<chapter id="notes">
 	<title>Notes</title>
 
-	<section id="C7S1">
+	<section id="binding">
 		<title>Binding</title>
 
 		<para>The following constructions introduce <code>TAG</code>s:
@@ -78,7 +76,7 @@
 			at the <code>CAPSULE</code> level.</para>
 	</section>
 
-	<section id="C7S2">
+	<section id="character-codes">
 		<title>Character codes</title>
 
 		<para>TDF does not have a concept of characters. It transmits integers of
@@ -120,7 +118,7 @@
 			specification of globally named unique <code>TOKEN</code>s.</para>
 	</section>
 
-	<section id="C7S3">
+	<section id="constant-evaluation">
 		<title>Constant evaluation</title>
 
 		<para>Some constructions require an <code>EXP</code> argument which is
@@ -162,7 +160,7 @@
 			<replaceable>env_offset</replaceable> and/or <replaceable>env_size</replaceable>.</para>
 	</section>
 
-	<section id="C7S4">
+	<section id="division-and-modulus">
 		<title>Division and modulus</title>
 
 		<para>Two classes of division (D) and remainder (M) construct are defined. The
@@ -191,14 +189,14 @@ sign(p M2 q) = sign(p)
 0 &lt;= |p M2 q| &lt; |q|</programlisting>
 	</section>
 
-	<section id="C7S5">
+	<section id="equality-of-exps">
 		<title>Equality of EXPs</title>
 
 		<para>A definition of equality of <code>EXP</code>s would be a considerable part
 			of a formal specification of TDF, and is not given here.</para>
 	</section>
 
-	<section id="C7S6">
+	<section id="equality-of-shapes">
 		<title>Equality of SHAPEs</title>
 
 		<itemizedlist>
@@ -237,13 +235,13 @@ sign(p M2 q) = sign(p)
 		</itemizedlist>
 	</section>
 
-	<section id="C7S7">
+	<section id="equality-of-alignments">
 		<title>Equality of ALIGNMENTs</title>
 
 		<para>Two <code>ALIGNMENT</code>s are equal if and only if they are equal sets.</para>
 	</section>
 
-	<section id="C7S8">
+	<section id="exceptions-and-jumps">
 		<title>Exceptions and jumps</title>
 
 		<para>TDF allows simply for labels and jumps within a procedure, by means of the
@@ -325,7 +323,7 @@ sign(p M2 q) = sign(p)
 			<ulink url="reference/xhtml/register/">TDF Token Register</ulink>.</para>
 	</section>
 
-	<section id="C7S9">
+	<section id="procedures">
 		<title>Procedures</title>
 
 		<para>The <replaceable>var_intro</replaceable> of a <replaceable>make_proc</replaceable>, if
@@ -416,7 +414,7 @@ sign(p M2 q) = sign(p)
 			<replaceable>apply_general_proc</replaceable>.</para>
 	</section>
 
-	<section id="C7S10">
+	<section id="frames">
 		<title>Frames</title>
 
 		<para>TDF states that while a particular procedure activation is current, it is
@@ -478,7 +476,7 @@ sign(p M2 q) = sign(p)
 			on the procedure which declared the <code>TAG</code>.</para>
 	</section>
 
-	<section id="C7S11">
+	<section id="lifetimes">
 		<title>Lifetimes</title>
 
 		<para><code>TAG</code>s are bound to values during the evaluation of
@@ -494,7 +492,7 @@ sign(p M2 q) = sign(p)
 		<para>A similar concept applies to <code>LABEL</code>s.</para>
 	</section>
 
-	<section id="C7S12">
+	<section id="alloca">
 		<title>Alloca</title>
 
 		<para>The constructions involving <replaceable>alloca</replaceable>
@@ -544,7 +542,7 @@ sign(p M2 q) = sign(p)
 			<code>ALIGNMENT</code>. Since this includes all value
 			<code>ALIGNMENT</code>s a value of any <code>ALIGNMENT</code> can be
 			assigned into this space.	Note that there is no necessary relation with
-			the special frame alignments (see <link linkend="C7S10">section
+			the special frame alignments (see <link linkend="frames">section
 			7.10</link>) though they must both contain all the <code>ALIGNMENT</code>s
 			which can be produced by <replaceable>alignment</replaceable> from any
 			<code>SHAPE</code>.</para>
@@ -572,7 +570,7 @@ sign(p M2 q) = sign(p)
 			second stack.</replaceable></para>
 	</section>
 
-	<section id="C7S13">
+	<section id="memory-model">
 		<title>Memory Model</title>
 
 		<para>The layout of data in memory is entirely determined by the calculation of
@@ -650,7 +648,7 @@ sign(p M2 q) = sign(p)
 			</listitem>
 		</itemizedlist>
 
-		<section id="C7S13.1">
+		<section id="simple-model">
 			<title>Simple model</title>
 
 			<para>An example of the representation of <code>OFFSET</code> arithmetic is
@@ -755,7 +753,7 @@ arg2:						EXP OFFSET(z, t)
 				practical programs significantly.</para>
 		</section>
 
-		<section id="C7S13.2">
+		<section id="pointers-and-offsets">
 			<title>Comparison of pointers and offsets</title>
 
 			<para>Two <code>POINTER</code>s to the same <code>ALIGNMENT</code>,
@@ -765,10 +763,10 @@ arg2:						EXP OFFSET(z, t)
 
 			<para>The comparison of <code>OFFSET</code>s is reduced to the definition of
 				<replaceable>offset_max</replaceable> and the equality of <code>OFFSET</code>s
-				by the note in <link linkend="C5S16.89">offset_test</link>.</para>
+				by the note in <link linkend="offset_test">offset_test</link>.</para>
 		</section>
 
-		<section id="C7S13.3">
+		<section id="circular-types">
 			<title>Circular types in languages</title>
 
 			<para>It is assumed that circular types in programming languages will always
@@ -781,7 +779,7 @@ arg2:						EXP OFFSET(z, t)
 				<code>ALIGNMENT</code> (or <code>PROC</code>).</para>
 		</section>
 
-		<section id="C7S13.4">
+		<section id="special-alignments">
 			<title>Special alignments</title>
 
 			<para>There are seven special <code>ALIGNMENT</code>s. One of these is
@@ -803,8 +801,8 @@ arg2:						EXP OFFSET(z, t)
 				need not be equal to that set union, nor need there be any relation
 				between them.</para>
 
-			<para>In particular they are not equal (in the sense of <link linkend="C7S7">
-				equality of alignments -->Equality of <code>ALIGNMENT</code>s</link>).</para>
+			<para>In particular they are not equal (in the sense of <link linkend="equality-of-alignments">
+				equality of alignments --&gt;Equality of <code>ALIGNMENT</code>s</link>).</para>
 
 			<para>Each of these five refer to alignments of various components of a
 				frame.</para>
@@ -822,7 +820,7 @@ arg2:						EXP OFFSET(z, t)
 			<para>for any <code>ALIGNMENT</code> <replaceable>A</replaceable>.</para>
 		</section>
 
-		<section id="C7S13.5">
+		<section id="atomic-assignment">
 			<title>Atomic assignment</title>
 
 			<para>At least one <code>VARIETY</code> shall exist such that
@@ -838,7 +836,7 @@ arg2:						EXP OFFSET(z, t)
 		</section>
 	</section>
 
-	<section id="C7S14">
+	<section id="order-of-evaluation">
 		<title>Order of evaluation</title>
 
 		<para>The order of evaluation is specified in certain constructions in terms of
@@ -868,7 +866,7 @@ arg2:						EXP OFFSET(z, t)
 			to a canonical order.</para>
 
 		<para>Note that the rule specifying when error_jumps or traps are to be taken
-			(<link linkend="C5S15.4"><replaceable>error_jump</replaceable></link>) relaxes
+			(<link linkend="error_jump"><replaceable>error_jump</replaceable></link>) relaxes
 			the strict rule that everything has to be &ldquo;as if&rdquo; completed
 			by the end of certain constructions. Without this rule pipelines would
 			have to stop at such points, in order to be sure of processing any errors.
@@ -877,7 +875,7 @@ arg2:						EXP OFFSET(z, t)
 			to be processed in the cases where this is important.</para>
 	</section>
 
-	<section id="C7S15">
+	<section id="original-pointers">
 		<title>Original pointers</title>
 
 		<para>Certain constructions are specified as producing original pointers. They
@@ -896,7 +894,7 @@ arg2:						EXP OFFSET(z, t)
 
 		<para>As a special case, original pointers can be produced by using
 			<replaceable>current_env</replaceable> and <replaceable>env_offset</replaceable> (see
-			<link linkend="C5S16.25"><replaceable>current_env</replaceable></link>).</para>
+			<link linkend="current_env"><replaceable>current_env</replaceable></link>).</para>
 
 		<para>Note that:</para>
 
@@ -918,7 +916,7 @@ arg2:						EXP OFFSET(z, t)
 			<replaceable>current_env</replaceable> was used to make <replaceable>p</replaceable>.</para>
 	</section>
 
-	<section id="C7S16">
+	<section id="overlapping">
 		<title>Overlapping</title>
 
 		<para>In the case of <replaceable>move_some</replaceable>, or
@@ -939,7 +937,7 @@ arg2:						EXP OFFSET(z, t)
 		<para>Otherwise the effect is undefined.</para>
 	</section>
 
-	<section id="C7S17">
+	<section id="incomplete-assignment">
 		<title>Incomplete assignment</title>
 
 		<para>If the <replaceable>arg2</replaceable> component of an
@@ -954,7 +952,7 @@ arg2:						EXP OFFSET(z, t)
 			may be affected in any way.</para>
 	</section>
 
-	<section id="C7S18">
+	<section id="representing-integers">
 		<title>Representing integers</title>
 
 		<para>Integer <code>VARIETY</code>s shall be represented by a range of integers
@@ -1005,7 +1003,7 @@ arg2:						EXP OFFSET(z, t)
 			the target alignment shall be the same.</para>
 	</section>
 
-	<section id="C7S19">
+	<section id="overflow-and-integers">
 		<title>Overflow and Integers</title>
 
 		<para>It is necessary first to define what overflow means for integer operations
@@ -1052,7 +1050,7 @@ arg2:						EXP OFFSET(z, t)
 			to use a larger variety.</para>
 	</section>
 
-	<section id="C7S20">
+	<section id="representing-floats">
 		<title>Representing floating point</title>
 
 		<para><code>FLOATING_VARIETY</code>s shall be implemented by a representation
@@ -1085,7 +1083,7 @@ arg2:						EXP OFFSET(z, t)
 			<code>FLOATING_VARIETY</code>.</para>
 	</section>
 
-	<section id="C7S21">
+	<section id="float-errors">
 		<title>Floating point errors</title>
 
 		<para>The only permitted <code>ERROR_TREATMENT</code>s for operations delivering
@@ -1105,7 +1103,7 @@ arg2:						EXP OFFSET(z, t)
 			kind of error it was are outside the TDF definition (at present).</para>
 	</section>
 
-	<section id="C7S22">
+	<section id="rounding-and-floating-point">
 		<title>Rounding and floating point</title>
 
 		<para>Each machine has a rounding state which shall be one of
@@ -1116,7 +1114,7 @@ arg2:						EXP OFFSET(z, t)
 			performed according to the rounding state.</para>
 	</section>
 
-	<section id="C7S23">
+	<section id="float-accuracy">
 		<title>Floating point accuracy</title>
 
 		<para>While it is understood that most implementations will use IEEE floating
@@ -1187,7 +1185,7 @@ arg2:						EXP OFFSET(z, t)
 			according to the <code>ERROR_TREATMENT</code> specified.</para>
 	</section>
 
-	<section id="C7S24">
+	<section id="representing-bitfields">
 		<title>Representing bitfields</title>
 
 		<para><code>BITFIELD_VARIETY</code>s specify a number of bits and shall be
@@ -1235,7 +1233,7 @@ arg2:						EXP OFFSET(z, t)
 			<replaceable>sz</replaceable> is <replaceable>shape_offset</replaceable>.</para>
 	</section>
 
-	<section id="C7S25">
+	<section id="permitted-limits">
 		<title>Permitted limits</title>
 
 		<para>An installer may specify limits on the sizes of some of the data
@@ -1247,7 +1245,7 @@ arg2:						EXP OFFSET(z, t)
 			for floating point numbers.</para>
 	</section>
 
-	<section id="C7S26">
+	<section id="least-upper-bound">
 		<title>Least Upper Bound</title>
 
 		<para>The LUB of two <code>SHAPE</code>s, <replaceable>a</replaceable> and
@@ -1275,7 +1273,7 @@ arg2:						EXP OFFSET(z, t)
 		</itemizedlist>
 	</section>
 
-	<section id="C7S27">
+	<section id="read-only-areas">
 		<title>Read-only areas</title>
 
 		<para>Consider three scenarios in increasingly static order:</para>
@@ -1309,7 +1307,7 @@ arg2:						EXP OFFSET(z, t)
 			sufficiently general.</para>
 	</section>
 
-	<section id="C7S28">
+	<section id="signatures">
 		<title>Tag and Token signatures</title>
 
 		<para>In a TDF program there will usually be references to <code>TAG</code>s
@@ -1347,7 +1345,7 @@ arg2:						EXP OFFSET(z, t)
 			its definition in another.</para>
 	</section>
 
-	<section id="C7S29">
+	<section id="dynamic-initialisation">
 		<title>Dynamic initialisation</title>
 
 		<para>The dynamic initialisation of global variables is required for languages

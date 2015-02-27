@@ -1,14 +1,12 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE chapter SYSTEM "minidocbook.dtd">
-
 <!--
   $Id$
 -->
-
-<chapter id="C6">
+<chapter id="supplementary-unit">
 	<title>Supplementary UNIT</title>
 
-	<section id="C6S1">
+	<section id="LINKINFO_PROPS">
 		<title>LINKINFO_PROPS</title>
 
 		<literallayout>Number of encoding bits: 0</literallayout>
@@ -18,7 +16,7 @@
 		<para>This is an additional <code>UNIT</code> which gives extra information
 			about linking.</para>
 
-		<section id="C6S1.1">
+		<section id="make_linkinfos">
 			<title>make_linkinfos</title>
 
 			<literallayout>Encoding number: 0</literallayout>
@@ -31,13 +29,13 @@ tds:             SLIST(LINKINFO)
 		</section>
 	</section>
 
-	<section id="C6S2">
+	<section id="LINKINFO">
 		<title>LINKINFO</title>
 
 		<literallayout>Number of encoding bits: 2</literallayout>
 		<literallayout>Is encoding extendable: yes</literallayout>
 
-		<section id="C6S2.1">
+		<section id="static_name_def">
 			<title>static_name_def</title>
 
 			<literallayout>Encoding number: 1</literallayout>
@@ -63,7 +61,7 @@ id:              TDFSTRING(k, n)
 				initialisers.</replaceable></para>
 		</section>
 
-		<section id="C6S2.2">
+		<section id="make_comment">
 			<title>make_comment</title>
 
 			<literallayout>Encoding number: 2</literallayout>
@@ -75,7 +73,7 @@ id:              TDFSTRING(k, n)
 				comment, if this facility exists. Otherwise the construct is ignored.</para>
 		</section>
 
-		<section id="C6S2.3">
+		<section id="make_weak_defn">
 			<title>make_weak_defn</title>
 
 			<literallayout>Encoding number: 3</literallayout>
@@ -92,7 +90,7 @@ val:             EXP POINTER y
 				<replaceable>common_tagdef</replaceable>. They shall be made synonymous.</para>
 		</section>
 
-		<section id="C6S2.4">
+		<section id="make_weak_symbol">
 			<title>make_weak_symbol</title>
 
 			<literallayout>Encoding number: 4</literallayout>
@@ -113,4 +111,3 @@ val:             EXP POINTER x
 		</section>
 	</section>
 </chapter>
-

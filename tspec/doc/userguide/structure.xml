@@ -5,11 +5,11 @@
 	$Id$
 -->
 		
-<chapter id="Structure">
+<chapter id="structure">
 	<title>Specifying API Structure</title>
 
 	<para>The basic form of the <code>tspec</code> description of an API has
-		already been explained in <link linkend="Input">section 2.2</link> -
+		already been explained in <link linkend="input">section 2.2</link> -
 		it is a directory containing a set of files corresponding to the
 		headers in that API. Each file basically consists of a list of the
 		objects declared in that header. Each object specification is part of
@@ -23,7 +23,7 @@
 		<code>tspec</code> also has constructs for imposing structure on the
 		API description. It is these constructs that we consider first.</para>
 
-	<section id="Subset">
+	<section id="SUBSET">
 		<title>+SUBSET</title>
 
 		<para>A list of <code>tspec</code> constructs within a header can be
@@ -72,12 +72,12 @@
 			detail below.<!-- TODO ref --></para>
 
 		<para>Subsets are intended to give a layer of resolution beyond that
-			of the entire header (see <link linkend="Levels">section
+			of the entire header (see <link linkend="levels">section
 			2.1</link>).	Each subset is mapped onto a separate pair of output
 			files, so unwary use of subsets is discouraged.</para>
 	</section>
 
-	<section id="Impl">
+	<section id="IMPLEMENT-USE">
 		<title>+IMPLEMENT and +USE</title>
 
 		<para><code>tspec</code> has two import constructs which allow one
@@ -129,7 +129,7 @@
 
 		<para>Another use of <code>+IMPLEMENT</code> is in the
 			<code>master.ts</code> file used to list the headers in an API (see
-			<link linkend="Input">section 2.2</link>). This basically consists
+			<link linkend="input">section 2.2</link>). This basically consists
 			of a list of <code>+IMPLEMENT</code> commands, one per header. For
 			example, with <code>c/c89</code> it consists of:</para>
 
@@ -166,7 +166,7 @@
 
 		<para>For further information on the <code>+IMPLEMENT</code> and
 			<code>+USE</code> commands see
-			<link linkend="FineImpl">section 6.1</link>.</para>
+			<link linkend="fine-implement">section 6.1</link>.</para>
 	</section>
 </chapter>
 	

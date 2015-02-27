@@ -18,7 +18,7 @@
 		worthwhile revisiting the SHAPEs and ranges in arithmetic
 		VARIETYs.</para>
 
-		<section id="S67">
+		<section>
 			<title>VARIETY and overflow</title>
 
 			<para>An INTEGER VARIETY, for example, is defined by some range of
@@ -101,7 +101,7 @@ arg2:   EXP INTEGER(v)
 			with ERROR_CODE overflow if overflow occurs.</para>
 	</section>
 
-	<section id="S69">
+	<section>
 		<title>Division and remainder</title>
 
 		<para>The various constructors in involving integer division (e.g.
@@ -147,7 +147,7 @@ arg1:   EXP INTEGER(v)
 			<code>ov_err</code> will be invoked.</para>
 	</section>
 
-	<section id="S71">
+	<section>
 		<title>and, or, not, xor</title>
 
 		<para>The standard logical operations, and, not, or and xor are
@@ -156,7 +156,7 @@ arg1:   EXP INTEGER(v)
 			operations are well defined.</para>
 	</section>
 
-	<section id="S72">
+	<section>
 		<title>Floating-point operations, ROUNDING_MODE</title>
 
 		<para>All of the floating-point (including complex) operations include

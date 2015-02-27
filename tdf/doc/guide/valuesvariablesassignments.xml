@@ -21,7 +21,7 @@
 		bound to v is a pointer to fixed space in the procedure frame (i.e.
 		the left-hand value in C).</para>
 
-	<section id="S62">
+	<section>
 		<title>contents</title>
 
 		<para>In order to get the contents of this space (the right-hand value
@@ -43,7 +43,7 @@ arg1: EXP POINTER(x)
 			first field of a structure from a pointer to it.</para>
 	</section>
 
-	<section id="S63">
+	<section>
 		<title>assign</title>
 
 		<para>A simple assignment in &tdf; is done using assign:</para>

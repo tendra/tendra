@@ -289,7 +289,7 @@ goto(L)) ...
         )</programlisting>
 	</section>
 	
-	<section id="S86">
+	<section>
 		<title>Programs with undefined values</title>
 	
 		<para>The definitions of most of the constructors in the &tdf;

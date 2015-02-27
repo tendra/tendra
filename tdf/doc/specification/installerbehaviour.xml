@@ -1,14 +1,12 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE chapter SYSTEM "minidocbook.dtd">
-
 <!--
   $Id$
 -->
-
-<chapter id="C4">
+<chapter id="installer-behavior">
 	<title>Installer behavior</title>
 
-	<section id="C4S1">
+	<section id="definition-of-terms">
 		<title>Definition of terms</title>
 
 		<para>In this document the behaviour of TDF installers is described in a precise
@@ -56,7 +54,7 @@
 		</itemizedlist>
 	</section>
 
-	<section id="C4S2">
+	<section id="properties-of-installers">
 		<title>Properties of installers</title>
 
 		<para>All installers must implement all of the constructions of TDF. There are

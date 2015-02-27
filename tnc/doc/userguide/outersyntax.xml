@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
-<chapter id="S35">
+<chapter>
 	<title>Outer level syntax</title>
 
 	<para>At the outer level <code>tnc</code> is expecting a sequence of constructs
@@ -37,7 +37,7 @@
 		</listitem>
 	</itemizedlist>
 
-	<section id="S36">
+	<section>
 		<title>Included files</title>
 
 		<para>Included files may be of three types&mdash;text, &tdf; capsule or &tdf; library.
@@ -72,7 +72,7 @@
 		<para>Again, these rely on the <emphasis>decode</emphasis> mode being available.</para>
 	</section>
 
-	<section id="S37">
+	<section>
 		<title>Internal and external names</title>
 
 		<para>All tokens, tags and alignment tags have an internal name, namely
@@ -120,7 +120,7 @@
 			however. Thereafter the object is identified by its internal name.</para>
 	</section>
 
-	<section id="S38">
+	<section>
 		<title>Token declarations</title>
 
 		<para>The basic form of a token declaration is:</para>
@@ -143,7 +143,7 @@
 			to specify the external token name.</para>
 	</section>
 
-	<section id="S39">
+	<section>
 		<title>Token definitions</title>
 
 		<para>The basic form of a token definition is:</para>
@@ -168,7 +168,7 @@
 			specify the external token name.</para>
 	</section>
 
-	<section id="S310">
+	<section>
 		<title>Alignment tag declarations</title>
 
 		<para>The basic form of an alignment tag declaration is:</para>
@@ -181,7 +181,7 @@
 			to specify the external alignment tag name.</para>
 	</section>
 
-	<section id="S311">
+	<section>
 		<title>Alignment tag definitions</title>
 
 		<para>The basic form of an alignment tag definition is:</para>
@@ -197,7 +197,7 @@
 			specify the external alignment tag name.</para>
 	</section>
 
-	<section id="S312">
+	<section>
 		<title>Tag declarations</title>
 
 		<para>The basic forms of a tag declaration are:</para>
@@ -218,7 +218,7 @@
 			to specify the external tag name.</para>
 	</section>
 
-	<section id="S313">
+	<section>
 		<title>Tag definitions</title>
 
 		<para>The basic forms of a tag definition are:</para>

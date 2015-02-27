@@ -3,14 +3,14 @@
 
 <!-- $Id$ -->
 
-<chapter id="coutput">
+<chapter id="c-output">
 	<title>Implementation details</title>
 
-	<section id="coutputtypes">
+	<section id="c-output-types">
 		<title>Implementation of types</title>
 
 		<para>The C implementation of the type system
-			<link linkend="tokenoutput">specified above</link> is based on a
+			<link linkend="token-output">specified above</link> is based on a
 			single type, <literal>name</literal>, with the same name as the input
 			algebra. This is defined as follows:</para>
 
@@ -37,14 +37,14 @@
 
 		<para>Primitive types are implemented by a <code>typedef</code> defining
 			the type in terms of its
-			<link linkend="outputprim">given definition</link>. A primitive type
+			<link linkend="output-primitives">given definition</link>. A primitive type
 			can be packed into a single cell using the appropriate
 			<code>ag_prim_</code><literal>type</literal> field of the
 			union.</para>
 
 		<para>Identity types are implemented by a <code>typedef</code> defining
 			the type as being equal to another
-			<link linkend="outputident">type from the algebra</link>.</para>
+			<link linkend="output-ident">type from the algebra</link>.</para>
 
 		<para>Enumeration types are all implemented as <code>unsigned int</code>
 			if all its values fit into 16 bits, or <code>unsigned long</code>
@@ -54,7 +54,7 @@
 
 		<para>Structure types are implemented by a <code>typedef</code> defining
 			the type to be the C structure with the
-			<link linkend="outputstruct">given components</link>. A structure type
+			<link linkend="output-struct">given components</link>. A structure type
 			may be packed into a block of cells by packing each of the components
 			in turn.</para>
 
@@ -118,7 +118,7 @@ typedef struct {
 		<para>All size types are implemented as <code>int</code>.</para>
 	</section>
 
-	<section id="coutputsupport">
+	<section id="c-output-support">
 		<title>Support routines</title>
 
 		<para>The implementation requires the user to provide certain support
@@ -134,7 +134,7 @@ void dummy_destroy_name(name *, unsigned int);</programlisting>
 			cells of the given size, <code>destroy_</code><literal>name</literal>
 			deallocates the given block, and
 			<code>dummy_destroy_</code><literal>name</literal> has
-			<link linkend="outputbasic">no effect</link>. The precise details of
+			<link linkend="output-basic">no effect</link>. The precise details of
 			how the memory management is to be handled are left to the
 			user.</para>
 
@@ -160,7 +160,7 @@ name *end_name_list(name *);</programlisting>
 			itself.</para>
 	</section>
 
-	<section id="coutputassert">
+	<section id="c-output-assert">
 		<title>Run-time checking</title>
 
 		<para>The type checking facilities supported by

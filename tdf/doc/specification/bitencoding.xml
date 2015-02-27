@@ -1,24 +1,22 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE chapter SYSTEM "minidocbook.dtd">
-
 <!--
   $Id$
 -->
-
-<chapter id="C8">
+<chapter id="bit-encoding">
 	<title>The bit encoding of TDF</title>
 
 	<para>This is a description of the encoding used for TDF.</para>
 
-	<para><link linkend="C8S1">Section 8.1</link> defines the basic level of encoding,
+	<para><link linkend="basic-encoding">Section 8.1</link> defines the basic level of encoding,
 		in which integers consisting of a specified number of bits are appended to the
-		sequence of bytes. <link linkend="C8S2">Section 8.2</link> defines the second
+		sequence of bytes. <link linkend="fundamental-encodings">Section 8.2</link> defines the second
 		level of encoding, in which fundamental kinds of value are encoded in terms of
-		integers of specified numbers of bits. <link linkend="C8S4">Section 8.4</link>
+		integers of specified numbers of bits. <link linkend="tdf-encoding">Section 8.4</link>
 		defines the third level, in which TDF is encoded using the previously defined
 		concepts.</para>
 
-	<section id="C8S1">
+	<section id="basic-encoding">
 		<title>The Basic Encoding</title>
 
 		<para>TDF consists of a sequence of 8-bit bytes used to encode integers of a
@@ -59,7 +57,7 @@
 			bit 7, using the same algorithm (i.e. recursively).</para>
 	</section>
 
-	<section id="C8S2">
+	<section id="fundamental-encodings">
 		<title>Fundamental encodings</title>
 
 		<para>This section describes the encoding of <code>TDFINT</code>,
@@ -67,7 +65,7 @@
 			<code>BITSTREAM</code>, <code>BYTESTREAM</code>, <code>BYTE_ALIGN</code>
 			and extendable integers.</para>
 
-		<section id="C8S2.1">
+		<section id="TDFINT">
 			<title>TDFINT</title>
 
 			<para><code>TDFINT</code> encodes non-negative integers of unbounded size. The
@@ -78,14 +76,14 @@
 				octal digit plus 8.</para>
 		</section>
 
-		<section id="C8S2.2">
+		<section id="TDFBOOL">
 			<title>TDFBOOL</title>
 
 			<para><code>TDFBOOL</code> encodes a boolean, true or false.	The encoding
 				uses a 1-bit basic integer, with 1 encoding true and 0 encoding false.</para>
 		</section>
 
-		<section id="C8S2.3">
+		<section id="TDFSTRING">
 			<title>TDFSTRING</title>
 
 			<para><code>TDFSTRING</code> encodes a sequence containing
@@ -98,7 +96,7 @@
 				integer being first in this sequence.</para>
 		</section>
 
-		<section id="C8S2.4">
+		<section id="TDFIDENT">
 			<title>TDFIDENT</title>
 
 			<para><code>TDFIDENT</code> also encodes a sequence containing
@@ -122,7 +120,7 @@
 		</section>
 	</section>
 
-	<section id="C8S3">
+	<section id="BITSTREAM">
 		<title>BITSTREAM</title>
 
 		<para>It can be useful to be able to skip a TDF construction without reading
@@ -138,7 +136,7 @@
 			and then decode an <replaceable>X</replaceable>. There will be no spare bits at
 			the end of the <replaceable>X</replaceable>, so reading can continue directly.</para>
 
-		<section id="C8S3.1">
+		<section id="BYTESTREAM">
 			<title>BYTESTREAM</title>
 
 			<para>It can be useful to be able to skip a TDF construction without reading
@@ -165,14 +163,14 @@
 				<replaceable>n</replaceable> bytes after <replaceable>b</replaceable>.</para>
 		</section>
 
-		<section id="C8S3.2">
+		<section id="BYTE_ALIGN">
 			<title>BYTE_ALIGN</title>
 
 			<para><code>BYTE_ALIGN</code> leaves the bit position alone if it is 7, and
 				otherwise moves to bit 7 of the next byte.</para>
 		</section>
 
-		<section id="C8S3.3">
+		<section id="extendable-integer-encoding">
 			<title>Extendable integer encoding</title>
 
 			<para>A <replaceable>d</replaceable>-bit extendable integer encoding enables an
@@ -192,7 +190,7 @@
 		</section>
 	</section>
 
-	<section id="C8S4">
+	<section id="tdf-encoding">
 		<title>The TDF encoding</title>
 
 		<para>The descriptions of SORTS and constructors contain encoding information
@@ -351,7 +349,7 @@
 		</itemizedlist>
 	</section>
 
-	<section id="C8S5">
+	<section id="file-formats">
 		<title>File Formats</title>
 
 		<para>There may be various kinds of files which contain TDF bitstream

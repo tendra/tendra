@@ -1,11 +1,9 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE chapter SYSTEM "minidocbook.dtd">
-
 <!--
 	$Id$
 -->
-
-<chapter id="C1">
+<chapter id="introduction">
 	<title>Introduction</title>
 
 	<para>TDF is a porting technology and, as a result, it is a central part of a

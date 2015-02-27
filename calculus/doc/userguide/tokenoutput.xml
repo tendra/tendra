@@ -3,7 +3,7 @@
 
 <!-- $Id$ -->
 
-<chapter id="tokenoutput">
+<chapter id="token-output">
 	<title>Output type system specification</title>
 
 	<para>In this section we document the basic output of
@@ -14,7 +14,7 @@
 
 	<para>In this section the description given will be at the level of the
 		output specification. The more important details of the
-		<link linkend="coutput">C implementation</link> are given in the
+		<link linkend="c-output">C implementation</link> are given in the
 		following section.</para>
 
 	<para>The output is split among several header files in the specified
@@ -29,7 +29,7 @@
 		<filename>union_map.h</filename> and <filename>union_hdr.h</filename>.
 		</para>
 
-	<section id="outputinfo">
+	<section id="output-info">
 		<title>Version information</title>
 
 		<para>Certain basic information about the input algebra is included in
@@ -44,7 +44,7 @@
 			implementation is included.</para>
 	</section>
 
-	<section id="outputbasic">
+	<section id="output-basic">
 		<title>Basic types</title>
 
 		<para>Six abstract type operators, each taking a type as argument and
@@ -101,12 +101,12 @@ void dummy_destroy_name();</programlisting>
 			dependent.</para>
 	</section>
 
-	<section id="outputsize">
+	<section id="output-size">
 		<title>Operations on sizes</title>
 
 		<para>The <code>SIZE</code> type constructor is used to represent a
 			multiple of the size of a type. It is used, for example, in the
-			<link linkend="outputptr">pointer stepping construct</link>
+			<link linkend="output-ptr">pointer stepping construct</link>
 			<code>STEP_ptr</code> to specify the number of units the pointer is to
 			be increased by.	Having a separate abstract type for the size of each
 			type greatly increases the scope for type checking of memory
@@ -121,7 +121,7 @@ void dummy_destroy_name();</programlisting>
 			<literal>type</literal> is the associated type name.</para>
 
 		<para>For the five other type constructors
-			<link linkend="outputbasic">described above</link> there are constant
+			<link linkend="output-basic">described above</link> there are constant
 			expressions:</para>
 
 		<programlisting language="alg">SIZE(PTR(t))			SIZE_ptr(TYPE t);
@@ -143,7 +143,7 @@ SIZE(VEC_PTR(t))	SIZE_vec_ptr(TYPE t);</programlisting>
 			<literal>itype</literal>.</para>
 	</section>
 
-	<section id="outputptr">
+	<section id="output-ptr">
 		<title>Operations on pointers</title>
 
 		<para>The <code>PTR</code> type constructor is used to represent a
@@ -246,7 +246,7 @@ STATEMENT DEREF_vec_ptr(PTR(VEC_PTR(t)), lvalue VEC_PTR(t));</programlisting>
 		</section>
 	</section>
 
-	<section id="outputlist">
+	<section id="output-list">
 		<title>Operations on lists</title>
 
 		<para>The <code>LIST</code> type constructor is used to represent a list
@@ -334,7 +334,7 @@ STATEMENT DESTROY_CONS_ptr(DESTROYER, lvalue PTR(t), lvalue LIST(PTR(t)), LIST(P
 		</section>
 	</section>
 
-	<section id="outputstack">
+	<section id="output-stack">
 		<title>Operations on stacks</title>
 
 		<para>The <code>STACK</code> type constructor is used to represent
@@ -354,7 +354,7 @@ STATEMENT POP_type(lvalue t, lvalue STACK(t));</programlisting>
 		<para>where <literal>type</literal> is the short type name. There are also
 			generic constructs, such as <code>PUSH_ptr</code> for pushing any
 			pointer type, similar to the
-			<link linkend="outputlist">generic list constructors</link>
+			<link linkend="output-list">generic list constructors</link>
 			above.</para>
 
 		<para>Stacks are in fact just modified lists with pushing corresponding
@@ -367,7 +367,7 @@ STACK(t) STACK_list(LIST(t));</programlisting>
 		<para>for explicitly converting between lists and stacks.</para>
 	</section>
 
-	<section id="outputvec">
+	<section id="output-vec">
 		<title>Operations on vectors</title>
 
 		<para>The <code>VEC</code> type constructor is used to represent vectors
@@ -401,7 +401,7 @@ STATEMENT DESTROY_vec(VEC(t), SIZE(t));</programlisting>
 			trimming operation.</para>
 	</section>
 
-	<section id="outputvecptr">
+	<section id="output-vec-ptr">
 		<title>Operations on vector pointers</title>
 
 		<para>The <code>VEC_PTR</code> type constructor is used to represent a
@@ -417,7 +417,7 @@ PTR(t) PTR_vec_ptr(VEC_PTR(t));</programlisting>
 			normal pointer.</para>
 	</section>
 
-	<section id="outputprim">
+	<section id="output-primitives">
 		<title>Operations on primitives</title>
 
 		<para>Each primitive specified within the algebra maps onto a
@@ -428,7 +428,7 @@ PTR(t) PTR_vec_ptr(VEC_PTR(t));</programlisting>
 			the stack push and pop operations.</para>
 	</section>
 
-	<section id="outputident">
+	<section id="output-ident">
 		<title>Operations on identities</title>
 
 		<para>Each identity specified within the algebra maps onto a
@@ -436,14 +436,14 @@ PTR(t) PTR_vec_ptr(VEC_PTR(t));</programlisting>
 			identities.</para>
 	</section>
 
-	<section id="outputenum">
+	<section id="output-enum">
 		<title>Operations on enumerations</title>
 
 		<para>Each enumeration specified within the algebra maps onto an
 			unsigned integral type in the output file. The
-			<link linkend="outputprim">basic operations</link>
+			<link linkend="output-primitives">basic operations</link>
 			listed above are always generated unless it has been indicated that
-			<link linkend="inputenum">no lists of this type will be formed</link>,
+			<link linkend="input-enum">no lists of this type will be formed</link>,
 			when <code>CONS_</code><literal>type</literal> and the other list and
 			stack operators are suppressed. In addition each enumerator which is a
 			member of this enumeration maps onto a constant expression:</para>
@@ -462,13 +462,13 @@ PTR(t) PTR_vec_ptr(VEC_PTR(t));</programlisting>
 		<para>giving one more than the maximum enumerator in the enumeration.</para>
 	</section>
 
-	<section id="outputstruct">
+	<section id="output-struct">
 		<title>Operations on structures</title>
 
 		<para>Each structure specified within the algebra maps onto a
 			<code>typedef</code> defining the type to be the C structure with the
 			given components. In addition to the
-			<link linkend="outputprim">basic operations</link>
+			<link linkend="output-primitives">basic operations</link>
 			listed above there are also field selectors defined.</para>
 
 		<para>Suppose that <literal>t</literal> is a structure type with short
@@ -507,12 +507,12 @@ PTR(t) PTR_vec_ptr(VEC_PTR(t));</programlisting>
 			respectively.</para>
 	</section>
 
-	<section id="outputunion">
+	<section id="output-union">
 		<title>Operations on unions</title>
 
 		<para>Each union specified within the algebra maps onto an opaque type
 			in the output file. In addition to the
-			<link linkend="outputprim">basic operations</link> listed above there
+			<link linkend="output-primitives">basic operations</link> listed above there
 			are a number of other constructs output into
 			<literal>name</literal><code>.h</code>, namely:</para>
 
@@ -582,7 +582,7 @@ STATEMENT DESTROY_union_field(DESTROYER, lvalue ctype, ...., t);</programlisting
 				<literal>field</literal>, both the shared components and the
 				unshared components, which do not have a component initialiser
 				string in the definition. The union component are initialised either
-				using the <link linkend="outputstruct">initialiser string</link> or
+				using the <link linkend="output-struct">initialiser string</link> or
 				the given operation argument.</para>
 
 			<para><code>DECONS_</code><literal>union_field</literal> performs the
@@ -599,7 +599,7 @@ STATEMENT DESTROY_union_field(DESTROYER, lvalue ctype, ...., t);</programlisting
 			<title>Union field sets</title>
 
 			<para>Recall that
-				<link linkend="inputunion">a number of union field identifiers</link>
+				<link linkend="input-union">a number of union field identifiers</link>
 				may be associated with the same set of components.	In this case
 				these fields form a union field set named after the first element of
 				the set. There are operations:</para>
@@ -647,7 +647,7 @@ unsigned int union_field_etc_tag;</programlisting>
 				respectively.</para>
 		</section>
 
-		<section id="outputunionmaps">
+		<section id="output-union-maps">
 			<title>Union maps</title>
 
 			<para>For each map, <literal>map</literal>, on the union
@@ -659,7 +659,7 @@ unsigned int union_field_etc_tag;</programlisting>
 			<para>where <literal>map_ret</literal> is the map return type and
 				<literal>map_par</literal> ranges over the map parameter types. This
 				is except for maps with destructors (i.e. those qualified by a
-				<link linkend="inputunion">hash symbol</link>) which have the form:</para>
+				<link linkend="input-union">hash symbol</link>) which have the form:</para>
 
 			<programlisting language="c">map_ret map_union(t, DESTROYER, map_par, ....);</programlisting>
 

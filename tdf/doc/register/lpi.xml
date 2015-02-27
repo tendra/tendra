@@ -47,7 +47,7 @@
 		for all cases where significant advantage could be taken by an installer
 		only if it recognises the token by name.</para>
 
-	<section id="S19">
+	<section>
 		<title>The <acronym>DRA</acronym> C &lpi;</title>
 
 		<para><acronym>DRA</acronym>'s C producer &lpi; is defined by an architecture neutral token definition
@@ -75,7 +75,7 @@
 			treated as an &api;.</para>
 	</section>
 
-	<section id="S20">
+	<section>
 		<title>The Etnoteam Fortran &lpi;</title>
 
 		<para>The details in this subsection are provisional, subject to confirmation

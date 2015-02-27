@@ -3,7 +3,7 @@
 
 <!-- $Id$ -->
 
-<chapter id="textinput">
+<chapter id="text-input">
 	<title>Input syntax</title>
 
 	<para>The overall input file format is as follows:</para>
@@ -40,7 +40,7 @@ item:
 		strings. C style comments may be used anywhere in the input. White
 		space is not significant.</para>
 
-	<section id="inputprim">
+	<section id="input-primitives">
 		<title>Primitives</title>
 
 		<para>Primitives form the basic components from which the other types in
@@ -74,7 +74,7 @@ item:
 			used in the output routines.</para>
 	</section>
 
-	<section id="inputident">
+	<section id="input-ident">
 		<title>Identities</title>
 
 		<para>Identities are used to associate a name with a particular type in
@@ -85,10 +85,10 @@ item:
 			object-identifier = type;</programlisting>
 
 		<para>where the definition type, <literal>type</literal>, is as described
-			<link linkend="inputtype">below</link>.</para>
+			<link linkend="input-type">below</link>.</para>
 	</section>
 
-	<section id="inputenum">
+	<section id="input-enum">
 		<title>Enumerations</title>
 
 		<para>Enumerations are used to define types which can only take values
@@ -134,7 +134,7 @@ enumerator-list:
 			that they are genuinely distinct types.</para>
 	</section>
 
-	<section id="inputstruct">
+	<section id="input-struct">
 		<title>Structures</title>
 
 		<para>Structures are used to build up composite types from other types
@@ -177,7 +177,7 @@ component-declarator:
 component-initialiser:
 			= string</programlisting>
 
-		<para>The optional <link linkend="outputstruct">component initialiser
+		<para>The optional <link linkend="output-struct">component initialiser
 			strings</link> are explained below.</para>
 
 		<para>Structures are the only algebra construct which prevent the input
@@ -186,7 +186,7 @@ component-initialiser:
 			in terms of themselves.</para>
 	</section>
 
-	<section id="inputunion">
+	<section id="input-union">
 		<title>Unions</title>
 
 		<para>Unions are used to build up types which can hold a variety of
@@ -235,7 +235,7 @@ field-identifier-list:
 
 		<para>The optional one or two hashes which may be used to qualify a list
 			of field identifiers are used to indicate
-			<link linkend="diskalias">aliasing</link> in the disk reading and
+			<link linkend="disk-alias">aliasing</link> in the disk reading and
 			writing routines.	The <literal>base-field</literal> case is a
 			notational convenience which allows one field in a union to inherit
 			all the components of another field.</para>
@@ -281,16 +281,16 @@ parameter-declarators:
 								quoted-type</programlisting>
 
 		<para>In addition to the
-			<link linkend="inputtype">types derived from the algebra</link> it is
+			<link linkend="input-type">types derived from the algebra</link> it is
 			possible to use quoted C types in this context.</para>
 
 		<para>A map may be qualified by means of a hash. This means that the
 			associated function also takes a
-			<link linkend="outputunionmaps">destructor function</link> as a
+			<link linkend="output-union-maps">destructor function</link> as a
 			parameter.</para>
 	</section>
 
-	<section id="inputtype">
+	<section id="input-type">
 		<title>Type constructors</title>
 
 		<para>The types derived from the algebra may be described as follows:</para>
