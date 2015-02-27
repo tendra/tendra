@@ -119,6 +119,8 @@
 
 #include <refactor/optimise.h>
 
+#include <diag3/diag_reform.h>
+
 #include "frames.h"
 #include "tempdecs.h"
 #include "weights.h"

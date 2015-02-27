@@ -34,7 +34,7 @@
 #include <main/flags.h>
 #include <main/print.h>
 
-#include <diag3/diag3_reform.h>
+#include <diag3/diag_reform.h>
 
 #include <refactor/optimise.h>
 

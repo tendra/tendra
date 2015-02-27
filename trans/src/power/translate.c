@@ -104,6 +104,8 @@
 
 #include <refactor/optimise.h>
 
+#include <diag3/diag_reform.h>
+
 #include "memtdf.h"
 #include "codegen.h"
 #include "tempdecs.h"
