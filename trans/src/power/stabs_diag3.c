@@ -188,6 +188,7 @@ static void out_dt_TypeDef(diag_type);
 static void out_dt_NewTypeId(diag_type, int);
 static void out_dt_TypeId(diag_type);
 static void stab_types(void);
+static void stab_local(char *, diag_type, exp, int, int);
 
 #if defined(__AIX) || defined(CROSS_INCLUDE)
 static void stab_internal_types(diag_type, bool);
