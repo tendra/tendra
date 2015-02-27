@@ -1025,7 +1025,7 @@ static void dw2_out_proc
 	is_callable = p_t->data.t_proc.ccv;
     }
   }
-  if (is_callable |= DW_CC_normal)
+  if (is_callable | DW_CC_normal)
     attr1 |= H_CC;
   if (di->mor && di->mor->isspec)
     attr1 |= H_DC;
