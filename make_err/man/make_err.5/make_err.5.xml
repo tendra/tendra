@@ -1,14 +1,76 @@
-<?xml version="1.0" standalone="no"?>
-<!DOCTYPE article SYSTEM "minidocbook.dtd">
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE refentry SYSTEM "minidocbook.dtd">
 
-<!-- $Id$ -->
+<!-- $Id: tpl.1.xml 3994 2015-02-27 05:21:34Z kate $ -->
+<refentry>
+<!--
+        Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
+        All rights reserved.
 
-<article>
+        Redistribution and use in source and binary forms, with or without
+        modification, are permitted provided that the following conditions are met:
 
-	<articleinfo>
-		<title>Error catalogue language reference</title>
+        1. Redistributions of source code must retain the above copyright notice,
+           this list of conditions and the following disclaimer.
+        2. Redistributions in binary form must reproduce the above copyright notice,
+           this list of conditions and the following disclaimer in the documentation
+           and/or other materials provided with the distribution.
+        3. Neither the name of The TenDRA Project nor the names of its contributors
+           may be used to endorse or promote products derived from this software
+           without specific, prior written permission.
 
-		<!-- TODO: this ought to become make_err.5 -->
+        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+        IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+        THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+        PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+        CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+        EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+        PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+        OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+        WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+        OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+        ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<!--
+			 Crown Copyright (c) 1997
+	
+	This TenDRA(r) Manual Page is subject to Copyright
+	owned by the United Kingdom Secretary of State for Defence
+	acting through the Defence Evaluation and Research Agency
+	(DERA).	It is made available to Recipients with a
+	royalty\-free licence for its use, reproduction, transfer
+	to other parties and amendment for any purpose not excluding
+	product development provided that any such use et cetera
+	shall be deemed to be acceptance of the following conditions:\-
+	
+			(1) Its Recipients shall ensure that this Notice is
+			reproduced upon any copies or amended versions of it;
+	
+			(2) Any amended version of it shall be clearly marked to
+			show both the nature of and the organisation responsible
+			for the relevant amendment or amendments;
+	
+			(3) Its onward transfer from a recipient to another
+			party shall be deemed to be that party's acceptance of
+			these conditions;
+	
+			(4) DERA gives no warranty or assurance as to its
+			quality or suitability for any purpose and DERA accepts
+			no liability whatsoever in relation to any use to which
+			it may be put.
+-->
+
+	<refmeta>
+		<refentrytitle>make_err</refentrytitle>
+		<manvolnum>5</manvolnum>
+	</refmeta>
+
+	<refnamediv>
+		<refname>make_err</refname>
+		<refpurpose>Error catalogue language reference</refpurpose>
+	</refnamediv>
+
+<!--
 
 		<authorgroup>
 			<othercredit class="copyeditor">
@@ -51,10 +113,11 @@
 				</revdescription>
 			</revision>
 		</revhistory>
-	</articleinfo>
 
-	<section>
-		<title>Error catalogue language reference</title>
+-->
+
+	<refsection>
+		<title>Syntax</title>
 
 		<para>The following gives a summary of the syntax for the
 			error catalogue accepted by the <code>make_err</code> tool.
@@ -175,16 +238,15 @@
 <function>message-list</function> :
 	<function>string message-list&opt.bnf;</function>
 	<function>param-name message-list&opt.bnf;</function></programlisting>
-  </section>
+  </refsection>
 
-<!-- TODO bibliography -->
-
-	<section>
-		<title>References</title>
+	<refsection>
+		<title>See Also</title>
 
 		<para>&make_err;.</para>
 
 		<para>&tdf-spec.doc;, &tchk.doc;, &tdf-portability.doc;.</para>
-	</section>
-</article>
+	</refsection>
+
+</refentry>
 
