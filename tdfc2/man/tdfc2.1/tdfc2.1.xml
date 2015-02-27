@@ -542,7 +542,7 @@
 							</tr>
 							<tr>
 								<td><code>c</code></td>
-								<td>dump string literals</td>
+								<td>dump string and character literals</td>
 							</tr>
 							<tr>
 								<td><code>e</code></td>

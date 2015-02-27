@@ -71,23 +71,6 @@
 	<section>
 		<title>Overview</title>
 
-		<para>The symbol table dump provides a method whereby third party tools
-			can interface with the C and C++ producers.	The producer outputs
-			information on the identifiers declared within a source file, their
-			uses etc. into a file which can then be post-processed by a separate
-			tool. Any error messages and warnings can also be included in this
-			file, allowing more sophisticated error presentation tools to be written.</para>
-
-		<para>The file to be used as the symbol table output file, plus details
-			of what information is to be included in the dump file can be specified
-			using the <code>-d</code> command-line option to &tcpplus;.
-			The format of the dump file is described below; a
-			summary of the syntax is given in &tdfcdump.5;.</para>
-	</section>
-
-	<section>
-		<title>Usage</title>
-
 		<para>&tchk; produces an extra output file, called a dump output file, for
 			each translation unit processed. This file is in the form given by the
 			symbol table output specification in Annex E, and contains information
@@ -98,74 +81,26 @@
 
 		<para>In the default mode only external declaration and definition
 			information is written to each dump file. The amount of information
-			output may be increased by passing the <code>-sym[cehklsu]</code>
-			command line option to tchk. Any combination of the optional flags
-			enclosed by <code>[]</code> may be used and the effect of each flag is
-			described below:</para>
+			output may be increased by passing various flags by the <literal>-d</literal>
+			option to the producer; these flags are documented by &tdfc2.1;.</para>
 
-		<table>
-			<col align="center"/>
-			<col align="left"/>
-
-			<thead>
-				<tr>
-					<th>Flag</th>
-					<th>Effect</th>
-				</tr>
-			</thead>
-
-			<tbody>
-				<tr>
-					<td><code>no</code></td>
-					<td>Flags external declarations and definitions only</td>
-				</tr>
-
-				<tr>
-					<td><code>c</code></td>
-					<td>String and character literals output</td>
-				</tr>
-
-				<tr>
-					<td><code>e</code></td>
-					<td>Errors incorporated into dump output</td>
-				</tr>
-
-				<tr>
-					<td><code>e_only</code></td>
-					<td>Only errors output</td>
-				</tr>
-
-				<tr>
-					<td><code>h</code></td>
-					<td>Included headers output</td>
-				</tr>
-
-				<tr>
-					<td><code>k</code></td>
-					<td>Keywords output</td>
-				</tr>
-
-				<tr>
-					<td><code>l</code></td>
-					<td>Local variables output</td>
-				</tr>
-
-				<tr>
-					<td><code>s</code></td>
-					<td>Scopes output</td>
-				</tr>
-
-				<tr>
-					<td><code>u</code></td>
-					<td>Variable usage output</td>
-				</tr>
-			</tbody>
-		</table>
+		<para>The symbol table dump provides a method whereby third party tools
+			can interface with the C and C++ producers.	The producer outputs
+			information on the identifiers declared within a source file, their
+			uses etc. into a file which can then be post-processed by a separate
+			tool. Any error messages and warnings can also be included in this
+			file, allowing more sophisticated error presentation tools to be written.</para>
 
 		<para>The dump information is currently used for four main purposes:
 			detecting included header files from which nothing is used within the
 			translation unit; production of lint-like error output; &api; usage
 			analysis and type checking between translation units.</para>
+
+		<para>The file to be used as the symbol table output file, plus details
+			of what information is to be included in the dump file can be specified
+			using the <code>-d</code> command-line option to &tcpplus;.
+			The format of the dump file is described below; a
+			summary of the syntax is given in &tdfcdump.5;.</para>
 	</section>
 
 	<section>
