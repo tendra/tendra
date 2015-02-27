@@ -131,14 +131,14 @@ stab_file(int i, bool internal)
 int currentlno = -1;		/* the last line number output */
 
 static void
-stabd(int findex, int lno, int seg)
+stabd(long findex, long lno, int seg)
 {
   UNUSED(seg);
 
   if (findex==currentfile && lno==currentlno) return;
   stab_file(findex, false);
   if (as_file)
-    asm_printop(".loc %d %d", file_dnos[findex], lno);
+    asm_printop(".loc %d %ld", file_dnos[findex], lno);
   out_loc(file_dnos[findex],(unsigned)lno);
   currentlno = lno;
 }
