@@ -2331,7 +2331,6 @@ const struct diag3_driver diag3_driver_stabs = {
 	NULL,
 	stab_proc,
 	NULL,
-	NULL,
 
 	NULL,
 	NULL,
