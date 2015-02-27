@@ -217,8 +217,7 @@ assign(E1, E2)						 where E1 and E2 are expansions of &lt;Exp&gt;</programlisti
 		<programlisting language="bnf">String format = "Result = %d\n"</programlisting>
 
 		<para>the tag &lt;ident&gt;, format, could be used straightforwardly as
-			the first parameter of printf - see <link linkend="examples">Section 4
-			(Example PL_TDF programs)</link>.</para>
+			the first parameter of printf, for example.</para>
 	</section>
 
 	<section>
