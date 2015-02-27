@@ -276,84 +276,85 @@ $Id$
 			and the. that the other is an offset</para>
 
 		<para>The further expansions of &lt;Exp&gt; are all
-			&lt;ExpTerm&gt;s</para>
+			&lt;ExpTerm&gt;s.</para>
+	</section>
 
-		<section>
-			<title>ExpTerm</title>
+	<section>
+		<title>ExpTerm</title>
 
-			<programlisting language="bnf">&lt;ExpTerm&gt; ::= EXP ? ( &lt;Exp&gt; , &lt;Exp&gt;, &lt;Exp&gt;)
+		<programlisting language="bnf">&lt;ExpTerm&gt; ::= EXP ? ( &lt;Exp&gt; , &lt;Exp&gt;, &lt;Exp&gt;)
 &lt;ExpTerm&gt; ::= &lt;exp_constructor&gt; &lt; ( &lt;constructor_param&gt;-List ) &gt;-Opt
 &lt;ExpTerm&gt; ::= &lt;exp_token&gt; &lt; [ &lt;token_param&gt;-List ] &gt;-Opt</programlisting>
 
-			<para>The standard expansions.</para>
+		<para>The standard expansions.</para>
 
-			<programlisting language="bnf">&lt;ExpTerm&gt; ::= &lt;ClosedExp&gt;</programlisting>
+		<programlisting language="bnf">&lt;ExpTerm&gt; ::= &lt;ClosedExp&gt;</programlisting>
 
-			<para>For &lt;ClosedExp&gt;, see <link linkend="control-structure">section 3.3</link>.</para>
+		<para>For &lt;ClosedExp&gt;, see <link linkend="control-structure">section 3.3</link>.</para>
 
-			<programlisting language="bnf">&lt;ExpTerm&gt; ::= ( &lt;Exp&gt; )
+		<programlisting language="bnf">&lt;ExpTerm&gt; ::= ( &lt;Exp&gt; )
 &lt;ExpTerm&gt; ::= - ( &lt;Exp&gt; )</programlisting>
 
-			<para>The negate constructor.</para>
+		<para>The negate constructor.</para>
 
-			<programlisting language="bnf">&lt;ExpTerm&gt; ::= Sizeof ( &lt;Shape&gt; )</programlisting>
+		<programlisting language="bnf">&lt;ExpTerm&gt; ::= Sizeof ( &lt;Shape&gt; )</programlisting>
 
-			<para>This produces the EXP OFFSET for an index multiplier for arrays of
+		<para>This produces the EXP OFFSET for an index multiplier for arrays of
 			&lt;Shape&gt;. It is the shape_offset of &lt;Shape&gt; padded up
 			to its alignment.</para>
 
-			<programlisting language="bnf">&lt;ExpTerm&gt; ::= &lt;Tag&gt;</programlisting>
+		<programlisting language="bnf">&lt;ExpTerm&gt; ::= &lt;Tag&gt;</programlisting>
 
-			<para>This produces an obtain_tag.</para>
+		<para>This produces an obtain_tag.</para>
 
-			<programlisting language="bnf">&lt;ExpTerm&gt; ::= * &lt;ident&gt;</programlisting>
+		<programlisting language="bnf">&lt;ExpTerm&gt; ::= * &lt;ident&gt;</programlisting>
 
-			<para>The &lt;ident&gt; must have been declared as a variable TAG and
-			the construction produces a contents operation with its declared
-			SHAPE.</para>
+		<para>The &lt;ident&gt; must have been declared as a variable TAG and
+		the construction produces a contents operation with its declared
+		SHAPE.</para>
 
-			<programlisting language="bnf">&lt;ExpTerm&gt; ::= * ( &lt;Shape&gt; ) &lt;ExpTerm&gt;</programlisting>
+		<programlisting language="bnf">&lt;ExpTerm&gt; ::= * ( &lt;Shape&gt; ) &lt;ExpTerm&gt;</programlisting>
 
-			<para>This produces a contents operation with the given &lt;Shape&gt;.</para>
+		<para>This produces a contents operation with the given &lt;Shape&gt;.</para>
 
-			<programlisting language="bnf">&lt;ExpTerm&gt; ::= &lt;Assertion&gt;</programlisting>
+		<programlisting language="bnf">&lt;ExpTerm&gt; ::= &lt;Assertion&gt;</programlisting>
 
-			<para>For &lt;Assertion&gt;, see <link linkend="conditionalexp-and-assertion">section 3.3.1</link></para>
+		<para>For &lt;Assertion&gt;, see <link linkend="conditionalexp-and-assertion">section 3.3.1</link></para>
 
-			<programlisting language="bnf">&lt;ExpTerm&gt; ::= Case &lt;Exp&gt; ( &lt;RangeDest&gt;-List )
+		<programlisting language="bnf">&lt;ExpTerm&gt; ::= Case &lt;Exp&gt; ( &lt;RangeDest&gt;-List )
 &lt;RangeDest&gt; ::= &lt;Signed_Nat&gt; &lt; : &lt;Signed_Nat&gt; &gt;-Opt -&gt; &lt;Label&gt;</programlisting>
 
-			<para>This produces a case operation.</para>
+		<para>This produces a case operation.</para>
 
-			<programlisting language="bnf">&lt;ExpTerm&gt; ::= Cons [ &lt;Exp&gt; ] ( &lt; &lt;Offset&gt; : &lt;Exp&gt; &gt;-List )
+		<programlisting language="bnf">&lt;ExpTerm&gt; ::= Cons [ &lt;Exp&gt; ] ( &lt; &lt;Offset&gt; : &lt;Exp&gt; &gt;-List )
 &lt;Offset&gt; ::= &lt;Exp&gt;</programlisting>
 
-			<para>This produces a make_compound with the [ &lt;Exp&gt; ] as the size
-			and fields given by &lt; &lt;Offset&gt; : &lt;Exp&gt; &gt;-List.</para>
+		<para>This produces a make_compound with the [ &lt;Exp&gt; ] as the size
+		and fields given by &lt; &lt;Offset&gt; : &lt;Exp&gt; &gt;-List.</para>
 
-			<programlisting language="bnf">&lt;ExpTerm&gt; ::= [ &lt;Variety&gt; ] &lt;ExpTerm&gt;</programlisting>
+		<programlisting language="bnf">&lt;ExpTerm&gt; ::= [ &lt;Variety&gt; ] &lt;ExpTerm&gt;</programlisting>
 
-			<para>This produces a change_variety with a wrap error_treatment.</para>
+		<para>This produces a change_variety with a wrap error_treatment.</para>
 
-			<programlisting language="bnf">&lt;ExpTerm&gt; ::= &lt;Signed_Nat&gt; ( &lt;Variety&gt; )</programlisting>
+		<programlisting language="bnf">&lt;ExpTerm&gt; ::= &lt;Signed_Nat&gt; ( &lt;Variety&gt; )</programlisting>
 
-			<para>This produces a make_int of the &lt;Signed_Nat&gt; with the given
-				variety.</para>
+		<para>This produces a make_int of the &lt;Signed_Nat&gt; with the given
+			variety.</para>
 
-			<programlisting language="bnf">&lt;ExpTerm&gt; ::= &lt;floating_denotation&gt; &lt; E &lt;Signed_Nat&gt; &gt;-Opt &lt;Rounding_Mode&gt;-Opt
+		<programlisting language="bnf">&lt;ExpTerm&gt; ::= &lt;floating_denotation&gt; &lt; E &lt;Signed_Nat&gt; &gt;-Opt &lt;Rounding_Mode&gt;-Opt
 &lt;ExpTerm&gt; ::= - &lt;floating_denotation&gt; &lt; E &lt;Signed_Nat&gt; &gt;-Opt &lt;Rounding_Mode&gt;-Opt</programlisting>
 
-			<para>Produces a make_floating.</para>
+		<para>Produces a make_floating.</para>
 
-			<programlisting language="bnf">&lt;ExpTerm&gt; ::= &lt;ProcVal&gt; [ &lt;Shape&gt; ] ( &lt;Exp&gt;-List-Opt &lt; Varpar &lt;Exp&gt; &gt;-Opt)
+		<programlisting language="bnf">&lt;ExpTerm&gt; ::= &lt;ProcVal&gt; [ &lt;Shape&gt; ] ( &lt;Exp&gt;-List-Opt &lt; Varpar &lt;Exp&gt; &gt;-Opt)
 
 &lt;ProcVal&gt; ::= &lt;Tag&gt;
 &lt;ProcVal&gt; ::= ( &lt;Exp&gt; )</programlisting>
 
-			<para>Produces an apply_proc with the given parameters returning the
-				given &lt;Shape&gt;.</para>
+		<para>Produces an apply_proc with the given parameters returning the
+			given &lt;Shape&gt;.</para>
 
-			<programlisting language="bnf">&lt;ExpTerm&gt; ::=						 &lt;ProcVal&gt; [ &lt;Shape&gt; ]
+		<programlisting language="bnf">&lt;ExpTerm&gt; ::=						 &lt;ProcVal&gt; [ &lt;Shape&gt; ]
 [ &lt;Act_Callers&gt;-Opt ; &lt;Act_Callees&gt;-Opt &lt;; &lt;Postlude&gt;&gt;-Opt ]
 &lt;ProcProps&gt;-Opt
 &lt;Act_Callers&gt; ::= &lt;&lt;Exp&gt; &lt;: &lt;ident&gt;&gt;-Opt&gt;-List &lt;...&gt;-Opt
@@ -362,32 +363,31 @@ $Id$
 &lt;Act_Callees&gt; ::= Same
 &lt;Postlude&gt; ::= &lt;Exp&gt;</programlisting>
 
-			<para>Produces an apply_general_proc with the actual caller parameters
-				given by &lt;Act_Callers&gt; and the calle parameters given by
-				&lt;Act_Callees&gt;; the &lt;...&gt; option indicates that the
-				procedure is expecting a variable number of parameters. Any
-				&lt;ident&gt;s introduced in &lt;Act_Callers&gt; are in scope in
-				&lt;Postlude&gt;.</para>
+		<para>Produces an apply_general_proc with the actual caller parameters
+			given by &lt;Act_Callers&gt; and the calle parameters given by
+			&lt;Act_Callees&gt;; the &lt;...&gt; option indicates that the
+			procedure is expecting a variable number of parameters. Any
+			&lt;ident&gt;s introduced in &lt;Act_Callers&gt; are in scope in
+			&lt;Postlude&gt;.</para>
 
-			<programlisting language="bnf">&lt;Exp&gt; ::= &lt;ProcVal&gt; Tail_call [ &lt;Act_Callees&gt;-Opt ]</programlisting>
+		<programlisting language="bnf">&lt;Exp&gt; ::= &lt;ProcVal&gt; Tail_call [ &lt;Act_Callees&gt;-Opt ]</programlisting>
 
-			<para>Produces a tail_call with the callee parameters given and same
-				caller parameters as those of the calling procedure.</para>
+		<para>Produces a tail_call with the callee parameters given and same
+			caller parameters as those of the calling procedure.</para>
 
-			<programlisting language="bnf">&lt;ExpTerm&gt; ::= Proc &lt;Proc_defn&gt;</programlisting>
+		<programlisting language="bnf">&lt;ExpTerm&gt; ::= Proc &lt;Proc_defn&gt;</programlisting>
 
-			<para>Produces a make_proc. For &lt;Proc_defn&gt;, see
-				<link linkend="procdef">section 3.1.7</link></para>
+		<para>Produces a make_proc. For &lt;Proc_defn&gt;, see
+			<link linkend="procdef">section 3.1.7</link></para>
 
-			<programlisting language="bnf">&lt;ExpTerm&gt; ::= &lt;String&gt; ( &lt;Variety&gt; )</programlisting>
+		<programlisting language="bnf">&lt;ExpTerm&gt; ::= &lt;String&gt; ( &lt;Variety&gt; )</programlisting>
 
-			<para>Produces a make_nof_int of the given variety.</para>
+		<para>Produces a make_nof_int of the given variety.</para>
 
-			<programlisting language="bnf">&lt;ExpTerm&gt; ::= # &lt;String&gt;</programlisting>
+		<programlisting language="bnf">&lt;ExpTerm&gt; ::= # &lt;String&gt;</programlisting>
 
-			<para>This produces a TDF fail_installer; this construction is useful
-				for narrowing down SHAPE errors detected by the translator.</para>
-		</section>
+		<para>This produces a TDF fail_installer; this construction is useful
+			for narrowing down SHAPE errors detected by the translator.</para>
 	</section>
 
 	<section>
