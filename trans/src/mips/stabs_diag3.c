@@ -122,10 +122,13 @@ stab_file(int i, bool internal)
 long  currentlno = -1;		/* the last line number output */
 
 static void
-stabd (findex, lno)	/* output .loc directive */
+stabd (findex, lno, seg)	/* output .loc directive */
 long  findex,
       lno;
+int seg;
 {
+  UNUSED(seg);
+
   if (findex==currentfile && lno==currentlno) return;
   stab_file (findex, false);
   if (as_file)
@@ -243,7 +246,7 @@ output_diag(diag_info *d, int proc_no, exp e)
     if (d->key == DIAG_INFO_SOURCE) {
     	sourcemark * s = & d->data.source.beg;
     	int f = find_file(s->file->file.ints.chars);
-    	stabd(f, s->line_no.nat_val.small_nat);
+    	stabd(f, s->line_no.nat_val.small_nat, 0);
 	return;
     }
     if (d->key != DIAG_INFO_ID) return;
@@ -253,14 +256,14 @@ output_diag(diag_info *d, int proc_no, exp e)
     	         && not only diag use */
     mark_scope(e);
     if (props(e) & 0x80) {
-    	stabd(currentfile, currentlno+1); /* don't have proper lineno */
+    	stabd(currentfile, currentlno+1, 0); /* don't have proper lineno */
     	diagbr_open(currentfile);
     }
 
     stab_local(d->data.id_scope.nme.ints.chars, d->data.id_scope.typ,
                     x,0,currentfile);
     if (last_param(son(x))) {
-   	stabd(currentfile, currentlno+1); /* don't have proper lineno */
+   	stabd(currentfile, currentlno+1, 0); /* don't have proper lineno */
     }
 
 }
@@ -272,7 +275,7 @@ output_end_scope(diag_info *d, exp e)
     	sourcemark * s = & d->data.source.end;
     	int f = find_file(s->file->file.ints.chars);
     	long lno = s->line_no.nat_val.small_nat;
-    	stabd(f, lno);
+    	stabd(f, lno, 0);
 	return;
     }
     if (d -> key == DIAG_INFO_ID && props(e) & 0x80) {

@@ -149,9 +149,9 @@ void code_it
 	 if (dd != NULL) {
 	    sourcemark *sm = &dd -> data.id.whence;
 	    diag3_driver->stabd(fscopefile = find_file(sm->file->file.ints.chars),
-	               sm->line_no.nat_val.small_nat);
+	               sm->line_no.nat_val.small_nat, 0);
 	 }
-	 else { diag3_driver->stabd(0,1); /*no diagnostics for this proc */ }
+	 else { diag3_driver->stabd(0,1,0); /*no diagnostics for this proc */ }
 	}
 
 	globalise_name(my_def);
@@ -171,7 +171,7 @@ void code_it
 	settempregs(son(tg));
 	code_here(son(tg), tempspace, nowhere);
 	if (diag != DIAG_NONE && dd != NULL) {
-		diag3_driver->stabd(fscopefile, currentlno+1);
+		diag3_driver->stabd(fscopefile, currentlno+1, 0);
 	}
 	if (as_file)
 	  asm_printop(".end %s", id);
