@@ -131,8 +131,10 @@ stab_file(int i, bool internal)
 int currentlno = -1;		/* the last line number output */
 
 static void
-stabd(int findex, int lno)
+stabd(int findex, int lno, int seg)
 {
+  UNUSED(seg);
+
   if (findex==currentfile && lno==currentlno) return;
   stab_file(findex, false);
   if (as_file)

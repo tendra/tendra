@@ -157,7 +157,7 @@ code_it(dec *my_def)
 	  sourcemark *sm = &dd -> data.id.whence;
 	  set_file(sm->file->file.ints.chars,2);
 	  diag3_driver->stabd(fscopefile = find_file(sm->file->file.ints.chars),
-		sm->line_no.nat_val.small_nat);
+		sm->line_no.nat_val.small_nat, 0);
 	}
 	else if (diag != DIAG_NONE){
 	  out_value(0,ifile,make_INT64(0,1),0);
@@ -171,7 +171,7 @@ code_it(dec *my_def)
 	    symnosforfiles();
 	    nofds = 0;
 	  }
-	  diag3_driver->stabd(0,1);
+	  diag3_driver->stabd(0,1,0);
 #endif
 	}
 	
@@ -185,7 +185,7 @@ code_it(dec *my_def)
 	settempregs (son(tg));
 	code_here (son (tg), tempspace, nowhere);
 	if(diag != DIAG_NONE && dd != (diag_descriptor*)NULL){
-	  diag3_driver->stabd(fscopefile,currentlno+1);
+	  diag3_driver->stabd(fscopefile,currentlno+1,0);
 	}
 	if (as_file){
 	  asm_printop(".end %s", id);
