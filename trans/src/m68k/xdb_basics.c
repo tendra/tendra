@@ -345,6 +345,7 @@ const struct diag3_driver diag3_driver_stabs = {
 	diag_prologue,
 	diag_epilogue,
 
+	NULL,
 	NEW_DIAG_GLOBAL,
 	OUTPUT_GLOBALS_TAB,
 	OUTPUT_DIAG_TAGS,
