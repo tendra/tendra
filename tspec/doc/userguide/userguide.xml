@@ -41,6 +41,14 @@
 
 		<revhistory>
 			<revision role="docs">
+				<date>2015-02-27</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Moved out usage to the &tspec.1; manpage.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="docs">
 				<date>2007-09-14</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>

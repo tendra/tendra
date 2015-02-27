@@ -256,13 +256,15 @@
 			<code>#pragma</code> headers used by &tcc; to represent such &api;s.
 			It is more fully documented in &tspec.doc;.</para>
 
-		<para>There are two basic forms of command-line.
+		<para>There are two basic forms of stating what to process.
 			The first specifies that &tspec; should process the whole of the
 			&api; description &api.arg;, or just one header from it,
 			&header.arg;, or just a subset of that header, &subset.arg;, writing
 			its output to the standard output directory.
-			The second (using the &l.opt; option) specifies that it should
-			process a single file, writing the output to the standard output.</para>
+			In addition, &tspec; has a local input mode (using the &l.opt; option)
+			for translating single headers which are not part of an &api;
+			into the corresponding <code>#pragma token</code> statements,
+			writing the output to the standard output.</para>
 	</refsection>
 
 	<refsection>
