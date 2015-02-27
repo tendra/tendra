@@ -258,7 +258,7 @@ static void output_diag
   if (d->key == DIAG_INFO_SOURCE) {
     sourcemark * s = & d->data.source.beg;
     int f = find_file(s->file->file.ints.chars);
-    stabd(f, s->line_no.nat_val.small_nat);
+    stabd(f, s->line_no.nat_val.small_nat, 0);
     return;
   }
   if (d->key != DIAG_INFO_ID) return;
@@ -268,13 +268,13 @@ static void output_diag
      && not only diag use */
   mark_scope(e);
   if (props(e) & 0x80) {
-    stabd(currentfile, currentlno+1); /* don't have proper lineno */
+    stabd(currentfile, currentlno+1, 0); /* don't have proper lineno */
     diagbr_open(currentfile);
   }
   stab_local(d->data.id_scope.nme.ints.chars, d->data.id_scope.typ,
 	     x,0,currentfile);
   if (last_param(son(x))) {
-    stabd(currentfile, currentlno+1); /* don't have proper lineno */
+    stabd(currentfile, currentlno+1, 0); /* don't have proper lineno */
   }
 }
 
@@ -286,7 +286,7 @@ static void output_end_scope
     sourcemark * s = & d->data.source.end;
     int f = find_file(s->file->file.ints.chars);
     int lno = s->line_no.nat_val.small_nat;
-    stabd(f, (lno==currentlno)?lno+1:lno); /*approx */
+    stabd(f, (lno==currentlno)?lno+1:lno, 0); /*approx */
     return;
   }
   if (d -> key == DIAG_INFO_ID && props(e) & 0x80) {
