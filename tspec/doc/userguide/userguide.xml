@@ -139,7 +139,7 @@
 						directories.</para>
 
 					<para>The use of identifiers beginning with <code>~</code> as
-						local variables is new (see <xref linkend="identifiers"/>).</para>
+						local variables is new (see <xref linkend="namespaces"/>).</para>
 
 					<para>The <code>+STATEMENT</code> and <code>+DEFINE</code>
 						constructs (see <xref linkend="STATEMENT"/> and

@@ -14,107 +14,103 @@
 		specifying objects of various kinds, however we start with a few
 		remarks on object names.</para>
 	
-	<section>
-		<title>Object Names</title>
+	<section id="names">
+		<title>Internal and External Names</title>
+
+		<para>All objects specified using <code>tspec</code> actually have
+			two names. The first is the internal name by which it is
+			identified within the program, the second is the external name by
+			which the TDF construct (actually a token) representing this
+			object is referred to for the purposes of TDF linking. The
+			internal names are normal C identifiers and obey the normal C
+			namespace rules (indeed one of the roles of <code>tspec</code> is
+			to keep track of these namespaces). The external token name is
+			constructed by <code>tspec</code> from the internal name.</para>
 	
-		<section id="names">
-			<title>Internal and External Names</title>
-	
-			<para>All objects specified using <code>tspec</code> actually have
-				two names. The first is the internal name by which it is
-				identified within the program, the second is the external name by
-				which the TDF construct (actually a token) representing this
-				object is referred to for the purposes of TDF linking. The
-				internal names are normal C identifiers and obey the normal C
-				namespace rules (indeed one of the roles of <code>tspec</code> is
-				to keep track of these namespaces). The external token name is
-				constructed by <code>tspec</code> from the internal name.</para>
+		<para><code>tspec</code> has two strategies for making up these
+			token names. The first, which is default, is to use the internal
+			name as the external name (there is an exception to this simple
+			rule, namely field selectors - see
+			<link linkend="FIELD">section 4.9</link>). The second, which is preferred
+			for standard APIs, is to construct a "unique name" from the API
+			name, the header and the internal name. For example, under the
+			first strategy, the external name of the type <code>FILE</code>
+			specified in <code>c/c89:stdio.h</code> would be <code>FILE</code>,
+			whereas under the second it would be <code>c_c89.stdio.FILE</code>.
+			The unique name strategy may be specified by passing the
+			<option>-u</option> command-line option to <code>tspec</code> (see
+			<link linkend="options">section 2.5</link>) or by setting the
+			<code>UNIQUE</code> property to 1 (see
+			<link linkend="properties">section 5.4</link>).</para>
 		
-			<para><code>tspec</code> has two strategies for making up these
-				token names. The first, which is default, is to use the internal
-				name as the external name (there is an exception to this simple
-				rule, namely field selectors - see
-				<link linkend="FIELD">section 4.9</link>). The second, which is preferred
-				for standard APIs, is to construct a "unique name" from the API
-				name, the header and the internal name. For example, under the
-				first strategy, the external name of the type <code>FILE</code>
-				specified in <code>c/c89:stdio.h</code> would be <code>FILE</code>,
-				whereas under the second it would be <code>c_c89.stdio.FILE</code>.
-				The unique name strategy may be specified by passing the
-				<option>-u</option> command-line option to <code>tspec</code> (see
-				<link linkend="options">section 2.5</link>) or by setting the
-				<code>UNIQUE</code> property to 1 (see
-				<link linkend="properties">section 5.4</link>).</para>
-			
-			<para>Both strategies involve flattening the several C namespaces
-				into the single TDF token namespace, which can lead to clashes.
-				For example, in <code>posix:sys/stat.h</code> both a structure,
-				<code>struct stat</code>, and a procedure, <code>stat</code>, are
-				specified. In C the two uses of <code>stat</code> are in different
-				namespaces and so present no difficulty, however they are mapped
-				onto the same name in the TDF token namespace. To work round such
-				difficulties, <code>tspec</code> allows an alternative external
-				form to be specified. When the object is specified the form:</para>
+		<para>Both strategies involve flattening the several C namespaces
+			into the single TDF token namespace, which can lead to clashes.
+			For example, in <code>posix:sys/stat.h</code> both a structure,
+			<code>struct stat</code>, and a procedure, <code>stat</code>, are
+			specified. In C the two uses of <code>stat</code> are in different
+			namespaces and so present no difficulty, however they are mapped
+			onto the same name in the TDF token namespace. To work round such
+			difficulties, <code>tspec</code> allows an alternative external
+			form to be specified. When the object is specified the form:</para>
 
-			<programlisting language="bnf">iname | ename</programlisting>
+		<programlisting language="bnf">iname | ename</programlisting>
 
-			<para>may be used to specify the internal name <code>iname</code> and
-				the external name <code>ename</code>.</para>
+		<para>may be used to specify the internal name <code>iname</code> and
+			the external name <code>ename</code>.</para>
 
-			<para>For example, in the <code>stat</code> case above we could
-				distinguish between the two uses as follows:</para>
+		<para>For example, in the <code>stat</code> case above we could
+			distinguish between the two uses as follows:</para>
 
-			<programlisting language="tspec">+TYPE struct stat | struct_stat ;
+		<programlisting language="tspec">+TYPE struct stat | struct_stat ;
 +FUNC int stat ( const char *, struct stat * ) ;</programlisting>
 
-			<para>With simple token names the token corresponding to the
-				structure would be called <code>struct_stat</code>, whereas that
-				corresponding to the procedure would still be <code>stat</code>.
-				With unique token names the names would be
-				<code>posix.stat.struct_stat</code> and
-				<code>posix.stat.stat</code> respectively.</para>
+		<para>With simple token names the token corresponding to the
+			structure would be called <code>struct_stat</code>, whereas that
+			corresponding to the procedure would still be <code>stat</code>.
+			With unique token names the names would be
+			<code>posix.stat.struct_stat</code> and
+			<code>posix.stat.stat</code> respectively.</para>
 
-			<para>Very occasionally it may be necessary to precisely specify an
-				external token name. This can be done using the form:</para>
+		<para>Very occasionally it may be necessary to precisely specify an
+			external token name. This can be done using the form:</para>
 
-			<programlisting language="bnf">iname | "ename"</programlisting>
+		<programlisting language="bnf">iname | "ename"</programlisting>
 
-			<para>which makes the object <code>iname</code> have external name
-				<code>ename</code> regardless of the naming strategy used.</para>
-		</section>
+		<para>which makes the object <code>iname</code> have external name
+			<code>ename</code> regardless of the naming strategy used.</para>
+	</section>
 
-		<section id="identifiers">
-			<title>More on Object Names</title>
+	<section id="namespaces">
+		<title>Namespaces</title>
 
-			<para>Basically the legal identifiers in <code>tspec</code> (for
-				both internal and external names) are the same as those in C -
-				strings of upper and lower case letters, decimal digits or
-				underscores, which do not begin with a decimal digit. However
-				there is a second class of local identifiers - those consisting of
-				a tilde followed by any number of letters, digits or underscores -
-				which are intended to indicate objects which are local to the API
-				description and should not be visible to any application using the
-				API. For example, to express the specification that <code>t</code>
-				is a pointer type, we could say that there is a locally named type
-				to which <code>t</code> is a pointer:</para>
+		<para>Basically the legal identifiers in <code>tspec</code> (for
+			both internal and external names) are the same as those in C -
+			strings of upper and lower case letters, decimal digits or
+			underscores, which do not begin with a decimal digit. However
+			there is a second class of local identifiers - those consisting of
+			a tilde followed by any number of letters, digits or underscores -
+			which are intended to indicate objects which are local to the API
+			description and should not be visible to any application using the
+			API. For example, to express the specification that <code>t</code>
+			is a pointer type, we could say that there is a locally named type
+			to which <code>t</code> is a pointer:</para>
 
-				<programlisting language="tspec">+TYPE ~t ;
+			<programlisting language="tspec">+TYPE ~t ;
 +TYPEDEF ~t *t ;</programlisting>
 
-			<para>Finally it is possible to cheat the <code>tspec</code>
-				namespaces. It may actually be legal to have two objects of the
-				same name in an API - they may lie in different branches of a
-				conditional compilation, or not be allowed to coexist. To allow
-				for this, <code>tspec</code> allows version numbers, consisting of
-				a decimal pointer plus a number of digits, to be appended to an
-				identifier name when it is first introduced. These version numbers
-				are purely to tell <code>tspec</code> that this version of the
-				object is different from a previous version with a different
-				version number (or indeed without any version number).	If more
-				than one version of an object is specified then which version is
-				retrieved by <code>tspec</code> in any look-up operation is
-				undefined.</para>
-		</section>
+		<para>Finally it is possible to cheat the <code>tspec</code>
+			namespaces. It may actually be legal to have two objects of the
+			same name in an API - they may lie in different branches of a
+			conditional compilation, or not be allowed to coexist. To allow
+			for this, <code>tspec</code> allows version numbers, consisting of
+			a decimal pointer plus a number of digits, to be appended to an
+			identifier name when it is first introduced. These version numbers
+			are purely to tell <code>tspec</code> that this version of the
+			object is different from a previous version with a different
+			version number (or indeed without any version number).	If more
+			than one version of an object is specified then which version is
+			retrieved by <code>tspec</code> in any look-up operation is
+			undefined.</para>
 	</section>
 
 	<section id="FUNC">
@@ -596,7 +592,7 @@ char d_name [ ~dirent_d_name_size ] ;
 
 		<para>Note the use of a local variable to stand for a value, namely the
 			array size, which is invisible to the user (see
-			<link linkend="identifiers">section 4.1.2</link>).</para>
+			<link linkend="namespaces">section 4.1.2</link>).</para>
 
 		<para>As another example, in <code>c/c89:setjmp.h</code> we know that
 			<code>jmp_buf</code> is an array type. We therefore introduce
