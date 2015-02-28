@@ -1,24 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!DOCTYPE refentry SYSTEM "minidocbook.dtd" [
-	<!ENTITY A.opt "<option>-A</option>&switch.arg;">
-	<!ENTITY C.opt "<option>-C</option>&switch.arg;">
-	<!ENTITY D.opt "<option>-D</option>&switch.arg;">
-	<!ENTITY F.opt "<option>-F</option>&switch.arg;">
-	<!ENTITY I.opt "<option>-I</option>&switch.arg;">
-	<!ENTITY K.opt "<option>-K</option>&str.arg;">
-	<!ENTITY M.opt "<option>-M</option>&switch.arg;">
-	<!ENTITY R.opt "<option>-R</option>&switch.arg;">
-	<!ENTITY U.opt "<option>-U</option>&switch.arg;">
-	<!ENTITY X.opt "<option>-X</option>">
-	<!ENTITY B.opt "<option>-B</option>&switch.arg;">
-	<!ENTITY E.opt "<option>-E</option>">
-	<!ENTITY H.opt "<option>-H</option>">
+	<!ENTITY A.opt "<option>-A</option>&nbsp;&name.arg;">
+	<!ENTITY B.opt "<option>-B</option>&nbsp;&opt.arg;">
+	<!ENTITY C.opt "<option>-C</option>&nbsp;&name.arg;">
+	<!ENTITY D.opt "<option>-D</option>">
+	<!ENTITY E.opt "<option>-E</option>&nbsp;&name.arg;">
+	<!ENTITY F.opt "<option>-F</option>&nbsp;&name.arg;">
+	<!ENTITY G.opt "<option>-G</option>&nbsp;&switch.arg;">
+	<!ENTITY I.opt "<option>-I</option>">
+	<!ENTITY J.opt "<option>-J</option>">
+	<!ENTITY K.opt "<option>-K</option>&nbsp;&name.arg;">
+	<!ENTITY O.opt "<option>-O</option>&nbsp;&opt.arg;">
+	<!ENTITY M.opt "<option>-M</option>">
+	<!ENTITY N.opt "<option>-N</option>">
+	<!ENTITY R.opt "<option>-R</option>">
+	<!ENTITY T.opt "<option>-T</option>">
+	<!ENTITY U.opt "<option>-U</option>">
+	<!ENTITY h.opt "<option>-h</option>">
+	<!ENTITY H.opt "<option>-H</option>&nbsp;&opt.arg;">
 	<!ENTITY P.opt "<option>-P</option>">
 	<!ENTITY Q.opt "<option>-Q</option>">
-	<!ENTITY S.opt "<option>-S</option>">
+	<!ENTITY S.opt "<option>-S</option>&nbsp;&name.arg;">
 	<!ENTITY V.opt "<option>-V</option>">
-	<!ENTITY W.opt "<option>-W</option>&switch.arg;">
+	<!ENTITY v.opt "<option>-v</option>">
+	<!ENTITY W.opt "<option>-W</option>">
+	<!ENTITY X.opt "<option>-X</option>&nbsp;&opt.arg;">
+	<!ENTITY Y.opt "<option>-Y</option>">
 	<!ENTITY Z.opt "<option>-Z</option>">
 
 	<!ENTITY all "all translators">
@@ -100,7 +108,7 @@
 			<arg choice="opt">&D.opt;</arg>
 			<arg choice="opt"><option>-a</option></arg>
 			<arg choice="opt"><option>-h</option></arg>
-			<arg choice="opt"><option>-k</option>&switch.arg;</arg>
+			<arg choice="opt"><option>-k</option>&nbsp;&name.arg;</arg>
 
 			<sbr/>
 
@@ -255,245 +263,154 @@
 
 		<para>The options <option>-h</option> and <option>-d</option> are
 			specific to &hppatrans;.</para>
-
-		<para>&switch.arg; stands for either <literal>0</literal>,
-			to switch an option off, or <literal>1</literal>,
-			to switch it on.</para>
-
-		<para>The default states for common options differ per
-			translator:</para>
-
-		<table>
-			<title>Per-translator defaults for common options</title>
-
-			<col align="left"/>
-			<col align="center"/>
-			<col align="center"/>
-			<col align="center"/>
-			<col align="center"/>
-			<col align="center"/>
-			<col align="center"/>
-
-			<thead>
-				<tr>
-					<th>Option</th>
-					<th><code>trans386</code></th>
-					<th><code>alphatrans</code></th>
-					<th><code>hppatrans</code></th>
-					<th><code>mipstrans</code></th>
-					<th><code>powertrans</code></th>
-					<th><code>sparctrans</code></th>
-				</tr>
-			</thead>
-
-			<tbody>
-				<tr>
-					<td>&A.opt;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-				</tr>
-				<tr>
-					<td>&F.opt;</td>
-					<td>&check;</td>
-					<td>&cross;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-				</tr>
-				<tr>
-					<td>&I.opt;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-				</tr>
-				<tr>
-					<td>&K.opt;</td>
-					<td>&check;</td>
-					<td role="na">(no effect)</td>
-					<td role="na">(no effect)</td>
-					<td role="na">(no effect)</td>
-					<td>&cross;</td>
-					<td role="na">(no effect)</td>
-				</tr>
-				<tr>
-					<td>&M.opt;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-				</tr>
-				<tr>
-					<td>&R.opt;</td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-					<td>&check;</td>
-					<td>&cross;</td>
-					<td>&check;</td>
-					<td>&cross;</td>
-				</tr>
-				<tr>
-					<td>&X.opt;</td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-				</tr>
-			</tbody>
-
-			<tbody>
-				<tr>
-					<td>&B.opt;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-				</tr>
-				<tr>
-					<td>&C.opt;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-				</tr>
-				<tr>
-					<td>&D.opt;</td>
-					<td>&cross; <footnote>
-							<para>This option is not supported on SCO or DragonFly, and on
-								Linux is supported only for ELF.</para>
-						</footnote></td>
-					<td>&cross;</td>
-					<td>&cross; <footnote>
-							<para>See also <option>-d</option>.</para>
-						</footnote></td>
-					<td>&check; <footnote>
-							<para>This option is not supported on &ultrix;.</para>
-						</footnote></td>
-					<td role="na">&ndash;</td>
-					<td>&cross;</td>
-				</tr>
-				<tr>
-					<td>&E.opt;</td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-				</tr>
-				<tr>
-					<td>&H.opt;</td>
-					<td>&cross;</td>
-					<td>&cross; <footnote>
-							<para>See also <option>-h</option>.</para>
-						</footnote></td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-				</tr>
-				<tr>
-					<td>&P.opt;</td>
-					<td>&cross; <footnote>
-							<para>Not supported on Solaris.</para>
-						</footnote></td>
-					<td>&cross; <footnote>
-							<para>Not fully implemented.</para>
-						</footnote></td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-				</tr>
-				<tr>
-					<td>&Q.opt;</td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-				</tr>
-				<tr>
-					<td>&S.opt;</td>
-					<td role="na">&ndash;</td>
-					<td>&cross;</td>
-					<td role="na">&ndash;</td>
-					<td>&cross;</td>
-					<td role="na">&ndash;</td>
-					<td role="na">&ndash;</td>
-				</tr>
-				<tr>
-					<td>&U.opt;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-					<td>&check;</td>
-				</tr>
-				<tr>
-					<td>&V.opt;</td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-				</tr>
-				<tr>
-					<td>&W.opt;</td>
-					<td role="na">(no effect)</td>
-					<td role="na">(no effect)</td>
-					<td role="na">(no effect)</td>
-					<td role="na">(no effect)</td>
-					<td role="na">(no effect)</td>
-					<td role="na">(no effect)</td>
-				</tr>
-				<tr>
-					<td>&Z.opt;</td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-					<td>&cross;</td>
-				</tr>
-			</tbody>
-		</table>
 	</refsection>
 
-	<!-- TODO: TODO: now go through and find undocumented options... -->
+	<!-- TODO: now go through and find undocumented options... -->
 
 	<refsection>
-		<title>Optimisation-specific common options</title>
-
-		<para>The common options pertaining to optimisation are:</para>
+		<title>Options</title>
 
 		<variablelist>
 			<varlistentry>
 				<term>&A.opt;</term>
 
 				<listitem>
-					<para>This option determines whether &trans;
-						should inline calls to <code>alloca</code>.</para>
+					<para>Specify the &abi; for generated code.
+						The supported &abi;s differ for each platform.</para>
 
-					<para>For &all;, this is done by default.</para>
+					<table>
+						<col align="center"/>
+
+						<thead>
+							<tr>
+								<th>Key</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr>
+								<td><code>hpux</code></td>
+							</tr>
+							<tr>
+								<td><code>next</code></td>
+							</tr>
+							<tr>
+								<td><code>sunos</code></td>
+							</tr>
+							<tr>
+								<td><code>sco</code></td>
+							</tr>
+							<tr>
+								<td><code>svr4</code></td>
+							</tr>
+							<tr>
+								<td><code>svsv</code></td>
+							</tr>
+							<tr>
+								<td><code>linux</code></td>
+							</tr>
+							<tr>
+								<td><code>solaris</code></td>
+							</tr>
+							<tr>
+								<td><code>osf1</code></td>
+							</tr>
+							<tr>
+								<td><code>icbs</code></td>
+							</tr>
+							<tr>
+								<td><code>mips</code></td>
+							</tr>
+							<tr>
+								<td><code>power</code></td>
+							</tr>
+						</tbody>
+					</table>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&B.opt;</term>
+
+				<listitem>
+					<para>&opt.arg; is a set of characters describing the
+						categories of constructs which are to be
+						generated as built-in instructions.</para>
+
+					<para>For some categories here the alternative is to
+						emit a library call instead.
+						Some features are provided as builtins where they are
+						not possible as library calls. When these features
+						are disabled, an attempt to use their corresponding
+						tags in the input &tdf; will cause translation to fail.</para>
+
+					<para>The available categories are:</para>
+
+					<table>
+						<col align="center"/>
+						<col align="left"/>
+
+						<thead>
+							<tr>
+								<th>Key</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr>
+								<td><code>+</code></td>
+								<td>enable subsequent options (default)</td>
+							</tr>
+							<tr>
+								<td><code>-</code></td>
+								<td>disable subsequent options</td>
+							</tr>
+						</tbody>
+
+						<tbody>
+							<tr>
+								<td><code>a</code></td>
+								<td>all builtins</td>
+							</tr>
+							<tr>
+								<td><code>j</code></td>
+								<td><code>setjmp</code>, <code>longjmp</code></td>
+							</tr>
+							<tr>
+								<td><code>p</code></td>
+								<td>promotions</td>
+							</tr>
+							<tr>
+								<td><code>v</code></td>
+								<td>varargs</td>
+							</tr>
+							<tr>
+								<td><code>c</code></td>
+								<td><code>~alloca</code></td>
+							</tr>
+							<tr>
+								<td><code>f</code></td>
+								<td><code>__builtin_isfloat</code></td>
+							</tr>
+							<tr>
+								<td><code>g</code></td>
+								<td>diagnostics</td>
+							</tr>
+							<tr>
+								<td><code>l</code></td>
+								<td>&api; miscellany</td>
+							</tr>
+							<tr>
+								<td><code>m</code></td>
+								<td>inlined assembly</td>
+							</tr>
+							<tr>
+								<td><code>t</code></td>
+								<td>debugging miscellany</td>
+							</tr>
+						</tbody>
+					</table>
 				</listitem>
 			</varlistentry>
 
@@ -501,194 +418,48 @@
 				<term>&C.opt;</term>
 
 				<listitem>
-					<para>This option determines whether &trans;
-						should apply the "constants out of loops"
-						optimisation.</para>
-
-					<para>For &all;, this is done by default.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term>&F.opt;</term>
-
-				<listitem>
-					<para>For &trans386;, this option determines
-						whether the "strength reduction" optimisation
-						should be applied.</para>
-
-					<para>For &alphatrans;, this option determines
-						whether or not the "for all" optimisation
-						should be applied.</para>
-
-					<para>For &hppatrans;, &mipstrans; and
-						&sparctrans;, this option determines
-						whether the "for all" optimisation
-						should be applied.</para>
-
-					<para>For all translators except &alphatrans;,
-						this is done by default.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term>&I.opt;</term>
-
-				<listitem>
-					<para>This option determines whether &trans;
-						should apply the "inlining" optimisation.</para>
-
-					<para>For &all; this is done by default.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term>&K.opt;</term>
-
-				<listitem>
-					<para>Causes &trans; to optimise its code for a
-						particular processor model, determined by
-						&str.arg;.</para>
-
-					<para>For &trans386;, the available values of
-						&str.arg; are:</para>
+					<para>Specify the calling conventions for generated code.
+						The supported &abi;s differ for each platform.</para>
 
 					<table>
-						<col align="left"/>
-						<col align="left"/>
+						<col align="center"/>
 
 						<thead>
 							<tr>
-								<th>Option</th>
-								<th>Processor</th>
+								<th>Key</th>
 							</tr>
 						</thead>
 
 						<tbody>
 							<tr>
-								<td><code>-K3</code></td>
-								<td>80386</td>
+								<td><code>hp</code></td>
 							</tr>
 							<tr>
-								<td><code>-K4</code> (default)</td>
-								<td>80486</td>
+								<td><code>gcc</code></td>
 							</tr>
 							<tr>
-								<td><code>-K5</code></td>
-								<td>Pentium</td>
+								<td><code>sun</code></td>
+							</tr>
+							<tr>
+								<td><code>alpha</code></td>
+							</tr>
+							<tr>
+								<td><code>hppa</code></td>
+							</tr>
+							<tr>
+								<td><code>o32</code></td>
+							</tr>
+							<tr>
+								<td><code>xlc</code></td>
+							</tr>
+							<tr>
+								<td><code>sparc</code></td>
+							</tr>
+							<tr>
+								<td><code>aout</code></td>
 							</tr>
 						</tbody>
 					</table>
-
-					<para>For &powertrans;, the available values
-						of &str.arg; are:</para>
-
-					<table>
-						<col align="left"/>
-						<col align="left"/>
-
-						<thead>
-							<tr>
-								<th>Option</th>
-								<th>Processor</th>
-							</tr>
-						</thead>
-
-						<tbody>
-							<tr>
-								<td><code>-KP</code></td>
-								<td>POWERPc</td>
-							</tr>
-							<tr>
-								<td><code>-KR</code></td>
-								<td>rs6000</td>
-							</tr>
-						</tbody>
-					</table>
-
-					<para>For all other translators, at present there are no
-						valid values for &str.arg;.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term>&M.opt;</term>
-
-				<listitem>
-					<para>If this option is on, &trans; preserves
-						division by a floating point number rather
-						than replacing it by multiplication by the
-						reciprocal of the number.
-						While the latter produces faster code, it may
-						lead to rounding errors.</para>
-
-					<para>For &all;, by default,
-						division by constants is preserved.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term>&R.opt;</term>
-
-				<listitem>
-					<para>This option determines whether &trans;
-						should immediately round every floating point operation
-						to its appropriate range.
-						This produces slower code, but is necessary for strict
-						&ieee; conformance.</para>
-
-					<para>The default is not to round after every operation
-						for all translators except &hppatrans; and
-						&powertrans;.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term>&U.opt;</term>
-
-				<listitem>
-					<para>This option determines whether &trans;
-						should apply the "loop unrolling" optimisation.</para>
-
-					<para>For &all;,
-						this is done by default.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term>&X.opt;</term>
-
-				<listitem>
-					<para>This option disables all optimisations.
-						All &trans;' optimisations are believed to be
-						valid, so that any error in optimisation is a
-						genuine bug.</para>
-
-					<para>Various optimisations are performed by default
-						for &all;.</para>
-				</listitem>
-			</varlistentry>
-		</variablelist>
-	</refsection>
-
-	<refsection>
-		<title>Other common options</title>
-
-		<para>Common options not related to optimisation are:</para>
-
-		<variablelist>
-			<varlistentry>
-				<term>&B.opt;</term>
-
-				<listitem>
-					<para>This option determines whether &trans; should
-						report floating point constants which exceed
-						their range.</para>
-
-					<para>For &all;, this is done by default.</para>
-
-					<para>If this option is switched off such constants are
-						replaced by infinity.</para>
 				</listitem>
 			</varlistentry>
 
@@ -710,7 +481,7 @@
 						only for ELF binary format.</para>
 
 					<para>For &hppatrans;, the translator-specific
-						option <option>-d</option>&switch.arg;
+						option <option>-d</option>&nbsp;&name.arg;
 						is also provided.
 						The <option>-D</option> flag emulates &cc;'s
 						<option>+Z</option> flag, <option>-d</option>
@@ -727,17 +498,142 @@
 				<term>&E.opt;</term>
 
 				<listitem>
-					<para>This option disables &trans;' constant
-						overflow checks.</para>
+					<para>Specify the endianness for generated code.
+						The supported endiannesses differ for each platform.</para>
 
-					<para>For &all;, this is done by default.</para>
+					<table>
+						<col align="center"/>
+
+						<thead>
+							<tr>
+								<th>Key</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr>
+								<td><code>b</code></td>
+								<td>Big-endian</td>
+							</tr>
+							<tr>
+								<td><code>l</code></td>
+								<td>Little-endian</td>
+							</tr>
+						</tbody>
+					</table>
 				</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term>&H.opt;</term>
+				<term>&F.opt;</term>
 
 				<listitem>
+					<para>Specify the executable format for generated code.
+						The supported formats differ for each platform.</para>
+
+					<table>
+						<col align="center"/>
+
+						<thead>
+							<tr>
+								<th>Key</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr>
+								<td><code>aout</code></td>
+								<td>Assembler output</td>
+							</tr>
+							<tr>
+								<td><code>elf</code></td>
+								<td>Executable and Linkable Format (SVr4)</td>
+							</tr>
+							<tr>
+								<td><code>xcoff</code></td>
+								<td>eXtended COFF (AIX)</td>
+							</tr>
+							<tr>
+								<td><code>som</code></td>
+								<td>System Object Model (HP-UX)</td>
+							</tr>
+							<tr>
+								<td><code>macho</code></td>
+								<td>Mach-O (NeXTSTEP)</td>
+							</tr>
+						</tbody>
+					</table>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&G.opt;</term>
+
+				<listitem>
+					<para>Specify the format for debugging symbols output
+						in the generated code. These are generated from
+						diagnostic tags in the input &tdf; capsule.
+						The supported formats differ for each platform
+						and for each version of &tdf; diagnostic tags
+						which is present in the capsule.</para>
+
+					<table>
+						<col align="center"/>
+
+						<thead>
+							<tr>
+								<th>Key</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr>
+								<td><code>none</code></td>
+								<td role="na"/>
+							</tr>
+							<tr>
+								<td><code>cv</code></td>
+								<td>CodeView</td>
+							</tr>
+							<tr>
+								<td><code>gdb</code></td>
+								<td role="na"/>
+							</tr>
+							<tr>
+								<td><code>xdb</code></td>
+								<td role="na"/>
+							</tr>
+							<tr>
+								<td><code>stabs</code></td>
+								<td>(or &ldquo;stabs-in-elf&rdquo; for
+									<option>-F</option><literal>elf</literal>)</td>
+							</tr>
+							<tr>
+								<td><code>stabx</code></td>
+								<td role="na"/>
+							</tr>
+							<tr>
+								<td><code>xdb_old</code></td>
+								<td role="na"/>
+							</tr>
+							<tr>
+								<td><code>xdb_new</code></td>
+								<td role="na"/>
+							</tr>
+							<tr>
+								<td><code>dwarf1</code></td>
+								<td>DWARF 1</td>
+							</tr>
+							<tr>
+								<td><code>dwarf2</code></td>
+								<td>DWARF 2</td>
+							</tr>
+						</tbody>
+					</table>
+
 					<para>This option causes &trans; to output
 						debugging information in its output file.
 						This will only work if the input &tdf; capsule contains
@@ -784,6 +680,314 @@
 			</varlistentry>
 
 			<varlistentry>
+				<term>&H.opt;</term>
+
+				<listitem>
+					<para>&opt.arg; is a set of characters describing the
+						various features a platform &ldquo;has&rdquo;.
+						These are provided here to allow for disabling
+						certian constructs where desirable.</para>
+
+					<table>
+						<col align="center"/>
+						<col align="left"/>
+
+						<thead>
+							<tr>
+								<th>Key</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr>
+								<td><code>+</code></td>
+								<td>enable subsequent options (default)</td>
+							</tr>
+							<tr>
+								<td><code>-</code></td>
+								<td>disable subsequent options</td>
+							</tr>
+						</tbody>
+
+						<tbody>
+							<tr>
+								<td><code>a</code></td>
+								<td>all flags</td>
+							</tr>
+							<tr>
+								<td><code>o</code></td>
+								<td>has byte operations</td>
+							</tr>
+							<tr>
+								<td><code>r</code></td>
+								<td>has byte registers</td>
+							</tr>
+							<tr>
+								<td><code>n</code></td>
+								<td>has negative shift</td>
+							</tr>
+							<tr>
+								<td><code>t</code></td>
+								<td>has rotation</td>
+							</tr>
+							<tr>
+								<td><code>m</code></td>
+								<td>has <code>max</code>/<code>min</code> tags</td>
+							</tr>
+							<tr>
+								<td><code>c</code></td>
+								<td>has <code>condassign</code> tag</td>
+							</tr>
+							<tr>
+								<td><code>d</code></td>
+								<td>has <code>div0</code> and <code>rem0</code> tags</td>
+							</tr>
+							<tr>
+								<td><code>s</code></td>
+								<td>has <code>setcc</code> (produces <code>absbool</code>) tag</td>
+							</tr>
+							<tr>
+								<td><code>i</code></td>
+								<td>has native complex numbers</td>
+							</tr>
+							<tr>
+								<td><code>q</code></td>
+								<td>has native 64 bit operations</td>
+							</tr>
+						</tbody>
+					</table>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&h.opt;</term>
+
+				<listitem>
+					<para>Causes &trans; to print command-line usage help.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&I.opt;</term>
+
+				<listitem>
+					<para>Produce comments in the generated assembly.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&J.opt;</term>
+
+				<listitem>
+					<para>Disable extended diagnostics. (DWARF 2 only)</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&K.opt;</term>
+
+				<listitem>
+					<para>Causes &trans; to emit instructions for a
+						particular processor model, determined by
+						&str.arg;.</para>
+
+					<para>For &trans386;, the supported values of
+						&str.arg; are:</para>
+
+					<table>
+						<col align="left"/>
+						<col align="left"/>
+
+						<thead>
+							<tr>
+								<th>Option</th>
+								<th>Processor</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr>
+								<td><code>-K3</code></td>
+								<td>80386</td>
+							</tr>
+							<tr>
+								<td><code>-K4</code></td>
+								<td>80486</td>
+							</tr>
+							<tr>
+								<td><code>-K5</code> (default)</td>
+								<td>Pentium</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<para>For &powertrans;, the supported values
+						of &str.arg; are:</para>
+
+					<table>
+						<col align="left"/>
+						<col align="left"/>
+
+						<thead>
+							<tr>
+								<th>Option</th>
+								<th>Processor</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr>
+								<td><code>-KC</code> (default)</td>
+								<td>Common POWERPc/POWER</td>
+							</tr>
+							<tr>
+								<td><code>-KP</code></td>
+								<td>POWERPc</td>
+							</tr>
+							<tr>
+								<td><code>-KR</code></td>
+								<td>rs6000</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<para>At present there are no valid values for
+						&str.arg; for other translators.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&N.opt;</term>
+
+				<listitem>
+					<para>Produce PROM code (avoiding <code>.data</code>).</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&M.opt;</term>
+
+				<listitem>
+					<para>If this option is on, &trans; preserves
+						division by a floating point number rather
+						than replacing it by multiplication by the
+						reciprocal of the number.
+						While the latter produces faster code, it may
+						lead to rounding errors.</para>
+
+					<para>For &all;, by default,
+						division by constants is preserved.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&O.opt;</term>
+
+				<listitem>
+					<para>&opt.arg; is a set of characters describing the
+						categories of optimisations to apply.</para>
+
+					<para>All &trans;' optimisations are believed to be
+						valid, so any error in optimisation is a
+						genuine bug.</para>
+
+					<table>
+						<col align="center"/>
+
+						<thead>
+							<tr>
+								<th>Key</th>
+								<th>Descrption</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr>
+								<td><code>+</code></td>
+								<td>enable subsequent options (default)</td>
+							</tr>
+							<tr>
+								<td><code>-</code></td>
+								<td>disable subsequent options</td>
+							</tr>
+						</tbody>
+
+						<tbody>
+							<tr>
+								<td><code>a</code></td>
+								<td>all optimisations</td>
+							</tr>
+							<tr>
+								<td><code>c</code></td>
+								<td>hoist constants out of loops</td>
+							</tr>
+							<tr>
+								<td><code>d</code></td>
+								<td>avoid register dumping</td>
+							</tr>
+							<tr>
+								<td><code>e</code></td>
+								<td>inlining of exp tokens</td>
+							</tr>
+							<tr>
+								<td><code>f</code></td>
+								<td>replace loop indexes by incremented pointers</td>
+							</tr>
+							<tr>
+								<td><code>g</code></td>
+								<td>perform case transformations</td>
+							</tr>
+							<tr>
+								<td><code>h</code></td>
+								<td>peephole substitutions</td>
+							</tr>
+							<tr>
+								<td><code>i</code></td>
+								<td>inlining of proc tokens</td>
+							</tr>
+							<tr>
+								<td><code>j</code></td>
+								<td>follow gotos and tests to their final destinations</td>
+							</tr>
+							<tr>
+								<td><code>u</code></td>
+								<td>loop unrolling</td>
+							</tr>
+							<tr>
+								<td><code>r</code></td>
+								<td>tail recursion</td>
+							</tr>
+							<tr>
+								<td><code>s</code></td>
+								<td>rewrite conditions to use smallest neccessary integers</td>
+							</tr>
+							<tr>
+								<td><code>t</code></td>
+								<td>use temporary registers for local values</td>
+							</tr>
+							<tr>
+								<td><code>o</code></td>
+								<td>remove zero offsets</td>
+							</tr>
+							<tr>
+								<td><code>p</code></td>
+								<td>always substitute parameters</td>
+							</tr>
+							<tr>
+								<td><code>q</code></td>
+								<td>replace compounds in procs with assignments to variables</td>
+							</tr>
+							<tr>
+								<td><code>y</code></td>
+								<td>remove operations where input is identical to output</td>
+							</tr>
+						</tbody>
+					</table>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
 				<term>&P.opt;</term>
 
 				<listitem>
@@ -820,29 +1024,68 @@
 			</varlistentry>
 
 			<varlistentry>
+				<term>&R.opt;</term>
+
+				<listitem>
+					<para>Round after each floating point operation.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
 				<term>&S.opt;</term>
 
 				<listitem>
-					<para>For &alphatrans;, when this option is
-						present &alphatrans; will produce a
-						symbolic assembler file in addition to
-						its normal outputs.
-						In this case the name of the symbolic assembler file
-						must be present on the command line.</para>
+					<para>Specify the assembler dialect for generated code.
+						The supported dialects differ for each platform.</para>
 
-					<para>For &mipstrans;, this option will produce
-						assembly code in the optional &s.ext; file.</para>
+					<table>
+						<col align="center"/>
 
-					<para>This option is not present on all other
-						translators.</para>
+						<thead>
+							<tr>
+								<th>Key</th>
+							</tr>
+						</thead>
 
-					<para>For all translators where it is supported,
-						this is not done by default.</para>
+						<tbody>
+							<tr>
+								<td><code>gas</code></td>
+							</tr>
+							<tr>
+								<td><code>sun</code></td>
+							</tr>
+							<tr>
+								<td><code>ibm</code></td>
+							</tr>
+							<tr>
+								<td><code>sgi</code></td>
+							</tr>
+							<tr>
+								<td><code>ultrix</code></td>
+							</tr>
+							<tr>
+								<td><code>osf1</code></td>
+							</tr>
+							<tr>
+								<td><code>hp</code></td>
+							</tr>
+						</tbody>
+					</table>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&T.opt;</term>
+
+				<listitem>
+					<para>Disable <code>debug_abbrev</code>
+						section. (DWARF 2 only)</para>
 				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&V.opt;</term>
+				<term>&v.opt;</term>
 
 				<listitem>
 					<para>This option causes &trans; to print its
@@ -868,6 +1111,70 @@
 			</varlistentry>
 
 			<varlistentry>
+				<term>&X.opt;</term>
+
+				<listitem>
+					<para>&opt.arg; is a set of characters describing the
+						categories of checking to perform on the input
+						&tdf; capsule.
+						These checks can help identify invalid &tdf;,
+						and should never fail for a valid capsule.</para>
+
+					<table>
+						<col align="center"/>
+
+						<thead>
+							<tr>
+								<th>Key</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr>
+								<td><code>+</code></td>
+								<td>enable subsequent options (default)</td>
+							</tr>
+							<tr>
+								<td><code>-</code></td>
+								<td>disable subsequent options</td>
+							</tr>
+						</tbody>
+
+						<tbody>
+							<tr>
+								<td><code>a</code></td>
+								<td>all checks</td>
+							</tr>
+							<tr>
+								<td><code>s</code></td>
+								<td>shape</td>
+							</tr>
+							<tr>
+								<td><code>e</code></td>
+								<td>extra</td>
+							</tr>
+							<tr>
+								<td><code>f</code></td>
+								<td>Report floating point constants which exceed
+									their range.
+									If this check switched off such constants are
+									replaced by infinity.</td>
+							</tr>
+						</tbody>
+					</table>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&Y.opt;</term>
+
+				<listitem>
+					<para>Produce calls for dynamic initialisation.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
 				<term>&Z.opt;</term>
 
 				<listitem>
@@ -880,6 +1187,84 @@
 			</varlistentry>
 		</variablelist>
 	</refsection>
+
+
+<!-- old: -->
+
+<!--
+		<variablelist>
+			<varlistentry>
+				<term>&F.opt;</term>
+
+				<listitem>
+					<para>For &trans386;, this option determines
+						whether the "strength reduction" optimisation
+						should be applied.</para>
+
+					<para>For &alphatrans;, this option determines
+						whether or not the "for all" optimisation
+						should be applied.</para>
+
+					<para>For &hppatrans;, &mipstrans; and
+						&sparctrans;, this option determines
+						whether the "for all" optimisation
+						should be applied.</para>
+
+					<para>For all translators except &alphatrans;,
+						this is done by default.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&R.opt;</term>
+
+				<listitem>
+					<para>This option determines whether &trans;
+						should immediately round every floating point operation
+						to its appropriate range.
+						This produces slower code, but is necessary for strict
+						&ieee; conformance.</para>
+
+					<para>The default is not to round after every operation
+						for all translators except &hppatrans; and
+						&powertrans;.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&E.opt;</term>
+
+				<listitem>
+					<para>This option disables &trans;' constant
+						overflow checks.</para>
+
+					<para>For &all;, this is done by default.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&S.opt;</term>
+
+				<listitem>
+					<para>For &alphatrans;, when this option is
+						present &alphatrans; will produce a
+						symbolic assembler file in addition to
+						its normal outputs.
+						In this case the name of the symbolic assembler file
+						must be present on the command line.</para>
+
+					<para>For &mipstrans;, this option will produce
+						assembly code in the optional &s.ext; file.</para>
+
+					<para>This option is not present on all other
+						translators.</para>
+
+					<para>For all translators where it is supported,
+						this is not done by default.</para>
+				</listitem>
+			</varlistentry>
+	</refsection>
+-->
 
 	<refsection>
 		<title>Translator-specific options</title>
@@ -913,7 +1298,7 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-k</option>&switch.arg;</term>
+				<term><option>-k</option>&nbsp;&name.arg;</term>
 
 				<listitem>
 					<!-- XXX: not just linux platforms only... also *BSD etc? -->
