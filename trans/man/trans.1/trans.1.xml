@@ -278,50 +278,37 @@
 					<para>Specify the &abi; for generated code.
 						The supported &abi;s differ for each platform.</para>
 
+					<para>The available &abi;s are:</para>
+
 					<table>
 						<col align="center"/>
-
-						<thead>
-							<tr>
-								<th>Key</th>
-							</tr>
-						</thead>
 
 						<tbody>
 							<tr>
 								<td><code>hpux</code></td>
-							</tr>
-							<tr>
+								<td role="gap"/>
 								<td><code>next</code></td>
-							</tr>
-							<tr>
+								<td role="gap"/>
 								<td><code>sunos</code></td>
-							</tr>
-							<tr>
+								<td role="gap"/>
 								<td><code>sco</code></td>
 							</tr>
 							<tr>
 								<td><code>svr4</code></td>
-							</tr>
-							<tr>
+								<td role="gap"/>
 								<td><code>svsv</code></td>
-							</tr>
-							<tr>
+								<td role="gap"/>
 								<td><code>linux</code></td>
-							</tr>
-							<tr>
+								<td role="gap"/>
 								<td><code>solaris</code></td>
 							</tr>
 							<tr>
 								<td><code>osf1</code></td>
-							</tr>
-							<tr>
+								<td role="gap"/>
 								<td><code>icbs</code></td>
-							</tr>
-							<tr>
+								<td role="gap"/>
 								<td><code>mips</code></td>
-							</tr>
-							<tr>
+								<td role="gap"/>
 								<td><code>power</code></td>
 							</tr>
 						</tbody>
@@ -421,41 +408,31 @@
 					<para>Specify the calling conventions for generated code.
 						The supported &abi;s differ for each platform.</para>
 
+					<para>The available calling conventions are:</para>
+
 					<table>
 						<col align="center"/>
-
-						<thead>
-							<tr>
-								<th>Key</th>
-							</tr>
-						</thead>
 
 						<tbody>
 							<tr>
 								<td><code>hp</code></td>
-							</tr>
-							<tr>
+								<td role="gap"/>
 								<td><code>gcc</code></td>
-							</tr>
-							<tr>
+								<td role="gap"/>
 								<td><code>sun</code></td>
 							</tr>
 							<tr>
 								<td><code>alpha</code></td>
-							</tr>
-							<tr>
+								<td role="gap"/>
 								<td><code>hppa</code></td>
-							</tr>
-							<tr>
+								<td role="gap"/>
 								<td><code>o32</code></td>
 							</tr>
 							<tr>
 								<td><code>xlc</code></td>
-							</tr>
-							<tr>
+								<td role="gap"/>
 								<td><code>sparc</code></td>
-							</tr>
-							<tr>
+								<td role="gap"/>
 								<td><code>aout</code></td>
 							</tr>
 						</tbody>
@@ -1041,29 +1018,19 @@
 					<table>
 						<col align="center"/>
 
-						<thead>
-							<tr>
-								<th>Key</th>
-							</tr>
-						</thead>
-
 						<tbody>
 							<tr>
 								<td><code>gas</code></td>
-							</tr>
-							<tr>
+								<td role="gap"/>
 								<td><code>sun</code></td>
-							</tr>
-							<tr>
+								<td role="gap"/>
 								<td><code>ibm</code></td>
 							</tr>
 							<tr>
 								<td><code>sgi</code></td>
-							</tr>
-							<tr>
+								<td role="gap"/>
 								<td><code>ultrix</code></td>
-							</tr>
-							<tr>
+								<td role="gap"/>
 								<td><code>osf1</code></td>
 							</tr>
 							<tr>
