@@ -644,8 +644,6 @@
 					<para>Sets the &tdf; output options given by &opt.arg;.
 						This consists of a sequence of characters describing
 						the options to be enabled or disabled.
-						By default, or following a <code>+</code>, the options
-						are enabled; following a <code>-</code> they are disabled.
 						The available options are:</para>
 
 					<table>
@@ -660,6 +658,19 @@
 								<th>Description</th>
 							</tr>
 						</thead>
+
+						<tbody>
+							<tr>
+								<td><code>+</code></td>
+								<td role="na" align="center">&ndash;</td>
+								<td>enable subsequent options (default)</td>
+							</tr>
+							<tr>
+								<td><code>-</code></td>
+								<td role="na" align="center">&ndash;</td>
+								<td>disable subsequent options</td>
+							</tr>
+						</tbody>
 
 						<tbody>
 							<tr>
@@ -754,9 +765,6 @@
 					<para>Sets the error formatting options given by &opt.arg;.
 						This consists of a sequence of characters describing
 						the options to be enabled or disabled.
-						By default, or following a <code>+</code>, the options
-						are enabled; following a <code>-</code> they are
-						disabled.
 						The available options are:</para>
 
 					<table>
@@ -771,6 +779,19 @@
 								<th>Description</th>
 							</tr>
 						</thead>
+
+						<tbody>
+							<tr>
+								<td><code>+</code></td>
+								<td role="na" align="center">&ndash;</td>
+								<td>enable subsequent options (default)</td>
+							</tr>
+							<tr>
+								<td><code>-</code></td>
+								<td role="na" align="center">&ndash;</td>
+								<td>disable subsequent options</td>
+							</tr>
+						</tbody>
 
 						<tbody>
 						<tr>
