@@ -196,9 +196,6 @@
 			<command>tspec</command>
 
 			<!-- Options out -->
-			<group choice="opt">
-				<arg choice="plain">&E.opt;</arg>
-			</group>
 			<group choice="req">
 				<arg choice="plain">&y.opt;</arg>
 			</group>
