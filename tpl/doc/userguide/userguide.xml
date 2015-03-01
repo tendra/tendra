@@ -45,7 +45,7 @@
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Moved out examples to the source tree.
-						Moved out usage to &tpl.1;.</para>
+						Moved out usage to &tpl;.</para>
 				</revdescription>
 			</revision>
 
