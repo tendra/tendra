@@ -802,7 +802,7 @@
 						compiler</td>
 				</tr>
 				<tr>
-					<td><code>mipstrans</code></td>
+					<td><code>trans.mips</code></td>
 					<td><code>t</code></td>
 					<td role="input"><filename>.t</filename></td>
 					<td role="output">&gplust;</td>
@@ -861,8 +861,8 @@
 
 			<listitem>
 				<para>Target dependent &tdf; capsules are translated into
-					assembly source files using one of &mipstrans;
-					(q.v.&mdash;things are not quite so simple in this case), &trans386;
+					assembly source files using one of &trans.mips;
+					(q.v.&mdash;things are not quite so simple in this case), &trans.x86;
 					etc.</para>
 			</listitem>
 
@@ -2627,7 +2627,7 @@
 		<title>See Also</title>
 
 		<para>&as;, &cc;, &ld;, &prof;, &disp;, &tchk;, &tdfc2;, &tcpplus;,
-			&tld;, &trans-all;, &tccenv.5;, &tccmodes.5;.</para>
+			&tld;, &trans;, &tccenv.5;, &tccmodes.5;.</para>
 
 		<para>&tcc-userguide.doc;.</para>
 	</refsection>
