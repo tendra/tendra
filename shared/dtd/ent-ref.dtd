@@ -48,15 +48,14 @@
 <!ENTITY make_err   "<citerefentry><refentrytitle>make_err</refentrytitle>  %vol.1;</citerefentry>">
 <!ENTITY make_tdf   "<citerefentry><refentrytitle>make_tdf</refentrytitle>  %vol.1;</citerefentry>">
 
-<!ENTITY trans      "<command>trans</command>">
-<!ENTITY trans-all  "<citerefentry><refentrytitle>trans-all</refentrytitle> %vol.1;</citerefentry>">
-<!ENTITY alphatrans "<citerefentry><refentrytitle>alphatrans</refentrytitle>%vol.1;</citerefentry>">
-<!ENTITY mipstrans  "<citerefentry><refentrytitle>mipstrans</refentrytitle> %vol.1;</citerefentry>">
-<!ENTITY sparctrans "<citerefentry><refentrytitle>sparctrans</refentrytitle>%vol.1;</citerefentry>">
-<!ENTITY trans386   "<citerefentry><refentrytitle>trans386</refentrytitle>  %vol.1;</citerefentry>">
-<!ENTITY hppatrans  "<citerefentry><refentrytitle>hppatrans</refentrytitle> %vol.1;</citerefentry>">
-<!ENTITY powertrans "<citerefentry><refentrytitle>powertrans</refentrytitle>%vol.1;</citerefentry>">
-<!ENTITY trans68k   "<citerefentry><refentrytitle>trans68k</refentrytitle>%vol.1;</citerefentry>">
+<!ENTITY trans       "<citerefentry><refentrytitle>trans</refentrytitle>%vol.1;</citerefentry>">
+<!ENTITY trans.alpha "<command>trans.alpha</command>">
+<!ENTITY trans.mips  "<command>trans.mips</command>">
+<!ENTITY trans.sparc "<command>trans.sparc</command>">
+<!ENTITY trans.x86   "<command>trans.x86</command>">
+<!ENTITY trans.hppa  "<command>trans.hppa</command>">
+<!ENTITY trans.power "<command>trans.power</command>">
+<!ENTITY trans.m68k  "<command>trans.m68k</command>">
 
 
 <!-- TenDRA Section 5 -->

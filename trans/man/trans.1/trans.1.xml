@@ -215,15 +215,17 @@
 			control of a &tdf; translator, which translates a &tdf; capsule into
 			assembly.</para>
 
-		<para>&alphatrans; produces an AXP assembler file.</para>
+		<para>&trans.alpha; produces an AXP assembler file.</para>
 
 		<para>There are separate &tdf; translators for each target
 			architecture.</para>
 
-		<para>&hppatrans; produces assembly code for the
+		<!-- TODO: m68k -->
+
+		<para>&trans.hppa; produces assembly code for the
 			HP PA-RISC machines.</para>
 
-		<para>&mipstrans; produces &mips; code.
+		<para>&trans.mips; produces &mips; code.
 			There are two versions, one for &irix;, and one for &ultrix;.
 			Both produce &G.ext; and &H.ext; files required by
 			<command>as1</command>, but may also optionally give
@@ -231,10 +233,10 @@
 			Note that full run-time diagnostic information cannot be
 			transmitted through the &mips; assembler, &as;.</para>
 
-		<para>&powertrans; produces assembly code
+		<para>&trans.power; produces assembly code
 			common to the rs6000 and the POWERPc.</para>
 
-		<para>&sparctrans; produces SPARC assembly code.
+		<para>&trans.sparc; produces SPARC assembly code.
 			There are two versions, one for SunOS, and one for
 			Solaris.</para>
 
@@ -436,15 +438,15 @@
 						(<acronym>PIC</acronym>).</para>
 
 					<para>For all translators where it is supported,
-						except &mipstrans;, this is not done by
+						except &trans.mips;, this is not done by
 						default.</para>
 
-					<para>For &trans386;, this option is not
+					<para>For &trans.x86;, this option is not
 						supported on the SCO or DragonFly platforms,
 						and on the Linux platform it is supported
 						only for ELF binary format.</para>
 
-					<para>For &hppatrans;, the translator-specific
+					<para>For &trans.hppa;, the translator-specific
 						option <option>-d</option>&nbsp;&name.arg;
 						is also provided.
 						The <option>-D</option> flag emulates &cc;'s
@@ -452,7 +454,7 @@
 						emulates &cc;'s <option>+z</option> flag.
 						Neither option has yet been tested.</para>
 
-					<para>For &mipstrans;, this is done by default
+					<para>For &trans.mips;, this is done by default
 						in the &irix; version and not at all in
 						the &ultrix; version.</para>
 				</listitem>
@@ -603,7 +605,7 @@
 						This will only work if the input &tdf; capsule contains
 						debugging information.</para>
 
-					<para>For &trans386;, on the SCO platform
+					<para>For &trans.x86;, on the SCO platform
 						the format used by &dbxtra;
 						and <application>codeview</application> is supported.
 						On the SVR4.2 platform Dwarf 1 is supported,
@@ -613,27 +615,27 @@
 						The GNU debugger &gdb; may be used on all
 						platforms.</para>
 
-					<para>For &hppatrans;, the <option>-H</option>
+					<para>For &trans.hppa;, the <option>-H</option>
 						flag causes hppatrans to output &xdb;
 						compatible debugging information in its output file.
 						This option is only available if the header
 						file <filename>hpux_symtab.h</filename> was included
-						whilst compiling &hppatrans;.<footnote>
+						whilst compiling &trans.hppa;.<footnote>
 							<para>hpux_symtab.h is available by anonymous FTP,
 								but appears to have changed location over time.
 								Your best option is to simply google for it.</para>
 						</footnote></para>
 
 					<para>Please note well that there is a known bug in the
-						<option>-H</option> option for &hppatrans;.
+						<option>-H</option> option for &trans.hppa;.
 						The bug sometimes prohibits &xdb;
 						reading selective diagnostic information from a suite of
 						two or more modules linked together.</para>
 
-					<para>For &mipstrans; the diagnostic format used is
+					<para>For &trans.mips; the diagnostic format used is
 						as used by the native compilers.</para>
 
-					<para>For &sparctrans;, the diagnostic format
+					<para>For &trans.sparc;, the diagnostic format
 						used is <application>stabs</application>
 						for SunOS, and <application>stabs-in-elf</application>
 						for Solaris (both as used by the native compilers).</para>
@@ -756,7 +758,7 @@
 						particular processor model, determined by
 						&str.arg;.</para>
 
-					<para>For &trans386;, the supported values of
+					<para>For &trans.x86;, the supported values of
 						&str.arg; are:</para>
 
 					<table>
@@ -786,7 +788,7 @@
 						</tbody>
 					</table>
 
-					<para>For &powertrans;, the supported values
+					<para>For &trans.power;, the supported values
 						of &str.arg; are:</para>
 
 					<table>
@@ -960,13 +962,13 @@
 						similar tool (see individual manual pages for
 						details).</para>
 
-					<para>On &trans386;, this option is currently
+					<para>On &trans.x86;, this option is currently
 						not supported on the Solaris platform.</para>
 
-					<para>On &alphatrans;, this is not fully
+					<para>On &trans.alpha;, this is not fully
 						implemented.</para>
 
-					<para>On &mipstrans;, this option is untested
+					<para>On &trans.mips;, this option is untested
 						at present, and should not be used.</para>
 
 					<para>Profiling information is not output by default
@@ -1151,20 +1153,20 @@
 				<term>&F.opt;</term>
 
 				<listitem>
-					<para>For &trans386;, this option determines
+					<para>For &trans.x86;, this option determines
 						whether the "strength reduction" optimisation
 						should be applied.</para>
 
-					<para>For &alphatrans;, this option determines
+					<para>For &trans.alpha;, this option determines
 						whether or not the "for all" optimisation
 						should be applied.</para>
 
-					<para>For &hppatrans;, &mipstrans; and
-						&sparctrans;, this option determines
+					<para>For &trans.hppa;, &trans.mips; and
+						&trans.sparc;, this option determines
 						whether the "for all" optimisation
 						should be applied.</para>
 
-					<para>For all translators except &alphatrans;,
+					<para>For all translators except &trans.alpha;,
 						this is done by default.</para>
 				</listitem>
 			</varlistentry>
@@ -1180,8 +1182,8 @@
 						&ieee; conformance.</para>
 
 					<para>The default is not to round after every operation
-						for all translators except &hppatrans; and
-						&powertrans;.</para>
+						for all translators except &trans.hppa; and
+						&trans.power;.</para>
 				</listitem>
 			</varlistentry>
 
@@ -1200,14 +1202,14 @@
 				<term>&S.opt;</term>
 
 				<listitem>
-					<para>For &alphatrans;, when this option is
-						present &alphatrans; will produce a
+					<para>For &trans.alpha;, when this option is
+						present &trans.alpha; will produce a
 						symbolic assembler file in addition to
 						its normal outputs.
 						In this case the name of the symbolic assembler file
 						must be present on the command line.</para>
 
-					<para>For &mipstrans;, this option will produce
+					<para>For &trans.mips;, this option will produce
 						assembly code in the optional &s.ext; file.</para>
 
 					<para>This option is not present on all other
@@ -1223,7 +1225,7 @@
 	<refsection>
 		<title>Translator-specific options</title>
 
-		<para>The following options are specific to &alphatrans;:</para>
+		<para>The following options are specific to &trans.alpha;:</para>
 
 		<variablelist>
 			<varlistentry>
@@ -1280,7 +1282,7 @@
 			</varlistentry>
 		</variablelist>
 
-		<para>The following options are specific to &hppatrans;:</para>
+		<para>The following options are specific to &trans.hppa;:</para>
 
 		<variablelist>
 <!-- XXX: moved under -Ggdb, which probably ought to be renamed -Gstabs,
@@ -1319,7 +1321,7 @@
 			</varlistentry>
 		</variablelist>
 
-		<para>The following options are specific to &trans68k;:</para>
+		<para>The following options are specific to &trans.m68k;:</para>
 
 		<variablelist>
 			<varlistentry>
@@ -1356,7 +1358,7 @@
 			</varlistentry>
 		</variablelist>
 
-		<para>The following options are specific to &mipstrans;:</para>
+		<para>The following options are specific to &trans.mips;:</para>
 
 		<variablelist>
 			<varlistentry>
@@ -1369,7 +1371,7 @@
 
 		</variablelist>
 
-		<para>The following options are specific to &powertrans;:</para>
+		<para>The following options are specific to &trans.power;:</para>
 
 		<variablelist>
 			<varlistentry>
@@ -1399,7 +1401,7 @@
 			</varlistentry>
 		</variablelist>
 
-		<para>The following options are specific to &sparctrans;:</para>
+		<para>The following options are specific to &trans.sparc;:</para>
 
 		<variablelist>
 			<varlistentry>
@@ -1532,7 +1534,7 @@
 			</varlistentry>
 		</variablelist>
 
-		<para>The following options are specific to &trans386;:</para>
+		<para>The following options are specific to &trans.x86;:</para>
 
 		<variablelist>
 			<varlistentry>
