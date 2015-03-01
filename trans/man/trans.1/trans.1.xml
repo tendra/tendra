@@ -254,39 +254,37 @@
 
 					<para>The available &abi;s are:</para>
 
-					<table>
-						<col align="center"/>
+					<informaltable>
+						<col align="left"/>
 
-						<tbody>
-							<tr>
-								<td><code>hpux</code></td>
-								<td role="gap"/>
-								<td><code>next</code></td>
-								<td role="gap"/>
-								<td><code>sunos</code></td>
-								<td role="gap"/>
-								<td><code>sco</code></td>
-							</tr>
-							<tr>
-								<td><code>svr4</code></td>
-								<td role="gap"/>
-								<td><code>svsv</code></td>
-								<td role="gap"/>
-								<td><code>linux</code></td>
-								<td role="gap"/>
-								<td><code>solaris</code></td>
-							</tr>
-							<tr>
-								<td><code>osf1</code></td>
-								<td role="gap"/>
-								<td><code>icbs</code></td>
-								<td role="gap"/>
-								<td><code>mips</code></td>
-								<td role="gap"/>
-								<td><code>power</code></td>
-							</tr>
-						</tbody>
-					</table>
+						<tr>
+							<td><code>hpux</code></td>
+							<td role="gap"/>
+							<td><code>next</code></td>
+							<td role="gap"/>
+							<td><code>sunos</code></td>
+							<td role="gap"/>
+							<td><code>sco</code></td>
+						</tr>
+						<tr>
+							<td><code>svr4</code></td>
+							<td role="gap"/>
+							<td><code>svsv</code></td>
+							<td role="gap"/>
+							<td><code>linux</code></td>
+							<td role="gap"/>
+							<td><code>solaris</code></td>
+						</tr>
+						<tr>
+							<td><code>osf1</code></td>
+							<td role="gap"/>
+							<td><code>icbs</code></td>
+							<td role="gap"/>
+							<td><code>mips</code></td>
+							<td role="gap"/>
+							<td><code>power</code></td>
+						</tr>
+					</informaltable>
 				</listitem>
 			</varlistentry>
 
@@ -384,33 +382,31 @@
 
 					<para>The available calling conventions are:</para>
 
-					<table>
-						<col align="center"/>
+					<informaltable>
+						<col align="left"/>
 
-						<tbody>
-							<tr>
-								<td><code>hp</code></td>
-								<td role="gap"/>
-								<td><code>gcc</code></td>
-								<td role="gap"/>
-								<td><code>sun</code></td>
-							</tr>
-							<tr>
-								<td><code>alpha</code></td>
-								<td role="gap"/>
-								<td><code>hppa</code></td>
-								<td role="gap"/>
-								<td><code>o32</code></td>
-							</tr>
-							<tr>
-								<td><code>xlc</code></td>
-								<td role="gap"/>
-								<td><code>sparc</code></td>
-								<td role="gap"/>
-								<td><code>aout</code></td>
-							</tr>
-						</tbody>
-					</table>
+						<tr>
+							<td><code>hp</code></td>
+							<td role="gap"/>
+							<td><code>gcc</code></td>
+							<td role="gap"/>
+							<td><code>sun</code></td>
+						</tr>
+						<tr>
+							<td><code>alpha</code></td>
+							<td role="gap"/>
+							<td><code>hppa</code></td>
+							<td role="gap"/>
+							<td><code>o32</code></td>
+						</tr>
+						<tr>
+							<td><code>xlc</code></td>
+							<td role="gap"/>
+							<td><code>sparc</code></td>
+							<td role="gap"/>
+							<td><code>aout</code></td>
+						</tr>
+					</informaltable>
 				</listitem>
 			</varlistentry>
 
@@ -992,29 +988,27 @@
 					<para>Specify the assembler dialect for generated code.
 						The supported dialects differ for each platform.</para>
 
-					<table>
-						<col align="center"/>
+					<informaltable>
+						<col align="left"/>
 
-						<tbody>
-							<tr>
-								<td><code>gas</code></td>
-								<td role="gap"/>
-								<td><code>sun</code></td>
-								<td role="gap"/>
-								<td><code>ibm</code></td>
-							</tr>
-							<tr>
-								<td><code>sgi</code></td>
-								<td role="gap"/>
-								<td><code>ultrix</code></td>
-								<td role="gap"/>
-								<td><code>osf1</code></td>
-							</tr>
-							<tr>
-								<td><code>hp</code></td>
-							</tr>
-						</tbody>
-					</table>
+						<tr>
+							<td><code>gas</code></td>
+							<td role="gap"/>
+							<td><code>sun</code></td>
+							<td role="gap"/>
+							<td><code>ibm</code></td>
+						</tr>
+						<tr>
+							<td><code>sgi</code></td>
+							<td role="gap"/>
+							<td><code>ultrix</code></td>
+							<td role="gap"/>
+							<td><code>osf1</code></td>
+						</tr>
+						<tr>
+							<td><code>hp</code></td>
+						</tr>
+					</informaltable>
 				</listitem>
 			</varlistentry>
 
