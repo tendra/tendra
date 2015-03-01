@@ -56,6 +56,7 @@
 <!ENTITY trans386   "<citerefentry><refentrytitle>trans386</refentrytitle>  %vol.1;</citerefentry>">
 <!ENTITY hppatrans  "<citerefentry><refentrytitle>hppatrans</refentrytitle> %vol.1;</citerefentry>">
 <!ENTITY powertrans "<citerefentry><refentrytitle>powertrans</refentrytitle>%vol.1;</citerefentry>">
+<!ENTITY trans68k   "<citerefentry><refentrytitle>trans68k</refentrytitle>%vol.1;</citerefentry>">
 
 
 <!-- TenDRA Section 5 -->
