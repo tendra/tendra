@@ -87,14 +87,14 @@
 					<td>A numerical digit in an appropriate base (case insensitive)</td>
 				</tr>
 				<tr>
-					<td><replaceable>0..9</replaceable><br/>
-					<replaceable>9..0</replaceable></td>
+					<td><literallayout><replaceable>0..9</replaceable>
+<replaceable>9..0</replaceable></literallayout></td>
 					<td>A range of ASCII values in base 10,
 						in ascending and descending order, respectively.</td>
 				</tr>
 				<tr>
-					<td><replaceable>'A'..'Z'</replaceable><br/>
-						<replaceable>'Z'..'A'</replaceable></td>
+					<td><literallayout><replaceable>'A'..'Z'</replaceable>
+<replaceable>'Z'..'A'</replaceable></literallayout></td>
 					<td>A range of characters in ascending descending order,
 						respectively.</td>
 				</tr>
