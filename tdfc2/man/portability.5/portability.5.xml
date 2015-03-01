@@ -47,7 +47,7 @@
 		<para>The default portability table values, which are built into the producer,
 			can be expressed in the form:</para>
 
-		<programlisting>char_bits            8
+		<programlisting language="porttable">char_bits            8
 short_bits           16
 int_bits             16
 long_bits            32
