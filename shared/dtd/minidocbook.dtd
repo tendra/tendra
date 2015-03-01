@@ -124,7 +124,7 @@
 	%common.id;
 >
 
-<!ELEMENT book    (bookinfo,    (preface | chapter | appendix)+)>
+<!ELEMENT book    (bookinfo,    (preface | chapter | appendix | bibliography)+)>
 <!ATTLIST book
 	%common.xml;
 >
@@ -230,6 +230,17 @@
 <!ATTLIST appendix
 	%common.id;
 	%common.base;
+>
+
+<!ELEMENT bibliography (biblioentry*)>
+<!ATTLIST bibliography
+	%common.id;
+	%common.base;
+>
+
+<!ELEMENT biblioentry (para*)> <!-- TODO -->
+<!ATTLIST biblioentry
+	%common.id;
 >
 
 <!ELEMENT section    %section.content;>
