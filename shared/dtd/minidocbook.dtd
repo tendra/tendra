@@ -162,7 +162,7 @@
 	choice (opt|plain|req)   "opt"
 >
 
-<!ELEMENT arg (#PCDATA | option | replaceable)*>
+<!ELEMENT arg (#PCDATA | option | replaceable | arg)*>
 <!ATTLIST arg
 	choice (opt|plain|req)   "opt"
 	rep    (repeat|norepeat) "norepeat"
