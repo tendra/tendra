@@ -828,7 +828,7 @@
 		<para>Each compilation phase is assigned a code letter which is
 			used to identify that phase in various command-line options.
 			For example, in order to pass the <option>-x</option> option
-			to &tdfc; the <option>-Wc,&nbsp;-x</option> command-line
+			to &tdfc2; the <option>-Wc,&nbsp;-x</option> command-line
 			option may be used.
 			Similarly, to set the &tld; executable an option of the form
 			<option>-EL:&nbsp;/usr/local/bin/tld</option> may be
