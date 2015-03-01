@@ -93,7 +93,7 @@
 			The file to be used as the symbol table output file, plus details
 			of what information is to be included in the dump file can be specified
 			by passing various flags using the <code>-d</code> command-line option
-			to &tcpplus;; these flags are documented by &tdfc2.1;.</para>
+			to &tcpplus;; these flags are documented by &tdfc2;.</para>
 
 		<para>The symbol table dump provides a method whereby third party tools
 			can interface with the C and C++ producers.	The producer outputs

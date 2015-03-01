@@ -9,7 +9,7 @@
 
 	<para>There are several methods available for configuring the checker.
 		Most configuration is provided by built-in "modes" which are selected
-		by using the relevant <code>-X</code> command line option for &tcc.1;.
+		by using the relevant <code>-X</code> command line option for &tcc;.
 		These modes are documented by &tccmodes.5;.</para>
 
 	<para>More detailed customisation may require special
@@ -163,7 +163,7 @@
 			<code>warn</code> or <code>dont</code>.</para>
 	</section>
 
-	<section>
+	<section id="low">
 		<title>Customising checking profiles</title>
 
 		<para>The individual checks performed by the C static checker are

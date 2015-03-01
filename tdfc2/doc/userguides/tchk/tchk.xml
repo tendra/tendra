@@ -42,7 +42,7 @@
 				<date>2015-02-24</date>
 				<authorinitials>kate</authorinitials>
 				<revdescription>
-					<para>Split off &tcc.1; Compilation Modes
+					<para>Split off &tcc; Compilation Modes
 						to create a &tccmodes.5; manpage.
 						Moved out <code>#pragma</code> token syntax
 						type conversions to &pragmatoken.doc;,

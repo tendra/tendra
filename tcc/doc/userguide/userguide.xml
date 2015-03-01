@@ -47,7 +47,7 @@
 				<revdescription>
 					<para>Moved out appendix reference material
 						to &tccenv.5;, &tccmodes.5;
-						and command line options to &tcc.1; manpages.</para>
+						and command line options to &tcc; manpages.</para>
 
 					<para>Merged in documentation for the supplied
 						portability tables from the &tdfc2-userguide.doc;.</para>
