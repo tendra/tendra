@@ -72,7 +72,7 @@
 
 	<refnamediv>
 		<refname>tpl</refname>
-		<refpurpose>&pl_tdf; compiler producing &tdf;</refpurpose>
+		<refpurpose>PL_TDF compiler producing TDF</refpurpose>
 	</refnamediv>
 
 	<refsynopsisdiv>
@@ -117,7 +117,7 @@
 				<term>&V.opt;</term>
 
 				<listitem>
-					<para>This option produces a cut-down &lsquo;pretty print&rsquo;
+					<para>This option produces a cut-down &ldquo;pretty print&rdquo;
 						of the &tdf; capsule on the standard output. This shows
 						the definitions and declarations of the tags, tokens and
 						<code>al_tags</code> of the program.</para>
