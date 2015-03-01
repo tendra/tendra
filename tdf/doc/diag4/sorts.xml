@@ -8,6 +8,7 @@
 <chapter id="diagnostic-sorts">
 	<title>Diagnostic SORTs</title>
 
+	<literallayout>
 constructs:
     [sortid dg]
        [construct_name dg_apply_token]
@@ -627,6 +628,7 @@ options:
    dg_param_mode_option
    dg_filename_option
    dg_varpart_option
+	</literallayout>
 
 </chapter>
 

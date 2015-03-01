@@ -6,7 +6,7 @@
 -->
 
 <bibliography>
-	<para><!-- TODO: biblography -->
+	<!-- TODO: biblography
 	  [1] &tcc-userguide.doc;, DRA, 1993.
 	  [2] tspec - An &api; Specification Tool, DRA, 1993.
 	  [3] The C to &tdf; Producer, DRA, 1993.
@@ -16,6 +16,6 @@
 	  [7] The 80386/80486 &tdf; Installer, DRA, 1992.
 	  [8] A Guide to Porting using &tdf;, DRA, 1993.
 	  [9] The &tdf; Notation Compiler, DRA, 1993.
-	</para>
+	-->
 </bibliography>
 
