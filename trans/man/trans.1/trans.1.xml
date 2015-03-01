@@ -265,21 +265,21 @@
 							<td><code>sunos</code></td>
 							<td role="gap"/>
 							<td><code>sco</code></td>
+							<td role="gap"/>
+							<td><code>svr4</code></td>
 						</tr>
 						<tr>
-							<td><code>svr4</code></td>
-							<td role="gap"/>
 							<td><code>svsv</code></td>
 							<td role="gap"/>
 							<td><code>linux</code></td>
 							<td role="gap"/>
 							<td><code>solaris</code></td>
-						</tr>
-						<tr>
+							<td role="gap"/>
 							<td><code>osf1</code></td>
 							<td role="gap"/>
 							<td><code>icbs</code></td>
-							<td role="gap"/>
+						</tr>
+						<tr>
 							<td><code>mips</code></td>
 							<td role="gap"/>
 							<td><code>power</code></td>
@@ -391,15 +391,14 @@
 							<td><code>gcc</code></td>
 							<td role="gap"/>
 							<td><code>sun</code></td>
-						</tr>
-						<tr>
+							<td role="gap"/>
 							<td><code>alpha</code></td>
 							<td role="gap"/>
 							<td><code>hppa</code></td>
-							<td role="gap"/>
-							<td><code>o32</code></td>
 						</tr>
 						<tr>
+							<td><code>o32</code></td>
+							<td role="gap"/>
 							<td><code>xlc</code></td>
 							<td role="gap"/>
 							<td><code>sparc</code></td>
@@ -997,15 +996,14 @@
 							<td><code>sun</code></td>
 							<td role="gap"/>
 							<td><code>ibm</code></td>
+							<td role="gap"/>
+							<td><code>sgi</code></td>
 						</tr>
 						<tr>
-							<td><code>sgi</code></td>
-							<td role="gap"/>
 							<td><code>ultrix</code></td>
 							<td role="gap"/>
 							<td><code>osf1</code></td>
-						</tr>
-						<tr>
+							<td role="gap"/>
 							<td><code>hp</code></td>
 						</tr>
 					</informaltable>
