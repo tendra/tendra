@@ -66,7 +66,7 @@ build-allarch:
 
 # for automated builds
 build-docs:
-	${MAKE} doc
+	${MAKE} build-doc
 	${MAKE} test-doc
 
 # for automated builds
@@ -244,7 +244,7 @@ test-doc:
 
 # XXX: just temporary
 # XXX: need the per-project prefix that -DWEBSITE uses
-doc:
+build-doc:
 	@echo "===> building documents"
 .for project in calculus trans lexi \
 	osdep tdf tdfc2 sid tcc doc tld tnc tpl tspec
