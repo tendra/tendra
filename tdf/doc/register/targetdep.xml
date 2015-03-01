@@ -371,12 +371,12 @@
 		<title>Data model representations</title>
 
 		<section>
-			<title><code>.~abi_char_width</code></title>
-			<title><code>.~abi_short_width</code></title>
-			<title><code>.~abi_int_width</code></title>
-			<title><code>.~abi_long_width</code></title>
-			<title><code>.~abi_longlong_width</code></title>
-			<title><code>.~abi_ptr_width</code></title>
+			<title><code>.~abi_char_width</code>,
+				<code>.~abi_short_width</code>,
+				<code>.~abi_int_width</code>,
+				<code>.~abi_long_width</code>,
+				<code>.~abi_longlong_width</code>,
+				<code>.~abi_ptr_width</code></title>
 
 			<programlisting language="tdf">-&gt; NAT</programlisting>
 
@@ -397,6 +397,8 @@
 
 		<section>
 			<title><code>.~abi_min_struct_rep</code></title>
+
+			<para>Minimum <code>struct</code> representation size.</para>
 		</section>
 	</section>
 
@@ -404,9 +406,9 @@
 		<title>Floating point representations</title>
 
 		<section>
-			<title><code>.~abi_float_rep</code></title>
-			<title><code>.~abi_double_rep</code></title>
-			<title><code>.~abi_longdouble_rep</code></title>
+			<title><code>.~abi_float_rep</code>,
+				<code>.~abi_double_rep</code>,
+				<code>.~abi_longdouble_rep</code></title>
 
 			<programlisting language="tdf">-&gt; NAT</programlisting>
 
@@ -431,8 +433,8 @@
 		<title>Sign</title>
 
 		<section>
-			<title><code>.~abi_char_is_signed</code></title>
-			<title><code>.~abi_bitfield_is_signed</code></title>
+			<title><code>.~abi_char_is_signed</code>,
+				<code>.~abi_bitfield_is_signed</code></title>
 
 			<programlisting language="tdf">-&gt; BOOL</programlisting>
 		</section>

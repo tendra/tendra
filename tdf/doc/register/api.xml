@@ -45,26 +45,24 @@
 
 		<para>The set of tokens implied below all have the form:</para>
 
-		<section>
-			<title><code>c89.<code>header</code>.<code>function</code></code></title>
+		<para><code>c89<code>.</code></code><replaceable>header</replaceable><code>.</code><replaceable>function</replaceable></para>
 
 		<programlisting language="tdf">... :	 ...
 	-&gt; EXP</programlisting>
 
-			<para>Tokens are defined for all cases where <code>header</code> is ctype or string
-				or math or stdlib, and <code>function</code> is the name of a non-ellipsis
-				function specified in the ANSI C standard library, declared within
-				the corresponding header &lt;<code>header</code>.h&gt;.   (Note that ellipsis
-				functions, such as <code>printf</code>, cannot be represented as tokens
-				since they may take a variable number of arguments.)</para>
+		<para>Tokens are defined for all cases where <code>header</code> is ctype or string
+			or math or stdlib, and <code>function</code> is the name of a non-ellipsis
+			function specified in the ANSI C standard library, declared within
+			the corresponding header &lt;<code>header</code>.h&gt;.   (Note that ellipsis
+			functions, such as <code>printf</code>, cannot be represented as tokens
+			since they may take a variable number of arguments.)</para>
 
-			<para>These tokens have arguments all of <code>SORT</code> <code>EXP</code>,
-				whose number and shape, and token result shape, all correspond to
-				the implementation shape of the named ANSI C standard library function
-				parameters and result. For the few cases where the function is specified
-				not to return (e.g. <code>c89.stdlib.abort</code>), the result shape may
-				be either <code>TOP</code> or <code>BOTTOM</code>.</para>
-		</section>
+		<para>These tokens have arguments all of <code>SORT</code> <code>EXP</code>,
+			whose number and shape, and token result shape, all correspond to
+			the implementation shape of the named ANSI C standard library function
+			parameters and result. For the few cases where the function is specified
+			not to return (e.g. <code>c89.stdlib.abort</code>), the result shape may
+			be either <code>TOP</code> or <code>BOTTOM</code>.</para>
 	</section>
 
 	<section>
@@ -104,14 +102,16 @@
 				result implementation shapes corresponding to the BSD specified function
 				<code>alloca</code>.</para>
 		</section>
-	</section>
 
-	<section>
-		<title><code>c89.stdarg.va_list, c89.stdarg.__va_start,
-			c89.stdarg.va_arg, c89.stdarg.va_end</code></title>
+		<section>
+			<title><code>c89.stdarg.va_list</code>,
+				<code>.__va_start</code>,
+				<code>.va_arg</code>,
+				<code>.va_end</code></title>
 
-		<para>These four tokens are identical to the Interface Tokens <code>~va_list</code>,
-			<code>~__va_start</code>, <code>~va_arg</code> and <code>~va_end</code> respectively.</para>
+			<para>These four tokens are identical to the Interface Tokens <code>~va_list</code>,
+				<code>~__va_start</code>, <code>~va_arg</code> and <code>~va_end</code> respectively.</para>
+		</section>
 	</section>
 </chapter>
 
