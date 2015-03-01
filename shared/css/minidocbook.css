@@ -98,6 +98,13 @@ blockquote.literallayout {
 	white-space: pre-line;
 }
 
+/* because docbook annoyingly doesn't let us have <br/> inside <td> */
+td blockquote.literallayout {
+	border: none;
+	margin: 0;
+	padding: 0;
+}
+
 ol.footnotes {
 	list-style-type: none;
 	margin-left: 3em;
