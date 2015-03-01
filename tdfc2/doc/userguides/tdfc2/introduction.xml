@@ -25,13 +25,13 @@
 		C++.</para>
 
     <para>A familiarity with both C++ and TDF is assumed. The version of C++
-		implemented is that given by the <link linkend="refs">draft ISO C++
+		implemented is that given by the <link linkend="CPP96">draft ISO C++
 		standard</link>.  All references to &quot;ISO C++&quot; within the document
 		should strictly be qualified using the word &quot;draft&quot;, but
 		for convenience this has been left implicit.  The C++ producer has
 		a number of switches which allow it to be configured for older dialects
 		of C++.  In particular, the version of C++ described in the
-		<link linkend="refs">ARM (Annotated Reference Manual)</link>
+		<link linkend="CPP-ARM">ARM (Annotated Reference Manual)</link>
 		is fully supported.</para>
 
     <para>The &tdf-spec.doc; (version 4.0) may be consulted for a description

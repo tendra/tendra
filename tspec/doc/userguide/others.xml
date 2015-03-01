@@ -228,8 +228,7 @@
 				<tr>
 					<td><code>VERBOSE</code></td>
 					<td>numeric</td>
-					<td>Set the level of the verbose option (see
-						<link linkend="options">section 2.5</link>).</td>
+					<td>Set the level of the verbose option.</td>
 				</tr>
 			
 				<tr>

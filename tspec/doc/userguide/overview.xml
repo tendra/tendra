@@ -99,10 +99,8 @@
 			&tspec;, however this may be overridden by the system
 			variable <code>TSPEC_INPUT</code>. Directories may be added to the
 			start of the path using the
-			<option>-I</option><filename>dir</filename> command-line option (see
-			<link linkend="options">section 2.5</link> for a complete list of
-			options). The current working directory is always added to the start
-			of the path.</para>
+			<option>-I</option><filename>dir</filename> command-line option.
+			The current working directory is always added to the start of the path.</para>
 	</section>
 
 	<section id="output">

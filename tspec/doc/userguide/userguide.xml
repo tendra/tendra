@@ -130,8 +130,7 @@
 						its use is discouraged.</para>
 
 					<para>A number of new command-line options have been added, and
-						some of the existing options have been modified slightly (see
-						<xref linkend="options"/>).</para>
+						some of the existing options have been modified slightly.</para>
 
 					<para>The suffix <code>.api</code> has been added to the output
 						directories (see <xref linkend="output"/>) to

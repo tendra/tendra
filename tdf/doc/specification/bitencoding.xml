@@ -65,7 +65,7 @@
 			<code>BITSTREAM</code>, <code>BYTESTREAM</code>, <code>BYTE_ALIGN</code>
 			and extendable integers.</para>
 
-		<section id="TDFINT">
+		<section id="TDFINT-encoding">
 			<title>TDFINT</title>
 
 			<para><code>TDFINT</code> encodes non-negative integers of unbounded size. The
@@ -76,14 +76,14 @@
 				octal digit plus 8.</para>
 		</section>
 
-		<section id="TDFBOOL">
+		<section id="TDFBOOL-encoding">
 			<title>TDFBOOL</title>
 
 			<para><code>TDFBOOL</code> encodes a boolean, true or false.	The encoding
 				uses a 1-bit basic integer, with 1 encoding true and 0 encoding false.</para>
 		</section>
 
-		<section id="TDFSTRING">
+		<section id="TDFSTRING-encoding">
 			<title>TDFSTRING</title>
 
 			<para><code>TDFSTRING</code> encodes a sequence containing
@@ -96,7 +96,7 @@
 				integer being first in this sequence.</para>
 		</section>
 
-		<section id="TDFIDENT">
+		<section id="TDFIDENT-encoding">
 			<title>TDFIDENT</title>
 
 			<para><code>TDFIDENT</code> also encodes a sequence containing
@@ -120,7 +120,7 @@
 		</section>
 	</section>
 
-	<section id="BITSTREAM">
+	<section id="BITSTREAM-encoding">
 		<title>BITSTREAM</title>
 
 		<para>It can be useful to be able to skip a TDF construction without reading
@@ -136,7 +136,7 @@
 			and then decode an <replaceable>X</replaceable>. There will be no spare bits at
 			the end of the <replaceable>X</replaceable>, so reading can continue directly.</para>
 
-		<section id="BYTESTREAM">
+		<section id="BYTESTREAM-encoding">
 			<title>BYTESTREAM</title>
 
 			<para>It can be useful to be able to skip a TDF construction without reading
@@ -163,7 +163,7 @@
 				<replaceable>n</replaceable> bytes after <replaceable>b</replaceable>.</para>
 		</section>
 
-		<section id="BYTE_ALIGN">
+		<section id="BYTE_ALIGN-encoding">
 			<title>BYTE_ALIGN</title>
 
 			<para><code>BYTE_ALIGN</code> leaves the bit position alone if it is 7, and

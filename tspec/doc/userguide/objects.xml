@@ -38,9 +38,8 @@
 			specified in <code>c/c89:stdio.h</code> would be <code>FILE</code>,
 			whereas under the second it would be <code>c_c89.stdio.FILE</code>.
 			The unique name strategy may be specified by passing the
-			<option>-u</option> command-line option to &tspec; (see
-			<link linkend="options">section 2.5</link>) or by setting the
-			<code>UNIQUE</code> property to 1 (see
+			<option>-u</option> command-line option to &tspec;
+			or by setting the <code>UNIQUE</code> property to 1 (see
 			<link linkend="properties">section 5.4</link>).</para>
 		
 		<para>Both strategies involve flattening the several C namespaces

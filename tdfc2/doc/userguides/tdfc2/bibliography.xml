@@ -2,11 +2,8 @@
 <!DOCTYPE appendix SYSTEM "minidocbook.dtd">
 
 <bibliography>
-<!-- TODO:
-
-	<title>References</title>
-
-	<biblioentry>
+<!-- TODO: -->
+	<biblioentry id="CPP96">
 		<para><citetitle>Working paper for Draft Proposed
 			Internation Standard for Information Systems - Programming Language
 			C++</citetitle>, X3J16/96-0225, December 1996:
@@ -14,16 +11,11 @@
 			<ulink url="http://www.maths.warwick.ac.uk/c++/pub/wp/html/cd2/"/>.</para>
 	</biblioentry>
 
-	<biblioentry>
+	<biblioentry id="CPP-ARM">
 		<para><citetitle>The Annotated C++ Reference Manual</citetitle>,
 			Margaret Ellis and Bjarne Stroustrup, ISBN 0-201-51459-1,
 			Addison-Wesley, 1990:
 			<ulink url="http://heg-school.aw.com/cseng/authors/ellis/annocpp/annocpp.html"/></para>
 	</biblioentry>
-
-	<biblioentry>
-		<para><dt:doc name="user/guides/tdfc"/>: attached.</para>
-	</biblioentry>
--->
 </bibliography>
 

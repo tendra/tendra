@@ -379,7 +379,7 @@
 			dependent.	By default the implementation is determined by the definition
 			of the <code>~char</code> token, however
 			this can be overridden in the producer either by means of the
-			<link linkend="table">portability table</link> or by the directive:</para>
+			<link linkend="portabilitytable">portability table</link> or by the directive:</para>
 
 			<programlisting language="cpp">#pragma TenDRA character <emphasis>character-sign</emphasis></programlisting>
 

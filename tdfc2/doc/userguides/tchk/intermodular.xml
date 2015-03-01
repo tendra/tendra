@@ -137,9 +137,8 @@ int n ;
 		<warning>
 			<para>The automatic instantiation of exported templates has not yet been
 				implemented correctly.	It is intended that such instantiations will
-				be generated during <link linkend="spec">intermodule analysis</link>
-				(where they conceptually belong).	At present it is necessary to work
-				round this using explicit instantiations.</para>
+				be generated during intermodule analysis (where they conceptually belong).
+				At present it is necessary to work round this using explicit instantiations.</para>
 		</warning>
 	</section>
 
