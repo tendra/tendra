@@ -175,37 +175,67 @@
 			control of a &tdf; translator, which translates a &tdf; capsule into
 			assembly.</para>
 
-		<para>&trans.alpha; produces an AXP assembler file.</para>
-
 		<para>There are separate &tdf; translators for each target
-			architecture.</para>
+			architecture.
+			The various different translators are referred to
+			collectively as &trans;.
+			The translators are:</para>
 
-		<!-- TODO: m68k -->
+		<table>
+			<col align="left"/>
+			<col align="center"/>
+			<col align="left"/>
 
-		<para>&trans.hppa; produces assembly code for the
-			HP PA-RISC machines.</para>
+			<thead>
+				<tr>
+					<th>Translator</th>
+					<th>Bits</th>
+					<th>Architecture</th>
+				</tr>
+			</thead>
 
-		<para>&trans.mips; produces &mips; code.
-			There are two versions, one for &irix;, and one for &ultrix;.
-			Both produce &G.ext; and &H.ext; files required by
-			<command>as1</command>, but may also optionally give
-			&s.ext; assembly files using &S.opt;.
-			Note that full run-time diagnostic information cannot be
-			transmitted through the &mips; assembler, &as;.</para>
-
-		<para>&trans.power; produces assembly code
-			common to the rs6000 and the POWERPc.</para>
-
-		<para>&trans.sparc; produces SPARC assembly code.
-			There are two versions, one for SunOS, and one for
-			Solaris.</para>
-
-		<para>The various different translators are referred to
-			collectively as &trans;.</para>
+			<tbody>
+				<tr>
+					<td>&trans.alpha;</td>
+					<td>64</td>
+					<td>Alpha AXP 21064</td>
+				</tr>
+				<tr>
+					<td>&trans.hppa;</td>
+					<td>32</td>
+					<td>HP PA-RISC</td>
+				</tr>
+				<tr>
+					<td>&trans.m68k;</td>
+					<td>32</td>
+					<td>Motorola 680x0</td>
+				</tr>
+				<tr>
+					<td>&trans.mips;</td>
+					<td>32</td>
+					<td>R3000 MIPS</td>	<!-- TODO: right? -->
+				</tr>
+				<tr>
+					<td>&trans.power;</td>
+					<td>32</td>
+					<td>PPC 601 / POWER2</td>
+				</tr>
+				<tr>
+					<td>&trans.sparc;</td>
+					<td>32</td>
+					<td>Sun SPARC</td>
+				</tr>
+				<tr>
+					<td>&trans.x86;</td>
+					<td>32</td>
+					<td>Intel 80x86</td>
+				</tr>
+			</tbody>
+		</table>
 
 		<para>It is recommended that &trans; should not be
 			invoked directly, but via the user interface &tcc;.
-			The file <option>-</option><replaceable>opt</replaceable> can
+			<option>-</option><replaceable>opt</replaceable> can
 			be passed to &trans; by passing the option
 			<option>-W</option><literal>t,-</literal><replaceable>opt</replaceable> to
 			&tcc;.</para>
@@ -499,6 +529,9 @@
 						The supported formats differ for each platform
 						and for each version of &tdf; diagnostic tags
 						which is present in the capsule.</para>
+
+					<para>Note that full run-time diagnostic information cannot be
+						transmitted through the &mips; assembler, &as;.</para>
 
 					<table>
 						<col align="center"/>
