@@ -247,25 +247,12 @@
 			be passed to &trans; by passing the option
 			<option>-W</option><literal>t,-</literal><replaceable>opt</replaceable> to
 			&tcc;.</para>
-	</refsection>
-
-	<refsection>
-		<title>Options</title>
 
 		<para>The options denoted by a capital letter are common to
 			the &tdf; installers for all the architectures, although the
-			defaults vary for each translator.</para>
-
-		<para>Lowercase options are specific to each translator.</para>
-
-		<para>The option <option>-a</option> is specific to
-			&trans386;.</para>
-
-		<para>The options <option>-h</option> and <option>-d</option> are
-			specific to &hppatrans;.</para>
+			defaults vary for each translator.
+			Lowercase options are specific to each translator.</para>
 	</refsection>
-
-	<!-- TODO: now go through and find undocumented options... -->
 
 	<refsection>
 		<title>Options</title>
@@ -773,7 +760,7 @@
 						&str.arg; are:</para>
 
 					<table>
-						<col align="left"/>
+						<col align="center"/>
 						<col align="left"/>
 
 						<thead>
@@ -803,7 +790,7 @@
 						of &str.arg; are:</para>
 
 					<table>
-						<col align="left"/>
+						<col align="center"/>
 						<col align="left"/>
 
 						<thead>
@@ -1236,6 +1223,315 @@
 	<refsection>
 		<title>Translator-specific options</title>
 
+		<para>The following options are specific to &alphatrans;:</para>
+
+		<variablelist>
+			<varlistentry>
+				<term><option>-u</option></term>
+
+				<listitem>
+					<para>Use <code>umulh</code> for divisions.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-s</option></term>
+
+				<listitem>
+					<para>Produce binasm output.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-d</option>&nbsp;&opt.arg;</term>
+
+				<listitem>
+					<para>Handle IEEE denormals specially.</para>
+
+					<table>
+						<col align="center"/>
+						<col align="left"/>
+
+						<thead>
+							<tr>
+								<th>Key</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr>
+								<td><code>-d0</code></td>
+								<td>Replace denormal const with <code>0.0</code> (don't do this)</td>
+							</tr>
+							<tr>
+								<td><code>-d1</code></td>
+								<td>Error if denormal const is encountered</td>
+							</tr>
+							<tr>
+								<td><code>-d2</code> (default)</td>
+								<td>Handle denormals properly (and slowly), by stopping the
+									interleaving of floating point operations and using the
+									OS exception handler</td>
+							</tr>
+						</tbody>
+					</table>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+
+		<para>The following options are specific to &hppatrans;:</para>
+
+		<variablelist>
+<!-- XXX: moved under -Ggdb, which probably ought to be renamed -Gstabs,
+	and whatever -Gstabs is, is really something specific to hp's as(1)
+			<varlistentry>
+				<term><option>-h</option></term>
+
+				<listitem>
+					<para>The <option>-h</option> flag causes hppatrans
+						to output &gdb; compatible,
+						i.e. <application>stabs</application>, debugging
+						information in its output file.
+						The <option>-h</option> flag is believed
+						to be valid&mdash;any error is a genuine bug.</para>
+
+					<para>The <option>-H</option> and <option>-h</option>
+						options will only work if the input &tdf;
+						capsule contains debugging information.</para>
+				</listitem>
+			</varlistentry>
+-->
+			<varlistentry>
+				<term><option>-d</option></term>
+
+				<listitem>
+					<para>This emulates &cc;'s <option>+Z</option> flag.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-i</option></term>
+
+				<listitem>
+					<para>Do indexed loads.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+
+		<para>The following options are specific to &trans68k;:</para>
+
+		<variablelist>
+			<varlistentry>
+				<term><option>-a</option></term>
+
+				<listitem>
+					<para>Do not produce align directives.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-f</option></term>
+
+				<listitem>
+					<para>Emit floats as a bit pattern, rather
+						than as a value.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-i</option></term>
+
+				<listitem>
+					<para>Output immediately.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-u</option></term>
+
+				<listitem>
+					<para>Translate units separately.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+
+		<para>The following options are specific to &mipstrans;:</para>
+
+		<variablelist>
+			<varlistentry>
+				<term><option>-e</option></term>
+
+				<listitem>
+					<para>Try to identify global pointers in procedures.</para>
+				</listitem>
+			</varlistentry>
+
+		</variablelist>
+
+		<para>The following options are specific to &powertrans;:</para>
+
+		<variablelist>
+			<varlistentry>
+				<term><option>-e</option></term>
+
+				<listitem>
+					<para>Don't jump on traps.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-m</option></term>
+
+				<listitem>
+					<para>Normally registers are given numerically.
+						This option use macros for register names instead,
+						to help with readability.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-n</option></term>
+
+				<listitem>
+					<para>Produce calls for dynamic initialisation.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+
+		<para>The following options are specific to &sparctrans;:</para>
+
+		<variablelist>
+			<varlistentry>
+				<term><option>-b</option></term>
+
+				<listitem>
+					<para>Produce output for the SysV assembler.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-g</option></term>
+
+				<listitem>
+					<para>Do not output special routines.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-l</option></term>
+
+				<listitem>
+					<para>Use library functions for special routines.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-i</option>&nbsp;&opt.arg;<replaceable>n</replaceable></term>
+
+				<listitem>
+					<para>Set crit thresholds.</para>
+
+					<table>
+						<col align="center"/>
+						<col align="center"/>
+						<col align="left"/>
+
+						<thead>
+							<tr>
+								<th>Key</th>
+								<th>Default</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr>
+								<td><code>i</code><replaceable>n</replaceable></td>
+								<td>120</td>
+								<td>inlines</td>
+							</tr>
+							<tr>
+								<td><code>d</code><replaceable>n</replaceable></td>
+								<td>6</td>
+								<td>decs</td>
+							</tr>
+							<tr>
+								<td><code>a</code><replaceable>n</replaceable></td>
+								<td>4</td>
+								<td>decs at app</td>
+							</tr>
+							<tr>
+								<td><code>s</code></td>
+								<td role="na" align="center">&ndash;</td>
+								<td>print current thresholds</td>
+							</tr>
+						</tbody>
+					</table>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option></option></term>
+
+				<listitem>
+					<para>
+					</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option></option></term>
+
+				<listitem>
+					<para>
+					</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-m</option></term>
+
+				<listitem>
+					<para>Make general procs compatible<!-- XXX: with what? -->.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-n</option></term>
+
+				<listitem>
+					<para>Produce calls for dynamic initialisation.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-o</option>&nbsp;<replaceable>n</replaceable></term>
+
+				<listitem>
+					<para>Set the &as; <code>.optim</code> optimisation level.
+						<replaceable>n</replaceable> may be from 0 to 4 inclusive.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-r</option>&nbsp;<replaceable>n</replaceable></term>
+
+				<listitem>
+					<para>Set the number of <code>G</code> registers.
+						<replaceable>n</replaceable> may be from 4 to 7 inclusive.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-u</option></term>
+
+				<listitem>
+					<para>Translate units separately.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+
 		<para>The following options are specific to &trans386;:</para>
 
 		<variablelist>
@@ -1248,6 +1544,48 @@
 						The default results in better performance, but in special
 						cases where the stack is to be processed it may be necessary
 						to enforce the use of a frame pointer.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-b</option></term>
+
+				<listitem>
+					<para>All variables visible in registers.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-c</option></term>
+
+				<listitem>
+					<para>Do not use C definitions of promote.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-d</option></term>
+
+				<listitem>
+					<para>Normally procs which return structs are rewritten to
+						take a pointer to the struct as an extra parameter.
+						The <option>-d</option> option disables this rewriting.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-f</option></term>
+
+				<listitem>
+					<para>Set the null pointer representation to <code>0x55555555</code>.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-g</option></term>
+
+				<listitem>
+					<para>Treat floating points as always comparable.</para>
 				</listitem>
 			</varlistentry>
 
@@ -1265,41 +1603,31 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-k</option>&nbsp;&name.arg;</term>
+				<term><option>-i</option></term>
 
 				<listitem>
-					<!-- XXX: not just linux platforms only... also *BSD etc? -->
-					<para>This option is applicable to DragonFly and Linux
-						platforms only.
-						If this option is on, &trans386; will
-						produce output for an ELF binary format assembler,
-						otherwise a.out binary format is assumed.
-						By default this option is on, as appropriate for
-						later versions of Linux.</para>
+					<para>Print inlining to standard error as it occurs.</para>
 				</listitem>
 			</varlistentry>
-		</variablelist>
 
-		<para>The following options are specific to &hppatrans;:</para>
-
-		<variablelist>
 			<varlistentry>
-				<term><option>-h</option></term>
+				<term><option>-t</option>&nbsp;&opt.arg;</term>
 
 				<listitem>
-					<para>The <option>-h</option> flag causes hppatrans
-						to output &gdb; compatible,
-						i.e. <application>stabs</application>, debugging
-						information in its output file.
-						The <option>-h</option> flag is believed
-						to be valid&mdash;any error is a genuine bug.</para>
+					<para>When &opt.arg; is <literal>1</literal>,
+						produce GCC-compatible output for a.out systems.</para>
+				</listitem>
+			</varlistentry>
 
-					<para>The <option>-H</option> and <option>-h</option>
-						options will only work if the input &tdf;
-						capsule contains debugging information.</para>
+			<varlistentry>
+				<term><option>-v</option></term>
+
+				<listitem>
+					<para>Do not use software interrupts.</para>
 				</listitem>
 			</varlistentry>
 		</variablelist>
+
 	</refsection>
 
 	<refsection>
