@@ -45,7 +45,7 @@
 	</xsl:template>
 
 	<xsl:template match="processing-instruction()">
-		<xsl:message terminate="no">
+		<xsl:message terminate="yes">
 			<xsl:text>Unimplemented processing instruction: </xsl:text>
 			<xsl:value-of select="concat('&lt;?', name(), '?&gt;')"/>
 		</xsl:message>
