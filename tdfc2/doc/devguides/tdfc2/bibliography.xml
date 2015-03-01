@@ -1,0 +1,22 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE bibliography SYSTEM "minidocbook.dtd">
+
+<!--
+	$Id$
+-->
+
+<!-- TODO: bibliography -->
+<bibliography id="reference">
+	<biblioentry>
+		<para>&tdf-spec.doc;</para>
+	</biblioentry>
+
+	<biblioentry>
+		<para>&tchk.doc;</para>
+	</biblioentry>
+
+	<biblioentry>
+		<para>&tdf-portability.doc;</para>
+	</biblioentry>
+</bibliography>
+
