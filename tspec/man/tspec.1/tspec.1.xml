@@ -127,19 +127,15 @@
 			<group choice="req">
 				<arg choice="plain">
 					<!-- Input local file -->
-					<arg choice="plain">&l.opt;</arg>
-					<arg choice="plain">&file.arg;</arg>
+					&l.opt;&nbsp;&file.arg;
 				</arg>
 				<arg choice="plain">
 					<!-- Input API -->
-					&api.arg;
-					<group choice="opt">
-						<arg choice="plain">&header.arg;
-							<group choice="opt">
-								<arg choice="plain">&subset.arg;</arg>
-							</group>
+					<arg choice="plain">&api.arg;
+						<arg choice="opt">&header.arg;
+							<arg choice="opt">&subset.arg;</arg>
 						</arg>
-					</group>
+					</arg>
 				</arg>
 			</group>
 		</cmdsynopsis>
@@ -180,14 +176,11 @@
 				</arg>
 				<arg choice="plain">
 					<!-- Input API -->
-					&api.arg;
-					<group choice="opt">
-						<arg choice="plain">&header.arg;
-							<group choice="opt">
-								<arg choice="plain">&subset.arg;</arg>
-							</group>
+					<arg choice="plain">&api.arg;
+						<arg choice="opt">&header.arg;
+							<arg choice="opt">&subset.arg;</arg>
 						</arg>
-					</group>
+					</arg>
 				</arg>
 			</group>
 		</cmdsynopsis>
@@ -224,14 +217,11 @@
 				</arg>
 				<arg choice="plain">
 					<!-- Input API -->
-					&api.arg;
-					<group choice="opt">
-						<arg choice="plain">&header.arg;
-							<group choice="opt">
-								<arg choice="plain">&subset.arg;</arg>
-							</group>
+					<arg choice="plain">&api.arg;
+						<arg choice="opt">&header.arg;
+							<arg choice="opt">&subset.arg;</arg>
 						</arg>
-					</group>
+					</arg>
 				</arg>
 			</group>
 		</cmdsynopsis>
