@@ -1,5 +1,6 @@
 <!-- $Id$ -->
 
+<!ENTITY cli    "<acronym role='Command-Line Interface'>CLI</acronym>">
 <!ENTITY osf    "<acronym role='Open Software Foundation'>OSF</acronym>">
 <!ENTITY dra    "<acronym role='Defence Research Agency'>DRA</acronym>">
 <!ENTITY tdf    "<acronym role='TenDRA Distribution Format'>TDF</acronym>">
