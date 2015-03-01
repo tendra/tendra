@@ -238,7 +238,7 @@ test-doc:
 .endfor
 	@echo "===> validating manpages"
 .for project in calculus disp trans lexi make_err make_tdf \
-	tdfc2 sid tcc doc tld tnc tpl tspec
+	tdfc2 sid tcc tld tnc tpl tspec
 	cd ${.CURDIR}/${project}/man && ${MAKE} test
 .endfor
 
