@@ -137,5 +137,10 @@
 		</q>
 	</xsl:template>
 
+	<!-- an extension to docbook, intended for use in <title> and <td> -->
+	<xsl:template match="processing-instruction('br')">
+		<br/>
+	</xsl:template>
+
 </xsl:stylesheet>
 

@@ -8,7 +8,16 @@
 	xmlns="http://www.w3.org/1999/xhtml">
 
 	<xsl:template match="title" name="title" mode="title">
-		<xsl:apply-templates/>
+		<xsl:choose>
+			<xsl:when test="processing-instruction('br')">
+				<span class="multiline">
+					<xsl:apply-templates/>
+				</span>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:apply-templates/>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 	<xsl:template match="table/title|figure/title" mode="link">

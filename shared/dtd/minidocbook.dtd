@@ -10,6 +10,8 @@
 <!ENTITY % ent-ext  SYSTEM "ent-ext.dtd">  %ent-ext;
 <!ENTITY % ent-arg  SYSTEM "ent-arg.dtd">  %ent-arg;
 
+<!-- an extension to docbook, intended for use in <title> and <td> -->
+<!ENTITY br "<?br?>">
 
 <!ENTITY % common.role "
 	role	CDATA	#IMPLIED
@@ -47,16 +49,6 @@
 	| ulink | link | xref
 	| superscript | subscript
 	| filename | varname | function | constant | userinput | computeroutput | literal | command)*">
-
-<!ENTITY % text.cell "(#PCDATA | code | acronym | application
-	| replaceable | option
-	| quote | firstterm | emphasis
-	| footnote
-	| citerefentry | citetitle
-	| ulink | link | xref
-	| superscript | subscript
-	| filename | varname | function | constant | userinput | computeroutput | literal | command
-	| literallayout)*">
 
 <!ENTITY % text.simple "(#PCDATA | code | acronym | application )*">
 
@@ -271,7 +263,7 @@
 <!ELEMENT programlisting %text.full;>
 <!ATTLIST programlisting
 	language (c | cpp | make | bnf | diff
-		| alg | env | tmpl | lxi | make_err | tdf | sid | act | tspec | dump | tnc | tpl) #REQUIRED
+		| alg | env | tmpl | lxi | make_err | tdf | sid | act | tspec | dump | tnc | tpl | porttable) #REQUIRED
 >
 
 <!ELEMENT screen %text.full;>
@@ -294,7 +286,7 @@
 	%common.col;
 >
 
-<!ELEMENT td %text.cell;>
+<!ELEMENT td %text.full;>
 <!ATTLIST td
 	%common.role;
 	%common.col;

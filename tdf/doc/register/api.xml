@@ -104,10 +104,10 @@
 		</section>
 
 		<section>
-			<title><code>c89.stdarg.va_list</code>,
-				<code>.__va_start</code>,
-				<code>.va_arg</code>,
-				<code>.va_end</code></title>
+			<title><code>c89.stdarg.va_list</code>,&br;
+				<code>c89.stdarg.__va_start</code>,&br;
+				<code>c89.stdarg.va_arg</code>,&br;
+				<code>c89.stdarg.va_end</code></title>
 
 			<para>These four tokens are identical to the Interface Tokens <code>~va_list</code>,
 				<code>~__va_start</code>, <code>~va_arg</code> and <code>~va_end</code> respectively.</para>

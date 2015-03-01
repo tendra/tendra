@@ -371,11 +371,11 @@
 		<title>Data model representations</title>
 
 		<section>
-			<title><code>.~abi_char_width</code>,
-				<code>.~abi_short_width</code>,
-				<code>.~abi_int_width</code>,
-				<code>.~abi_long_width</code>,
-				<code>.~abi_longlong_width</code>,
+			<title><code>.~abi_char_width</code>,&br;
+				<code>.~abi_short_width</code>,&br;
+				<code>.~abi_int_width</code>,&br;
+				<code>.~abi_long_width</code>,&br;
+				<code>.~abi_longlong_width</code>,&br;
 				<code>.~abi_ptr_width</code></title>
 
 			<programlisting language="tdf">-&gt; NAT</programlisting>
@@ -406,8 +406,8 @@
 		<title>Floating point representations</title>
 
 		<section>
-			<title><code>.~abi_float_rep</code>,
-				<code>.~abi_double_rep</code>,
+			<title><code>.~abi_float_rep</code>,&br;
+				<code>.~abi_double_rep</code>,&br;
 				<code>.~abi_longdouble_rep</code></title>
 
 			<programlisting language="tdf">-&gt; NAT</programlisting>
@@ -433,7 +433,7 @@
 		<title>Sign</title>
 
 		<section>
-			<title><code>.~abi_char_is_signed</code>,
+			<title><code>.~abi_char_is_signed</code>,&br;
 				<code>.~abi_bitfield_is_signed</code></title>
 
 			<programlisting language="tdf">-&gt; BOOL</programlisting>
