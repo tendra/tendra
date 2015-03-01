@@ -1771,7 +1771,7 @@ arg2:						EXP OFFSET(x, alignment(sha))
 				<code>OFFSET</code> given by <replaceable>arg2</replaceable> is delivered.
 		This will have <code>SHAPE</code> <replaceable>sha</replaceable>.</para>
 
-			<para><replaceable>arg2</replaceable> will be a constant and non-negative (see <link linkend="constant-evaulation">Constant evaluation</link>).</para>
+			<para><replaceable>arg2</replaceable> will be a constant and non-negative (see <link linkend="constant-evaluation">Constant evaluation</link>).</para>
 
 			<para>If <replaceable>sha</replaceable> is a <code>BITFIELD</code> then
 				<replaceable>arg2</replaceable>, <replaceable>sha</replaceable> will be
