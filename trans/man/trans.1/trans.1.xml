@@ -103,69 +103,7 @@
 
 	<refsynopsisdiv>
 		<cmdsynopsis>
-			<command>trans.386</command>
-
-			<arg choice="opt">&D.opt;</arg>
-			<arg choice="opt"><option>-a</option></arg>
-			<arg choice="opt"><option>-h</option></arg>
-			<arg choice="opt"><option>-k</option>&nbsp;&name.arg;</arg>
-
-			<sbr/>
-
-			<arg choice="plain"><replaceable>input-file</replaceable></arg>
-
-			<arg choice="plain"><replaceable>output-file</replaceable></arg>
-		</cmdsynopsis>
-
-		<cmdsynopsis>
-			<command>trans.alpha</command>
-
-			<arg choice="opt">&D.opt;</arg>
-			<arg choice="opt">&S.opt;</arg>
-
-			<sbr/>
-
-			<arg choice="plain"><replaceable>input-file</replaceable></arg>
-
-			<arg choice="plain"><replaceable>binary-assembler-file</replaceable></arg>
-			<arg choice="plain"><replaceable>symbol-table-file</replaceable></arg>
-			<arg choice="opt"><replaceable>symbolic-assembler-file</replaceable></arg>
-		</cmdsynopsis>
-
-		<cmdsynopsis>
-			<command>trans.hppa</command>
-
-			<arg choice="opt">&D.opt;</arg>
-			<arg choice="opt"><option>-h</option></arg>
-
-			<sbr/>
-
-			<arg choice="plain"><replaceable>input-file</replaceable></arg>
-
-			<arg choice="plain"><replaceable>output-file</replaceable></arg>
-		</cmdsynopsis>
-
-		<cmdsynopsis>
-			<command>trans.mips</command>
-
-			<arg choice="opt">&D.opt;</arg>
-			<arg choice="opt">&S.opt;</arg>
-
-			<sbr/>
-
-			<arg choice="plain"><replaceable>input-file</replaceable></arg>
-
-			<arg choice="plain"><replaceable>binary-assembler-file</replaceable></arg>
-			<arg choice="plain"><replaceable>symbol-table-file</replaceable></arg>
-			<arg choice="opt"><replaceable>symbolic-assembler-file</replaceable></arg>
-		</cmdsynopsis>
-
-		<cmdsynopsis>
-			<command>trans.sparc</command>
-
-			<arg choice="opt">&D.opt;</arg>
-
-			<sbr/>
+			<command>trans.*</command>
 
 			<arg choice="plain"><replaceable>input-file</replaceable></arg>
 
@@ -175,8 +113,19 @@
 		<cmdsynopsis>
 			<command>trans.*</command>
 
+			<arg choice="plain"><replaceable>input-file</replaceable></arg>
+
+			<arg choice="plain"><replaceable>binary-assembler-file</replaceable></arg>
+			<arg choice="plain"><replaceable>symbol-table-file</replaceable></arg>
+			<arg choice="opt"><replaceable>symbolic-assembler-file</replaceable></arg>
+		</cmdsynopsis>
+
+		<cmdsynopsis>
+			<command>trans.*</command>
+
 			<group choice="req">
-				<arg choice="plain">&V.opt;</arg>
+				<arg choice="plain">&h.opt;</arg>
+				<arg choice="plain">&v.opt;</arg>
 			</group>
 		</cmdsynopsis>
 
@@ -187,25 +136,36 @@
 			<command>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</command>
 
 			<arg choice="opt">&A.opt;</arg>
+			<arg choice="opt">&B.opt;</arg>
 			<arg choice="opt">&C.opt;</arg>
+			<arg choice="opt">&D.opt;</arg>
+			<arg choice="opt">&E.opt;</arg>
 			<arg choice="opt">&F.opt;</arg>
+			<arg choice="opt">&G.opt;</arg>
+			<arg choice="opt">&H.opt;</arg>
 			<arg choice="opt">&I.opt;</arg>
-			<arg choice="opt">&K.opt;</arg>
-			<arg choice="opt">&M.opt;</arg>
-			<arg choice="opt">&R.opt;</arg>
-			<arg choice="opt">&U.opt;</arg>
+			<arg choice="opt">&J.opt;</arg>
 
 			<sbr/>
 
-			<arg choice="opt">&X.opt;</arg>
-			<arg choice="opt">&B.opt;</arg>
-			<arg choice="opt">&E.opt;</arg>
-			<arg choice="opt">&H.opt;</arg>
-			<arg choice="opt">&P.opt;</arg>
+			<arg choice="opt">&K.opt;</arg>
+			<arg choice="opt">&M.opt;</arg>
+			<arg choice="opt">&N.opt;</arg>
+			<arg choice="opt">&O.opt;</arg>
 			<arg choice="opt">&Q.opt;</arg>
-			<arg choice="opt">&W.opt;</arg>
-			<arg choice="opt">&Z.opt;</arg>
+			<arg choice="opt">&R.opt;</arg>
+			<arg choice="opt">&S.opt;</arg>
+			<arg choice="opt">&T.opt;</arg>
+			<arg choice="opt">&V.opt;</arg>
+			<arg choice="opt">&X.opt;</arg>
+			<arg choice="opt">&v.opt;</arg>
+			<arg choice="opt">&h.opt;</arg>
 		</cmdsynopsis>
+
+		<para>The options denoted by a capital letter are common to
+			the &tdf; installers for all the architectures, although the
+			defaults vary for each translator.
+			In addition, lowercase options are specific to each translator.</para>
 	</refsynopsisdiv>
 
 	<refsection>
@@ -249,11 +209,6 @@
 			be passed to &trans; by passing the option
 			<option>-W</option><literal>t,-</literal><replaceable>opt</replaceable> to
 			&tcc;.</para>
-
-		<para>The options denoted by a capital letter are common to
-			the &tdf; installers for all the architectures, although the
-			defaults vary for each translator.
-			Lowercase options are specific to each translator.</para>
 	</refsection>
 
 	<refsection>
