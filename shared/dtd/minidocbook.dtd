@@ -48,6 +48,16 @@
 	| superscript | subscript
 	| filename | varname | function | constant | userinput | computeroutput | literal | command)*">
 
+<!ENTITY % text.cell "(#PCDATA | code | acronym | application
+	| replaceable | option
+	| quote | firstterm | emphasis
+	| footnote
+	| citerefentry | citetitle
+	| ulink | link | xref
+	| superscript | subscript
+	| filename | varname | function | constant | userinput | computeroutput | literal | command
+	| literallayout)*">
+
 <!ENTITY % text.simple "(#PCDATA | code | acronym | application )*">
 
 <!-- TODO: these shouldn't contain themselves; expand inline... -->
@@ -284,7 +294,7 @@
 	%common.col;
 >
 
-<!ELEMENT td %text.full;>
+<!ELEMENT td %text.cell;>
 <!ATTLIST td
 	%common.role;
 	%common.col;
