@@ -4,7 +4,7 @@
 
 <xsl:stylesheet version="1.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:mb="http://xml.tendra.org/minidocbook"
+	xmlns:mdb="http://xml.tendra.org/minidocbook"
 	xmlns="http://www.w3.org/1999/xhtml">
 
 	<!--
@@ -33,9 +33,9 @@
 			|//appendix[@id = current()/@linkend]" mode="linkend">
 
 			<!-- TODO: multi-page links -->
-			<a href="#{mb:sectionnumber-link()}">
+			<a href="#{mdb:sectionnumber-link()}">
 				<xsl:text>&#167;</xsl:text>
-				<xsl:value-of select="mb:sectionnumber()"/>
+				<xsl:value-of select="mdb:sectionnumber()"/>
 			</a>
 
 			<xsl:if test="position() > 0">

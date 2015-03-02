@@ -4,7 +4,7 @@
 
 <xsl:stylesheet version="1.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:mb="http://xml.tendra.org/minidocbook"
+	xmlns:mdb="http://xml.tendra.org/minidocbook"
 	xmlns:func="http://exslt.org/functions"
 	xmlns="http://www.w3.org/1999/xhtml"
 
@@ -14,7 +14,7 @@
 		TODO: possibly merge with title.xsl
 	-->
 
-	<func:function name="mb:sectionnumber">
+	<func:function name="mdb:sectionnumber">
 		<xsl:variable name="n">
 			<xsl:choose>
 				<xsl:when test="ancestor-or-self::preface">
@@ -32,8 +32,8 @@
 		<func:result select="substring($n, 0, string-length($n))"/>
 	</func:function>
 
-	<func:function name="mb:sectionnumber-link">
-		<func:result select="concat('S', mb:sectionnumber())"/>
+	<func:function name="mdb:sectionnumber-link">
+		<func:result select="concat('S', mdb:sectionnumber())"/>
 	</func:function>
 
 	<xsl:template name="toc">
@@ -68,11 +68,11 @@
 					<xsl:if test="$single
 						or count(ancestor::preface|ancestor::section|ancestor::chapter|ancestor::appendix) &gt; 0">
 						<xsl:text>#</xsl:text>
-						<xsl:value-of select="mb:sectionnumber-link()"/>
+						<xsl:value-of select="mdb:sectionnumber-link()"/>
 					</xsl:if>
 				</xsl:attribute>
 
-				<xsl:value-of select="mb:sectionnumber()"/>
+				<xsl:value-of select="mdb:sectionnumber()"/>
 				<xsl:text>.&#160;</xsl:text>
 
 				<!-- TODO: centralise against refentry.xsl -->

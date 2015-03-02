@@ -4,7 +4,7 @@
 
 <xsl:stylesheet version="1.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:mb="http://xml.tendra.org/minidocbook"
+	xmlns:mdb="http://xml.tendra.org/minidocbook"
 	xmlns="http://www.w3.org/1999/xhtml">
 
 	<xsl:template match="title" name="title" mode="title">
@@ -49,10 +49,10 @@
 
 		<xsl:element name="h{$level + 1}">
 			<!-- TODO: find where @id comes from! -->
-			<a name="{mb:sectionnumber-link()}"/>
+			<a name="{mdb:sectionnumber-link()}"/>
 
 			<xsl:if test="$number">
-				<xsl:value-of select="mb:sectionnumber()"/>
+				<xsl:value-of select="mdb:sectionnumber()"/>
 				<xsl:text>.&#160;</xsl:text>
 			</xsl:if>
 

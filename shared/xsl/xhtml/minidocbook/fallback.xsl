@@ -5,20 +5,20 @@
 <xsl:stylesheet version="1.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:mb="http://xml.tendra.org/minidocbook">
+	xmlns:mdb="http://xml.tendra.org/minidocbook">
 
-	<mb:disallowed>
+	<mdb:disallowed>
 		<!-- TODO: paths: also:
 			perhaps produce a canonical list of permitted elements (maybe even a DTD?)
 			xref/@endterm
 		-->
-		<mb:element mb:name="olink"/>
-		<mb:element mb:name="bridgehead"/>       <!-- promotes poor structure -->
-		<mb:element mb:name="note"/>             <!-- promotes poor writing -->
-		<mb:element mb:name="warning"/>          <!-- promotes poor writing -->
-		<mb:element mb:name="synopfragment"/>    <!-- overcomplex -->
-		<mb:element mb:name="synopfragmentref"/> <!-- overcomplex -->
-	</mb:disallowed>
+		<mdb:element mdb:name="olink"/>
+		<mdb:element mdb:name="bridgehead"/>       <!-- promotes poor structure -->
+		<mdb:element mdb:name="note"/>             <!-- promotes poor writing -->
+		<mdb:element mdb:name="warning"/>          <!-- promotes poor writing -->
+		<mdb:element mdb:name="synopfragment"/>    <!-- overcomplex -->
+		<mdb:element mdb:name="synopfragmentref"/> <!-- overcomplex -->
+	</mdb:disallowed>
 
 	<xsl:template match="@*">
 		<xsl:message terminate="no">
@@ -32,7 +32,7 @@
 
 		<xsl:message terminate="no">
 			<xsl:choose>
-				<xsl:when test="document('')//mb:disallowed/mb:element[name(current()) = @mb:name]">
+				<xsl:when test="document('')//mdb:disallowed/mdb:element[name(current()) = @mdb:name]">
 					<xsl:text>Disallowed element: </xsl:text>
 				</xsl:when>
 

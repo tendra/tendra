@@ -4,7 +4,7 @@
 
 <xsl:stylesheet version="1.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:mb="http://xml.tendra.org/minidocbook"
+	xmlns:mdb="http://xml.tendra.org/minidocbook"
 	xmlns:dyn="http://exslt.org/dynamic"
 	xmlns:func="http://exslt.org/functions"
 	xmlns="http://www.w3.org/1999/xhtml"
@@ -15,7 +15,7 @@
 		TODO: I'm not particularly happy with any of this
 	-->
 
-	<func:function name="mb:footnote">
+	<func:function name="mdb:footnote">
 		<xsl:param name="href"/>
 		<xsl:param name="name"/>
 
@@ -37,7 +37,7 @@
 	</func:function>
 
 	<xsl:template match="footnote">
-		<xsl:copy-of select="mb:footnote('N', 'D')"/>
+		<xsl:copy-of select="mdb:footnote('N', 'D')"/>
 	</xsl:template>
 
 	<xsl:template name="footnotes">
@@ -54,7 +54,7 @@
 
 	<xsl:template match="footnote" mode="summary">
 		<li>
-			<xsl:copy-of select="mb:footnote('D', 'N')"/>
+			<xsl:copy-of select="mdb:footnote('D', 'N')"/>
 
 			<xsl:apply-templates select="para"/>
 		</li>
