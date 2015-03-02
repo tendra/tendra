@@ -29,12 +29,12 @@
 	<xsl:import href="footnotes.xsl"/>
 	<xsl:import href="refentry.xsl"/>
 
-	<xsl:param name="tendra.base" select="'.'"/>
-	<xsl:param name="tendra.ext"  select="'xhtml'"/>
+	<xsl:param name="mdb.base" select="'.'"/>
+	<xsl:param name="mdb.ext"  select="'xhtml'"/>
 
-	<xsl:param name="tendra.url.ext" select="'http://wiki.tendra.org/FileTypes'"/>
-	<xsl:param name="tendra.url.man" select="'http://man.tendra.org'"/>
-	<xsl:param name="tendra.url.www" select="'http://www.tendra.org'"/>
+	<xsl:param name="mdb.url.ext" select="'http://wiki.tendra.org/FileTypes'"/>
+	<xsl:param name="mdb.url.man" select="'http://man.tendra.org'"/>
+	<xsl:param name="mdb.url.www" select="'http://www.tendra.org'"/>
 
 
 	<xsl:template match="/refentry">

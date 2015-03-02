@@ -24,7 +24,7 @@
 		<xsl:choose>
 			<xsl:when test="$predicate">
 				<!-- TODO: @title. same for all <a> links. centralise that? -->
-				<a href="{$filename}.{$tendra.ext}">
+				<a href="{$filename}.{$mdb.ext}">
 					<xsl:value-of select="$name"/>
 				</a>
 			</xsl:when>
@@ -123,7 +123,7 @@
 			<xsl:with-param name="content">
 				<xsl:if test="$chunklink">
 					<div class="navigation">
-						<a href="index.{$tendra.ext}">
+						<a href="index.{$mdb.ext}">
 							<xsl:text>Multiple pages</xsl:text>
 						</a>
 					</div>
@@ -169,7 +169,7 @@
 
 			<xsl:with-param name="content">
 				<div class="navigation">
-					<a href="single.{$tendra.ext}">
+					<a href="single.{$mdb.ext}">
 						<xsl:text>Single page</xsl:text>
 					</a>
 
@@ -206,7 +206,7 @@
 
 			<xsl:with-param name="content">
 				<div class="navigation">
-					<a href="single.{$tendra.ext}">
+					<a href="single.{$mdb.ext}">
 						<xsl:text>Single page</xsl:text>
 					</a>
 
@@ -238,7 +238,7 @@
 
 			<xsl:with-param name="content">
 				<div class="navigation">
-					<a href="single.{$tendra.ext}">
+					<a href="single.{$mdb.ext}">
 						<xsl:text>Single page</xsl:text>
 					</a>
 

@@ -14,7 +14,7 @@
 
 	<xsl:template name="banner">
 		<h1 id="banner">
-			<a href="{$tendra.url.www}">
+			<a href="{$mdb.url.www}">
 				<xsl:text>The </xsl:text>
 				<span class="logo">
 					<xsl:text>Ten</xsl:text>
@@ -53,7 +53,7 @@
 
 		<xsl:variable name="method">
 			<xsl:choose>
-				<xsl:when test="$tendra.ext = 'xhtml'">
+				<xsl:when test="$mdb.ext = 'xhtml'">
 					<xsl:value-of select="'xml'"/>
 				</xsl:when>
 				<xsl:otherwise>
@@ -99,11 +99,11 @@
 
 		<xsl:message>
 			<xsl:text>Outputting </xsl:text>
-			<xsl:value-of select="concat($filename, '.', $tendra.ext, ': &quot;', $title, '&quot;')"/>
+			<xsl:value-of select="concat($filename, '.', $mdb.ext, ': &quot;', $title, '&quot;')"/>
 		</xsl:message>
 
 		<common:document
-			href="{$filename}.{$tendra.ext}"
+			href="{$filename}.{$mdb.ext}"
 			method="{$method}"
 			encoding="utf-8"
 			indent="yes"
@@ -121,18 +121,18 @@
 					</title>
 
 					<link rel="stylesheet" type="text/css" media="screen"
-						href="{$tendra.base}/css/common.css"/>
+						href="{$mdb.base}/css/common.css"/>
 					<link rel="stylesheet" type="text/css" media="screen"
-						href="{$tendra.base}/css/minidocbook.css"/>
+						href="{$mdb.base}/css/minidocbook.css"/>
 
 					<script type="text/javascript"
-						src="{$tendra.base}/js/linenumbers.js"></script>
+						src="{$mdb.base}/js/linenumbers.js"></script>
 					<script type="text/javascript"
-						src="{$tendra.base}/js/col.js"></script>
+						src="{$mdb.base}/js/col.js"></script>
 					<script type="text/javascript"
-						src="{$tendra.base}/js/table.js"></script>
+						src="{$mdb.base}/js/table.js"></script>
 					<script type="text/javascript"
-						src="{$tendra.base}/js/javascript-xpath-cmp.js"></script>
+						src="{$mdb.base}/js/javascript-xpath-cmp.js"></script>
 
 					<!-- TODO: meta headers for prev/next links -->
 

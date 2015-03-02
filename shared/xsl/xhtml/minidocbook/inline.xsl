@@ -95,7 +95,7 @@
 			</xsl:when>
 
 			<xsl:when test="ancestor::refsection[title = 'Files']">
-				<a href="{$tendra.url.ext}#{substring-after(., '.')}">
+				<a href="{$mdb.url.ext}#{substring-after(., '.')}">
 					<tt class="{name()}">
 						<xsl:apply-templates/>
 					</tt>
@@ -110,7 +110,7 @@
 
 			<!-- first occurance -->
 			<xsl:when test="not(preceding::filename[substring-after(., '.') = substring-after(current(), '.')])">
-				<a href="{$tendra.url.ext}#{substring-after(., '.')}">
+				<a href="{$mdb.url.ext}#{substring-after(., '.')}">
 					<tt class="{name()}">
 						<xsl:apply-templates/>
 					</tt>

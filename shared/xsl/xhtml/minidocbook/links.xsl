@@ -59,7 +59,7 @@
 			</xsl:when>
 
 			<xsl:when test="ancestor::refsection/title = 'See Also'">
-				<a href="{$tendra.url.man}/{refentrytitle}.{manvolnum}/">
+				<a href="{$mdb.url.man}/{refentrytitle}.{manvolnum}/">
 					<xsl:call-template name="reftitle"/>
 				</a>
 			</xsl:when>
@@ -69,7 +69,7 @@
 			<xsl:when test="not(preceding::citerefentry
 					[refentrytitle = current()/refentrytitle]
 					[manvolnum     = current()/manvolnum])">
-				<a href="{$tendra.url.man}/{refentrytitle}.{manvolnum}/">
+				<a href="{$mdb.url.man}/{refentrytitle}.{manvolnum}/">
 					<xsl:call-template name="reftitle"/>
 				</a>
 			</xsl:when>

@@ -62,7 +62,7 @@
 						<xsl:apply-templates select="ancestor-or-self::preface
 							|ancestor-or-self::chapter
 							|ancestor-or-self::appendix" mode="page-filename"/>
-						<xsl:value-of select="concat('.', $tendra.ext)"/>
+						<xsl:value-of select="concat('.', $mdb.ext)"/>
 					</xsl:if>
 
 					<xsl:if test="$single
