@@ -221,7 +221,7 @@
 		<rect x="-70" y="-30" width="140" height="70"/>
 
 		<g transform="translate(0 -10)">
-			<text x="65" y="-10" text-anchor="end">ansi.tl</text>
+			<text x="65" y="-10" text-anchor="end">c89.tl</text>
 
 			<line x1="-70" x2="70" class="dashed"/>
 

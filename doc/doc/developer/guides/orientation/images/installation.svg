@@ -59,7 +59,7 @@
 		<g transform="translate(-70 0)" text-anchor="left">
 			<text y="15">Portable TDF interface to</text>
 			<text y="25">OS's implementation. e.g.</text>
-			<text y="35">ansi.api to libc symbols</text>
+			<text y="35">c89.api to libc symbols</text>
 		</g>
 
 		<line y1="-70" y2="-30" marker-end="url(#compilation:arrow)"/>

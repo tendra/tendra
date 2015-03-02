@@ -20,7 +20,7 @@ machine_toks(char *s)
     return 1;
 
   /* Added for VARARGS */
-  if (!strcmp(s, "ansi.stdarg.__va_start"))
+  if (!strcmp(s, "c89.stdarg.__va_start"))
 	return 1;
 
   return 0;

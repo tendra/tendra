@@ -47,7 +47,7 @@ special_token(tokval *tkv, token t, bitstream pars, int sortcode)
 	}
 
 	if (builtin & BUILTIN_VARARG) {
-		if (!strcmp(t -> tok_name,"ansi.stdarg.__va_start")) {
+		if (!strcmp(t -> tok_name,"c89.stdarg.__va_start")) {
 			exp arg1;
 			exp id;
 			exp env_o;

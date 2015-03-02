@@ -20,8 +20,8 @@ Tokdef SIGUSR1 = []SIGNED_NAT 30;
 	/* signal numbers - SIGUSR1 is used for stack overflow
 	*/
 
-Tokdec ansi.signal.signal: [EXP, EXP]EXP;
-Tokdec ansi.stdlib.exit: [EXP]EXP;
+Tokdec c89.signal.signal: [EXP, EXP]EXP;
+Tokdec c89.stdlib.exit: [EXP]EXP;
 
 
 
@@ -93,27 +93,27 @@ Tokdef ~Set_signal_handler = [] EXP
 		    SIGSEGV -> nilref2,	
 		    SIGUSR1 -> stackov)
 	| :overf: 
-		ansi.signal.signal[SIGFPE(Int), * __mipshandler];
+		c89.signal.signal[SIGFPE(Int), * __mipshandler];
 		~Throw[error_val(overflow)]
 	| :nilref1:
-		ansi.signal.signal[SIGBUS(Int), * __mipshandler]; 
+		c89.signal.signal[SIGBUS(Int), * __mipshandler]; 
 		~Throw[error_val(nil_access)]
 	| :nilref2:
-		ansi.signal.signal[SIGSEGV(Int), * __mipshandler]; 
+		c89.signal.signal[SIGSEGV(Int), * __mipshandler]; 
 		~Throw[error_val(nil_access)]
 	| :stackov:
-		ansi.signal.signal[SIGUSR1(Int), * __mipshandler]; 
+		c89.signal.signal[SIGUSR1(Int), * __mipshandler]; 
 		~Throw[error_val(stack_overflow)]
 	/* other C signals can be treated similarly */
    };
-   ansi.stdlib.exit[* sig];
+   c89.stdlib.exit[* sig];
    return(make_top);
   };
 
-  ansi.signal.signal[SIGFPE(Int), * __mipshandler];
-  ansi.signal.signal[SIGBUS(Int), * __mipshandler];
-  ansi.signal.signal[SIGSEGV(Int), * __mipshandler];
-  ansi.signal.signal[SIGUSR1(Int), * __mipshandler];
+  c89.signal.signal[SIGFPE(Int), * __mipshandler];
+  c89.signal.signal[SIGBUS(Int), * __mipshandler];
+  c89.signal.signal[SIGSEGV(Int), * __mipshandler];
+  c89.signal.signal[SIGUSR1(Int), * __mipshandler];
   env_size(mh) .+. (Sizeof(Char) .* 1000(Int))
  }
 };
