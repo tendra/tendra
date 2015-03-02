@@ -4,7 +4,7 @@
 
 <xsl:stylesheet version="1.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:mdb="http://xml.tendra.org/minidocbook"
+	xmlns:mdb="http://xml.elide.org/minidocbook"
 	xmlns="http://www.w3.org/1999/xhtml">
 
 	<xsl:template match="title" name="title" mode="title">
