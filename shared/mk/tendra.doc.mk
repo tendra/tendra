@@ -81,7 +81,7 @@ JS_DIR= 	${BASE_DIR}/shared/js
 DTD_DIR= 	${BASE_DIR}/shared/dtd
 
 XSLT_ROFF=	${XSLT_DIR}/roff/docbook.xsl
-XSLT_HTML=	${XSLT_DIR}/${DOC_EXT}/minidocbook/minidocbook.xsl
+XSLT_HTML=	${XSLT_DIR}/${DOC_EXT}/minidocbook/main.xsl
 
 XSLT_IMGS=	${XSLT_DIR}/support/docbook-images.xsl
 
