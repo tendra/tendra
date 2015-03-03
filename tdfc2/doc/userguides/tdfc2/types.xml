@@ -242,7 +242,7 @@
 		<para>The ISO C standard only allows <code>signed int</code>,
 			<code>unsigned int</code> and their equivalent types as type
 			specifiers in bitfields. Using the default checking profile,
-			tchk raises errors for other integral types used as type
+			&tdfc2; raises errors for other integral types used as type
 			specifiers in bitfields. This behaviour may be modified using
 			the pragma:</para>
 
@@ -285,7 +285,7 @@
 
 		<!-- TODO: merged in content -->
 
-		<para>In accordence with the ISO C standard, in default mode tchk does
+		<para>In accordence with the ISO C standard, in default mode &tdfc2; does
 			not allow a type to be defined more than once using a
 			<code>typedef</code>. The pragma:</para>
 

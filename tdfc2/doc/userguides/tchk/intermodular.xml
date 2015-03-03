@@ -5,7 +5,7 @@
 	<title>Intermodular analysis</title>
 
 	<para>All the checks discussed in earlier chapters have been concerned
-		with a single source file. However, tchk also contains a linking
+		with a single source file. However, &tcc; also contains a linking
 		phase in which it is able to perform intermodular checks (i.e.
 		checks between source files). In the linking phase, the files
 		generated from each translation unit processed are combined into a
@@ -98,9 +98,8 @@ int n ;
 		<para>Note that intermodule checks, and hence intermodule template instantiations,
 			are only performed if the <code>-im</code> option is passed to <code>tcc</code>.</para>
 
-		<para>The TenDRA checker, <code>tchk</code>, is similar to <code>tcc</code>
-			except that it disables TDF output and has intermodule analysis enabled
-			by default.</para>
+		<para>The TenDRA checker is similar to the compiler except that it
+			disables TDF output and has intermodule analysis enabled by default.</para>
 
 		<warning>
 			<para>The C++ spec linking routines have not yet been completely implemented,

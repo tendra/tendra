@@ -19,7 +19,7 @@
 }</programlisting>
 
 		<para>would not be allowed by some older compilers, although by default
-			tchk does not raise any errors since the code is legal according to
+			&tdfc2; does not raise any errors since the code is legal according to
 			the ISO C standard. The checker's behaviour may be changed
 			using:</para>
 

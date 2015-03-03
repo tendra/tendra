@@ -29,7 +29,7 @@ int a ;</programlisting>
 			<para>are not compatible according to the ISO C standard
 				because the qualifier, const, is present in one declaration
 				but not in the other. Similar rules hold for volatile
-				qualified types. By default, tchk produces an error when
+				qualified types. By default, &tdfc2; produces an error when
 				declarations of the same object contain different type
 				qualifiers. The check is controlled using:</para>
 
@@ -94,7 +94,7 @@ int a ;</programlisting>
 				to disable the check.</para>
 
 			<para>The check can also be controlled by passing the command-line
-				option <code>-X:complete_struct=</code><emphasis>state</emphasis> to tchk,
+				option <code>-X:complete_struct=</code><emphasis>state</emphasis> to &tdfc2;,
 				where <emphasis>state</emphasis> is <code>check</code>, <code>warn</code>
 				or <code>dont</code>.</para>
 
@@ -517,7 +517,7 @@ int main ()
 			existing, working programs, but the desire to maintain compatibility
 			with existing C compilers, some of which still do not support
 			prototypes, is also a powerful factor. Prototypes are allowed in the
-			checker's default mode but tchk can be configured to allow, allow with
+			checker's default mode but &tdfc2; can be configured to allow, allow with
 			a warning or disallow prototypes, using:</para>
 
 		<programlisting language="c">#pragma TenDRA prototype <emphasis>permit</emphasis></programlisting>
@@ -969,7 +969,7 @@ typedef const char *PSTRING;
 				disabled in these modes (see chapter 2). The checks can be enabled
 				in these cases by <code>#undef</code>'ing the macro before including
 				<code>stdio.h</code>.
-				There are equivalent command-line options to tchk of the form
+				There are equivalent command-line options to &tdfc2; of the form
 				<code>-X:printf=state</code>, where <emphasis>state</emphasis>
 				can be <code>check</code> or <code>dont</code>, which respectively
 				undefine and define this macro.</para>
@@ -1000,7 +1000,7 @@ typedef const char *PSTRING;
 			<para>where <emphasis>permit</emphasis> may be <code>allow</code>,
 				<code>warning</code> or <code>disallow</code> as usual.</para>
 
-			<para>There are also equivalent command line options to tchk of the
+			<para>There are also equivalent command line options to &tdfc2; of the
 				form <code>-X:void_ret=state</code>, where
 				<emphasis>state</emphasis> can be <code>check</code>, <code>warn</code> or
 				<code>dont</code>. Incompatible void returns are allowed in the
@@ -1125,7 +1125,7 @@ typedef const char *PSTRING;
 
 			<programlisting language="c">#pragma TenDRA implicit function declaration <emphasis>status</emphasis></programlisting>
 
-			<para>may be used to determine how tchk handles implicit
+			<para>may be used to determine how &tdfc2; handles implicit
 				function declarations. <emphasis>Status</emphasis> is
 				replaced by <code>on</code> to allow implicit declarations,
 				<code>warning</code> to allow implicit declarations but to

@@ -97,7 +97,6 @@
  * This table contains miscellaneous configuration items.
  */
 #define PROGNAME_TCC			"tcc"
-#define PROGNAME_TCHK			"tchk"
 #define TCCENV_VAR			"TCCENV"
 #define TCCOPT_VAR			"TCCOPTS"
 #define DIAG_ENV			"tcc_diag"

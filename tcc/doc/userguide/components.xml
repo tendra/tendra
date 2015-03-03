@@ -15,7 +15,6 @@
 	<!ENTITY trans  "<application>trans</application>">
 	<!ENTITY lint   "<application>lint</application>">
 	<!ENTITY ld     "<application>ld</application>">
-	<!ENTITY tchk   "<application>tchk</application>">
 
 	<!ENTITY sparctrans "<application>sparctrans</application>">
 	<!ENTITY mipstrans  "<application>mipstrans</application>">
@@ -226,8 +225,7 @@
 			</table>
 
 			<para>The default is <option>-Xc</option>.
-				For a precise description of each of these modes, see [3]
-				(&tchk; is just &tcc; in disguise).
+				For a precise description of each of these modes, see [3].
 				In addition the command-line options
 				<option>-not_ansi</option> and <option>-nepc</option>
 				can be used to modify the basic compilation modes.
@@ -241,7 +239,7 @@
 			<para>Two built-in portability tables are provided by &tcc;. The default
 				reflects the minimal requirements laid down in the ISO C89 standard.
 				The 32-bit portability table (specified by the passing the <code>-Y32bit</code>
-				option to tchk) reflects the implementation on most modern 32 bit
+				option to <code>tcc -ch</code>) reflects the implementation on most modern 32 bit
 				machines. These tables are shown below.</para>
 
 			<!-- XXX: check these... -->

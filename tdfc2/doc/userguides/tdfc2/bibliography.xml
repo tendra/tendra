@@ -2,6 +2,8 @@
 <!DOCTYPE appendix SYSTEM "minidocbook.dtd">
 
 <bibliography>
+	<title>Bibliography</title>
+
 <!-- TODO: -->
 	<biblioentry id="CPP96">
 		<para><citetitle>Working paper for Draft Proposed
@@ -17,5 +19,23 @@
 			Addison-Wesley, 1990:
 			<ulink url="http://heg-school.aw.com/cseng/authors/ellis/annocpp/annocpp.html"/></para>
 	</biblioentry>
+
+<!-- XXX: example -->
+<biblioentry>
+  <abbrev>AhoSethiUllman96</abbrev>
+  <authorgroup>
+    <author><firstname>Alfred V.</firstname><surname>Aho</surname></author>
+    <author><firstname>Ravi</firstname><surname>Sethi</surname></author>
+    <author><firstname>Jeffrey D.</firstname><surname>Ullman</surname></author>
+  </authorgroup>
+  <copyright><year>1996</year>
+             <holder>Bell Telephone Laboratories, Inc.</holder></copyright>
+  <editor><firstname>James T.</firstname><surname>DeWolf</surname></editor>
+  <isbn>0-201-10088-6</isbn>
+  <publisher>
+    <publishername>Addison-Wesley Publishing Company</publishername>
+  </publisher>
+  <title>Compilers, Principles, Techniques, and Tools</title>
+</biblioentry>
 </bibliography>
 

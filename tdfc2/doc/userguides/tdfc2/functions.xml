@@ -43,7 +43,7 @@ int main()
 		<programlisting language="c">#pragma TenDRA ident ... <emphasis>permit</emphasis></programlisting>
 
 		<para>If <emphasis>permit</emphasis> is replaced by <code>allow</code>
-			the ellipsis is ignored, if <code>warning</code> is used tchk
+			the ellipsis is ignored, if <code>warning</code> is used &tdfc2;
 			produces a warning and if <code>disallow</code> is used the default
 			behaviour is restored.</para>
 	</section>
@@ -54,7 +54,7 @@ int main()
 		<para>The ISO C standard (Section 6.5.1) states that the declaration of
 			an identifier for a function that has block scope shall have no
 			explicit storage-class specifier other than extern. By default,
-			tchk raises an error for declarations which do not conform to this
+			&tdfc2; raises an error for declarations which do not conform to this
 			rule. The behaviour can be modified using:</para>
 
 		<programlisting language="c">#pragma TenDRA block function static <emphasis>permit</emphasis></programlisting>

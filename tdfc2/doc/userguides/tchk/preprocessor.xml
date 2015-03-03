@@ -4,7 +4,7 @@
 <chapter>
 	<title>Preprocessing checks</title>
 
-	<para>This chapter describes tchk's capabilities for checking the
+	<para>This chapter describes &tdfc2;'s capabilities for checking the
 		preprocessing constructs that arise in C.</para>
 
 	<section>
@@ -141,7 +141,7 @@
 		<para>The ISO C standard, section 6.8.3.2, also states that each
 			<code>#</code> preprocessing token in the replacement list for a
 			function-like macro shall be followed by a parameter as the next
-			preprocessing token in the replacement list. By default, if tchk
+			preprocessing token in the replacement list. By default, if &tdfc2;
 			encounters a <code>#</code> in a function-like macro replacement
 			list which is not followed by a parameter of the macro an error
 			is raised. The checker's behaviour in this situation is
@@ -167,8 +167,8 @@
 		<programlisting language="c">#define a 'b</programlisting>
 
 		<para>would result in undefined behaviour. By default the
-			<code>'</code> character is ignored by tchk. A check to detect such
-			statements may be controlled by:</para>
+			<code>'</code> character is ignored by &tdfc2;.
+			A check to detect such statements may be controlled by:</para>
 
 		<programlisting language="c">#pragma TenDRA unmatched quote <emphasis>permit</emphasis></programlisting>
 
@@ -197,7 +197,7 @@
 		<para>The ISO C standard, section 6.8, specifies that
 			<code>#endif</code> and <code>#else</code> preprocessor directives
 			do not take any arguments, but should be followed by a newline. In
-			the default checking mode, tchk raises an error when
+			the default checking mode, &tdfc2; raises an error when
 			<code>#endif</code> or <code>#else</code> statements are not
 			directly followed by a new line. This behaviour may be modified
 			using:</para>
@@ -254,7 +254,7 @@
 			non-zero the first branch of the conditional is processed; if it is
 			zero the second branch is processed instead.</para>
 
-		<para>Sometimes, however, tchk may be unable to evaluate the
+		<para>Sometimes, however, &tdfc2; may be unable to evaluate the
 			expression statically because of the abstract types and expressions
 			which arise from the minimum integer range assumptions or the
 			abstract standard headers used by the tool (see target-dependent
@@ -284,7 +284,7 @@ int main ()
 			should compile.</para>
 
 		<para>In order to allow both branches to be maintained in these cases,
-			it has been necessary for tchk to impose certain restrictions on
+			it has been necessary for &tdfc2; to impose certain restrictions on
 			the form of the conditional branches and the positions in which
 			such target-dependent conditionals may occur. These may be
 			summarised as:</para>
@@ -295,7 +295,7 @@ int main ()
 					level. If the checker encounters a target-dependent conditional at
 					the outer level an error is produced. In order to continue checking
 					in the rest of the file an arbitrary assumption must be made about
-					which branch of the conditional to process; tchk assumes that the
+					which branch of the conditional to process; &tdfc2; assumes that the
 					conditional is true and the first branch is used;</para>
 				<!-- TODO: contradicts the target-dependent section below -->
 			</listitem>
@@ -350,7 +350,7 @@ int main ()
 			might just as well not have been included. Tchk can detect top
 			level include files which are unnecessary, by analysing the
 			&tdfcdump.5; output for the file. This check is enabled by passing the
-			<code>-Wd,-H</code> command line flag to tchk. Errors are written
+			<code>-Wd,-H</code> command line flag to &tcc;. Errors are written
 			to stderr in a simple ascii form by default, or to the unified
 			dump file in dump format if the <code>-D</code> command line
 			option is used.</para>

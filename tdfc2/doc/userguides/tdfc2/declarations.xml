@@ -197,7 +197,7 @@ c = 3 ;	// error: not allowed in C++</programlisting>
 		<programlisting language="c">int a, b;</programlisting>
 
 		<para>By default these inferred declarations are not permitted, though
-			tchk's behaviour can be modified using:</para>
+			&tdfc2;'s behaviour can be modified using:</para>
 
 		<programlisting language="c">#pragma TenDRA implicit int type for external declaration <emphasis>permit</emphasis></programlisting>
 

@@ -34,9 +34,10 @@
 		<title>Specifying APIs to tcc</title>
 
 		<para>The API against which a program is to be checked is
-			specified to tchk by means of a command-line option of the form
-			<code>-Y<replaceable>api</replaceable></code> where <replaceable>api</replaceable> is the API
-			name. For example, ANSI X3.159 is specified by <code>-Yc89</code>
+			specified to &tcc; by means of a command-line option
+			of the form <code>-Y<replaceable>api</replaceable></code> where
+			<replaceable>api</replaceable> is the API name.
+			For example, ANSI X3.159 is specified by <code>-Yc89</code>
 			(this is the default API) and POSIX 1003.1 is specified by
 			<code>-Yposix</code> (for a full list of the supported APIs
 			see Chapter 2).</para>
@@ -501,9 +502,9 @@ SEH		 position				ref_no</programlisting>
 			entire application can detect the objects, types, etc. from
 			external APIs which are used by the application. The API usage
 			analysis is enabled by passing one or more
-			<code>-api_check<replaceable>API</replaceable></code> flags to tchk
-			where <replaceable>API</replaceable> may be any of the standard APIs
-			listed in section 2.1.
+			<code>-api_check<replaceable>API</replaceable></code> flags to
+			&tcc; where <replaceable>API</replaceable>
+			may be any of the standard APIs listed in section 2.1.
 			The <code>-api_check_out<replaceable>FILE</replaceable></code> flag
 			may be used to direct the API analysis information to the file
 			<replaceable>FILE</replaceable> (by default it is written to stdout).

@@ -36,7 +36,7 @@
 			to give a warning, or <code>allow</code> to disable the test (this is the
 			default).</para>
 
-		<para>There are also equivalent command-line options to tchk of the
+		<para>There are also equivalent command-line options to &tcc; of the
 			form <code>-X:unreached=</code><code>state</code>, where
 			<code>state</code> can be <code>check</code>, <code>warn</code> or
 			<code>dont</code>.</para>

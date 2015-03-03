@@ -3,7 +3,6 @@
 .include "Makefile.inc"
 
 
-SUBDIR+=	tchk.1
 SUBDIR+=	tdfc2.1
 
 SUBDIR+=	tdfcdump.5

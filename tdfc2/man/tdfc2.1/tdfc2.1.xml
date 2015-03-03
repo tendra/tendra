@@ -108,9 +108,6 @@
 			it may be put.
 -->
 
-	<!-- TODO: possibly merge this into tcppplus.1.
-		combine using XSLT, and generate both pages (and also tchk?) -->
-
 	<refmeta>
 		<refentrytitle>tdfc2</refentrytitle>
 		<manvolnum>1</manvolnum>
@@ -267,7 +264,8 @@
 		<title>Invocation</title>
 
 		<para>While it is possible to use &both; as stand-alone
-			programs, it is recommended that they should be invoked via &tcc; or &tchk;.
+			programs, it is recommended that they should be invoked via &tcc;
+			or <code>tcc -ch</code>.
 			The &tcc-userguide.doc; should be consulted for more details.</para>
 
 		<para>The command-line options can appear in any order and can be
@@ -278,9 +276,9 @@
 			<option>-I</option>&nbsp;&dir.arg; are equivalent.</para>
 
 		<para>Most of the command-line option handling for &both;
-			is done by &tcc; and &tchk;, however when invoking &tcc; or &tchk;,
-			options may be passed directly to
-			&tdfc2.x;   using <option>-W<literal>c</literal>,</option>&opt.arg; and to
+			is done by &tcc; and <code>tcc -ch</code>, however when invoking &tcc;,
+			options may be passed directly to &tdfc2.x;
+			using <option>-W<literal>c</literal>,</option>&opt.arg; and to
 			&tcpplus.x; using <option>-W<literal>x</literal>,</option>&opt.arg;.
 			Similarly <option>-W<literal>g</literal>,</option>&opt.arg; and
 			<option>-W<literal>S</literal>,</option>&opt.arg; can be used to
@@ -288,8 +286,8 @@
 			(both of which are actually &either; invoked
 			with different options) respectively.</para>
 
-		<para>Both &tcc; and &tchk; require the <option>-Y</option><literal>c++</literal>
-			command-line option in order to enable their C++ capabilities.
+		<para>&tcc; requires the <option>-Y</option><literal>c++</literal>
+			command-line option in order to enable C++ capabilities.
 			Files with a &C.ext; suffix are recognised as C++ source files and
 			passed to &tcpplus.x; for processing
 			It is possible to change the suffix used for C++ source files; for
@@ -965,7 +963,7 @@
 	<refsection>
 		<title>See Also</title>
 
-		<para>&tcc;, &tchk;, &tdfcdump.5;, &tdfcpragma.5;, &charset.5;.</para>
+		<para>&tcc;, &tdfcdump.5;, &tdfcpragma.5;, &charset.5;.</para>
 
 		<para>&tcc-userguide.doc;.</para>
 	</refsection>

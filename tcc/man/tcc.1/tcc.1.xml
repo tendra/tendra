@@ -1972,7 +1972,7 @@
 				<term>&api_check.opt;</term>
 
 				<listitem>
-					<para>Causes &tchk; to create an &api; usage analysis file,
+					<para>Causes &tcc; to create an &api; usage analysis file,
 						with default name <filename>a.api</filename>.</para>
 				</listitem>
 			</varlistentry>
@@ -2019,8 +2019,8 @@
 				<term>&ch.opt;</term>
 
 				<listitem>
-					<para>Causes &tcc; to emulate the stand-alone static
-						checker, &tchk;.
+					<para>Causes &tcc; to operate as a stand-alone static
+						checker.
 						Intermodular checks are enabled in this mode.</para>
 				</listitem>
 			</varlistentry>
@@ -2626,7 +2626,7 @@
 	<refsection>
 		<title>See Also</title>
 
-		<para>&as;, &cc;, &ld;, &prof;, &disp;, &tchk;, &tdfc2;, &tcpplus;,
+		<para>&as;, &cc;, &ld;, &prof;, &disp;, &tdfc2;, &tcpplus;,
 			&tld;, &trans;, &tccenv.5;, &tccmodes.5;.</para>
 
 		<para>&tcc-userguide.doc;.</para>

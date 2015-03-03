@@ -40,7 +40,6 @@
 <!ENTITY sid        "<citerefentry><refentrytitle>sid</refentrytitle>       %vol.1;</citerefentry>">
 <!ENTITY disp       "<citerefentry><refentrytitle>disp</refentrytitle>      %vol.1;</citerefentry>">
 <!ENTITY lexi       "<citerefentry><refentrytitle>lexi</refentrytitle>      %vol.1;</citerefentry>">
-<!ENTITY tchk       "<citerefentry><refentrytitle>tchk</refentrytitle>      %vol.1;</citerefentry>">
 <!ENTITY tdfc2      "<citerefentry><refentrytitle>tdfc2</refentrytitle>     %vol.1;</citerefentry>">
 <!ENTITY tspec      "<citerefentry><refentrytitle>tspec</refentrytitle>     %vol.1;</citerefentry>">
 <!ENTITY tcpplus    "<citerefentry><refentrytitle>tcpplus</refentrytitle>   %vol.1;</citerefentry>">

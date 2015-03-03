@@ -5,7 +5,6 @@
 	<!ENTITY cc   "<application><acronym>CC</acronym></application>">
 	<!ENTITY tdf  "<acronym>TDF</acronym>">
 	<!ENTITY api  "<acronym>API</acronym>">
-	<!ENTITY tchk "<application>tchk</application>">
 	<!ENTITY prof "<application>prof</application>">
 
 	<!ENTITY spec_linker "<application>spec_linker</application>">
@@ -70,8 +69,8 @@
 			one to the C spec linker.</para>
 
 		<para>Intermodular checking is described in more detail in [3].
-			In &tchk; intermodular checking is on by default, but may be
-			switched off using <option>-im0</option>.</para>
+			In <code>tcc -ch</code> intermodular checking is on by default,
+			but may be switched off using <option>-im0</option>.</para>
 	</section>
 
 	<section>

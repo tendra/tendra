@@ -513,7 +513,7 @@
 			available on all platforms, so it may not be possible run installers
 			for programs compiled with all &api; environments.
 			It will always be possible to check code with any &api; environment
-			using &tchk;.</para>
+			using <code>tcc -ch</code>.</para>
 
 		<para>The following environments are used to specify the use of particular
 			tools (where available) which are not enabled by default:</para>
@@ -1269,7 +1269,7 @@
 	<refsection>
 		<title>See Also</title>
 
-		<para>&tcc;, &tchk;, &tcpplus;, &tpl;, &tnc;.</para>
+		<para>&tcc;, &tcpplus;, &tpl;, &tnc;.</para>
 	</refsection>
 </refentry>
 

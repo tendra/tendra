@@ -267,7 +267,7 @@ any + UL &#x2192; <code>unsigned long</code></literallayout>
 				analysis described in section 4.6). The arithmetic conversions
 				resulting from the <code>&amp;</code> operation is detected by
 				the checker's conversion analysis. Note that if the
-				<code>-Y32bit</code> option is specified to tchk, an <code>int</code>
+				<code>-Y32bit</code> option is specified to &tcc;, an <code>int</code>
 				is assumed to contain at least 32 bits. In this case,
 				<code>0xff00</code> fits into the type int, and so this is the
 				type of the integer literal. No invalid integer conversions is
@@ -426,7 +426,7 @@ int main() {
 
 		<para>Although the use of <code>long long</code> to specify a 64 bit
 			integer type is not supported by the ISO C90 standard it is becoming
-			increasingly popular as in programming use. By default, tchk does
+			increasingly popular as in programming use. By default, &tcc; does
 			not support the use of <code>long long</code> but the checker can
 			be configured to support the <code>long long</code> type to different
 			degrees using the following pragmas:</para>

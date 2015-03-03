@@ -24,8 +24,8 @@
 #pragma TenDRA discard analysis (value) <emphasis>status</emphasis>
 #pragma TenDRA discard analysis (static) <emphasis>status</emphasis></programlisting>
 
-	<para>There are also equivalent command line options to tchk of the form
-		<code>-X:test=state</code>, where <emphasis>test</emphasis> can be
+	<para>There are also equivalent command line options to &tcc;
+		of the form <code>-X:test=state</code>, where <emphasis>test</emphasis> can be
 		<code>discard_all</code>, <code>discard_func_ret</code>,
 		<code>discard_value</code> or <code>unused_static</code>, and
 		<emphasis>state</emphasis> can be <code>check</code>,

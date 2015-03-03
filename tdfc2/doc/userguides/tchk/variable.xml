@@ -12,7 +12,7 @@
 		<code>warning</code> or <code>off</code> as usual. The checks are
 		switched off in the default mode.</para>
 
-	<para>There are also equivalent command line options to tchk of the
+	<para>There are also equivalent command line options to &tdfc2; of the
 		form <code>-X:variable=</code><code>state</code>, where
 		<code>state</code> can be <code>check</code>, <code>warn</code> or
 		<code>dont</code>.</para>
@@ -288,7 +288,7 @@ DISCARD ( <emphasis>expression</emphasis> )</programlisting>
 #pragma TenDRA discard x;
 	puts ( "n is three" );</programlisting>
 
-			<para>tchk believes that <code>x</code> is discarded if
+			<para>&tdfc2; believes that <code>x</code> is discarded if
 				<code>n == 3</code> and the message is always printed,
 				whereas other compilers will ignore the <code>#pragma</code>
 				statement and think that the message is printed if

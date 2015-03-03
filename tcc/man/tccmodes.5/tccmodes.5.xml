@@ -71,10 +71,9 @@
 			mode. The "add-on" modes may alter the status of checks set in the
 			base mode. The <code>nepc</code> mode switches off many of the
 			checks relating to portability issues and may be specified by
-			passing the <code>-nepc</code> command line option to tchk. The
-			<code>not_ansi</code> mode supports a raft of non-ISO features and
-			is specified using the <code>-not_ansi</code> command line
-			flag.</para>
+			passing the <code>-nepc</code> command line option to &tcc;.
+			The <code>not_ansi</code> mode supports a raft of non-ISO features
+			and is specified using the <code>-not_ansi</code> command line flag.</para>
 	</refsection>
 
 	<refsection>

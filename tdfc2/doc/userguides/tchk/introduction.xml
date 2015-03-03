@@ -17,8 +17,8 @@
 	<para>This approach gave the tool an unusually powerful basis for
 		static checking of C programs and a large amount of development
 		work has resulted in the production of the TenDRA C static checker
-		(tchk). The terms, TenDRA C checker and tchk are used
-		interchangably in this document.</para>
+		(invoked as <code>tcc -ch</code>). The terms, TenDRA C checker and
+		<code>tcc -ch</code> are used interchangably in this document.</para>
 
 	<para>Responsibilities of the C static checker are:</para>
 
