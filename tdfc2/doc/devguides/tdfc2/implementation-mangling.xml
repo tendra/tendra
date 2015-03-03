@@ -285,7 +285,7 @@
 		<title>Mangling types</title>
 
 		<para>The mangling of types is essentially similar to that used in the
-			&tdfcdump.5; symbol table dump format.  The type used in
+			&tdfc2dump.5; symbol table dump format.  The type used in
 			the mangled name for an identifier ignores the return type for a function
 			and ignores the most significant bound for an array.</para>
 

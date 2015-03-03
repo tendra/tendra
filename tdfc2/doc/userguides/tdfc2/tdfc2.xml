@@ -57,7 +57,7 @@
 					<para>Moved out documentation for the supplied
 						portability tables from the &tdfc2-userguide.doc;.
 						Moved out portability table syntax
-						to create a &portability.5; manpage.
+						to create a &tdfc2portability.5; manpage.
 						Moved out compilation scheme for C++ spec file
 						linking to &tchk.doc;.</para>
 				</revdescription>
@@ -136,8 +136,8 @@
 					<para>Moved out the &ldquo;invocation&rdquo; chapter and
 						related content to the &tcpplus; manpage.</para>
 
-					<para>Moved out the &tdfcdump.5; symbol table dump syntax
-						into a seperate manpage, &tdfcdump.5;.
+					<para>Moved out the &tdfc2dump.5; symbol table dump syntax
+						into a seperate manpage, &tdfc2dump.5;.
 						Moved out a description of the symbol table semantics into a
 						seperate document, &symboltable.doc;.</para>
 

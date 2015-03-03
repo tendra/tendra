@@ -253,11 +253,11 @@
 			The generated spec file contains information enabling intermodule
 			analysis to be performed.</para>
 
-		<para>In any mode a &tdfcdump.5; symbol table dump output file can
+		<para>In any mode a &tdfc2dump.5; symbol table dump output file can
 			be generated using the <option>-d</option> option.
 			This outputs usage and error information suitable for processing
 			by other tools, output as a symbol table dump file.
-			See &tdfcdump.5; for the dump file format.</para>
+			See &tdfc2dump.5; for the dump file format.</para>
 	</refsection>
 
 	<refsection>
@@ -315,7 +315,7 @@
 					<para>The special case <option>-A-</option> undefines all the
 						built-in predicates (of which there are none).
 						Use of this option automatically enables support for the
-						&tdfcpragma.5; <code>#assert</code> and
+						&tdfc2pragma.5; <code>#assert</code> and
 						<code>#unassert</code> directives.</para>
 				</listitem>
 			</varlistentry>
@@ -325,7 +325,7 @@
 
 				<listitem>
 					<para>Load the given file as as a character set map.
-						See &charset.5; for the syntax of this file.</para>
+						See &tdfc2charset.5; for the syntax of this file.</para>
 				</listitem>
 			</varlistentry>
 
@@ -397,7 +397,7 @@
 					<para>Is identical to &I.opt;&dir.arg; except that it also
 						associates the given identifier with the
 						directory.
-						The directory name can be used to specify a &tdfcpragma.5;
+						The directory name can be used to specify a &tdfc2pragma.5;
 						compilation profile to be used on
 						files included from this directory.</para>
 				</listitem>
@@ -963,7 +963,7 @@
 	<refsection>
 		<title>See Also</title>
 
-		<para>&tcc;, &tdfcdump.5;, &tdfcpragma.5;, &charset.5;.</para>
+		<para>&tcc;, &tdfc2dump.5;, &tdfc2pragma.5;, &tdfc2charset.5;.</para>
 
 		<para>&tcc-userguide.doc;.</para>
 	</refsection>

@@ -110,7 +110,7 @@ int n ;
 			and may change between releases to reflect modifications in the internal
 			type system.  The C producer has a similar dump format, called a C
 			spec file, however the two are incompatible.  If intermodule analysis
-			between C and C++ source files is required then the &tdfcdump.5; symbol
+			between C and C++ source files is required then the &tdfc2dump.5; symbol
 			table dump format should be used.</para>
 	</section>
 

@@ -15,7 +15,7 @@
 			the <link linkend="char">sign of plain <code>char</code></link>,
 			and whether signed types can be assumed to be symmetric
 			(for example, [-127,127]) or maximum (for example, [-128,127]).
-			The format for this file is documented by &portability.5;.</para>
+			The format for this file is documented by &tdfc2portability.5;.</para>
 
 		<para>The minimum integer ranges are deduced from the minimum integer
 			sizes as follows. Suppose <emphasis>b</emphasis> is the minimum

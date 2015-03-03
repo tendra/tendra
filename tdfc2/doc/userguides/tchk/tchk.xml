@@ -77,7 +77,7 @@
 						from into a seperate document, &symboltable.doc;.</para>
 
 					<para>Moved out <code>#pragma</code> syntax reference to
-						&tdfcpragma.5;.</para>
+						&tdfc2pragma.5;.</para>
 
 					<para>Removed API listing.</para>
 				</revdescription>

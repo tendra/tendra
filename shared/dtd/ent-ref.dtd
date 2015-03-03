@@ -58,14 +58,15 @@
 
 
 <!-- TenDRA Section 5 -->
-<!ENTITY charset.5     "<citerefentry><refentrytitle>charset</refentrytitle>     %vol.5;</citerefentry>">
-<!ENTITY portability.5 "<citerefentry><refentrytitle>portability</refentrytitle> %vol.5;</citerefentry>">
-<!ENTITY tdfcdump.5    "<citerefentry><refentrytitle>tdfcdump</refentrytitle>    %vol.5;</citerefentry>">
-<!ENTITY tdfcpragma.5  "<citerefentry><refentrytitle>tdfcpragma</refentrytitle>  %vol.5;</citerefentry>">
-<!ENTITY tccenv.5      "<citerefentry><refentrytitle>tccenv</refentrytitle>      %vol.5;</citerefentry>">
-<!ENTITY tccmodes.5    "<citerefentry><refentrytitle>tccmodes</refentrytitle>    %vol.5;</citerefentry>">
-<!ENTITY tld.5         "<citerefentry><refentrytitle>tld</refentrytitle>         %vol.5;</citerefentry>">
-<!ENTITY make_err.5    "<citerefentry><refentrytitle>make_err</refentrytitle>    %vol.5;</citerefentry>">
+<!ENTITY tdfc2charset.5     "<citerefentry><refentrytitle>tdfc2charset</refentrytitle>     %vol.5;</citerefentry>">
+<!ENTITY tdfc2portability.5 "<citerefentry><refentrytitle>tdfc2portability</refentrytitle> %vol.5;</citerefentry>">
+<!ENTITY tdfc2dump.5        "<citerefentry><refentrytitle>tdfc2dump</refentrytitle>        %vol.5;</citerefentry>">
+<!ENTITY tdfc2pragma.5      "<citerefentry><refentrytitle>tdfc2pragma</refentrytitle>      %vol.5;</citerefentry>">
+
+<!ENTITY tccenv.5   "<citerefentry><refentrytitle>tccenv</refentrytitle>      %vol.5;</citerefentry>">
+<!ENTITY tccmodes.5 "<citerefentry><refentrytitle>tccmodes</refentrytitle>    %vol.5;</citerefentry>">
+<!ENTITY tld.5      "<citerefentry><refentrytitle>tld</refentrytitle>         %vol.5;</citerefentry>">
+<!ENTITY make_err.5 "<citerefentry><refentrytitle>make_err</refentrytitle>    %vol.5;</citerefentry>">
 
 
 <!-- Documents -->

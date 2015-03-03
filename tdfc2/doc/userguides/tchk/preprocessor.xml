@@ -349,7 +349,7 @@ int main ()
 			within the other source files comprising the translation unit,
 			might just as well not have been included. Tchk can detect top
 			level include files which are unnecessary, by analysing the
-			&tdfcdump.5; output for the file. This check is enabled by passing the
+			&tdfc2dump.5; output for the file. This check is enabled by passing the
 			<code>-Wd,-H</code> command line flag to &tcc;. Errors are written
 			to stderr in a simple ascii form by default, or to the unified
 			dump file in dump format if the <code>-D</code> command line

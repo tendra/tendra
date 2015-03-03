@@ -263,7 +263,7 @@
 			</code>. Since this is a potentially high overhead for small functions,
 			this extra code is not generated if it can be proved that such unexpected
 			exceptions can never be thrown (the analysis is essentially the same
-			as that in the exception analysis check; see &tdfcpragma.5;).</para>
+			as that in the exception analysis check; see &tdfc2pragma.5;).</para>
 
 		<para>The implementation of exception specification is to enclose the entire
 			function definition in a <code>try</code> block.  The handler for

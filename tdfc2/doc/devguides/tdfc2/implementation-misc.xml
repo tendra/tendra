@@ -44,7 +44,7 @@
 		<para>The &sid; grammar contains a number of entry points.  The
 			most important is <code>parse_file</code>, which is used to parse
 			a complete C++ translation unit.  The syntax for the
-			&tdfcpragma.5; <code>#pragma TenDRA</code> directives is
+			&tdfc2pragma.5; <code>#pragma TenDRA</code> directives is
 			included within the same grammar with two entry points,
 			<code>parse_tendra</code> in normal use, and <code>parse_preproc</code>
 			for use in preprocessing mode.  There are also entry points in the
@@ -281,7 +281,7 @@ int A::B::c = 0 ;</programlisting>
 			section names used in the draft standard.  For example, section 9.5
 			is called <code>class.union</code>, so all the constraint errors arising
 			from this section have names of the form <code>class_union_*</code>.
-			These error names can be used in the &tdfcpragma.5; low
+			These error names can be used in the &tdfc2pragma.5; low
 			level directives such as:</para>
 
 		<programlisting language="cpp">#pragma TenDRA++ error &quot;class_union_deriv&quot; <emphasis>allow</emphasis></programlisting>

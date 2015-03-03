@@ -108,7 +108,7 @@
 			analysis and type checking between translation units.</para>
 
 		<para>The format of the dump file is described below; a
-			summary of the syntax is given in &tdfcdump.5;.</para>
+			summary of the syntax is given in &tdfc2dump.5;.</para>
 	</refsection>
 
 	<!-- TODO hereafter is from tcpplus -->

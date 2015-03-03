@@ -81,7 +81,7 @@
 						the internal representation in various formats including as a
 						&tdf; capsule (see &tdf-spec.doc;),
 						a C++ spec file (see &tdfc2-devguide.doc;),
-						or a &tdfcdump.5; symbol table dump file.</para>
+						or a &tdfc2dump.5; symbol table dump file.</para>
 				</listitem>
 			</varlistentry>
 		</variablelist>
@@ -1015,7 +1015,7 @@ PPTOKEN_P (pptok) = &quot;PPTOKEN *&quot; ;</programlisting>
 			<para>The union type <code>TOKEN</code> (<code>tok</code>) is used to represent
 				one of a number of different categories within the C++ language.
 				It corresponds to the sort of a token declared using the
-				&tdfcpragma.5; <code>#pragma token</code> syntax.  Thus
+				&tdfc2pragma.5; <code>#pragma token</code> syntax.  Thus
 				there are fields corresponding to expression, statement, integer constant,
 				type, function, member and procedure tokens.  The similarities between
 				<code>PROC</code> tokens and templates have been remarked above; for
@@ -1168,7 +1168,7 @@ PPTOKEN_P (pptok) = &quot;PPTOKEN *&quot; ;</programlisting>
 
 			<para>The structure <code>OPTIONS</code> is not part of the <code>calculus</code>
 				type system.  It is used to represent the state of the
-				&tdfcpragma.5; compiler options at a particular point
+				&tdfc2pragma.5; compiler options at a particular point
 				in the input file.</para>
 		</section>
 

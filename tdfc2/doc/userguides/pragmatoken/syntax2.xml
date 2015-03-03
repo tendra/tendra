@@ -26,7 +26,7 @@
 
 	<para>A summary of the grammar for the
 		<code>#pragma token</code> directives accepted by the C++ producer
-		is given in &tdfcpragma.5;.</para>
+		is given in &tdfc2pragma.5;.</para>
 
 
 		<section id="spec">
