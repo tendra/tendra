@@ -18,6 +18,39 @@
     The main TDF construct encoding macros are automatically generated
     from the TDF specification.  There are two versions provided, which
     one is included depends on the value of TDF_VERSION.
+
+    Note that the version of the TDF database used contains a couple of
+    corrections from the standard version:
+
+     - A construct make_token_def has been added to represent
+       a token definition.
+     - The sort diag_tag has been added to the edge constructors.
+
+    The macros generated only handle the encoding of the construct - the
+    construct parameters need to be encoded by hand (the C producer does
+    something similar, but including the construct parameters).
+    For example, make_tdf generates a macro:
+
+      void ENC_plus ( BITSTREAM * ) ;
+
+    which encodes the plus construct (91 as 7 bits in extended format).
+    A typical use of this macro, for adding the expressions a and b would be:
+
+      ENC_plus ( bs ) ;
+      ENC_impossible ( bs ) ;
+      bs = enc_exp ( bs, a ) ;
+      bs = enc_exp ( bs, b ) ;
+
+    Each function or variable is compiled to TDF as its definition is
+    encountered. For some definitions, such as inline functions, the
+    compilation may be deferred until it is clear whether or not the
+    identifier has been used. There is a final pass over all identifiers
+    during the variable analysis routines which incorporates this check.
+    Because of the organisation of a TDF capsule it is necessary to store
+    all of the compiled TDF in memory until the end of the program, when
+    the complete capsule, including external tag and token names and linkage
+    information, is written to the output file.
+
 */
 
 #if (TDF_VERSION == 401)
