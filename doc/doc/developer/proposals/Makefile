@@ -4,7 +4,6 @@
 
 
 SUBDIR+=	inlining
-SUBDIR+=	sharedbranches
 
 .include <tendra.subdir.mk>
 
