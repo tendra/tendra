@@ -3,7 +3,6 @@
 .include "Makefile.inc"
 
 
-SUBDIR+=	guides
 #SUBDIR+=	historical
 SUBDIR+=	proposals
 
