@@ -234,7 +234,7 @@
 	%common.base;
 >
 
-<!ELEMENT bibliography (biblioentry*)>
+<!ELEMENT bibliography (title, biblioentry*)>
 <!ATTLIST bibliography
 	%common.id;
 	%common.base;

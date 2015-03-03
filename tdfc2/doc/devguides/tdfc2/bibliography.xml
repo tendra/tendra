@@ -7,6 +7,8 @@
 
 <!-- TODO: bibliography -->
 <bibliography id="reference">
+	<title>Bibliography</title>
+
 	<biblioentry>
 		<para>&tdf-spec.doc;</para>
 	</biblioentry>

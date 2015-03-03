@@ -2,6 +2,8 @@
 <!DOCTYPE bibliography SYSTEM "minidocbook.dtd">
 
 <bibliography>
+	<title>Bibliography</title>
+
 <!-- TODO:
 	<biblioentry>
 		<para>Tdfc: The C to TDF Producer Issue 1.0 (DRA/CIS3/OSSG/TR/95/102/1.0)</para>

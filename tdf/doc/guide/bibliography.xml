@@ -6,6 +6,8 @@
 -->
 
 <bibliography>
+	<title>Bibliography</title>
+
 	<!-- TODO: biblography
 	  [1] &tcc-userguide.doc;, DRA, 1993.
 	  [2] tspec - An &api; Specification Tool, DRA, 1993.
