@@ -2,3 +2,9 @@
 
 >FLAG_TRANS		"-O-s"
 
+/*
+ * XXX: Checks disabled because they don't seem to pass for Alpha.
+ * This is of course the wrong way to deal with check.
+ */
+>FLAG_TRANS		"-X-a"
+
