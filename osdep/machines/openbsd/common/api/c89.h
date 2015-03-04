@@ -12,5 +12,7 @@
 
 #ifdef _ARCH_alpha
 #define __WRONG_C89_STDARG_H_VA_ARGS	/* TODO: I am not attempting to provide this yet */
+#define __WRONG_C89_STDARG_H_VA_LIST	/* TODO: I am not attempting to provide this yet */
+#define __WRONG_C89_STDIO_H		/* TODO: I am not attempting to provide this yet */
 #endif
 
