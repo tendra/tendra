@@ -111,7 +111,7 @@ Var sigact : posix.signal.struct_sigaction
 	env_size (__TDFhandler)
 };
 
-Tokdef ~Sync_handler = [] EXP make_top;
+Tokdef .~abi_Sync_handler = [] EXP make_top;
 
 Keep (
 	.~abi_Set_signal_handler, .~abi_Sync_handler,

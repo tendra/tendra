@@ -38,7 +38,7 @@ Tokdef SIGSEGV = [] SIGNED_NAT computed_signed_nat(c89.signal.SIGSEGV);
  * Sync handler delays subsequent processing until any pending
  * exceptions have been raised
  */
-Tokdec ~Sync_handler : [] EXP;
+Tokdec .~abi_Sync_handler : [] EXP;
 
 Var allsigs : posix.signal.sigset_t;
 
