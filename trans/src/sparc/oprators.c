@@ -486,7 +486,7 @@ fop ( exp e, space sp, where dest, ins_p ins ){
   space nsp ;
   int a1, a2 ;
 
-  if ( use_long_double && name ( sh ( e ) ) == doublehd ) {
+  if ( (has & HAS_LONG_DOUBLE) && name ( sh ( e ) ) == doublehd ) {
     if ( IsRev ( e ) ) {
       quad_op ( r, l, sp, dest, ( int ) name ( e ) ) ;
     } 

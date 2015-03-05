@@ -41,8 +41,8 @@
 #define REAL_SZ			( ( long ) 64 )
 #define REAL_ALIGN		const_al64
 
-#define DOUBLE_SZ		(use_long_double ? ( ( long ) 128 ) : REAL_SZ)
-#define DOUBLE_ALIGN		(use_long_double ? const_al64       : REAL_ALIGN)
+#define DOUBLE_SZ		((has & HAS_LONG_DOUBLE) ? ( ( long ) 128 ) : REAL_SZ)
+#define DOUBLE_ALIGN		((has & HAS_LONG_DOUBLE) ? const_al64       : REAL_ALIGN)
 
 #define UCHAR_SZ		( ( long ) 8 )
 #define UCHAR_ALIGN		const_al8
@@ -83,7 +83,7 @@
 
 #define FLOAT_BITS		24
 #define DOUBLE_BITS		53
-#define LDOUBLE_BITS            (use_long_double ? 113 : 64)
+#define LDOUBLE_BITS            ((has & HAS_LONG_DOUBLE) ? 113 : 64)
 
 #endif /* SZS_ALS_INCLUDED */
 

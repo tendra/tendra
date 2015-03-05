@@ -62,13 +62,6 @@ init(void)
 	PIC_code           = 0;
 	keep_PIC_vars      = 1;
 	diagnose_registers = 0;
-	use_long_double    = 1;
-
-#if use_long_double
-	target_dbl_maxexp = 16384;
-#else
-	target_dbl_maxexp = 308;
-#endif
 
 	local_prefix = "$";
 	name_prefix  = "";
@@ -123,6 +116,12 @@ unhas(void)
 	if (do_profile && PIC_code) {
 		error(ERR_WARN, "\"-P\" and \"-D\" are mutually exclusive; \"-P\" ignored.");
 		do_profile = 0;
+	}
+
+	if (has & HAS_LONG_DOUBLE) {
+		target_dbl_maxexp = 16384;
+	} else {
+		target_dbl_maxexp = 308;
 	}
 }
 

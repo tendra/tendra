@@ -81,7 +81,7 @@ floatregable(exp e)
 		      && (name(son(e))!=caller_name_tag) ) {
 	shape s = sh ( son ( e ) ) ;
 	if ( is_floating ( name ( s ) ) ) {
-	   if ( use_long_double && shape_size ( s ) > 64 )
+	   if ( (has & HAS_LONG_DOUBLE) && shape_size ( s ) > 64 )
 	   {
 	      return 0;
 	   }

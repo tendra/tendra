@@ -63,7 +63,6 @@ init(void)
 	keep_PIC_vars       = 1;
 	diagnose_registers  = 0;
 	target_dbl_maxexp   = 308;
-	use_long_double     = 0;
 	redo_structfns      = 0;
 	do_extern_adds      = 0;
 	do_alloca           = 0;
@@ -101,6 +100,7 @@ unhas(void)
 	has &= ~HAS_SETCC;
 	has &= ~HAS_COMPLEX;
 	has &= ~HAS_64_BIT;
+	has &= ~HAS_LONG_DOUBLE;
 
 	if (diag != DIAG_NONE) {
 		/* dbx does not understand variable frame sizes */

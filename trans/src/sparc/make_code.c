@@ -1086,7 +1086,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	lab = no ( son ( pt ( e ) ) ) ;
       }
 
-     if (use_long_double) {
+     if ((has & HAS_LONG_DOUBLE)) {
       if ( name ( sh ( l ) ) == doublehd ) {
 	if ( IsRev ( e ) ) {
 	  quad_op ( r, l, sp, dest, -n ) ;
@@ -2296,7 +2296,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
       turn_off_trap_on_exceptions(sp);
     }
 	    
-    if ( use_long_double && name ( sh ( e ) ) == doublehd ) {
+    if ( (has & HAS_LONG_DOUBLE) && name ( sh ( e ) ) == doublehd ) {
       if(name(e) != fabs_tag){
 	quad_op ( son ( e ), NULL, sp, dest, ( int ) name ( e ) ) ;
       }
@@ -2375,7 +2375,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
       turn_off_trap_on_exceptions(sp);
     }
 	    
-    if ( use_long_double && name ( sh ( e ) ) == doublehd ) {
+    if ( (has & HAS_LONG_DOUBLE) && name ( sh ( e ) ) == doublehd ) {
       quad_op ( son ( e ), NULL, sp, dest, float_tag ) ;
       return mka;
     }
@@ -2445,7 +2445,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
       turn_off_trap_on_exceptions(sp);
     }
 	    
-   if (use_long_double) {
+   if ((has & HAS_LONG_DOUBLE)) {
     if ( name ( sh ( e ) ) == doublehd ) {
       if ( name ( sh ( son ( e ) ) ) == doublehd ) {
 	/* no change in representation */
@@ -2658,7 +2658,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
       turn_off_trap_on_exceptions(sp);
     }
     /* Get two floating registers */
-    if ( use_long_double && name ( sh ( son ( e ) ) ) == doublehd ) {
+    if ( (has & HAS_LONG_DOUBLE) && name ( sh ( son ( e ) ) ) == doublehd ) {
       quad_op ( son ( e ), NULL, sp, dest, 100 ) ;
       sfr = getfreg ( sp.flt ) ;
       rrf_ins ( i_fmovd, 0, sfr << 1 ) ;
@@ -3554,9 +3554,8 @@ make_code ( exp e, space sp, where dest, int exitlab )
     int contreg = NOREG ;
     int hdrhs = ( int ) name ( sh ( rhs ) ) ;
     bool is_float = ( bool ) is_floating ( hdrhs ) ;
-#if use_long_double
-    if ( hdrhs == doublehd ) is_float = 0 ;
-#endif
+
+    if ( (has & HAS_LONG_DOUBLE) && hdrhs == doublehd ) is_float = 0 ;
 
     /* lose chvar_tag on rhs if no res, remember to invalidate reg */
     /* remove name ( e ) == ass_tag tests now assbits_tag has gone */

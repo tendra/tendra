@@ -64,7 +64,6 @@ init(void)
 	round_after_flop      = 1; /* Round every time */
 	trap_on_nil_contents  = 0;
 	target_dbl_maxexp     = 308;
-	use_long_double       = 0;
 
 	/* set assembler id prefixes */
 	local_prefix = "S."; /* S for static */
@@ -120,6 +119,7 @@ unhas(void)
 	has &= ~HAS_SETCC;
 	has &= ~HAS_COMPLEX;
 	has &= ~HAS_64_BIT;
+	has &= ~HAS_LONG_DOUBLE;
 
 	if (writable_strings) {
 		/* TODO: either always on, or always off. error out accordingly */

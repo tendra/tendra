@@ -202,12 +202,12 @@ unhas(void)
 
 	switch (abi) {
 	case ABI_SYSV:
-		use_long_double   = 1;
+		has |= HAS_LONG_DOUBLE;
 		target_dbl_maxexp = 16384;
 		break;
 
 	case ABI_SUNOS:
-		use_long_double   = 0;
+		has &= ~HAS_LONG_DOUBLE;
 		target_dbl_maxexp = 308;
 		break;
 

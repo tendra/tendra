@@ -812,7 +812,7 @@ void exit_translator
     outnl();
     outnl();
     import_millicode();
-    if (use_long_double) {
+    if ((has & HAS_LONG_DOUBLE)) {
       import_long_double_lib();
     }
     outnl();

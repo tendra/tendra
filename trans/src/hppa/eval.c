@@ -788,7 +788,7 @@ evalone(exp e, int bitposn)
     }
 
     case real_tag :
-      if (use_long_double) {
+      if ((has & HAS_LONG_DOUBLE)) {
 	    /* Floating point constant */
 	  flt *f = flptnos + no ( e ) ;
 	  r2l v;

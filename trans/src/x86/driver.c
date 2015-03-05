@@ -87,7 +87,6 @@ init(void)
 	round_after_flop       = 0; /* do not round after each floating point operation */
 	strict_fl_div          = 1; /* do not replace divisions by multiplication by the inverse */
 	flpt_always_comparable = 0; /* this is the default for SVR4.2 */
-	use_long_double        = 1;
 	report_versions        = 0; /* do not print version numbers */
 	permit_8byte_align     = 1; /* allow 8byte alignment for local doubles */
 	replace_arith_type     = 1; /* use the C definitions of promote etc. */

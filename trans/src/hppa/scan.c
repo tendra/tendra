@@ -719,7 +719,7 @@ needs fpop
       l.fixneeds = 2;
   }
 
-    if (use_long_double && name(sh(son(op))) ==doublehd)
+    if ((has & HAS_LONG_DOUBLE) && name(sh(son(op))) ==doublehd)
     {
 	ClearRev(op);
 	arg=&son(op);
@@ -1763,7 +1763,7 @@ needs scan
       bool tlrecpos = nonevis && callerfortr && (rscope_level == 0);
       int i;
       bool notinreg = !(
-	use_long_double ? (name(sh(application)) ==shrealhd ||
+	(has & HAS_LONG_DOUBLE) ? (name(sh(application)) ==shrealhd ||
 			   name(sh(application)) ==realhd)
 			: (is_floating(name(sh(application))))
 		|| valregable(sh(application)));
@@ -1988,7 +1988,7 @@ needs scan
       nds = scan(&son(*e), at);
       pste = ptr_position(ste);
       if (!optop(*pste) && nds.fixneeds <2)nds.fixneeds = 2;
-	    if (use_long_double) {
+	    if ((has & HAS_LONG_DOUBLE)) {
 	      exp op = *pste;
 	      if (name(sh(op)) == doublehd ||
 		  name(sh(son(op))) == doublehd) {
@@ -2075,7 +2075,7 @@ needs scan
       {
 	 s.floatneeds = MAX_OF(s.floatneeds, 2);
       }
-      if (use_long_double) {
+      if ((has & HAS_LONG_DOUBLE)) {
 	 exp op = *pste;
 	 if (name(sh(son(op))) == doublehd)
 	 {
@@ -2409,7 +2409,7 @@ needs scan
       nds = shapeneeds(sh(*e));
       nds = maxneeds(scan(arg, at), nds);
       pste = ptr_position(ste);
-	    if (use_long_double) {
+	    if ((has & HAS_LONG_DOUBLE)) {
 	      exp op = *pste;
 	      if (name(sh(op)) ==doublehd)
 	      {

@@ -193,7 +193,7 @@ f_float_int(error_treatment flpt_err, floating_variety f, exp arg1)
   if (~has & HAS_64_BIT) {
     if ((name(arg1) != val_tag || flpt_err.err_code > 2) &&
       shape_size(sh(arg1)) > 32) {
-       if (use_long_double) {
+       if (has & HAS_LONG_DOUBLE) {
 	exp z = TDFcallaux(flpt_err, arg1, (is_signed(sh(arg1)) ?
 					    "__TDFUs_float" : "__TDFUu_float"),
 			   doublesh);
@@ -1479,7 +1479,7 @@ f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r,
 		char *fn;
 		exp e;
 
-        	arg1 = hold_refactor(f_change_floating_variety(f_impossible, use_long_double ? 2 : 1, arg1));
+        	arg1 = hold_refactor(f_change_floating_variety(f_impossible, (has & HAS_LONG_DOUBLE) ? 2 : 1, arg1));
 
 		switch (mode) {
 		case R2NEAR: fn = (s) ? "__TDFUs_R2NEAR"  : "__TDFUu_R2NEAR";    break;
@@ -1654,7 +1654,7 @@ f_flvar_parms(nat base, nat mantissa_digits, nat minimum_exponent,
 	  return 1;
 	}
 
-  if (use_long_double) {
+  if ((has & HAS_LONG_DOUBLE)) {
 	if (mantdig <= 64 && neg_minexp <= 16382 && maxexp <= 16383) {
 	  return 2;
 	}

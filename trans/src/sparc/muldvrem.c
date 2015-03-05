@@ -819,7 +819,7 @@ bool is_muldivrem_call
     case test_tag:
     case chfl_tag:
     case round_tag:
-     if (use_long_double) {
+     if ((has & HAS_LONG_DOUBLE)) {
       exp s = son(e);
       if (name(sh(s)) == doublehd) return 1;
       /* FALL THROUGH */
@@ -831,7 +831,7 @@ bool is_muldivrem_call
     case fneg_tag:
     case fabs_tag:
     case float_tag:
-     if (use_long_double) {
+     if ((has & HAS_LONG_DOUBLE)) {
       if (name(sh(e)) == doublehd) return 1;
       return 0;
      }

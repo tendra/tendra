@@ -1890,7 +1890,7 @@ makeans make_code
      const char *branch;
      int n = (int) test_number(e);	/* could have Rev bit in props */
 
-     if (use_long_double && name(sh(l)) == doublehd)
+     if ((has & HAS_LONG_DOUBLE) && name(sh(l)) == doublehd)
      {
 	quad_op(e, sp, dest);
 	cj_ins(c_eq,0,RET0,lab);
@@ -2061,7 +2061,7 @@ makeans make_code
      int hdrhs = name(sh(rhs));
      bool is_float = is_floating(hdrhs);
 
-     if (use_long_double && hdrhs == doublehd)
+     if ((has & HAS_LONG_DOUBLE) && hdrhs == doublehd)
 	is_float = 0;
 
      /* +++ lose chvar_tag on rhs if no result, remember to invalidate reg */
@@ -3757,7 +3757,7 @@ makeans make_code
      freg frg;
      baseoff b;
 
-     if (use_long_double && name(sh(e)) == doublehd)
+     if ((has & HAS_LONG_DOUBLE) && name(sh(e)) == doublehd)
      {
 	quad_op(e, sp, dest);
 	return mka;
@@ -3820,7 +3820,7 @@ makeans make_code
       bool dble;
       baseoff b;
 
-      if (use_long_double && name(sh(e)) == doublehd)
+      if ((has & HAS_LONG_DOUBLE) && name(sh(e)) == doublehd)
       {
 	 quad_op(e, sp, dest);
 	 return mka;
@@ -3902,7 +3902,7 @@ makeans make_code
        * error_jump would be superfluous.
        */
 
-      if (use_long_double && name(sh(e)) ==doublehd)
+      if ((has & HAS_LONG_DOUBLE) && name(sh(e)) ==doublehd)
       {
 	 quad_op(e, sp, dest);
 	 return mka;
@@ -3979,7 +3979,7 @@ makeans make_code
       where w;
       baseoff b;
 
-     if (use_long_double) {
+     if ((has & HAS_LONG_DOUBLE)) {
       if (to==doublehd)
       {
 	 if (from==doublehd)
@@ -4577,7 +4577,7 @@ null_tag_case:
 	nsp = guardreg(r, sp);
      }
      s = shape_size(sh(son(e)));
-     if (name(sh(son(e))) ==doublehd && use_long_double)
+     if (name(sh(son(e))) ==doublehd && (has & HAS_LONG_DOUBLE))
      {
 	if ( rm==3 && errhandle(e)<2 )
 	/*

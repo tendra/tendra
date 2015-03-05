@@ -21,7 +21,7 @@ reg_result ( shape sha )
 {
     if ( valregable ( sha ) ) return 1;
     if ( is_floating ( name ( sha ) ) ) {
-	if ( use_long_double && shape_size ( sha ) > 64 ) return 0;
+	if ( (has & HAS_LONG_DOUBLE) && shape_size ( sha ) > 64 ) return 0;
 	return 1;
     }
     return 0;

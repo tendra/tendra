@@ -955,7 +955,7 @@ int fop
    ans aa;
    baseoff b;
 
-   if (use_long_double && name(sh(e)) ==doublehd)
+   if ((has & HAS_LONG_DOUBLE) && name(sh(e)) ==doublehd)
    {
       /* i.e. quads */
       quad_op(e, sp, dest);

@@ -37,7 +37,6 @@ int separate_units = 0;		/* translate units separately */
 
 int writable_strings = 0;	/* string are writable */
 
-int use_long_double = 1;
 int target_dbl_maxexp = 16384;	/* maximum double exponent allowed */
 int round_after_flop = 0;	/* round after each floating point
 				   operation */
@@ -102,6 +101,7 @@ flags_has(enum has o, const char *s)
 		case 's': e = HAS_SETCC;          break;
 		case 'i': e = HAS_COMPLEX;        break;
 		case 'q': e = HAS_64_BIT;         break;
+		case 'l': e = HAS_LONG_DOUBLE;    break;
 
 		default:
 			error(ERR_WARN, "Unrecognised has flag %c. "

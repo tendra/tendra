@@ -665,6 +665,10 @@
 								<td>all flags</td>
 							</tr>
 							<tr>
+								<td><code>d</code></td>
+								<td>has native <code>long double</code></td>
+							</tr>
+							<tr>
 								<td><code>o</code></td>
 								<td>has byte operations</td>
 							</tr>
