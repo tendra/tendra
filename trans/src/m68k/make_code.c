@@ -1704,7 +1704,6 @@ make_code(where dest, ash stack, exp e)
 
 		if (name(offset) == val_tag) {
 			long off = no(offset);
-			where size_w;
 
 			if (!is_offset(offset)) {
 				off *= 8;
