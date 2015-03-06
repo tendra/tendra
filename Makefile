@@ -249,7 +249,7 @@ build-doc:
 .for project in calculus trans lexi \
 	osdep tdf tdfc2 sid tcc doc tld tnc tpl tspec
 	cd ${.CURDIR}/${project}/doc && ${MAKE} \
-	    OBJ_DIR=${OBJ_DOC}/${project}
+	    -DDEVELOPER OBJ_DIR=${OBJ_DOC}/${project}
 .endfor
 	@echo "===> building manpages"
 .for project in calculus disp trans lexi make_err make_tdf \
