@@ -112,7 +112,7 @@ trace_uses(exp e, exp id)
 		}
 		s = bro ( s ) ;
 	    }
-	    /* NOT REACHED */
+        UNREACHED;
 	    break ;
 	}
 
@@ -152,11 +152,11 @@ trace_uses(exp e, exp id)
 		if ( last ( s ) ) return 1;
 		s = bro ( s ) ;
 	    }
-	    /* NOT REACHED */
+        UNREACHED;
 	    break ;
 	}
     }
-    /* NOT REACHED */
+    UNREACHED;
     return 0;
 }
 
@@ -211,7 +211,7 @@ simple_seq(exp e, exp id)
 	    return 0;
 	}
     }
-    /* NOT REACHED */
+    UNREACHED;
 }
 
 

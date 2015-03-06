@@ -207,7 +207,7 @@ static int has_bitfield(exp e)
 
 	e = bro(bro(e));	/* try next initialiser */
       }
-      /*NOTREACHED*/
+      UNREACHED;
   default:
       {
 	shape s = sh(e);
@@ -218,7 +218,8 @@ static int has_bitfield(exp e)
       }
     }
   }
-  /*NOTREACHED*/
+
+  UNREACHED;
 }
 
 /*
@@ -246,7 +247,8 @@ static void fix_nonbitfield(exp e)
       e = bro(bro(e));		/* next offset */
     }
   }
-  /*NOTREACHED*/
+
+  UNREACHED;
 }
 
 /*
@@ -3421,7 +3423,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 #ifndef NDEBUG
   showme(e,0,1);
 #endif
-  /*NOTREACHED*/
+  UNREACHED;
 
 
  moveconst_zero:

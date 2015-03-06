@@ -173,7 +173,8 @@ skip_brackets(void)
 			return n;
 		}
 	}
-	/* NOTREACHED */
+
+	UNREACHED;
 }
 
 #endif

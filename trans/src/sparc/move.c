@@ -21,6 +21,7 @@
 
 #include <assert.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include <local/ash.h>
@@ -250,7 +251,7 @@ int move
     default:
       error(ERR_SERIOUS, "fixed -> wrong dest");
     }
-    /* NOT REACHED */
+    UNREACHED;
   }
   case infreg : {
     /* Source in floating point register */
@@ -336,7 +337,7 @@ int move
     default:
       error(ERR_SERIOUS, "Float to wrong dest");
     }
-    /* NOT REACHED */
+    UNREACHED;
   }
   case notinreg : {
     /* Source in store */

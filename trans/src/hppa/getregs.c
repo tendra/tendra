@@ -116,7 +116,8 @@ getreg(long fixed)
        return GR0;
     }
   }
-  /* NOTREACHED */
+
+  UNREACHED;
 }
 
 

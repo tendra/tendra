@@ -27,6 +27,7 @@
 
 #include <assert.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include <local/ash.h>
@@ -275,7 +276,8 @@ regalloc ( exp e, int freefixed, int freefloat, long stack ){
     def.stack = stack ;
     return def;
   }
-  /* NOT REACHED */
+
+  UNREACHED;
 }
 
 

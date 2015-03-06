@@ -102,7 +102,8 @@ trace_uses ( exp e, exp id ){
       }
       s = bro ( s ) ;
     }
-    /* NOT REACHED */
+
+    UNREACHED;
   }
   case ass_tag : {
     if ( isvar ( id ) && name ( son ( e ) ) == name_tag &&
@@ -128,10 +129,12 @@ trace_uses ( exp e, exp id ){
       if ( last ( s ) ) return 1;
       s = bro ( s ) ;
     }
-    /* NOT REACHED */
+
+    UNREACHED;
   }
   }
-    /* NOT REACHED */
+
+  UNREACHED;
 }
 
 
@@ -186,7 +189,8 @@ simple_seq ( exp e, exp id ){
       return 0;
     }
   }
-    /* NOT REACHED */
+
+  UNREACHED;
 }
 
 

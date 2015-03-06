@@ -519,7 +519,8 @@ plausible_candidate(CANDIDATE *r, unsigned nargs)
 			return margs - nargs;
 		}
 	}
-	/* NOTREACHED */
+
+	UNREACHED;
 }
 
 

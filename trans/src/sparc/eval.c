@@ -517,7 +517,7 @@ is_zero ( exp e ){
 	if ( last ( e ) ) return 1;
 	e = bro ( bro ( e ) ) ;
       }
-      /* NOT REACHED */
+      UNREACHED;
     }
     case real_tag : {
       flt f ;
@@ -725,7 +725,7 @@ evalone ( exp e, int bitposn, bool ro ){
 	ta = ( long ) shape_align ( sh ( tup ) ) ;
 	ts = shape_size ( sh ( tup ) ) ;
       }
-      /* NOT REACHED */
+      UNREACHED;
     }
     case nof_tag : {
       /* Arrays */
@@ -736,7 +736,7 @@ evalone ( exp e, int bitposn, bool ro ){
 	if ( last ( s ) ) return ;
 	s = bro ( s ) ;
       }
-      /* NOT REACHED */
+      UNREACHED;
     }
     case ncopies_tag : {
       /* Multiple copies */

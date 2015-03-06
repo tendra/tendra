@@ -614,14 +614,15 @@ has_bitfield ( exp e )
 	if ( last ( e ) ) return 0;
 	e = bro ( bro ( e ) ) ; 
       }
-      /* NOT REACHED */
+      UNREACHED;
     }
     
     default : {
       return shape_align ( sh ( e ) ) == 1 ;
     }
   }
-  /* NOT REACHED */
+
+  UNREACHED;
 }
 
 
@@ -645,7 +646,8 @@ fix_nonbitfield ( exp e )
       if ( last ( bro ( e ) ) ) return ;
       e = bro ( bro ( e ) ) ;
     }
-    /* NOT REACHED */
+
+    UNREACHED;
   }
 }
 
@@ -973,7 +975,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	}
 	t = nt ;
       }
-      /* NOT REACHED */
+      UNREACHED;
     }
 
     case labst_tag : {
@@ -1205,7 +1207,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 #endif
 	return mka;
       }
-      /* NOT REACHED */
+      UNREACHED;
     }
 
 #ifndef TDF_DIAG4
@@ -1255,7 +1257,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	}
 	m = bro ( m ) ;
       }
-      /* NOT REACHED */
+      UNREACHED;
     }
     case chvar_tag : {
       /* Change integer variety */
@@ -3006,7 +3008,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 	  if ( last ( bro ( t ) ) ) return mka;
 	  t = bro ( bro ( t ) ) ;
 	}
-	/* NOT REACHED */
+    UNREACHED;
       }
 
       case insomereg : {
@@ -3104,7 +3106,7 @@ make_code ( exp e, space sp, where dest, int exitlab )
 			      shape_align ( sh ( bro ( t ) ) ) ) >> 3 ) ;
 	  t = bro ( t ) ;
 	}
-	/* NOT REACHED */
+    UNREACHED;
       }
 
       case insomereg : {

@@ -10,6 +10,7 @@
 #include <assert.h>
 #include <stdio.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include <local/ash.h>
@@ -83,7 +84,8 @@ regremoved ( exp * seq, int reg ){
     s = t ;
     t = bro ( t ) ;
   }
-  /* NOT REACHED */
+
+  UNREACHED;
 }
 
 
@@ -132,7 +134,8 @@ do_comm ( exp seq, space sp, int final, ins_p rins ){
     }
     a1 = r ;
   }
-  /* NOT REACHED */
+
+  UNREACHED;
 }
 
 
@@ -196,7 +199,8 @@ comm_op ( exp e, space sp, where d, ins_p rrins ){
       return r;
     }
   }
-  /* NOT REACHED */
+
+  UNREACHED;
 }
 
 
@@ -234,7 +238,8 @@ non_comm_op ( exp e, space sp, where dest, ins_p rins ){
       return r1;
     }
   }
-  /* NOT REACHED */
+
+  UNREACHED;
 }
 
 
@@ -266,7 +271,8 @@ monop ( exp e, space sp, where dest, ins_p ins ){
       return r1;
     }
   }
-  /* NOT REACHED */
+
+  UNREACHED;
 }
 
 /*
@@ -313,7 +319,8 @@ absop ( exp e, space sp, where dest ){
       return r1;
     }
   }
-  /* NOT REACHED */
+
+  UNREACHED;
 }
 
 
@@ -526,5 +533,6 @@ fop ( exp e, space sp, where dest, ins_p ins ){
       return ( fr.dble ) ? -( fr.fr + 32 ) : ( fr.fr + 32 ) ;
     }
   }
-    /* NOT REACHED */
+
+  UNREACHED;
 }

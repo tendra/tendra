@@ -94,7 +94,8 @@ special_call_name(int i)
     error(ERR_SERIOUS, "attempting external call to builtin");
     return "";
   }
-  /* NOTREACHED */
+
+  UNREACHED;
 }
 
 
@@ -130,7 +131,8 @@ specialneeds(int i, exp application, exp pars)
     error(ERR_SERIOUS, "unimplemented builtin");
     return zeroneeds;
   }
-  /* NOTREACHED */
+
+  UNREACHED;
 }
 
 

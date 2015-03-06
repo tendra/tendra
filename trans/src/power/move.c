@@ -1084,5 +1084,4 @@ start:
 
   error(ERR_SERIOUS, "move not handled");
   return NOREG;
-  /*NOTREACHED*/
 }

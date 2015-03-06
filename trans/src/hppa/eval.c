@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <ctype.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include <local/szs_als.h>		/* for MAX_BF_SIZE */
@@ -417,7 +418,8 @@ evalexp(exp e)
     error(ERR_SERIOUS, "tag not in evalexp");
     return 0;
   }
-  /* NOTREACHED */
+
+  UNREACHED;
 }
 
 void
@@ -682,7 +684,7 @@ is_zero(exp e)
 
 	e = bro(bro(e));
       }
-      /*NOTREACHED*/
+      UNREACHED;
     }
  case real_tag:
     {
@@ -990,7 +992,7 @@ evalone(exp e, int bitposn)
 	 tup = bro(off);
 	 tupa = ashof(sh(tup));
       }
-      /*  NOT REACHED  */
+      UNREACHED;
     }
 
   case nof_tag:

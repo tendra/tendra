@@ -357,13 +357,14 @@ static int has_bitfield
 
 	e = bro(bro(e));	/* try next initialiser */
       }
-      /* NOTREACHED */
+      UNREACHED;
   default:
       return ashof(sh(e)).ashalign == 1;	/* found bitfield */
     }
-    /* NOTREACHED */
+    UNREACHED;
   }
-  /* NOTREACHED */
+
+  UNREACHED;
 }
 
 /*
@@ -1877,7 +1878,7 @@ makeans make_code
   case absbool_tag:
   {
      error(ERR_SERIOUS, "make_code: absbool_tag not used on HPPA");
-     /* NOTREACHED */
+     UNREACHED;
   }
 
   case test_tag:

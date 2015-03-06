@@ -956,8 +956,8 @@ needs scan
   {
   case 0:
     {
+      UNREACHED;
       return zeroneeds;
-      /* NOTREACHED */
     }
 
   case compound_tag:
@@ -1334,7 +1334,7 @@ needs scan
 	   )
 	)
        {
-	  /* +++ integrate this with the block above, otherwise NOTREACHED */
+	  /* +++ integrate this with the block above, otherwise UNREACHED */
 	  /*
 	   * Put tag in result reg if definition is call of proc,
 	   * or body ends with return tag, provided result is not used other wise.
@@ -2708,7 +2708,7 @@ needs scan
   {
     assert(~has & HAS_SETCC);
     error(ERR_SERIOUS, "absbool_tag not covered in needs scan");
-    /* NOTREACHED */
+    UNREACHED;
   }
 
  case alloca_tag:
@@ -2765,7 +2765,7 @@ needs scan
   {
     /* not in MIPS */
     error(ERR_SERIOUS, "testbit_tag not covered in needs scan");
-    /*NOTREACHED*/
+    UNREACHED;
   }
 
 

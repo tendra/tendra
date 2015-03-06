@@ -9,6 +9,7 @@
  */
 
 #include <shared/bool.h>
+#include <shared/check.h>
 
 #include <construct/tags.h>
 #include <construct/exp.h>
@@ -50,7 +51,7 @@ static bool is_worth_cont_aux(exp c)
 		return 0;
 	}
 
-	/*NOTREACHED*/
+	UNREACHED;
 }
 
 /*

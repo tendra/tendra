@@ -246,7 +246,8 @@ shapeneeds ( shape s ){
       return twofix;
     }
   }
-  /* NOT REACHED */
+
+  UNREACHED;
 }
 
 
@@ -293,7 +294,8 @@ complex ( exp e ){
   else {
     return 1;
   }
-  /* NOT REACHED */
+
+  UNREACHED;
 }
 
 int 
@@ -641,9 +643,6 @@ maxtup ( exp e, exp ** at ){
     s = &bro(*s);
   }
   return an;
-
-
-  /* NOT REACHED */
 }
 
 
@@ -1172,7 +1171,7 @@ scan ( exp * e, exp ** at ){
 		 stare ) ) ) {
 	  /* Let a : = .. ; return cont a */
 	  /* integrate this with the block above,
-	     otherwise NOTREACHED */
+	     otherwise UNREACHED */
 	  /* put tag in result reg if definition is call of proc,
 	     or body ends with return tag, provided result is not
 	     used otherwise */
@@ -1277,7 +1276,7 @@ scan ( exp * e, exp ** at ){
 	stat = &bro ( *stat ) ;
 	arg = stat ;
       }
-      /* NOT REACHED */
+      UNREACHED;
     }
 
     case goto_tag : {
@@ -2494,6 +2493,7 @@ scan ( exp * e, exp ** at ){
       return zeroneeds;
     }
   }
-  /* NOT REACHED */
+
+  UNREACHED;
 }
 

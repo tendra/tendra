@@ -11,6 +11,7 @@
 #include <string.h>
 #include <stdio.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include <reader/exp.h>
@@ -94,7 +95,8 @@ special_call_name ( int i )
 	    error(ERR_SERIOUS,  "Attempting external call to builtin" ) ;
 	    return "";
     }
-    /* NOT REACHED */
+
+	UNREACHED;
 }
 
 
@@ -168,7 +170,8 @@ specialneeds ( int i, exp application, exp pars )
 	    return zeroneeds;
 	}
     }
-    /* NOT REACHED */
+
+	UNREACHED;
 }
 
 

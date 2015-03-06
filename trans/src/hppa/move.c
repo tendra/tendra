@@ -20,6 +20,7 @@
 
 #include <assert.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include <local/ash.h>
@@ -497,7 +498,7 @@ start:
  		 error(ERR_SERIOUS, "fixed -> wrong dest");
 
       }				/* end switch dest */
-      /* NOTREACHED */
+      UNREACHED;
     }				/* end inreg a */
 
   case infreg:
@@ -607,7 +608,7 @@ start:
 	}			/* end notinreg dest */
       default:{}
       }				/* end switch dest */
-      /* NOTREACHED */
+      UNREACHED;
     }				/* end infreg a */
 
   case notinreg:
@@ -724,7 +725,7 @@ start:
 	/* source instore, dest bitadd should be coped with elsewhere */
 	{
 	  error(ERR_SERIOUS, "mem to mem bit move");
-	  /* NOTREACHED */
+      UNREACHED;
 	}
 #endif
 
@@ -1052,6 +1053,6 @@ regs |= RMASK(pr);
   }				/* end switch a */
 
   error(ERR_SERIOUS, "move not handled");
-  return 0;  /* NOTREACHED */
+  return 0;
 }
 

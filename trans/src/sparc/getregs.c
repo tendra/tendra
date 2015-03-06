@@ -102,7 +102,8 @@ getreg ( long fixed ){
       return R_G1;
     }
   }
-  /* NOT REACHED */
+
+  UNREACHED;
 }
 
 
@@ -140,5 +141,6 @@ getfreg ( long fl ){
       return 0;
     }
   }
-  /* NOT REACHED */
+
+  UNREACHED;
 }

@@ -18,6 +18,7 @@
 #include <ctype.h>
 #include <stdio.h>
 
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include <local/ash.h>
@@ -255,7 +256,7 @@ long evalexp(exp e)
     error(ERR_SERIOUS, "tag not in evalexp");
     return 0;
   }
-  /*NOTREACHED*/
+  UNREACHED;
 }
 
 
@@ -765,7 +766,7 @@ static void evalone(exp e, int bitposn)
 
 	tupa = ashof(sh(tup));
       }
-      /*NOTREACHED*/
+      UNREACHED;
     }
 
   case nof_tag:
@@ -779,7 +780,7 @@ static void evalone(exp e, int bitposn)
 	  return;
 	s = bro(s);
       }
-      /* NOTREACED */
+      UNREACHED;
     }
 
   case ncopies_tag:

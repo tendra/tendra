@@ -172,7 +172,8 @@ make_keyword(HASHID nm, int key, IDENTIFIER id)
 		}
 		ptr = id_alias(pid);
 	}
-	/* NOTREACHED */
+
+	UNREACHED;
 }
 
 
@@ -361,7 +362,8 @@ read_char(void)
 		crt_loc.column = 0;
 		input_crt = input_posn;
 	}
-	/* NOTREACHED */
+
+	UNREACHED;
 }
 
 

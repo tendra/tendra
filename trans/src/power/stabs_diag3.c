@@ -920,7 +920,7 @@ static int TypeNo_of_shape(shape s)
       assert(0);		/* fail if debugging */
       return TYPEID_VOID;	/* return something that will work */
     }
-    /* NOTREACHED */
+    UNREACHED;
   }
 }
 
@@ -1019,7 +1019,7 @@ static int size_dt(diag_type dt)
 	/* stride not expected to be <= 0, but just in case ... */
 	return nelements * size_dt(dt->data.array.element_type);
       }
-      /* NOTREACHED */
+      UNREACHED;
     }
    case DIAG_TYPE_STRUCT:
     {
