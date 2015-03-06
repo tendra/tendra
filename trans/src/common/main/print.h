@@ -1,4 +1,4 @@
-/* $Id: driver.h 3277 2014-05-29 16:16:15Z kate $ */
+/* $Id$ */
 
 /*
  * Copyright 2015, The TenDRA Project.
