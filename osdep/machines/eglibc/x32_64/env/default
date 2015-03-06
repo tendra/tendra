@@ -3,7 +3,7 @@
 +LIB_LDSO	"/lib/ld-linux.so.2"
 
 +LIB_CRT0	"/usr/lib32/crt1.o"
-+LIB_CRTN	"/usr/lib32/crti.o"
++LIB_CRTI	"/usr/lib32/crti.o"
 +LIB_CRTN	"/usr/lib32/crtn.o"
 
 /* for -lc */
