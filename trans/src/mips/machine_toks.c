@@ -12,12 +12,18 @@
 int
 machine_toks(char * s)
 {
-  if (!strcmp(s, "~div"))
-    return 1;
-  if (!strcmp(s, "JMFprofile"))
-    return 1;
-  if (!strcmp(s, "JMFinline"))
-    return 1;
+	if (!strcmp(s, "~div")) {
+		return 1;
+	}
 
-  return 0;
+	if (!strcmp(s, "JMFprofile")) {
+		return 1;
+	}
+
+	if (!strcmp(s, "JMFinline")) {
+		return 1;
+	}
+
+	return 0;
 }
+
