@@ -17,6 +17,9 @@
 #include <shared/xalloc.h>
 
 #include <reader/exp.h>
+#include <reader/code.h>
+#include <reader/basicread.h>
+#include <reader/externs.h>
 
 #include <local/szs_als.h>
 #include <local/out.h>
@@ -35,10 +38,6 @@
 #include <main/flags.h>
 #include <main/print.h>
 
-#include <reader/code.h>
-#include <reader/basicread.h>
-#include <reader/externs.h>
-
 #include <linkinfo/li_types.h>
 
 #include <diag4/dg_types.h>
@@ -48,11 +47,11 @@
 #include "localtypes.h"
 #include "instr.h"
 
-extern int locals_offset;	/* declared in cproc.c */
+extern int locals_offset; /* declared in cproc.c */
 
+static void stab_file(dg_filename);
 static void stab_scope_open(dg_filename);
 static void stab_scope_close(void);
-static void stab_file(dg_filename);
 static void stab_local(dg_name, int);
 static void stab_types(void);
 
@@ -74,9 +73,6 @@ d_outnl(void)
 	IGNORE fputs("\n", dg_file);
 }
 
-/*
- * BASIC TYPE NUMBERS
- */
 #define STAB_SCHAR	4
 #define STAB_UCHAR	6
 #define STAB_SSHRT	2
@@ -100,9 +96,6 @@ d_outnl(void)
  */
 static long reg_stabno[8] = { 0, 2, 1, 3, 7, 6, 5, 4 };
 
-/*
- * BASIC POINTERS
- */
 static long stab_ptrs[NO_STABS] = {
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
@@ -117,13 +110,10 @@ static long typeno;
  */
 static long last_type_sz = 0;
 
-/*
- * CURRENT LINE NUMBER AND FILE NUMBER
- */
 long currentlno = -1;
 
 dg_filename currentfile = NULL;
-dg_filename prim_file = NULL;
+dg_filename prim_file   = NULL;
 
 static long *type_sizes;
 static int total_type_sizes = 0;
@@ -141,7 +131,7 @@ next_typen(void)
 	if (typeno >= total_type_sizes) {
 		int i, n = total_type_sizes, m = n + 100;
 
-		type_sizes = xrealloc(type_sizes, (size_t)m * sizeof * type_sizes);
+		type_sizes = xrealloc(type_sizes, m * sizeof *type_sizes);
 		for (i = n; i < m; i++) {
 			type_sizes[i] = 0;
 		}
@@ -168,7 +158,7 @@ out_procname(void)
 /*
  * OUTPUT A FILE POSITION CONSTRUCT
  */
-#define N_SLINE 0x44
+#define N_SLINE  0x44
 #define N_DSLINE 0x46
 #define N_BSLINE 0x48
 #define N_LBRAC  0xc0
@@ -185,8 +175,8 @@ stabd(dg_filename f, long lno, int seg)
 
 	stab_file(f);
 
-	if (seg != 0) {		/* 0 suppresses always */
-		if (seg > 0) {		/* -ve line nos are put out in the stabs */
+	if (seg != 0) { /* 0 suppresses always */
+		if (seg > 0) { /* -ve line nos are put out in the stabs */
 			i = next_d_lab();
 			asm_fprintf(dg_file, ".LL.%ld:\n", i);
 			asm_fprintf(dg_file, "\t.stabn\t0x%x,0,%ld,.LL.%ld-", seg, lno, i);
@@ -205,7 +195,7 @@ void
 code_diag_info(dg_info d, void(*mcode)(void *), void *args)
 {
 	if (d == nildiag) {
-		(*mcode)(args);
+		mcode(args);
 		return;
 	}
 
@@ -237,17 +227,19 @@ code_diag_info(dg_info d, void(*mcode)(void *), void *args)
 	case DGA_EXTRA: {
 		dg_filename f = currentfile;
 		long l = currentlno + 1;
+
 		if (d->data.i_scope.lexpos.line) {
 			f = d->data.i_scope.lexpos.file;
 			l = d->data.i_scope.lexpos.line;
 		}
+
 		stab_scope_open(f);
 		stabd(f, l, N_SLINE);
 		code_diag_info(d->more, mcode, args);
 		stab_scope_close();
+
 		if (d->data.i_scope.endpos.line) {
-			stabd(d->data.i_scope.endpos.file, d->data.i_scope.endpos.line,
-			      N_SLINE);
+			stabd(d->data.i_scope.endpos.file, d->data.i_scope.endpos.line, N_SLINE);
 		}
 		break;
 	}
@@ -344,8 +336,7 @@ stab_file(dg_filename f)
 	asm_fprintf(dg_file, ".LL.%ld:\n", i);
 
 	if (f->file_name[0] != '/' && f->file_path[0]) {
-		asm_fprintf(dg_file, "\t.stabs\t\"%s/\",0x%x,0,0,.LL.%ld\n",
-		            f->file_path, stb, i);
+		asm_fprintf(dg_file, "\t.stabs\t\"%s/\",0x%x,0,0,.LL.%ld\n", f->file_path, stb, i);
 	}
 
 	asm_fprintf(dg_file, "\t.stabs\t\"%s\",0x%x,0,0,.LL.%ld\n",
@@ -494,24 +485,24 @@ type_size(dg_type dt)
 
 	switch (dt->key) {
 	case DGT_TAGGED: {
-		dg_tag tg = dt->data.t_tag;
+		dg_tag tag = dt->data.t_tag;
 
-		if (tg->key == DGK_NONE) {
+		if (tag->key == DGK_NONE) {
 			return 0;
 		}
 
-		if (tg->key == DGK_TYPE) {
-			dg_type ref_t = tg->p.typ;
+		if (tag->key == DGK_TYPE) {
+			dg_type ref_t = tag->p.typ;
 			if (ref_t == dt) {
 				return type_sizes[find_basic_type(ref_t->outref.u.s)];
 			}
 			return type_size(ref_t);
 		}
 
-		if (tg->key == DGK_NAME) {
-			dg_name ref_n = tg->p.nam;
+		if (tag->key == DGK_NAME) {
+			dg_name ref_n = tag->p.nam;
 			if (ref_n->key == DGN_TYPE /* && ref_n->idnam.id_key == DG_ID_NONE */) {
-				dg_type ref_t = tg->p.nam->data.n_typ.raw;
+				dg_type ref_t = tag->p.nam->data.n_typ.raw;
 				return type_size(ref_t);
 			}
 		}
@@ -582,25 +573,25 @@ out_dt_shape(dg_type dt)
 	switch (dt->key) {
 
 	case DGT_TAGGED: {
-		dg_tag tg = dt->data.t_tag;
+		dg_tag tag = dt->data.t_tag;
 
-		if (tg->done) {
-			dt->outref = tg->outref;
+		if (tag->done) {
+			dt->outref = tag->outref;
 			out_dt_shape(dt);
 			break;
 		}
 
-		if (tg->key == DGK_NONE) {
+		if (tag->key == DGK_NONE) {
 			error(ERR_INTERNAL, "external type");
-			tg->done = 1;
-			tg->outref.k = LAB_D;
-			tg->outref.u.l = 0;
+			tag->done = 1;
+			tag->outref.k = LAB_D;
+			tag->outref.u.l = 0;
 			out_dt_shape(dt);
 			break;
 		}
 
-		if (tg->key == DGK_TYPE) {
-			dg_type ref_t = tg->p.typ;
+		if (tag->key == DGK_TYPE) {
+			dg_type ref_t = tag->p.typ;
 			if (ref_t == dt) {
 				if (ref_t->outref.k != LAB_STR) {
 					error(ERR_INTERNAL, "uninitialised?");
@@ -609,37 +600,36 @@ out_dt_shape(dg_type dt)
 				ref_t->outref.u.l = find_basic_type(ref_t->outref.u.s);
 			}
 			out_dt_shape(ref_t);
-			dt->outref = tg->outref = ref_t->outref;
-			tg->done = 1;
+			dt->outref = tag->outref = ref_t->outref;
+			tag->done = 1;
 			break;
 		}
 
-		if (tg->key == DGK_NAME) {
-			dg_name ref_n = tg->p.nam;
+		if (tag->key == DGK_NAME) {
+			dg_name ref_n = tag->p.nam;
 			if (ref_n->key == DGN_TYPE /* && ref_n->idnam.id_key == DG_ID_NONE */) {
-				dg_type ref_t = tg->p.nam->data.n_typ.raw;
+				dg_type ref_t = tag->p.nam->data.n_typ.raw;
 				out_dt_shape(ref_t);
-				dt->outref = tg->outref = ref_t->outref;
-				tg->done = 1;
+				dt->outref = tag->outref = ref_t->outref;
+				tag->done = 1;
 				break;
 			}
 		}
 
 		error(ERR_INTERNAL, "unfinished convolution");
 
-		tg->done = 1;
-		tg->outref.k = LAB_D;
-		tg->outref.u.l = 0;
+		tag->done = 1;
+		tag->outref.k = LAB_D;
+		tag->outref.u.l = 0;
 		out_dt_shape(dt);
 		break;
 	}
 
-	case DGT_BASIC: {
+	case DGT_BASIC:
 		dt->outref.u.l = out_sh_type(dt->data.t_bas.b_sh, dt->data.t_bas.tnam);
 		dt->outref.k = LAB_D;
 		out_dt_shape(dt);
 		break;
-	}
 
 	case DGT_QUAL: {
 		if (dt->data.t_qual.q_key == DG_PTR_T) {
@@ -763,8 +753,7 @@ out_dt_shape(dg_type dt)
 			depth_now++;
 			asm_fprintf(dg_file, "%s:", el[i].d.cm_f.fnam);
 			out_dt_shape(el[i].d.cm_f.f_typ);
-			asm_fprintf(dg_file, ",%ld,%ld;", offset,
-			            type_size(el[i].d.cm_f.f_typ));
+			asm_fprintf(dg_file, ",%ld,%ld;", offset, type_size(el[i].d.cm_f.f_typ));
 		}
 
 		asm_fprintf(dg_file, ";");
@@ -795,13 +784,12 @@ out_dt_shape(dg_type dt)
 		break;
 	}
 
-	default : {
+	default:
 		asm_fprintf(dg_file, "%d", STAB_VOID);
 		dt->outref.u.l = STAB_VOID;
 		dt->outref.k = LAB_D;
 		last_type_sz = 0;
 		break;
-	}
 	}
 }
 
@@ -892,7 +880,7 @@ diag_proc_end(void)
 				this_i = 0;
 			}
 
-			t = (this_a->a) + (this_i ++);
+			t = this_a->a + this_i++;
 
 			switch (t->del_t) {
 			case D_PARAM:
@@ -942,8 +930,7 @@ stab_local(dg_name di, int param)
 	}
 
 	id = son(id);
-	if (name(id) == cont_tag && name(son(id)) == name_tag &&
-	    isvar(son(son(id)))) {
+	if (name(id) == cont_tag && name(son(id)) == name_tag && isvar(son(son(id)))) {
 		id = son(id);
 	}
 
@@ -977,7 +964,7 @@ stab_types(void)
 {
 	total_type_sizes = NO_STABS;
 	typeno = NO_STABS;
-	type_sizes = (long *)xmalloc(NO_STABS * sizeof(long));
+	type_sizes = xmalloc(NO_STABS * sizeof(long));
 
 	asm_fprintf(dg_file, "\t.stabs\t\"int:t1=r1;-2147483648;2147483647;\",0x80,0,0,0\n");
 	asm_fprintf(dg_file, "\t.stabs\t\"short int:t2=r1;-32768;32767;\",0x80,0,0,0\n");
@@ -1046,7 +1033,7 @@ init_stab_aux(void)
 		if (prim_file->file_name[0] != '/' && prim_file->file_path[0]) {
 			asm_fprintf(dg_file, "%s/", prim_file->file_path);
 		}
-		asm_fprintf(dg_file, "%s\"\n", prim_file ->file_name);
+		asm_fprintf(dg_file, "%s\"\n", prim_file->file_name);
 		stab_file(prim_file);
 	} else {
 		asm_fprintf(dg_file, "\t.file\t\"no_source_file\"\n");
@@ -1054,7 +1041,7 @@ init_stab_aux(void)
 
 	stab_types();
 
-	for (this_comp = all_comp_units;; this_comp; this_comp = this_comp->another) {
+	for (this_comp = all_comp_units; this_comp; this_comp = this_comp->another) {
 		dg_name item;
 
 		for (item = this_comp->dn_list; item; item = item->next) {
@@ -1078,9 +1065,9 @@ init_stab_aux(void)
 					asm_fprintf(dg_file, "\",0x80,0,0,0\n");
 				} else if ((dt->key == DGT_STRUCT &&
 				            (dt->data.t_struct.idnam.id_key == DG_ID_SRC ||
-				             dt->data.t_struct.idnam.id_key == DG_ID_EXT) &&
-				            (s = dt->data.t_struct.idnam.idd.nam, s[0])) ||
-				           (dt->key == DGT_ENUM && (s = dt->data.t_enum.tnam, s[0]))) {
+				             dt->data.t_struct.idnam.id_key == DG_ID_EXT)
+				            && (s = dt->data.t_struct.idnam.idd.nam, s[0]))
+				           || (dt->key == DGT_ENUM && (s = dt->data.t_enum.tnam, s[0]))) {
 					asm_fprintf(dg_file, "\t.stabs\t\"%s:", s);
 					if (dt->outref.k == LAB_D) {
 						asm_fprintf(dg_file, "%d", (int)dt->outref.u.l);

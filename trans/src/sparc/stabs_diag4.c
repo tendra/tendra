@@ -16,22 +16,22 @@
 #include <shared/xalloc.h>
 
 #include <reader/exp.h>
-#include <local/szs_als.h>
-
-#include <construct/shape.h>
-#include <construct/tags.h>
-#include <construct/installtypes.h>
-#include <construct/exp.h>
-#include <construct/installglob.h>
-
-#include <main/driver.h>
-#include <main/flags.h>
-
 #include <reader/code.h>
 #include <reader/token.h>
 #include <reader/read_fns.h>
 #include <reader/externs.h>
 #include <reader/basicread.h>
+
+#include <local/szs_als.h>
+
+#include <construct/installtypes.h>
+#include <construct/shape.h>
+#include <construct/tags.h>
+#include <construct/exp.h>
+#include <construct/installglob.h>
+
+#include <main/driver.h>
+#include <main/flags.h>
 
 #include "addrtypes.h"
 #include "proctypes.h"
@@ -85,7 +85,6 @@ static long stab_ptrs[NO_STABS] = {
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
-
 /*
  * CURRENT TYPE NUMBER
  */
@@ -99,7 +98,7 @@ static long last_type_sz = 0;
 long currentlno = -1;
 
 dg_filename currentfile = NULL;
-dg_filename prim_file = NULL;
+dg_filename prim_file   = NULL;
 
 static long *type_sizes;
 static int total_type_sizes = 0;
@@ -117,7 +116,7 @@ next_typen(void)
 	if (typeno >= total_type_sizes) {
 		int i, n = total_type_sizes, m = n + 100;
 
-		type_sizes = (long *)xrealloc(type_sizes, (size_t)m * sizeof(long));
+		type_sizes = xrealloc(type_sizes, m * sizeof *type_sizes);
 		for (i = n; i < m; i++) {
 			type_sizes[i] = 0;
 		}
@@ -128,15 +127,14 @@ next_typen(void)
 	return typeno++;
 }
 
-/* solaris stores line no's relative
-to the start of the procedure, so
-remember the name */
-static char * last_proc_lab = "<<No Proc>>";
+/* solaris stores line no's relative to the start of the procedure, so
+   remember the name */
+static char *last_proc_lab = "<<No Proc>>";
 
 /*
  * OUTPUT A FILE POSITION CONSTRUCT
  */
-#define N_SLINE 0x44
+#define N_SLINE  0x44
 #define N_DSLINE 0x46
 #define N_BSLINE 0x48
 #define N_LBRAC  0xc0
@@ -150,10 +148,11 @@ stabd(dg_filename f, long lno, int seg)
 	if (f == currentfile && lno == currentlno) {
 		return;
 	}
+
 	stab_file(f);
 
-	if (seg != 0) {		/* 0 suppresses always */
-		if (seg > 0) {	/* -ve line nos are put out in the stabs */
+	if (seg != 0) { /* 0 suppresses always */
+		if (seg > 0) { /* -ve line nos are put out in the stabs */
 			i = next_d_lab();
 			asm_fprintf(dg_file, "\t.stabn\t0x%x,0,%ld,.LL.%ld-%s\n", seg,
 			            lno, i, last_proc_lab);
@@ -168,10 +167,10 @@ stabd(dg_filename f, long lno, int seg)
  * OUTPUT DIAGNOSTICS SURROUNDING CODE
  */
 void
-code_diag_info(dg_info d, void(*mcode)(void *), void * args)
+code_diag_info(dg_info d, void(*mcode)(void *), void *args)
 {
 	if (d == nildiag) {
-		(*mcode)(args);
+		mcode(args);
 		return;
 	}
 
@@ -194,9 +193,9 @@ code_diag_info(dg_info d, void(*mcode)(void *), void * args)
 		}
 
 		code_diag_info(d->more, mcode, args);
-		if (d->data.i_src.endpos.line)
-			stabd(d->data.i_src.endpos.file, d->data.i_src.endpos.line,
-			      N_SLINE);
+		if (d->data.i_src.endpos.line) {
+			stabd(d->data.i_src.endpos.file, d->data.i_src.endpos.line, N_SLINE);
+		}
 		break;
 	}
 
@@ -215,9 +214,9 @@ code_diag_info(dg_info d, void(*mcode)(void *), void * args)
 		code_diag_info(d->more, mcode, args);
 		stab_scope_close();
 
-		if (d->data.i_scope.endpos.line)
-			stabd(d->data.i_scope.endpos.file, d->data.i_scope.endpos.line,
-			      N_SLINE);
+		if (d->data.i_scope.endpos.line) {
+			stabd(d->data.i_scope.endpos.file, d->data.i_scope.endpos.line, N_SLINE);
+		}
 		break;
 	}
 
@@ -298,11 +297,10 @@ find_basic_type(char *s)
 
 
 /*
-  OUTPUT DIAGNOSTICS DIRECTIVE FOR A FILE
-*/
-
-static void stab_file
-(dg_filename f)
+ * OUTPUT DIAGNOSTICS DIRECTIVE FOR A FILE
+ */
+static void
+stab_file(dg_filename f)
 {
 	long i = next_d_lab();
 	int stb;
@@ -333,7 +331,7 @@ struct delay_stab {
 	int del_t;
 	union {
 		struct {
-			char * nm;
+			char *nm;
 			dg_type dt;
 			int offset;
 		} l;
@@ -395,7 +393,7 @@ stab_scope_open(dg_filename f)
 	stab_file(f);
 
 	if (open_label != 0) {
-		struct delay_stab * t = next_del_stab();
+		struct delay_stab *t = next_del_stab();
 		t->del_t = D_BRACKET;
 		t->u.b.br = N_LBRAC;
 		t->u.b.lev = bracket_level;
@@ -415,10 +413,10 @@ static void
 stab_scope_close(void)
 {
 	long i;
-	struct delay_stab * x;
+	struct delay_stab *x;
 
 	if (open_label != 0) {
-		struct delay_stab * t = next_del_stab();
+		struct delay_stab *t = next_del_stab();
 		t->del_t = D_BRACKET;
 		t->u.b.br = N_LBRAC;
 		t->u.b.lev = bracket_level;
@@ -499,7 +497,7 @@ type_size(dg_type dt)
 			return type_size(pdt);
 		}
 
-	case DGT_ARRAY: {
+	case DGT_ARRAY:
 		if (dt->data.t_arr.dims.len == 1) {
 			dg_dim x;
 			x = dt->data.t_arr.dims.array[0];
@@ -512,7 +510,6 @@ type_size(dg_type dt)
 			}
 		}
 		return 0;
-	}
 
 	case DGT_ENUM:
 		return shape_size(dt->data.t_enum.sha);
@@ -695,7 +692,7 @@ out_dt_shape(dg_type dt)
 
 	case DGT_ENUM: {
 		int i;
-		dg_enum * el = dt->data.t_enum.values.array;
+		dg_enum *el = dt->data.t_enum.values.array;
 
 		if (dt->outref.k >= 0) {
 			dt->outref.u.l = next_typen();
@@ -731,7 +728,7 @@ out_dt_shape(dg_type dt)
 			if (depth_now >= max_depth) {
 				depth_now = 0;
 				asm_fprintf(dg_file, "\\\\\",0x80,0,%d,%d\n", 0, 0);
-				asm_fprintf(dg_file,	"\t.stabs\t\"");
+				asm_fprintf(dg_file, "\t.stabs\t\"");
 			}
 			depth_now++;
 			asm_fprintf(dg_file, "%s:", el[i].d.cm_f.fnam);
@@ -844,7 +841,7 @@ stab_proc_end(void)
 		int this_i = 0;
 
 		while (this_a != c_del_array || this_i != c_del_index) {
-			struct delay_stab * t;
+			struct delay_stab *t;
 
 			if (this_i == DEL_SIZE) {
 				this_a = this_a->more;
@@ -895,7 +892,7 @@ static void
 stab_local(dg_name di, int param)
 {
 	exp id = di->data.n_obj.obtain_val;
-	struct delay_stab * t;
+	struct delay_stab *t;
 	char *nm;
 	dg_type dt;
 	long disp;
@@ -910,7 +907,7 @@ stab_local(dg_name di, int param)
 	}
 
 	if (name(id) != name_tag || isdiscarded(id) || (isglob(son(id)) &&
-	        no(son(id)) == 0 && !(brog(son(id)) ->extnamed))) {
+	        no(son(id)) == 0 && !(brog(son(id))->extnamed))) {
 		return;
 	}
 
@@ -921,7 +918,7 @@ stab_local(dg_name di, int param)
 	t = next_del_stab();
 
 	if (name(id) == ident_tag && ((props(id) & defer_bit) == 0)) {
-		disp += boff ( id ).offset ;    /* is this condition right ? */
+		disp += boff ( id ).offset; /* is this condition right ? */
 	}
 
 again:
@@ -1016,8 +1013,8 @@ stab_types(void)
 /*
  * INITIALISE DIAGNOSTICS
  */
-void init_stab
-(void)
+void
+init_stab(void)
 {
 }
 
@@ -1049,7 +1046,7 @@ init_stab_aux(void)
 		for (item = this_comp->dn_list; item; item = item->next) {
 			if (item->key == DGN_TYPE && item->data.n_typ.raw->key != DGT_UNKNOWN) {
 				dg_type dt = item->data.n_typ.raw;
-				char * s = idname_chars(item->idnam);
+				char *s = idname_chars(item->idnam);
 				if (s[0]) {
 					asm_fprintf(dg_file, "\t.stabs\t\"%s:", s);
 					if (dt->outref.k == LAB_STR) {
