@@ -985,9 +985,9 @@ stab_types(void)
 	asm_fprintop(dg_file, ".stabs \"double:t11=r1;8;0;\",0x80,0,0,0");
 	asm_fprintf(dg_file, ".stabs \"long double:t12=r1;%ld;0;\",0x80,0,0,0\n", DOUBLE_SZ / 8);
 	asm_fprintop(dg_file, ".stabs \"void:t13=13\",0x80,0,0,0");
-	asm_fprintop(dg_file, ".stabs \"long long int:t14=r1;", dg_file);
+	asm_fprintop(dg_file, ".stabs \"long long int:t14=r1;");
 	asm_fprintf(dg_file, "01000000000000000000000;0777777777777777777777;\",0x80,0,0,0\n");
-	asm_fprintop(dg_file, ".stabs \"unsigned long long int:t15=r1;", dg_file);
+	asm_fprintop(dg_file, ".stabs \"unsigned long long int:t15=r1;");
 	asm_fprintf(dg_file, "0000000000000;01777777777777777777777;\",0x80,0,0,0\n");
 	asm_fprintop(dg_file, ".stabs \"__void_star:t16=*13\",0x80,0,0,0");
 
