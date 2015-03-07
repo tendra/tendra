@@ -11,17 +11,10 @@
 #define SPARCDDECS_INCLUDED
 
 #include <diag4/dg_first.h>
+#include <diag4/diag_reform.h>
 
 #include <reader/exp.h>
 
 #include <construct/installtypes.h>
-
-extern void init_stab(void);
-extern void init_stab_aux(void);
-extern void code_diag_info(dg_info, void(*)(void *), void *);
-extern void stab_global(dg_name, exp, char *, int);
-extern void stab_proc(dg_name, exp, char *, int);
-extern void stab_proc_end(void);
-extern void stab_types(void);
 
 #endif /* SPARCDDECS_INCLUDED */

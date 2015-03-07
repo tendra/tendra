@@ -137,8 +137,12 @@
 #include "special.h"
 #include "localexpmacs.h"
 
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG3
 #include <diag3/diag_reform.h>
+#endif
+
+#ifdef TDF_DIAG4
+#include <diag4/diag_reform.h>
 #endif
 
 #ifdef TDF_DIAG4
@@ -622,7 +626,7 @@ translate_capsule (void){
 #ifdef DIAG3_STABS
 			diag3_driver->stab_global(diag_props, stg, id, extnamed);
 #else
-			stab_global(diag_props, stg, id, extnamed);
+			diag4_driver->stab_global(diag_props, stg, id, extnamed);
 #endif
 		}
 	}

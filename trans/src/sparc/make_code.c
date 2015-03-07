@@ -67,7 +67,11 @@
 #include "new_tags.h"
 #include "localexpmacs.h"
 
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG4
+#include <diag4/diag_reform.h>
+#endif
+
+#ifdef TDF_DIAG3
 #include <diag3/diag_reform.h>
 #endif
 
@@ -4620,14 +4624,14 @@ make_code ( exp e, space sp, where dest, int exitlab )
     args.dest = dest;
     args.exitlab = exitlab;
 #ifndef TDF_DIAG4
-	code_diag_info(dgf(e), 0, &make_code_2, (void*)&args);
+	diag4_driver->code_diag_info(dgf(e), 0, &make_code_2, (void*)&args);
 #else
 #if DWARF2
 	if (diag == DIAG_DWARF2) {
 		dw2_code_info(dgf(e), &make_code_2, (void*)&args);
 	}
 #else
-	code_diag_info(dgf(e), &make_code_2, (void*)&args);
+	diag4_driver->code_diag_info(dgf(e), &make_code_2, (void*)&args);
 #endif
 #endif
     current_dg_info = was_current;
@@ -4653,14 +4657,14 @@ diag_arg ( exp e, space sp, where dest )
     args.dest = dest;
     args.exitlab = 0;
 #ifndef TDF_DIAG4
-	code_diag_info(dgf(e), 0, &make_code_2, (void*)&args);
+	diag4_driver->code_diag_info(dgf(e), 0, &make_code_2, (void*)&args);
 #else
 #if DWARF2
 	if (diag == DIAG_DWARF2) {
 		dw2_code_info(dgf(e), &make_code_2, (void*)&args);
 	}
 #else
-	code_diag_info(dgf(e), &make_code_2, (void*)&args);
+	diag4_driver->code_diag_info(dgf(e), &make_code_2, (void*)&args);
 #endif
 #endif
   }

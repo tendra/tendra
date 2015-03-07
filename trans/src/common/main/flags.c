@@ -59,8 +59,12 @@ int dump_abbrev = 1;
 #endif
 
 /* TODO: merge with diag */
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG3
 const struct diag3_driver *diag3_driver;
+#endif
+
+#ifdef TDF_DIAG4
+const struct diag4_driver *diag4_driver;
 #endif
 
 enum has     has;
@@ -364,6 +368,10 @@ extern const struct diag3_driver diag3_driver_dw1;
 extern const struct diag3_driver diag3_driver_cv;
 #endif
 
+#ifdef TDF_DIAG4
+extern const struct diag4_driver diag4_driver_stabs;
+#endif
+
 enum diag
 switch_diag(const char *s, unsigned permitted)
 {
@@ -372,7 +380,12 @@ switch_diag(const char *s, unsigned permitted)
 
 	struct {
 		const char *name;
+#ifdef TDF_DIAG3
 		const struct diag3_driver *driver;
+#endif
+#ifdef TDF_DIAG4
+		const struct diag4_driver *driver;
+#endif
 		enum diag diag;
 	} a[] = {
 		{ "none",    NULL,                DIAG_NONE    },
@@ -387,6 +400,9 @@ switch_diag(const char *s, unsigned permitted)
 		{ "stabx",   &diag3_driver_stabs, DIAG_STABX   },
 		{ "xdb_old", &diag3_driver_stabs, DIAG_XDB_OLD },
 		{ "xdb_new", &diag3_driver_stabs, DIAG_XDB_NEW },
+#endif
+#ifdef DIAG4_STABS
+		{ "stabs",   &diag4_driver_stabs, DIAG_STABS   },
 #endif
 #ifdef DIAG3_DWARF1
 		{ "dwarf1",  &diag3_driver_dw1,   DIAG_DWARF1  },
@@ -417,6 +433,14 @@ switch_diag(const char *s, unsigned permitted)
 #ifdef TDF_DIAG3
 	diag3_driver = a[i].driver;
 	if (diag != DIAG_NONE && diag3_driver == NULL) {
+		error(ERR_FATAL, "Diagnostic format %s has no driver", s);
+		return -1;
+	}
+#endif
+
+#ifdef TDF_DIAG4
+	diag4_driver = a[i].driver;
+	if (diag != DIAG_NONE && diag4_driver == NULL) {
 		error(ERR_FATAL, "Diagnostic format %s has no driver", s);
 		return -1;
 	}

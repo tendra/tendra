@@ -37,6 +37,7 @@
 
 #ifdef TDF_DIAG4
 #include <diag4/diag_fns.h>
+#include <diag4/diag_reform.h>
 #else
 #include <diag3/diag_fns.h>
 #include <diag3/diag_reform.h>
@@ -238,7 +239,7 @@ static void code_def
 		if (diag != DIAG_DWARF2) {
 #ifndef DWARF2
 #ifdef TDF_DIAG4
-           out_diag_global(diag_props, is_ext, -1, id);
+           diag4_driver->out_diag_global(diag_props, is_ext, -1, id);
 #endif
 #endif
 		}

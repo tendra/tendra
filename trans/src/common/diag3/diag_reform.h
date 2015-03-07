@@ -6,8 +6,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef DIAG_REFORM_H
-#define DIAG_REFORM_H
+#ifndef DIAG3_REFORM_H
+#define DIAG3_REFORM_H
 
 /*
  * This header is an attempt to reform the interfaces for diag3/ and diag4/

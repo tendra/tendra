@@ -32,6 +32,7 @@
 
 #include <main/driver.h>
 #include <main/flags.h>
+#include <main/print.h>
 
 #include "addrtypes.h"
 #include "proctypes.h"
@@ -44,6 +45,7 @@
 #include <diag4/dg_types.h>
 #include <diag4/dg_aux.h>
 #include <diag4/dg_globs.h>
+#include <diag4/diag_reform.h>
 
 extern bool last_param(exp);
 
@@ -140,7 +142,7 @@ static char *last_proc_lab = "<<No Proc>>";
 #define N_LBRAC  0xc0
 #define N_RBRAC  0xe0
 
-void
+static void
 stabd(dg_filename f, long lno, int seg)
 {
 	long i;
@@ -166,7 +168,7 @@ stabd(dg_filename f, long lno, int seg)
 /*
  * OUTPUT DIAGNOSTICS SURROUNDING CODE
  */
-void
+static void
 code_diag_info(dg_info d, void(*mcode)(void *), void *args)
 {
 	if (d == nildiag) {
@@ -776,7 +778,7 @@ out_dt_shape(dg_type dt)
 /*
  * OUTPUT DIAGNOSTICS FOR A GLOBAL VARIABLE
  */
-void
+static void
 stab_global(dg_name di, exp global, char * id, int ext)
 {
 	char *nm;
@@ -806,8 +808,8 @@ stab_global(dg_name di, exp global, char * id, int ext)
 /*
  * OUTPUT DIAGNOSTICS FOR A PROCEDURE
  */
-void stab_proc
-(dg_name di, exp proc, char * id, int ext)
+static void
+stab_proc(dg_name di, exp proc, char * id, int ext)
 {
 	char *nm;
 	dg_type dt;
@@ -833,7 +835,7 @@ void stab_proc
 	asm_fprintf(dg_file, "\",0x24,0,%ld,%s\n", di->whence.line, id);
 }
 
-void
+static void
 stab_proc_end(void)
 {
 	if (del_stab_start != NULL) {
@@ -964,7 +966,7 @@ again:
 /*
  * DEAL WITH BASIC TYPES
  */
-void
+static void
 stab_types(void)
 {
 	total_type_sizes = NO_STABS;
@@ -1013,12 +1015,12 @@ stab_types(void)
 /*
  * INITIALISE DIAGNOSTICS
  */
-void
+static void
 init_stab(void)
 {
 }
 
-void
+static void
 init_stab_aux(void)
 {
 	dg_compilation this_comp;
@@ -1079,4 +1081,17 @@ init_stab_aux(void)
 		}
 	}
 }
+
+const struct diag4_driver diag4_driver_stabs = {
+	init_stab,
+	init_stab_aux,
+	NULL,
+
+	stabd,
+	code_diag_info,
+	stab_global,
+	stab_proc,
+	stab_proc_end,
+	stab_types
+};
 

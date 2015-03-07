@@ -31,6 +31,7 @@
 
 #ifdef TDF_DIAG4
 #include <diag4/diag_fns.h>
+#include <diag4/diag_reform.h>
 #else
 #include <diag3/diag_fns.h>
 #include <diag3/diag_reform.h>
@@ -575,7 +576,7 @@ void evaluate
   if (diag_props) {
     if (diag != DIAG_DWARF2) {
 #if defined(STABS) && defined(TDF_DIAG4)
-		out_diag_global(diag_props, global, cname, s);
+		diag4_driver->out_diag_global(diag_props, global, cname, s);
 #endif
 	}
 #ifndef TDF_DIAG4

@@ -220,7 +220,12 @@ cleanup(void)
 #endif
 			if (diag != DIAG_NONE) {
 #ifdef STABS
+#ifdef DIAG3
 				diag3_driver->out_diagnose_postlude();
+#endif
+#ifdef DIAG4
+				diag4_driver->out_diagnose_postlude();
+#endif
 #endif
 			}
 

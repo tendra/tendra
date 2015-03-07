@@ -71,6 +71,7 @@
 #include <diag4/diag_fns.h>
 #include <diag4/dg_aux.h>
 #include <diag4/dg_globs.h>
+#include <diag4/diag_reform.h>
 #else
 #include <diag3/diag_fns.h>
 #include <diag3/diaginfo1.h>
@@ -2500,14 +2501,14 @@ void make_code
       d = d->more;
     };
 #ifndef TDF_DIAG4
-    code_diag_info(dgf(e), crt_proc_id, make_code2,(void*) &args);
+    diag3_driver->code_diag_info(dgf(e), crt_proc_id, make_code2,(void*) &args);
 #else
 #if DWARF2
     if (diag == DIAG_DWARF2) {
       dw2_code_info(dgf(e), make_code2, (void*) &args);
     }
 #else
-    code_diag_info(dgf(e), crt_proc_id, make_code2,(void*) &args);
+    diag4_driver->code_diag_info(dgf(e), make_code2,(void*) &args);
 #endif
 #endif
     if (dpos) {
@@ -2540,14 +2541,14 @@ void diag_arg
     args.stack = stack;
     current_dg_exp = args.e = e;
 #ifndef TDF_DIAG4
-    code_diag_info(dgf(e), crt_proc_id, done_arg,(void*) &args);
+    diag3_driver->code_diag_info(dgf(e), crt_proc_id, done_arg,(void*) &args);
 #else
 #if DWARF2
     if (diag == DIAG_DWARF2) {
       dw2_code_info(dgf(e), done_arg, (void*) &args);
     }
 #else
-    code_diag_info(dgf(e), crt_proc_id, done_arg,(void*) &args);
+    diag4_driver->code_diag_info(dgf(e), done_arg,(void*) &args);
 #endif
 #endif
   }

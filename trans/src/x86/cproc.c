@@ -43,6 +43,7 @@
 
 #ifdef TDF_DIAG4
 #include <diag4/diag_fns.h>
+#include <diag4/diag_reform.h>
 #else
 #include <diag3/diag_fns.h>
 #include <diag3/diag_reform.h>
@@ -404,7 +405,12 @@ int cproc
 		dw2_proc_start(p, diag_props);
 	}
 #else
+#ifdef TRANS_DIAG3
     diag3_driver->diag_proc_begin(diag_props, global, cname, pname);
+#endif
+#ifdef TRANS_DIAG4
+    diag4_driver->diag_proc_begin(diag_props, global, cname, pname);
+#endif
 #endif
     };
 
@@ -615,17 +621,17 @@ int cproc
   locals_offset = tot_sp;
   if (diag != DIAG_NONE) {
     no (p) = tot_sp;	/* may be used by delayed diagnostics */
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG3
     diag3_driver->diag_proc_end(diag_props);
-#else
-#if DWARF2
+#endif
+#ifdef TDF_DIAG4
+    diag4_driver->stab_proc_end();
+#endif
     if (diag == DIAG_DWARF2) {
+#if DWARF2
       dw2_proc_end(p);
+#endif
     }
-#else
-    diag_proc_end(diag_props);
-#endif
-#endif
 #ifdef DWARF2
   if (diag == DIAG_DWARF2)
     dw2_complete_fde();

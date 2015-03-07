@@ -43,6 +43,7 @@
 #include <diag4/dg_types.h>
 #include <diag4/dg_aux.h>
 #include <diag4/dg_globs.h>
+#include <diag4/diag_reform.h>
 
 #include "localtypes.h"
 #include "instr.h"
@@ -164,7 +165,7 @@ out_procname(void)
 #define N_LBRAC  0xc0
 #define N_RBRAC  0xe0
 
-void
+static void
 stabd(dg_filename f, long lno, int seg)
 {
 	long i;
@@ -191,7 +192,7 @@ stabd(dg_filename f, long lno, int seg)
 /*
  * OUTPUT DIAGNOSTICS SURROUNDING CODE
  */
-void
+static void
 code_diag_info(dg_info d, void(*mcode)(void *), void *args)
 {
 	if (d == nildiag) {
@@ -796,8 +797,8 @@ out_dt_shape(dg_type dt)
 /*
  * OUTPUT DIAGNOSTICS FOR A GLOBAL VARIABLE
  */
-void
-out_diag_global(dg_name di, int global, int cname, char * pname)
+static void
+out_diag_global(dg_name di, int global, int cname, char *pname)
 {
 	char* nm;
 	dg_type dt;
@@ -830,7 +831,7 @@ out_diag_global(dg_name di, int global, int cname, char * pname)
 /*
  * OUTPUT DIAGNOSTICS FOR A PROCEDURE
  */
-void
+static void
 diag_proc_begin(dg_name di, int global, int cname, char *pname)
 {
 	char *nm;
@@ -865,7 +866,7 @@ diag_proc_begin(dg_name di, int global, int cname, char *pname)
 	d_outnl();
 }
 
-void
+static void
 diag_proc_end(void)
 {
 	if (del_stab_start != NULL) {
@@ -1007,12 +1008,12 @@ stab_types(void)
 /*
  * INITIALISE DIAGNOSTICS
  */
-void
+static void
 out_diagnose_prelude(void)
 {
 }
 
-void
+static void
 init_stab_aux(void)
 {
 	dg_compilation this_comp;
@@ -1082,11 +1083,24 @@ init_stab_aux(void)
 	}
 }
 
-void
+static void
 out_diagnose_postlude(void)
 {
 	long i = next_d_lab();
 	asm_fprintf(dg_file, ".LL.%ld:\n", i);
 	asm_fprintf(dg_file, "\t.stabs\t\"\",0x64,0,0,.LL.%ld\n", i);
 }
+
+const struct diag4_driver diag4_driver_stabs = {
+	out_diagnose_prelude,
+	init_stab_aux,
+	out_diagnose_postlude,
+
+	stabd,
+	code_diag_info,
+	out_diag_global,
+	diag_proc_begin,
+	diag_proc_end,
+	stab_types
+};
 
