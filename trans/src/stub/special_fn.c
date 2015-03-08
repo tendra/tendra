@@ -10,7 +10,7 @@
 
 #include <shared/bool.h>
 
-#include <reader/special.h>
+#include <reader/special_fn.h>
 
 struct special_fn special_fns[1];
 

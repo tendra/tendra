@@ -14,7 +14,7 @@
 #include <shared/error.h>
 
 #include <reader/exp.h>
-#include <reader/special.h>
+#include <reader/special_fn.h>
 
 #include <construct/exp.h>
 #include <construct/tags.h>

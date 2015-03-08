@@ -11,7 +11,7 @@
 #include <shared/bool.h>
 
 #include <reader/exp.h>
-#include <reader/special.h>
+#include <reader/special_fn.h>
 
 #include <construct/installtypes.h>
 #include <construct/machine.h>

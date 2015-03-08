@@ -51,7 +51,7 @@ extern shape f_off32_32;
  * This function returns a component at offset 'align' from the
  * compound given in e.
  */
-exp
+static exp
 get_component(exp e, alignment shc, alignment align, int size, int nm, shape offshape, int offset)
 {
 	/* offset in compound for required component */
