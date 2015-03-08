@@ -7,16 +7,16 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
- * Defines special_fn which recognises and replaces some special function calls.
- */
+#include <stddef.h>
 
-#include <string.h>
+#include <shared/bool.h>
+#include <shared/check.h>
 
 #include <reader/exp.h>
 #include <reader/externs.h>
 #include <reader/basicread.h>
 #include <reader/table_fns.h>
+#include <reader/special.h>
 
 #include <construct/tags.h>
 #include <construct/shape.h>
@@ -31,78 +31,114 @@
 
 #include "localexpmacs.h"
 
-bool
-special_fn(exp a1, exp a2, shape s, exp *e)
+static bool
+special_trans386(exp a1, exp a2, shape s, exp *e)
 {
-	/* look for special functions */
-	dec* dp = brog(son(a1));
-	char *id = dp -> dec_id;
+	exp r;
 
-	if (id == NULL) {
+	if (a2 == NULL || !last(a2)) {
+		return false;
+	}
+
+	r = me_b3(s, a1, a2, apply_tag);
+	setbuiltin(r);	/* dummy proc, so ignore state of builtin */
+
+	*e = r;
+
+	return true;
+}
+
+static bool
+special_setjmp(exp a1, exp a2, shape s, exp *e)
+{
+	UNUSED(a1);
+	UNUSED(a2);
+	UNUSED(s);
+	UNUSED(e);
+
+	has_setjmp = 1;
+
+	return false;
+}
+
+static bool
+special_longjmp(exp a1, exp a2, shape s, exp *e)
+{
+	exp r;
+
+	if (last(a2) || bro(a2) == NULL) {
 		return 0;
 	}
 
-	id += strlen(name_prefix);
+	r = getexp(f_bottom, NULL, 0, a1, NULL, 0, 0, apply_tag);
+	has_setjmp = 1;
 
-	if (a2 != NULL && last(a2) && !strcmp(id, "__trans386_special")) {
-		exp r = me_b3(s, a1, a2, apply_tag);
-		setbuiltin(r);	/* dummy proc, so ignore state of builtin */
-		*e = r;
-		return 1;
-	}
+	bro(a1) = a2;
+	clearlast(a1);
+	parked(a2) = 0;
+	clearlast(a2);
 
-	if (builtin & BUILTIN_LONGJMP) {
-		if (!strcmp(id, "setjmp")) {
-			has_setjmp = 1;
-		}
+	a2 = bro(a2);
+	setlast(a2);
+	parked(a2) = 0;
+	bro(a2) = r;
 
-		if (!strcmp(id, "longjmp")) {
-			exp r = getexp(f_bottom, NULL, 0, a1, NULL, 0, 0,apply_tag);
-			has_setjmp = 1;
+	*e = r;
 
-			if (last(a2) || bro(a2) == NULL) {
-				return 0;
-			}
-
-			bro(a1) = a2;
-			clearlast(a1);
-			parked(a2) = 0;
-			clearlast(a2);
-
-			a2 = bro(a2);
-			setlast(a2);
-			parked(a2) = 0;
-			bro(a2) = r;
-
-			*e = r;
-			return 1;
-		}
-	}
-
-	if (builtin & BUILTIN_ALLOCA) {
-		if (a2 != NULL && last(a2) && !strcmp(id, "__builtin_alloca")) {
-			exp r = getexp(s, NULL, 0, a2, NULL, 0,
-			               0, alloca_tag);
-			setfather(r, son(r));
-			has_alloca = 1;
-			*e = r;
-			kill_exp(a1, a1);
-			return 1;
-		}
-	}
-
-	if (builtin & BUILTIN_API) {
-		if (a2 != NULL && last(a2) && !strcmp(id, "exit")) {
-			*e = me_b3(f_bottom, a1, a2, apply_tag);
-			return 1;
-		}
-
-		if (a2 == NULL && !strcmp(id, "abort")) {
-			*e = me_u3(f_bottom, a1, apply_tag);
-			return 1;
-		}
-	}
-
-	return 0;
+	return true;
 }
+
+static bool
+special_alloca(exp a1, exp a2, shape s, exp *e)
+{
+	exp r;
+
+	if (a2 == NULL || !last(a2)) {
+		return false;
+	}
+
+	r = getexp(s, NULL, 0, a2, NULL, 0, 0, alloca_tag);
+	setfather(r, son(r));
+	has_alloca = 1;
+	kill_exp(a1, a1);
+
+	*e = r;
+
+	return true;
+}
+
+static bool
+special_exit(exp a1, exp a2, shape s, exp *e)
+{
+	if (a2 == NULL || !last(a2)) {
+		return false;
+	}
+
+	*e = me_b3(f_bottom, a1, a2, apply_tag);
+
+	return true;
+}
+
+static bool
+special_abort(exp a1, exp a2, shape s, exp *e)
+{
+	if (a2 == NULL || !last(a2)) {
+		return false;
+	}
+
+	*e = me_u3(f_bottom, a1, apply_tag);
+
+	return true;
+}
+
+struct special_fn special_fns[] = {
+	{ "__trans386_special", 0,               special_trans386 },
+	{ "setjmp",             BUILTIN_LONGJMP, special_setjmp   },
+	{ "longjmp",            BUILTIN_LONGJMP, special_longjmp  },
+	{ "__builtin_alloca",   BUILTIN_ALLOCA,  special_alloca   },
+	{ "exit",               BUILTIN_API,     special_exit     },
+	{ "abort",              BUILTIN_API,     special_abort    }
+};
+
+size_t special_fns_count = sizeof special_fns / sizeof *special_fns;
 

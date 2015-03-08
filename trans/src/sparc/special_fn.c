@@ -7,31 +7,13 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <assert.h>
-#include <string.h>
+#include <stddef.h>
 
-#include <shared/check.h>
+#include <shared/bool.h>
 
-#include <reader/exp.h>
-#include <reader/code.h>
+#include <reader/special.h>
 
-#include <construct/installtypes.h>
-#include <construct/exp.h>
-#include <construct/special_fn.h>
+struct special_fn special_fns[1];
 
-/*
- * LOOK FOR SPECIAL FUNCTIONS
- */
-
-/* ARGSUSED */
-bool
-special_fn(exp a1, exp a2, shape s, exp *e)
-{
-	UNUSED(a1);
-	UNUSED(a2);
-	UNUSED(s);
-	UNUSED(e);
-
-	return 0;
-}
+size_t special_fns_count = 0;
 

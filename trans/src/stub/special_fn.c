@@ -6,22 +6,13 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stddef.h>
+
 #include <shared/bool.h>
-#include <shared/check.h>
 
-#include <reader/exp.h>
+#include <reader/special.h>
 
-#include <construct/tags.h>
-#include <construct/shape.h>
+struct special_fn special_fns[1];
 
-bool
-special_fn(exp a1, exp a2, shape s, exp *e)
-{
-	UNUSED(a1);
-	UNUSED(a2);
-	UNUSED(s);
-	UNUSED(e);
-
-	return 0;
-}
+size_t special_fns_count = 0;
 

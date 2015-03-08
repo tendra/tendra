@@ -7,26 +7,13 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <string.h>
+#include <stddef.h>
 
-#include <shared/check.h>
+#include <shared/bool.h>
 
-#include <reader/exp.h>
-#include <reader/code.h>
+#include <reader/special.h>
 
-#include <construct/exp.h>
-#include <construct/installtypes.h>
-#include <construct/special_fn.h>
+struct special_fn special_fns[1];
 
-bool
-special_fn(exp a1, exp a2, shape s, exp *e)
-{
-	UNUSED(a1);
-	UNUSED(a2);
-	UNUSED(s);
-	UNUSED(e);
-
-	/* +++ implement special fns handling */
-	return 0;
-}
+size_t special_fns_count = 0;
 

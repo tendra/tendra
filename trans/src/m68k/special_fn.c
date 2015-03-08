@@ -7,13 +7,14 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <string.h>
+#include <stddef.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 
 #include <reader/exp.h>
-#include <reader/exp.h>
+#include <reader/special.h>
 
 #include <construct/exp.h>
 #include <construct/tags.h>
@@ -25,45 +26,41 @@
 
 #include "utility.h"
 
-/*
- * An expression is examined to see if it is a recognised special function.
- *
- * The functions recognised are: strcpy of a constant string (which is
- * turned into a move instruction), and alloca (which is inlined).
- */
-bool
-special_fn(exp a1, exp a2, shape s, exp *e)
+static bool
+special_setjmp(exp a1, exp a2, shape s, exp *e)
 {
-	dec *d = brog(son(a1));
-	char *id = d->dec_id;
+	UNUSED(a1);
+	UNUSED(a2);
+	UNUSED(s);
+	UNUSED(e);
 
-	if (id == NULL) {
-		return 0;
-	}
+	has_setjmp = 1;
+}
 
-	if (eq(id, "_setjmp")) {
-		has_setjmp = 1;
-	}
-
-	if (eq(id, "_longjmp")) {
-		has_setjmp = 1;
-	}
+static bool
+special_alloca(exp a1, exp a2, shape s, exp *e)
+{
+	exp r;
 
 	if (!do_alloca) {
-		return 0;
+		return false;
 	}
 
-	if ((/* eq(id, "_alloca") || */ eq(id, "___builtin_alloca")) &&
-	    a2 != NULL && last(a2))
-	{
-		exp r = getexp(s, NULL, 0, a2, NULL, 0, 0L, alloca_tag);
-		setfather(r, son(r));
-		has_alloca = 1;
-		*e = r;
-		kill_exp(a1, a1);
-		return 1;
-	}
+	r = getexp(s, NULL, 0, a2, NULL, 0, 0, alloca_tag);
+	setfather(r, son(r));
+	has_alloca = 1;
+	kill_exp(a1, a1);
 
-	return 0;
+	*e = r;
+
+	return true;
 }
+
+struct special_fn special_fns[] = {
+	{ "_setjmp",          BUILTIN_LONGJMP, special_setjmp },
+	{ "_longjmp",         BUILTIN_LONGJMP, special_setjmp },
+	{ "__builtin_alloca", BUILTIN_ALLOCA,  special_alloca }
+};
+
+size_t special_fns_count = sizeof special_fns / sizeof *special_fns;
 
