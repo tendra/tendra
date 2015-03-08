@@ -213,21 +213,17 @@ cleanup(void)
 			weak_list = weak_list->next;
 		}
 
+		if (diag != DIAG_NONE) {
 #ifdef DWARF2
-		if (diag == DIAG_DWARF2)
 			end_dwarf2();
-		else
 #endif
-			if (diag != DIAG_NONE) {
-#ifdef STABS
 #ifdef DIAG3
-				diag3_driver->out_diagnose_postlude();
+			diag3_driver->out_diagnose_postlude();
 #endif
 #ifdef DIAG4
-				diag4_driver->out_diagnose_postlude();
+			diag4_driver->out_diagnose_postlude();
 #endif
-#endif
-			}
+		}
 
 		outend();
 }

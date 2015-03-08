@@ -2500,17 +2500,17 @@ void make_code
       };
       d = d->more;
     };
-#ifndef TDF_DIAG4
-    diag3_driver->code_diag_info(dgf(e), crt_proc_id, make_code2,(void*) &args);
-#else
-#if DWARF2
-    if (diag == DIAG_DWARF2) {
+    if (diag != DIAG_NONE) {
+#ifdef TDF_DIAG3
+      diag3_driver->code_diag_info(dgf(e), crt_proc_id, make_code2,(void*) &args);
+#endif
+#ifdef TDF_DIAG4
+      diag4_driver->code_diag_info(dgf(e), make_code2,(void*) &args);
+#endif
+#ifdef DWARF2
       dw2_code_info(dgf(e), make_code2, (void*) &args);
+#endif
     }
-#else
-    diag4_driver->code_diag_info(dgf(e), make_code2,(void*) &args);
-#endif
-#endif
     if (dpos) {
       crt_lno = dpos->data.i_src.endpos.line;
       crt_charno = dpos->data.i_src.endpos.column;
@@ -2540,17 +2540,17 @@ void diag_arg
     args.dest = dest;
     args.stack = stack;
     current_dg_exp = args.e = e;
-#ifndef TDF_DIAG4
-    diag3_driver->code_diag_info(dgf(e), crt_proc_id, done_arg,(void*) &args);
-#else
-#if DWARF2
-    if (diag == DIAG_DWARF2) {
+    if (diag != DIAG_NONE) {
+#ifdef TDF_DIAG3
+      diag3_driver->code_diag_info(dgf(e), crt_proc_id, done_arg,(void*) &args);
+#endif
+#ifdef TDF_DIAG4
+      diag4_driver->code_diag_info(dgf(e), done_arg,(void*) &args);
+#endif
+#ifdef DWARF2
       dw2_code_info(dgf(e), done_arg, (void*) &args);
+#endif
     }
-#else
-    diag4_driver->code_diag_info(dgf(e), done_arg,(void*) &args);
-#endif
-#endif
   }
 }
 

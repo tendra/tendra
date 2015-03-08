@@ -236,16 +236,14 @@ static void code_def
        {
 	 int is_ext = (my_def -> extnamed);
          if (diag_props) {
-		if (diag != DIAG_DWARF2) {
-#ifndef DWARF2
-#ifdef TDF_DIAG4
-           diag4_driver->out_diag_global(diag_props, is_ext, -1, id);
+		if (diag != DIAG_NONE) {
+#ifdef TDF_DIAG3
+			diag3_driver->diag_val_begin(diag_props, is_ext, -1, id);
 #endif
+#ifdef TDF_DIAG4
+			diag4_driver->out_diag_global(diag_props, is_ext, -1, id);
 #endif
 		}
-#ifndef TDF_DIAG4
-           diag3_driver->diag_val_begin(diag_props, is_ext, -1, id);
-#endif
 	}
 
 	 if (name(son(tg)) == clear_tag && no(son(tg)) == -1) {
@@ -402,21 +400,13 @@ void translate_capsule
     const_list = NULL;
 
 
-    switch (diag) {
-    case DIAG_DWARF2:
+    if (diag != DIAG_NONE) {
 #ifdef DWARF2
         init_dwarf2();
 #endif
-        break;
-
-    case DIAG_STABS:
 #ifdef TDF_DIAG3
         diag3_driver->out_diagnose_prelude();
 #endif
-        break;
-
-	default:
-		break;
     }
 
 #ifdef DWARF2

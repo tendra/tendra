@@ -622,10 +622,11 @@ translate_capsule (void){
 #endif
 	if ( isvar ( tg ) ) symdef = -symdef ;
 	if ( diag_props ) {
-		if (diag == DIAG_STABS) {
-#ifdef DIAG3_STABS
+		if (diag != DIAG_NONE) {
+#ifdef TDF_DIAG3
 			diag3_driver->stab_global(diag_props, stg, id, extnamed);
-#else
+#endif
+#ifdef TDF_DIAG4
 			diag4_driver->stab_global(diag_props, stg, id, extnamed);
 #endif
 		}
@@ -704,21 +705,16 @@ translate_capsule (void){
 	asm_printop( ".proc %d", proc_directive ) ;
 	if ( p & long_result_bit ) asm_comment ( "struct result" ) ;
 
-	switch (diag) {
-    case DIAG_DWARF2:
+	if (diag != DIAG_NONE) {
 #if DWARF2
 		dw2_proc_start(stg, diag_props);
 #endif
-		break;
-
-	case DIAG_STABS:
 #ifdef DIAG3_STABS
 		diag3_driver->stab_proc(diag_props, stg, id, extnamed);
 #endif
-		break;
-
-	default:
-		;
+#ifdef DIAG4_STABS
+		diag4_driver->stab_proc(diag_props, stg, id, extnamed);
+#endif
 	}
 	if ( optim_level >= 0 ) {
 	  /* .optim must go after .proc */
@@ -745,18 +741,16 @@ translate_capsule (void){
 	else {
 		asm_comment(".end %s", id) ;
 	}
-	switch ( diag ) {
-	case DIAG_DWARF2:
+	if ( diag != DIAG_NONE ) {
 #ifdef DWARF2
 		dw2_proc_end(stg);
 #endif
-		break;
-
-	case DIAG_STABS:
 #ifdef DIAG3_STABS
 		diag3_driver->stab_proc_end();
 #endif
-		break;
+#ifdef DIAG4_STABS
+		diag4_driver->stab_proc_end();
+#endif
 	}
       }
     } 
@@ -768,6 +762,9 @@ translate_capsule (void){
 #ifdef DWARF2
     dwarf2_postlude ();
 #endif
+    break;
+
+  default:
     break;
   }
 }

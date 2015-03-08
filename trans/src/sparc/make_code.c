@@ -4623,17 +4623,19 @@ make_code ( exp e, space sp, where dest, int exitlab )
     args.sp = sp;
     args.dest = dest;
     args.exitlab = exitlab;
-#ifndef TDF_DIAG4
-	diag4_driver->code_diag_info(dgf(e), 0, &make_code_2, (void*)&args);
-#else
-#if DWARF2
-	if (diag == DIAG_DWARF2) {
-		dw2_code_info(dgf(e), &make_code_2, (void*)&args);
+
+    if (diag != DIAG_NONE) {
+#ifdef TDF_DIAG3
+	  diag3_driver->code_diag_info(dgf(e), 0, &make_code_2, (void*)&args);
+#endif
+#ifdef TDF_DIAG4
+	  diag4_driver->code_diag_info(dgf(e), &make_code_2, (void*)&args);
+#endif
+#ifdef DWARF2
+      dw2_code_info(dgf(e), &make_code_2, (void*)&args);
+#endif
 	}
-#else
-	diag4_driver->code_diag_info(dgf(e), &make_code_2, (void*)&args);
-#endif
-#endif
+
     current_dg_info = was_current;
     return args.res;
   }
@@ -4656,17 +4658,18 @@ diag_arg ( exp e, space sp, where dest )
     args.sp = sp;
     args.dest = dest;
     args.exitlab = 0;
-#ifndef TDF_DIAG4
-	diag4_driver->code_diag_info(dgf(e), 0, &make_code_2, (void*)&args);
-#else
-#if DWARF2
-	if (diag == DIAG_DWARF2) {
-		dw2_code_info(dgf(e), &make_code_2, (void*)&args);
+
+    if (diag != DIAG_NONE) {
+#ifdef TDF_DIAG3
+	  diag3_driver->code_diag_info(dgf(e), 0, &make_code_2, (void*)&args);
+#endif
+#ifdef TDF_DIAG4
+	  diag4_driver->code_diag_info(dgf(e), &make_code_2, (void*)&args);
+#endif
+#ifdef DWARF2
+      dw2_code_info(dgf(e), &make_code_2, (void*)&args);
+#endif
 	}
-#else
-	diag4_driver->code_diag_info(dgf(e), &make_code_2, (void*)&args);
-#endif
-#endif
   }
 }
 #endif

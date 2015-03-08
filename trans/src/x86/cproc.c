@@ -398,21 +398,17 @@ int cproc
   else
     dot_align(4);
 
-  if (diag != DIAG_NONE)
-    {
+  if (diag != DIAG_NONE) {
 #ifdef DWARF2
-    if (diag == DIAG_DWARF2) {
-		dw2_proc_start(p, diag_props);
-	}
-#else
+	dw2_proc_start(p, diag_props);
+#endif
 #ifdef TRANS_DIAG3
     diag3_driver->diag_proc_begin(diag_props, global, cname, pname);
 #endif
 #ifdef TRANS_DIAG4
     diag4_driver->diag_proc_begin(diag_props, global, cname, pname);
 #endif
-#endif
-    };
+  }
 
   if (cname == -1)
     {
@@ -619,22 +615,18 @@ int cproc
   out_set_pos(this_pos);
 
   locals_offset = tot_sp;
+
   if (diag != DIAG_NONE) {
-    no (p) = tot_sp;	/* may be used by delayed diagnostics */
+#if DWARF2
+	no(p) = tot_sp;	/* may be used by delayed diagnostics */
+	dw2_proc_end(p);
+	dw2_complete_fde();
+#endif
 #ifdef TDF_DIAG3
     diag3_driver->diag_proc_end(diag_props);
 #endif
 #ifdef TDF_DIAG4
     diag4_driver->stab_proc_end();
-#endif
-    if (diag == DIAG_DWARF2) {
-#if DWARF2
-      dw2_proc_end(p);
-#endif
-    }
-#ifdef DWARF2
-  if (diag == DIAG_DWARF2)
-    dw2_complete_fde();
 #endif
   }
 
