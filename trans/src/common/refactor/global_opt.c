@@ -98,7 +98,8 @@ global_opt(dec *dp)
 								setfather(idsc, q);
 								kill_exp(t, t);
 								replace(to_change, idsc, idsc);
-								t = pt(i);
+
+								t = i;
 							}
 						}
 					}
@@ -143,7 +144,8 @@ global_opt(dec *dp)
 								exp res = getexp(sh(to_change), NULL, 0, NULL, NULL, 0, j, val_tag);
 								kill_exp(t, t);
 								replace(to_change, res, NULL);
-								t = pt(i);
+
+								t = i;
 							}
 						}
 					}
