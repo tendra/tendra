@@ -496,3 +496,5 @@ struct special_tok special_toks[] = {
 	{ "~asm_exp_address", BUILTIN_ASM,     special_asm_exp_address }
 };
 
+size_t special_toks_count = sizeof special_toks / sizeof *special_toks;
+

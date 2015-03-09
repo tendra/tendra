@@ -66,7 +66,7 @@ special_token(tokval *tkv, token t, bitstream pars, int sortcode)
 		return false;
 	}
 
-	for (i = 0; i < special_fns_count; i++) {
+	for (i = 0; i < special_toks_count; i++) {
 		if (special_toks[i].mask && (builtin & ~special_toks[i].mask)) {
 			continue;
 		}

@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <string.h>
+#include <stddef.h>
 
 #include <shared/check.h>
 #include <shared/error.h>
@@ -287,4 +287,6 @@ struct special_tok special_toks[] = {
 	{ "~diag_type_scope", BUILTIN_DIAG,    special_diag_type_scope },
 	{ "~diag_tag_scope",  BUILTIN_DIAG,    special_diag_tag_scope  }
 };
+
+size_t special_toks_count = sizeof special_toks / sizeof *special_toks;
 
