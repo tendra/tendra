@@ -16,7 +16,6 @@
 #include <reader/externs.h>
 #include <reader/basicread.h>
 #include <reader/table_fns.h>
-#include <reader/special_fn.h>
 
 #include <construct/tags.h>
 #include <construct/shape.h>
