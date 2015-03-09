@@ -42,117 +42,165 @@ rec_inl(exp p)
  * with a direct mem -> mem copy.
  */
 static void
+opt_strcpy(dec *dp)
+{
+	exp i = dp->dec_exp;
+	exp t;
+
+	if (writable_strings) {
+		return;
+	}
+
+	if (0 != strcmp(dp->dec_id, "strcpy")) {
+		return;
+	}
+
+	for (t = pt(i); t != NULL; t = pt(t)) {
+		exp src, dst;
+		dec *src_dec;
+
+		exp src_def;
+		shape sha;
+
+		if (last(t) || last(bro(t)) || !last(bro(bro(t))) ||
+			name(bro(bro(bro(t)))) != apply_tag ||
+			son(bro(bro(bro(t)))) != t)
+		{
+			continue;
+		}
+
+		dst = bro(t);
+		src = bro(dst);
+
+		if (name(src) != name_tag ||
+			!isglob(son(src)) || !isvar(son(src)) || no(son(src)) != 1)
+		{
+			continue;
+		}
+
+		src_dec = brog(son(src));
+
+		if (src_dec->extnamed || son(src_dec->dec_exp) == NULL) {
+			continue;
+		}
+
+		src_def = son(son(src));
+		sha = sh(src_def);
+
+		if (name(src_def) == string_tag &&
+			props(src_def) == 8)
+		{
+			char *s = nostr(src_def);
+			size_t l = shape_size(sha);
+			size_t j;
+
+			for (j = 0; j < l && s[j] != 0; j++)
+				;
+
+			if (j < l) {
+				exp q;
+				exp to_change = bro(src);
+				exp idsc = getexp(sh(bro(src)), NULL, 0, dst, NULL, 0, 2, ident_tag);
+				exp n1 = getexp(sh(dst), NULL, 0, idsc, NULL, 0, 0, name_tag);
+				exp n2 = getexp(sh(dst), NULL, 0, idsc, n1, 0, 0, name_tag);
+				exp_list el;
+
+				pt(idsc) = n2;
+
+				q = f_assign(n1, f_contents(sha, src));
+				el.start = q;
+				el.end = q;
+				el.number = 1;
+
+				q = f_sequence(el, n2);
+				clearlast(dst);
+				bro(dst) = q;
+				setfather(idsc, q);
+				kill_exp(t, t);
+				replace(to_change, idsc, idsc);
+
+				t = i;
+			}
+		}
+	}
+}
+
+
+
+
+static void
+opt_strlen(dec *dp)
+{
+	exp i = dp->dec_exp;
+	exp t;
+
+	if (writable_strings) {
+		return;
+	}
+
+	if (0 != strcmp(dp->dec_id, "strlen")) {
+		return;
+	}
+
+	for (t = pt(i); t != NULL; t = pt(t)) {
+		exp st;
+		dec *src_dec;
+
+		exp st_def;
+		shape sha;
+
+		if (last(t) || !last(bro(t)) ||
+			name(bro(bro(t))) != apply_tag ||
+			son(bro(bro(t))) != t)
+		{
+			continue;
+		}
+
+		st = bro(t);
+
+		if (name(st) != name_tag || !isglob(son(st)) ||
+			!isvar(son(st)) || no(son(st)) != 1)
+		{
+			continue;
+		}
+
+		src_dec = brog(son(st));
+
+		if (src_dec->extnamed || son(src_dec->dec_exp) == NULL)	{
+			continue;
+		}
+
+		st_def = son(son(st));
+		sha = sh(st_def);
+
+		if (name(st_def) == string_tag &&
+			props(st_def) == 8)
+		{
+			char *s = nostr(st_def);
+			size_t l = shape_size(sha) / 8;
+			size_t j;
+
+			for (j = 0; j < l && s[j] != 0; j++)
+				;
+
+			if (j < l) {
+				exp to_change = bro(st);
+				exp res = getexp(sh(to_change), NULL, 0, NULL, NULL, 0, j, val_tag);
+				kill_exp(t, t);
+				replace(to_change, res, NULL);
+
+				t = i;
+			}
+		}
+	}
+}
+
+
+static void
 global_opt(dec *dp)
 {
-	if (!writable_strings && 0 == strcmp(dp->dec_id, "strcpy")) {
-		exp i = dp->dec_exp;
-		exp t;
-
-		for (t = pt(i); t != NULL; t = pt(t)) {
-			if (!last(t) && !last(bro(t)) && last(bro(bro(t))) &&
-			    name(bro(bro(bro(t)))) == apply_tag &&
-			    son(bro(bro(bro(t)))) == t)
-			{
-				exp dst = bro(t);
-				exp src = bro(dst);
-
-				if (name(src) == name_tag && isglob(son(src)) &&
-				    isvar(son(src)) && no(son(src)) == 1)
-				{
-					dec *src_dec = brog(son(src));
-
-					if (!src_dec->extnamed &&
-					    son(src_dec->dec_exp) != NULL)
-					{
-						exp src_def = son(son(src));
-						shape sha = sh(src_def);
-
-						if (name(src_def) == string_tag &&
-						    props(src_def) == 8)
-						{
-							char *s = nostr(src_def);
-							size_t l = shape_size(sha) / 8;
-							size_t j;
-
-							for (j = 0; j < l && s[j] != 0; j++)
-								;
-
-							if (j < l) {
-								exp q;
-								exp to_change = bro(src);
-								exp idsc = getexp(sh(bro(src)), NULL, 0, dst, NULL, 0, 2, ident_tag);
-								exp n1 = getexp(sh(dst), NULL, 0, idsc, NULL, 0, 0, name_tag);
-								exp n2 = getexp(sh(dst), NULL, 0, idsc, n1, 0, 0, name_tag);
-								exp_list el;
-
-								pt(idsc) = n2;
-
-								q = f_assign(n1, f_contents(sha, src));
-								el.start = q;
-								el.end = q;
-								el.number = 1;
-
-								q = f_sequence(el, n2);
-								clearlast(dst);
-								bro(dst) = q;
-								setfather(idsc, q);
-								kill_exp(t, t);
-								replace(to_change, idsc, idsc);
-
-								t = i;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
-	if (!writable_strings && 0 == strcmp(dp->dec_id, "strlen")) {
-		exp i = dp->dec_exp;
-		exp t;
-
-		for (t = pt(i); t != NULL; t = pt(t)) {
-			if (!last(t) && last(bro(t)) &&
-			    name(bro(bro(t))) == apply_tag &&
-			    son(bro(bro(t))) == t)
-			{
-				exp st = bro(t);
-
-				if (name(st) == name_tag && isglob(son(st)) &&
-				    isvar(son(st)) && no(son(st)) == 1)
-				{
-					dec *src_dec = brog(son(st));
-					if (!src_dec->extnamed &&
-					    son(src_dec->dec_exp) != NULL)
-					{
-						exp st_def = son(son(st));
-						shape sha = sh(st_def);
-
-						if (name(st_def) == string_tag &&
-						    props(st_def) == 8)
-						{
-							char *s = nostr(st_def);
-							size_t l = shape_size(sha) / 8;
-							size_t j;
-
-							for (j = 0; j < l && s[j] != 0; j++)
-								;
-
-							if (j < l) {
-								exp to_change = bro(st);
-								exp res = getexp(sh(to_change), NULL, 0, NULL, NULL, 0, j, val_tag);
-								kill_exp(t, t);
-								replace(to_change, res, NULL);
-
-								t = i;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+	opt_strcpy(dp);
+	opt_strlen(dp);
 }
 
 void
