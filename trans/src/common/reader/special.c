@@ -22,7 +22,8 @@
 #include <main/flags.h>
 
 bool
-special_fn(exp a1, exp a2, shape s, exp *e)
+special_fn(const struct special_fn a[], size_t count,
+	exp a1, exp a2, shape s, exp *e)
 {
 	dec *dp;
 	char *id;
@@ -42,13 +43,13 @@ special_fn(exp a1, exp a2, shape s, exp *e)
 	 * but it really ought to be on special tokens, as for diagnostics
 	 */
 
-	for (i = 0; i < special_fns_count; i++) {
-		if (special_fns[i].mask && (builtin & ~special_fns[i].mask)) {
+	for (i = 0; i < count; i++) {
+		if (a[i].mask && (builtin & ~a[i].mask)) {
 			continue;
 		}
 
-		if (0 == strcmp(special_fns[i].name, id)) {
-			return special_fns[i].f(a1, a2, s, e);
+		if (0 == strcmp(a[i].name, id)) {
+			return a[i].f(a1, a2, s, e);
 		}
 	}
 
@@ -56,7 +57,8 @@ special_fn(exp a1, exp a2, shape s, exp *e)
 }
 
 bool
-special_token(tokval *tkv, token t, bitstream pars, int sortcode)
+special_token(const struct special_tok a[], size_t count,
+	tokval *tkv, token t, bitstream pars, int sortcode)
 {
 	size_t i;
 
@@ -66,13 +68,13 @@ special_token(tokval *tkv, token t, bitstream pars, int sortcode)
 		return false;
 	}
 
-	for (i = 0; i < special_toks_count; i++) {
-		if (special_toks[i].mask && (builtin & ~special_toks[i].mask)) {
+	for (i = 0; i < count; i++) {
+		if (a[i].mask && (builtin & ~a[i].mask)) {
 			continue;
 		}
 
-		if (0 == strcmp(special_toks[i].name, t->tok_name)) {
-			return special_toks[i].f(tkv, t, pars);
+		if (0 == strcmp(a[i].name, t->tok_name)) {
+			return a[i].f(tkv, t, pars);
 		}
 	}
 

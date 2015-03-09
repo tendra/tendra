@@ -20,7 +20,8 @@ struct special_tok {
  * Intercepts specially defined functions tokens
  */
 bool
-special_token(tokval *tkv, token td, bitstream pars, int sortcode);
+special_token(const struct special_tok a[], size_t count,
+	tokval *tkv, token td, bitstream pars, int sortcode);
 
 extern const struct special_tok special_toks[];
 extern size_t special_toks_count;

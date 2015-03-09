@@ -1131,7 +1131,7 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 		exp e;
 
 		/* check for substitutions for certain global procedures */
-		if (special_fn(arg1, arg2.start, result_shape, &e)) {
+		if (special_fn(special_fns, special_fns_count, arg1, arg2.start, result_shape, &e)) {
 			return e;
 		}
 	}

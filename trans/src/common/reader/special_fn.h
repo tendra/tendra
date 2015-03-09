@@ -24,7 +24,8 @@ struct special_fn {
  * in which case *e will be populated with the transformed exp.
  */
 bool
-special_fn(exp a1, exp a2, shape s, exp *e);
+special_fn(const struct special_fn a[], size_t count,
+	exp a1, exp a2, shape s, exp *e);
 
 extern const struct special_fn special_fns[];
 extern size_t special_fns_count;
