@@ -17,11 +17,11 @@
 
 #include <reader/code.h>
 #include <reader/basicread.h>
-#include <reader/special_tok.h>
 #include <reader/externs.h>
 #include <reader/messages_r.h>
 #include <reader/main_reads.h>
 #include <reader/c_arith_type.h>
+#include <reader/special_tok.h>
 
 #include <construct/tags.h>
 #include <construct/exp.h>
@@ -63,230 +63,274 @@ get_component(exp e, alignment shc, alignment align, int size, int nm, shape off
 	return hold_refactor(f_component(resshape, hold_refactor(me_u3(sh(son(son(e))), e, cont_tag)), offsetexp));
 }
 
-
-int
-special_token(tokval *tkv, token t, bitstream pars, int sortcode)
+static bool
+special_alloca(tokval *tkv, token t, bitstream pars)
 {
-	UNUSED(sortcode);
+	exp arg1;
+	place old_place;
 
-	if (t->tok_name == NULL) {
-		return 1;
-	}
+	old_place = keep_place();
+	set_place(pars);
 
-	if (builtin & BUILTIN_ALLOCA) {
-		if (!strcmp(t->tok_name, "~alloca"))  {
-			exp arg1;
-			place old_place;
+	arg1 = hold_refactor(d_exp());
+	set_place(old_place);
+	tkv->tk_exp = hold_refactor(me_u3(f_pointer(long_to_al(8)), arg1, alloca_tag));
+	has_alloca = 1;
 
-			old_place = keep_place();
-			set_place(pars);
-			arg1 = hold_refactor(d_exp());
-			set_place(old_place);
-
-			tkv->tk_exp = hold_refactor(me_u3(f_pointer(long_to_al(8)),
-			                                  arg1, alloca_tag));
-			has_alloca = 1;
-			return 1;
-		}
-	}
-
-	if (builtin & BUILTIN_FLOAT) {
-		if (!strcmp(t->tok_name,"__builtin_isfloat")) {
-			/*
-			 * builtin function taking a TYPE argument and returning true
-			 * if the argument is float,double or long double and false otherwise
-			 */
-
-			place old_place;
-			shape arg;
-			signed_nat lower,upper,resval;
-
-			old_place=keep_place();
-			set_place(pars);
-			arg = d_shape();
-
-			resval.issmall  = lower.issmall  = upper.issmall  = 1;
-			resval.negative = lower.negative = upper.negative = 0;
-			lower.signed_nat_val.small_s_nat = MIN_INT;
-			upper.signed_nat_val.small_s_nat = MAX_INT;
-
-			if (is_floating(name(arg))) {
-				resval.signed_nat_val.small_s_nat=1;
-			} else {
-				resval.signed_nat_val.small_s_nat=0;
-			}
-
-			tkv->tk_exp = f_make_int(slongsh,resval);
-			set_place(old_place);
-			return 1;
-		}
-	}
-
-	if (builtin & BUILTIN_VARARG) {
-		if (!strcmp(t->tok_name, "__builtin_va_token")) {
-			tkv->tk_exp = getexp(f_off32_32,NULL,0,NULL,NULL,0,0,val_tag);
-			set_vararg(tkv->tk_exp);
-			return 1;
-		}
-	}
-
-	/* TODO: BUILTIN_? */ {
-		if (!strcmp(t->tok_name, "~Sync_handler")) {
-			tkv->tk_exp = getexp(f_top,NULL,0,NULL,NULL,0,0,special_tag);
-			return 1;
-		}
-	}
-
-	if (builtin & BUILTIN_ASM) {
-		if (!strcmp(t->tok_name, "__alpha_special")) {
-			/*
-			 * This is a means of invoking alpha assembler instructions
-			 * from a TDF file
-			 */
-
-			exp arg;
-			place old_place = keep_place();
-			set_place(pars);
-			arg = d_exp();
-			assert(name(arg) == val_tag);
-
-			if (no(arg) == 0) {
-				/* trapb : used to ensure that all pending execptions have been raised
-				before continuing */
-				tkv->tk_exp = getexp(f_top, NULL, 0, NULL, NULL, 0, 0, special_tag);
-			} else {
-				error(ERR_INTERNAL,  "Unsupported argument to token __alpha_special");
-				tkv->tk_exp = getexp(f_top, NULL, 0, NULL, NULL, 0, 0, null_tag);
-			}
-
-			set_place(old_place);
-			return 1;
-		}
-	}
-
-	if (builtin & BUILTIN_VARARG) {
-		if (!strcmp(t->tok_name, "__builtin_va_start")) {
-			/*
-			 * builtin function taking 3 arguments: a va_list, a va_alist,
-			 * and an integer i.e a compound(ptrhd,slonghd),
-			 * an integer(s64shd) and an integer(slonghd).
-			 *
-			 * The pointer field of the compound is set equal to the 64
-			 * bit integer, and the integer field is set to 8.
-			 */
-
-			place old_place;
-			exp arg1,arg2,arg3;		/* parameters of the token */
-			exp_list list;		/* list of exps used to construct the
-  			       result sequence */
-			exp res = f_make_top();	/* the result part of the sequence */
-			exp assignment1,assignment2; /* the two assignment operations */
-			exp component1;
-			exp component2;		/* the components of the exp */
-			exp copy_of_compound;
-			old_place = keep_place();
-			set_place(pars);
-
-			arg1 = d_exp();
-			arg2 = d_exp();
-			arg3 = d_exp(); /* don't care */
-
-			/*
-			 * here we start to perform the transformation.
-			 * We must obtain the compound variable of arg1 and apply the
-			 * component operation to separate out the pointer and integer
-			 * for use in subsequent assignments.
-			 */
-
-			set_vararg(arg1);
-			copy_of_compound = copyexp(arg1);
-			component1 = get_component(arg1, const_al64, PTR_ALIGN, PTR_SZ,
-			                           ptrhd, f_off64_64, 0);
-			component2 = get_component(copy_of_compound, const_al32, SLONG_ALIGN,
-			                           SLONG_SZ, slonghd, f_off32_32, 64);
-			assignment1 = f_assign(component1, arg2);
-			assignment2 = f_assign(component2, getexp(f_off32_32, NULL, 0, NULL, NULL,
-			                       0, 0, val_tag));
-			bro(assignment1) = assignment2;
-			list.start = assignment1;
-			list.end = assignment2;
-			list.number = 2;
-			tkv->tk_exp = f_sequence(list,res);
-			kill_exp(arg3,arg3);
-			set_place(old_place);
-			return 1;
-		}
-	}
-
-	if (builtin & BUILTIN_DIAG) {
-		if (!strcmp(t->tok_name, "~exp_to_source") ||
-		    !strcmp(t->tok_name, "~diag_id_scope") ||
-		    !strcmp(t->tok_name, "~diag_type_scope") ||
-		    !strcmp(t->tok_name, "~diag_tag_scope"))
-		{
-			place old_place;
-			old_place = keep_place();
-			set_place(pars);
-			tkv->tk_exp = hold_refactor(d_exp());
-
-			if (diag == DIAG_NONE) {
-				set_place(old_place);
-				return 1;
-			}
-
-			if (!strcmp(t->tok_name, "~exp_to_source")) {
-				exp r;
-				diag_info * di = read_exp_to_source();
-				crt_lno = natint(di->data.source.end.line_no);
-				crt_charno = natint(di->data.source.end.char_off);
-				crt_flnm = di->data.source.beg.file->file.ints.chars;
-				r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL,
-				           1, 0, diagnose_tag);
-				setfather(r, tkv->tk_exp);
-				dno(r) = di;
-				tkv->tk_exp = r;
-				set_place(old_place);
-				return 1;
-			}
-
-			if (!strcmp(t->tok_name, "~diag_id_scope")) {
-				exp r;
-				diag_info * di = read_diag_id_scope();
-				r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL,
-				           2, 0, diagnose_tag);
-				setfather(r, tkv->tk_exp);
-				dno(r) = di;
-				tkv->tk_exp = r;
-				set_place(old_place);
-				return 1;
-			}
-
-			if (!strcmp(t->tok_name, "~diag_type_scope")) {
-				exp r;
-				diag_info * di = read_diag_type_scope();
-				r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL,
-				           3, 0, diagnose_tag);
-				setfather(r, tkv->tk_exp);
-				dno(r) = di;
-				tkv->tk_exp = r;
-				set_place(old_place);
-				return 1;
-			}
-
-			if (!strcmp(t->tok_name, "~diag_tag_scope")) {
-				exp r;
-				diag_info * di = read_diag_tag_scope();
-				r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL,
-				           4, 0, diagnose_tag);
-				setfather(r, tkv->tk_exp);
-				dno(r) = di;
-				tkv->tk_exp = r;
-				set_place(old_place);
-				return 1;
-			}
-		}
-	}
-
-	return 0;
+	return true;
 }
+
+static bool
+special_sync_handler(tokval *tkv, token t, bitstream pars)
+{
+	tkv->tk_exp = getexp(f_top, NULL, 0, NULL, NULL, 0, 0, special_tag);
+
+	return true;
+}
+
+/*
+ * This is a means of invoking alpha assembler instructions
+ * from a TDF file
+ */
+static bool
+special_alpha(tokval *tkv, token t, bitstream pars)
+{
+	exp arg;
+	place old_place;
+
+	old_place = keep_place();
+	set_place(pars);
+	arg = d_exp();
+	assert(name(arg) == val_tag);
+
+	if (no(arg) == 0) {
+		/* trapb : used to ensure that all pending execptions have been raised
+		before continuing */
+		tkv->tk_exp = getexp(f_top, NULL, 0, NULL, NULL, 0, 0, special_tag);
+	} else {
+		error(ERR_INTERNAL,  "Unsupported argument to token __alpha_special");
+		tkv->tk_exp = getexp(f_top, NULL, 0, NULL, NULL, 0, 0, null_tag);
+	}
+
+	set_place(old_place);
+
+	return true;
+}
+
+/*
+ * builtin function taking a TYPE argument and returning true
+ * if the argument is float, double or long double and false otherwise
+ */
+static bool
+special_isfloat(tokval *tkv, token t, bitstream pars)
+{
+	place old_place;
+	shape arg;
+	signed_nat lower,upper,resval;
+
+	old_place=keep_place();
+	set_place(pars);
+	arg = d_shape();
+
+	resval.issmall  = lower.issmall  = upper.issmall  = 1;
+	resval.negative = lower.negative = upper.negative = 0;
+	lower.signed_nat_val.small_s_nat = MIN_INT;
+	upper.signed_nat_val.small_s_nat = MAX_INT;
+
+	if (is_floating(name(arg))) {
+		resval.signed_nat_val.small_s_nat=1;
+	} else {
+		resval.signed_nat_val.small_s_nat=0;
+	}
+
+	tkv->tk_exp = f_make_int(slongsh,resval);
+	set_place(old_place);
+
+	return true;
+}
+
+static bool
+special_va_token(tokval *tkv, token t, bitstream pars)
+{
+	tkv->tk_exp = getexp(f_off32_32, NULL, 0, NULL, NULL, 0, 0, val_tag);
+	set_vararg(tkv->tk_exp);
+
+	return true;
+}
+
+/*
+ * builtin function taking 3 arguments: a va_list, a va_alist,
+ * and an integer i.e a compound(ptrhd,slonghd),
+ * an integer(s64shd) and an integer(slonghd).
+ *
+ * The pointer field of the compound is set equal to the 64 bit integer,
+ * and the integer field is set to 8.
+ */
+static bool
+special_va_start(tokval *tkv, token t, bitstream pars)
+{
+	place old_place;
+	exp arg1, arg2, arg3; /* parameters of the token */
+	exp_list list; /* list of exps used to construct the result sequence */
+	exp res = f_make_top();	/* the result part of the sequence */
+	exp assignment1, assignment2; /* the two assignment operations */
+	exp component1, component2; /* the components of the exp */
+	exp copy_of_compound;
+
+	old_place = keep_place();
+	set_place(pars);
+
+	arg1 = d_exp();
+	arg2 = d_exp();
+	arg3 = d_exp(); /* don't care */
+
+	/*
+	 * here we start to perform the transformation.
+	 * We must obtain the compound variable of arg1 and apply the
+	 * component operation to separate out the pointer and integer
+	 * for use in subsequent assignments.
+	 */
+
+	set_vararg(arg1);
+	copy_of_compound = copyexp(arg1);
+	component1 = get_component(arg1, const_al64, PTR_ALIGN, PTR_SZ, ptrhd, f_off64_64, 0);
+	component2 = get_component(copy_of_compound, const_al32, SLONG_ALIGN, SLONG_SZ, slonghd, f_off32_32, 64);
+	assignment1 = f_assign(component1, arg2);
+	assignment2 = f_assign(component2, getexp(f_off32_32, NULL, 0, NULL, NULL, 0, 0, val_tag));
+	bro(assignment1) = assignment2;
+	list.start = assignment1;
+	list.end = assignment2;
+	list.number = 2;
+	tkv->tk_exp = f_sequence(list,res);
+	kill_exp(arg3,arg3);
+	set_place(old_place);
+
+	return true;
+}
+
+static bool
+special_exp_to_source(tokval *tkv, token t, bitstream pars)
+{
+	place old_place;
+	diag_info *di;
+	exp r;
+
+	old_place = keep_place();
+	set_place(pars);
+	tkv->tk_exp = hold_refactor(d_exp());
+
+	if (diag == DIAG_NONE) {
+		set_place(old_place);
+		return true;
+	}
+
+	di = read_exp_to_source();
+	r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL, 1, 0, diagnose_tag);
+	setfather(r, tkv->tk_exp);
+	dno(r) = di;
+	tkv->tk_exp = r;
+	set_place(old_place);
+
+	crt_lno    = natint(di->data.source.end.line_no);
+	crt_charno = natint(di->data.source.end.char_off);
+	crt_flnm   = di->data.source.beg.file->file.ints.chars;
+
+	return true;
+}
+
+static bool
+special_diag_id_scope(tokval *tkv, token t, bitstream pars)
+{
+	place old_place;
+	diag_info *di;
+	exp r;
+
+	old_place = keep_place();
+	set_place(pars);
+	tkv->tk_exp = hold_refactor(d_exp());
+
+	if (diag == DIAG_NONE) {
+		set_place(old_place);
+		return true;
+	}
+
+	di = read_diag_id_scope();
+	r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL, 2, 0, diagnose_tag);
+	setfather(r, tkv->tk_exp);
+	dno(r) = di;
+	tkv->tk_exp = r;
+	set_place(old_place);
+
+	return true;
+}
+
+static bool
+special_diag_type_scope(tokval *tkv, token t, bitstream pars)
+{
+	place old_place;
+	diag_info *di;
+	exp r;
+
+	old_place = keep_place();
+	set_place(pars);
+	tkv->tk_exp = hold_refactor(d_exp());
+
+	if (diag == DIAG_NONE) {
+		set_place(old_place);
+		return true;
+	}
+
+	di = read_diag_type_scope();
+	r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL, 3, 0, diagnose_tag);
+	setfather(r, tkv->tk_exp);
+	dno(r) = di;
+	tkv->tk_exp = r;
+	set_place(old_place);
+
+	return true;
+}
+
+static bool
+special_diag_tag_scope(tokval *tkv, token t, bitstream pars)
+{
+	place old_place;
+	diag_info *di;
+	exp r;
+
+	old_place = keep_place();
+	set_place(pars);
+	tkv->tk_exp = hold_refactor(d_exp());
+
+	if (diag == DIAG_NONE) {
+		set_place(old_place);
+		return true;
+	}
+
+	di = read_diag_tag_scope();
+	r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL, 4, 0, diagnose_tag);
+	setfather(r, tkv->tk_exp);
+	dno(r) = di;
+	tkv->tk_exp = r;
+	set_place(old_place);
+
+	return true;
+}
+
+struct special_tok special_toks[] = {
+	{ "~alloca",            BUILTIN_ALLOCA, special_alloca          },
+
+	{ "~Sync_handler",      0,              special_sync_handler    },
+
+	{ "__alpha_special",    BUILTIN_ASM,    special_alpha           },
+
+	{ "__builtin_isfloat",  BUILTIN_FLOAT,  special_isfloat         },
+
+	{ "__builtin_va_token", BUILTIN_VARARG, special_va_token        },
+	{ "__builtin_va_start", BUILTIN_VARARG, special_va_start        },
+
+	{ "~exp_to_source",     BUILTIN_DIAG,   special_exp_to_source   },
+	{ "~diag_id_scope",     BUILTIN_DIAG,   special_diag_id_scope   },
+	{ "~diag_type_scope",   BUILTIN_DIAG,   special_diag_type_scope },
+	{ "~diag_tag_scope",    BUILTIN_DIAG,   special_diag_tag_scope  }
+};
 

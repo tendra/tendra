@@ -6,18 +6,14 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <shared/check.h>
+#include <stddef.h>
+
+#include <shared/bool.h>
 
 #include <reader/token.h>
+#include <reader/special_tok.h>
 
-int
-special_token(tokval *tkv, token t, bitstream pars, int sortcode)
-{
-	UNUSED(tkv);
-	UNUSED(t);
-	UNUSED(pars);
-	UNUSED(sortcode);
+struct special_tok special_toks[1];
 
-	return 1;
-}
+size_t special_toks_count = 0;
 

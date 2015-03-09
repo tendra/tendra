@@ -14,10 +14,10 @@
 #include <reader/code.h>
 #include <reader/basicread.h>
 #include <reader/c_arith_type.h>
-#include <reader/special_tok.h>
 #include <reader/messages_r.h>
 #include <reader/main_reads.h>
 #include <reader/externs.h>
+#include <reader/special_tok.h>
 
 #include <construct/tags.h>
 #include <construct/exp.h>
@@ -32,111 +32,137 @@
 
 #include <refactor/refactor.h>
 
-int
-special_token(tokval *tkv, token t, bitstream pars, int sortcode)
+static bool
+special_alloca(tokval *tkv, token t, bitstream pars)
 {
-	UNUSED(sortcode);
+	exp arg1;
+	place old_place;
 
-	if (t->tok_name == NULL) {
-		return 0;
-	}
+	old_place = keep_place();
+	set_place(pars);
 
-	if (builtin & BUILTIN_ALLOCA) {
-		if (!strcmp(t->tok_name, "~alloca"))  {
-			exp arg1;
-			place old_place;
+	arg1 = hold_refactor(d_exp());
+	set_place(old_place);
+	tkv->tk_exp = hold_refactor(me_u3(f_pointer(long_to_al(8)), arg1, alloca_tag));
+	has_alloca = 1;
 
-			old_place = keep_place();
-			set_place(pars);
-			arg1 = hold_refactor(d_exp());
-			set_place(old_place);
-
-			tkv->tk_exp = hold_refactor(me_u3(f_pointer(long_to_al(8)),
-			                                  arg1, alloca_tag));
-
-			has_alloca = 1;
-			return 1;
-		}
-	}
-
-	if (builtin & BUILTIN_DIAG) {
-		if (!strcmp(t->tok_name, "~exp_to_source") ||
-		    !strcmp(t->tok_name, "~diag_id_scope") ||
-		    !strcmp(t->tok_name, "~diag_type_scope") ||
-		    !strcmp(t->tok_name, "~diag_tag_scope"))
-		{
-
-			place old_place;
-			old_place = keep_place();
-			set_place(pars);
-			tkv->tk_exp = hold_refactor(d_exp());
-
-			if (diag == DIAG_NONE) {
-				set_place(old_place);
-				return 1;
-			}
-
-			if (!strcmp(t->tok_name, "~exp_to_source")) {
-				exp r;
-				diag_info * di = read_exp_to_source();
-
-				crt_lno = natint(di->data.source.end.line_no);
-				crt_charno = natint(di->data.source.end.char_off);
-				crt_flnm = di->data.source.beg.file->file.ints.chars;
-
-				r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL,
-				           1, 0, diagnose_tag);
-
-				setfather(r, tkv->tk_exp);
-				dno(r) = di;
-				tkv->tk_exp = r;
-				set_place(old_place);
-				return 1;
-			}
-
-			if (!strcmp(t->tok_name, "~diag_id_scope")) {
-				exp r;
-				diag_info * di = read_diag_id_scope();
-
-				r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL,
-				           2, 0, diagnose_tag);
-
-				setfather(r, tkv->tk_exp);
-				dno(r) = di;
-				tkv->tk_exp = r;
-				set_place(old_place);
-				return 1;
-			}
-
-			if (!strcmp(t->tok_name, "~diag_type_scope")) {
-				exp r;
-				diag_info * di = read_diag_type_scope();
-
-				r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL,
-				           3, 0, diagnose_tag);
-
-				setfather(r, tkv->tk_exp);
-				dno(r) = di;
-				tkv->tk_exp = r;
-				set_place(old_place);
-				return 1;
-			}
-
-			if (!strcmp(t->tok_name, "~diag_tag_scope")) {
-				exp r;
-				diag_info * di = read_diag_tag_scope();
-
-				r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL,
-				           4, 0, diagnose_tag);
-
-				setfather(r, tkv->tk_exp);
-				dno(r) = di;
-				tkv->tk_exp = r;
-				set_place(old_place);
-				return 1;
-			}
-		}
-	}
-
-	return 0;
+	return true;
 }
+
+static bool
+special_exp_to_source(tokval *tkv, token t, bitstream pars)
+{
+	place old_place;
+	diag_info *di;
+	exp r;
+
+	old_place = keep_place();
+	set_place(pars);
+	tkv->tk_exp = hold_refactor(d_exp());
+
+	if (diag == DIAG_NONE) {
+		set_place(old_place);
+		return true;
+	}
+
+	di = read_exp_to_source();
+	r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL, 1, 0, diagnose_tag);
+	setfather(r, tkv->tk_exp);
+	dno(r) = di;
+	tkv->tk_exp = r;
+	set_place(old_place);
+
+	crt_lno    = natint(di->data.source.end.line_no);
+	crt_charno = natint(di->data.source.end.char_off);
+	crt_flnm   = di->data.source.beg.file->file.ints.chars;
+
+	return true;
+}
+
+static bool
+special_diag_id_scope(tokval *tkv, token t, bitstream pars)
+{
+	place old_place;
+	diag_info *di;
+	exp r;
+
+	old_place = keep_place();
+	set_place(pars);
+	tkv->tk_exp = hold_refactor(d_exp());
+
+	if (diag == DIAG_NONE) {
+		set_place(old_place);
+		return true;
+	}
+
+	di = read_diag_id_scope();
+	r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL, 2, 0, diagnose_tag);
+	setfather(r, tkv->tk_exp);
+	dno(r) = di;
+	tkv->tk_exp = r;
+	set_place(old_place);
+
+	return true;
+}
+
+static bool
+special_diag_type_scope(tokval *tkv, token t, bitstream pars)
+{
+	place old_place;
+	diag_info *di;
+	exp r;
+
+	old_place = keep_place();
+	set_place(pars);
+	tkv->tk_exp = hold_refactor(d_exp());
+
+	if (diag == DIAG_NONE) {
+		set_place(old_place);
+		return true;
+	}
+
+	di = read_diag_type_scope();
+	r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL, 3, 0, diagnose_tag);
+	setfather(r, tkv->tk_exp);
+	dno(r) = di;
+	tkv->tk_exp = r;
+	set_place(old_place);
+
+	return true;
+}
+
+static bool
+special_diag_tag_scope(tokval *tkv, token t, bitstream pars)
+{
+	place old_place;
+	diag_info *di;
+	exp r;
+
+	old_place = keep_place();
+	set_place(pars);
+	tkv->tk_exp = hold_refactor(d_exp());
+
+	if (diag == DIAG_NONE) {
+		set_place(old_place);
+		return true;
+	}
+
+	di = read_diag_tag_scope();
+	r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL, 4, 0, diagnose_tag);
+	setfather(r, tkv->tk_exp);
+	dno(r) = di;
+	tkv->tk_exp = r;
+	set_place(old_place);
+
+	return true;
+}
+
+struct special_tok special_toks[] = {
+	{ "~alloca",          BUILTIN_ALLOCA,  special_alloca          },
+
+	{ "~exp_to_source",   BUILTIN_DIAG,    special_exp_to_source   },
+	{ "~diag_id_scope",   BUILTIN_DIAG,    special_diag_id_scope   },
+	{ "~diag_type_scope", BUILTIN_DIAG,    special_diag_type_scope },
+	{ "~diag_tag_scope",  BUILTIN_DIAG,    special_diag_tag_scope  }
+};
+

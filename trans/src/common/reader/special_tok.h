@@ -10,10 +10,20 @@
 #ifndef READER_SPECIAL_TOK_H
 #define READER_SPECIAL_TOK_H
 
+struct special_tok {
+	const char *name;
+	int mask;
+	bool (*f)(tokval *tkv, token td, bitstream pars);
+};
+
 /*
- * Intercepts specially defined tokens
+ * Intercepts specially defined functions tokens
  */
-int special_token(tokval *tkv, token td, bitstream pars, int sortcode);
+bool
+special_token(tokval *tkv, token td, bitstream pars, int sortcode);
+
+extern struct special_tok special_toks[];
+extern size_t special_toks_count;
 
 #endif
 
