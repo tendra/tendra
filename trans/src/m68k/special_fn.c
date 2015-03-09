@@ -35,6 +35,8 @@ special_setjmp(exp a1, exp a2, shape s, exp *e)
 	UNUSED(e);
 
 	has_setjmp = 1;
+
+	return false;
 }
 
 static bool
