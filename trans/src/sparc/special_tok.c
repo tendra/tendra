@@ -314,6 +314,7 @@ special_diag_tag_scope(tokval *tkv, token t, bitstream pars)
 	return true;
 }
 
+#ifdef TDF_DIAG4
 static bool
 special_dg_exp(tokval *tkv, token t, bitstream pars)
 {
@@ -333,6 +334,7 @@ special_dg_exp(tokval *tkv, token t, bitstream pars)
 
 	return true;
 }
+#endif
 
 static bool
 special_sparc(tokval *tkv, token t, bitstream pars)

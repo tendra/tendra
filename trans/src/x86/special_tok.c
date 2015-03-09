@@ -348,6 +348,7 @@ special_diag_tag_scope(tokval *tkv, token t, bitstream pars)
 	return true;
 }
 
+#ifdef TDF_DIAG4
 static bool
 special_dg_exp(tokval *tkv, token t, bitstream pars)
 {
@@ -367,6 +368,7 @@ special_dg_exp(tokval *tkv, token t, bitstream pars)
 
 	return true;
 }
+#endif
 
 static bool
 special_asm(tokval *tkv, token t, bitstream pars)
@@ -448,6 +450,7 @@ special_asm_exp_output(tokval *tkv, token t, bitstream pars)
 	return true;
 }
 
+#ifdef TDF_DIAG4
 static bool
 special_asm_exp_address(tokval *tkv, token t, bitstream pars)
 {
@@ -467,6 +470,7 @@ special_asm_exp_address(tokval *tkv, token t, bitstream pars)
 
 	return true;
 }
+#endif
 
 const struct special_tok special_toks[] = {
 	{ "JMFprofile",       BUILTIN_DEBUG,   special_profile         },
