@@ -55,7 +55,7 @@ special_fn(exp a1, exp a2, shape s, exp *e)
 	return false;
 }
 
-int
+bool
 special_token(tokval *tkv, token t, bitstream pars, int sortcode)
 {
 	size_t i;
