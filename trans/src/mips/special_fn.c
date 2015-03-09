@@ -16,13 +16,14 @@
 #include <reader/externs.h>
 #include <reader/basicread.h>
 #include <reader/table_fns.h>
-#include <reader/special_fn.h>
 
 #include <construct/tags.h>
 #include <construct/shape.h>
 #include <construct/exp.h>
 #include <construct/installglob.h>
 #include <construct/installtypes.h>
+
+#include <special/special_fn.h>
 
 #include <main/flags.h>
 

@@ -6,8 +6,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef READER_SPECIAL_FN_H
-#define READER_SPECIAL_FN_H
+#ifndef SPECIAL_FN_H
+#define SPECIAL_FN_H
 
 #include <construct/installtypes.h>
 

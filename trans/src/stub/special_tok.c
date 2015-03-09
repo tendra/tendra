@@ -11,7 +11,8 @@
 #include <shared/bool.h>
 
 #include <reader/token.h>
-#include <reader/special_tok.h>
+
+#include <special/special_tok.h>
 
 const struct special_tok special_toks[1];
 

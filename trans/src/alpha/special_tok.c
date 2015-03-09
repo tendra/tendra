@@ -21,7 +21,6 @@
 #include <reader/messages_r.h>
 #include <reader/main_reads.h>
 #include <reader/c_arith_type.h>
-#include <reader/special_tok.h>
 
 #include <construct/tags.h>
 #include <construct/exp.h>
@@ -29,6 +28,8 @@
 #include <construct/installglob.h>
 #include <construct/install_fns.h>
 #include <construct/shape.h>
+
+#include <special/special_tok.h>
 
 #include <main/flags.h>
 

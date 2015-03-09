@@ -13,11 +13,12 @@
 
 #include <reader/exp.h>
 #include <reader/token.h>
-#include <reader/special_fn.h>
-#include <reader/special_tok.h>
 
 #include <construct/installtypes.h>
 #include <construct/machine.h>
+
+#include <special/special_fn.h>
+#include <special/special_tok.h>
 
 #include <main/flags.h>
 

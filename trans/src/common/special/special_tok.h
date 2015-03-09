@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef READER_SPECIAL_TOK_H
-#define READER_SPECIAL_TOK_H
+#ifndef SPECIAL_TOK_H
+#define SPECIAL_TOK_H
 
 struct special_tok {
 	const char *name;

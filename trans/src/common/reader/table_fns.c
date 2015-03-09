@@ -21,7 +21,6 @@
 #include <reader/sort.h>
 #include <reader/main_reads.h>
 #include <reader/externs.h>
-#include <reader/special_tok.h>
 #include <reader/read_sort.h>
 #include <reader/messages_r.h>
 #include <reader/table_fns.h>
@@ -29,6 +28,8 @@
 #include <construct/exp.h>
 #include <construct/installglob.h>
 #include <construct/install_fns.h>
+
+#include <special/special_tok.h>
 
 #ifdef TDF_DIAG4
 #include <diag4/diagglob.h>

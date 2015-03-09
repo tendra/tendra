@@ -11,7 +11,7 @@
 
 #include <shared/bool.h>
 
-#include <reader/special_fn.h>
+#include <special/special_fn.h>
 
 const struct special_fn special_fns[1];
 

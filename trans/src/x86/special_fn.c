@@ -26,6 +26,8 @@
 #include <construct/me_fns.h>
 #include <construct/machine.h>
 
+#include <special/special_fn.h>
+
 #include <main/flags.h>
 
 #include "localexpmacs.h"

@@ -14,12 +14,13 @@
 #include <shared/error.h>
 
 #include <reader/exp.h>
-#include <reader/special_fn.h>
 
 #include <construct/exp.h>
 #include <construct/tags.h>
 #include <construct/installglob.h>
 #include <construct/installtypes.h>
+
+#include <special/special_fn.h>
 
 #include <main/flags.h>
 
