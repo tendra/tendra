@@ -22,7 +22,7 @@ struct special_tok {
 bool
 special_token(tokval *tkv, token td, bitstream pars, int sortcode);
 
-extern struct special_tok special_toks[];
+extern const struct special_tok special_toks[];
 extern size_t special_toks_count;
 
 #endif

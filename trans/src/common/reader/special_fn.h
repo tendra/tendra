@@ -20,7 +20,7 @@ struct special_fn {
 bool
 special_fn(exp a1, exp a2, shape s, exp *e);
 
-extern struct special_fn special_fns[];
+extern const struct special_fn special_fns[];
 extern size_t special_fns_count;
 
 #endif

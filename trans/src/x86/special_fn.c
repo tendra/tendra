@@ -131,7 +131,7 @@ special_abort(exp a1, exp a2, shape s, exp *e)
 	return true;
 }
 
-struct special_fn special_fns[] = {
+const struct special_fn special_fns[] = {
 	{ "__trans386_special", 0,               special_trans386 },
 	{ "setjmp",             BUILTIN_LONGJMP, special_setjmp   },
 	{ "longjmp",            BUILTIN_LONGJMP, special_longjmp  },

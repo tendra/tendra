@@ -467,7 +467,7 @@ special_asm_exp_address(tokval *tkv, token t, bitstream pars)
 	return true;
 }
 
-struct special_tok special_toks[] = {
+const struct special_tok special_toks[] = {
 	{ "JMFprofile",       BUILTIN_DEBUG,   special_profile         },
 	{ "JMFinline",        BUILTIN_DEBUG,   special_inline          },
 

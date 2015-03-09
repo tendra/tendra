@@ -456,7 +456,7 @@ special_asm_exp_address(tokval *tkv, token t, bitstream pars)
 	return true;
 }
 
-struct special_tok special_toks[] = {
+const struct special_tok special_toks[] = {
 	{ "c89.stdarg.__va_start", BUILTIN_VARARG, special_va_start    },
 	{ "c89.stdarg.va_arg",     BUILTIN_VARARG, special_va_arg      },
 

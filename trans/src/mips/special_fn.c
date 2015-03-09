@@ -55,7 +55,7 @@ special_alloca(exp a1, exp a2, shape s, exp *e)
 	return true;
 }
 
-struct special_fn special_fns[] = {
+const struct special_fn special_fns[] = {
 	{ "setjmp",           BUILTIN_LONGJMP, special_setjmp },
 	{ "alloca",           BUILTIN_ALLOCA,  special_alloca },
 	{ "__builtin_alloca", BUILTIN_ALLOCA,  special_alloca }

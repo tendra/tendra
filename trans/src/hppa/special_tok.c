@@ -272,7 +272,7 @@ special_diag_tag_scope(tokval *tkv, token t, bitstream pars)
 	return true;
 }
 
-struct special_tok special_toks[] = {
+const struct special_tok special_toks[] = {
 	{ "c89.stdarg.__va_start", BUILTIN_VARARG, special_va_start    },
 
 	/* TODO: BUILTIN_? */

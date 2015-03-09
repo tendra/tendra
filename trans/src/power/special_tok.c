@@ -158,7 +158,7 @@ special_diag_tag_scope(tokval *tkv, token t, bitstream pars)
 	return true;
 }
 
-struct special_tok special_toks[] = {
+const struct special_tok special_toks[] = {
 	{ "~alloca",          BUILTIN_ALLOCA,  special_alloca          },
 
 	{ "~exp_to_source",   BUILTIN_DIAG,    special_exp_to_source   },

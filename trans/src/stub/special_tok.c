@@ -13,7 +13,7 @@
 #include <reader/token.h>
 #include <reader/special_tok.h>
 
-struct special_tok special_toks[1];
+const struct special_tok special_toks[1];
 
 size_t special_toks_count = 0;
 

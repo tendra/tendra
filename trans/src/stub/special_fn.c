@@ -12,7 +12,7 @@
 
 #include <reader/special_fn.h>
 
-struct special_fn special_fns[1];
+const struct special_fn special_fns[1];
 
 size_t special_fns_count = 0;
 
