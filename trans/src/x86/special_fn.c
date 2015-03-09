@@ -24,7 +24,6 @@
 #include <construct/installglob.h>
 #include <construct/installtypes.h>
 #include <construct/me_fns.h>
-#include <construct/special_fn.h>
 #include <construct/machine.h>
 
 #include <main/flags.h>

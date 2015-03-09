@@ -41,6 +41,7 @@
 #include <reader/sort.h>
 #include <reader/readglob.h>
 #include <reader/externs.h>
+#include <reader/special_fn.h>
 
 #include <construct/exp.h>
 #include <construct/tags.h>
@@ -50,7 +51,6 @@
 #include <construct/flpt.h>
 #include <construct/shape.h>
 #include <construct/machine.h>
-#include <construct/special_fn.h>
 #include <construct/messages_c.h>
 #include <construct/f64.h>
 #include <construct/reg_result.h>

@@ -23,7 +23,6 @@
 #include <construct/exp.h>
 #include <construct/installglob.h>
 #include <construct/installtypes.h>
-#include <construct/special_fn.h>
 
 #include <main/flags.h>
 
