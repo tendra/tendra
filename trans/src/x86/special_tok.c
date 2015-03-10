@@ -193,23 +193,6 @@ special_convert(tokval *tkv, token t, bitstream pars)
 }
 
 static bool
-special_alloca(tokval *tkv, token t, bitstream pars)
-{
-	exp arg1;
-	place old_place;
-
-	old_place = keep_place();
-	set_place(pars);
-
-	arg1 = hold_refactor(d_exp());
-	set_place(old_place);
-	tkv->tk_exp = hold_refactor(me_u3(f_pointer(long_to_al(8)), arg1, alloca_tag));
-	has_alloca = 1;
-
-	return true;
-}
-
-static bool
 special_asm(tokval *tkv, token t, bitstream pars)
 {
 	int prp;
@@ -320,8 +303,6 @@ const struct special_tok special_toks[] = {
 	{ "~promote",         BUILTIN_PROMOTE, special_promote         },
 	{ "~sign_promote",    BUILTIN_PROMOTE, special_sign_promote    },
 	{ "~convert",         BUILTIN_PROMOTE, special_convert         },
-
-	{ "~alloca",          BUILTIN_ALLOCA,  special_alloca          },
 
 	{ "~asm",             BUILTIN_ASM,     special_asm             },
 	{ "~asm_sequence",    BUILTIN_ASM,     special_asm_sequence    },

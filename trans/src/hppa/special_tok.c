@@ -124,53 +124,12 @@ special_next_callee_offset(tokval *tkv, token t, bitstream pars)
 	return true;
 }
 
-static bool
-special_alloc_size(tokval *tkv, token t, bitstream pars)
-{
-	exp off,off1,arg1;
-	place old_place;
-
-	old_place = keep_place();
-	set_place(pars);
-
-	arg1 = hold_refactor(d_exp());
-	set_place(old_place);
-
-	off1 = hold_refactor(f_offset_pad(SLONG_ALIGN, arg1));
-	off  = hold_refactor(me_b3(f_offset(al1_of(sh(off1)), SLONG_ALIGN),
-							  off1, f_shape_offset(slongsh), offset_add_tag));
-
-	tkv->tk_exp = hold_refactor(f_offset_pad(const_al512, off));
-
-	return true;
-}
-
-static bool
-special_alloca(tokval *tkv, token t, bitstream pars)
-{
-	exp arg1;
-	place old_place;
-
-	old_place = keep_place();
-	set_place(pars);
-
-	arg1 = hold_refactor(d_exp());
-	set_place(old_place);
-	tkv->tk_exp = hold_refactor(me_u3(f_pointer(long_to_al(8)), arg1, alloca_tag));
-	has_alloca = 1;
-
-	return true;
-}
-
 const struct special_tok special_toks[] = {
 	{ "c89.stdarg.__va_start", BUILTIN_VARARG, special_va_start   },
 
 	/* TODO: BUILTIN_? */
 	{ "__trans_next_caller_offset", 0, special_next_caller_offset },
-	{ "__trans_next_callee_offset", 0, special_next_callee_offset },
-
-	{ "~alloc_size",      BUILTIN_ALLOCA,  special_alloc_size     },
-	{ "~alloca",          BUILTIN_ALLOCA,  special_alloca         }
+	{ "__trans_next_callee_offset", 0, special_next_callee_offset }
 };
 
 size_t special_toks_count = sizeof special_toks / sizeof *special_toks;

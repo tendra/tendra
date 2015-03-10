@@ -8,6 +8,7 @@ CCOPTS+=	-I .
 
 SRCS+=	special.c
 SRCS+=	special_diag.c
+SRCS+=	special_alloc.c
 
 .include <tendra.obj.mk>
 

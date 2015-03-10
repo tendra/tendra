@@ -62,23 +62,6 @@ get_component(exp e, alignment shc, alignment align, int size, int nm, shape off
 }
 
 static bool
-special_alloca(tokval *tkv, token t, bitstream pars)
-{
-	exp arg1;
-	place old_place;
-
-	old_place = keep_place();
-	set_place(pars);
-
-	arg1 = hold_refactor(d_exp());
-	set_place(old_place);
-	tkv->tk_exp = hold_refactor(me_u3(f_pointer(long_to_al(8)), arg1, alloca_tag));
-	has_alloca = 1;
-
-	return true;
-}
-
-static bool
 special_sync_handler(tokval *tkv, token t, bitstream pars)
 {
 	tkv->tk_exp = getexp(f_top, NULL, 0, NULL, NULL, 0, 0, special_tag);
@@ -207,8 +190,6 @@ special_va_start(tokval *tkv, token t, bitstream pars)
 }
 
 const struct special_tok special_toks[] = {
-	{ "~alloca",            BUILTIN_ALLOCA, special_alloca       },
-
 	{ "~Sync_handler",      0,              special_sync_handler },
 
 	{ "__alpha_special",    BUILTIN_ASM,    special_alpha        },

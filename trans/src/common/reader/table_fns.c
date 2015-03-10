@@ -172,10 +172,17 @@ tokval
 apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 {
 	if (td->tok_special || td -> defined == 0) {
-		/* handle the special tokens */
 		tokval tkv;
 
 		if (special_token(special_toks, special_toks_count, &tkv, td, pars, sortcode)) {
+			return tkv;
+		}
+
+		if (special_token(special_allocs, special_allocs_count, &tkv, td, pars, sortcode)) {
+			return tkv;
+		}
+
+		if (special_token(special_diags, special_diags_count, &tkv, td, pars, sortcode)) {
 			return tkv;
 		}
 	}
