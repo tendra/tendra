@@ -349,10 +349,6 @@
 								<td><code>~alloca</code></td>
 							</tr>
 							<tr>
-								<td><code>f</code></td>
-								<td><code>__builtin_isfloat</code></td>
-							</tr>
-							<tr>
 								<td><code>g</code></td>
 								<td>diagnostics</td>
 							</tr>

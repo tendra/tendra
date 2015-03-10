@@ -231,7 +231,6 @@ flags_builtin(enum builtin o, const char *s)
 		case 'p': e = BUILTIN_PROMOTE; break;
 		case 'v': e = BUILTIN_VARARG;  break;
 		case 'c': e = BUILTIN_ALLOCA;  break;
-		case 'f': e = BUILTIN_FLOAT;   break;
 		case 'g': e = BUILTIN_DIAG;    break;
 		case 'l': e = BUILTIN_API;     break;
 		case 'm': e = BUILTIN_ASM;     break;

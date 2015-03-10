@@ -54,12 +54,11 @@ enum builtin {
 	BUILTIN_PROMOTE = 1 << 1,
 	BUILTIN_VARARG  = 1 << 2,
 	BUILTIN_ALLOCA  = 1 << 3,
-	BUILTIN_FLOAT   = 1 << 4,
-	BUILTIN_DIAG    = 1 << 5,
-	BUILTIN_DIV     = 1 << 6,
-	BUILTIN_API     = 1 << 7,
-	BUILTIN_ASM     = 1 << 8,
-	BUILTIN_DEBUG   = 1 << 9
+	BUILTIN_DIAG    = 1 << 4,
+	BUILTIN_DIV     = 1 << 5,
+	BUILTIN_API     = 1 << 6,
+	BUILTIN_ASM     = 1 << 7,
+	BUILTIN_DEBUG   = 1 << 8
 };
 
 enum endian {

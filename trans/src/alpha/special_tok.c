@@ -101,6 +101,9 @@ special_alpha(tokval *tkv, token t, bitstream pars)
 /*
  * builtin function taking a TYPE argument and returning true
  * if the argument is float, double or long double and false otherwise
+ *
+ * This token is provided only for va_arg() in the API header glue to give
+ * the appropriate sizes for the Alpha calling conventions.
  */
 static bool
 special_isfloat(tokval *tkv, token t, bitstream pars)
@@ -194,8 +197,7 @@ const struct special_tok special_toks[] = {
 
 	{ "__alpha_special",    BUILTIN_ASM,    special_alpha        },
 
-	{ "__builtin_isfloat",  BUILTIN_FLOAT,  special_isfloat      },
-
+	{ "__builtin_isfloat",  BUILTIN_VARARG, special_isfloat      },
 	{ "__builtin_va_token", BUILTIN_VARARG, special_va_token     },
 	{ "__builtin_va_start", BUILTIN_VARARG, special_va_start     }
 };
