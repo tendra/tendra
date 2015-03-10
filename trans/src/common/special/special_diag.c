@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 #include <stddef.h>
 
 #include <shared/bool.h>
@@ -38,14 +39,16 @@
 #include <diag3/special_tok.h>
 #endif
 
+#ifdef TDF_DIAG3
 static bool
-special_exp_to_source(tokval *tkv, token t, bitstream pars)
+special_diag3(tokval *tkv, token t, bitstream pars,
+	diag_info *(*f)(void), prop p)
 {
 	place old_place;
-#ifndef TDF_DIAG4
 	diag_info *di;
 	exp r;
-#endif
+
+	assert(f != NULL);
 
 	old_place = keep_place();
 	set_place(pars);
@@ -56,139 +59,111 @@ special_exp_to_source(tokval *tkv, token t, bitstream pars)
 		return true;
 	}
 
-#ifdef TDF_DIAG4
-	tkv->tk_exp = read_exp_to_source(tkv->tk_exp);
-#else
-	di = read_exp_to_source();
-	r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL, 1, 0, diagnose_tag);
+	di = f();
+	r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL, p, 0, diagnose_tag);
 	setfather(r, tkv->tk_exp);
 	dno(r) = di;
 	tkv->tk_exp = r;
-#endif
 	set_place(old_place);
 
-#ifndef TDF_DIAG4
-	crt_lno    = natint(di->data.source.end.line_no);
-	crt_charno = natint(di->data.source.end.char_off);
-	crt_flnm   = di->data.source.beg.file->file.ints.chars;
-#endif
+	if (p == 1) {
+		crt_lno    = natint(di->data.source.end.line_no);
+		crt_charno = natint(di->data.source.end.char_off);
+		crt_flnm   = di->data.source.beg.file->file.ints.chars;
+	}
 
 	return true;
+}
+#endif
+
+#ifdef TDF_DIAG4
+static bool
+special_diag4(tokval *tkv, token t, bitstream pars,
+	exp (*f)(exp))
+{
+	place old_place;
+
+	old_place = keep_place();
+	set_place(pars);
+	tkv->tk_exp = hold_refactor(d_exp());
+
+	if (diag == DIAG_NONE) {
+		set_place(old_place);
+		return true;
+	}
+
+	if (f != NULL) {
+		tkv->tk_exp = f(tkv->tk_exp);
+	}
+
+	set_place(old_place);
+
+	return true;
+}
+#endif
+
+static bool
+special_exp_to_source(tokval *tkv, token t, bitstream pars)
+{
+#ifdef TDF_DIAG3
+	return special_diag3(tkv, t, pars, read_exp_to_source, 1);
+#endif
+
+#ifdef TDF_DIAG4
+	return special_diag4(tkv, t, pars, read_exp_to_source);
+#endif
+
+	return false;
 }
 
 static bool
 special_diag_id_scope(tokval *tkv, token t, bitstream pars)
 {
-	place old_place;
-#ifndef TDF_DIAG4
-	diag_info *di;
-	exp r;
+#ifdef TDF_DIAG3
+	return special_diag3(tkv, t, pars, read_diag_id_scope, 2);
 #endif
-
-	old_place = keep_place();
-	set_place(pars);
-	tkv->tk_exp = hold_refactor(d_exp());
-
-	if (diag == DIAG_NONE) {
-		set_place(old_place);
-		return true;
-	}
 
 #ifdef TDF_DIAG4
-	tkv->tk_exp = read_diag_id_scope(tkv->tk_exp);
-#else
-	di = read_diag_id_scope();
-	r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL, 2, 0, diagnose_tag);
-	setfather(r, tkv->tk_exp);
-	dno(r) = di;
-	tkv->tk_exp = r;
+	return special_diag4(tkv, t, pars, read_diag_id_scope);
 #endif
-	set_place(old_place);
 
-	return true;
+	return false;
 }
 
 static bool
 special_diag_type_scope(tokval *tkv, token t, bitstream pars)
 {
-	place old_place;
-#ifndef TDF_DIAG4
-	diag_info *di;
-	exp r;
+#ifdef TDF_DIAG3
+	return special_diag3(tkv, t, pars, read_diag_type_scope, 3);
 #endif
-
-	old_place = keep_place();
-	set_place(pars);
-	tkv->tk_exp = hold_refactor(d_exp());
-
-	if (diag == DIAG_NONE) {
-		set_place(old_place);
-		return true;
-	}
 
 #ifdef TDF_DIAG4
-	tkv->tk_exp = read_diag_type_scope(tkv->tk_exp);
-#else
-	di = read_diag_type_scope();
-	r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL, 3, 0, diagnose_tag);
-	setfather(r, tkv->tk_exp);
-	dno(r) = di;
-	tkv->tk_exp = r;
+	return special_diag4(tkv, t, pars, read_diag_type_scope);
 #endif
-	set_place(old_place);
 
-	return true;
+	return false;
 }
 
 static bool
 special_diag_tag_scope(tokval *tkv, token t, bitstream pars)
 {
-	place old_place;
-#ifndef TDF_DIAG4
-	diag_info *di;
-	exp r;
+#ifdef TDF_DIAG3
+	return special_diag3(tkv, t, pars, read_diag_tag_scope, 4);
 #endif
 
-	old_place = keep_place();
-	set_place(pars);
-	tkv->tk_exp = hold_refactor(d_exp());
-
-	if (diag == DIAG_NONE) {
-		set_place(old_place);
-		return true;
-	}
-
-#ifndef TDF_DIAG4
-	di = read_diag_tag_scope();
-	r = getexp(sh(tkv->tk_exp), NULL, 0, tkv->tk_exp, NULL, 4, 0, diagnose_tag);
-	setfather(r, tkv->tk_exp);
-	dno(r) = di;
-	tkv->tk_exp = r;
+#ifdef TDF_DIAG4
+	return special_diag4(tkv, t, pars, NULL);
 #endif
-	set_place(old_place);
 
-	return true;
+	return false;
 }
 
 #ifdef TDF_DIAG4
 static bool
 special_dg_exp(tokval *tkv, token t, bitstream pars)
 {
-	place old_place;
-
-	old_place = keep_place();
-	set_place(pars);
-	tkv->tk_exp = hold_refactor(d_exp());
-
-	if (diag == DIAG_NONE) {
-		set_place(old_place);
-		return true;
-	}
-
-	tkv->tk_exp = read_dg_exp(tkv->tk_exp);
-	set_place(old_place);
-
-	return true;
+	return special_diag4(tkv, t, pars,
+		read_dg_exp);
 }
 #endif
 
