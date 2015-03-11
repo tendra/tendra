@@ -34,7 +34,8 @@
 
 #include <output/dump.h>
 #include <output/encode.h>
-#include <output/save.h>
+
+#include <spec/save.h>
 
 #include "ctype_ops.h"
 #include "etype_ops.h"

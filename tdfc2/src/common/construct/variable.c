@@ -29,9 +29,10 @@
 
 #include <output/compile.h>
 #include <output/dump.h>
-#include <output/save.h>
 #include <output/stmt.h>
 #include <output/tok.h>
+
+#include <spec/save.h>
 
 #include <construct/basetype.h>
 #include <construct/check.h>

@@ -54,8 +54,9 @@
 #include <output/decode.h>
 #include <output/dump.h>
 #include <output/encode.h>
-#include <output/load.h>
-#include <output/save.h>
+
+#include <spec/load.h>
+#include <spec/save.h>
 
 #include "ctype_ops.h"
 #include "etype_ops.h"

@@ -40,7 +40,8 @@
 #include <output/tdf.h>
 #include <output/capsule.h>
 #include <output/dump.h>
-#include <output/save.h>
+
+#include <spec/save.h>
 
 #include "err_ext.h"
 #include "exp_ops.h"

@@ -24,6 +24,7 @@ PARTS+=	src/common/utility
 PARTS+=	src/common/obj_c
 PARTS+=	src/common/output
 PARTS+=	src/common/parse
+PARTS+=	src/common/spec
 PARTS+=	src/common
 
 PARTS+=	src/cpp/syntax

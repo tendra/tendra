@@ -7,6 +7,7 @@ CCOPTS+=	-I construct
 CCOPTS+=	-I parse
 CCOPTS+=	-I obj_c
 CCOPTS+=	-I output
+CCOPTS+=	-I spec
 CCOPTS+=	-I .
 
 TCCOPTS+= -Yposix

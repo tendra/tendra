@@ -60,9 +60,10 @@
 #include <output/capsule.h>
 #include <output/compile.h>
 #include <output/dump.h>
-#include <output/load.h>
 #include <output/tok.h>
 #include <output/unmangle.h>
+
+#include <spec/load.h>
 
 
 /**
