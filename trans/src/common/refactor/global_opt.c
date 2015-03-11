@@ -125,9 +125,6 @@ opt_strcpy(dec *dp)
 	}
 }
 
-
-
-
 static void
 opt_strlen(dec *dp)
 {
@@ -194,7 +191,6 @@ opt_strlen(dec *dp)
 		}
 	}
 }
-
 
 static void
 global_opt(dec *dp)

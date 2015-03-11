@@ -11,7 +11,6 @@
 
 #include <shared/error.h>
 
-
 #include <construct/installglob.h>
 #include <construct/exp.h>
 #include <construct/tags.h>
@@ -41,7 +40,8 @@ refactor_ext(exp e)
 
 	if ((!PIC_code || brog(e)->dec_var == 0) && !isvar(e) &&
 	    (name(def) == val_tag || name(def) == real_tag ||
-	     name(def) == null_tag)) {
+	     name(def) == null_tag))
+	{
 		while (pt(e) != NULL) {
 			/* substitute constants in */
 			exp q = pt(e);
@@ -54,6 +54,7 @@ refactor_ext(exp e)
 				pt(e) = pt(q);
 			}
 		}
+
 		return;
 	}
 }

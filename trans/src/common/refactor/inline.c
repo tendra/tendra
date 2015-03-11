@@ -30,8 +30,6 @@
 #include <diag4/dg_aux.h>
 #endif
 
-/* PROCEDURES */
-
 static exp
 last_action(exp e)
 {
@@ -46,7 +44,6 @@ last_action(exp e)
 	return e;
 }
 
-
 static void
 change_last_shapes(exp e, shape sha)
 {
@@ -60,12 +57,12 @@ change_last_shapes(exp e, shape sha)
 	}
 }
 
-
 /* replaces a formal paramter by an actual parameter */
 static void
 replace_pars(exp actual, exp formal_par)
 {
 	exp def;
+
 	if (!last(actual)) {
 		replace_pars(bro(actual), bro(son(formal_par)));
 	}
@@ -75,11 +72,11 @@ replace_pars(exp actual, exp formal_par)
 	if (no(formal_par) == 1 && shape_size(sh(pt(formal_par))) == 8) {
 		setvis(formal_par);
 	}
+
 	replace(def, actual, formal_par);
 
 	retcell(def);
 }
-
 
 /* inlines the procedure application e */
 void
@@ -90,8 +87,7 @@ inline_exp(exp e)
 	exp body = son(son(son(fn)));	/* the proc_tag exp */
 	exp bc, t, q;
 	exp lab;
-	exp var;		/* the destination to which the result is to be
-				   assigned */
+	exp var; /* the destination to which the result is to be assigned */
 	exp new_var = NULL;
 	exp new_dec;		/* a new variable declaration if we make one */
 	shape sha = sh(e);	/* the shape delivered by the application */
@@ -106,13 +102,13 @@ inline_exp(exp e)
 	} else {
 		if (last(e) && name(bro(e)) == ass_tag &&
 		    name(son(bro(e))) == name_tag) {
-			/* the result of the application is being assigned to
-			   a name_tag */
+
+			/* the result of the application is being assigned to a name_tag */
 			var = son(bro(e));	/* the destination of the ass */
-			cond_alt = f_make_top();	/* the result is being
-							   assigned in the body
-							   - no need for a
-							   delivered result */
+
+			/* the result is being assigned in the body - no need for a delivered result */
+			cond_alt = f_make_top();
+
 			e = bro(e); /* NOTE e CHANGED to ass_tag */
 #ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
@@ -122,15 +118,15 @@ inline_exp(exp e)
 			}
 #endif
 		} else {
-			new_dec = me_start_clearvar(sha, sha);
 			/* make a new variable to assign to at each res_tag */
+			new_dec = me_start_clearvar(sha, sha);
+
 			setinlined(new_dec);	/* mark the declaration */
 			new_var = me_obtain(new_dec);
-			var = new_var;	/* the destination of assignments
-					   new_var is killed at end */
+
+			var = new_var;	/* the destination of assignments new_var is killed at end */
+			/* delivers the contents of the variable - hence the * value */
 			cond_alt = f_contents(sha, copy(new_var));
-			/* delivers the contents of the variable - hence the
-			 * value */
 		}
 	}
 
@@ -160,9 +156,9 @@ inline_exp(exp e)
 #ifdef TDF_DIAG4
 	doing_inlining = 1;
 #endif
+
+	/* copy the body, making res_tag into assignment to var and jump to lab */
 	bc = copy_res(body, var, lab);
-	/* copy the body, making res_tag into assignment to var and
-	   jump to lab */
 #ifdef TDF_DIAG4
 	doing_inlining = 0;
 #endif
@@ -179,12 +175,11 @@ inline_exp(exp e)
 	retcell(bc);	/* and retcell it */
 
 	last_act = last_action(res);
-	if (no(son(lab)) == 1 && name(last_act) == goto_tag &&
-	    pt(last_act) == lab) {
+	if (no(son(lab)) == 1 && name(last_act) == goto_tag && pt(last_act) == lab) {
 		/* there is only one (final) goto replacement for return */
 		if (name(res) == goto_tag) {
 			res = (name(sha) == tophd) ? f_make_top() :
-				f_make_value(sha);
+			      f_make_value(sha);
 		} else {
 			change_last_shapes(res, sh(bro(son(lab))));
 #ifdef TDF_DIAG4
@@ -219,12 +214,13 @@ inline_exp(exp e)
 		}
 	}
 
-
 #ifdef TDF_DIAG4
 	if (diag != DIAG_NONE) {
 		dg_complete_inline(e, res);
 	}
 #endif
+
 	replace(e, res, NULL); /* replace the call by the inlined stuff */
 	kill_exp(fn, fn);	 /* kill off the function name_tag */
 }
+
