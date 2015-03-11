@@ -11,6 +11,8 @@
 
 #include <shared/check.h>
 
+#include <tdf/capsule.h>
+
 #include "config.h"
 
 #include "types.h"
@@ -276,19 +278,6 @@ enc_links(bitstream *p, long ntok, long nalign, long ntag)
 
 
 /*
-    EQUATION TYPES
-*/
-
-#define EQN_VERS	0
-#define EQN_TLD		1
-#define EQN_TOKDEC	2
-#define EQN_TOKDEF	3
-#define EQN_ALDEF	4
-#define EQN_TAGDEC	5
-#define EQN_TAGDEF	6
-
-
-/*
     The ne equations of type t (see above) given in the bitstream q are
     encoded into the bitstream p.
 */
@@ -311,27 +300,32 @@ enc_equation(bitstream *p, long ne, bitstream *q, int t)
 
     /* Encode the links */
     switch (t) {
-	case EQN_VERS: {
+	case EQN_versions:
 	    enc_links(p,(long)0,(long)0,(long)0);
 	    enc_tdf_int(u, ne);
 	    break;
-	}
-	case EQN_TLD: {
+
+	case EQN_tld:
 	    enc_tdf_int(p,(long)0);
 	    enc_tdf_int(p,(long)0);
 	    break;
-	}
-	case EQN_TOKDEC: {
+
+	case EQN_tokdec:
 	    enc_links(p, tok_total,(long)0,(long)0);
 	    enc_tdf_int(u, ne);
 	    break;
-	}
-	default : {
+
+	case EQN_tokdef:
+	case EQN_aldef:
+	case EQN_tagdec:
+	case EQN_tagdef:
 	    enc_links(p, tok_total, al_tag_total, tag_total);
 	    enc_tdf_int(u, lab_total);
 	    enc_tdf_int(u, ne);
 	    break;
-	}
+
+	default:
+		UNREACHED;
     }
 
     /* Append the body to the links */
@@ -470,19 +464,19 @@ enc_capsule(void)
 
     /* Output equations */
     enc_tdf_int(p, eqn_total);
-    enc_equation(p,(long)1, tld_bs, EQN_TLD);
+    enc_equation(p,(long)1, tld_bs, EQN_tld);
     vers_bs = new_bitstream();
     enc_version_bits(vers_bs, ENC_make_version);
     enc_tdf_int(vers_bs, version_major);
     enc_tdf_int(vers_bs, version_minor);
-    enc_equation(p,(long)1, vers_bs, EQN_VERS);
-    if (tok_decs)enc_equation(p, tok_decs, tok_decs_bs, EQN_TOKDEC);
-    if (tok_defs)enc_equation(p, tok_defs, tok_defs_bs, EQN_TOKDEF);
+    enc_equation(p,(long)1, vers_bs, EQN_versions);
+    if (tok_decs)enc_equation(p, tok_decs, tok_decs_bs, EQN_tokdec);
+    if (tok_defs)enc_equation(p, tok_defs, tok_defs_bs, EQN_tokdef);
     if (al_tag_defs) {
-	enc_equation(p, al_tag_defs, al_tag_defs_bs, EQN_ALDEF);
+	enc_equation(p, al_tag_defs, al_tag_defs_bs, EQN_aldef);
     }
-    if (tag_decs)enc_equation(p, tag_decs, tag_decs_bs, EQN_TAGDEC);
-    if (tag_defs)enc_equation(p, tag_defs, tag_defs_bs, EQN_TAGDEF);
+    if (tag_decs)enc_equation(p, tag_decs, tag_decs_bs, EQN_tagdec);
+    if (tag_defs)enc_equation(p, tag_defs, tag_defs_bs, EQN_tagdef);
 
     /* Send bitstream to output file */
     print_bitstream(p);

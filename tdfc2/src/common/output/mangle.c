@@ -14,6 +14,8 @@
 
 #include <shared/check.h>
 
+#include <tdf/capsule.h>
+
 #include <utility/config.h>
 #include <utility/version.h>
 #include "c_types.h"
