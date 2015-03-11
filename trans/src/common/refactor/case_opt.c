@@ -182,30 +182,30 @@ case_optimisation(exp body, exp id, shape shape_of_case, exp control_expression)
 		setlast(ELEMENTS[i]);
 	}
 
-#if has_byte_ops
-	if (!jump_table_present) {
-		kill_exp(son(id), son(id));
-		son(id) = control_expression;
-		sh(id) = sh(control_expression);
+	if (has & HAS_BYTEOPS) {
+		if (!jump_table_present) {
+			kill_exp(son(id), son(id));
+			son(id) = control_expression;
+			sh(id) = sh(control_expression);
 
-		t = body;
-		for (;;) {
-			sh(t) = sh(control_expression);
-			if (son(t) != NULL) {
-				sh(son(t)) = sh(control_expression);
-			}
+			t = body;
+			for (;;) {
+				sh(t) = sh(control_expression);
+				if (son(t) != NULL) {
+					sh(son(t)) = sh(control_expression);
+				}
 
-			if (last(t)) {
-				break;
+				if (last(t)) {
+					break;
+				}
 			}
+		} else {
+			kill_exp(control_expression, control_expression);
 		}
 	} else {
 		kill_exp(control_expression, control_expression);
+		UNUSED(jump_table_present);
 	}
-#else
-	kill_exp(control_expression, control_expression);
-	UNUSED(jump_table_present);
-#endif
 
 	assert(no_of_nodes > 0);
 
