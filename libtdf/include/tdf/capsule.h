@@ -31,8 +31,10 @@ enum {
 	EQN_dgcomp,
 	EQN_tagdef,
 	EQN_linkinfo,
-	EQN_no,
+	EQN_no
+};
 
+enum {
 	VAR_tag,
 	VAR_token,
 	VAR_alignment,
