@@ -54,17 +54,19 @@ LDD_NAME!=                       \
     | { read v && case "$$v" in  \
         *EGLIBC*) echo EGLIBC;;  \
         *GLIBC*)  echo GLIBC;;   \
+        *GNU\ C*) echo GLIBC;;   \
         *musl*)   echo MUSL;;    \
         *)        echo unknown;; \
     esac }
 
 LDD_VER!=                        \
     ${LDD_BLURB}                 \
-    | case "${LDD_NAME}" in      \
-        *GLIBC) sed -n 's/^ldd (\(GNU libc\|.* E\?GLIBC .*\)) //p';; \
-        MUSL)   sed -n 's/^Version \(.*\)/\1/p';;                    \
+    | { read v && case "$$v" in  \
+        *GLIBC*)  echo "$$v" | sed -n 's/^ldd (\(GNU libc\|.* E\?GLIBC .*\)) //p';; \
+        *GNU\ C*) echo "$$v" | sed -n 's/^.*version \(.*\), .*/\1/p';;              \
+        MUSL)     echo "$$v" | sed -n 's/^Version \(.*\)/\1/p';;                    \
         *)        echo unknown;; \
-    esac                         \
+    esac }                       \
     | tr . _
 
 LIBC_VER?= ${LDD_NAME}_${LDD_VER}
