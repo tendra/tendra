@@ -49,14 +49,16 @@ extern void allow_conversion(IDENTIFIER);
     reinterpret and const casts.
 */
 
-#define CAST_IMPLICIT			((unsigned)0x00)
-#define CAST_STATIC			((unsigned)0x01)
-#define CAST_REINTERP			((unsigned)0x02)
-#define CAST_CONST			((unsigned)0x04)
-#define CAST_BAD			((unsigned)0x08)
-#define CAST_EXPLICIT			((unsigned)0x0f)
-#define CAST_DYNAMIC			((unsigned)0x10)
-#define CAST_STANDARD			((unsigned)0x20)
+enum {
+	CAST_IMPLICIT = 0x00U,
+	CAST_STATIC   = 0x01U,
+	CAST_REINTERP = 0x02U,
+	CAST_CONST    = 0x04U,
+	CAST_BAD      = 0x08U,
+	CAST_EXPLICIT = 0x0fU,
+	CAST_DYNAMIC  = 0x10U,
+	CAST_STANDARD = 0x20U
+};
 
 
 #endif

@@ -79,84 +79,90 @@ extern int is_ambiguous_func(IDENTIFIER);
     indicate whether the types are equal or equal functions.
 */
 
-#define QUAL_SIMILAR		((unsigned)0x01)
-#define QUAL_CONST		((unsigned)0x02)
-#define QUAL_VOLATILE		((unsigned)0x04)
-#define QUAL_ALL_CONST		((unsigned)0x08)
-#define QUAL_EXACT		((unsigned)0x10)
-#define QUAL_FUNC		((unsigned)0x20)
-#define QUAL_TEMPL		((unsigned)0x40)
+enum {
+	QUAL_SIMILAR         = 0x01U,
+	QUAL_CONST           = 0x02U,
+	QUAL_VOLATILE        = 0x04U,
+	QUAL_ALL_CONST       = 0x08U,
+	QUAL_EXACT           = 0x10U,
+	QUAL_FUNC            = 0x20U,
+	QUAL_TEMPL           = 0x40U,
 
-#define QUAL_CV			((unsigned)0x0e)
-#define QUAL_OK			((unsigned)0x0f)
-#define QUAL_EQUAL		((unsigned)0x1f)
-#define QUAL_EQ_FUNC		((unsigned)0x3f)
+	QUAL_CV              = 0x0eU,
+	QUAL_OK              = 0x0fU,
+	QUAL_EQUAL           = 0x1fU,
+	QUAL_EQ_FUNC         = 0x3fU
+};
 
 
 /*
-    CONVERSION SEQUENCE RANKS
+	CONVERSION SEQUENCE RANKS
 
-    These values are used to indicate the various ranks of implicit
-    conversion sequences used within overload resolution.  The upper byte
-    gives the conversion rank (the higher the value, the better the
-    conversion), while the lower byte gives further information on the
-    dominant conversion.
+	These values are used to indicate the various ranks of implicit
+	conversion sequences used within overload resolution.  The upper byte
+	gives the conversion rank (the higher the value, the better the
+	conversion), while the lower byte gives further information on the
+	dominant conversion.
 */
 
-#define CONV_EXACT		((unsigned)0x60)
+enum {
+	CONV_EXACT           = 0x60U,
 
-#define CONV_QUAL		((unsigned)0x50)
-#define CONV_STRING		((unsigned)0x51)
+	CONV_QUAL            = 0x50U,
+	CONV_STRING          = 0x51U,
 
-#define CONV_INT_PROM		((unsigned)0x40)
-#define CONV_FLT_PROM		((unsigned)0x41)
-#define CONV_BITFIELD		((unsigned)0x42)
+	CONV_INT_PROM        = 0x40U,
+	CONV_FLT_PROM        = 0x41U,
+	CONV_BITFIELD        = 0x42U,
 
-#define CONV_INT_INT		((unsigned)0x30)
-#define CONV_FLT_FLT		((unsigned)0x31)
-#define CONV_INT_FLT		((unsigned)0x32)
-#define CONV_FLT_INT		((unsigned)0x33)
-#define CONV_PTR_BASE		((unsigned)0x34)
-#define CONV_PTR_VOID		((unsigned)0x35)
-#define CONV_PTR_BOTTOM		((unsigned)0x36)
-#define CONV_PTR_NULL		((unsigned)0x37)
-#define CONV_PTR_MEM_BASE	((unsigned)0x38)
-#define CONV_PTR_MEM_NULL	((unsigned)0x39)
-#define CONV_BASE		((unsigned)0x3a)
-#define CONV_BOOL		((unsigned)0x3b)
+	CONV_INT_INT         = 0x30U,
+	CONV_FLT_FLT         = 0x31U,
+	CONV_INT_FLT         = 0x32U,
+	CONV_FLT_INT         = 0x33U,
+	CONV_PTR_BASE        = 0x34U,
+	CONV_PTR_VOID        = 0x35U,
+	CONV_PTR_BOTTOM      = 0x36U,
+	CONV_PTR_NULL        = 0x37U,
+	CONV_PTR_MEM_BASE    = 0x38U,
+	CONV_PTR_MEM_NULL    = 0x39U,
+	CONV_BASE            = 0x3aU,
+	CONV_BOOL            = 0x3bU,
 
-#define CONV_USER		((unsigned)0x20)
-#define CONV_USER_MULTI		((unsigned)0x21)
+	CONV_USER            = 0x20U,
+	CONV_USER_MULTI      = 0x21U,
 
-#define CONV_ELLIPSIS		((unsigned)0x10)
+	CONV_ELLIPSIS        = 0x10U,
 
-#define CONV_NONE		((unsigned)0x00)
-#define CONV_NULL		((unsigned)0x01)
-#define CONV_PTR_PTR		((unsigned)0x02)
-#define CONV_PTR_PTR_ALIGN	((unsigned)0x03)
-#define CONV_INT_PTR		((unsigned)0x04)
-#define CONV_PTR_INT		((unsigned)0x05)
-#define CONV_PTR_MEM_PTR_MEM	((unsigned)0x06)
-#define CONV_PTR_MEM_FUNC	((unsigned)0x07)
-#define CONV_FUNC		((unsigned)0x08)
-#define CONV_ENUM		((unsigned)0x09)
+	CONV_NONE            = 0x00U,
+	CONV_NULL            = 0x01U,
+	CONV_PTR_PTR         = 0x02U,
+	CONV_PTR_PTR_ALIGN   = 0x03U,
+	CONV_INT_PTR         = 0x04U,
+	CONV_PTR_INT         = 0x05U,
+	CONV_PTR_MEM_PTR_MEM = 0x06U,
+	CONV_PTR_MEM_FUNC    = 0x07U,
+	CONV_FUNC            = 0x08U,
+	CONV_ENUM            = 0x09U,
 
-#define CONV_REVERSE		((unsigned)0x80)
+	CONV_REVERSE         = 0x80U
+};
 
 #define CONV_RANK(A)		((A) & 0x70)
 
 
 /*
-    REFERENCE CONVERSION CONTEXTS
+	REFERENCE CONVERSION CONTEXTS
 
-    These values are used in convert_reference to indicate the various
-    contexts for reference conversion.
+	These values are used in convert_reference to indicate the various
+	contexts for reference conversion.
 */
 
-#define REF_NORMAL		0
-#define REF_FUNCTION		1
-#define REF_ASSIGN		2
-#define REF_ADDRESS		3
+enum {
+	REF_NORMAL,
+	REF_FUNCTION,
+	REF_ASSIGN,
+	REF_ADDRESS
+};
 
 
 #endif

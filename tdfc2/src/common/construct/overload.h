@@ -77,16 +77,18 @@ extern int match_this;
     These values give the ranking values for candidate functions.  These
     correspond to the candidates with the wrong number of parameters, those
     with the right number of parameters (the plausible candidates), the
-    viable candidates, and the best viable candidate.  They are is ascending
+    viable candidates, and the best viable candidate.  They are in ascending
     order.
 */
 
-#define RANK_IGNORE		((unsigned)0)
-#define RANK_NONE		((unsigned)1)
-#define RANK_ARGS		((unsigned)2)
-#define RANK_VIABLE		((unsigned)3)
-#define RANK_TARGET		((unsigned)4)
-#define RANK_BEST		((unsigned)5)
+enum {
+	RANK_IGNORE = 0,
+	RANK_NONE   = 1,
+	RANK_ARGS   = 2,
+	RANK_VIABLE = 3,
+	RANK_TARGET = 4,
+	RANK_BEST   = 5
+};
 
 
 /*
@@ -97,13 +99,15 @@ extern int match_this;
     member operators and built-in operators.
 */
 
-#define KIND_FUNC		0
-#define KIND_CONSTR		1
-#define KIND_CONV		2
-#define KIND_OP			3
-#define KIND_MEM_OP		4
-#define KIND_BUILTIN		5
-#define KIND_MARK		8
+enum {
+	KIND_FUNC,
+	KIND_CONSTR,
+	KIND_CONV,
+	KIND_OP,
+	KIND_MEM_OP,
+	KIND_BUILTIN,
+	KIND_MARK
+};
 
 
 #endif

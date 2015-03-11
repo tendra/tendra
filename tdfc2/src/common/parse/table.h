@@ -26,20 +26,22 @@ typedef struct {
 	BASE_TYPE type;
 } PORT_ENTRY;
 
-#define PORT_char_bits			0
-#define PORT_short_bits			1
-#define PORT_int_bits			2
-#define PORT_long_bits			3
-#define PORT_llong_bits			4
-#define PORT_max_bits			5
-#define PORT_signed_range		6
-#define PORT_char_type			7
-#define PORT_exact_range		8
-#define PORT_ptr_int			9
-#define PORT_ptr_fn			10
-#define PORT_non_proto			11
-#define PORT_multibyte			12
-#define PORT_size			13
+enum {
+	PORT_char_bits,
+	PORT_short_bits,
+	PORT_int_bits,
+	PORT_long_bits,
+	PORT_llong_bits,
+	PORT_max_bits,
+	PORT_signed_range,
+	PORT_char_type,
+	PORT_exact_range,
+	PORT_ptr_int,
+	PORT_ptr_fn,
+	PORT_non_proto,
+	PORT_multibyte,
+	PORT_size
+};
 
 
 /*

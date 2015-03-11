@@ -60,25 +60,27 @@ extern CV_SPEC find_cv_qual(TYPE);
 	    OVERLOAD = CLASS u ENUM ;
 */
 
-#define CTYPE_NONE			((unsigned)0x0000)
-#define CTYPE_INTEGER			((unsigned)0x0001)
-#define CTYPE_FLOAT			((unsigned)0x0002)
-#define CTYPE_PTR			((unsigned)0x0004)
-#define CTYPE_PTR_MEM			((unsigned)0x0008)
-#define CTYPE_BITF			((unsigned)0x0010)
-#define CTYPE_CLASS			((unsigned)0x0020)
-#define CTYPE_ENUM			((unsigned)0x0040)
-#define CTYPE_VOID			((unsigned)0x0080)
-#define CTYPE_ERROR			((unsigned)0x0100)
-#define CTYPE_TOKEN			((unsigned)0x0200)
-#define CTYPE_TEMPL			((unsigned)0x0400)
-#define CTYPE_LVALUE			((unsigned)0x0800)
+enum {
+	CTYPE_NONE     = 0x0000U,
+	CTYPE_INTEGER  = 0x0001U,
+	CTYPE_FLOAT    = 0x0002U,
+	CTYPE_PTR      = 0x0004U,
+	CTYPE_PTR_MEM  = 0x0008U,
+	CTYPE_BITF     = 0x0010U,
+	CTYPE_CLASS    = 0x0020U,
+	CTYPE_ENUM     = 0x0040U,
+	CTYPE_VOID     = 0x0080U,
+	CTYPE_ERROR    = 0x0100U,
+	CTYPE_TOKEN    = 0x0200U,
+	CTYPE_TEMPL    = 0x0400U,
+	CTYPE_LVALUE   = 0x0800U,
 
-#define CTYPE_INT			((unsigned)0x0051)
-#define CTYPE_ARITH			((unsigned)0x0053)
-#define CTYPE_SCALAR			((unsigned)0x0057)
-#define CTYPE_OVERLOAD			((unsigned)0x0460)
-#define CTYPE_ADDRESS			((unsigned)0x082c)
+	CTYPE_INT      = 0x0051U,
+	CTYPE_ARITH    = 0x0053U,
+	CTYPE_SCALAR   = 0x0057U,
+	CTYPE_OVERLOAD = 0x0460U,
+	CTYPE_ADDRESS  = 0x082cU
+};
 
 #define IS_TYPE_INTEGER(C)		((C) & CTYPE_INTEGER)
 #define IS_TYPE_FLOAT(C)		((C) & CTYPE_FLOAT)

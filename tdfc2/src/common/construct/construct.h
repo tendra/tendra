@@ -61,13 +61,15 @@ extern int have_conv_expl;
     operator.  A dummy value for explicit constructors is provided.
 */
 
-#define DEFAULT_USR			0
-#define DEFAULT_CONSTR			1
-#define DEFAULT_COPY			2
-#define DEFAULT_DESTR			3
-#define DEFAULT_ASSIGN			4
-#define DEFAULT_DELETE			5
-#define DEFAULT_PRELUDE			6
+enum {
+	DEFAULT_USR,
+	DEFAULT_CONSTR,
+	DEFAULT_COPY,
+	DEFAULT_DESTR,
+	DEFAULT_ASSIGN,
+	DEFAULT_DELETE,
+	DEFAULT_PRELUDE
+};
 
 
 /*
@@ -77,11 +79,13 @@ extern int have_conv_expl;
     constructors and destructors.
 */
 
-#define EXTRA_NONE			0
-#define EXTRA_CONSTR			1
+enum {
+	EXTRA_NONE,
+	EXTRA_CONSTR,
 
-#define EXTRA_DELETE			1
-#define EXTRA_DESTR			2
+	EXTRA_DELETE,
+	EXTRA_DESTR
+};
 
 
 #endif

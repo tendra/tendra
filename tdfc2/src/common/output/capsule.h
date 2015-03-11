@@ -79,28 +79,30 @@ extern int last_conts[];
     capsule_id, unit_no etc.  VAR_label is a dummy value used for labels.
 */
 
-#define EQN_tld			0
-#define EQN_versions		1
-#define EQN_tokdec		2
-#define EQN_tokdef		3
-#define EQN_aldef		4
-#define EQN_diagtype		5
-#define EQN_tagdec		6
-#define EQN_diagdef		7
-#define EQN_dgcomp		8
-#define EQN_tagdef		9
-#define EQN_linkinfo		10
-#define EQN_no			11
+enum {
+	EQN_tld,
+	EQN_versions,
+	EQN_tokdec,
+	EQN_tokdef,
+	EQN_aldef,
+	EQN_diagtype,
+	EQN_tagdec,
+	EQN_diagdef,
+	EQN_dgcomp,
+	EQN_tagdef,
+	EQN_linkinfo,
+	EQN_no,
 
-#define VAR_tag			0
-#define VAR_token		1
-#define VAR_alignment		2
-#define VAR_diagtag		3
-#define VAR_dgtag		4
-#define VAR_no			5
+	VAR_tag,
+	VAR_token,
+	VAR_alignment,
+	VAR_diagtag,
+	VAR_dgtag,
+	VAR_no,
 
-#define VAR_label		5
-#define VAR_total		6
+	VAR_label,
+	VAR_total
+};
 
 
 /*
@@ -110,11 +112,13 @@ extern int last_conts[];
     identifiers.
 */
 
-#define USAGE_NONE		((unsigned)0x00)
-#define USAGE_USE		((unsigned)0x01)
-#define USAGE_DECL		((unsigned)0x02)
-#define USAGE_DEFN		((unsigned)0x04)
-#define USAGE_COMMON		((unsigned)0x08)
+enum {
+	USAGE_NONE   = 0x00U,
+	USAGE_USE    = 0x01U,
+	USAGE_DECL   = 0x02U,
+	USAGE_DEFN   = 0x04U,
+	USAGE_COMMON = 0x08U
+};
 
 
 /*
@@ -124,20 +128,22 @@ extern int last_conts[];
     last_params.  The values 0-9 give the function parameter numbers.
 */
 
-#define DUMMY_this		0
-#define DUMMY_first		0
-#define DUMMY_second		1
+enum {
+	DUMMY_this     =  0,
+	DUMMY_first    =  0,
+	DUMMY_second   =  1,
 
-#define DUMMY_return		10
-#define DUMMY_copy		11
-#define DUMMY_extra		12
-#define DUMMY_ellipsis		13
-#define DUMMY_count		14
-#define DUMMY_catch		15
-#define DUMMY_token		16
+	DUMMY_return   = 10,
+	DUMMY_copy     = 11,
+	DUMMY_extra    = 12,
+	DUMMY_ellipsis = 13,
+	DUMMY_count    = 14,
+	DUMMY_catch    = 15,
+	DUMMY_token    = 16,
 
-#define DUMMY_params		10
-#define DUMMY_max		20
+	DUMMY_params   = 10,
+	DUMMY_max      = 20
+};
 
 
 #endif

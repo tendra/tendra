@@ -12,13 +12,15 @@
 #define ERROR_INCLUDED
 
 
-#define ERR_WHATEVER		0
-#define ERR_NONE		1
-#define ERR_WARN		2
-#define ERR_OPTION		3
-#define ERR_SERIOUS		4
-#define ERR_INTERNAL		5
-#define ERR_FATAL		6
+enum {
+	ERR_WHATEVER,
+	ERR_NONE,
+	ERR_WARN,
+	ERR_OPTION,
+	ERR_SERIOUS,
+	ERR_INTERNAL,
+	ERR_FATAL
+};
 
 
 extern ERROR make_error(int, ...);

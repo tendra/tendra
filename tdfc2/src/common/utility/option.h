@@ -48,13 +48,15 @@ extern OPT_VALUE_DATA OPT_VALUE_CATALOG[];
     is zero is used extensively.
 */
 
-#define OPTION_OFF				((OPTION)0)
-#define OPTION_WARN				((OPTION)1)
-#define OPTION_ON				((OPTION)2)
-#define OPTION_WHATEVER				((OPTION)3)
+enum {
+	OPTION_OFF,
+	OPTION_WARN,
+	OPTION_ON,
+	OPTION_WHATEVER,
 
-#define OPTION_ALLOW				OPTION_OFF
-#define OPTION_DISALLOW				OPTION_ON
+	OPTION_ALLOW    = OPTION_OFF,
+	OPTION_DISALLOW = OPTION_ON
+};
 
 
 /*
@@ -64,46 +66,48 @@ extern OPT_VALUE_DATA OPT_VALUE_CATALOG[];
     within the program.
 */
 
-#define OPT_VAL_statement_depth			0
-#define OPT_VAL_hash_if_depth			1
-#define OPT_VAL_declarator_max			2
-#define OPT_VAL_paren_depth			3
-#define OPT_VAL_name_limit			4
-#define OPT_VAL_extern_name_limit		5
-#define OPT_VAL_external_ids			6
-#define OPT_VAL_block_ids			7
-#define OPT_VAL_macro_ids			8
-#define OPT_VAL_func_pars			9
-#define OPT_VAL_func_args			10
-#define OPT_VAL_macro_pars			11
-#define OPT_VAL_macro_args			12
-#define OPT_VAL_line_length			13
-#define OPT_VAL_string_length			14
-#define OPT_VAL_sizeof_object			15
-#define OPT_VAL_include_depth			16
-#define OPT_VAL_switch_cases			17
-#define OPT_VAL_data_members			18
-#define OPT_VAL_enum_consts			19
-#define OPT_VAL_nested_class			20
-#define OPT_VAL_atexit_funcs			21
-#define OPT_VAL_base_classes			22
-#define OPT_VAL_direct_bases			23
-#define OPT_VAL_class_members			24
-#define OPT_VAL_virtual_funcs			25
-#define OPT_VAL_virtual_bases			26
-#define OPT_VAL_static_members			27
-#define OPT_VAL_friends				28
-#define OPT_VAL_access_declarations		29
-#define OPT_VAL_ctor_initializers		30
-#define OPT_VAL_scope_qualifiers		31
-#define OPT_VAL_external_specs			32
-#define OPT_VAL_template_pars			33
-#define OPT_VAL_instance_depth			34
-#define OPT_VAL_exception_handlers		35
-#define OPT_VAL_exception_specs			36
-#define OPT_VAL_cast_explicit			37
-#define OPT_VAL_maximum_error			38
-#define OPT_VAL_tab_width			39
+enum {
+	OPT_VAL_statement_depth,
+	OPT_VAL_hash_if_depth,
+	OPT_VAL_declarator_max,
+	OPT_VAL_paren_depth,
+	OPT_VAL_name_limit,
+	OPT_VAL_extern_name_limit,
+	OPT_VAL_external_ids,
+	OPT_VAL_block_ids,
+	OPT_VAL_macro_ids,
+	OPT_VAL_func_pars,
+	OPT_VAL_func_args,
+	OPT_VAL_macro_pars,
+	OPT_VAL_macro_args,
+	OPT_VAL_line_length,
+	OPT_VAL_string_length,
+	OPT_VAL_sizeof_object,
+	OPT_VAL_include_depth,
+	OPT_VAL_switch_cases,
+	OPT_VAL_data_members,
+	OPT_VAL_enum_consts,
+	OPT_VAL_nested_class,
+	OPT_VAL_atexit_funcs,
+	OPT_VAL_base_classes,
+	OPT_VAL_direct_bases,
+	OPT_VAL_class_members,
+	OPT_VAL_virtual_funcs,
+	OPT_VAL_virtual_bases,
+	OPT_VAL_static_members,
+	OPT_VAL_friends,
+	OPT_VAL_access_declarations,
+	OPT_VAL_ctor_initializers,
+	OPT_VAL_scope_qualifiers,
+	OPT_VAL_external_specs,
+	OPT_VAL_template_pars,
+	OPT_VAL_instance_depth,
+	OPT_VAL_exception_handlers,
+	OPT_VAL_exception_specs,
+	OPT_VAL_cast_explicit,
+	OPT_VAL_maximum_error,
+	OPT_VAL_tab_width
+};
 
 
 /*

@@ -109,12 +109,14 @@ extern INCL_DIR *dir_path;
     These values are used to represent the various output files.
 */
 
-#define OUTPUT_TDF		0
-#define OUTPUT_PREPROC		1
-#define OUTPUT_SPEC		2
-#define OUTPUT_DUMP		3
-#define OUTPUT_ERROR		4
-#define OUTPUT_FILES		5
+enum {
+	OUTPUT_TDF,
+	OUTPUT_PREPROC,
+	OUTPUT_SPEC,
+	OUTPUT_DUMP,
+	OUTPUT_ERROR,
+	OUTPUT_FILES
+};
 
 
 #endif

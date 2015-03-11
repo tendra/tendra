@@ -32,13 +32,15 @@ extern int suppress_quality;
     to be applied by check_paren.
 */
 
-#define PAREN_OR			0
-#define PAREN_XOR			1
-#define PAREN_AND			2
-#define PAREN_EQUALITY			3
-#define PAREN_RELATION			4
-#define PAREN_PLUS			5
-#define PAREN_MINUS			6
+enum {
+	PAREN_OR,
+	PAREN_XOR,
+	PAREN_AND,
+	PAREN_EQUALITY,
+	PAREN_RELATION,
+	PAREN_PLUS,
+	PAREN_MINUS
+};
 
 
 #endif

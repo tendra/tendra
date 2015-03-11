@@ -65,19 +65,25 @@ extern CV_SPEC cv_string;
     identify the various types of character in multibyte strings.
 */
 
-#define STRING_NONE		((unsigned)0x00)
-#define STRING_CHAR		((unsigned)0x01)
-#define STRING_WIDE		((unsigned)0x02)
-#define STRING_MULTI		((unsigned)0x04)
-#define STRING_FAT		((unsigned)0x08)
-#define CHAR_SIMPLE		0
-#define CHAR_ASCII		1
-#define CHAR_OCTAL		2
-#define CHAR_HEX		3
-#define CHAR_UNI4		4
-#define CHAR_UNI8		5
-#define CHAR_NONE		6
-#define MULTI_WIDTH		5
+enum {
+	STRING_NONE  = 0x00U,
+	STRING_CHAR  = 0x01U,
+	STRING_WIDE  = 0x02U,
+	STRING_MULTI = 0x04U,
+	STRING_FAT   = 0x08U
+};
+
+enum {
+	CHAR_SIMPLE,
+	CHAR_ASCII,
+	CHAR_OCTAL,
+	CHAR_HEX,
+	CHAR_UNI4,
+	CHAR_UNI8,
+	CHAR_NONE
+};
+
+#define MULTI_WIDTH 5
 
 
 /*
@@ -88,12 +94,15 @@ extern CV_SPEC cv_string;
     also given.
 */
 
-#define BOOL_FALSE		((unsigned)0)
-#define BOOL_TRUE		((unsigned)1)
-#define BOOL_UNKNOWN		((unsigned)2)
-#define BOOL_INVALID		((unsigned)3)
-#define BOOL_VALUE(C)		((C)? BOOL_TRUE : BOOL_FALSE)
-#define BOOL_NEGATE(C)		((C)? BOOL_FALSE : BOOL_TRUE)
+enum {
+	BOOL_FALSE,
+	BOOL_TRUE,
+	BOOL_UNKNOWN,
+	BOOL_INVALID
+};
+
+#define BOOL_VALUE(C)		((C) ? BOOL_TRUE  : BOOL_FALSE)
+#define BOOL_NEGATE(C)		((C) ? BOOL_FALSE : BOOL_TRUE )
 
 
 /*
@@ -103,18 +112,22 @@ extern CV_SPEC cv_string;
     integer literals.
 */
 
-#define BASE_DECIMAL		0
-#define BASE_OCTAL		1
-#define BASE_HEXADECIMAL	2
-#define BASE_NO			3
+enum {
+	BASE_DECIMAL,
+	BASE_OCTAL,
+	BASE_HEXADECIMAL,
+	BASE_NO
+};
 
-#define SUFFIX_NONE		0
-#define SUFFIX_U		1
-#define SUFFIX_L		2
-#define SUFFIX_UL		3
-#define SUFFIX_LL		4
-#define SUFFIX_ULL		5
-#define SUFFIX_NO		6
+enum {
+	SUFFIX_NONE,
+	SUFFIX_U,
+	SUFFIX_L,
+	SUFFIX_UL,
+	SUFFIX_LL,
+	SUFFIX_ULL,
+	SUFFIX_NO
+};
 
 #define SUFFIX(U, L)		(2 * (L) + (U))
 

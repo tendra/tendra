@@ -39,119 +39,121 @@ extern int is_extended(int);
 /*
     CHARACTER SET
 
-    These macros represent the legal characters.  All character literals
+    These constants represent the legal characters.  All character literals
     within the program are referenced using these macros.
 */
 
-#define char_space		' '
-#define char_tab		'\t'
-#define char_newline		'\n'
-#define char_backspace		'\b'
-#define char_form_feed		'\f'
-#define char_return		'\r'
-#define char_vert_tab		'\v'
-#define char_sub		'\032'
-#define char_alert		'\a'
-#define char_ampersand		'&'
-#define char_asterix		'*'
-#define char_backslash		'\\'
-#define char_bar		'|'
-#define char_circum		'^'
-#define char_close_brace	'}'
-#define char_close_round	')'
-#define char_close_square	']'
-#define char_colon		':'
-#define char_comma		','
-#define char_dot		'.'
-#define char_equal		'='
-#define char_exclaim		'!'
-#define char_greater		'>'
-#define char_hash		'#'
-#define char_less		'<'
-#define char_minus		'-'
-#define char_open_brace		'{'
-#define char_open_round		'('
-#define char_open_square	'['
-#define char_percent		'%'
-#define char_plus		'+'
-#define char_question		'?'
-#define char_quote		'"'
-#define char_semicolon		';'
-#define char_single_quote	'\''
-#define char_slash		'/'
-#define char_tilde		'~'
+enum {
+	char_space        = ' ',
+	char_tab          = '\t',
+	char_newline      = '\n',
+	char_backspace    = '\b',
+	char_form_feed    = '\f',
+	char_return       = '\r',
+	char_vert_tab     = '\v',
+	char_sub          = '\032',
+	char_alert        = '\a',
+	char_ampersand    = '&',
+	char_asterix      = '*',
+	char_backslash    = '\\',
+	char_bar          = '|',
+	char_circum       = '^',
+	char_close_brace  = '}',
+	char_close_round  = ')',
+	char_close_square = ']',
+	char_colon        = ':',
+	char_comma        = ',',
+	char_dot          = '.',
+	char_equal        = '=',
+	char_exclaim      = '!',
+	char_greater      = '>',
+	char_hash         = '#',
+	char_less         = '<',
+	char_minus        = '-',
+	char_open_brace   = '{',
+	char_open_round   = '(',
+	char_open_square  = '[',
+	char_percent      = '%',
+	char_plus         = '+',
+	char_question     = '?',
+	char_quote        = '"',
+	char_semicolon    = ';',
+	char_single_quote = '\'',
+	char_slash        = '/',
+	char_tilde        = '~',
 
-#define char_zero		'0'
-#define char_one		'1'
-#define char_two		'2'
-#define char_three		'3'
-#define char_four		'4'
-#define char_five		'5'
-#define char_six		'6'
-#define char_seven		'7'
-#define char_eight		'8'
-#define char_nine		'9'
+	char_zero         = '0',
+	char_one          = '1',
+	char_two          = '2',
+	char_three        = '3',
+	char_four         = '4',
+	char_five         = '5',
+	char_six          = '6',
+	char_seven        = '7',
+	char_eight        = '8',
+	char_nine         = '9',
 
-#define char_A			'A'
-#define char_B			'B'
-#define char_C			'C'
-#define char_D			'D'
-#define char_E			'E'
-#define char_F			'F'
-#define char_G			'G'
-#define char_H			'H'
-#define char_I			'I'
-#define char_J			'J'
-#define char_K			'K'
-#define char_L			'L'
-#define char_M			'M'
-#define char_N			'N'
-#define char_O			'O'
-#define char_P			'P'
-#define char_Q			'Q'
-#define char_R			'R'
-#define char_S			'S'
-#define char_T			'T'
-#define char_U			'U'
-#define char_V			'V'
-#define char_W			'W'
-#define char_X			'X'
-#define char_Y			'Y'
-#define char_Z			'Z'
+	char_A            = 'A',
+	char_B            = 'B',
+	char_C            = 'C',
+	char_D            = 'D',
+	char_E            = 'E',
+	char_F            = 'F',
+	char_G            = 'G',
+	char_H            = 'H',
+	char_I            = 'I',
+	char_J            = 'J',
+	char_K            = 'K',
+	char_L            = 'L',
+	char_M            = 'M',
+	char_N            = 'N',
+	char_O            = 'O',
+	char_P            = 'P',
+	char_Q            = 'Q',
+	char_R            = 'R',
+	char_S            = 'S',
+	char_T            = 'T',
+	char_U            = 'U',
+	char_V            = 'V',
+	char_W            = 'W',
+	char_X            = 'X',
+	char_Y            = 'Y',
+	char_Z            = 'Z',
 
-#define char_a			'a'
-#define char_b			'b'
-#define char_c			'c'
-#define char_d			'd'
-#define char_e			'e'
-#define char_f			'f'
-#define char_g			'g'
-#define char_h			'h'
-#define char_i			'i'
-#define char_j			'j'
-#define char_k			'k'
-#define char_l			'l'
-#define char_m			'm'
-#define char_n			'n'
-#define char_o			'o'
-#define char_p			'p'
-#define char_q			'q'
-#define char_r			'r'
-#define char_s			's'
-#define char_t			't'
-#define char_u			'u'
-#define char_v			'v'
-#define char_w			'w'
-#define char_x			'x'
-#define char_y			'y'
-#define char_z			'z'
+	char_a            = 'a',
+	char_b            = 'b',
+	char_c            = 'c',
+	char_d            = 'd',
+	char_e            = 'e',
+	char_f            = 'f',
+	char_g            = 'g',
+	char_h            = 'h',
+	char_i            = 'i',
+	char_j            = 'j',
+	char_k            = 'k',
+	char_l            = 'l',
+	char_m            = 'm',
+	char_n            = 'n',
+	char_o            = 'o',
+	char_p            = 'p',
+	char_q            = 'q',
+	char_r            = 'r',
+	char_s            = 's',
+	char_t            = 't',
+	char_u            = 'u',
+	char_v            = 'v',
+	char_w            = 'w',
+	char_x            = 'x',
+	char_y            = 'y',
+	char_z            = 'z',
 
-#define char_at			'@'
-#define char_back_quote		'`'
-#define char_dollar		'$'
-#define char_underscore		'_'
+	char_at           = '@',
+	char_back_quote   = '`',
+	char_dollar       = '$',
+	char_underscore   = '_',
 
-#define char_illegal		0x00
+	char_illegal      = 0x00
+};
 
 
 /*
@@ -169,14 +171,16 @@ extern int is_extended(int);
 /*
     SELECTED ASCII CODES
 
-    These macros give selected ASCII character codes.
+    These constants give selected ASCII character codes.
 */
 
-#define ascii_T	0x54
-#define ascii_D	0x44
-#define ascii_F	0x46
-#define ascii_C	0x43
-#define ascii_K	0x4b
+enum {
+	ascii_T	= 0x54,
+	ascii_D	= 0x44,
+	ascii_F	= 0x46,
+	ascii_C	= 0x43,
+	ascii_K	= 0x4b
+};
 
 
 #endif /* CHAR_INCLUDED */

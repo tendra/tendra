@@ -43,64 +43,66 @@ extern ulong common_no;
     mangle_ntype.
 */
 
-#define MANGLE_char		'c'
-#define MANGLE_short		's'
-#define MANGLE_int		'i'
-#define MANGLE_long		'l'
-#define MANGLE_llong		'x'
-#define MANGLE_float		'f'
-#define MANGLE_double		'd'
-#define MANGLE_ldouble		'r'
-#define MANGLE_void		'v'
-#define MANGLE_bottom		'u'
-#define MANGLE_bool		'b'
-#define MANGLE_ptrdiff_t	'y'
-#define MANGLE_size_t		'z'
-#define MANGLE_wchar_t		'w'
-#define MANGLE_signed		'S'
-#define MANGLE_unsigned		'U'
+enum {
+	MANGLE_char        = 'c',
+	MANGLE_short       = 's',
+	MANGLE_int         = 'i',
+	MANGLE_long        = 'l',
+	MANGLE_llong       = 'x',
+	MANGLE_float       = 'f',
+	MANGLE_double      = 'd',
+	MANGLE_ldouble     = 'r',
+	MANGLE_void        = 'v',
+	MANGLE_bottom      = 'u',
+	MANGLE_bool        = 'b',
+	MANGLE_ptrdiff_t   = 'y',
+	MANGLE_size_t      = 'z',
+	MANGLE_wchar_t     = 'w',
+	MANGLE_signed      = 'S',
+	MANGLE_unsigned    = 'U',
 
-#define MANGLE_ptr		'P'
-#define MANGLE_ref		'R'
-#define MANGLE_ptr_mem		'M'
-#define MANGLE_func		'F'
-#define MANGLE_weak		'W'
-#define MANGLE_array		'A'
-#define MANGLE_bitfield		'B'
-#define MANGLE_arith		'a'
-#define MANGLE_literal		'n'
-#define MANGLE_octal		'O'
-#define MANGLE_hex		'X'
-#define MANGLE_promote		'p'
-#define MANGLE_unpromote	'q'
+	MANGLE_ptr         = 'P',
+	MANGLE_ref         = 'R',
+	MANGLE_ptr_mem     = 'M',
+	MANGLE_func        = 'F',
+	MANGLE_weak        = 'W',
+	MANGLE_array       = 'A',
+	MANGLE_bitfield    = 'B',
+	MANGLE_arith       = 'a',
+	MANGLE_literal     = 'n',
+	MANGLE_octal       = 'O',
+	MANGLE_hex         = 'X',
+	MANGLE_promote     = 'p',
+	MANGLE_unpromote   = 'q',
 
-#define MANGLE_const		'C'
-#define MANGLE_volatile		'V'
-#define MANGLE_c_lang		'L'
+	MANGLE_const       = 'C',
+	MANGLE_volatile    = 'V',
+	MANGLE_c_lang      = 'L',
 
-#define MANGLE_nat		'I'
-#define MANGLE_stmt		'V'
-#define MANGLE_type		'Z'
-#define MANGLE_self		'X'
-#define MANGLE_repeat		'T'
-#define MANGLE_multi		'N'
-#define MANGLE_template		't'
-#define MANGLE_templ_param	'm'
-#define MANGLE_func_templ	'G'
-#define MANGLE_ellipsis		'e'
-#define MANGLE_neg		'h'
-#define MANGLE_op		'o'
-#define MANGLE_qual		'Q'
-#define MANGLE_unicode4		'k'
-#define MANGLE_unicode8		'K'
+	MANGLE_nat         = 'I',
+	MANGLE_stmt        = 'V',
+	MANGLE_type        = 'Z',
+	MANGLE_self        = 'X',
+	MANGLE_repeat      = 'T',
+	MANGLE_multi       = 'N',
+	MANGLE_template    = 't',
+	MANGLE_templ_param = 'm',
+	MANGLE_func_templ  = 'G',
+	MANGLE_ellipsis    = 'e',
+	MANGLE_neg         = 'h',
+	MANGLE_op          = 'o',
+	MANGLE_qual        = 'Q',
+	MANGLE_unicode4    = 'k',
+	MANGLE_unicode8    = 'K',
 
-#define MANGLE_sep		'_'
-#define MANGLE_colon		':'
-#define MANGLE_comma		','
-#define MANGLE_dot		'.'
-#define MANGLE_error		'*'
+	MANGLE_sep         = '_',
+	MANGLE_colon       = ':',
+	MANGLE_comma       = ',',
+	MANGLE_dot         = '.',
+	MANGLE_error       = '*'
+};
 
-#define MANGLE_WORTH		10
+#define MANGLE_WORTH 10
 
 
 #endif

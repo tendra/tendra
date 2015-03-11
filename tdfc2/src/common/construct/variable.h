@@ -38,11 +38,13 @@ extern int preserve_all;
     check_identifier etc.
 */
 
-#define ANON_NONE		0
-#define ANON_INLINE		1
-#define ANON_NAMESPACE		2
-#define ANON_CLASS		3
-#define ANON_GLOBAL		4
+enum {
+	ANON_NONE,
+	ANON_INLINE,
+	ANON_NAMESPACE,
+	ANON_CLASS,
+	ANON_GLOBAL
+};
 
 
 #endif

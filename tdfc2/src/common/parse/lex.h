@@ -87,10 +87,12 @@ extern unsigned long max_id_length;
     space characters skipped.
 */
 
-#define WHITE_SPACE		((unsigned long)0x01)
-#define WHITE_NEWLINE		((unsigned long)0x02)
-#define WHITE_ESC_NEWLINE	((unsigned long)0x04)
-#define WHITE_MASK		(WHITE_SPACE | WHITE_NEWLINE)
+enum {
+	WHITE_SPACE       = 0x01UL,
+	WHITE_NEWLINE     = 0x02UL,
+	WHITE_ESC_NEWLINE = 0x04UL,
+	WHITE_MASK        = (WHITE_SPACE | WHITE_NEWLINE)
+};
 
 
 #endif

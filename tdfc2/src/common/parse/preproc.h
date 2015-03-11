@@ -61,16 +61,18 @@ extern IDENTIFIER token_macro;
     the end of an individual file.
 */
 
-#define PP_FALSE			((unsigned)0x00)
-#define PP_TRUE				((unsigned)0x01)
-#define PP_PAST				((unsigned)0x02)
-#define PP_SKIP				((unsigned)0x03)
-#define PP_UNRESOLVED			((unsigned)0x04)
-#define PP_COND_MASK			((unsigned)0x0f)
-#define PP_HAVE_ELSE			((unsigned)0x10)
-#define PP_HAVE_ELIF			((unsigned)0x20)
-#define PP_TOKEN			((unsigned)0x40)
-#define PP_END				((unsigned)0xff)
+enum {
+	PP_FALSE      = 0x00U,
+	PP_TRUE       = 0x01U,
+	PP_PAST       = 0x02U,
+	PP_SKIP       = 0x03U,
+	PP_UNRESOLVED = 0x04U,
+	PP_COND_MASK  = 0x0fU,
+	PP_HAVE_ELSE  = 0x10U,
+	PP_HAVE_ELIF  = 0x20U,
+	PP_TOKEN      = 0x40U,
+	PP_END        = 0xffU
+};
 
 
 #endif

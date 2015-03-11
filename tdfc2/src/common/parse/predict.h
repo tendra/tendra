@@ -88,11 +88,13 @@ extern int used_register;
     otherwise it is TYPE_DECL_NORMAL.
 */
 
-#define TYPE_DECL_NONE			0
-#define TYPE_DECL_NORMAL		1
-#define TYPE_DECL_ANON			2
-#define TYPE_DECL_ELABORATE		3
-#define TYPE_DECL_OVER_ELAB		4
+enum {
+	TYPE_DECL_NONE,
+	TYPE_DECL_NORMAL,
+	TYPE_DECL_ANON,
+	TYPE_DECL_ELABORATE,
+	TYPE_DECL_OVER_ELAB
+};
 
 
 #endif
