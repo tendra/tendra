@@ -238,9 +238,10 @@ normalised_inlining(void)
 #endif
 
 			while (this_changed) {
+				exp nextt;
+
 				this_changed = 0;
 				crt_uses = no(crt_exp);
-				exp nextt;
 
 				for (t = pt(crt_exp); t != NULL; t = nextt) {
 					exp dad;

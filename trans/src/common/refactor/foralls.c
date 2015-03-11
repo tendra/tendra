@@ -437,6 +437,8 @@ find_pointer_opt(exp ldname, exp piece, void(*f)(exp, int))
 	/* examine each use of loop variable */
 	for(; p != NULL; p = pt(p)) {
 		int usagex;
+		exp dad;
+
 #ifdef TDF_DIAG4
 		if (isdiaginfo(p)) {
 			continue;
@@ -456,7 +458,7 @@ find_pointer_opt(exp ldname, exp piece, void(*f)(exp, int))
 			continue;
 		}
 
-		exp dad = father(bro(p));
+		dad = father(bro(p));
 		if (name(dad) == addptr_tag && bro(son(dad)) == bro(p) &&
 			last(bro(p)) && good_pointer_factor(1)) {
 			if (good_val(son(dad), piece)) {

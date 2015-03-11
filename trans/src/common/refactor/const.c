@@ -1483,6 +1483,7 @@ repeat_consts(void)
 		exp rr;
 		int sn;
 		exp fa;
+		memlist **mptr;
 
 		if (son(reps) == NULL) {
 			continue;
@@ -1500,7 +1501,7 @@ repeat_consts(void)
 		sts = bro(son(loop));
 
 		/* put old identifier memory list into its free list */
-		memlist **mptr = &mem;
+		mptr = &mem;
 
 		glob_index = 0;
 		no_alias = !assigns_alias(sts);
