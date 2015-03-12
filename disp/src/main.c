@@ -71,7 +71,7 @@ main(int argc, char **argv)
 
 			case 'v': {
 			    /* Version number */
-			    IGNORE fprintf(stderr, "ANDFutils %s: %s",
+			    IGNORE fprintf(stderr, "%s: %s",
 					     progname, version_string);
 			    IGNORE fprintf(stderr, ", TDF %d.%d",
 					     version_major, version_minor);

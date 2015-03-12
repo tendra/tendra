@@ -18,7 +18,7 @@
 #include "syntax.h"
 #include "units.h"
 
-static char *pl_version = "ANDFutils tpl 1.4, TDF %lu.%lu (tendra.org)\n";
+static char *pl_version = "tpl 1.4, TDF %lu.%lu (tendra.org)\n";
 static char *pl_usage = "tpl [-v] [-Ipath] [-g] [-V] infile.pl outfile.j";
 
 int
