@@ -20,9 +20,6 @@
 #include "mark_scope.h"
 #include "diaginfo1.h"
 
-
-/* PROCEDURES */
-
 static exp
 previous_scope(exp e)
 {
@@ -58,7 +55,6 @@ previous_scope(exp e)
 	return NULL;
 }
 
-
 static int
 param_scope(exp e)
 {
@@ -66,9 +62,9 @@ param_scope(exp e)
 	if (d->key == DIAG_INFO_ID) {
 		return isparam(son(d->data.id_scope.access));
 	}
+
 	return 0;
 }
-
 
 static int
 needs_hiding(exp a, exp b)
@@ -83,18 +79,20 @@ needs_hiding(exp a, exp b)
 	switch (da->key) {
 	case DIAG_INFO_ID:
 		return !strcmp(da->data.id_scope.nme.ints.chars,
-			       db->data.id_scope.nme.ints.chars);
+		               db->data.id_scope.nme.ints.chars);
+
 	case DIAG_INFO_TYPE:
 		return !strcmp(da->data.type_scope.nme.ints.chars,
-			       db->data.type_scope.nme.ints.chars);
+		               db->data.type_scope.nme.ints.chars);
+
 	case DIAG_INFO_TAG:
 		return !strcmp(da->data.tag_scope.nme.ints.chars,
-			       db->data.tag_scope.nme.ints.chars);
+		               db->data.tag_scope.nme.ints.chars);
+
 	default:
 		return 0;
 	}
 }
-
 
 void
 mark_scope(exp e)
@@ -105,19 +103,18 @@ mark_scope(exp e)
 		return;
 	}
 
-	while (1) {
+	for (;;) {
 		scope = previous_scope(scope);
 
 		if (scope == NULL || param_scope(scope) ||
 		    needs_hiding(e, scope)) {
-			props(e) = (prop)(props(e) | 0x80);
+			props(e) = (prop) (props(e) | 0x80);
 			return;
 		}
 
 		if (props(scope) & 0x80) {
 			return;
 		}
-
 	}
 }
 

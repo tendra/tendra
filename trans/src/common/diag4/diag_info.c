@@ -28,15 +28,12 @@
 #include "dg_fns.h"
 #include "diag_fns.h"
 
-
-/* PROCEDURES */
-
-
+/* need contents for var locations, TDF_DIAG3 */
 exp
 diag_locate(exp e)
 {
-	/* need contents for var locations, TDF_DIAG3 */
 	exp id = son(e);
+
 	if (isglob(id)) {
 		if (brog(id)->dec_var) {
 			e = f_contents(brog(id)->dec_shape, e);
@@ -46,6 +43,7 @@ diag_locate(exp e)
 			e = f_contents(sh(son(id)), e);
 		}
 	}
+
 	return e;
 }
 

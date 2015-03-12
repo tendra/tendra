@@ -23,11 +23,10 @@
 #include "diaginfo1.h"
 #include "special_tok.h"
 
-
 diag_info *
 read_exp_to_source(void)
 {
-	diag_info *new = (diag_info *)xcalloc(1, sizeof(diag_info));
+	diag_info *new = xcalloc(1, sizeof(diag_info));
 
 	new->key = DIAG_INFO_SOURCE;
 	new->data.source.beg = d_sourcemark();
@@ -36,41 +35,41 @@ read_exp_to_source(void)
 	return new;
 }
 
-
 diag_info *
 read_diag_id_scope(void)
 {
-	diag_info *new = (diag_info *)xcalloc(1, sizeof(diag_info));
+	diag_info *new = xcalloc(1, sizeof(diag_info));
 
 	new->key = DIAG_INFO_ID;
 	new->data.id_scope.nme = d_tdfstring();
 	new->data.id_scope.access = hold_refactor(d_exp());
 	IGNORE hold(hold(new->data.id_scope.access));
 	new->data.id_scope.typ = d_diag_type();
+
 	return new;
 }
-
 
 diag_info *
 read_diag_type_scope(void)
 {
-	diag_info *new = (diag_info *)xcalloc(1, sizeof(diag_info));
+	diag_info *new = xcalloc(1, sizeof(diag_info));
 
 	new->key = DIAG_INFO_TYPE;
 	new->data.type_scope.nme = d_tdfstring();
 	new->data.type_scope.typ = d_diag_type();
+
 	return new;
 }
-
 
 diag_info *
 read_diag_tag_scope(void)
 {
-	diag_info *new = (diag_info *)xcalloc(2, sizeof(diag_info));
+	diag_info *new = xcalloc(2, sizeof(diag_info));
 
 	new->key = DIAG_INFO_TAG;
 	new->data.tag_scope.nme = d_tdfstring();
 	new->data.tag_scope.typ = d_diag_type();
+
 	return new;
 }
 

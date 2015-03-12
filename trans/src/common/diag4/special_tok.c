@@ -28,16 +28,18 @@
 #include "diag_fns.h"
 #include "special_tok.h"
 
-
 exp
 read_exp_to_source(exp body)
 {
 	dg_sourcepos s1, s2;
 	int was_within_diags = within_diags;
 	within_diags = 1;
+
 	s1 = d_sourcemark();
 	s2 = d_sourcemark();
+
 	within_diags = was_within_diags;
+
 	if (s1.file == s2.file) {
 		s2.sp_key = SP_SPAN;
 		s2.to_file = s2.file;
@@ -46,14 +48,16 @@ read_exp_to_source(exp body)
 		s2.from_line = s1.from_line;
 		s2.from_column = s1.from_column;
 	}
+
 	if (name(body) == proc_tag || name(body) == general_proc_tag) {
 		return body;
 	}
+
 	body = f_dg_exp(body, f_singlestep_dg(s1));
 	body = f_dg_exp(body, f_sourcepos_dg(s2));
+
 	return body;
 }
-
 
 exp
 read_diag_id_scope(exp body)
@@ -63,14 +67,16 @@ read_diag_id_scope(exp body)
 	dg_type typ;
 	dg_name dgn;
 	int was_within_diags = within_diags;
+
 	within_diags = 1;
 	nam = f_dg_sourcestring_idname(d_tdfstring());
 	acc = hold_refactor(d_exp());
 	typ = d_diag_type();
 	within_diags = was_within_diags;
+
 	dgn = f_dg_object_name(nam, f_dg_null_sourcepos, typ,
-			       yes_exp_option(diag_locate(acc)),
-			       no_dg_accessibility_option);
+	                       yes_exp_option(diag_locate(acc)),
+	                       no_dg_accessibility_option);
 
 	if (isparam(son(acc)) ||
 	    (son(son(acc)) != NULL && name(son(son(acc))) == chvar_tag &&
@@ -89,9 +95,9 @@ read_diag_id_scope(exp body)
 		body = f_dg_exp(body, f_name_decl_dg(dgn));
 		mark_scope(body);
 	}
+
 	return body;
 }
-
 
 exp
 read_diag_type_scope(exp body)
@@ -100,23 +106,27 @@ read_diag_type_scope(exp body)
 	dg_type typ;
 	dg_name dgn;
 	int was_within_diags = within_diags;
+
 	within_diags = 1;
 	nam = f_dg_sourcestring_idname(d_tdfstring());
 	typ = d_diag_type();
 	within_diags = was_within_diags;
+
 	dgn = f_dg_type_name(nam, f_dg_null_sourcepos,
-			     no_dg_accessibility_option, typ, f_false,
-			     no_bool_option, no_dg_constraint_list_option);
+	                     no_dg_accessibility_option, typ, f_false,
+	                     no_bool_option, no_dg_constraint_list_option);
+
 	body = f_dg_exp(body, f_name_decl_dg(dgn));
 	mark_scope2(body);
+
 	return body;
 }
-
 
 exp
 read_dg_exp(exp body)
 {
 	dg diag;
+
 	int was_within_diags = within_diags;
 	within_diags = 1;
 	diag = d_dg();
