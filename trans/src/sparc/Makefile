@@ -12,7 +12,7 @@ TRANS_CFLAGS+=	-I ${BASE_DIR}/src/sparc
 TRANS_CFLAGS+=	-I ${BASE_DIR}/src/common
 
 
-TRANS_DEBUG?= diag3
+TRANS_DEBUG?= dwarf2
 
 # TODO: these are not yet selectable at runtime
 .if "${TRANS_DEBUG}" == "diag3"
