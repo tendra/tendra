@@ -79,15 +79,9 @@ extern void ble_in(ins_p, char*, int, int);
 
 int line,lines,nLabels;
 
-#if FS_NO_ANSI_ENVIRON
-typedef long FILE_POSN;
-#define SET_FILE_POSN(A, B)		fseek((A), (B), SEEK_SET)
-#define GET_FILE_POSN(A, B)		(B) = ftell((A))
-#else
 typedef fpos_t FILE_POSN;
 #define SET_FILE_POSN(A, B)		fsetpos((A), & (B))
 #define GET_FILE_POSN(A, B)		fgetpos((A), & (B))
-#endif
 
 typedef struct {
    FILE_POSN fpos;     /* position in outf  */
