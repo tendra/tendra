@@ -195,9 +195,10 @@ stat_func(char *nm, STAT_TYPE *fs)
 	if (s != -1) {
 		return fs;
 	}
-#endif
+#else
 	UNUSED(nm);
 	UNUSED(fs);
+#endif
 	return NULL;
 }
 
