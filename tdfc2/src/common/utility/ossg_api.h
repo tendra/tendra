@@ -31,17 +31,4 @@
 #define FS_POSIX		1
 #endif
 
-#ifdef index
-#undef index
-#endif
-
-#ifdef major
-#undef major
-#endif
-
-#ifdef minor
-#undef minor
-#endif
-
-
 #endif
