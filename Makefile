@@ -86,7 +86,13 @@ bootstrap: ${BOOTSTRAP_DEPS}
 	    RELEASE=${RELEASE}              \
 	    ${TARGETFLAGS}                  \
 	    install
-.for project in tdfc2 tld tnc tpl tspec
+	@echo "===> bootstrapping tdfc2 into ${OBJ_BPREFIX}"
+	cd ${.CURDIR}/tdfc2 && ${MAKE} -DWITHOUT_CPP \
+	    OBJ_DIR=${OBJ_BOOT}/tdfc2       \
+	    PREFIX=${OBJ_BPREFIX}           \
+	    RELEASE=${RELEASE}              \
+	    install
+.for project in tld tnc tpl tspec
 	@echo "===> bootstrapping ${project} into ${OBJ_BPREFIX}"
 	cd ${.CURDIR}/${project} && ${MAKE} \
 	    OBJ_DIR=${OBJ_BOOT}/${project}  \
