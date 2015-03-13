@@ -16,11 +16,25 @@
     POSIX DEPENDENT TYPES
 
     These definitions give the POSIX types required in this module.
-    Dummy definitions for non-POSIX systems are also given.  The default
-    value for FS_POSIX is given in ossg_api.h.  The loss in functionality
-    with the non-POSIX definitions is minimal (#import may not work in
-    obscure cases, the file datestamps in diagnostics mode may be wrong).
+    Dummy definitions for non-POSIX systems are also given.
+
+    The loss in functionality with the non-POSIX definitions is minimal
+    (#import may not work in obscure cases, the file datestamps in
+    diagnostics mode may be wrong).
+
+    The default value for FS_POSIX is true under __TenDRA__ and false
+    otherwise. The idea here is to reduce dependencies during bootstrap
+    (where the system compiler is used), as the POSIX-related features
+    are not relevant there. Then, the full functionality is provided
+    (and introduces the dependency on POSIX) when building for real.
 */
+
+#ifdef __TenDRA__
+#define FS_POSIX 1
+#else
+#define FS_POSIX 0
+#endif
+
 
 #if FS_POSIX
 
