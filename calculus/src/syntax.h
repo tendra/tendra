@@ -9,7 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 149 "syntax.act"
+#line 137 "syntax.act"
 
 
 /* $Id$ */
@@ -78,7 +78,7 @@ extern void read_calculus(void);
 
 /* BEGINNING OF TRAILER */
 
-#line 1112 "syntax.act"
+#line 1100 "syntax.act"
 
 #endif
 #line 85 "syntax.h"

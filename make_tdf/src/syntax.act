@@ -76,19 +76,6 @@
 	typedef LIST(LINKAGE)   SID_LINK_LIST;
 	typedef LIST(PARAMETER) SID_PARAM_LIST;
 
-	/*
-	 * We allow unreached code and switch off the variable analysis in the
-	 * automatically generated sections.
-	 */
-
-	#if FS_TENDRA
-	#pragma TenDRA begin
-	#pragma TenDRA variable analysis off
-	#ifndef OLD_PRODUCER
-	#pragma TenDRA unreachable code allow
-	#endif
-	#endif
-
 @}, @{
 
 	/* $Id$ */

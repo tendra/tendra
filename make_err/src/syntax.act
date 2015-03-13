@@ -135,20 +135,6 @@ static PARAM find_param
 }
 
 
-/*
-    We allow unreached code and switch off the variable analysis in the
-    automatically generated sections.
-*/
-
-#if FS_TENDRA
-#pragma TenDRA begin
-#pragma TenDRA variable analysis off
-#ifndef OLD_PRODUCER
-#pragma TenDRA unreachable code allow
-#endif
-#endif
-
-
 @}, @{
 
 /* $Id$ */

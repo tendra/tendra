@@ -82,12 +82,6 @@ ULONG -> unsigned_long;
 
 #include <shared/xalloc.h>
 
-#if FS_TENDRA
-#pragma TenDRA begin
-#pragma TenDRA unreachable code allow
-#pragma TenDRA variable analysis off
-#endif
-
 static int saved = 0;
 #define CURRENT_TERMINAL	(unsigned)lex_v.t
 #define ADVANCE_LEXER		lex_v = reader()

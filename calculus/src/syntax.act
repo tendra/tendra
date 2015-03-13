@@ -120,18 +120,6 @@ static int no_fields = 0 ;
 static LIST ( ECONST_P ) enum_list = NULL_list ( ECONST_P ) ;
 
 
-/*
-    We allow unreached code in the automatically generated sections.
-*/
-
-#if FS_TENDRA
-#pragma TenDRA begin
-#ifndef OLD_PRODUCER
-#pragma TenDRA unreachable code allow
-#endif
-#endif
-
-
 @}, @{
 
 /* $Id$ */

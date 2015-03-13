@@ -53,12 +53,6 @@ extern void byte_align(void);
    make_stream.
  */
 
-#if FS_TENDRA
-#pragma TenDRA begin
-#pragma TenDRA variable hiding analysis off
-#endif
-
-
 #define NEW_STREAM(ptrtoTDF, make_stream)\
 { TDF *new_hold_;\
 	new_hold_ = current_TDF;\
@@ -166,10 +160,6 @@ extern void byte_align(void);
 	append_TDF(&new_, 1);\
 	SET_RSORT(s_bitstream);\
 }
-
-#if FS_TENDRA
-#pragma TenDRA end
-#endif
 
 
 #endif
