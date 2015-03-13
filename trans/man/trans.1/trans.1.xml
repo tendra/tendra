@@ -765,8 +765,8 @@
 								<td>80486</td>
 							</tr>
 							<tr>
-								<td><code>-K5</code> (default)</td>
-								<td>Pentium</td>
+								<td><code>-K5</code></td>
+								<td>Pentium (default)</td>
 							</tr>
 						</tbody>
 					</table>
@@ -787,8 +787,8 @@
 
 						<tbody>
 							<tr>
-								<td><code>-KC</code> (default)</td>
-								<td>Common POWERPc/POWER</td>
+								<td><code>-KC</code></td>
+								<td>Common POWERPc/POWER (default)</td>
 							</tr>
 							<tr>
 								<td><code>-KP</code></td>
@@ -1251,10 +1251,10 @@
 								<td>Error if denormal const is encountered</td>
 							</tr>
 							<tr>
-								<td><code>-d2</code> (default)</td>
+								<td><code>-d2</code></td>
 								<td>Handle denormals properly (and slowly), by stopping the
 									interleaving of floating point operations and using the
-									OS exception handler</td>
+									OS exception handler (default)</td>
 							</tr>
 						</tbody>
 					</table>
