@@ -9,20 +9,20 @@
 
 /* BEGINNING OF HEADER */
 
-#line 113 "syntax.act"
+#line 106 "syntax.act"
 
 
-/* $Id$ */
+	/* $Id$ */
 
-/*
- * Copyright 2011, The TenDRA Project.
- * Copyright 1997, United Kingdom Secretary of State for Defence.
- *
- * See doc/copyright/ for the full copyright terms.
- */
+	/*
+	 * Copyright 2011, The TenDRA Project.
+	 * Copyright 1997, United Kingdom Secretary of State for Defence.
+	 *
+	 * See doc/copyright/ for the full copyright terms.
+	 */
 
-#ifndef SYNTAX_INCLUDED
-#define SYNTAX_INCLUDED
+	#ifndef SYNTAX_INCLUDED
+	#define SYNTAX_INCLUDED
 
 #line 28 "syntax.h"
 
@@ -67,9 +67,10 @@ extern void read_spec(SPECIFICATION *);
 
 /* BEGINNING OF TRAILER */
 
-#line 303 "syntax.act"
+#line 288 "syntax.act"
 
-#endif
-#line 74 "syntax.h"
+
+	#endif
+#line 75 "syntax.h"
 
 /* END OF FILE */

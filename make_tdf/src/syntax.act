@@ -8,296 +8,282 @@
  */
 
 %prefixes%
-terminal = lex_ ;
 
+	terminal = lex_ ;
 
 %maps%
 
+	/*
+	 * ENTRY POINT
+	 *
+	 * The main entry point for the grammar is given by specification.
+	 */
 
-/*
-    ENTRY POINT
+	specification -> read_spec ;
 
-    The main entry point for the grammar is given by specification.
-*/
+	/*
+	 * TYPE MAPPINGS
+	 *
+	 * These mappings give the correspondences between syntax types and
+	 * C types.
+	 */
 
-specification -> read_spec ;
-
-
-/*
-    TYPE MAPPINGS
-
-    These mappings give the correspondences between syntax types and
-    C types.
-*/
-
-NAME -> string ;
-NUMBER -> unsigned ;
-CONS -> CONSTRUCT ;
-LINK -> LINKAGE ;
-PARAM -> PARAMETER ;
-SORT -> SORT ;
-SPEC -> SPECIFICATION ;
-CONS-LIST -> SID_CONS_LIST ;
-LINK-LIST -> SID_LINK_LIST ;
-PARAM-LIST -> SID_PARAM_LIST ;
-
+	NAME       -> string;
+	NUMBER     -> unsigned;
+	CONS       -> CONSTRUCT;
+	LINK       -> LINKAGE;
+	PARAM      -> PARAMETER;
+	SORT       -> SORT;
+	SPEC       -> SPECIFICATION;
+	CONS-LIST  -> SID_CONS_LIST;
+	LINK-LIST  -> SID_LINK_LIST;
+	PARAM-LIST -> SID_PARAM_LIST;
 
 %header% @{
 
-/* $Id$ */
+	/* $Id$ */
 
-/*
- * Copyright 2011, The TenDRA Project.
- * Copyright 1997, United Kingdom Secretary of State for Defence.
- *
- * See doc/copyright/ for the full copyright terms.
- */
+	/*
+	 * Copyright 2011, The TenDRA Project.
+	 * Copyright 1997, United Kingdom Secretary of State for Defence.
+	 *
+	 * See doc/copyright/ for the full copyright terms.
+	 */
 
-#include <shared/check.h>
-#include <shared/error.h>
-#include <shared/xalloc.h>
-#include <shared/string.h>
+	#include <shared/check.h>
+	#include <shared/error.h>
+	#include <shared/xalloc.h>
+	#include <shared/string.h>
 
-#include "obj_c/tdf.h"
-#include "obj_c/cmd_ops.h"
-#include "obj_c/cons_ops.h"
-#include "obj_c/info_ops.h"
-#include "obj_c/link_ops.h"
-#include "obj_c/par_ops.h"
-#include "obj_c/sort_ops.h"
-#include "obj_c/spec_ops.h"
+	#include "obj_c/tdf.h"
+	#include "obj_c/cmd_ops.h"
+	#include "obj_c/cons_ops.h"
+	#include "obj_c/info_ops.h"
+	#include "obj_c/link_ops.h"
+	#include "obj_c/par_ops.h"
+	#include "obj_c/sort_ops.h"
+	#include "obj_c/spec_ops.h"
 
-#include "input.h"
-#include "lex.h"
-#include "syntax.h"
+	#include "input.h"
+	#include "lex.h"
+	#include "syntax.h"
 
+	/*
+	 * These definitions give the aliases used for compound types within the
+	 * grammar.
+	 */
+	typedef LIST(CONSTRUCT) SID_CONS_LIST;
+	typedef LIST(LINKAGE)   SID_LINK_LIST;
+	typedef LIST(PARAMETER) SID_PARAM_LIST;
 
-/*
-    These definitions give the aliases used for compound types within the
-    grammar.
-*/
+	/*
+	 * We allow unreached code and switch off the variable analysis in the
+	 * automatically generated sections.
+	 */
 
-typedef LIST ( CONSTRUCT ) SID_CONS_LIST ;
-typedef LIST ( LINKAGE ) SID_LINK_LIST ;
-typedef LIST ( PARAMETER ) SID_PARAM_LIST ;
-
-
-/*
-    We allow unreached code and switch off the variable analysis in the
-    automatically generated sections.
-*/
-
-#if FS_TENDRA
-#pragma TenDRA begin
-#pragma TenDRA variable analysis off
-#ifndef OLD_PRODUCER
-#pragma TenDRA unreachable code allow
-#endif
-#endif
-
+	#if FS_TENDRA
+	#pragma TenDRA begin
+	#pragma TenDRA variable analysis off
+	#ifndef OLD_PRODUCER
+	#pragma TenDRA unreachable code allow
+	#endif
+	#endif
 
 @}, @{
 
-/* $Id$ */
+	/* $Id$ */
 
-/*
- * Copyright 2011, The TenDRA Project.
- * Copyright 1997, United Kingdom Secretary of State for Defence.
- *
- * See doc/copyright/ for the full copyright terms.
- */
+	/*
+	 * Copyright 2011, The TenDRA Project.
+	 * Copyright 1997, United Kingdom Secretary of State for Defence.
+	 *
+	 * See doc/copyright/ for the full copyright terms.
+	 */
 
-#ifndef SYNTAX_INCLUDED
-#define SYNTAX_INCLUDED
+	#ifndef SYNTAX_INCLUDED
+	#define SYNTAX_INCLUDED
 
 @};
 
-
 %terminals%
 
+	/*
+	 * IDENTIFIER TERMINAL
+	 *
+	 * This action gives the terminal for identifiers. The identifier text
+	 * is built up in token_buff by the lexical routines.
+	 */
+	name: () -> (n: NAME) = @{
+		@n = xstrdup(token_buff);
+	@};
 
-/*
-    IDENTIFIER TERMINAL
-
-    This action gives the terminal for identifiers.  The identifier text
-    is built up in token_buff by the lexical routines.
-*/
-
-name : () -> ( n : NAME ) = @{
-    @n = xstrdup ( token_buff ) ;
-@} ;
-
-
-/*
-    NUMBER TERMINAL
-
-    This action gives the terminal for numbers.  The number value is built
-    up in token_value by the lexical routines.
-*/
-
-number : () -> ( n : NUMBER ) = @{
-    @n = token_value ;
-@} ;
-
+	/*
+	 * NUMBER TERMINAL
+	 *
+	 * This action gives the terminal for numbers. The number value is built
+	 * up in token_value by the lexical routines.
+	 */
+	number: () -> (n: NUMBER) = @{
+		@n = token_value;
+	@};
 
 %actions%
 
+	/*
+	 * KEYWORD NAME
+	 *
+	 * This action is used to map a keyword onto an identifier name.  At the
+	 * point at which it is called the keyword text is still in token_buff.
+	 */
+	<keyword_name>: () -> (n: NAME) = @{
+		@n = xstrdup(token_buff);
+	@};
 
-/*
-    KEYWORD NAME
+	/*
+	 * PARAMETER ACTIONS
+	 *
+	 * These actions are used in the construction of parameters.
+	 */
 
-    This action is used to map a keyword onto an identifier name.  At the
-    point at which it is called the keyword text is still in token_buff.
-*/
+	<make_param>: (n: NAME, s: SORT) -> (a: PARAM) = @{
+		int intro = 0;
+		if (ends_in(@n, "_intro")) intro = 1;
+		MAKE_par_basic(@n, @s, 0, 0, intro, @a);
+	@};
 
-<keyword_name> : () -> ( n : NAME ) = @{
-    @n = xstrdup ( token_buff ) ;
-@} ;
+	<null_param>: () -> (p: PARAM-LIST) = @{
+		@p = NULL_list ( PARAMETER);
+	@};
 
+	<cons_param>: (a: PARAM, q: PARAM-LIST) -> (p: PARAM-LIST) = @{
+		CONS_par(@a, @q, @p);
+	@};
 
-/*
-    PARAMETER ACTIONS
+	<set_break>: (c: CONS, a: NUMBER) -> () = @{
+		PARAMETER p = find_param (@c, @a);
+		if (!IS_NULL_par(p)) COPY_int(par_brk(p), 1);
+	@};
 
-    These actions are used in the construction of parameters.
-*/
+	<set_boundary>: (c: CONS, a: NUMBER) -> () = @{
+		PARAMETER p = find_param (@c, @a);
+		if (!IS_NULL_par(p)) COPY_int(par_align(p), 1);
+	@};
 
-<make_param> : ( n : NAME, s : SORT ) -> ( a : PARAM ) = @{
-    int intro = 0 ;
-    if ( ends_in ( @n, "_intro" ) ) intro = 1 ;
-    MAKE_par_basic ( @n, @s, 0, 0, intro, @a ) ;
-@} ;
+	/*
+	 * CONSTRUCT ACTIONS
+	 *
+	 * These actions are used in the construction of constructs.
+	 */
 
-<null_param> : () -> ( p : PARAM-LIST ) = @{
-    @p = NULL_list ( PARAMETER ) ;
-@} ;
+	<make_cons>: (n: NAME, e: NUMBER, r: SORT, p: PARAM-LIST, s: SORT) -> (c: CONS) = @{
+		if (!EQ_sort (@r, @s)) {
+			error (ERR_SERIOUS, "Wrong result sort for '%s'", @n);
+		}
 
-<cons_param> : ( a : PARAM, q : PARAM-LIST ) -> ( p : PARAM-LIST ) = @{
-    CONS_par ( @a, @q, @p ) ;
-@} ;
+		@c = make_construct(@n, @e, @s, @p);
+	@};
 
-<set_break> : ( c : CONS, a : NUMBER ) -> () = @{
-    PARAMETER p = find_param ( @c, @a ) ;
-    if ( !IS_NULL_par ( p ) ) COPY_int ( par_brk ( p ), 1 ) ;
-@} ;
+	<null_cons>: () -> (p: CONS-LIST) = @{
+		@p = NULL_list(CONSTRUCT);
+	@};
 
-<set_boundary> : ( c : CONS, a : NUMBER ) -> () = @{
-    PARAMETER p = find_param ( @c, @a ) ;
-    if ( !IS_NULL_par ( p ) ) COPY_int ( par_align ( p ), 1 ) ;
-@} ;
-
-
-/*
-    CONSTRUCT ACTIONS
-
-    These actions are used in the construction of constructs.
-*/
-
-<make_cons> : ( n : NAME, e : NUMBER, r : SORT, p : PARAM-LIST, s : SORT ) -> ( c : CONS ) = @{
-    if ( !EQ_sort ( @r, @s ) ) {
-	error ( ERR_SERIOUS, "Wrong result sort for '%s'", @n ) ;
-    }
-    @c = make_construct ( @n, @e, @s, @p ) ;
-@} ;
-
-<null_cons> : () -> ( p : CONS-LIST ) = @{
-    @p = NULL_list ( CONSTRUCT ) ;
-@} ;
-
-<cons_cons> : ( c : CONS, q : CONS-LIST ) -> ( p : CONS-LIST ) = @{
-    CONS_cons ( @c, @q, @p ) ;
-@} ;
+	<cons_cons>: (c: CONS, q: CONS-LIST) -> (p: CONS-LIST) = @{
+		CONS_cons(@c, @q, @p);
+	@};
 
 
-/*
-    SORT ACTIONS
+	/*
+	 * SORT ACTIONS
+	 *
+	 * These actions are used in the construction of sorts.
+	 */
 
-    These actions are used in the construction of sorts.
-*/
+	<find_new_sort>: (n: NAME) -> (s: SORT) = @{
+		@s = find_sort(@n, 1);
+	@};
 
-<find_new_sort> : ( n : NAME ) -> ( s : SORT ) = @{
-    @s = find_sort ( @n, 1 ) ;
-@} ;
+	<find_old_sort>: (n: NAME) -> (s: SORT) = @{
+		@s = find_sort(@n, 0);
+	@};
 
-<find_old_sort> : ( n : NAME ) -> ( s : SORT ) = @{
-    @s = find_sort ( @n, 0 ) ;
-@} ;
+	<make_sort>: (s: SORT, b: NUMBER, e: NUMBER, p: CONS-LIST) -> () = @{
+		basic_sort(@s, @b, @e, @p);
+	@};
 
-<make_sort> : ( s : SORT, b : NUMBER, e : NUMBER, p : CONS-LIST ) -> () = @{
-    basic_sort ( @s, @b, @e, @p ) ;
-@} ;
+	<make_clist>: (s: SORT) -> () = @{
+		compound_sort(@s, "_list", info_clist_tag, '*');
+	@};
 
-<make_clist> : ( s : SORT ) -> () = @{
-    compound_sort ( @s, "_list", info_clist_tag, '*' ) ;
-@} ;
+	<make_slist>: (s: SORT) -> () = @{
+		compound_sort(@s, "_list", info_slist_tag, '%');
+	@};
 
-<make_slist> : ( s : SORT ) -> () = @{
-    compound_sort ( @s, "_list", info_slist_tag, '%' ) ;
-@} ;
+	<make_option>: (s: SORT) -> () = @{
+		compound_sort(@s, "_option", info_option_tag, '?');
+	@};
 
-<make_option> : ( s : SORT ) -> () = @{
-    compound_sort ( @s, "_option", info_option_tag, '?' ) ;
-@} ;
-
-<set_edge> : ( s : SORT, c : NAME ) -> () = @{
-    set_special ( @s, @c, KIND_edge ) ;
-    COPY_int ( sort_edge ( @s ), 1 ) ;
-@} ;
-
-
-/*
-    LINKAGE ACTIONS
-
-    These actions are used in the construction of linkage items.
-*/
-
-<make_edge_link> : ( s : SORT, n : NAME ) -> ( a : LINK ) = @{
-    MAKE_link_basic ( @n, @s, @a ) ;
-    COPY_string ( sort_link ( @s ), @n ) ;
-@} ;
-
-<make_unit_link> : ( s : SORT, n : NAME ) -> ( a : LINK ) = @{
-    MAKE_link_basic ( @n, @s, @a ) ;
-    COPY_string ( sort_unit ( @s ), @n ) ;
-@} ;
-
-<null_link> : () -> ( p : LINK-LIST ) = @{
-    @p = NULL_list ( LINKAGE ) ;
-@} ;
-
-<cons_link> : ( a : LINK, q : LINK-LIST ) -> ( p : LINK-LIST ) = @{
-    CONS_link ( @a, @q, @p ) ;
-@} ;
+	<set_edge>: (s: SORT, c: NAME) -> () = @{
+		set_special(@s, @c, KIND_edge);
+		COPY_int(sort_edge (@s ), 1);
+	@};
 
 
-/*
-    SPECIFICATION ACTIONS
+	/*
+	 * LINKAGE ACTIONS
+	 *
+	 * These actions are used in the construction of linkage items.
+	 */
 
-    This action is used to define the overall TDF specification.
-*/
+	<make_edge_link>: (s: SORT, n: NAME) -> (a: LINK) = @{
+		MAKE_link_basic(@n, @s, @a);
+		COPY_string(sort_link (@s ), @n);
+	@};
 
-<make_spec> : ( v1 : NUMBER, v2 : NUMBER, p1 : LINK-LIST, p2 : LINK-LIST ) -> ( spec : SPEC ) = @{
-    LIST ( SORT ) p = check_sorts () ;
-    LIST ( LINKAGE ) q = foreign_sorts () ;
-    MAKE_spec_basic ( @v1, @v2, p, @p1, @p2, q, @spec ) ;
-@} ;
+	<make_unit_link>: (s: SORT, n: NAME) -> (a: LINK) = @{
+		MAKE_link_basic(@n, @s, @a);
+		COPY_string(sort_unit (@s ), @n);
+	@};
 
-<null_spec> : () -> ( spec : SPEC ) = @{
-    @spec = NULL_spec ;
-@} ;
+	<null_link>: () -> (p: LINK-LIST) = @{
+		@p = NULL_list(LINKAGE);
+	@};
+
+	<cons_link>: (a: LINK, q: LINK-LIST) -> (p: LINK-LIST) = @{
+		CONS_link(@a, @q, @p);
+	@};
 
 
-/*
-    SYNTAX ERROR ACTION
+	/*
+	 * SPECIFICATION ACTIONS
+	 *
+	 * This action is used to define the overall TDF specification.
+	 */
 
-    This action is used to signal a syntax error.
-*/
+	<make_spec>: (v1: NUMBER, v2: NUMBER, p1: LINK-LIST, p2: LINK-LIST) -> (spec: SPEC) = @{
+		LIST(SORT)    p = check_sorts ();
+		LIST(LINKAGE) q = foreign_sorts ();
+		MAKE_spec_basic(@v1, @v2, p, @p1, @p2, q, @spec);
+	@};
 
-<syntax_error> : () -> () = @{
-    error ( ERR_SERIOUS, "Syntax error" ) ;
-@} ;
+	<null_spec>: () -> (spec: SPEC) = @{
+		@spec = NULL_spec;
+	@};
 
+
+	/*
+	 * SYNTAX ERROR ACTION
+	 *
+	 * This action is used to signal a syntax error.
+	 */
+	<syntax_error>: () -> () = @{
+		error(ERR_SERIOUS, "Syntax error");
+
+	@};
 
 %trailer% @{
+
 @}, @{
-#endif
-@} ;
+
+	#endif
+@};
+
