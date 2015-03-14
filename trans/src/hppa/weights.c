@@ -86,11 +86,11 @@ add_weights(weights * w1, weights * w2)
   for (i = 0; i < wfixno; ++i)
   {
    (r.fix)[i] = (w1->fix)[i] + (w2->fix)[i];
-  };
+  }
   for (i = 0; i < wfloatno; ++i)
   {
    (r.floating)[i] = (w1->floating)[i] + (w2->floating)[i];
-  };
+  }
   return r;
 }
 
@@ -149,8 +149,8 @@ max_weights(double loc, weights * ws, bool fix)
 	}
 	else
 	  pw[i] = w[i];
-      };
-    };
+      }
+    }
 
     res.fix_break = bk;
   }
@@ -195,8 +195,8 @@ max_weights(double loc, weights * ws, bool fix)
 	}
 	else
 	  pw[i] = w[i];
-      };
-    };
+      }
+    }
   }
   else
   {
@@ -225,14 +225,14 @@ mult_weights(double m, weights * ws)
   for (i = 0; i < wfixno; ++i)
   {
     r[i] = w[i]* m;
-  };
+  }
 
   r = & (res.floating)[0];
   w = ws->floating;
   for (i = 0; i < wfloatno; ++i)
   {
     r[i] = w[i]* m;
-  };
+  }
   return res;
 }
 
@@ -298,7 +298,7 @@ weightsv(double scale, exp e)
       }
       /* usage of tag stored in number of son of load_name (decl) */
       return zeroweights;
-    };
+    }
 
   case ident_tag:
     {
@@ -405,7 +405,7 @@ weightsv(double scale, exp e)
       }
       else
 	return zeroweights;
-    };
+    }
   case rep_tag:
     {
       e = bro(son(e));
@@ -416,7 +416,7 @@ weightsv(double scale, exp e)
     {
       e = son(e);
       goto tailrecurse;
-    };
+    }
 
   case labst_tag:
     {
@@ -428,7 +428,7 @@ weightsv(double scale, exp e)
   case val_tag:
     {
       return zeroweights;
-    };
+    }
 
   case ncopies_tag:
     {

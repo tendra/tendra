@@ -1470,7 +1470,7 @@ needs scan
 	arg = stat;
       }
 
-    };
+    }
 
 	/*
 	 * shape is bottom
@@ -1481,7 +1481,7 @@ needs scan
   case goto_tag:
     {
       return zeroneeds;
-    };
+    }
 
   case ass_tag:
   case assvol_tag:
@@ -1537,7 +1537,7 @@ needs scan
 	nr.fixneeds += 1;
 	return maxneeds(nl, nr);
       }
-    };
+    }
 
   case untidy_return_tag:
   case res_tag:
@@ -1577,7 +1577,7 @@ needs scan
       }
 
       return x;
-    };
+    }
 
 
     /* spec 3.1 procedure stuff */
@@ -1622,7 +1622,7 @@ needs scan
 	  	else {
 	  	  nds = maxneeds(onepar, nds);
 	  	}
-	  	if (name(*cerl) ==caller_tag) { no(*cerl) = n; };
+	  	if (name(*cerl) ==caller_tag) { no(*cerl) = n; }
 	  	n = n + shape_size(shonepar);
 	  	stpar = rounder(n,32);
 	  	cerl = &bro(*cerl);
@@ -1823,7 +1823,7 @@ needs scan
 	if (last(*(par)))
 	{
 	  break;
-	};
+	}
 	par = &bro(*par);
       }
 
@@ -1910,7 +1910,7 @@ needs scan
        if (nstare==last_local_tag)
 	  cpr->Has_ll = 1;
        return shapeneeds(sh(*(e)));
-    };
+    }
 
   case clear_tag:
   case top_tag:
@@ -1919,7 +1919,7 @@ needs scan
   case formal_callee_tag:
     {
       return zeroneeds;
-    };
+    }
 
 #if 0
   case rscope_tag:
@@ -1956,7 +1956,7 @@ needs scan
       sn = scan(s, &s);
       rscope_level--;
       return sn;
-    };
+    }
 #endif
 
 
@@ -1975,7 +1975,7 @@ needs scan
     {
       exp *arg = &son(*e);
       return scan(arg, at);
-    };
+    }
 
     case fneg_tag: case fabs_tag:
     case chfl_tag:
@@ -2085,7 +2085,7 @@ needs scan
 	 }
       }
       return s;
-    };
+    }
 
   case shl_tag:
   case shr_tag:
@@ -2114,7 +2114,7 @@ needs scan
       }
       nr.fixneeds += 1;
       return maxneeds(nl, nr);
-    };
+    }
 
 
   case test_tag:
@@ -2361,7 +2361,7 @@ needs scan
   case xor_tag:
     {
       return likeplus(e, at);
-    };
+    }
 
   case addptr_tag:
     {
@@ -2392,7 +2392,7 @@ needs scan
   case minptr_tag:
     {
       return likediv(e, at);
-    };
+    }
 
   case reff_tag:
   case float_tag:
@@ -2414,7 +2414,7 @@ needs scan
 	      }
 	    }
       return nds;
-    };
+    }
 
   case cont_tag:
   case contvol_tag:
@@ -2425,13 +2425,13 @@ needs scan
     nds = maxneeds(scan(arg, at), shapeneeds(sh(*(e))));
     nds.fixneeds = MAX_OF(nds.fixneeds, 2);
     return nds;
-  };
+  }
 
   mult_tag_case:
   case mult_tag:
   {
     return multneeds(e, at);
-  };
+  }
 
   case offset_mult_tag:
   case offset_div_tag:
@@ -2639,7 +2639,7 @@ needs scan
       }
 
       return fpop(e, at);
-    };
+    }
 
   case field_tag:
     {
@@ -2660,7 +2660,7 @@ needs scan
       }
       str = scan(arg, at);
       return maxneeds(str, shapeneeds(sh(*(e))));
-    };
+    }
 
 	/*
 	 * number is number of proc (useful for indexing)

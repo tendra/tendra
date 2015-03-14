@@ -920,7 +920,7 @@ scan(exp * e, exp ** at)
   switch (nstare) {
     case 0: {
 	return zeroneeds;
-      };
+      }
 
 
 
@@ -965,7 +965,7 @@ scan(exp * e, exp ** at)
 
 	if (nl.fixneeds <2) nl.fixneeds = 2;
 	return nl;
-      };
+      }
 
 
 
@@ -1384,7 +1384,7 @@ son is sequence holder, son of this is list of voided statements.
 	  arg = stat;
 	}
 
-      };
+      }
 
 /********************************************************************
 	goto
@@ -1397,7 +1397,7 @@ ptr is labelled exp
     case goto_tag: case trap_tag:
       {
 	return zeroneeds;
-      };
+      }
 
     case ass_tag:
     case assvol_tag:
@@ -1442,7 +1442,7 @@ ptr is labelled exp
 	  nr.fixneeds += 1;
 	  return maxneeds (nl, nr);
 	}
-      };
+      }
 
     case res_tag: case untidy_return_tag:
       {
@@ -1472,7 +1472,7 @@ ptr is labelled exp
 
 
 	return x;
-      };
+      }
 
     case apply_general_tag: {
 	exp application = *(e);
@@ -1514,7 +1514,7 @@ ptr is labelled exp
 	  	else {
 	  	  nds = maxneeds (onepar, nds);
 	  	}
-	  	if (name(*cerl)==caller_tag) { no(*cerl) = n; };
+	  	if (name(*cerl)==caller_tag) { no(*cerl) = n; }
 	  	n = n + shape_size(shonepar);
 	  	stpar = rounder(n,32);
 	  	cerl = &bro(*cerl);
@@ -1709,7 +1709,7 @@ ptr is labelled exp
 	  }
 	  if (last (* (par))) {
 	    break;
-	  };
+	  }
 	  par = &bro(*par);
 	}
 
@@ -1745,7 +1745,7 @@ ptr is labelled exp
 	nds.maxargs = max (nds.maxargs, parsize);
 	return nds;
 
-      };
+      }
 
     case val_tag: {
     	exp s = sh(*e);
@@ -1782,18 +1782,18 @@ ptr is labelled exp
     case env_size_tag:
       {
 	return shapeneeds (sh (* (e)));
-      };
+      }
 
     case prof_tag: {
 	name(*e) = top_tag;
 	return zeroneeds;
-    };
+    }
     case clear_tag:
     case top_tag: case local_free_all_tag:
     case formal_callee_tag:
       {
 	return zeroneeds;
-      };
+      }
 
     case case_tag: {
 	needs nds;
@@ -1810,7 +1810,7 @@ ptr is labelled exp
       {
 	exp * arg = &son(*e);
 	return scan (arg, at);
-      };
+      }
     case fneg_tag: case fabs_tag:
     case chfl_tag: {
     	needs nds;
@@ -1889,7 +1889,7 @@ ptr is labelled exp
 	s.fixneeds = max (s.fixneeds, (optop(*e))?2:5);
 	s.floatneeds = max (s.floatneeds, 2);
 	return s;
-      };
+      }
 
     case shl_tag:
     case shr_tag: case long_jump_tag:
@@ -1919,7 +1919,7 @@ ptr is labelled exp
         nr.fixneeds += 1;
         return maxneeds (nl, nr);
 
-      };
+      }
 
 
     case test_tag:
@@ -2212,7 +2212,7 @@ ptr is labelled exp
     case xor_tag:
       {
 	return likeplus (e, at);
-      };
+      }
 
 
 
@@ -2225,7 +2225,7 @@ ptr is labelled exp
 	exp * arg = &son(*e);
 	return maxneeds (scan (arg, at),
 	    shapeneeds (sh (* (e))));
-      };
+      }
 
     case float_tag:  {
 	needs nds;
@@ -2247,7 +2247,7 @@ ptr is labelled exp
 	nds.fixneeds = max (nds.fixneeds, 2);
 
 	return nds;
-      };
+      }
 
     case offset_mult_tag: case offset_div_tag: {
 	exp op1 = son(*e);
@@ -2346,7 +2346,7 @@ ptr is labelled exp
     case component_tag:
       {
 	return likediv (e, at);
-      };
+      }
     case offset_max_tag: case max_tag: case min_tag: case local_free_tag:
 	{ needs nd;
 	  nd = likediv(e, at);
@@ -2406,7 +2406,7 @@ ptr is labelled exp
         }
 
 	return fpop (e, at);
-      };
+      }
 
     case field_tag:
       {
@@ -2424,7 +2424,7 @@ ptr is labelled exp
 	}
 	str = scan (arg, at);
 	return maxneeds (str, shapeneeds (sh (* (e))));
-      };
+      }
 
 /*********************************************************************
 	load_proc

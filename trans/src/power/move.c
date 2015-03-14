@@ -962,7 +962,7 @@ start:
 	    b.offset = 0;
 	    ld_ro_ins(i_l, is.b, b.base);
 	    stf_ro_ins(st, fr.fr, b);
-	  };
+	  }
 
 	  return (fr.dble) ? -(fr.fr + 32) : (fr.fr + 32);
 	}			/* end notinreg dest */

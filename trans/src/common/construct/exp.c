@@ -588,7 +588,7 @@ scan_solve(exp e)
 	  }
 	}
 	return;
-  };
+  }
 }
 
 /*

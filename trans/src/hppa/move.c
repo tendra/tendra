@@ -555,7 +555,7 @@ start:
 		 rrf_ins(i_fcpy,f_dbl,"",3*(fr.fr)+1,3*(frd.fr)+1);
 	      else
 		 rrf_ins(i_fcpy,f_sgl,"",3*(fr.fr),3*(frd.fr));
-	  };
+	  }
 	  return NOREG;
 	}			/* end infreg dest */
 
@@ -602,7 +602,7 @@ start:
 	       stf_ins(i_fstw,3*fr.fr,b);
 	    else
 	       stf_ins(i_fstd,(3*fr.fr)+1,b);
-	  };
+	  }
 
 	  return fr.dble ? -(fr.fr + 32) : (fr.fr + 32);
 	}			/* end notinreg dest */
@@ -686,7 +686,7 @@ start:
 	      /* load source */
 		 ld_ins(al==8 ? i_lb : (al==16 ? i_lh : i_lw),sgned,iss.b,rd);
 	    }
-	  };
+	  }
 	  return NOREG;
 	}			/* end inreg dest */
 

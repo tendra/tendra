@@ -267,7 +267,7 @@ void gcproc
      stack += 32;
      max_stack += 32;
      save_stack();
-  };
+  }
 
 
   /* Encode the procedure body */

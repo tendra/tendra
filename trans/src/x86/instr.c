@@ -129,7 +129,7 @@ void outreal
     case 2:
       asm_printf("0x%x,0x%x,0x%x\n", longs.i1, longs.i2, longs.i3);
       break;
-  };
+  }
 }
 
 /*
@@ -147,15 +147,15 @@ void rel_sp
       if (b)
 	asm_printf(")");
       return;
-    };
+    }
     if (n <= 127 || no_frame || stack_aligned_8byte) {
 				/* use stack pointer if displacement from it is small */
       asm_printf("%d(%s", n, "%esp");
       if (b)
 	asm_printf(")");
       return;
-    };
-  };
+    }
+  }
   /* otherwise use displacement from frame pointer */
   asm_printf("%d-%sdisp%d(%s", i + (stack_dec / 8), local_prefix, crt_proc_id, "%ebp");
   if (b)
@@ -174,7 +174,7 @@ void rel_cp
     if (b)
       asm_printf(")");
     return;
-  };
+  }
   asm_printf("%d(%s", n, "%esp");
   if (b)
     asm_printf(")");
@@ -197,7 +197,7 @@ void rel_ap
     if (b)
       asm_printf(")");
     return;
-  };
+  }
 }
 
 /*
@@ -217,7 +217,7 @@ void rel_ap1
     if (b)
       asm_printf(")");
     return;
-  };
+  }
 }
 
 int  get_reg_no
@@ -252,11 +252,11 @@ void regn
     if (z == first_fl_reg) {
       asm_printf("%s", fl_reg_name[0]);
       return;
-    };
+    }
     if (fstack_pos > 16) {
       error(ERR_INTERNAL, BAD_FSTACK);
       exit(EXIT_FAILURE);
-    };
+    }
     asm_printf("%s", fl_reg_name[fstack_pos - z]);
     /*
 	 * Variables held in the floating point registers have to be addressed
@@ -264,7 +264,7 @@ void regn
      * stack as well as a register bank
 	 */
     return;
-  };
+  }
 
   switch (le) {
     case 8:
@@ -276,7 +276,7 @@ void regn
     default:
       rn = reg_name_long;
       break;
-  };
+  }
   asm_printf("%s", rn[z]);			/* this outputs the register name */
 }
 
@@ -298,7 +298,7 @@ void ind_reg
     regn(regs, rdisp, ldname, 32);
     if (b)
       asm_printf(")");
-  };
+  }
 }
 
 /* Use indexed addressing */
@@ -315,7 +315,7 @@ void index_opnd
   operand(32, wh, 1, 0);
   if (sc != 1) {
     asm_printf(",%d", sc);
-  };
+  }
   asm_printf(")");
 }
 
@@ -338,18 +338,18 @@ void extn
      if (off != 0)
       {
         asm_printf("+%d", off / 8);
-      };
+      }
      asm_printf("(%s", "%ebx");
      if (b)
        asm_printf(")");
      return;
-   };
+   }
 
   if (off == 0)
     asm_printf("%s", et -> dec_id);
   else {
     asm_printf("%s+%d", et -> dec_id, off / 8);
-  };
+  }
   if (!b)
     asm_printf("(");
 }
@@ -368,7 +368,7 @@ void int_operand
       break;
     default:
       mask = 0xffffffff;
-  };
+  }
   asm_printf("$%d", k & mask);
 }
 
@@ -393,7 +393,7 @@ void proc_extn
        asm_printf("%s", et -> dec_id);
      else {
         asm_printf("%d+%s", off / 8, et->dec_id);
-     };
+     }
      if (et -> extnamed)
         asm_printf("@PLT");
    }
@@ -401,7 +401,7 @@ void proc_extn
    {
      asm_printf("$");
      extn(id, off, 1);
-   };
+   }
 }
 
 void ldisp
@@ -451,7 +451,7 @@ void envoff_operand
   if (off != 0)
    {
     asm_printf("%d+", off);
-   };
+   }
   asm_printf("%sO0x%x", local_prefix, l.i); /* produce an identifying number */
 }
 
@@ -588,7 +588,7 @@ void jump
     while (fstack_pos > fs_dest)
       discard_fstack();
     fstack_pos = good_fs;
-  };
+  }
 
   if (sonno(jr) > stack_dec) {
     add(slongsh, mw(zeroe,(sonno(jr) -stack_dec) / 8), sp, sp);
@@ -660,8 +660,8 @@ static char *out_branch
 
       default:
 	error(ERR_INTERNAL, BAD_TESTNO);
-    };
-  };
+    }
+  }
 
   if (sg) {
     switch (test_no) {
@@ -684,7 +684,7 @@ static char *out_branch
 
       default:
 	error(ERR_INTERNAL, BAD_TESTNO);
-    };
+    }
   }
   else {
     switch (test_no) {
@@ -708,8 +708,8 @@ static char *out_branch
 
       default:
 	error(ERR_INTERNAL, BAD_TESTNO);
-    };
-  };
+    }
+  }
   return NULL;
 }
 
@@ -778,7 +778,7 @@ void branch
     fpucon = good_fpucon;
     simplest_set_lab(nl);
     return;
-  };
+  }
 
   {
     char* cj = out_branch(sg, test_no, shnm);
@@ -846,7 +846,7 @@ void jmp_overflow
     fpucon = good_fpucon;
     simplest_set_lab(nl);
     return;
-  };
+  }
   if (sg)
     simple_branch(jo, ptno(jr));
   else
@@ -947,7 +947,7 @@ void mult_op
   operand(32, rind, 1, 0);
   if (sc != 1) {
     asm_printf(",%d", sc);
-  };
+  }
   asm_printf("),");
 
   if (inmem(dest)) {
@@ -961,7 +961,7 @@ void mult_op
     operand(32, dest, 1, 0);
     asm_printf("\n");
     end_contop();
-  };
+  }
 }
 
 /* Output the case switch jump and the jump table */
@@ -1007,7 +1007,7 @@ void caseins
       dw2_start_basic_block();
     }
 #endif
-  };
+  }
 }
 
 void const_intnl
@@ -1018,7 +1018,7 @@ void const_intnl
     asm_printf("%s%d@GOTOFF", local_prefix, lab);
     if (off != 0) {
       asm_printf("+%d", off / 8);
-    };
+    }
     asm_printf("(%s)", "%ebx");
     return;
    }
@@ -1029,9 +1029,9 @@ void const_intnl
     asm_printf("%s%d", local_prefix, lab);
     if (off != 0) {
       asm_printf("+%d", off / 8);
-    };
+    }
     return;
-  };
+  }
 }
 
 void load_stack0
@@ -1126,7 +1126,7 @@ void rotshift64
 	  shft = 5 - shft;	/* reverse rotate */
 	}
       }
-    };
+    }
     if (places == 0)
       return;
     switch (shft) {	/* between 1 and 31 places */
@@ -1171,7 +1171,7 @@ void rotshift64
 	return;
       }
     }
-  };
+  }
   {				/* number of places in reg2 */
     int lablow = next_lab();
     int labend = next_lab();
@@ -1272,5 +1272,5 @@ void rotshift64
       }
     }
     simplest_set_lab(labend);
-  };
+  }
 }

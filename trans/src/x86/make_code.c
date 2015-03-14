@@ -169,7 +169,7 @@ static void code_push
   else {
     make_code(reg0, stack, t);
     move(sh(t), reg0, pushdest);
-  };
+  }
 }
 
 /*
@@ -188,7 +188,7 @@ static void code_pars
     code_push (stack, (name(t)==caller_tag) ? son(t) : t);	/* code this parameter */
     stack_dec -= rounder(tsize, param_align);
     /* allow for the size */
-  };
+  }
 }
 
 /*
@@ -214,7 +214,7 @@ static int procargs
     if (last(t))
       break;
     t = bro(t);
-  };
+  }
   extra = (longs - stack_dec)% stack_align;
   longs += extra;
 
@@ -231,7 +231,7 @@ static int procargs
       if (diag == DIAG_DWARF2 && no_frame)
 	dw2_track_sp();
 #endif
-    };
+    }
     if (arg != NULL) {
       if (has_checkstack && longs > 160) {
 	/* check stack before pushing args if more than 5 words */
@@ -266,8 +266,8 @@ static int procargs
 	if (last(t))
 	  break;
 	t = bro(t);
-     };
-  };
+     }
+  }
   return longs;
 }
 
@@ -398,7 +398,7 @@ static regu alloc_reg_big
   if ((reg_left) < (br)) {	/* can't allocate */
     ru.can_do = 0;
     return ru;
-  };
+  }
 
   switch (nr) {			/* number of registers needed
 				   (consecutive) */
@@ -414,13 +414,13 @@ static regu alloc_reg_big
       SET(mask);
       SET(i);
       error(ERR_INTERNAL, WRONG_REGSIZE);
-    };
-  };
+    }
+  }
 
   while ((rs & mask)!= 0 && i > 0) {
     mask = (int)((unsigned int)mask >> 1);
     --i;
-  };
+  }
 
   if (i > 0) {			/* allocate registers */
     min_rfree |= mask;
@@ -457,7 +457,7 @@ static regu alloc_reg_small
   if ((reg_left) < (br)) {	/* can't allocate */
     ru.can_do = 0;
     return ru;
-  };
+  }
 
   switch (nr) {			/* number of registers needed
 				   (consecutive) */
@@ -473,13 +473,13 @@ static regu alloc_reg_small
       SET(mask);
       SET(i);
       error(ERR_INTERNAL, WRONG_REGSIZE);
-     };
-  };
+     }
+  }
 
   while ((rs & mask)!= 0 && i > 0) {
     mask = (int)((unsigned int)mask << 1);
     --i;
-  };
+  }
 
   if (i > 0) {			/* allocate */
     min_rfree |= mask;
@@ -508,7 +508,7 @@ static regu alloc_fl_small
   if ((reg_left) < (br)) {	/* can't allocate */
     ru.can_do = 0;
     return ru;
-  };
+  }
 
   mask = smallflmask;
   i = nofl;
@@ -516,7 +516,7 @@ static regu alloc_fl_small
   while ((rs & mask)!= 0 && i > 0) {
     mask = (int)((unsigned int)mask << 1);
     --i;
-  };
+  }
 
   if (i > 0) {			/* allocate */
     ru.can_do = 1;
@@ -548,7 +548,7 @@ static regu alloc_reg
     }
     else
       return alloc_fl_small(rs, br);
-  };
+  }
   if (big_reg)
     return alloc_reg_big(rs, sha, br, isbyteuse(e));
   else
@@ -592,10 +592,10 @@ static dcl alloc_regable
 	  dc.dcl_n = mask;
 	  dc.dcl_new = 0;
 	  return dc;
-	};
-      };
-    };
-  };
+	}
+      }
+    }
+  }
 
 
   if (ru = alloc_reg(regsinuse, sh(def), no(e), big_reg, e),
@@ -608,14 +608,14 @@ static dcl alloc_regable
 	  dc.dcl_pl = reg_pl;
 	  dc.dcl_n = mask;
 	  return dc;
-	};
-      };
-    };
+	}
+      }
+    }
 
     dc.dcl_pl = reg_pl;
     dc.dcl_n = ru.ru_regs;
     return dc;
-  };
+  }
   dc.dcl_pl = 0;
   return dc;
 }
@@ -635,7 +635,7 @@ static dcl def_where
     dc.dcl_pl = nowhere_pl;
     dc.dcl_n = 0;
     return dc;
-  };
+  }
 
   if (name(def) == name_tag && !isvar(son(def)) &&
         no(def) == 0 && isloadparam(def)) {
@@ -645,12 +645,12 @@ static dcl def_where
 	ndc = alloc_regable(dc, def, e, big_reg);
 	if (ndc.dcl_pl != 0)		/* local copy of arg in register */
 	  return ndc;
-    };
+    }
     dc.dcl_pl = ptno(son(def));
     dc.dcl_n = no(son(def));
     dc.dcl_new = 0;
     return dc;
-  };
+  }
 
 
   if (!isvar(e) &&
@@ -674,7 +674,7 @@ static dcl def_where
     else {
       dc.dcl_pl = ptno(son(son(def)));
       dc.dcl_n = no(son(son(def))) + no(son(def));
-    };
+    }
 
     /* We have the declaration */
 
@@ -682,19 +682,19 @@ static dcl def_where
 				   it. */
       dc.dcl_new = 0;
       return dc;
-    };
+    }
 
     if (regable(e)) {
 	dcl ndc;
 	ndc = alloc_regable(dc, def, e, big_reg);
 	if (ndc.dcl_pl != 0)
 	  return ndc;
-    };
+    }
 
     dc.dcl_new = 0;		/* if there was not room, reuse the old dec */
     return dc;
 
-  };
+  }
 
   /* Try to allocate in registers, except when narrowing fp variety */
   if (regable(e) &&
@@ -703,7 +703,7 @@ static dcl def_where
     ndc = alloc_regable(dc, def, e, big_reg);
     if (ndc.dcl_pl != 0)
       return ndc;
-  };
+  }
 
 
   /* Otherwise allocate on the stack */
@@ -723,7 +723,7 @@ static dcl def_where
     dc.dcl_place = locash;
     dc.dcl_pl = local_pl;
     return dc;
-  };
+  }
 
 }
 
@@ -754,7 +754,7 @@ static void solve
 	 */
     pt (son (bro (l))) = record;/* put it away */
     l = bro(l);
-  };
+  }
 
   {
     int  r1;
@@ -775,7 +775,7 @@ static void solve
       regsinuse = r1;
       if (name(sh(t))!= bothd) {
 	jump(jr, in_fstack(dest.where_exp));
-      };
+      }
       /* only put in jump if needed */
       t = bro(t);
       align_label(2, pt(son(t)));
@@ -843,7 +843,7 @@ static void caser
     case ulonghd:
       sz = 32;
       break;
-  };
+  }
 
   caseins(sz, arg, min, max,v, exhaustive, 0 , case_exp);
   /* put in jump table */
@@ -864,7 +864,7 @@ static ash stack_room
        return stack;
      if ((no(dest.where_exp) + off) > stack.ashsize)
        stack.ashsize = no(dest.where_exp) + off;
-   };
+   }
 
   return stack;
 }
@@ -912,11 +912,11 @@ void make_code
 	   * can ensure that it is the same at the end of the construction
 	   */
 	  old_fstack_pos = fstack_pos;
-	};
+	}
 
         if (isenvoff(e)) {
           set_env_off(-dc.dcl_n, e);
-        };
+        }
 
 	if (dc.dcl_new) {
 	  /* if it is new we must evaluate the def */
@@ -925,18 +925,18 @@ void make_code
 	  else
            {
 	    make_code(mw(e, 0), stack, def);
-           };
+           }
 
 	  if (ptno(e) == reg_pl) {
 	    /* modify regsinuse if a register is being used */
 	    regsinuse |= dc.dcl_n;
-	  };
+	  }
 	  if (ptno(e) == local_pl) {
 	    /* modify max_stack if the stack is being used */
 	    if (sz > max_stack)
 	      max_stack = sz;
-	  };
-	};
+	  }
+	}
 
 	make_code(dest, dc.dcl_place, body);/* code the body */
 
@@ -961,10 +961,10 @@ void make_code
 	      else {
 		if (rn < fstack_pos)
 		  discard_st1();
-	      };
-	    };
-	  };
-	};
+	      }
+	    }
+	  }
+	}
 
 	if (dc.dcl_new && ptno(e) == local_pl) {
 	  exp temp = getexp(f_top, NULL, 1, e, NULL, 0, 0, name_tag);
@@ -982,7 +982,7 @@ void make_code
 	}
 
 	return;
-      };
+      }
     case seq_tag:
       {
 	exp t = son(son(e));
@@ -1004,7 +1004,7 @@ void make_code
 	}
 #endif
 	return;
-      };
+      }
     case cond_tag:
       {
 	int  old_fstack_pos = fstack_pos;
@@ -1025,7 +1025,7 @@ void make_code
 	  }
 #endif
 	  return;
-	};
+	}
 
 	clean_stack();
 
@@ -1101,7 +1101,7 @@ void make_code
 	      }
 #endif
 	      clear_reg_record(crt_reg_record);
-	    };
+	    }
 
 	    rec->cond1_set = cond1_set;
 	    rec->cond2_set = cond2_set;
@@ -1118,8 +1118,8 @@ void make_code
 #endif
 #endif
 	    return;
-	  };
-	};
+	  }
+	}
 
         old_scale = scale;
         scale = (float)0.5*scale;
@@ -1162,7 +1162,7 @@ void make_code
 	  clear_reg_record(crt_reg_record);
           scale = old_scale;
 	  return;
-	};
+	}
 
 	if (name(sh(first))!= bothd &&
 		(no(son(alt))!= 0 || name(bro(son(alt)))!= goto_tag)) {
@@ -1176,7 +1176,7 @@ void make_code
             ptno(jr) = next_lab();
             fstack_pos_of(jr) = (prop)fstack_pos;
 	  jump(jr, in_fstack(dest.where_exp));
-	};
+	}
 
 	if (no(son(alt))!= 0 || name(bro(son(alt)))!= goto_tag) {
 	if (no(son(alt))!= 0)
@@ -1198,13 +1198,13 @@ void make_code
 	    dw2_start_basic_block();
 	  }
 #endif
-	};
-      };
+	}
+      }
 	cond1_set = 0;
 	cond2_set = 0;		/* we don't know what condition flags are set */
         scale = old_scale;
 	return;
-      };
+      }
     case labst_tag: 		/* code a labelled statement */
       {
 	clear_reg_record(crt_reg_record);
@@ -1218,7 +1218,7 @@ void make_code
 	    restore_stack();
 	  else if (!has_alloca)
             set_stack_from_bp();
-	};
+	}
         fstack_pos = (int)fstack_pos_of(pt(son(e)));
         stack_dec = sonno(pt(son(e)));
 
@@ -1234,7 +1234,7 @@ void make_code
 	clear_reg_record(crt_reg_record);
 	clean_stack();
 	return;
-      };
+      }
     case rep_tag:
       {
 	exp start = son(e);
@@ -1262,7 +1262,7 @@ void make_code
         scale = old_scale;
         --repeat_level;
 	return;
-      };
+      }
     case prof_tag:
       scale = (float)no(e);
       return;
@@ -1286,17 +1286,17 @@ void make_code
 	  reset_fpucon();
 	  fstack_pos = good_fs;
 	  return;
-	};
+	}
 	jump(pt(son(lab)), 0);
 	return;
-      };
+      }
     case goto_lv_tag:
       {
 	clean_stack();
 	reset_fpucon();
         jumpins(son(e));
         return;
-      };
+      }
     case long_jump_tag:
       {
 	make_code(pushdest, stack, bro(son(e)));
@@ -1308,7 +1308,7 @@ void make_code
 	long_jump(e);
 	extra_stack -= 64;
 	return;
-      };
+      }
     case testbit_tag:
       {
 		/* Not more than one argument will not be a possible 80386 operand */
@@ -1341,7 +1341,7 @@ void make_code
 	      pt(q) = lab;
 	      name(q) = goto_tag;
 	      isret = 1;
-	    };
+	    }
 	    lab = temp;
 	    pt(e) = lab;
 	    if (name(sha) < shrealhd || name(sha) > doublehd)
@@ -1352,8 +1352,8 @@ void make_code
 	    if (current_dg_info)
 	      current_dg_info->data.i_tst.inv = 1 - current_dg_info->data.i_tst.inv;
 #endif
-	  };
-        };
+	  }
+        }
 	if (!isret)
 	  temp = final_dest_test(lab, e);
 	SET(temp);
@@ -1366,7 +1366,7 @@ void make_code
 	if (temp != lab) {
 	  --no(son(lab));
 	  ++no(son(temp));
-	};
+	}
 	pt(e) = temp;
        {
 	where qw;
@@ -1381,7 +1381,7 @@ void make_code
 	  qw.where_off = 0;
 	  make_code(qw, stack, arg1);
 	  arg1 = qw.where_exp;
-	};
+	}
 	if (!is_o(name(arg2)) || is_crc(arg2)) {
 	  /* arg2 is not a possible 80386 operand, precompute it in reg0 */
 	  qw.where_exp = copyexp(reg0.where_exp);
@@ -1389,7 +1389,7 @@ void make_code
 	  qw.where_off = 0;
 	  make_code(qw, stack, arg2);
 	  arg2 = qw.where_exp;
-	};
+	}
 
 	clean_stack();
 #ifdef DWARF2
@@ -1409,8 +1409,8 @@ void make_code
 	  current_dg_info->data.i_tst.cont = set_dw_text_label();
 #endif
 	return;
-       };
-      };
+       }
+      }
     case absbool_tag:
     case test_tag:
       {
@@ -1446,7 +1446,7 @@ void make_code
 	        pt(q) = lab;
 	        name(q) = goto_tag;
 	        isret = 1;
-	      };
+	      }
 	      lab = temp;
 	      pt(e) = lab;
 	      if (name(sha) < shrealhd || name(sha) > doublehd)
@@ -1457,8 +1457,8 @@ void make_code
 	      if (current_dg_info)
 		current_dg_info->data.i_tst.inv = 1 - current_dg_info->data.i_tst.inv;
 #endif
-	    };
-          };
+	    }
+          }
 	  if (!isret)
 	    temp = final_dest_test(lab, e);
 	  SET(temp);
@@ -1471,9 +1471,9 @@ void make_code
 	  if (temp != lab) {
 	    --no(son(lab));
 	    ++no(son(temp));
-	  };
+	  }
 	  pt(e) = temp;
-	};
+	}
 	{
 	  where qw;
 	  exp arg1 = son(e);
@@ -1528,7 +1528,7 @@ void make_code
 	    default:
 	      sg = is_signed(sh(arg1));
 	      break;
-	  };
+	  }
 
 	  if (name(arg1) == val_tag || name(arg1) == env_offset_tag ||
 		(name(arg1) == name_tag && isvar(son(arg1)) && isglob(son(arg1)))) {
@@ -1541,7 +1541,7 @@ void make_code
 	    if (current_dg_info)
 	      current_dg_info->data.i_tst.inv = 1 - current_dg_info->data.i_tst.inv;
 #endif
-	  };
+	  }
 
 	  if (name(arg1) == null_tag) {
 	    error(ERR_INTERNAL, "test_tag of wrong form");
@@ -1582,15 +1582,15 @@ void make_code
 	      if (shape_size(sh(e)) > 8)
 	        and(slongsh, reg0, mw(zeroe, 0xff), reg0);
 	      move(sh(e), reg0, dest);
-	    };
-	  };
+	    }
+	  }
 
 	  /* may be needed for extra_diags */
 	  pt(e) = original_lab;
 
 	  return;
-	};
-      };
+	}
+      }
     case ass_tag:
     case assvol_tag:
       {
@@ -1601,12 +1601,12 @@ void make_code
          {
            bits_to_mem(assval, e, stack);
            return;
-         };
+         }
 
 	make_code(mw(e, 0), stack, assval);
 	/* set the destination and code the rest */
 	return;
-      };
+      }
     case concatnof_tag:
      {
       int off = dest.where_off + shape_size(sh(son(e)));
@@ -1614,7 +1614,7 @@ void make_code
       make_code(mw(dest.where_exp, off),
              stack_room(stack, dest, off), bro(son(e)));
       return;
-     };
+     }
     case ncopies_tag:
      {
        int i;
@@ -1629,9 +1629,9 @@ void make_code
           off = dest.where_off + i*sz;
           make_code(mw(dest.where_exp, off),
                 stack_room(stack, dest, off), copyexp(son(e)));
-        };
+        }
        return;
-      };
+      }
     case nof_tag:
       {
         exp v = son(e);
@@ -1653,8 +1653,8 @@ void make_code
              return;
            crt += off;
            v = bro(v);
-         };
-      };
+         }
+      }
     case compound_tag:
       {
         exp v = son(e);
@@ -1668,8 +1668,8 @@ void make_code
            if (last(bro(v)))
              return;
            v = bro(bro(v));
-         };
-      };
+         }
+      }
     case apply_tag:
     case apply_general_tag:
       {
@@ -1761,7 +1761,7 @@ void make_code
 	    stack_dec = 0;	/* as alloca, must_use_bp */
 	    if (need_preserve_stack)
 	      save_stack();
-	  };
+	  }
 	}
 	must_use_bp = prev_use_bp;
 
@@ -1839,7 +1839,7 @@ void make_code
 	}
 
 	return;
-      };
+      }
     case tail_call_tag:
       {
 	exp proc = son(e);
@@ -2005,7 +2005,7 @@ void make_code
 	stack_dec = old_stack_dec;
 	must_use_bp = prev_use_bp;
 	return;
-      };
+      }
     case alloca_tag:
       {
 	where sz_where;
@@ -2036,7 +2036,7 @@ void make_code
 	    make_code(sz_where, stack, son(e));
 	  }
 	  retcell(temp);
-        };
+        }
 	if (checkalloc(e))
 	  checkalloc_stack(sz_where, 1);	/* uses reg1 */
 	else
@@ -2046,12 +2046,12 @@ void make_code
 	if (need_preserve_stack)
 	  save_stack();
 	return;
-      };
+      }
     case last_local_tag:
       {
 	move(sh(e), sp, dest);
 	return;
-      };
+      }
     case local_free_tag:
         move(slongsh, mw(son(e),0), sp);
         if (name(bro(son(e))) == val_tag)
@@ -2103,8 +2103,8 @@ void make_code
 	      }
 	      else {
 	        make_code(reg0, stack, son(e));
-	      };
-	    };
+	      }
+	    }
 
 	    if (name(sh(son(e)))!= bothd) {
 	      good_fs = fstack_pos;
@@ -2121,7 +2121,7 @@ void make_code
 	         while (fstack_pos > first_fl_reg)
 	          discard_fstack();
 	        fstack_pos = good_fs;
-	      };
+	      }
 	      reset_fpucon();
 	      if (name(e) ==untidy_return_tag) {
 		int old_regsinuse = regsinuse;
@@ -2149,7 +2149,7 @@ void make_code
 #if 0
 	      if (simple_res) {	/* now done earlier for dw2_returns consistency */
 	        make_code(reg0, stack, son(e));
-	      };
+	      }
 #endif
 
 	      if (name(e) ==untidy_return_tag)
@@ -2161,14 +2161,14 @@ void make_code
 	      if (diag == DIAG_DWARF2)
 		dw2_after_fde_exit(over_lab);
 #endif
-	    };
+	    }
 	    stack_dec = old_stack_dec;
 	    return;
-	  };
+	  }
 	  error(ERR_INTERNAL, STRUCT_RETURN);
 	  return;
-	};
-      };
+	}
+      }
     case return_to_label_tag:
       {
 	int good_fs = fstack_pos;
@@ -2181,7 +2181,7 @@ void make_code
 	restore_callregs(0);
 	ins0("jmp *%eax");
 	return;
-      };
+      }
     case movecont_tag:
       {
 	exp frome = son(e);
@@ -2190,7 +2190,7 @@ void make_code
 	movecont(mw(frome, 0), mw(toe, 0), mw(lengthe, 0),
 		  isnooverlap(e));
 	return;
-      };
+      }
     case solve_tag:
       {
 	exp jr = getexp(f_bottom, NULL, 0, NULL, NULL, 0,
@@ -2209,12 +2209,12 @@ void make_code
 	    dw2_start_basic_block();
 	  }
 #endif
-	};
+	}
 	fpucon = normal_fpucon;
 	cond1_set = 0;
 	cond2_set = 0;
 	return;
-      };
+      }
     case case_tag:
       {
 	where qw;
@@ -2234,14 +2234,14 @@ void make_code
 	  make_code(qw, stack, arg1);
 	  arg1 = qw.where_exp;
 	  bro(arg1) = b;
-	};
+	}
 
 	clean_stack();
 
 	IGNORE caser(arg1, name(sh(e)) == bothd, e);
 
 	return;
-      };
+      }
 #ifndef TDF_DIAG4
     case diagnose_tag:  {
 	diag_info * d = dno(e);
@@ -2249,12 +2249,12 @@ void make_code
 	  crt_lno = natint(d -> data.source.beg.line_no);
 	  crt_charno = natint(d -> data.source.beg.char_off);
 	  crt_flnm = d -> data.source.beg.file->file.ints.chars;
-	};
+	}
         diag3_driver->output_diag(d, crt_proc_id, e);
         make_code(dest, stack, son(e));
         diag3_driver->output_end_scope(d, e);
         return;
-      };
+      }
 #endif
     case trap_tag: {
 	trap_ins(no(e));
@@ -2275,7 +2275,7 @@ void make_code
       if (!is_a(name(e))) {
 	error(ERR_INTERNAL, BADOP);
 	return;
-      };
+      }
 
       if (name(dest.where_exp)!= val_tag)
 	codec(dest, stack, e);
@@ -2298,7 +2298,7 @@ void make_code
 	}
       }
       return;
-  };
+  }
 }
 
 #ifdef TDF_DIAG4
@@ -2497,9 +2497,9 @@ void make_code
 	  dpos = d;
 	  break;
 	}
-      };
+      }
       d = d->more;
-    };
+    }
     if (diag != DIAG_NONE) {
 #ifdef TDF_DIAG3
       diag3_driver->code_diag_info(dgf(e), crt_proc_id, make_code2,(void*) &args);
@@ -2515,7 +2515,7 @@ void make_code
       crt_lno = dpos->data.i_src.endpos.line;
       crt_charno = dpos->data.i_src.endpos.column;
       crt_flnm = dpos->data.i_src.endpos.file->file_name;
-    };
+    }
   }
   else
     make_code1(dest, stack, e);

@@ -1476,7 +1476,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	  if (frg.dble)
 	  {
 	    r = -r;
-	  };
+	  }
 	  keepreg(rhs, r);
 	  /* remember that source has been evaluated into a */
 	  clear_dep_reg(lhs);
@@ -1890,7 +1890,7 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
 	{
 	  mka.lab = l;
 	  return mka;
-	};
+	}
 	m = bro(m);
       }
     }				/* end solve */

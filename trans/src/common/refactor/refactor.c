@@ -1119,7 +1119,7 @@ plus_fn(exp ap, exp b, int et)
 		    (ov || (shape_size(sh(ap)) <= 32 && check_size(x, sg, 32)))) {
 		    error(ERR_INTERNAL, ADD_OUT_OF_BOUNDS);
 		    exit(EXIT_FAILURE);
-	    };
+	    }
 	*/
 
 	flpt_ret(fa);
@@ -1158,7 +1158,7 @@ minus_fn(exp ap, exp b, int et)
 		    (ov || (shape_size(sh(ap)) <= 32 && check_size(x, sg, 32)))) {
 		    error(ERR_INTERNAL, ADD_OUT_OF_BOUNDS);
 		    exit(EXIT_FAILURE);
-	    };
+	    }
 	}
 	*/
 
@@ -2191,7 +2191,7 @@ refactor(exp e, exp scope)
 				replace(e, son(e), scope);
 				retcell(e);
 				return 1;
-			};
+			}
 			return 0;
 
 		case offset_max_tag:
@@ -3242,10 +3242,10 @@ refactor(exp e, exp scope)
 							replace(e, hold_refactor(res), scope);
 							retcell(e);
 							return 1;
-						};
-					};
-				};
-			};
+						}
+					}
+				}
+			}
 			return seq_distr(e, scope);
 
 		case mod_tag:
@@ -3263,8 +3263,8 @@ refactor(exp e, exp scope)
 					replace(e, son(e), scope);
 					retcell(e);
 					return 1;
-				};
-			};
+				}
+			}
 			return 0;
 
 		case rem0_tag:
@@ -3307,7 +3307,7 @@ refactor(exp e, exp scope)
 				replace(e, son(e), scope);
 				retcell(e);
 				return 1;
-			};
+			}
 			return 0;
 
 		case div0_tag:

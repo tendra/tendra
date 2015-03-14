@@ -243,7 +243,7 @@ add_type_to_aux(diag_type dt, long ind)
 		default:
 			error(ERR_INTERNAL, "bad diagnostics type");
 			break;
-		};
+		}
 	}
 
 	if (firstind == -1) {

@@ -82,7 +82,7 @@ sim_exp(exp a, exp b)
       return 0;
     return no(a) == no(b) &&
 	sim_explist(son(a), son(b));
-  };
+  }
   return 0;
 }
 
@@ -231,7 +231,7 @@ void keepexp
       pos = insalt(loc).b.base;
       if (pos < 0 || pos > 30)
 	return;
-  };
+  }
   if (pos==0 || pos == 32) return;
   regexps[pos].keptexp = e;
   regexps[pos].inans = loc;

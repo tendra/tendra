@@ -1410,7 +1410,7 @@ tailrecurse:
 	      r = frg.fr + 32;
 	      if (frg.dble) {
 		r = -r;
-	      };
+	      }
 	      keepreg(rhs, r);
 	      /* remember that source has been evaluated into a */
 	      clear_dep_reg(lhs);
@@ -2418,7 +2418,7 @@ tailrecurse:
 	  if (last(m)) {
 	    mka.lab = l;
 	    return mka;
-	  };
+	  }
 	  m = bro(m);
 	}
       }				/* end solve */

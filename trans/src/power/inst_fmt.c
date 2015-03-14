@@ -1098,6 +1098,6 @@ char * get_instruction(Instruction_P ins)
    case CPU_POWERPC:
     w=ins->ppc;
     break;
-  };
+  }
   return w;
 }

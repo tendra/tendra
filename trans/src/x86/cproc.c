@@ -154,13 +154,13 @@ static void out_pops
       if (diag == DIAG_DWARF2)
 	dwl0 = set_dw_text_label();
 #endif
-    };
+    }
   }
   else {
     if (tot_sp != push_space || has_alloca || stack_aligned_8byte) {
       asm_printop("leal -%d(%s),%s", push_space, "%ebp", "%esp");
-    };
-  };
+    }
+  }
 
   /* pop the registers at the end */
   if (no_frame && (min_rfree & 0x40)) {
@@ -169,28 +169,28 @@ static void out_pops
     if (diag == DIAG_DWARF2)
       dwl1 = set_dw_text_label();
 #endif
-  };
+  }
   if (min_rfree & 0x20) {
     asm_printop("pop %s", "%esi");
 #ifdef DWARF2
     if (diag == DIAG_DWARF2)
       dwl2 = set_dw_text_label();
 #endif
-  };
+  }
   if (min_rfree & 0x10) {
     asm_printop("pop %s", "%edi");
 #ifdef DWARF2
     if (diag == DIAG_DWARF2)
       dwl3 = set_dw_text_label();
 #endif
-  };
+  }
   if (min_rfree & 0x8) {
     asm_printop("pop %s", "%ebx");
 #ifdef DWARF2
     if (diag == DIAG_DWARF2)
       dwl4 = set_dw_text_label();
 #endif
-  };
+  }
 
   if (!no_frame) {
     asm_printop("pop %s", "%ebp");
@@ -198,7 +198,7 @@ static void out_pops
     if (diag == DIAG_DWARF2)
       dwl1 = set_dw_text_label();
 #endif
-  };
+  }
   asm_printf("\n");
 #ifdef DWARF2
   if (diag == DIAG_DWARF2) {
@@ -216,36 +216,36 @@ static void out_untidy_pops
     if (min_rfree & 0x40) {
       asm_printop("movl %d(%s),%s", s_offset, "%esp", "%ebp");
       s_offset += 4;
-    };
+    }
     if (min_rfree & 0x20) {
       asm_printop("movl %d(%s),%s", s_offset, "%esp", "%esi");
       s_offset += 4;
-    };
+    }
     if (min_rfree & 0x10) {
       asm_printop("movl %d(%s),%s", s_offset, "%esp", "%edi");
       s_offset += 4;
-    };
+    }
     if (min_rfree & 0x8) {
       asm_printop("movl %d(%s),%s", s_offset, "%esp", "%ebx");
       /* s_offset += 4; */
-    };
+    }
   }
   else {
     int fm_offset = - push_space;
     if (min_rfree & 0x20) {
       asm_printop("movl %d(%s),%s", fm_offset, "%ebp", "%esi");
       fm_offset += 4;
-    };
+    }
     if (min_rfree & 0x10) {
       asm_printop("movl %d(%s),%s", fm_offset, "%ebp", "%edi");
       fm_offset += 4;
-    };
+    }
     if (min_rfree & 0x8) {
       asm_printop("movl %d(%s),%s", fm_offset, "%ebp", "%ebx");
       /* fm_offset += 4; */
-    };
+    }
     asm_printop("movl 0(%s),%s", "%ebp", "%ebp");
-  };
+  }
 }
 
 #ifdef TDF_DIAG4
@@ -354,7 +354,7 @@ int cproc
   while (name(t) == ident_tag && isparam(t) && name(son(t))!= formal_callee_tag)
    {
      t = bro(son(t));
-   };
+   }
   if (name(t) == ident_tag && name(son(t)) == formal_callee_tag)
    {
      if (callee_size < 0)
@@ -367,10 +367,10 @@ int cproc
 	  set_env_off(param_pos+64, t);
 	param_pos = rounder(param_pos + shape_size(sh(son(t))), param_align);
 	t = bro(son(t));
-      };
+      }
      if (callee_size == 0)
 	callee_size = param_pos;
-   };
+   }
    {
      exp pp = son(p);
      while (name(pp) == ident_tag && isparam(pp) && name(son(pp))!= formal_callee_tag)
@@ -381,8 +381,8 @@ int cproc
 	  set_env_off(param_pos+64, pp);
 	param_pos = rounder(param_pos + shape_size(sh(son(pp))), param_align);
 	pp = bro(son(pp));
-      };
-   };
+      }
+   }
 
   body = t;
 
@@ -391,7 +391,7 @@ int cproc
 
   if (global) {
     asm_printf(".globl %s\n", pname);
-  };
+  }
 
   if (cpu & CPU_80486)
     dot_align(16);
@@ -417,7 +417,7 @@ int cproc
   else
     {
       asm_label("%s%d", local_prefix, cname);
-    };
+    }
 #ifdef DWARF2
   if (diag == DIAG_DWARF2) {
     dw2_start_basic_block();
@@ -440,7 +440,7 @@ int cproc
     if (diag == DIAG_DWARF2)
       dwl1 = set_dw_text_label();
 #endif
-  };
+  }
 
 /* space for pushing fixed point registers */
   old_pos2 = out_tell_pos();
@@ -486,7 +486,7 @@ int cproc
   asm_printf("\n");
   if (proc_has_checkstack(p)) {
     checkalloc_stack(reg0, 1);
-  };
+  }
 #ifdef DWARF2
   if (diag == DIAG_DWARF2) {
     dwl8 = set_dw_text_label();
@@ -496,7 +496,7 @@ int cproc
 
   if (stack_aligned_8byte) {
     asm_printop("andl $-8,%s", "%esp");
-  };
+  }
 
   old_pos9 = out_tell_pos();
   asm_printf("                                    \n");
@@ -518,7 +518,7 @@ int cproc
     asm_printf(".text\n");
     asm_printop("leal %sP%d,%s", local_prefix, labl, "%edx");
     asm_printop("call _mcount");
-  };
+  }
 
 
   if (PIC_code && proc_uses_external(p))
@@ -526,7 +526,7 @@ int cproc
      regsinuse |= GLOBALTABLEMASK;
      min_rfree |= GLOBALTABLEMASK;
      pic_prelude();
-   };
+   }
 
   need_preserve_stack = 0;
   if (proc_uses_crt_env(p) && proc_has_lv(p) && has_alloca)
@@ -535,7 +535,7 @@ int cproc
      stack.ashsize += 32;
      max_stack = stack.ashsize;
      save_stack();
-   };
+   }
 
   scale = (float)1.0;
   last_odd_bit = 0;
@@ -559,7 +559,7 @@ int cproc
     ptno(jr) = crt_ret_lab;
     fstack_pos_of(jr) = (prop)first_fl_reg;
     set_label(jr);
-  };
+  }
 
 	/*
 	 * If the procedure loads the current env and uses make_lv it may be
@@ -600,7 +600,7 @@ int cproc
     if (diag == DIAG_DWARF2)
       dw2_after_fde_exit(over_lab);
 #endif
-  };
+  }
   asm_printf("\n");
 
   this_pos = out_tell_pos();
@@ -611,7 +611,7 @@ int cproc
     else
       out_pops(tot_sp, push_space, ptno(returns_list) /8, sonno(returns_list));
     returns_list = bro(returns_list);
-  };
+  }
   out_set_pos(this_pos);
 
   locals_offset = tot_sp;
@@ -652,7 +652,7 @@ int cproc
     }
 
     out_set_pos(this_pos);
-  };
+  }
 
   if (tot_sp != push_space || proc_has_checkstack(p)) {
     this_pos = out_tell_pos();
@@ -664,7 +664,7 @@ int cproc
     }
     else {
       asm_printop("subl $%d,%s", tot_sp - push_space, "%esp");
-    };
+    }
 
     if (ferrsize != 0) {	/* record FPU control word */
 	    out_set_pos(old_pos9);
@@ -672,7 +672,7 @@ int cproc
     }
 
     out_set_pos(this_pos);
-  };
+  }
 
   /* push registers as necessary */
   if (min_rfree & 0x8) {
@@ -682,7 +682,7 @@ int cproc
     if (diag == DIAG_DWARF2)
       dwl2 = set_dw_text_label();
 #endif
-  };
+  }
 
   if (min_rfree & 0x10) {
 	  out_set_pos(old_pos3);
@@ -691,7 +691,7 @@ int cproc
     if (diag == DIAG_DWARF2)
       dwl3 = set_dw_text_label();
 #endif
-  };
+  }
 
 
   if (min_rfree & 0x20) {
@@ -701,7 +701,7 @@ int cproc
     if (diag == DIAG_DWARF2)
       dwl4 = set_dw_text_label();
 #endif
-  };
+  }
 
   if (no_frame && (min_rfree & 0x40)) {
 	  out_set_pos(old_pos5);
@@ -710,13 +710,13 @@ int cproc
     if (diag == DIAG_DWARF2)
       dwl1 = set_dw_text_label();
 #endif
-  };
+  }
 
 #ifdef DWARF2
   if (diag == DIAG_DWARF2) {
 	  out_set_pos(dw_entry_pos);
     dw2_fde_entry(dwl0, dwl1, dwl2, dwl3, dwl4, dwl8, tot_sp);
-  };
+  }
 #endif
 
   out_set_pos(this_pos);

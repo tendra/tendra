@@ -417,8 +417,8 @@ OUTPUT_DIAG_TAGS(void)
             break;
         }
         default: break;
-      };
-   };
+      }
+   }
 }
 
 /*

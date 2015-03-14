@@ -1077,7 +1077,8 @@ unwind(exp loop, exp contset, exp incr, int incval)
 			/* add another */
 			insts++;
 			s[j].e = NULL;
-		};
+		}
+
 		pt(z) = s[j].e;
 		s[j].e = z;
 		s[j].disp = n;

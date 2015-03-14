@@ -192,24 +192,24 @@ static loc_s name_to_loc
 	if (has_fp && l.reg < 0)
 	  l.off += 4;
 	break;
-      };
+      }
       case callstack_pl: {
 	error(ERR_INTERNAL, "callstack arg - location list needed");
 	break;
-      };
+      }
       case par_pl: {
 	l.key = L_REGOFF;
 	l.reg = (locate_param ? dw_sp : -1);
 	l.off = (no(id) /8) +4 + n_off;
 	break;
-      };
+      }
       case reg_pl: {
 	int z = get_reg_no(no(id));
 	l.key = L_INREG;
 	l.reg = (z >= first_fl_reg ? 100 + z - first_fl_reg :
 					(int)dwarfreg[z]);
 	break;
-      };
+      }
       default:
 	error(ERR_INTERNAL, "no location for id");
 	SET(l);

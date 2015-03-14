@@ -79,7 +79,7 @@ sim_exp(exp a, exp b)
     if (name(a) == float_tag) return eq_exp(son(a), son(b));
     return no(a) == no(b) &&
 	sim_explist(son(a), son(b));
-  };
+  }
   return 0;
 }
 
@@ -208,7 +208,7 @@ void keepexp
 	  return;
       }
 
-  };
+  }
   if (pos==2 || pos == 32) return;
   regexps[pos].keptexp = e;
   regexps[pos].inans = loc;

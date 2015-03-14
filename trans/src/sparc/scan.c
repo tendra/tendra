@@ -798,7 +798,7 @@ spin_lab  ( exp lab ) {
       ll = pt(bro(son(ll)));
     }
     dest = pt(temp);
-  };
+  }
   return 0;
 }
   
@@ -2488,7 +2488,7 @@ scan ( exp * e, exp ** at ){
       nds.fixneeds = MAX_OF ( nds.fixneeds, 8 ) ;
       pnset ( nds, hasproccall ) ;
       return nds;
-    };
+    }
     default : {
       error(ERR_SERIOUS,  "Case not covered in needs scan" ) ;
       return zeroneeds;

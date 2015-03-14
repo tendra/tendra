@@ -237,7 +237,7 @@ mark_unaliased(exp e)
 	   ca = 0;
      }
      p = pt(p);
-  };
+  }
   if (ca)
     setcaonly(e);
 }
@@ -361,7 +361,7 @@ translate_capsule(void)
 	}
       }
     }
-  };
+  }
   outnl();
 
   /* alloc memory */

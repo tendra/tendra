@@ -800,7 +800,7 @@ static void output_info
     default:
       error(ERR_INTERNAL, "unexpected dg_info");
 
-  };
+  }
 }
 
 static void output_detch
@@ -2171,5 +2171,5 @@ void dw2_code_info
     default:
       error(ERR_INTERNAL, "unexpected dg_info");
 
-  };
+  }
 }

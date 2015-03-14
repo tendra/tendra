@@ -132,7 +132,7 @@ trace_uses(exp e, exp id)
 		if (el!=1 ) { /* ... so reset nouses if any terminate */
 			 nouses = nu;
 			 return el;
-		};
+		}
 		if (last(s)) return 1;
 		s = bro(s);
 	     }

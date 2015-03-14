@@ -604,7 +604,7 @@ needs scan(exp * e, exp * *at)
    case 0:
     {/* zero_tag */
       return zeroneeds;
-    };
+    }
 
    case compound_tag:
    case nof_tag:
@@ -673,7 +673,7 @@ needs scan(exp * e, exp * *at)
       nl.fixneeds = max(nl.fixneeds,2);
 
       return nl;
-    };
+    }
 
   case cond_tag:
     {
@@ -1111,7 +1111,7 @@ needs scan(exp * e, exp * *at)
 	arg = stat;
       }
 
-    };
+    }
 
 	/*
 	 * shape is bottom
@@ -1124,7 +1124,7 @@ needs scan(exp * e, exp * *at)
    case trap_tag:
     {
       return zeroneeds;
-    };
+    }
    case ass_tag:
    case assvol_tag:
     {
@@ -1188,7 +1188,7 @@ needs scan(exp * e, exp * *at)
 	nr.fixneeds += 1;
 	return maxneeds(nl, nr);
       }
-    };
+    }
    case untidy_return_tag:
    case res_tag:
     {
@@ -1256,7 +1256,7 @@ needs scan(exp * e, exp * *at)
       }
 #endif
       return x;
-    };
+    }
 
   case apply_tag:
     {
@@ -1338,7 +1338,7 @@ needs scan(exp * e, exp * *at)
 	if (last(*(par)))
 	{
 	  break;
-	};
+	}
 	par = &bro(*par);
       }
 
@@ -1355,7 +1355,7 @@ needs scan(exp * e, exp * *at)
       }
       nds.maxargs = max(nds.maxargs, parsize);
       return nds;
-    };
+    }
 
   case null_tag:
     {
@@ -1386,7 +1386,7 @@ needs scan(exp * e, exp * *at)
    case last_local_tag:
     {
       return shapeneeds(sh(*(e)));
-    };
+    }
 
     case clear_tag:
     case top_tag:
@@ -1394,7 +1394,7 @@ needs scan(exp * e, exp * *at)
     case local_free_all_tag:
     {
       return zeroneeds;
-    };
+    }
 
    case neg_tag:
    case case_tag:
@@ -1487,7 +1487,7 @@ needs scan(exp * e, exp * *at)
       s.fixneeds = max(s.fixneeds,1);
       s.floatneeds = max(s.floatneeds,2);
       return s;
-    };
+    }
    case shl_tag:
    case shr_tag:
    case long_jump_tag:
@@ -1517,7 +1517,7 @@ needs scan(exp * e, exp * *at)
       nr.fixneeds += 1;
       return maxneeds(nl, nr);
 
-    };
+    }
 
 
   case test_tag:
@@ -1833,7 +1833,7 @@ needs scan(exp * e, exp * *at)
    case xor_tag:
     {
       return commutative_scan(e, at);
-    };
+    }
    case reff_tag:
    case offset_pad_tag:
    case chvar_tag:
@@ -1843,7 +1843,7 @@ needs scan(exp * e, exp * *at)
 
       return maxneeds(scan(arg, at),
 		      shapeneeds(sh(*(e))));
-    };
+    }
 
   case float_tag:
     {
@@ -1867,7 +1867,7 @@ needs scan(exp * e, exp * *at)
       nds = maxneeds(scan(arg, at), shapeneeds(sh(*(e))));
       nds.fixneeds = max(nds.fixneeds, 2);
       return nds;
-    };
+    }
    case offset_mult_tag: case offset_div_tag: {
      exp op1 = son(*e);
      exp op2 = bro(op1);
@@ -1948,7 +1948,7 @@ needs scan(exp * e, exp * *at)
    case make_stack_limit_tag:
     {
       return non_commutative_scan(e, at);
-    };
+    }
    case offset_add_tag:
     {
       exp l = son(*e);
@@ -2019,7 +2019,7 @@ needs scan(exp * e, exp * *at)
 	return scan(e, at);
       }
       return fpop(e, at);
-    };
+    }
    case field_tag:
     {
       needs str;
@@ -2039,7 +2039,7 @@ needs scan(exp * e, exp * *at)
       }
       str = scan(arg, at);
       return maxneeds(str, shapeneeds(sh(*(e))));
-    };
+    }
 
 	/*
 	 * number is number of proc (useful for indexing)

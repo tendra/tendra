@@ -80,7 +80,7 @@ static void cca
     setlast(tg);
     clearlast(def);
     assexp(sto, to, id);
-  };
+  }
 #ifdef TDF_DIAG4
   if (diag != DIAG_NONE) {
     dgf(id) = dgf(bro(son(id)));
@@ -135,8 +135,8 @@ static int cc
       if (unused)
 	return scan(sto, to, ec, 1);
       return scan(sto, to, ec, unused);
-    };
-  };
+    }
+  }
 }
 
 /*
@@ -169,7 +169,7 @@ static void cc1
       if (unused) {
 	IGNORE scan(se, e, ec, 1);
         return;
-      };
+      }
       IGNORE scan(sto, to, ec, unused);
       return;
     }
@@ -188,11 +188,11 @@ static void cc1
       if (unused) {
 	IGNORE scan(se, e, ec, 1);
 	return;
-      };
+      }
       IGNORE scan(sto, to, ec, unused);
       return;
-    };
-  };
+    }
+  }
 }
 
 /*
@@ -321,7 +321,7 @@ static int cont_arg
           return 0;
         if (!PIC_code && isglob(son(s)) && isvar(son(s)))
           return 0;
-      };
+      }
 
       if (name(s) == cont_tag && usereg0 && shape_size(sh(e)) <= 32) {
 	cont_arg(sto, to, s, 1);
@@ -332,13 +332,13 @@ static int cont_arg
 	ap_argsc(sto, to, e);
 	return 0;
       }
-    };
+    }
 
 
     if (n == addptr_tag) {
       ap_argsc(sto, to, e);
       return 0;
-    };
+    }
 
   if (n == reff_tag)
     ccp(1, e, 1, son(e));
@@ -368,7 +368,7 @@ static int notopnd
     if (is_opnd(t))
       return 0;
     return !is_assable(t);
-  };
+  }
   return !is_opnd(t);
 }
 
@@ -410,7 +410,7 @@ static int scan_for_alloca
       if (son(t) == NULL)
         return 0;
       return scan_alloc_args(son(t));
-  };
+  }
 }
 
 static int no_alloca
@@ -466,7 +466,7 @@ static int is_indable
 	(t == cont_tag && name(son(son(e))) == name_tag &&
 	  isvar(son(son(son(e))))) ||
 	(t == reff_tag && is_direct(son(son(e))));
-  };
+  }
 
   return (s == reff_tag && is_direct(son(e))) ||
       s == addptr_tag;
@@ -497,7 +497,7 @@ static void scanargs
       temp = contexp(st, t), !last(temp)) {
     t = contexp(st, t);
     st = 0;
-  };
+  }
 }
 
 /* doit routine for plus first arg cant be negate, others can */
@@ -658,25 +658,25 @@ int scan
 	  return 0;
 	scanargs(1, e, 1);
 	return 0;
-      };
+      }
 
     case labst_tag:
       {
 	IGNORE scan(0, son(e), bro(son(e)), 1);
 	return 0;
-      };
+      }
     case ident_tag:
       {
 	IGNORE scan(0, son(e), bro(son(e)), 0);
 	IGNORE scan(1, e, son(e), 0);
 	return 0;
-      };
+      }
     case seq_tag:
       {
 	scanargs(1, son(e), 1);
 	IGNORE scan(0, son(e), bro(son(e)), 1);
 	return 0;
-      };
+      }
 
     case local_free_tag:
     case long_jump_tag:
@@ -684,7 +684,7 @@ int scan
       {
 	all_assable(sto, to, e);
 	return 0;
-      };
+      }
 
     case offset_add_tag:
     case offset_subtract_tag:
@@ -696,7 +696,7 @@ int scan
 	IGNORE all_opnd(sto, to, e, usereg0);
 	return 0;
 	/* all arguments except possibly one must be operands */
-      };
+      }
 
     case offset_mult_tag:
     case alloca_tag:
@@ -716,14 +716,14 @@ int scan
 	IGNORE all_opnd(sto, to, e, usereg0);
 	return 0;
 	/* all arguments except possibly one must be operands */
-      };
+      }
     case subptr_tag:
     case minptr_tag:
     case make_stack_limit_tag:
       {
 	IGNORE all_opnd(sto, to, e, 0);
 	return 0;
-      };
+      }
     case set_stack_limit_tag:
       {
 	exp lim = find_stlim_var();
@@ -731,13 +731,13 @@ int scan
 	setson(e, lim);
 	setname(e, ass_tag);
 	return scan(sto, to, e, usereg0);
-      };
+      }
     case chvar_tag:
       {
 	int ur = usereg0 && name(son(e))!= cont_tag;
 	IGNORE all_opnd(sto, to, e, ur);
 	return 0;
-      };
+      }
 
     case test_tag:
     case absbool_tag:
@@ -749,7 +749,7 @@ int scan
 	  IGNORE all_opnd(sto, to, e, usereg0);
 	/* all arguments except possibly one must be operands */
 	return 0;
-      };
+      }
 
     case mod_tag:
     case rem2_tag:
@@ -773,7 +773,7 @@ int scan
 	cc1(sto, to, 1, e, notopnd, 1, usereg0);
 	return 0;
 	/* all arguments except possibly the first must be operands */
-      };
+      }
 
     case shl_tag:
     case shr_tag:
@@ -784,7 +784,7 @@ int scan
 	cc1(sto, to, 1, e, notopnd, 1, usereg0);
 	return 0;
 	/* all arguments except possibly the first must be operands */
-      };
+      }
 
     case offset_div_by_int_tag:
       {
@@ -793,11 +793,11 @@ int scan
 		e, 1, bro(son(e)), NULL, 0, 0, chvar_tag);
 	  setbro(bro(son(e)), ch);
 	  setbro(son(e), ch);
-	};
+	}
 	cc1(sto, to, 1, e, notopnd, 1, usereg0);
 	return 0;
 	/* all arguments except possibly the first must be operands */
-      };
+      }
 
     case fplus_tag:
     case fminus_tag:
@@ -812,7 +812,7 @@ int scan
       {
 	IGNORE all_opnd (sto, to, e, 0);/* all arguments must be operands */
 	return 0;
-      };
+      }
     case ass_tag:
     case assvol_tag:
       {
@@ -830,7 +830,7 @@ int scan
 	else
 	  IGNORE scan(sto, to, bro(son(e)), 1);
 	return 0;
-      };
+      }
     case apply_tag:
       {
 	if (builtinproc(e)) {	/* son must be named global */
@@ -842,7 +842,7 @@ int scan
 	  scan_apply_args(sto, to, 0, son(e));
 	indable_son(sto, to, e);
 	return 0;
-      };
+      }
     case apply_general_tag:
       {
 	exp cees = bro(bro(son(e)));
@@ -863,7 +863,7 @@ int scan
 	if (name(cees) == make_dynamic_callee_tag || name(cees) == same_callees_tag)
 	  cca_for_cees(sto, to, e);
 	return 0;
-      };
+      }
     case tail_call_tag:
       {
 	exp cees = bro(son(e));
@@ -878,12 +878,12 @@ int scan
 	if (name(cees) == make_dynamic_callee_tag)
 	  cca_for_cees(sto, to, e);
 	return 0;
-      };
+      }
     case goto_lv_tag:
       {
 	indable_son(sto, to, e);
 	return 0;
-      };
+      }
     case res_tag:
     case untidy_return_tag:
       {
@@ -900,8 +900,8 @@ int scan
 	else  {
 	  IGNORE(scan(sto, to, son(e), 1));
 	  return 0;
-	};
-      };
+	}
+      }
     case case_tag:
       {
 	exp toc;
@@ -915,12 +915,12 @@ int scan
 	else
 	  IGNORE scan(sto, to, son(e), 0);
 	return 0;
-      };
+      }
     case plus_tag:
       {
 	IGNORE cc(sto, to, 1, e, plusdo, 1, usereg0);
 	return 0;
-      };
+      }
     case addptr_tag:
       {
 	exp f = father(e);
@@ -933,7 +933,7 @@ int scan
 	*ref = new_r;
 	ap_argsc(sto, to, new_r);
 	return 0;
-      };
+      }
     case mult_tag:
       {
 	if (shape_size(sh(e)) == 64 && optop(e)) {
@@ -959,25 +959,25 @@ int scan
 	}
 	IGNORE cc(sto, to, 1, e, multdo, 1, usereg0);
 	return 0;
-      };
+      }
     case and_tag:
       {
 	IGNORE cc(sto, to, 1, e, anddo, 1, usereg0);
 	return 0;
-      };
+      }
     case or_tag:
     case xor_tag:
       {
 	IGNORE cc(sto, to, 1, e, notado, 1, usereg0);
 	return 0;
-      };
+      }
     case cont_tag:
     case contvol_tag:
       {
 	if (name(e) == contvol_tag)
 	  setname(e, cont_tag);
 	return cont_arg(sto, to, e, usereg0);
-      };
+      }
     case field_tag:
       {
 	if (!is_o(name(son(e))) || name(e) == cont_tag) {
@@ -988,23 +988,23 @@ int scan
 	}
 	else
 	  return scan(sto, to, son(e), usereg0);
-      };
+      }
     case reff_tag:
       {
 	if (name(son(e)) == addptr_tag) {
 	  ap_argsc(sto, to, e);
 	  return 0;
-	};
+	}
 
 	ccp(sto, to, 1, e);
 	return 0;
-      };
+      }
     case proc_tag:
     case general_proc_tag:
       {
 	IGNORE scan(1, e, son(e), 1);
 	return 0;
-      };
+      }
     case asm_tag:
       {
 	if (props(e)!= 0)
@@ -1012,7 +1012,7 @@ int scan
 	check_asm_seq(son(e), 0);
 	proc_has_asm = 1;
 	return 0;
-      };
+      }
 
     case name_tag:
       if (!is_opnd(e)) {
@@ -1022,5 +1022,5 @@ int scan
 	/* DELIBERATE FALL THROUGH */
     default:
       return usereg0;
-  };
+  }
 }

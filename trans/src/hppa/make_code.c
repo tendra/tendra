@@ -1750,10 +1750,10 @@ makeans make_code
 	   {
 	      outlab("L$$",ptno(jr));
 	      clear_all();
-	   };
+	   }
 	   return mka;
-	};
-     };
+	}
+     }
 #endif
 
      if (name(first) == goto_tag && pt(first) == alt)
@@ -2597,7 +2597,7 @@ makeans make_code
 	{
 	   mka.lab = l;
 	   return mka;
-	};
+	}
 	m = bro(m);
      }
   }

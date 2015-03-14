@@ -5473,7 +5473,7 @@ f_pointer(alignment arg)
 	default:
 		error(ERR_INTERNAL, ILLALIGN);
 		return f_ptr8;
-	};
+	}
 }
 
 

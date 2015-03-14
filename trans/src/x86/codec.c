@@ -102,7 +102,7 @@ uop(void(*op)(shape, where, where), shape sha, exp a, where dest, ash stack)
     retcell(qw.where_exp);
     cond1_set = 0;
     return;
-  };
+  }
  (*op)(sha, mw(a, 0), dest);
 }
 
@@ -154,7 +154,7 @@ void bop
     retcell(qw.where_exp);
     cond1_set = 0;
     return;
-  };
+  }
   if (!is_o(name(b)) || is_crc(b)) {
     if (!inmem(dest) && no_reg_needed(a))
       qw.where_exp = copyexp(dest.where_exp);
@@ -167,7 +167,7 @@ void bop
     retcell(qw.where_exp);
     cond1_set = 0;
     return;
-  };
+  }
 
  (*op)(sha, mw(a, 0), mw(b, 0), dest);
 }
@@ -195,12 +195,12 @@ static void logop
   if (last(arg1)) {
     make_code(dest, stack, arg1);
     return;
-  };
+  }
 
   if (last (arg2)) {		/* just two arguments. */
     bop(op, sha, arg1, arg2, dest, stack);
     return;
-  };
+  }
   /*
    * need to take care about overlap between dest and args or to avoid
    * extra push. So use reg0.
@@ -216,9 +216,9 @@ static void logop
     if (last(t)) {
       t = NULL;
       break;
-    };
+    }
     t = bro(t);
-  };
+  }
 
   if (t == NULL) {		/* all arguments are possible 80386
 				   operands */
@@ -227,12 +227,12 @@ static void logop
     while (!last(t)) {
       (*op) (sha, mw (t, 0), qw, qw);/* encode operations in turn */
       t = bro(t);
-    };
+    }
     (*op) (sha, mw (t, 0), qw, dest);/* encode final operation */
     retcell(qw.where_exp);
     cond1_set = 0;
     return;
-  };
+  }
 
   /* encode the single argument which is not a possible 80386 operend */
   make_code(qw, stack, t);
@@ -245,11 +245,11 @@ static void logop
 	(*op)(sha, mw(u, 0), qw, dest);
       else
 	(*op)(sha, mw(u, 0), qw, qw);
-    };
+    }
     if (last(u))
       break;
     u = bro(u);
-  };
+  }
   retcell(qw.where_exp);
   cond1_set = 0;
 }
@@ -276,12 +276,12 @@ static void multop
   if (last(arg1)) {
     make_code(dest, stack, arg1);
     return;
-  };
+  }
 
   if (last (arg2)) {		/* just two arguments. */
     bop(op, sh(e), arg1, arg2, dest, stack);
     return;
-  };
+  }
   /*
    * need to take care about overlap between dest and args or to avoid
    * extra push. So use reg0.
@@ -297,9 +297,9 @@ static void multop
     if (last(t)) {
       t = NULL;
       break;
-    };
+    }
     t = bro(t);
-  };
+  }
 
   if (t == NULL) {
 	/* all arguments are possible 80386 operands */
@@ -308,12 +308,12 @@ static void multop
     while (!last(t)) {
       (*op) (sh (e), mw (t, 0), qw, qw);/* encode operations in turn */
       t = bro(t);
-    };
+    }
     (*op) (sh (e), mw (t, 0), qw, dest);/* encode final operation */
     retcell(qw.where_exp);
     cond1_set = 0;
     return;
-  };
+  }
 
   /* encode the single argument which is not a possible 80386 operand */
   make_code(qw, stack, t);
@@ -326,11 +326,11 @@ static void multop
 	(*op)(sh(e), mw(u, 0), qw, dest);
       else
 	(*op)(sh(e), mw(u, 0), qw, qw);
-    };
+    }
     if (last(u))
       break;
     u = bro(u);
-  };
+  }
   retcell(qw.where_exp);
   cond1_set = 0;
 }
@@ -369,7 +369,7 @@ void codec
 	if (last (arg1)) {	/* there is only one argument */
 	  make_code(dest, stack, arg1);
 	  return;
-	};
+	}
 
 	if (!optop(e))
           overflow_e = e;
@@ -383,7 +383,7 @@ void codec
 	  addsub(sh(e), mw(arg2, 0), mw(arg1, 0), dest, e);
           overflow_e = old_overflow_e;
 	  return;
-	};
+	}
     /*
      * need to take care about overlap between dest and args or to
      * avoid extra push. So use reg0.
@@ -402,9 +402,9 @@ void codec
 	  if (last(t)) {
 	    t = NULL;
 	    break;
-	  };
+	  }
 	  t = bro(t);
-	};
+	}
 
 	if (t == NULL && name(arg1) == neg_tag &&
 	    name(arg2) == neg_tag)
@@ -422,16 +422,16 @@ void codec
            {
              overflow_e = old_overflow_e;
 	     return;
-           };
+           }
 	  while (!last(t)) {
 	    u = bro(t);
 	    addsub(sh(e), mw(t, 0), qw, qw, e);
 	    t = u;
-	  };
+	  }
 	  addsub(sh(e), mw(t, 0), qw, dest, e);
           overflow_e = old_overflow_e;
 	  return;
-	};
+	}
 
 	/* encode the argument which is not a possible 80386 operand */
 	make_code(qw, stack, t);
@@ -445,20 +445,20 @@ void codec
 	      addsub(sh(e), mw(u, 0), qw, dest, e);
 	    else
 	      addsub(sh(e), mw(u, 0), qw, qw, e);
-	  };
+	  }
 	  if (last(u))
 	    break;
 	  u = v;
-	};
+	}
 	retcell(qw.where_exp);
         cond1_set = 0;
         overflow_e = old_overflow_e;
 	return;
-      };
+      }
     case addptr_tag: {		/* use index operation */
 	mova(mw(e, 0), dest);
 	return;
-      };
+      }
     case chvar_tag: {
 	exp a = son(e);
 	exp old_overflow_e = overflow_e;
@@ -479,17 +479,17 @@ void codec
 	    retcell(qw.where_exp);
             cond1_set = 0;
 	    return;
-	  };
+	  }
 	  make_code(dest, stack, a);
 	  if (name(sh(e)) > name(sh(a)))
 	    change_var_sh(sh(e), sh(a), dest, dest);
 	  overflow_e = old_overflow_e;
 	  return;
-	};
+	}
 	change_var_refactor(sh(e), mw(a, 0), dest);
 	overflow_e = old_overflow_e;
 	return;
-      };
+      }
     case minus_tag:
       {
 	exp old_overflow_e = overflow_e;
@@ -498,14 +498,14 @@ void codec
 	bop(sub, sh(e), bro(son(e)), son(e), dest, stack);
 	overflow_e = old_overflow_e;
 	return;
-      };
+      }
     case subptr_tag:
     case minptr_tag:
     case make_stack_limit_tag:
       {
 	bop(sub, sh(e), bro(son(e)), son(e), dest, stack);
 	return;
-      };
+      }
     case mult_tag:
       {
         if (!optop(e))
@@ -518,7 +518,7 @@ void codec
         else
 	  multop(mult, e, dest, stack);
 	return;
-      };
+      }
     case div2_tag:
       {
 	exp old_overflow_e = overflow_e;
@@ -527,7 +527,7 @@ void codec
 	bop(div2, sh(e), bro(son(e)), son(e), dest, stack);
 	overflow_e = old_overflow_e;
 	return;
-      };
+      }
     case div1_tag:
       {
 	exp old_overflow_e = overflow_e;
@@ -536,7 +536,7 @@ void codec
 	bop(div1, sh(e), bro(son(e)), son(e), dest, stack);
 	overflow_e = old_overflow_e;
 	return;
-      };
+      }
     case div0_tag:
       {
 	exp old_overflow_e = overflow_e;
@@ -545,7 +545,7 @@ void codec
 	bop(div0, sh(e), bro(son(e)), son(e), dest, stack);
 	overflow_e = old_overflow_e;
 	return;
-      };
+      }
     case neg_tag:
       {
 	exp old_overflow_e = overflow_e;
@@ -554,7 +554,7 @@ void codec
 	uop(negate, sh(e), son(e), dest, stack);
 	overflow_e = old_overflow_e;
 	return;
-      };
+      }
     case shl_tag:
       {
 	exp old_overflow_e = overflow_e;
@@ -564,22 +564,22 @@ void codec
 	bop(shiftl, sh(e), bro(son(e)), son(e), dest, stack);
 	overflow_e = old_overflow_e;
 	return;
-      };
+      }
     case shr_tag:
       {
 	bop(shiftr, sh(e), bro(son(e)), son(e), dest, stack);
 	return;
-      };
+      }
     case rotl_tag:
       {
 	bop(rotatel, sh(e), bro(son(e)), son(e), dest, stack);
 	return;
-      };
+      }
     case rotr_tag:
       {
 	bop(rotater, sh(e), bro(son(e)), son(e), dest, stack);
 	return;
-      };
+      }
     case mod_tag:
       {
 	exp old_overflow_e = overflow_e;
@@ -588,7 +588,7 @@ void codec
 	bop(mod, sh(e), bro(son(e)), son(e), dest, stack);
 	overflow_e = old_overflow_e;
 	return;
-      };
+      }
     case rem2_tag:
       {
 	exp old_overflow_e = overflow_e;
@@ -597,7 +597,7 @@ void codec
 	bop(rem2, sh(e), bro(son(e)), son(e), dest, stack);
 	overflow_e = old_overflow_e;
 	return;
-      };
+      }
     case rem0_tag:
       {
 	exp old_overflow_e = overflow_e;
@@ -606,7 +606,7 @@ void codec
 	bop(rem0, sh(e), bro(son(e)), son(e), dest, stack);
 	overflow_e = old_overflow_e;
 	return;
-      };
+      }
     case round_tag:
       {
 	shape s = sh(e);
@@ -634,7 +634,7 @@ void codec
 	  case 4:
 		uop(frnd4, s, son(e), d, stack);
 		break;
-	};
+	}
         test_fl_ovfl(e, d);
 	if (name(s)!= name(sh(e))) {
 	  exp old_overflow_e = overflow_e;
@@ -644,21 +644,21 @@ void codec
 	  overflow_e = old_overflow_e;
 	}
 	return;
-      };
+      }
     case fplus_tag:
       {
         setup_fl_ovfl(e);
 	fl_multop(fplus_tag, sh(e), son(e), dest);
         test_fl_ovfl(e, dest);
 	return;
-      };
+      }
     case fmult_tag:
       {
         setup_fl_ovfl(e);
 	fl_multop(fmult_tag, sh(e), son(e), dest);
         test_fl_ovfl(e, dest);
 	return;
-      };
+      }
     case fminus_tag:
       {
         setup_fl_ovfl(e);
@@ -666,7 +666,7 @@ void codec
 	    mw(son(e), 0), dest, bro(son(e)));
         test_fl_ovfl(e, dest);
 	return;
-      };
+      }
     case fdiv_tag:
       {
         setup_fl_ovfl(e);
@@ -674,25 +674,25 @@ void codec
 	      mw(son(e), 0), dest, bro(son(e)));
         test_fl_ovfl(e, dest);
 	return;
-      };
+      }
     case fneg_tag: {
         setup_fl_ovfl(e);
 	fl_neg(sh(e), mw(son(e), 0), dest);
         test_fl_ovfl(e, dest);
 	return;
-      };
+      }
     case fabs_tag: {
         setup_fl_ovfl(e);
 	fl_abs(sh(e), mw(son(e), 0), dest);
         test_fl_ovfl(e, dest);
 	return;
-      };
+      }
     case float_tag: {
         setup_fl_ovfl(e);
 	floater(sh(e), mw(son(e), 0), dest);
         test_fl_ovfl(e, dest);
 	return;
-      };
+      }
     case chfl_tag: {
 	if (name(sh(e)) < name(sh(son(e))))
 	  setup_fl_ovfl(e);
@@ -700,23 +700,23 @@ void codec
 	if (name(sh(e)) < name(sh(son(e))))
 	  test_fl_ovfl(e, dest);
 	return;
-      };
+      }
     case and_tag: {
 	logop(and, e, dest, stack);
 	return;
-      };
+      }
     case or_tag: {
 	logop(or, e, dest, stack);
 	return;
-      };
+      }
     case xor_tag: {
 	logop(xor, e, dest, stack);
 	return;
-      };
+      }
     case not_tag: {
 	uop(not, sh(e), son(e), dest, stack);
 	return;
-      };
+      }
     case offset_pad_tag:
       if (al2(sh(son(e))) >= al2(sh(e)))
 	{
@@ -738,13 +738,13 @@ void codec
 	  else
             add(slongsh, mw(zeroe, al-1), reg0, reg0);
           and(slongsh, mw(zeroe, -al), reg0, dest);
-        };
+        }
       return;
     case offset_add_tag:
       {
 	bop(add, sh(e), son(e), bro(son(e)), dest, stack);
 	return;
-      };
+      }
     case abs_tag:
       {
 	exp old_overflow_e = overflow_e;
@@ -753,37 +753,37 @@ void codec
 	uop(absop, sh(e), son(e), dest, stack);
 	overflow_e = old_overflow_e;
 	return;
-      };
+      }
     case offset_max_tag:
     case max_tag:
       {
 	bop(maxop, sh(e), son(e), bro(son(e)), dest, stack);
 	return;
-      };
+      }
     case min_tag:
       {
 	bop(minop, sh(e), son(e), bro(son(e)), dest, stack);
 	return;
-      };
+      }
    case offset_subtract_tag:
       {
 	bop(sub, sh(e), bro(son(e)), son(e), dest, stack);
 	return;
-      };
+      }
     case offset_mult_tag:
       {
 	bop(mult, slongsh, son(e), bro(son(e)), dest, stack);
 	return;
-      };
+      }
     case offset_negate_tag: {
 	uop(negate, sh(e), son(e), dest, stack);
 	return;
-      };
+      }
     case offset_div_by_int_tag:
       {
 	bop(div0, sh(e), bro(son(e)), son(e), dest, stack);
 	return;
-      };
+      }
     case offset_div_tag:
       {
 	if (shape_size(sh(e)) == 32)
@@ -798,12 +798,12 @@ void codec
 	  change_var(sh(e), dest, dest);
 	}
 	return;
-      };
+      }
     case absbool_tag:
       {
 	error(ERR_INTERNAL, NO_SETCC);
         return;
-      };
+      }
 
     case int_to_bitf_tag:
      {
@@ -811,7 +811,7 @@ void codec
        move(slongsh, mw(son(e), 0), dest);
        and(slongsh, mw(zeroe, mask), dest, dest);
        return;
-     };
+     }
     case bitf_to_int_tag:
       make_code(reg0, stack, son(e));
       change_var_sh(sh(e), sh(son(e)), reg0, dest);
@@ -827,7 +827,7 @@ void codec
         {
           mem_to_bits(e, sh(e), dest, stack);
           return;
-        };
+        }
        /* deliberate fall through into default */
     default:
       {
@@ -845,7 +845,7 @@ void codec
 	  retcell(qw.where_exp);
           cond1_set = 0;
 	  return;
-	};
+	}
 
 	if (is_crc(e) && name(e)!= name_tag
 		 && name(e)!= reff_tag && name(e)!= field_tag) {
@@ -882,7 +882,7 @@ void codec
 	  /* look for case when reff should be done by add */
 	  add(slongsh, mw(son(e), 0), mw(zeroe, no(e) / 8), dest);
 	  return;
-	};
+	}
 
 	if ((name(e) == name_tag && isvar(son(e))) ||
 	    name(e) == reff_tag ||
@@ -892,7 +892,7 @@ void codec
           if (ptno(son(e))!= nowhere_pl)
 	    mova(mw(e, 0), dest);
 	  return;
-	};
+	}
 
         if (name(e) == clear_tag)
           {
@@ -900,7 +900,7 @@ void codec
 		!inmem(dest)) || name(dest.where_exp) == apply_tag)
               move(sh(e), fzero, dest);
             return;
-          };
+          }
 
 
 	/* other values */
@@ -910,6 +910,6 @@ void codec
 	else
 	  top_regsinuse = regsinuse;
 	return;
-      };
-  };
+      }
+  }
 }

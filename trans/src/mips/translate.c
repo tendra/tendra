@@ -183,7 +183,7 @@ code_it(dec * my_def)
 	IGNORE evaluated(c,(isvar(tg))?(-symdef - 1): symdef + 1, my_def);
 
 
-    };
+    }
   }
   else {	/* global declarations but no definitions or is_comm */
       long  size;
@@ -235,7 +235,7 @@ mark_unaliased(exp e)
 	!(!last(p) && last(bro(p)) && name(bro(bro(p))) == ass_tag)))
       ca = 0;
     p = pt(p);
-  };
+  }
   if (ca)
     setcaonly(e);
 }
@@ -295,7 +295,7 @@ void translate_capsule
 	!my_def -> extnamed &&
 	isvar(crt_exp))
       mark_unaliased(crt_exp);
-  };
+  }
 
   noprocs = 0;
   for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
@@ -347,7 +347,7 @@ void translate_capsule
     add_dense_no(0, 0);
     add_dense_no (0, 0);	/* dont know why!! */
     IGNORE new_lsym_d("NOFILE.c", 0, stFile, scText, 0, 0);
-  };
+  }
 
   /* scan to put everything in MIPS form */
 
@@ -434,7 +434,7 @@ void translate_capsule
     }
     else
       symnos[i] = -1;
-  };
+  }
 
 
 

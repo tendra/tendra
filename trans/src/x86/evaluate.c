@@ -61,7 +61,7 @@ static void outsize
     default:
 	outlong();
 	break;
-  };
+  }
 }
 
 
@@ -236,21 +236,21 @@ static void evalval
       default:
 	asm_printf("%d", k);
 	break;
-    };
+    }
     return;
-  };
+  }
 
   if (n == real_tag) {
     outreal(e);
     return;
-  };
+  }
 
   if (n == reff_tag && name(son(e)) == name_tag && isglob(son(son(e)))) {
     outopenbr();
     asm_printf("%s + %d", brog(son(son(e))) -> dec_id, (no(e) + no(son(e))) / 8);
     outclosebr();
     return;
-  };
+  }
 
   if (n == name_tag) {
     if (no(e)!= 0) {
@@ -261,7 +261,7 @@ static void evalval
     else
       asm_printf("%s", brog(son(e)) -> dec_id);
     return;
-  };
+  }
 
   {
     int k = evalexp(e);
@@ -278,7 +278,7 @@ static void evalval
       default:
 	asm_printf("%d", k);
 	break;
-    };
+    }
   }
 }
 
@@ -296,16 +296,16 @@ static  void clear_out
       outlong();
       asm_printf("0\n");
       n -= 4;
-    };
+    }
     while (n > 0) {
       outbyte();
       asm_printf("0\n");
       --n;
-    };
+    }
   }
   else {
     asm_printf(".set .,.+%d\n", n);
-  };
+  }
 }
 
 /* does the work of outputting of constants recursively */
@@ -340,7 +340,7 @@ static void evalaux
             crt_off += 8;
             work = 0;
             bits_left = 0;
-         };
+         }
 
        if (off < crt_off)
               error(ERR_INTERNAL, CPD_ORDER);
@@ -348,7 +348,7 @@ static void evalaux
            {
               clear_out((off-crt_off) /8, isconst, al);
               crt_off = off & -8;
-           };
+           }
 
        if (name(sh(val))!= bitfhd)
          {
@@ -371,7 +371,7 @@ static void evalaux
                    work >>= 8;
                    offn -= 8;
                    bits_left = offn+sz;
-                 };
+                 }
                work &= ((1 << bits_left) - 1);
               }
            else
@@ -384,10 +384,10 @@ static void evalaux
                    work >>= 8;
                    offn -= 8;
                    bits_left = offn+sz;
-                 };
+                 }
                work = nx >> bits_left;
-             };
-         };
+             }
+         }
 
        if (last(val))   /* CLEAR OUT SHAPE size_shape(e) - crt_off */
         {
@@ -396,14 +396,14 @@ static void evalaux
 	       outbyte();
 	       asm_printf("%d\n", work & 0xff);
                crt_off += 8;
-            };
+            }
           clear_out((shape_size(sh(e)) - crt_off) /8, isconst,
 			8);
           return;
-        };
+        }
        offe = bro(val);
-     };
-  };
+     }
+  }
 	/*
 	 * String constants
 	 */
@@ -485,7 +485,7 @@ static void evalaux
     nb = shape_size(sh(son(e))) / 8;
     clear_out(nb, isconst, shape_align(sh(son(e))));
     return;
-  };
+  }
 
   if (n == ncopies_tag) {
     int  m = no(e);
@@ -504,7 +504,7 @@ static void evalaux
 	evalaux(val, isconst, al);
     }
     return;
-  };
+  }
 
   if (n == nof_tag)
    {
@@ -518,27 +518,27 @@ static void evalaux
           return;
         t = bro(t);
         dot_align((shape_align(sh(t)) <=8)? 1 : shape_align(sh(t)) /8);
-      };
-   };
+      }
+   }
 
   if (n == concatnof_tag) {
     evalaux(son(e), isconst, al);
     evalaux(bro(son(e)), isconst,(al +shape_size(son(e))) & 63);
     return;
-  };
+  }
 
   if (n == clear_tag)
    {
      int sz = shape_size(sh(e)) / 8;
      clear_out(sz, isconst, al);
      return;
-   };
+   }
 
   if (n == chvar_tag && shape_size(sh(e)) == shape_size(sh(son(e)))) {
     sh(son(e)) = sh(e);
     evalaux(son(e), isconst, al);
     return;
-  };
+  }
 
 
   outsize(e_size);
@@ -561,7 +561,7 @@ void evaluate
 
   if (global && cname == -1) {
     asm_printf(".globl %s\n", s);
-  };
+  }
 
   if (name(sh(c)) == realhd ||
        (name(sh(c)) == nofhd && ptno(sh(c)) == realhd) ||
@@ -589,7 +589,7 @@ void evaluate
   }
   else {
     asm_label("%s%d", local_prefix, cname);
-  };
+  }
 
   evalaux(c, isconst, al);
 

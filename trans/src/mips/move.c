@@ -94,7 +94,7 @@ start:
 	      cop_ins (i_mtc1, r, fr.fr << 1);
 	      if (fr.dble) {
 		cop_ins (i_mtc1, r + 1, (fr.fr << 1) + 1);
-	      };
+	      }
 	      return NOREG;
 	    }			/* end infreg dest */
 
@@ -127,7 +127,7 @@ start:
 		b.offset = 0;
 		ls_ins (i_lw, b.base, is.b);
 		ls_ins (st, r, b);
-	      };
+	      }
 
 	      return r;
 	    }			/* end notinreg dest */
@@ -160,7 +160,7 @@ start:
 			}
 			break;
 		}
-	      };
+	      }
 	      return NOREG;
 	    }			/* end inreg dest */
 	  case insomereg:
@@ -189,7 +189,7 @@ start:
 	      frd = fregalt (dest.answhere);
 	      if (fr.fr != frd.fr) {
 		rrfp_ins ((frd.dble) ? i_mov_d : i_mov_s, frd.fr << 1, fr.fr << 1);
-	      };
+	      }
 	      return NOREG;
 	    }			/* end infreg dest */
 	  case notinreg:
@@ -214,7 +214,7 @@ start:
 		b.offset = 0;
 		ls_ins (i_lw, b.base, is.b);
 		lsfp_ins (st, fr.fr << 1, b);
-	      };
+	      }
 
 	      return (fr.dble) ? -(fr.fr + 32) : (fr.fr + 32);
 	    }			/* end notinreg dest */
@@ -271,7 +271,7 @@ start:
 	      int   rd = regalt (dest.answhere);
 	      if (rd != 0 /* nowhere */ ) {
 		ls_ins (ld, rd, iss.b);
-	      };
+	      }
 	      return NOREG;
 	    }			/* end inreg dest */
 
@@ -285,7 +285,7 @@ start:
 		cop_ins (i_mtc1, 0, frd.fr << 1);
 	        if (frd.dble) {
 		cop_ins (i_mtc1, 0, (frd.fr << 1) + 1);
-	        };
+	        }
 		return NOREG;
 	      }
 	      lsfp_ins ((frd.dble) ? i_l_d : i_l_s, frd.fr << 1, iss.b);
@@ -364,7 +364,7 @@ start:
 			ls_ins(i_sb, r, isd.b);
 			iss.b.offset += 1;
 		    	isd.b.offset += 1;
-		};
+		}
 		return NOREG;
 	      }
 

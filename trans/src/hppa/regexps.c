@@ -93,7 +93,7 @@ sim_exp (exp a, exp b)
 	return eq_exp(son(a),son(b));
       }
       return no(a) == no(b) && sim_explist(son(a), son(b));
-  };
+  }
   return 0;
 }
 

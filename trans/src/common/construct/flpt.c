@@ -1353,7 +1353,7 @@ flpt_round(int round_t, int posn, flt * res)
   while (bitpos < 1) {
     bitpos += FBITS;
     ++digpos;
-  };
+  }
 
   --bitpos;
 

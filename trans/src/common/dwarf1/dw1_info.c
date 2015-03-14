@@ -214,7 +214,7 @@ dw1_output_diag(diag_info *d, int proc_no, exp e)
 			dwarf4(LAB2CHAR(TOS_LEX_BLK->end));
 			leave_dwarf_blk();
 			make_next_new_chain();
-		};
+		}
 
 		next_dwarf_lab(&tlab);
 		OUT_DWARF_BEG(&tlab);	/* always needed for start_scope */

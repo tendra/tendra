@@ -112,7 +112,7 @@ static void eval_if_ready
 	  if (diag == DIAG_DWARF2)
 	    note_data(d -> dec_id);
 #endif
-	};
+	}
 	evaluate(son(t),
                  (-1),
                   d -> dec_id,
@@ -134,7 +134,7 @@ static void eval_if_ready
 	     if (do_prom)
 	       error(ERR_INTERNAL, "prom data");
 	     asm_printf(".data\n");
-	   };
+	   }
 	evaluate(son(t), no(t), NULL, (name(son(t))!= res_tag), 0, NULL);
     }
     retcell(t);
@@ -197,7 +197,7 @@ static void code_def
 	exp t = const_list;
 	const_list = bro(const_list);
 	eval_if_ready(t,0);
-      };
+      }
     }
     else {			/* global values */
 #ifdef TDF_DIAG4
@@ -277,14 +277,14 @@ static void code_def
 	ptg(t) = my_def;
 	eval_if_ready(t, 0);
 
-      };
-     };
-    };
-  };
+      }
+     }
+    }
+  }
 
   if (son(tg)!= NULL) {
      my_def -> processed = 1;
-  };
+  }
 }
 
 static void
@@ -306,7 +306,7 @@ mark_unaliased(exp e)
 #endif
       ca = 0;
     p = pt(p);
-  };
+  }
   if (ca)
     setcaonly(e);
 }

@@ -2379,7 +2379,7 @@ tailrecurse:
 	  r = frg.fr + 32;
 	  if (frg.type==IEEE_double) {
 	    r = -r;
-	  };
+	  }
 	  keepreg(rhs, r);
 	  /* remember that source has been evaluated into a */
 	  clear_dep_reg(lhs);
