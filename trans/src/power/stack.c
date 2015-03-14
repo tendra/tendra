@@ -26,7 +26,7 @@
 /* All measurements in bytes */
 long p_frame_size=0;		/* total size of frame */  
 long p_locals_offset=0;	/* where the locals live  */
-long p_maxargbytes=0;	/* the largest size of the param area */
+static long p_maxargbytes=0;	/* the largest size of the param area */
 long p_args_and_link_size=0;	/* used by alloca */
 bool p_has_fp=0;
 
@@ -43,7 +43,7 @@ long p_sreg_first_save=0;
 long p_sfreg_first_save=0;
 
 bool p_has_saved_sp=0;
-long p_saved_sp_offset=0;
+static long p_saved_sp_offset=0;
 int p_return_label=0; /* the number of the label which contains the return */
 ans p_result;
 long p_callee_size;

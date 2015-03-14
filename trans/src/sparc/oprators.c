@@ -50,7 +50,7 @@
     CORRECT POSSIBLE OVERFLOWS IN REGISTER r
 */
 
-void 
+static void 
 tidyshort ( int r, shape s ){
   if ( name ( s ) == ucharhd ) {
     rir_ins ( i_and, r, 0xff, r ) ;
@@ -66,7 +66,7 @@ tidyshort ( int r, shape s ){
   register reg.  If this is found, it is removed from seq and 1 
   is returned.  Otherwise 0 is returned.
 */
-bool 
+static bool 
 regremoved ( exp * seq, int reg ){
   exp s = *seq ;
   exp t = bro ( s ) ;
@@ -94,7 +94,7 @@ regremoved ( exp * seq, int reg ){
   Evaluates reg = seq_1 @ seq_2 @ ... where @ is a binary commutative
   operation given by rins.  sp may be used for free t-registers.
 */
-void 
+static void 
 do_comm ( exp seq, space sp, int final, ins_p rins ){
   int r = 0 ;
   space nsp ;

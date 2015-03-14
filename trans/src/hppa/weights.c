@@ -60,7 +60,7 @@
 #include "weights.h"
 
 
-weights zeroweights =
+static weights zeroweights =
 {{
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 },
@@ -74,10 +74,10 @@ weights zeroweights =
  * proc body inconsistently !!
  */
 
-weights weightsv(double, exp);
+static weights weightsv(double, exp);
 
-weights add_weights
-(weights * w1, weights * w2)
+static weights
+add_weights(weights * w1, weights * w2)
 {
   /* sum of weights */
   weights r;
@@ -94,8 +94,8 @@ weights add_weights
   return r;
 }
 
-wp max_weights
-(double loc, weights * ws, bool fix)
+static wp
+max_weights(double loc, weights * ws, bool fix)
 {
 
   /*
@@ -210,8 +210,8 @@ wp max_weights
   return res;
 }
 
-weights mult_weights
-(double m, weights * ws)
+static weights
+mult_weights(double m, weights * ws)
 {
 
   /*
@@ -236,8 +236,8 @@ weights mult_weights
   return res;
 }
 
-weights add_wlist
-(double scale, exp re)
+static weights
+add_wlist(double scale, exp re)
 {				/* sum of  weights of list re */
   weights w, w1;
   exp r = re;
@@ -272,8 +272,8 @@ weights add_wlist
  * finally determines the actual choice of s reg and recodes the number
  * field of an ident.
  */
-weights weightsv
-(double scale, exp e)
+static weights
+weightsv(double scale, exp e)
 {
   unsigned char n;
 

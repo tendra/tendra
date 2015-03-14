@@ -37,7 +37,7 @@ int print_inlines = 0;
  * test a declaration to see that the identifier is only used as an
  * applied procedure.
  */
-int
+static int
 apply_only(exp e)
 {
 	exp t, f;

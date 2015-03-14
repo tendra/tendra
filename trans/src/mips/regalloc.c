@@ -43,7 +43,7 @@
 #include "frames.h"
 #include "regalloc.h"
 
-spacereq zerospace = {
+static spacereq zerospace = {
   0, 0, 0
 };
 
@@ -54,7 +54,7 @@ spacereq zerospace = {
  *
  * The largest of the two stack sizes is returned as the stack of the result.
  */
-spacereq
+static spacereq
 maxspace(spacereq a, spacereq b)
 {
   a.fixdump |= b.fixdump;

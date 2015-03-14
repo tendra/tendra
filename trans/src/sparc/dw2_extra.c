@@ -927,7 +927,8 @@ void dw2_fde_save(void)
   exit_section ();
 }
 
-void dw2_fde_restore(void)
+static void
+dw2_fde_restore(void)
 {
   long here = 0;
   if (fde_count < 0)

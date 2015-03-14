@@ -40,7 +40,6 @@ extern long p_sreg_first_save;
 extern long p_sfreg_first_save;
 extern long p_frame_size;
 extern long p_locals_offset;
-extern long p_maxargbytes;
 
 extern long p_args_and_link_size;/* maximum size of parameter list + LINK_AREA size in bytes */
 extern bool p_has_fp;
@@ -53,7 +52,6 @@ extern bool p_has_vcallees;
 extern bool p_has_no_vcallers;
 extern long p_fixed_params;
 extern long p_float_params;
-extern long p_saved_sp_offset;
 extern long p_callee_size;
 extern bool p_has_tp;
 extern int p_return_label;

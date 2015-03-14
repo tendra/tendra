@@ -65,8 +65,8 @@ static void outsize
 }
 
 
-long  evalexp
-(exp e)
+static long
+evalexp(exp e)
 {
   switch (name(e)) {
     case  val_tag:

@@ -318,8 +318,8 @@ static void eval_if_ready
    }
 }
 
-void eval_delayed_const_list
-(void)
+static void
+eval_delayed_const_list(void)
 {
    delayed_const* p;
    bool done = 0;

@@ -34,7 +34,6 @@ extern void ir_ins(ins_p, long, int);
 extern void lr_ins(int, int);
 
 extern void set_ins(baseoff, int);
-extern void z_ins(ins_p);
 extern void unimp_ins(long);
 
 extern void condrr_ins(ins_p, int, int, int);
@@ -48,14 +47,11 @@ extern void br_abs(int);
 extern void lngjmp(int,int,int);
 
 extern void extj_ins(ins_p, baseoff, int);
-extern void extj_ins_without_delay(ins_p, baseoff, int);
 
 extern void extj_special_ins(ins_p, const char * const, int);
-extern void extj_special_ins_no_delay(ins_p, const char * const, int);
 extern void extj_reg_ins(ins_p, int, int);
 extern void extj_reg_ins_no_delay(ins_p, int, int);
 
-extern void ret_ins(ins_p);
 extern void ret_restore_ins(void);
 extern void stret_restore_ins(void);
 

@@ -66,14 +66,14 @@ static const ins_sgn_pair st_ins_sz[] =
 };
 
 /* the st instruction for object sized bits */
-ins_p
+static ins_p
 i_st_sz(int bits)
 {
     return st_ins_sz[(bits) / 8][0];
 }
 
 /* load address represented by is into reg */
-void
+static void
 ld_addr(instore is, int reg)
 {
   asm_comment("ld_addr: adval=%d", is.adval);
@@ -90,7 +90,7 @@ ld_addr(instore is, int reg)
 }
 
 /* get address represented by is */
-int
+static int
 addr_reg(instore is, long regs)
 {
   int r;

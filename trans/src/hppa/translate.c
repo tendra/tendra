@@ -144,9 +144,6 @@
 #include "time.h"
 #include "labexp.h"
 
-extern dec *diag_def;
-
-
 
 int maxfix_tregs;		/* the number of t regs allocatable */
 
@@ -161,11 +158,11 @@ extern int res_label;
 
 FILE *as_file = NULL;/* assembler output file */
 dec **main_globals;
-int main_globals_index;
+static int main_globals_index;
 
 procrec *procrecs,*cpr;
 
-dec *diag_def = NULL ;	/* diagnostics definition */
+static dec *diag_def = NULL; /* diagnostics definition */
 
 #define is_zero(e)is_comm(e)
 #define TRANSLATE_GLOBALS_FIRST 1
@@ -221,8 +218,8 @@ void insection
     error(ERR_INTERNAL, "bad \".section\" name");
 }
 
-void mark_unaliased
-(exp e)
+static void
+mark_unaliased(exp e)
 {
   exp p = pt(e);
   bool ca = 1;
@@ -245,8 +242,8 @@ void mark_unaliased
     setcaonly(e);
 }
 
-baseoff find_tg
-(char *n)
+static baseoff
+find_tg(char *n)
 {
    int i;
    for (i=0;i<main_globals_index;i++)

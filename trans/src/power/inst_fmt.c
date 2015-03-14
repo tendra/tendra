@@ -1010,7 +1010,8 @@ void rrrf_ins(Instruction_P ins, int src1, int src2, int dest)
 	}
 }
 
-void rrrrf_ins(Instruction_P ins, int src1, int src2, int src3, int dest)
+void
+rrrrf_ins(Instruction_P ins, int src1, int src2, int src3, int dest)
 {
   CHECKFREG(dest); CHECKFREG(src1); CHECKFREG(src2); CHECKFREG(src3);
 
@@ -1033,7 +1034,8 @@ void rlinm_ins(Instruction_P ins, int src1, int sl, unsigned int mask, int dest)
 	}
 }
 
-void mfspr_ins(int spr, int dest)
+void
+mfspr_ins(int spr, int dest)
 {
   CHECKREG(dest);
   clear_reg(dest);
@@ -1043,7 +1045,9 @@ void mfspr_ins(int spr, int dest)
 	  asm_printop("%s %d,%d",get_instruction(i_mfspr),dest,spr);
 	}
 }
-void mtfsfi_ins(int fld, int imm)
+
+void
+mtfsfi_ins(int fld, int imm)
 {
   asm_printop("%s %d,%d",get_instruction(i_mtfsfi),fld,imm);
 }
@@ -1067,11 +1071,15 @@ void mcrfs_ins(int a, int b)
 	  asm_printop("%s %d,%d",get_instruction(i_mcrfs),a,b);
 	}
 }
-void lsi_ins(int src, int dest, int nb)
+
+void
+lsi_ins(int src, int dest, int nb)
 {
   asm_printop("%s %d,%d,%d",get_instruction(i_lsi),dest,src,nb);
 }
-void stsi_ins(int src, int dest, int nb)
+
+void
+stsi_ins(int src, int dest, int nb)
 {
   asm_printop("%s %d,%d,%d",get_instruction(i_stsi),src,dest,nb);
 }

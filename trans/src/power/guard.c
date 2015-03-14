@@ -60,7 +60,8 @@ space guardfreg(int r, space sp)
  * except it is an error if the reg is alread in use.
  * Used, eg, when claiming regs that will be damaged, as in a call.
  */
-space needreg(int r, space sp)
+static space
+needreg(int r, space sp)
 {
   /* tempdec() can allocate t regs if dead over calls, so dont fail */
   if (!(optim & OPTIM_TEMPDEC && IS_TREG(r)) && (sp.fixed&RMASK(r))!=0)
@@ -71,7 +72,8 @@ space needreg(int r, space sp)
   return guardreg(r, sp);
 }
 
-space needfreg(int r, space sp)
+static space
+needfreg(int r, space sp)
 {
   /* tempdec() can allocate t regs if dead over calls, so dont fail */
   if (!(optim & OPTIM_TEMPDEC && IS_FLT_TREG(r)) && (sp.flt&RMASK(r))!=0)

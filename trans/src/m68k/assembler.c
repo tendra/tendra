@@ -61,7 +61,9 @@ void asm_nprefix(void) {
 	}
 }
 
-void asm_fprefix(void) {
+static void
+asm_fprefix(void)
+{
 	switch (assembler) {
 	case ASM_HP:
 		asm_printf("0f");

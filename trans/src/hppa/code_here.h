@@ -14,7 +14,6 @@
 #include "addrtypes.h"
 
 extern int regofval(exp);
-extern int fregofval(exp);
 extern void reg_operand_here(exp, space, int);
 extern int reg_operand(exp, space);
 extern int freg_operand(exp, space, int);

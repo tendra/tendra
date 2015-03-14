@@ -63,11 +63,11 @@ extern long mainfile;
 extern long fscopefile;		/* file of currect proc */
 
 
-int  *file_dnos;		/* dense nos for files */
+static int  *file_dnos;		/* dense nos for files */
 
-filename * fds;
+static filename * fds;
 int nofds = 0;
-int szfds = 0;
+static int szfds = 0;
 
 static void
 collect_files(filename f)
@@ -303,7 +303,7 @@ static  tsym * ats = NULL;
  * Used to accumulate all the type reprs arising from shapes in the program
  * by calling addtsym ....
  */
-void
+static void
 addtsym(char *n, long v, int st, int sc, diag_type s)
 {
   tsym * a;
@@ -322,16 +322,17 @@ addtsym(char *n, long v, int st, int sc, diag_type s)
 typedef struct {
   diag_type sutype;
   int   symindex;
-}               shauxt;
-static int  noshaux = 0;
-int   nextshaux = 0;
-shauxt * shaux = NULL;
+} shauxt;
+
+static int noshaux   = 0;
+static int nextshaux = 0;
+static shauxt *shaux = NULL;
 
 /*
  * Used to remember all the indexes into the auxilliary symbol table for
  * all the shapes in the program
  */
-bool
+static bool
 eq_sutype(diag_type a, diag_type b)
 {
    diag_field_list  fa;

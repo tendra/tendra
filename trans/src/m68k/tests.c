@@ -27,7 +27,7 @@
 #include "68k_globals.h"
 #endif
 
-bool
+static bool
 reused_parameter(exp e)
 {
 	bool reused = 0;
@@ -91,7 +91,7 @@ no_side(exp e)
 	return is_a(n) || n == test_tag || n == ass_tag || n == testbit_tag;
 }
 
-    char n;
+static char n;
 
 /*
     Can the expression e be pushed directly onto the stack when it is

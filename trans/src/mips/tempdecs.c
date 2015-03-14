@@ -24,7 +24,7 @@
 static int nouses;
 static bool useinpar;
 
-int
+static int
 trace_uses(exp e, exp id)
 {
 	/* reduces nouses for each non-assignment use of id encountered in e;
@@ -142,7 +142,7 @@ trace_uses(exp e, exp id)
 }
 
 
-void
+static void
 after_a(exp a, exp id)
 {
 	/* apply trace_uses to dynamic successors of a */

@@ -36,7 +36,7 @@
 
 #define topsh f_top
 
-exp *
+static exp *
 ifc_ptr_position(exp e)
 {
 	exp *a;
@@ -68,7 +68,7 @@ position(exp e)
 	return res;
 }
 
-int
+static int
 incr_var(exp e)
 {
 	/* is e  var = var + val; */
@@ -89,9 +89,9 @@ incr_var(exp e)
 }
 
 
-exp alteredset = NULL;
+static exp alteredset = NULL;
 
-void
+static void
 isaltered(exp ld, int always)
 {
 	/* make copy of name!! - can be killed later */
@@ -110,8 +110,8 @@ isaltered(exp ld, int always)
 	alteredset = getexp(NULL, alteredset, alteredset == NULL, nld, NULL, (prop)always, 0, 0);
 }
 
-int assign_alias;
-int jump_out;
+static int assign_alias;
+static int jump_out;
 
 /*
  * applies f to all (var = var + val) done in piece with bool set if always done.
@@ -121,7 +121,7 @@ int jump_out;
  *
  * If there are any other assign_alias is set true
  */
-void
+static void
 scan_for_incr(exp e, exp piece, void(*f)(exp, int))
 {
 	static int everytime = true;
@@ -261,7 +261,7 @@ tryalias:
 	}
 }
 
-int
+static int
 good_val(exp a, exp piece)
 {
 	/* result ((a is name external to piece)
@@ -295,7 +295,7 @@ good_val(exp a, exp piece)
 	return false;
 }
 
-int
+static int
 usage_in(exp whole, exp part)
 {
 	exp q = part;
@@ -314,9 +314,9 @@ usage_in(exp whole, exp part)
 	return q == whole ? res : 0;
 }
 
-int stride;
 /* 0 initially, -1 either no common stride or non-constant stride, otherwise
  * contains common stride. */
+static int stride;
 
 /* Applies f to all addptr(x, cont(varid)) in piece where good_index_factor(1)
  * and all addptr(x, mult(cont(varid), mval))
@@ -331,7 +331,7 @@ int stride;
  *
  * NB no alias check result is no of other uses of varid in piece
  */
-int
+static int
 find_common_index(exp ldname, exp piece, void(*f)(exp, int))
 {
 	exp p = pt(son(ldname));
@@ -427,7 +427,7 @@ find_common_index(exp ldname, exp piece, void(*f)(exp, int))
  *
  * NB no alias check result is no of other uses of varid in piece
  */
-int
+static int
 find_pointer_opt(exp ldname, exp piece, void(*f)(exp, int))
 {
 
@@ -510,7 +510,6 @@ find_pointer_opt(exp ldname, exp piece, void(*f)(exp, int))
 	return otheruses;
 }
 
-exp addptrs;
 /* NULL  initially */
 /* son = addptr exp;
    pt = [holder with son = different occurence of addptr exp]**(no-1)
@@ -518,16 +517,17 @@ exp addptrs;
    props =1 if done exactly once
    other addptrs chained similarly through bro
 */
+static exp addptrs;
 
-exp tests;
 /* NULL initially */
 /* son = test
    pt = [holder with son = different occurence of test]**(no-1)
    props = 1 if done exactly once
    other tests chained similarly through bro
 */
+static exp tests;
 
-void
+static void
 collect_loopthings(exp ind, int everytime)
 {
 	/* builds addptrs and tests*/
@@ -546,7 +546,7 @@ collect_loopthings(exp ind, int everytime)
 	                    NULL, (prop)everytime, 1, 0);
 }
 
-exp incrs;
+static exp incrs;
 /* NULL initially */
 /* son = (v=v+val) exp;
    pt = [holder with son = different occurence with same v]**(no-1)
@@ -555,7 +555,7 @@ exp incrs;
    other (v=v+val)s chained similarly through bro
 */
 
-int
+static int
 maybe_incr(exp e)
 {
 	exp incs = incrs;
@@ -580,7 +580,7 @@ maybe_incr(exp e)
 	return 0;
 }
 
-void
+static void
 collect_incrs(exp incr, int everytime)
 {
 	/* builds incrs */
@@ -831,7 +831,7 @@ scale_loopid(exp loop, exp addptrset, exp incrset)
  * 	pt = next instance
  * 	replace loopbody by Var Z = cont(X) in loopbody(cont(X)/cont(Z))
  */
-exp
+static exp
 inner_cont(exp loopbody, exp contset)
 {
 	exp z = contset;
@@ -875,7 +875,7 @@ inner_cont(exp loopbody, exp contset)
  * 			loop(cont(x)/cont(Z), incr/{Z=cont(lasttid); incr})
  * returning new iddec
  */
-exp
+static exp
 outer_cont(exp loop, exp contset, exp lastid, exp incr)
 {
 	exp z = contset;
@@ -930,7 +930,7 @@ outer_cont(exp loop, exp contset, exp lastid, exp incr)
 	return id;
 }
 
-int
+static int
 unaltered(exp e, int assign_alias)
 {
 	exp z = alteredset;
@@ -961,7 +961,7 @@ unaltered(exp e, int assign_alias)
 	return false;
 }
 
-int
+static int
 invariant(exp e, int assign_alias)
 {
 	return (name(e) == name_tag) ||
@@ -976,7 +976,7 @@ static int arraystep;	/* part of answer to weaken */
  * delivers the multiplying factor if suitable for unwinding
  * otherwise 0
  */
-int
+static int
 weaken(exp loop, exp addptrset, exp incrset)
 {
 	exp incr = son(incrset);
@@ -1013,7 +1013,7 @@ struct en {
 	int disp;
 };
 
-int
+static int
 unwind(exp loop, exp contset, exp incr, int incval)
 {
 	exp body = bro(son(bro(son(loop))));
@@ -1106,7 +1106,7 @@ unwind(exp loop, exp contset, exp incr, int incval)
 	return true;
 }
 
-int
+static int
 all_before(exp addptrset, exp inc, exp body)
 {
 	exp z, b;
@@ -1139,7 +1139,7 @@ all_before(exp addptrset, exp inc, exp body)
  * ld is copy of the name(id) assigned to safely in loop (see do_one_rep)
  * replace loop(id) by Var x := cont(id) in loop(x); id = cont(x) ni;
  */
-void
+static void
 replace_var(exp ldcpy, exp loop, shape shcont)
 {
 	exp z;
@@ -1185,7 +1185,7 @@ replace_var(exp ldcpy, exp loop, shape shcont)
 	setlast(loop);
 }
 
-exp
+static exp
 limexp(exp test, exp ld)
 {
 	exp lh = son(test);
@@ -1204,7 +1204,7 @@ limexp(exp test, exp ld)
 	return NULL;
 }
 
-exp
+static exp
 limaddptr(exp arr, exp val, int m)
 {
 	exp naddptr = getexp(sh(arr), NULL, 0, copy(arr), NULL, 0, 0, addptr_tag);
@@ -1230,7 +1230,7 @@ limaddptr(exp arr, exp val, int m)
 	return naddptr;
 }
 
-exp
+static exp
 limmult(exp arr, exp val, int m)
 {
 	exp naddptr = getexp(sh(son(arr)), NULL, 0, copy(val), NULL, 0, 0,
@@ -1245,7 +1245,7 @@ limmult(exp arr, exp val, int m)
 	return naddptr;
 }
 
-exp
+static exp
 limreff(exp arr, int bytedisp)
 {
 	exp nreff;
@@ -1261,7 +1261,7 @@ limreff(exp arr, int bytedisp)
 	return nreff;
 }
 
-exp
+static exp
 limconst(exp arr, int bytedisp)
 {
 	exp nreff;
@@ -1273,7 +1273,7 @@ limconst(exp arr, int bytedisp)
 	return nreff;
 }
 
-exp
+static exp
 limdec(exp adec, exp val, int mult)
 {
 	exp init = son(adec);
@@ -1291,7 +1291,7 @@ limdec(exp adec, exp val, int mult)
 	return nb; /* the declaration of the limit value */
 }
 
-exp
+static exp
 limdec2(exp adec, exp val, int mult)
 {
 	exp init = son(adec);
@@ -1309,7 +1309,7 @@ limdec2(exp adec, exp val, int mult)
 	return nb; /* the declaration of the limit value */
 }
 
-void
+static void
 remove_incr(exp adec, exp test, exp incr, int mult)
 {
 	exp le = limexp(test, son(incr));
@@ -1354,7 +1354,7 @@ remove_incr(exp adec, exp test, exp incr, int mult)
 	son(incr) = NULL;
 }
 
-void
+static void
 remove_incr2(exp adec, exp test, exp incr, int mult)
 {
 	exp le = limexp(test, son(incr));
@@ -1420,7 +1420,7 @@ remove_incr2(exp adec, exp test, exp incr, int mult)
 	son(incr) = NULL;
 }
 
-int
+static int
 use_in(exp w, exp ld)
 {
 	switch (name(w)) {
@@ -1463,7 +1463,7 @@ use_in(exp w, exp ld)
 	}
 }
 
-int
+static int
 suitable_test(exp tests, exp incrld, exp loop)
 {
 	/* is test such that one can remove the increment ? */
@@ -1507,7 +1507,7 @@ suitable_test(exp tests, exp incrld, exp loop)
 	return 1;
 }
 
-int
+static int
 do_one_rep(exp loop)
 {
 	exp body = bro(son(bro(son(loop))));
@@ -1783,7 +1783,7 @@ do_one_rep(exp loop)
 	return res;
 }
 
-void
+static void
 order_loops(exp reps)
 {
 	/* start at outer loop ?! */

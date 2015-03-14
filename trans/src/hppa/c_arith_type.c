@@ -13,7 +13,7 @@
 
 /* PROCEDURES */
 
-int
+static int
 arith_type(int a, int b)
 {
  if(a==(t_long|t_unsigned))return a;
@@ -31,21 +31,21 @@ arith_type(int a, int b)
  return t_int|t_signed;
 }
 
-int
+static int
 promote(int a)
 {
  if((a&variety_filter)<t_int)return t_int|t_signed;
  return a;
 }
 
-int
+static int
 sign_promote(int a)
 {
  if((a&variety_filter)<t_int)a=((a&~variety_filter)|t_int);
  return a;
 }
 
-variety
+static variety
 convert(unsigned a)
 {
  switch(a){

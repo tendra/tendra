@@ -65,7 +65,7 @@ static  needs strcmpneeds = {
   2, 0, 0, 0
 };
 
-needs
+static needs
 specialneeds(int i)
 {
     /* these are the needs for their expansion */
@@ -92,7 +92,7 @@ specialfn(exp fn)
 }
 
 
-int
+static int
 specialmake(int n, exp par, space sp, where dest, int exitlab)
 {
   switch (n) {

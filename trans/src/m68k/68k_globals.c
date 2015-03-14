@@ -9,8 +9,6 @@
 
 #include "68k_globals.h"
 
-int not_in_params = 1;
-int not_in_postlude = 1;
 int need_preserve_stack = 0;
 dec* cur_proc_dec = 0;
 int cur_proc_has_tail_call = 0;

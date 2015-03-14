@@ -26,9 +26,10 @@ extern makeans make_code(exp , space , where , int);
 extern prop notbranch[];
 extern prop combranch[];
 extern int regfrmdest(where *,space);
-extern freg fregfrmdest(bool,where *, space);
+
 #define cbranch(x)(combranch[x])
 #define obranch(x)(notbranch[x])
+
 #endif
 
 

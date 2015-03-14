@@ -90,7 +90,7 @@ regofval(exp e)
   }
 }
 
-int
+static int
 fregofval(exp e)
 {
   exp dc = son(e);

@@ -20,6 +20,9 @@
 #include <construct/misc_c.h>
 
 static int
+invariant_to_apply(exp e);
+
+static int
 invar_list(exp e)
 {
 	while (1) {
@@ -43,7 +46,7 @@ invar_list(exp e)
    procedure arguments is assumed to to affect the value of e.
    e will not be NULL.
 */
-int
+static int
 invariant_to_apply(exp e)
 {
 	if (name(e) == cont_tag) {
@@ -132,7 +135,7 @@ take_out_of_line(exp first, exp alt, int in_repeat, double scale)
 }
 
 
-int
+static int
 take_out_by_prob(exp first, exp alt)
 {
 	int extract = 0;

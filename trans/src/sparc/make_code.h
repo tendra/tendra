@@ -20,9 +20,6 @@ extern where nowhere;
 extern bool last_param(exp);
 extern int use_subvar(exp);
 extern makeans make_code(exp, space, where, int);
-extern void checknan(exp, int);
-extern void setnovolatile(void);
-extern void setvolatile(void);
 extern void load_reg(exp,int,space);
 extern void do_exception(int);
 

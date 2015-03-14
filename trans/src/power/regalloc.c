@@ -42,7 +42,7 @@
 #include "regalloc.h"
 #include "stack.h"
 
-spacereq zerospace = {0, 0, 0, 0x0};
+static spacereq zerospace = { 0, 0, 0, 0x0 };
 
 /*
  * Procedure to find the total spacereq of two spacereqs. The bit
@@ -50,7 +50,8 @@ spacereq zerospace = {0, 0, 0, 0x0};
  * resulting dump fields contain all the regs of the parameters.
  * The largest of the two stack sizes is returned as the stack of the result.
  */
-spacereq maxspace(spacereq a, spacereq b)
+static spacereq
+maxspace(spacereq a, spacereq b)
 {
   a.fixdump |= b.fixdump;
   a.fltdump |= b.fltdump;
@@ -63,7 +64,8 @@ spacereq maxspace(spacereq a, spacereq b)
  * maxspace2 is used by seq tags and ident_tags since the result of
  * these tags could be the result of one of the brothers.
  */
-spacereq maxspace2(spacereq a, spacereq b)
+static spacereq
+maxspace2(spacereq a, spacereq b)
 {
   a.fixdump |= b.fixdump;
   a.fltdump |= b.fltdump;

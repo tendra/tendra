@@ -51,13 +51,13 @@ static long useable_float;
 #define for9  0x200
 
 
-long  choosefix = for8;		/* first fixed reg to be allocated */
-long  choosefloat = for0;	/* first float reg to be allocated */
+static long  choosefix = for8;		/* first fixed reg to be allocated */
+static long  choosefloat = for0;	/* first float reg to be allocated */
 
-int   currentfix = 8;
-int   currentfloat = 2;
-static int   maxfixed;
-static int   maxfloat = 9;
+static int currentfix   = 8;
+static int currentfloat = 2;
+static int maxfixed;
+static int maxfloat = 9;
 static int minfixed;
 static long formin;
 

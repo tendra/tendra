@@ -32,9 +32,9 @@ For trivial 'peephole' optimisations
 #include "extratags.h"
 #include "regexps.h"
 
-regpeep regexps[48];		/* [0:31] fix pt - [32:47] floating pt */
+static regpeep regexps[48]; /* [0:31] fix pt - [32:47] floating pt */
 
-bool sim_exp(exp a, exp b);
+static bool sim_exp(exp a, exp b);
 
 bool eq_sze
 (shape as, shape bs)
@@ -44,8 +44,8 @@ bool eq_sze
   return shape_size(as) == shape_size(bs) && shape_align(as) ==shape_align(bs);
 }
 
-bool sim_explist
-(exp al, exp bl)
+static bool
+sim_explist(exp al, exp bl)
 {
   if (al == NULL && bl == NULL)
     return 1;
@@ -60,8 +60,8 @@ bool sim_explist
   return sim_explist(bro(al), bro(bl));
 }
 
-bool sim_exp
-(exp a, exp b)
+static bool
+sim_exp(exp a, exp b)
 {	/* basically eq_exp except equal shapes
 				   requirement  is weakened to equal sizes
 				   and alignments */

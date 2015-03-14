@@ -41,14 +41,14 @@ static  space zsp = {
   0, 0
 };				/* long fixed, long flt */
 
-void
+static void
 maxsp(space * a, space b)
 {
   a -> fixed |= b.fixed;
   a -> flt |= b.flt;
 }
 
-space
+static space
 suses(exp e, space * pars, int incpars)
 {
   /* accumulate s regs used in e; pars gives bits indicating which s-regs
@@ -155,7 +155,7 @@ suses(exp e, space * pars, int incpars)
   return ans;
 }
 
-bool
+static bool
 sameregs(space * a, space * b)
 {
   /*  regs a <= regs b */
@@ -163,7 +163,7 @@ sameregs(space * a, space * b)
 
 }
 
-space
+static space
 remd(space * tobd, space * dmpd)
 {
   /* any regs left out of tobd after dmpd has been done */
@@ -173,7 +173,7 @@ remd(space * tobd, space * dmpd)
   return ans;
 }
 
-bool
+static bool
 placedump(exp * pe, space * dmpd, space * tobd, space * nds)
 {
   /* replace exp in pe by new dump with props = fixeds and no = flts to be
@@ -194,7 +194,7 @@ placedump(exp * pe, space * dmpd, space * tobd, space * nds)
 
 
 
-exp
+static exp
 goodcond(exp first, exp second, space * beforeb, space * pars)
 {
   /* delivers last exp in seq first after all tests (to second) ;
@@ -227,7 +227,7 @@ goodcond(exp first, exp second, space * beforeb, space * pars)
   return NULL;
 }
 
-bool
+static bool
 alljumps(exp e, exp slv, int * nol)
 {
 	/* all all branches to labsts of slove_tag slv in e ? */
@@ -264,7 +264,7 @@ alljumps(exp e, exp slv, int * nol)
 	}
 }
 
-bool
+static bool
 goodsolve(exp e)
 {
 	exp m = bro(son(e));
@@ -282,7 +282,7 @@ static int  notfregs;
  /* use to make sure of enough t-regs which are not par regs; I reuse any
     par registers whose pars are put in s-regs as t-regs  */
 
-void
+static void
 pushdumps(exp * pe, space * dmpd, space * tobd, space * pars)
 {
 

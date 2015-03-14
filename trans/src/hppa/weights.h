@@ -14,6 +14,4 @@
 
 #include "procrec.h"
 
-extern weights weightsv(double, exp);
-
 #endif /* WEIGHTS_INCLUDED */

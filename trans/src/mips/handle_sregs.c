@@ -41,7 +41,7 @@ long  fltdone;			/* the floats which have already been
 
 /* dump_sreg, dump_sfreg & recover .. etc not used at present!! */
 
-baseoff
+static baseoff
 dump_baseoff(long ds)
 {	baseoff b;
 	b.base = (Has_vcallees)?local_reg:(29+Has_fp);

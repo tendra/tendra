@@ -45,7 +45,6 @@ extern void test_overflow2(int);
 extern void push(shape, long, where);
 extern void push_float(long, where);
 extern void pop(shape, long, where);
-extern void pop_float(long, where);
 extern void shift_aux(shape, where, where, where, int, int);
 extern void checkalloc_stack(where, int);
 extern int set_overflow(exp);
@@ -63,8 +62,6 @@ extern void cmp_zero(shape, long, where);
 */
 
 extern where last_cond;
-extern where last_cond2;
-extern where last_cond_alt;
 extern long last_cond_sz;
 
 

@@ -12,7 +12,6 @@
 #include <diag3/diagtypes.h>
 
 extern int nofds;
-extern int *file_dnos;		/* dense nos for files */
 extern int current_file;		/* dense no of current source file */
 extern void stab_types(void); /* aux entries for types */
 extern int currentlno;
@@ -20,3 +19,4 @@ extern int find_file(const char *);
 
 extern int find_aux(diag_type s /* struct or union shape */ );
 extern void symnosforfiles(void);
+

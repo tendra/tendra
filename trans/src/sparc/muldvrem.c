@@ -129,8 +129,8 @@ static void clear_abi_call_muldivrem_regs
   Registers %o0,...,%o7 and %g1,...,%g_reg_max are clobbered.
 */
 
-void clear_sun_call_divrem_regs
-(space sp) {
+static void
+clear_sun_call_divrem_regs(space sp) {
   int r;
   for (r = R_G1; r != R_O7 + 1;
 	  r = ((r == R_G0 + g_reg_max)? R_O0 : r + 1)) {
@@ -149,8 +149,9 @@ void clear_sun_call_divrem_regs
   CALL A MULTIPLICATION/DIVISION/REMAINDER SYSTEM ROUTINE
 */
 
-int call_muldivrem
-(exp lhs, exp rhs, space sp, int proc, int err_t) {
+static int
+call_muldivrem(exp lhs, exp rhs, space sp, int proc, int err_t)
+{
   int lhs_reg = -1;
   int rhs_reg = -1;
   if (err_t) {

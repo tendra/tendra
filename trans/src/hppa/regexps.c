@@ -39,11 +39,11 @@ For trivial 'peephole' optimisations
    added to line 351 */
 
 
-int line;
+static int line;
 
-regpeep regexps[64];		/* [0:31] fix pt - [32:47] floating pt */
+static regpeep regexps[64];		/* [0:31] fix pt - [32:47] floating pt */
 
-bool sim_exp(exp, exp);
+static bool sim_exp(exp, exp);
 
 /* Same size and alignment and "both float or both fixed". */
 bool eq_sze
@@ -56,8 +56,8 @@ bool eq_sze
   return shape_size(as) == shape_size(bs) && shape_align(as) == shape_align(bs);
 }
 
-bool sim_explist
-(exp al, exp bl)
+static bool
+sim_explist(exp al, exp bl)
 {
   if (al == NULL && bl == NULL)
     return 1;
@@ -72,13 +72,12 @@ bool sim_explist
   return sim_explist(bro(al), bro(bl));
 }
 
-bool sim_exp
-(exp a, exp b)
-
- /*
-  * basically eq_exp except equal shapes requirement  is weakened to equal
-  * sizes and alignments
-  */
+/*
+ * basically eq_exp except equal shapes requirement  is weakened to equal
+ * sizes and alignments
+ */
+static bool
+sim_exp (exp a, exp b)
 {
    if (name(a) == name(b))
    {
@@ -348,12 +347,11 @@ void keepreg
 }
 
 
-bool couldeffect(exp, exp);
-
+static bool couldeffect(exp, exp);
 
 /* could e be lhs */
-bool couldbe
-(exp e, exp lhs)
+static bool
+couldbe(exp e, exp lhs)
 {
   int ne = name(e);
   exp s = son(e);
@@ -396,7 +394,7 @@ bool couldbe
 }
 
 /* could alteration to z effect e? */
-bool
+static bool
 couldeffect(exp e, exp z /* a name or zero */)
 {
   int ne = name(e);

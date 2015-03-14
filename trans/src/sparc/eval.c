@@ -144,8 +144,9 @@ outfloat ( flpt f, bool ro ){
 /*
  * Find the value of an integer constant expression
  */
-long 
-evalexp ( exp e ){
+static long 
+evalexp ( exp e )
+{
   switch ( name ( e ) ) {
     case val_tag : {
       if(name(sh(e)) == offsethd && al2(sh(e))>=8) {
@@ -395,7 +396,7 @@ outconcbit ( concbittype c, bool ro ){
  * less than or equal to 31 as it represent the number of bits
  * in a bitfield which does not occupy a whole machine word.
  */
-long
+static long
 unary ( int val ){
   int loop;
   long result=0;
@@ -553,7 +554,7 @@ set_align ( long al ){
 /*
  * Evaulate an expression
  */
-void
+static void
 evalone ( exp e, int bitposn, bool ro ){
   long al = ( long ) shape_align ( sh ( e ) ) ;
   long sz = ( long ) shape_size ( sh ( e ) ) ;

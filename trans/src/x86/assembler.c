@@ -319,7 +319,7 @@ outclosebr(void)
 	}
 }
 
-void
+static void
 outdivsym(void)
 {
 	asm_printf("/");

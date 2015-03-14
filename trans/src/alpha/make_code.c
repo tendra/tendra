@@ -91,37 +91,38 @@ int use_umulh_for_div;
 bool fail_with_denormal_constant;
 bool treat_denorm_specially;
 
-ans procans;
-int rscope_level;
-int rscope_label;
-int result_label = 0;
-int currentnop;
-long max_args;
+static ans procans;
+static int rscope_level;
+static int rscope_label;
+static int result_label = 0;
+static int currentnop;
+static long max_args;
 
-baseoff procbase=
+static baseoff procbase=
 {
   RA,0L
 };
 
-flt alpha_word_max = {{32768,0,0,0,0,0,0,0},1,0};
-flt alpha_long_max = {{1,0,0,0,0,0,0,0},1,2};
-flt alpha_quad_max = {{1,0,0,0,0,0,0,0},1,4};
+static flt alpha_word_max = { { 32768, 0, 0, 0, 0, 0, 0, 0 }, 1, 0 };
+static flt alpha_long_max = { {     1, 0, 0, 0, 0, 0, 0, 0 }, 1, 2 };
+static flt alpha_quad_max = { {     1, 0, 0, 0, 0, 0, 0, 0 }, 1, 4 };
 
 where nowhere;
 int stack_top;
-int paramsdumpstart;
-int gpdumpstart;
 int arg_stack_space=0;
+
+static int paramsdumpstart;
+static int gpdumpstart;
 
 static exp crt_proc;
 
-int use_andcomp = 0;
+static int use_andcomp = 0;
 int in_general_proc = 0;
-int in_vcallers_apply = 0;
-int aritherr_lab = 0;
-int stackerr_lab = 0;
+static int in_vcallers_apply = 0;
+static int aritherr_lab = 0;
+static int stackerr_lab = 0;
 
-int testrev[] = {
+static int testrev[] = {
   4,3,2,1,6,5
 };
 /*
@@ -141,8 +142,8 @@ operate_fmt_immediate(i_addl,X,0,X);\
 /*
  * Return true if the floating point number is zero and false otherwise.
  */
-static bool is_fzero
-(flt fnum)
+static bool
+is_fzero(flt fnum)
 {
   int i;
   for (i=0;(i<MANT_SIZE) && (fnum.mant[i] ==0);++i);
@@ -152,8 +153,8 @@ static bool is_fzero
 /*
  * Functions to handle the 'trap' exception handling mechanism.
  */
-static int trap_label
-(exp e)
+static int
+trap_label(exp e)
 {
   if (error_treatment_is_trap(e)) {
     if (aritherr_lab == 0)aritherr_lab = new_label();
@@ -162,8 +163,8 @@ static int trap_label
   else return no(son(pt(e)));
 }
 
-static void do_exception
-(int ex)
+static void
+do_exception(int ex)
 {
   baseoff b;
 
@@ -183,8 +184,8 @@ static void do_exception
  * Check that the floating point register contains a non-negative value
  * and, if it does, convert to signed by adding the appropriate constant.
  */
-static void fix_unsigned
-(freg fr, space sp, int name)
+static void
+fix_unsigned(freg fr, space sp, int name)
 {
   space nsp;
   int ftmp;
@@ -221,8 +222,8 @@ static void fix_unsigned
 }
 
 
-INT64 unsigned_rep
-(INT64 val, shape dest_shape)
+static INT64
+unsigned_rep(INT64 val, shape dest_shape)
 {
   switch (name(dest_shape)) {
     case ucharhd: return val & 0xff;
@@ -236,8 +237,8 @@ INT64 unsigned_rep
 /*
  * Inserts global pointer reference.
  */
-static void set_global_pointer
-(void)
+static void
+set_global_pointer(void)
 {
   baseoff a;
   a.offset = 0;
@@ -592,8 +593,8 @@ static void check_exception
 
 #define PLUS_INFINITY 3
 
-void set_up_rounding_mode
-(int val)
+static void
+set_up_rounding_mode(int val)
 {
 	UNUSED(val);
 }
@@ -602,8 +603,8 @@ void set_up_rounding_mode
  * This function returns the appropriate branch instruction
  * for the test represented by 'i'
  */
-static instruction sbranches
-(int i)
+static instruction
+sbranches(int i)
 {
   switch (i) {
     case 1: return i_ble;
@@ -618,16 +619,16 @@ static instruction sbranches
   return i_ble;
 }
 
-void testunsigned
-(int r, long max, int lab, space sp)
+static void
+testunsigned(int r, long max, int lab, space sp)
 {
   int rtmp = getreg(sp.fixed);
   operate_fmt_immediate(i_cmpule,r,max,rtmp);
   integer_branch(i_bne,rtmp,lab);
 }
 
-static bool fdouble_comparisons
-(instruction *ins, int i)
+static bool
+fdouble_comparisons(instruction *ins, int i)
 {
   bool rev = false;
   switch (i) {
@@ -653,8 +654,8 @@ static bool fdouble_comparisons
  * required tests, some instructions carry out the inverse of the required test.
  * In these cases, the return value is true, otherwise it is false.
  */
-static bool comparisons
-(instruction *ins, shape s, int i)
+static bool
+comparisons(instruction *ins, shape s, int i)
 {
   bool rev=false;
   if ((is_signed(s))) {
@@ -691,8 +692,8 @@ static bool comparisons
 /*
  * Conditional moves
  */
-static instruction condmove
-(int i)
+static instruction
+condmove(int i)
 {
   switch (i) {
     case 1: return i_cmovle;
@@ -726,8 +727,8 @@ fcondmove(int i)
 }
 */
 
-static bool compares
-(instruction *ins, shape s, int i)
+static bool
+compares(instruction *ins, shape s, int i)
 {
   bool rev=false;
   if (is_signed(s)) {
@@ -808,8 +809,8 @@ long  notbranch[6] = {
 /*
  * Without overlap (destination < source)
  */
-void move_dlts
-(int dest, int src, int sizereg, int movereg, int bytemove, space sp)
+static void
+move_dlts(int dest, int src, int sizereg, int movereg, int bytemove, space sp)
 {
 
   int qword_lab,lword_lab,byte_lab,endlab;
@@ -883,8 +884,8 @@ void move_dlts
 /*
  * With overlap (destination > src)
  */
-void move_dgts
-(int dest, int src, int sizereg, int movereg, int bytemove, space sp)
+static void
+move_dgts(int dest, int src, int sizereg, int movereg, int bytemove, space sp)
 {
   int qword_lab,lword_lab,byte_lab,endlab;
   int rtest = getreg(sp.fixed);
@@ -1019,8 +1020,8 @@ bool last_param
   return res;
 }
 
-void test_unsigned
-(int reg, unsigned long upper, unsigned trap)
+static void
+test_unsigned(int reg, unsigned long upper, unsigned trap)
 {
   setnoat();
   operate_fmt_big_immediate(i_cmpule,reg,upper,AT);
@@ -1028,8 +1029,8 @@ void test_unsigned
   setat();
 }
 
-void test_signed
-(int reg, long lower, long upper, int trap)
+static void
+test_signed(int reg, long lower, long upper, int trap)
 {
   setnoat();
   operate_fmt_big_immediate(i_cmplt,reg,lower,AT);
@@ -1039,8 +1040,8 @@ void test_signed
   setat();
 }
 
-void test_signed_and_trap
-(int reg, long lower, long upper, int except)
+static void
+test_signed_and_trap(int reg, long lower, long upper, int except)
 {
   int ok_lab = new_label();
   int jump_label = new_label();
@@ -1057,8 +1058,8 @@ void test_signed_and_trap
   set_label(ok_lab);
 }
 
-void test_unsigned_and_trap
-(int reg, unsigned long upper, unsigned except)
+static void
+test_unsigned_and_trap(int reg, unsigned long upper, unsigned except)
 {
   int ok_lab = new_label();
   setnoat();
@@ -1075,8 +1076,8 @@ void test_unsigned_and_trap
  * If the final destination is in a register then that register is returned,
  * otherwise a new register is selected from the pool.
  */
-int regfrmdest
-(where *dest, space sp)
+static int
+regfrmdest(where *dest, space sp)
 {
   switch (dest->answhere.discrim) {
     case inreg: return regalt(dest->answhere);
@@ -1084,8 +1085,8 @@ int regfrmdest
   }
 }
 
-freg fregfrmdest
-(where *dest, space sp)
+static freg
+fregfrmdest(where *dest, space sp)
 {
   switch (dest->answhere.discrim) {
     case infreg:
@@ -1280,8 +1281,8 @@ static int proc_has_vararg;
 /*
  * Process a parameter list
  */
-space do_callers
-(exp list, space sp, int *sizecallers)
+static space
+do_callers(exp list, space sp, int *sizecallers)
 {
   int disp;
   int spar;
@@ -1370,8 +1371,8 @@ space do_callers
   return sp;
 }
 
-void load_reg
-(exp e, int r, space sp)
+static void
+load_reg(exp e, int r, space sp)
 {
   where w;
   w.ashwhere = ashof(sh(e));
@@ -1381,8 +1382,8 @@ void load_reg
 
 static postlude_chain * old_postludes;
 
-void update_plc
-(postlude_chain *chain, int ma)
+static void
+update_plc(postlude_chain *chain, int ma)
 {
   while (chain) {
     exp pl = chain->postlude;
@@ -1397,8 +1398,8 @@ void update_plc
 /*
  * This function finds the caller_tag corresponding to a caller_name tag
  */
-exp find_ote
-(exp name, int n)
+static exp
+find_ote(exp name, int n)
 {
   exp dad = father(name);
   while (name(dad)!= apply_general_tag) {

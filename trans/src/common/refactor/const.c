@@ -770,7 +770,7 @@ max_const(exp whole, exp e, int ass_ok)
  *   list    list of constant expresion holders
  *   limit   last constant holder in list
  */
-void
+static void
 do_this_k(exp kdec, exp patn, exp list, exp limit)
 {
 	exp t = list;
@@ -1338,9 +1338,7 @@ extract_consts(int issn, exp rf, exp list_head)
 	return changed;
 }
 
-int named_dest(exp dest);
-
-int
+static int
 named_dest(exp dest)
 {
 	switch (name(dest)) {
@@ -1386,7 +1384,7 @@ named_dest(exp dest)
 /*
  * Scans e - returns true if any aliased variables are assigned to.
  */
-int
+static int
 assigns_alias(exp e)
 {
 	switch (name(e)) {
@@ -1602,7 +1600,7 @@ get_repeats(void)
 /*
  * Returns the storage used by repeat_list.
  */
-void
+static void
 return_repeats(void)
 {
 	exp reps, next;

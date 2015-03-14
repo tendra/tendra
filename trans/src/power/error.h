@@ -11,11 +11,7 @@
 #ifndef ERROR_H
 #define ERROR_H
 
-extern void init_proc_errors(exp);
-extern void output_error_labels(void);
-extern long get_nil_access_lab(void);
-extern long get_overflow_lab(void);
-extern long get_stack_overflow_lab(void);
+long get_stack_overflow_lab(void);
 
 /* integer error treatments */
 extern int abs_error_treatment(exp,space,where);

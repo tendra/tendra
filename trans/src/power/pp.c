@@ -120,7 +120,7 @@ labst_no(exp e)
 	return 0;
 }
 
-void
+static void
 scan_for_labsts(exp e)
 {
 	if (e == NULL) {
@@ -464,7 +464,8 @@ getname(int n)
 	}
 }
 
-exp infotag(exp e, int i)
+exp
+infotag(exp e, int i)
 {
 	switch (i) {
 	case 0: last_exp_seen = e;  break;
@@ -720,7 +721,7 @@ static void print_spaces(int n)
 
 }
 
-static void
+void
 exp_show(exp e, int depth, int depth_of_recursion, int flag)
 {
 	char *tagname;

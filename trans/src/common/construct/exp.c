@@ -546,7 +546,7 @@ case_item(exp i)
  * scan_solve is part of the process of reading a solve construction.
  * It scans the exp e, to increment the count of labels used by e.
  */
-void
+static void
 scan_solve(exp e)
 {
   unsigned char n = name(e);
@@ -754,7 +754,7 @@ replace(exp old, exp e, exp scope)
  * Copy a labelled statement and put links into pt so that copies of uses of
  * the original can refer to the copy.
  */
-void
+static void
 copy_labst(exp e)
 {
   exp t = copyexp(e);
@@ -772,7 +772,7 @@ copy_labst(exp e)
 /*
  * End the copy of a labelled statement and restore the original state.
  */
-exp
+static exp
 undo_labst(exp e)
 {
   exp r = pt(e);

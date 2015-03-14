@@ -100,7 +100,7 @@ make_twoarg(unsigned char n, shape sha, exp a, exp b)
  * the exp piece, 1 if it is used for contents operation only, 3 if it is
  * used otherwise.
  */
-int
+static int
 used_in(exp vardec, exp piece)
 {
 	int  res = 0;

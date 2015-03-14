@@ -51,13 +51,13 @@ static int spare_float;
 
 static int copying_fixed;
 static int copying_float;
-bool remember;
-long fixedfree;
-long floatfree;
+static bool remember;
+static long fixedfree;
+static long floatfree;
 
 
-TREG fixed_array[13];
-TREG float_array[14];
+static TREG fixed_array[13];
+static TREG float_array[14];
 
 static void do_fixed_params(void);
 static void do_float_params(void);
@@ -68,8 +68,8 @@ static void clear_float(void);
 static void set_fixed(exp,int,int);
 static void set_float(exp,int,int);
 static int getspare(long);
-void track_fixed(int,exp);
-void track_float(int,exp);
+static void track_fixed(int,exp);
+static void track_float(int,exp);
 static int end_param;
 
 void output_parameters(exp e)
@@ -434,7 +434,8 @@ static int getspare(long s)
   return 100;
 }
 
-void track_fixed(int reg, exp id)
+static void
+track_fixed(int reg, exp id)
 {
   exp def = son(id);
 
@@ -451,7 +452,8 @@ void track_fixed(int reg, exp id)
   }
 }
 
-void track_float(int reg, exp id)
+static void
+track_float(int reg, exp id)
 {
 	UNUSED(reg);
 	UNUSED(id);

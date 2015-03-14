@@ -43,13 +43,13 @@ static int regs_corrupted_by_div = (1<<23)|(1<<24)|(1<<25)|(1<<27);
 
 
 
-int  choosefix = for1;		/* first fixed reg to be allocated */
-int  choosefloat = for1;	/* first float reg to be allocated */
+static int choosefloat = for1; /* first float reg to be allocated */
+static int choosefix   = for1; /* first fixed reg to be allocated */
 
-int   currentfix = 1;
-int   currentfloat = 1;
-static int   maxfixed;
-static int   maxfloat = 31;	/* dubious */
+static int currentfloat = 1;
+static int currentfix   = 1;
+static int maxfloat     = 31; /* dubious */
+static int maxfixed;
 
 /* 
    tg is a proc. settempregs sets up useable_fixed etc depending 

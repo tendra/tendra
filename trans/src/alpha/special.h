@@ -14,6 +14,5 @@
 #include "procrectypes.h"
 #include "addresstypes.h"
 
-extern  needs specialneeds(int i);
 extern int  specialfn(exp fn);
-extern int  specialmake(int n, exp par, space sp, where dest, int exitlab);
+

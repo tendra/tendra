@@ -58,8 +58,10 @@
 #include "oddtest.h"
 #include "localexpmacs.h"
 
-int   maxfix,
-      maxfloat;			/* the maximum number of t-regs */
+static void
+tidy_ident(exp e);
+
+static int   maxfix, maxfloat;			/* the maximum number of t-regs */
 static int   stparam, fixparam, floatparam;
 				/* used by scan to set initial parameter
 						positions */
@@ -70,7 +72,7 @@ static bool rscope_level = 0;
 static bool nonevis = 1;
 static int callerfortr;
 
-bool gen_call;
+static bool gen_call;
 
 
 /*
@@ -92,7 +94,7 @@ bool gen_call;
  * This is used to stop a procedure requiring more than the available
  * number of registers.
  */
-void
+static void
 cca(exp ** to, exp * x)
 {
   if (x == (*to)) {
@@ -132,26 +134,14 @@ cca(exp ** to, exp * x)
   }
 }
 
-needs onefix = {
-  1, 0, 0, 0
-};				/* needs one fix pt reg */
-needs twofix = {
-  2, 0, 0, 0
-};				/* needs 2 fix pt regs */
-needs threefix = {
-  3, 0, 0, 0
-};				/* needs 3 fix pt regs */
-needs fourfix = {
-  4, 0, 0, 0
-};				/* needs 4 fix pt regs */
-needs onefloat = {
-  0, 1, 0, 0
-};				/* needs 1 flt pt regs */
-needs zeroneeds = {
-  0, 0, 0, 0
-};				/* has no needs */
+static needs onefix    = { 1, 0, 0, 0 }; /* needs one fix pt reg */
+static needs twofix    = { 2, 0, 0, 0 }; /* needs 2 fix pt regs */
+static needs threefix  = { 3, 0, 0, 0 }; /* needs 3 fix pt regs */
+static needs fourfix   = { 4, 0, 0, 0 }; /* needs 4 fix pt regs */
+static needs onefloat  = { 0, 1, 0, 0 }; /* needs 1 flt pt regs */
+static needs zeroneeds = { 0, 0, 0, 0 }; /* has no needs */
 
-bool
+static bool
 subvar_use(exp uses)
 { /* check to see if any uses of id is initialiser to subvar dec */
 	for(;uses != NULL; uses=pt(uses)) {
@@ -167,7 +157,7 @@ subvar_use(exp uses)
 }
 
 
-needs
+static needs
 shapeneeds(shape s)
 {	/* this gives the needs for manipulating a
 				   value of shape s */
@@ -200,7 +190,7 @@ shapeneeds(shape s)
   }
 }
 
-bool
+static bool
 complex(exp e)
 {
 	/*
@@ -218,7 +208,7 @@ complex(exp e)
   }
 }
 
-int
+static int
 scan_cond(exp * e, exp outer_id)
 {
 
@@ -355,7 +345,7 @@ scan_cond(exp * e, exp outer_id)
 
 
 
-needs
+static needs
 likeplus(exp * e, exp ** at)
 {
 				/* does the scan on commutative and
@@ -444,7 +434,7 @@ likeplus(exp * e, exp ** at)
   return a1;
 }
 
-needs
+static needs
 likediv(exp * e, exp ** at)
 {
 				/* scan non-commutative fix pt operation
@@ -479,7 +469,7 @@ likediv(exp * e, exp ** at)
   return l;
 }
 
-needs
+static needs
 fpop(exp * e, exp ** at)
 {
 				/* scans diadic floating point operation  */
@@ -532,7 +522,7 @@ Calculates a needs value. Each element of which is the maximum of the
 corresponding elements in the two parameter needs
 **********************************************************************/
 
-needs
+static needs
 maxneeds(needs a, needs b)
 {
   needs an;
@@ -548,7 +538,7 @@ maxneeds(needs a, needs b)
 
 **********************************************************************/
 
-needs
+static needs
 maxtup(exp e, exp ** at)
 {	/* calculates the needs of a tuple of
 				   expressions; any new declarations
@@ -565,7 +555,7 @@ maxtup(exp e, exp ** at)
   return an;
 }
 
-bool
+static bool
 unchanged(exp usedname, exp ident)
 {
 				/* finds if usedname is only used in cont
@@ -593,7 +583,7 @@ unchanged(exp usedname, exp ident)
 
 
 
-exp
+static exp
 absbool(exp id /* declaration */ )
 {			/* check if e  is (let a = 0 in
                                cond(inttest(L)=result; a=1 | L:top); a
@@ -652,7 +642,7 @@ ptr_position(exp e)
 	return a;
 }
 
-void
+static void
 change_to_var(exp e)
 {	/* change identity to variable definition */
 	exp p = pt(e);
@@ -672,7 +662,7 @@ change_to_var(exp e)
 	}
 }
 
-void
+static void
 change_names(exp f, exp t, exp except)
 {	/* replace uses of ident f (!= except) to uses of t */
 	exp py = pt(f);
@@ -690,7 +680,7 @@ change_names(exp f, exp t, exp except)
 }
 
 
-void
+static void
 tidy_ident(exp e)
 {
 	/* replace Var/Id x = Var y = e1 in { e2; contents(y)} in e3;
@@ -808,7 +798,7 @@ tidy_ident(exp e)
 }
 
 
-bool
+static bool
 chase(exp sel, exp * e)
 {
 	/* distribute selection throughout compound expressions */
@@ -860,7 +850,7 @@ chase(exp sel, exp * e)
       return b;
 }
 
-bool
+static bool
 use_not_rep(exp e)
 {
 	exp u ;

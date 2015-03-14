@@ -14,16 +14,12 @@
 
 extern void setnoreorder(void);
 extern void setreorder(void);
-extern void setnomove(void);
-extern void setmove(void);
 extern void setvolatile(void);
 extern void setnovolatile(void);
 extern void setnoat(void);
 extern void setat(void);
 extern void setframe(int32,int32);
 extern void set_text_section(void);
-extern void setmask(int mask, int disp);
-extern void setfmask(int mask, int disp);
 extern void set_file(char *,int);
 extern void setprologue(int);
 extern void set_align(int);

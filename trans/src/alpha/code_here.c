@@ -67,7 +67,7 @@ regofval(exp e)
 /*
   add code to return 31 if fval is 0.0
 */
-int
+static int
 fregofval(exp e)
 {
   exp decx = son (e);
@@ -110,14 +110,15 @@ code_here(exp e, space sp, where dest)
   return mka.regmove;
 }
 
-ash ash0 = {
+static ash ash0 = {
   0, 0
 };
-ash ash32 = {
+
+static ash ash32 = {
   32, 32
 };
 
-ash ash64 = {
+static ash ash64 = {
   64,64
 };
 

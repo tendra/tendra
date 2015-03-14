@@ -437,8 +437,8 @@ where mfw
     a and b must represent registers.
 */
 
-where regpair
-(where a, where b)
+static where
+regpair(where a, where b)
 {
     where w;
     exp ea = a.wh_exp;

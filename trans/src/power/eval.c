@@ -41,15 +41,15 @@
 #include "eval.h"
 #include "frames.h"
 
-long correct_shape(long, int);
+static long correct_shape(long, int);
 
 /* various pieces of info for outputting data depending on shape */
-static	mm scmm	=	{127,		-128,		"\t.byte\t%ld\n"};
-static	mm uscmm =	{255,		0,		"\t.byte\t%ld\n"};
-static	mm shmm	=	{0x7fff,	0xffff8000,	"\t.short\t%ld\n"};
-static	mm ushmm =	{0xffff,	0,		"\t.short\t%ld\n"};
-static	mm swmm	=	{0x7fffffff,	0x80000000,	"\t.long\t%ld\n"};
-static	mm uswmm =	{0xffffffff,	0,		"\t.long\t%ld\n"};
+static mm scmm  = { 127,        -128,       "\t.byte\t%ld\n"  };
+static mm uscmm = { 255,        0,          "\t.byte\t%ld\n"  };
+static mm shmm  = { 0x7fff,     0xffff8000, "\t.short\t%ld\n" };
+static mm ushmm = { 0xffff,     0,          "\t.short\t%ld\n" };
+static mm swmm  = { 0x7fffffff, 0x80000000, "\t.long\t%ld\n"  };
+static mm uswmm = { 0xffffffff, 0,          "\t.long\t%ld\n"  };
 
 
 /* number for anonymous label in data space - L.Dnnn */
@@ -88,7 +88,8 @@ mm maxmin(shape s)
  * outputs the label parameter if non negative else interprets it
  * to be an index into the externals and outputs the identifier.
  */
-void outlab(int l)
+static void
+outlab(int l)
 {
   asm_printf( "%s", ext_name(l));
 }
@@ -96,7 +97,8 @@ void outlab(int l)
 /*
  * translate time evaluate integer exp 'e'
  */
-long evalexp(exp e)
+static long
+evalexp(exp e)
 {
   switch (name(e))
   {
@@ -318,7 +320,8 @@ static void outconcbit(concbittype c)
  * less than or equal to 31 as it represent the number of bits
  * in a bitfield which does not occupy a whole machine word.
  */
-long unary(int val)
+static long
+unary(int val)
 {
   int loop;
   long result=0;
@@ -987,7 +990,9 @@ instore evaluated_const(exp e)
 
   return isa;
 }
-long correct_shape(long n, int shpe)
+
+static long
+correct_shape(long n, int shpe)
 {
   switch (shpe)
   {

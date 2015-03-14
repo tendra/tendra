@@ -50,7 +50,7 @@
 
 bool trap_all_fops;
 
-int andpeep = 0;
+static int andpeep = 0;
 extern int extended_comments;
 bool in_noat_block=false;
 
@@ -78,7 +78,7 @@ static char *reg_name[]=
   If the instruction ins has an equivalent which causes the OS to
   successfully handle a trap then return it, otherwise return ins.
 */
-instruction
+static instruction
 trap_ins(instruction ins, bool *traps)
 {
   *traps = true;
@@ -414,7 +414,7 @@ float_load_store(instruction ins, int reg, baseoff a)
    floating point constants are passed as strings, with the 
    formatting being done elsewhere.
 */
-void
+static void
 float_load_store_immediate(instruction ins, int reg, char* val)
 {
   if(as_file){
@@ -496,7 +496,7 @@ float_convert(instruction ins, int src, int dest)
 /*
   miscellaneous instructions
 */
-void
+static void
 call_pal(instruction ins, instruction pal_ins)
 {
   if(as_file){
@@ -505,7 +505,7 @@ call_pal(instruction ins, instruction pal_ins)
   }
 }
 
-void
+static void
 fetch(instruction ins, baseoff a)
 {
 /*  setmemory_base(new_ins,a.base);

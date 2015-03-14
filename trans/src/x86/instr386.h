@@ -89,11 +89,9 @@ void fl_multop(unsigned char op, shape sha, exp arglist, where dest);
 void fl_neg(shape sha, where from, where to);
 void fl_abs(shape sha, where from, where to);
 void test(shape sha, where a, where b);
-void fl_comp(shape sha, where pos, where neg, exp e);
 
 extern where flstack;
 
-int in_fl_reg(exp e);
 int in_fstack(exp e);
 void movecont(where from, where to, where length, int nooverlap);
 void load_stack0(void);

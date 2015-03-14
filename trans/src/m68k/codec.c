@@ -326,13 +326,11 @@ addsub(shape sha, where a, where b, where dest, ash stack)
   This checks values of other varieties to determine whether or not an
   overflow has occured
 */
-void
+static void
 check_unset_overflow(where dest, shape shp)
 {
-	exp max_val = getexp(shp, NULL, 0, NULL, NULL, 0, range_max(shp),
-			     val_tag);
-	exp min_val = getexp(shp, NULL, 0, NULL, NULL, 0, range_min(shp),
-			     val_tag);
+	exp max_val = getexp(shp, NULL, 0, NULL, NULL, 0, range_max(shp), val_tag);
+	exp min_val = getexp(shp, NULL, 0, NULL, NULL, 0, range_min(shp), val_tag);
 	bool sw;
 	move(shp,dest,D0);
 	if (is_signed(shp) && (shape_size(shp) < 32)) {

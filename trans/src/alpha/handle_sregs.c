@@ -36,7 +36,7 @@ int  fixdone;			/* the fixeds which have already been
 int  fltdone;			/* the floats which have already been
 				   dumped */
 
-baseoff
+static baseoff
 dump_baseoff(int dstart)
 {
   baseoff b;

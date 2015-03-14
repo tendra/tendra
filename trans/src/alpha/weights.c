@@ -61,7 +61,7 @@
 #include "weights.h"
 #include "localexpmacs.h"
 
-weights zeroweights =
+static weights zeroweights =
 {{
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 },
@@ -72,8 +72,8 @@ weights zeroweights =
 
 weights weightsv(double scale, exp e);
 
-weights add_weights
-(weights *w1, weights *w2)
+static weights
+add_weights(weights *w1, weights *w2)
 {
   /* sum of weights*/
   weights r;
@@ -101,8 +101,8 @@ weights add_weights
    the source of all non-zero weights. NB
    loc may be negative since using a s-reg
    will involve a dump and restore  */
-wp max_weights
-(double loc, weights * ws, bool fix)
+static wp
+max_weights(double loc, weights * ws, bool fix)
 {
 
   long  bk = wfixno + 1;
@@ -183,8 +183,8 @@ wp max_weights
   return res;
 }
 
-weights mult_weights
-(double m, weights *ws)
+static weights
+mult_weights(double m, weights *ws)
 {
   /* multiply weights by scalar - non
      overflowing */
@@ -204,8 +204,8 @@ weights mult_weights
   return res;
 }
 
-weights add_wlist
-(double scale, exp re)
+static weights
+add_wlist(double scale, exp re)
 {
   weights w, w1;
   exp r = re;

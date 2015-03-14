@@ -35,7 +35,7 @@ static  binasm ba;
 #define C(x)  ba.x.symno = symno; ba.x.fill07 =0;\
 ba.x.formextn = 0; ba.x.asmtype = asmtype
 
-void
+static void
 out_one(char *d)
 {	/* output one binasm record */
   int   i;
@@ -166,7 +166,7 @@ out_value(asmsym symno, unsigned asmtype, asmint expression, unsigned long repea
     if (repeat>0xffff) out_value(symno, asmtype, expression, repeat-0xffff);
 }
 
-void
+static void
 out_alias(asmsym symno, unsigned asmtype, asmreg basereg1, asmreg basereg2)
 {		/* output alias binasm record */
   C (alias);

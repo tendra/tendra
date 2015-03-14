@@ -84,7 +84,7 @@ read_line(int complain)
   crt_line = (char *)buff;
 }
 
-void check_magic_no(void);
+static void check_magic_no(void);
 
 /*
  * initreader opens the file called n and sets initial values into variables.
@@ -229,7 +229,7 @@ set_place(place pl)
 /*
  * add_place produces a place n bits on from the place pl.
  */
-place
+static place
 add_place(place pl, int n)
 {
   place new_pl;
@@ -242,8 +242,9 @@ add_place(place pl, int n)
 /*
  * new_place memorises a line starting from the current position and going on
  * for bn bits. This may cause more lines to be read from the file.
+ * The input stream is stepped on over these bits.
  */
-void
+static void
 add_capsule_frees(void *vp)
 {
   capsule_frees *cf;
@@ -253,7 +254,7 @@ add_capsule_frees(void *vp)
   capsule_freelist = cf;
 }
 
-place
+static place
 new_place(int bn)
 {
   place pl;
@@ -518,7 +519,7 @@ d_tdfint(void)
   return n;
 }
 
-void
+static void
 check_magic_no(void)
 {
 	tdfint maj;

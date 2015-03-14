@@ -52,7 +52,7 @@ static bool useinpar ;
     assignment to id, otherwise delivers 1.
 */
 
-int
+static int
 trace_uses(exp e, exp id)
 {
     if ( APPLYLIKE ( e ) ) {
@@ -165,7 +165,7 @@ trace_uses(exp e, exp id)
     APPLY TRACE_USES TO DYNAMIC SUCCESSORS OF a
 */
 
-void
+static void
 after_a(exp a, exp id)
 {
     char n ;
@@ -198,7 +198,7 @@ after_a(exp a, exp id)
 }
 
 
-bool
+static bool
 simple_seq(exp e, exp id)
 {
     exp dad = father ( e ) ;

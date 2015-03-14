@@ -38,7 +38,7 @@ static bool useinpar;
    terminates with 0 on applications or jumps terminates with 2 
    on assignment to id otherwise delivers 1
 */
-int
+static int
 trace_uses(exp e, exp id)
 {
   assert(e!=(exp)0);
@@ -150,7 +150,7 @@ trace_uses(exp e, exp id)
 }
 
 
-void
+static void
 after_a(exp a, exp id)
 {
   /* apply trace_uses to dynamic successors of a */
@@ -179,7 +179,7 @@ after_a(exp a, exp id)
 
 
 
-bool
+static bool
 simple_seq(exp e, exp id)
 {
   exp dad = father(e);

@@ -46,8 +46,8 @@
 #if BLDARCHBITS == 64
 
 extern int stack_top;
-INT64 word_mask=0xffffL;
-INT64 long_mask=0xffffffffL;
+static INT64 word_mask=0xffffL;
+static INT64 long_mask=0xffffffffL;
 INT64 one_64=1L;
 
 #else
@@ -60,7 +60,7 @@ INT64 long_mask={
   0,0xffffffff
 };
 
-INT64 one_64 = {0,1};
+static INT64 one_64 = { 0, 1 };
 
 #endif
 
@@ -104,7 +104,7 @@ unary(int in)
 #endif
 
 
-int
+static int
 choose_block_size(where dest, int al)
 {
   int bsize;

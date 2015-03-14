@@ -61,12 +61,12 @@
 
 extern int firstlab, labno;
 extern int nexps;
-char last_ins[96];
+static char last_ins[96];
 
-int zops[]={0,0,0,0};
-int last_line;
-char last_symb[128];
-int last_o;
+static int zops[] = { 0, 0, 0, 0 };
+static int last_line;
+static char last_symb[128];
+static int last_o;
 
 static const char reg_name_tab[32][6] =
 { "%r0"  ,
@@ -155,7 +155,7 @@ static const char space_reg_name_tab[8][5] =
 
 #define NA -1
 
-ins_p NOCOND=0;
+static ins_p NOCOND=0;
 
 
 const char *
@@ -172,7 +172,7 @@ float_reg_name(int reg)
 }
 
 
-int
+static int
 outp(ins_p ins, ins_p cc, int *ops, int lab)
 {
    if (~optim & OPTIM_PEEPHOLE)
@@ -855,7 +855,7 @@ st_ins(ins_p ins, int s, baseoff a)
    }
 }
 
-void
+static void
 ldsid_in(int s, int b, int t)
 {
    clear_reg(t);
@@ -863,7 +863,7 @@ ldsid_in(int s, int b, int t)
    asm_printop("ldsid (%s,%s),%s",SN(s),RN(b),RN(t));
 }
 
-void
+static void
 mtsp_in(int r, int sr)
 {
    outp(i_mtsp,NOCOND,zops,NA);
@@ -904,7 +904,7 @@ bl_in(ins_p n, char *target, int t)
    asm_printop("bl%s %s,%s",n,target,(t==RP ? "%rp" : RN(t)) );
 }
 
-void
+static void
 ble_in(ins_p n, char* wd, int sr, int b)
 {
    outp(i_ble,NOCOND,zops,NA);
@@ -990,7 +990,7 @@ extj_reg_ins(ins_p ins, int reg)
 /*
  * Conditional pseudo instructions.
  */
-void
+static void
 addb_in(char *cond, int l, int d, int lab)
 {
    int ops[4];
@@ -1001,7 +1001,7 @@ addb_in(char *cond, int l, int d, int lab)
    z_ins(i_nop);
 }
 
-void
+static void
 addib_in(char *cond, int i, int d, int lab)
 {
    int ops[4];
@@ -1122,7 +1122,7 @@ bb_in(ins_p cond, int r, int b, int lab)
 /*
  * Floating point instructions.
  */
-void
+static void
 ldf_ir_ins(ins_p ins, int o, int b, int d)
 {
    clear_freg(d);
@@ -1170,14 +1170,14 @@ ldf_ins(ins_p ins, baseoff a, int d)
    }
 }
 
-void
+static void
 stf_ir_ins(ins_p ins, int s, int o, int b)
 {
    outp(ins,NOCOND,zops,NA);
    asm_printop("%s %s,%d(%s)",ins,FN(s),o,RN(b));
 }
 
-void
+static void
 stf_rr_ins(ins_p ins, int s, int a, int b)
 {
    outp(ins,NOCOND,zops,NA);

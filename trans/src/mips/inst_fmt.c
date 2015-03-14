@@ -36,8 +36,8 @@
 #include "main.h"
 #include "inst_fmt.h"
 
-int   andpeep = 0;		/* used to do trivial peepholing of and instructions */
-long  andop = 0;
+static int   andpeep = 0; /* used to do trivial peepholing of and instructions */
+static long  andop   = 0;
 
 /*
  * This procedure outputs asembler for load and store instructions.

@@ -15,7 +15,6 @@
 #include <reader/exp.h>
 
 void codec(where dest, ash stack, exp e);
-void uop(void(*op)(shape, where, where), shape sha, exp a, where dest, ash stack);
 void bop(void(*op)(shape, where, where, where), shape sha, exp a, exp b, where dest, ash stack);
 int is_crc(exp e);
 

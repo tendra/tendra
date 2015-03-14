@@ -7,7 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-extern int  last_label;
 extern int  new_label(void);
 extern void set_label(int);
 extern void set_label_no_clear(int);

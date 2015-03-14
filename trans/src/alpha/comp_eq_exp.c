@@ -23,7 +23,7 @@ initial call : comp_eq_exp(a,b,NULL,NULL)  */
 
 #include "comp_eq_exp.h"
 
-bool
+static bool
 comp_eq_explist(exp a, exp b, exp laba, exp labb)
 {
   if (a==NULL) return b==NULL;

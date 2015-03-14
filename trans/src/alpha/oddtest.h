@@ -13,6 +13,5 @@
 extern int oddtest(exp,exp *,exp *,exp *);
 extern int is_fabs(exp,exp *);
 extern int is_abslike(exp,exp *);
-extern int is_maxlike(exp,exp*);
-extern int is_minlike(exp,exp*);
+
 #endif

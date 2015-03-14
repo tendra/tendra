@@ -17,7 +17,7 @@
 
 extern dec * diag_def;
 
-dec **main_globals;			/* the globals decs array */
+dec **main_globals;
 
 extern int maxfix_tregs;		/* the number of t regs allocatable */
 

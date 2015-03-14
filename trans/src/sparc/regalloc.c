@@ -98,7 +98,7 @@ SREG_TO_REALREG ( int n ){
   THE ZERO SPACEREQ
 */
 
-spacereq zerospace = { 0, 0, 0 } ;
+static spacereq zerospace = { 0, 0, 0 } ;
 
 
 /*
@@ -107,7 +107,7 @@ spacereq zerospace = { 0, 0, 0 } ;
   the two.
 */
 
-spacereq 
+static spacereq 
 maxspace ( spacereq a, spacereq b ){
   a.fixdump |= b.fixdump ;
   a.fltdump |= b.fltdump ;

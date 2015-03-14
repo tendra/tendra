@@ -55,8 +55,8 @@
 extern shape shcomplexsh;
 extern shape complexsh;
 extern shape complexdoublesh;
-exp_list reorder_list(exp_list, int);
-exp me_contents(exp);
+static exp_list reorder_list(exp_list, int);
+static exp me_contents(exp);
 extern int eq_et(error_treatment, error_treatment);
 extern exp TDFcallaux(error_treatment, exp, char *, shape);
 extern exp find_named_tg(char *, shape);
@@ -1735,7 +1735,7 @@ f_complex_of_float(shape sha)
 	return f_dummy_floating_variety;
 }
 
-floating_variety
+static floating_variety
 fv_of_shape(shape sha)
 {
 	int s = shape_size(sha);
@@ -1846,7 +1846,7 @@ make_comp_1_z(floating_variety complex_fv, error_treatment ov_err,
 
 #define is_const(X)	(name(X) != ident_tag)
 
-exp_list
+static exp_list
 reorder_list(exp_list arg1, int consts_first)
 {
     exp type1_start, type1_end, type2_start, type2_end, t;
@@ -1880,7 +1880,7 @@ reorder_list(exp_list arg1, int consts_first)
     return arg1;
 }
 
-exp
+static exp
 me_contents(exp arg1)
 {
   exp r = me_u3(sh(arg1), me_obtain(arg1), cont_tag);

@@ -177,8 +177,8 @@ int g_reg_max ;		/* the maximum number of G registers */
 int maxfix_tregs ;	/* the maximum number of T registers */
 dec **main_globals ;	/* global declarations */
 procrec *procrecs ;	/* procedure records */
-dec *diag_def = NULL ;	/* diagnostics definition */
-int main_globals_index = 0;	/* number of globals */
+static dec *diag_def = NULL ;	/* diagnostics definition */
+static int main_globals_index = 0;	/* number of globals */
 int caller_offset_used = 0;
 enum section current_section = no_section ;
 
@@ -241,7 +241,7 @@ insection ( enum section s ){
   MARK AN EXPRESSION AS UNALIASED
 */
 
-void 
+static void 
 mark_unaliased ( exp e ){
   exp p = pt ( e ) ;
   bool ca = 1 ;

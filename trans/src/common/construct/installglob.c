@@ -43,7 +43,7 @@ char *dynamic_init_proc = NULL;
 proc_props *old_proc_props = NULL;	/* initial value for pushing */
 int in_proc_def = 0;				/* initial value for pushing */
 
-aldef const_aldefs[6];
+static aldef const_aldefs[6];
 int doing_aldefs;	/* cleared in start_make_capsule */
 
 alignment const_al1 = &const_aldefs[0];

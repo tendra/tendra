@@ -42,15 +42,6 @@ static long nil_access_lab=0;
 static long overflow_lab=0;
 static long stack_overflow_lab=0;
 
-void init_proc_errors(exp);
-void output_error_labels(void);
-long get_nil_access_lab(void);
-long get_overflow_lab(void);
-long get_stack_overflow_lab(void);
-
-
-void test_signed(int,long,long,long);
-void test_unsigned(int,long,long);
 static long trap_label(exp);
 static void do_exception(int);
 static void call_TDFhandler(void);
@@ -123,7 +114,8 @@ void output_error_labels(void)
  * get_nil_access_lab returns the label to jump to when a nil_access error_code
  * is created or sets it if it is un-initialized
  */
-long get_nil_access_lab(void)
+static long
+get_nil_access_lab(void)
 {
   if (nil_access_lab == 0)
   {
@@ -136,7 +128,8 @@ long get_nil_access_lab(void)
  * get_overflow_lab returns the label to jump to when an overflow error_code
  * is created or sets it if it is un-initialized
  */
-long get_overflow_lab(void)
+static long
+get_overflow_lab(void)
 {
   if (overflow_lab == 0)
   {
@@ -191,7 +184,8 @@ void do_trap(exp e)
  * test_signed: tests whether a register lies between two values and
  * jumps to label if it does not
  */
-void test_signed(int r, long lower, long upper, long lab)
+static void
+test_signed(int r, long lower, long upper, long lab)
 {
   int creg1=next_creg();
   int creg2=next_creg();
@@ -204,7 +198,8 @@ void test_signed(int r, long lower, long upper, long lab)
 /*
  * test_unsigned: tests whether a register is greater than an unsigned number
  */
-void test_unsigned(int r, long maxval, long lab)
+static void
+test_unsigned(int r, long maxval, long lab)
 {
   int creg=next_creg();
   cmp_ri_ins(i_cmpl,r,maxval,creg);

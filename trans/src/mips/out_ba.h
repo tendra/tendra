@@ -24,8 +24,6 @@ extern void out_chars (asmsym symno, unsigned asmtype, asmint expression,
 extern void out_option(int x, int y);
 extern void out_value (asmsym symno, unsigned asmtype, asmint expression,
           unsigned long repeat);
-extern void out_alias (asmsym symno, unsigned asmtype, asmreg basereg1,
-          asmreg basereg2);
 extern void out_rinst (asmsym symno, unsigned char opcode, asmreg reg1, asmreg reg2,
           asmformat form, asmreg reg3);
 extern void out_iinst (asmsym symno, unsigned char opcode, asmreg reg1, asmreg reg2,

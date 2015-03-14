@@ -57,7 +57,7 @@ extern baseoff zero_exception_register(space);
 extern labexp current,first;
 
 
-int long_double_0 = 0;
+static int long_double_0 = 0;
 
 /* corrects possible overflows of chars and shorts in reg r */
 void tidyshort
@@ -75,8 +75,8 @@ void tidyshort
   * register reg, removes that exp from seq and delivers 1; otherwise delivers
   * 0
   */
-bool regremoved
-(exp * seq, int reg)
+static bool
+regremoved(exp * seq, int reg)
 {
   exp s = *seq;
   exp t = bro(s);
@@ -208,8 +208,8 @@ void logical_op
   * evaluates the fixed operation seq1 rins seq 2 rins...., into reg final,
   * using sp as free t-regs
   */
-void do_comm
-(exp seq, space sp, int final, ins_p rins)
+static void
+do_comm(exp seq, space sp, int final, ins_p rins)
 {
   int r = 0;
   space nsp;

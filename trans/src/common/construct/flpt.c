@@ -93,9 +93,9 @@ static int round_type = R2NEAR;
 
 /* All variables initialised */
 
-int tot_flpts;		/* total number of floating point numbers */
-int flptfree;		/* floating point free list */
-int flpt_left;		/* number of floating point numbers left */
+static int tot_flpts; /* total number of floating point numbers */
+static int flptfree;  /* floating point free list */
+static int flpt_left; /* number of floating point numbers left */
 
 flt *flptnos;		/* the extendable array of floating point numbers */
 
@@ -817,7 +817,7 @@ flt_cmp(flt f1, flt f2)
  * On return, the number pointed to by "res" will be the integer value of
  * "f" rounded using the current rounding rule.
  */
-void
+static void
 flt_round(flt f, flt *res)
 {
   int i;
@@ -885,7 +885,7 @@ flt_round(flt f, flt *res)
  * On return, the number pointed to by "res" will be the integer value of
  * "f" rounded towards zero.
  */
-void
+static void
 flt_trunc(flt f, flt *res)
 {
   int i;
@@ -1065,7 +1065,7 @@ init_flpt(void)
   (forf->mant)[0] = 1;
 }
 
-void
+static void
 more_flpts(void)
 {
   /* extend the floating point array */

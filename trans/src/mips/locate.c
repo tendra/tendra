@@ -117,8 +117,8 @@ where locate(exp e, space sp, shape s, int dreg);
  /* locate differs from locate1 only in that it looks to see e has already
     been evaluated somehow */
 
-where locate1
-(exp e, space sp, shape s, int dreg)
+static where
+locate1(exp e, space sp, shape s, int dreg)
 {
 				/* finds the address of e using shape s;
 				   sp gives available t-regs for any inner

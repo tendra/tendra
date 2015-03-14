@@ -252,8 +252,8 @@ void diag_string
     These variables record the current position in the source file.
 */
 
-char *crt_fname = "";
-long crt_line_num = -1;
+static char *crt_fname = "";
+static long crt_line_num = -1;
 
 
 /*
@@ -385,8 +385,8 @@ static bool have_module = 0;
     of source file.
 */
 
-void diag_source_file
-(char *nm, long ln)
+static void
+diag_source_file(char *nm, long ln)
 {
     if (diag == DIAG_STABS) {
 	int n = strlen(nm) + 3;

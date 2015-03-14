@@ -128,8 +128,8 @@ int maxfix_tregs;		/* The number of t regs allocatable */
 dec **main_globals;		/* The globals decs array */
 procrec *procrecs;		/* The proc records array */
 dec * diag_def = NULL;
-bool environ_externed=0;/* environ bug work around */
-long total_no_of_globals = 0;
+static bool environ_externed=0;/* environ bug work around */
+static long total_no_of_globals = 0;
 bool done_scan = 0;
 
 /*

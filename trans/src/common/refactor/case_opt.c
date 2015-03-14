@@ -55,10 +55,10 @@ static unsigned char *node_end_flag;
  * So 0 would try to make everything into a jump table whereas 100
  * would mean only full jump tables could be put out
  */
-unsigned jump_table_density  =  60;
-unsigned min_jump_table_size =  10;
-unsigned max_jump_table_size = 100;
-unsigned min_no_of_default_destinations = 3;
+static unsigned jump_table_density  =  60;
+static unsigned min_jump_table_size =  10;
+static unsigned max_jump_table_size = 100;
+static unsigned min_no_of_default_destinations = 3;
 
 /*
  * case_optimisation takes a case_tag and an ident_tag and

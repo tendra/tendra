@@ -68,7 +68,7 @@ int real_reg[16] =
 
 #define ALIGNNEXT(bitposn, bitalign)	(((bitposn)+(bitalign)-1) & ~((bitalign)-1))
 
-spacereq zerospace = {0, 0, 0};
+static spacereq zerospace = { 0, 0, 0 };
 
 /*
  * Procedure to find the total spacereq of two spacereqs.
@@ -78,7 +78,7 @@ spacereq zerospace = {0, 0, 0};
  *
  * The largest of the two stack sizes is returned as the stack of the result.
  */
-spacereq
+static spacereq
 maxspace(spacereq a, spacereq b)
 {
   a.fixdump |= b.fixdump;

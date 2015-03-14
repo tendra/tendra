@@ -62,11 +62,11 @@ extern long mainfile;
 /* default fileno for no diags or shape output */
 
 
-int *file_dnos;		/* dense nos for files */
+static int *file_dnos;		/* dense nos for files */
 
 filename * fds;
 int nofds = 0;
-int szfds = 0;
+static int szfds = 0;
 
 
 static void
@@ -91,8 +91,8 @@ int find_file
 
 
 /* produce symnos for all text files in compilation */
-void symnosforfiles
-(void)
+void
+symnosforfiles(void)
 {
   int   i;
   file_dnos = (int *)xcalloc(nofds, sizeof(int));
@@ -317,8 +317,8 @@ static tsym * ats = NULL;
    used to accumulate all the type reprs arising
    from shapes in the program by calling addtsym ....
 */
-void addtsym
-(char *n, int v, int st, int sc, diag_type s)
+static void
+addtsym(char *n, int v, int st, int sc, diag_type s)
 {
   tsym * a;
   if (nexttsym >= notsyms) {
@@ -338,16 +338,16 @@ typedef struct {
   int   symindex;
 } shauxt;
 static int noshaux = 0;
-int nextshaux = 0;
-shauxt * shaux = NULL;
+static int nextshaux = 0;
+static shauxt * shaux = NULL;
 
 
 /*
    used to remember all the indexes into the auxilliary
    symbol table for all the shapes in the program
 */
-bool eq_sutype
-(diag_type a, diag_type b)
+static bool
+eq_sutype(diag_type a, diag_type b)
 {
 
   diag_field_list  fa;

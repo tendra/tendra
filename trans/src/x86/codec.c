@@ -86,8 +86,8 @@ int is_crc
  * for a to put it into eax (reg0) and then applies op to eax,
  * putting the result into dest.
  */
-void uop
-(void(*op)(shape, where, where), shape sha, exp a, where dest, ash stack)
+static void
+uop(void(*op)(shape, where, where), shape sha, exp a, where dest, ash stack)
 {
   if (!is_o(name(a)) || is_crc(a)) {
     where qw;

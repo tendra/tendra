@@ -20,8 +20,6 @@ extern long crt_line_num;
 extern char *crt_fname;
 extern char *progname;
 
-long total_calloced;
-
 #if 0
 /* Makes automatically generated makefile work */
 #include "xalloc.c"

@@ -39,11 +39,11 @@
 #include "make_code.h"
 #include "regalloc.h"
 
-spacereq zerospace = {
+static spacereq zerospace = {
   0, 0, 0
 };
 
-spacereq
+static spacereq
 maxspace(spacereq a, spacereq b)
 {
   a.fixdump |= b.fixdump;

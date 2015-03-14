@@ -43,7 +43,6 @@ extern void ldf_ro_ins(ins_p, baseoff, int);
 extern void ldf_rr_ins(ins_p,ins_p, int, int, int);
 extern void ldf_ins(ins_p, baseoff, int);
 extern void stf_ro_ins(ins_p, int, baseoff);
-extern void stf_rr_ins(ins_p, int, int, int);
 extern void stf_ins(ins_p, int, baseoff);
 
 extern void rrf_ins(ins_p,ins_p,ins_p, int, int);
@@ -75,7 +74,6 @@ extern const char* reg_name(int);
 extern void call_ins(ins_p, char*, int, char*);
 extern void outlab(char*, int);
 extern void bl_in(ins_p, char*, int);
-extern void ble_in(ins_p, char*, int, int);
 
 int line,lines,nLabels;
 

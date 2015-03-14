@@ -13,7 +13,6 @@
 void translate_capsule(void);
 void translate_unit(void);
 
-char *init_NAME(char *);
 extern char *main_NAME;
 
 #endif /* READ_FNS_H */

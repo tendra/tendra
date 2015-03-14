@@ -28,7 +28,8 @@
 #include "make_code.h"
 #include "error.h"
 
-void tidyshort(int r, exp e)
+static void
+tidyshort(int r, exp e)
 {
   shape s = sh(e);
   switch(name(e))
@@ -62,7 +63,8 @@ void tidyshort(int r, exp e)
   * given a list of expressions seq which contains one whose value is in
   * register reg, removes that exp from seq and delivers 1; otherwise delivers 0
   */
-bool regremoved(exp * seq, int reg)
+static bool
+regremoved(exp * seq, int reg)
 {
   exp s = *seq;
   exp t = bro(s);
@@ -95,7 +97,8 @@ bool regremoved(exp * seq, int reg)
   * evaluates the fixed operation seq1 rins seq 2 rins...., into reg final,
   * using sp as free t-regs
   */
-void do_comm(exp seq, space sp, int final, Instruction_P rins)
+static void
+do_comm(exp seq, space sp, int final, Instruction_P rins)
 {
   int r = 0;
   space nsp;

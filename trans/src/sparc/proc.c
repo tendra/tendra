@@ -101,18 +101,19 @@ static bool in_postlude = 0;
 extern char * proc_name;
 int local_reg = R_I5;
 
+/*
+ * callee_end_reg will point to end of callee params.
+ * Only used for variable or dynamic parameter lists
+ */
 int callee_start_reg = R_I5;   /* will point to start of callee params */
-
-int callee_end_reg = R_I4;     /* will point to end of callee params.  Only
-				  used for variable or dynamic parameter
-				  lists */
-int callee_start_reg_out = R_O5;
-int callee_end_reg_out = R_O4;
+static int callee_end_reg       = R_I4;
+static int callee_start_reg_out = R_O5;
+static int callee_end_reg_out   = R_O4;
 
 
 static int vc_call = 0;
 
-int aritherr_lab = 0;
+static int aritherr_lab = 0;
 
 int stackerr_lab = 0;
 int local_stackerr_lab = 0;
@@ -120,8 +121,9 @@ int local_stackerr_lab = 0;
 #define is64(X)((name(X) ==u64hd) || (name(X) ==s64hd))
 
 
-void call_tdf_main
-(void) {
+static void
+call_tdf_main(void)
+{
   asm_printop("call ___TDF_main");
   asm_printop("nop");
 }
@@ -154,8 +156,8 @@ baseoff mem_temp
 */
 static postlude_chain * old_postludes;
 
-void update_plc
-(postlude_chain* chain, int maxargs) {
+static void
+update_plc(postlude_chain* chain, int maxargs) {
 
   while (chain) {
     exp pl = chain->postlude;
@@ -1111,8 +1113,8 @@ static space do_callers
 /*
   Give the first parameter par_base, find parameter 'num'
 */
-exp get_param
-(exp par_base, int num) {
+static exp
+get_param(exp par_base, int num) {
   exp res_exp = par_base;
   int current_par;
   if (num == 1) return par_base;

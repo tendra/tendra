@@ -17,7 +17,6 @@
 #include "proctypes.h"
 
 extern bool avoid_L7;
-extern spacereq maxspace(spacereq, spacereq);
 extern spacereq regalloc(exp, int, int, long);
 
 #endif /* REGALLOC_INCLUDED */

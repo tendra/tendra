@@ -15,7 +15,6 @@
 
 #include <construct/installtypes.h>
 
-extern int tempdec(exp, bool);
 extern bool APPLYLIKE(exp);
 extern bool RETURNS_R_RESULT(exp);
 extern bool RETURNS_FR_RESULT(exp);

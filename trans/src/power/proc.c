@@ -43,18 +43,19 @@
 #include "scan.h"
 #include "localexpmacs.h"
 
-space do_callers(int,exp,space);
-void do_function_call(exp,space);
-void do_general_function_call(exp,space);
-makeans move_result_to_dest(exp,space,where,int);
-void restore_callers(int);
-void restore_callees(void);
+static space do_callers(int,exp,space);
+static void do_function_call(exp,space);
+static void do_general_function_call(exp,space);
+static makeans move_result_to_dest(exp,space,where,int);
+static void restore_callers(int);
+static void restore_callees(void);
 static exp find_ote(exp,int);
 
 typedef struct postl_ {exp pl; struct postl_ * outer; } postl_chain;
 static postl_chain * old_pls;
 
-void update_plc(postl_chain * ch, int ma)
+static void
+update_plc(postl_chain * ch, int ma)
 {
 	while (ch != NULL) {
 	  exp pl= ch->pl;
@@ -886,7 +887,8 @@ void make_dynamic_callee_tag_code(exp e, space sp)
   st_ro_ins(i_st,R_TMP0,callee_pointer);
 }
 
-space do_callers(int n, exp list, space sp)
+static space
+do_callers(int n, exp list, space sp)
 {
 	/*
 	 * Evaluates parameters into fixed registers or float registers or stack
@@ -1109,7 +1111,9 @@ space do_callers(int n, exp list, space sp)
   return nsp;
 
 }
-void do_function_call(exp fn, space sp)
+
+static void
+do_function_call(exp fn, space sp)
 {
   if (name(fn) == name_tag
       && name(son(fn)) == ident_tag
@@ -1147,7 +1151,9 @@ void do_function_call(exp fn, space sp)
     ld_ro_ins(i_l, b, R_TOC);asm_comment("restore toc pointer");
   }
 }
-void do_general_function_call(exp fn, space sp)
+
+static void
+do_general_function_call(exp fn, space sp)
 {
   if (name(fn) == name_tag
       && name(son(fn)) == ident_tag
@@ -1191,7 +1197,9 @@ void do_general_function_call(exp fn, space sp)
     ld_ro_ins(i_l, b, R_TOC);asm_comment("restore toc pointer");
   }
 }
-makeans move_result_to_dest(exp e, space sp, where dest, int exitlab)
+
+static makeans
+move_result_to_dest(exp e, space sp, where dest, int exitlab)
 {
   makeans mka;
   int hda = name(sh(e));	/* Shape of result */
@@ -1250,7 +1258,9 @@ makeans move_result_to_dest(exp e, space sp, where dest, int exitlab)
   }
   return mka;
 }
-void restore_callers(int n)
+
+static void
+restore_callers(int n)
 {
   /* finds all the callers and puts them into there correct register */
   exp bdy = son(p_current);
@@ -1367,7 +1377,9 @@ void restore_callers(int n)
     }
   }
 }
-void restore_callees(void)
+
+static void
+restore_callees(void)
 {
 	/*
 	 * It is possible that callees are allocated s-regs in which case they

@@ -26,7 +26,6 @@ extern bool keep_eq_size(shape, shape);
 
 extern ans iskept(exp);
 extern ans iskept_reg(exp);
-extern ans iskept_freg(exp);
 extern ans iskept_inreg(exp, int);
 
 extern int ans_reg(ans);

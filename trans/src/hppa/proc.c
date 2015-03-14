@@ -73,7 +73,6 @@ extern char *proc_name;
 extern int line;
 extern char export[128];
 extern int firstlab,labno;
-int leaf;
 extern baseoff find_tg(char* s);
 extern exp find_named_tg(char *,shape);
 extern shape f_pointer(alignment);
@@ -81,10 +80,12 @@ extern alignment f_alignment(shape);
 extern shape f_proc;
 extern void do_exception(int);
 
-int res_label;
+static int res_label;
 static int untidy_return_label,return_to_label_label;
 static bool simpleans;
 static ans procans;
+
+int leaf;
 int RSCOPE_LEVEL,RSCOPE_LABEL;
 
 /*
@@ -107,8 +108,8 @@ baseoff mem_temp
 
 
 /* Save callee-saves ("s") registers on the stack. */
-void save_sregs
-(void)
+static void
+save_sregs(void)
 {
    if (fixdump==0)
       return;

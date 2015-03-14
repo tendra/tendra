@@ -72,12 +72,12 @@ char *s_quad="quad";
 int current_alignment=-1;
 
 
-long  G_number = 64;		/* to give choice of .sdata or data */
+static long G_number = 64;		/* to give choice of .sdata or data */
 
 int   data_lab = 33;
 
 /* anonymous label in data space - $$n in assember o/p */
-int
+static int
 next_data_lab(void)
 {
   return data_lab++;
@@ -94,32 +94,14 @@ next_dlab_sym(void)
 
 
 /* various pieces of info for outputting data depending on shape */
-mm scmm = {
-  scmm_max, scmm_min, "\t.byte %ld :%ld\n"
-};
-mm uscmm = {
-  uscmm_max,uscmm_min, "\t.byte %ld :%ld\n"
-};
-mm shmm = {
-  shmm_max,shmm_min, "\t.word %ld :%ld\n"
-};
-mm ushmm = {
-  ushmm_max,ushmm_min, "\t.word %ld :%ld\n"
-};
-mm swmm = {
-  swmm_max,swmm_min, "\t.long %ld :%ld\n"
-};
-mm uswmm = {
-  uswmm_max,uswmm_min,"\t.long %ld :%ld\n"
-};
-
-mm u64mm = {
-  u64mm_max,u64mm_min,"\t.quad %ld :%ld\n"
-};
-
-mm s64mm = {
-  s64mm_max,s64mm_min, "\t.quad %ld :%ld\n"
-};
+static mm scmm  = { scmm_max, scmm_min,  "\t.byte %ld :%ld\n" };
+static mm uscmm = { uscmm_max,uscmm_min, "\t.byte %ld :%ld\n" };
+static mm shmm  = { shmm_max,shmm_min,   "\t.word %ld :%ld\n" };
+static mm ushmm = { ushmm_max,ushmm_min, "\t.word %ld :%ld\n" };
+static mm swmm  = { swmm_max,swmm_min,   "\t.long %ld :%ld\n" };
+static mm uswmm = { uswmm_max,uswmm_min, "\t.long %ld :%ld\n" };
+static mm u64mm = { u64mm_max,u64mm_min, "\t.quad %ld :%ld\n" };
+static mm s64mm = { s64mm_max,s64mm_min, "\t.quad %ld :%ld\n" };
 
 
 
@@ -151,7 +133,7 @@ maxmin(shape s)
   to be an index into the externals and outputs the identifier.
 */
 
-char *
+static char *
 outlab(int l)
 {
   if (l >= 0) {
@@ -164,9 +146,9 @@ outlab(int l)
   return NULL;
 }
 
-char  fltrepr[120];
+static char fltrepr[120];
 
-void
+static void
 output_data_records(char *strng, char *str, int size)
 {
   int pos = 0;
@@ -185,7 +167,7 @@ output_data_records(char *strng, char *str, int size)
 /*
    This function outputs an IEEE format floating point number
 */
-void
+static void
 outfloat(exp e, int rep, ash a)
 {
   INT64 val;
@@ -222,7 +204,7 @@ outfloat(exp e, int rep, ash a)
 /*
   evaluate the exp 'e' and return the resulting value
 */
-INT64
+static INT64
 evalexp(exp e)
 {
   
@@ -305,7 +287,7 @@ evalexp(exp e)
   alignment of the last value to be output is retained and, 
   if it differs from the current one, a new alignment is set.
 */
-void
+static void
 oneval(INT64 val, int al, int rep)
 {
   char *store_type;
@@ -331,7 +313,7 @@ oneval(INT64 val, int al, int rep)
 }
 
 
-INT64
+static INT64
 bits_list(int val)
 {
   int loop;
@@ -354,7 +336,7 @@ bits_list(int val)
 /*
   Outputs the expression 'e', rep times.
 */
-void
+static void
 evalone(exp e, int rep)
 {
   ash a;

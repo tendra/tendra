@@ -219,7 +219,7 @@ unroll_complex(exp e, int n, exp control, int lia, exp ul, int decr)
 	}
 }
 
-void
+static void
 simple_unroll(exp candidate, exp body, exp inc, exp te)
 {
 	/* candidate = rep_tag */
@@ -334,7 +334,7 @@ inc_offset(exp var, shape sha, exp konst, exp body, int i)
 	return body;
 }
 
-void
+static void
 unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
              exp var, exp konst, exp reps, int times)
 {

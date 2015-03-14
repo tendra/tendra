@@ -63,8 +63,8 @@ extern int need_dummy_double;
  * freg is a Freg which is moved to a dummy memory location to force the
  * overflow (if any) before the test.
  */
-void test_float_overflow_reg
-(where freg, long sz)
+static void
+test_float_overflow_reg(where freg, long sz)
 {
    if (have_overflow()) {
       ins2(insf(sz, ml_fmove), sz, sz, freg, dummy_double_dest, 1);
@@ -79,8 +79,8 @@ void test_float_overflow_reg
  * If dest is zero, freg is moved to a memory location to force the
  * overflow (if any) before the test.
  */
-void test_float_overflow
-(where freg, where dest, long sz)
+static void
+test_float_overflow(where freg, where dest, long sz)
 {
    if (have_overflow()) {
       if (eq_where(dest, zero)) {
@@ -261,8 +261,8 @@ int crt_rmode = R2NEAR;
  * Make floating point representing range_min(sha) - adjustment
  * Where Adjustment(adj) is 0,1,0.5 when adj is 0,1,2
  */
-where get_min_limit
-(shape sha, int adj)
+static where
+get_min_limit(shape sha, int adj)
 {
    long fmd[4], min;
 
@@ -336,8 +336,8 @@ where get_min_limit
  * Make floating point representing range_max(sha) + adjustment
  * Where Adjustment(adj) is 0,1,0.5 when adj is 0,1,2
  */
-where get_max_limit
-(shape sha, int adj)
+static where
+get_max_limit(shape sha, int adj)
 {
    long fmd[6];
    long max = range_max(sha);
@@ -395,8 +395,8 @@ where get_max_limit
 }
 
 /* Test number against limit */
-void check_limit
-(where number, where limit, int tst)
+static void
+check_limit(where number, where limit, int tst)
 {
    int sw, instr;
    move(realsh,limit,FP1);
@@ -458,7 +458,7 @@ static void check_float_round_overflow
   asm_comment("check_float_round_overflow done");
 }
 
-bool changed_round_mode = 0;
+static bool changed_round_mode = 0;
 
 /*
  * SET_ROUND_MODE
@@ -469,8 +469,8 @@ bool changed_round_mode = 0;
  *
  * The global flag changed_round_mode is set to TRUE.
  */
-void set_round_mode
-(int mode)
+static void
+set_round_mode(int mode)
 {
 /*
    if (mode == f_to_nearest && ! changed_round_mode ) return ;

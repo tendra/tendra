@@ -82,8 +82,9 @@
 	  (name(e) == name_tag && isglob(son(e))) /* load of TOC entry */ \
 	)\
 	)
+
 int maxfix, maxfloat;		/* the maximum number of t-regs */
-bool tail_call;
+static bool tail_call;
 bool gen_call;
 long callee_size;
 long max_callees;
@@ -101,7 +102,7 @@ static int stparam, fixparam, floatparam;
 static bool nonevis = 1;
 static bool rep_tag_scanned;
 
-int scan_cond(exp *,exp);
+static int scan_cond(exp *,exp);
 needs scan(exp *, exp **);
 static void number_caller_parameter(exp);
 static void number_callee_parameter(exp);
@@ -225,7 +226,8 @@ static bool complex(exp e)
  * does the scan on commutative and associative operations and may perform
  * various transformations allowed by these properties
  */
-needs commutative_scan(exp * e, exp * *at)
+static needs
+commutative_scan(exp * e, exp * *at)
 {
   needs a1;
   needs a2;
@@ -319,7 +321,8 @@ needs commutative_scan(exp * e, exp * *at)
 /*
  * scan non-commutative fix pt operation
  */
-needs non_commutative_scan(exp * e, exp * *at)
+static needs
+non_commutative_scan(exp * e, exp * *at)
 {
   needs l;
   needs r;
@@ -2316,7 +2319,8 @@ needs scan(exp * e, exp * *at)
   }
 }
 
-int scan_cond(exp * e, exp outer_id)
+static int
+scan_cond(exp * e, exp outer_id)
 {
   exp ste = *e;
   exp first = son(ste);

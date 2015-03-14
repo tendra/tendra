@@ -108,7 +108,7 @@ next_PIC_pcrel_lab(void)
  * less than or equal to 31 as it represent the number of bits
  * in a bitfield which does not occupy a whole machine word.
  */
-long
+static long
 unary(int val)
 {
    int loop;
@@ -171,7 +171,7 @@ flpt f;
  * IEEE machines).
  * It returns NULL if it cannot convert the number sufficiently accurately.
  */
-long *
+static long *
 realrep(exp e)
 {
     int i, ex ;
@@ -268,7 +268,7 @@ realrep(exp e)
 #endif
 }
 
-long
+static long
 evalexp(exp e)
 {
   switch (name(e))
@@ -422,7 +422,7 @@ evalexp(exp e)
   UNREACHED;
 }
 
-void
+static void
 oneval(int val, int al, int rep)
 {
     assert ( rep == 1 ) ;     

@@ -10,7 +10,6 @@
 #ifndef __SPECIAL_EXPS__
 #define __SPECIAL_EXPS__
 
-extern exp make_extn(char* n, shape s, int v);
 extern exp get_stack_limit(void);
 extern exp get_error_handler(void);
 extern exp get_dummy_double_dest(void);

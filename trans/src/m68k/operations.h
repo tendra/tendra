@@ -34,7 +34,6 @@ extern void change_var(shape, where, where);
 extern bool cmp(shape, where, where, long);
 extern void div1(shape, where, where, where);
 extern void div2(shape, where, where, where);
-extern void exactdiv(shape, where, where, where);
 extern void int_to_bitf(exp, exp, ash);
 extern void maxop(shape, where, where, where);
 extern void minop(shape, where, where, where);

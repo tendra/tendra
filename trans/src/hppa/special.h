@@ -18,7 +18,6 @@
 
 extern int specialfn(exp);
 extern char *special_call_name(int);
-extern needs specialneeds(int, exp, exp);
 extern int specialmake(int, exp, space, where, int);
 extern void call_millicode(int, int, char*, bool);
 extern void import_millicode(void);

@@ -111,8 +111,8 @@ needs scan(exp *,exp **);
   exp. This is used to stop a procedure requiring more than the
   available number of registers.
 */
-void cca
-(exp **to, exp *x)
+static void
+cca(exp **to, exp *x)
 {
 
   if (name((**to)) ==diagnose_tag) {
@@ -150,31 +150,31 @@ void cca
   }
 }
 
-needs onefix = {
+static needs onefix = {
   1, 0, 0, 0
 };				/* needs one fix pt reg */
-needs twofix = {
+static needs twofix = {
   2, 0, 0, 0
 };				/* needs 2 fix pt regs */
 
-needs threefix = {
+static needs threefix = {
   3,0,0,0
 };
 
 
-needs fourfix = {
+static needs fourfix = {
   4,0,0,0
 };
 
-needs fivefix = {
+static needs fivefix = {
   5,0,0,0
 };
 
 
-needs onefloat = {
+static needs onefloat = {
   0, 1, 0, 0
 };				/* needs 1 flt pt regs */
-needs zeroneeds = {
+static needs zeroneeds = {
   0, 0, 0, 0
 };				/* has no needs */
 
@@ -184,8 +184,8 @@ needs zeroneeds = {
   Calculate the number of registers required to move a data item of
   shape s to/from memory.  Worst case values.
 */
-needs shapeneeds
-(shape s)
+static needs
+shapeneeds(shape s)
 {
   if (is_floating(name(s))) {
     return onefloat;
@@ -208,8 +208,8 @@ needs shapeneeds
   }
 }
 
-static void make_bitfield_offset
-(exp e, exp pe, int spe, shape sha)
+static void
+make_bitfield_offset(exp e, exp pe, int spe, shape sha)
 {
   exp omul;
   exp val8;
@@ -229,8 +229,8 @@ static void make_bitfield_offset
   }
 }
 
-bool complex
-(exp e)
+static bool
+complex(exp e)
 {
   /* these are basically the expressions
      which cannot be accessed by a simple
@@ -246,8 +246,8 @@ bool complex
   }
 }
 
-int scan_cond
-(exp *e, exp outer_id)
+static int
+scan_cond(exp *e, exp outer_id)
 {
   exp ste = *e;
   exp first = son(ste);
@@ -383,8 +383,8 @@ int scan_cond
    does the scan on commutative and associative operations and
    may perform various transformations allowed by these properties
 */
-needs likeplus
-(exp *e, exp **at)
+static needs
+likeplus(exp *e, exp **at)
 {
   needs a1;
   needs a2;
@@ -448,8 +448,8 @@ needs likeplus
 }
 
 
-needs likediv
-(exp *e, exp **at)
+static needs
+likediv(exp *e, exp **at)
 {
   /* scan non-commutative fix pt operation
    */
@@ -478,8 +478,8 @@ needs likediv
   return l;
 }
 
-needs fpop
-(exp *e, exp **at)
+static needs
+fpop(exp *e, exp **at)
 {
   /* scans diadic floating point operation  */
   needs l;
@@ -527,8 +527,8 @@ needs fpop
   Calculates a needs value. Each element of which is the
   maximum of the corresponding elements in the two parameter needs
 */
-needs maxneeds
-(needs a, needs b)
+static needs
+maxneeds(needs a, needs b)
 {
   needs an;
   an.fixneeds = max(a.fixneeds, b.fixneeds);
@@ -544,8 +544,8 @@ needs maxneeds
    declarations required by a component expression will
    replace the component expression
 */
-needs maxtup
-(exp e, exp **at)
+static needs
+maxtup(exp e, exp **at)
 {
   exp * stat = &son(e);
   needs an;
@@ -562,8 +562,8 @@ needs maxtup
    finds if usedname is only used in cont operation or as result
    of ident i.e. value of name is unchanged over its scope
 */
-bool unchanged
-(exp usedname, exp ident)
+static bool
+unchanged(exp usedname, exp ident)
 {
   exp uses = pt(usedname);
   while (uses != NULL) {
@@ -589,8 +589,8 @@ bool unchanged
    a ni ) This will be compiled later using set instructions instead
    of branches
 */
-exp absbool
-(exp id)
+static exp
+absbool(exp id)
 {
   if (isvar(id) && name(son(id)) == val_tag && no(son(id)) == 0
       && no (id) == 2 /* name initially 0 only used twice */ ) {
@@ -642,8 +642,8 @@ exp * ptr_position
   return a;
 }
 
-bool chase
-(exp sel, exp *e)
+static bool
+chase(exp sel, exp *e)
 {
   /* distribute selection throughout compound expressions */
   bool b = 0;
@@ -712,8 +712,8 @@ bool vascan
 }
 
 
-bool gen_call;
-bool in_vcallers_proc;
+static bool gen_call;
+static bool in_vcallers_proc;
 
 
 /*

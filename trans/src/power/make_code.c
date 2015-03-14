@@ -64,15 +64,14 @@
 
 int no_error_jump;
 
-bool cr0_set;
+static bool cr0_set;
 
 where nowhere;	/* no particular destination, init in translat.c */
 
 /* Function declarations */
-void move_dlts(int,int,int,int);/* Used by movecont_tag */
-void move_dgts(int,int,int,int);/* Used by movecont_tag */
-int regfrmdest(where *,space);
-freg fregfrmdest(bool,where *,space);
+static void move_dlts(int,int,int,int);/* Used by movecont_tag */
+static void move_dgts(int,int,int,int);/* Used by movecont_tag */
+static freg fregfrmdest(bool,where *,space);
 
 static int get_next_mlv_number(void);
 void adjust_to_size(int,int,int,int,int);
@@ -3441,8 +3440,9 @@ makeans make_code(exp e, space sp, where dest, int exitlab)
   }
 }				/* end make_code */
 
-void move_dlts(int dr, int sr, int szr, int bytemove)
-  /* move szr bytes to dr from sr (using R_TMP0)- either nooverlap or dr<=sr */
+/* move szr bytes to dr from sr (using R_TMP0)- either nooverlap or dr<=sr */
+static void
+move_dlts(int dr, int sr, int szr, int bytemove)
 {
   baseoff sr_baseoff;
   baseoff dr_baseoff;
@@ -3468,8 +3468,9 @@ void move_dlts(int dr, int sr, int szr, int bytemove)
   rir_ins( i_a ,dr , 1, dr );          /* ai     dr,dr,1  */
 }
 
-void move_dgts(int dr, int sr, int szr, int bytemove)
-	/* move szr bytes to dr from sr (using R_TMP0) with overlap and dr>sr */
+/* move szr bytes to dr from sr (using R_TMP0) with overlap and dr>sr */
+static void
+move_dgts(int dr, int sr, int szr, int bytemove)
 {
   baseoff sr_baseoff;
   baseoff dr_baseoff;
@@ -3505,7 +3506,8 @@ int regfrmdest(where * dest, space sp)
     }
   }
 }
-freg fregfrmdest(bool dble, where * dest, space sp)
+
+static freg fregfrmdest(bool dble, where * dest, space sp)
 {
   freg fr;
 

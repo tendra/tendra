@@ -35,6 +35,8 @@
 #include <dwarf2/dw2_iface.h>
 #endif
 
+static bool 
+couldeffect ( exp e, exp z );
 
 /*
     0-31 represent the fixed point registers, 32-47 the floating point
@@ -48,7 +50,7 @@ regpeep regexps [48] ;
     ARE TWO SHAPES OF THE SAME SIZE, ALIGNMENT AND FLOATING-POINT-NESS?
 */
 
-bool 
+static bool 
 eq_sze ( shape as, shape bs )
 {
     if ( is_floating ( name ( as ) ) ) {
@@ -66,7 +68,7 @@ eq_sze ( shape as, shape bs )
     ARE TWO LISTS OF EXPRESSIONS SIMILAR?
 */
 
-bool 
+static bool 
 sim_explist ( exp al, exp bl )
 {
     if ( al == NULL && bl == NULL ) return 1;
@@ -349,11 +351,8 @@ keepreg ( exp e, int regcode )
 }
 
 
-/*
-    COULD e BE lhs?
-*/
-
-bool 
+/* COULD e BE lhs?  */
+static bool 
 couldbe ( exp e, exp lhs )
 {
     unsigned char ne = name ( e ) ;
@@ -391,7 +390,7 @@ couldbe ( exp e, exp lhs )
     COULD AN ALTERATION TO z EFFECT e?
 */
 
-bool 
+static bool 
 couldeffect ( exp e, exp z )
 {
     unsigned char ne = name ( e ) ;
@@ -422,7 +421,7 @@ couldeffect ( exp e, exp z )
     DOES e DEPEND ON z?
 */
 
-bool 
+static bool 
 dependson ( exp e, bool isc, exp z )
 {
     if (e == NULL) {

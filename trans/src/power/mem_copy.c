@@ -140,7 +140,8 @@ void reverse_static_memory_copy(int reg_from, int reg_to, int number_of_bytes)
   assert(offset ==0);
 }
 
-void dynamic_byte_memory_copy(int reg_from, int reg_to, int reg_size)
+static void
+dynamic_byte_memory_copy(int reg_from, int reg_to, int reg_size)
 {
   /* reg_size contains the number of bytes to copy */
   int zero = new_label();
@@ -174,7 +175,9 @@ void dynamic_byte_memory_copy(int reg_from, int reg_to, int reg_size)
   /* reg_from goes to reg_from + reg_size */
   /* reg_to goes to reg_to + reg_size */
 }
-void reverse_dynamic_byte_memory_copy(int reg_from, int reg_to, int reg_size)
+
+static void
+reverse_dynamic_byte_memory_copy(int reg_from, int reg_to, int reg_size)
 {
   /* reg_size contains the number of bytes to copy */
   int zero = new_label();

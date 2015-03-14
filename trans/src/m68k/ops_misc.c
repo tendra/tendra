@@ -45,6 +45,9 @@
 #include "special_exps.h"
 #include "localexpmacs.h"
 
+static void
+pop_float(long sz, where wh);
+
 /*
  * SET_OVERFLOW
  *
@@ -295,8 +298,8 @@ jmpins(exp fn)
  */
 bool have_cond = 0;
 where last_cond;
-where last_cond2;
-where last_cond_alt;
+static where last_cond2;
+static where last_cond_alt;
 long last_cond_sz;
 
 /*
@@ -665,7 +668,7 @@ pop(shape sha, long sz, where wh)
  * A value of size sz is popped from the stack into the floating-point
  * register wh.
  */
-void
+static void
 pop_float(long sz, where wh)
 {
 	mach_op *op1 = make_inc_sp();

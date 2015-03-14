@@ -14,8 +14,6 @@
 #include "addresstypes.h"
 #include "cross.h"
 
-extern int  next_data_lab(void);
-
 extern int  next_dlab_sym(void);
 extern int data_lab;
 
@@ -24,8 +22,4 @@ extern mm maxmin(shape);
 
 extern instore evaluated(exp,int);
 
-extern void  outfloat(exp,int,ash);
-
-
-extern char fltrepr[];
 

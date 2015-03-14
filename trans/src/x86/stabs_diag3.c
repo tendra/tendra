@@ -115,8 +115,8 @@ static long last_type_sz = 0;
 /*
  * Current file and line number
  */
-long currentfile = -1;
-long currentlno  = -1;
+static long currentfile = -1;
+static long currentlno  = -1;
 
 /*
  * Array of type sizes

@@ -27,7 +27,7 @@
 #include <refactor/optimise.h>
 #include <refactor/refactor_ext.h>
 
-void
+static void
 rec_inl(exp p)
 {
 	if (pt(p) != NULL) {

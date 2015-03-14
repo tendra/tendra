@@ -122,7 +122,7 @@ i_st_sz ( int bits ){
   LOAD THE ADDRESS REPRESENTED BY is INTO reg
 */
 
-void 
+static void 
 ld_addr ( instore is, int reg ){
   if ( is.adval ) {
     if ( IS_FIXREG ( is.b.base ) ) {
@@ -141,7 +141,7 @@ ld_addr ( instore is, int reg ){
   The register number is returned.  regs gives the registers to 
   choose from.
 */
-int 
+static int 
 addr_reg ( instore is, long regs ){
   int r ;
   if ( is.adval && IS_FIXREG ( is.b.base ) && is.b.offset == 0 ) {

@@ -70,6 +70,7 @@ static void code_postlude(exp postlude, exp callers, ash stack, long post_offset
 static bool test_push_args(exp args, ash* args_size);
 static void push_args(where w, ash stack, exp args);
 static void place_arguments(exp args, ash stack, long start);
+static void general_epilogue(bool uses_callers_pointer, bool has_checkstack);
 
 /*
  * GCPROC
@@ -300,7 +301,7 @@ typedef struct rrs_tag {
   struct rrs_tag* next;
 } rrs;
 
-rrs* restore_regs_subsribers = 0;
+static rrs *restore_regs_subsribers = 0;
 
 
 /*
@@ -320,8 +321,8 @@ void restore_regs
 }
 
 /* used by restore_regs_output below */
-rrs* pop_restore_regs_subsriber
-(void)
+static rrs *
+pop_restore_regs_subsriber(void)
 {
    rrs* p = restore_regs_subsribers;
 
@@ -346,8 +347,8 @@ rrs* pop_restore_regs_subsriber
  *
  * side effect: current_ins is changed
  */
-void restore_regs_output
-(bitpattern rmsk, bitpattern fmsk, long st, long st1, bool uses_link)
+static void
+restore_regs_output(bitpattern rmsk, bitpattern fmsk, long st, long st1, bool uses_link)
 {
    rrs* p;
    while ((p = pop_restore_regs_subsriber())) {
@@ -407,8 +408,8 @@ void restore_regs_output
  * Cleanup before a tail call is performed. Used by tail_call.
  * Restore registers and frees callees stack room and return address.
  */
-void cleanup_bt
-(bool save_ret, int rg)
+static void
+cleanup_bt(bool save_ret, int rg)
 {
    mach_op *op1, *op2;
 
@@ -514,8 +515,8 @@ void cleanup
  * Push memory in the range [start, end] on the stack. (start > end).
  * (modifies start, end, SP)
  */
-void push_range
-(int start, int end)
+static void
+push_range(int start, int end)
 {
    mach_op *op1, *op2;
    long lb;
@@ -542,8 +543,8 @@ void push_range
  * Returns an operand specifying the size of the callees for
  * the current procedure.
  */
-mach_op* make_callees_size
-(void)
+static mach_op *
+make_callees_size(void)
 {
    /* Is it a run time value ? */
    if (cur_proc_has_vcallees)
@@ -559,8 +560,8 @@ mach_op* make_callees_size
  * Used by apply_general_proc to push the same callees
  * (modifies A0,D0,D1,SP)
  */
-void push_same_callees
-(bool var_callees)
+static void
+push_same_callees(bool var_callees)
 {
    mach_op *op1, *op2;
 
@@ -606,8 +607,8 @@ void push_same_callees
  * Callees size is available in D1 afterwards.
  * (modifies A0,D0,D1,SP)
  */
-void push_dynamic_callees
-(exp pcallees, ash stack)
+static void
+push_dynamic_callees(exp pcallees, ash stack)
 {
    mach_op *op1, *op2;
    exp ptr = son(pcallees);
@@ -683,8 +684,8 @@ void push_dynamic_callees
  * Used by tail_call to push dynamic callees
  * (modifies A0,A1,D0,D1,SP)
  */
-void push_dynamic_callees_bt
-(exp pcallees, ash stack)
+static void
+push_dynamic_callees_bt(exp pcallees, ash stack)
 {
    mach_op *op1, *op2;
 
@@ -726,8 +727,8 @@ void push_dynamic_callees_bt
  * For results which do not fit into registers a pointer to
  * where the result is to be put is passed in A1
  */
-void A1_result_pointer
-(long comp_size, long longs, long start_stack, where dest)
+static void
+A1_result_pointer(long comp_size, long longs, long start_stack, where dest)
 {
    if (comp_size) {
       /* Find the space allocated for unwanted results */
@@ -1324,8 +1325,8 @@ void tail_call
  * There is some testing to see if D1, A0, A1 and FP1 can be put to
  * better use.
  */
-void general_epilogue
-(bool uses_callers_pointer, bool has_checkstack)
+static void
+general_epilogue(bool uses_callers_pointer, bool has_checkstack)
 {
    int r, instruction_id;
    bitpattern m;
@@ -1654,8 +1655,8 @@ void make_visible
  * callees we need to transform the pointer in the addptr expression to
  * callers pointer.
  */
-void fix_addptr
-(exp addptr)
+static void
+fix_addptr(exp addptr)
 {
    exp pointer  = son(addptr);
    exp offset   = bro(pointer);

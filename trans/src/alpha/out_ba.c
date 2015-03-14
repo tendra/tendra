@@ -33,7 +33,7 @@ static  binasm ba;
 /*
    output one binasm record and return a copy of the output.
 */
-char *
+static char *
 out_one(char *d)
 {
   int   i;
@@ -200,7 +200,7 @@ out_value(asmsym symno, unsigned asmtype, INT64 expression, unsigned int repeat)
 /*
    output alias binasm record
 */
-void
+static void
 out_alias(asmsym symno, unsigned asmtype, asmreg basereg1, asmreg basereg2)
 {
  

@@ -79,7 +79,7 @@ needreg(int r, space sp)
   return guardreg(r, sp);
 }
 
-space
+static space
 needfreg(int r, space sp)
 {
 #if 0 /* !!!! */

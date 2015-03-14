@@ -14,8 +14,6 @@
 extern void static_memory_copy(int,int,int);
 extern void reverse_static_memory_copy(int,int,int);
 extern void dynamic_word_memory_copy(int,int,int);
-extern void dynamic_byte_memory_copy(int,int,int);
-extern void reverse_dynamic_byte_memory_copy(int,int,int);
 extern void reverse_dynamic_word_memory_copy(int,int,int);
 
 #endif

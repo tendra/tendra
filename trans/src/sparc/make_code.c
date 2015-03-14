@@ -107,7 +107,7 @@ where nowhere ;
 /*
   CHECK FOR NOT-A-NUMBER
 */
-void 
+static void 
 checknan ( exp e, int fr )
 {
 	UNUSED(e);
@@ -126,7 +126,7 @@ checknan ( exp e, int fr )
   Not available until SunOS 5.0.
 */
 
-void 
+static void 
 setvolatile (void)
 {
   asm_printf("!\t.volatile\n" ) ;
@@ -138,7 +138,7 @@ setvolatile (void)
   Not available until SunOS 5.0.
 */
 
-void 
+static void 
 setnovolatile (void)
 {
   asm_printf("!\t.nonvolatile\n" ) ;
@@ -317,20 +317,20 @@ check_integer_multiply_exception ( exp e, space sp, int result )
   If the value in register reg does not lie between the limits, then
   go to label trap.
 */
-void 
+static void 
 test_unsigned ( int reg, int upper, int trap )
 {
   condri_ins(i_bgu,reg,upper,trap);
 }
 
-void 
+static void 
 test_signed( int reg, int lower, int upper, int trap )
 {
   condri_ins(i_blt,reg,lower,trap);
   condri_ins(i_bgt,reg,upper,trap);
 }
 
-void 
+static void 
 test_signed_and_trap ( int reg, int lower, int upper, int except )
 {
   int ok_lab = new_label();
@@ -344,7 +344,7 @@ test_signed_and_trap ( int reg, int lower, int upper, int except )
   set_label(ok_lab);
 }
 
-void 
+static void 
 test_unsigned_and_trap ( int reg, long upper, int except )
 {
   int ok_lab = new_label();
@@ -353,7 +353,7 @@ test_unsigned_and_trap ( int reg, long upper, int except )
   set_label(ok_lab);
 }
 
-int 
+static int 
 regfrmdest ( where * dest, space sp )
 {
   if(dest->answhere.d == inreg){
@@ -681,7 +681,7 @@ fix_nonbitfield ( exp e )
 /*
   This function finds the caller_tag corresponding to a caller_name tag
 */
-exp 
+static exp 
 find_ote ( exp nom, int n ) 
 {
   exp dad = father(nom);
@@ -704,7 +704,7 @@ find_ote ( exp nom, int n )
   round_towards zero, so the numbers used as the limits of the ranges are
   adjusted to account for this.
 */
-void 
+static void 
 check_range_and_do_error_jump ( shape rep_var, int r, int lab, space sp, int rmode ) 
 {
   int ftmp = getfreg(sp.flt);
@@ -851,7 +851,7 @@ check_range_and_do_error_jump ( shape rep_var, int r, int lab, space sp, int rmo
 */
 
 #ifdef TDF_DIAG4
-makeans 
+static makeans 
 make_code_1 ( exp e, space sp, where dest, int exitlab )
 {
 #else

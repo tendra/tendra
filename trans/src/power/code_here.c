@@ -69,7 +69,8 @@ int regofval(exp e)
 /*
  * fregofval same as regofval, but used for float regs
  */
-int fregofval(exp e)
+static int
+fregofval(exp e)
 {
   exp dc = son(e);
 

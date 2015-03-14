@@ -48,7 +48,6 @@ extern version global_version;
 
 extern int in_proc_def;
 
-extern aldef const_aldefs[6];
 extern int doing_aldefs;
 extern alignment const_al1;
 extern alignment const_al8;

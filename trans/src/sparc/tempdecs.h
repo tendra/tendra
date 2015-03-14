@@ -14,9 +14,6 @@
 
 #include <construct/installtypes.h>
 
-extern bool simple_seq(exp, exp);
 extern bool tempdec(exp, bool);
-extern int trace_uses(exp, exp);
-extern void after_a(exp, exp);
 
 #endif /* TEMPDECS_INCLUDED */

@@ -69,6 +69,9 @@
 
 #define PREFETCH_COUNT 1000
 
+static void
+fl_comp(shape sha, where pos, where neg, exp e);
+
 /* All variables initialised */
 
 static where SPILLREG;	/* no init needed */
@@ -87,77 +90,78 @@ int fpucon;			/* init by cproc */
 
 		/* initialised by initzeros */
 exp zeroe;			/* constant exps and wheres */
-exp fzeroe;
-exp fonee;
-exp flongmaxe;
-exp dlongmaxe;
-exp dllmaxe;
-exp dzeroe;
-exp donee;
+static exp fzeroe;
+static exp fonee;
+static exp flongmaxe;
+static exp dlongmaxe;
+static exp dllmaxe;
+static exp dzeroe;
+static exp donee;
 where zero;
 where fzero;
-where fone;
+static where fone;
 where dzero;
-where done;
-exp smaxe;
-exp sllmaxe;
+static where done;
+static exp smaxe;
+static exp sllmaxe;
 
-exp dummys;
-exp dummyu;
-exp reg0id;
-exp reg0charid;
-exp reg0uid;
-exp reg1id;
-exp reg2id;
-exp reg3id;
-exp reg4id;
-exp reg5id;
-exp reg6id;
-exp spid;
-exp bpid;
-exp pushid;
-exp flstackid;
-exp stack0ref;
+static exp dummys;
+static exp dummyu;
+static exp reg0id;
+static exp reg0charid;
+static exp reg0uid;
+static exp reg1id;
+static exp reg2id;
+static exp reg3id;
+static exp reg4id;
+static exp reg5id;
+static exp reg6id;
+static exp spid;
+static exp bpid;
+static exp pushid;
+static exp flstackid;
+static exp stack0ref;
 where reg0;
-where reg0char;
-where reg0u;
+static where reg0char;
+static where reg0u;
 where reg1;
 where reg2;
 where reg3;
 where reg4;
 where reg5;
-where reg6;
+static where reg6;
 where sp;
 where bp;
 where ind_sp;
 where ind_reg0;
 where ind_reg1;
-where ind_reg2;
-where ind_reg4;
+static where ind_reg2;
+static where ind_reg4;
 where pushdest;
 where flstack;
-where stack0;
+static where stack0;
 
 static exp firstlocalid;
 static where firstlocal;
 
-exp ferrmemid;
+static exp ferrmemid;
 exp ferrmem;
 
 where reg_wheres[7];
 		/* end of values inited by initzeros */
 
-static int   contop_level = 0;	/* initial value for pushing must be 0 */
-static int reg0_in_use = 0;	/* initial value for pushing must be 0 */
-int contop_dopop = 0;		/* initial value for pushing must be 0 */
+static int contop_level = 0; /* initial value for pushing must be 0 */
+static int reg0_in_use  = 0; /* initial value for pushing must be 0 */
+static int contop_dopop = 0; /* initial value for pushing must be 0 */
 
-static exp name_memmove = NULL;	/* initialised if and when needed */
-static exp cont_stacklimit = NULL;	/* initialised if and when needed */
+static exp name_memmove    = NULL; /* initialised if and when needed */
+static exp cont_stacklimit = NULL; /* initialised if and when needed */
+
+static exp lib64_error  = NULL;
 static exp lib64_s_mult = NULL;
 static exp lib64_u_mult = NULL;
 static exp lib64_div[4];
 static exp lib64_rem[4];
-static exp lib64_error = NULL;
 static int lib64_set = 0;
 
 
@@ -261,8 +265,8 @@ static int   use_pop
   return 0;
 }
 
-int  count_regs
-(int mask)
+static int
+count_regs(int mask)
 {
   return bits_in(mask & 0xf) + bits_in((mask >> 4) & 0x3);
 }
@@ -324,8 +328,8 @@ void end_contop
 /*
  * If a in cont or ass of an identified object, load the address
  */
-void contop
-(exp a, int r0inuse, where dest)
+static void
+contop(exp a, int r0inuse, where dest)
 {
   unsigned char  n = name(a);
   int  offset = 0;
@@ -754,8 +758,8 @@ void initzeros
  */
 
 /* is w in memory and not a constant */
-int flinmem
-(where w)
+static int
+flinmem(where w)
 {
   exp e = w.where_exp;
   unsigned char  n = name(e);
@@ -811,8 +815,8 @@ int inmem
   return flinmem(w);
 }
 
-int w_islastuse
-(where w)
+static int
+w_islastuse(where w)
 {
   exp e = w.where_exp;
   if (name(e) == name_tag && !isvar(son(e)))
@@ -1094,8 +1098,8 @@ void minop
 }
 
 /* add values a1, a2 of shape sha and put them in dest  */
-void add_plus
-(shape sha, where a1, where a2, where dest, int plus1)
+static void
+add_plus(shape sha, where a1, where a2, where dest, int plus1)
 {
   int  sz;
   exp a = a1.where_exp;
@@ -1458,8 +1462,8 @@ void add
 }
 
 /* negate a1 in sup_dest then add a2 and put in dest */
-void inverted_sub
-(shape sha, where a1, where a2, where sup_dest, where dest)
+static void
+inverted_sub(shape sha, where a1, where a2, where sup_dest, where dest)
 {
   if (overflow_e == NULL) {
     negate(sha, a1, sup_dest);
@@ -1783,8 +1787,8 @@ void not
 /*
  * Floating register for e
  */
-int  in_fl_reg
-(exp e)
+static int
+in_fl_reg(exp e)
 {
   unsigned char  ne = name(e);
   if (ne == name_tag && ptno(son(e)) == reg_pl) {
@@ -1881,8 +1885,8 @@ static int all_in_regs
   return 1;
 }
 
-int two_contops
-(exp fe, exp te)
+static int
+two_contops(exp fe, exp te)
 {
   int   nr = count_regs((~regsinuse) & 0x3e);
   if (nr >= 2)
@@ -3706,8 +3710,8 @@ void change_var_refactor
  * byte, short and long versions of the operator. one is the unit for the
  * operator. Similar to plus qv. for comments.
  */
-void andetc
-(char *opb, char *opw, char *opl, int one, shape sha, where a1, where a2, where dest)
+static void
+andetc(char *opb, char *opw, char *opl, int one, shape sha, where a1, where a2, where dest)
 {
   int  sz;
   exp a = a1.where_exp;
@@ -4406,13 +4410,13 @@ void multiply
 }
 
 #define short_mults 6
-int  mtab[short_mults] = {
+static int mtab[short_mults] = {
   25, 15, 9, 7, 5, 3
 };
 
 /* do multiplications by small integer constants */
-void longc_mult
-(where a1, where a2, where dest, int inc)
+static void
+longc_mult(where a1, where a2, where dest, int inc)
 {
   int  i,
         j;
@@ -5624,8 +5628,8 @@ void mova
   son(fe) = holdfe;
 }
 
-int   adjust_pos
-(exp e, int nbits)
+static int
+adjust_pos(exp e, int nbits)
 {
   int   pos;
   UNUSED(nbits);
@@ -5638,8 +5642,8 @@ int   adjust_pos
  * Find bit position of bitfield defined by e, and alter e to address
  * the start of the byte.
  */
-int   bit_pos_cont
-(exp e, int nbits)
+static int
+bit_pos_cont(exp e, int nbits)
 {
   if (name(e) == reff_tag ||
       name(e) == name_tag)
@@ -5673,8 +5677,8 @@ int   bit_pos_cont
  * of the byte. Looks at top level and calls bit_pos_cont to it is a cont or ass
  * (which needs recursive calling)
  */
-int   bit_pos
-(exp e, int nbits)
+static int
+bit_pos(exp e, int nbits)
 {
   if (name(e) == name_tag)
     return adjust_pos(e, nbits);
@@ -5866,8 +5870,8 @@ void bits_to_mem
  * Apply floating point operation op between fstack0 and memory.
  * Reverse arguments of operation if rev.
  */
-void fopm
-(shape sha, unsigned char op, int rev, where wh)
+static void
+fopm(shape sha, unsigned char op, int rev, where wh)
 {
   exp hold = son(wh.where_exp);
   contop(wh.where_exp, 0, reg0);
@@ -5946,8 +5950,8 @@ void fopm
  * Apply floating point operation op between fstack0 and fstackn.
  * Reverse arguments of operation if rev.
  */
-void fopr
-(unsigned char op, int rev, where wh, where d, int and_pop)
+static void
+fopr(unsigned char op, int rev, where wh, where d, int and_pop)
 {
   switch (op) {
     case fplus_tag:
@@ -6493,8 +6497,8 @@ void fl_abs
  */
 
 /* Floating point compare */
-void fl_comp
-(shape sha, where pos, where neg, exp e)
+static void
+fl_comp(shape sha, where pos, where neg, exp e)
 {
 	/* can improve this to use other comparison instructions */
   cond1_set = 0;

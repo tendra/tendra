@@ -17,7 +17,6 @@ extern int g_reg_max;
 extern int maxfix_tregs;
 extern int sysV_assembler;
 
-extern dec *diag_def;
 extern dec **main_globals;
 
 enum section {
@@ -27,15 +26,13 @@ enum section {
     rodata_section,
     init_section
 };
+
 extern int local_reg;
 extern int callee_start_reg;
-extern int callee_end_reg;
 extern int caller_offset_used;
 extern enum section current_section;
 extern void exit_translator(void);
 extern void insection(enum section);
-extern void mark_unaliased(exp);
-extern void translate_capsule(void);
 extern baseoff find_tag(char *);
 
 

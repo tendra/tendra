@@ -87,7 +87,8 @@ bool RETURNS_FR_RESULT(exp e)
 }
 
 
-int trace_uses(exp e, exp id)
+static int
+trace_uses(exp e, exp id)
 {
   /*
    * reduces nouses for each non-assignment use of id encountered in e; sets
@@ -263,7 +264,8 @@ int trace_uses(exp e, exp id)
 }
 
 
-void after_a(exp a, exp id)
+static void
+after_a(exp a, exp id)
 {
   /* apply trace_uses to dynamic successors of a */
   exp dad;
@@ -300,7 +302,9 @@ tailrecurse:
   if (dad != id)
     goto tailrecurse;
 }
-bool simple_seq(exp e, exp id)
+
+static bool
+simple_seq(exp e, exp id)
 {
 	UNUSED(e);
 	UNUSED(id);
@@ -325,13 +329,14 @@ bool simple_seq(exp e, exp id)
 #endif
 }
 
-int tempdec(exp e, bool enoughs)
+/*
+ * e is a local declaration; 'enoughs' is a misnomer to say whether there
+ * are t-regs available delivers 1 if e can be allocated into t-reg or par
+ * reg
+ */
+static int
+tempdec(exp e, bool enoughs)
 {
-  /*
-   * e is a local declaration; 'enoughs' is a misnomer to say whether there
-   * are t-regs available delivers 1 if e can be allocated into t-reg or par
-   * reg
-   */
   exp p;
 
   if (~optim & OPTIM_TEMPDEC)

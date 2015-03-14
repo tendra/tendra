@@ -68,7 +68,8 @@ static const weights zeroweights =
 weights weightsv(double, exp);
 
 
-weights add_weights(weights * w1, weights * w2)
+static weights
+add_weights(weights * w1, weights * w2)
 {
   /* sum of weights */
   weights r;
@@ -86,7 +87,8 @@ weights add_weights(weights * w1, weights * w2)
 }
 
 
-wp max_weights(double loc, weights * ws, bool fix)
+static wp
+max_weights(double loc, weights * ws, bool fix)
 {
   /*
    * loc is the usage count of a tag, ws is the weights computed for the scope
@@ -195,7 +197,8 @@ wp max_weights(double loc, weights * ws, bool fix)
   return res;
 }
 
-weights mult_weights(double m, weights * ws)
+static weights
+mult_weights(double m, weights * ws)
 {
   /*
    * multiply weights by scalar - non overflowing
@@ -219,7 +222,8 @@ weights mult_weights(double m, weights * ws)
   return res;
 }
 
-weights add_wlist(double scale, exp re)
+static weights
+add_wlist(double scale, exp re)
 {				/* sum of  weights of list re */
   weights w, w1;
   exp r = re;

@@ -79,17 +79,19 @@ int avoid_intov; /* No software interrupts */
 static exp cont_err_handler = NULL;
 
 
-char *reg_name_long[8] = {
+static char *reg_name_long[8] = {
   "%eax", "%edx", "%ecx", "%ebx", "%edi", "%esi", "%ebp", "%esp"
 };
-char *reg_name_word[7] = {
+
+static char *reg_name_word[7] = {
   "%ax", "%dx", "%cx", "%bx", "%di", "%si", "%bp"
 };
-char *reg_name_byte[7] = {
+
+static char *reg_name_byte[7] = {
   "%al", "%dl", "%cl", "%bl", "%??", "%??", "%??"
 };
 
-char *fl_reg_name[8] = {
+static char *fl_reg_name[8] = {
   "%st", "%st(1)", "%st(2)", "%st(3)", "%st(4)", "%st(5)", "%st(6)",
   "%st(7)",
 };

@@ -81,33 +81,33 @@
 
 /* All variables initialised */
 
-shape f_ptr1;
-shape f_ptr8;
-shape f_ptr16;
-shape f_ptr32;
-shape f_ptr64;
-shape f_off0_0;
-shape f_off1_1;
-shape f_off8_8;
-shape f_off8_1;
-shape f_off16_16;
-shape f_off16_8;
-shape f_off16_1;
+static shape f_ptr1;
+static shape f_ptr8;
+static shape f_ptr16;
+static shape f_ptr32;
+static shape f_ptr64;
+static shape f_off0_0;
+static shape f_off1_1;
+static shape f_off8_8;
+static shape f_off8_1;
+static shape f_off16_16;
+static shape f_off16_8;
+static shape f_off16_1;
 shape f_off32_32;
-shape f_off32_16;
-shape f_off32_8;
-shape f_off32_1;
+static shape f_off32_16;
+static shape f_off32_8;
+static shape f_off32_1;
 shape f_off64_64;
-shape f_off64_32;
-shape f_off64_16;
-shape f_off64_8;
-shape f_off64_1;
-shape f_off512_512;
-shape f_off512_64;
-shape f_off512_32;
-shape f_off512_16;
-shape f_off512_8;
-shape f_off512_1;
+static shape f_off64_32;
+static shape f_off64_16;
+static shape f_off64_8;
+static shape f_off64_1;
+static shape f_off512_512;
+static shape f_off512_64;
+static shape f_off512_32;
+static shape f_off512_16;
+static shape f_off512_8;
+static shape f_off512_1;
 
 shape ucharsh;
 shape scharsh;
@@ -203,7 +203,7 @@ containedshape(int a, int s)
 }
 
 
-dec *
+static dec *
 make_extra_dec(char *nme, int v, int g, exp init, shape s)
 {
 	dec *extra_dec = (dec *)calloc(1, sizeof(dec));
@@ -239,7 +239,7 @@ make_extra_dec(char *nme, int v, int g, exp init, shape s)
 }
 
 
-dec *
+static dec *
 find_named_dec(char *n)
 {
 	/* find a global with name n */
@@ -268,7 +268,7 @@ find_named_tg(char *n, shape s)
 }
 
 
-char *
+static char *
 fn_of_op(int nm, int sngd)
 {
 	/* Find a run-time library fn corresponding to nm */
@@ -307,7 +307,7 @@ fn_of_op(int nm, int sngd)
 }
 
 
-exp
+static exp
 TDFcallop3(exp arg1, exp arg2, int n)
 {
 	/* construct proc call for binary op corresponding to n */
@@ -332,7 +332,7 @@ TDFcallop3(exp arg1, exp arg2, int n)
 }
 
 
-exp
+static exp
 TDFwithet(error_treatment ov_err, exp e)
 {
 	exp id;
@@ -360,7 +360,7 @@ TDFwithet(error_treatment ov_err, exp e)
 }
 
 
-exp
+static exp
 TDFcallop2(error_treatment ov_err, exp arg1, exp arg2, int n)
 {
 	/* construct proc call for binary op corresponding to n */
@@ -407,8 +407,8 @@ TDFcallaux(error_treatment ov_err, exp arg1, char *nm, shape s)
 }
 
 
-exp TDFcallop1
-(error_treatment ov_err, exp arg1, int n)
+static exp
+TDFcallop1(error_treatment ov_err, exp arg1, int n)
 {
 	/* construct proc call for unary op corresponding to n */
 	/* ignore error treatment for the moment */
@@ -417,7 +417,7 @@ exp TDFcallop1
 }
 
 
-exp
+static exp
 TDFcallop4(exp arg1, int n)
 {
 	/* construct proc call for unary op corresponding to n */
@@ -527,15 +527,15 @@ promote_formals(exp bdy)
 }
 
 
-aldef frame_als[32];
+static aldef frame_als[32];
 
-alignment f_locals_alignment = &frame_als[0];
-alignment nv_callers_alignment = &frame_als[1];
+alignment f_locals_alignment    = &frame_als[0];
+alignment nv_callers_alignment  = &frame_als[1];
 alignment var_callers_alignment = &frame_als[3];
-alignment nv_callees_alignment = &frame_als[7];
+alignment nv_callees_alignment  = &frame_als[7];
 alignment var_callees_alignment = &frame_als[15];
 
-void
+static void
 init_frame_als(void)
 {
 	int i;
@@ -1640,7 +1640,7 @@ f_bitfield_contents_with_mode(transfer_mode md, bitfield_variety bf, exp p,
 }
 
 
-exp
+static exp
 f_case_transform(bool exhaustive, exp control, caselim_list branches)
 {
 	exp r, ht;
@@ -2070,7 +2070,7 @@ eq_et(error_treatment a, error_treatment b)
 }
 
 
-exp
+static exp
 div_rem(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2,
 	exp(*f)(error_treatment, exp, exp))
 {
@@ -2103,7 +2103,7 @@ div_rem(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2,
 }
 
 
-exp
+static exp
 div0_aux(error_treatment ov_err, exp arg1, exp arg2)
 {
 	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
@@ -2148,7 +2148,7 @@ f_div0(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2)
 }
 
 
-exp
+static exp
 div1_aux(error_treatment ov_err, exp arg1, exp arg2)
 {
 	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
@@ -2183,7 +2183,7 @@ f_div1(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2)
 }
 
 
-exp
+static exp
 div2_aux(error_treatment ov_err, exp arg1, exp arg2)
 {
 	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
@@ -3318,7 +3318,7 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 }
 
 
-procprops crt_procprops;
+static procprops crt_procprops;
 
 void
 start_make_general_proc(shape result_shape, procprops prcprops,
@@ -3573,7 +3573,7 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 }
 
 
-exp
+static exp
 find_caller_id(int n, exp p)
 {
 	while (name(p) == ident_tag) {
@@ -4590,7 +4590,7 @@ f_profile(nat n)
 }
 
 
-exp
+static exp
 rem1_aux(error_treatment ov_err, exp arg1, exp arg2)
 {
 	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
@@ -4625,7 +4625,7 @@ f_rem1(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2)
 }
 
 
-exp
+static exp
 rem0_aux(error_treatment ov_err, exp arg1, exp arg2)
 {
 	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
@@ -4670,7 +4670,7 @@ f_rem0(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2)
 }
 
 
-exp
+static exp
 rem2_aux(error_treatment ov_err, exp arg1, exp arg2)
 {
 	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
@@ -6219,7 +6219,7 @@ init_access_option(void)
 
 static int seq_n = 0;
 
-char *
+static char *
 init_NAME(char *good_name)
 {
 	char *prefix  = "__I.TDF";

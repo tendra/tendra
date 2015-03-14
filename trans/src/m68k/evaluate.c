@@ -98,8 +98,8 @@ static void eval_instr
     The operand op of size sz is added to current_op.
 */
 
-void eval_op
-(long sz, mach_op *op)
+static void
+eval_op(long sz, mach_op *op)
 {
     static mach_op *last_op;
     if (sz != current_sz) {
@@ -118,8 +118,8 @@ void eval_op
 */
 extern int PIC_code;
 
-long  evalexp
-(exp e)
+static long
+evalexp(exp e)
 {
    switch (name(e)) {
    case  val_tag:
@@ -578,8 +578,8 @@ static void clear_out
     evaluated.  al gives the alignment of e.
 */
 
-void evalaux
-(exp e, bool isconst, long al)
+static void
+evalaux(exp e, bool isconst, long al)
 {
     switch (name(e)) {
 

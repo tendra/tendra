@@ -51,13 +51,13 @@
 extern void globalise_name(dec*);
 extern  procrec * procrecs;
 
-long  G_number = 64;		/* to give choice of .sdata or data */
+static long  G_number = 64;		/* to give choice of .sdata or data */
 
 int   data_lab = 33;
 
 /* anonymous label in data space - $$n in assember o/p */
-int next_data_lab
-(void)
+static int
+next_data_lab(void)
 {
         return data_lab++;
 }
@@ -71,24 +71,12 @@ int next_dlab_sym
 }
 
 /* various pieces of info for outputting data depending on shape */
-mm scmm = {
-  127, -128, "\t.byte %ld :%ld\n"
-};
-mm uscmm = {
-  255, 0, "\t.byte %ld :%ld\n"
-};
-mm shmm = {
-  0x7fff, 0xffff8000, "\t.half %ld :%ld\n"
-};
-mm ushmm = {
-  0xffff, 0, "\t.half %ld :%ld\n"
-};
-mm swmm = {
-  0x7fffffff, 0x80000000, "\t.word %ld :%ld\n"
-};
-mm uswmm = {
-  0xffffffff, 0, "\t.word %ld :%ld\n"
-};
+static mm scmm  = { 127,        -128,       "\t.byte %ld :%ld\n" };
+static mm uscmm = { 255,        0,          "\t.byte %ld :%ld\n" };
+static mm shmm  = { 0x7fff,     0xffff8000, "\t.half %ld :%ld\n" };
+static mm ushmm = { 0xffff,     0,          "\t.half %ld :%ld\n" };
+static mm swmm  = { 0x7fffffff, 0x80000000, "\t.word %ld :%ld\n" };
+static mm uswmm = { 0xffffffff, 0,          "\t.word %ld :%ld\n" };
 
 /*
  * finds the data size from the range of an integer shape
@@ -121,8 +109,8 @@ mm maxmin
  * Outputs the label parameter if non negative else interprets it
  * to be an index into the externals and outputs the identifier.
  */
-void outlab
-(int l)
+static void
+outlab(int l)
 {
   if (l >= 0) {
     asm_printf( "$$%d", l);
@@ -140,8 +128,8 @@ void outlab
  * of evalone. This is done to cope with the fact that the exp to evaluated
  * may contain pack operations which are graph-like.
  */
-long  evalexp
-(exp e)
+static long
+evalexp(exp e)
 {
   switch (name(e)) {
     case  val_tag: case null_tag: case top_tag:{
@@ -246,8 +234,8 @@ long  evalexp
   return 0;
 }
 
-void set_align
-(int al)
+static void
+set_align(int al)
 {
 	if (al<16) return;
 	if (as_file)
@@ -261,8 +249,8 @@ void set_align
 
 }
 
-int eval_al
-(shape s)
+static int
+eval_al(shape s)
 {
 	if (shape_align(s)!=1) return shape_align(s);
 	if (shape_size(s) <=8) return 8;
@@ -270,8 +258,8 @@ int eval_al
 	return 32;
 }
 
-void oneval
-(int val, int al, int rep)
+static void
+oneval(int val, int al, int rep)
 {
 	char *as = (al <= 8)? "\t.byte %ld :%ld\n"
 	:    ((al <= 16)? "\t.half %ld :%ld\n"
@@ -284,8 +272,8 @@ void oneval
 
 
 /* outputs constant expression e, rep times; */
-void evalone
-(exp e, long rep)
+static void
+evalone(exp e, long rep)
 {
   ash a;
   a = ashof(sh(e));

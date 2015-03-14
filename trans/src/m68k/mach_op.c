@@ -739,7 +739,7 @@ make_reg_index(int r1, int r2, long d, int sf)
     Typ determines the type of the application pointer.
 */
 
-mach_op *
+static mach_op *
 _make_ind_rel_ap(long d, long e, int typ)
 {
 	mach_op *p1, *p2;

@@ -60,7 +60,7 @@ setreorder(void)
   out_value(0,iset, make_INT64(0,set_reorder) ,0);
 }
 
-void
+static void
 setnomove(void)
 {
   if(as_file){
@@ -69,7 +69,7 @@ setnomove(void)
   out_value(0,iset, make_INT64(0,set_nomove),0);
 }
 
-void
+static void
 setmove(void)
 {
   if(as_file){
@@ -149,7 +149,7 @@ set_text_section(void)
   set_align(128);
 }
 
-void
+static void
 setmask(int32 mask, int32 disp)
 {
   if(as_file){
@@ -159,7 +159,7 @@ setmask(int32 mask, int32 disp)
 }
 
 
-void
+static void
 setfmask(int32 mask, int32 disp)
 {
   if(as_file){

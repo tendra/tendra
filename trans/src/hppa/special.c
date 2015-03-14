@@ -108,7 +108,7 @@ static const needs twofixneeds = {2, 0, 0, 0};	/* two fix reg needs */
 
 
 /* these are the needs for their expansion */
-needs
+static needs
 specialneeds(int i, exp application, exp pars)
 {
   UNUSED(application);
@@ -288,7 +288,7 @@ specialmake(int i, exp par, space sp, where dest, int exitlab)
     2 that it should be generated.
 */
 
-int library_key = 0 ;
+static int library_key = 0 ;
 
 
 /*

@@ -27,13 +27,13 @@
 
 regpeep regexps[64];
 
-bool eq_size
-(shape as, shape bs)
+static bool
+eq_size(shape as, shape bs)
 {
   return shape_size(as) == shape_size(bs);
 }
 
-bool sim_exp(exp a, exp b);
+static bool sim_exp(exp a, exp b);
 
 bool eq_sze
 (shape as, shape bs)
@@ -46,8 +46,8 @@ bool eq_sze
 #define is_volatile(X)((X<9) || (X>15))
 
 
-bool sim_explist
-(exp al, exp bl)
+static bool
+sim_explist(exp al, exp bl)
 {
   if (al == NULL && bl == NULL)
     return 1;
@@ -64,8 +64,8 @@ bool sim_explist
 
 
 
-bool sim_exp
-(exp a, exp b)
+static bool
+sim_exp(exp a, exp b)
 {
   /* basically eq_exp except equal shapes
      requirement  is weakened to equal sizes
@@ -295,10 +295,10 @@ void keepreg
   regexps[z].iscont = 0;
 }
 
-bool couldeffect(exp e, exp z);
+static bool couldeffect(exp e, exp z);
 
-bool couldbe
-(exp e, exp lhs)
+static bool
+couldbe(exp e, exp lhs)
 {
   /* could e be lhs? */
   int   ne = name(e);
@@ -336,8 +336,8 @@ bool couldbe
 
 }
 
-bool couldeffect
-(exp e, exp z)
+static bool
+couldeffect(exp e, exp z)
 {
   /* could alteration to z effect e? */
   int   ne = name(e);

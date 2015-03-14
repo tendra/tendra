@@ -22,8 +22,8 @@
 
 static FILE *file;
 
-const char *margin = "\t"; /* left indent before instructions */
-const char *fringe = "\t"; /* after code, before trailing comments */
+static const char *margin = "\t"; /* left indent before instructions */
+static const char *fringe = "\t"; /* after code, before trailing comments */
 
 void
 asm_file(FILE *f)

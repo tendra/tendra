@@ -104,8 +104,8 @@ baseoff boff
 */
 where locate(exp e, space sp, shape s, int dreg);
 
-where locate1
-(exp e, space sp, shape s, int dreg)
+static where
+locate1(exp e, space sp, shape s, int dreg)
 {
   /* finds the address of e using shape s;
      sp gives available t-regs for any inner

@@ -41,7 +41,7 @@
 #include "ops_shared.h"
 #include "output.h"
 
-extern void add_const(shape, long, where);
+static void add_const(shape, long, where);
 
 /*
     The m_lea instruction is used to add the constant offset to the value
@@ -49,8 +49,8 @@ extern void add_const(shape, long, where);
     that the result should be pushed onto the stack.
 */
 
-void load_ea
-(shape sha, long offset, where a, where dest, bool psh)
+static void
+load_ea(shape sha, long offset, where a, where dest, bool psh)
 {
     if (have_overflow()) {
 	move(sha, a, D0);
@@ -77,8 +77,8 @@ void load_ea
     The value dest is increased or decreased by the constant n.
 */
 
-void addsub_const
-(shape sha, long n, where dest, bool use_sub)
+static void
+addsub_const(shape sha, long n, where dest, bool use_sub)
 {
     int instr;
     bool negate = 0, use_quick = 0;
@@ -172,14 +172,14 @@ void addsub_const
     test_overflow(ON_SHAPE(sha));
 }
 
-void add_const
-(shape sha, long n, where dest)
+static void
+add_const(shape sha, long n, where dest)
 {
    addsub_const(sha, n, dest, 0);
 }
 
-void sub_const
-(shape sha, long n, where dest)
+static void
+sub_const(shape sha, long n, where dest)
 {
    addsub_const(sha, n, dest, 1);
 }
@@ -1522,8 +1522,8 @@ void rem2
     The value top is divided by bottom and the result is stored in dest.
 */
 
-void exactdiv
-(shape sha, where bottom, where top, where dest)
+static void
+exactdiv(shape sha, where bottom, where top, where dest)
 {
 	UNUSED(sha);
 

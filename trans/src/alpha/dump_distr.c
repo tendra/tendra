@@ -29,7 +29,7 @@ static  space zsp = {
   0, 0
 };				/* long fixed, long flt */
 
-void
+static void
 maxsp(space *a, space b)
 {
   a -> fixed |= b.fixed;
@@ -42,7 +42,7 @@ maxsp(space *a, space b)
    which s-regs are used for the parameters of current proc; 
    incpars says dont ignore pars in registers 
 */
-space
+static space
 suses(exp e, space *pars, int incpars)
 {
 
@@ -147,13 +147,13 @@ suses(exp e, space *pars, int incpars)
   return ans;
 }
 
-bool
+static bool
 sameregs(space *a, space *b)
 {
   return (a -> fixed | b -> fixed) == b -> fixed && (a -> flt | b -> flt) == b -> flt;
 }
 
-space
+static space
 remd(space *tobd, space *dmpd)
 {
   /* any regs left out of tobd after dmpd has been done */
@@ -172,7 +172,7 @@ remd(space *tobd, space *dmpd)
    via pt; delivers bool to say whether all sregs have been 
    dumped 
 */
-bool
+static bool
 placedump(exp *pe, space *dmpd, space *tobd, space *nds)
 {
   exp e = *pe;
@@ -194,7 +194,7 @@ placedump(exp *pe, space *dmpd, space *tobd, space *nds)
    beforeb is space up to end of tests; second only use beforeb;
    otherwise NULL 
 */
-exp
+static exp
 goodcond(exp first, exp second, space *beforeb, space *pars)
 {
   exp t;
@@ -223,7 +223,7 @@ goodcond(exp first, exp second, space *beforeb, space *pars)
   return NULL;
 }
 
-bool
+static bool
 alljumps(exp e, exp slv, int *nol)
 {
   /* all all branches to labsts of slove_tag slv in e ? */
@@ -263,7 +263,7 @@ alljumps(exp e, exp slv, int *nol)
    
 
 
-bool
+static bool
 goodsolve(exp e)
 {
   exp m = bro(son(e));
@@ -281,7 +281,7 @@ static int  notfregs;
  /* use to make sure of enough t-regs which are not par regs; I reuse any
     par registers whose pars are put in s-regs as t-regs  */
 
-void
+static void
 pushdumps(exp *pe, space *dmpd, space *tobd, space *pars)
 {
   /* tries to delay the dumps of the s-regs as late as possible 

@@ -116,7 +116,7 @@ static const needs twofixneeds = { 2, 0, 0, 0 } ;
 */
 
 /* ARGSUSED */ 
-needs 
+static needs 
 specialneeds ( int i, exp application, exp pars )
 {
 	UNUSED(application);

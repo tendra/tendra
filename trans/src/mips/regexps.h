@@ -28,6 +28,5 @@ extern void keepexp(exp e, ans loc);
 extern void clear_dep_reg(exp lhs);
 extern void keepcont(exp e, int reg);
 extern void keepreg(exp e, int reg);
-extern regpeep regexps[48];
 extern bool eq_sze(shape, shape);
 extern bool dependson(exp, bool, exp);

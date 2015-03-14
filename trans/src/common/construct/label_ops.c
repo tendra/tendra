@@ -136,7 +136,7 @@ short_next_jump(exp e)
 }
 
 
-exp
+static exp
 jump_dest(exp lab)
 {
 	return next_jump(son(lab));

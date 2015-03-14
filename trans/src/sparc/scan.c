@@ -77,10 +77,11 @@ static bool nonevis = 1 ;
 static bool specialext ;	/* for PIC_code, special globals require proc_uses_external */
 static int callerfortr ;
 
-int maxfix, maxfloat ;		/* The maximum numbers of t-regs */
 static bool gen_call;   /* true if the scan is within a general proc */
 static bool v_proc;     /* true if the scan is within a general proc with vcallees */
 static bool trad_proc;	/* true if the scan is within a proc with no callees */
+
+int maxfix, maxfloat ;		/* The maximum numbers of t-regs */
 
 /*
   THE TYPE DESCRIBING REGISTER NEEDS
@@ -100,7 +101,7 @@ static bool trad_proc;	/* true if the scan is within a proc with no callees */
   FIND A POINTER TO EXPRESSION POINTING TO e
 */
 
-exp 
+static exp 
 *ptr_position ( exp e ){
   exp *res ;
   exp dad = father ( e ) ;
@@ -125,7 +126,7 @@ exp
   number of registers.
 */
 
-void 
+static void 
 cca ( exp ** to, exp * x ){
 
 #ifndef TDF_DIAG4
@@ -193,10 +194,10 @@ cca ( exp ** to, exp * x ){
   no registers respectively.
 */
 
-needs onefix = { 1, 0, 0, 0 } ;
-needs twofix = { 2, 0, 0, 0 } ;
-needs onefloat = { 0, 1, 0, 0 } ;
-needs zeroneeds = { 0, 0, 0, 0 } ;
+static needs onefix    = { 1, 0, 0, 0 } ;
+static needs twofix    = { 2, 0, 0, 0 } ;
+static needs onefloat  = { 0, 1, 0, 0 } ;
+static needs zeroneeds = { 0, 0, 0, 0 } ;
 
 
 #if 0
@@ -231,7 +232,7 @@ subvar_use ( exp uses )
   WORK OUT REGISTER NEEDS FOR A GIVEN SHAPE
 */
 
-needs 
+static needs 
 shapeneeds ( shape s ){
   if ( is_floating ( name ( s ) ) ) {
     return onefloat;
@@ -283,7 +284,7 @@ make_bitfield_offset ( exp e, exp pe, int spe, shape sha ){
   simple load or store instruction.
 */
 
-bool 
+static bool 
 complex ( exp e ){
   if ( name ( e ) == name_tag ||
        ( name ( e ) == cont_tag && name ( son ( e ) ) == name_tag &&
@@ -298,7 +299,7 @@ complex ( exp e ){
   UNREACHED;
 }
 
-int 
+static int 
 scan_cond ( exp* e, exp outer_id ){
 
   exp ste = *e;
@@ -555,7 +556,7 @@ likediv ( exp * e, exp ** at ){
   The operation will be binary.
 */
 
-needs 
+static needs 
 fpop ( exp * e, exp ** at ){
   needs l ;
   needs r ;
@@ -617,7 +618,7 @@ fpop ( exp * e, exp ** at ){
   WORK OUT THE MAXIMUM OF TWO REGISTER NEEDS
 */
 
-needs 
+static needs 
 maxneeds ( needs a, needs b ){
   needs an ;
   an.fixneeds = MAX_OF ( a.fixneeds, b.fixneeds ) ;
@@ -633,7 +634,7 @@ maxneeds ( needs a, needs b ){
   WORK OUT THE REGISTER NEEDS OF A TUPLE OF EXPRESSIONS
 */
 
-needs 
+static needs 
 maxtup ( exp e, exp ** at ){
   exp *s = &son ( e ) ;
   needs an ;
@@ -653,7 +654,7 @@ maxtup ( exp e, exp ** at ){
   result of ident.
 */
 
-bool 
+static bool 
 unchanged ( exp usedname, exp ident ){
   exp uses = pt ( usedname ) ;
   while ( uses != NULL ) {
@@ -686,7 +687,7 @@ unchanged ( exp usedname, exp ident ){
   declaration to ensure that this space exists.
 */
 
-bool 
+static bool 
 chase ( exp sel, exp * e ){
   exp *one ;
   bool b = 0 ;
@@ -746,7 +747,7 @@ chase ( exp sel, exp * e ){
 }
 
 
-exp 
+static exp 
 need_result_space ( exp e ) {
 	/* dad if application needs to reserve space for struct result */
   exp dad = father ( e );
@@ -778,7 +779,7 @@ need_result_space ( exp e ) {
 }
 
 
-bool 
+static bool 
 spin_lab  ( exp lab ) {
 	/* true if label implies a tight spin */
   exp dest = lab;

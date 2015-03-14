@@ -10,7 +10,6 @@
 #include "addrtypes.h"
 #include <construct/flpttypes.h>
 
-extern int next_data_lab(void);
 extern int next_dlab_sym(void);
 extern mm maxmin(shape s);
 extern instore evaluated(exp e, long l, dec * dc);

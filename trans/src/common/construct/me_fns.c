@@ -179,7 +179,7 @@ me_l1(shape s, unsigned char nm)
 }
 
 
-exp
+static exp
 me_q1_aux(nat_option prob, ntest nt, exp lab, exp arg1, exp arg2,
 	  unsigned char nm)
 {
@@ -203,7 +203,7 @@ me_q1(nat_option prob, ntest nt, label dest, exp arg1, exp arg2,
 }
 
 
-exp
+static exp
 me_q2_aux(nat_option prob, error_treatment err, ntest nt, exp lab, exp arg1,
 	  exp arg2, unsigned char nm)
 {
@@ -243,7 +243,7 @@ me_null(shape sha, int i, unsigned char nm)
 }
 
 
-exp
+static exp
 me_b4(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2,
       unsigned char nm)
 {
@@ -334,7 +334,7 @@ float_to_complex_var(floating_variety f)
 }
 
 
-floating_variety
+static floating_variety
 complex_to_float_var(floating_variety f)
 {
 	return f-3;

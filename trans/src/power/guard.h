@@ -18,7 +18,4 @@ extern space guardreg(int , space);
 extern space guardfreg(int , space);
 extern space guard(where , space);
 
-extern space needreg(int , space);
-extern space needfreg(int , space);
-
 #endif /* guarddecs.h */

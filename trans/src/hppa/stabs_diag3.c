@@ -61,6 +61,7 @@
 
 extern bool last_param(exp);
 
+static void stab_types(void);
 static void stab_file(long findex, bool internal);
 static void stab_scope_open(long);
 static void stab_scope_close(long);
@@ -119,8 +120,8 @@ static long last_type_sz = 0;
 /*
  * Current line number and file number
  */
-long currentlno = -1;
-long currentfile = -1;
+static long currentlno  = -1;
+static long currentfile = -1;
 
 #ifndef _SYMTAB_INCLUDED
 
@@ -2171,8 +2172,8 @@ stab_local(char *nm, diag_type dt, exp ldid, long disp, long findex)
 /*
  * Deal with basic types
  */
-void stab_types
-(void)
+static void
+stab_types(void)
 {
     no_type_info = NO_STABS;
     type_info = (type_info_t *)xmalloc(NO_STABS * sizeof(type_info_t));

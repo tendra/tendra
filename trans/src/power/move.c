@@ -99,7 +99,8 @@ Instruction_P i_st_sz(int bits)
 
 
 /* load address represented by is into reg */
-void ld_addr(instore is, int reg)
+static void
+ld_addr(instore is, int reg)
 {
   asm_comment("ld_addr: adval=%d", is.adval);
 
@@ -122,7 +123,8 @@ void ld_addr(instore is, int reg)
 
 
 /* get address represented by is into a reg */
-int addr_reg(instore is, long regs)
+static int
+addr_reg(instore is, long regs)
 {
   int r;
 

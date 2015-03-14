@@ -76,7 +76,7 @@ needreg ( int r, space sp )
     This routine is like guardfreg, but fails if r has already been used.
 */
 
-space 
+static space 
 needfreg ( int r, space sp )
 {
 #if 0

@@ -36,7 +36,7 @@ typedef struct regpeept regpeep;
 #define FR_OFFSET		KEPT_FREG_OFFSET	/* 32 */
 #define	LAST_ALL_REGS		(FR_OFFSET+FR_LAST)	/* 63 */
 
-regpeep regexps[LAST_ALL_REGS+1];	/* [0:31] fix pt - [32:63] floating pt */
+static regpeep regexps[LAST_ALL_REGS+1];	/* [0:31] fix pt - [32:63] floating pt */
 
 static bool sim_exp(exp, exp);
 
@@ -279,7 +279,8 @@ ans iskept_reg(exp e)
 
 
 /* find if e has already been evaluated into a floating point register */
-ans iskept_freg(exp e)
+static ans
+iskept_freg(exp e)
 {
   return iskept_regrange(e, FR_OFFSET, LAST_ALL_REGS);
 }
@@ -437,10 +438,11 @@ void keepreg(exp e, int reg)
   asm_comment("keepreg : reg %d kept name is %d no %d",z,name(e),no(e));
 }
 
-bool couldeffect(exp , exp);
+static bool couldeffect(exp , exp);
 
 /* could 'e' be 'lhs' */
-bool couldbe(exp e, exp lhs)/* is var name_tag exp or 0 meaning cont */
+static bool
+couldbe(exp e, exp lhs)/* is var name_tag exp or 0 meaning cont */
 {
   int ne = name(e);
   exp s = son(e);
@@ -484,7 +486,8 @@ bool couldbe(exp e, exp lhs)/* is var name_tag exp or 0 meaning cont */
 
 
 /* could alteration to z effect e? */
-bool couldeffect(exp e, exp z)/* a name or zero */
+static bool
+couldeffect(exp e, exp z)/* a name or zero */
 {
   int ne = name(e);
 

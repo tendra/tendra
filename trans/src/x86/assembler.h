@@ -39,7 +39,6 @@ void outend(void);
 
 void outopenbr(void);
 void outclosebr(void);
-void outdivsym(void);
 
 void out_initialiser(char *id);
 void out_main_prelude(void);

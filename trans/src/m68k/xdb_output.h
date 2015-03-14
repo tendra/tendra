@@ -73,7 +73,6 @@ extern void dnt_begin(void);
 extern int dnt_end(void);
 extern void diag_string(FILE *, char *);
 extern void diag_source(char *, long, int);
-extern void diag_source_file(char *, long);
 extern void diag_globl_variable(diag_type, char *, int, char *, int);
 extern void diag_local_variable(diag_type, char *, long);
 extern void diag_type_defn(char *, diag_type);

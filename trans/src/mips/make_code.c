@@ -78,22 +78,22 @@ extern  procrec * procrecs;
 
 long  fscopefile;
 
-ans procans;
-int   rscope_level;
-int   rscope_label;
-int   result_label = 0;
-int   currentnop;
-long max_args;
+static ans procans;
+static int rscope_level;
+static int rscope_label;
+static int result_label = 0;
+static int currentnop;
+static long max_args;
 
 where nowhere;
 
 static exp crt_proc;
 
-bool NONEGSHIFTS = 1;
+static bool NONEGSHIFTS = 1;
 
-long aritherr_lab = 0;
-long stackerr_lab = 0;
-long allocaerr_lab = 0;
+static long aritherr_lab  = 0;
+static long stackerr_lab  = 0;
+static long allocaerr_lab = 0;
 
 extern exp find_named_tg(char *, shape);
 extern shape f_pointer(alignment);
@@ -104,8 +104,8 @@ typedef struct{int dble; r2l r; instore ad;} rcache;
 static rcache rca[16];
 static int nca = 0;
 
-void do_exception
-(int e)
+static void
+do_exception(int e)
 {
 	baseoff b;
 	b.base = 0; b.offset = e;
@@ -115,8 +115,8 @@ void do_exception
 	br_ins(i_j, 25);
 }
 
-long trap_label
-(exp e)
+static long
+trap_label(exp e)
 {
 	if ((errhandle(e) &3) ==3) {
           	if (aritherr_lab==0)aritherr_lab = new_label();
@@ -125,16 +125,16 @@ long trap_label
         else return no(son(pt(e)));
 }
 
-void dump_gp
-(void)
+static void
+dump_gp(void)
 {
 	baseoff b;
 	b.base = 29; b.offset = locals_offset>>3;
 	ls_ins(i_sw, 28, b);
 }
 
-void reset_gp
-(void)
+static void
+reset_gp(void)
 {
 	baseoff b;
 	if (Has_vcallees) {
@@ -153,8 +153,8 @@ void reset_gp
 	ls_ins(i_lw, 28, b);
 }
 
-bool unsafe
-(exp e)
+static bool
+unsafe(exp e)
 {		/*  usages of parameters which might be
 				   vararg */
 	UNUSED(e);
@@ -183,8 +183,8 @@ bool unsafe
 
 
 
-void checknan
-(exp e, space sp)
+static void
+checknan(exp e, space sp)
 {
            long trap = trap_label(e);
            int r1 = getreg(sp.fixed);
@@ -195,6 +195,7 @@ void checknan
 	   cop_ins(i_ctc1, r1, 31);
 	   condri_ins(i_bne, r2, 0, trap);
 }
+
 /*
 char *usbranches (i)
 	int i;
@@ -216,15 +217,15 @@ char *usbranches (i)
 }
 */
 
-void testsigned
-(int r, long lower, long upper, long lab)
+static void
+testsigned(int r, long lower, long upper, long lab)
 {
 	condri_ins(i_blt, r, lower, lab);
 	condri_ins(i_bgt, r, upper, lab);
 }
 
-void testusigned
-(int r, long maxval, long lab)
+static void
+testusigned(int r, long maxval, long lab)
 {
      	condri_ins(i_bgtu, r, maxval, lab);
 }
@@ -250,8 +251,8 @@ char *sbranches(i)
 }
 */
 
-char * branches
-(shape s, int i)
+static char *
+branches(shape s, int i)
 {
 	int n = name(s);
 	if (n == scharhd || n == swordhd || n == slonghd
@@ -330,8 +331,8 @@ ssets(int i)
 }
 */
 
-char * sets
-(shape s, int i)
+static char *
+sets(shape s, int i)
 {
 	int n = name(s);
 	if (n == scharhd || n == swordhd || n == slonghd
@@ -370,8 +371,8 @@ char * sets
 	return i_seq;
 }
 
-char *fbranches
-(int i)
+static char *
+fbranches(int i)
 {
   switch (i) {
     case  1:
@@ -390,8 +391,8 @@ char *fbranches
   return i_c_eq_s;
 }
 
-char *fdbranches
-(int i)
+static char *
+fdbranches(int i)
 {
   switch (i) {
     case  1:
@@ -415,8 +416,8 @@ long  notbranch[6] = {
 };
  /* used to invert TDF tests */
 
-void move_dlts
-(int dr, int sr, int szr, int mr, int bytemove)
+static void
+move_dlts(int dr, int sr, int szr, int mr, int bytemove)
 {
 	/* move szr bytes to dr from sr (use mr)- either nooverlap or dr<=sr */
 	baseoff b;
@@ -434,8 +435,8 @@ void move_dlts
  	condrr_ins(i_bne, szr, 0, lin);
 }
 
-void move_dgts
-(int dr, int sr, int szr, int mr, int bytemove)
+static void
+move_dgts(int dr, int sr, int szr, int mr, int bytemove)
 {
 	/* move szr bytes to dr from sr (use mr) with overlap and dr>sr */
 	baseoff b;
@@ -456,8 +457,8 @@ void move_dgts
  	condrr_ins(i_bne, szr, 0, lin);
 }
 
-void reset_tos
-(void)
+static void
+reset_tos(void)
 {
     	if (Has_tos) {
     		baseoff b;
@@ -467,8 +468,8 @@ void reset_tos
     	}
 }
 
-exp testlast
-(exp e, exp second)
+static exp
+testlast(exp e, exp second)
 {
   /* finds the last test in sequence e which is a branch to second, if
      any, otherwise nil */
@@ -516,8 +517,8 @@ bool last_param
 	return 1;
 }
 
-int regfrmdest
-(where * dest, space sp)
+static int
+regfrmdest(where * dest, space sp)
 {
  	switch (dest->answhere.discrim) {
 	  case inreg:
@@ -533,8 +534,8 @@ int regfrmdest
 	}
 }
 
-space do_callers
-(exp list, space sp)
+static space
+do_callers(exp list, space sp)
 {	int   disp =0;
 	int   spar = 4;
 	int   fpar = 6;
@@ -615,8 +616,8 @@ space do_callers
 
 
 
-void load_reg
-(exp e, int r, space sp)
+static void
+load_reg(exp e, int r, space sp)
 {
 	where w;
 	w.ashwhere = ashof(sh(e));
@@ -629,8 +630,8 @@ static int diagPIClab;
 typedef struct postl_ {exp pl; struct postl_ * outer; } postl_chain;
 static postl_chain * old_pls;
 
-void update_plc
-(postl_chain * ch, int ma)
+static void
+update_plc(postl_chain * ch, int ma)
 {
 	while (ch != NULL) {
 	  exp pl= ch->pl;
@@ -642,8 +643,8 @@ void update_plc
 	}
 }
 
-void do_callee_list
-(exp e, space sp)
+static void
+do_callee_list(exp e, space sp)
 {
     	long x = ((no(e) >>3) +23) & ~7;
     	exp list = son(e);
@@ -676,8 +677,8 @@ void do_callee_list
 	update_plc(old_pls, - (x<<3));
 }
 
-exp find_ote
-(exp e, int n)
+static exp
+find_ote(exp e, int n)
 {
 	exp d = father(e);
 	while (name(d)!=apply_general_tag)d = father(d);

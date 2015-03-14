@@ -18,7 +18,6 @@ extern char *special_call_name(int);
 extern int specialfn(exp);
 extern int specialmake(int, exp, space, where, int);
 extern int specialopt(exp);
-extern needs specialneeds(int, exp, exp);
 
 extern int library_key;
 extern void call_special_routine(int);

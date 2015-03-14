@@ -44,17 +44,15 @@
 
 #include <stddef.h>
 
+#include <reader/exp.h>
 #include <reader/code.h>
 
 #include <construct/installtypes.h>
 #include <construct/exp.h>
 #include <construct/tags.h>
+#include <construct/shape.h>
 
 #include <refactor/const.h>
-
-#include <reader/exp.h>
-
-#include <construct/shape.h>
 
 #include "proctypes.h"
 #include "procrec.h"
@@ -63,12 +61,14 @@
 #include "regable.h"
 #include "weights.h"
 
+static weights 
+weightsv ( double scale, exp e );
 
 /*
     THE ZERO WEIGHT
 */
 
-weights zeroweights = {
+static weights zeroweights = {
   {
     0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -85,7 +85,7 @@ weights zeroweights = {
   ADD TWO WEIGHTS
 */
 
-weights 
+static weights
 add_weights ( weights * w1, weights * w2 ){
   long i ;
   weights r ;
@@ -112,7 +112,7 @@ add_weights ( weights * w1, weights * w2 ){
   negative since using a s-reg will involve a dump and restore.
 */
 
-wp 
+static wp 
 max_weights ( double loc, weights * ws, bool fix ){
   long i ;
   wp res ;
@@ -199,7 +199,7 @@ max_weights ( double loc, weights * ws, bool fix ){
 /*
   MULTIPLY A WEIGHT BY A SCALAR
 */
-weights 
+static weights 
 mult_weights ( double m, weights * ws ){
   long i ;
   weights res ;
@@ -220,7 +220,7 @@ mult_weights ( double m, weights * ws ){
 /*
   ADD A WEIGHTS CORRESPONDING TO AN EXPRESSION LIST
 */
-weights 
+static weights 
 add_wlist ( double scale, exp re ){
   exp r = re ;
   weights w, w1 ;
@@ -253,7 +253,7 @@ add_wlist ( double scale, exp re ){
   recodes the number field of an ident.
 */
 
-weights 
+static weights 
 weightsv ( double scale, exp e ){
   int n ;
 

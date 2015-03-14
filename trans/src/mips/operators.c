@@ -32,7 +32,7 @@
 #include "operators.h"
 #include "pseudo.h"
 
-bool testover = 0;		/* always 0 for C */
+static bool testover = 0; /* always 0 for C */
 
 static void
 tidyshort(int r, shape s, char* ins)
@@ -50,7 +50,7 @@ tidyshort(int r, shape s, char* ins)
   }
 }
 
-bool
+static bool
 regremoved(exp * seq, int reg)
 {
 				/* given a list of expressions seq which
@@ -78,7 +78,7 @@ regremoved(exp * seq, int reg)
   }
 }
 
-void
+static void
 do_comm(exp seq, space sp, int final, char *rins)
 {
 				/* evaluates the fixed operation seq1 rins

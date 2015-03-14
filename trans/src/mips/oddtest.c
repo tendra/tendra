@@ -30,7 +30,7 @@ where f is any sequence of unary operators including identity
 #include "oddtest.h"
 
 
-int
+static int
 oddunary(exp x, exp y, exp *v)
 {
   exp z;
@@ -88,7 +88,7 @@ oddtest(exp x, exp *t, exp *f, exp *v)
 }
 
 /* last_statement finds the last obeyed statement of x and puts it in f */
-int
+static int
 last_statement(exp x, exp *f)
 {
   exp z;

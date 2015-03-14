@@ -18,9 +18,7 @@ extern bool is_zero(exp);
 extern instore evaluated(exp, long, bool);
 extern int next_data_lab(void);
 extern long *realrep(exp);
-extern long evalexp(exp);
 extern mm maxmin(shape);
-extern void evalone(exp, int, bool);
 extern void outlab(int);
 
 #endif /* EVALDECS_INCLUDED */

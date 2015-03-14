@@ -436,7 +436,8 @@ lr_ins ( int imm, int dest )
     OUTPUT A ZEROADIC INSTRUCTION
 */
 
-void z_ins ( ins_p ins )
+static void
+z_ins ( ins_p ins )
 {
     asm_printop("%s", ins ) ;
 #ifdef DWARF2
@@ -465,7 +466,7 @@ uncond_ins ( ins_p ins, int lab )
     OUTPUT A RETURN INSTRUCTION
 */
 
-void 
+static void 
 ret_ins ( ins_p ins )
 {
     asm_printop("%s", ins ) ;
@@ -591,8 +592,8 @@ extj_ins ( ins_p ins, baseoff b, int param_regs_used )
    don't fill up the delay slot: the caller of this functions must
    provide its own delay slot filler 
 */
-void extj_ins_without_delay 
-    ( ins_p ins, baseoff b, int param_regs_used ){
+static void
+extj_ins_without_delay ( ins_p ins, baseoff b, int param_regs_used ){
   char *ext = ext_name ( b.base ) ;
   if ( param_regs_used >= 0 ) {
     /* print number of parameter registers if known */
@@ -637,7 +638,7 @@ extj_special_ins ( ins_p ins, const char * const ext, int param_regs_used ){
 
 /* as above, but with allowing the calling function to fill in the
    delay slot. */
-void 
+static void 
 extj_special_ins_no_delay ( ins_p ins, const char * const ext, int param_regs_used ){
   if ( param_regs_used >= 0 ) {
     /* print number of parameter registers if known */

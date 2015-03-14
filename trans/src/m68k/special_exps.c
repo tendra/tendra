@@ -24,7 +24,7 @@
  * Make an exp representing the contents of an external tag with
  * name n of shape s and variable if v.
  */
-exp
+static exp
 make_extn(char* n, shape s, int v)
 {
 	dec * g = alloc_nof(dec, 1);

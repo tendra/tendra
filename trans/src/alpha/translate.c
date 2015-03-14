@@ -67,11 +67,11 @@
 #include "translate.h"
 #include "localexpmacs.h"
 
-bool do_extern_adds;
+static bool do_extern_adds;
 
 procrec * procrecs;
 dec ** main_globals;
-int main_globals_index;
+static int main_globals_index;
 
 extern filename * fds;
 
@@ -79,7 +79,7 @@ extern filename * fds;
   return the appropriate storage class based on the size parameter.
   The size is given in bytes.
 */
-char *
+static char *
 storage_class(int size)
 {
   switch(size){
@@ -118,7 +118,7 @@ not_reserved(char *id)
 
 
 /* return true if sha has an exposed nof component, false otherwise */
-bool
+static bool
 varsize(shape sha)
 {
   return name(sha)==nofhd;
@@ -126,7 +126,7 @@ varsize(shape sha)
 
 static int current_symno;
 
-void
+static void
 code_it(dec *my_def)
 {
   exp tg = my_def -> dec_exp;

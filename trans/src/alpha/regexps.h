@@ -31,7 +31,6 @@ extern  void keepcont(exp, int);
 extern  void keepreg(exp, int);
 extern bool dependson(exp, bool, exp);
 extern bool eq_sze(shape,shape);
-extern bool eq_size(shape,shape);
 extern void clear_freg(int);
 
 extern  regpeep regexps[64];

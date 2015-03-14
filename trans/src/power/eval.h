@@ -22,6 +22,4 @@ extern mm maxmin(shape);
 extern instore evaluated(exp , int);
 extern instore evaluated_const(exp);
 
-extern void outlab(int);
-
 #endif

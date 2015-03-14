@@ -94,8 +94,8 @@ void clear_t_regs
 
 
 /* call millicode library procedure for complicated operation */
-int call_muldivrem
-(exp lhs, exp rhs, space sp, int proc)
+static int
+call_muldivrem(exp lhs, exp rhs, space sp, int proc)
 {
     char *stub="ARGW0=GR ARGW1=GR";
     reg_operand_here(lhs, sp, ARG0);

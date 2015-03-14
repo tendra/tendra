@@ -93,16 +93,12 @@ extern void tidy_initial_values(void);
 /* All variables are initialised, jmf */
 
 int crt_group_type;		/* the code for the current group of units */
-int crt_links_type;		/* the code for the current type of linkable
-				   variable */
-int crt_extern_link_type;	/* the code for the current type of externally
-				   linked variable */
-tdfstring *crt_capsule_groups;	/* the identifier for the current group
-				   of units */
-int crt_capsule_group_no;	/* the number in the group */
-int crt_capsule_link_no;	/* the number of linkable variables
-				   of the current type */
-capsule_link_list crt_capsule_linking;
+static int crt_links_type;        /* the code for the current type of linkable variable */
+static int crt_extern_link_type;	/* the code for the current type of externally linked variable */
+static tdfstring *crt_capsule_groups;	/* the identifier for the current group of units */
+static int crt_capsule_group_no;	/* the number in the group */
+static int crt_capsule_link_no;	/* the number of linkable variables of the current type */
+static capsule_link_list crt_capsule_linking;
 
 static int no_of_local_tokens;
 
@@ -128,7 +124,7 @@ rf_xcalloc(size_t count, size_t size)
 }
 
   /* translates the name of a group of units into  its code */
-int
+static int
 group_type(char *s)
 {
   if (!strcmp(s, "tokdec")) {
@@ -164,8 +160,8 @@ group_type(char *s)
   return UNKNOWN_UNIT;
 }
 
-  /* translates the name of a kind of linkable variable into its code */
-int
+/* translates the name of a kind of linkable variable into its code */
+static int
 links_type(char *s)
 {
   if (!strcmp(s, "token")) {
@@ -490,9 +486,8 @@ f_bool_cond(exp control, bitstream e1, bitstream e2)
 
 
 /* locate the index number of the linkable variable */
-int
-find_index
-(char *nm)
+static int
+find_index(char *nm)
 {
   int i;
   for (i = 0; i < crt_capsule_linking.number; ++i) {
@@ -1071,7 +1066,7 @@ init_al_tag(void)
 tag f_dummy_tag;
 al_tag f_dummy_al_tag;
 
-void
+static void
 check_sig(tag tg, string sig)
 {
 	char *sid = sig.ints.chars;
@@ -1541,7 +1536,7 @@ f_var_cond(exp control, bitstream e1, bitstream e2)
 }
 
 
-void
+static void
 start_make_tokdec_unit(int no_of_tokens, int no_of_tags, int no_of_als,
 		       int no_of_diagtags, int no_of_dgtags)
 {
@@ -1597,7 +1592,7 @@ f_make_tokdec_unit(void)
   return 0;
 }
 
-void
+static void
 start_make_tokdef_unit(int no_of_tokens, int no_of_tags, int no_of_als,
 		       int no_of_diagtags, int no_of_dgtags)
 {
@@ -1678,7 +1673,7 @@ f_make_tokdef_unit(void)
   return 0;
 }
 
-void
+static void
 start_make_tagdec_unit(int no_of_tokens, int no_of_tags, int no_of_als,
 		       int no_of_diagtags, int no_of_dgtags)
 {
@@ -1764,7 +1759,7 @@ f_make_tagdec_unit(void)
   return 0;
 }
 
-void
+static void
 start_make_versions_unit(int no_of_tokens, int no_of_tags, int no_of_als,
 			 int no_of_diagtags, int no_of_dgtags)
 {
@@ -1840,7 +1835,7 @@ f_make_versions_unit(void)
   return 0;
 }
 
-void
+static void
 start_make_tagdef_unit(int no_of_tokens, int no_of_tags, int no_of_als,
 		       int no_of_diagtags, int no_of_dgtags)
 {
@@ -1937,7 +1932,7 @@ f_make_tagdef_unit(void)
   return 0;
 }
 
-void
+static void
 start_make_aldef_unit(int no_of_tokens, int no_of_tags, int no_of_als,
 		      int no_of_diagtags, int no_of_dgtags)
 {

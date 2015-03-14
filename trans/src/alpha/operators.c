@@ -38,7 +38,7 @@
 #include "cross.h"
 #include "operators.h"
 
-bool testover = 0;		/* always 0 for C */
+static bool testover = 0; /* always 0 for C */
 
 void
 tidyshort(int r, shape s)
@@ -61,7 +61,7 @@ tidyshort(int r, shape s)
    register reg, removes that exp from seq
    and delivers 1; otherwise delivers 0 
 */
-bool
+static bool
 regremoved(exp *seq, int reg)
 {
   exp s = *seq;
@@ -86,7 +86,7 @@ regremoved(exp *seq, int reg)
 }
 
 
-void
+static void
 do_comm(exp seq, space sp, int final, instruction rins)
 {
   int   r = 0;

@@ -61,7 +61,7 @@ int normal_version = 1;
     EXTRA COMPILATION FLAGS
 */
 
-int do_pic = 0;
+static int do_pic       = 0;
 static int do_sep_units = 0;
 
 

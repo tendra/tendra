@@ -15,11 +15,6 @@
 #include "addrtypes.h"
 #include "hppains.h"
 
-extern ins_p i_st_sz(int);
-
-extern void ld_addr(instore, int);
-extern int addr_reg(instore, long);
-
 extern int move(ans, where, long, bool);
 
 #endif /* MOVEDECS_INCLUDED */

@@ -38,21 +38,27 @@
 
 /* IDENTITIES */
 
-float  vzeros[wno + wfno] = {
-  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-};
-float  vmoveregs[wno + wfno] = {	/* for the move instruction */
-  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-};
-float  vcmpregs[wno + wfno] = {	/* for the cmp instruction */
+static float vzeros[wno + wfno] = {
   0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
 };
 
-float  vdivregs[wno + wfno] = {	/* for the div instruction */
+/* for the move instruction */
+static float vmoveregs[wno + wfno] = {
   0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
 };
 
-float  vapplyregs[wno + wfno] = {/* for apply */
+/* for the cmp instruction */
+static float vcmpregs[wno + wfno] = {
+  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
+};
+
+/* for the div instruction */
+static float vdivregs[wno + wfno] = {
+  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
+};
+
+/* for apply */
+static float vapplyregs[wno + wfno] = {
   0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
 };
 
@@ -86,12 +92,12 @@ typedef struct elt  explist;
 				/* list of identity declarations in force
 				   at this point */
 
-weights weightsv(exp, explist *);
+static weights weightsv(exp, explist *);
 
 /* VARIABLES */
 
-weights zeros, moveregs, cmpregs, divregs, applyregs;
-	/* init by init_weights */
+/* init by init_weights */
+static weights zeros, moveregs, cmpregs, divregs, applyregs;
 
 
 
@@ -125,8 +131,8 @@ int no_side
 }
 
 /* add two weight vectors */
-weights add_weights
-(weights w1, weights w2)
+static weights
+add_weights(weights w1, weights w2)
 {
   weights r;
   float  wa,
@@ -167,8 +173,8 @@ void init_weights
   applyregs.flbooked = 2;
 }
 
-void markcall
-(explist * el)
+static void
+markcall(explist * el)
 {
   explist * t = el;
   while (t != NULL) {
@@ -181,8 +187,8 @@ void markcall
    of currently active declarations, to
    show that there is a call, movc3 etc.
    within their scope */
-void markmove
-(explist * el)
+static void
+markmove(explist * el)
 {
   explist * t = el;
   while (t != NULL) {
@@ -192,8 +198,8 @@ void markmove
 }
 
 /* mark to show reg1 may be needed */
-void markreg1
-(explist * el)
+static void
+markreg1(explist * el)
 {
   explist * t = el;
   while (t != NULL) {
@@ -206,8 +212,8 @@ void markreg1
 /* work out weights for a declaration and
    set up the break point to put in the no
    field of the declaration */
-wp max_weights
-(int size, float locp, weights ws, int isfl)
+static wp
+max_weights(int size, float locp, weights ws, int isfl)
 {
   int  k = (size + 31) / 32;
   int  bk = 11;
@@ -265,8 +271,8 @@ wp max_weights
 
 
 /* see if we must use movc3?? */
-weights try_mc3
-(exp e, weights ws, explist * el)
+static weights
+try_mc3(exp e, weights ws, explist * el)
 {
   int  sz = shape_size(sh(e));
 
@@ -279,8 +285,8 @@ weights try_mc3
 
 /* work out the weights for a list of exp.
    usemc3 is 1 if movc3 may be used. */
-weights add_wlist
-(exp re, int usemc3, explist * el)
+static weights
+add_wlist(exp re, int usemc3, explist * el)
 {
   weights wl1, wl2;
   if (re == NULL)
@@ -317,8 +323,8 @@ int regable
   return 1;
 }
 
-int isflsh
-(shape s)
+static int
+isflsh(shape s)
 {
   unsigned char  n = name(s);
   return n >= shrealhd && n <= doublehd;
@@ -334,8 +340,8 @@ int isflsh
    declaration. After the scan the break
    point is put into the no of the
    declaration */
-weights weightsv
-(exp e, explist * el)
+static weights
+weightsv(exp e, explist * el)
 {
   unsigned char  n = name(e);
   float old_scale;

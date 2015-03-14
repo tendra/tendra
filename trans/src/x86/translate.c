@@ -287,8 +287,8 @@ static void code_def
   };
 }
 
-void mark_unaliased
-(exp e)
+static void
+mark_unaliased(exp e)
 {
   exp p = pt(e);
   int ca = 1;

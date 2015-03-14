@@ -67,13 +67,13 @@ extern shape f_proc;
 
 procrec * procrecs;
 dec ** main_globals;
-int main_globals_index;
+static int main_globals_index;
 
 extern long fscopefile;
 extern bool do_extern_adds;
 
-bool not_reserved
-(char *id)
+static bool
+not_reserved(char *id)
 {
   /* various identifier reserved by MIPS */
   if (!strcmp(id, "edata"))
@@ -101,8 +101,8 @@ bool not_reserved
 
 
 
-char varsize
-(shape sha)
+static char
+varsize(shape sha)
 {
   return name(sha) ==nofhd;
 }
@@ -120,8 +120,8 @@ void globalise_name
 
 }
 
-void code_it
-(dec * my_def)
+static void
+code_it(dec * my_def)
 {
   exp tg = my_def -> dec_exp;
   char *id = my_def -> dec_id;
@@ -224,8 +224,8 @@ end:
   my_def -> processed = 1;
 }
 
-void mark_unaliased
-(exp e)
+static void
+mark_unaliased(exp e)
 {
   exp p = pt(e);
   bool ca = 1;
@@ -240,8 +240,8 @@ void mark_unaliased
     setcaonly(e);
 }
 
-void remove_unused
-(void)
+static void
+remove_unused(void)
 { dec ** sdef = &top_def;
   while (*sdef != NULL) {
     exp crt_exp = (*sdef) -> dec_exp;

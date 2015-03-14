@@ -11,4 +11,4 @@
 
 extern needs scan(exp * e, exp ** at);
 extern exp * ptr_position(exp);
-extern void tidy_ident(exp);
+

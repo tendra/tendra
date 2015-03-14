@@ -23,7 +23,7 @@
 #include "out_ba.h"
 #include "labels.h"
 
-int   last_label = 31;
+static int last_label = 31;
 
 int
 new_label(void)

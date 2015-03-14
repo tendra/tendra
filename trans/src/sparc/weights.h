@@ -16,10 +16,4 @@
 
 #include "procrec.h"
 
-extern weights add_weights(weights *, weights *);
-extern weights add_wlist(double, exp);
-extern weights mult_weights(double, weights *);
-extern weights weightsv(double, exp);
-extern wp max_weights(double, weights *, bool);
-
 #endif /* WEIGHTS_INCLUDED */

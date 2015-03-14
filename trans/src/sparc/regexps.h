@@ -25,12 +25,7 @@ typedef struct {
 extern regpeep regexps[];
 
 extern ans iskept(exp);
-extern bool couldbe(exp, exp);
-extern bool couldeffect(exp, exp);
-extern bool dependson(exp, bool, exp);
-extern bool eq_sze(shape, shape);
 extern bool sim_exp(exp, exp);
-extern bool sim_explist(exp, exp);
 extern void clear_all(void);
 extern void clear_dep_reg(exp);
 extern void clear_reg(int);

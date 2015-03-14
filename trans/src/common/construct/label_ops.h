@@ -14,7 +14,6 @@
 
 extern int label_is_next(exp lab, exp e);
 extern exp short_next_jump(exp e);
-extern exp jump_dest(exp lab);
 extern exp final_dest(exp lab);
 extern exp final_dest_test(exp lab, exp e);
 

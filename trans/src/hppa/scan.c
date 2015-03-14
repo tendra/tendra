@@ -77,8 +77,8 @@ static bool rscope_level = 0;
 static bool nonevis = 1;
 static int callerfortr;
 
-bool gen_call;
-bool has_tail_call;
+static bool gen_call;
+static bool has_tail_call;
 
 int maxfix, maxfloat;		/* the maximum number of t-regs */
 
@@ -100,8 +100,8 @@ needs scan(exp *, exp **);
  */
 
 /* return ptrexp pointing to e */
-exp *ptr_position
-(exp e)
+static exp *
+ptr_position(exp e)
 {
   exp *res;
   exp dad = father(e);
@@ -128,11 +128,8 @@ exp *ptr_position
  * is used to stop a procedure requiring more than the available number of
  * registers.
  */
-void tidy_ident(exp);
-
-
-void cca
-(exp **to, exp *x)
+static void
+cca(exp **to, exp *x)
 {
   if (name((**to)) ==diagnose_tag)
   {
@@ -174,15 +171,15 @@ void cca
   }
 }
 
-needs onefix = {1, 0, 0, 0};	/* needs one fix pt reg */
-needs twofix = {2, 0, 0, 0};	/* needs 2 fix pt regs */
-needs onefloat = {0, 1, 0, 0};	/* needs 1 flt pt regs */
-needs zeroneeds = {0, 0, 0, 0};	/* has no needs */
+static needs onefix    = { 1, 0, 0, 0 }; /* needs one fix pt reg */
+static needs twofix    = { 2, 0, 0, 0 }; /* needs 2 fix pt regs */
+static needs onefloat  = { 0, 1, 0, 0 }; /* needs 1 flt pt regs */
+static needs zeroneeds = { 0, 0, 0, 0 }; /* has no needs */
 
 
 #if 0		/* +++ optimise sharing of regs for idents */
-bool subvar_use
-(exp uses)
+static bool
+subvar_use(exp uses)
 {				/* check to see if any uses of id is
 				 * initialiser to subvar dec */
   for (; uses != NULL; uses = pt(uses))
@@ -206,8 +203,8 @@ bool subvar_use
 
 
 /* this gives the needs for manipulating a value of shape s */
-needs shapeneeds
-(shape s)
+static needs
+shapeneeds(shape s)
 {
   if (is_floating(name(s)))
     return onefloat;
@@ -255,8 +252,8 @@ static void make_bitfield_offset
  * These are basicly the expressions which cannot be accessed by a simple
  * load or store instruction.
  */
-bool complex
-(exp e)
+static bool
+complex(exp e)
 {
   if (name(e) == name_tag ||
      (name(e) == cont_tag && name(son(e)) == name_tag &&
@@ -271,8 +268,8 @@ bool complex
   }
 }
 
-void change_to_var
-(exp e)
+static void
+change_to_var(exp e)
 {
 	/* change identity to variable definition */
 	exp p = pt(e);
@@ -292,8 +289,8 @@ void change_to_var
 	}
 }
 
-void change_names
-(exp f, exp t, exp except)
+static void
+change_names(exp f, exp t, exp except)
 {
 	/* replace uses of ident f (!= except) to uses of t */
 	exp py = pt(f);
@@ -317,8 +314,8 @@ void change_names
  * Replace Var/Id x = Id y = e1 in {e2; y} in e3
  * by Var/Id x = e1 in { e2/y=>(cont)x; e3}
  */
-void tidy_ident
-(exp e)
+static void
+tidy_ident(exp e)
 {
 	exp init; exp bdyinit; exp idy;
 	exp e1;
@@ -428,8 +425,8 @@ void tidy_ident
 }
 
 
-int scan_cond
-(exp * e, exp outer_id)
+static int
+scan_cond(exp * e, exp outer_id)
 {
 
 	exp ste = *e;
@@ -696,8 +693,8 @@ needs likediv
   return l;
 }
 
-needs fpop
-(exp * e, exp ** at)
+static needs
+fpop(exp * e, exp ** at)
 {
   /* scans diadic floating point operation  */
   needs l;
@@ -765,8 +762,8 @@ needs fpop
  * Calculates a needs value. Each element of which is the maximum of the
  * corresponding elements in the two parameter needs.
  */
-needs maxneeds
-(needs a, needs b)
+static needs
+maxneeds(needs a, needs b)
 {
   needs an;
 
@@ -781,8 +778,8 @@ needs maxneeds
  * Calculates the needs of a tuple of expressions; any new declarations
  * required by a component expression will replace the component expression.
  */
-needs maxtup
-(exp e, exp ** at)
+static needs
+maxtup(exp e, exp ** at)
 {
   exp *stat = &son(e);
   needs an;
@@ -799,8 +796,8 @@ needs maxtup
  * Finds if usedname is only used in cont operation or as result of ident
  * i.e. value of name is unchanged over its scope
  */
-bool unchanged
-(exp usedname, exp ident)
+static bool
+unchanged(exp usedname, exp ident)
 {
   exp uses = pt(usedname);
 
@@ -837,8 +834,8 @@ bool unchanged
  * This proc is part of the mechanism to determine whether it is necessary to
  * insert a dummy declaration to ensure that this space exists.
  */
-bool chase
-(exp sel, exp * e)
+static bool
+chase(exp sel, exp * e)
 {
   bool b = 0;
   exp *one;

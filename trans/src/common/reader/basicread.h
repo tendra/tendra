@@ -31,17 +31,8 @@ int get_big_code(int n);
 /* deliver the current place in the input stream */
 place keep_place(void);
 
-/* form a place n bits further on in the input stream than pl */
-place add_place(place pl, int n);
-
 /* start reading from pl in the input stream */
 void set_place(place pl);
-
-/*
- * records bn bits from the input stream in a new place.
- * The input stream is stepped on over these bits
- */
-place new_place(int bn);
 
 int  small_dtdfint(void);
 
@@ -77,7 +68,5 @@ tdfbool d_tdfbool(void);
 
 /* reads a tdfint from the input stream */
 tdfint d_tdfint(void);
-
-void add_capsule_frees(void *vp);
 
 #endif /* BASICREAD_H */

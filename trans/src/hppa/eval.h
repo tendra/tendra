@@ -17,8 +17,6 @@ extern int next_data_lab(void);
 extern int next_PIC_pcrel_lab(void);
 extern mm maxmin(shape);
 extern instore evaluated(exp, long);
-extern long *realrep(exp);
-extern long evalexp(exp);
 extern void set_align(int);
 extern void evalone(exp, int);
 

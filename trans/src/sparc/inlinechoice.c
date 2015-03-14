@@ -30,7 +30,7 @@
 int crit_inline    = 120;
 int crit_decs	   = 6;
 int crit_decsatapp = 4;
-int apply_cost     = 1;
+static int apply_cost     = 1;
 int show_inlining  = 0;
 
 #define MASK 3

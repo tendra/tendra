@@ -358,8 +358,8 @@ void prologue
     and FP1 can be put to better use.
 */
 
-void epilogue
-(int restore_only)
+static void
+epilogue(int restore_only)
 {
     int r;
     bitpattern m;

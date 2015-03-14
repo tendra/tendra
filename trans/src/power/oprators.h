@@ -20,6 +20,5 @@ extern int non_comm_op(exp , space , where , Instruction_P);
 
 extern int fop(exp , space , where , Instruction_P);
 extern int fmop(exp , space , where , Instruction_P);
-extern void tidyshort(int,exp);
 
 #endif /* opratorsdecs.h */

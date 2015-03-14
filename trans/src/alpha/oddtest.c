@@ -86,7 +86,7 @@ oddtest(exp x, exp *t, exp *f, exp *v)
 } 
 
 /* last_statement finds the last obeyed statement of x and puts it in f */
-int
+static int
 last_statement(exp x, exp *f)
 {
   exp z;
@@ -117,7 +117,7 @@ last_statement(exp x, exp *f)
 } 
 
 
-int
+static int
 is_maxlike(exp x, exp *t)
 {
   exp op1, op2, z, l, w;
@@ -164,7 +164,7 @@ is_maxlike(exp x, exp *t)
 } 
 
 
-int
+static int
 is_minlike(exp x, exp *t)
 {
   exp op1, op2, z, l, w;

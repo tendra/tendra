@@ -132,14 +132,14 @@ long trap_label
       return no(son(pt(e)));
 }
 
-void reset_tos
-(void)
+static void
+reset_tos(void)
 {
    st_ins(i_sw,SP,SP_BOFF);
 }
 
-void test_if_outside_of_var
-(unsigned char v, int r, int trap)
+static void
+test_if_outside_of_var(unsigned char v, int r, int trap)
 {
    if (v==ucharhd)
    {
@@ -170,8 +170,8 @@ void test_if_outside_of_var
 typedef struct postl_ {exp pl; struct postl_ * outer; } postl_chain;
 static postl_chain * old_pls;
 
-void update_plc
-(postl_chain * ch, int ma)
+static void
+update_plc(postl_chain * ch, int ma)
 {
    while (ch != NULL)
    {
@@ -188,8 +188,8 @@ void update_plc
 /*
  * Ensure everywhere has a checknan() that needs one (cf. mips)
  */
-void checknan
-(exp e, int fr)
+static void
+checknan(exp e, int fr)
 {
 	UNUSED(e);
 	UNUSED(fr);
@@ -206,15 +206,15 @@ void checknan
 /*
  * Start of volatile use
  */
-void setvolatile
-(void)
+static void
+setvolatile(void)
 {
 /*    outs(";\t.volatile\n" ) ;  */
 }
 
 /* end of volatile use */
-void setnovolatile
-(void)
+static void
+setnovolatile(void)
 {
 /*    outs(";\t.nonvolatile\n" ) ;  */
 }
@@ -239,7 +239,7 @@ static const char *(usbranch_tab[]) =
 /*
  * Signed branch table
  */
-const char *(sbranch_tab[]) =
+static const char *(sbranch_tab[]) =
 {
    c_,  /* never branch (shouldn't be used) */
    c_geq,
@@ -396,8 +396,8 @@ static void fix_nonbitfield
 }
 
 
-void restore_callees
-(void)
+static void
+restore_callees(void)
 {
 	/*
 	 * Puts back on the stack those callees, if any, which were kept in
@@ -430,8 +430,8 @@ void restore_callees
 }
 
 
-exp find_ote
-(exp e, int n)
+static exp
+find_ote(exp e, int n)
 {
    exp d = father(e);
    while (name(d)!=apply_general_tag)
@@ -457,8 +457,8 @@ void do_exception
    call_millicode(MILLI_DYNCALL, RP, "", 1);
 }
 
-space do_callers
-(exp list, space sp, char *stub)
+static space
+do_callers(exp list, space sp, char *stub)
 {
    int off = 8<<5;
    int fixpar,fltpar;
@@ -606,8 +606,8 @@ space do_callers
 }
 
 
-void do_callee_list
-(exp e, space sp)
+static void
+do_callee_list(exp e, space sp)
 {
    long disp = 18<<5;
    if (no(e)!= 0)
@@ -633,7 +633,7 @@ void do_callee_list
    }
 }
 
-void load_reg
+static void load_reg
 (exp e, int r, space sp)
 {
    where w;
