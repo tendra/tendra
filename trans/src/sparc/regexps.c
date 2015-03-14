@@ -36,7 +36,7 @@
 #endif
 
 static bool 
-couldeffect ( exp e, exp z );
+couldaffect ( exp e, exp z );
 
 /*
     0-31 represent the fixed point registers, 32-47 the floating point
@@ -380,18 +380,18 @@ couldbe ( exp e, exp lhs )
     }
     if ( ne == addptr_tag || ne == subptr_tag ) {
 	return ( bool ) ( couldbe ( s, lhs ) ||
-			    couldeffect ( bro ( s ), lhs ) ) ;
+			    couldaffect ( bro ( s ), lhs ) ) ;
     }
     return 1;
 
 }
 
 /*
-    COULD AN ALTERATION TO z EFFECT e?
+    COULD AN ALTERATION TO z AFFECT e?
 */
 
 static bool 
-couldeffect ( exp e, exp z )
+couldaffect ( exp e, exp z )
 {
     unsigned char ne = name ( e ) ;
 
@@ -402,14 +402,14 @@ couldeffect ( exp e, exp z )
 	}
 	if ( name ( son ( e ) ) == proc_tag ) return 0;
 	if ( son ( son ( e ) ) == NULL ) return 1;
-	return couldeffect ( son ( son ( e ) ), z ) ;
+	return couldaffect ( son ( son ( e ) ), z ) ;
 
     }
     if ( ne < plus_tag || ne == contvol_tag ) return 1;
 
     e = son ( e ) ;
     while ( e != NULL ) {
-	if ( couldeffect ( e, z ) ) return 1;
+	if ( couldaffect ( e, z ) ) return 1;
 	if ( last ( e ) ) return 0;
 	e = bro ( e ) ;
     }
@@ -451,7 +451,7 @@ dependson ( exp e, bool isc, exp z )
     }
 
     /* z is now unambiguous variable name or 0 (meaning some contents) */
-    return ( bool ) ( isc ? couldbe ( e, z ) : couldeffect ( e, z ) ) ;
+    return ( bool ) ( isc ? couldbe ( e, z ) : couldaffect ( e, z ) ) ;
 }
 
 

@@ -347,7 +347,7 @@ void keepreg
 }
 
 
-static bool couldeffect(exp, exp);
+static bool couldaffect(exp, exp);
 
 /* could e be lhs */
 static bool
@@ -386,7 +386,7 @@ couldbe(exp e, exp lhs)
   }
   if (ne == addptr_tag || ne == subptr_tag)
   {
-    return couldbe(s, lhs) || couldeffect(bro(s), lhs);
+    return couldbe(s, lhs) || couldaffect(bro(s), lhs);
   }
 
   return 1;
@@ -395,7 +395,7 @@ couldbe(exp e, exp lhs)
 
 /* could alteration to z effect e? */
 static bool
-couldeffect(exp e, exp z /* a name or zero */)
+couldaffect(exp e, exp z /* a name or zero */)
 {
   int ne = name(e);
   if (ne == cont_tag)
@@ -411,7 +411,7 @@ couldeffect(exp e, exp z /* a name or zero */)
     if (son(son(e)) == NULL)
       return 1 /* could it happen? */ ;
 
-    return couldeffect(son(son(e)), z);
+    return couldaffect(son(son(e)), z);
 
   }
   if (ne < plus_tag || ne == contvol_tag)
@@ -421,7 +421,7 @@ couldeffect(exp e, exp z /* a name or zero */)
 
   while (e != NULL)
   {
-    if (couldeffect(e, z))
+    if (couldaffect(e, z))
       return 1;
     if (last(e))
       return 0;
@@ -467,7 +467,7 @@ bool dependson
 
   /* z is now unambiguous variable name or 0 meaning some contents */
 
-  return isc ? couldbe(e, z) : couldeffect(e, z);
+  return isc ? couldbe(e, z) : couldaffect(e, z);
 }
 
 

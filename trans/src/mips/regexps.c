@@ -263,7 +263,7 @@ void keepreg
   regexps[z].iscont = 0;
 }
 
-static bool couldeffect(exp e, exp z, int count);
+static bool couldaffect(exp e, exp z, int count);
 
 static bool couldbe
 (exp e, exp lhs, int count)
@@ -295,17 +295,17 @@ static bool couldbe
     return couldbe(s, lhs, count);
   }
   if (ne == addptr_tag || ne == subptr_tag) {
-    return couldbe(s, lhs, count) || couldeffect(bro(s), lhs, count);
+    return couldbe(s, lhs, count) || couldaffect(bro(s), lhs, count);
   }
 
   return 1;
 
 }
 
-static bool couldeffect
-(exp e, exp z, int count)
+static bool
+couldaffect(exp e, exp z, int count)
 {
-				/* could alteration to z effect e? */
+				/* could alteration to z affect e? */
   int   ne = name(e);
   if (ne == cont_tag) {
     return couldbe(son(e), z, count);
@@ -318,7 +318,7 @@ static bool couldeffect
     if (son(son(e)) == NULL)
       return 1 /* could it happen? */ ;
     if (count > 5) return 1; /* pathological */
-    return couldeffect(son(son(e)), z, count+1);
+    return couldaffect(son(son(e)), z, count+1);
 
   }
   if (ne < plus_tag || ne == contvol_tag)
@@ -327,7 +327,7 @@ static bool couldeffect
   e = son(e);
 
   while (e != NULL) {
-    if (couldeffect(e, z, count))
+    if (couldaffect(e, z, count))
       return 1;
     if (last(e))
       return 0;
@@ -368,7 +368,7 @@ bool dependson
 
   /* z is now unambiguous variable name or 0 meaning some contents */
 
-  return (isc)? couldbe(e, z, 0): couldeffect(e, z, 0);
+  return (isc)? couldbe(e, z, 0): couldaffect(e, z, 0);
 }
 
 
