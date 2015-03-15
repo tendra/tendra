@@ -704,7 +704,7 @@ print_tagdef(construct *p)
 	tag_info *info = get_tag_info(p);
 	node *d;
 
-	if (p->encoding == -1 || d == NULL) {
+	if (p->encoding == -1) {
 		return;
 	}
 
