@@ -150,7 +150,7 @@ unroll_complex(exp e, int n, exp control, int lia, exp ul, int decr)
 				/* it is a cont */
 				t = bro(e);
 
-#if isalpha
+#if TRANS_ALPHA
 				if (!last(t) || name(bro(t)) != chvar_tag ||
 					last(bro(t)) ||
 					name(bro(bro(t))) != val_tag ||
