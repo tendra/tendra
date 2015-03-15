@@ -13,6 +13,8 @@
 #include <reader/exp.h>
 
 extern int take_out_of_line(exp first, exp alt, int in_repeat, double scale);
+extern int take_out_by_prob(exp first, exp alt);
+
 extern int is_maxop(exp x, exp *t);
 extern int is_minop(exp x, exp *t);
 extern int is_tester(exp e, int eq);

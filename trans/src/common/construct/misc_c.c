@@ -135,7 +135,7 @@ take_out_of_line(exp first, exp alt, int in_repeat, double scale)
 }
 
 
-static int
+int
 take_out_by_prob(exp first, exp alt)
 {
 	int extract = 0;

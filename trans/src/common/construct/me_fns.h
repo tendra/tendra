@@ -19,6 +19,8 @@ extern exp me_u3(shape sha, exp arg1, unsigned char nm);
 extern exp me_b1(error_treatment ov_err, exp arg1, exp arg2, unsigned char nm);
 extern exp me_b2(exp arg1, exp arg2, unsigned char nm);
 extern exp me_b3(shape sha, exp arg1, exp arg2, unsigned char nm);
+extern exp me_b4(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2,
+		unsigned char nm);
 extern exp me_c1(shape sha, error_treatment ov_err, exp arg1, unsigned char nm);
 extern exp me_c2(shape sha, exp arg1, unsigned char nm);
 extern exp me_l1(shape sha, unsigned char nm);
@@ -37,7 +39,9 @@ extern int is_integer(shape s);
 extern int is_float(shape s);
 extern int is_complex(shape s);
 extern exp me_null(shape sha, int i, unsigned char nm);
+
 extern floating_variety float_to_complex_var(floating_variety f);
+extern floating_variety complex_to_float_var(floating_variety f);
 
 extern void clear_exp_list(exp_list el);
 /* defined in install_fns.c */

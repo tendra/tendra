@@ -817,7 +817,7 @@ flt_cmp(flt f1, flt f2)
  * On return, the number pointed to by "res" will be the integer value of
  * "f" rounded using the current rounding rule.
  */
-static void
+void
 flt_round(flt f, flt *res)
 {
   int i;

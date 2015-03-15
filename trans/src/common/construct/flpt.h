@@ -32,6 +32,7 @@ extern int  flt_sub(flt f1, flt f2, flt *res);
 extern int  flt_mul(flt f1, flt f2, flt *res);
 extern int  flt_div(flt f1, flt f2, flt *res);
 extern int  flt_cmp(flt f1, flt f2);
+extern void flt_round(flt f, flt *res);
 extern void flpt_newdig(unsigned int dig, flt *res, int base);
 extern void flpt_scale(int decexp, flt *res, int base);
 extern void flpt_round(int rdnmd, int pos, flt *res);

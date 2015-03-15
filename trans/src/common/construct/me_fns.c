@@ -150,6 +150,25 @@ me_b3(shape sha, exp arg1, exp arg2, unsigned char nm)
 
 
 exp
+me_b4(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2,
+      unsigned char nm)
+{
+	exp id, tst, divexp, seq;
+
+	if (div0_err.err_code != 4) {
+		return me_b1(ov_err, arg1, arg2, nm);
+	}
+
+	id = me_startid(sh(arg1), arg2, 0);
+	divexp = me_b1(ov_err, arg1, me_obtain(id), nm);
+	tst = me_q1(no_nat_option, f_not_equal, div0_err.jmp_dest,
+		    me_obtain(id), me_shint(sh(arg1), 0), test_tag);
+	seq = me_b2(me_u2(tst, 0), divexp, seq_tag);
+	return me_complete_id(id, seq);
+}
+
+
+exp
 me_c1(shape sha, error_treatment ov_err, exp arg1, unsigned char nm)
 {
 	exp r = getexp(sha, NULL, 0, arg1, NULL, 0, 0, nm);
@@ -243,25 +262,6 @@ me_null(shape sha, int i, unsigned char nm)
 }
 
 
-static exp
-me_b4(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2,
-      unsigned char nm)
-{
-	exp id, tst, divexp, seq;
-
-	if (div0_err.err_code != 4) {
-		return me_b1(ov_err, arg1, arg2, nm);
-	}
-
-	id = me_startid(sh(arg1), arg2, 0);
-	divexp = me_b1(ov_err, arg1, me_obtain(id), nm);
-	tst = me_q1(no_nat_option, f_not_equal, div0_err.jmp_dest,
-		    me_obtain(id), me_shint(sh(arg1), 0), test_tag);
-	seq = me_b2(me_u2(tst, 0), divexp, seq_tag);
-	return me_complete_id(id, seq);
-}
-
-
 void
 note_repeat(exp r)
 {
@@ -334,7 +334,7 @@ float_to_complex_var(floating_variety f)
 }
 
 
-static floating_variety
+floating_variety
 complex_to_float_var(floating_variety f)
 {
 	return f-3;
