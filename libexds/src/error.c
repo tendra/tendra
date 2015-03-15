@@ -31,6 +31,11 @@
 
 #include "syntax.h"
 
+/* for assertions given excessively long string literals */
+#ifndef NDEBUG
+#undef strcmp
+#endif
+
 /*
  * This is used by the error type.
  */
