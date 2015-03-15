@@ -39,7 +39,6 @@
 #include "maxminmacs.h"
 #include "translate.h"
 #include "inst_fmt.h"
-#include "misc.h"
 #include "frames.h"
 #include "new_tags.h"
 #include "eval.h"
