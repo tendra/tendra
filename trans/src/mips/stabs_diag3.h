@@ -22,6 +22,6 @@ extern long currentlno;
 
 extern long find_aux(diag_type s /* struct or union shape */ );
 extern void symnosforfiles(void);
-extern int find_file(char*);
+extern int find_file(const char *);
 
 #endif

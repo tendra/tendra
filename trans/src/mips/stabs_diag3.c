@@ -79,7 +79,7 @@ collect_files(filename f)
 }
 
 int
-find_file(char * f)
+find_file(const char *f)
 {
    int i;
    for(i=0; i<nofds; i++) {
