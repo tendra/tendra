@@ -30,3 +30,5 @@
 extern void repeat_consts(void);
 extern int intnl_to(exp whole, exp part);
 extern exp get_repeats(void);
+extern void return_repeats(void);
+

@@ -1600,7 +1600,7 @@ get_repeats(void)
 /*
  * Returns the storage used by repeat_list.
  */
-static void
+void
 return_repeats(void)
 {
 	exp reps, next;
