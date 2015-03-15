@@ -5942,8 +5942,8 @@ add_caselim_list(caselim_list list, caselim elem, int index)
 			low = - low;
 		}
 	} else if (~has & HAS_64_BIT) {
-		SET(low);
 		error(ERR_INTERNAL, TOO_BIG_A_CASE_ELEMENT);
+		return lowval;
 	} else {
 		low = snatbig(elem.low);
 		if (snatneg(elem.low)) {
@@ -5968,8 +5968,8 @@ add_caselim_list(caselim_list list, caselim elem, int index)
 				    high, 0);
 		}
 	} else if (~has & HAS_64_BIT) {
-		SET(ht);
 		error(ERR_INTERNAL, TOO_BIG_A_CASE_ELEMENT);
+		return lowval;
 	} else {
 		int lh_eq;
 		high = snatbig(elem.high);
