@@ -19,7 +19,7 @@
 #include <construct/exp.h>
 #include <construct/shape.h>
 
-#include "addresstypes.h"
+#include "addrtypes.h"
 #include "procrectypes.h"
 #include "labels.h"
 #include "make_code.h"

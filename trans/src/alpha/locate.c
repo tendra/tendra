@@ -24,7 +24,7 @@
 #include <construct/exp.h>
 #include <construct/shape.h>
 
-#include "addresstypes.h"
+#include "addrtypes.h"
 #include "inst_fmt.h"
 #include "alpha_ins.h"
 #include "bitsmacs.h"

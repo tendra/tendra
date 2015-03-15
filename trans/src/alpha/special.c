@@ -26,7 +26,7 @@
 #include <construct/shape.h>
 #include <construct/tags.h>
 
-#include "addresstypes.h"
+#include "addrtypes.h"
 #include "move.h"
 #include "pseudo.h"
 #include "getregs.h"

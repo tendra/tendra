@@ -12,7 +12,7 @@
 #define CODEHEREDECS_H
 
 #include "procrectypes.h"
-#include "addresstypes.h"
+#include "addrtypes.h"
 
 extern int regofval(exp);
 extern void reg_operand_here(exp, space, int);

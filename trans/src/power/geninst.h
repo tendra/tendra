@@ -11,14 +11,14 @@
 #ifndef	GENINST_H
 #define GENINST_H	1
 
-/* needed by "addresstypes.h" */
+/* needed by "addrtypes.h" */
 
 #include <reader/exp.h>
 #include <reader/code.h>
 
 #include <construct/installtypes.h>
 
-#include "addresstypes.h"	/* for baseoff */
+#include "addrtypes.h"	/* for baseoff */
 #include "inst_fmt.h"
 #include "instruct.h"
 #include "regmacs.h"

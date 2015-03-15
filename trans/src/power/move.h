@@ -13,7 +13,7 @@
 
 #include <construct/installtypes.h>
 
-#include "addresstypes.h"
+#include "addrtypes.h"
 #include "instruct.h"
 
 extern Instruction_P i_ld_sz(int , int);

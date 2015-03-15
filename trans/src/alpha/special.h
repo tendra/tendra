@@ -12,7 +12,7 @@
 #include <construct/exp.h>
 
 #include "procrectypes.h"
-#include "addresstypes.h"
+#include "addrtypes.h"
 
 extern int  specialfn(exp fn);
 

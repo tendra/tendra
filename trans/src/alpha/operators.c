@@ -26,7 +26,7 @@
 #include <construct/f64.h>
 
 #include "code_here.h"
-#include "addresstypes.h"
+#include "addrtypes.h"
 #include "inst_fmt.h"
 #include "move.h"
 #include "maxminmacs.h"

@@ -26,7 +26,7 @@
 #include <main/driver.h>
 
 #include "macro.h"
-#include "addresstypes.h"
+#include "addrtypes.h"
 #include "make_code.h"
 #include "dynamic_init.h"
 

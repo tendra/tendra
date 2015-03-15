@@ -16,7 +16,7 @@
 
 #include <construct/installtypes.h>
 
-#include "addresstypes.h"
+#include "addrtypes.h"
 #include "procrectypes.h"
 
 

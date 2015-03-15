@@ -16,7 +16,7 @@
 
 #include "alpha_ins.h"
 #include "inst_fmt.h"
-#include "addresstypes.h"
+#include "addrtypes.h"
 #include "frames.h"
 #include "reg_defs.h"
 #include "maxminmacs.h"

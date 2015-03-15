@@ -12,7 +12,8 @@
 #define STACK_H  1
 
 #include <construct/installtypes.h>
-#include "addresstypes.h"
+
+#include "addrtypes.h"
 #include "procrectypes.h"
 
 #define ALIGNNEXT(bitposn, bitalign)	(((bitposn) + (bitalign) -1) & ~((bitalign) -1))

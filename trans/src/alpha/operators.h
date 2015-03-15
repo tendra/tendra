@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "addresstypes.h"
+#include "addrtypes.h"
 #include "instypes.h"
 
 #include <reader/exp.h>

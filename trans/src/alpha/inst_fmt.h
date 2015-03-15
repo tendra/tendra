@@ -18,7 +18,7 @@
 
 #include <construct/installtypes.h>
 
-#include "addresstypes.h"
+#include "addrtypes.h"
 #include "cross.h"
 #include "instypes.h"
 #include "ins_data.h"

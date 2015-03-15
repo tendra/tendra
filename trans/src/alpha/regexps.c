@@ -17,7 +17,7 @@
 #include <construct/tags.h>
 #include <construct/shape.h>
 
-#include "addresstypes.h"
+#include "addrtypes.h"
 #include "move.h"
 #include "bitsmacs.h"
 #include "maxminmacs.h"

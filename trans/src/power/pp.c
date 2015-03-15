@@ -23,7 +23,7 @@
 #include <construct/shape.h>
 
 #include "localexpmacs.h"
-#include "addresstypes.h"
+#include "addrtypes.h"
 #include "locate.h"
 #include "translate.h"
 

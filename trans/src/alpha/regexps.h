@@ -11,7 +11,7 @@
 
 #include <construct/installtypes.h>
 
-#include "addresstypes.h"
+#include "addrtypes.h"
 
 struct regpeept {
   ans inans;

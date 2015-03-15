@@ -11,7 +11,7 @@
 
 #include <construct/flpttypes.h>
 
-#include "addresstypes.h"
+#include "addrtypes.h"
 #include "cross.h"
 
 extern int  next_dlab_sym(void);

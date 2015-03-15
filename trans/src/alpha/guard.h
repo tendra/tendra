@@ -12,7 +12,7 @@
 */
 
 #include "procrecs.h"
-#include "addresstypes.h"
+#include "addrtypes.h"
 
 extern  space guardreg(int r, space sp);
 extern  space guardfreg(int r, space sp);

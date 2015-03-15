@@ -13,7 +13,7 @@
 
 #include <reader/exp.h>
 
-#include "addresstypes.h"
+#include "addrtypes.h"
 
 extern int comm_op(exp , space , where , Instruction_P);
 extern int non_comm_op(exp , space , where , Instruction_P);

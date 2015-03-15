@@ -25,7 +25,7 @@
 
 #include "alpha_ins.h"
 #include "inst_fmt.h"
-#include "addresstypes.h"
+#include "addrtypes.h"
 #include "procrectypes.h"
 #include "bitsmacs.h"
 #include "maxminmacs.h"

@@ -41,7 +41,7 @@
 
 #include <symtab/syms.h>
 
-#include "addresstypes.h"
+#include "addrtypes.h"
 #include "maxminmacs.h"
 #include "main.h"
 #include "frames.h"

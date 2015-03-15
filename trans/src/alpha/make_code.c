@@ -49,7 +49,7 @@
 
 #include <symtab/syms.h>
 
-#include "addresstypes.h"
+#include "addrtypes.h"
 #include "make_code.h"
 #include "maxminmacs.h"
 #include "procrectypes.h"

@@ -16,7 +16,7 @@
 #include <shared/error.h>
 
 #include "procrecs.h"
-#include "addresstypes.h"
+#include "addrtypes.h"
 #include "guard.h"
 
 

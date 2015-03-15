@@ -13,7 +13,7 @@
 
 #include "regmacs.h"
 
-#include "addresstypes.h"
+#include "addrtypes.h"
 #include "bitsmacs.h"
 #include "code_here.h"
 #include "getregs.h"

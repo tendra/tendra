@@ -11,7 +11,8 @@
 #ifndef EVALDECS_H
 #define EVALDECS_H
 
-#include "addresstypes.h"
+#include "addrtypes.h"
+
 #include <construct/flpttypes.h>
 
 
