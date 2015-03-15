@@ -885,6 +885,8 @@ f_floating_mult(error_treatment ov_err, exp_list arg1)
 
 #if 0
       arg1 = reorder_list(arg1, 1); /* reorder so constants are at the front */
+#else
+      (void) reorder_list;
 #endif
 
       z1 = me_startid(complex_shape, arg1.start, 0);
