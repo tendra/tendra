@@ -31,11 +31,6 @@
 
 #include "syntax.h"
 
-/* for assertions given excessively long string literals */
-#ifndef NDEBUG
-#undef strcmp
-#endif
-
 /*
  * This is used by the error type.
  */
@@ -270,7 +265,7 @@ error_define_error(const char *name, ESeverityT severity, const char *message,
 	ErrorT *entry;
 
 	while ((entry = *entryp) != NULL) {
-		assert(!!strcmp(entry->name, name));
+		assert(!!(strcmp)(entry->name, name));
 		entryp = &entry->next;
 	}
 
@@ -438,7 +433,7 @@ error_define_string(const char *name, const char *contents)
 	EStringT *entry;
 
 	while ((entry = *entryp) != NULL) {
-		assert(!!strcmp(entry->name, name));
+		assert(!!(strcmp)(entry->name, name));
 		entryp = &entry->next;
 	}
 
