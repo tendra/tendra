@@ -149,31 +149,31 @@ unroll_complex(exp e, int n, exp control, int lia, exp ul, int decr)
 			} else {
 				/* it is a cont */
 				t = bro(e);
-			}
 
 #if isalpha
-			if (!last(t) || name(bro(t)) != chvar_tag ||
-			    last(bro(t)) ||
-			    name(bro(bro(t))) != val_tag ||
-			    !last(bro(bro(t))) ||
-			    name(bro(bro(bro(t)))) != offset_mult_tag) {
-				/* not offset_mult -> no test elim */
-				allow_double = 0;
-			} else {
-				/* record the use */
-				names[names_index++] = bro(e);
-			}
+				if (!last(t) || name(bro(t)) != chvar_tag ||
+					last(bro(t)) ||
+					name(bro(bro(t))) != val_tag ||
+					!last(bro(bro(t))) ||
+					name(bro(bro(bro(t)))) != offset_mult_tag) {
+					/* not offset_mult -> no test elim */
+					allow_double = 0;
+				} else {
+					/* record the use */
+					names[names_index++] = bro(e);
+				}
 #else
-			if (last(t) || name(bro(t)) != val_tag ||
-			    !last(bro(t)) ||
-			    name(bro(bro(t))) != offset_mult_tag) {
-				/* not offset_mult -> no test elim */
-				allow_double = 0;
-			} else {
-				/* record the use */
-				names[names_index++] = bro(e);
-			}
+				if (last(t) || name(bro(t)) != val_tag ||
+					!last(bro(t)) ||
+					name(bro(bro(t))) != offset_mult_tag) {
+					/* not offset_mult -> no test elim */
+					allow_double = 0;
+				} else {
+					/* record the use */
+					names[names_index++] = bro(e);
+				}
 #endif
+			}
 		}
 		return n - decr;
 
