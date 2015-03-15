@@ -1292,24 +1292,6 @@ limdec(exp adec, exp val, int mult)
 	return nb; /* the declaration of the limit value */
 }
 
-static exp
-limdec2(exp adec, exp val, int mult)
-{
-	exp init = son(adec);
-	exp bdy = bro(init);
-	exp ninit = (name(val) != val_tag) ? limmult(son(init), val, mult) :
-	            limconst(son(init), mult * no(val));
-	exp nb = getexp(sh(bdy), adec, 1, ninit, NULL, 0, 0, ident_tag);
-
-	bro(ninit) = bdy;
-	clearlast(ninit);
-	bro(bdy) = nb;
-	setlast(bdy);
-	bro(init) = nb;
-
-	return nb; /* the declaration of the limit value */
-}
-
 static void
 remove_incr(exp adec, exp test, exp incr, int mult)
 {
