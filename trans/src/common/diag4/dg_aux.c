@@ -760,6 +760,10 @@ static void update_detch_copy(detch_info *dl, int update);
 static void
 update_diag_copy(exp e, dg_info d, int update)
 {
+	if (!e) {
+		return;
+	}
+
 	if (!d && e) {
 		switch (name(e)) {
 		case name_tag:
