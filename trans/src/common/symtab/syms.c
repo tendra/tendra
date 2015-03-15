@@ -30,6 +30,8 @@
 
 #include <main/flags.h>
 
+#include <local/symtab.h>
+
 #include "symtab.h"
 #include "syms.h"
 #include "main.h"

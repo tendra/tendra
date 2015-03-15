@@ -35,6 +35,8 @@
 #include <diag3/diagtypes.h>
 #include <diag3/diag_fns.h>
 
+#include <local/symtab.h>
+
 extern long mainfile;
 
 int field = 0;

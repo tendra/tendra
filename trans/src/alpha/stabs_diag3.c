@@ -45,6 +45,8 @@
 #include <main/driver.h>
 #include <main/print.h>
 
+#include <local/symtab.h>
+
 #include "procrectypes.h"
 #include "procrecs.h"
 #include "bitsmacs.h"
