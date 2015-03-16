@@ -87,174 +87,87 @@
 			expansion. In particular, some installers may be able to inline standard
 			function calls.</para>
 
-		<variablelist>
-			<varlistentry>
-				<term><code>.Et~SQRT</code></term>
+		<informaltable>
+			<tr>
+				<td><code>.Et~SQRT</code></td>
+				<td>square root</td>
+			</tr>
+			<tr>
+				<td><code>.Et~EXP</code></td>
+				<td>exponential (<code>e ** x</code>)</td>
+			</tr>
+			<tr>
+				<td><code>.Et~LOG</code></td>
+				<td>(natural) logarithm</td>
+			</tr>
+			<tr>
+				<td><code>.Et~LOG_10</code></td>
+				<td>base 10 logarithm</td>
+			</tr>
+			<tr>
+				<td><code>.Et~LOG_2</code></td>
+				<td>base 2 logarithm</td>
+			</tr>
+			<tr>
+				<td><code>.Et~SIN</code></td>
+				<td>sine</td>
+			</tr>
+			<tr>
+				<td><code>.Et~COS</code></td>
+				<td>cosine</td>
+			</tr>
+			<tr>
+				<td><code>.Et~TAN</code></td>
+				<td>tangent</td>
+			</tr>
+			<tr>
+				<td><code>.Et~ASIN</code></td>
+				<td>inverse sine</td>
+			</tr>
+			<tr>
+				<td><code>.Et~ACOS</code></td>
+				<td>inverse cosine</td>
+			</tr>
+			<tr>
+				<td><code>.Et~ATAN</code></td>
+				<td>inverse (one argument) tangent</td>
+			</tr>
+			<tr>
+				<td><code>.Et~ATAN2</code></td>
+				<td>inverse (two arguments) tangent, excluding complex</td>
+			</tr>
+			<tr>
+				<td><code>.Et~SINH</code></td>
+				<td>hyperbolic sine</td>
+			</tr>
+			<tr>
+				<td><code>.Et~COSH</code></td>
+				<td>hyperbolic cosine</td>
+			</tr>
+			<tr>
+				<td><code>.Et~TANH</code></td>
+				<td>hyperbolic tangent</td>
+			</tr>
+			<tr>
+				<td><code>.Et~ASINH</code></td>
+				<td>inverse hyperbolic sine</td>
+			</tr>
+			<tr>
+				<td><code>.Et~ACOSH</code></td>
+				<td>inverse hyperbolic cosine</td>
+			</tr>
+			<tr>
+				<td><code>.Et~ATANH</code></td>
+				<td>inverse hyperbolic tangent</td>
+			</tr>
+			<tr>
+				<td><code>.Et~MOD</code></td>
+				<td>floating point remainder, excluding complex</td>
+			</tr>
+		</informaltable>
 
-				<listitem>
-					<para>square root of any floating variety, including
-						complex.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><code>.Et~EXP</code></term>
-
-				<listitem>
-					<para>exponential (<code>e ** x</code>) of any
-						floating variety, including complex.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><code>.Et~LOG</code></term>
-
-				<listitem>
-					<para>(natural) logarithm of any floating variety, including
-						complex.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><code>.Et~LOG_10</code></term>
-
-				<listitem>
-					<para>base 10 logarithm of any floating variety,
-						including complex.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><code>.Et~LOG_2</code></term>
-
-				<listitem>
-					<para>base 2 logarithm of any floating variety, including
-						complex.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><code>.Et~SIN</code></term>
-
-				<listitem>
-					<para>sine of any floating variety, including complex.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><code>.Et~COS</code></term>
-
-				<listitem>
-					<para>cosine of any floating variety, including complex.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><code>.Et~TAN</code></term>
-
-				<listitem>
-					<para>tangent of any floating variety, including complex.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><code>.Et~ASIN</code></term>
-
-				<listitem>
-					<para>inverse sine of any floating variety, including complex.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><code>.Et~ACOS</code></term>
-
-				<listitem>
-					<para>inverse cosine of any floating variety, including
-						complex.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><code>.Et~ATAN</code></term>
-
-				<listitem>
-					<para>inverse (one argument) tangent of any floating
-						variety, including complex.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><code>.Et~ATAN2</code></term>
-
-				<listitem>
-					<para>inverse (two arguments) tangent of any floating
-						variety, excluding complex.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><code>.Et~SINH</code></term>
-
-				<listitem>
-					<para>hyperbolic sine of any floating variety, including
-						complex.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><code>.Et~COSH</code></term>
-
-				<listitem>
-					<para>hyperbolic cosine of any floating variety, including
-						complex.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><code>.Et~TANH</code></term>
-
-				<listitem>
-					<para>hyperbolic tangent of any floating variety, including
-						complex.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><code>.Et~ASINH</code></term>
-
-				<listitem>
-					<para>inverse hyperbolic sine of any floating variety,
-						including complex.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><code>.Et~ACOSH</code></term>
-
-				<listitem>
-					<para>inverse hyperbolic cosine of any floating variety,
-						including complex.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><code>.Et~ATANH</code></term>
-
-				<listitem>
-					<para>inverse hyperbolic tangent of any floating variety,
-						including complex.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><code>.Et~MOD</code></term>
-
-				<listitem>
-					<para>floating point remainder of any floating variety,
-						excluding complex.</para>
-				</listitem>
-			</varlistentry>
-		</variablelist>
+		<para>These tokens apply to any floating variety. This includes complex,
+			unless otherwise stated.</para>
 	</section>
 </chapter>
 
