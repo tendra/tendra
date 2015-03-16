@@ -858,15 +858,9 @@ check_range_and_do_error_jump ( shape rep_var, int r, int lab, space sp, int rmo
  * using the t-registers given by sp.  If exitlab is nonzero, it is
  * the label where the code is to continue.
  */
-#ifdef TDF_DIAG4
 static makeans
 make_code_1 ( exp e, space sp, where dest, int exitlab )
 {
-#else
-makeans
-make_code ( exp e, space sp, where dest, int exitlab )
-{
-#endif
 	makeans mka ;
 	static int exceptions_initialised;
 	mka.lab = exitlab ;
@@ -3695,6 +3689,7 @@ null_tag_case :
 					continue;
 				}
 #endif
+
 				if ( isvar ( e ) && name(sh(nm)) == ptrhd &&
 				     al1(sh(nm)) == shape_align(sh(son(e)))) {
 					keepcont ( nm, r ) ;
@@ -4852,9 +4847,14 @@ find_diag_res ( void * args )
 	return w;
 }
 
+#endif
+
 makeans
 make_code( exp e, space sp, where dest, int exitlab )
 {
+#ifndef TDF_DIAG4
+	return make_code_1(e, sp, dest, exitlab);
+#else
 	dg_info was_current = current_dg_info;
 	current_dg_info = nildiag;
 
@@ -4981,7 +4981,10 @@ make_code( exp e, space sp, where dest, int exitlab )
 
 		return a;
 	}
+#endif
 }
+
+#ifdef TDF_DIAG4
 
 void
 diag_arg ( exp e, space sp, where dest )

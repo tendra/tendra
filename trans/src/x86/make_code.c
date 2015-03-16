@@ -807,12 +807,11 @@ solve(exp s, exp l, where dest, exp jr, ash stack)
 
 		if (name(s) != goto_tag || pt(s) != bro(s)) {
 			make_code(dest, stack, s);    /* code the starting exp */
-		}
+		} else {
 #ifdef TDF_DIAG4
-		else {
 			diag_arg(dest, stack, s);
-		}
 #endif
+		}
 
 		reset_fpucon();
 
@@ -913,12 +912,8 @@ stack_room(ash stack, where dest, int off)
 	return stack;
 }
 
-#ifdef TDF_DIAG4
-static void make_code1
-#else
-void make_code
-#endif
-(where dest, ash stack, exp e)
+static void
+make_code1(where dest, ash stack, exp e)
 {
 	float old_scale;
 
@@ -1050,15 +1045,14 @@ void make_code
 
 		if (no_bottom) {
 			make_code(dest, stack, bro(son(e)));
-		}
+		} else if (diag != DIAG_NONE) {
 #ifdef TDF_DIAG4
-		else if (diag != DIAG_NONE) {
 			/* Beware lost information !!! */
 			name(bro(son(e))) = top_tag;
 			son(bro(son(e))) = NULL;
 			dgf(bro(son(e))) = nildiag;
-		}
 #endif
+		}
 
 		return;
 	}
@@ -1073,14 +1067,16 @@ void make_code
 
 		if (no(son(alt)) == 0) {
 			make_code(dest, stack, first);
-#ifdef TDF_DIAG4
+
 			if (diag != DIAG_NONE) {
+#ifdef TDF_DIAG4
 				/* Beware lost information !!! */
 				name(bro(son(alt))) = top_tag;
 				son(bro(son(alt))) = NULL;
 				dgf(bro(son(alt))) = nildiag;
-			}
 #endif
+			}
+
 			return;
 		}
 
@@ -1427,6 +1423,7 @@ void make_code
 				} else {
 					settest_number(e, (int)real_inverse_ntest[testno]);
 				}
+
 #ifdef TDF_DIAG4
 				if (current_dg_info) {
 					current_dg_info->data.i_tst.inv = 1 - current_dg_info->data.i_tst.inv;
@@ -1592,12 +1589,11 @@ void make_code
 				qw.where_off = 0;
 				make_code(qw, stack, arg1);
 				arg1 = qw.where_exp;
-			}
+			} else {
 #ifdef TDF_DIAG4
-			else {
 				diag_arg(dest, stack, arg1);
-			}
 #endif
+			}
 
 			if (!is_o(name(arg2)) || is_crc(arg2)) {
 				/* arg2 is not a possible 80386 operand, precompute it in reg0 */
@@ -1606,12 +1602,11 @@ void make_code
 				qw.where_off = 0;
 				make_code(qw, stack, arg2);
 				arg2 = qw.where_exp;
-			}
+			} else {
 #ifdef TDF_DIAG4
-			else {
 				diag_arg(dest, stack, arg2);
-			}
 #endif
+			}
 
 			switch (name(sh(arg1))) {
 			case scharhd:
@@ -1644,6 +1639,7 @@ void make_code
 				arg1 = arg2;
 				arg2 = holde;
 				test_n = exchange_ntest[test_n];
+
 #ifdef TDF_DIAG4
 				if (current_dg_info) {
 					current_dg_info->data.i_tst.inv = 1 - current_dg_info->data.i_tst.inv;
@@ -2417,7 +2413,7 @@ void make_code
 		return;
 	}
 
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG3
 	case diagnose_tag: {
 		diag_info * d = dno(e);
 		if (d->key == DIAG_INFO_SOURCE) {
@@ -2593,9 +2589,14 @@ find_diag_res(void * args)
 	return w;
 }
 
+#endif
+
 void
 make_code(where dest, ash stack, exp e)
 {
+#ifndef TDF_DIAG4
+	return make_code1(dest, stack, e);
+#else
 	dg_info d;
 	dg_info was_current = current_dg_info;
 
@@ -2738,7 +2739,10 @@ make_code(where dest, ash stack, exp e)
 	}
 
 	current_dg_info = was_current;
+#endif
 }
+
+#ifdef TDF_DIAG4
 
 static void
 done_arg(void * args)
