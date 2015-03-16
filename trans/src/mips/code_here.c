@@ -109,11 +109,6 @@ static ash ash0 = {
   0, 0
 };
 
-static ash ash32 = {
-  32, 32
-};
-
-
 int
 reg_operand(exp e, space sp)
 {
