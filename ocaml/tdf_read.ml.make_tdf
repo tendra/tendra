@@ -27,9 +27,11 @@ val mutable last_byte = 0
 (** Value of last read byte **)
 val mutable have_bits = 0
 (** Number of bits to read from last_byte **)
+val mutable offset = 0
+(** Value of index of last read byte **)
 
-val mutable external_linkage_length = 0
-(** Length of capsule.external_linkage list **)
+val mutable external_linkage = []
+(** capsules external_linkage list **)
 
 val mutable prop_names = []
 (** List of PROPS name to read **)
@@ -44,9 +46,18 @@ val mutable minor_version = 0
 val mutable header = ""
 (** TDF header read from capsule **)
 
+(* Debug purpose methods *)
+method get_offset = offset
+method get_last_byte = last_byte
+method get_have_bits = have_bits
+method set_prop_names x = prop_names <- x
+method set_prop_name x = prop_name <- x
+method set_external_linkage x = external_linkage <- x
+
 method read_byte () =
 (** Read one byte from input stream **)
   let buffer = "x" in
+  offset <- offset + 1;
   let read = input my_in_channel buffer 0 1 in
   if read = 1 then int_of_char buffer.[0]
   else failwith "Unexpected end of file"
@@ -156,9 +167,18 @@ method read_tld_props () =
       let item = self#read_tdfint () in
       read_list (left - 1) (value @ [item])
   in
+  let rec read_list_of_list left value =
+    if left = [] then
+      value
+    else
+      let count = match List.hd left with C_make_extern_link x ->
+          List.length x in
+      let item = read_list count [] in
+      read_list_of_list (List.tl left) (value @ [item])
+  in
     C_make_tld
       (version,
-       read_list external_linkage_length [])
+       read_list_of_list external_linkage [])
 
 @loop sort
 @if !sort.builtin
@@ -179,7 +199,7 @@ method read_%SN () =
   prop_names <- p_prop_names;
 @endif
 @if param.eq.external_linkage
-  external_linkage_length <- List.length p_external_linkage;
+  external_linkage <- p_external_linkage;
 @endif
 @end
   C_%CN (

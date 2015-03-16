@@ -41,7 +41,7 @@ type s_tdfint = int
     of
       s_tdfint (* version *)
       *
-      s_tdfint list (* properties of the external links *)
+      s_tdfint list list (* properties of each external link *)
 
 (* The only possible content of bytestream is PROPS *)
  and s_bytestream = s_prop
