@@ -64,13 +64,11 @@
 extern int normal_version;
 static int extra_weight = 0;
 
-
 /*
-    Given an ash p, representing the stack, and a shape s, this procedure
-    returns the ast correponding to the new stack formed by adding s to the
-    old stack.
-*/
-
+ * Given an ash p, representing the stack, and a shape s, this procedure
+ * returns the ast correponding to the new stack formed by adding s to the
+ * old stack.
+ */
 ast
 add_shape_to_stack(ash p, shape s)
 {
@@ -78,33 +76,34 @@ add_shape_to_stack(ash p, shape s)
 	char n = name(s);
 	long sz = shape_size(s);
 	long adj = 0;
+
 	if (n == scharhd || n == ucharhd || n == swordhd || n == uwordhd) {
 		adj = SLONG_SZ - sz;
 		sz = SLONG_SZ;
 	}
+
 	if (n == bitfhd) {
 		sz = SLONG_SZ;
 	}
+
 	res.astoff = round(p, param_align);
 	res.astadj = adj;
 	res.astash = round(res.astoff + sz, param_align);
+
 	return res;
 }
 
-
 /*
-    This routine tries to choose registers for a value of shape sha.  br
-    gives the breakpoint - the minimum number of registers which need to
-    be free for it to be worth putting this value in a register.  The big
-    flag is true to indicate that a register which is preserved across
-    procedure calls is required.  If a register can be allocated, then
-    its bitpattern is returned.  Otherwise 0 is returned.
-*/
-
+ * This routine tries to choose registers for a value of shape sha.  br
+ * gives the breakpoint - the minimum number of registers which need to
+ * be free for it to be worth putting this value in a register.  The big
+ * flag is true to indicate that a register which is preserved across
+ * procedure calls is required.  If a register can be allocated, then
+ * its bitpattern is returned.  Otherwise 0 is returned.
+ */
 static bitpattern
 alloc_reg(shape sha, int br, bool big)
 {
-	int go = 1;
 	bitpattern mask;
 	bitpattern rs = regsinuse;
 	int i, start, end, rev = 0;
@@ -122,6 +121,7 @@ alloc_reg(shape sha, int br, bool big)
 		mask = regmsk(REG_A2);
 		start = REG_A2;
 		end = REG_A5;
+
 		if (br > extra_weight) {
 			br -= extra_weight;
 		}
@@ -129,6 +129,7 @@ alloc_reg(shape sha, int br, bool big)
 		if (round_after_flop) {
 			return 0;
 		}
+
 		rg = bits_in(~rs & 0xfc0000);
 		mask = regmsk(REG_FP7);
 		start = REG_FP7;
@@ -144,7 +145,7 @@ alloc_reg(shape sha, int br, bool big)
 	}
 
 	i = start;
-	while (go) {
+	for (;;) {
 		if (!(rs & mask)) {
 			if (big) {
 				bigregs |= mask;
@@ -155,54 +156,56 @@ alloc_reg(shape sha, int br, bool big)
 			regsinproc |= mask;
 			return mask;
 		}
+
 		if (i == end) {
-			go = 0;
+			break;
+		}
+
+		if (rev) {
+			i--;
+			mask >>= 1;
 		} else {
-			if (rev) {
-				i--;
-				mask >>= 1;
-			} else {
-				i++;
-				mask <<= 1;
-			}
+			i++;
+			mask <<= 1;
 		}
 	}
+
 	return 0;
 }
 
-
 /*
-    This routine returns 0 if the expression e is not a use of a reuseable
-    register, and the bitmask of the register otherwise.
-*/
-
+ * This routine returns 0 if the expression e is not a use of a reuseable
+ * register, and the bitmask of the register otherwise.
+ */
 static long
 reuse_check(exp e)
 {
 	exp id;
+
 	if (name(e) != name_tag) {
 		return 0;
 	}
+
 	id = son(e);
 	if (isglob(id) || pt(id) != reg_pl) {
 		return 0;
 	}
+
 	return reuseables & no(id);
 }
 
-
 /*
-    This routine checks whether or not we can use a reuseable register to
-    store def.  It returns the bitmask of a suitable register if so and 0
-    otherwise.
-*/
-
+ * This routine checks whether or not we can use a reuseable register to
+ * store def.  It returns the bitmask of a suitable register if so and 0
+ * otherwise.
+ */
 static long
 reuse(exp def)
 {
 	switch (name(def)) {
 	case name_tag:
 		return reuse_check(def);
+
 	case plus_tag:
 	case and_tag:
 	case or_tag:
@@ -211,19 +214,24 @@ reuse(exp def)
 		/* Allow at most two arguments - check both */
 		exp arg1 = son(def);
 		exp arg2 = bro(arg1);
+
 		if (last(arg1)) {
 			return reuse_check(arg1);
 		}
+
 		if (last(arg2)) {
 			return reuse_check(arg1) || reuse_check(arg2);
 		}
+
 		return 0;
 	}
+
 	case chvar_tag:
 	case neg_tag:
 	case not_tag:
 		/* Check one argument */
 		return reuse_check(son(def));
+
 	case minus_tag:
 	case subptr_tag:
 	case minptr_tag:
@@ -235,37 +243,36 @@ reuse(exp def)
 		return reuse_check(arg1) || reuse_check(arg2);
 	}
 	}
+
 	return 0;
 }
 
-
 /*
-    Or if it is, are we really careful?
-*/
-
+ * Or if it is, are we really careful?
+ */
 static bool
 nouse(exp e)
 {
 	char n = name(e);
+
 	if (n == test_tag) {
 		return 1;
 	}
+
 	return 0;
 }
 
-
 /*
-    The routine alloc_variable chooses where to put a declaration. e is the
-    declaration, def is the definition (for identity) or initialisation
-    (for variable), stack is the ash for the current stack position.
-    The place field of the result indicates where the declaration should
-    be put (reg_pl, var_pl etc. - see make_code.h).  num gives the offset
-    (for objects put on the stack) or register mask (for objects put into
-    registers).  new_stack gives the ash of the stack after this declaration.
-    is_new is a flag indicating a new declaration or a reuse of an old
-    declaration.
-*/
-
+ * The routine alloc_variable chooses where to put a declaration. e is the
+ * declaration, def is the definition (for identity) or initialisation
+ * (for variable), stack is the ash for the current stack position.
+ * The place field of the result indicates where the declaration should
+ * be put (reg_pl, var_pl etc. - see make_code.h).  num gives the offset
+ * (for objects put on the stack) or register mask (for objects put into
+ * registers).  new_stack gives the ash of the stack after this declaration.
+ * is_new is a flag indicating a new declaration or a reuse of an old
+ * declaration.
+ */
 static allocation
 alloc_variable(exp e, exp def, ash stack)
 {
@@ -296,13 +303,11 @@ alloc_variable(exp e, exp def, ash stack)
 	} else if (n == cont_tag && name(s) == name_tag) {
 		exp t = son(s);
 		in_reg2 = (isvar(t) && (no(s) == 0 || !isglob(t)) &&
-			   no_side(body));
+		           no_side(body));
 	}
 
 	if (!isvar(e) && (in_reg1 || in_reg2)) {
-
-		/* Re-identification or contents of variable not altered in
-		 * body */
+		/* Re-identification or contents of variable not altered in body */
 		if (in_reg1) {
 			dc.place = ptno(s);
 #ifndef tdf3
@@ -310,12 +315,15 @@ alloc_variable(exp e, exp def, ash stack)
 			case var_pl:
 				dc.num = no(s) - no(def);
 				break;
+
 			case par3_pl:
 			case par2_pl:
 				dc.num = no(s) - no(def);
 				break;
+
 			default:
 				dc.num = no(s) + no(def);
+				break;
 			}
 #else
 			if (ptno(s) == var_pl) {
@@ -350,6 +358,7 @@ alloc_variable(exp e, exp def, ash stack)
 					return dc;
 				}
 			}
+
 			if (isglob(s)) {
 				locast = add_shape_to_stack(stack, sh(def));
 				dc.new_stack = locast.astash;
@@ -361,6 +370,7 @@ alloc_variable(exp e, exp def, ash stack)
 				}
 				return dc;
 			}
+
 			/* If there was not room, reuse the old dec */
 			dc.is_new = 0;
 			return dc;
@@ -373,20 +383,25 @@ alloc_variable(exp e, exp def, ash stack)
 				dc.num = ru;
 				return dc;
 			}
+
 			if (isglob(s)) {
 				locast = add_shape_to_stack(stack, sh(def));
 				dc.new_stack = locast.astash;
 				dc.place = var_pl;
+
 				if (locast.astadj) {
 					dc.num = locast.astoff + locast.astadj;
 				} else {
 					dc.num = locast.astash;
 				}
+
 				return dc;
 			}
+
 			dc.is_new = 0;
 			return dc;
 		}
+
 		return dc;
 	}
 
@@ -403,6 +418,7 @@ alloc_variable(exp e, exp def, ash stack)
 			dc.num = regmsk(REG_D0);
 			return dc;
 		}
+
 		if (is_a(n)) {
 			long rg = reuse(def) & 0x3cfc;
 			if (rg) {
@@ -412,6 +428,7 @@ alloc_variable(exp e, exp def, ash stack)
 				return dc;
 			}
 		}
+
 		ru = alloc_reg(sh(def), br, big);
 		if (ru) {
 			dc.place = reg_pl;
@@ -424,31 +441,27 @@ alloc_variable(exp e, exp def, ash stack)
 	locast = add_shape_to_stack(stack, sh(def));
 	dc.new_stack = locast.astash;
 	dc.place = var_pl;
+
 	if (locast.astadj) {
 		dc.num = locast.astoff + locast.astadj;
 	} else {
 		dc.num = locast.astash;
 	}
+
 	return dc;
 }
 
-
 /*
-    These variables are used for the scope and destination of inlined
-    procedures.
-*/
-
+ * These variables are used for the scope and destination of inlined
+ * procedures.
+ */
 static exp crt_rscope;
 static where rscope_dest;
 
-
-
-
 /*
-    The solve statement with starter s, labelled statements l, destination
-    dest and default jump jr is processed.
-*/
-
+ * The solve statement with starter s, labelled statements l, destination
+ * dest and default jump jr is processed.
+ */
 static void
 solve(exp s, exp l, where dest, exp jr, ash stack)
 {
@@ -459,9 +472,11 @@ solve(exp s, exp l, where dest, exp jr, ash stack)
 		allocation dc;
 		long lb = next_lab();
 		exp record = simple_exp(0);
+
 		if (props(son(bro(l))) & 2) {
 			setlast(record);
 		}
+
 		no(record) = stack;
 		sonno(record) = stack_dec;
 		ptno(record) = lb;
@@ -479,6 +494,7 @@ solve(exp s, exp l, where dest, exp jr, ash stack)
 		have_cond = 0;
 		make_code(dest, stack, s);
 	}
+
 	t = s;
 
 	do {
@@ -486,6 +502,7 @@ solve(exp s, exp l, where dest, exp jr, ash stack)
 		if (name(sh(t)) != bothd) {
 			make_jump(m_bra, ptno(jr));
 		}
+
 		t = bro(t);
 		if (no(son(t)) > 0) {
 			make_label(ptno(pt(son(t))));
@@ -497,13 +514,12 @@ solve(exp s, exp l, where dest, exp jr, ash stack)
 	have_cond = 0;
 }
 
-
 /*
-    The controlling number of the case statement is in the D1 register, from
-    which already has been deducted.  The list of options is given as a
-    bro-list in arg.  The routine returns the total number which has been
-    deducted from D1 at the end.
-*/
+ * The controlling number of the case statement is in the D1 register, from
+ * which already has been deducted.  The list of options is given as a
+ * bro-list in arg.  The routine returns the total number which has been
+ * deducted from D1 at the end.
+ */
 static long
 caser(exp arg, long already)
 {
@@ -518,10 +534,10 @@ caser(exp arg, long already)
 	for (t = bro(arg); go && (t != NULL); t = bro(t)) {
 		if (is_signed(sh(t))) {
 			low = no(t);
-		}
-		else {
+		} else {
 			low = (unsigned)no(t);
 		}
+
 		if (son(t)) {
 			if (is_signed(sh(son(t)))) {
 				high = no(son(t));
@@ -535,25 +551,31 @@ caser(exp arg, long already)
 		if (low != high) {
 			diff = 1;
 		}
+
 		if (low < lowest) {
 			lowest = low;
 		}
+
 		if (high > highest) {
 			highest = high;
 		}
+
 		worth += (low == high ? 1 : 2);
 		if (bro(t) != NULL) {
 			double nextlow;
+
 			if (is_signed(sh(bro(t)))) {
 				nextlow = no(bro(t));
 			} else {
 				nextlow = (unsigned)no(bro(t));
 			}
+
 			if ((nextlow / 2) > (high / 2) + 20) {
 				split_at = t;
 				go = 0;
 			}
 		}
+
 #ifndef tdf3
 		if (high / 2 > low / 2 + 20) {
 			worth = 0;
@@ -569,6 +591,7 @@ caser(exp arg, long already)
 		bro(new) = old_bro;
 		bro(split_at) = NULL;
 		setlast(split_at);
+
 		/* Code the first half */
 		a = caser(arg, already);
 
@@ -595,6 +618,7 @@ caser(exp arg, long already)
 			} else {
 				low = (unsigned)no(t);
 			}
+
 			if (son(t)) {
 				if (is_signed(sh(son(t)))) {
 					high = no(son(t));
@@ -614,6 +638,7 @@ caser(exp arg, long already)
 		/* Move offset into D1 */
 		jt = simple_exp(0);
 		ptno(jt) = rlab;
+
 		/*
 		 * Subtract the lowest value (minus anything already deducted).
 		 */
@@ -642,7 +667,7 @@ caser(exp arg, long already)
 		/* Print out table */
 		make_label(tlab);
 		if (!no_align_directives) {
-		  make_instr(m_as_align4, NULL, NULL, 0);
+			make_instr(m_as_align4, NULL, NULL, 0);
 		}
 		make_label(slab);
 		for (i = 0; i < n; i++) {
@@ -668,6 +693,7 @@ caser(exp arg, long already)
 		} else {
 			low = (unsigned)no(t);
 		}
+
 		if (son(t)) {
 			if (is_signed(sh(son(t)))) {
 				high = no(son(t));
@@ -687,22 +713,22 @@ caser(exp arg, long already)
 			ptno(jt) = next_lab();
 			sw = cmp(sha, D1, mnw(low - already), tst_ls);
 			branch(tst_ls, jt, is_signed(sh(t)), sw, 0);
-			sw = cmp(sha, D1, mnw((unsigned)(high - already)),
-				 tst_le);
+			sw = cmp(sha, D1, mnw((unsigned)(high - already)), tst_le);
 			branch(tst_le, jr, is_signed(sh(son(t))), sw, 0);
 			make_label(ptno(jt));
 		}
 	}
+
 	/* Return what has been subtracted from D1 */
 	have_cond = 0;
+
 	return already;
 }
 
 /*
-    RESET STACK POINTER FROM APPLICATIONS POINTER
-    sp = AP - (env_size - (sizeof(params) + sizeof(ret-addr) + sizeof(AP)))
-*/
-
+ * RESET STACK POINTER FROM APPLICATIONS POINTER
+ * sp = AP - (env_size - (sizeof(params) + sizeof(ret-addr) + sizeof(AP)))
+ */
 static void
 reset_stack_pointer(void)
 {
@@ -724,57 +750,57 @@ reset_stack_pointer(void)
 	op2 = new_mach_op();
 	op1->of->plus = op2;
 	/* The address of cur_proc_dec is used to form the env_size label */
-	op3 = make_lab((long)cur_proc_dec,8+ (cur_proc_callers_size+cur_proc_callees_size) /8);
+	op3 = make_lab((long)cur_proc_dec, 8 + (cur_proc_callers_size + cur_proc_callees_size) / 8);
 	op2->type = MACH_NEG;
 	op2->plus = op3;
 	op2 = make_register(REG_SP);
 	make_instr(m_lea, op1, op2, regmsk(REG_SP));
 #endif
+
 	asm_comment("reset stack pointer done");
 }
 
 /*
-    This routine checks for jumps to immediately following labels.
-*/
-
+ * This routine checks for jumps to immediately following labels.
+ */
 static bool
 red_jump(exp e, exp la)
 {
 	if (!last(la) && pt(e) == bro(la)) {
 		return 1;
 	}
+
 	return 0;
 }
 
-
 /*
-    ALLOW SPACE ON STACK
-*/
-
+ * ALLOW SPACE ON STACK
+ */
 static ash
 stack_room(ash stack, where dest, long off)
 {
 	exp e = dest.wh_exp;
+
 	if (name(e) == ident_tag) {
 		if (ptno(e) != var_pl) {
 			return stack;
 		}
+
 		if (no(e) + off > stack) {
 			stack = no(e) + off;
 		}
 	}
+
 	return stack;
 }
 
-
 /*
-    This routine is the main coding routine for such things as identity
-    definitions and control structures.  Most of the actual expression
-    evaluation is dealt with by codec.  The expression e is coded and
-    the result put into dest.  The stack argument gives the current
-    structure of the stack.
-*/
-
+ * This routine is the main coding routine for such things as identity
+ * definitions and control structures.  Most of the actual expression
+ * evaluation is dealt with by codec.  The expression e is coded and
+ * the result put into dest.  The stack argument gives the current
+ * structure of the stack.
+ */
 void
 make_code(where dest, ash stack, exp e)
 {
@@ -823,9 +849,11 @@ make_code(where dest, ash stack, exp e)
 #ifndef tdf3
 		make_visible(e);
 #endif
+
 		if (dc.place == var_pl) {
 			used_stack = 1;
 		}
+
 		sz = dc.new_stack;
 
 		/* Does the definition need evaluating? */
@@ -840,6 +868,7 @@ make_code(where dest, ash stack, exp e)
 				if (ptno(e) == reg_pl) {
 					regsindec |= dc.num;
 				}
+
 				make_code(zw(e), stack, def);
 			}
 
@@ -847,10 +876,10 @@ make_code(where dest, ash stack, exp e)
 			if (ptno(e) == reg_pl) {
 				regsindec &= ~dc.num;
 				if (used_once) {
-					regsinuse |= dc.num;
-					reuseables |= dc.num;
+					regsinuse  |=  dc.num;
+					reuseables |=  dc.num;
 				} else {
-					regsinuse |= dc.num;
+					regsinuse  |=  dc.num;
 					reuseables &= ~dc.num;
 				}
 			}
@@ -875,28 +904,36 @@ make_code(where dest, ash stack, exp e)
 				}
 			}
 		}
+
 		return;
 	}
-#ifndef tdf3
-#else
+
+#ifdef tdf3
 	case clear_tag:
 		/* Clear means do nothing */
 		return;
 #endif
+
 	case seq_tag: {
 		/* Sequences */
 		bool no_bottom = 1;
 		exp t = son(son(e));
+
 		/* Code each sub-expression */
 		while (make_code(zero, stack, t),
 		       no_bottom = (name(sh(t)) != bothd),
-		       !last(t))t = bro(t);
+		       !last(t)) {
+			t = bro(t);
+		}
+
 		/* Code the result expression if necessary */
 		if (no_bottom) {
 			make_code(dest, stack, bro(son(e)));
 		}
+
 		return;
 	}
+
 	case cond_tag: {
 		/* Conditionals */
 		long lb, r1;
@@ -923,6 +960,7 @@ make_code(where dest, ash stack, exp e)
 			sonno(record) = stack_dec;
 			ptno(record) = lb;
 		}
+
 		no(son(alt)) = ptno(record);
 		pt(son(alt)) = record;
 
@@ -982,10 +1020,12 @@ make_code(where dest, ash stack, exp e)
 			make_label(ptno(jr));
 			retcell(jr);
 		}
+
 		have_cond = 0;
 		retcell(record);
 		return;
 	}
+
 	case labst_tag: {
 		/* Labelled statements */
 		allocation dc;
@@ -993,10 +1033,11 @@ make_code(where dest, ash stack, exp e)
 
 		/* Is there long jump access to this label ? */
 		if (is_loaded_lv(e)) {
-			if (need_preserve_stack)
+			if (need_preserve_stack) {
 				restore_stack();
-			else if (!has_alloca)
+			} else if (!has_alloca) {
 				reset_stack_pointer();
+			}
 		}
 
 		/* Allocate space */
@@ -1015,11 +1056,14 @@ make_code(where dest, ash stack, exp e)
 				max_stack = dc.new_stack;
 			}
 		}
+
 		if (dc.place == reg_pl) {
 			regsinuse &= (~dc.num);
 		}
+
 		return;
 	}
+
 	case rep_tag: {
 		/* Loops */
 		long lb;
@@ -1054,6 +1098,7 @@ make_code(where dest, ash stack, exp e)
 		retcell(record);
 		return;
 	}
+
 	case goto_tag: {
 		/* Jumps */
 		exp lab;
@@ -1071,20 +1116,21 @@ make_code(where dest, ash stack, exp e)
 		reuseables = 0;
 		return;
 	}
+
 	case goto_lv_tag: {
 		exp dest_exp = son(e); /* destination label */
-		exp cont_exp = getexp(sh(dest_exp), NULL, 1, dest_exp,
-				      NULL, 0, 0, cont_tag);
+		exp cont_exp = getexp(sh(dest_exp), NULL, 1, dest_exp, NULL, 0, 0, cont_tag);
 		where wh;
 		mach_op *op;
 		wh = zw(cont_exp);
 		wh.wh_is = RegInd;
-		op = operand(32,wh);
+		op = operand(32, wh);
 		/*epilogue(1);*/
-		make_instr(m_jmp,op,NULL,~save_msk);
+		make_instr(m_jmp, op, NULL, ~save_msk);
 		/*ins1(m_jmp,32,D0,0);*/
 		return;
 	}
+
 #ifndef tdf3
 	case return_to_label_tag: {
 		exp dest_lab = son(e);
@@ -1093,27 +1139,29 @@ make_code(where dest, ash stack, exp e)
 
 		move(slongsh, zw(dest_lab), A0);
 		restore_regs(ALL);
-		make_instr(m_jmp,operand(32,A0_p),NULL,~save_msk);
+		make_instr(m_jmp, operand(32, A0_p), NULL, ~save_msk);
 
 		asm_comment("return_to_label done");
 		return;
 	}
 #endif
+
 	case long_jump_tag: {
 		exp new_env = son(e);
 		exp dest_lab = bro(new_env);
 		asm_comment("long_jump");
 
-		move(sh(dest_lab),zw(dest_lab),A0);
-		move(sh(new_env),zw(new_env),A1);
+		move(sh(dest_lab), zw(dest_lab), A0);
+		move(sh(new_env), zw(new_env), A1);
 
 		/* restore all registers but A6 or SP */
 		restore_regs(NOT_A6_OR_SP);
 
-		move(sh(new_env),A1,AP);
-		make_instr(m_jmp,operand(32,A0_p),NULL,~save_msk);
+		move(sh(new_env), A1, AP);
+		make_instr(m_jmp, operand(32, A0_p), NULL, ~save_msk);
 		return;
 	}
+
 	case test_tag: {
 		/* Tests */
 		exp qwe;
@@ -1152,7 +1200,6 @@ make_code(where dest, ash stack, exp e)
 
 		/* Look for unsigned or floating tests */
 		shn = name(sh(arg1));
-
 		switch (shn) {
 		case ucharhd:
 		case uwordhd:
@@ -1160,6 +1207,7 @@ make_code(where dest, ash stack, exp e)
 		case u64hd:
 			sg = 0;
 			break;
+
 		case shrealhd:
 		case realhd:
 		case doublehd:
@@ -1174,6 +1222,7 @@ make_code(where dest, ash stack, exp e)
 			if (is_offset(arg1)) {
 				d /= 8;
 			}
+
 			if (d == 1) {
 				if (test_n == tst_le) {
 					/* 1 <= x becomes 0 < x */
@@ -1203,6 +1252,7 @@ make_code(where dest, ash stack, exp e)
 			if (is_offset(arg2)) {
 				d /= 8;
 			}
+
 			if (d == 1) {
 				if (test_n == tst_ge) {
 					/* x >= 1 becomes x > 0 */
@@ -1225,6 +1275,7 @@ make_code(where dest, ash stack, exp e)
 				}
 			}
 		}
+
 		if (shn == u64hd || shn == s64hd) {
 			where w1, w2;
 			w1 = zw(arg1);
@@ -1237,13 +1288,14 @@ make_code(where dest, ash stack, exp e)
 			/* compare high word */
 			w1.wh_off += 32;
 			w2.wh_off += 32;
+
 			if (sg) {
 				sw = cmp(slongsh, w1, w2, test_n);
 			} else {
 				sw = cmp(ulongsh, w1, w2, test_n);
 			}
-			branch(test_n, jr, sg, sw, sf);
 
+			branch(test_n, jr, sg, sw, sf);
 			return;
 		}
 
@@ -1254,6 +1306,7 @@ make_code(where dest, ash stack, exp e)
 		branch(test_n, jr, sg, sw, sf);
 		return;
 	}
+
 	case testbit_tag: {
 		/* Bit tests */
 		exp qwe;
@@ -1292,6 +1345,7 @@ make_code(where dest, ash stack, exp e)
 		branch((long)props(e), jr, 1, 0, 0);
 		return;
 	}
+
 	case ass_tag:
 	case assvol_tag: {
 		/* Variable assignments */
@@ -1302,18 +1356,22 @@ make_code(where dest, ash stack, exp e)
 			int_to_bitf(assval, e, stack);
 			return;
 		}
+
 		codec(zw(e), stack, assval);
 		asm_comment("assign done");
 		return;
 	}
+
 	case nof_tag: {
 		shape sha;
 		long crt, off;
-		exp v = son(e);
+		exp v;
 
+		v = son(e);
 		if (v == NULL) {
 			return;
 		}
+
 		if (name(dest.wh_exp) == val_tag) {
 			return;
 		}
@@ -1334,31 +1392,36 @@ make_code(where dest, ash stack, exp e)
 			crt += off;
 			v = bro(v);
 		}
+
 		/* Not reached */
 	}
+
 	case ncopies_tag: {
 		where wh;
 		long n = no(e);
 		shape sha = sh(son(e));
 		long sz = rounder(shape_size(sha), shape_align(sha));
+
 		if (n == 0) {
 			return;
 		}
+
 		if (name(dest.wh_exp) == val_tag) {
 			return;
 		}
+
 		if (n == 1) {
 			make_code(dest, stack, son(e));
 			return;
 		}
+
 		if (sz == 8 || sz == 16 || sz == 32) {
 			make_code(D1, stack, son(e));
 			regsinproc |= regmsk(REG_D1);
 			if (n <= 10) {
 				long i;
 				for (i = 0; i < n; i++) {
-					wh = mw(dest.wh_exp,
-						dest.wh_off + i * sz);
+					wh = mw(dest.wh_exp, dest.wh_off + i * sz);
 					move(sha, D1, wh);
 				}
 				return;
@@ -1379,11 +1442,13 @@ make_code(where dest, ash stack, exp e)
 				return;
 			}
 		}
+
 		make_code(dest, stack, son(e));
 		wh = mw(dest.wh_exp, dest.wh_off + sz);
-		move_bytes(sz *(n - 1), dest, wh, 0);
+		move_bytes(sz * (n - 1), dest, wh, 0);
 		return;
 	}
+
 	case concatnof_tag: {
 		ash stack2;
 		exp a1 = son(e);
@@ -1394,24 +1459,29 @@ make_code(where dest, ash stack, exp e)
 		make_code(mw(dest.wh_exp, off), stack2, a2);
 		return;
 	}
+
 #ifndef tdf3
 	case apply_tag:
 	case apply_general_tag:
 		apply_general_proc(e, dest, stack);
 		return;
+
 	case tail_call_tag: {
 		int old_stack_dec = stack_dec;
 		tail_call(e, dest, stack);
 		stack_dec = old_stack_dec;
 		return;
 	}
+
 	case caller_tag:
 		make_code(dest, stack, son(e));
 		return;
+
 	case trap_tag:
 		trap_ins(no(e));
 		return;
 #endif
+
 #if 0
 	case apply_tag: {
 		/* Procedure applications */
@@ -1428,8 +1498,7 @@ make_code(where dest, ash stack, exp e)
 
 		/* Find the procedure and the arguments */
 		exp proc = son(e);
-		exp arg = (last(proc)? NULL : bro(proc));
-
+		exp arg = (last(proc) ? NULL : bro(proc));
 
 #if 0
 		/*
@@ -1439,7 +1508,7 @@ make_code(where dest, ash stack, exp e)
 		if ((brog(son(proc)) ->processed) &&
 		    (brog(son(proc)) ->extnamed) &&
 		    (!strcmp(brog(son(proc))->dec_id,
-			     "_TESTPOINT"))) {
+		             "_TESTPOINT"))) {
 			TESTPOINT();
 			return;
 		}
@@ -1491,6 +1560,7 @@ make_code(where dest, ash stack, exp e)
 				dec_stack(comp_room);
 				stack_dec -= comp_room;
 			}
+
 			/* Push the arguments */
 			if (arg != NULL) {
 				code_pars(zw(e), stack, arg);
@@ -1501,29 +1571,35 @@ make_code(where dest, ash stack, exp e)
 			if (stkdec) {
 				dec_stack(stkdec);
 			}
+
 			stack_dec -= stkdec;
 			/* Indicate recursive calls */
 			apply_tag_flag++;
 			/* Encode the arguments onto the stack */
 			st = 0;
 			t = arg;
+
 			while (t != NULL) {
 				ast a;
 				where stp;
 				long adj = 0;
 				char nc = name(sh(t));
+
 				if (nc == scharhd || nc == ucharhd) {
 					adj = 24;
 				}
+
 				if (nc == swordhd || nc == uwordhd) {
 					adj = 16;
 				}
+
 				stp = mw(SP_p.wh_exp, st + adj);
 				make_code(stp, stack, t);
 				a = add_shape_to_stack(st, sh(t));
 				st = a.astash;
-				t = (last(t)? NULL : bro(t));
+				t = (last(t) ? NULL : bro(t));
 			}
+
 			apply_tag_flag--;
 		}
 		start_stack -= stack_dec;
@@ -1558,10 +1634,11 @@ make_code(where dest, ash stack, exp e)
 					long doff = dest.wh_off;
 					extra_stack += start_stack;
 					dest.wh_off = 0;
+
 					if (eq_where(dest, SP_p)) {
 						/* Careful! */
 						dest.wh_off = doff +
-						    extra_stack;
+						              extra_stack;
 						mova(dest, A1);
 						dest.wh_off = doff;
 					} else {
@@ -1575,6 +1652,7 @@ make_code(where dest, ash stack, exp e)
 					mova(dest, A1);
 				}
 			}
+
 			/* Make sure we don't reuse A1 accidently */
 			avoid_tmp_reg(REG_A1);
 			regsinproc |= regmsk(REG_A1);
@@ -1632,6 +1710,7 @@ make_code(where dest, ash stack, exp e)
 		}
 	}
 #endif
+
 	case alloca_tag: {
 		/* Local memory allocation */
 		exp s = son(e);
@@ -1686,21 +1765,23 @@ make_code(where dest, ash stack, exp e)
 		asm_comment("Allocate done");
 		return;
 	}
+
 	case last_local_tag:
 		asm_comment("last_local ...");
 		move(sh(e), SP, dest);
 		asm_comment("last_local done");
 		return;
+
 	case local_free_tag: {
 		exp base = son(e);
 		exp offset = bro(base);
-		exp s_a0 = sim_exp(sh(base),A0);
+		exp s_a0 = sim_exp(sh(base), A0);
 		where w_a0;
 		w_a0 = zw(s_a0);
 
 		asm_comment("local_free ...");
 
-		make_code(w_a0,stack,base);
+		make_code(w_a0, stack, base);
 
 		if (name(offset) == val_tag) {
 			long off = no(offset);
@@ -1709,15 +1790,15 @@ make_code(where dest, ash stack, exp e)
 				off *= 8;
 			}
 			off = rounder(off, stack_align) / 8;
-			add(sh(offset),A0,zw(offset),SP);
+			add(sh(offset), A0, zw(offset), SP);
 		} else {
-			exp s_d0 = sim_exp(sh(offset),D0);
+			exp s_d0 = sim_exp(sh(offset), D0);
 			where w_d0;
 			w_d0 = zw(s_d0);
-			make_code(w_d0,stack,offset);
-			add(sh(offset),mnw(7),D0,D0);
-			and(sh(offset),D0,mnw(~7),D0);
-			add(sh(offset),A0,D0,SP);
+			make_code(w_d0, stack, offset);
+			add(sh(offset), mnw(7), D0, D0);
+			and (sh(offset), D0, mnw(~7), D0);
+			add(sh(offset), A0, D0, SP);
 		}
 
 		if (need_preserve_stack) {
@@ -1728,16 +1809,18 @@ make_code(where dest, ash stack, exp e)
 
 		return;
 	}
-	case local_free_all_tag: {
+
+	case local_free_all_tag:
 		must_use_bp = 1;
 		asm_comment("local_free_all ...");
 		reset_stack_pointer();
+
 		if (need_preserve_stack) {
 			save_stack();
 		}
+
 		asm_comment("local_free_all done");
 		return;
-	}
 
 #ifndef tdf3
 	case untidy_return_tag:
@@ -1769,6 +1852,7 @@ make_code(where dest, ash stack, exp e)
 					regsinproc |= regmsk(REG_D1);
 #endif
 				}
+
 				/* Jump to the return label */
 				if (name(rsha) != bothd) {
 #ifndef tdf3
@@ -1778,10 +1862,12 @@ make_code(where dest, ash stack, exp e)
 #endif
 						make_jump(m_bra, crt_ret_lab);
 				}
+
 				return;
 			}
 
-			/* Otherwise the result has to be encoded into the
+			/*
+			 * Otherwise the result has to be encoded into the
 			 * position pointed to by A1 at the start of the
 			 * procedure. This value was stored in A6_4. The value
 			 * of this pointer is returned in D0.
@@ -1792,11 +1878,13 @@ make_code(where dest, ash stack, exp e)
 			} else {
 				codec(A6_4_p, stack, son(e));
 			}
+
 #ifdef SYSV_ABI
 			move(slongsh, A6_4, A1);
 #else
 			move(slongsh, A6_4, D0);
 #endif
+
 			regsinproc |= regmsk(REG_A1);
 #ifndef tdf3
 			if (name(e) == untidy_return_tag) {
@@ -1819,6 +1907,7 @@ make_code(where dest, ash stack, exp e)
 				make_jump(m_bra, ptno(crt_rscope));
 			return;
 		}
+
 #ifdef rscope_tag
 	case rscope_tag: {
 		/* Procedure scopes */
@@ -1852,6 +1941,7 @@ make_code(where dest, ash stack, exp e)
 		return;
 	}
 #endif
+
 	case solve_tag: {
 		/* Solve statements */
 		long lb = next_lab();
@@ -1862,6 +1952,7 @@ make_code(where dest, ash stack, exp e)
 		retcell(jr);
 		return;
 	}
+
 	case case_tag: {
 		/* Case statements */
 		exp d1;
@@ -1891,6 +1982,7 @@ make_code(where dest, ash stack, exp e)
 		retcell(d1);
 		return;
 	}
+
 	case movecont_tag: {
 		/* This is done by a library call to memmove */
 		exp from_exp = son(e);
@@ -1898,23 +1990,26 @@ make_code(where dest, ash stack, exp e)
 		exp num_bytes = bro(to_exp);
 		mach_op *op = make_extern_ind(abi == ABI_SUNOS ? "_bcopy" : "_memmove", 0);
 		asm_comment("move_some ...");
-		push(slongsh,32L,D0);
-		push(slongsh,32L,D1);
-		push(slongsh,32L,zw(num_bytes));
+		push(slongsh, 32L, D0);
+		push(slongsh, 32L, D1);
+		push(slongsh, 32L, zw(num_bytes));
+
 		if (abi == ABI_SUNOS) {
-			push(slongsh,32L,zw(to_exp));
-			push(slongsh,32L,zw(from_exp));
+			push(slongsh, 32L, zw(to_exp));
+			push(slongsh, 32L, zw(from_exp));
 		} else {
-			push(slongsh,32L,zw(from_exp));
-			push(slongsh,32L,zw(to_exp));
+			push(slongsh, 32L, zw(from_exp));
+			push(slongsh, 32L, zw(to_exp));
 		}
-		make_instr(m_call,op,NULL,0);
+
+		make_instr(m_call, op, NULL, 0);
 		dec_stack(-96);
-		pop(slongsh,32L,D1);
-		pop(slongsh,32L,D0);
+		pop(slongsh, 32L, D1);
+		pop(slongsh, 32L, D0);
 		asm_comment("move_some done");
 		return;
 	}
+
 	case diagnose_tag:
 		if (diag != DIAG_NONE) {
 			diag_start(dno(e), e);
@@ -1924,13 +2019,16 @@ make_code(where dest, ash stack, exp e)
 			make_code(dest, stack, son(e));
 		}
 		return;
+
 	case prof_tag:
 		return;
+
 	default:
 		if (!is_a(name(e))) {
 			error(ERR_SERIOUS, "Bad operation");
 			return;
 		}
+
 		if (name(dest.wh_exp) != val_tag) {
 			/* All other cases are passed to codec */
 			codec(dest, stack, e);
@@ -1940,8 +2038,9 @@ make_code(where dest, ash stack, exp e)
 			 * An operation with an error jump must always be
 			 * performed, even if the result is discarded.
 			 */
-			codec(zero,stack,e);
+			codec(zero, stack, e);
 			return;
 		}
 	}
 }
+
