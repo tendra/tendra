@@ -8,6 +8,7 @@
  */
 
 #include <stdarg.h>
+#include <stdlib.h>
 
 #include <shared/check.h>
 

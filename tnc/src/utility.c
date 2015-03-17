@@ -9,6 +9,7 @@
 
 #include <limits.h>
 #include <stdarg.h>
+#include <stdlib.h>
 
 #include <shared/bool.h>
 #include <shared/check.h>

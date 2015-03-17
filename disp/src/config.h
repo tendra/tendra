@@ -20,12 +20,6 @@
 #define SEEK_SET		0
 #endif
 
-#ifndef EXIT_SUCCESS
-#define EXIT_SUCCESS		0
-#define EXIT_FAILURE		1
-#endif
-
-
 #define null			NULL
 #define BYTESIZE		8
 #define streq(X, Y)		(strcmp((X), (Y)) == 0)

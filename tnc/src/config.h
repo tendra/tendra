@@ -26,7 +26,7 @@
 	     malloc, printf, putchar, realloc, sprintf, strcmp,
 	     strlen, strncmp, strncpy, va_end, va_start, vfprintf.
 
-	(c)  Expressions : EOF, EXIT_FAILURE, EXIT_SUCCESS, NULL,
+	(c)  Expressions : EOF, NULL,
 	     SEEK_SET, stderr, stdout.
 */
 
@@ -41,14 +41,6 @@
     These hacks are designed to aid compilation on non-compliant systems.
     SEEK_SET is not defined on, for example, SUN-OS.
 */
-
-#ifndef EXIT_SUCCESS
-#define EXIT_SUCCESS		0
-#endif
-
-#ifndef EXIT_FAILURE
-#define EXIT_FAILURE		1
-#endif
 
 #ifndef SEEK_SET
 #define SEEK_SET		0
