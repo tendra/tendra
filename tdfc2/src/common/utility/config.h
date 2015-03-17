@@ -54,18 +54,4 @@ typedef void *gen_ptr ;
 typedef unsigned long gen_size ;
 
 
-/*
-    The standard __FILE__ and __LINE__ macros are defined to dummy values
-    for the benefit of compilers which do not define them.
-*/
-
-#ifndef __FILE__
-#define __FILE__	"unknown"
-#endif
-
-#ifndef __LINE__
-#define __LINE__	1
-#endif
-
-
 #endif
