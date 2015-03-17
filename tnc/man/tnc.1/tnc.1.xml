@@ -8,39 +8,29 @@
 
 	<!ENTITY prefix.arg "<replaceable>prefix</replaceable>">
 
-	<!ENTITY h.opt "<option>-help&nbsp;</option><replaceable>subject</replaceable>&nbsp;...">
-	<!ENTITY L.opt "<option>-L</option>&prefix.arg;">
-	<!ENTITY o.opt "<option>-o</option>&nbsp;&out-file.arg;">
-	<!ENTITY help.opt "<option>-help</option>&nbsp;<replaceable>subject</replaceable>&nbsp;&ellipsis.lit;">
-
+	<!ENTITY a.opt "<option>-a</option>">
 	<!ENTITY c.opt "<option>-c</option>">
 	<!ENTITY d.opt "<option>-d</option>">
 	<!ENTITY e.opt "<option>-e</option>">
 	<!ENTITY f.opt "<option>-f</option>">
 	<!ENTITY g.opt "<option>-e</option>">
-	<!ENTITY I.opt "<option>-I</option>&dir.arg;">
 	<!ENTITY l.opt "<option>-l</option>">
+	<!ENTITY n.opt "<option>-n</option>"> <!-- TODO: document -->
+	<!ENTITY o.opt "<option>-o</option>&nbsp;&out-file.arg;">
 	<!ENTITY p.opt "<option>-p</option>">
 	<!ENTITY q.opt "<option>-q</option>">
 	<!ENTITY r.opt "<option>-r</option>">
 	<!ENTITY t.opt "<option>-t</option>">
-	<!ENTITY V.opt "<option>-V</option>">
+	<!ENTITY u.opt "<option>-u</option>"> <!-- TODO: document -->
+	<!ENTITY v.opt "<option>-V</option>">
 	<!ENTITY w.opt "<option>-w</option>">
+	<!ENTITY x.opt "<option>-x</option>">
+	<!ENTITY y.opt "<option>-x</option>"> <!-- TODO: document -->
 
-	<!ENTITY cv.opt      "<option>-cv</option>">
-	<!ENTITY lib.opt     "<option>-lib</option>">
-	<!ENTITY read.opt    "<option>-read</option>">
-	<!ENTITY func.opt    "<option>-func</option>">
-	<!ENTITY eval.opt    "<option>-eval</option>">
-	<!ENTITY check.opt   "<option>-check</option>">
-	<!ENTITY graph.opt   "<option>-graphviz</option>">
-	<!ENTITY write.opt   "<option>-write</option>">
-	<!ENTITY tsimp.opt   "<option>-tsimp</option>">
-	<!ENTITY print.opt   "<option>-print</option>">
-	<!ENTITY decode.opt  "<option>-decode</option>">
-	<!ENTITY encode.opt  "<option>-encode</option>">
-	<!ENTITY expand.opt  "<option>-expand</option>">
-	<!ENTITY version.opt "<option>-version</option>">
+	<!ENTITY L.opt "<option>-L</option>&nbsp;&prefix.arg;">
+	<!ENTITY H.opt "<option>-H</option>&nbsp;<replaceable>subject</replaceable>&nbsp;&ellipsis.lit;">
+	<!ENTITY I.opt "<option>-I</option>&nbsp;&dir.arg;">
+	<!ENTITY V.opt "<option>-V</option>">
 ]>
 
 <!-- $Id -->
@@ -118,107 +108,68 @@
 
 			<group choice="opt">
 				<arg choice="plain">&r.opt;</arg>
-				<arg choice="plain">&read.opt;</arg>
 				<arg choice="plain">&d.opt;</arg>
-				<arg choice="plain">&decode.opt;</arg>
 			</group>
 			<group choice="opt">
 				<arg choice="plain">&w.opt;</arg>
-				<arg choice="plain">&write.opt;</arg>
 				<arg choice="plain">&e.opt;</arg>
-				<arg choice="plain">&encode.opt;</arg>
 				<arg choice="plain">&g.opt;</arg>
-				<arg choice="plain">&graph.opt;</arg>
 			</group>
 			<arg choice="opt">&I.opt;</arg>
 
 			<sbr/>
 
 			<!-- Options -->
-			<group choice="opt">
-				<arg choice="plain">&c.opt;</arg>
-				<arg choice="plain">&cv.opt;</arg>
-				<arg choice="plain">&check.opt;</arg>
-			</group>
-			<arg choice="opt">&eval.opt;</arg>
-			<arg choice="opt">&expand.opt;</arg>
-			<group choice="opt">
-				<arg choice="plain">&f.opt;</arg>
-				<arg choice="plain">&func.opt;</arg>
-			</group>
-			<group choice="opt">
-				<arg choice="plain">&l.opt;</arg>
-				<arg choice="plain">&lib.opt;</arg>
-			</group>
+			<arg choice="opt">&c.opt;</arg>
+			<arg choice="opt">&x.opt;</arg>
+			<arg choice="opt">&a.opt;</arg>
+			<arg choice="opt">&f.opt;</arg>
+			<arg choice="opt">&l.opt;</arg>
 			<arg choice="opt">&L.opt;</arg>
 			<arg choice="opt">&o.opt;</arg>
 			<arg choice="opt">&q.opt;</arg>
-
-			<sbr/>
-
-			<group choice="opt">
-				<arg choice="plain">&t.opt;</arg>
-				<arg choice="plain">&tsimp.opt;</arg>
-			</group>
+			<arg choice="opt">&t.opt;</arg>
 			<arg choice="opt">&V.opt;</arg>
 
-
 			<sbr/>
 
-			<arg choice="plain">&in-file.arg;</arg>
-			<arg choice="opt">&out-file.arg;</arg>
+			<arg choice="opt">&in-file.arg;
+				<arg choice="opt">&out-file.arg;</arg>
+			</arg>
 		</cmdsynopsis>
 
 		<cmdsynopsis>
 			<command>tnc</command>
 
-			<group choice="req">
-				<arg choice="plain">&p.opt;</arg>
-				<arg choice="plain">&print.opt;</arg>
-			</group>
+			<arg choice="plain">&p.opt;</arg>
 
 			<sbr/>
 
 			<!-- Options -->
-			<group choice="opt">
-				<arg choice="plain">&c.opt;</arg>
-				<arg choice="plain">&cv.opt;</arg>
-				<arg choice="plain">&check.opt;</arg>
-			</group>
-			<arg choice="opt">&eval.opt;</arg>
-			<arg choice="opt">&expand.opt;</arg>
-			<group choice="opt">
-				<arg choice="plain">&f.opt;</arg>
-				<arg choice="plain">&func.opt;</arg>
-			</group>
-			<group choice="opt">
-				<arg choice="plain">&l.opt;</arg>
-				<arg choice="plain">&lib.opt;</arg>
-			</group>
+			<arg choice="opt">&c.opt;</arg>
+			<arg choice="opt">&x.opt;</arg>
+			<arg choice="opt">&a.opt;</arg>
+			<arg choice="opt">&f.opt;</arg>
+			<arg choice="opt">&l.opt;</arg>
 			<arg choice="opt">&L.opt;</arg>
 			<arg choice="opt">&o.opt;</arg>
 			<arg choice="opt">&q.opt;</arg>
-
-			<sbr/>
-
-			<group choice="opt">
-				<arg choice="plain">&t.opt;</arg>
-				<arg choice="plain">&tsimp.opt;</arg>
-			</group>
+			<arg choice="opt">&t.opt;</arg>
 			<arg choice="opt">&V.opt;</arg>
 
 			<sbr/>
 
-			<arg choice="plain">&in-file.arg;</arg>
-			<arg choice="opt">&out-file.arg;</arg>
+			<arg choice="opt">&in-file.arg;
+				<arg choice="opt">&out-file.arg;</arg>
+			</arg>
 		</cmdsynopsis>
 
 		<cmdsynopsis>
 			<command>tnc</command>
 
 			<group choice="req">
-				<arg choice="plain">&help.opt;</arg>
-				<arg choice="plain">&version.opt;</arg>
+				<arg choice="plain">&v.opt;</arg>
+				<arg choice="plain">&H.opt;</arg>
 			</group>
 		</cmdsynopsis>
 	</refsynopsisdiv>
@@ -336,65 +287,7 @@
 
 		<variablelist>
 			<varlistentry>
-				<term>&c.opt;</term>
-				<term>&cv.opt;</term>
-				<term>&check.opt;</term>
-
-				<listitem>
-					<para>Specifies that &tnc; should apply extra checks to
-						&in-file.arg;.  For example, simple shape checking is
-						applied.  These checks are more efficient in &read.mode;
-						mode than in &decode.mode; mode.
-						If the &cv.opt; option is used in &write.mode; mode,
-						all the information gleaned from the shape checking
-						appears in &out-file.arg;.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term>&d.opt;</term>
-				<term>&decode.opt;</term>
-
-				<listitem>
-					<para>Specifies that &tnc; should be in &decode.mode; mode.
-						That is, that &in-file.arg; is a &tdf; capsule.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term>&g.opt;</term>
-				<term>&graph.opt;</term>
-
-				<listitem>
-					<para>Specifies that &tnc; should be in &graph.mode; mode.
-						That is, that &out-file.arg; is a Dot format graph,
-						suitable for rendering with Graphviz tools.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term>&e.opt;</term>
-				<term>&encode.opt;</term>
-
-				<listitem>
-					<para>Specifies that &tnc; should be in &encode.mode;
-						mode.  That is, that &out-file.arg; is a &tdf; capsule.
-						This is the default output mode.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term>&eval.opt;</term>
-
-				<listitem>
-					<para>Specifies that &tnc; should simplify its input by
-						evaluating constant expressions as far as
-						possible.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term>&expand.opt;</term>
+				<term>&a.opt;</term>
 
 				<listitem>
 					<para>Specifies that &tnc; should expand its input by
@@ -404,20 +297,60 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term>&f.opt;</term>
-				<term>&func.opt;</term>
+				<term>&c.opt;</term>
 
 				<listitem>
-					<para>Causes &tnc; to use its alternative, functional, form
-						for both input and output.
-						The options <option>-func_in</option> and
-						<option>-func_out</option> may be used to change the input
-						and the output independently.</para>
+					<para>Specifies that &tnc; should apply extra checks to
+						&in-file.arg;.  For example, simple shape checking is
+						applied.  These checks are more efficient in &read.mode;
+						mode than in &decode.mode; mode.</para>
+
+					<para>If the &V.opt; option is used in &write.mode; mode,
+						all the information gleaned from the shape checking
+						appears in &out-file.arg;.</para>
 				</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term>&help.opt;</term>
+				<term>&d.opt;</term>
+
+				<listitem>
+					<para>Specifies that &tnc; should be in &decode.mode; mode.
+						That is, that &in-file.arg; is a &tdf; capsule.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&e.opt;</term>
+
+				<listitem>
+					<para>Specifies that &tnc; should be in &encode.mode;
+						mode.  That is, that &out-file.arg; is a &tdf; capsule.
+						This is the default output mode.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&f.opt;</term>
+
+				<listitem>
+					<para>Causes &tnc; to use its alternative, functional, form
+						for both input and output.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&g.opt;</term>
+
+				<listitem>
+					<para>Specifies that &tnc; should be in &graph.mode; mode.
+						That is, that &out-file.arg; is a Dot format graph,
+						suitable for rendering with Graphviz tools.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&H.opt;</term>
 
 				<listitem>
 					<para>Makes &tnc; print its help message on the given
@@ -439,7 +372,6 @@
 
 			<varlistentry>
 				<term>&l.opt;</term>
-				<term>&lib.opt;</term>
 
 				<listitem>
 					<para>In &decode.mode; mode, specifies that &in-file.arg;
@@ -469,7 +401,6 @@
 
 			<varlistentry>
 				<term>&p.opt;</term>
-				<term>&print.opt;</term>
 
 				<listitem>
 					<para>Specifies that &tnc; should be in &decode.mode; and
@@ -491,7 +422,6 @@
 
 			<varlistentry>
 				<term>&r.opt;</term>
-				<term>&read.opt;</term>
 
 				<listitem>
 					<para>Specifies that &tnc; should be in &read.mode; mode.
@@ -502,7 +432,6 @@
 
 			<varlistentry>
 				<term>&t.opt;</term>
-				<term>&tsimp.opt;</term>
 
 				<listitem>
 					<para>Specifies that &tnc; should expand its input by
@@ -510,6 +439,15 @@
 						definition and by evaluating constant expressions as far as
 						possible. This is equivalent to
 						<option>-expand -eval</option>.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&v.opt;</term>
+
+				<listitem>
+					<para>Makes &tnc; print its version number and the version
+						of the &tdf; specification it supports.</para>
 				</listitem>
 			</varlistentry>
 
@@ -524,22 +462,22 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term>&version.opt;</term>
-
-				<listitem>
-					<para>Makes &tnc; print its version number and the version
-						of the &tdf; specification it supports.</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
 				<term>&w.opt;</term>
-				<term>&write.opt;</term>
 
 				<listitem>
 					<para>Specifies that &tnc; should be in &write.mode; mode.
 						That is, that &out-file.arg; should consist of &tdf;
 						text.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&x.opt;</term>
+
+				<listitem>
+					<para>Specifies that &tnc; should simplify its input by
+						evaluating constant expressions as far as
+						possible.</para>
 				</listitem>
 			</varlistentry>
 		</variablelist>

@@ -9,6 +9,7 @@
 
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/getopt.h>
 
 #include "config.h"
 
@@ -33,7 +34,7 @@
 
 
 
-static boolean
+static void
 output_option(char *arg, boolean t)
 {
 	boolean *p = NULL;
@@ -52,31 +53,29 @@ output_option(char *arg, boolean t)
 		p = &show_tagdefs;
 
 	if (p == NULL)
-		return 0;
+		fatal_error("Unrecognised output option: %s", arg);
 
 	if (t) {
 		show_tokdecs = 0;
 		show_tokdefs = 0;
-		show_aldefs = 0;
+		show_aldefs  = 0;
 		show_tagdecs = 0;
 		show_tagdefs = 0;
 	}
 
 	*p = t;
-
-	return 1;
 }
 
 
 int
 main(int argc, char **argv)
 {
-	int a;
 	int status = 0;
 	boolean expand = 0;
 	boolean evaluate = 0;
 	boolean lib_input = 0;
 	boolean output_next = 0;
+	boolean help_output;
 
 	void(*input_fn)(void);
 	void(*output_fn)(void);
@@ -84,223 +83,187 @@ main(int argc, char **argv)
 	set_progname("tnc", "1.9");
 
 	/* Default action : read text, encode TDF capsule */
-	input_fn = read_capsule;
-	output_fn = enc_capsule;
-	text_input = 1;
+	input_fn    = read_capsule;
+	output_fn   = enc_capsule;
+	text_input  = 1;
 	text_output = 0;
+	help_output = 0;
 
 	/* Initialize internal tables */
+	input  = stdin;
 	output = stdout;
 	init_tables();
 	init_constructs();
 
-	/* Scan arguments */
-	for (a = 1; a < argc; a++) {
-		char *arg = argv[a];
+	{
+		int c;
 
-		if (output_next) {
-			open_output(arg);
-			output_next = 0;
-		} else if (*arg == '-') {
-			boolean known = 0;
-
-			switch (arg[1]) {
-			case 'h':
-				/* Help option */
-				if (strcmp(arg, "-help") == 0) {
-					if (status)
-						warning("Too many arguments");
-
-					a++;
-
-					if (a == argc)
-						help("all");
-					else {
-						while (a < argc) {
-							help(argv[a]);
-							a++;
-						}
-					}
-
-					exit(exit_status);
-				}
-				break;
-			case 'd':
-				/* Decode mode */
-				if (arg[2] == 0 ||
-				    strcmp(arg, "-decode") == 0) {
-					input_fn = de_capsule;
-					text_input = 0;
-					known = 1;
-				}
-				break;
-			case 'e':
-				/* Encode mode */
-				if (arg[2] == 0 ||
-				    strcmp(arg, "-encode") == 0) {
-					output_fn = enc_capsule;
-					text_output = 0;
-					known = 1;
-				} else if (strcmp(arg, "-eval") == 0) {
-					evaluate = 1;
-					known = 1;
-				} else if (strcmp(arg, "-expand") == 0) {
-					expand = 1;
-					known = 1;
-				}
-				break;
-			case 'g':
-				/* Graphviz mode */
-				if (arg[2] == 0 ||
-				    strcmp(arg, "-graphviz") == 0) {
-					output_fn = dot_capsule;
-					text_output = 1;
-					known = 1;
-				}
-				break;
-			case 'r':
-				/* Read mode */
-				if (arg[2] == 0 || strcmp(arg, "-read") == 0) {
-					input_fn = read_capsule;
-					text_input = 1;
-					known = 1;
-				}
-				break;
-			case 'w':
-				/* Write mode */
-				if (arg[2] == 0 ||
-				    strcmp(arg, "-write") == 0) {
-					output_fn = print_capsule;
-					text_output = 1;
-					known = 1;
-				}
-				break;
-			case 'p':
-				/* Pretty printer mode */
-				if (arg[2] == 0 ||
-				    strcmp(arg, "-print") == 0) {
-					input_fn = de_capsule;
-					output_fn = print_capsule;
-					text_input = 0;
-					text_output = 1;
-					known = 1;
-				}
-				break;
-			case 't':
+		while (c = getopt(argc, argv, "acdefgln:opqrtuvwxy:" "HI:L:V"), c != -1) {
+			switch (c) {
+			case 'a':
 				/* Expand token definitions */
-				if (arg[2] == 0 || strcmp(arg, "-tsimp") == 0) {
-					evaluate = 1;
-					expand = 1;
-					known = 1;
-				}
+				expand = 1;
 				break;
+
 			case 'c':
 				/* Switch on shape checking */
-				if (arg[2] == 0 || strcmp(arg, "-check") == 0) {
-					init_shapes();
-					do_check = 1;
-					known = 1;
-				} else if (strcmp(arg, "-cv") == 0) {
-					init_shapes();
-					do_check = 1;
-					print_shapes = 1;
-					known = 1;
-				}
+				init_shapes();
+				do_check = 1;
 				break;
-			case 'l':
-				if (arg[2] == 0 || strcmp(arg, "-lib") == 0) {
-					lib_input = 1;
-					known = 1;
-				}
+
+			case 'd':
+				/* Decode mode */
+				input_fn   = de_capsule;
+				text_input = 0;
 				break;
+
+			case 'e':
+				/* Encode mode */
+				output_fn = enc_capsule;
+				text_output = 0;
+				break;
+
 			case 'f':
 				/* Check on form of input and output */
-				if (arg[2] == 0 || strcmp(arg, "-func") == 0) {
-					func_input = 1;
-					func_output = 1;
-					known = 1;
-				} else if (strcmp(arg, "-func_out") == 0) {
-					func_output = 1;
-					known = 1;
-				} else if (strcmp(arg, "-func_in") == 0) {
-					func_input = 1;
-					known = 1;
-				}
+				func_input  = 1;
+				func_output = 1;
 				break;
+
+			case 'g':
+				/* Graphviz mode */
+				output_fn   = dot_capsule;
+				text_output = 1;
+				break;
+
+			case 'l':
+				lib_input = 1;
+				break;
+
 			case 'n':
-				if (strncmp(arg, "-no_", 4) == 0)
-					known = output_option(arg + 4, 0);
+				/* "no" */
+				output_option(optarg, 0);
 				break;
+
 			case 'o':
-				if (arg[2] == 0) {
-					output_next = 1;
-					known = 1;
-				} else if (strncmp(arg, "-only_", 6) == 0)
-					known = output_option(arg + 6, 1);
+				/* Output file */
+				open_output(optarg);
 				break;
+
+			case 'p':
+				/* Pretty printer mode */
+				input_fn    = de_capsule;
+				output_fn   = print_capsule;
+				text_input  = 0;
+				text_output = 1;
+				break;
+
 			case 'q':
-				if (arg[2] == 0) {
-					dont_check = 1;
-					known = 1;
-				}
+				dont_check = 1;
 				break;
+
+			case 'r':
+				/* Read mode */
+				input_fn   = read_capsule;
+				text_input = 1;
+				break;
+
+			case 't':
+				/* Expand token definitions and evaulate expressions */
+				evaluate = 1;
+				expand   = 1;
+				break;
+
 			case 'u':
-				if (arg[2] == 0 ||
-				    strcmp(arg, "-unsorted") == 0) {
-					order_names = 0;
-					known = 1;
-				}
+				/* Unsorted */
+				order_names = 0;
 				break;
+
 			case 'v':
-				if (arg[2] == 0 ||
-				    strcmp(arg, "-version") == 0) {
-					int v1 = VERSION_major;
-					int v2 = VERSION_minor;
-
-					report_version(stderr);
-					IGNORE fprintf(stderr,
-					    " (TDF %d.%d)\n", v1, v2);
-					known = 1;
-				}
+				/* Version */
+				report_version(stderr);
+				IGNORE fprintf(stderr, " (TDF %d.%d)\n",
+					VERSION_major, VERSION_minor);
 				break;
+
+			case 'w':
+				/* Write mode */
+				output_fn = print_capsule;
+				text_output = 1;
+				break;
+
+			case 'x':
+				/* Evaluate expressions */
+				evaluate = 1;
+				break;
+
+			case 'y':
+				/* "only" */
+				output_option(optarg, 1);
+				break;
+
+			case 'H':
+				/* Help option */
+				help_output = 1;
+				break;
+
 			case 'I':
-				add_directory(arg + 2);
-				known = 1;
+				add_directory(optarg);
 				break;
+
 			case 'L':
-				local_prefix = arg + 2;
-				known = 1;
+				local_prefix = optarg;
 				break;
+
 			case 'V':
-				if (arg[2] == 0) {
-					verbose = 1;
-					known = 1;
-				}
+				/* Verbose */
+				print_shapes = 1;
+				verbose = 1;
 				break;
+
+			default:
+				return 1;
 			}
-
-			if (!known)
-				warning("Unknown option, %s", arg);
-
-		} else { /* Initialize input and output files */
-			if (status == 0)
-				open_input(arg, 0);
-			else if (status == 1)
-				open_output(arg);
-			else
-				warning("Too many arguments");
-
-			status++;
 		}
+
+		argc -= optind;
+		argv += optind;
+	}
+
+	/* Help */
+	if (help_output) {
+		if (argc == 0) {
+			help("all");
+		} else {
+			while (argc--) {
+				help(*argv++);
+			}
+		}
+
+		exit(exit_status);
+	}
+
+	switch (argc) {
+	case 0:
+		break;
+
+	case 1:
+		open_input(argv[0], 0);
+		break;
+
+	case 2:
+		open_input(argv[0], 0);
+		open_output(argv[1]);
+		break;
+
+	default:
+		warning("Too many arguments");
+		return 1;
 	}
 
 	/* Check on library input */
-	if (lib_input && input_fn == de_capsule)
+	if (lib_input && input_fn == de_capsule) {
 		input_fn = de_library;
-
-	/* Perform the appropriate actions */
-	if (status == 0)
-		fatal_error("Not enough arguments");
+	}
 
 	(*input_fn)();
 
@@ -312,8 +275,10 @@ main(int argc, char **argv)
 			eval_all();
 
 		sort_all();
+
 		(*output_fn)();
 	}
 
 	return exit_status;
 }
+
