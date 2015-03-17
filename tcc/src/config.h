@@ -12,8 +12,6 @@
 #define CONFIG_H
 
 
-#define streq(X, Y)	(strcmp((X), (Y)) == 0)
-#define strneq(X, Y, Z)	(strncmp((X), (Y), (size_t)(Z)) == 0)
 #define MAX_LINE	1024
 
 

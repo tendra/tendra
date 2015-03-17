@@ -14,6 +14,7 @@
 #include <stddef.h>
 
 #include <shared/check.h>
+#include <shared/string.h>
 
 #include <tdf/magic.h>
 

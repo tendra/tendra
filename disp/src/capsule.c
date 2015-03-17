@@ -10,6 +10,7 @@
 #include <limits.h>
 #include <stddef.h>
 
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <tdf/magic.h>

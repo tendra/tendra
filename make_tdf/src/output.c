@@ -12,6 +12,7 @@
 
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 
 #include "obj_c/tdf.h"
 #include "obj_c/cmd_ops.h"
@@ -25,13 +26,6 @@
 #include "input.h"
 #include "lex.h"
 #include "output.h"
-
-/*
- * This macro gives a convenient method for testing whether the first
- * C characters of the strings A and B are equal.
- */
-#define strneq(A, B, C)\
-	(strncmp((A), (B), (size_t)(C)) == 0)
 
 /*
  * These variables describe the current output file.

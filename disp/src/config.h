@@ -16,7 +16,5 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define streq(X, Y)		(strcmp((X), (Y)) == 0)
-
 
 #endif

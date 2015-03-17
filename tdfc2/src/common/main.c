@@ -13,6 +13,7 @@
 #include <stdio.h>
 
 #include <shared/check.h>
+#include <shared/string.h>
 
 #include <tdf/capsule.h>
 
