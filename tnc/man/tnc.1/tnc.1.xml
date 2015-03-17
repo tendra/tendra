@@ -15,17 +15,16 @@
 	<!ENTITY f.opt "<option>-f</option>">
 	<!ENTITY g.opt "<option>-e</option>">
 	<!ENTITY l.opt "<option>-l</option>">
-	<!ENTITY n.opt "<option>-n</option>"> <!-- TODO: document -->
+	<!ENTITY n.opt "<option>-n</option>&nbsp;&name.arg;">
 	<!ENTITY o.opt "<option>-o</option>&nbsp;&out-file.arg;">
 	<!ENTITY p.opt "<option>-p</option>">
 	<!ENTITY q.opt "<option>-q</option>">
 	<!ENTITY r.opt "<option>-r</option>">
 	<!ENTITY t.opt "<option>-t</option>">
-	<!ENTITY u.opt "<option>-u</option>"> <!-- TODO: document -->
+	<!ENTITY u.opt "<option>-u</option>">
 	<!ENTITY v.opt "<option>-V</option>">
 	<!ENTITY w.opt "<option>-w</option>">
 	<!ENTITY x.opt "<option>-x</option>">
-	<!ENTITY y.opt "<option>-x</option>"> <!-- TODO: document -->
 
 	<!ENTITY L.opt "<option>-L</option>&nbsp;&prefix.arg;">
 	<!ENTITY H.opt "<option>-H</option>&nbsp;<replaceable>subject</replaceable>&nbsp;&ellipsis.lit;">
@@ -126,9 +125,11 @@
 			<arg choice="opt">&f.opt;</arg>
 			<arg choice="opt">&l.opt;</arg>
 			<arg choice="opt">&L.opt;</arg>
+			<arg choice="opt">&n.opt;</arg>
 			<arg choice="opt">&o.opt;</arg>
 			<arg choice="opt">&q.opt;</arg>
 			<arg choice="opt">&t.opt;</arg>
+			<arg choice="opt">&u.opt;</arg>
 			<arg choice="opt">&V.opt;</arg>
 
 			<sbr/>
@@ -152,9 +153,11 @@
 			<arg choice="opt">&f.opt;</arg>
 			<arg choice="opt">&l.opt;</arg>
 			<arg choice="opt">&L.opt;</arg>
+			<arg choice="opt">&n.opt;</arg>
 			<arg choice="opt">&o.opt;</arg>
 			<arg choice="opt">&q.opt;</arg>
 			<arg choice="opt">&t.opt;</arg>
+			<arg choice="opt">&u.opt;</arg>
 			<arg choice="opt">&V.opt;</arg>
 
 			<sbr/>
@@ -274,6 +277,10 @@
 			</tbody>
 		</table>
 
+		<para>If &in-file.arg; or &out-file.arg; are not specified,
+			input and output default to <code>stdin</code> and <code>stdout</code>
+			respectively.</para>
+
 		<para>The &tdf; pretty-printer, &disp;, provides a more sophisticated
 			&tdf; to text translator, although its output cannot be used as the
 			input to &tnc;.</para>
@@ -391,6 +398,31 @@
 			</varlistentry>
 
 			<varlistentry>
+				<term>&n.opt;</term>
+
+				<listitem>
+					<para>Specify a class of <code>SORT</code> to output;
+						&name.arg; may be prefixed with an
+						optional &ldquo;<code>-</code>&rdquo; meaning to
+						elide output instead.
+						&name.arg; is one of:</para>
+
+					<informaltable>
+						<tr>
+							<td><code>tokdecs</code></td>
+							<td><code>aldecs</code></td>
+							<td><code>tagdecs</code></td>
+						</tr>
+						<tr>
+							<td><code>tokdefs</code></td>
+							<td><code>aldefs</code></td>
+							<td><code>tagdefs</code></td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
 				<term>&o.opt;</term>
 
 				<listitem>
@@ -431,6 +463,15 @@
 			</varlistentry>
 
 			<varlistentry>
+				<term>&u.opt;</term>
+
+				<listitem>
+					<para>Do not sort tokens when outputting.
+						The default is to sort alphabetically by name.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
 				<term>&t.opt;</term>
 
 				<listitem>
@@ -438,7 +479,7 @@
 						replacing all applications of defined tokens by the token
 						definition and by evaluating constant expressions as far as
 						possible. This is equivalent to
-						<option>-expand -eval</option>.</para>
+						<option>-ax</option>.</para>
 				</listitem>
 			</varlistentry>
 

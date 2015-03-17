@@ -98,7 +98,7 @@ main(int argc, char **argv)
 	{
 		int c;
 
-		while (c = getopt(argc, argv, "acdefgln:opqrtuvwxy:" "HI:L:V"), c != -1) {
+		while (c = getopt(argc, argv, "acdefgln:opqrtuvwx" "HI:L:V"), c != -1) {
 			switch (c) {
 			case 'a':
 				/* Expand token definitions */
@@ -140,8 +140,8 @@ main(int argc, char **argv)
 				break;
 
 			case 'n':
-				/* "no" */
-				output_option(optarg, 0);
+				/* "no" / "only" */
+				output_option(optarg + (*optarg == '-'), *optarg != '-');
 				break;
 
 			case 'o':
@@ -194,11 +194,6 @@ main(int argc, char **argv)
 			case 'x':
 				/* Evaluate expressions */
 				evaluate = 1;
-				break;
-
-			case 'y':
-				/* "only" */
-				output_option(optarg, 1);
 				break;
 
 			case 'H':
