@@ -23,6 +23,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <tdf/magic.h>
+
 #include "library.h"
 #include "capsule.h"
 #include "tdf-write.h"
@@ -236,7 +238,7 @@ library_magic(void)
     static BoolT    inited = FALSE;
 
     if (!inited) {
-	nstring_copy_cstring(&const_magic, "TDFL");
+	nstring_copy_cstring(&const_magic, MAGIC_LINK_NUMBER);
 	inited = TRUE;
     }
     return &const_magic;

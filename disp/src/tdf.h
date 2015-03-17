@@ -93,7 +93,7 @@ extern long var_diag_tag;
 extern long var_tag;
 extern long var_token;
 
-#define version_magic				"TDFC"
+#define version_magic				MAGIC_NUMBER
 #define version_major				4
 #define version_minor				1
 

@@ -14,6 +14,7 @@
 #include <shared/check.h>
 
 #include <tdf/capsule.h>
+#include <tdf/magic.h>
 
 #include "config.h"
 

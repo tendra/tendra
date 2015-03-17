@@ -27,6 +27,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <tdf/magic.h>
+
 #include "debug.h"
 #include "tdf.h"
 #include "capsule.h"
@@ -266,7 +268,7 @@ capsule_magic(void)
     static BoolT    inited = FALSE;
 
     if (!inited) {
-	nstring_copy_cstring(&const_magic, "TDFC");
+	nstring_copy_cstring(&const_magic, MAGIC_NUMBER);
 	inited = TRUE;
     }
     return &const_magic;

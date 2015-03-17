@@ -13,6 +13,8 @@
 #include <shared/bool.h>
 #include <shared/xalloc.h>
 
+#include <tdf/magic.h>
+
 #include "config.h"
 #include "types.h"
 #include "eval.h"

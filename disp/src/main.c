@@ -12,6 +12,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <tdf/magic.h>
+
 #include "config.h"
 
 #include "types.h"

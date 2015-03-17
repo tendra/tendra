@@ -50,7 +50,7 @@ extern long var_%SN;
 @endif
 @end
 
-#define version_magic		%48t"TDFC"
+#define version_magic		%48tMAGIC_NUMBER
 #define version_major		%48t%VA
 #define version_minor		%48t%VB
 

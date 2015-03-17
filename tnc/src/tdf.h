@@ -87,8 +87,8 @@ node *read_tag(long);
 node *read_transfer_mode(long);
 node *read_variety(long);
 
-#define VERSION_capsule				"TDFC"
-#define VERSION_library				"TDFL"
+#define VERSION_capsule				MAGIC_NUMBER
+#define VERSION_library				MAGIC_LINK_NUMBER
 #define VERSION_major				4
 #define VERSION_minor				1
 

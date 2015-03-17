@@ -66,8 +66,8 @@ node *read_%SN(long);
 @endif
 @end
 
-#define VERSION_capsule		%48t"TDFC"
-#define VERSION_library		%48t"TDFL"
+#define VERSION_capsule		%48tMAGIC_NUMBER
+#define VERSION_library		%48tMAGIC_LINK_NUMBER
 #define VERSION_major		%48t%VA
 #define VERSION_minor		%48t%VB
 

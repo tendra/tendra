@@ -14,6 +14,8 @@
 #include <shared/error.h>
 #include <shared/getopt.h>
 
+#include <tdf/magic.h>
+
 #include "config.h"
 
 #include "types.h"

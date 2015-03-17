@@ -12,6 +12,8 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
+#include <tdf/magic.h>
+
 #include "config.h"
 #include "ascii.h"
 #include "types.h"

@@ -41,14 +41,4 @@
 */
 
 
-/*
-    MAGIC NUMBERS
-
-    These macros give the magic numbers for TDF capsules and libraries.
-*/
-
-#define MAGIC_NUMBER		"TDFC"
-#define MAGIC_LINK_NUMBER	"TDFL"
-
-
 #endif /* CONFIG_H */
