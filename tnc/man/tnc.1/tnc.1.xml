@@ -11,7 +11,7 @@
 	<!ENTITY a.opt "<option>-a</option>">
 	<!ENTITY c.opt "<option>-c</option>">
 	<!ENTITY d.opt "<option>-d</option>">
-	<!ENTITY e.opt "<option>-e</option>">
+	<!ENTITY e.opt "<option>-g</option>">
 	<!ENTITY f.opt "<option>-f</option>">
 	<!ENTITY g.opt "<option>-e</option>">
 	<!ENTITY l.opt "<option>-l</option>">
