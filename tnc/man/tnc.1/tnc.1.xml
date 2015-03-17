@@ -118,9 +118,8 @@
 			<sbr/>
 
 			<!-- Options -->
-			<arg choice="opt">&c.opt;</arg>
-			<arg choice="opt">&x.opt;</arg>
 			<arg choice="opt">&a.opt;</arg>
+			<arg choice="opt">&c.opt;</arg>
 			<arg choice="opt">&f.opt;</arg>
 			<arg choice="opt">&I.opt;</arg>
 			<arg choice="opt">&l.opt;</arg>
@@ -131,6 +130,7 @@
 			<arg choice="opt">&t.opt;</arg>
 			<arg choice="opt">&u.opt;</arg>
 			<arg choice="opt">&V.opt;</arg>
+			<arg choice="opt">&x.opt;</arg>
 
 			<sbr/>
 
@@ -147,9 +147,8 @@
 			<sbr/>
 
 			<!-- Options -->
-			<arg choice="opt">&c.opt;</arg>
-			<arg choice="opt">&x.opt;</arg>
 			<arg choice="opt">&a.opt;</arg>
+			<arg choice="opt">&c.opt;</arg>
 			<arg choice="opt">&f.opt;</arg>
 			<arg choice="opt">&I.opt;</arg>
 			<arg choice="opt">&l.opt;</arg>
@@ -160,6 +159,7 @@
 			<arg choice="opt">&t.opt;</arg>
 			<arg choice="opt">&u.opt;</arg>
 			<arg choice="opt">&V.opt;</arg>
+			<arg choice="opt">&x.opt;</arg>
 
 			<sbr/>
 
