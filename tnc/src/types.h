@@ -12,14 +12,7 @@
 #define TYPES_H
 
 
-/*
-    ELEMENTARY TYPES
-
-    The types byte and pointer are defined.
-*/
-
 typedef unsigned char byte;
-typedef void *pointer;
 
 
 /*
