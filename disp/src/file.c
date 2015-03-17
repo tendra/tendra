@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <limits.h>
 #include <stdio.h>
 
 #include <shared/check.h>
@@ -153,15 +154,15 @@ fetch(int n)
 	/* read the next byte if necessary */
 	if (here.bit == 0)next_byte();
 	/* m = number of bits we need from this byte */
-	m = BYTESIZE - here.bit;
+	m = CHAR_BIT - here.bit;
 	if (n < m)m = n;
 	/* extract m bytes from here.worksp */
 	here.worksp <<= m;
-	a = (a << m) + ((here.worksp & HI_MASK) >> BYTESIZE);
+	a = (a << m) + ((here.worksp & HI_MASK) >> CHAR_BIT);
 	here.worksp &= LO_MASK;
 	n -= m;
 	here.bit += m;
-	if (here.bit == BYTESIZE) {
+	if (here.bit == CHAR_BIT) {
 	    here.bit = 0;
 	    here.byte++;
 	}
@@ -178,7 +179,7 @@ fetch(int n)
 void
 byte_align(void)
 {
-    while (!(here.bit == 0 || here.bit == BYTESIZE)) {
+    while (!(here.bit == 0 || here.bit == CHAR_BIT)) {
 	IGNORE fetch(1);
     }
     return;
@@ -214,13 +215,13 @@ void
 skip_bits(long n)
 {
     if (read_error) return;
-    if (n <= 4 * BYTESIZE) {
+    if (n <= 4 * CHAR_BIT) {
 	IGNORE fetch((int)n);
     } else {
 	place p;
 	long b = posn(here) + n;
-	p.byte = b / BYTESIZE;
-	p.bit = (int)(b % BYTESIZE);
+	p.byte = b / CHAR_BIT;
+	p.bit = (int)(b % CHAR_BIT);
 	set_place(&p);
     }
     return;

@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <limits.h>
 #include <stddef.h>
 
 #include <shared/check.h>
@@ -223,7 +224,7 @@ out_signed(char *n, int sn)
 		d = 3 * tdf_int_digits - 2;
 	    }
 	}
-	if (d <= BYTESIZE *(int)sizeof(long)) {
+	if (d <= CHAR_BIT *(int)sizeof(long)) {
 	    /* If n will fit into a long work out its value */
 	    char *s;
 	    long t = 0;

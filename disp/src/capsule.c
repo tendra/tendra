@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <limits.h>
 #include <stddef.h>
 
 #include <shared/xalloc.h>
@@ -219,7 +220,7 @@ de_equation(equation_func f)
     }
 
     /* Read the unit body */
-    n = BYTESIZE * tdf_int();
+    n = CHAR_BIT * tdf_int();
     byte_align();
     if (f == NULL) {
 	skip_bits(n);

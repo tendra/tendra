@@ -16,7 +16,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define BYTESIZE		8
 #define streq(X, Y)		(strcmp((X), (Y)) == 0)
 
 

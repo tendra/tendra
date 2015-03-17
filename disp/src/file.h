@@ -35,7 +35,7 @@ extern void skip_bits(long);
 extern void init_spaces(int);
 extern void spaces(int);
 
-#define posn(X)	((X).byte * BYTESIZE + (X).bit)
+#define posn(X)	((X).byte * CHAR_BIT + (X).bit)
 
 
 #endif
