@@ -42,16 +42,6 @@
 
 
 /*
-    USEFUL MACROS
-
-    These macros are used in several places.  They are defined here for
-    convenience.
-*/
-
-#define hash_size		31
-
-
-/*
     MAGIC NUMBERS
 
     These macros give the magic numbers for TDF capsules and libraries.

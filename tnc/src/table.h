@@ -12,6 +12,9 @@
 #define TABLE_H
 
 
+#define hash_size 31
+
+
 /*
     TABLES OF CONSTRUCTS
 */
