@@ -25,26 +25,11 @@
 	     fprintf, fputc, fputs, fseek, ftell, getc, isprint,
 	     malloc, printf, putchar, realloc, sprintf, strcmp,
 	     strlen, strncmp, strncpy, va_end, va_start, vfprintf.
-
-	(c)  Expressions : EOF, NULL,
-	     SEEK_SET, stderr, stdout.
 */
 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
-
-/*
-    HACKS
-
-    These hacks are designed to aid compilation on non-compliant systems.
-    SEEK_SET is not defined on, for example, SUN-OS.
-*/
-
-#ifndef SEEK_SET
-#define SEEK_SET		0
-#endif
 
 
 /*

@@ -16,10 +16,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-#ifndef SEEK_SET
-#define SEEK_SET		0
-#endif
-
 #define BYTESIZE		8
 #define streq(X, Y)		(strcmp((X), (Y)) == 0)
 

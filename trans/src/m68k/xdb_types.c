@@ -31,10 +31,6 @@
 #include "xdb_types.h"
 #include "assembler.h"
 
-#ifndef SEEK_SET
-#define SEEK_SET 0
-#endif
-
 
 /*
     GENERATE A UNIQUE IDENTIFIER
