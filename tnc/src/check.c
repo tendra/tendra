@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stddef.h>
+
 #include <shared/bool.h>
 #include <shared/check.h>
 
@@ -216,7 +218,7 @@ check_access_fn(node *p)
 
 
 /*
-    This routine returns true if p is not null and does not contain
+    This routine returns true if p is not NULL and does not contain
     any unknown constructs.  In encode mode we can't have any constructs
     which introduce local tags or tokens either.
 */

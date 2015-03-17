@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stddef.h>
+
 #include <shared/bool.h>
 #include <shared/check.h>
 
@@ -75,7 +77,7 @@ read_token(node *p, sortname s)
 
     /* Look up token */
     v = search_var_hash(wtemp, SORT_token);
-    if (v == null) {
+    if (v == NULL) {
 	input_error("Token %s not declared", wtemp);
 	return;
     }
@@ -141,21 +143,21 @@ read_token_name(sortname s)
     read_word();
     if (word_type != INPUT_WORD) {
 	input_error("Token identifier expected");
-	return null;
+	return NULL;
     }
 
     /* Look up token */
     v = search_var_hash(word, SORT_token);
-    if (v == null) {
+    if (v == NULL) {
 	input_error("Token %s not declared", word);
-	return null;
+	return NULL;
     }
     info = get_tok_info(v);
 
     /* Check consistency */
     h = high_sorts + high_no(s);
     if (h->res == info->res) {
-	if (info->args == null) {
+	if (info->args == NULL) {
 	    if (h->no_args == 0)ok = 1;
 	} else if (h->no_args) {
 	    char *ha = find_decode_string(h);
@@ -163,7 +165,7 @@ read_token_name(sortname s)
 		    ok = 1;
 	}
     } else if (h->id == info->res) {
-	if (info->args == null)ok = 1;
+	if (info->args == NULL)ok = 1;
     }
     if (!ok) {
 	input_error("Token %s has incorrect sort", v->name);
@@ -221,7 +223,7 @@ search_var_sort(char *nm, sortname s)
 {
     construct *v = search_var_hash(nm, s);
     if (intro_var) {
-	if (v == null) {
+	if (v == NULL) {
 	    v = make_construct(s);
 	    v->name = string_copy_aux(nm);
 	    /* Don't add to hash table yet */
@@ -235,7 +237,7 @@ search_var_sort(char *nm, sortname s)
 	    input_error("%s %s already in scope", sort_name(s), nm);
 	}
     } else {
-	if (v == null) {
+	if (v == NULL) {
 	    if (!dont_check) {
 		is_fatal = 0;
 		input_error("%s %s not in scope", sort_name(s), nm);
@@ -284,7 +286,7 @@ read_seq_node(node *p)
 	p->son = q;
 	return;
     }
-    q->bro = null;
+    q->bro = NULL;
     if (q->cons->encoding == 0) {
 	is_fatal = 0;
 	input_error("exp expected");
@@ -293,13 +295,13 @@ read_seq_node(node *p)
    (q->cons->encoding) --;
     p->son = q;
     q = q->son;
-    if (q->bro == null) {
-	p->son->son = null;
+    if (q->bro == NULL) {
+	p->son->son = NULL;
 	p->son->bro = q;
     } else {
 	while (q->bro->bro)q = q->bro;
 	p->son->bro = q->bro;
-	q->bro = null;
+	q->bro = NULL;
     }
     return;
 }
@@ -308,7 +310,7 @@ read_seq_node(node *p)
 /*
     An object with sort given by the decode letter str is read.  If the next
     object is not of this sort then either an error is flagged (if strict
-    is true) or null is returned.
+    is true) or NULL is returned.
 */
 
 static node *
@@ -318,7 +320,7 @@ read_node_aux(char *str, int strict)
     char *wtemp;
     node *p, *ps;
     construct *cons;
-    read_func fn = null;
+    read_func fn = NULL;
     bool in_brackets = 0;
 
     /* Find the corresponding sort name */
@@ -361,13 +363,13 @@ read_node_aux(char *str, int strict)
     /* Check for blanks */
     if (word_type == INPUT_BLANK && !strict) {
 	word_type = INPUT_BLANK_FIRST;
-	return null;
+	return NULL;
     }
 
     /* Check for bars */
     if (word_type == INPUT_BAR && !strict) {
 	word_type = INPUT_BAR_FIRST;
-	return null;
+	return NULL;
     }
 
     /* Deal with strings */
@@ -378,7 +380,7 @@ read_node_aux(char *str, int strict)
 	    p->cons->sortnum = SORT_tdfstring;
 	    p->cons->encoding = word_length;
 	    p->cons->name = string_copy(word,(int)word_length);
-	    p->cons->next = null;
+	    p->cons->next = NULL;
 	    return p;
 	} else {
 	    bool is_multibyte = 0;
@@ -413,7 +415,7 @@ read_node_aux(char *str, int strict)
 	    }
 	}
 	if (strict)input_error("String expected");
-	return null;
+	return NULL;
     }
 
     /* Deal with numbers */
@@ -467,7 +469,7 @@ read_node_aux(char *str, int strict)
 	    }
 	    default : {
 		if (strict)input_error("%s expected", sort_name(s));
-		return null;
+		return NULL;
 	    }
 	}
     }
@@ -481,7 +483,7 @@ read_node_aux(char *str, int strict)
 	    p->cons->sortnum = SORT_tdfstring;
 	    p->cons->encoding = word_length;
 	    p->cons->name = string_copy(word,(int)word_length);
-	    p->cons->next = null;
+	    p->cons->next = NULL;
 	    q = new_node();
 	    q->cons = cons_no(SORT_string, ENC_make_string);
 	    q->son = p;
@@ -490,9 +492,9 @@ read_node_aux(char *str, int strict)
     }
 
     /* That was the last chance for numbers */
-    if (fn == null) {
+    if (fn == NULL) {
 	if (strict)input_error("Number expected");
-	return null;
+	return NULL;
     }
 
     /* Check for brackets (1) */
@@ -504,7 +506,7 @@ read_node_aux(char *str, int strict)
     /* The next word should be the identifier */
     if (word_type != INPUT_WORD) {
 	if (strict)input_error("%s expected", sort_name(s));
-	return null;
+	return NULL;
     }
 
     /* Check for brackets (2) */
@@ -563,7 +565,7 @@ read_node_aux(char *str, int strict)
 	    }
 	    if (rs != s) {
 		if (do_check_tag)goto check_lab;
-		if (!strict) return null;
+		if (!strict) return NULL;
 		input_error("Token %s returns %s, not %s", wtemp,
 			      sort_name(rs), sort_name(s));
 	    }
@@ -589,12 +591,12 @@ read_node_aux(char *str, int strict)
 		p->cons = cons_no(s, mk);
 		p->son = new_node();
 		p->son->cons = cons;
-		ps = null;
+		ps = NULL;
 	    } else {
 		if (strict) {
 		    input_error("Illegal %s, %s", sort_name(s), wtemp);
 		}
-		return null;
+		return NULL;
 	    }
 	}
     }
@@ -671,7 +673,7 @@ adjust_scope(node *p, int end)
 				ts = copy_node(p0);
 			    } else {
 				/* don't know about other constructs */
-				ts = null;
+				ts = NULL;
 			    }
 			    /* Declaration = ?[u]?[X]S from 4.0 */
 			    info->dec = new_node();
@@ -728,21 +730,21 @@ read_node(char *str)
 {
     char c;
     position store;
-    node *p, *q = null, *qe = null;
+    node *p, *q = NULL, *qe = NULL;
     while (c = *str,(c != 0 && c != ']')) {
 	switch (c) {
 
 	    case '{': {
 		/* Start of scope */
 		adjust_scope(q, 0);
-		p = null;
+		p = NULL;
 		break;
 	    }
 
 	    case '}': {
 		/* End of scope */
 		adjust_scope(q, 1);
-		p = null;
+		p = NULL;
 		break;
 	    }
 
@@ -751,7 +753,7 @@ read_node(char *str)
 	    case '&':
 	    case '^': {
 		/* Ignore these cases */
-		p = null;
+		p = NULL;
 		break;
 	    }
 
@@ -762,7 +764,7 @@ read_node(char *str)
 		char *sr;
 		long n = 0;
 		int opt = 0;
-		node *pe = null, *pr;
+		node *pe = NULL, *pr;
 		str += 2;
 		cr = *str;
 		sr = str;
@@ -799,7 +801,7 @@ read_node(char *str)
 			if (sr[1]!= ']') {
 			    pr->bro = read_node(sr + 1);
 			}
-			if (pe == null) {
+			if (pe == NULL) {
 			    p->son = pr;
 			} else {
 			    pe->bro = pr;
@@ -890,7 +892,7 @@ read_node(char *str)
 	    }
 	}
 	if (p) {
-	    if (qe == null) {
+	    if (qe == NULL) {
 		q = p;
 	    } else {
 		qe->bro = p;

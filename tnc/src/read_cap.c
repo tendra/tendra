@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stddef.h>
+
 #include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/xalloc.h>
@@ -38,7 +40,7 @@ static construct *
 read_external(sortname s, bool local)
 {
     construct *p;
-    node *e = null;
+    node *e = NULL;
     int estate = 0;
     position store;
     allow_multibyte = 0;
@@ -72,7 +74,7 @@ read_external(sortname s, bool local)
 	    read_word();
 	    if (word_type != INPUT_WORD) {
 		input_error("External expected");
-		return null;
+		return NULL;
 	    }
 	    if (strcmp(word, MAKE_STRING_EXTERN) == 0) {
 		estate = 1;
@@ -82,7 +84,7 @@ read_external(sortname s, bool local)
 		estate = 3;
 	    } else {
 		input_error("Illegal external, %s", word);
-		return null;
+		return NULL;
 	    }
 	}
     }
@@ -129,7 +131,7 @@ read_external(sortname s, bool local)
     /* Check internal name */
     if (word_type != INPUT_WORD)input_error("Identifier expected");
     p = search_var_hash(word, s);
-    if (p == null) {
+    if (p == NULL) {
 	/* New object */
 	p = make_construct(s);
 	p->name = string_copy_aux(word);
@@ -261,7 +263,7 @@ read_tagdef(bool local, int is_var)
     tag_info *info = get_tag_info(p);
 
     /* Set the tag type */
-    if (info->dec == null && !do_check) {
+    if (info->dec == NULL && !do_check) {
 	is_fatal = 0;
 	input_error("Tag %s defined but not declared", word);
     }
@@ -348,9 +350,9 @@ read_toksort(tok_info *info, bool def)
 
     /* Initialize values */
     info->res = SORT_unknown;
-    info->args = null;
-    info->pars = null;
-    info->sig = null;
+    info->args = NULL;
+    info->pars = NULL;
+    info->sig = NULL;
 
     /* Read signature */
     info->sig = read_node("?[X]");
@@ -385,7 +387,7 @@ read_toksort(tok_info *info, bool def)
 		q = make_construct(SORT_token);
 		q->name = string_copy_aux(word);
 		IGNORE add_to_var_hash(q, SORT_token);
-		set_token_sort(q, s,(char *)null,(node *)null);
+		set_token_sort(q, s, NULL, NULL);
 		*(c++) = q;
 	    }
 	    /* Check comma */
@@ -410,7 +412,7 @@ read_toksort(tok_info *info, bool def)
 		int i, n = no_args;
 		info->pars = xmalloc_nof(construct *, n + 1);
 		for (i = 0; i < n; i++)info->pars[i] = cons_buff[i];
-		info->pars[n] = null;
+		info->pars[n] = NULL;
 	    }
 	}
 	read_word();

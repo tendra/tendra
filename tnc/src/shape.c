@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stddef.h>
+
 #include <shared/bool.h>
 #include <shared/check.h>
 
@@ -27,9 +29,9 @@
     These shapes are fixed.
 */
 
-node *sh_bottom = null;
-node *sh_proc = null;
-node *sh_top = null;
+node *sh_bottom = NULL;
+node *sh_proc = NULL;
+node *sh_top = NULL;
 
 
 /*
@@ -39,7 +41,7 @@ node *sh_top = null;
 void
 init_shapes(void)
 {
-    if (sh_bottom == null) {
+    if (sh_bottom == NULL) {
 	/* Construct sh_bottom */
 	sh_bottom = new_node();
 	sh_bottom->cons = cons_no(SORT_shape, ENC_bottom);
@@ -63,7 +65,7 @@ init_shapes(void)
     CREATE A NAT CORRESPONDING TO THE LENGTH OF STRING s
 
     This routine returns a nat giving the length of the string s or the
-    null node if this cannot be found.
+    NULL node if this cannot be found.
 */
 
 node *
@@ -78,7 +80,7 @@ string_length(node *s)
 	}
 	return make_nat(n);
     }
-    return null;
+    return NULL;
 }
 
 
@@ -90,7 +92,7 @@ node *
 copy_node(node *p)
 {
     node *q;
-    if (p == null) return null;
+    if (p == NULL) return NULL;
     q = new_node();
     if (p->cons->alias) {
 	q->cons = p->cons->alias;
@@ -113,7 +115,7 @@ sh_integer(node *p)
     node *q = new_node();
     q->cons = cons_no(SORT_shape, ENC_integer);
     q->son = new_node();
-    if (p == null) {
+    if (p == NULL) {
 	q->son->cons = &unknown_cons;
     } else {
 	q->son->cons = p->cons;
@@ -133,7 +135,7 @@ sh_floating(node *p)
     node *q = new_node();
     q->cons = cons_no(SORT_shape, ENC_floating);
     q->son = new_node();
-    if (p == null) {
+    if (p == NULL) {
 	q->son->cons = &unknown_cons;
     } else {
 	q->son->cons = p->cons;
@@ -154,7 +156,7 @@ sh_pointer(node *p)
     q->cons = cons_no(SORT_shape, ENC_pointer);
     q->son = new_node();
     p = al_shape(p);
-    if (p == null) {
+    if (p == NULL) {
 	q->son->cons = &unknown_cons;
     } else {
 	q->son->cons = p->cons;
@@ -177,14 +179,14 @@ sh_offset(node *p, node *q)
     p = al_shape(p);
     q = al_shape(q);
     al_includes(p, q);
-    if (p == null) {
+    if (p == NULL) {
 	r->son->cons = &unknown_cons;
     } else {
 	r->son->cons = p->cons;
 	r->son->son = p->son;
     }
     r->son->bro = new_node();
-    if (q == null) {
+    if (q == NULL) {
 	r->son->bro->cons = &unknown_cons;
     } else {
 	r->son->bro->cons = q->cons;
@@ -205,14 +207,14 @@ sh_nof(node *n, node *p)
     node *q = new_node();
     q->cons = cons_no(SORT_shape, ENC_nof);
     q->son = new_node();
-    if (n == null) {
+    if (n == NULL) {
 	q->son->cons = &unknown_cons;
     } else {
 	q->son->cons = n->cons;
 	q->son->son = n->son;
     }
     q->son->bro = new_node();
-    if (p == null) {
+    if (p == NULL) {
 	q->son->bro->cons = &unknown_cons;
     } else {
 	q->son->bro->cons = p->cons;
@@ -232,7 +234,7 @@ sh_bitfield(node *p)
     node *q = new_node();
     q->cons = cons_no(SORT_shape, ENC_bitfield);
     q->son = new_node();
-    if (p == null) {
+    if (p == NULL) {
 	q->son->cons = &unknown_cons;
     } else {
 	q->son->cons = p->cons;
@@ -252,7 +254,7 @@ sh_compound(node *p)
     node *q = new_node();
     q->cons = cons_no(SORT_shape, ENC_compound);
     q->son = new_node();
-    if (p == null) {
+    if (p == NULL) {
 	q->son->cons = &unknown_cons;
     } else {
 	q->son->cons = p->cons;
@@ -269,7 +271,7 @@ sh_compound(node *p)
 node *
 normalize(node *p)
 {
-    if (p == null) return null;
+    if (p == NULL) return NULL;
     if (p->cons->sortnum == SORT_shape) {
 	switch (p->cons->encoding) {
 	    case ENC_shape_apply_token: {
@@ -293,7 +295,7 @@ normalize(node *p)
 
 /*
     If p is the application of a token it is replaced by the definition
-    of that token.  If this is null, null is returned, otherwise the
+    of that token.  If this is NULL, NULL is returned, otherwise the
     expansion continues until p is not a token application.
 */
 
@@ -308,9 +310,9 @@ expand_tok(node *p)
 	    p = info->def;
 	    if (p->cons->sortnum == SORT_completion)p = p->son;
 	} else {
-	    return null;
+	    return NULL;
 	}
-	if (++count > 100) return null;
+	if (++count > 100) return NULL;
     }
     return p;
 }
@@ -323,7 +325,7 @@ expand_tok(node *p)
     or possible compatible either p or q (whichever is more useful) is
     returned; otherwise an error is reported.  If tg is 2, the routine
     returns sh_bottom if either p or q is the shape bottom, p if p and
-    q are definitely compatible, null is they are possible compatible,
+    q are definitely compatible, NULL is they are possible compatible,
     and sh_top if they are definitely not compatible.
 */
 
@@ -333,14 +335,14 @@ check_shapes(node *p, node *q, int tg)
     sortname s;
     long np, nq;
     bool ok = 1;
-    node *p0 = (tg == 2 ? null : p);
-    node *q0 = (tg == 2 ? null : q);
+    node *p0 = (tg == 2 ? NULL : p);
+    node *q0 = (tg == 2 ? NULL : q);
     node *p1 = p;
     bool check_further = 0;
 
     /* If one is unknown, return the other */
-    if (p == null) return q0;
-    if (q == null) return p0;
+    if (p == NULL) return q0;
+    if (q == NULL) return p0;
     if (p->cons->sortnum == SORT_unknown) return q0;
     if (q->cons->sortnum == SORT_unknown) return p0;
 
@@ -351,9 +353,9 @@ check_shapes(node *p, node *q, int tg)
     /* Check for tokens */
     if (np == sort_tokens[s]) {
 	p = expand_tok(p);
-	if (p == null) {
+	if (p == NULL) {
 	    if (np == nq && p1->son->cons == q->son->cons) {
-		if (p1->son->son == null) return p1;
+		if (p1->son->son == NULL) return p1;
 	    }
 	    return q0;
 	}
@@ -361,7 +363,7 @@ check_shapes(node *p, node *q, int tg)
     }
     if (nq == sort_tokens[s]) {
 	q = expand_tok(q);
-	if (q == null) return p0;
+	if (q == NULL) return p0;
 	nq = q->cons->encoding;
     }
 
@@ -499,14 +501,14 @@ check_shapes(node *p, node *q, int tg)
 	while (xp && xq) {
 	    node *c = check_shapes(xp, xq, tg);
 	    if (tg == 2) {
-		if (c == null) return null;
+		if (c == NULL) return NULL;
 		if (c == sh_top) return sh_top;
 	    }
 	    xp = xp->bro;
 	    xq = xq->bro;
 	}
     } else {
-	if (tg == 2) return null;
+	if (tg == 2) return NULL;
     }
 
     if (!ok) {
@@ -519,7 +521,7 @@ check_shapes(node *p, node *q, int tg)
 	} else {
 	    input_error("Shape incompatibility in %s", checking);
 	}
-	return null;
+	return NULL;
     }
     return p1;
 }
@@ -527,7 +529,7 @@ check_shapes(node *p, node *q, int tg)
 
 /*
     This routine returns the least upper bound of the shapes p and q.
-    A return value of null means that the result is unknown.
+    A return value of NULL means that the result is unknown.
 */
 
 node *
@@ -540,7 +542,7 @@ lub(node *p, node *q)
 /*
     The shape of the expression p is checked to be of the form indicated
     by t.  If so (or possibly so) the shape is returned, otherwise an error
-    is flagged and null is returned.
+    is flagged and NULL is returned.
 */
 
 node *
@@ -550,14 +552,14 @@ check1(int t, node *p)
     char *nm = p->cons->name;
     node *s = p->shape, *s0 = s;
 
-    if (s == null) return null;
+    if (s == NULL) return NULL;
     if (s->cons->sortnum == SORT_unknown) return s;
     if (t >= ENC_shape_none) return s;
 
     n = s->cons->encoding;
     if (n == ENC_shape_apply_token) {
 	s = expand_tok(s);
-	if (s == null) return s0;
+	if (s == NULL) return s0;
 	n = s->cons->encoding;
     }
 
@@ -573,7 +575,7 @@ check1(int t, node *p)
 	is_fatal = 0;
 	input_error("%s argument to %s should be of %s shape",
 		      nm, checking, c->name);
-	return null;
+	return NULL;
     }
     return normalize(s);
 }
@@ -581,7 +583,7 @@ check1(int t, node *p)
 
 /*
     The shapes of the expressions p and q are checked to be of the form
-    indicated by t and to be compatible.  The shape or null is returned.
+    indicated by t and to be compatible.  The shape or NULL is returned.
 */
 
 node *
@@ -592,8 +594,8 @@ check2(int t, node *p, node *q)
 
     if (t == ENC_nof) {
 	/* For arrays check for concat_nof */
-	node *s = null;
-	node *n = null;
+	node *s = NULL;
+	node *n = NULL;
 	if (sp && sq) {
 	    sp = expand_tok(sp);
 	    sq = expand_tok(sq);
@@ -630,7 +632,7 @@ check2(int t, node *p, node *q)
 /*
     The shapes of the list of expressions given by p are checked to be
     of the form indicated by t and to be compatible.  The shape or
-    null is returned.  If nz is true an error is flagged if p is the
+    NULL is returned.  If nz is true an error is flagged if p is the
     empty list.
 */
 
@@ -644,11 +646,11 @@ checkn(int t, node *p, int nz)
 	    input_error("Repeated statement in %s cannot be empty",
 			  checking);
 	}
-	return null;
+	return NULL;
     }
     q = p->son;
     r = check1(t, q);
-    while (q = q->bro, q != null) {
+    while (q = q->bro, q != NULL) {
 	node *s = check1(t, q);
 	r = check_shapes(r, s, 0);
     }
@@ -659,15 +661,15 @@ checkn(int t, node *p, int nz)
 /*
     This routine assigns the values given by p to the formal token
     arguments given in c.  It is a prelude to expanding token applications.
-    Any missing arguments are set to null.  The routine returns the list
+    Any missing arguments are set to NULL.  The routine returns the list
     of previous argument values if set is true.
 */
 
 node *
 set_token_args(construct **c, node *p, int set)
 {
-    node *q = null;
-    node *aq = null;
+    node *q = NULL;
+    node *aq = NULL;
     if (c) {
 	while (*c) {
 	    tok_info *info = get_tok_info(*c);
@@ -675,7 +677,7 @@ set_token_args(construct **c, node *p, int set)
 		node *r = info->def;
 		if (r) {
 		    r = copy_node(r);
-		    if (aq == null) {
+		    if (aq == NULL) {
 			q = r;
 		    } else {
 			aq->bro = r;
@@ -732,7 +734,7 @@ contains_tokens(node *p, int intro, int tok)
     long n;
     node *q;
     sortname s;
-    if (p == null) return 0;
+    if (p == NULL) return 0;
     s = p->cons->sortnum;
     n = p->cons->encoding;
     switch (s) {
@@ -813,7 +815,7 @@ expand_fully_aux(node *p, int c, int def)
 	case 1: {
 	    /* Expand arguments */
 	    node *ap;
-	    node *aq = null;
+	    node *aq = NULL;
 	    int intro = is_intro_exp(p->cons);
 	    q = new_node();
 	    q->cons = p->cons;
@@ -839,7 +841,7 @@ expand_fully_aux(node *p, int c, int def)
 	}
 	case 3: {
 	    /* Tag or label declaration */
-	    p->son->cons->alias = null;
+	    p->son->cons->alias = NULL;
 	    if (def) {
 		copy_construct(p->son->cons);
 		q = copy_node(p);
@@ -912,7 +914,7 @@ expand_tokdef(construct *p)
 {
     if (p->encoding != -1) {
 	tok_info *info = get_tok_info(p);
-	IGNORE set_token_args(info->pars,(node *)null, 0);
+	IGNORE set_token_args(info->pars, NULL, 0);
 	info->def = expand_fully(info->def);
     }
     return;
@@ -927,7 +929,7 @@ expand_tokdef(construct *p)
 static void
 elim_tokdef(construct *p)
 {
-    if (p->encoding != -1 && p->ename == null) {
+    if (p->encoding != -1 && p->ename == NULL) {
 	tok_info *info = get_tok_info(p);
 	if (info->depth == 0) {
 	    remove_var_hash(p->name, SORT_token);
@@ -981,6 +983,6 @@ expand_all(void)
     apply_to_all(expand_aldef, SORT_al_tag);
     apply_to_all(expand_tagdef, SORT_tag);
     apply_to_all(elim_tokdef, SORT_token);
-    removals = null;
+    removals = NULL;
     return;
 }

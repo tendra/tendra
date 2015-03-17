@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stddef.h>
+
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
@@ -30,7 +32,7 @@
  */
 int length;
 static int page_length;
-static char *page = null;
+static char *page = NULL;
 
 
 /*
@@ -39,7 +41,7 @@ static char *page = null;
  * The top of the TDF tree is given by word1.  The current position in
  * the tree is given by word_ptr.
  */
-word word1 = { SIMPLE, 0, null, null, null };
+word word1 = { SIMPLE, 0, NULL, NULL, NULL };
 word *word_ptr;
 
 
@@ -52,7 +54,7 @@ word *word_ptr;
 void
 initialize_tree(void)
 {
-    if (page == null) {
+    if (page == NULL) {
 	page = xmalloc_nof(char, 10000);
 	page_length = 10000;
     }
@@ -85,7 +87,7 @@ new_word(int c)
 
 	/* set up fields of new word */
 	new_ptr = wblock + (block_count++);
-	if (word_ptr->type != SIMPLE && word_ptr->son == null) {
+	if (word_ptr->type != SIMPLE && word_ptr->son == NULL) {
 	    word_ptr->son = new_ptr;
 	} else {
 	    word_ptr->bro = new_ptr;
@@ -106,8 +108,8 @@ new_word(int c)
 	    word_ptr->text = "";
 	    word_ptr->length = 0;
 	}
-	word_ptr->son = null;
-	word_ptr->bro = null;
+	word_ptr->son = NULL;
+	word_ptr->bro = NULL;
     }
     return word_ptr;
 }

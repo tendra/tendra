@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stddef.h>
 #include <limits.h>
 
 #include <shared/bool.h>
@@ -76,7 +77,7 @@ enc_al_tag_aux(construct *p)
 	al_tag_external++;
 	enc_tdf_int(tld_bs,(long)(info->def ? 5 : 1));
     }
-    if (info->def == null) return;
+    if (info->def == NULL) return;
     al_tag_defs++;
     enc_aldef(al_tag_defs_bs, p);
     return;
@@ -90,7 +91,7 @@ enc_al_tag_aux(construct *p)
 static void
 enc_al_tag_names(construct *p)
 {
-    if (p->ename == null) return;
+    if (p->ename == NULL) return;
     enc_external(crt_bitstream, p);
     return;
 }
@@ -127,7 +128,7 @@ enc_tag_aux(construct *p)
     }
     tag_decs++;
     enc_tagdec(tag_decs_bs, p);
-    if (info->def == null) return;
+    if (info->def == NULL) return;
     tag_defs += enc_tagdef(tag_defs_bs, p);
     return;
 }
@@ -142,7 +143,7 @@ enc_tag_names(construct *p)
 {
     tag_info *info = get_tag_info(p);
     if (info->var == 3) return;
-    if (p->ename == null) return;
+    if (p->ename == NULL) return;
     enc_external(crt_bitstream, p);
     return;
 }
@@ -182,7 +183,7 @@ enc_token_aux(construct *p)
 	    enc_tdf_int(tld_bs,(long)3);
 	}
     }
-    if (info->def == null || !show_tokdefs) {
+    if (info->def == NULL || !show_tokdefs) {
 	if (info->args) {
 	    tok_decs++;
 	    enc_tokdec(tok_decs_bs, p);
@@ -205,7 +206,7 @@ enc_token_names(construct *p)
     tok_info *info = get_tok_info(p);
     if (p->encoding == -1) return;
     if (info->dec == 0) return;
-    if (p->ename == null) return;
+    if (p->ename == NULL) return;
     enc_external(crt_bitstream, p);
     return;
 }

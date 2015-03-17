@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stddef.h>
+
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
@@ -75,18 +77,18 @@ int dump = 0;
  * OPEN FILES
  *
  * The file name1 is opened for input and name2 for output.  If name2
- * is the null string, the standard output is used.
+ * is the NULL string, the standard output is used.
  */
 
 void
 open_files(char *name1, char *name2)
 {
     tdf_file = fopen(name1, "rb");
-    if (tdf_file == null)fatal_error("Can't open %s", name1);
-    if (name2 == null)dflag = 0;
+    if (tdf_file == NULL)fatal_error("Can't open %s", name1);
+    if (name2 == NULL)dflag = 0;
     if (dflag) {
 	pp_file = fopen(name2, "w");
-	if (pp_file == null)fatal_error("Can't open %s", name2);
+	if (pp_file == NULL)fatal_error("Can't open %s", name2);
     } else {
 	pp_file = stdout;
     }

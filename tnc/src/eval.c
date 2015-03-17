@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stddef.h>
 #include <limits.h>
 
 #include <shared/bool.h>
@@ -185,12 +186,12 @@ eval_exp(long op, long err, node *sh, long a, long b)
     long c = 0;
     long sz = 0;
     long sgn = 0;
-    char *val = null;
+    char *val = NULL;
 
     /* Check result shape */
-    if (!is_var_width(sh, &sgn, &sz)) return null;
-    if (!sgn && (a < 0 || b < 0)) return null;
-    if (sz < 1) return null;
+    if (!is_var_width(sh, &sgn, &sz)) return NULL;
+    if (!sgn && (a < 0 || b < 0)) return NULL;
+    if (sz < 1) return NULL;
     if (sz > var_max) {
 	if (sz < 256) {
 	    /* Evaluate some special cases */
@@ -209,7 +210,7 @@ eval_exp(long op, long err, node *sh, long a, long b)
 	    }
 	    if (val) return make_int_exp(sh, c, val);
 	}
-	return null;
+	return NULL;
     }
 
     /* Evaluate result */
@@ -220,7 +221,7 @@ eval_exp(long op, long err, node *sh, long a, long b)
 	    break;
 	}
 	case ENC_and: {
-	    if (a < 0 || b < 0) return null;
+	    if (a < 0 || b < 0) return NULL;
 	    c = (a & b);
 	    break;
 	}
@@ -231,7 +232,7 @@ eval_exp(long op, long err, node *sh, long a, long b)
 	case ENC_div0:
 	case ENC_div1:
 	case ENC_div2: {
-	    if (a < 0 || b <= 0) return null;
+	    if (a < 0 || b <= 0) return NULL;
 	    c = a / b;
 	    break;
 	}
@@ -256,12 +257,12 @@ eval_exp(long op, long err, node *sh, long a, long b)
 	    break;
 	}
 	case ENC_not: {
-	    if (sgn || err != ENC_wrap) return null;
+	    if (sgn || err != ENC_wrap) return NULL;
 	    c = ~a;
 	    break;
 	}
 	case ENC_or: {
-	    if (a < 0 || b < 0) return null;
+	    if (a < 0 || b < 0) return NULL;
 	    c = (a | b);
 	    break;
 	}
@@ -272,12 +273,12 @@ eval_exp(long op, long err, node *sh, long a, long b)
 	case ENC_rem0:
 	case ENC_rem1:
 	case ENC_rem2: {
-	    if (a < 0 || b <= 0) return null;
+	    if (a < 0 || b <= 0) return NULL;
 	    c = a % b;
 	    break;
 	}
 	case ENC_shift_left: {
-	    if (sgn || err != ENC_wrap) return null;
+	    if (sgn || err != ENC_wrap) return NULL;
 	    if (b < var_max) {
 		unsigned long ua = (unsigned long)a;
 		unsigned long ub = (unsigned long)b;
@@ -288,7 +289,7 @@ eval_exp(long op, long err, node *sh, long a, long b)
 	    break;
 	}
 	case ENC_shift_right: {
-	    if (sgn || err != ENC_wrap) return null;
+	    if (sgn || err != ENC_wrap) return NULL;
 	    if (b < var_max) {
 		unsigned long ua = (unsigned long)a;
 		unsigned long ub = (unsigned long)b;
@@ -299,7 +300,7 @@ eval_exp(long op, long err, node *sh, long a, long b)
 	    break;
 	}
 	case ENC_xor: {
-	    if (a < 0 || b < 0) return null;
+	    if (a < 0 || b < 0) return NULL;
 	    c = (a ^ b);
 	    break;
 	}
@@ -308,19 +309,19 @@ eval_exp(long op, long err, node *sh, long a, long b)
 	case ENC_rotate_right:
 	default : {
 	    /* NOT YET IMPLEMENTED */
-	    return null;
+	    return NULL;
 	}
     }
 
     /* Check for overflow */
     if (sgn) {
 	long v = (long)var_mask[sz - 1];
-	if (c < - (v + 1) || c > v) return null;
+	if (c < - (v + 1) || c > v) return NULL;
     } else {
 	unsigned long uc;
 	unsigned long uv = var_mask[sz];
 	if (c < 0) {
-	    if (err != ENC_wrap) return null;
+	    if (err != ENC_wrap) return NULL;
 	    uc = (unsigned long) -c;
 	    uc = ((uv - uc + 1) & uv);
 	    if (uc > var_mask[var_max - 1]) {
@@ -330,7 +331,7 @@ eval_exp(long op, long err, node *sh, long a, long b)
 	} else {
 	    uc = (unsigned long)c;
 	    if (uc > uv) {
-		if (err != ENC_wrap) return null;
+		if (err != ENC_wrap) return NULL;
 		uc &= uv;
 	    }
 	}
@@ -391,7 +392,7 @@ eval_decr(node *p)
 {
     if (p->cons->encoding == ENC_make_int) {
 	node *sh = p->shape;
-	if (sh == null)sh = sh_integer(p->son);
+	if (sh == NULL)sh = sh_integer(p->son);
 	p = p->son->bro;
 	if (p->cons->encoding == ENC_make_signed_nat) {
 	    if (!p->son->cons->encoding) {
@@ -401,14 +402,14 @@ eval_decr(node *p)
 		    char *val = minus_one(p->cons->name);
 		    if (fits_ulong(val, 1)) {
 			c = (long)octal_to_ulong(val);
-			val = null;
+			val = NULL;
 		    }
 		    return make_int_exp(sh, c, val);
 		}
 	    }
 	}
     }
-    return null;
+    return NULL;
 }
 
 
@@ -431,13 +432,13 @@ eval_node(node *p)
 	switch (n) {
 	    case ENC_make_int: {
 		/* Make sure that constants have a shape */
-		if (p->shape == null)p->shape = sh_integer(p->son);
+		if (p->shape == NULL)p->shape = sh_integer(p->son);
 		break;
 	    }
 	    case ENC_change_variety: {
 		/* Allow for change_variety */
 		node *r = p->son->bro;
-		if (p->shape == null)p->shape = sh_integer(r);
+		if (p->shape == NULL)p->shape = sh_integer(r);
 		if (is_constant(r->bro, &m1)) {
 		    long err = p->son->cons->encoding;
 		    node *q = eval_exp(n, err, p->shape, m1, m2);
@@ -487,9 +488,9 @@ eval_node(node *p)
 	    case ENC_sequence: {
 		/* Allow for sequence */
 		bool reached = 1;
-		node *q = null;
+		node *q = NULL;
 		node *r = p->son->son;
-		while (r != null) {
+		while (r != NULL) {
 		    if (is_constant(r, &m1)) {
 			if (reached)q = r;
 		    } else if (r->cons->encoding == ENC_goto) {

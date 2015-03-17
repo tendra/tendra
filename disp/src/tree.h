@@ -60,7 +60,7 @@ typedef struct s_word {
  */
 
 #define blank_line()		(void)new_word(SIMPLE)
-#define end_word(X)		word_ptr = (X); word_ptr->bro = null
+#define end_word(X)		word_ptr = (X); word_ptr->bro = NULL
 
 extern int length;
 extern word word1;

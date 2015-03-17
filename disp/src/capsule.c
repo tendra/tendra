@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stddef.h>
 
 #include <shared/xalloc.h>
 
@@ -56,10 +57,10 @@ int skipping = 0;
  * and the types of variables these equations are in (e.g. tags and tokens).
  * The number of types of variables is given by no_variables.
  */
-string *eqn_types = null;
-string *var_types = null;
+string *eqn_types = NULL;
+string *var_types = NULL;
 char *var_letters = "";
-long *var_count = null;
+long *var_count = NULL;
 long no_variables = 0;
 
 
@@ -220,7 +221,7 @@ de_equation(equation_func f)
     /* Read the unit body */
     n = BYTESIZE * tdf_int();
     byte_align();
-    if (f == null) {
+    if (f == NULL) {
 	skip_bits(n);
 	if (dumb_mode) {
 	    out("(skipped)");
@@ -351,13 +352,13 @@ de_capsule(void)
     if (n != no_eqn)input_error("Number of equations wrong");
     for (i = 0; i < no_eqn; i++) {
 	int used = 0;
-	char *title = null;
+	char *title = NULL;
 	long j, no_units = tdf_int();
 	string se = eqn_types[i];
 	equation_func f = find_equation(se, &title, &used);
 	if (!used) {
-	    title = null;
-	    f = null;
+	    title = NULL;
+	    f = NULL;
 	}
 	total = 0;
 	if (f == de_tokdef_props && no_units) {

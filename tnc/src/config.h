@@ -63,7 +63,6 @@
     convenience.
 */
 
-#define null			NULL
 #define hash_size		31
 
 

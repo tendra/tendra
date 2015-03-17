@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stddef.h>
+
 #include <shared/check.h>
 #include <shared/error.h>
 
@@ -99,7 +101,7 @@ main(int argc, char **argv)
 	}
 	case 2: {
 	    SET(input);
-	    open_files(argv[input],(char *)null);
+	    open_files(argv[input], NULL);
 	    break;
 	}
 	case 3: {

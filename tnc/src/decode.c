@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stddef.h>
+
 #include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/xalloc.h>
@@ -89,7 +91,7 @@ de_token(node *p, sortname s)
 		if (add_to_var_hash(t, SORT_token))
 			input_error("%s has already been defined", nm);
 
-		de_token_defn(t,(node *)null);
+		de_token_defn(t, NULL);
 		info = get_tok_info(t);
 		p->son = new_node();
 		p->son->cons = t;
@@ -223,7 +225,7 @@ de_node(char *str)
 		case '|':
 			/* Align input stream */
 			byte_align();
-			p = null;
+			p = NULL;
 			break;
 		case 'i':
 			{
@@ -270,7 +272,7 @@ de_node(char *str)
 					p->cons->sortnum = SORT_tdfstring;
 					p->cons->encoding = n;
 					p->cons->name = s;
-					p->cons->next = null;
+					p->cons->next = NULL;
 
 					for (i = 0; i < n; i++)
 						s [i] = (char) fetch(8);
@@ -320,7 +322,7 @@ de_node(char *str)
 				p->cons->sortnum = SORT_tdfstring;
 				p->cons->encoding = n;
 				p->cons->name = s;
-				p->cons->next = null;
+				p->cons->next = NULL;
 
 				for (i = 0; i < n; i++)
 					s [i] = (char) fetch(8);

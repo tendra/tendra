@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stddef.h>
+
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
@@ -196,7 +198,7 @@ de_tdfstring_align(void)
  * DECODE A UNIQUE IDENTIFIER
  *
  * A unique consists of an array of strings.  The end of the array is marked
- * by a null string.
+ * by a NULL string.
  */
 unique
 de_unique(void)
@@ -206,7 +208,7 @@ de_unique(void)
     n = tdf_int();
     u = xmalloc_nof(string, n + 1);
     for (i = 0; i < n; i++)u[i] = de_tdfstring_align();
-    u[n] = null;
+    u[n] = NULL;
     return u;
 }
 
@@ -258,7 +260,7 @@ de_extern_name(void)
  */
 int do_foreign_sorts = 0;
 long no_foreign_sorts = 0;
-sortid *foreign_sorts = null;
+sortid *foreign_sorts = NULL;
 static long fs_size = 0;
 
 
@@ -280,7 +282,7 @@ add_foreign_sort(char *nm, char *fnm, int c)
     foreign_sorts[n].fname = fnm;
     foreign_sorts[n].decode = (char)c;
     foreign_sorts[n].res = (sortname)(extra_sorts + n);
-    foreign_sorts[n].args = null;
+    foreign_sorts[n].args = NULL;
     return;
 }
 

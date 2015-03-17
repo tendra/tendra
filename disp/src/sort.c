@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stddef.h>
+
 #include <shared/check.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
@@ -42,7 +44,7 @@ de_token_aux(sortname s, char *nm)
 {
     word *w;
     long bits, t;
-    object *obj = null;
+    object *obj = NULL;
     int ap = 1, simple = 1;
     int just_tok = (s == sort_unknown ? 1 : 0);
 
@@ -58,7 +60,7 @@ de_token_aux(sortname s, char *nm)
     if (simple) {
 	SET(t);
 	obj = find_binding(crt_binding, var_token, t);
-	if (obj == null) {
+	if (obj == NULL) {
 	    obj = new_object(var_token);
 	    set_binding(crt_binding, var_token, t, obj);
 	}

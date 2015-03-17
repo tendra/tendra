@@ -115,7 +115,7 @@ de_tokdec_aux(void)
     long t;
     sortid s;
     object *obj;
-    char *args = null;
+    char *args = NULL;
     word *w = new_word(HORIZ_NONE);
 
     /* Find declaration type */
@@ -124,7 +124,7 @@ de_tokdec_aux(void)
     /* Find token number */
     t = tdf_int();
     obj = find_binding(crt_binding, var_token, t);
-    if (obj == null) {
+    if (obj == NULL) {
 	obj = new_object(var_token);
 	set_binding(crt_binding, var_token, t, obj);
     }
@@ -189,7 +189,7 @@ de_tokdef_aux(void)
     /* Find token number */
     t = tdf_int();
     obj = find_binding(crt_binding, var_token, t);
-    if (obj == null) {
+    if (obj == NULL) {
 	obj = new_object(var_token);
 	set_binding(crt_binding, var_token, t, obj);
     }
@@ -226,12 +226,12 @@ de_tokdef_aux(void)
 	    p = de_sort_name(1);
 	    pn = tdf_int();
 	    tp = find_binding(crt_binding, var_token, pn);
-	    if (tp == null) {
+	    if (tp == NULL) {
 		tp = new_object(var_token);
 		set_binding(crt_binding, var_token, pn, tp);
 	    }
 	    res_sort(tp) = p.res;
-	    arg_sorts(tp) = null;
+	    arg_sorts(tp) = NULL;
 	    if (p.res == sort_token) {
 		object *tpa = xmalloc_nof(object, 1);
 		*tpa = *tp;
@@ -303,7 +303,7 @@ de_tagdec_aux(void)
     /* Get tag number */
     t = tdf_int();
     obj = find_binding(crt_binding, var_tag, t);
-    if (obj == null) {
+    if (obj == NULL) {
 	obj = new_object(var_tag);
 	set_binding(crt_binding, var_tag, t, obj);
     }
@@ -353,7 +353,7 @@ de_tagdef_aux(void)
     /* Get tag number */
     t = tdf_int();
     obj = find_binding(crt_binding, var_tag, t);
-    if (obj == null) {
+    if (obj == NULL) {
 	input_error("Tag %s defined but not declared",
 		      object_name(var_tag, t));
 	obj = new_object(var_tag);
@@ -403,7 +403,7 @@ de_al_tagdef_aux(void)
     /* Get alignment tag number */
     t = tdf_int();
     obj = find_binding(crt_binding, var_al_tag, t);
-    if (obj == null) {
+    if (obj == NULL) {
 	obj = new_object(var_al_tag);
 	set_binding(crt_binding, var_al_tag, t, obj);
     }
@@ -677,7 +677,7 @@ de_diag_tagdef_aux(void)
     /* Get alignment tag number */
     t = tdf_int();
     obj = find_binding(crt_binding, var_diag_tag, t);
-    if (obj == null) {
+    if (obj == NULL) {
 	obj = new_object(var_diag_tag);
 	set_binding(crt_binding, var_diag_tag, t, obj);
     }

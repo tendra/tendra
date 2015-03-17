@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stddef.h>
+
 #include <shared/bool.h>
 
 #include "config.h"
@@ -80,7 +82,7 @@ enc_external(bitstream *b, construct *p)
 	node *q = e->son;
 	if (q->cons->sortnum == SORT_tdfstring) {
 	    node *r = q->bro;
-	    if (r == null) {
+	    if (r == NULL) {
 		enc_external_bits(b, ENC_string_extern);
 		align_bitstream(b);
 		enc_aligned_string(b, q->cons->name, q->cons->encoding);
@@ -362,7 +364,7 @@ no_formals(char *args)
 {
     long n = 0;
     while (*args) {
-	args = find_sortname(args,(sortname *)null);
+	args = find_sortname(args, NULL);
 	args++;
 	n = n + 1;
     }
@@ -378,7 +380,7 @@ enc_tokdec(bitstream *b, construct *p)
     enc_tdf_int(b, p->encoding);
 
     /* Deal with signature */
-    if (info->sig == null) {
+    if (info->sig == NULL) {
 	enc_bits(b, 1,(long)0);
     } else {
 	enc_node(b, info->sig);
@@ -417,7 +419,7 @@ enc_tokdef(bitstream *b, construct *p)
     enc_tdf_int(b, p->encoding);
 
     /* Deal with signature */
-    if (info->sig == null) {
+    if (info->sig == NULL) {
 	enc_bits(b, 1,(long)0);
     } else {
 	enc_node(b, info->sig);

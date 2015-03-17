@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stddef.h>
+
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
@@ -27,7 +29,7 @@
 object *
 new_object(long v)
 {
-    static object *free_objs = null;
+    static object *free_objs = NULL;
     static int objs_left = 0;
 
     object *p;
@@ -40,14 +42,14 @@ new_object(long v)
     p->named = 0;
     p->id = (var_count[v]) ++;
     p->order = -1;
-    p->aux = null;
+    p->aux = NULL;
     if (v == var_tag) {
 	var(p) = 3;
     } else if (v == var_token) {
 	is_foreign(p) = 0;
 	res_sort(p) = sort_unknown;
 	implicit_sort(p) = sort_unknown;
-	arg_sorts(p) = null;
+	arg_sorts(p) = NULL;
     }
     return p;
 }
@@ -59,7 +61,7 @@ new_object(long v)
  * In fact only two binding tables are ever needed.  The one not in use
  * is stored in spare_bt.
  */
-static binding *spare_bt = null;
+static binding *spare_bt = NULL;
 
 
 /*
@@ -72,10 +74,10 @@ new_binding_table(void)
 {
     binding *bt;
     long i, n = no_variables;
-    if (n == 0) return null;
+    if (n == 0) return NULL;
     if (spare_bt) {
 	bt = spare_bt;
-	spare_bt = null;
+	spare_bt = NULL;
 	for (i = 0; i < n; i++) {
 	    bt[i].max_no = 0;
 	}
@@ -84,7 +86,7 @@ new_binding_table(void)
 	for (i = 0; i < n; i++) {
 	    bt[i].max_no = 0;
 	    bt[i].sz = 0;
-	    bt[i].table = null;
+	    bt[i].table = NULL;
 	}
     }
     return bt;
@@ -128,7 +130,7 @@ set_binding_size(binding *bt, long v, long n)
     } else {
 	p = b->table;
     }
-    for (i = 0; i < b->sz; i++)p[i] = null;
+    for (i = 0; i < b->sz; i++)p[i] = NULL;
     return;
 }
 
@@ -155,7 +157,7 @@ set_binding(binding *bt, long v, long n, object *p)
 	    long i, m = b->sz + 100;
 	    b->sz = m;
 	    b->table = xrealloc_nof(b->table, object *, m);
-	    for (i = 1; i <= 100; i++)b->table[m - i] = null;
+	    for (i = 1; i <= 100; i++)b->table[m - i] = NULL;
 	}
     }
     if (b->table[n]) {
@@ -181,7 +183,7 @@ complete_binding(binding *bt)
 	long i;
 	binding *b = bt + v;
 	for (i = 0; i < b->max_no; i++) {
-	    if (b->table[i] == null) {
+	    if (b->table[i] == NULL) {
 		b->table[i] = new_object(v);
 	    }
 	}
@@ -201,14 +203,14 @@ find_binding(binding *bt, long v, long n)
     binding *b;
     if (v < 0 || v >= no_variables) {
 	input_error("Illegal binding sort");
-	return null;
+	return NULL;
     }
     b = bt + v;
     if (n >= b->max_no || n < 0) {
 	out("<error>");
 	input_error("Object number %ld (%s) too big", n, var_types[v]);
     }
-    if (n >= b->sz) return null;
+    if (n >= b->sz) return NULL;
     return b->table[n];
 }
 
@@ -234,9 +236,9 @@ out_object(long n, object *p, long v)
 	end_word(w);
 	return;
     }
-    if (p == null) {
+    if (p == NULL) {
 	p = find_binding(crt_binding, v, n);
-	if (p == null) {
+	if (p == NULL) {
 	    p = new_object(v);
 	    set_binding(crt_binding, v, n, p);
 	}

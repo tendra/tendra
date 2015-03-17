@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stddef.h>
+
 #include <shared/check.h>
 
 #include "config.h"
@@ -224,10 +226,10 @@ expression(word *ptr, int col, int first, int last, int flag, int pending)
 	if (sort == VERT_BRACKETS) {
 	    /* try to print things with only one parameter horizontally */
 	    p = ptr->son;
-	    if (p == null) {
+	    if (p == NULL) {
 		horiz = 1;
 	    } else {
-		if (p->son == null && p->bro == null)horiz = 1;
+		if (p->son == NULL && p->bro == NULL)horiz = 1;
 	    }
 	}
 
@@ -245,7 +247,7 @@ expression(word *ptr, int col, int first, int last, int flag, int pending)
 	    pends = 0;
 	    /* print parameters */
 	    for (p = ptr->son; p; p = p->bro) {
-		if (p->bro == null) {
+		if (p->bro == NULL) {
 		    /* for last, take trailing brackets into account */
 		    sep = close;
 		    pends = pending + visible;
@@ -276,7 +278,7 @@ expression(word *ptr, int col, int first, int last, int flag, int pending)
 	    /* print parameters */
 	    for (p = ptr->son; p; p = p->bro) {
 		/* for last, take trailing brackets into account */
-		if (p->bro == null) {
+		if (p->bro == NULL) {
 		    sep = close;
 		    pends = pending + visible;
 		}
@@ -301,7 +303,7 @@ expression(word *ptr, int col, int first, int last, int flag, int pending)
 	    }
 	    /* print parameters */
 	    for (p = ptr->son; p; p = p->bro) {
-		if (p->bro == null) {
+		if (p->bro == NULL) {
 		    /* last requires special treatment */
 		    sep = 0;
 		    more = 0;

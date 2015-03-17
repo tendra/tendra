@@ -20,7 +20,6 @@
 #define SEEK_SET		0
 #endif
 
-#define null			NULL
 #define BYTESIZE		8
 #define streq(X, Y)		(strcmp((X), (Y)) == 0)
 
