@@ -10,8 +10,6 @@
 #ifndef SHARED_STRING_H
 #define SHARED_STRING_H
 
-#include <stddef.h>
-
 char *xstrdup(const char *);
 char *xstrcat(const char *, const char *);
 
