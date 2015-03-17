@@ -22,6 +22,7 @@
  */
 
 #include <shared/check.h>
+#include <shared/string.h>
 
 #include "config.h"
 #include "util.h"
@@ -3079,25 +3080,25 @@ ZR672(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_char *ZId)
 
     INIT_TDF((*ZIc));
     RESET_TDF((*ZIc));
-    if (strcmp((*ZId), "*+.") ==0) {
+    if (streq((*ZId), "*+.")) {
 	o_add_to_ptr(append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
-    } else if (strcmp((*ZId), "*-*") ==0) {
+    } else if (streq((*ZId), "*-*")) {
 	o_subtract_ptrs(append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
-    } else if (strcmp((*ZId), ".*") ==0) {
+    } else if (streq((*ZId), ".*")) {
 	o_offset_mult(append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
-    } else if (strcmp((*ZId), ".+.") ==0) {
+    } else if (streq((*ZId), ".+.")) {
 	o_offset_add(append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
-    } else if (strcmp((*ZId), ".-.") ==0) {
+    } else if (streq((*ZId), ".-.")) {
 	o_offset_subtract(append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
-    } else if (strcmp((*ZId), "./") ==0) {
+    } else if (streq((*ZId), "./")) {
 	o_offset_div_by_int(append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
-    } else if (strcmp((*ZId), "./.") ==0) {
+    } else if (streq((*ZId), "./.")) {
 	o_offset_div(
 	    o_var_limits(
 		o_make_signed_nat(out_tdfbool(1), out_tdfint32(UL(MINSI))),
 		o_make_signed_nat(out_tdfbool(0), out_tdfint32(UL(MAXSI)))),
 	    append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
-    } else if (strcmp((*ZId), ".max.") ==0) {
+    } else if (streq((*ZId), ".max.")) {
 	o_offset_max(append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
     } else { fail("%s not an addrop", (*ZId)); }
 #line 3104 "syntax.c"
@@ -3139,11 +3140,11 @@ ZR672(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_char *ZId)
 
     INIT_TDF((*ZIc));
     RESET_TDF((*ZIc));
-    if (strcmp((*ZId), "And") ==0) {
+    if (streq((*ZId), "And")) {
 	o_and(append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
-    } else if (strcmp((*ZId), "Or") ==0) {
+    } else if (streq((*ZId), "Or")) {
 	o_or(append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
-    } else if (strcmp((*ZId), "Xor") ==0) {
+    } else if (streq((*ZId), "Xor")) {
 	o_xor(append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
     } else { fail("%s not a logop", (*ZId)); }
 #line 3150 "syntax.c"
@@ -3187,40 +3188,40 @@ ZR672(TDF *ZIa, TDF *ZIb, PTR_TDF *ZIc, PTR_char *ZId)
 
     INIT_TDF((*ZIc));
     RESET_TDF((*ZIc));
-    if (strcmp((*ZId),"%") ==0) {
+    if (streq((*ZId),"%")) {
 	o_rem2(o_continue, o_continue, append_TDF(&(*ZIa),1),
 	       append_TDF(&(*ZIb),1));
-    } else if (strcmp((*ZId),"%1") ==0) {
+    } else if (streq((*ZId),"%1")) {
 	o_rem1(o_continue, o_continue, append_TDF(&(*ZIa),1),
 	       append_TDF(&(*ZIb),1));
-    } else if (strcmp((*ZId),"*") ==0) {
+    } else if (streq((*ZId),"*")) {
 	o_mult(o_wrap, append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
-    } else if (strcmp((*ZId),"+") ==0) {
+    } else if (streq((*ZId),"+")) {
 	o_plus(o_wrap, append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
-    } else if (strcmp((*ZId),"-") ==0) {
+    } else if (streq((*ZId),"-")) {
 	o_minus(o_wrap, append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
-    } else if (strcmp((*ZId),"/") ==0) {
+    } else if (streq((*ZId),"/")) {
 	o_div2(o_continue, o_continue, append_TDF(&(*ZIa),1),
 	       append_TDF(&(*ZIb),1));
-    } else if (strcmp((*ZId),"/1") ==0) {
+    } else if (streq((*ZId),"/1")) {
 	o_div1(o_continue, o_continue, append_TDF(&(*ZIa),1),
 	       append_TDF(&(*ZIb),1));
-    } else if (strcmp((*ZId),"<<") ==0) {
+    } else if (streq((*ZId),"<<")) {
 	o_shift_left(o_wrap, append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
-    } else if (strcmp((*ZId),"F*") ==0) {
+    } else if (streq((*ZId),"F*")) {
 	o_floating_mult(o_continue,
 	    { LIST_ELEM(append_TDF(&(*ZIa),1));
 	    LIST_ELEM(append_TDF(&(*ZIb),1))});
-    } else if (strcmp((*ZId),">>") ==0) {
+    } else if (streq((*ZId),">>")) {
 	o_shift_right(append_TDF(&(*ZIa),1), append_TDF(&(*ZIb),1));
-    } else if (strcmp((*ZId),"F+") ==0) {
+    } else if (streq((*ZId),"F+")) {
 	o_floating_plus(o_continue,
 	    { LIST_ELEM(append_TDF(&(*ZIa),1));
 	    LIST_ELEM(append_TDF(&(*ZIb),1))});
-    } else if (strcmp((*ZId),"F-") ==0) {
+    } else if (streq((*ZId),"F-")) {
 	o_floating_minus(o_continue, append_TDF(&(*ZIa),1),
 			 append_TDF(&(*ZIb),1));
-    } else if (strcmp((*ZId),"F/") ==0) {
+    } else if (streq((*ZId),"F/")) {
 	o_floating_div(o_continue, append_TDF(&(*ZIa),1),
 		       append_TDF(&(*ZIb),1));
     } else { fail("%s not an arithop", (*ZId)); }
@@ -5594,18 +5595,18 @@ ZL2_ntest:;
 #line 1537 "syntax.act"
 
     char * n = lex_v.val.name;
-    if (strcmp(n,"!<") ==0) { o_not_less_than; }
-    else if (strcmp(n,"!<=") ==0) { o_not_less_than_or_equal; }
-    else if (strcmp(n,"!=") ==0) { o_not_equal; }
-    else if (strcmp(n,"!>") ==0) { o_not_greater_than; }
-    else if (strcmp(n,"!>=") ==0) { o_not_greater_than_or_equal; }
-    else if (strcmp(n,"!Comparable") ==0) { o_not_comparable; }
-    else if (strcmp(n,"<") ==0) { o_less_than; }
-    else if (strcmp(n,"<=") ==0) { o_less_than_or_equal; }
-    else if (strcmp(n,"==") ==0) { o_equal; }
-    else if (strcmp(n,">") ==0) { o_greater_than; }
-    else if (strcmp(n,">=") ==0) { o_greater_than_or_equal; }
-    else if (strcmp(n,"Comparable") ==0) { o_comparable; }
+    if (streq(n,"!<")) { o_not_less_than; }
+    else if (streq(n,"!<=")) { o_not_less_than_or_equal; }
+    else if (streq(n,"!=")) { o_not_equal; }
+    else if (streq(n,"!>")) { o_not_greater_than; }
+    else if (streq(n,"!>=")) { o_not_greater_than_or_equal; }
+    else if (streq(n,"!Comparable")) { o_not_comparable; }
+    else if (streq(n,"<")) { o_less_than; }
+    else if (streq(n,"<=")) { o_less_than_or_equal; }
+    else if (streq(n,"==")) { o_equal; }
+    else if (streq(n,">")) { o_greater_than; }
+    else if (streq(n,">=")) { o_greater_than_or_equal; }
+    else if (streq(n,"Comparable")) { o_comparable; }
     else { fail("%s is not a comparison", n); }
 #line 5611 "syntax.c"
 			}
@@ -6072,7 +6073,7 @@ ZL2_signed__nat__body:;
 #line 1794 "syntax.act"
 
     SET_TDF((ZIb), &(ZIa));
-    if (strcmp(lex_v.val.name, "+"))fail("Only + or - on NATs");
+    if (!streq(lex_v.val.name, "+"))fail("Only + or - on NATs");
 #line 6077 "syntax.c"
 			}
 			/* END OF ACTION: signed_nat7_dec */
@@ -10704,7 +10705,7 @@ ZL2_unary__exp:;
 #line 1794 "syntax.act"
 
     SET_TDF((ZI638), &(ZI637));
-    if (strcmp(lex_v.val.name, "+"))fail("Only + or - on NATs");
+    if (!streq(lex_v.val.name, "+"))fail("Only + or - on NATs");
 #line 10709 "syntax.c"
 			}
 			/* END OF ACTION: signed_nat7_dec */
@@ -12258,7 +12259,7 @@ ZL2_access:;
 			{
 #line 225 "syntax.act"
 
-    if (strcmp(constructs[(ZIa)].name, "visible") ==0) { g_has_vis = 1; }
+    if (!streq(constructs[(ZIa)].name, "visible") ==0) { g_has_vis = 1; }
 #line 12263 "syntax.c"
 			}
 			/* END OF ACTION: access2 */

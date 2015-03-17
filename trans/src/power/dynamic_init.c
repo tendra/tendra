@@ -14,6 +14,7 @@
 #include <stdio.h>
 
 #include <shared/error.h>
+#include <shared/string.h>
 
 #include <construct/installglob.h>
 
@@ -50,7 +51,7 @@ int proc_is_main(exp e)
   char *ext;
   b = boff(father(e));
   ext = main_globals[(-b.base)-1]->dec_id;
-  if (strcmp(ext,"main")==0)
+  if (streq(ext,"main"))
   {
     return 1;
   }

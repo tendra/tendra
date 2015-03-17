@@ -10,6 +10,7 @@
 #include <stdlib.h>
 
 #include <shared/check.h>
+#include <shared/string.h>
 
 #include "config.h"
 #include "util.h"
@@ -249,7 +250,7 @@ d_bitstream(char *s, int n)
 	int l = (int)strlen(s);
 	indent(n);
 	IGNORE printf("BITSTREAM/%s\n", s);
-	if (strcmp(s + l - 5, "_cond") == 0) {
+	if (streq(s + l - 5, "_cond")) {
 		int j = 0;
 		for (; i != 0; i--) {
 			if (((j++) & 31) == 0) {
@@ -259,7 +260,7 @@ d_bitstream(char *s, int n)
 			IGNORE printf("%u", get_bit());
 		}
 		IGNORE printf("\n");
-	} else if (strcmp(s + l - 12, "_apply_token") == 0) {
+	} else if (streq(s + l - 12, "_apply_token")) {
 		int j = 0;
 		for (; i != 0; i--) {
 			if (((j++) & 31) == 0) {
@@ -269,9 +270,9 @@ d_bitstream(char *s, int n)
 			IGNORE printf("%u", get_bit());
 		}
 		IGNORE printf("\n");
-	} else if (strcmp(s, "make_tokdef") == 0) {
+	} else if (streq(s, "make_tokdef")) {
 		IGNORE d_token_definition(n + 1);
-	} else if (strcmp(s, "use_tokdef") == 0) {
+	} else if (streq(s, "use_tokdef")) {
 		IGNORE d_token_definition(n + 1);
 	} else {
 		IGNORE fprintf(stderr, "Don't understand bitstream.\n");

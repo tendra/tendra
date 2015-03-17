@@ -14,6 +14,7 @@
 #include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <local/szs_als.h>
@@ -1507,7 +1508,7 @@ make_code(where dest, ash stack, exp e)
 		 */
 		if ((brog(son(proc)) ->processed) &&
 		    (brog(son(proc)) ->extnamed) &&
-		    (!strcmp(brog(son(proc))->dec_id,
+		    (streq(brog(son(proc))->dec_id,
 		             "_TESTPOINT"))) {
 			TESTPOINT();
 			return;

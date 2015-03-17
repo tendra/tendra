@@ -124,7 +124,7 @@ read_identifier(int a)
 	/* Deal with keywords */
 	t = token_buff;
 #define MAKE_KEYWORD(A, B)\
-    if (!strcmp(t, (A))) return B;
+    if (streq(t, (A))) return B;
 #include "keyword.h"
 	return lex_name;
 }
@@ -282,14 +282,14 @@ read_template(COMMAND p)
 
 			s2 = get_command(&s);
 			s3 = get_command(&s);
-			if (!strcmp(s1, "if")) {
+			if (streq(s1, "if")) {
 				if (s2 == NULL) {
 					error(ERR_SERIOUS, "Incomplete '@%s' command", s1);
 					s2 = "true";
 				}
 
 				MAKE_cmd_cond(ln2, s2, NULL_cmd, NULL_cmd, r);
-			} else if (!strcmp(s1, "else")) {
+			} else if (streq(s1, "else")) {
 				if (IS_cmd_cond(p)) {
 					COMMAND v = DEREF_cmd(cmd_cond_true_code(p));
 					if (!IS_NULL_cmd(v)) {
@@ -306,27 +306,27 @@ read_template(COMMAND p)
 				}
 
 				s3 = s2;
-			} else if (!strcmp(s1, "endif")) {
+			} else if (streq(s1, "endif")) {
 				if (IS_cmd_cond(p)) {
 					go = 0;
 				} else {
 					error(ERR_SERIOUS, "Misplaced '@%s' command", s1);
 				}
 				s3 = s2;
-			} else if (!strcmp(s1, "loop")) {
+			} else if (streq(s1, "loop")) {
 				if (s2 == NULL) {
 					error(ERR_SERIOUS, "Incomplete '@%s' command", s1);
 					s2 = "false";
 				}
 				MAKE_cmd_loop(ln2, s2, NULL_cmd, r);
-			} else if (!strcmp(s1, "end")) {
+			} else if (streq(s1, "end")) {
 				if (IS_cmd_loop(p)) {
 					go = 0;
 				} else {
 					error(ERR_SERIOUS, "Misplaced '@%s' command", s1);
 				}
 				s3 = s2;
-			} else if (!strcmp(s1, "use")) {
+			} else if (streq(s1, "use")) {
 				if (s2 == NULL) {
 					error(ERR_SERIOUS, "Incomplete '@%s' command", s1);
 					s2 = "all";
@@ -336,7 +336,7 @@ read_template(COMMAND p)
 					s3 = get_command(&s);
 				}
 				complex = 0;
-			} else if (!strcmp(s1, "special")) {
+			} else if (streq(s1, "special")) {
 				if (s2 == NULL) {
 					error(ERR_SERIOUS, "Incomplete '@%s' command", s1);
 					s2 = "<none>";
@@ -346,7 +346,7 @@ read_template(COMMAND p)
 					s3 = get_command(&s);
 				}
 				complex = 0;
-			} else if (!strcmp(s1, "comment")) {
+			} else if (streq(s1, "comment")) {
 				s3 = NULL;
 			} else {
 				error(ERR_SERIOUS, "Unknown command, '@%s'", s1);
@@ -406,7 +406,7 @@ open_file(char *nm)
 {
 	crt_line_no = 1;
 
-	if (nm == NULL || !strcmp(nm, "-")) {
+	if (nm == NULL || streq(nm, "-")) {
 		crt_file_name = "stdin";
 		lex_input = stdin;
 	} else {

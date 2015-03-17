@@ -21,6 +21,7 @@
 #include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <reader/exp.h>
@@ -85,7 +86,7 @@ int find_file
 {
   int i;
   for (i=0; i<nofds; i++) {
-    if (strcmp(name, fds[i] ->file.ints.chars) ==0) return i;
+    if (streq(name, fds[i] ->file.ints.chars)) return i;
   }
   return 0;
 }
@@ -358,7 +359,7 @@ eq_sutype(diag_type a, diag_type b)
   if (a==b) return 1;
   if (a->key != b->key) return 0;
   if (a->key != DIAG_TYPE_STRUCT && a->key != DIAG_TYPE_UNION) return 0;
-   if (strcmp(a->data.t_struct.nme.ints.chars, b->data.t_struct.nme.ints.chars))
+   if (!streq(a->data.t_struct.nme.ints.chars, b->data.t_struct.nme.ints.chars))
      return 0;
   fa = a->data.t_struct.fields;
   fb = b->data.t_struct.fields;
@@ -366,7 +367,7 @@ eq_sutype(diag_type a, diag_type b)
   for (j=fa->lastused-1; j>=0; j--) {
     diag_field sfa = (fa->array)[j];
     diag_field sfb = (fb->array)[j];
-    if (strcmp(sfa->field_name.ints.chars, sfb->field_name.ints.chars))
+    if (!streq(sfa->field_name.ints.chars, sfb->field_name.ints.chars))
       return 0;
   }
   return(bool)eq_shape(a->data.t_struct.tdf_shape,b->data.t_struct.tdf_shape);

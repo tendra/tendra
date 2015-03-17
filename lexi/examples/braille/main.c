@@ -147,7 +147,7 @@ int unknown_token(int c) {
 void emit(char *word, unsigned int *col) {
 	size_t len;
 
-	if (!strcmp(word, "\n")) {
+	if (0 == strcmp(word, "\n")) {
 		printf("\n");
 		col = 0;
 		return;

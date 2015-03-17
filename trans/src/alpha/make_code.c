@@ -19,6 +19,7 @@
 #include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <local/szs_als.h>
@@ -5763,7 +5764,7 @@ out:
 
 		bool sgned = ((ashof(sh(e)).ashsize >= 32) || name(sh(e)) & 1) ? 1 : 0;
 		flt_string = floating_value(e);
-		use_fzero = !strcmp(flt_string, "0.0");
+		use_fzero = streq(flt_string, "0.0");
 
 		switch (dest.answhere.discrim) {
 		case infreg:

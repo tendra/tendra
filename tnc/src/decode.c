@@ -11,6 +11,7 @@
 
 #include <shared/bool.h>
 #include <shared/check.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <tdf/magic.h>
@@ -127,15 +128,15 @@ de_token(node *p, sortname s)
 		if (bits) {
 			/* Step over arguments */
 			char *args;
-			if (strcmp(t->name, "~dg_exp") == 0) {
+			if (streq(t->name, "~dg_exp")) {
 				args = "xFF";
-			} else if (strcmp(t->name, "~exp_to_source") == 0) {
+			} else if (streq(t->name, "~exp_to_source")) {
 				args = "xFF";
-			} else if (strcmp(t->name, "~diag_id_scope") == 0) {
+			} else if (streq(t->name, "~diag_id_scope")) {
 				args = "x$xF";
-			} else if (strcmp(t->name, "~diag_type_scope") == 0) {
+			} else if (streq(t->name, "~diag_type_scope")) {
 				args = "x$F";
-			} else if (strcmp(t->name, "~diag_tag_scope") == 0) {
+			} else if (streq(t->name, "~diag_tag_scope")) {
 				args = "x$F";
 			} else {
 				warning("Token %s undeclared", t->name);

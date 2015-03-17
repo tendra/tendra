@@ -23,6 +23,7 @@
 
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 
 #include "adt/library.h"
 #include "adt/shape-table.h"
@@ -74,7 +75,7 @@ builder_read_capsule(CapsuleT *capsule, CapsuleT **capsules,
     unsigned i;
 
     for (i = 0; i < capsule_index; i++) {
-	if (!strcmp(name, capsule_name(capsules[i]))) {
+	if (streq(name, capsule_name(capsules[i]))) {
 	    error(ERR_SERIOUS, "capsule name '%s' occurs more than "
 		"once in input capsule list", 
 		name);

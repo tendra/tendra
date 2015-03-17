@@ -188,7 +188,7 @@ move_file(const char *from, const char *to)
 	if (dry_run)
 		return 0;
 
-	if (strcmp(from, to) == 0)
+	if (streq(from, to))
 		return 0;
 
 	if (rename(from, to) == 0)
@@ -277,7 +277,7 @@ is_archive(const char *nm)
 		return archive;
 
 	if (fgets(buf, (int)sizeof(buf), f) != NULL)
-		if (strcmp(buf, ARCHIVE_HEADER) == 0)
+		if (streq(buf, ARCHIVE_HEADER))
 			archive = 1;
 
 	IGNORE fclose(f);
@@ -306,23 +306,23 @@ process_archive_opt(void)
 
 	/* TODO: getopt */
 	for (opt = strtok(s, " "); opt != NULL; opt = strtok(NULL, " ")) {
-		if (strcmp(opt, "-copy") == 0 || strcmp(opt, "-c") == 0) {
+		if (streq(opt, "-copy") || streq(opt, "-c")) {
 			archive_links = 0;
 			link_specs = 0;
-		} else if (strcmp(opt, "-full") == 0 || strcmp(opt, "-f") == 0) {
+		} else if (streq(opt, "-full") || streq(opt, "-f")) {
 			archive_full = 1;
-		} else if (strcmp(opt, "-link") == 0 || strcmp(opt, "-l") == 0) {
+		} else if (streq(opt, "-link") || streq(opt, "-l")) {
 			archive_links = 1;
 			link_specs = 1;
-		} else if (strcmp(opt, "-names") == 0 || strcmp(opt, "-n") == 0) {
+		} else if (streq(opt, "-names") || streq(opt, "-n")) {
 			archive_names = 1;
-		} else if (strcmp(opt, "-no_names") == 0 || strcmp(opt, "-nn") == 0) {
+		} else if (streq(opt, "-no_names") || streq(opt, "-nn")) {
 			archive_names = 0;
-		} else if (strcmp(opt, "-no_options") == 0 || strcmp(opt, "-no") == 0) {
+		} else if (streq(opt, "-no_options") || streq(opt, "-no")) {
 			archive_options = 0;
-		} else if (strcmp(opt, "-options") == 0 || strcmp(opt, "-o") == 0) {
+		} else if (streq(opt, "-options") || streq(opt, "-o")) {
 			archive_options = 1;
-		} else if (strcmp(opt, "-short") == 0 || strcmp(opt, "-s") == 0) {
+		} else if (streq(opt, "-short") || streq(opt, "-s")) {
 			archive_full = 0;
 		} else {
 			error(ERR_WARN, "Unknown archiver option, '%s'", opt);

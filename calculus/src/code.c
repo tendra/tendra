@@ -12,6 +12,7 @@
 #include <stdio.h>
 
 #include <shared/error.h>
+#include <shared/string.h>
 
 #include "calculus.h"
 #include "code.h"
@@ -511,7 +512,7 @@ print_types_c(void)
 	CLASS_ID_P c = DEREF_ptr(prim_id(CRT_PRIMITIVE));
 	char *pn = DEREF_string(cid_name(c));
 	char *pd = DEREF_string(prim_defn(CRT_PRIMITIVE));
-	if (strcmp(pn, pd)) {
+	if (!streq(pn, pd)) {
 		output("typedef %PD %PN;\n");
 	}
     }

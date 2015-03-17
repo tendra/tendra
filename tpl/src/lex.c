@@ -8,6 +8,7 @@
  */
 
 #include <shared/check.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include "config.h"
@@ -71,7 +72,7 @@ directive(void)
 	if (buff[0] == '#') {
 		char c = buff[8];
 		buff[8] = 0;
-		if (strcmp(buff + 1, "include") ==0) {
+		if (streq(buff + 1, "include")) {
 			push_current();
 			in_file = open_include(buff + 9);
 			bind = -1;
@@ -388,7 +389,7 @@ notcons:
 	if (search_for_toks) {
 		td = tokdecs;
 		while (td != (Tokdec *)0) {
-			if (strcmp(id, td->idname.id) == 0) {
+			if (streq(id, td->idname.id)) {
 				return tok_val(td);
 			}
 			td = td->next;
@@ -616,7 +617,7 @@ again:
 				return symbol(lex_hash);
 			}
 		}
-		if (strcmp(&lexeme[0], "/*") == 0) {
+		if (streq(&lexeme[0], "/*")) {
 			int n = 1;
 			for(;;) {
 				c = mygetc();

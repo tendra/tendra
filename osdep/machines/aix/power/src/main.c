@@ -14,6 +14,7 @@
 #include <syms.h>
 
 #include <shared/check.h>
+#include <shared/string.h>
 
 #define IS_BAD_MAGIC_NUMBER(x)	((x != 0x1df) ? 1 : 0)
 void output_assembler_file(void);
@@ -33,7 +34,7 @@ int
 main(int argc, char ** argv)
 {
   int report_version = 0;
-  if (!strcmp(argv[1], "-V") || !strcmp(argv[1], "-v"))
+  if (streq(argv[1], "-V") || streq(argv[1], "-v"))
   {
     printf("dyninit for powertrans version 1.1\n");
     report_version = 1;

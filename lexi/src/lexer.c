@@ -19,6 +19,7 @@
 	#include <ctype.h>
 
 	#include <shared/error.h>
+	#include <shared/string.h>
 	#include <shared/xalloc.h>
 
 	#include "lexer.h"
@@ -142,15 +143,15 @@ int lxi_group(enum lxi_groups group, int c) {
 
 
 int lxi_keyword(const char *identifier, int notfound) {
-	if (0 == strcmp(identifier, "ACTION")) return lxi_kw_Haction;
-	if (0 == strcmp(identifier, "DEFAULT")) return lxi_default;
-	if (0 == strcmp(identifier, "GROUP")) return lxi_kw_Hgroup;
-	if (0 == strcmp(identifier, "KEYWORD")) return lxi_kw_Hkeyword;
-	if (0 == strcmp(identifier, "MAPPING")) return lxi_kw_Hmapping;
-	if (0 == strcmp(identifier, "TOKEN")) return lxi_kw_Htoken;
-	if (0 == strcmp(identifier, "TYPE")) return lxi_kw_Htype;
-	if (0 == strcmp(identifier, "ZONE")) return lxi_kw_Hzone;
-	if (0 == strcmp(identifier, "white")) return lxi_white;
+	if (streq(identifier, "ACTION")) return lxi_kw_Haction;
+	if (streq(identifier, "DEFAULT")) return lxi_default;
+	if (streq(identifier, "GROUP")) return lxi_kw_Hgroup;
+	if (streq(identifier, "KEYWORD")) return lxi_kw_Hkeyword;
+	if (streq(identifier, "MAPPING")) return lxi_kw_Hmapping;
+	if (streq(identifier, "TOKEN")) return lxi_kw_Htoken;
+	if (streq(identifier, "TYPE")) return lxi_kw_Htype;
+	if (streq(identifier, "ZONE")) return lxi_kw_Hzone;
+	if (streq(identifier, "white")) return lxi_white;
 	return notfound;
 }
 /* PRE-PASS ANALYSERS */

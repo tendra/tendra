@@ -65,6 +65,7 @@ ULONG -> unsigned_long;
  */
 
 #include <shared/check.h>
+#include <shared/string.h>
 
 #include "config.h"
 #include "util.h"
@@ -222,7 +223,7 @@ extern unsigned long MINOR_NO;
 @};
 
 <access2> :(i) -> () = @{
-    if (strcmp(constructs[@i].name, "visible") ==0) { g_has_vis = 1; }
+    if (streq(constructs[@i].name, "visible")) { g_has_vis = 1; }
 @};
 
 <al_list1_dec> :() -> (hold, place) = @{
@@ -520,25 +521,25 @@ extern unsigned long MINOR_NO;
 <exp2> :(first, second, place, n) -> () = @{
     INIT_TDF(@place);
     RESET_TDF(@place);
-    if (strcmp(@n, "*+.") ==0) {
+    if (streq(@n, "*+.")) {
 	o_add_to_ptr(append_TDF(&@first,1), append_TDF(&@second,1));
-    } else if (strcmp(@n, "*-*") ==0) {
+    } else if (streq(@n, "*-*")) {
 	o_subtract_ptrs(append_TDF(&@first,1), append_TDF(&@second,1));
-    } else if (strcmp(@n, ".*") ==0) {
+    } else if (streq(@n, ".*")) {
 	o_offset_mult(append_TDF(&@first,1), append_TDF(&@second,1));
-    } else if (strcmp(@n, ".+.") ==0) {
+    } else if (streq(@n, ".+.")) {
 	o_offset_add(append_TDF(&@first,1), append_TDF(&@second,1));
-    } else if (strcmp(@n, ".-.") ==0) {
+    } else if (streq(@n, ".-.")) {
 	o_offset_subtract(append_TDF(&@first,1), append_TDF(&@second,1));
-    } else if (strcmp(@n, "./") ==0) {
+    } else if (streq(@n, "./")) {
 	o_offset_div_by_int(append_TDF(&@first,1), append_TDF(&@second,1));
-    } else if (strcmp(@n, "./.") ==0) {
+    } else if (streq(@n, "./.")) {
 	o_offset_div(
 	    o_var_limits(
 		o_make_signed_nat(out_tdfbool(1), out_tdfint32(UL(MINSI))),
 		o_make_signed_nat(out_tdfbool(0), out_tdfint32(UL(MAXSI)))),
 	    append_TDF(&@first,1), append_TDF(&@second,1));
-    } else if (strcmp(@n, ".max.") ==0) {
+    } else if (streq(@n, ".max.")) {
 	o_offset_max(append_TDF(&@first,1), append_TDF(&@second,1));
     } else { fail("%s not an addrop", @n); }
 @};
@@ -546,11 +547,11 @@ extern unsigned long MINOR_NO;
 <exp3> :(first, second, place, n) -> () = @{
     INIT_TDF(@place);
     RESET_TDF(@place);
-    if (strcmp(@n, "And") ==0) {
+    if (streq(@n, "And")) {
 	o_and(append_TDF(&@first,1), append_TDF(&@second,1));
-    } else if (strcmp(@n, "Or") ==0) {
+    } else if (streq(@n, "Or")) {
 	o_or(append_TDF(&@first,1), append_TDF(&@second,1));
-    } else if (strcmp(@n, "Xor") ==0) {
+    } else if (streq(@n, "Xor")) {
 	o_xor(append_TDF(&@first,1), append_TDF(&@second,1));
     } else { fail("%s not a logop", @n); }
 @};
@@ -558,40 +559,40 @@ extern unsigned long MINOR_NO;
 <exp5> :(first, second, place, n) -> () = @{
     INIT_TDF(@place);
     RESET_TDF(@place);
-    if (strcmp(@n,"%") ==0) {
+    if (streq(@n,"%")) {
 	o_rem2(o_continue, o_continue, append_TDF(&@first,1),
 	       append_TDF(&@second,1));
-    } else if (strcmp(@n,"%1") ==0) {
+    } else if (streq(@n,"%1")) {
 	o_rem1(o_continue, o_continue, append_TDF(&@first,1),
 	       append_TDF(&@second,1));
-    } else if (strcmp(@n,"*") ==0) {
+    } else if (streq(@n,"*")) {
 	o_mult(o_wrap, append_TDF(&@first,1), append_TDF(&@second,1));
-    } else if (strcmp(@n,"+") ==0) {
+    } else if (streq(@n,"+")) {
 	o_plus(o_wrap, append_TDF(&@first,1), append_TDF(&@second,1));
-    } else if (strcmp(@n,"-") ==0) {
+    } else if (streq(@n,"-")) {
 	o_minus(o_wrap, append_TDF(&@first,1), append_TDF(&@second,1));
-    } else if (strcmp(@n,"/") ==0) {
+    } else if (streq(@n,"/")) {
 	o_div2(o_continue, o_continue, append_TDF(&@first,1),
 	       append_TDF(&@second,1));
-    } else if (strcmp(@n,"/1") ==0) {
+    } else if (streq(@n,"/1")) {
 	o_div1(o_continue, o_continue, append_TDF(&@first,1),
 	       append_TDF(&@second,1));
-    } else if (strcmp(@n,"<<") ==0) {
+    } else if (streq(@n,"<<")) {
 	o_shift_left(o_wrap, append_TDF(&@first,1), append_TDF(&@second,1));
-    } else if (strcmp(@n,"F*") ==0) {
+    } else if (streq(@n,"F*")) {
 	o_floating_mult(o_continue,
 	    { LIST_ELEM(append_TDF(&@first,1));
 	    LIST_ELEM(append_TDF(&@second,1))});
-    } else if (strcmp(@n,">>") ==0) {
+    } else if (streq(@n,">>")) {
 	o_shift_right(append_TDF(&@first,1), append_TDF(&@second,1));
-    } else if (strcmp(@n,"F+") ==0) {
+    } else if (streq(@n,"F+")) {
 	o_floating_plus(o_continue,
 	    { LIST_ELEM(append_TDF(&@first,1));
 	    LIST_ELEM(append_TDF(&@second,1))});
-    } else if (strcmp(@n,"F-") ==0) {
+    } else if (streq(@n,"F-")) {
 	o_floating_minus(o_continue, append_TDF(&@first,1),
 			 append_TDF(&@second,1));
-    } else if (strcmp(@n,"F/") ==0) {
+    } else if (streq(@n,"F/")) {
 	o_floating_div(o_continue, append_TDF(&@first,1),
 		       append_TDF(&@second,1));
     } else { fail("%s not an arithop", @n); }
@@ -1521,18 +1522,18 @@ extern unsigned long MINOR_NO;
 
 <ntest2> :() -> () = @{
     char * n = lex_v.val.name;
-    if (strcmp(n,"!<") ==0) { o_not_less_than; }
-    else if (strcmp(n,"!<=") ==0) { o_not_less_than_or_equal; }
-    else if (strcmp(n,"!=") ==0) { o_not_equal; }
-    else if (strcmp(n,"!>") ==0) { o_not_greater_than; }
-    else if (strcmp(n,"!>=") ==0) { o_not_greater_than_or_equal; }
-    else if (strcmp(n,"!Comparable") ==0) { o_not_comparable; }
-    else if (strcmp(n,"<") ==0) { o_less_than; }
-    else if (strcmp(n,"<=") ==0) { o_less_than_or_equal; }
-    else if (strcmp(n,"==") ==0) { o_equal; }
-    else if (strcmp(n,">") ==0) { o_greater_than; }
-    else if (strcmp(n,">=") ==0) { o_greater_than_or_equal; }
-    else if (strcmp(n,"Comparable") ==0) { o_comparable; }
+    if (streq(n,"!<")) { o_not_less_than; }
+    else if (streq(n,"!<=")) { o_not_less_than_or_equal; }
+    else if (streq(n,"!=")) { o_not_equal; }
+    else if (streq(n,"!>")) { o_not_greater_than; }
+    else if (streq(n,"!>=")) { o_not_greater_than_or_equal; }
+    else if (streq(n,"!Comparable")) { o_not_comparable; }
+    else if (streq(n,"<")) { o_less_than; }
+    else if (streq(n,"<=")) { o_less_than_or_equal; }
+    else if (streq(n,"==")) { o_equal; }
+    else if (streq(n,">")) { o_greater_than; }
+    else if (streq(n,">=")) { o_greater_than_or_equal; }
+    else if (streq(n,"Comparable")) { o_comparable; }
     else { fail("%s is not a comparison", n); }
 @};
 
@@ -1792,7 +1793,7 @@ extern unsigned long MINOR_NO;
 
 <signed_nat7_dec> :() -> (nt, hold) = @{
     SET_TDF(@hold, &@nt);
-    if (strcmp(lex_v.val.name, "+"))fail("Only + or - on NATs");
+    if (!streq(lex_v.val.name, "+"))fail("Only + or - on NATs");
 @};
 
 <signed_nat8> :(nt, hold) -> () = @{

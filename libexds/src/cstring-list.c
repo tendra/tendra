@@ -22,6 +22,8 @@
 #include <stddef.h>
 #include <string.h>
 
+#include <shared/string.h>
+
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/cstring.h>
@@ -52,7 +54,7 @@ cstring_list_contains(CStringListT *list, const char *string)
 	CStringListEntryT *entry = list->head;
 
 	while (entry != NULL) {
-		if (!strcmp(string, entry->string)) {
+		if (streq(string, entry->string)) {
 			return TRUE;
 		}
 		entry = entry->next;

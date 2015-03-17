@@ -14,26 +14,28 @@
 
 #include <string.h>
 
+#include <shared/string.h>
+
 int
 machine_toks(char *s)
 {
-	if (!strcmp(s, "__builtin_isfloat")) {
+	if (streq(s, "__builtin_isfloat")) {
 		return 1;
 	}
 
-	if (!strcmp(s, "__builtin_va_start")) {
+	if (streq(s, "__builtin_va_start")) {
 		return 1;
 	}
 
-	if (!strcmp(s, "__builtin_va_token")) {
+	if (streq(s, "__builtin_va_token")) {
 		return 1;
 	}
 
-	if (!strcmp(s, "__alpha_special")) {
+	if (streq(s, "__alpha_special")) {
 		return 1;
 	}
 
-	if (!strcmp(s, "~Sync_handler")) {
+	if (streq(s, "~Sync_handler")) {
 		return 1;
 	}
 

@@ -10,6 +10,7 @@
 #include <assert.h>
 #include <string.h>
 
+#include <shared/string.h>
 #include <shared/xalloc.h>
 #include <shared/error.h>
 
@@ -218,7 +219,7 @@ find_group(const struct zone *z, const char *name)
 	struct group_name *p;
 
 	for (p = z->groups; p != NULL; p = p->next) {
-		if (0 == strcmp(name, p->name)) {
+		if (streq(name, p->name)) {
 			return p;
 		}
 	}

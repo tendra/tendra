@@ -124,7 +124,7 @@ read_identifier(int a)
 	/* Deal with keywords */
 	t = token_buff;
 #define MAKE_KEYWORD(A, B)\
-	if (!strcmp(t, (A))) return B;
+	if (streq(t, (A))) return B;
 #include "keyword.h"
 	return lex_identifier;
 }
@@ -219,7 +219,7 @@ void
 process_file(char *nm)
 {
 	crt_line_no = 1;
-	if (nm == NULL || !strcmp(nm, "-")) {
+	if (nm == NULL || streq(nm, "-")) {
 		crt_file_name = "stdin";
 		lex_input = stdin;
 		nm = NULL;

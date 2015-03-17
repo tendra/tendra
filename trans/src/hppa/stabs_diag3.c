@@ -15,6 +15,7 @@
 #include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <reader/exp.h>
@@ -971,7 +972,7 @@ static long find_file
 {
     long i;
     for (i = 0; i < nofds; i++) {
-	if (strcmp(f, fds[i] ->file.ints.chars) == 0) return i;
+	if (streq(f, fds[i] ->file.ints.chars)) return i;
     }
     return 0;
 }
@@ -2023,7 +2024,7 @@ stab_proc(diag_descriptor *dd, exp proc, char * id, bool public)
       make_sltentry(SLT_FUNCTION, currentlno, lntt_next);
       retval = make_DNTTP_IMMEDIATE(T_INT);
       varargs = (BITS)dd->data.id.new_type->data.proc.opt_args;
-      if (strcmp(nm,"main") ==0)
+      if (streq(nm,"main"))
       {
 	 make_dnttentry(K_FUNCTION,(BITS)public, LANG_C,(BITS)0,(BITS)0,
 			varargs,(BITS)0, vt_next, vt_next+5, NIL, slt_prev,

@@ -12,6 +12,7 @@
 #include <string.h>
 
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include "read.h"
@@ -53,7 +54,7 @@
 static void
 list_action(char *nm)
 {
-    if (!strcmp(nm, ".")) {
+    if (streq(nm, ".")) {
 	output_file = stdout;
     } else {
 	output_file = fopen(nm, "w");

@@ -119,7 +119,7 @@ envvar_set(struct hash **h, const char *name, const char *value,
 	assert(value != NULL);
 
 	for (n = *h; n != NULL; n = n->next) {
-		if (0 == strcmp(name, n->name)) {
+		if (streq(name, n->name)) {
 			break;
 		}
 	}
@@ -185,7 +185,7 @@ envvar_get(struct hash *h, const char *name)
 	struct hash *n;
 
 	for (n = h; n != NULL; n = n->next) {
-		if (0 == strcmp(name, n->name)) {
+		if (streq(name, n->name)) {
 			assert(n->value != NULL);
 
 			return n->value;

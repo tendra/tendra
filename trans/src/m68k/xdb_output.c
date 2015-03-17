@@ -12,6 +12,7 @@
 
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 
 #include <reader/exp.h>
 
@@ -117,7 +118,7 @@ void init_diag
     uname(&u);
     os = u.sysname;
     vs = atof(u.release);
-    if (strcmp(os, "HP-UX") == 0) {
+    if (streq(os, "HP-UX")) {
 	diag = (vs >= 7.40 ? DIAG_XDB_NEW : DIAG_XDB_OLD);
     } else {
 	error(ERR_INTERNAL, "diagnostic format not recognised");
@@ -484,7 +485,7 @@ void diag_proc_main
 	asm_fprintf(diagfp2, "%d,1,", is_glob);
 	if (diag == DIAG_XDB_NEW)asm_fprintf(diagfp2, "0,0,0,0,0,");
 	diag_string(diagfp2, id);
-	if (strcmp(id, "main") == 0) {
+	if (streq(id, "main")) {
 	    asm_fprintf(diagfp2, ",");
 	    diag_string(diagfp2, "_MAIN_");
 	    asm_fprintf(diagfp2, ",");

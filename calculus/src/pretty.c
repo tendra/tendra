@@ -12,6 +12,7 @@
 #include <string.h>
 
 #include <shared/error.h>
+#include <shared/string.h>
 
 #define calculus_IO_ROUTINES
 #include "calculus.h"
@@ -64,7 +65,7 @@ pretty_file(char *nm)
 
     /* Open file */
     FILE *f;
-    if (!strcmp(nm, ".")) {
+    if (streq(nm, ".")) {
 	f = stdout;
     } else {
 	f = fopen(nm, "w");

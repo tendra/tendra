@@ -9,6 +9,7 @@
 
 #include <shared/bool.h>
 #include <shared/check.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <tdf/magic.h>
@@ -132,7 +133,7 @@ find_high_sort(char *nm)
 	for (i = 0; i < crt_high_sort; i++) {
 		high_sort *p = high_sorts + i;
 
-		if (strcmp(nm, p->name) == 0)
+		if (streq(nm, p->name))
 			return p->id;
 	}
 

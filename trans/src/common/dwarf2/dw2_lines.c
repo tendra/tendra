@@ -12,6 +12,7 @@
 #include <time.h>
 
 #include <shared/check.h>
+#include <shared/string.h>
 
 #include <local/dw2_config.h>
 #include <local/szs_als.h>
@@ -101,8 +102,8 @@ do_statprog_prologue(long l_start, long l_end)
 		/* output directories */
 		f_trace = all_files;
 		while (f_trace != f_list) {
-			if (!strcmp(f_list->file_path, f_trace->file_path) &&
-			    !strcmp(f_list->file_host, f_trace->file_host)) {
+			if (streq(f_list->file_path, f_trace->file_path) &&
+			    streq(f_list->file_host, f_trace->file_host)) {
 				break;
 			}
 			f_trace = f_trace->another;

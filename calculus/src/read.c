@@ -208,11 +208,11 @@ read_file(char *nm)
 
     /* Confirm file header */
     s = READ_string();
-    if (!!strcmp(s, calculus_NAME)) {
+    if (!streq(s, calculus_NAME)) {
 	error(ERR_FATAL, "Invalid file header identifier");
     }
     s = READ_string();
-    if (!!strcmp(s, calculus_VERSION)) {
+    if (!streq(s, calculus_VERSION)) {
 	error(ERR_FATAL, "Invalid file header version, '%s'", s);
     }
 

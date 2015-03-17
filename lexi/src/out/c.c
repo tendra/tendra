@@ -127,7 +127,7 @@ out_keyword(struct keyword *kw, void *opaque)
 {
 	IGNORE opaque;
 
-	printf("\tif (0 == strcmp(identifier, \"%s\")) return ", kw->name);
+	printf("\tif (streq(identifier, \"%s\")) return ", kw->name);
 
 	switch (kw->cmd->kind) {
 	case CMD_RETURN:

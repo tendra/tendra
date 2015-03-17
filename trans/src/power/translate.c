@@ -88,6 +88,7 @@
 
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <reader/externs.h>		/* for "inits.h" init_XXX() procs */
@@ -231,7 +232,7 @@ void translate_capsule(void)
 	else
 	{
 #if 1
-	  if (strcmp(id, "environ") == 0)
+	  if (streq(id, "environ"))
 	  {
 	    /*
 	     * Kludge for environ, .extern for .csect, AIX 3.1.5 ld/library bug maybe?
@@ -377,8 +378,8 @@ void translate_capsule(void)
      * generate a .toc entry so it can be addressed 
      * +++ differentiate proc descriptor/entry point usage 
      */
-    if (no(tg) > 0 || strcmp(id,"__TDFhandler")==0 
-	|| strcmp(id,"__TDFstacklim")==0)
+    if (no(tg) > 0 || streq(id,"__TDFhandler") 
+	|| streq(id,"__TDFstacklim"))
     {
       bool extnamed = crt_def->extnamed;
       char *storage_class;
@@ -396,7 +397,7 @@ void translate_capsule(void)
 	storage_class = "";		/* this module */
       }
 #if 1
-      if (strcmp(id, "environ") == 0 && environ_externed )
+      if (streq(id, "environ") && environ_externed )
       {
 	/* kludge for environ, .extern for .csect, IBM ld/library bug maybe? */
 	storage_class = "[RW]";
@@ -730,7 +731,7 @@ baseoff find_tg(char *n)
   for (i = 0; i < total_no_of_globals; i++) {
     char *id = main_globals[i] -> dec_id;
     tg = main_globals[i] -> dec_exp;
-    if (strcmp(id, n) == 0) return boff(tg);
+    if (streq(id, n)) return boff(tg);
   }
   printf("%s\n", n);
   error(ERR_SERIOUS, "Extension name not declared ");

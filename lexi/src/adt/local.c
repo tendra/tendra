@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <adt/local.h>
@@ -32,7 +33,7 @@ local_find(struct local *locals, char *name)
 	struct local *p;
 
 	for (p = locals; p != NULL; p = p->next) {
-		if (0 == strcmp(p->name, name)) {
+		if (streq(p->name, name)) {
 			return p->et;
 		}
 	}

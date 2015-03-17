@@ -12,6 +12,7 @@
 
 #include <shared/bool.h>
 #include <shared/check.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 #include <shared/error.h>
 
@@ -157,7 +158,7 @@ arg_first_duplicate_ident(struct arg *args)
 				continue;
 			}
 
-			if (0 == strcmp(p->u.literal, q->u.literal)) {
+			if (streq(p->u.literal, q->u.literal)) {
 				return p->u.literal;
 			}
 		}

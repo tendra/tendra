@@ -9,6 +9,7 @@
 
 #include <shared/bool.h>
 #include <shared/check.h>
+#include <shared/string.h>
 
 #include <tdf/magic.h>
 
@@ -158,7 +159,7 @@ help(char *nm)
     func_help = func_input;
 
     /* Check for "help all" */
-    if (strcmp(nm, "all") == 0) {
+    if (streq(nm, "all")) {
 	for (s = 0; s < SORT_no; s++) {
 	    if (s != SORT_sortname) {
 		sort_table(cons_hash_tables, s);
@@ -184,7 +185,7 @@ help(char *nm)
 	    if (sorted) {
 		p = cons_hash_tables[hash_size * s];
 		for (; p; p = p->next) {
-		    if (strcmp(nm, p->name) == 0) {
+		    if (streq(nm, p->name)) {
 			output_help(p);
 			return;
 		    }
@@ -194,7 +195,7 @@ help(char *nm)
     }
 
     /* Check for "help sort" */
-    if (strcmp(nm, "alignment_sort") == 0)
+    if (streq(nm, "alignment_sort"))
 	    nm = "alignment";
     p = search_cons_hash(nm, SORT_sortname);
     if (p) {

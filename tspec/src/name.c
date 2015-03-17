@@ -298,7 +298,7 @@ src_name(char *api, char *file, char *subset)
 		int n;
 		nm = string_printf(SOURCE_FILE, output_dir, dir, api, strip_extension(basename(file)));
 		n = (int) strlen(nm) - 4;
-		if (n >= 0 && strcmp(nm + n, ".h.c") == 0) {
+		if (n >= 0 && streq(nm + n, ".h.c")) {
 			IGNORE strcpy(nm + n, ".c");
 		}
     } else {
@@ -346,7 +346,7 @@ block_name(char *api, char *file, char *subset)
 		IGNORE sprintf(buffer, "%s__%s__%s", pfx, api, strip_extension(file));
 		/* remove any trailing ".h" */
 		len = (int) strlen(buffer);
-		if (strcmp(buffer + len - 2, ".h") == 0) {
+		if (streq(buffer + len - 2, ".h")) {
 			buffer[len - 2] = '\0';
 		}
 	} else {

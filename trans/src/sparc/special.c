@@ -13,6 +13,7 @@
 
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 
 #include <reader/exp.h>
 #include <reader/code.h>
@@ -54,25 +55,25 @@
 static int 
 specno ( char * n )
 {
-    if ( strcmp ( n, "___builtin_strcpy" ) == 0 ||
-	 strcmp ( n, "___TDF_builtin_strcpy" ) == 0 ) {
+    if ( streq( n, "___builtin_strcpy" ) ||
+	 streq( n, "___TDF_builtin_strcpy" ) ) {
 	return -1;
     }
 
-    if ( strcmp ( n, "___builtin_asm" ) == 0 ||
-	 strcmp ( n, "___TDF_builtin_asm" ) == 0 ) {
+    if ( streq( n, "___builtin_asm" ) ||
+	 streq( n, "___TDF_builtin_asm" ) ) {
 	return 4;
     }
 
-    if ( strcmp ( n, "___builtin_alloca" ) == 0 ||
-	 strcmp ( n, "___TDF_builtin_alloca" ) == 0 ) {
+    if ( streq( n, "___builtin_alloca" ) ||
+	 streq( n, "___TDF_builtin_alloca" ) ) {
 	return 5;
     }
 
 #if 0
     /* Could be made special */
-    if ( strcmp ( n, "strlen" ) == 0 ) return 2;
-    if ( strcmp ( n, "strcmp" ) == 0 ) return -3;
+    if ( streq( n, "strlen" ) ) return 2;
+    if ( streq( n, "strcmp" ) ) return -3;
 #endif
 
     return 0;
@@ -208,10 +209,10 @@ specialopt ( exp fn )
 
 	/* The following list corresponds to #pragma unknown_control_flow
 	   in SunOS 4.1.1 /usr/include */
-	if ( ( strcmp ( extname, "vfork" ) == 0 ) ||
-	     ( strcmp ( extname, "setjmp" ) == 0 ) ||
-	     ( strcmp ( extname, "_setjmp" ) == 0 ) ||
-	     ( strcmp ( extname, "sigsetjmp" ) == 0 ) ) {
+	if ( ( streq( extname, "vfork" ) ) ||
+	     ( streq( extname, "setjmp" ) ) ||
+	     ( streq( extname, "_setjmp" ) ) ||
+	     ( streq( extname, "sigsetjmp" ) ) ) {
 	    return 1;
 	}
     }

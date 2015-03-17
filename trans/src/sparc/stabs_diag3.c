@@ -14,6 +14,7 @@
 #include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <reader/exp.h>
@@ -175,7 +176,7 @@ find_file(char * f)
 	long i;
 
 	for (i = 0; i < nofds; i++) {
-		if (strcmp(f, fds[i]->file.ints.chars) == 0) {
+		if (streq(f, fds[i]->file.ints.chars)) {
 			return i;
 		}
 	}

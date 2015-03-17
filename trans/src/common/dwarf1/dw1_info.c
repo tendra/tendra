@@ -11,6 +11,7 @@
 #include <string.h>
 
 #include <shared/error.h>
+#include <shared/string.h>
 
 #include <main/driver.h>
 #include <main/print.h>
@@ -273,7 +274,7 @@ dw1_output_diag(diag_info *d, int proc_no, exp e)
 		case DIAG_INFO_TAG:
 			fprintf(stderr, "diag_info_tag named %s\n",
 				TDFSTRING2CHAR(d->data.tag_scope.nme));
-			if (!strcmp(TDFSTRING2CHAR(d->data.tag_scope.nme),
+			if (streq(TDFSTRING2CHAR(d->data.tag_scope.nme),
 				    TDFSTRING2CHAR(d->data.tag_scope.typ->data.t_struct.nme)))
 			{
 				fprintf(stderr, "diag type gives name as %s\n",

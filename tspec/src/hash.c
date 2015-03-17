@@ -9,6 +9,7 @@
 
 
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <time.h>
@@ -104,7 +105,7 @@ lookup_hash(hash_table *t, char *nm, int v, int h)
 	hash_elem *e;
 
 	for (e = t->array [h]; e != NULL; e = e->next) {
-		if (0 != strcmp(nm, e->obj->name)) {
+		if (!streq(nm, e->obj->name)) {
 			continue;
 		}
 

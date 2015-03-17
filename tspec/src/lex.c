@@ -636,7 +636,7 @@ print_posn(FILE *output)
 {
 	static char *last_filename = "";
 
-	if (0 != strcmp(filename, last_filename)) {
+	if (!streq(filename, last_filename)) {
 		IGNORE fprintf(output, "$FILE = \"%s\" ;\n", filename);
 		last_filename = filename;
 	}
@@ -739,7 +739,7 @@ preproc(FILE *output, char *api, char *file, char *subset)
 
 	/* Open the input file */
 	nm = (file ? file : MASTER_FILE);
-	if (strcmp(api, LOCAL_API) != 0) {
+	if (!streq(api, LOCAL_API)) {
 		nm = string_printf("%s/%s", api, nm);
 	}
 
@@ -851,7 +851,7 @@ preproc(FILE *output, char *api, char *file, char *subset)
 				}
 				print_posn(output);
 			} else {
-				if (strcmp(s, subset) == 0) {
+				if (streq(s, subset)) {
 					if (found) {
 						char *err = "Set '%s' already defined (line %d)";
 						error(ERR_SERIOUS, err, sn, p->line_no);

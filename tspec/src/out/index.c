@@ -13,6 +13,7 @@
 
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <out/index.h>
@@ -874,7 +875,7 @@ print_index_with(object *input, index_func fn)
 				default:
 					break;
 				}
-			} else if (0 == strcmp(c, BUILDING_MACRO)) {
+			} else if (streq(c, BUILDING_MACRO)) {
 				/* Check for the building_libs macro */
 				switch (p->u.u_iftype) {
 				case CMD_IF:

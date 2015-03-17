@@ -20,6 +20,7 @@
 
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <reader/exp.h>
@@ -127,34 +128,34 @@ rf_xcalloc(size_t count, size_t size)
 static int
 group_type(char *s)
 {
-  if (!strcmp(s, "tokdec")) {
+  if (streq(s, "tokdec")) {
     return TOKDEC_UNIT;
   }
-  if (!strcmp(s, "tokdef")) {
+  if (streq(s, "tokdef")) {
     return TOKDEF_UNIT;
   }
-  if (!strcmp(s, "aldef")) {
+  if (streq(s, "aldef")) {
     return AL_UNIT;
   }
-  if (!strcmp(s, "tagdec")) {
+  if (streq(s, "tagdec")) {
     return TAGDEC_UNIT;
   }
-  if (!strcmp(s, "tagdef")) {
+  if (streq(s, "tagdef")) {
     return TAGDEF_UNIT;
   }
-  if (!strcmp(s, "diagdef")) {		/* TDF_DIAG3 */
+  if (streq(s, "diagdef")) {		/* TDF_DIAG3 */
     return DIAGDEF_UNIT;
   }
-  if (!strcmp(s, "diagtype")) {		/* TDF_DIAG3 */
+  if (streq(s, "diagtype")) {		/* TDF_DIAG3 */
     return DIAGTYPE_UNIT;
   }
-  if (!strcmp(s, "linkinfo")) {
+  if (streq(s, "linkinfo")) {
     return LINKINFO_UNIT;
   }
-  if (!strcmp(s, "versions")) {
+  if (streq(s, "versions")) {
     return VERSIONS_UNIT;
   }
-  if (!strcmp(s, "dgcompunit")) {	/* TDF_DIAG4 */
+  if (streq(s, "dgcompunit")) {	/* TDF_DIAG4 */
     return DGCOMP_UNIT;
   }
   return UNKNOWN_UNIT;
@@ -164,19 +165,19 @@ group_type(char *s)
 static int
 links_type(char *s)
 {
-  if (!strcmp(s, "token")) {
+  if (streq(s, "token")) {
     return TOK_TYPE;
   }
-  if (!strcmp(s, "tag")) {
+  if (streq(s, "tag")) {
     return TAG_TYPE;
   }
-  if (!strcmp(s, "alignment")) {
+  if (streq(s, "alignment")) {
     return AL_TYPE;
   }
-  if (!strcmp(s, "diagtag")) {		/* TDF_DIAG3 */
+  if (streq(s, "diagtag")) {		/* TDF_DIAG3 */
     return DIAGTAG_TYPE;
   }
-  if (!strcmp(s, "dgtag")) {		/* TDF_DIAG4 */
+  if (streq(s, "dgtag")) {		/* TDF_DIAG4 */
     return DGTAG_TYPE;
   }
   return UNKNOWN_TYPE;
@@ -491,7 +492,7 @@ find_index(char *nm)
 {
   int i;
   for (i = 0; i < crt_capsule_linking.number; ++i) {
-    if (!strcmp((crt_capsule_linking.members[i]).id, nm)) {
+    if (streq((crt_capsule_linking.members[i]).id, nm)) {
       return i;
     }
   }
@@ -952,28 +953,28 @@ sortname f_dg_type;		/* TDF_DIAG4 */
 sortname
 f_foreign_sort(tdfstring foreign_name)
 {
-  if (!strcmp(foreign_name.ints.chars, "~diag_file")) {	/* TDF_DIAG3 */
+  if (streq(foreign_name.ints.chars, "~diag_file")) {	/* TDF_DIAG3 */
     return f_diag_filename;
   }
-  if (!strcmp(foreign_name.ints.chars, "~diag_type")) {	/* TDF_DIAG3 */
+  if (streq(foreign_name.ints.chars, "~diag_type")) {	/* TDF_DIAG3 */
     return f_diag_type;
   }
-  if (!strcmp(foreign_name.ints.chars, "DG")) {		/* TDF_DIAG4 */
+  if (streq(foreign_name.ints.chars, "DG")) {		/* TDF_DIAG4 */
     return f_dg;
   }
-  if (!strcmp(foreign_name.ints.chars, "DG_DIM")) {	/* TDF_DIAG4 */
+  if (streq(foreign_name.ints.chars, "DG_DIM")) {	/* TDF_DIAG4 */
     return f_dg_dim;
   }
-  if (!strcmp(foreign_name.ints.chars, "DG_FILENAME")) {/* TDF_DIAG4 */
+  if (streq(foreign_name.ints.chars, "DG_FILENAME")) {/* TDF_DIAG4 */
     return f_dg_filename;
   }
-  if (!strcmp(foreign_name.ints.chars, "DG_IDNAME")) {	/* TDF_DIAG4 */
+  if (streq(foreign_name.ints.chars, "DG_IDNAME")) {	/* TDF_DIAG4 */
     return f_dg_idname;
   }
-  if (!strcmp(foreign_name.ints.chars, "DG_NAME")) {	/* TDF_DIAG4 */
+  if (streq(foreign_name.ints.chars, "DG_NAME")) {	/* TDF_DIAG4 */
     return f_dg_name;
   }
-  if (!strcmp(foreign_name.ints.chars, "DG_TYPE")) {	/* TDF_DIAG4 */
+  if (streq(foreign_name.ints.chars, "DG_TYPE")) {	/* TDF_DIAG4 */
     return f_dg_type;
   }
   return f_foreign;
@@ -1426,20 +1427,20 @@ f_make_tokextern(tdfint internal, external ext)
   }
 
   if (replace_arith_type) {
-    if (!strcmp(s, "~arith_type")) {
+    if (streq(s, "~arith_type")) {
       t->tok_special = 1;
     }
-    if (!strcmp(s, "~promote")) {
+    if (streq(s, "~promote")) {
       t->tok_special = 1;
     }
-    if (!strcmp(s, "~sign_promote")) {
+    if (streq(s, "~sign_promote")) {
       t->tok_special = 1;
     }
-    if (!strcmp(s, "~convert")) {
+    if (streq(s, "~convert")) {
       t->tok_special = 1;
     }
   }
-  if (do_alloca && !strcmp(s, "~alloca")) {
+  if (do_alloca && streq(s, "~alloca")) {
     t->tok_special = 1;
   }
   return 0;

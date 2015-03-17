@@ -12,6 +12,7 @@
 
 #include <shared/bool.h>
 #include <shared/check.h>
+#include <shared/string.h>
 
 #include <reader/token.h>
 
@@ -46,7 +47,7 @@ static int
 check_filename(sourcemark sm)
 {
   if (main_filename) {
-      if (!strcmp(main_filename, sm.file->file.ints.chars)) {
+      if (streq(main_filename, sm.file->file.ints.chars)) {
         return 1;
       }
       return 0;

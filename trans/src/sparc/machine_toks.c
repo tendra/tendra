@@ -9,30 +9,32 @@
 
 #include <string.h>
 
+#include <shared/string.h>
+
 int
 machine_toks ( char *s )
 {
-	if (!strcmp(s, "c89.stdarg.__va_start")) {
+	if (streq(s, "c89.stdarg.__va_start")) {
 		return 1;
 	}
 
-	if (!strcmp(s, "c89.stdarg.va_arg")) {
+	if (streq(s, "c89.stdarg.va_arg")) {
 		return 1;
 	}
 
-	if (!strcmp(s, "~next_caller_offset")) {
+	if (streq(s, "~next_caller_offset")) {
 		return 1;
 	}
 
-	if (!strcmp(s, "~next_callee_offset")) {
+	if (streq(s, "~next_callee_offset")) {
 		return 1;
 	}
 
-	if (!strcmp(s, "__sparc_special")) {
+	if (streq(s, "__sparc_special")) {
 		return 1;
 	}
 
-	if (!strcmp(s, "~Sync_handler")) {
+	if (streq(s, "~Sync_handler")) {
 		return 1;
 	}
 

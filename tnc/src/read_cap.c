@@ -11,6 +11,7 @@
 
 #include <shared/bool.h>
 #include <shared/check.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <tdf/magic.h>
@@ -54,11 +55,11 @@ read_external(sortname s, bool local)
     /* Check for external name */
     if (func_input) {
 	if (word_type == INPUT_WORD) {
-	    if (strcmp(word, MAKE_STRING_EXTERN) == 0) {
+	    if (streq(word, MAKE_STRING_EXTERN)) {
 		estate = 1;
-	    } else if (strcmp(word, MAKE_UNIQUE_EXTERN) == 0) {
+	    } else if (streq(word, MAKE_UNIQUE_EXTERN)) {
 		estate = 2;
-	    } else if (strcmp(word, MAKE_CHAIN_EXTERN) == 0) {
+	    } else if (streq(word, MAKE_CHAIN_EXTERN)) {
 		estate = 3;
 	    }
 	    if (estate) {
@@ -78,11 +79,11 @@ read_external(sortname s, bool local)
 		input_error("External expected");
 		return NULL;
 	    }
-	    if (strcmp(word, MAKE_STRING_EXTERN) == 0) {
+	    if (streq(word, MAKE_STRING_EXTERN)) {
 		estate = 1;
-	    } else if (strcmp(word, MAKE_UNIQUE_EXTERN) == 0) {
+	    } else if (streq(word, MAKE_UNIQUE_EXTERN)) {
 		estate = 2;
-	    } else if (strcmp(word, MAKE_CHAIN_EXTERN) == 0) {
+	    } else if (streq(word, MAKE_CHAIN_EXTERN)) {
 		estate = 3;
 	    } else {
 		input_error("Illegal external, %s", word);
@@ -628,7 +629,7 @@ read_capsule(void)
 	}
 
 	/* Check for the local qualifier */
-	if (strcmp(word, LOCAL_DECL) == 0) {
+	if (streq(word, LOCAL_DECL)) {
 	    local = 1;
 	    read_word();
 	    if (word_type != INPUT_WORD) {
@@ -651,7 +652,7 @@ read_capsule(void)
 
 	/* Macro to aid checking */
 #define test_cmd(X, Y)\
-	if (strcmp(wtemp, cmd = (X)) == 0) {\
+	if (streq(wtemp, cmd = (X))) {\
 	    Y ;\
 	} else
 

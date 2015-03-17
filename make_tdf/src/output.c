@@ -554,25 +554,25 @@ sort_label : {
 				tag = TAG_info(ci);
 			}
 
-			if (!strcmp(s, "builtin")) return tag == info_builtin_tag;
-			if (!strcmp(s, "basic"))   return tag == info_basic_tag;
-			if (!strcmp(s, "dummy"))   return tag == info_dummy_tag;
-			if (!strcmp(s, "list"))    return tag == info_clist_tag;
-			if (!strcmp(s, "slist"))   return tag == info_slist_tag;
-			if (!strcmp(s, "option"))  return tag == info_option_tag;
+			if (streq(s, "builtin")) return tag == info_builtin_tag;
+			if (streq(s, "basic"))   return tag == info_basic_tag;
+			if (streq(s, "dummy"))   return tag == info_dummy_tag;
+			if (streq(s, "list"))    return tag == info_clist_tag;
+			if (streq(s, "slist"))   return tag == info_slist_tag;
+			if (streq(s, "option"))  return tag == info_option_tag;
 
-			if (!strcmp(s, "simple")) {
+			if (streq(s, "simple")) {
 				return tag == info_basic_tag || tag == info_dummy_tag;
 			}
 
-			if (!strcmp(s, "compound")) {
+			if (streq(s, "compound")) {
 				if (tag == info_option_tag) {
 					return 1;
 				}
 				return tag == info_clist_tag || tag == info_slist_tag;
 			}
 
-			if (!strcmp(s, "extends")) {
+			if (streq(s, "extends")) {
 				if (tag == info_basic_tag) {
 					unsigned a = DEREF_unsigned(info_basic_extend(ci));
 					if (a) {
@@ -583,7 +583,7 @@ sort_label : {
 				return 0;
 			}
 
-			if (!strcmp(s, "special")) {
+			if (streq(s, "special")) {
 				int a = 0;
 
 				if (!IS_NULL_sort(cs)) {
@@ -593,7 +593,7 @@ sort_label : {
 				return a;
 			}
 
-			if (!strcmp(s, "edge")) {
+			if (streq(s, "edge")) {
 				int a = 0;
 
 				if (!IS_NULL_sort(cs)) {
@@ -603,7 +603,7 @@ sort_label : {
 				return a;
 			}
 
-			if (!strcmp(s, "link")) {
+			if (streq(s, "link")) {
 				if (!IS_NULL_sort(cs)) {
 					string nm = DEREF_string(sort_link(cs));
 					if (nm) {
@@ -614,7 +614,7 @@ sort_label : {
 				return 0;
 			}
 
-			if (!strcmp(s, "unit")) {
+			if (streq(s, "unit")) {
 				if (!IS_NULL_sort(cs)) {
 					string nm = DEREF_string(sort_unit(cs));
 					if (nm) {
@@ -650,7 +650,7 @@ sort_label : {
 				s += 3;
 				if (!IS_NULL_sort(cs)) {
 					string nm = DEREF_string(sort_name(cs));
-					if (!strcmp(nm, s)) {
+					if (streq(nm, s)) {
 						return 1;
 					}
 				}
@@ -676,14 +676,14 @@ cons_label : {
 				kind = DEREF_unsigned(cons_kind(cc));
 			}
 
-			if (!strcmp(s, "simple"))  return kind == KIND_simple;
-			if (!strcmp(s, "token"))   return kind == KIND_token;
-			if (!strcmp(s, "cond"))    return kind == KIND_cond;
-			if (!strcmp(s, "edge"))    return kind == KIND_edge;
-			if (!strcmp(s, "foreign")) return kind == KIND_foreign;
-			if (!strcmp(s, "special")) return kind == KIND_special;
+			if (streq(s, "simple"))  return kind == KIND_simple;
+			if (streq(s, "token"))   return kind == KIND_token;
+			if (streq(s, "cond"))    return kind == KIND_cond;
+			if (streq(s, "edge"))    return kind == KIND_edge;
+			if (streq(s, "foreign")) return kind == KIND_foreign;
+			if (streq(s, "special")) return kind == KIND_special;
 
-			if (!strcmp(s, "params")) {
+			if (streq(s, "params")) {
 				if (!IS_NULL_cons(cc)) {
 					LIST(PARAMETER)p = DEREF_list(cons_pars(cc));
 					if (!IS_NULL_list(p)) {
@@ -694,7 +694,7 @@ cons_label : {
 				return 0;
 			}
 
-			if (!strcmp(s, "extends")) {
+			if (streq(s, "extends")) {
 				if (!IS_NULL_cons(cc)) {
 					if (!IS_NULL_info(ci) && IS_info_basic(ci)) {
 						unsigned b, e;
@@ -713,7 +713,7 @@ cons_label : {
 				s += 3;
 				if (!IS_NULL_cons(cc)) {
 					string nm = DEREF_string(cons_name(cc));
-					if (!strcmp(nm, s)) {
+					if (streq(nm, s)) {
 						return 1;
 					}
 				}
@@ -738,7 +738,7 @@ cons_label : {
 			goto sort_label;
 		}
 
-		if (!strcmp(s, "align")) {
+		if (streq(s, "align")) {
 			int a = 0;
 			if (!IS_NULL_par(cp)) {
 				a = DEREF_int(par_align(cp));
@@ -747,7 +747,7 @@ cons_label : {
 			return a;
 		}
 
-		if (!strcmp(s, "break")) {
+		if (streq(s, "break")) {
 			int a = 0;
 			if (!IS_NULL_par(cp)) {
 				a = DEREF_int(par_brk(cp));
@@ -756,7 +756,7 @@ cons_label : {
 			return a;
 		}
 
-		if (!strcmp(s, "intro")) {
+		if (streq(s, "intro")) {
 			int a = 0;
 			if (!IS_NULL_par(cp)) {
 				a = DEREF_int(par_intro(cp));
@@ -765,11 +765,11 @@ cons_label : {
 			return a;
 		}
 
-		if (!strcmp(s, "first")) {
+		if (streq(s, "first")) {
 			return crt_param_no == 0;
 		}
 
-		if (!strcmp(s, "last")) {
+		if (streq(s, "last")) {
 			return crt_param_no == last_param_no;
 		}
 
@@ -777,7 +777,7 @@ cons_label : {
 			s += 3;
 			if (!IS_NULL_par(cp)) {
 				string nm = DEREF_string(par_name(cp));
-				if (!strcmp(nm, s)) {
+				if (streq(nm, s)) {
 					return 1;
 				}
 			}
@@ -787,13 +787,13 @@ cons_label : {
 
 	} else {
 		/* Other conditions */
-		if (!strcmp(s, "uniq")) {
+		if (streq(s, "uniq")) {
 			return crt_unique;
 		}
-		if (!strcmp(s, "true")) {
+		if (streq(s, "true")) {
 			return 1;
 		}
-		if (!strcmp(s, "false")) {
+		if (streq(s, "false")) {
 			return 0;
 		}
 	}
@@ -835,7 +835,7 @@ output_template(SPECIFICATION spec, COMMAND cmd)
 	case cmd_loop_tag: {
 		string s = DEREF_string(cmd_loop_control(cmd));
 		COMMAND a = DEREF_cmd(cmd_loop_body(cmd));
-		if (!strcmp(s, "sort")) {
+		if (streq(s, "sort")) {
 			/* Loop over all sorts */
 			SORT ls = crt_sort;
 			SORT_INFO li = crt_info;
@@ -856,7 +856,7 @@ output_template(SPECIFICATION spec, COMMAND cmd)
 			crt_sort = ls;
 			crt_info = li;
 
-		} else if (!strcmp(s, "sort.cons")) {
+		} else if (streq(s, "sort.cons")) {
 			/* Loop over all constructs */
 			CONSTRUCT lc = crt_cons;
 			SORT_INFO ci = crt_info;
@@ -876,7 +876,7 @@ output_template(SPECIFICATION spec, COMMAND cmd)
 			}
 			crt_cons = lc;
 
-		} else if (!strcmp(s, "cons.param")) {
+		} else if (streq(s, "cons.param")) {
 			/* Loop over all parameters */
 			int np = crt_param_no;
 			int mp = last_param_no;
@@ -898,7 +898,7 @@ output_template(SPECIFICATION spec, COMMAND cmd)
 			crt_param_no = np;
 			crt_param = lp;
 
-		} else if (!strcmp(s, "param.prev")) {
+		} else if (streq(s, "param.prev")) {
 			/* Loop over all previous parameters */
 			int np = crt_param_no;
 			int mp = last_param_no;
@@ -948,7 +948,7 @@ output_template(SPECIFICATION spec, COMMAND cmd)
 			s++;
 		}
 
-		if (c == NULL && !strcmp(s, "all")) {
+		if (c == NULL && streq(s, "all")) {
 			mark_all_sorts(m);
 		} else {
 			SORT sn = find_sort(s, 0);
@@ -1000,7 +1000,7 @@ output_spec(char *nm, SPECIFICATION spec, COMMAND cmd)
 	const char *tnm = crt_file_name;
 	crt_line_no = 1;
 
-	if (nm == NULL || !strcmp(nm, "-")) {
+	if (nm == NULL || streq(nm, "-")) {
 		crt_file_name = "<stdout>";
 		output_file = stdout;
 		nm = NULL;

@@ -11,6 +11,7 @@
 
 #include <shared/bool.h>
 #include <shared/check.h>
+#include <shared/string.h>
 
 #include <tdf/magic.h>
 
@@ -163,7 +164,7 @@ read_token_name(sortname s)
 	    if (h->no_args == 0)ok = 1;
 	} else if (h->no_args) {
 	    char *ha = find_decode_string(h);
-	    if (strcmp(info->args, ha) == 0)
+	    if (streq(info->args, ha))
 		    ok = 1;
 	}
     } else if (h->id == info->res) {
@@ -388,7 +389,7 @@ read_node_aux(char *str, int strict)
 	    bool is_multibyte = 0;
 	    if (func_input) {
 		if (word_type == INPUT_WORD) {
-		    if (strcmp(word, MAKE_STRING) == 0) {
+		    if (streq(word, MAKE_STRING)) {
 			read_word();
 			if (word_type == INPUT_OPEN)is_multibyte = 1;
 		    }
@@ -397,7 +398,7 @@ read_node_aux(char *str, int strict)
 		if (word_type == INPUT_OPEN) {
 		    read_word();
 		    if (word_type == INPUT_WORD) {
-			if (strcmp(word, MAKE_STRING) == 0)
+			if (streq(word, MAKE_STRING))
 				is_multibyte = 1;
 		    }
 		}
@@ -524,7 +525,7 @@ read_node_aux(char *str, int strict)
 	wtemp = word;
     }
 
-    if (s == SORT_string && strcmp(word, MAKE_STRING) == 0) {
+    if (s == SORT_string && streq(word, MAKE_STRING)) {
 	node *q;
 	p = new_node();
 	p->cons = &string_cons;

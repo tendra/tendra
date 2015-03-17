@@ -13,6 +13,7 @@
 #include <stdlib.h>
 
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/getopt.h>
 
 #include <out/c.h>
@@ -36,7 +37,7 @@ process_lxi_file(char *path, struct ast *ast)
 
 	crt_line_no = 1;
 
-	if (path == NULL || !strcmp(path, "-")) {
+	if (path == NULL || streq(path, "-")) {
 		crt_file_name = "<stdin>";
 		input = stdin;
 		path = NULL;
@@ -131,7 +132,7 @@ main(int argc, char **argv)
 				int i;
 
 				for (i = sizeof outs / sizeof *outs - 1; i >= 0; i--) {
-					if (0 == strcmp(optarg, outs[i].lang)) {
+					if (streq(optarg, outs[i].lang)) {
 						out = &outs[i];
 						break;
 					}
@@ -213,7 +214,7 @@ main(int argc, char **argv)
 	if (out->out_all != NULL) {
 		assert(out->outfiles == 1);
 
-		if (0 != strcmp(argv[0], "-")) {
+		if (!streq(argv[0], "-")) {
 			if (!freopen(argv[0], "w", stdout)) {
 				perror(argv[0]);
 				exit(1);

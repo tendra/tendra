@@ -242,7 +242,7 @@ special_option(void)
 	}
 
 	for (i = 0; i < sizeof t / sizeof *t; i++) {
-		if (0 != strcmp(t[i].s, s)) {
+		if (!streq(t[i].s, s)) {
 			continue;
 		}
 

@@ -11,6 +11,7 @@
 #include <string.h>
 
 #include <shared/xalloc.h>
+#include <shared/string.h>
 #include <shared/error.h>
 
 #include <adt/zone.h>
@@ -39,7 +40,7 @@ find_zone(struct zone *z, char *name)
 			continue;
 		}
 
-		if (strcmp(q->name, name) == 0) {
+		if (streq(q->name, name)) {
 			return q;
 		}
 	}

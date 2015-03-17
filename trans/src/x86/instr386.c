@@ -15,6 +15,7 @@
 
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 
 #include <local/ash.h>
 #include <local/out.h>
@@ -6733,7 +6734,7 @@ void special_ins
 {
   UNUSED(dest);
 
-  if (!strcmp(id, "__trans386_special") && name(arg) == val_tag) {
+  if (streq(id, "__trans386_special") && name(arg) == val_tag) {
     switch (no(arg)) {
       case 0:
 	ins0(fwait);

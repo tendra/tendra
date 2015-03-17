@@ -22,6 +22,7 @@
 
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 
 #include <tdf/magic.h>
 
@@ -488,8 +489,8 @@ library_extract(LibraryT *library, BoolT use_basename, BoolT match_basename,
 		if (match_basename) {
 		    base_name = file_name_basename(lib_name);
 		}
-		if ((!strcmp(file_name, lib_name)) ||
-		   (match_basename && !strcmp(file_name, base_name))) {
+		if ((streq(file_name, lib_name)) ||
+		   (match_basename && streq(file_name, base_name))) {
 		    library_extract_1(capsule, use_basename);
 		    matched = TRUE;
 		}

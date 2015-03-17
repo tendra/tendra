@@ -11,6 +11,7 @@
 #include <string.h>
 
 #include <shared/error.h>
+#include <shared/string.h>
 
 #define calculus_IO_ROUTINES
 #include "read.h"
@@ -125,7 +126,7 @@ static void
 write_filename(char *s)
 {
     char *t = last_filename;
-    if (t && !strcmp(t, s)) {
+    if (t && streq(t, s)) {
 	write_bits(1,(unsigned long)1);
     } else {
 	write_bits(1,(unsigned long)0);
@@ -166,7 +167,7 @@ void
 write_file(char *nm)
 {
     /* Open file */
-    if (!strcmp(nm, ".")) {
+    if (streq(nm, ".")) {
 	error(ERR_SERIOUS, "Output file not specified");
 	return;
     }

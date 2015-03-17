@@ -11,6 +11,7 @@
 
 #include <shared/bool.h>
 #include <shared/error.h>
+#include <shared/string.h>
 
 #include "config.h"
 #include "types.h"
@@ -440,7 +441,7 @@ read_word(void)
 	pending = c;
 	word = p + 1;
 
-	if (strcmp(word, "-0") == 0)
+	if (streq(word, "-0"))
 		word = "0";
 
 	word_type = INPUT_NUMBER;

@@ -11,6 +11,7 @@
 #include <string.h>
 
 #include <shared/check.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <adt/action.h>
@@ -24,7 +25,7 @@ table_get_entry(struct entry **table, char *key)
 	assert(table != NULL);
 
 	for (e = *table; e != NULL; e = e->next) {
-		if (0 == strcmp(e->key, key)) {
+		if (streq(e->key, key)) {
 			return e;
 		}
 	}

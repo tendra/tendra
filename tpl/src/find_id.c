@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/string.h>
+
 #include "config.h"
 
 #include "util.h"
@@ -27,14 +29,14 @@ find_tag(char * n)
 {
 	Tagdec *t = tagdecs;
 	while (t != (Tagdec *)0) {
-		if (strcmp(n, t->idname.id) == 0) {
+		if (streq(n, t->idname.id)) {
 			return t;
 		}
 		t = t->next;
 	}
 	t = localdecs;
 	while (t != (Tagdec *)0) {
-		if (strcmp(n, t->idname.id) == 0) {
+		if (streq(n, t->idname.id)) {
 			break;
 		}
 		t = t->next;
@@ -48,7 +50,7 @@ find_tok(char * n)
 {
 	Tokdec * t = tokdecs;
 	while (t != (Tokdec *)0) {
-		if (strcmp(n, t->idname.id) == 0) {
+		if (streq(n, t->idname.id)) {
 			break;
 		}
 		t = t->next;
@@ -62,7 +64,7 @@ find_lab(char * n)
 {
 	Labdec *t = labdecs;
 	while (t != (Labdec *)0) {
-		if (strcmp(n, t->idname.id) == 0) {
+		if (streq(n, t->idname.id)) {
 			break;
 		}
 		t = t->next;
@@ -76,7 +78,7 @@ find_al_tag(char * n)
 {
 	Al_tagdec *t = al_tagdecs;
 	while (t != (Al_tagdec *)0) {
-		if (strcmp(n, t->idname.id) == 0) {
+		if (streq(n, t->idname.id)) {
 			break;
 		}
 		t = t->next;

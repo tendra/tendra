@@ -16,6 +16,7 @@
 
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 
 #include <local/ash.h>
 
@@ -46,11 +47,11 @@ specno( char *n)
 {
 	/* these are the procs I could do
 				   something about */
-  if    (strcmp (n, "strcpy") == 0)
+  if    (streq(n, "strcpy"))
           return - 1;
-  if (strcmp (n, "strlen") == 0)
+  if (streq(n, "strlen"))
     return 2;
-  if (strcmp (n, "strcmp") == 0)
+  if (streq(n, "strcmp"))
     return - 3;
   return 0;
 }

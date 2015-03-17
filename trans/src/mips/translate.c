@@ -12,6 +12,7 @@
 
 #include <shared/bool.h>
 #include <shared/check.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <local/ash.h>
@@ -76,23 +77,23 @@ static bool
 not_reserved(char *id)
 {
   /* various identifier reserved by MIPS */
-  if (!strcmp(id, "edata"))
+  if (streq(id, "edata"))
     return 0;
-  if (!strcmp(id, "etext"))
+  if (streq(id, "etext"))
     return 0;
-  if (!strcmp(id, "end"))
+  if (streq(id, "end"))
     return 0;
-  if (!strcmp(id, "_ftext"))
+  if (streq(id, "_ftext"))
     return 0;
-  if (!strcmp(id, "_fdata"))
+  if (streq(id, "_fdata"))
     return 0;
-  if (!strcmp(id, "_fbss"))
+  if (streq(id, "_fbss"))
     return 0;
-  if (!strcmp(id, "_gp"))
+  if (streq(id, "_gp"))
     return 0;
-  if (!strcmp(id, "_procedure_table"))
+  if (streq(id, "_procedure_table"))
     return 0;
-  if (!strcmp(id, "_procedure_string_table"))
+  if (streq(id, "_procedure_string_table"))
     return 0;
   return 1;
 }
@@ -269,7 +270,7 @@ void translate_capsule
     for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
         exp crt_exp = my_def -> dec_exp;
 	char * id = my_def -> dec_id;
-	if (strcmp(id, "main") ==0 && son(crt_exp)!= NULL &&
+	if (streq(id, "main") && son(crt_exp)!= NULL &&
 		name(son(crt_exp)) == proc_tag) {
 	   exp fn = me_obtain(find_named_tg("__DO_I_TDF", f_proc));
 	   exp cll = getexp(f_top, NULL, 0, fn, NULL, 0, 0, apply_tag);
@@ -421,8 +422,8 @@ void translate_capsule
     diag_descriptor * dinf = main_globals[i] -> diag_info;
     main_globals[i] ->sym_number = i;
     if (no(tg)!= 0 || (extnamed && son(tg)!= NULL)
-		|| strcmp(id,"__TDFhandler") == 0
-		|| strcmp(id,"__TDFstacklim") ==0
+		|| streq(id,"__TDFhandler")
+		|| streq(id,"__TDFstacklim")
 	) {
      	if (no(tg) ==1 && son(tg) ==NULL && dinf != NULL /* diagnostics only! */ ) {
     		symnos[i] = -1;
@@ -479,7 +480,7 @@ void translate_capsule
     exp tg = my_def -> dec_exp;
     char *id = my_def -> dec_id;
     bool extnamed = my_def -> extnamed;
-    if (son (tg) != NULL && (extnamed || no (tg) != 0 || !strcmp (id, "main"))) {
+    if (son (tg) != NULL && (extnamed || no (tg) != 0 || streq (id, "main"))) {
       if (extnamed) {
 	if (as_file)
 	  asm_printop(".globl %s", id);

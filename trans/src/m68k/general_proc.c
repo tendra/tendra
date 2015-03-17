@@ -14,6 +14,7 @@
 #include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 
 #include <local/szs_als.h>
 #include <local/ash.h>
@@ -202,7 +203,7 @@ void gcproc
   area(ptext);
   make_instr(m_as_align4, NULL, NULL, 0);
   if (is_ext && pname) {
-     if (strcmp(pname, "_cmppt") == 0) {
+     if (streq(pname, "_cmppt")) {
         /* Hack to get alignments right */
       make_instr(m_nop, NULL, NULL, 0);
       make_instr(m_nop, NULL, NULL, 0);
@@ -216,7 +217,7 @@ void gcproc
      make_label(cname);
   }
 
-  if (! strcmp(pname, "_main")) {
+  if (streq(pname, "_main")) {
      asm_comment("Do Dynamic Initialization");
      op1 = make_extern_ind("___TDF_main",0);
      make_instr(m_call,op1,NULL,0);

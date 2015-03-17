@@ -157,7 +157,7 @@ read_env(const char *nm)
 		}
 
 		/* +FLAG is a special case */
-		if (0 == strcmp(name, "FLAG")) {
+		if (streq(name, "FLAG")) {
 			list *opts;
 
 			/* TODO: only permit the order to be HASH_APPEND */

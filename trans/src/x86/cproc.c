@@ -16,6 +16,7 @@
 
 #include <shared/bool.h>
 #include <shared/check.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #ifdef DWARF2
@@ -504,7 +505,7 @@ int cproc
 
   if (assembler != ASM_SUN && format == FORMAT_AOUT) {
 	if (pname[0]!= local_prefix[0] &&
-	!strcmp(pname + strlen(name_prefix), "main")) {
+	streq(pname + strlen(name_prefix), "main")) {
       out_main_prelude();
     }
   }
@@ -730,7 +731,7 @@ int cproc
 
   if (assembler != ASM_SUN && format == FORMAT_AOUT) {
     if (pname[0]!= local_prefix[0] &&
-	!strcmp(pname + strlen(name_prefix), "main")) {
+	streq(pname + strlen(name_prefix), "main")) {
       out_main_postlude();
     }
   }

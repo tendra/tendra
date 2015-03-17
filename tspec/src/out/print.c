@@ -1053,7 +1053,7 @@ print_object(FILE *output, object *input, int pass)
 			i = q->u.u_info;
 			b = BUILDING_MACRO;
 
-			if (0 == strcmp(i->api, LOCAL_API)) {
+			if (streq(i->api, LOCAL_API)) {
 				break;
 			}
 
@@ -1106,7 +1106,7 @@ print_object(FILE *output, object *input, int pass)
 			object *q = p->u.u_obj;
 			info *i = q->u.u_info;
 
-			if (strcmp(i->api, LOCAL_API) == 0) {
+			if (streq(i->api, LOCAL_API)) {
 				if (ifs[0].dir != CMD_END) {
 					print_ifs(output, ifs);
 				}
@@ -1221,7 +1221,7 @@ print_object2(FILE *output, object *input)
 			object *q = p->u.u_obj;
 			info *i = q->u.u_info;
 
-			if (strcmp(i->api, LOCAL_API) == 0) {
+			if (streq(i->api, LOCAL_API)) {
 				if (ifs[0].dir != CMD_END) {
 					print_ifs(output, ifs);
 				}
@@ -1280,7 +1280,7 @@ scan_object1(object *input)
 		q = p->u.u_obj;
 		i = q->u.u_info;
 
-		if (0 == strcmp(i->api, LOCAL_API)) {
+		if (streq(i->api, LOCAL_API)) {
 			scan_object1(i->elements);
 		} else {
 			print_set(p, 1);
@@ -1309,7 +1309,7 @@ print_set(object *input, int pass)
 
 	column = 0;
 
-	if (0 == strcmp(i->api, LOCAL_API)) {
+	if (streq(i->api, LOCAL_API)) {
 		if (pass != 0) {
 			return;
 		}
@@ -1429,7 +1429,7 @@ print_set(object *input, int pass)
 			bool is_cpplus = 0;
 
 			if (i->linkage) {
-				if (strcmp(i->linkage, "C++") == 0) {
+				if (streq(i->linkage, "C++")) {
 					OUT(output, "extern \"%s\" {\n\n", i->linkage);
 					is_cpplus = 1;
 				} else {

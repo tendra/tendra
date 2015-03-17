@@ -11,6 +11,7 @@
 
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 
 #include <local/ash.h>
 
@@ -254,7 +255,7 @@ void libcall
     /* nb. float_to_unsigned was a macro, and not defined for -D SUN */
 #if 0 /*float_to_unsigned*/
     int lab;
-    if ((have_overflow() || have_continue()) && !strcmp(nm,float_to_unsigned)) {
+    if ((have_overflow() || have_continue()) && streq(nm,float_to_unsigned)) {
       /* we need to ensure that the value in %fp0 is not outside the valid
 	 range for an unsigned int, otherwise there will be a floating
 	 point exception in the library routine. */
@@ -274,7 +275,7 @@ void libcall
     make_instr(m_call, p, NULL, ~save_msk);
     no_calls++;
 #if 0
-    if (have_continue() && !strcmp(nm,float_to_unsigned)) {
+    if (have_continue() && streq(nm,float_to_unsigned)) {
       make_label(lab);
     }
 #endif

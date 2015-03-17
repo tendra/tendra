@@ -93,13 +93,13 @@ read_template(FILE *f, COMMAND p)
 	    }
 	    s2 = get_command(&s);
 	    s3 = get_command(&s);
-	    if (!strcmp(s1, "if")) {
+	    if (streq(s1, "if")) {
 		if (s2 == NULL) {
 		    error(ERR_SERIOUS, "Incomplete '@%s' command", s1);
 		    s2 = "true";
 		}
 		MAKE_cmd_cond(ln2, s2, NULL_cmd, NULL_cmd, r);
-	    } else if (!strcmp(s1, "else")) {
+	    } else if (streq(s1, "else")) {
 		if (IS_cmd_cond(p)) {
 		    COMMAND v = DEREF_cmd(cmd_cond_true_code(p));
 		    if (!IS_NULL_cmd(v)) {
@@ -114,27 +114,27 @@ read_template(FILE *f, COMMAND p)
 		    error(ERR_SERIOUS, "Misplaced '@%s' command", s1);
 		}
 		s3 = s2;
-	    } else if (!strcmp(s1, "endif")) {
+	    } else if (streq(s1, "endif")) {
 		if (IS_cmd_cond(p)) {
 		    go = 0;
 		} else {
 		    error(ERR_SERIOUS, "Misplaced '@%s' command", s1);
 		}
 		s3 = s2;
-	    } else if (!strcmp(s1, "loop")) {
+	    } else if (streq(s1, "loop")) {
 		if (s2 == NULL) {
 		    error(ERR_SERIOUS, "Incomplete '@%s' command", s1);
 		    s2 = "false";
 		}
 		MAKE_cmd_loop(ln2, s2, NULL_cmd, r);
-	    } else if (!strcmp(s1, "end")) {
+	    } else if (streq(s1, "end")) {
 		if (IS_cmd_loop(p)) {
 		    go = 0;
 		} else {
 		    error(ERR_SERIOUS, "Misplaced '@%s' command", s1);
 		}
 		s3 = s2;
-	    } else if (!strcmp(s1, "comment")) {
+	    } else if (streq(s1, "comment")) {
 		s3 = NULL;
 	    } else {
 		error(ERR_SERIOUS, "Unknown command, '@%s'", s1);
@@ -194,7 +194,7 @@ eval_cond(char *s)
 	/* Negate condition */
 	return !eval_cond(s + 1);
     }
-    if (!strcmp(s, "comp.complex")) {
+    if (streq(s, "comp.complex")) {
 	/* Complex component type */
 	if (HAVE_COMPONENT) {
 	    TYPE_P_P pt = cmp_type(CRT_COMPONENT);
@@ -203,7 +203,7 @@ eval_cond(char *s)
 	}
 	return 0;
     }
-    if (!strcmp(s, "comp.default")) {
+    if (streq(s, "comp.default")) {
 	/* Component default value */
 	if (HAVE_COMPONENT) {
 	    string_P pv = cmp_name(CRT_COMPONENT);
@@ -212,13 +212,13 @@ eval_cond(char *s)
 	}
 	return 0;
     }
-    if (!strcmp(s, "token")) {
+    if (streq(s, "token")) {
 	    return token_cond;
     }
-    if (!strcmp(s, "true")) {
+    if (streq(s, "true")) {
 	    return 1;
     }
-    if (!strcmp(s, "false")) {
+    if (streq(s, "false")) {
 	    return 0;
     }
     error(ERR_SERIOUS, "Unknown condition, '%s'", s);
@@ -256,41 +256,41 @@ write_template(COMMAND cmd)
 	    case cmd_loop_tag: {
 		string s = DEREF_string(cmd_loop_control(cmd));
 		COMMAND a = DEREF_cmd(cmd_loop_body(cmd));
-		if (!strcmp(s, "enum")) {
+		if (streq(s, "enum")) {
 		    LOOP_ENUM write_template(a);
-		} else if (!strcmp(s, "enum.const")) {
+		} else if (streq(s, "enum.const")) {
 		    if (HAVE_ENUM) {
 			LOOP_ENUM_CONST write_template(a);
 		    }
-		} else if (!strcmp(s, "identity")) {
+		} else if (streq(s, "identity")) {
 		    LOOP_IDENTITY write_template(a);
-		} else if (!strcmp(s, "primitive")) {
+		} else if (streq(s, "primitive")) {
 		    LOOP_PRIMITIVE write_template(a);
-		} else if (!strcmp(s, "struct")) {
+		} else if (streq(s, "struct")) {
 		    LOOP_STRUCTURE write_template(a);
-		} else if (!strcmp(s, "struct.comp")) {
+		} else if (streq(s, "struct.comp")) {
 		    if (HAVE_STRUCTURE) {
 			LOOP_STRUCTURE_COMPONENT write_template(a);
 		    }
-		} else if (!strcmp(s, "union")) {
+		} else if (streq(s, "union")) {
 		    LOOP_UNION write_template(a);
-		} else if (!strcmp(s, "union.comp")) {
+		} else if (streq(s, "union.comp")) {
 		    if (HAVE_UNION) {
 			LOOP_UNION_COMPONENT write_template(a);
 		    }
-		} else if (!strcmp(s, "union.field")) {
+		} else if (streq(s, "union.field")) {
 		    if (HAVE_UNION) {
 			LOOP_UNION_FIELD write_template(a);
 		    }
-		} else if (!strcmp(s, "union.field.comp")) {
+		} else if (streq(s, "union.field.comp")) {
 		    if (HAVE_UNION && HAVE_FIELD) {
 			LOOP_FIELD_COMPONENT write_template(a);
 		    }
-		} else if (!strcmp(s, "union.map")) {
+		} else if (streq(s, "union.map")) {
 		    if (HAVE_UNION) {
 			LOOP_UNION_MAP write_template(a);
 		    }
-		} else if (!strcmp(s, "union.map.arg")) {
+		} else if (streq(s, "union.map.arg")) {
 		    if (HAVE_UNION && HAVE_MAP) {
 			LOOP_MAP_ARGUMENT write_template(a);
 		    }
@@ -337,7 +337,7 @@ template_file(char *in, char *out)
     MAKE_cmd_simple(1, "<dummy>", cmd);
     cmd = read_template(input_file, cmd);
     fclose(input_file);
-    if (!strcmp(out, ".")) {
+    if (streq(out, ".")) {
 	output_file = stdout;
     } else {
 	output_file = fopen(out, "w");

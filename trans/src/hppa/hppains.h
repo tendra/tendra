@@ -16,11 +16,6 @@
 **  require. Not all the instruction set is included.  **/
 
 
-/* Personal preferences */
-
-#define STRCMP(S1,S2) !strcmp((S1),(S2))
-
-
 /* Types representing instructions */
 
 typedef const char ins_t [] ;

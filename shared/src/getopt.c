@@ -11,6 +11,7 @@
 #include <string.h>
 
 #include <shared/getopt.h>
+#include <shared/string.h>
 
 #define ERR(szz, czz) if (opterr) { fprintf(stderr, "%s%s%c\n", argv[0], szz, czz); }
 
@@ -30,7 +31,7 @@ getopt(int argc, char * const *argv, const char *opts)
 			return EOF;
 		} else if (argv[optind][0] != '-' || argv[optind][1] == '\0') {
 			return EOF;
-		} else if (strcmp(argv[optind], "--") == 0) {
+		} else if (streq(argv[optind], "--")) {
 			optind++;
 			return EOF;
 		}

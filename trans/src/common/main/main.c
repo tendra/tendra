@@ -13,6 +13,7 @@
 #include <shared/check.h>
 #include <shared/getopt.h>
 #include <shared/error.h>
+#include <shared/string.h>
 
 #include <main/driver.h>
 #include <main/flags.h>
@@ -39,7 +40,7 @@ trans_fopen(const char *path, const char *mode)
 {
 	FILE *f;
 
-	if (0 == strcmp(path, "-")) {
+	if (streq(path, "-")) {
 		f = mode[0] == 'r' ? stdin : stdout;
 	} else {
 		f = fopen(path, mode);

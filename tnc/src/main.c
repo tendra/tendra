@@ -13,6 +13,7 @@
 #include <shared/check.h>
 #include <shared/error.h>
 #include <shared/getopt.h>
+#include <shared/string.h>
 
 #include <tdf/magic.h>
 
@@ -44,17 +45,17 @@ output_option(char *arg, bool t)
 {
 	bool *p = NULL;
 
-	if (strcmp(arg, "tokdecs") == 0)
+	if (streq(arg, "tokdecs"))
 		p = &show_tokdecs;
-	else if (strcmp(arg, "tokdefs") == 0)
+	else if (streq(arg, "tokdefs"))
 		p = &show_tokdefs;
-	else if (strcmp(arg, "aldecs") == 0)
+	else if (streq(arg, "aldecs"))
 		p = &show_aldecs;
-	else if (strcmp(arg, "aldefs") == 0)
+	else if (streq(arg, "aldefs"))
 		p = &show_aldefs;
-	else if (strcmp(arg, "tagdecs") == 0)
+	else if (streq(arg, "tagdecs"))
 		p = &show_tagdecs;
-	else if (strcmp(arg, "tagdefs") == 0)
+	else if (streq(arg, "tagdefs"))
 		p = &show_tagdefs;
 
 	if (p == NULL)

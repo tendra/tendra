@@ -9,23 +9,25 @@
 
 #include <string.h>
 
+#include <shared/string.h>
+
 int
 machine_toks(char *s)
 {
-	if (!strcmp(s, "~div")) {
+	if (streq(s, "~div")) {
 		return 1;
 	}
 
-	if (!strcmp(s, "JMFprofile")) {
+	if (streq(s, "JMFprofile")) {
 		return 1;
 	}
 
-	if (!strcmp(s, "JMFinline")) {
+	if (streq(s, "JMFinline")) {
 		return 1;
 	}
 
 	/* Added for VARARGS */
-	if (!strcmp(s, "c89.stdarg.__va_start")) {
+	if (streq(s, "c89.stdarg.__va_start")) {
 		return 1;
 	}
 

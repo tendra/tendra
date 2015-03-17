@@ -56,7 +56,7 @@ do_move(filename *from, filename *to)
 		return from;
 	}
 	if (to) {
-		if (strcmp(from->name, to->name) == 0) {
+		if (streq(from->name, to->name)) {
 			return to;
 		}
 		cmd_env("MOVE");
@@ -117,7 +117,7 @@ uniq_filename(const char *nm, enum filetype t, int s, filename *input)
 	filename *q = make_filename(p, t, s);
 	uniq_tempfile = q;
 	for (p = input; p != NULL; p = p->next) {
-		if (strcmp(p->name, q->name) == 0) {
+		if (streq(p->name, q->name)) {
 			if (p->storage == TEMP_FILE) {
 				uniq_tempfile = make_filename(no_filename, t,
 							      TEMP_FILE);
@@ -811,7 +811,7 @@ do_notation(filename *input)
 		return input;
 	}
 	keep = where(INDEP_TDF);
-	if (tokdef_name != NULL && strcmp(input->name, tokdef_name) == 0) {
+	if (tokdef_name != NULL && streq(input->name, tokdef_name)) {
 		keep = TEMP_FILE;
 	}
 	output = make_filename(input, INDEP_TDF, keep);

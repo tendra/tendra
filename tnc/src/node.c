@@ -8,6 +8,7 @@
  */
 
 #include <shared/bool.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <tdf/magic.h>
@@ -119,7 +120,7 @@ eq_node_aux(node *p, node *q, construct *ap, construct *aq, int args)
 			case SORT_tdfint:
 			case SORT_tdfstring:
 				/* Check value */
-				if (strcmp(p->cons->name, q->cons->name) != 0)
+				if (!streq(p->cons->name, q->cons->name))
 					return 0;
 
 				break;
@@ -322,7 +323,7 @@ set_token_sort(construct *p, sortname rs, char *args, node *sig)
 			error = 1;
 
 		if (args) {
-			if (info->args == NULL || strcmp(args, info->args) != 0)
+			if (info->args == NULL || !streq(args, info->args))
 				error = 1;
 
 		} else

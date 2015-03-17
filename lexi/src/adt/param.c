@@ -11,6 +11,7 @@
 
 #include <shared/bool.h>
 #include <shared/check.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <adt/param.h>
@@ -40,7 +41,7 @@ param_name_is_in(struct param *params, const char *id)
 	struct param *p;
 
 	for (p = params; p != NULL; p = p->next) {
-		if (0 == strcmp(p->local_name, id)) {
+		if (streq(p->local_name, id)) {
 			return p;
 		}
 	}
@@ -136,7 +137,7 @@ param_findindex(struct param *params, const char *key)
 	int i;
 
 	for (p = params, i = 0; p != NULL; p = p->next, i++) {
-		if (0 == strcmp(p->local_name, key)) {
+		if (streq(p->local_name, key)) {
 			return i;
 		}
 	}

@@ -23,7 +23,7 @@ typedef struct{
 } instruction;
 
 
-/*#define ins_equal(insa,insb) (!strcmp(insa.ins,insb.ins))*/
+/*#define ins_equal(insa,insb) (streq(insa.ins,insb.ins))*/
 #define ins_equal(insa,insb) (insa.val == insb.val)
 #define ins_symbolic_name(inst) (inst.ins)
 #define ins_binid(ins) (ins.val)

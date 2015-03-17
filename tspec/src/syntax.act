@@ -764,7 +764,7 @@
 				/* This is a hack, do properly later */
 				@c = make_object(NULL, OBJ_TYPE);
 				@c->u.u_type = @t;
-				if (0 == strcmp ( @c->filename, @t->u.obj->filename )) {
+				if (streq ( @c->filename, @t->u.obj->filename )) {
 					@t->state = TYPE_ELSEWHERE;
 				} else {
 					@t->state = TYPE_ANOTHER;

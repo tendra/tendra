@@ -94,6 +94,7 @@
 
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <local/ash.h>
@@ -250,7 +251,7 @@ find_tg(char *n)
    {
       exp tg = main_globals[i] -> dec_exp;
       char *id = main_globals[i] -> dec_id;
-      if (strcmp(id,n) ==0)
+      if (streq(id,n))
       {
 	 return boff(tg);
       }

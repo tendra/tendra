@@ -92,6 +92,7 @@
 #include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <local/ash.h>
@@ -327,7 +328,7 @@ find_tag ( char * tag_name ){
   for (i=0; i<main_globals_index; ++i){
     exp newtag = main_globals[i]->dec_exp;
     char * id = main_globals[i]->dec_id;
-    if(!strcmp(id,tag_name)) return boff(newtag);
+    if(streq(id,tag_name)) return boff(newtag);
   }
   printf("%s\n: ",tag_name);
   error(ERR_SERIOUS, "tag not declared");
@@ -589,7 +590,7 @@ translate_capsule (void){
     char *id = d->dec_id ;
     bool extnamed = ( bool ) d->extnamed ;
     if ( stg != NULL && (extnamed || no(tg)!= 0 ||
-	 !strcmp(id,TDF_HANDLER) || !strcmp(id,TDF_STACKLIM))) {
+	 streq(id,TDF_HANDLER) || streq(id,TDF_STACKLIM))) {
       if ( extnamed ) {
 	assert ( id [ 0 ] != '$' ) ;
 	if ( name ( stg ) != proc_tag && name(stg)!=general_proc_tag) {

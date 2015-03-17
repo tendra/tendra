@@ -35,7 +35,7 @@ dep_contains(const struct dep *deps, const char *api)
 	const struct dep *p;
 
 	for (p = deps; p != NULL; p = p->next) {
-		if (0 == strcmp(p->api, api)) {
+		if (streq(p->api, api)) {
 			return 1;
 		}
 	}

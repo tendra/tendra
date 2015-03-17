@@ -13,6 +13,7 @@
 #include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <local/szs_als.h>
@@ -531,7 +532,7 @@ void fixup_name(exp global, dec * top_def, dec * crt_def)
   /* search def chain to see if name is already used as assembler label */
   for (d = top_def; d != crt_def && d != NULL; d = d->def_next)
   {
-    if (strcmp(nm, d->dec_id) == 0)
+    if (streq(nm, d->dec_id))
     {
 
       /*
@@ -672,7 +673,7 @@ static int find_file(char *f)
 
   for (i = 0; i < nofds; i++)
   {
-    if (strcmp(f, CSTRING(fds[i] ->file)) == 0)
+    if (streq(f, CSTRING(fds[i] ->file)))
     {
       return i;
     }
@@ -948,7 +949,7 @@ static bool eq_sutype(diag_type a, diag_type b)
     return 0;
   }
 
-  if (strcmp(CSTRING(a->data.t_struct.nme), CSTRING(b->data.t_struct.nme)))
+  if (!streq(CSTRING(a->data.t_struct.nme), CSTRING(b->data.t_struct.nme)))
   {
     return 0;
   }
@@ -963,7 +964,7 @@ static bool eq_sutype(diag_type a, diag_type b)
     diag_field sfa = (fa->array)[j];
     diag_field sfb = (fb->array)[j];
 
-    if (strcmp(CSTRING(sfa->field_name), CSTRING(sfb->field_name)))
+    if (!streq(CSTRING(sfa->field_name), CSTRING(sfb->field_name)))
     {
       return 0;
     }
@@ -977,7 +978,7 @@ static bool eq_typedef_type(diag_descriptor * a, diag_descriptor * b)
     return 1;
   }
 
-  if (strcmp(CSTRING(a->data.typ.nme),CSTRING(b->data.typ.nme)) ==0)
+  if (streq(CSTRING(a->data.typ.nme),CSTRING(b->data.typ.nme)))
   {
     return 1;
   }

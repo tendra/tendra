@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
 	}
 
 	if (argc == 2) {
-		if (strcmp(argv[1], "-r") == 0) {
+		if (0 == strcmp(argv[1], "-r")) {
 			rpn = 1;
 		} else {
 			goto usage;

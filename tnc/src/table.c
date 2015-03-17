@@ -9,6 +9,7 @@
 
 #include <shared/bool.h>
 #include <shared/check.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <tdf/magic.h>
@@ -200,7 +201,7 @@ add_to_cons_hash(construct *p, sortname s)
 	construct *h = cons_hash_tables[hash_size * s + n];
 
 	for (q = h; q != NULL; q = q->next)
-		if (strcmp(p->name, q->name) == 0)
+		if (streq(p->name, q->name))
 			return q;
 
 	p->next = h;
@@ -218,7 +219,7 @@ search_cons_hash(char *p, sortname s)
 	construct *h = cons_hash_tables[hash_size * s + n];
 
 	for (q = h; q != NULL; q = q->next)
-		if (strcmp(p, q->name) == 0)
+		if (streq(p, q->name))
 			return q;
 
 	return NULL;
@@ -233,7 +234,7 @@ add_to_var_hash(construct *p, sortname s)
 	construct *h = var_hash_tables[hash_size * s + n];
 
 	for (q = h; q != NULL; q = q->next)
-		if (strcmp(p->name, q->name) == 0)
+		if (streq(p->name, q->name))
 			return q;
 
 	p->next = h;
@@ -251,7 +252,7 @@ search_var_hash(char *p, sortname s)
 	construct *h = var_hash_tables[hash_size * s + n];
 
 	for (q = h; q != NULL; q = q->next)
-		if (strcmp(p, q->name) == 0)
+		if (streq(p, q->name))
 			return q;
 
 	return NULL;
@@ -267,7 +268,7 @@ remove_var_hash(char *p, sortname s)
 	if (h == NULL)
 		return;
 
-	if (strcmp(p, h->name) == 0) {
+	if (streq(p, h->name)) {
 		/* It is the first element */
 		var_hash_tables[hash_size * s + n] = h->next;
 		h->next = removals;
@@ -278,7 +279,7 @@ remove_var_hash(char *p, sortname s)
 	}
 
 	while (h->next) {
-		if (strcmp(p, h->next->name) == 0) {
+		if (streq(p, h->next->name)) {
 			/* It is a subsequent element */
 			construct *q = h->next->next;
 

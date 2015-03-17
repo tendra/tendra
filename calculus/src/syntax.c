@@ -187,7 +187,7 @@ ZRprimary_Hexp(number *ZOn)
     while ( !IS_NULL_list ( p ) ) {
 	ECONST_P q = DEREF_ptr ( HEAD_list ( p ) ) ;
 	string s = DEREF_string ( ec_name ( q ) ) ;
-	if ( !strcmp( s, (ZIe) ) ) {
+	if ( streq( s, (ZIe) ) ) {
 	    n = DEREF_number ( ec_value ( q ) ) ;
 	    break ;
 	}
@@ -3105,7 +3105,7 @@ ZRunion_Hdefn_Hnew(CLASS_ID_P ZIi, UNION_P *ZOp)
 	    while ( !IS_NULL_list ( pp ) ) {
 		FIELD_P qq = DEREF_ptr ( HEAD_list ( pp ) ) ;
 		string nn = DEREF_string ( fld_name ( qq ) ) ;
-		if ( !strcmp( n, nn ) ) {
+		if ( streq( n, nn ) ) {
 		    COMPONENT_P_LIST cc = DEREF_list ( fld_defn ( qq ) ) ;
 		    COMPONENT_P_LIST c = DEREF_list ( fld_defn ( q ) ) ;
 		    c = ADD_list ( cc, c, SIZE_ptr ( COMPONENT ) ) ;

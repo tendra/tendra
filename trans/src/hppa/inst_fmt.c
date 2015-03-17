@@ -20,6 +20,7 @@
 
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <local/out.h>
@@ -835,7 +836,7 @@ st_ins(ins_p ins, int s, baseoff a)
 	 {
 	    char litrl[128];
 	    sprintf(litrl,"%s-$global$",symb);
-	    if (last_line==line-1 && pCode[line-1]->ins==i_ldo && !strcmp(symb,last_symb) && last_o==o)
+	    if (last_line==line-1 && pCode[line-1]->ins==i_ldo && streq(symb,last_symb) && last_o==o)
 	    {
 	       st_ir_ins(i_st,cmplt_,s,fs_R,litrl,o,GR1);
 	    }

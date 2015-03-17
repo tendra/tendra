@@ -27,6 +27,7 @@
 
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <reader/exp.h>
@@ -247,7 +248,7 @@ find_named_dec(char *n)
 
 	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
 		char *id = my_def->dec_id;
-		if (strcmp(id + strlen(name_prefix), n) == 0) {
+		if (streq(id + strlen(name_prefix), n)) {
 			return my_def;
 		}
 	}

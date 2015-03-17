@@ -12,6 +12,7 @@
 
 #include <string.h>
 
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <utility/bits.h> /* XXX */
@@ -25,7 +26,7 @@ extern bitpattern hi_bits[];
 #define  realloc_nof(PTR, TYPE, N)\
 	((TYPE *)xrealloc((PTR), (N)* sizeof(TYPE)))
 
-#define  eq(X, Y)		(!strcmp((X), (Y)))
+#define  eq(X, Y)		(streq((X), (Y)))
 #define  maximum(X, Y)	(((X) > (Y))?(X):(Y))
 #define  minimum(X, Y)	(((X) > (Y))?(Y):(X))
 #define  array_size(X)	(sizeof(X) / sizeof(X[0]))

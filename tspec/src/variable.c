@@ -9,6 +9,7 @@
 
 #include <shared/bool.h>
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <time.h>
@@ -42,13 +43,13 @@ const char *api_info;
 void
 set_string(char *v, char *s)
 {
-	if (0 == strcmp(v, "$APINAME")) {
+	if (streq(v, "$APINAME")) {
 		if (crt_object) {
 			info *i = crt_object->u.u_info;
 			i->api = s;
 			i->prefix = NULL;
 		}
-	} else if (0 == strcmp(v, "$INFO")) {
+	} else if (streq(v, "$INFO")) {
 		char *p;
 
 		for (p = s; *p != '\0'; p++) {
@@ -58,7 +59,7 @@ set_string(char *v, char *s)
 		}
 
 		api_info = s;
-	} else if (0 == strcmp(v, "$BLOCKNAME")) {
+	} else if (streq(v, "$BLOCKNAME")) {
 		if (crt_object) {
 			info *i = crt_object->u.u_info;
 			if (*s) {
@@ -67,15 +68,15 @@ set_string(char *v, char *s)
 				i->block = NULL;
 			}
 		}
-	} else if (0 == strcmp(v, "$FILE")) {
+	} else if (streq(v, "$FILE")) {
 		filename = s;
-	} else if (0 == strcmp(v, "$FILENAME")) {
+	} else if (streq(v, "$FILENAME")) {
 		if (crt_object) {
 			info *i = crt_object->u.u_info;
 			i->file = s;
 			i->prefix = NULL;
 		}
-	} else if (0 == strcmp(v, "$INCLNAME")) {
+	} else if (streq(v, "$INCLNAME")) {
 		if (crt_object) {
 			info *i = crt_object->u.u_info;
 			if (*s) {
@@ -84,7 +85,7 @@ set_string(char *v, char *s)
 				i->incl = NULL;
 			}
 		}
-	} else if (0 == strcmp(v, "$LINKAGE")) {
+	} else if (streq(v, "$LINKAGE")) {
 		if (crt_object) {
 			info *i = crt_object->u.u_info;
 			if (*s) {
@@ -93,16 +94,16 @@ set_string(char *v, char *s)
 				i->linkage = NULL;
 			}
 		}
-	} else if (0 == strcmp(v, "$METHOD")) {
+	} else if (streq(v, "$METHOD")) {
 		if (crt_object) {
 			info *i = crt_object->u.u_info;
 			i->method = s;
-			if (i->src && 0 == strcmp(s, "TNC")) {
+			if (i->src && streq(s, "TNC")) {
 				int n = (int) strlen(i->src) - 1;
 				i->src[n] = 'p';
 			}
 		}
-	} else if (0 == strcmp(v, "$NAMESPACE")) {
+	} else if (streq(v, "$NAMESPACE")) {
 		if (crt_object) {
 			info *i = crt_object->u.u_info;
 			if (*s) {
@@ -111,15 +112,15 @@ set_string(char *v, char *s)
 				i->nspace = NULL;
 			}
 		}
-	} else if (0 == strcmp(v, "$PREFIX")) {
+	} else if (streq(v, "$PREFIX")) {
 		if (crt_object) {
 			crt_object->u.u_info->prefix = s;
 		}
-	} else if (0 == strcmp(v, "$PROTECT")) {
+	} else if (streq(v, "$PROTECT")) {
 		if (crt_object) {
 			crt_object->u.u_info->protect = s;
 		}
-	} else if (0 == strcmp(v, "$SOURCENAME")) {
+	} else if (streq(v, "$SOURCENAME")) {
 		if (crt_object) {
 			info *i = crt_object->u.u_info;
 			if (*s) {
@@ -128,13 +129,13 @@ set_string(char *v, char *s)
 				i->src = NULL;
 			}
 		}
-	} else if (0 == strcmp(v, "$SUBSETNAME")) {
+	} else if (streq(v, "$SUBSETNAME")) {
 		if (crt_object) {
 			info *i = crt_object->u.u_info;
 			i->subset = s;
 			i->prefix = NULL;
 		}
-	} else if (0 == strcmp(v, "$VERSION")) {
+	} else if (streq(v, "$VERSION")) {
 		if (crt_object)crt_object->u.u_info->version = s;
 	} else {
 		error(ERR_SERIOUS, "Unknown string variable, '%s'", v);
@@ -149,15 +150,15 @@ set_string(char *v, char *s)
 void
 set_integer(char *v, int n)
 {
-	if (0 == strcmp(v, "$INTERFACE")) {
+	if (streq(v, "$INTERFACE")) {
 		if (crt_object) {
 			crt_object->u.u_info->tokens = (bool) n;
 		}
-	} else if (0 == strcmp(v, "$LINE")) {
+	} else if (streq(v, "$LINE")) {
 		crt_line_no = n;
-	} else if (0 == strcmp(v, "$UNIQUE")) {
+	} else if (streq(v, "$UNIQUE")) {
 		unique_names = (bool) n;
-	} else if (0 == strcmp(v, "$VERBOSE")) {
+	} else if (streq(v, "$VERBOSE")) {
 		verbose = n;
 	} else {
 		error(ERR_SERIOUS, "Unknown integer variable, '%s'", v);

@@ -13,6 +13,7 @@
 #include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 
 #include <main/flags.h>
 
@@ -303,7 +304,7 @@ switch_assembler(const char *s, unsigned permitted)
 	};
 
 	for (i = 0; i < sizeof a / sizeof *a; i++) {
-		if (0 == strcmp(a[i].name, s)) {
+		if (streq(a[i].name, s)) {
 			o = a[i].assembler;
 			break;
 		}
@@ -341,7 +342,7 @@ switch_format(const char *s, unsigned permitted)
 	};
 
 	for (i = 0; i < sizeof a / sizeof *a; i++) {
-		if (0 == strcmp(a[i].name, s)) {
+		if (streq(a[i].name, s)) {
 			o = a[i].format;
 			break;
 		}
@@ -412,7 +413,7 @@ switch_diag(const char *s, unsigned permitted)
 	};
 
 	for (i = 0; i < sizeof a / sizeof *a; i++) {
-		if (0 == strcmp(a[i].name, s)) {
+		if (streq(a[i].name, s)) {
 			o = a[i].diag;
 			break;
 		}
@@ -470,7 +471,7 @@ switch_cconv(const char *s, unsigned permitted)
 	};
 
 	for (i = 0; i < sizeof a / sizeof *a; i++) {
-		if (0 == strcmp(a[i].name, s)) {
+		if (streq(a[i].name, s)) {
 			o = a[i].cconv;
 			break;
 		}
@@ -516,7 +517,7 @@ switch_abi(const char *s, unsigned permitted)
 	};
 
 	for (i = 0; i < sizeof a / sizeof *a; i++) {
-		if (0 == strcmp(a[i].name, s)) {
+		if (streq(a[i].name, s)) {
 			o = a[i].abi;
 			break;
 		}

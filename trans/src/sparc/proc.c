@@ -18,6 +18,7 @@
 
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 
 #include <local/szs_als.h>
 #include <local/ash.h>
@@ -527,7 +528,7 @@ makeans make_proc_tag_code
 
     /* code for body of proc */
 #if 1
-    if (abi != ABI_SYSV && do_dynamic_init && !strcmp(proc_name,"_main")) {
+    if (abi != ABI_SYSV && do_dynamic_init && streq(proc_name,"_main")) {
       call_tdf_main();
     }
 #endif

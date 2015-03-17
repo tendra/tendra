@@ -12,6 +12,7 @@
 
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <local/dw2_config.h>
@@ -228,7 +229,7 @@ dwarf2_postlude(void)
 			dw_at_address(dw_text_start);
 			dw_at_address(text_end);
 			if (this_comp->prim_file->file_path[0] &&
-			    strcmp(this_comp->prim_file->file_path,
+			    !streq(this_comp->prim_file->file_path,
 				   this_comp->comp_dir->file_path)) {
 				dw_out_path(this_comp->prim_file, 1);
 			} else {

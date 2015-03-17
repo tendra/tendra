@@ -10,9 +10,13 @@
 
 #include "implement.h"
 #include "interface.h"
+
 #include <cstdio>
 #include <cstring>
 #include <typeinfo>
+
+#include <shared/string.h>
+
 using namespace std ;
 
 
@@ -56,7 +60,7 @@ static int is_equal_type ( TYPE_INFO *t, TYPE_INFO *s )
 	    case RTTI_union :
 	    case RTTI_enum : {
 		// Examine type names
-		if ( strcmp ( t->name, s->name ) == 0 ) return ( 1 ) ;
+		if ( streq( t->name, s->name ) ) return ( 1 ) ;
 		break ;
 	    }
 	    default : {

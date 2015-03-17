@@ -11,6 +11,7 @@
 
 #include <shared/bool.h>
 #include <shared/check.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <tdf/magic.h>
@@ -336,13 +337,13 @@ de_capsule(void)
 
 		vars[i].name = s;
 
-		if (strcmp(s, LINK_al_tag) == 0) {
+		if (streq(s, LINK_al_tag)) {
 			vars[i].sortnum = SORT_al_tag;
 			al_tag_var = i;
-		} else if (strcmp(s, LINK_tag) == 0) {
+		} else if (streq(s, LINK_tag)) {
 			vars[i].sortnum = SORT_tag;
 			tag_var = i;
-		} else if (strcmp(s, LINK_token) == 0) {
+		} else if (streq(s, LINK_token)) {
 			vars[i].sortnum = SORT_token;
 			tok_var = i;
 		} else {
@@ -498,25 +499,25 @@ de_capsule(void)
 
 			/* Find equation decoding routine */
 			if (extract_tokdecs) {
-				if (strcmp(eq, LINK_tokdec_props) == 0)
+				if (streq(eq, LINK_tokdec_props))
 					f = de_tokdec;
-				else if (strcmp(eq, LINK_tokdef_props) == 0) {
+				else if (streq(eq, LINK_tokdef_props)) {
 					f = de_tokdef;
 					in_skip_pass = 1;
 				}
 			} else {
-				if (strcmp(eq, LINK_al_tagdef_props) == 0) {
+				if (streq(eq, LINK_al_tagdef_props)) {
 					f = de_aldef;
-				} else if (strcmp(eq, LINK_tagdec_props) == 0) {
+				} else if (streq(eq, LINK_tagdec_props)) {
 					f = de_tagdec;
-				} else if (strcmp(eq, LINK_tagdef_props) == 0) {
+				} else if (streq(eq, LINK_tagdef_props)) {
 					f = de_tagdef;
-				} else if (strcmp(eq, LINK_tokdec_props) == 0) {
+				} else if (streq(eq, LINK_tokdec_props)) {
 					f = de_tokdec;
-				} else if (strcmp(eq, LINK_tokdef_props) == 0) {
+				} else if (streq(eq, LINK_tokdef_props)) {
 					f = de_tokdef;
 					skip_pass = 1;
-				} else if (strcmp(eq, LINK_version_props) == 0) {
+				} else if (streq(eq, LINK_version_props)) {
 					f = de_version;
 				}
 			}

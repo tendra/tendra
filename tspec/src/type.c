@@ -8,6 +8,7 @@
  */
 
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <time.h>
@@ -167,15 +168,15 @@ basic_type(unsigned n)
 type *
 special_type(char *s)
 {
-	if (0 == strcmp(s, "bottom")) {
+	if (streq(s, "bottom")) {
 		return type_bottom;
 	}
 
-	if (0 == strcmp(s, "printf")) {
+	if (streq(s, "printf")) {
 		return type_printf;
 	}
 
-	if (0 == strcmp(s, "scanf")) {
+	if (streq(s, "scanf")) {
 		return type_scanf;
 	}
 

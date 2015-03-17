@@ -12,6 +12,7 @@
 #include <stdio.h>
 
 #include <shared/check.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <local/ash.h>
@@ -225,7 +226,7 @@ makeans make_proc_tag_code
    pr=&procrecs[no(e)];
    ndpr=&pr->needsproc;
    pprops= (long)(ndpr->propsneeds);
-   is_main=STRCMP(proc_name,"main");
+   is_main=streq(proc_name,"main");
 
    set_up_frame(e);
 

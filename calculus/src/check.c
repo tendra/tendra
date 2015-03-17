@@ -11,6 +11,7 @@
 #include <string.h>
 
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include "calculus.h"
@@ -59,8 +60,8 @@ find_name(int n, char *a, char *b, char *c)
 {
     NAME *p;
     for (p = all_names; p != NULL; p = p->next) {
-	if (p->type == n && !strcmp(p->text[0], a) &&
-	     !strcmp(p->text[1], b) && !strcmp(p->text[2], c)) {
+	if (p->type == n && streq(p->text[0], a) &&
+	     streq(p->text[1], b) && streq(p->text[2], c)) {
 	    return p;;
 	}
     }

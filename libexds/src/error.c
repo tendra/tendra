@@ -20,6 +20,7 @@
 #include <ctype.h>
 
 #include <shared/check.h>
+#include <shared/string.h>
 
 #include <exds/common.h>
 #include <exds/exception.h>
@@ -242,7 +243,7 @@ error_define_tag(const char *name)
 	ETagT *entry;
 
 	while ((entry = *entryp) != NULL) {
-		if (!strcmp(entry->name, name)) {
+		if (streq(entry->name, name)) {
 			return entry;
 		}
 		entryp = &entry->next;
@@ -314,7 +315,7 @@ error_redefine_error(const char *name, const char *message)
 		ErrorT *entry  = error_table[hash];
 
 		while (entry) {
-			if (!strcmp(entry->name, name)) {
+			if (streq(entry->name, name)) {
 				ErrorListT *error_list = error_parse_message(message);
 
 				if (error_list == NULL) {
@@ -343,7 +344,7 @@ error_lookup_error(const char *name)
 		ErrorT *entry  = error_table[hash];
 
 		while (entry) {
-			if (!strcmp(entry->name, name)) {
+			if (streq(entry->name, name)) {
 				return entry;
 			}
 
@@ -465,7 +466,7 @@ error_redefine_string(const char *name, const char *contents)
 	EStringT *entry = string_table[hash];
 
 	while (entry) {
-		if (!strcmp(entry->name, name)) {
+		if (streq(entry->name, name)) {
 			entry->contents = contents;
 			return TRUE;
 		}
@@ -483,7 +484,7 @@ error_lookup_string(const char *name)
 	EStringT *entry = string_table[hash];
 
 	while (entry) {
-		if (!strcmp(entry->name, name)) {
+		if (streq(entry->name, name)) {
 			return entry;
 		}
 

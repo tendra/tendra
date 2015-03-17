@@ -12,6 +12,7 @@
 
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include "calculus.h"
@@ -81,7 +82,7 @@ find_algebra(char *nm)
 {
     ALGEBRA_LIST *p;
     for (p = all_algebras; p != NULL; p = p->next) {
-	if (!strcmp(p->alg.name, nm)) {
+	if (streq(p->alg.name, nm)) {
 		return &(p->alg);
 	}
     }
@@ -113,7 +114,7 @@ register_type(TYPE_P t)
     LIST(TYPE_P)r = algebra->types;
     while (!IS_NULL_list(r)) {
 	TYPE_P s = DEREF_ptr(HEAD_list(r));
-	if (!strcmp(name_type(s), nm)) {
+	if (streq(name_type(s), nm)) {
 
 	    /* Check for multiple definition */
 	    if (!IS_type_undef(DEREF_type(s))) {
@@ -160,7 +161,7 @@ find_type(ALGEBRA_DEFN *alg, char *nm)
     LIST(TYPE_P)t = alg->types;
     while (!IS_NULL_list(t)) {
 	s = DEREF_ptr(HEAD_list(t));
-	if (!strcmp(name_type(s), nm)) {
+	if (streq(name_type(s), nm)) {
 		return s;
 	}
 	t = TAIL_list(t);

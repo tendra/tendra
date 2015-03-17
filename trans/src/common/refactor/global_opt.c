@@ -11,6 +11,7 @@
 #include <string.h>
 
 #include <shared/error.h>
+#include <shared/string.h>
 
 #include <reader/externs.h>
 #include <reader/table_fns.h>
@@ -51,7 +52,7 @@ opt_strcpy(dec *dp)
 		return;
 	}
 
-	if (0 != strcmp(dp->dec_id, "strcpy")) {
+	if (!streq(dp->dec_id, "strcpy")) {
 		return;
 	}
 
@@ -135,7 +136,7 @@ opt_strlen(dec *dp)
 		return;
 	}
 
-	if (0 != strcmp(dp->dec_id, "strlen")) {
+	if (!streq(dp->dec_id, "strlen")) {
 		return;
 	}
 

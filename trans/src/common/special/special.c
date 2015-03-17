@@ -10,6 +10,7 @@
 
 #include <shared/bool.h>
 #include <shared/check.h>
+#include <shared/string.h>
 
 #include <reader/exp.h>
 #include <reader/token.h>
@@ -49,7 +50,7 @@ special_fn(const struct special_fn a[], size_t count,
 			continue;
 		}
 
-		if (0 == strcmp(a[i].name, id)) {
+		if (streq(a[i].name, id)) {
 			return a[i].f(a1, a2, s, e);
 		}
 	}
@@ -74,7 +75,7 @@ special_token(const struct special_tok a[], size_t count,
 			continue;
 		}
 
-		if (0 == strcmp(a[i].name, t->tok_name)) {
+		if (streq(a[i].name, t->tok_name)) {
 			return a[i].f(tkv, t, pars);
 		}
 	}

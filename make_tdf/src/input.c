@@ -316,7 +316,7 @@ ends_in(string s, string e)
 	}
 
 	d = n - m;
-	if (!strcmp(s + d, e)) {
+	if (streq(s + d, e)) {
 		s = xstrdup(s);
 		s[d] = 0;
 		return s;
@@ -378,7 +378,7 @@ basic_sort(SORT s, unsigned b, unsigned e, LIST(CONSTRUCT)p)
 	code = 0;
 
 	for (i = NO_BUILTIN_SORTS; i < NO_SORTS; i++) {
-		if (!strcmp(n, sort_names[i].name)) {
+		if (streq(n, sort_names[i].name)) {
 			code = sort_names[i].code;
 			break;
 		}
@@ -456,7 +456,7 @@ find_construct(SORT s, string c)
 
 		a = DEREF_cons(HEAD_list(p));
 		b = DEREF_string(cons_name(a));
-		if (!strcmp(b, c)) {
+		if (streq(b, c)) {
 			return a;
 		}
 	}
@@ -621,7 +621,7 @@ foreign_sorts(void)
 		if (!IS_NULL_cons(c)) {
 			/* Sort can be tokenised */
 			string snm = nm;
-			if (!strcmp(nm, "alignment")) {
+			if (streq(nm, "alignment")) {
 				snm = "alignment_sort";
 			}
 
@@ -630,9 +630,9 @@ foreign_sorts(void)
 				/* Doesn't have a sort name */
 				LINKAGE a;
 
-				if (!strcmp(nm, "diag_type")) {
+				if (streq(nm, "diag_type")) {
 					snm = "diag_type";
-				} else if (!strcmp(nm, "filename")) {
+				} else if (streq(nm, "filename")) {
 					snm = "~diag_file";
 				} else {
 					snm = to_capitals(nm);

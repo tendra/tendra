@@ -14,6 +14,7 @@
 #include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <local/ash.h>
@@ -102,16 +103,16 @@ static bool
 not_reserved(char *id)
 {
 
-  if (!strcmp(id, "edata"))  return 0;
-  if (!strcmp(id, "etext"))  return 0;
-  if (!strcmp(id, "end"))    return 0;
-  if (!strcmp(id, "_ftext")) return 0;
-  if (!strcmp(id, "_fdata")) return 0;
-  if (!strcmp(id, "_fbss"))  return 0;
-  if (!strcmp(id, "_gp"))    return 0;
+  if (streq(id, "edata"))  return 0;
+  if (streq(id, "etext"))  return 0;
+  if (streq(id, "end"))    return 0;
+  if (streq(id, "_ftext")) return 0;
+  if (streq(id, "_fdata")) return 0;
+  if (streq(id, "_fbss"))  return 0;
+  if (streq(id, "_gp"))    return 0;
 
-  if (!strcmp(id, "_procedure_table"))        return 0;
-  if (!strcmp(id, "_procedure_string_table")) return 0;
+  if (streq(id, "_procedure_table"))        return 0;
+  if (streq(id, "_procedure_string_table")) return 0;
 
   return 1;
 }
@@ -258,7 +259,7 @@ find_tag(char *name)
   for(i=0; i<main_globals_index; i++){
     exp tag = main_globals[i]->dec_exp;
     char * id = main_globals[i]->dec_id;
-    if(!strcmp(id,name)) return boff(tag);
+    if(streq(id,name)) return boff(tag);
   }
   printf("%s\n: ",name);
   error(ERR_FATAL, "tag not declared");
@@ -438,7 +439,7 @@ translate_capsule(void)
     main_globals[i] ->sym_number = i;	    
     /* if not NULL */
     if ( no (tg) != 0 || (extnamed && son(tg) != NULL) 
-	 || !strcmp(id,"__alpha_errhandler") || !strcmp(id,"__alpha_stack_limit")) {
+	 || streq(id,"__alpha_errhandler") || streq(id,"__alpha_stack_limit")) {
       if(no(tg)==1 && son(tg)==NULL && 
 	 (bro(pt(tg)) == NULL || 
 	  name(bro(pt(tg)))==101 || name(bro(pt(tg)))==102 ) 
@@ -490,7 +491,7 @@ translate_capsule(void)
     char *id = my_def -> dec_id;
     bool extnamed = my_def -> extnamed;
     if (son (tg) != NULL && (extnamed || no (tg) != 0 || 
-			       !strcmp (id, "main"))) {
+			       streq (id, "main"))) {
       if (extnamed) {
 	/* globalise all global names  */
 	if(dyn_init && !strncmp("__I.TDF",id,7)) {

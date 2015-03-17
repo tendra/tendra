@@ -19,6 +19,7 @@
 
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 
 #include "c-main.h"
 #include "c-out-info.h"
@@ -46,12 +47,12 @@ main_init_c(OutputInfoT *out_info, CStringListT *options, BoolT ansi)
 		const char *option;
 
 		option = cstring_list_entry_string(entry);
-		if (!strcmp(option, "prototypes") || !strcmp(option, "proto")) {
+		if (streq(option, "prototypes") || streq(option, "proto")) {
 			c_out_info_set_prototypes(c_out_info, TRUE);
-		} else if (!strcmp(option, "no-prototypes")
-			|| !strcmp(option, "no-proto")) {
+		} else if (streq(option, "no-prototypes")
+			|| streq(option, "no-proto")) {
 			c_out_info_set_prototypes(c_out_info, FALSE);
-		} else if (!strcmp(option, "split")) {
+		} else if (streq(option, "split")) {
 			c_out_info_set_split(c_out_info, 5000);
 		} else if (cstring_starts(option, "split=")) {
 			unsigned limit;
@@ -60,43 +61,43 @@ main_init_c(OutputInfoT *out_info, CStringListT *options, BoolT ansi)
 				UNREACHED;
 			}
 			c_out_info_set_split(c_out_info, limit);
-		} else if (!strcmp(option, "no-split")) {
+		} else if (streq(option, "no-split")) {
 			c_out_info_set_split(c_out_info, 0);
-		} else if (!strcmp(option, "numeric-ids")
-			|| !strcmp(option, "numeric")) {
+		} else if (streq(option, "numeric-ids")
+			|| streq(option, "numeric")) {
 			c_out_info_set_numeric_ids(c_out_info, TRUE);
-		} else if (!strcmp(option, "no-numeric-ids")
-			|| !strcmp(option, "no-numeric")) {
+		} else if (streq(option, "no-numeric-ids")
+			|| streq(option, "no-numeric")) {
 			c_out_info_set_numeric_ids(c_out_info, FALSE);
-		} else if (!strcmp(option, "numeric-terminals")
-			|| !strcmp(option, "numeric-terminals")) {
+		} else if (streq(option, "numeric-terminals")
+			|| streq(option, "numeric-terminals")) {
 			c_out_info_set_numeric_terminals(c_out_info, TRUE);
-		} else if (!strcmp(option, "no-numeric-terminals")
-			|| !strcmp(option, "no-numeric-terminals")) {
+		} else if (streq(option, "no-numeric-terminals")
+			|| streq(option, "no-numeric-terminals")) {
 			c_out_info_set_numeric_terminals(c_out_info, FALSE);
-		} else if (!strcmp(option, "casts")
-			|| !strcmp(option, "cast")) {
+		} else if (streq(option, "casts")
+			|| streq(option, "cast")) {
 			c_out_info_set_casts(c_out_info, TRUE);
-		} else if (!strcmp(option, "no-casts")
-			|| !strcmp(option, "no-cast")) {
+		} else if (streq(option, "no-casts")
+			|| streq(option, "no-cast")) {
 			c_out_info_set_casts(c_out_info, FALSE);
-		} else if (!strcmp(option, "unreachable-macros")
-			|| !strcmp(option, "unreachable-macro")) {
+		} else if (streq(option, "unreachable-macros")
+			|| streq(option, "unreachable-macro")) {
 			c_out_info_set_unreachable(c_out_info, TRUE);
-		} else if (!strcmp(option, "unreachable-comments")
-			|| !strcmp(option, "unreachable-comment")) {
+		} else if (streq(option, "unreachable-comments")
+			|| streq(option, "unreachable-comment")) {
 			c_out_info_set_unreachable(c_out_info, FALSE);
-		} else if (!strcmp(option, "lines")
-			|| !strcmp(option, "line")) {
+		} else if (streq(option, "lines")
+			|| streq(option, "line")) {
 			c_out_info_set_lines(c_out_info, TRUE);
-		} else if (!strcmp(option, "no-lines")
-			|| !strcmp(option, "no-line")) {
+		} else if (streq(option, "no-lines")
+			|| streq(option, "no-line")) {
 			c_out_info_set_lines(c_out_info, FALSE);
-		} else if (!strcmp(option, "terminals")
-			|| !strcmp(option, "terminal")) {
+		} else if (streq(option, "terminals")
+			|| streq(option, "terminal")) {
 			c_out_info_set_terminals(c_out_info, TRUE);
-		} else if (!strcmp(option, "no-terminals")
-			|| !strcmp(option, "no-terminal")) {
+		} else if (streq(option, "no-terminals")
+			|| streq(option, "no-terminal")) {
 			c_out_info_set_terminals(c_out_info, FALSE);
 		} else {
 			error(ERR_FATAL, "language '%s' doesn't understand option '%s'",

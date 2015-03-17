@@ -11,6 +11,7 @@
 
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <reader/exp.h>
@@ -268,9 +269,9 @@ get_filename(long dat, char *host, char *path, char *nam)
 
 	for (ans = all_files; ans; ans = ans->another) {
 		if (ans->file_dat == dat &&
-		    !strcmp(ans->file_host, host) &&
-		    !strcmp(ans->file_path, path) &&
-		    !strcmp(ans->file_name, nam)) {
+		    streq(ans->file_host, host) &&
+		    streq(ans->file_path, path) &&
+		    streq(ans->file_name, nam)) {
 			return ans;
 		}
 	}

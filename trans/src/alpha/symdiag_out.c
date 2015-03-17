@@ -17,6 +17,7 @@
 #include <string.h>
 
 #include <shared/check.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <reader/exp.h>
@@ -64,7 +65,7 @@ output_symbolic_diagnostic(FILE *outfile, diag_info *inf)
   if(inf->key == DIAG_INFO_SOURCE){
     source = &inf->data.source.beg;
     fname = source->file->file.ints.chars;
-    if(strcmp(fname,currentfile)){
+    if(!streq(fname,currentfile)){
       /* if the file is _not_ the same as the current file */
       set_file(fname,1);
       currentfile = fname;

@@ -188,7 +188,7 @@ read_identifier(int a)
     /* Check for keywords */
     t = token_buff;
 #define MAKE_KEYWORD(A, B)\
-    if (!strcmp(t,(A))) return B;
+    if (streq(t,(A))) return B;
 #include "keyword.h"
     return lex_identifier;
 }

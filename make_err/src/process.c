@@ -12,6 +12,7 @@
 
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include "obj_c/errors.h"
@@ -91,7 +92,7 @@ find_map(LIST(MAP)p, string s)
 		NAME n = DEREF_name(map_key(m));
 		if (!IS_NULL_name(n)) {
 			string t = DEREF_string(name_id(n));
-			if (!strcmp(s, t)) {
+			if (streq(s, t)) {
 				return m;
 			}
 		}
@@ -163,7 +164,7 @@ output_defn(FILE *f)
 
 	/* Print each catalogue entry */
 	IGNORE fprintf(f, "/* Error catalogue */\n\n");
-	if (!strcmp(d1, d2)) {
+	if (streq(d1, d2)) {
 		IGNORE fprintf(f, "const char *%sNAME = \"%s\" ;\n", pre, d1);
 	} else {
 		IGNORE fprintf(f, "#ifndef %sALTERNATE\n", pre);
@@ -508,7 +509,7 @@ output_all(char *nm, int act)
 {
 	/* Open output file */
 	FILE *f;
-	if (nm == NULL || !strcmp(nm, "-")) {
+	if (nm == NULL || streq(nm, "-")) {
 		f = stdout;
 		nm = NULL;
 	} else {

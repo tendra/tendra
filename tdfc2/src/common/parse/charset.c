@@ -13,6 +13,8 @@
 #include <stdlib.h>
 #include <limits.h>
 
+#include <shared/string.h>
+
 #include <parse/charset.h>
 
 static void
@@ -395,7 +397,7 @@ main(int argc, char *argv[])
 		goto usage;
 	}
 
-	if (argc == 0 || 0 == strcmp(argv[0], "-")) {
+	if (argc == 0 || streq(argv[0], "-")) {
 		argv[0] = "/dev/stdin";
 	}
 

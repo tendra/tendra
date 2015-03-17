@@ -45,6 +45,7 @@
 
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 
 #include "adt/rule.h"
 
@@ -189,7 +190,7 @@ main_handle_inlining(char *option, ArgUsageT *usage, void *gclosure,
 
 		phase = dstring_destroy_to_cstring(&dstring);
 		for (entry = main_phase_list; entry->phase; entry++) {
-			if (!strcmp(phase, entry->phase)) {
+			if (streq(phase, entry->phase)) {
 				if (entry->proc) {
 					entry->proc(enable);
 				}
@@ -216,7 +217,7 @@ main_handle_language(char *option, ArgUsageT *usage, void *gclosure,
 	main_did_other = TRUE;
 
 	for (i = 0; i < sizeof main_language_list / sizeof *main_language_list; i++) {
-		if (!strcmp(language_str, main_language_list[i]->language)) {
+		if (streq(language_str, main_language_list[i]->language)) {
 			main_language = main_language_list[i];
 			return;
 		}

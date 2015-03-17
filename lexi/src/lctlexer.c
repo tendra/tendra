@@ -15,6 +15,7 @@
 
 
 	#include <shared/error.h>
+	#include <shared/string.h>
 	#include <shared/xalloc.h>
 
 	#include "lctlexer.h"
@@ -120,10 +121,10 @@ int lct_group(enum lct_groups group, int c) {
 
 
 int lct_keyword(const char *identifier, int notfound) {
-	if (0 == strcmp(identifier, "ACTION")) return lct_kw_Haction;
-	if (0 == strcmp(identifier, "ARGUMENT")) return lct_kw_Hargument;
-	if (0 == strcmp(identifier, "HEADERS")) return lct_kw_Hheader;
-	if (0 == strcmp(identifier, "TRAILERS")) return lct_kw_Htrailer;
+	if (streq(identifier, "ACTION")) return lct_kw_Haction;
+	if (streq(identifier, "ARGUMENT")) return lct_kw_Hargument;
+	if (streq(identifier, "HEADERS")) return lct_kw_Hheader;
+	if (streq(identifier, "TRAILERS")) return lct_kw_Htrailer;
 	return notfound;
 }
 /* PRE-PASS ANALYSERS */
