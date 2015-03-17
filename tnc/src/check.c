@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include "config.h"
@@ -26,7 +27,7 @@
     This flag is true to indicate that shape checking should be applied.
 */
 
-boolean do_check = 0;
+bool do_check = 0;
 
 
 /*
@@ -220,7 +221,7 @@ check_access_fn(node *p)
     which introduce local tags or tokens either.
 */
 
-static boolean
+static bool
 is_known(node *p)
 {
 	if (p == NULL)

@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <ctype.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include "config.h"
@@ -26,7 +27,7 @@
 #include "utility.h"
 #include "write.h"
 
-boolean fold_tncsorts = 1;
+bool fold_tncsorts = 1;
 
 static const char *
 sort_string(sortname s)

@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 #include <shared/getopt.h>
@@ -35,9 +36,9 @@
 
 
 static void
-output_option(char *arg, boolean t)
+output_option(char *arg, bool t)
 {
-	boolean *p = NULL;
+	bool *p = NULL;
 
 	if (strcmp(arg, "tokdecs") == 0)
 		p = &show_tokdecs;
@@ -71,11 +72,11 @@ int
 main(int argc, char **argv)
 {
 	int status = 0;
-	boolean expand = 0;
-	boolean evaluate = 0;
-	boolean lib_input = 0;
-	boolean output_next = 0;
-	boolean help_output;
+	bool expand = 0;
+	bool evaluate = 0;
+	bool lib_input = 0;
+	bool output_next = 0;
+	bool help_output;
 
 	void(*input_fn)(void);
 	void(*output_fn)(void);

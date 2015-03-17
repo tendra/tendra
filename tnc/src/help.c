@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include "config.h"
@@ -20,14 +21,14 @@
 #include "utility.h"
 
 
-boolean func_help = 0;
+bool func_help = 0;
 
 
 static void
-help_args(char *str, boolean num)
+help_args(char *str, bool num)
 {
     char c;
-    boolean started = 0;
+    bool started = 0;
     while (c = *str, c != 0 && c != ']') {
 	if (func_help && started)IGNORE putchar(',');
 	switch (c) {
@@ -130,7 +131,7 @@ output_help(construct *p)
     char *args = get_char_info(p);
     IGNORE printf((func_help ? "%s" : "( %s"), p->name);
     if (args) {
-	boolean num = 0;
+	bool num = 0;
 	if ((p->sortnum == SORT_nat && p->encoding == ENC_make_nat) ||
 	    (p->sortnum == SORT_signed_nat &&
 	       p->encoding == ENC_make_signed_nat)) {

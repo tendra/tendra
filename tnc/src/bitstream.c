@@ -9,6 +9,7 @@
 
 #include <limits.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/xalloc.h>
 

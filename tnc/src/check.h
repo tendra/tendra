@@ -23,7 +23,7 @@ void check_snat_fn(node *);
 void check_access_fn(node *);
 void check_tagdef(construct *);
 
-extern boolean do_check;
+extern bool do_check;
 extern char *checking;
 
 #define check_exp(X)		check_exp_fn((X))

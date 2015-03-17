@@ -9,6 +9,7 @@
 
 #include <limits.h>
 
+#include <shared/bool.h>
 #include <shared/xalloc.h>
 
 #include "config.h"
@@ -78,7 +79,7 @@ make_int_exp(node *sh, long n, char *val)
 }
 
 
-static boolean
+static bool
 is_constant(node *p, long *pn)
 {
     if (p) {
@@ -102,7 +103,7 @@ is_constant(node *p, long *pn)
 	    s = p->cons->sortnum;
 	    n = p->cons->encoding;
 	} else if (s == SORT_bool) {
-	    /* Allow boolean literals */
+	    /* Allow bool literals */
 	    if (n == ENC_false) {
 		*pn = 0;
 		return 1;
@@ -126,7 +127,7 @@ static long var_max = 32;
 static unsigned long *var_mask;
 
 
-static boolean
+static bool
 is_var_width(node *sh, long *pn, long *pm)
 {
     if (sh && sh->cons->encoding == ENC_integer) {
@@ -485,7 +486,7 @@ eval_node(node *p)
 	    }
 	    case ENC_sequence: {
 		/* Allow for sequence */
-		boolean reached = 1;
+		bool reached = 1;
 		node *q = null;
 		node *r = p->son->son;
 		while (r != null) {

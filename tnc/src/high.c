@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
@@ -91,7 +92,7 @@ unique_high_sort(high_sort *h)
 		high_sort *p = high_sorts + i;
 
 		if (p->res == h->res && p->no_args == h->no_args) {
-			boolean ok = 1;
+			bool ok = 1;
 
 			if (p == h)
 				return h;

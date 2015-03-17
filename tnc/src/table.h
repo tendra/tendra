@@ -57,12 +57,12 @@ extern construct shape_of;
     OUTPUT FLAGS
 */
 
-extern boolean show_tokdecs;
-extern boolean show_tokdefs;
-extern boolean show_aldecs;
-extern boolean show_aldefs;
-extern boolean show_tagdecs;
-extern boolean show_tagdefs;
+extern bool show_tokdecs;
+extern bool show_tokdefs;
+extern bool show_aldecs;
+extern bool show_aldefs;
+extern bool show_tagdecs;
+extern bool show_tagdefs;
 
 
 /*
@@ -83,7 +83,7 @@ extern construct *removals;
     TABLE UTILITY ROUTINES
 */
 
-extern boolean order_names;
+extern bool order_names;
 
 typedef void(*apply_func)(construct *);
 char *sort_name(sortname);

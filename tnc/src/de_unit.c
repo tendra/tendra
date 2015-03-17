@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
@@ -76,7 +77,7 @@ find_label(long n)
 
 
 static sortname
-de_sortname(boolean expand)
+de_sortname(bool expand)
 {
 	long n = de_sortname_bits();
 
@@ -163,7 +164,7 @@ de_tagdec(void)
 	for (i = 0; i < n; i++) {
 		long t;
 		node *d;
-		boolean is_var;
+		bool is_var;
 		construct *p;
 		tag_info *info;
 
@@ -217,7 +218,7 @@ de_tagdef(void)
 		node *d;
 		construct *p;
 		tag_info *info;
-		boolean is_var;
+		bool is_var;
 
 		/* Find the definition type */
 		long m = de_tagdef_bits();

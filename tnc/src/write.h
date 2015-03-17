@@ -16,9 +16,9 @@
     MAIN PRINTING ROUTINE
 */
 
-extern boolean verbose;
-extern boolean print_shapes;
-extern boolean func_output;
+extern bool verbose;
+extern bool print_shapes;
+extern bool func_output;
 
 void print_capsule(void);
 

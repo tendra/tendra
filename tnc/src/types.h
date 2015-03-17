@@ -15,10 +15,9 @@
 /*
     ELEMENTARY TYPES
 
-    The types boolean, byte and pointer are defined.
+    The types byte and pointer are defined.
 */
 
-typedef char boolean;
 typedef unsigned char byte;
 typedef void *pointer;
 
@@ -81,8 +80,8 @@ typedef struct x_al_tag_info {
 */
 
 typedef struct x_tag_info {
-	boolean var;
-	boolean vis;
+	bool var;
+	bool vis;
 	node *dec;
 	node *def;
 } tag_info;
@@ -98,7 +97,7 @@ typedef struct x_tag_info {
 */
 
 typedef struct x_tok_info {
-	boolean dec;
+	bool dec;
 	sortname res;
 	char *args;
 	node *sig;

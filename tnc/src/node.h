@@ -16,12 +16,12 @@
     PROCEDURES FOR MANIPULATING NODES
 */
 
-extern boolean dont_check;
+extern bool dont_check;
 
 node *new_node(void);
 void free_node(node *);
 node *completion(node *);
-boolean eq_node(node *, node *);
+bool eq_node(node *, node *);
 
 
 /*
@@ -36,7 +36,7 @@ void copy_construct(construct *);
 void free_construct(construct **);
 void set_token_sort(construct *, sortname, char *, node *);
 void set_tag_type(construct *, int);
-boolean is_local_name(char *);
+bool is_local_name(char *);
 char *skip_text(char *);
 
 

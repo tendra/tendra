@@ -16,8 +16,8 @@
     BASIC READING ROUTINE
 */
 
-extern boolean allow_multibyte;
-extern boolean intro_visible;
+extern bool allow_multibyte;
+extern bool intro_visible;
 
 node *read_node(char *);
 node *read_var_sort(sortname);

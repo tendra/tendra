@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
@@ -51,15 +52,15 @@ construct shape_of = { SORT_shape, -1, "~shape_of", NULL, NULL, NULL };
 construct *removals = NULL;
 
 
-boolean show_tokdecs = 1;
-boolean show_tokdefs = 1;
-boolean show_aldecs = 1;
-boolean show_aldefs = 1;
-boolean show_tagdecs = 1;
-boolean show_tagdefs = 1;
+bool show_tokdecs = 1;
+bool show_tokdefs = 1;
+bool show_aldecs = 1;
+bool show_aldefs = 1;
+bool show_tagdecs = 1;
+bool show_tagdefs = 1;
 
 
-boolean order_names = 1;
+bool order_names = 1;
 
 
 static int

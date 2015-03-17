@@ -9,6 +9,7 @@
 
 #include <limits.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
@@ -29,7 +30,7 @@
 int decode_status = -1;
 
 
-boolean extract_tokdecs = 0;
+bool extract_tokdecs = 0;
 
 
 static long no_var;
@@ -44,7 +45,7 @@ binding *crt_binding;
 static binding *spare_binding = NULL;
 
 
-boolean in_skip_pass = 0;
+bool in_skip_pass = 0;
 
 
 typedef void(*equation_func)(void);
@@ -359,7 +360,7 @@ de_capsule(void)
 		sortname si = vars[i].sortnum;
 		long j;
 		long no_links = tdf_int();
-		boolean reject = 0;
+		bool reject = 0;
 
 		if (extract_tokdecs && i != tok_var)
 			reject = 1;
@@ -379,7 +380,7 @@ de_capsule(void)
 
 			if (n == ENC_string_extern) {
 				/* Simple external name */
-				boolean name_ok = 1;
+				bool name_ok = 1;
 				node *ns = de_node("=");
 
 				if (reject)
@@ -490,7 +491,7 @@ de_capsule(void)
 		long no_units = tdf_int();
 
 		if (no_units) {
-			boolean skip_pass = 0;
+			bool skip_pass = 0;
 			equation_func f = NULL;
 
 			/* Find equation decoding routine */
@@ -548,7 +549,7 @@ de_library(void)
 {
 	long old_posn;
 	long i, no_cap;
-	boolean old_extract = extract_tokdecs;
+	bool old_extract = extract_tokdecs;
 
 	de_magic(MAGIC_LINK_NUMBER);
 	IGNORE tdf_int();

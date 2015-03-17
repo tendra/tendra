@@ -7,10 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
 #include <limits.h>
 #include <stdarg.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
@@ -35,8 +35,8 @@ extern int have_version;
     is text or code.
 */
 
-boolean text_input = 1;
-boolean text_output = 0;
+bool text_input = 1;
+bool text_output = 0;
 
 
 /*
@@ -44,7 +44,7 @@ boolean text_output = 0;
     is_fatal to false before calling input_error.
 */
 
-boolean is_fatal = 1;
+bool is_fatal = 1;
 
 
 /*
@@ -241,7 +241,7 @@ octal_to_ulong(char *num)
     unsigned long, minus sz (to allow for a sign bit).
 */
 
-boolean
+bool
 fits_ulong(char *num, int sz)
 {
 	int n = 3 * strlen(num);

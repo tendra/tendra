@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
+#include <shared/bool.h>
 #include <shared/error.h>
 
 #include "config.h"
@@ -31,7 +31,7 @@ long line_no = 1;
     or c-like.
 */
 
-boolean func_input = 0;
+bool func_input = 0;
 
 
 /*
@@ -40,8 +40,8 @@ boolean func_input = 0;
     that the next word may be ignored.
 */
 
-boolean looked_ahead = 0;
-static boolean really_analyse = 1;
+bool looked_ahead = 0;
+static bool really_analyse = 1;
 
 
 /*
@@ -168,11 +168,11 @@ read_word(void)
 
 	/* Check for strings */
 	if (c == '"') {
-		boolean escaped;
+		bool escaped;
 		p = word_buff;
 
 		do {
-			boolean ignore = 0;
+			bool ignore = 0;
 			escaped = 0;
 
 			c = getc(input);

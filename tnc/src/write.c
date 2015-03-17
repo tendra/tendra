@@ -7,10 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <ctype.h>
+
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include "config.h"
-#include <ctype.h>
 #include "types.h"
 #include "file.h"
 #include "high.h"
@@ -23,9 +25,9 @@
 #include "write.h"
 
 
-boolean verbose = 0;
-boolean print_shapes = 0;
-boolean func_output = 0;
+bool verbose = 0;
+bool print_shapes = 0;
+bool func_output = 0;
 
 
 static void
@@ -37,11 +39,11 @@ print_spaces(int d)
 }
 
 
-static boolean
+static bool
 print_node(node *p, int d)
 {
-	boolean negate = 0;
-	boolean newline = 0;
+	bool negate = 0;
+	bool newline = 0;
 
 	while (p) {
 		construct *q = p->cons;
@@ -52,7 +54,7 @@ print_node(node *p, int d)
 		switch (s) {
 		case SORT_tdfbool:
 			/* Set neg for subsequent number */
-			negate = (boolean)(m ? 1 : 0);
+			negate = (bool)(m ? 1 : 0);
 			break;
 		case SORT_bytestream:
 			/* Print a bytestream */

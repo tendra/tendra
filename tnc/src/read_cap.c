@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
@@ -35,7 +35,7 @@
 */
 
 static construct *
-read_external(sortname s, boolean local)
+read_external(sortname s, bool local)
 {
     construct *p;
     node *e = null;
@@ -165,7 +165,7 @@ read_external(sortname s, boolean local)
 */
 
 static void
-read_aldec(boolean local)
+read_aldec(bool local)
 {
     IGNORE read_external(SORT_al_tag, local);
     return;
@@ -177,7 +177,7 @@ read_aldec(boolean local)
 */
 
 static void
-read_aldef(boolean local)
+read_aldef(bool local)
 {
     node *d;
     construct *p = read_external(SORT_al_tag, local);
@@ -215,7 +215,7 @@ read_aldef(boolean local)
 */
 
 static void
-read_tagdec(boolean local, int is_var)
+read_tagdec(bool local, int is_var)
 {
     node *d;
     construct *p = read_external(SORT_tag, local);
@@ -234,7 +234,7 @@ read_tagdec(boolean local, int is_var)
 
     /* Declaration = optional access + optional string + shape from 4.0 */
     d = completion(read_node("?[u]?[X]S"));
-    info->var = (boolean)is_var;
+    info->var = (bool)is_var;
     if (info->dec) {
 	if (!eq_node(info->dec, d)) {
 	    is_fatal = 0;
@@ -254,7 +254,7 @@ read_tagdec(boolean local, int is_var)
 */
 
 static void
-read_tagdef(boolean local, int is_var)
+read_tagdef(bool local, int is_var)
 {
     node *d;
     construct *p = read_external(SORT_tag, local);
@@ -279,7 +279,7 @@ read_tagdef(boolean local, int is_var)
 
     /* Definition - signature added in 4.0 */
     d = completion(read_node(is_var ? "?[u]?[X]x" : "?[X]x"));
-    info->var = (boolean)is_var;
+    info->var = (bool)is_var;
     if (info->def) {
 	if (is_var == 2) {
 	    node *dp = info->def;
@@ -334,7 +334,7 @@ read_sortname(void)
 */
 
 static void
-read_toksort(tok_info *info, boolean def)
+read_toksort(tok_info *info, bool def)
 {
     /* Check comma */
     if (func_input) {
@@ -438,7 +438,7 @@ read_toksort(tok_info *info, boolean def)
 */
 
 static void
-read_tokdec(boolean local)
+read_tokdec(bool local)
 {
     tok_info store;
     construct *p = read_external(SORT_token, local);
@@ -458,7 +458,7 @@ read_tokdec(boolean local)
 */
 
 static void
-read_tokdef(boolean local)
+read_tokdef(bool local)
 {
     node *d;
     char buff[2];
@@ -518,7 +518,7 @@ read_tokdef(boolean local)
 */
 
 static void
-read_sortdef(boolean local)
+read_sortdef(bool local)
 {
     char *nm;
     tok_info store;
@@ -551,7 +551,7 @@ static void
 sub_file(int ftype, int ex)
 {
     position store;
-    boolean old_func_input = func_input;
+    bool old_func_input = func_input;
     char *old_name = input_file, *new_name;
 
     /* Read the file name */
@@ -569,12 +569,12 @@ sub_file(int ftype, int ex)
     store_position(&store);
 
     /* Read the subfile */
-    text_input = (boolean)(ftype == 0 ? 1 : 0);
+    text_input = (bool)(ftype == 0 ? 1 : 0);
     open_input(new_name, 1);
     if (ftype == 0) {
 	read_capsule();
     } else {
-	extract_tokdecs = (boolean)ex;
+	extract_tokdecs = (bool)ex;
 	if (ftype == 1) {
 	    de_capsule();
 	} else {
@@ -615,7 +615,7 @@ read_capsule(void)
     while (read_word(), word_type == starter) {
 	char *cmd;
 	char *wtemp;
-	boolean local = 0;
+	bool local = 0;
 	if (!func_input) {
 	    read_word();
 	    if (word_type != INPUT_WORD) {

@@ -30,9 +30,9 @@
 extern char *word;
 extern int word_type;
 extern long word_length;
-extern boolean looked_ahead;
+extern bool looked_ahead;
 extern long line_no;
-extern boolean func_input;
+extern bool func_input;
 
 
 void read_word(void);

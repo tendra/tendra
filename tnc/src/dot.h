@@ -10,7 +10,7 @@
 #ifndef DOT_H
 #define DOT_H
 
-extern boolean fold_tncsorts;
+extern bool fold_tncsorts;
 
 void dot_capsule(void);
 

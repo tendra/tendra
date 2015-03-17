@@ -16,8 +16,8 @@
     DECODING FLAGS
 */
 
-extern boolean in_skip_pass;
-extern boolean extract_tokdecs;
+extern bool in_skip_pass;
+extern bool extract_tokdecs;
 
 
 /*

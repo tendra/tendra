@@ -12,8 +12,8 @@
 #define UTILITY_H
 
 
-extern boolean is_fatal;
-extern boolean text_input, text_output;
+extern bool is_fatal;
+extern bool text_input, text_output;
 
 void fatal_error(char *, ...);
 void input_error(char *, ...);
@@ -30,7 +30,7 @@ char *temp_copy(char *);
 
 char *ulong_to_octal(unsigned long);
 unsigned long octal_to_ulong(char *);
-boolean fits_ulong(char *, int);
+bool fits_ulong(char *, int);
 
 
 #endif /* UTILITY_H */

@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
+#include <shared/bool.h>
 #include <shared/xalloc.h>
 
 #include "config.h"
@@ -17,7 +17,7 @@
 #include "tdf.h"
 #include "utility.h"
 
-boolean dont_check = 0;
+bool dont_check = 0;
 
 
 static node *free_nodes = NULL;
@@ -90,7 +90,7 @@ completion(node *p)
 }
 
 
-static boolean
+static bool
 eq_node_aux(node *p, node *q, construct *ap, construct *aq, int args)
 {
 	while (p != NULL && q != NULL) {
@@ -124,7 +124,7 @@ eq_node_aux(node *p, node *q, construct *ap, construct *aq, int args)
 			default:
 				{
 					/* Check lists of local variables */
-					boolean ok = 0;
+					bool ok = 0;
 					construct *xp = ap;
 					construct *xq = aq;
 
@@ -161,7 +161,7 @@ eq_node_aux(node *p, node *q, construct *ap, construct *aq, int args)
 }
 
 
-static boolean
+static bool
 eq_cons_list(construct *ap, construct *aq)
 {
 	while (ap != NULL && aq != NULL) {
@@ -180,7 +180,7 @@ eq_cons_list(construct *ap, construct *aq)
 
 
 
-boolean
+bool
 eq_node(node *p, node *q)
 {
 	construct *ap = NULL;
@@ -314,7 +314,7 @@ set_token_sort(construct *p, sortname rs, char *args, node *sig)
 	tok_info *info = get_tok_info(p);
 
 	if (info->res != SORT_unknown) {
-		boolean error = 0;
+		bool error = 0;
 
 		if (info->res != rs)
 			error = 1;
@@ -399,7 +399,7 @@ skip_text(char *s)
 }
 
 
-boolean
+bool
 is_local_name(char *s)
 {
 	/* XXX: handmade strncmp() ? */

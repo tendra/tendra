@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include "config.h"
@@ -331,11 +332,11 @@ check_shapes(node *p, node *q, int tg)
 {
     sortname s;
     long np, nq;
-    boolean ok = 1;
+    bool ok = 1;
     node *p0 = (tg == 2 ? null : p);
     node *q0 = (tg == 2 ? null : q);
     node *p1 = p;
-    boolean check_further = 0;
+    bool check_further = 0;
 
     /* If one is unknown, return the other */
     if (p == null) return q0;

@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include "config.h"
@@ -29,7 +30,7 @@
     8 bits per character) are allowed.
 */
 
-boolean allow_multibyte = 1;
+bool allow_multibyte = 1;
 
 
 /*
@@ -44,7 +45,7 @@ read_token(node *p, sortname s)
     sortname rs;
     construct *v;
     tok_info *info;
-    boolean in_brackets = 0;
+    bool in_brackets = 0;
 
     /* Check bracket (1) */
     read_word();
@@ -131,7 +132,7 @@ static node *
 read_token_name(sortname s)
 {
     node *p;
-    boolean ok = 0;
+    bool ok = 0;
     construct *v;
     high_sort *h;
     tok_info *info;
@@ -205,9 +206,9 @@ make_obj(sortname s)
     visible access specifier is read.
 */
 
-static boolean intro_var = 0;
-static boolean intro_tag_var = 0;
-boolean intro_visible = 0;
+static bool intro_var = 0;
+static bool intro_tag_var = 0;
+bool intro_visible = 0;
 
 
 /*
@@ -318,7 +319,7 @@ read_node_aux(char *str, int strict)
     node *p, *ps;
     construct *cons;
     read_func fn = null;
-    boolean in_brackets = 0;
+    bool in_brackets = 0;
 
     /* Find the corresponding sort name */
     if (str[1] == '&') {
@@ -380,7 +381,7 @@ read_node_aux(char *str, int strict)
 	    p->cons->next = null;
 	    return p;
 	} else {
-	    boolean is_multibyte = 0;
+	    bool is_multibyte = 0;
 	    if (func_input) {
 		if (word_type == INPUT_WORD) {
 		    if (strcmp(word, MAKE_STRING) == 0) {
@@ -417,7 +418,7 @@ read_node_aux(char *str, int strict)
 
     /* Deal with numbers */
     if (word_type == INPUT_NUMBER) {
-	boolean negate = 0;
+	bool negate = 0;
 	if (*word == '-') {
 	    word++;
 	    negate = 1;
@@ -540,7 +541,7 @@ read_node_aux(char *str, int strict)
 	p = fn(cons->encoding);
 	ps = p->son;
     } else {
-	boolean do_check_tag = 0;
+	bool do_check_tag = 0;
 	if (!in_brackets && (s == SORT_al_tag || s == SORT_label ||
 			       s == SORT_tag)) {
 	    do_check_tag = 1;

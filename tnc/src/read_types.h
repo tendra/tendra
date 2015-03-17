@@ -25,7 +25,7 @@ typedef struct {
 	long line;
 	long posn;
 	int pending;
-	boolean ahead;
+	bool ahead;
 } position;
 
 
