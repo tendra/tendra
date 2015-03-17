@@ -114,7 +114,6 @@
 				<arg choice="plain">&e.opt;</arg>
 				<arg choice="plain">&g.opt;</arg>
 			</group>
-			<arg choice="opt">&I.opt;</arg>
 
 			<sbr/>
 
@@ -123,6 +122,7 @@
 			<arg choice="opt">&x.opt;</arg>
 			<arg choice="opt">&a.opt;</arg>
 			<arg choice="opt">&f.opt;</arg>
+			<arg choice="opt">&I.opt;</arg>
 			<arg choice="opt">&l.opt;</arg>
 			<arg choice="opt">&L.opt;</arg>
 			<arg choice="opt">&n.opt;</arg>
@@ -151,6 +151,7 @@
 			<arg choice="opt">&x.opt;</arg>
 			<arg choice="opt">&a.opt;</arg>
 			<arg choice="opt">&f.opt;</arg>
+			<arg choice="opt">&I.opt;</arg>
 			<arg choice="opt">&l.opt;</arg>
 			<arg choice="opt">&L.opt;</arg>
 			<arg choice="opt">&n.opt;</arg>
