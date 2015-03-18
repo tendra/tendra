@@ -2478,7 +2478,7 @@ make_code1(where dest, ash stack, exp e)
 
 #ifdef TDF_DIAG4
 
-struct coder_args {
+struct make_code_args {
 	where dest;
 	ash stack;
 	exp e;
@@ -2487,7 +2487,7 @@ struct coder_args {
 static void
 make_code2(void * args)
 {
-	struct coder_args * x = (struct coder_args *)args;
+	struct make_code_args * x = (struct make_code_args *)args;
 	make_code1(x->dest, x->stack, x->e);
 	return;
 }
@@ -2553,7 +2553,7 @@ contop_where(exp id)
 dg_where
 find_diag_res(void * args)
 {
-	struct coder_args * x = (struct coder_args *)args;
+	struct make_code_args * x = (struct make_code_args *)args;
 	exp e = x->dest.where_exp;
 	dg_where w;
 
@@ -2698,7 +2698,7 @@ make_code(where dest, ash stack, exp e)
 	d = dgf(e);
 	if (d != nildiag) {
 		dg_info dpos = nildiag;
-		struct coder_args args;
+		struct make_code_args args;
 		args.dest = dest;
 		args.stack = stack;
 		current_dg_exp = args.e = e;
@@ -2753,7 +2753,7 @@ done_arg(void * args)
 void
 diag_arg(where dest, ash stack, exp e)
 {
-	struct coder_args args;
+	struct make_code_args args;
 
 	if (!dgf(e)) {
 		return;
