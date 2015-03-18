@@ -138,7 +138,7 @@ read_external(sortname s, bool local)
     if (p == NULL) {
 	/* New object */
 	p = make_construct(s);
-	p->name = string_copy_aux(word);
+	p->name = xstrdup(word);
 	p->ename = e;
 	IGNORE add_to_var_hash(p, s);
     } else {
@@ -389,7 +389,7 @@ read_toksort(tok_info *info, bool def)
 		    input_error("Token %s already declared", word);
 		}
 		q = make_construct(SORT_token);
-		q->name = string_copy_aux(word);
+		q->name = xstrdup(word);
 		IGNORE add_to_var_hash(q, SORT_token);
 		set_token_sort(q, s, NULL, NULL);
 		*(c++) = q;
@@ -410,7 +410,7 @@ read_toksort(tok_info *info, bool def)
 	*a = 0;
 	if (*arg_buff) {
 	    /* Store argument string */
-	    info->args = string_copy_aux(arg_buff);
+	    info->args = xstrdup(arg_buff);
 	    if (def) {
 		/* Store formal arguments */
 		int i, n = no_args;
@@ -538,7 +538,7 @@ read_sortdef(bool local)
     /* Read the sort name */
     read_word();
     if (word_type != INPUT_WORD)input_error("Identifier expected");
-    nm = string_copy_aux(word);
+    nm = xstrdup(word);
 
     /* Get sort definition */
     read_toksort(&store, 0);
@@ -569,7 +569,7 @@ sub_file(int ftype, int ex)
 	input_error("File name expected");
 	return;
     }
-    new_name = string_copy_aux(word);
+    new_name = xstrdup(word);
 
     /* Save the position in the existing file */
     store_position(&store);

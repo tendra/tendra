@@ -228,7 +228,7 @@ search_var_sort(char *nm, sortname s)
     if (intro_var) {
 	if (v == NULL) {
 	    v = make_construct(s);
-	    v->name = string_copy_aux(nm);
+	    v->name = xstrdup(nm);
 	    /* Don't add to hash table yet */
 	    if (s == SORT_tag) {
 		tag_info *info = get_tag_info(v);
@@ -246,7 +246,7 @@ search_var_sort(char *nm, sortname s)
 		input_error("%s %s not in scope", sort_name(s), nm);
 	    }
 	    v = make_construct(s);
-	    v->name = string_copy_aux(nm);
+	    v->name = xstrdup(nm);
 	    IGNORE add_to_var_hash(v, s);
 	}
     }
@@ -435,7 +435,7 @@ read_node_aux(char *str, int strict)
 	    p->cons->encoding = (long)octal_to_ulong(word);
 	} else {
 	    p->cons->sortnum = SORT_tdfint;
-	    p->cons->name = string_copy_aux(word);
+	    p->cons->name = xstrdup(word);
 	}
 
 	switch (s) {

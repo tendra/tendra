@@ -167,7 +167,7 @@ find_decode_string(high_sort *p)
 
 	*a = 0;
 
-	return string_copy_aux(abuff);
+	return xstrdup(abuff);
 }
 
 

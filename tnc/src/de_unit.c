@@ -12,6 +12,7 @@
 
 #include <shared/bool.h>
 #include <shared/check.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <tdf/magic.h>
@@ -330,7 +331,7 @@ de_tokdec(void)
 				}
 
 				*a = 0;
-				args = string_copy_aux(abuff);
+				args = xstrdup(abuff);
 			}
 		} else
 			args = NULL;
@@ -396,7 +397,7 @@ de_token_defn(construct *p, node *sig)
 		}
 
 		*a = 0;
-		args = string_copy_aux(abuff);
+		args = xstrdup(abuff);
 
 		if (!in_skip_pass)
 			info->pars[j] = NULL;

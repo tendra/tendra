@@ -252,7 +252,7 @@ de_node(char *str)
 					p->cons->encoding = (long)octal_to_ulong(buff);
 				} else {
 					p->cons->sortnum = SORT_tdfint;
-					p->cons->name = string_copy_aux(buff);
+					p->cons->name = xstrdup(buff);
 				}
 				break;
 			}

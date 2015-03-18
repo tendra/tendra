@@ -24,10 +24,6 @@ char *string_copy(char *, int);
 char *temp_copy(char *);
 
 
-#define string_copy_aux(STR)\
-    string_copy((STR), (int)strlen(STR))
-
-
 char *ulong_to_octal(unsigned long);
 unsigned long octal_to_ulong(char *);
 bool fits_ulong(char *, int);
