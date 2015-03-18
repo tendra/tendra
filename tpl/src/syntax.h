@@ -9,7 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 192 "syntax.act"
+#line 195 "syntax.act"
 
 
 /* $Id$ */
@@ -192,7 +192,7 @@ extern void read_program(void);
 
 /* BEGINNING OF TRAILER */
 
-#line 2411 "syntax.act"
+#line 2414 "syntax.act"
 
 #endif
 #line 199 "syntax.h"

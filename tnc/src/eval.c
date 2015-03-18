@@ -7,8 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <stddef.h>
 #include <limits.h>
+#include <string.h>
+#include <stddef.h>
 
 #include <shared/bool.h>
 #include <shared/xalloc.h>

@@ -30,7 +30,9 @@
 
 #include <assert.h>
 #include <limits.h>
+#include <string.h>
 #include <stddef.h>
+#include <stdio.h>
 
 #include <shared/check.h>
 #include <shared/string.h>

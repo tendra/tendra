@@ -11,8 +11,4 @@
 #ifndef CONFIG_INCLUDED
 #define CONFIG_INCLUDED
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-
 #endif
