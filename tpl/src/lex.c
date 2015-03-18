@@ -14,7 +14,6 @@
 #include <shared/string.h>
 #include <shared/xalloc.h>
 
-#include "util.h"
 #include "defs.h"
 #include "includes.h"
 #include "lex.h"
@@ -166,13 +165,13 @@ stringval(void)
 			int c = string_char(1);
 			if (c < 0) {
 				lexeme[i] = 0;
-				l.val.name = append_string(l.val.name, lexeme);
+				l.val.name = xstrcat(l.val.name, lexeme);
 				return l;
 			}
 			lexeme[i] = (char)c;
 		}
 		lexeme[i] = 0;
-		l.val.name = append_string(l.val.name, lexeme);
+		l.val.name = xstrcat(l.val.name, lexeme);
 	}
 }
 
@@ -239,7 +238,7 @@ id_val(char *id)
 {
 	LEX l;
 	l.t = lex_ident;
-	l.val.name = copy_string(id);
+	l.val.name = xstrdup(id);
 	return l;
 }
 

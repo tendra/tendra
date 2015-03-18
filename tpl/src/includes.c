@@ -9,9 +9,9 @@
 
 #include <stdio.h>
 
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
-#include "util.h"
 #include "includes.h"
 #include "errors.h"
 
@@ -33,7 +33,7 @@ add_include(char *p)
 {
 	Path *x = xmalloc(sizeof *x);
 	Path **n = &inc_paths->next;
-	x->name = append_string(p, "/");
+	x->name = xstrcat(p, "/");
 	x->next = (Path *)0;
 	while (*n != (Path *)0)n = &((*n)->next);
 	*n = x;
@@ -58,7 +58,7 @@ open_include(char * a)
 		}
 	}
 	while (p != (Path *)0) {
-		fn = append_string(p->name, a);
+		fn = xstrcat(p->name, a);
 		ans = fopen(fn, "r");
 		if (ans != (FILE *)0) {
 			file_name = fn;

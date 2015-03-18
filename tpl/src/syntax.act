@@ -70,7 +70,6 @@ ULONG -> unsigned_long;
 #include <shared/check.h>
 #include <shared/string.h>
 
-#include "util.h"
 #include "defs.h"
 #include "encodings.h"
 #include "enc_nos.h"
@@ -965,7 +964,7 @@ extern unsigned long MINOR_NO;
 @};
 
 <field1_dec> :() -> (hold, x, y) = @{
-    char * dotn = append_string(".",lex_v.val.name);
+    char * dotn = xstrcat(".",lex_v.val.name);
     char * n = lex_v.val.name;
     @x = find_tok(dotn);
     @y = find_tok(n);

@@ -23,7 +23,6 @@ SRCS+=	standardsh.c
 SRCS+=	streams.c
 SRCS+=	syntax.c
 SRCS+=	units.c
-SRCS+=	util.c
 
 .include <tendra.obj.mk>
 

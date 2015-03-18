@@ -10,7 +10,6 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "util.h"
 #include "defs.h"
 #include "streams.h"
 #include "enc_nos.h"

@@ -11,7 +11,6 @@
 
 #include <shared/xalloc.h>
 
-#include "util.h"
 #include "streams.h"
 #include "units.h"
 #include "encodings.h"

@@ -9,7 +9,6 @@
 
 #include <stdio.h>
 
-#include "util.h"
 #include "defs.h"
 #include "syntax.h"
 #include "analyse_sort.h"

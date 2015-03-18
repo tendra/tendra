@@ -14,7 +14,6 @@
 #include <shared/check.h>
 #include <shared/string.h>
 
-#include "util.h"
 #include "readstreams.h"
 #include "enc_nos.h"
 #include "errors.h"

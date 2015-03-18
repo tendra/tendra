@@ -12,7 +12,6 @@
 
 #include <shared/check.h>
 
-#include "util.h"
 #include "namedecs.h"
 #include "lex.h"
 #include "includes.h"

@@ -27,7 +27,6 @@
 #include <shared/check.h>
 #include <shared/string.h>
 
-#include "util.h"
 #include "defs.h"
 #include "encodings.h"
 #include "enc_nos.h"
@@ -3945,7 +3944,7 @@ ZL2_field__list:;
 		{
 #line 970 "syntax.act"
 
-    char * dotn = append_string(".",lex_v.val.name);
+    char * dotn = xstrcat(".",lex_v.val.name);
     char * n = lex_v.val.name;
     (ZIb) = find_tok(dotn);
     (ZIc) = find_tok(n);
