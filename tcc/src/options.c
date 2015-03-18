@@ -32,6 +32,9 @@
 #include "hash.h"
 
 
+#define MAX_LINE 1024
+
+
 /*
  * TYPE REPRESENTING AN OPTION ACTION
  *

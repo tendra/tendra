@@ -12,7 +12,4 @@
 #define CONFIG_H
 
 
-#define MAX_LINE	1024
-
-
 #endif /* CONFIG_H */
