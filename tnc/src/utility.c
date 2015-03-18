@@ -17,7 +17,6 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
-#include "config.h"
 #include "types.h"
 #include "read_types.h"
 #include "analyser.h"

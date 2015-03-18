@@ -17,7 +17,6 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include "config.h"
 #include "list.h"
 #include "environ.h"
 #include "flags.h"

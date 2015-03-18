@@ -16,7 +16,6 @@
 
 #include <tdf/magic.h>
 
-#include "config.h"
 #include "types.h"
 #include "help.h"
 #include "high.h"

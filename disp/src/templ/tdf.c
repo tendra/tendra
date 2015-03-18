@@ -39,8 +39,6 @@
 
 #include <tdf/magic.h>
 
-#include "config.h"
-
 #include "types.h"
 #include "basic.h"
 #include "binding.h"

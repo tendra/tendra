@@ -14,8 +14,6 @@
 #include <shared/string.h>
 #include <shared/xalloc.h>
 
-#include "config.h"
-
 #include "util.h"
 #include "defs.h"
 #include "includes.h"

@@ -13,7 +13,6 @@
 #include <shared/bool.h>
 #include <shared/check.h>
 
-#include "config.h"
 #include "file.h"
 #include "types.h"
 #include "fetch.h"

@@ -9,7 +9,6 @@
 
 #include <shared/check.h>
 
-#include "config.h"
 #include "enc_nos.h"
 #include "errors.h"
 #include "readstreams.h"

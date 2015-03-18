@@ -12,8 +12,6 @@
 
 #include <shared/string.h>
 
-#include "config.h"
-
 #include "util.h"
 #include "defs.h"
 #include "find_id.h"

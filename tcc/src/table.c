@@ -35,7 +35,6 @@
 #include <assert.h>
 #include <stddef.h>
 
-#include "config.h"
 #include "table.h"
 
 struct filetype_table filetype_table[TYPE_ARRAY_SIZE] = {

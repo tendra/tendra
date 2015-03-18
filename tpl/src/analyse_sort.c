@@ -9,8 +9,6 @@
 
 #include <stdio.h>
 
-#include "config.h"
-
 #include "util.h"
 #include "defs.h"
 #include "syntax.h"

@@ -10,7 +10,6 @@
 #include <shared/bool.h>
 #include <shared/error.h>
 
-#include "config.h"
 #include "filename.h"
 #include "list.h"
 #include "archive.h"

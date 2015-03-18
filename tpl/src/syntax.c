@@ -27,7 +27,6 @@
 #include <shared/check.h>
 #include <shared/string.h>
 
-#include "config.h"
 #include "util.h"
 #include "defs.h"
 #include "encodings.h"

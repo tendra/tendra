@@ -16,8 +16,6 @@
 
 #include <tdf/magic.h>
 
-#include "config.h"
-
 #include "types.h"
 #include "check.h"
 #include "de_types.h"

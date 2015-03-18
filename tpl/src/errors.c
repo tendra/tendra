@@ -13,8 +13,6 @@
 
 #include <shared/check.h>
 
-#include "config.h"
-
 #include "util.h"
 #include "streams.h"
 #include "errors.h"

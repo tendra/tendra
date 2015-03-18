@@ -12,7 +12,6 @@
 
 #include <shared/check.h>
 
-#include "config.h"
 #include "types.h"
 #include "ascii.h"
 #include "file.h"

@@ -11,8 +11,6 @@
 #ifndef FILENAME_H
 #define FILENAME_H
 
-#include "config.h"
-
 
 /* TODO comment on keeping in sync with the table and vice-versa */
 enum filetype {

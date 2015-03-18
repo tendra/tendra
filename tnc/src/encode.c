@@ -14,7 +14,6 @@
 
 #include <tdf/magic.h>
 
-#include "config.h"
 #include "types.h"
 #include "enc_types.h"
 #include "bitstream.h"

@@ -17,7 +17,6 @@
 #include <shared/check.h>
 #include <shared/string.h>
 
-#include "config.h"
 #include "filename.h"
 #include "list.h"
 #include "execute.h"

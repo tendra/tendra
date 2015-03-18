@@ -19,7 +19,6 @@
 #include <shared/string.h>
 #include <shared/xalloc.h>
 
-#include "config.h"
 #include "external.h"
 #include "filename.h"
 #include "archive.h"

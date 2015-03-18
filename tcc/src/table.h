@@ -14,7 +14,6 @@
 #ifndef TABLE_H
 #define TABLE_H
 
-#include "config.h"
 #include "filename.h"
 
 #define TYPE_ARRAY_SIZE     (UNKNOWN_TYPE + 8)

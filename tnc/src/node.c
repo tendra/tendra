@@ -15,7 +15,6 @@
 
 #include <tdf/magic.h>
 
-#include "config.h"
 #include "types.h"
 #include "node.h"
 #include "table.h"

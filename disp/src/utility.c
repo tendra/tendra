@@ -13,7 +13,6 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include "config.h"
 #include "types.h"
 #include "file.h"
 #include "pretty.h"

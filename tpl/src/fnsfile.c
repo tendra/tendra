@@ -12,7 +12,6 @@
 
 #include <stdio.h>
 
-#include "config.h"
 #include "encodings.h"
 #include "enc_nos.h"
 #include "defs.h"

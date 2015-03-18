@@ -13,8 +13,6 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include "config.h"
-
 #include "util.h"
 #include "readstreams.h"
 #include "streams.h"

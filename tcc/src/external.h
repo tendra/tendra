@@ -15,8 +15,7 @@
 /*
  * EXTERNAL INTERFACE SPECIFICATION
  *
- * This header describes the non-ANSI component of the program API. The
- * various components are controlled by the FS_* macros defined in config.h.
+ * This header describes the non-ANSI component of the program API.
  */
 
 #define _POSIX_SOURCE

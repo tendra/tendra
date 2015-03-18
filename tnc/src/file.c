@@ -12,7 +12,6 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
-#include "config.h"
 #include "types.h"
 #include "fetch.h"
 #include "file.h"

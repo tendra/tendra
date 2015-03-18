@@ -3,7 +3,6 @@
 /* note that the table is sorted into alphabetic order */
 #include <stdio.h>
 
-#include "config.h"
 #include "consfile.h"
 #include "defs.h"
 #include "syntax.h"
