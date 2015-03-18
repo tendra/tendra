@@ -12,8 +12,8 @@
  * baseoff, instore, freg, ans, where
  */
 
-#ifndef addressingtkey
-#define addressingtkey 1
+#ifndef ADDRTYPES_H
+#define ADDRTYPES_H
 
 #include <local/ash.h>
 
@@ -23,110 +23,96 @@
 
 #include "cross.h"
 
-struct makeansst {
-  int   lab;
-  int   regmove;
-};
-typedef struct makeansst  makeans;
+typedef struct {
+	int lab;
+	int regmove;
+} makeans;
 
 #define NOREG 100
 
-struct baseofft {
-  int   base;			/* base register for addressing */
-  long  offset;			/* offset in words */
-};
-typedef struct baseofft baseoff;
+typedef struct {
+	int base;    /* base register for addressing */
+	long offset; /* offset in words */
+} baseoff;
 
-typedef struct source_t{
-  bool reg;
-  int value;
+typedef struct {
+	bool reg;
+	int value;
 } source;
 
-
-
-struct instoret {
-  baseoff b;
-  bool adval;	/* if true then b is itself an address
-		   value i.e not a pointer to a value */
-};
-
-typedef struct instoret instore;
+typedef struct {
+	baseoff b;
+	bool adval;	/* if true then b is itself an address value i.e not a pointer to a value */
+} instore;
 
 typedef enum {
-  VAX_single,VAX_double,IEEE_single,IEEE_double
+	VAX_single,
+	VAX_double,
+	IEEE_single,
+	IEEE_double
 } float_reg_contents;
 
-
-typedef struct fregt{
-  int fr;
-  float_reg_contents type;
+typedef struct {
+	int fr;
+	float_reg_contents type;
 } freg;
 
-
-typedef struct somefregt {
-  int  *fr;
-  float_reg_contents type;
+typedef struct {
+	int *fr;
+	float_reg_contents type;
 } somefreg;
 
-
-struct someregt {
-  int  *r;
-};		
-		
-typedef struct someregt somereg;
-
-
-union anstu {
-  int   regans;			/* register number */
-  freg fregans;
-  instore instoreans;
-  somefreg somefregans;		
-  somereg someregans;
-};
-
-enum ansdiscrim {
-  inreg, infreg, notinreg,insomereg, insomefreg
-};
- /* use to discriminate the above union type */
+typedef struct {
+	int  *r;
+} somereg;
 
 /*
  * this type used as union of a fixpnt reg,
  * a float reg and an instore value
  */
-struct anst {
-  enum ansdiscrim discrim;
-  union anstu val;
-};
-typedef struct anst ans;
+typedef struct {
+	/* use to discriminate the .val union type */
+	enum {
+		inreg,
+		infreg,
+		notinreg,
+		insomereg,
+		insomefreg
+	} discrim;
 
-struct wheret {
-  ans answhere;			/* reg or store position */
-  ash ashwhere;			/* size and alignment, see ashtypes.h */
-};
+	union {
+		int regans; /* register number */
+		freg fregans;
+		instore instoreans;
+		somefreg somefregans;
+		somereg someregans;
+	} val;
+} ans;
 
-typedef struct wheret where;
+typedef struct {
+	ans answhere; /* reg or store position */
+	ash ashwhere; /* size and alignment, see ashtypes.h */
+} where;
 
-struct mmt {
-  INT64  maxi;
-  INT64  mini;
-  char *fmt;
-};
-typedef struct mmt  mm;
+typedef struct {
+	INT64 maxi;
+	INT64 mini;
+	char *fmt;
+} mm;
 
 /* Macros for ease of use of unions, allow 'hiding' of discriminator. */
-#define regalt(x) (x).val.regans
-#define fregalt(x) (x).val.fregans
-#define insalt(x) (x).val.instoreans
-#define someregalt(x) (x).val.someregans.r;
-#define somefregalt(x) (x).val.somefregans;
+#define regalt(x)            (x).val.regans
+#define fregalt(x)           (x).val.fregans
+#define insalt(x)            (x).val.instoreans
+#define someregalt(x)        (x).val.someregans.r;
+#define somefregalt(x)       (x).val.somefregans;
 
 /* Assign to field of union, discriminator set as appropriate */
-#define setregalt(x,y) (x).discrim = inreg; (x).val.regans = y
-#define setfregalt(x,y) (x).discrim = infreg; (x).val.fregans = y
-#define setinsalt(x,y) (x).discrim = notinreg; (x).val.instoreans =y
-#define setsomeregalt(x,y) (x).discrim = insomereg; (x).val.someregans.r =y
-#define setsomefregalt(x,y) (x).discrim = insomefreg; (x).val.somefregans=y
+#define setregalt(x, y)      (x).val.regans       = (y); (x).discrim = inreg
+#define setfregalt(x, y)     (x).val.fregans      = (y); (x).discrim = infreg
+#define setinsalt(x, y)      (x).val.instoreans   = (y); (x).discrim = notinreg
+#define setsomeregalt(x, y)  (x).val.someregans.r = (y); (x).discrim = insomereg
+#define setsomefregalt(x, y) (x).val.somefregans  = (y); (x).discrim = insomefreg
 
 #endif
-
 
