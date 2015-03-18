@@ -38,8 +38,6 @@
 #include "cross.h"
 #include "operators.h"
 
-static bool testover = 0; /* always 0 for C */
-
 void
 tidyshort(int r, shape s)
 {

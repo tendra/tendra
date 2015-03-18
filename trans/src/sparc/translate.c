@@ -178,7 +178,6 @@ int g_reg_max ;		/* the maximum number of G registers */
 int maxfix_tregs ;	/* the maximum number of T registers */
 dec **main_globals ;	/* global declarations */
 procrec *procrecs ;	/* procedure records */
-static dec *diag_def = NULL ;	/* diagnostics definition */
 static int main_globals_index = 0;	/* number of globals */
 int caller_offset_used = 0;
 enum section current_section = no_section ;

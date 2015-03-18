@@ -32,8 +32,6 @@
 #include "operators.h"
 #include "pseudo.h"
 
-static bool testover = 0; /* always 0 for C */
-
 static void
 tidyshort(int r, shape s, char* ins)
 {/* corrects possible overflows of chars

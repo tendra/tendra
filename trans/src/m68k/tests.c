@@ -91,7 +91,6 @@ no_side(exp e)
 	return is_a(n) || n == test_tag || n == ass_tag || n == testbit_tag;
 }
 
-static char n;
 
 /*
     Can the expression e be pushed directly onto the stack when it is

@@ -75,11 +75,9 @@ output_option(char *arg, bool t)
 int
 main(int argc, char **argv)
 {
-	int status = 0;
 	bool expand = 0;
 	bool evaluate = 0;
 	bool lib_input = 0;
-	bool output_next = 0;
 	bool help_output;
 
 	void(*input_fn)(void);

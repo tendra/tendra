@@ -146,8 +146,6 @@ outlab(int l)
   return NULL;
 }
 
-static char fltrepr[120];
-
 static void
 output_data_records(char *strng, char *str, int size)
 {

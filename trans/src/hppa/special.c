@@ -285,14 +285,6 @@ specialmake(int i, exp par, space sp, where dest, int exitlab)
 
 
 /*
-    A value of 0 means that the library is not present, 1 that it is, and
-    2 that it should be generated.
-*/
-
-static int library_key = 0 ;
-
-
-/*
     SPECIAL ROUTINES
 */
 

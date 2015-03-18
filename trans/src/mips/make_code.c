@@ -82,7 +82,6 @@ static ans procans;
 static int rscope_level;
 static int rscope_label;
 static int result_label = 0;
-static int currentnop;
 static long max_args;
 
 where nowhere;

@@ -157,11 +157,6 @@ static needs twofix = {
   2, 0, 0, 0
 };				/* needs 2 fix pt regs */
 
-static needs threefix = {
-  3,0,0,0
-};
-
-
 static needs fourfix = {
   4,0,0,0
 };

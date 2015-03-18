@@ -38,9 +38,6 @@ For trivial 'peephole' optimisations
 /* 22.11.94. Corrected bug found by Ian Currie, i.e. isglob(s) assertion
    added to line 351 */
 
-
-static int line;
-
 static regpeep regexps[64];		/* [0:31] fix pt - [32:47] floating pt */
 
 static bool sim_exp(exp, exp);

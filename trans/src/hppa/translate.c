@@ -163,8 +163,6 @@ static int main_globals_index;
 
 procrec *procrecs,*cpr;
 
-static dec *diag_def = NULL; /* diagnostics definition */
-
 #define is_zero(e)is_comm(e)
 #define TRANSLATE_GLOBALS_FIRST 1
 

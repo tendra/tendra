@@ -47,17 +47,12 @@
 
 extern int stack_top;
 static INT64 word_mask=0xffffL;
-static INT64 long_mask=0xffffffffL;
 INT64 one_64=1L;
 
 #else
 
 INT64 word_mask={
 0  0,0xffff
-};
-
-INT64 long_mask={
-  0,0xffffffff
 };
 
 static INT64 one_64 = { 0, 1 };

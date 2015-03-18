@@ -61,7 +61,6 @@
 
 extern int firstlab, labno;
 extern int nexps;
-static char last_ins[96];
 
 static int zops[] = { 0, 0, 0, 0 };
 static int last_line;
