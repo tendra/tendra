@@ -37,6 +37,12 @@
 
 	<xsl:template match="varlistentry/term">
 		<dt>
+			<xsl:if test="string-length(.) &lt;= 2">
+				<xsl:attribute name="class">
+					<xsl:text>narrow</xsl:text>
+				</xsl:attribute>
+			</xsl:if>
+
 			<xsl:if test="option">
 				<a name="arg{option}"/>
 			</xsl:if>

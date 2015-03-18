@@ -165,6 +165,11 @@ dl dd {
 	margin-bottom: 1em;
 }
 
+dt.narrow {
+	float: left;
+	clear: left;
+}
+
 div.warning:before {
 	content: "Warning";
 	font-weight: bold;
