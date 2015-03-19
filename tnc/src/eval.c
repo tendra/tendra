@@ -12,6 +12,7 @@
 #include <stddef.h>
 
 #include <shared/bool.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <tdf/magic.h>
@@ -160,7 +161,7 @@ shift_one(long n)
     for (i = 0; i < n / 3; i++) {
 	buff[i + 1] = '0';
     }
-    return string_copy(buff,(int)(i + 1));
+    return xstrldup(buff, i + 1);
 }
 
 
@@ -168,7 +169,7 @@ static char *
 minus_one(char *val)
 {
     int i, n = (int)strlen(val);
-    char *res = string_copy(val, n);
+    char *res = xstrldup(val, n);
     for (i = n - 1; i >= 0; i--) {
 	char c = res[i];
 	if (c != '0') {

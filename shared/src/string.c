@@ -8,10 +8,10 @@
  */
 
 #include <assert.h>
+#include <string.h>
 #include <stdarg.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
 
 #include <shared/check.h>
 #include <shared/string.h>
@@ -29,6 +29,20 @@ xstrdup(const char *s1)
 	IGNORE strcpy(s2, s1);
 
 	return s2;
+}
+
+
+char *
+xstrldup(const char *s, size_t l)
+{
+	char *p;
+
+	p = xmalloc(l + 1);
+
+	IGNORE strncpy(p, s, l);
+	p[l] = '\0';
+
+	return p;
 }
 
 

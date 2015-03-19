@@ -382,7 +382,7 @@ read_node_aux(char *str, int strict)
 	    p->cons = new_construct();
 	    p->cons->sortnum = SORT_tdfstring;
 	    p->cons->encoding = word_length;
-	    p->cons->name = string_copy(word,(int)word_length);
+	    p->cons->name = xstrldup(word, word_length);
 	    p->cons->next = NULL;
 	    return p;
 	} else {
@@ -485,7 +485,7 @@ read_node_aux(char *str, int strict)
 	    p->cons = new_construct();
 	    p->cons->sortnum = SORT_tdfstring;
 	    p->cons->encoding = word_length;
-	    p->cons->name = string_copy(word,(int)word_length);
+	    p->cons->name = xstrldup(word, word_length);
 	    p->cons->next = NULL;
 	    q = new_node();
 	    q->cons = cons_no(SORT_string, ENC_make_string);

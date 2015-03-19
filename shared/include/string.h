@@ -14,6 +14,7 @@
 #define strneq(a, b, n) (strncmp((a), (b), (n)) == 0)
 
 char *xstrdup(const char *);
+char *xstrldup(const char *s, size_t l);
 char *xstrcat(const char *, const char *);
 
 #endif

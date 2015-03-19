@@ -15,6 +15,7 @@
 #include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include "types.h"
@@ -161,20 +162,6 @@ warning(char *s, ...)
 }
 
 
-char *
-string_copy(char *s, int n)
-{
-	char *p;
-
-	p = xmalloc(n+1);
-
-	IGNORE strncpy(p, s, n);
-	p[n] = '\0';
-
-	return p;
-}
-
-
 /*
     This routine copies a string into a temporary buffer.
 */
@@ -216,7 +203,7 @@ ulong_to_octal(unsigned long n)
 		n >>= 3;
 	}
 
-	return string_copy(buff + i, 99 - i);
+	return xstrldup(buff + i, 99 - i);
 }
 
 

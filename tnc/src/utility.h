@@ -20,7 +20,6 @@ void input_error(char *, ...);
 void warning(char *, ...);
 
 
-char *string_copy(char *, int);
 char *temp_copy(char *);
 
 
