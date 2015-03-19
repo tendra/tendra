@@ -28,16 +28,6 @@
 #include <refactor/optimise.h>
 #include <refactor/refactor_ext.h>
 
-static void
-rec_inl(exp p)
-{
-	if (pt(p) != NULL) {
-		rec_inl(pt(p));
-	}
-
-	inline_exp(father(p));
-}
-
 /*
  * This function replaces calls to the strcpy function
  * with a direct mem -> mem copy.

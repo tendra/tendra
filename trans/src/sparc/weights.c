@@ -197,27 +197,6 @@ max_weights ( double loc, weights * ws, bool fix ){
 
 
 /*
-  MULTIPLY A WEIGHT BY A SCALAR
-*/
-static weights 
-mult_weights ( double m, weights * ws ){
-  long i ;
-  weights res ;
-  float *w = ws->fix ;
-  float *r = &( res.fix ) [0] ;
-  for ( i = 0 ; i < wfixno ; ++i ) {
-    r [i] = w [i] * m ;
-  }
-  w = ws->floating ;
-  r = &( res.floating ) [0] ;
-  for ( i = 0 ; i < wfloatno ; ++i ) {
-    r [i] = w [i] * m ;
-  }
-  return res;
-}
-
-
-/*
   ADD A WEIGHTS CORRESPONDING TO AN EXPRESSION LIST
 */
 static weights 

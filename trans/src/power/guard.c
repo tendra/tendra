@@ -56,35 +56,6 @@ space guardfreg(int r, space sp)
 }
 
 /*
- * needreg & needfreg are like guardreg & guardfreg,
- * except it is an error if the reg is alread in use.
- * Used, eg, when claiming regs that will be damaged, as in a call.
- */
-static space
-needreg(int r, space sp)
-{
-  /* tempdec() can allocate t regs if dead over calls, so dont fail */
-  if (!(optim & OPTIM_TEMPDEC && IS_TREG(r)) && (sp.fixed&RMASK(r))!=0)
-  {
-    asm_comment("needreg: %d", r);
-    error(ERR_SERIOUS, "needreg: fixed reg already in use");
-  }
-  return guardreg(r, sp);
-}
-
-static space
-needfreg(int r, space sp)
-{
-  /* tempdec() can allocate t regs if dead over calls, so dont fail */
-  if (!(optim & OPTIM_TEMPDEC && IS_FLT_TREG(r)) && (sp.flt&RMASK(r))!=0)
-  {
-    asm_comment("needfreg: %d", r);
-    error(ERR_SERIOUS, "needfreg: float reg already in use");
-  }
-  return guardreg(r, sp);
-}
-
-/*
  * The procedure guard may also protect a register involved in addressing
  * depending on the value of the parameter of type where.
  *

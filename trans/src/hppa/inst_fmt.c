@@ -989,27 +989,6 @@ extj_reg_ins(ins_p ins, int reg)
 /*
  * Conditional pseudo instructions.
  */
-static void
-addb_in(char *cond, int l, int d, int lab)
-{
-   int ops[4];
-   ops[0]=l;
-   ops[1]=d;
-   outp(i_addb,cond,ops,lab);
-   asm_printop("addb%s,N %s,%s,L$$%d",cond,RN(l),RN(d),lab);
-   z_ins(i_nop);
-}
-
-static void
-addib_in(char *cond, int i, int d, int lab)
-{
-   int ops[4];
-   ops[0]=i;
-   ops[1]=d;
-   outp(i_addib,cond,ops,lab);
-   asm_printop("addib%s,N %d,%s,L$$%d",cond,i,RN(d),lab);
-   z_ins(i_nop);
-}
 
 /*
  * register comparisons
@@ -1174,13 +1153,6 @@ stf_ir_ins(ins_p ins, int s, int o, int b)
 {
    outp(ins,NOCOND,zops,NA);
    asm_printop("%s %s,%d(%s)",ins,FN(s),o,RN(b));
-}
-
-static void
-stf_rr_ins(ins_p ins, int s, int a, int b)
-{
-   outp(ins,NOCOND,zops,NA);
-   asm_printop("%s %s,%s(%s)",ins,FN(s),RN(a),RN(b));
 }
 
 void

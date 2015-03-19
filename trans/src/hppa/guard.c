@@ -61,8 +61,7 @@ guardfreg(int r, space sp)
 }
 
 /*
- * needreg & needfreg are like guardreg & guardfreg, except it is an error
- * if the reg is alread in use.
+ * needreg is like guardreg, except it is an error if the reg is alread in use.
  * Used, eg, when claiming regs that will be damaged, as in a call.
  */
 space
@@ -74,20 +73,6 @@ needreg(int r, space sp)
   {
     asm_comment("needreg: %d", r);
     error(ERR_SERIOUS, "needreg: fixed reg already in use");
-  }
-#endif
-  return guardreg(r, sp);
-}
-
-static space
-needfreg(int r, space sp)
-{
-#if 0 /* !!!! */
-  /* tempdec() can allocate t regs if dead over calls, so dont fail */
-  if (!(optim & OPTIM_TEMPDEC && IS_FLT_TREG(r)) && (sp.flt & RMASK(r)) != 0)
-  {
-    asm_comment("needfreg: %d", r);
-    error(ERR_SERIOUS, "needfreg: float reg already in use");
   }
 #endif
   return guardreg(r, sp);

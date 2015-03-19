@@ -73,7 +73,6 @@ extern char *proc_name;
 extern int line;
 extern char export[128];
 extern int firstlab,labno;
-extern baseoff find_tg(char* s);
 extern exp find_named_tg(char *,shape);
 extern shape f_pointer(alignment);
 extern alignment f_alignment(shape);

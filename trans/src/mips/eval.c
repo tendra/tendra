@@ -56,13 +56,7 @@ static long  G_number = 64;		/* to give choice of .sdata or data */
 int   data_lab = 33;
 
 /* anonymous label in data space - $$n in assember o/p */
-static int
-next_data_lab(void)
-{
-        return data_lab++;
-}
-
-/* as above - but also gives it a symno for .G output */
+/* but also gives it a symno for .G output */
 int next_dlab_sym
 (void)
 {

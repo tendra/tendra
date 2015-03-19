@@ -141,22 +141,6 @@ static needs fourfix   = { 4, 0, 0, 0 }; /* needs 4 fix pt regs */
 static needs onefloat  = { 0, 1, 0, 0 }; /* needs 1 flt pt regs */
 static needs zeroneeds = { 0, 0, 0, 0 }; /* has no needs */
 
-static bool
-subvar_use(exp uses)
-{ /* check to see if any uses of id is initialiser to subvar dec */
-	for(;uses != NULL; uses=pt(uses)) {
-	     if (last(uses) && name(bro(uses))==cont_tag) {
-		exp c = bro(uses);
-		if (!last(c) && last(bro(c)) && name(bro(bro(c))) == ident_tag) {
-		     exp id = bro(bro(c));
-		     if ((props(id) & subvar) != 0 && (props(id) & inanyreg) !=0) return 1;
-		}
-	     }
-	}
-	return 0;
-}
-
-
 static needs
 shapeneeds(shape s)
 {	/* this gives the needs for manipulating a

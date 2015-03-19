@@ -433,20 +433,6 @@ lr_ins ( int imm, int dest )
 
 
 /*
-    OUTPUT A ZEROADIC INSTRUCTION
-*/
-
-static void
-z_ins ( ins_p ins )
-{
-    asm_printop("%s", ins ) ;
-#ifdef DWARF2
-    count_ins(1);
-#endif
-}
-
-
-/*
     OUTPUT AN UNCONDITIONAL BRANCH
 */
 
@@ -455,21 +441,6 @@ uncond_ins ( ins_p ins, int lab )
 {
     asm_printop("%s %s%d", ins, lab_prefix, lab ) ;
     assert (lab > 100);
-    asm_printop("nop") ;	/* delay slot */
-#ifdef DWARF2
-    count_ins(2);
-#endif
-}
-
-
-/*
-    OUTPUT A RETURN INSTRUCTION
-*/
-
-static void 
-ret_ins ( ins_p ins )
-{
-    asm_printop("%s", ins ) ;
     asm_printop("nop") ;	/* delay slot */
 #ifdef DWARF2
     count_ins(2);
@@ -587,28 +558,6 @@ extj_ins ( ins_p ins, baseoff b, int param_regs_used )
   count_ins(2);
 #endif
 }	
-
-/* 
-   don't fill up the delay slot: the caller of this functions must
-   provide its own delay slot filler 
-*/
-static void
-extj_ins_without_delay ( ins_p ins, baseoff b, int param_regs_used ){
-  char *ext = ext_name ( b.base ) ;
-  if ( param_regs_used >= 0 ) {
-    /* print number of parameter registers if known */
-    assert ( param_regs_used <= 6 ) ;	/* %o0..%o5 */
-    asm_printop("%s %s,%d", ins, ext, param_regs_used ) ;
-  } 
-  else {
-    /* param_regs_used = -1 means it is not known */
-    asm_printop("%s %s", ins, ext ) ;
-  }
-#ifdef DWARF2
-  count_ins(1);
-#endif
-}
-
 
 
 /*

@@ -176,26 +176,6 @@ max_weights(double loc, weights * ws, bool fix)
 }
 
 static weights
-mult_weights(double m, weights * ws)
-{
-	/* multiply weights by scalar - non overflowing */
-  weights res;
-  float *r = & (res.fix)[0];
-  float *w = ws -> fix;
-  long  i;
-  for (i = 0; i < wfixno; ++i) {
-      r[i] = w[i]* m;
-  }
-
-  r = & (res.floating)[0];
-  w = ws -> floating;
-  for (i = 0; i < wfloatno; ++i) {
-      r[i] = w[i]* m;
-  }
-  return res;
-}
-
-static weights
 add_wlist(double scale, exp re)
 {
 	/* sum of  weights of list re */

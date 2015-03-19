@@ -71,25 +71,6 @@ needreg ( int r, space sp )
 
 
 /*
-    GUARD THE FLOATING REGISTER r IN sp
-
-    This routine is like guardfreg, but fails if r has already been used.
-*/
-
-static space 
-needfreg ( int r, space sp )
-{
-#if 0
-    if ( !( optim & OPTIM_TEMPDEC && IS_FLT_TREG ( r ) ) &&
-	  ( sp.flt & RMASK ( r ) ) != 0 ) {
-	error(ERR_SERIOUS,  "needfreg : float register already in use" ) ;
-    }
-#endif
-    return guardfreg ( r, sp ) ;
-}
-
-
-/*
     GUARD ANY REGISTERS FROM w IN sp
 */
 

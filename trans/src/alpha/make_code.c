@@ -653,16 +653,6 @@ sbranches(int i)
 	return i_ble;
 }
 
-static void
-testunsigned(int r, long max, int lab, space sp)
-{
-	int rtmp = getreg(sp.fixed);
-
-	operate_fmt_immediate(i_cmpule, r, max, rtmp);
-
-	integer_branch(i_bne, rtmp, lab);
-}
-
 static bool
 fdouble_comparisons(instruction *ins, int i)
 {

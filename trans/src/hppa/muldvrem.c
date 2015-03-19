@@ -93,25 +93,6 @@ void clear_t_regs
 }
 
 
-/* call millicode library procedure for complicated operation */
-static int
-call_muldivrem(exp lhs, exp rhs, space sp, int proc)
-{
-    char *stub="ARGW0=GR ARGW1=GR";
-    reg_operand_here(lhs, sp, ARG0);
-    sp = needreg(ARG0, sp);
-
-    reg_operand_here(rhs,sp,ARG1);
-    sp = needreg(ARG1,sp);
-    call_millicode(proc,RP,stub,1);
-
-    clear_t_regs();
-
-    /* result left in RET1 */
-    return RET1;
-}
-
-
 /*
  * Multiply.
  */

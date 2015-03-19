@@ -122,27 +122,6 @@ ld_addr(instore is, int reg)
 }
 
 
-/* get address represented by is into a reg */
-static int
-addr_reg(instore is, long regs)
-{
-  int r;
-
-  asm_comment("addr_reg: adval=%d", is.adval);
-
-  if (is.adval && IS_FIXREG(is.b.base) && is.b.offset == 0)
-  {
-    /* simply return base reg */
-    return is.b.base;
-  }
-
-  /* otherwise load address into reg */
-  r = getreg(regs);
-  ld_addr(is, r);
-  return r;
-}
-
-
 /* store, sorting out temp reg required */
 static void store(Instruction_P st, int r, instore is, long regs)
 {
@@ -204,72 +183,6 @@ static void store(Instruction_P st, int r, instore is, long regs)
     st_ro_ins(st, r, b);
   }
 }
-
-
-#if 0
-/*
- * Copy a large inmem object with a loop.
- * Compact code, but slower than loopmove2() so no longer used.
- *
- * Copy with loop.
- *
- * Currently generate:
- *
- *		!%srcptr and %destptr set
- *		lil	%cnt,bytes
- *	loop:
- *		ai.	%cnt,%cnt,-bytes_per_step
- *		lx	%tmp,[%srcptr+%cnt]
- *		stX	%tmp,[%destptr+%cnt]
- *		bnz	loop
- *
- * +++ unroll, and use two copy regs to seperate ld and st using same reg
- * +++ use CR
- * +++ use lu/stu
- * +++ use lsi/stsi
- */
-static void loopmove1
-    (instore iss, instore isd, int bytes_per_step, int no_steps,
-	     Instruction_P ld, Instruction_P st, long regs)
-{
-  int srcptr_reg;
-  int destptr_reg;
-  int cnt_reg;
-  int copy_reg;
-  int loop = new_label();
-
-  asm_comment("loopmove1: loop move");
-
-  /* moves of addresses not handled by this long move */
-  assert(!iss.adval);
-
-  assert(bytes_per_step <= 4);	/* only using 1 word regs */
-
-  cnt_reg = getreg(regs);
-  regs |= RMASK(cnt_reg);
-
-  assert(!iss.adval);
-  iss.adval = 1;	/* we want address of value */
-  srcptr_reg = addr_reg(iss, regs);
-  regs |= RMASK(srcptr_reg);
-
-  destptr_reg = addr_reg(isd, regs);
-  regs |= RMASK(destptr_reg);
-
-  copy_reg = R_TMP0;
-
-  ld_const_ins(bytes_per_step * no_steps, cnt_reg);
-
-  set_label(loop);
-
-  rir_ins(i_a_cr, cnt_reg, -bytes_per_step, cnt_reg);
-  ld_rr_ins(ld, srcptr_reg, cnt_reg, copy_reg);
-  st_rr_ins(st, copy_reg, destptr_reg, cnt_reg);
-
-  bc_ins(i_bnz, 0, loop,LIKELY_TO_JUMP);
-  clear_reg(cnt_reg);
-}
-#endif
 
 
 /*

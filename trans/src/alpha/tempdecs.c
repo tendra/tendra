@@ -207,6 +207,7 @@ tempdec(exp e, bool enoughs)
       /* find no of uses which are not assignments to id ... */
       if (!last(p) && last(bro(p)) 
 	  && name(bro(bro(p))) == ass_tag ) {
+    (void) simple_seq;
 /*	if (!simple_seq(bro(bro(p)), e) ) return 0;*/
 	/* ... in simple sequence */		 
 	continue;

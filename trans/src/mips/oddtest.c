@@ -87,37 +87,6 @@ oddtest(exp x, exp *t, exp *f, exp *v)
   flab0: return 0;
 }
 
-/* last_statement finds the last obeyed statement of x and puts it in f */
-static int
-last_statement(exp x, exp *f)
-{
-  exp z;
-  if (name(x) != ident_tag) goto flab1;
-  { exp xC = son(x);
-    if (last(xC)) goto flab1;
-    xC = bro(xC);
-    z = xC;
-    last_statement(z, f);
-    if(!last(xC)) goto flab1;
-  }
-  goto tlab1;
-  flab1:
-  if (name(x) != seq_tag) goto flab2;
-  { exp xC = son(x);
-    if (last(xC)) goto flab2;
-    xC = bro(xC);
-    z = xC;
-    last_statement(z, f);
-    if(!last(xC)) goto flab2;
-  }
-  goto tlab1;
-  flab2:
-  z = x;
-   *f = z;
-  tlab1:
-  return 1;
-}
-
 /* looks for things like
 	(a ~ b) ? a: b
 	puts test in t - can make use of delay-slot

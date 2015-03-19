@@ -60,38 +60,6 @@ setreorder(void)
   out_value(0,iset, make_INT64(0,set_reorder) ,0);
 }
 
-static void
-setnomove(void)
-{
-  if(as_file){
-    asm_printop(".set nomove");
-  }
-  out_value(0,iset, make_INT64(0,set_nomove),0);
-}
-
-static void
-setmove(void)
-{
-  if(as_file){
-    asm_printop(".set move");
-  }
-  out_value(0,iset, make_INT64(0,set_move),0);
-}
-
-#if 0
-void
-setvolatile(void)
-{
-/*    asm_printop(".set volatile");*/
-}
-
-void
-setnovolatile(void)
-{
-  asm_printop(".set novolatile");
-}
-#endif
-
 void
 setnoat(void)
 {
@@ -148,26 +116,6 @@ set_text_section(void)
   out_common(0,itext);
   set_align(128);
 }
-
-static void
-setmask(int32 mask, int32 disp)
-{
-  if(as_file){
-    asm_printop(".mask 0x%x,%d", mask, disp);
-  }
-  out_mask(0,imask,mask,disp);
-}
-
-
-static void
-setfmask(int32 mask, int32 disp)
-{
-  if(as_file){
-    asm_printop(".fmask 0x%x,%d", mask, disp);
-  }
-  out_mask(0,ifmask,mask,disp);
-}
-
 
 
 void

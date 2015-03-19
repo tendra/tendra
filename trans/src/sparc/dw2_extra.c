@@ -927,20 +927,6 @@ void dw2_fde_save(void)
   exit_section ();
 }
 
-static void
-dw2_fde_restore(void)
-{
-  long here = 0;
-  if (fde_count < 0)
-    here = set_dw_text_label();
-  enter_section ("debug_frame");
-  fde_advance (here);
-  out8 (); asm_printf("%d, ", DW_CFA_DD_sparc_restore_regwindow);
-	sleb128 ((long) (has_struct_res (this_proc) ? 12 : 8));
-	asm_printf("\n");
-  exit_section ();
-}
-
 void dw2_complete_fde(void)
 {
   out_dwf_label (proc_end, 1);

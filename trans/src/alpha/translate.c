@@ -77,24 +77,6 @@ static int main_globals_index;
 extern filename * fds;
 
 /*
-  return the appropriate storage class based on the size parameter.
-  The size is given in bytes.
-*/
-static char *
-storage_class(int size)
-{
-  switch(size){
-    case 1: return s_byte;
-    case 2: return s_word;
-    case 4: return s_long;
-    case 8: return s_quad;
-    default:
-    error(ERR_FATAL, "illegal size for global");
-    UNREACHED;
-  }
-}
-
-/*
   used to prevent illegal use of the 
   various identifiers reserved by the alpha
   assembler
@@ -117,13 +99,6 @@ not_reserved(char *id)
   return 1;
 }
 
-
-/* return true if sha has an exposed nof component, false otherwise */
-static bool
-varsize(shape sha)
-{
-  return name(sha)==nofhd;
-}
 
 static int current_symno;
 

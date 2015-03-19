@@ -102,23 +102,6 @@
 where nowhere ;
 
 /*
- * CHECK FOR NOT-A-NUMBER
- */
-static void
-checknan ( exp e, int fr )
-{
-	UNUSED(e);
-	UNUSED(fr);
-
-#if 0
-	long trap = no ( son ( pt ( e ) ) ) ;
-	int t = ( ABS_OF ( fr ) - 32 ) << 1 ;
-#endif
-
-	error(ERR_SERIOUS,  "checknan not implemented" ) ;
-}
-
-/*
  * START OF VOLATILE USE
  * Not available until SunOS 5.0.
  */

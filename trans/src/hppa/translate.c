@@ -241,23 +241,6 @@ mark_unaliased(exp e)
     setcaonly(e);
 }
 
-static baseoff
-find_tg(char *n)
-{
-   int i;
-   for (i=0;i<main_globals_index;i++)
-   {
-      exp tg = main_globals[i] -> dec_exp;
-      char *id = main_globals[i] -> dec_id;
-      if (streq(id,n))
-      {
-	 return boff(tg);
-      }
-   }
-   error(ERR_INTERNAL, "Extension name not declared ");
-   exit(EXIT_FAILURE);
-}
-
 
 /* translate the TDF */
 void

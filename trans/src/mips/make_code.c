@@ -161,36 +161,6 @@ reset_gp(void)
 	ls_ins(i_lw, 28, b);
 }
 
-/* usages of parameters which might be vararg */
-static bool
-unsafe(exp e)
-{
-	UNUSED(e);
-
-	/*
-	  if (last (e))
-	    return name (bro (e)) != cont_tag && name (bro (e)) != par_tag;
-	  if (last (bro (e)) && name (bro (bro (e))) == ass_tag)
-	    return 0;
-	  if (name (father (e)) == par_tag)
-	    return 0;
-	  if (last (bro (e)) && name (bro (bro (e))) == ident_tag) {
-	    exp u;
-	    if (isvar (bro (bro (e))))
-	      return 1;
-	    for (u = pt (bro (bro (e))); u != NULL; u = pt (u)) {
-	      if (unsafe (u))
-		return 1;
-	    }
-	    return 0;
-	  }
-	  return 1;
-	*/
-
-	error(ERR_INTERNAL, "unsafe");
-	return 1;
-}
-
 static void
 checknan(exp e, space sp)
 {

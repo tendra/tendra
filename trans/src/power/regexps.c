@@ -278,14 +278,6 @@ ans iskept_reg(exp e)
 }
 
 
-/* find if e has already been evaluated into a floating point register */
-static ans
-iskept_freg(exp e)
-{
-  return iskept_regrange(e, FR_OFFSET, LAST_ALL_REGS);
-}
-
-
 /* find if e has already been evaluated into any register */
 ans iskept(exp e)
 {

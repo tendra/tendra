@@ -65,13 +65,6 @@ static const ins_sgn_pair st_ins_sz[] =
    /* 64 */ {I_NIL, I_NIL}
 };
 
-/* the st instruction for object sized bits */
-static ins_p
-i_st_sz(int bits)
-{
-    return st_ins_sz[(bits) / 8][0];
-}
-
 /* load address represented by is into reg */
 static void
 ld_addr(instore is, int reg)

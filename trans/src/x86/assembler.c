@@ -319,12 +319,6 @@ outclosebr(void)
 	}
 }
 
-static void
-outdivsym(void)
-{
-	asm_printf("/");
-}
-
 void
 out_initialiser(char *id)
 {

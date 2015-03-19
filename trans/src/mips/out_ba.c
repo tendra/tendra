@@ -166,15 +166,6 @@ out_value(asmsym symno, unsigned asmtype, asmint expression, unsigned long repea
     if (repeat>0xffff) out_value(symno, asmtype, expression, repeat-0xffff);
 }
 
-static void
-out_alias(asmsym symno, unsigned asmtype, asmreg basereg1, asmreg basereg2)
-{		/* output alias binasm record */
-  C (alias);
-  ba.alias.basereg1 = basereg1;
-  ba.alias.basereg2 = basereg2;
-  OUT;
-}
-
 void
 out_cpload(asmsym symno, asmreg reg)
 {

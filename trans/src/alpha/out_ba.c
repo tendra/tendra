@@ -198,21 +198,6 @@ out_value(asmsym symno, unsigned asmtype, INT64 expression, unsigned int repeat)
 
 
 /*
-   output alias binasm record
-*/
-static void
-out_alias(asmsym symno, unsigned asmtype, asmreg basereg1, asmreg basereg2)
-{
- 
-  C (alias);
-  ba.alias.basereg1 = basereg1;
-  ba.alias.basereg2 = basereg2;
-  OUT;
-}
-
-
-
-/*
    output binasm for instruction with no
    immediate operand
 */

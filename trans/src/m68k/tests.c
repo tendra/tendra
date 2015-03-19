@@ -27,28 +27,6 @@
 #include "68k_globals.h"
 #endif
 
-static bool
-reused_parameter(exp e)
-{
-	bool reused = 0;
-	exp def, ident_exp;
-	def = son(e);
-	if (name(def) == name_tag) {
-		ident_exp = son(def);
-		if (! isvar(ident_exp)) {
-			/* This an obtain_tag of a parameter */
-			if (name(son(ident_exp)) == formal_callee_tag) {
-				reused = cur_proc_use_same_callees;
-			}
-			else {
-				/* caller parameter */
-				reused = cur_proc_has_tail_call;
-			}
-		}
-	}
-	return reused;
-}
-
 /*
     This routine returns 1 if the expression e can be put into a register.
     It has to have its visible flag false, and to be of a suitable shape.

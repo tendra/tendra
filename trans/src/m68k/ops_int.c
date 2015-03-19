@@ -1519,19 +1519,6 @@ void rem2
 
 
 /*
-    The value top is divided by bottom and the result is stored in dest.
-*/
-
-static void
-exactdiv(shape sha, where bottom, where top, where dest)
-{
-	UNUSED(sha);
-
-    euclid(slongsh, bottom, top, dest, zero, DIV, 2);
-}
-
-
-/*
     DO A MAXIMUM OR MINIMUM INSTRUCTION
 */
 

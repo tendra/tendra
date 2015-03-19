@@ -140,69 +140,6 @@ void reverse_static_memory_copy(int reg_from, int reg_to, int number_of_bytes)
   assert(offset ==0);
 }
 
-static void
-dynamic_byte_memory_copy(int reg_from, int reg_to, int reg_size)
-{
-  /* reg_size contains the number of bytes to copy */
-  int zero = new_label();
-  int loop = new_label();
-  int creg = next_creg();
-  baseoff from;
-  baseoff to;
-  asm_comment("dynamic copy (byte at a time) from R_%d ro R_%d using no of bytes in R_%d",reg_from,reg_to,reg_size);
-  
-  cmp_ri_ins(i_cmp,reg_size,0,creg);
-  bc_ins(i_beq,creg,zero,UNLIKELY_TO_JUMP);
-  from.base = reg_from;
-  from.offset =1;
-  to.base = reg_to;
-  to.offset =1;
-  
-  rir_ins(i_a,reg_from,-1,reg_from);
-  rir_ins(i_a,reg_to,-1,reg_to);
-  
-  mt_ins(i_mtctr,reg_size);
-  
-  set_label(loop);
-  ld_ro_ins(i_lbzu,from,R_TMP0);
-  st_ro_ins(i_stbu,R_TMP0,to);
-  uncond_ins(i_bdn,loop);
-  
-  rir_ins(i_a,reg_from,1,reg_from);
-  rir_ins(i_a,reg_to,1,reg_to);
-  set_label(zero);
-
-  /* reg_from goes to reg_from + reg_size */
-  /* reg_to goes to reg_to + reg_size */
-}
-
-static void
-reverse_dynamic_byte_memory_copy(int reg_from, int reg_to, int reg_size)
-{
-  /* reg_size contains the number of bytes to copy */
-  int zero = new_label();
-  int loop = new_label();
-  int creg = next_creg();
-  baseoff from;
-  baseoff to;
-  asm_comment("reverse dynamic copy (byte at a time) from R_%d ro R_%d using no of bytes in R_%d",reg_from,reg_to,reg_size);
-  cmp_ri_ins(i_cmp,reg_size,0,creg);
-  bc_ins(i_beq,creg,zero,UNLIKELY_TO_JUMP);
-  from.base = reg_from;
-  from.offset = -1;
-  to.base = reg_to;
-  to.offset = -1;
-  rrr_ins(i_a,reg_from,reg_size,reg_from);
-  rrr_ins(i_a,reg_to,reg_size,reg_to);
-  mt_ins(i_mtctr,reg_size);
-  set_label(loop);
-  ld_ro_ins(i_lbzu,from,R_TMP0);
-  st_ro_ins(i_stbu,R_TMP0,to);
-  uncond_ins(i_bdn,loop);
-  
-  set_label(zero);
-}
-
 void dynamic_word_memory_copy(int reg_from, int reg_to, int reg_size)
 {
   /* reg_size contains the number of bytes to copy */

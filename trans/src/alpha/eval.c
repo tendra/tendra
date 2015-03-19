@@ -77,14 +77,7 @@ static long G_number = 64;		/* to give choice of .sdata or data */
 int   data_lab = 33;
 
 /* anonymous label in data space - $$n in assember o/p */
-static int
-next_data_lab(void)
-{
-  return data_lab++;
-}
-
-
-/* as above-but also gives it a symno for .G output */
+/* but also gives it a symno for .G output */
 int
 next_dlab_sym(void)
 {	
@@ -145,21 +138,6 @@ outlab(int l)
   }
   return NULL;
 }
-
-static void
-output_data_records(char *strng, char *str, int size)
-{
-  int pos = 0;
-  assert(size>0);
-  assert(!strng);
-  while(size>0){
-    out_data(str,min(size,binasm_record_length));
-    pos += binasm_record_length;
-    size -= binasm_record_length;
-  }
-}
-
-      
 
 
 /*

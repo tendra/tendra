@@ -496,27 +496,6 @@ float_convert(instruction ins, int src, int dest)
 /*
   miscellaneous instructions
 */
-static void
-call_pal(instruction ins, instruction pal_ins)
-{
-  if(as_file){
-    asm_printop("%s %s",ins_symbolic_name(ins),
-		  ins_symbolic_name(pal_ins));
-  }
-}
-
-static void
-fetch(instruction ins, baseoff a)
-{
-/*  setmemory_base(new_ins,a.base);
-  setmemory_offset(new_ins,a.offset);*/
-  if(a.offset!=0)
-    error(ERR_INTERNAL, "fetch offset must be zero");
-  if(as_file){
-    asm_printop("%s %ld($%d)",ins_symbolic_name(ins),
-		  a.offset,a.base);
-  }
-}
 
 void
 no_parameter_instructions(instruction ins)

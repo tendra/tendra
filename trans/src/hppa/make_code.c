@@ -85,7 +85,6 @@ extern int leaf;
 extern labexp current, first;
 extern int RSCOPE_LEVEL, RSCOPE_LABEL;
 extern exp find_named_tg(char *, shape);
-extern baseoff find_tg(char* s);
 
 #define GETREG(d, s)(discrim((d).answhere) == inreg ?\
 			  regalt((d).answhere):\
