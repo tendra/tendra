@@ -347,7 +347,7 @@ eval_delayed_const_list(void)
 static void output_all_exps
 (void)
 {
-    dec *d;
+    dec *d = top_def;
 
     if (diag != DIAG_NONE) d = sort_decs(d);
 
