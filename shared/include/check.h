@@ -23,7 +23,7 @@
  */
 # if defined __TenDRA__
 #  pragma TenDRA type NORETURN for bottom
-# elif defined __GNUC__
+# elif defined(__GNUC__) || defined(__clang__)
 #  define NORETURN __attribute__((noreturn)) void
 # else
 #  define NORETURN void
@@ -124,7 +124,7 @@
  *  f(FILE *f, const char *fmt, ...)
  *      ATTR_FMT(printf, 2, 3);
  */
-# ifdef __GNUC__
+# if defined(__GNUC__) || defined(__clang__)
 #  define ATTR_FMT(f, a, b) __attribute__ ((format (f, (a), (b))))
 # else
 #  define ATTR_FMT(f, a, b)
