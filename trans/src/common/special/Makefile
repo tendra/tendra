@@ -7,6 +7,7 @@ CCOPTS+=	-I ..
 CCOPTS+=	-I .
 
 SRCS+=	special.c
+SRCS+=	special_call.c
 SRCS+=	special_diag.c
 SRCS+=	special_alloc.c
 

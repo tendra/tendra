@@ -18,10 +18,34 @@
 #include <construct/installtypes.h>
 #include <construct/machine.h>
 
+#include <special/special_call.h>
 #include <special/special_fn.h>
 #include <special/special_tok.h>
 
 #include <main/flags.h>
+
+bool
+special_call(const struct special_call a[], size_t count,
+	dec *dp)
+{
+	char *id;
+	size_t i;
+
+	id = dp->dec_id;
+
+	for (i = 0; i < count; i++) {
+		if (a[i].mask && (builtin & ~a[i].mask)) {
+			continue;
+		}
+
+		if (streq(a[i].name, id)) {
+			return a[i].f(dp);
+		}
+	}
+
+	return false;
+}
+
 
 bool
 special_fn(const struct special_fn a[], size_t count,
