@@ -188,8 +188,8 @@ special_strlen(dec *dp)
 }
 
 const struct special_call special_calls[] = {
-	{ "strcpy", 0, special_strcpy },
-	{ "strlen", 0, special_strlen }
+	{ "strcpy", BUILTIN_API, special_strcpy },
+	{ "strlen", BUILTIN_API, special_strlen }
 };
 
 size_t special_calls_count = sizeof special_calls / sizeof *special_calls;
