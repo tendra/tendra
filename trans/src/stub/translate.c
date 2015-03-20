@@ -56,7 +56,7 @@ something(dec *d)
 	d->processed = true;
 }
 
-void 
+void
 translate_capsule(void)
 {
 	dec *d;

@@ -54,370 +54,401 @@ int need_dummy_double = 0;
 #endif
 
 /*
-    EXTERNAL POSITIONS
-*/
-
+ * EXTERNAL POSITIONS
+ */
 static long crt_ext_off = 64;
-static long crt_ext_pt = 10;
-
+static long crt_ext_pt  = 10;
 
 /*
-    MARK AN EXPRESSION AS BEING STATIC AND UNALIASED
-*/
-
-static void mark_unaliased
-(exp e)
+ * MARK AN EXPRESSION AS BEING STATIC AND UNALIASED
+ */
+static void
+mark_unaliased(exp e)
 {
-    exp p = pt(e);
-    bool ca = 1;
-    while (p != NULL && ca) {
-	exp q = bro(p);
-	if (q == NULL) {
-	    ca = 0;
-	} else if (!(last(p) && name(q) == cont_tag) &&
-		    !(!last(p) && last(q) &&
-		       name(bro(q)) == ass_tag)) {
-	    ca = 0;
+	exp p;
+	bool ca = 1;
+
+	for (p = pt(e); p != NULL && ca; p = pt(p)) {
+		exp q = bro(p);
+
+		if (q == NULL) {
+			ca = 0;
+		} else if (!(last(p) && name(q) == cont_tag) &&
+		          !(!last(p) && last(q) && name(bro(q)) == ass_tag)) {
+			ca = 0;
+		}
 	}
-	p = pt(p);
-    }
-    if (ca)setcaonly(e);
+
+	if (ca) {
+		setcaonly(e);
+	}
 }
 
-
 /*
-    This routine gets all the TDF read into the correct operand form
-    and applies the dead variable and register allocation analysis.
-*/
-
+ * This routine gets all the TDF read into the correct operand form
+ * and applies the dead variable and register allocation analysis.
+ */
 void
 translate_capsule(void)
 {
-    dec *d;
+	dec *d;
 
 #if 0
-    /* Fix procedure handling (copied from trans386) */
-    for (d = top_def; d != NULL; d = d->def_next) {
-    exp crt_exp = d -> dec_exp;
-    exp idval;
-      if (!(d -> dec_var) && (name(sh(crt_exp))!= prokhd ||
-          (idval = son(crt_exp),
-             idval != NULL && name(idval)!= null_tag &&
-               name(idval)!= proc_tag && name(idval)!= general_proc_tag))) {
-	/* make variable, and change all uses to contents */
-        exp p = pt(crt_exp);
-        if (d -> extnamed)
-          sh(crt_exp) = f_pointer(f_alignment(sh(crt_exp)));
-	else
-          setvar(crt_exp);
-        while (p != NULL) {
-          exp np = pt(p);
-          exp* ptr = refto(father(p), p);
-          exp c = getexp(sh(p), bro(p), last(p), p, NULL, 0, 0, cont_tag);
-          setfather(c, p);
-          if (no(p)!= 0) {
-            exp r = getexp(sh(p), c, 1, p, NULL, 0, no(p), reff_tag);
-            no(p) = 0;
-            son(c) = r;
-            setfather(r, p);
-          }
-          *ptr = c;
-          p = np;
-        }
-      }
-    }
+	/* Fix procedure handling (copied from trans386) */
+	for (d = top_def; d != NULL; d = d->def_next) {
+		exp crt_exp = d->dec_exp;
+		exp idval;
+
+		if (d->dec_var) {
+			continue;
+		}
+
+		if ((name(sh(crt_exp)) != prokhd || (idval = son(crt_exp),
+			 idval != NULL && name(idval) != null_tag &&
+			 name(idval) != proc_tag && name(idval) != general_proc_tag)))
+		{
+			exp p, np;
+
+			/* make variable, and change all uses to contents */
+
+			if (d->extnamed) {
+				sh(crt_exp) = f_pointer(f_alignment(sh(crt_exp)));
+			} else {
+				setvar(crt_exp);
+			}
+
+			for (p = pt(crt_exp; p != NULL; p = np) {
+				exp *ptr;
+				exp c;
+
+				np = pt(p);
+				ptr = refto(father(p), p);
+				c = getexp(sh(p), bro(p), last(p), p, NULL, 0, 0, cont_tag);
+
+				setfather(c, p);
+
+				if (no(p) != 0) {
+					exp r = getexp(sh(p), c, 1, p, NULL, 0, no(p), reff_tag);
+					no(p) = 0;
+					son(c) = r;
+					setfather(r, p);
+				}
+
+				*ptr = c;
+			}
+		}
+	}
 #endif
 
-
-    make_transformations();
+	make_transformations();
 
 #ifndef NDEBUG
-    opt_all_exps();
+	opt_all_exps();
 #endif
 
-    /* Mark static unaliases declarations */
-    if (!separate_units) {
+	/* Mark static unaliases declarations */
+	if (!separate_units) {
+		for (d = top_def; d != NULL; d = d->def_next) {
+			exp c = d->dec_exp;
+			if (son(c) != NULL && !d->extnamed && isvar(c)) {
+				mark_unaliased(c);
+			}
+		}
+	}
+
+	/* Mark locations for all globals */
 	for (d = top_def; d != NULL; d = d->def_next) {
-	    exp c = d->dec_exp;
-	    if (son(c)!= NULL &&
-		 !(d->extnamed) && isvar(c)) {
-		mark_unaliased(c);
-	    }
+		if (d->processed) {
+			exp c = d->dec_exp;
+			ptno(c) = crt_ext_pt++;
+			no(c) = crt_ext_off;
+			crt_ext_off += shape_size(d->dec_shape);
+		}
 	}
-    }
 
-    /* Mark locations for all globals */
-    for (d = top_def; d != NULL; d = d->def_next) {
-	if (d->processed) {
-	    exp c = d->dec_exp;
-	    ptno(c) = crt_ext_pt++;
-	    no(c) = crt_ext_off;
-	    crt_ext_off += shape_size(d->dec_shape);
+	/* Set up alignment rules */
+	double_align = DBL_ALIGN;
+	param_align = PARAM_ALIGN;
+	stack_align = STACK_ALIGN;
+
+	diagnose_registers = 0;
+
+	MAX_BF_SIZE = (cconv != CCONV_HP ? MAX_BF_SIZE_CC : MAX_BF_SIZE_GCC);
+
+	/* Call initialization routines */
+	init_instructions();
+	init_weights();
+	init_wheres();
+
+	/* Decode, optimize and process the input TDF */
+	init_output();
+	area(ptext);
+
+	if (diag != DIAG_NONE) {
+		diag3_driver->out_diagnose_prelude();
 	}
-    }
 
-
-    /* Set up alignment rules */
-    double_align = DBL_ALIGN;
-    param_align = PARAM_ALIGN;
-    stack_align = STACK_ALIGN;
-
-    diagnose_registers = 0;
-
-    MAX_BF_SIZE = (cconv != CCONV_HP ? MAX_BF_SIZE_CC : MAX_BF_SIZE_GCC);
-
-    /* Call initialization routines */
-    init_instructions();
-    init_weights();
-    init_wheres();
-
-    /* Decode, optimize and process the input TDF */
-    init_output();
-    area(ptext);
-
-    if (diag != DIAG_NONE) {
-        diag3_driver->out_diagnose_prelude();
-    }
-
-
-    /* Output all code */
-    output_all_exps();
+	/* Output all code */
+	output_all_exps();
 }
 
-
 /*
-    The procedure with declaration d, name id, definition c and body s
-    is encoded.
-*/
-
-static void code_proc
-(dec *d, char *id, exp c, exp s)
+ * The procedure with declaration d, name id, definition c and body s
+ * is encoded.
+ */
+static void
+code_proc(dec *d, char *id, exp c, exp s)
 {
-    diag_descriptor *di;
-    int reg_res;
-    int is_ext;
+	diag_descriptor *di;
+	int reg_res;
+	int is_ext;
 
 	UNUSED(c);
 
-    di = d->diag_info;
-    reg_res = (has_struct_res(s)? 0 : 1);
-    is_ext = (d->extnamed ? 1 : 0);
+	di = d->diag_info;
+	reg_res = (has_struct_res(s) ? 0 : 1);
+	is_ext = (d->extnamed ? 1 : 0);
 
-    area(ptext);
+	area(ptext);
 
-    cur_proc_dec = d;
-    cur_proc_callees_size = 0;
-    cur_proc_has_vcallees = 0;
+	cur_proc_dec = d;
+	cur_proc_callees_size = 0;
+	cur_proc_has_vcallees = 0;
 
-    /* Code procedure body */
+	/* Code procedure body */
 #if 0
-    if (name(s) == proc_tag)
-    cproc(s, id, -1, is_ext, reg_res, di);
-    else
+	if (name(s) == proc_tag) {
+		cproc(s, id, -1, is_ext, reg_res, di);
+	} else
 #endif
-    gcproc(s, id, -1, is_ext, reg_res, di);
+		gcproc(s, id, -1, is_ext, reg_res, di);
 
+	d->index = cur_proc_env_size; /* for use in constant evaluation */
 
-    d -> index = cur_proc_env_size ; /* for use in constant evaluation */
-
-    output_env_size(d, cur_proc_env_size);
+	output_env_size(d, cur_proc_env_size);
 }
 
-
 /*
-    The constant with declaration d, name id, definition c and body s
-    is encoded.
-*/
-
-static void code_const
-(dec *d)
+ * The constant with declaration d, name id, definition c and body s
+ * is encoded.
+ */
+static void
+code_const(dec *d)
 {
-   exp c = d->dec_exp;
-   exp s = son(c);
-   char *id = d->dec_id;
+	diag_descriptor *di;
+	exp c, s;
+	char *id;
 
-   diag_descriptor *di = d->diag_info;
-   area(isvar(c)? pdata : ptext);
-   if (!no_align_directives) {
-     make_instr(m_as_align4, NULL, NULL, 0);
-   }
-   evaluate(s, -1L , id, !isvar(c), 1, di);
-}
+	c = d->dec_exp;
+	s = son(c);
+	id = d->dec_id;
+	di = d->diag_info;
 
-
-/*
-    ENCODE THE CONSTANTS IN const_list
-
-    All auxiliary constants are formed into a list, const_list.  This
-    routine applies evaluate to each element of this list.
-*/
-
-static void code_const_list
-(void)
-{
-    while (const_list != NULL) {
-	exp t = const_list;
-	exp s = son(t);
-	bool b = (name(s)!= res_tag);
-	const_list = bro(const_list);
-	if (name(s) == proc_tag || name(s) == general_proc_tag) {
-	    char *id = alloc_nof(char, 30);
-	    sprintf(id, "%s%ld", local_prefix, no(t));
-	    gcproc(s, NULL, no(t), 0, 1, NULL);
-	} else {
-	    area(b ? pdata : ptext);
-	    evaluate(s, no(t), NULL, b, 0, NULL);
+	area(isvar(c) ? pdata : ptext);
+	if (!no_align_directives) {
+		make_instr(m_as_align4, NULL, NULL, 0);
 	}
-    }
+
+	evaluate(s, -1L , id, !isvar(c), 1, di);
 }
 
 /*
-   CONST_READY
-
-   Returns TRUE if it is possible to evaluate the value of the constant now
-*/
-
-static int const_ready
-(exp e)
+ * ENCODE THE CONSTANTS IN const_list
+ *
+ * All auxiliary constants are formed into a list, const_list.  This
+ * routine applies evaluate to each element of this list.
+ */
+static void
+code_const_list(void)
 {
-  unsigned char  n = name(e);
-  if (n == env_size_tag)
-    return brog(son(son(e))) -> processed;
-  if (n == env_offset_tag)
-    return ismarked(son(e));
-  if (n == name_tag || son(e) == NULL)
-    return 1;
-  e = son(e);
-  while (!last(e)) {
-    if (!const_ready(e))
-      return 0;
-    e = bro(e);
-  }
-  return const_ready(e);
+	while (const_list != NULL) {
+		exp t, s;
+		bool b;
+
+		t = const_list;
+		s = son(t);
+		b = (name(s) != res_tag);
+		const_list = bro(const_list);
+
+		if (name(s) == proc_tag || name(s) == general_proc_tag) {
+			char *id = alloc_nof(char, 30);
+			sprintf(id, "%s%ld", local_prefix, no(t));
+			gcproc(s, NULL, no(t), 0, 1, NULL);
+		} else {
+			area(b ? pdata : ptext);
+			evaluate(s, no(t), NULL, b, 0, NULL);
+		}
+	}
 }
 
-typedef struct delayedconst{
-   dec* This;
-   struct delayedconst* next;
+/*
+ * CONST_READY
+ *
+ * Returns TRUE if it is possible to evaluate the value of the constant now
+ */
+static int
+const_ready(exp e)
+{
+	unsigned char n = name(e);
+
+	if (n == env_size_tag) {
+		return brog(son(son(e)))->processed;
+	}
+
+	if (n == env_offset_tag) {
+		return ismarked(son(e));
+	}
+
+	if (n == name_tag || son(e) == NULL) {
+		return 1;
+	}
+
+	for (e = son(e); !last(e); e = bro(e)) {
+		if (!const_ready(e)) {
+			return 0;
+		}
+	}
+
+	return const_ready(e);
+}
+
+typedef struct delayedconst {
+	dec* This;
+	struct delayedconst* next;
 } delayed_const;
 
-static delayed_const* delayed_const_list = 0;
+static delayed_const *delayed_const_list = 0;
 
-static void eval_if_ready
-(dec *d)
+static void
+eval_if_ready(dec *d)
 {
-   exp c = d->dec_exp;
-   if (const_ready(c)) {
-      code_const(d);
-   }
-   else {
-      delayed_const* p = (delayed_const*)xmalloc(sizeof(delayed_const));
-      p->This = d;
-      p->next = delayed_const_list;
-      delayed_const_list = p;
-   }
+	exp c = d->dec_exp;
+
+	if (const_ready(c)) {
+		code_const(d);
+	} else {
+		delayed_const *p = xmalloc(sizeof(delayed_const));
+		p->This = d;
+		p->next = delayed_const_list;
+		delayed_const_list = p;
+	}
 }
 
 static void
 eval_delayed_const_list(void)
 {
-   delayed_const* p;
-   bool done = 0;
-   while (! done) {
-      done = 1;
-      for (p = delayed_const_list; p; p = p->next) {
-         dec* d = p->This;
-         if (!d->processed) {
-            exp c = d->dec_exp;
-            if (const_ready(c)) {
-               code_const(d);
-               d->processed = 1;
-            }
-            done = 0;
-         }
-      }
-   }
-}
+	delayed_const *p;
+	bool done = false;
 
+	while (!done) {
+		for (p = delayed_const_list; p != NULL; p = p->next) {
+			dec *d;
+			exp c;
+
+			d = p->This;
+			if (d->processed) {
+				continue;
+			}
+
+
+			c = d->dec_exp;
+			if (const_ready(c)) {
+				code_const(d);
+				d->processed = 1;
+			}
+
+			done = false;
+		}
+	}
+}
 
 /*
-    This routine scans through all the declarations encoding suitably.
-*/
-
-static void output_all_exps
-(void)
+ * This routine scans through all the declarations encoding suitably.
+ */
+static void
+output_all_exps(void)
 {
-    dec *d = top_def;
+	dec *d = top_def;
 
-    if (diag != DIAG_NONE) d = sort_decs(d);
-
-    area(ptext);
-
-    /* Clear any existing output */
-    output_all();
-    free_all_ins();
-
-    /* Scan through the declarations */
-    for (d = top_def; d != NULL; d = d->def_next) {
-
-	if (!d->processed) {
-	    exp c = d->dec_exp;
-	    exp s = son(c);
-	    char *id = d->dec_id;
-
-	    init_output();
-
-	    if (s != NULL) {
-		if (name(s) == proc_tag ||
-                    name(s) == general_proc_tag) {
-		    code_proc(d, id, c, s);
-		    code_const_list();
-                    d->processed = 1;
-		} else {
-		    eval_if_ready(d);
-		    code_const_list();
-		}
-	    } else {
-		shape sha = d->dec_shape;
-		long sz = round(shape_size(sha) / 8, 4);
-		area(ptext);
-		if (!is_local(id) && isvar(c) &&
-		     varsize(sha) && !reserved(id)) {
-		    if (sz) {
-			mach_op *op1 = make_extern_data(id, 0);
-			mach_op *op2 = make_int_data(sz);
-			make_instr(m_as_common, op1, op2, 0);
-		    }
-		} else {
-		    if (is_local(id) && no(c)) {
-			mach_op *op1 = make_extern_data(id, 0);
-			mach_op *op2 = make_int_data(sz);
-			make_instr(m_as_local, op1, op2, 0);
-		    }
-		}
-                d->processed = 1;
-	    }
-
-	    output_all();
-	    free_all_ins();
+	if (diag != DIAG_NONE) {
+		d = sort_decs(d);
 	}
-    }
 
-    eval_delayed_const_list();
-    output_all();
-    free_all_ins();
+	area(ptext);
 
-    /* Add final touches */
-    init_output();
-    if (need_dummy_double) {
-       mach_op *op1 = make_extern_data("___m68k_dummy_double", 0);
-       mach_op *op2 = make_int_data(8);
-       make_instr(m_as_common, op1, op2, 0);
-    }
+	/* Clear any existing output */
+	output_all();
+	free_all_ins();
 
-    if (do_profile)profile_hack();
+	/* Scan through the declarations */
+	for (d = top_def; d != NULL; d = d->def_next) {
+		exp c, s;
+		char *id;
 
-    area(pdata);
-    output_all();
-    free_all_ins();
+		if (d->processed) {
+			continue;
+		}
+
+		c = d->dec_exp;
+		s = son(c);
+		id = d->dec_id;
+
+		init_output();
+
+		if (s != NULL) {
+			if (name(s) == proc_tag || name(s) == general_proc_tag) {
+				code_proc(d, id, c, s);
+				code_const_list();
+				d->processed = 1;
+			} else {
+				eval_if_ready(d);
+				code_const_list();
+			}
+		} else {
+			shape sha = d->dec_shape;
+			long sz = round(shape_size(sha) / 8, 4);
+
+			area(ptext);
+			if (!is_local(id) && isvar(c) && varsize(sha) && !reserved(id)) {
+				if (sz) {
+					mach_op *op1 = make_extern_data(id, 0);
+					mach_op *op2 = make_int_data(sz);
+					make_instr(m_as_common, op1, op2, 0);
+				}
+			} else {
+				if (is_local(id) && no(c)) {
+					mach_op *op1 = make_extern_data(id, 0);
+					mach_op *op2 = make_int_data(sz);
+					make_instr(m_as_local, op1, op2, 0);
+				}
+			}
+
+			d->processed = 1;
+		}
+
+		output_all();
+		free_all_ins();
+	}
+
+	eval_delayed_const_list();
+	output_all();
+	free_all_ins();
+
+	/* Add final touches */
+	init_output();
+	if (need_dummy_double) {
+		mach_op *op1 = make_extern_data("___m68k_dummy_double", 0);
+		mach_op *op2 = make_int_data(8);
+		make_instr(m_as_common, op1, op2, 0);
+	}
+
+	if (do_profile) {
+		profile_hack();
+	}
+
+	area(pdata);
+	output_all();
+
+	free_all_ins();
 }
+

@@ -145,680 +145,671 @@
 #include "time.h"
 #include "labexp.h"
 
-
-int maxfix_tregs;		/* the number of t regs allocatable */
+int maxfix_tregs; /* the number of t regs allocatable */
 
 char *proc_name;
 char export[128];
-labexp current,first;
+labexp current, first;
 
 int nexps;
 
-extern baseoff boff(exp);
 extern int res_label;
 
-FILE *as_file = NULL;/* assembler output file */
+FILE *as_file = NULL; /* assembler output file */
 dec **main_globals;
 static int main_globals_index;
 
-procrec *procrecs,*cpr;
+procrec *procrecs, *cpr;
 
-#define is_zero(e)is_comm(e)
+#define is_zero(e) is_comm(e)
 #define TRANSLATE_GLOBALS_FIRST 1
 
-void insection
-(enum section s)
+void
+insection(enum section s)
 {
-  static enum section current_section = no_section;
+	static enum section current_section = no_section;
 
-  if (s == current_section)
-    return;
+	if (s == current_section) {
+		return;
+	}
 
-  current_section = s;
+	current_section = s;
 
-    switch (s)
-    {
-       case shortdata_section:
-       {
-	 outs("\t.SHORTDATA\n");
-	 return;
-       }
-       case data_section:
-       {
-	 outs("\t.DATA\n");
-	 return;
-       }
-       case text_section:
-       {
-	 outs("\t.CODE\n");
-	 return;
-       }
-       case bss_section:
-       case shortbss_section:
-       {
-	  if (assembler == ASM_GAS)
-	  {
-	     /* gnu as does not recognise .BSS directive */
-	     outs("\t.SPACE\t$PRIVATE$\n");
-	     outs("\t.SUBSPA\t$BSS$\n");
-	  }
-	  else
-	     outs("\t.BSS\n");
-	  return;
-       }
-       case no_section:
-       {
-	  current_section = no_section;
-	  return;
-       }
-       case rodata_section:
-       default: {}
-    }
-    error(ERR_INTERNAL, "bad \".section\" name");
+	switch (s) {
+	case shortdata_section:
+		outs("\t.SHORTDATA\n");
+		return;
+
+	case data_section:
+		outs("\t.DATA\n");
+		return;
+
+	case text_section:
+		outs("\t.CODE\n");
+		return;
+
+	case bss_section:
+	case shortbss_section:
+		if (assembler == ASM_GAS) {
+			/* gnu as does not recognise .BSS directive */
+			outs("\t.SPACE\t$PRIVATE$\n");
+			outs("\t.SUBSPA\t$BSS$\n");
+		} else {
+			outs("\t.BSS\n");
+		}
+		return;
+
+	case no_section:
+		current_section = no_section;
+		return;
+
+	case rodata_section:
+	default:
+		;
+	}
+
+	error(ERR_INTERNAL, "bad \".section\" name");
 }
 
 static void
 mark_unaliased(exp e)
 {
-  exp p = pt(e);
-  bool ca = 1;
-  assert(!separate_units);	/* don't know about aliases in other units */
-  while (p != NULL && ca)
-  {
-     if (bro(p) == NULL)
-     {
-	ca = 0;
-     }
-     else
-     {
-	if (!(last(p) && name(bro(p)) == cont_tag) &&
-  	    !(!last(p) && last(bro(p)) && name(bro(bro(p))) == ass_tag))
-	   ca = 0;
-     }
-     p = pt(p);
-  }
-  if (ca)
-    setcaonly(e);
-}
+	exp p;
+	bool ca = 1;
 
+	/* don't know about aliases in other units */
+	assert(!separate_units);
+
+	for (p = pt(e); p != NULL && ca; p = pt(p)) {
+		if (bro(p) == NULL) {
+			ca = 0;
+		} else {
+			if (!(last(p) && name(bro(p)) == cont_tag) &&
+			    !(!last(p) && last(bro(p)) && name(bro(bro(p))) == ass_tag)) {
+				ca = 0;
+			}
+		}
+	}
+
+	if (ca) {
+		setcaonly(e);
+	}
+}
 
 /* translate the TDF */
 void
 translate_capsule(void)
 {
-  int noprocs;
-  int procno;
-  int i;
-  dec *crt_def,**proc_def_trans_order;
-  int *src_line=0,next_proc_def;
-  space tempregs;
-  int r;
-  static int capn=0;
-  capn++;
+	dec *crt_def, **proc_def_trans_order;
+	int *src_line = 0, next_proc_def;
+	space tempregs;
+	int noprocs;
+	int procno;
+	int r;
+	int i;
 
-  /* init nowhere */
-  setregalt(nowhere.answhere, 0);
-  nowhere.ashwhere.ashsize = 0;
-  nowhere.ashwhere.ashsize = 0;
+	static int capn = 0;
+	capn++;
 
-  /* First label; avoid conflict with reg nos (and backward compatibility) */
-  crt_labno = 101;
+	/* init nowhere */
+	setregalt(nowhere.answhere, 0);
+	nowhere.ashwhere.ashsize = 0;
+	nowhere.ashwhere.ashsize = 0;
 
-  if (diag != DIAG_NONE) {
-    init_stab();
-  }
+	/* First label; avoid conflict with reg nos (and backward compatibility) */
+	crt_labno = 101;
 
-  /* mark the as output as TDF compiled */
-  outs("\t;  Produced by the DERA TDF->HP PA-RISC translator ");
-  outnl();
-  outnl();
-  outnl();
-  outs("\t.SPACE  $TEXT$,SORT=8\n");
-  outs("\t.SUBSPA $CODE$,QUAD=0,ALIGN=8,ACCESS=44,CODE_ONLY,SORT=24\n");
-  outnl();
-  outs("\t.SPACE  $PRIVATE$,SORT=16\n");
-  outs("\t.SUBSPA $DATA$,QUAD=1,ALIGN=8,ACCESS=31,SORT=16\n\n");
-  outs("\t.IMPORT\t$$dyncall,CODE\n");
-  if (do_profile)
-     outs("\t.IMPORT\t_mcount,CODE\n");
-  outs("\t.IMPORT\t$global$,DATA\n");
-  outnl();
+	if (diag != DIAG_NONE) {
+		init_stab();
+	}
+
+	/* mark the as output as TDF compiled */
+	outs("\t;  Produced by the DERA TDF->HP PA-RISC translator ");
+	outnl();
+	outnl();
+	outnl();
+
+	outs("\t.SPACE  $TEXT$,SORT=8\n");
+	outs("\t.SUBSPA $CODE$,QUAD=0,ALIGN=8,ACCESS=44,CODE_ONLY,SORT=24\n");
+	outnl();
+
+	outs("\t.SPACE  $PRIVATE$,SORT=16\n");
+	outs("\t.SUBSPA $DATA$,QUAD=1,ALIGN=8,ACCESS=31,SORT=16\n\n");
+	outs("\t.IMPORT\t$$dyncall,CODE\n");
+
+	if (do_profile) {
+		outs("\t.IMPORT\t_mcount,CODE\n");
+	}
+
+	outs("\t.IMPORT\t$global$,DATA\n");
+	outnl();
 
 #if 0
-  outs("LB\t.MACRO\tTARGET\n");
-  outs("\tldil\tL'TARGET,%r1\n");
-  outs("\tldo\tR'TARGET(%r1),%r1\n");
-  outs("\tbv\t0(%r1)\n");
-  outs("\tnop\n");
-  outnl();
+	outs("LB\t.MACRO\tTARGET\n");
+	outs("\tldil\tL'TARGET,%r1\n");
+	outs("\tldo\tR'TARGET(%r1),%r1\n");
+	outs("\tbv\t0(%r1)\n");
+	outs("\tnop\n");
+	outnl();
 #endif
 
-  /* Begin diagnostics if necessary. */
-  if (diag != DIAG_NONE)
-  {
-     outs("\t.CODE\n");
-     outnl();
-     init_stab_aux();
-     outnl();
-     outnl();
-  }
-
-  setregalt(nowhere.answhere, 0);
-  nowhere.ashwhere.ashsize = 0;
-  nowhere.ashwhere.ashsize = 0;
-
-  if (diag == DIAG_NONE)
-     opt_all_exps();  /* optimise */
-  /* mark static unaliased; count procs */
-  noprocs = 0;
-  for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
-  {
-    exp crt_exp = crt_def->dec_exp;
-    exp scexp = son(crt_exp);
-    if (scexp != NULL)
-    {
-      if (diag == DIAG_NONE && !separate_units &&
-	  !crt_def->extnamed && isvar(crt_exp))
-	mark_unaliased(crt_exp);
-      if (name(scexp) == proc_tag || name(scexp) == general_proc_tag)
-      {
-	noprocs++;
-	if (dyn_init && !strncmp("__I.TDF",crt_def->dec_id,7))
-	{
-	   char *s;
-	   static char dyn = 0;
-	   if (!dyn)
-	   {
-	      outs("\t.SPACE  $PRIVATE$,SORT=16\n");
-	      outs("\t.SUBSPA $DYNDATA$,QUAD=1,ALIGN=4,ACCESS=31,SORT=16\n");
-	      outnl();
-	      dyn = 1;
-	   }
-	   s = (char*)xcalloc(64,sizeof(char));
-	   sprintf(s,"_GLOBAL_$I%d",capn);
-	   strcat(s,crt_def->dec_id+7);
-	   crt_def->dec_id = s;
-	   if (assembler == ASM_HP)
-	      asm_printop(".WORD %s",s);
+	/* Begin diagnostics if necessary. */
+	if (diag != DIAG_NONE) {
+		outs("\t.CODE\n");
+		outnl();
+		init_stab_aux();
+		outnl();
+		outnl();
 	}
-      }
-    }
-  }
-  outnl();
 
-  /* alloc memory */
-  if (noprocs == 0) {
-    procrecs = NULL;
+	setregalt(nowhere.answhere, 0);
+	nowhere.ashwhere.ashsize = 0;
+	nowhere.ashwhere.ashsize = 0;
 
-    proc_def_trans_order = NULL;
-  } else {
-    procrecs = (procrec *)xcalloc(noprocs, sizeof(procrec));
-
-    proc_def_trans_order = (dec**)xcalloc(noprocs, sizeof(dec*));
-    if (diag == DIAG_XDB)
-    {
-       src_line = (int*)xcalloc(noprocs,sizeof(int));
-    }
-  }
-
-  /* number proc defs */
-  procno = 0;
-  for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
-  {
-    exp crt_exp = crt_def->dec_exp;
-
-    if (son(crt_exp)!= NULL && (name(son(crt_exp)) == proc_tag ||
-				    name(son(crt_exp)) == general_proc_tag))
-    {
-      procrec *pr = &procrecs[procno];
-      proc_def_trans_order[procno] = crt_def;
-      if (diag == DIAG_XDB)
-      {
-	 /* Retrieve diagnostic info neccessary to comply with xdb's
-	    requirement that procedures be compiled in source file order. */
-	 diag_descriptor * dd =  crt_def -> diag_info;
-	 if (dd != NULL)
-	 {
-	    sourcemark *sm = &dd -> data.id.whence;
-	    src_line[procno] = sm->line_no.nat_val.small_nat;
-	 }
-	 else
-	    src_line[procno] = 0;
-      }
-      pr->nameproc = bro(crt_exp);
-      no(son(crt_exp)) = procno++;/* index into procrecs in no(proc) */
-    }
-  }
-
-
-  /*
-   * Scan to put everything in HP_PA form, and calculate register and stack
-   * space needs.
-   */
-
-  /*
-   *      First work out which fixed point t-regs, i.e. those not preserved
-   *  over calls, can be used. This needs to be done before scan() which
-   *  adds idents so temp reg needs are within available temp reg set.
-   *
-   */
-
-  /* initial reg sets */
-  tempregs.fixed = PROC_TREGS;
-  tempregs.flt = PROC_FLT_TREGS;
-
-  /* GR0,GR1,SP,DP are NEVER allocatable */
-  tempregs.fixed |= RMASK(GR0);
-  tempregs.fixed |= RMASK(GR1);
-  tempregs.fixed |= RMASK(SP);
-  tempregs.fixed |= RMASK(DP);
-  if (PIC_code)
-  {
-     tempregs.fixed |= RMASK(GR19); /* %r19 is reserved in PIC mode */
-  }
-
-  /* count t fixed point regs we can use, and set the global maxfix_tregs */
-  maxfix_tregs = 0;
-  for (r = R_FIRST; r <= R_LAST; r++)
-  {
-    /* bit clear means allocatable */
-    if (IS_TREG(r) && (tempregs.fixed & RMASK(r)) == 0)
-      maxfix_tregs++;
-  }
-  asm_comment("maxfix_tregs=%d(%#lx) maxfloat_tregs=%d(%#lx)",
-	   maxfix_tregs, (unsigned long) tempregs.fixed, MAXFLOAT_TREGS, (unsigned long) tempregs.flt);
-
-  /* scan all the procs, to put everything in HP_PA form */
-  nexps = 0;
-  for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
-  {
-    exp crt_exp = crt_def->dec_exp;
-    if (son(crt_exp)!= NULL && (name(son(crt_exp)) == proc_tag ||
-				    name(son(crt_exp)) == general_proc_tag))
-    {
-      procrec *pr = &procrecs[no(son(crt_exp))];
-      exp *st = &son(crt_exp);
-      cpr = pr;
-      cpr->Has_ll = 0;
-      cpr->Has_checkalloc = 0;
-      hppabuiltin=0;
-      pr->needsproc = scan(st, &st);
-      pr->callee_sz = callee_sz;
-      pr->needsproc.builtin=hppabuiltin;
-    }
-  }
-
-  /* calculate the break points for register allocation */
-  for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
-  {
-    exp crt_exp = crt_def->dec_exp;
-
-    if (son(crt_exp)!= NULL && (name(son(crt_exp)) == proc_tag ||
-				    name(son(crt_exp)) == general_proc_tag))
-    {
-      procrec *pr = &procrecs[no(son(crt_exp))];
-      needs * ndpr = & pr->needsproc;
-      long pprops = (ndpr->propsneeds);
-      bool leaf = (pprops & anyproccall) == 0;
-      spacereq forrest;
-      int freefixed, freefloat;
-      proc_name = crt_def->dec_id;
-
-      setframe_flags(son(crt_exp),leaf);
-
-      /* free s registers = GR3,GR4,..,GR18 */
-      freefixed = 16;
-
-      if (Has_fp) /* Has frame pointer */
-      {
-	 freefixed--;
-	 /* reserve GR3 as frame pointer (i.e. points to bottom of stack) */
-      }
-      if (Has_vsp) /* Has variable stack pointer */
-      {
-	 freefixed--;
-	 /* reserve GR4 for use as copy of the original stack pointer */
-      }
-      if (is_PIC_and_calls)
-      {
-	 freefixed--;
-	 /* best reserve GR5 for use as a copy of GR19 */
-      }
-      if (Has_vcallees)
-      {
-	 pr->callee_sz = 0; /*  Don't know callee_sz  */
-      }
-
-      real_reg[1] = GR4;
-      real_reg[2] = GR5;
-      if (Has_fp)
-      {
-	 if (is_PIC_and_calls && !Has_vsp)
-	    real_reg[2] = GR4;
-      }
-      else
-      {
-	 if (Has_vsp)
-	 {
-	    if (is_PIC_and_calls)
-	       real_reg[2] = GR3;
-	    else
-	       real_reg[1] = GR3;
-	 }
-	 else
-	 if (is_PIC_and_calls)
-	 {
-	    real_reg[1] = GR3;
-	    real_reg[2] = GR4;
-	 }
-      }
-
-      /* +++ create float s regs for leaf? */
-      freefloat = 0;		/* none, always the same */
-
-      /* reg and stack allocation for tags */
-      forrest = regalloc(bro(son(son(crt_exp))), freefixed, freefloat, 0);
-
-      /* reg and stack allocation for tags */
-      pr->spacereqproc = forrest;
-
-      set_up_frame(son(crt_exp));
-    }
-  }
-
-
-  /*  Set up main_globals and output global definitions. */
-  i = 0;
-  for (crt_def=top_def; crt_def!= NULL; crt_def=crt_def->def_next)
-  {
-     i++;
-  }
-  main_globals_index = i;
-  if (main_globals_index != 0) {
-    main_globals = (dec**)xcalloc(main_globals_index,sizeof(dec*));
-  } else {
-    main_globals = NULL;
-  }
-  i = 0;
-  for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
-  {
-     main_globals[i] = crt_def;
-     main_globals[i] ->sym_number = i;
-     i++;
-  }
-
-  for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next)
-  {
-     exp tg = crt_def->dec_exp;
-     char *id = crt_def->dec_id;
-     bool extnamed = (bool)crt_def->extnamed;
-     if (son(tg) ==NULL && no(tg)!=0 && extnamed)
-     {
-	outs("\t.IMPORT\t");
-	outs(id);
-	outs(name(sh(tg)) ==prokhd ?(isvar(tg)? ",DATA\n" : ",CODE\n"): ",DATA\n");
-     }
-     else
-     if (son(tg)!= NULL && (extnamed || no(tg)!= 0))
-     {
-	if (name(son(tg))!= proc_tag && name(son(tg))!= general_proc_tag)
-	{
-	   /* evaluate all outer level constants */
-	   instore is;
-	   long symdef = crt_def->sym_number + 1;
-	   if (isvar(tg))
-	      symdef = -symdef;
-	   if (extnamed && !(is_zero(son(tg))))
-	   {
-     	      outs("\t.EXPORT\t");
-	      outs(id);
-	      outs(",DATA\n");
-	   }
-	   is = evaluated(son(tg),symdef);
-	   if (diag != DIAG_NONE)
-	   {
-	      diag3_driver->stab_global(crt_def->diag_info, son(tg), id, extnamed);
-	   }
-
-	   if (is.adval)
-	   {
-	      setvar(tg);
-	   }
+	if (diag == DIAG_NONE) {
+		opt_all_exps(); /* optimise */
 	}
-     }
-  }
 
+	/* mark static unaliased; count procs */
+	noprocs = 0;
+	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next) {
+		exp crt_exp = crt_def->dec_exp;
+		exp scexp = son(crt_exp);
 
-  /* Uninitialized data local to module. */
+		if (scexp == NULL) {
+			continue;
+		}
 
-  for (crt_def=top_def; crt_def != NULL; crt_def=crt_def->def_next)
-  {
-     exp tg = crt_def->dec_exp;
-     char *id = crt_def->dec_id;
-     bool extnamed = (bool)crt_def->extnamed;
-     if (son(tg) == NULL && no(tg)!=0 && !extnamed)
-     {
-	shape s = crt_def->dec_shape;
-	ash a;
-	long size;
-	int align;
-	a = ashof(s);
-	size = (a.ashsize + 7) >> 3;
-	align = ((a.ashalign > 32 || a.ashsize > 32)? 8 : 4);
-	if (size>8)
-	   insection(bss_section);
-	else
-	   insection(shortbss_section);
-	outs("\t.ALIGN\t");
-	outn(align);
-	outs(id);
-	outs("\t.BLOCKZ\t");
-	outn(size);
-     }
-  }
+		if (diag == DIAG_NONE && !separate_units &&
+			!crt_def->extnamed && isvar(crt_exp)) {
+			mark_unaliased(crt_exp);
+		}
 
-  /* Translate the procedures. */
+		if (name(scexp) == proc_tag || name(scexp) == general_proc_tag) {
+			noprocs++;
 
-  if (diag == DIAG_XDB)
-  {
-     /*  XDB requires the procedures to be translated in the order
-	 that they appear in the c source file.  */
-     int n,j;
-     for (n=0; n<noprocs; n++)
-	for (j=n+1; j<noprocs; j++)
-	{
-	   if (src_line[n] > src_line[j])
-	   {
-	      int srcl = src_line[n];
-	      dec *pdef;
-	      src_line[n] = src_line[j];
-	      src_line[j] = srcl;
-	      pdef = proc_def_trans_order[n];
-	      proc_def_trans_order[n] = proc_def_trans_order[j];
-	      proc_def_trans_order[j] = pdef;
+			if (dyn_init && !strncmp("__I.TDF", crt_def->dec_id, 7)) {
+				char *s;
+				static char dyn = 0;
 
-	   }
+				if (!dyn) {
+					outs("\t.SPACE  $PRIVATE$,SORT=16\n");
+					outs("\t.SUBSPA $DYNDATA$,QUAD=1,ALIGN=4,ACCESS=31,SORT=16\n");
+					outnl();
+					dyn = 1;
+				}
+
+				s = xcalloc(64, sizeof(char));
+				sprintf(s, "_GLOBAL_$I%d", capn);
+				strcat(s, crt_def->dec_id + 7);
+				crt_def->dec_id = s;
+
+				if (assembler == ASM_HP) {
+					asm_printop(".WORD %s", s);
+				}
+			}
+		}
 	}
-   }
-   else
-   {
+
+	outnl();
+
+	/* alloc memory */
+	if (noprocs == 0) {
+		procrecs = NULL;
+
+		proc_def_trans_order = NULL;
+	} else {
+		procrecs = xcalloc(noprocs, sizeof (procrec));
+
+		proc_def_trans_order = xcalloc(noprocs, sizeof (dec *));
+		if (diag == DIAG_XDB) {
+			src_line = xcalloc(noprocs, sizeof (int));
+		}
+	}
+
+	/* number proc defs */
+	procno = 0;
+	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next) {
+		exp crt_exp = crt_def->dec_exp;
+
+		if (son(crt_exp) != NULL && (name(son(crt_exp)) == proc_tag ||
+		                             name(son(crt_exp)) == general_proc_tag))
+		{
+			procrec *pr = &procrecs[procno];
+			proc_def_trans_order[procno] = crt_def;
+
+			/*
+			 * Retrieve diagnostic info neccessary to comply with xdb's
+			 * requirement that procedures be compiled in source file order.
+			 */
+			if (diag == DIAG_XDB) {
+				diag_descriptor * dd =  crt_def -> diag_info;
+
+				if (dd != NULL) {
+					sourcemark *sm = &dd -> data.id.whence;
+					src_line[procno] = sm->line_no.nat_val.small_nat;
+				} else {
+					src_line[procno] = 0;
+				}
+			}
+
+			pr->nameproc = bro(crt_exp);
+			no(son(crt_exp)) = procno++;/* index into procrecs in no(proc) */
+		}
+	}
+
+	/*
+	 * Scan to put everything in HP_PA form, and calculate register and stack
+	 * space needs.
+	 */
+
+	/*
+	 * First work out which fixed point t-regs, i.e. those not preserved
+	 * over calls, can be used. This needs to be done before scan() which
+	 * adds idents so temp reg needs are within available temp reg set.
+	 */
+
+	/* initial reg sets */
+	tempregs.fixed = PROC_TREGS;
+	tempregs.flt = PROC_FLT_TREGS;
+
+	/* GR0,GR1,SP,DP are NEVER allocatable */
+	tempregs.fixed |= RMASK(GR0);
+	tempregs.fixed |= RMASK(GR1);
+	tempregs.fixed |= RMASK(SP);
+	tempregs.fixed |= RMASK(DP);
+
+	if (PIC_code) {
+		tempregs.fixed |= RMASK(GR19); /* %r19 is reserved in PIC mode */
+	}
+
+	/* count t fixed point regs we can use, and set the global maxfix_tregs */
+	maxfix_tregs = 0;
+	for (r = R_FIRST; r <= R_LAST; r++) {
+		/* bit clear means allocatable */
+		if (IS_TREG(r) && (tempregs.fixed & RMASK(r)) == 0) {
+			maxfix_tregs++;
+		}
+	}
+
+	asm_comment("maxfix_tregs=%d(%#lx) maxfloat_tregs=%d(%#lx)",
+	            maxfix_tregs, (unsigned long) tempregs.fixed, MAXFLOAT_TREGS, (unsigned long) tempregs.flt);
+
+	/* scan all the procs, to put everything in HP_PA form */
+	nexps = 0;
+	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next) {
+		exp crt_exp = crt_def->dec_exp;
+		if (son(crt_exp) != NULL && (name(son(crt_exp)) == proc_tag ||
+		                             name(son(crt_exp)) == general_proc_tag)) {
+			procrec *pr = &procrecs[no(son(crt_exp))];
+			exp *st = &son(crt_exp);
+			cpr = pr;
+			cpr->Has_ll = 0;
+			cpr->Has_checkalloc = 0;
+			hppabuiltin = 0;
+			pr->needsproc = scan(st, &st);
+			pr->callee_sz = callee_sz;
+			pr->needsproc.builtin = hppabuiltin;
+		}
+	}
+
+	/* calculate the break points for register allocation */
+	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next) {
+		exp crt_exp = crt_def->dec_exp;
+
+		if (son(crt_exp) != NULL && (name(son(crt_exp)) == proc_tag ||
+		                             name(son(crt_exp)) == general_proc_tag)) {
+			procrec *pr = &procrecs[no(son(crt_exp))];
+			needs * ndpr = & pr->needsproc;
+			long pprops = (ndpr->propsneeds);
+			bool leaf = (pprops & anyproccall) == 0;
+			spacereq forrest;
+			int freefixed, freefloat;
+			proc_name = crt_def->dec_id;
+
+			setframe_flags(son(crt_exp), leaf);
+
+			/* free s registers = GR3,GR4,..,GR18 */
+			freefixed = 16;
+
+			if (Has_fp) { /* Has frame pointer */
+				freefixed--;
+				/* reserve GR3 as frame pointer (i.e. points to bottom of stack) */
+			}
+
+			if (Has_vsp) { /* Has variable stack pointer */
+				freefixed--;
+				/* reserve GR4 for use as copy of the original stack pointer */
+			}
+
+			if (is_PIC_and_calls) {
+				freefixed--;
+				/* best reserve GR5 for use as a copy of GR19 */
+			}
+
+			if (Has_vcallees) {
+				pr->callee_sz = 0; /*  Don't know callee_sz  */
+			}
+
+			real_reg[1] = GR4;
+			real_reg[2] = GR5;
+			if (Has_fp) {
+				if (is_PIC_and_calls && !Has_vsp) {
+					real_reg[2] = GR4;
+				}
+			} else {
+				if (Has_vsp) {
+					if (is_PIC_and_calls) {
+						real_reg[2] = GR3;
+					} else {
+						real_reg[1] = GR3;
+					}
+				} else if (is_PIC_and_calls) {
+					real_reg[1] = GR3;
+					real_reg[2] = GR4;
+				}
+			}
+
+			/* +++ create float s regs for leaf? */
+			freefloat = 0;		/* none, always the same */
+
+			/* reg and stack allocation for tags */
+			forrest = regalloc(bro(son(son(crt_exp))), freefixed, freefloat, 0);
+
+			/* reg and stack allocation for tags */
+			pr->spacereqproc = forrest;
+
+			set_up_frame(son(crt_exp));
+		}
+	}
+
+
+	/*  Set up main_globals and output global definitions. */
+	i = 0;
+	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next) {
+		i++;
+	}
+
+	main_globals_index = i;
+	if (main_globals_index != 0) {
+		main_globals = (dec**)xcalloc(main_globals_index, sizeof(dec*));
+	} else {
+		main_globals = NULL;
+	}
+
+	i = 0;
+	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next) {
+		main_globals[i] = crt_def;
+		main_globals[i] ->sym_number = i;
+		i++;
+	}
+
+	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next) {
+		exp tg = crt_def->dec_exp;
+		char *id = crt_def->dec_id;
+		bool extnamed = (bool)crt_def->extnamed;
+
+		if (son(tg) == NULL && no(tg) != 0 && extnamed) {
+			outs("\t.IMPORT\t");
+			outs(id);
+			outs(name(sh(tg)) == prokhd ? (isvar(tg) ? ",DATA\n" : ",CODE\n") : ",DATA\n");
+		} else if (son(tg) != NULL && (extnamed || no(tg) != 0)) {
+			if (name(son(tg)) != proc_tag && name(son(tg)) != general_proc_tag) {
+				/* evaluate all outer level constants */
+				instore is;
+				long symdef = crt_def->sym_number + 1;
+
+				if (isvar(tg)) {
+					symdef = -symdef;
+				}
+
+				if (extnamed && !(is_zero(son(tg)))) {
+					outs("\t.EXPORT\t");
+					outs(id);
+					outs(",DATA\n");
+				}
+
+				is = evaluated(son(tg), symdef);
+				if (diag != DIAG_NONE) {
+					diag3_driver->stab_global(crt_def->diag_info, son(tg), id, extnamed);
+				}
+
+				if (is.adval) {
+					setvar(tg);
+				}
+			}
+		}
+	}
+
+	/* Uninitialized data local to module. */
+
+	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next) {
+		exp tg = crt_def->dec_exp;
+		char *id = crt_def->dec_id;
+		bool extnamed = (bool)crt_def->extnamed;
+
+		if (son(tg) == NULL && no(tg) != 0 && !extnamed) {
+			shape s = crt_def->dec_shape;
+			ash a;
+			long size;
+			int align;
+
+			a = ashof(s);
+			size  = (a.ashsize + 7) >> 3;
+			align = ((a.ashalign > 32 || a.ashsize > 32) ? 8 : 4);
+
+			if (size > 8) {
+				insection(bss_section);
+			} else {
+				insection(shortbss_section);
+			}
+
+			outs("\t.ALIGN\t");
+			outn(align);
+			outs(id);
+			outs("\t.BLOCKZ\t");
+			outn(size);
+		}
+	}
+
+	/* Translate the procedures. */
+
+	/*
+	 * XDB requires the procedures to be translated in the order
+	 * that they appear in the c source file.
+	 */
+	if (diag == DIAG_XDB) {
+		int n, j;
+
+		for (n = 0; n < noprocs; n++) {
+			for (j = n + 1; j < noprocs; j++) {
+				int srcl;
+				dec *pdef;
+
+				if (src_line[n] <= src_line[j]) {
+					continue;
+				}
+
+				srcl = src_line[n];
+				src_line[n] = src_line[j];
+				src_line[j] = srcl;
+
+				pdef = proc_def_trans_order[n];
+				proc_def_trans_order[n] = proc_def_trans_order[j];
+				proc_def_trans_order[j] = pdef;
+			}
+		}
+	} else {
 #if TRANSLATE_GLOBALS_FIRST
-      /*  Translate the global procedures first.  */
-      int fstat = 0, lglob = noprocs-1;
-      while (fstat<lglob)
-      {
-	 while (fstat<noprocs && proc_def_trans_order[fstat] ->extnamed)
-	    fstat++;
-	 while (lglob>0 && !proc_def_trans_order[lglob] ->extnamed)
-	    lglob--;
-	 if (fstat<lglob)
-	 {
-	    dec *pdef;
-	    pdef = proc_def_trans_order[fstat];
-	    proc_def_trans_order[fstat] = proc_def_trans_order[lglob];
-	    proc_def_trans_order[lglob] = pdef;
-	    fstat++;
-	    lglob--;
-	 }
-      }
+		/*  Translate the global procedures first.  */
+		int fstat = 0, lglob = noprocs - 1;
+		while (fstat < lglob) {
+			while (fstat < noprocs && proc_def_trans_order[fstat] ->extnamed) {
+				fstat++;
+			}
+
+			while (lglob > 0 && !proc_def_trans_order[lglob] ->extnamed) {
+				lglob--;
+			}
+
+			if (fstat < lglob) {
+				dec *pdef;
+				pdef = proc_def_trans_order[fstat];
+				proc_def_trans_order[fstat] = proc_def_trans_order[lglob];
+				proc_def_trans_order[lglob] = pdef;
+
+				fstat++;
+				lglob--;
+			}
+		}
 #endif
-   }
-
-  for (next_proc_def=0; next_proc_def < procno; next_proc_def++)
-  {
-     exp tg;
-     char *id;
-     bool extnamed;
-     crt_def = proc_def_trans_order[next_proc_def];
-     tg = crt_def->dec_exp;
-     id = crt_def->dec_id;
-     extnamed = (bool)crt_def->extnamed;
-
-     if (no(tg)!=0 || extnamed)
-     {
-	insection(text_section);
-	outnl();
-	outnl();
-	if (diag != DIAG_NONE)
-	{
-	   diag3_driver->stab_proc(crt_def->diag_info, son(tg), id, extnamed);
 	}
-	seed_label();		/* reset label sequence */
-	settempregs(son(tg));	/* reset getreg sequence */
 
-	first = (labexp)xmalloc(sizeof(struct labexp_t));
-	first->e = (exp)0;
-	first->next = (labexp)0;
-	current = first;
+	for (next_proc_def = 0; next_proc_def < procno; next_proc_def++) {
+		exp tg;
+		char *id;
+		bool extnamed;
 
-	proc_name=id;
-	code_here(son(tg), tempregs, nowhere);
+		crt_def = proc_def_trans_order[next_proc_def];
+		tg = crt_def->dec_exp;
+		id = crt_def->dec_id;
+		extnamed = crt_def->extnamed;
 
-	outs("\t.PROCEND\n\t;");
-	outs(id);
-	if (diag == DIAG_XDB)
-	{
+		if (no(tg) != 0 || extnamed) {
+			insection(text_section);
+			outnl();
+			outnl();
+
+			if (diag != DIAG_NONE) {
+				diag3_driver->stab_proc(crt_def->diag_info, son(tg), id, extnamed);
+			}
+
+			seed_label(); /* reset label sequence */
+			settempregs(son(tg)); /* reset getreg sequence */
+
+			first = xmalloc(sizeof (struct labexp_t));
+			first->e    = NULL;
+			first->next = NULL;
+			current = first;
+
+			proc_name = id;
+			code_here(son(tg), tempregs, nowhere);
+
+			outs("\t.PROCEND\n\t;");
+			outs(id);
+
+			if (diag == DIAG_XDB) {
 #if _SYMTAB_INCLUDED
-	   close_function_scope(res_label);
-	   outnl();
-	   outs("_");
-	   outs(id);
-	   outs("_end_");
+				close_function_scope(res_label);
+				outnl();
+				outs("_");
+				outs(id);
+				outs("_end_");
 #endif
+			}
+			outnl();
+			outnl();
+
+			if (extnamed) {
+				outs("\t.EXPORT ");
+				outs(id);
+				outs(",ENTRY");
+				outs(export);
+				outnl();
+				outnl();
+				outnl();
+			}
+
+			if (first->next != 0) {
+				exp e, z;
+				labexp p, next;
+				ash a;
+				int lab, byte_size;
+
+				outs("\n\n");
+				next = first->next;
+				do {
+					e = next->e;
+					z = e;
+					a = ashof(sh(e));
+					lab = next->lab;
+
+					if (is_zero(e)) {
+						byte_size = (a.ashsize + 7) >> 3;
+						if (byte_size > 8) {
+							insection(bss_section);
+						} else {
+							insection(shortbss_section);
+						}
+
+						if (a.ashalign > 32 || a.ashsize > 32) {
+							set_align(64);
+						} else {
+							set_align(32);
+						}
+
+						outs(ext_name(lab));
+						outs("\t.BLOCK\t");
+						outn(byte_size);
+						outnl();
+					} else {
+						insection(data_section);
+						if (a.ashalign > 32 || a.ashsize > 32) {
+							set_align(64);
+						} else {
+							set_align(32);
+						}
+
+						outs(ext_name(lab));
+						outnl();
+						evalone(z, 0);
+
+						if (a.ashalign > 32) {
+							set_align(64);
+						}
+					}
+					next = next->next;
+				} while (next != 0);
+
+				next = first;
+				do {
+					p = next->next;
+					free(next);
+					next = p;
+				} while (next != 0);
+
+				outs("\t.CODE\n\n\n");
+			} else {
+				free(first);
+			}
+		}
 	}
-	outnl();
-	outnl();
-	if (extnamed)
-	{
-	   outs("\t.EXPORT ");
-	   outs(id);
-	   outs(",ENTRY");
-	   outs(export);
-	   outnl();
-	   outnl();
-	   outnl();
-	}
-	if (first->next != (labexp)0)
-	{
-	   exp e,z;
-	   labexp p,next;
-	   ash a;
-	   int lab,byte_size;
-	   outs("\n\n");
-	   next = first->next;
-	   do
-	   {
-	      e = next->e;
-	      z = e;
-	      a = ashof(sh(e));
-	      lab = next->lab;
-	      if (is_zero(e))
-	      {
-		 byte_size = (a.ashsize+7) >> 3;
-		 if (byte_size>8)
-		    insection(bss_section);
-		 else
-		    insection(shortbss_section);
-		 if (a.ashalign > 32 || a.ashsize > 32)
-		    set_align(64);
-		 else
-		    set_align(32);
-		 outs(ext_name(lab));
-		 outs("\t.BLOCK\t");
-		 outn(byte_size);
-		 outnl();
-	      }
-	      else
-	      {
-		 insection(data_section);
-		 if (a.ashalign > 32 || a.ashsize > 32)
-		    set_align(64);
-		 else
-		    set_align(32);
-		 outs(ext_name(lab));
-		 outnl();
-		 evalone(z,0);
-		 if (a.ashalign>32)
-		    set_align(64);
-	      }
-	      next = next->next;
-	   }
-	   while (next!=0);
-	   next = first;
-	   do
-	   {
-	      p = next->next;
-	      free(next);
-	      next = p;
-	   }
-	   while (next!=0);
-	   outs("\t.CODE\n\n\n");
-	}
-	else
-	   free(first);
-     }
-  }
 }
 
-
-/*
-*/
-void exit_translator
-(void)
+void
+exit_translator(void)
 {
-    outnl();
-    outnl();
-    outnl();
-    outnl();
-    import_millicode();
-    if ((has & HAS_LONG_DOUBLE)) {
-      import_long_double_lib();
-    }
-    outnl();
-    outnl();
-    if (diag == DIAG_XDB)
-    {
+	outnl();
+	outnl();
+	outnl();
+	outnl();
+
+	import_millicode();
+	if ((has & HAS_LONG_DOUBLE)) {
+		import_long_double_lib();
+	}
+
+	outnl();
+	outnl();
+
+	if (diag == DIAG_XDB) {
 #ifdef _SYMTAB_INCLUDED
-       output_DEBUG();
-       outnl();
-       outnl();
+		output_DEBUG();
+		outnl();
+		outnl();
 #endif
-    }
-    outs("\t.END\n");
+	}
+
+	outs("\t.END\n");
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

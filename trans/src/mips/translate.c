@@ -73,429 +73,447 @@ static int main_globals_index;
 extern long fscopefile;
 extern bool do_extern_adds;
 
+/* various identifier reserved by MIPS */
 static bool
 not_reserved(char *id)
 {
-  /* various identifier reserved by MIPS */
-  if (streq(id, "edata"))
-    return 0;
-  if (streq(id, "etext"))
-    return 0;
-  if (streq(id, "end"))
-    return 0;
-  if (streq(id, "_ftext"))
-    return 0;
-  if (streq(id, "_fdata"))
-    return 0;
-  if (streq(id, "_fbss"))
-    return 0;
-  if (streq(id, "_gp"))
-    return 0;
-  if (streq(id, "_procedure_table"))
-    return 0;
-  if (streq(id, "_procedure_string_table"))
-    return 0;
-  return 1;
+	if (streq(id, "edata"))  return false;
+	if (streq(id, "etext"))  return false;
+	if (streq(id, "end"))    return false;
+	if (streq(id, "_ftext")) return false;
+	if (streq(id, "_fdata")) return false;
+	if (streq(id, "_fbss"))  return false;
+	if (streq(id, "_gp"))    return false;
+
+	if (streq(id, "_procedure_table"))        return false;
+	if (streq(id, "_procedure_string_table")) return false;
+
+	return true;
 }
-
-
-
-
 
 static char
 varsize(shape sha)
 {
-  return name(sha) ==nofhd;
+	return name(sha) == nofhd;
 }
 
 int current_symno;
 
-void globalise_name
-(dec * my_def)
+void
+globalise_name(dec * my_def)
 {
-	char *id = my_def -> dec_id;
-        if (!my_def -> extnamed) return;
-	if (as_file)
-	  asm_printop(".globl %s", id);
-	out_common(symnos[my_def->sym_number], iglobal);
+	char *id;
 
+	id = my_def->dec_id;
+	if (!my_def->extnamed) {
+		return;
+	}
+
+	if (as_file) {
+		asm_printop(".globl %s", id);
+	}
+
+	out_common(symnos[my_def->sym_number], iglobal);
 }
 
 static void
-code_it(dec * my_def)
+code_it(dec *my_def)
 {
-  exp tg = my_def -> dec_exp;
-  char *id = my_def -> dec_id;
-  long symdef = my_def ->sym_number;
-  bool extnamed =  my_def -> extnamed;
+	exp tg;
+	char *id;
+	long symdef;
+	bool extnamed;
 
-  static  space tempspace = {
-      0, 0
-    };
-  if (symnos[symdef] <0) goto end; /* ? unused symbols */
+	static space tempspace = { 0, 0 };
 
-  if (son(tg)!= NULL && (!extnamed || !is_comm(son(tg)))) {
-    if (name(son(tg)) == proc_tag
-		|| name(son(tg)) == general_proc_tag) {
-        diag_descriptor * dd =  my_def -> diag_info;
-	/* compile code for proc */
-	if (as_file) {
-	  asm_printop(".text\n .align 3");
+	tg = my_def->dec_exp;
+	id = my_def->dec_id;
+	symdef = my_def ->sym_number;
+	extnamed =  my_def->extnamed;
+
+	if (symnos[symdef] < 0) {
+		goto end; /* ? unused symbols */
 	}
 
+	if (son(tg) != NULL && (!extnamed || !is_comm(son(tg)))) {
+		if (name(son(tg)) == proc_tag || name(son(tg)) == general_proc_tag) {
+			diag_descriptor * dd =  my_def->diag_info;
 
-	out_common(0, itext);
-	out_value(0, ialign, 3, 0);
-	if (diag != DIAG_NONE) {
-	 if (dd != NULL) {
-	    sourcemark *sm = &dd -> data.id.whence;
-	    diag3_driver->stabd(fscopefile = find_file(sm->file->file.ints.chars),
-	               sm->line_no.nat_val.small_nat, 0);
-	 }
-	 else { diag3_driver->stabd(0,1,0); /*no diagnostics for this proc */ }
+			/* compile code for proc */
+			if (as_file) {
+				asm_printop(".text\n .align 3");
+			}
+
+
+			out_common(0, itext);
+			out_value(0, ialign, 3, 0);
+			if (diag != DIAG_NONE) {
+				if (dd != NULL) {
+					sourcemark *sm = &dd->data.id.whence;
+					diag3_driver->stabd(fscopefile = find_file(sm->file->file.ints.chars),
+					                    sm->line_no.nat_val.small_nat, 0);
+				} else {
+					diag3_driver->stabd(0, 1, 0); /*no diagnostics for this proc */
+				}
+			}
+
+			globalise_name(my_def);
+
+			if (as_file) {
+				asm_printop(".ent %s\n%s:", id, id);
+			}
+
+			out_ent (current_symno = symnos[symdef], ient, 2);/* why 2? */
+			out_common(symnos[symdef], ilabel);
+
+			if (as_file) {
+				asm_printop(diag != DIAG_NONE ? ".option O1" : ".option O2");
+			}
+
+			out_option(1, (diag != DIAG_NONE) ? 1 : 2);
+
+			symnoforstart(symdef, currentfile);
+			settempregs(son(tg));
+			code_here(son(tg), tempspace, nowhere);
+
+			if (diag != DIAG_NONE && dd != NULL) {
+				diag3_driver->stabd(fscopefile, currentlno + 1, 0);
+			}
+
+			if (as_file) {
+				asm_printop(".end %s", id);
+			}
+			out_common(symnoforend(my_def, currentfile), iend);
+		} else {			/* global values */
+			exp c = son(tg);
+			IGNORE evaluated(c, (isvar(tg)) ? (-symdef - 1) : symdef + 1, my_def);
+		}
+	} else {
+		/* global declarations but no definitions or is_comm */
+		long  size;
+		shape s = (son(tg) == NULL) ? my_def->dec_shape : sh(son(tg));
+		size = (shape_size(s) + 7) >> 3;
+
+		if ((isvar(tg) || name(s) != prokhd) && not_reserved(id)) {
+			if ((son(tg) != NULL && is_comm(son(tg)))
+			    || (son(tg) == NULL && varsize(sh(tg))))
+			{
+				if (size != 0) { /* ? ? ! ? */
+					globalise_name(my_def);
+					if (as_file) {
+						asm_printop(".comm %s %ld", id, size);
+					}
+
+					out_value(symnos[symdef], icomm, size, 1);
+				}
+			} else {
+				if (as_file) {
+					asm_printop(".extern %s %ld", id, size);
+				}
+
+				out_value(symnos[symdef], iextern, size, 1);
+			}
+		} else if (son(tg) == NULL && !extnamed) {
+			if (size != 0) { /* ? ? ! ? */
+				if (as_file) {
+					asm_printop(".lcomm %s %ld", id, size);
+				}
+
+				out_value(symnos[symdef], ilcomm, size, 1);
+			}
+		}
 	}
-
-	globalise_name(my_def);
-
-	if (as_file)asm_printop(".ent %s\n%s:", id, id);
-
-	out_ent (current_symno = symnos[symdef], ient, 2);/* why 2? */
-	out_common(symnos[symdef], ilabel);
-	if (as_file) {
-		asm_printf(
-			(diag != DIAG_NONE)? "\t.option O1\n" : "\t.option O2\n");
-	}
-
-	out_option(1,(diag != DIAG_NONE)? 1 : 2);
-
-	symnoforstart(symdef, currentfile);
-	settempregs(son(tg));
-	code_here(son(tg), tempspace, nowhere);
-	if (diag != DIAG_NONE && dd != NULL) {
-		diag3_driver->stabd(fscopefile, currentlno+1, 0);
-	}
-	if (as_file)
-	  asm_printop(".end %s", id);
-	out_common(symnoforend(my_def, currentfile), iend);
-    }
-    else {			/* global values */
-
-	exp c = son(tg);
-	IGNORE evaluated(c,(isvar(tg))?(-symdef - 1): symdef + 1, my_def);
-
-
-    }
-  }
-  else {	/* global declarations but no definitions or is_comm */
-      long  size;
-      shape s = (son(tg) ==NULL)?my_def -> dec_shape :
-				sh(son(tg));
-      size = (shape_size(s) + 7) >> 3;
-
-      if ((isvar(tg) || name(s)!= prokhd) && not_reserved(id)) {
-	if ((son(tg)!= NULL && is_comm(son(tg)))
-		|| (son(tg) ==NULL && varsize(sh(tg)))) {
-	  if (size !=0) { /* ? ? ! ? */
-	     globalise_name(my_def);
-	     if (as_file)
-	        asm_printop(".comm %s %ld", id, size);
-	      out_value(symnos[symdef], icomm, size, 1);
-	  }
-	}
-	else {
-	  if (as_file)
-	    asm_printop(".extern %s %ld", id,
-		size);
-	  out_value(symnos[symdef], iextern, size, 1);
-	}
-      }
-      else
-	if (son(tg) == NULL && !extnamed) {
-	  if (size !=0) { /* ? ? ! ? */
-	      if (as_file)
-	        asm_printop(".lcomm %s %ld", id, size);
-	      out_value(symnos[symdef], ilcomm, size, 1);
-	  }
-	}
-
-  }
-
 
 end:
-  my_def -> processed = 1;
+
+	my_def->processed = 1;
 }
 
 static void
 mark_unaliased(exp e)
 {
-  exp p = pt(e);
-  bool ca = 1;
-  while (p != NULL && ca) {
-    if (bro(p) ==NULL ||
-      (!(last(p) && name(bro(p)) == cont_tag) &&
-	!(!last(p) && last(bro(p)) && name(bro(bro(p))) == ass_tag)))
-      ca = 0;
-    p = pt(p);
-  }
-  if (ca)
-    setcaonly(e);
+	exp p;
+
+	bool ca = 1;
+
+	for (p = pt(e); p != NULL && ca; p = pt(p)) {
+		if (bro(p) == NULL ||
+		    (!(last(p) && name(bro(p)) == cont_tag) &&
+		     !(!last(p) && last(bro(p)) && name(bro(bro(p))) == ass_tag))) {
+			ca = 0;
+		}
+	}
+
+	if (ca) {
+		setcaonly(e);
+	}
 }
 
 static void
 remove_unused(void)
-{ dec ** sdef = &top_def;
-  while (*sdef != NULL) {
-    exp crt_exp = (*sdef) -> dec_exp;
-    bool extnamed = (*sdef) -> extnamed;
-    if (no(crt_exp) == 0 && !extnamed) {
-	*sdef = (*sdef) ->def_next;
-    }
-    else sdef = & ((*sdef) ->def_next);
-  }
-}
-
-
-
-void translate_capsule
-(void)
 {
-  dec * my_def;
-  int noprocs;
-  int i;
+	dec **sdef = &top_def;
+	while (*sdef != NULL) {
+		exp crt_exp = (*sdef)->dec_exp;
+		bool extnamed = (*sdef)->extnamed;
 
-  opt_all_exps();
-  remove_unused();
-
-  if (dyn_init) {
-    for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-        exp crt_exp = my_def -> dec_exp;
-	char * id = my_def -> dec_id;
-	if (streq(id, "main") && son(crt_exp)!= NULL &&
-		name(son(crt_exp)) == proc_tag) {
-	   exp fn = me_obtain(find_named_tg("__DO_I_TDF", f_proc));
-	   exp cll = getexp(f_top, NULL, 0, fn, NULL, 0, 0, apply_tag);
-	   exp * dm = &son(son(crt_exp));
-	   exp hld, seq;
-	   bro(fn) = cll; setlast(fn);
-	   while (name(*dm) ==ident_tag && isparam(*dm))dm = &bro(son(*dm));
-	   /* dm is body of main after params */
-	   hld = getexp(f_top, *dm, 0, cll, NULL, 0, 1, 0);
-	   seq = getexp(sh(*dm), bro(*dm), last(*dm), hld, NULL, 0, 0, seq_tag);
-	   bro(*dm) = seq; setlast(*dm);
-	   bro(cll) = hld; setlast(cll);
-	   *dm = seq;
-	   break;
-	}
-     }
-  }
-
-    /* mark static unaliased */
-  for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-    exp crt_exp = my_def -> dec_exp;
-    if (son(crt_exp)!= NULL &&
-	!my_def -> extnamed &&
-	isvar(crt_exp))
-      mark_unaliased(crt_exp);
-  }
-
-  noprocs = 0;
-  for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-    exp crt_exp = my_def -> dec_exp;
-    if (son(crt_exp)!= NULL
-        && (name(son(crt_exp)) == proc_tag ||
-		name(son(crt_exp)) == general_proc_tag)) {
-      noprocs++;
-    }
-  }
-  /* count procs */
-
-  if (noprocs == 0) {
-    procrecs = NULL;
-  } else {
-    procrecs = (procrec *)xcalloc(noprocs, sizeof(procrec));
-    noprocs = 0;
-  }
-
-  for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-    exp crt_exp = my_def -> dec_exp;
-    if (son(crt_exp)!= NULL &&
-	(name(son(crt_exp)) == proc_tag || name(son(crt_exp)) == general_proc_tag)) {
-      no(son(crt_exp)) = noprocs++;
-      /* put index into procrecs in no(proc) */
-    }
-  }
-
-  if (do_extern_adds) {
-	usages = (exp*)xcalloc(noprocs, sizeof(exp));
-  	for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-		exp crt_exp = my_def -> dec_exp;
-		if (son(crt_exp) == NULL && isvar(crt_exp)) {
-			global_usages(crt_exp, noprocs);
-			/* try to identify globals ptrs in procs */
+		if (no(crt_exp) == 0 && !extnamed) {
+			*sdef = (*sdef)->def_next;
+		} else {
+			sdef = &((*sdef)->def_next);
 		}
 	}
-  }
+}
 
-  if (diag != DIAG_NONE && nofds !=0) {
-      init_table_space(nofds, noprocs);
-      add_dense_no(0, 0);
-      add_dense_no (0, 0);	/* dont know why!! */
-      symnosforfiles();
-      stab_types();
-  }
-  else {
-    init_table_space(1,noprocs);
-    add_dense_no(0, 0);
-    add_dense_no (0, 0);	/* dont know why!! */
-    IGNORE new_lsym_d("NOFILE.c", 0, stFile, scText, 0, 0);
-  }
+void
+translate_capsule(void)
+{
+	dec * my_def;
+	int noprocs;
+	int i;
 
-  /* scan to put everything in MIPS form */
+	opt_all_exps();
+	remove_unused();
 
-  for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-    exp crt_exp = my_def -> dec_exp;
-    if (son(crt_exp)!= NULL
-	&& (name(son(crt_exp)) == proc_tag ||
-		name(son(crt_exp)) == general_proc_tag)) {
-      procrec * pr = &procrecs[no(son(crt_exp))];
-      exp * st = &son(crt_exp);
-      pr -> needsproc = scan(st, &st);
-      pr->callee_size = (callee_size+63) &~63;
-    }
-  }
+	if (dyn_init) {
+		for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+			exp crt_exp = my_def->dec_exp;
+			char * id = my_def->dec_id;
+			if (streq(id, "main") && son(crt_exp) != NULL &&
+			    name(son(crt_exp)) == proc_tag) {
+				exp fn = me_obtain(find_named_tg("__DO_I_TDF", f_proc));
+				exp cll = getexp(f_top, NULL, 0, fn, NULL, 0, 0, apply_tag);
+				exp * dm = &son(son(crt_exp));
+				exp hld, seq;
+				bro(fn) = cll;
+				setlast(fn);
 
+				while (name(*dm) == ident_tag && isparam(*dm)) {
+					dm = &bro(son(*dm));
+				}
+				/* dm is body of main after params */
 
-  /* calculate the break points for register allocation and do it */
-  for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-    exp crt_exp = my_def -> dec_exp;
-    if (son(crt_exp)!= NULL
-        && (name(son(crt_exp)) == proc_tag ||
-		name(son(crt_exp)) == general_proc_tag)) {
-      procrec * pr = &procrecs[no(son(crt_exp))];
-      needs * ndpr = & pr->needsproc;
-      long pprops = (ndpr->propsneeds);
-      bool leaf = (pprops & anyproccall) == 0;
-      spacereq forrest;
-      int   freefixed = 8;	/* NO OF S_REGISTERS */
-      int   freefloat = 6;	/* NO OF S $f REGISTERS */
+				hld = getexp(f_top, *dm, 0, cll, NULL, 0, 1, 0);
+				seq = getexp(sh(*dm), bro(*dm), last(*dm), hld, NULL, 0, 0, seq_tag);
+				bro(*dm) = seq;
+				setlast(*dm);
+				bro(cll) = hld;
+				setlast(cll);
+				*dm = seq;
+				break;
+			}
+		}
+	}
 
-      setframe_flags(son(crt_exp), leaf);
-      if (!Has_fp) freefixed++; /* can use $30 as normal caller save */
+	/* mark static unaliased */
+	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+		exp crt_exp = my_def->dec_exp;
+		if (son(crt_exp) != NULL &&
+		    !my_def->extnamed &&
+		    isvar(crt_exp)) {
+			mark_unaliased(crt_exp);
+		}
+	}
 
-      if (Has_vcallees) { freefixed--; }
+	noprocs = 0;
+	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+		exp crt_exp = my_def->dec_exp;
+		if (son(crt_exp) != NULL
+		    && (name(son(crt_exp)) == proc_tag ||
+		        name(son(crt_exp)) == general_proc_tag)) {
+			noprocs++;
+		}
+	}
 
-      if (!No_S)IGNORE weightsv(1.0, bro(son(son(crt_exp))));
-      /* estimate usage of tags in body of proc */
+	/* count procs */
+	if (noprocs == 0) {
+		procrecs = NULL;
+	} else {
+		procrecs = (procrec *)xcalloc(noprocs, sizeof(procrec));
+		noprocs = 0;
+	}
 
-      forrest = regalloc(bro(son(son(crt_exp))), freefixed, freefloat,
-				(PIC_code && !leaf)?32:0);
-      /* reg and stack allocation for tags */
+	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+		exp crt_exp = my_def->dec_exp;
+		if (son(crt_exp) != NULL &&
+		    (name(son(crt_exp)) == proc_tag || name(son(crt_exp)) == general_proc_tag)) {
+			no(son(crt_exp)) = noprocs++;
+			/* put index into procrecs in no(proc) */
+		}
+	}
 
-      pr -> spacereqproc = forrest;
+	if (do_extern_adds) {
+		usages = (exp*)xcalloc(noprocs, sizeof(exp));
+		for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+			exp crt_exp = my_def->dec_exp;
+			if (son(crt_exp) == NULL && isvar(crt_exp)) {
+				global_usages(crt_exp, noprocs);
+				/* try to identify globals ptrs in procs */
+			}
+		}
+	}
 
-      setframe_info(son(crt_exp));
-    }
-  }
+	if (diag != DIAG_NONE && nofds != 0) {
+		init_table_space(nofds, noprocs);
+		add_dense_no(0, 0);
+		add_dense_no (0, 0);	/* dont know why!! */
+		symnosforfiles();
+		stab_types();
+	} else {
+		init_table_space(1, noprocs);
+		add_dense_no(0, 0);
+		add_dense_no (0, 0);	/* dont know why!! */
+		IGNORE new_lsym_d("NOFILE.c", 0, stFile, scText, 0, 0);
+	}
 
-  /* put defs in main globals and set up symnos*/
-  main_globals_index = 0;
-  for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-  	main_globals_index++;
-  }
+	/* scan to put everything in MIPS form */
+	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+		exp crt_exp = my_def->dec_exp;
+		if (son(crt_exp) != NULL && (name(son(crt_exp)) == proc_tag ||
+	        name(son(crt_exp)) == general_proc_tag))
+		{
+			procrec * pr = &procrecs[no(son(crt_exp))];
+			exp * st = &son(crt_exp);
+			pr->needsproc = scan(st, &st);
+			pr->callee_size = (callee_size + 63) & ~63;
+		}
+	}
 
-  data_lab = (main_globals_index > 33)?main_globals_index:33;
-  main_globals = (dec**)xcalloc(main_globals_index, sizeof(dec*));
-  symnos = (int *)xcalloc(main_globals_index, sizeof(int));
+	/* calculate the break points for register allocation and do it */
+	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+		exp crt_exp = my_def->dec_exp;
+		if (son(crt_exp) != NULL
+		    && (name(son(crt_exp)) == proc_tag ||
+		        name(son(crt_exp)) == general_proc_tag))
+		{
+			procrec * pr = &procrecs[no(son(crt_exp))];
+			needs * ndpr = & pr->needsproc;
+			long pprops = (ndpr->propsneeds);
+			bool leaf = (pprops & anyproccall) == 0;
+			spacereq forrest;
+			int   freefixed = 8;	/* NO OF S_REGISTERS */
+			int   freefloat = 6;	/* NO OF S $f REGISTERS */
 
-  my_def = top_def;
-  for (i=0; i < main_globals_index; i++) {
-  	main_globals[i] = my_def;
-  	my_def = my_def -> def_next;
-  }
+			setframe_flags(son(crt_exp), leaf);
+			if (!Has_fp) {
+				freefixed++; /* can use $30 as normal caller save */
+			}
 
+			if (Has_vcallees) {
+				freefixed--;
+			}
 
-    /* ... and set in the position and "addresses" of the externals */
-  for (i = 0; i < main_globals_index; i++) {
-    exp tg = main_globals[i] -> dec_exp;
-    char *id = main_globals[i] -> dec_id;
-    bool extnamed = main_globals[i] -> extnamed;
-    diag_descriptor * dinf = main_globals[i] -> diag_info;
-    main_globals[i] ->sym_number = i;
-    if (no(tg)!= 0 || (extnamed && son(tg)!= NULL)
-		|| streq(id,"__TDFhandler")
-		|| streq(id,"__TDFstacklim")
-	) {
-     	if (no(tg) ==1 && son(tg) ==NULL && dinf != NULL /* diagnostics only! */ ) {
-    		symnos[i] = -1;
-    	}
-    	else {
-          no(tg) = (i + 1)* 64 + 32;
-          symnos[i] = symnoforext(main_globals[i], mainfile);
-        }
-    }
-    else
-      symnos[i] = -1;
-  }
+			if (!No_S) {
+				IGNORE weightsv(1.0, bro(son(son(crt_exp))));
+			}
 
+			/* estimate usage of tags in body of proc */
+			forrest = regalloc(bro(son(son(crt_exp))), freefixed, freefloat,
+			                   (PIC_code && !leaf) ? 32 : 0);
+			/* reg and stack allocation for tags */
 
+			pr->spacereqproc = forrest;
 
-  setregalt(nowhere.answhere, 0);
-  nowhere.ashwhere.ashsize = 0;
-  nowhere.ashwhere.ashsize = 0;
+			setframe_info(son(crt_exp));
+		}
+	}
 
-  if (as_file) {
-    asm_printop(".verstamp %d %d", majorno, minorno);
+	/* put defs in main globals and set up symnos*/
+	main_globals_index = 0;
+	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+		main_globals_index++;
+	}
 
-    if (PIC_code) {
-	asm_printop(".option pic2");
-    }
-    else {
-        asm_printf((diag != DIAG_NONE)? "\t.option O1\n" : "\t.option O2\n");
-    }
-  }
+	data_lab = (main_globals_index > 33) ? main_globals_index : 33;
+	main_globals = (dec**)xcalloc(main_globals_index, sizeof(dec*));
+	symnos = (int *)xcalloc(main_globals_index, sizeof(int));
 
-  /* this is the only? use of these nos, to satisfy as1 */
-  out_verstamp(majorno, minorno);
+	my_def = top_def;
+	for (i = 0; i < main_globals_index; i++) {
+		main_globals[i] = my_def;
+		my_def = my_def->def_next;
+	}
 
-  if (PIC_code) {
-	out_option(2, 2);
-  }
-  else
-  { out_option(1,(diag != DIAG_NONE)? 1 : 2); }
+	/* ... and set in the position and "addresses" of the externals */
+	for (i = 0; i < main_globals_index; i++) {
+		exp tg = main_globals[i]->dec_exp;
+		char *id = main_globals[i]->dec_id;
+		bool extnamed = main_globals[i]->extnamed;
+		diag_descriptor * dinf = main_globals[i]->diag_info;
+		main_globals[i] ->sym_number = i;
+		if (no(tg) != 0 || (extnamed && son(tg) != NULL)
+		    || streq(id, "__TDFhandler")
+		    || streq(id, "__TDFstacklim"))
+		{
+			if (no(tg) == 1 && son(tg) == NULL && dinf != NULL /* diagnostics only! */ ) {
+				symnos[i] = -1;
+			} else {
+				no(tg) = (i + 1) * 64 + 32;
+				symnos[i] = symnoforext(main_globals[i], mainfile);
+			}
+		} else {
+			symnos[i] = -1;
+		}
+	}
 
-  if (diag != DIAG_NONE && nofds!=0) {
-    diag3_driver->stab_file(0, false);
-  }
-  else
-  {
-    currentfile = 0;
-  }
+	setregalt(nowhere.answhere, 0);
+	nowhere.ashwhere.ashsize = 0;
+	nowhere.ashwhere.ashsize = 0;
 
+	if (as_file) {
+		asm_printop(".verstamp %d %d", majorno, minorno);
 
-  /* compile procedures, evaluate constants, put in the .comm entries for
-     undefined objects */
+		if (PIC_code) {
+			asm_printop(".option pic2");
+		} else {
+			asm_printf((diag != DIAG_NONE) ? "\t.option O1\n" : "\t.option O2\n");
+		}
+	}
 
-/*
-  for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-    exp tg = my_def -> dec_exp;
-    char *id = my_def -> dec_id;
-    bool extnamed = my_def -> extnamed;
-    if (son (tg) != NULL && (extnamed || no (tg) != 0 || streq (id, "main"))) {
-      if (extnamed) {
-	if (as_file)
-	  asm_printop(".globl %s", id);
-	out_common (symnos[my_def->sym_number], iglobal);
-      }
-    }
-  }
-*/
+	/* this is the only? use of these nos, to satisfy as1 */
+	out_verstamp(majorno, minorno);
 
-  for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
-    if (!my_def -> processed)
-       code_it(my_def);
-  }
+	if (PIC_code) {
+		out_option(2, 2);
+	} else {
+		out_option(1, (diag != DIAG_NONE) ? 1 : 2);
+	}
 
+	if (diag != DIAG_NONE && nofds != 0) {
+		diag3_driver->stab_file(0, false);
+	} else {
+		currentfile = 0;
+	}
 
-  /* return 1 for error, 0 for good */
+	/*
+	 * compile procedures, evaluate constants, put in the .comm entries
+	 * for undefined objects
+	 */
+
+	/*
+	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+		exp tg = my_def->dec_exp;
+		char *id = my_def->dec_id;
+		bool extnamed = my_def->extnamed;
+
+		if (son (tg) != NULL && (extnamed || no (tg) != 0 || streq (id, "main"))) {
+			if (extnamed) {
+				if (as_file) {
+					asm_printop(".globl %s", id);
+				}
+
+				out_common (symnos[my_def->sym_number], iglobal);
+			}
+		}
+	}
+	*/
+
+	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+		if (!my_def->processed) {
+			code_it(my_def);
+		}
+	}
+
+	/* return 1 for error, 0 for good */
 }
 
