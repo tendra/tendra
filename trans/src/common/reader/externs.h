@@ -13,15 +13,16 @@
 #ifndef EXTERNS_INCLUDED
 #define EXTERNS_INCLUDED
 
+#include <tdf/nat.h>
+#include <tdf/tdfbool.h>
+
 #ifdef TDF_DIAG4
 #include <diag4/dg_first.h>
-#include <reader/code.h>
 #include <construct/installtypes.h>
 #include <diag4/dg_types.h>
 #include <diag4/diagtypes.h>
 #else
 #include <diag3/dg_first.h>
-#include <reader/code.h>
 #include <construct/installtypes.h>
 #include <diag3/dg_types.h>
 #include <diag3/diagtypes.h>

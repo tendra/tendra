@@ -10,7 +10,8 @@
 #ifndef SORT_UNION_H
 #define SORT_UNION_H
 
-#include <reader/code.h>
+#include <tdf/nat.h>
+
 #include <construct/installtypes.h>
 #include <construct/aldefs.h>
 

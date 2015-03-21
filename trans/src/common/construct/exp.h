@@ -12,7 +12,7 @@
 
 #include <reader/exp.h>
 
-#include <reader/code.h>
+#include <tdf/nat.h>
 
 #include <construct/installtypes.h>
 #include <construct/tagdata.h>

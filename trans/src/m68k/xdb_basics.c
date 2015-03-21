@@ -13,8 +13,9 @@
 #include <shared/bool.h>
 #include <shared/check.h>
 
+#include <tdf/nat.h>
+
 #include <reader/exp.h>
-#include <reader/code.h>
 #include <reader/token.h>
 
 #include <main/flags.h>

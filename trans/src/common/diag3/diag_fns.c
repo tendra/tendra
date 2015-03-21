@@ -15,8 +15,9 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
+#include <tdf/nat.h>
+
 #include <reader/exp.h>
-#include <reader/code.h>
 #include <reader/readglob.h>
 #include <reader/table_fns.h>
 #include <reader/basicread.h>

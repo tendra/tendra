@@ -11,7 +11,8 @@
 
 #include <construct/shape.h>
 
-#include <reader/code.h>
+#include <tdf/nat.h>
+
 #include <reader/externs.h>
 
 #include "instrs.h"

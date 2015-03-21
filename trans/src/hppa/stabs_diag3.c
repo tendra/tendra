@@ -18,13 +18,12 @@
 #include <shared/string.h>
 #include <shared/xalloc.h>
 
-#include <reader/exp.h>
+#include <tdf/nat.h>
+
 #include <reader/exp.h>
 #include <local/szs_als.h>
 #include <local/out.h>
 
-#include <reader/code.h>
-#include <reader/code.h>
 #include <reader/token.h>
 #include <reader/externs.h>
 

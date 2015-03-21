@@ -12,7 +12,8 @@
 #include <shared/bool.h>
 #include <shared/check.h>
 
-#include <reader/code.h>
+#include <tdf/nat.h>
+
 #include <reader/basicread.h>
 #include <reader/externs.h>
 #include <reader/messages_r.h>

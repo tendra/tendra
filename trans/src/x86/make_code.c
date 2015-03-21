@@ -30,8 +30,9 @@
 #include <local/dw2_config.h>
 #endif
 
+#include <tdf/nat.h>
+
 #include <reader/exp.h>
-#include <reader/code.h>
 #include <reader/basicread.h>
 #include <reader/externs.h>
 #include <reader/readglob.h>

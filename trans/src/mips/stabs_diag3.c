@@ -26,14 +26,14 @@
 #include <shared/string.h>
 #include <shared/xalloc.h>
 
+#include <tdf/nat.h>
+
 #include <reader/exp.h>
+#include <reader/basicread.h>
 
 #include <symtab/symconst.h>
 #include <symtab/symtab.h>
 #include <symtab/new_symbol.h>
-
-#include <reader/code.h>
-#include <reader/basicread.h>
 
 #include <construct/shape.h>
 #include <construct/exp.h>

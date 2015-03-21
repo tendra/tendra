@@ -10,8 +10,7 @@
 #ifndef READER_EXP_H
 #define READER_EXP_H
 
-
-#include <reader/code.h>
+#include <tdf/nat.h>
 
 #ifdef TDF_DIAG4
 #include <diag4/dg_first.h>

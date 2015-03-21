@@ -12,9 +12,9 @@
 
 #include <shared/bool.h>
 
-#include <reader/exp.h>
+#include <tdf/tdfstring.h>
 
-#include <reader/code.h>
+#include <reader/exp.h>
 
 #ifdef TDF_DIAG4
 #include <diag4/dg_first.h>

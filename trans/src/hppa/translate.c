@@ -100,8 +100,9 @@
 #include <local/ash.h>
 #include <local/out.h>
 
+#include <tdf/nat.h>
+
 #include <reader/exp.h>
-#include <reader/code.h>
 #include <reader/token.h>
 #include <reader/basicread.h>
 #include <reader/externs.h>

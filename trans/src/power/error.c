@@ -16,8 +16,9 @@
 
 #include <local/cpu.h>
 
+#include <tdf/nat.h>
+
 #include <reader/exp.h>
-#include <reader/code.h>
 #include <reader/externs.h>
 
 #include <construct/flpttypes.h>

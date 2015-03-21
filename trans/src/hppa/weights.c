@@ -40,9 +40,9 @@
 
 #include <stddef.h>
 
-#include <reader/exp.h>
+#include <tdf/nat.h>
 
-#include <reader/code.h>
+#include <reader/exp.h>
 
 #include <construct/installtypes.h>
 #include <construct/dec.h>

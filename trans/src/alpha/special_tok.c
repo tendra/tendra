@@ -15,7 +15,8 @@
 
 #include <local/szs_als.h>
 
-#include <reader/code.h>
+#include <tdf/nat.h>
+
 #include <reader/basicread.h>
 #include <reader/externs.h>
 #include <reader/messages_r.h>

@@ -15,8 +15,9 @@
 #include <shared/error.h>
 #include <shared/string.h>
 
+#include <tdf/nat.h>
+
 #include <reader/exp.h>
-#include <reader/code.h>
 
 #include <construct/installtypes.h>
 #include <construct/dec.h>

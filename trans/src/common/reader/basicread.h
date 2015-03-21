@@ -12,7 +12,8 @@
 
 #include <stdio.h>
 
-#include <reader/code.h>
+#include <tdf/tdfbool.h>
+
 #include <construct/installtypes.h>
 #include <reader/token.h>
 

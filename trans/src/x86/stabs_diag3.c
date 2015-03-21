@@ -41,7 +41,8 @@
 #include <main/flags.h>
 #include <main/print.h>
 
-#include <reader/code.h>
+#include <tdf/nat.h>
+
 #include <reader/basicread.h>
 #include <reader/externs.h>
 

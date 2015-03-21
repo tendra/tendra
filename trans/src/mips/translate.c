@@ -17,7 +17,8 @@
 
 #include <local/ash.h>
 
-#include <reader/code.h>
+#include <tdf/nat.h>
+
 #include <reader/basicread.h>
 
 #include <symtab/symconst.h>

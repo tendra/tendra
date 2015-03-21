@@ -19,7 +19,11 @@
 #include <local/szs_als.h>
 #include <local/ash.h>
 
+#include <tdf/nat.h>
+
 #include <reader/exp.h>
+#include <reader/token.h>
+#include <reader/externs.h>		/* for f_floating() */
 
 #include <main/driver.h>
 #include <main/print.h>
@@ -31,10 +35,6 @@
 #include <dbxstclass.h>
 #include <sys/debug.h>
 #endif
-
-#include <reader/code.h>
-#include <reader/token.h>
-#include <reader/externs.h>		/* for f_floating() */
 
 #include <construct/installglob.h>
 #include <construct/machine.h>

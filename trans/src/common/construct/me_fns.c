@@ -12,9 +12,9 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include <reader/exp.h>
+#include <tdf/nat.h>
 
-#include <reader/code.h>
+#include <reader/exp.h>
 #include <reader/table_fns.h>
 #include <reader/externs.h>
 #include <reader/basicread.h>

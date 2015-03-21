@@ -10,7 +10,8 @@
 #ifndef flpt_key
 #define flpt_key 1
 
-#include <reader/code.h>
+#include <tdf/nat.h>
+
 #include <construct/installtypes.h>
 #include <construct/flpttypes.h>
 

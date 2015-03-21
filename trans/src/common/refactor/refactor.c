@@ -30,10 +30,11 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
-#include <reader/exp.h>
+#include <tdf/nat.h>
+
 #include <local/szs_als.h>
 
-#include <reader/code.h>
+#include <reader/exp.h>
 #include <reader/externs.h>
 #include <reader/basicread.h>
 #include <reader/readglob.h>

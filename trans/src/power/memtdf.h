@@ -11,9 +11,9 @@
 #ifndef	MEMTDF_H
 #define MEMTDF_H	1
 
-#include <reader/exp.h>
+#include <tdf/nat.h>
 
-#include <reader/code.h>
+#include <reader/exp.h>
 
 #include <construct/installtypes.h>
 #include <construct/aldefs.h>

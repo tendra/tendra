@@ -20,7 +20,8 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
-#include <reader/code.h>
+#include <tdf/nat.h>
+
 #include <reader/basicread.h>
 
 #include <construct/shape.h>

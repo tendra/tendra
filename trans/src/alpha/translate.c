@@ -19,7 +19,7 @@
 
 #include <local/ash.h>
 
-#include <reader/code.h>
+#include <tdf/nat.h>
 
 #include <construct/installglob.h>
 #include <construct/tags.h>

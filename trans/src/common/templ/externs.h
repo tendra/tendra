@@ -12,6 +12,9 @@
 #ifndef EXTERNS_INCLUDED
 #define EXTERNS_INCLUDED
 
+#include <tdf/nat.h>
+#include <tdf/tdfbool.h>
+
 @use all
 @special exp
 @loop sort

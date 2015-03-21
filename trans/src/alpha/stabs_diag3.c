@@ -24,8 +24,9 @@
 #include <shared/string.h>
 #include <shared/xalloc.h>
 
+#include <tdf/nat.h>
+
 #include <reader/exp.h>
-#include <reader/code.h>
 #include <reader/token.h>
 
 #include <construct/shape.h>

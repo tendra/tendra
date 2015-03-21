@@ -16,7 +16,8 @@
 
 #include <local/out.h>
 
-#include <reader/code.h>
+#include <tdf/nat.h>
+
 #include <reader/basicread.h>
 
 #include <construct/installtypes.h>

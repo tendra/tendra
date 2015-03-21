@@ -23,7 +23,8 @@
 #include <reader/exp.h>
 #include <local/szs_als.h>
 
-#include <reader/code.h>
+#include <tdf/nat.h>
+
 #include <reader/basicread.h>
 #include <reader/main_reads.h>
 #include <reader/readglob.h>
