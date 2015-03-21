@@ -12,6 +12,7 @@
 
 
 #include <construct/exp.h>
+#include <construct/dec.h>
 
 /* global variables describing the current procedure */
 

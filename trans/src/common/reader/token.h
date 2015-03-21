@@ -20,6 +20,7 @@
 #include <reader/exp.h>
 
 #include <construct/installtypes.h>
+#include <construct/dec.h>
 
 #ifdef TDF_DIAG4
 #include <diag4/dg_types.h>  /* TDF_DIAG4 */

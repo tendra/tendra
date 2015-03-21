@@ -25,6 +25,7 @@
 #include <construct/tags.h>
 #include <construct/machine.h>
 #include <construct/installtypes.h>
+#include <construct/dec.h>
 
 #include <linkinfo/messages_li.h>
 

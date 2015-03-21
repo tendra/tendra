@@ -26,6 +26,7 @@
 #include <local/out.h>
 
 #include <construct/tags.h>
+#include <construct/dec.h>
 
 #include <main/driver.h>
 #include <main/flags.h>

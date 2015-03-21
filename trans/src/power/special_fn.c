@@ -23,6 +23,7 @@
 #include <construct/exp.h>
 #include <construct/installglob.h>
 #include <construct/installtypes.h>
+#include <construct/dec.h>
 
 #include <special/special_fn.h>
 

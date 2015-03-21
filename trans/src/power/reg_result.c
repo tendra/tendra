@@ -11,6 +11,7 @@
 #include <shared/bool.h>
 
 #include <construct/installtypes.h>
+#include <construct/dec.h>
 #include <construct/reg_result.h>
 
 #include "memtdf.h"

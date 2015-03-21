@@ -22,6 +22,7 @@
 #include <reader/externs.h>
 
 #include <construct/installtypes.h>
+#include <construct/dec.h>
 #include <construct/ash.h>
 #include <construct/label_ops.h>
 #include <construct/installglob.h>

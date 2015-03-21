@@ -13,6 +13,7 @@
 #include <reader/read_fns.h>
 
 #include <construct/installtypes.h>
+#include <construct/dec.h>
 #include <construct/installglob.h>
 
 #include <main/flags.h>

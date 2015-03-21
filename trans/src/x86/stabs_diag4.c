@@ -30,6 +30,7 @@
 #include <diag4/diagtypes.h> /* TDF_DIAG3 */
 
 #include <construct/installtypes.h>
+#include <construct/dec.h>
 #include <construct/machine.h>
 #include <construct/shape.h>
 #include <construct/tags.h>

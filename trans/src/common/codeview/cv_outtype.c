@@ -15,6 +15,7 @@
 #include <reader/exp.h>
 
 #include <construct/installtypes.h>
+#include <construct/dec.h>
 
 #ifndef TDF_DIAG4
 #include <diag3/dg_first.h>

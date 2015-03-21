@@ -24,9 +24,12 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
-#include <symtab/syms.h>
-
 #include <reader/exp.h>
+
+#include <construct/installtypes.h>
+#include <construct/dec.h>
+
+#include <symtab/syms.h>
 
 #include <main/driver.h>
 #include <main/print.h>

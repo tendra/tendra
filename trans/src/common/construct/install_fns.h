@@ -8,6 +8,7 @@
  */
 
 #include <construct/installtypes.h>
+#include <construct/dec.h>
 
 dec *make_extra_dec(char *nme, int v, int g, exp init, shape s);
 

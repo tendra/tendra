@@ -16,6 +16,7 @@
 #include <reader/token.h>
 
 #include <construct/installtypes.h>
+#include <construct/dec.h>
 #include <construct/machine.h>
 
 #include <special/special_call.h>

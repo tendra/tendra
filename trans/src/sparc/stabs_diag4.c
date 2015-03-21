@@ -25,6 +25,7 @@
 #include <local/szs_als.h>
 
 #include <construct/installtypes.h>
+#include <construct/dec.h>
 #include <construct/shape.h>
 #include <construct/tags.h>
 #include <construct/exp.h>

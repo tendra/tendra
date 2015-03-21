@@ -17,6 +17,7 @@
 #include <reader/exp.h>
 
 #include <construct/installtypes.h>
+#include <construct/dec.h>
 #include <construct/exp.h>
 #include <construct/tags.h>
 

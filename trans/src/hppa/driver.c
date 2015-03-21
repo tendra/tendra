@@ -24,6 +24,7 @@
 #include <construct/exp.h>		/* for current_alloc_size */
 #include <construct/installglob.h>	/* for top_def */
 #include <construct/installtypes.h>
+#include <construct/dec.h>
 #include <construct/machine.h>
 
 #include <main/driver.h>

@@ -21,7 +21,7 @@
 #include <shared/xalloc.h>
 
 #include <construct/installtypes.h>
-
+#include <construct/dec.h>
 
 #include <main/flags.h>
 

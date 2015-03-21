@@ -26,6 +26,7 @@
 #include <construct/shape.h>
 #include <construct/exp.h>
 #include <construct/installtypes.h>
+#include <construct/dec.h>
 
 #include <symtab/symconst.h>
 #include <symtab/symtab.h>

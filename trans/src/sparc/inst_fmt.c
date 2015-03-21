@@ -25,6 +25,8 @@
 #include <local/dw2_config.h>
 #endif
 
+#include <construct/dec.h>
+
 #include <main/driver.h>
 #include <main/flags.h>
 #include <main/print.h>

@@ -34,6 +34,7 @@
 #include <reader/externs.h>
 
 #include <construct/installtypes.h>
+#include <construct/dec.h>
 #include <construct/ash.h>
 #include <construct/tags.h>
 #include <construct/installtypes.h>

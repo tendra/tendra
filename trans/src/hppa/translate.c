@@ -107,6 +107,7 @@
 #include <reader/externs.h>
 
 #include <construct/installtypes.h>
+#include <construct/dec.h>
 #include <construct/ash.h>
 #include <construct/flpt.h>
 #include <construct/tags.h>

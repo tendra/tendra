@@ -21,6 +21,9 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <construct/installtypes.h>
+#include <construct/dec.h>
+
 #include <local/ash.h>
 
 #include "alpha_ins.h"

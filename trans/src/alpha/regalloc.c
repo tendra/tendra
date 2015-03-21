@@ -25,6 +25,7 @@
 
 
 #include <construct/installtypes.h>
+#include <construct/dec.h>
 #include <construct/ash.h>
 #include <construct/tags.h>
 

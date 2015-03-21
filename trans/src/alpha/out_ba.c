@@ -19,6 +19,9 @@
 
 #include <shared/xalloc.h>
 
+#include <construct/installtypes.h>
+#include <construct/dec.h>
+
 #include "ibinasm.h"
 #include "main.h"
 #include "out_ba.h"

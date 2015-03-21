@@ -24,6 +24,7 @@
 #include <construct/shape.h>
 #include <construct/tags.h>
 #include <construct/installtypes.h>
+#include <construct/dec.h>
 #include <construct/exp.h>
 #include <construct/installglob.h>
 

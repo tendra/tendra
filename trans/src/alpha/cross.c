@@ -16,6 +16,7 @@
 #include <construct/flpttypes.h>
 #include <construct/flpt.h>
 #include <construct/f64.h>
+#include <construct/dec.h>
 
 #include <main/print.h>
 
