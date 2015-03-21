@@ -22,6 +22,8 @@
 #include <reader/messages_r.h>
 #include <reader/main_reads.h>
 
+#include <construct/tagdata.h>
+
 #include <refactor/refactor.h>
 
 

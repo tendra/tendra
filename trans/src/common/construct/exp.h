@@ -15,6 +15,7 @@
 #include <reader/code.h>
 
 #include <construct/installtypes.h>
+#include <construct/tagdata.h>
 
 extern exp getexp (shape s, exp b, int l, exp sn, exp p, prop pr, int n,
 		   unsigned char tg);
