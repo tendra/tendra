@@ -42,7 +42,6 @@ extern int report_versions;
 
 extern exp proc_struct_result;
 extern char *dynamic_init_proc;
-extern proc_props *old_proc_props;
 
 extern version global_version;
 

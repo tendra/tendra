@@ -102,7 +102,6 @@ init(void)
 	lv_null   = 0x0; /* NULL value for label_value*/
 
 	capsule_freelist = NULL;
-	old_proc_props   = NULL;
 	promote_pars     = 0;
 	load_ptr_pars    = 1;
 }

@@ -40,7 +40,6 @@ version global_version;
 
 char *dynamic_init_proc = NULL;
 
-proc_props *old_proc_props = NULL;	/* initial value for pushing */
 int in_proc_def = 0;				/* initial value for pushing */
 
 static aldef const_aldefs[6];

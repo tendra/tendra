@@ -79,6 +79,31 @@
 
 #define MAX_ST_LENGTH 25
 
+
+/*
+ * holds properties of a procedure while an internally defined procedure
+ * is being read
+ */
+typedef struct proc_props_t {
+	struct proc_props_t *pushed;
+	exp proc_struct_result;
+	int proc_label_count;
+	float default_freq;
+	alignment frame_alignment;
+	int has_alloca;
+	int proc_is_recursive;
+	int uses_crt_env;
+	int has_setjmp;
+	int uses_loc_address;
+	int proc_struct_res;
+	int proc_externs;
+	int in_proc_def;
+	int rep_make_proc;
+	int in_initial_value;
+} proc_props;
+
+proc_props *old_proc_props = NULL;  /* initial value for pushing */
+
 /* All variables initialised */
 
 static shape f_ptr1;
