@@ -16,9 +16,9 @@
 #include <shared/error.h>
 
 #include <tdf/nat.h>
+#include <tdf/ecodes.h>
 
 #include <reader/basicread.h>
-#include <reader/ecodes.h>
 #include <reader/externs.h>
 #include <reader/messages_r.h>
 #include <reader/main_reads.h>
