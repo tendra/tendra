@@ -16,12 +16,12 @@
 #include <shared/xalloc.h>
 
 #include <tdf/nat.h>
+#include <tdf/sort.h>
 
 #include <reader/exp.h>
 #include <reader/readglob.h>
 #include <reader/table_fns.h>
 #include <reader/basicread.h>
-#include <reader/sort.h>
 #include <reader/main_reads.h>
 
 #include <construct/shape.h>
@@ -270,7 +270,7 @@ f_diag_type_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
 
-	v = apply_tok(token_value, token_args,  DIAG_TYPE_SORT, NULL);
+	v = apply_tok(token_value, token_args, SORT_DIAG_TYPE, NULL);
 
 	return v.tk_diag_type;
 }
@@ -560,7 +560,7 @@ f_filename_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
 
-	v = apply_tok(token_value, token_args, DIAG_FILENAME, NULL);
+	v = apply_tok(token_value, token_args, SORT_FILENAME, NULL);
 
 	return v.tk_filename;
 }

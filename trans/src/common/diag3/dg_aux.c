@@ -15,10 +15,10 @@
 #include <shared/xalloc.h>
 
 #include <tdf/nat.h>
+#include <tdf/sort.h>
 
 #include <reader/exp.h>
 #include <reader/basicread.h>
-#include <reader/sort.h>
 #include <reader/externs.h>
 #include <reader/table_fns.h>
 
@@ -426,7 +426,7 @@ relative_exp(shape s, token t)
 
 	id = me_startid(s, f_make_value(s), 0);
 	tv.tk_exp = me_obtain(id);
-	tv = apply_tok(t, keep_place(), EXP_S, &tv);
+	tv = apply_tok(t, keep_place(), SORT_EXP, &tv);
 	IGNORE me_complete_id(id, hold_refactor(tv.tk_exp));
 
 	return hold(id);

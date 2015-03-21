@@ -14,11 +14,12 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
+#include <tdf/sort.h>
+
 #include <reader/exp.h>
 
 #include <reader/readglob.h>
 #include <reader/basicread.h>
-#include <reader/sort.h>
 #include <reader/main_reads.h>
 #include <reader/externs.h>
 #include <reader/read_sort.h>
@@ -338,7 +339,7 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 			/* and say it is defined */
 			new_bindings[i].tok_special = 0;
 			/* and say it is not special */
-			new_bindings[i].recursive = (sn.code == TOKEN);
+			new_bindings[i].recursive = (sn.code == SORT_TOKEN);
 			/* and say it is not recursive for simple
 			 * sorts */
 			new_bindings[i].tok_context = crt_context;

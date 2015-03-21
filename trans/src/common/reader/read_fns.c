@@ -24,6 +24,7 @@
 #include <shared/xalloc.h>
 
 #include <tdf/nat.h>
+#include <tdf/sort.h>
 
 #include <reader/exp.h>
 #include <reader/basicread.h>
@@ -32,7 +33,6 @@
 #include <reader/readglob.h>
 #include <reader/table_fns.h>
 #include <reader/read_fns.h>
-#include <reader/sort.h>
 #include <reader/externs.h>
 #include <reader/messages_r.h>
 
@@ -244,7 +244,7 @@ procprops
 f_procprops_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, PROCPROPS, NULL);
+   v = apply_tok(token_value, token_args, SORT_PROCPROPS, NULL);
    return v.tk_procprops;
 }
 
@@ -280,7 +280,7 @@ string
 f_string_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, STRING, NULL);
+   v = apply_tok(token_value, token_args, SORT_STRING, NULL);
    return v.tk_string;
 }
 
@@ -317,7 +317,7 @@ alignment
 f_alignment_apply_token(token token_value, bitstream token_args)
 {
   tokval v;
-  v = apply_tok(token_value, token_args, ALIGNMENT_SORT, NULL);
+  v = apply_tok(token_value, token_args, SORT_ALIGNMENT, NULL);
   return v.tk_alignment;
 }
 
@@ -353,7 +353,7 @@ access
 f_access_apply_token(token token_value, bitstream token_args)
 {
   tokval v;
-  v = apply_tok(token_value, token_args, ACCESS_SORT, NULL);
+  v = apply_tok(token_value, token_args, SORT_ACCESS, NULL);
   return v.tk_access;
 }
 
@@ -389,7 +389,7 @@ transfer_mode
 f_transfer_mode_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, TRANSFER_MODE_SORT, NULL);
+   v = apply_tok(token_value, token_args, SORT_TRANSFER_MODE, NULL);
    return v.tk_transfer_mode;
 }
 
@@ -426,7 +426,7 @@ bitfield_variety
 f_bfvar_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, BITFIELD_VARIETY, NULL);
+   v = apply_tok(token_value, token_args, SORT_BITFIELD_VARIETY, NULL);
    return v.tk_bitfield_variety;
 }
 
@@ -458,7 +458,7 @@ f_bool_apply_token
 (token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, BOOL, NULL);
+   v = apply_tok(token_value, token_args, SORT_BOOL, NULL);
    return v.tk_bool;
 }
 
@@ -620,7 +620,7 @@ error_treatment
 f_errt_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, ERROR_TREATMENT, NULL);
+   v = apply_tok(token_value, token_args, SORT_ERROR_TREATMENT, NULL);
    return v.tk_error_treatment;
 }
 
@@ -652,7 +652,7 @@ exp
 f_exp_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, EXP_S, NULL);
+   v = apply_tok(token_value, token_args, SORT_EXP, NULL);
    return v.tk_exp;
 }
 
@@ -717,7 +717,7 @@ floating_variety
 f_flvar_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, FLOATING_VARIETY, NULL);
+   v = apply_tok(token_value, token_args, SORT_FLOATING_VARIETY, NULL);
    return v.tk_floating_variety;
 }
 
@@ -749,7 +749,7 @@ label
 f_label_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, LABEL, NULL);
+   v = apply_tok(token_value, token_args, SORT_LABEL, NULL);
    return v.tk_label;
 }
 
@@ -770,7 +770,7 @@ nat
 f_nat_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, NAT, NULL);
+   v = apply_tok(token_value, token_args, SORT_NAT, NULL);
    return v.tk_nat;
 }
 
@@ -801,7 +801,7 @@ ntest
 f_ntest_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, NTEST, NULL);
+   v = apply_tok(token_value, token_args, SORT_NTEST, NULL);
    return v.tk_ntest;
 }
 
@@ -832,7 +832,7 @@ rounding_mode
 f_rounding_mode_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, ROUNDING_MODE, NULL);
+   v = apply_tok(token_value, token_args, SORT_ROUNDING_MODE, NULL);
    return v.tk_rounding_mode;
 }
 
@@ -862,7 +862,7 @@ shape
 f_shape_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, SHAPE, NULL);
+   v = apply_tok(token_value, token_args, SORT_SHAPE, NULL);
    return v.tk_shape;
 }
 
@@ -893,7 +893,7 @@ signed_nat
 f_signed_nat_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, SIGNED_NAT, NULL);
+   v = apply_tok(token_value, token_args, SORT_SIGNED_NAT, NULL);
    return v.tk_signed_nat;
 }
 
@@ -984,7 +984,7 @@ sortname
 f_token(sortname result, sortname_list params)
 {
    sortname res;
-   res.code = TOKEN;
+   res.code = SORT_TOKEN;
    res.result = result.code;
    res.pars = params;
    return res;
@@ -994,34 +994,34 @@ sortname f_variety;
 void
 init_sortname(void)
 {
-   f_alignment_sort.code = ALIGNMENT_SORT;
-   f_bitfield_variety.code = BITFIELD_VARIETY;
-   f_bool.code = BOOL;
-   f_error_treatment.code = ERROR_TREATMENT;
-   f_exp.code = EXP_S;
-   f_floating_variety.code = FLOATING_VARIETY;
-   f_label.code = LABEL;
-   f_nat.code = NAT;
-   f_ntest.code = NTEST;
-   f_rounding_mode.code = ROUNDING_MODE;
-   f_shape.code = SHAPE;
-   f_signed_nat.code = SIGNED_NAT;
-   f_tag.code = TAG;
-   f_al_tag.code = AL_TAG;
-   f_variety.code = VARIETY;
-   f_diag_filename.code = DIAG_FILENAME;	/* TDF_DIAG3 */
-   f_diag_type.code = DIAG_TYPE_SORT;		/* TDF_DIAG3 */
-   f_foreign.code = FOREIGN;
-   f_access.code = ACCESS_SORT;
-   f_transfer_mode.code = TRANSFER_MODE_SORT;
-   f_procprops.code = PROCPROPS;
-   f_string.code = STRING;
-   f_dg.code = DG_SORT;				/* TDF_DIAG4 */
-   f_dg_dim.code = DG_DIM_SORT;			/* TDF_DIAG4 */
-   f_dg_filename.code = DG_FILENAME_SORT;	/* TDF_DIAG4 */
-   f_dg_idname.code = DG_IDNAME_SORT;		/* TDF_DIAG4 */
-   f_dg_name.code = DG_NAME_SORT;		/* TDF_DIAG4 */
-   f_dg_type.code = DG_TYPE_SORT;		/* TDF_DIAG4 */
+   f_alignment_sort.code   = SORT_ALIGNMENT;
+   f_bitfield_variety.code = SORT_BITFIELD_VARIETY;
+   f_bool.code             = SORT_BOOL;
+   f_error_treatment.code  = SORT_ERROR_TREATMENT;
+   f_exp.code              = SORT_EXP;
+   f_floating_variety.code = SORT_FLOATING_VARIETY;
+   f_label.code            = SORT_LABEL;
+   f_nat.code              = SORT_NAT;
+   f_ntest.code            = SORT_NTEST;
+   f_rounding_mode.code    = SORT_ROUNDING_MODE;
+   f_shape.code            = SORT_SHAPE;
+   f_signed_nat.code       = SORT_SIGNED_NAT;
+   f_tag.code              = SORT_TAG;
+   f_al_tag.code           = SORT_AL_TAG;
+   f_variety.code          = SORT_VARIETY;
+   f_diag_filename.code    = SORT_FILENAME;      /* TDF_DIAG3 */
+   f_diag_type.code        = SORT_DIAG_TYPE;     /* TDF_DIAG3 */
+   f_foreign.code          = SORT_FOREIGN;
+   f_access.code           = SORT_ACCESS;
+   f_transfer_mode.code    = SORT_TRANSFER_MODE;
+   f_procprops.code        = SORT_PROCPROPS;
+   f_string.code           = SORT_STRING;
+   f_dg.code               = SORT_DG;            /* TDF_DIAG4 */
+   f_dg_dim.code           = SORT_DG_DIM;        /* TDF_DIAG4 */
+   f_dg_filename.code      = SORT_DG_FILENAME;   /* TDF_DIAG4 */
+   f_dg_idname.code        = SORT_DG_IDNAME;     /* TDF_DIAG4 */
+   f_dg_name.code          = SORT_DG_NAME;       /* TDF_DIAG4 */
+   f_dg_type.code          = SORT_DG_TYPE;       /* TDF_DIAG4 */
 }
 
 sortname f_dummy_sortname;
@@ -1030,7 +1030,7 @@ tag
 f_tag_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, TAG, NULL);
+   v = apply_tok(token_value, token_args, SORT_TAG, NULL);
    return v.tk_tag;
 }
 
@@ -1038,7 +1038,7 @@ al_tag
 f_al_tag_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, AL_TAG, NULL);
+   v = apply_tok(token_value, token_args, SORT_AL_TAG, NULL);
    return v.tk_al_tag;
 }
 
@@ -1381,7 +1381,7 @@ token
 f_token_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, TOKEN, NULL);
+   v = apply_tok(token_value, token_args, SORT_TOKEN, NULL);
    return v.tk_token;
 }
 
@@ -1509,7 +1509,7 @@ variety
 f_var_apply_token(token token_value, bitstream token_args)
 {
    tokval v;
-   v = apply_tok(token_value, token_args, VARIETY, NULL);
+   v = apply_tok(token_value, token_args, SORT_VARIETY, NULL);
    return v.tk_variety;
 }
 

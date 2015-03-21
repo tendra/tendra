@@ -30,7 +30,6 @@
 #include <reader/readglob.h>
 #include <reader/table_fns.h>
 #include <reader/read_fns.h>
-#include <reader/sort.h>
 #include <reader/readglob.h>
 #include <reader/externs.h>
 

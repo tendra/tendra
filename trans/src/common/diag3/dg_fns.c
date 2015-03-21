@@ -12,12 +12,12 @@
 #include <shared/xalloc.h>
 
 #include <tdf/nat.h>
+#include <tdf/sort.h>
 
 #include <reader/exp.h>
 #include <reader/readglob.h>
 #include <reader/table_fns.h>
 #include <reader/basicread.h>
-#include <reader/sort.h>
 #include <reader/main_reads.h>
 #include <reader/token.h>
 #include <reader/externs.h>
@@ -135,7 +135,7 @@ f_dg_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
 
-	v = apply_tok(token_value, token_args, DG_SORT, NULL);
+	v = apply_tok(token_value, token_args, SORT_DG, NULL);
 
 	return v.tk_dg;
 }
@@ -631,7 +631,7 @@ f_dg_name_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
 
-	v = apply_tok(token_value, token_args, DG_NAME_SORT, NULL);
+	v = apply_tok(token_value, token_args, SORT_DG_NAME, NULL);
 
 	return v.tk_dg_name;
 }
@@ -954,7 +954,7 @@ f_dg_type_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
 
-	v = apply_tok(token_value, token_args, DG_TYPE_SORT, NULL);
+	v = apply_tok(token_value, token_args, SORT_DG_TYPE, NULL);
 
 	return v.tk_dg_type;
 }
@@ -1695,7 +1695,7 @@ f_dg_dim_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
 
-	v = apply_tok(token_value, token_args, DG_DIM_SORT, NULL);
+	v = apply_tok(token_value, token_args, SORT_DG_DIM, NULL);
 
 	return v.tk_dg_dim;
 }
@@ -1928,7 +1928,7 @@ f_dg_filename_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
 
-	v = apply_tok(token_value, token_args, DG_FILENAME_SORT, NULL);
+	v = apply_tok(token_value, token_args, SORT_DG_FILENAME, NULL);
 
 	return v.tk_dg_filename;
 }
@@ -2113,7 +2113,7 @@ f_dg_idname_apply_token(token token_value, bitstream token_args)
 {
 	tokval v;
 
-	v = apply_tok(token_value, token_args, DG_IDNAME_SORT, NULL);
+	v = apply_tok(token_value, token_args, SORT_DG_IDNAME, NULL);
 
 	return v.tk_dg_idname;
 }
