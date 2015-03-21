@@ -6,6 +6,7 @@
 CCOPTS+=	-I ..
 CCOPTS+=	-I .
 
+SRCS+=	callop.c
 SRCS+=	aldefs.c
 SRCS+=	complex_eq.c
 SRCS+=	exp.c

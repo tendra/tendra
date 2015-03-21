@@ -9,6 +9,8 @@
 
 #include <construct/installtypes.h>
 
+dec *make_extra_dec(char *nme, int v, int g, exp init, shape s);
+
 extern shape ucharsh;
 extern shape scharsh;
 extern shape uwordsh;
