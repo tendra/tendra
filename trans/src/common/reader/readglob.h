@@ -10,6 +10,7 @@
 #ifndef READGLOB_H
 #define READGLOB_H
 
+#include <reader/code.h>
 #include <construct/installtypes.h>
 #include <construct/aldefs.h>
 #include <reader/token.h>

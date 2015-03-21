@@ -12,6 +12,7 @@
 
 #include <stdio.h>
 
+#include <reader/code.h>
 #include <construct/installtypes.h>
 #include <reader/token.h>
 

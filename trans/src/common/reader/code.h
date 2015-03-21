@@ -21,6 +21,21 @@ struct nat_t {union nat_u nat_val;
 	     };
 typedef struct nat_t nat;
 
+union signed_nat_u {
+	int small_s_nat;
+	flpt big_s_nat;
+};
+
+struct signed_nat_t {
+	union signed_nat_u signed_nat_val;
+	char issmall;       /* 1 if small_s_nat 0 big */
+	char negative;};    /* 1 for neg, 0 for pos */
+typedef struct signed_nat_t signed_nat;
+
+typedef struct nat_option_t {
+	int present;    /* 1 if val is present, 0 otherwise */
+	nat val;
+} nat_option;
 
 
  /* the definition of the internal representation of the sort tdfstring
