@@ -18,6 +18,12 @@
 #include <construct/tagdata.h>
 #include <construct/aldefs.h>
 
+typedef struct exp_list_t {
+	exp start;  /* the first element of a list chained through bro */
+	exp end;    /* the last element of a list chained through bro */
+	int number; /* the number of elements in the list */
+} exp_list;
+
 extern exp getexp (shape s, exp b, int l, exp sn, exp p, prop pr, int n,
 		   unsigned char tg);
 extern exp getshape (int l, alignment sn, alignment p, alignment pr, int n,

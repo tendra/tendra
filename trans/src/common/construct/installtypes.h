@@ -108,12 +108,6 @@ typedef struct shape_list_t {
 typedef shape variety;
 
 
-typedef struct exp_list_t {
-	exp start;	/* the first element of a list chained through bro */
-	exp end;	/* the last element of a list chained through bro */
-	int number;	/* the number of elements in the list */
-} exp_list;
-
 typedef exp caselim_list;
 
 

@@ -15,6 +15,7 @@
 
 #include <construct/installtypes.h>
 #include <construct/tagdata.h>
+#include <construct/exp.h>
 #include <reader/token.h>
 #include <linkinfo/li_types.h>
 
