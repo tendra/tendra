@@ -12,6 +12,7 @@
 
 #include <reader/code.h>
 #include <construct/installtypes.h>
+#include <construct/aldefs.h>
 
 #ifdef TDF_DIAG4
 #include <diag4/dg_first.h>

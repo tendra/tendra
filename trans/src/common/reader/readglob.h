@@ -11,6 +11,7 @@
 #define READGLOB_H
 
 #include <construct/installtypes.h>
+#include <construct/aldefs.h>
 #include <reader/token.h>
 
 #ifdef TDF_DIAG4

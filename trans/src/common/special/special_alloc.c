@@ -12,8 +12,6 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include <local/szs_als.h>
-
 #include <reader/code.h>
 #include <reader/basicread.h>
 #include <reader/externs.h>
@@ -27,6 +25,9 @@
 #include <construct/me_fns.h>
 #include <construct/installglob.h>
 #include <construct/install_fns.h>
+#include <construct/aldefs.h>
+
+#include <local/szs_als.h>
 
 #include <special/special_tok.h>
 

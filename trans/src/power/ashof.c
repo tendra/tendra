@@ -11,6 +11,7 @@
 #include <local/ash.h>
 
 #include <construct/installtypes.h>
+#include <construct/aldefs.h>
 #include <construct/dec.h>
 #include <construct/ash.h>
 

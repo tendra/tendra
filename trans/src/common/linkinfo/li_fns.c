@@ -26,6 +26,7 @@
 #include <construct/machine.h>
 #include <construct/installtypes.h>
 #include <construct/dec.h>
+#include <construct/aldefs.h>
 
 #include <linkinfo/messages_li.h>
 

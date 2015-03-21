@@ -16,6 +16,7 @@
 #include <reader/code.h>
 
 #include <construct/installtypes.h>
+#include <construct/aldefs.h>
 #include <construct/install_fns.h>
 #include <construct/exp.h>
 #include <construct/shape.h>

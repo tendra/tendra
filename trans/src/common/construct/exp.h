@@ -16,6 +16,7 @@
 
 #include <construct/installtypes.h>
 #include <construct/tagdata.h>
+#include <construct/aldefs.h>
 
 extern exp getexp (shape s, exp b, int l, exp sn, exp p, prop pr, int n,
 		   unsigned char tg);

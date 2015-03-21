@@ -9,6 +9,7 @@
 
 #include <reader/arith_codes.h>
 
+#include <construct/aldefs.h>
 #include <construct/install_fns.h>
 
 /* PROCEDURES */

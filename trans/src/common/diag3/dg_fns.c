@@ -24,6 +24,7 @@
 
 #include <construct/install_fns.h>
 #include <construct/tags.h>
+#include <construct/aldefs.h>
 
 #include <main/flags.h>
 

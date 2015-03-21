@@ -16,6 +16,7 @@
 
 #include <construct/tags.h>
 #include <construct/shape.h>
+#include <construct/aldefs.h>
 
 #include "addrtypes.h"
 #include "move.h"

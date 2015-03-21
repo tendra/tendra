@@ -18,6 +18,7 @@
 #include <local/dw2_config.h>
 #endif
 
+#include <construct/aldefs.h>
 #include <construct/tags.h>
 #include <construct/shape.h>
 

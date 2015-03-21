@@ -26,6 +26,7 @@
 #include <construct/shape.h>
 #include <construct/tags.h>
 #include <construct/install_fns.h>
+#include <construct/aldefs.h>
 
 #include <diag3/diagtypes.h>
 #include <diag3/diag_reform.h>

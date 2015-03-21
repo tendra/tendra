@@ -70,31 +70,6 @@ typedef int access_option;
 typedef int transfer_mode;
 
 
-typedef struct alignment_t {
-	int al_n;	/* code describing the state
-			   1 - defined in al_val.al
-			   2 - the join of al_val.al_join.a and b
-			   3 - in al_val.al_join.a
-			 */
-	int sh_hd;
-	struct alignment_u {
-		int al;
-		int al_frame;
-		struct join_t {
-			struct aldef_t *a;
-			struct aldef_t *b;
-		} al_join;
-	} al_val;
-} alignment_cell;
-
-typedef struct aldef_t {
-	struct aldef_t *next_aldef;	/* keeps a list of all aldefs */
-	alignment_cell al;
-} aldef;
-
-typedef aldef *alignment;
-
-
 struct bfvar_t {
 	int bits;	/* number of bits in bitfield */
 	int has_sign;	/* 1 if signed */
@@ -120,7 +95,6 @@ typedef struct error_treatment_t {
 
 
 typedef struct dec_t *tag;
-typedef aldef *al_tag;
 
 typedef int floating_variety;
 typedef unsigned char ntest;

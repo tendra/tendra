@@ -28,6 +28,7 @@
 #include <construct/exp.h>
 #include <construct/installglob.h>
 #include <construct/install_fns.h>
+#include <construct/aldefs.h>
 
 #include <special/special_tok.h>
 
