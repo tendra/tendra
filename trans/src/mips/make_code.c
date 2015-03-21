@@ -3518,6 +3518,8 @@ alreadythere:
 		int r0, r1, r2;
 		ans aa;
 
+		nsp = sp;
+
 		if ((uns || name(e) == rem0_tag) && name(rop) == val_tag) {
 			/* mod by constant */
 			int m;
