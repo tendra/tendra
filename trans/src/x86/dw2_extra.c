@@ -25,8 +25,7 @@
 #include <construct/shape.h>
 #include <construct/tags.h>
 #include <construct/label_ops.h>
-#include <construct/flpttypes.h>
-#include <construct/f64.h>
+#include <construct/flpt.h>
 
 #include <main/flags.h>
 #include <main/print.h>

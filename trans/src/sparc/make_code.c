@@ -36,7 +36,6 @@
 #include <construct/shape.h>
 #include <construct/install_fns.h>
 #include <construct/flpt.h>
-#include <construct/f64.h>
 
 #include <main/driver.h>
 #include <main/flags.h>

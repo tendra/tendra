@@ -30,7 +30,6 @@
 #include <construct/shape.h>
 #include <construct/machine.h>
 #include <construct/flpt.h>
-#include <construct/flpttypes.h>
 
 #include <main/flags.h>
 #include <main/print.h>

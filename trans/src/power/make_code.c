@@ -26,7 +26,7 @@
 #include <construct/ash.h>
 #include <construct/label_ops.h>
 #include <construct/installglob.h>
-#include <construct/f64.h>
+#include <construct/flpt.h>
 
 #include <main/driver.h>
 #include <main/flags.h>

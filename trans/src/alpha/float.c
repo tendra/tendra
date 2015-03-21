@@ -12,7 +12,6 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
-#include <construct/flpttypes.h>
 #include <construct/flpt.h>
 #include <construct/shape.h>
 #include <construct/tags.h>

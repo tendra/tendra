@@ -35,7 +35,6 @@
 #include <construct/tags.h>
 #include <construct/shape.h>
 #include <construct/flpt.h>
-#include <construct/flpttypes.h>
 #include <construct/installglob.h>
 #include <construct/install_fns.h>
 #include <construct/machine.h>

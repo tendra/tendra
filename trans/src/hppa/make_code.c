@@ -29,7 +29,7 @@
 #include <construct/exp.h>
 #include <construct/shape.h>
 #include <construct/install_fns.h>
-#include <construct/f64.h>
+#include <construct/flpt.h>
 #include <construct/misc_c.h>
 #include <construct/reg_result.h>
 

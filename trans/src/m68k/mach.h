@@ -10,7 +10,7 @@
 #ifndef MACH_INCLUDED
 #define MACH_INCLUDED
 
-#include <construct/flpttypes.h>
+#include <construct/flpt.h>
 #include <construct/installtypes.h>
 
 #include "utility.h"

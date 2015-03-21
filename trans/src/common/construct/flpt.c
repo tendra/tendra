@@ -22,7 +22,7 @@
 
 #include <reader/basicread.h>
 
-#include <construct/flpttypes.h>
+#include <construct/flpt.h>
 #include <construct/exp.h>
 #include <construct/messages_c.h>
 #include <construct/installglob.h>

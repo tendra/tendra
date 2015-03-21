@@ -10,11 +10,9 @@
 
 #include <reader/basicread.h>
 
-#include <construct/flpttypes.h>
 #include <construct/messages_c.h>
 #include <construct/flpt.h>
 #include <construct/exp.h>
-#include <construct/f64.h>
 
 /* PROCEDURES */
 

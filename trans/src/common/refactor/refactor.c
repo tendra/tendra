@@ -47,8 +47,6 @@
 #include <construct/me_fns.h>
 #include <construct/installglob.h>
 #include <construct/messages_c.h>
-#include <construct/f64.h>
-#include <construct/misc_c.h>
 #include <construct/misc_c.h>
 
 #include <main/flags.h>

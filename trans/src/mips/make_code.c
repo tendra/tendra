@@ -31,7 +31,6 @@
 #include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/shape.h>
-#include <construct/f64.h>
 #include <construct/flpt.h>
 
 #include <main/driver.h>

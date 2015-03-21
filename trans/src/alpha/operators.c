@@ -23,7 +23,7 @@
 
 #include <construct/tags.h>
 #include <construct/shape.h>
-#include <construct/f64.h>
+#include <construct/flpt.h>
 
 #include "code_here.h"
 #include "addrtypes.h"

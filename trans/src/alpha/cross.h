@@ -16,7 +16,7 @@
   long and the operations can be implemented by macros expanding
   to the simple arithmetic operations.  If, however, a 64 bit
   integral type is not available, then INT64 is represented
-  by the flt64 type (see flpttypes.h) and the operations are
+  by the flt64 type (see flpt.h) and the operations are
   represented by a set of functions, defined in cross.c
 */
 
@@ -28,7 +28,7 @@
 #include <reader/exp.h>
 
 #include <construct/installtypes.h>
-#include <construct/flpttypes.h>
+#include <construct/flpt.h>
 
 extern flt64 exp_to_f64(exp);
 typedef int INT32;

@@ -23,7 +23,6 @@
 #include <construct/exp.h>
 #include <construct/install_fns.h>
 #include <construct/flpt.h>
-#include <construct/flpttypes.h>
 #include <construct/shape.h>
 #include <construct/tags.h>
 

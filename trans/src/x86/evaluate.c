@@ -24,7 +24,6 @@
 #include <construct/flpt.h>
 #include <construct/install_fns.h>
 #include <construct/machine.h>
-#include <construct/f64.h>
 
 #include <main/flags.h>
 #include <main/print.h>

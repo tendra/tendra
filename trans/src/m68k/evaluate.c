@@ -20,7 +20,6 @@
 #include <construct/shape.h>
 #include <construct/flpt.h>
 #include <construct/tags.h>
-#include <construct/f64.h>
 
 #include <main/flags.h>
 

@@ -43,7 +43,6 @@
 #include <construct/installglob.h>
 #include <construct/is_worth.h>
 #include <construct/flpt.h>
-#include <construct/flpttypes.h>
 #include <construct/messages_c.h>
 #include <construct/me_fns.h>
 
