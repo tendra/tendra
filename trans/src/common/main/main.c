@@ -115,7 +115,7 @@ translate(FILE *f, const char *name)
 	top_def = NULL;
 
 	/*
-	 * Start the TDF decoder, which calls back to translate_capsule()
+	 * Start the TDF decoder, which calls back to translate_unit()
 	 */
 	IGNORE d_capsule();
 

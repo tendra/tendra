@@ -41,7 +41,6 @@ SRCS+=	read_fns.c
 SRCS+=	read_sort.c
 SRCS+=	readglob.c
 SRCS+=	table_fns.c
-SRCS+=	translate.c
 
 .include <tendra.obj.mk>
 
