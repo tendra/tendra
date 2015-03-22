@@ -11,12 +11,12 @@
 #define READER_H
 
 
-struct translate {
-	void (*translate_unit   )(void);
-	void (*translate_capsule)(void);
+struct reader_dispatch {
+	void (*dispatch_unit   )(void);
+	void (*dispatch_capsule)(void);
 };
 
-extern struct translate translate;
+extern struct reader_dispatch reader_dispatch;
 
 
 #endif

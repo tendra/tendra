@@ -56,7 +56,7 @@ translate_unit(void)
 	repeat_list = NULL;
 }
 
-struct translate translate = {
+struct reader_dispatch reader_dispatch = {
 	translate_unit,
 	translate_capsule
 };

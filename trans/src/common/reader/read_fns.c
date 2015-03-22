@@ -597,7 +597,7 @@ f_make_capsule(tdfstring_list prop_names, capsule_link_list capsule_linking,
   UNUSED(external_linkage);
   UNUSED(units);
 
-  translate.translate_capsule();
+  reader_dispatch.dispatch_capsule();
   return 0;
 }
 
@@ -1918,7 +1918,7 @@ f_make_tagdef_unit(void)
   unit_labtab = (exp *)rf_xcalloc(unit_no_of_labels, sizeof(exp));
   IGNORE d_tagdef_list();
   tidy_initial_values();
-  translate.translate_unit();
+  reader_dispatch.dispatch_unit();
   end_bytestream();
 
   xfree((void *)unit_ind_tokens);
