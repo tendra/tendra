@@ -7,8 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef BASICREAD_H
-#define BASICREAD_H
+#ifndef READER_BASICREAD_H
+#define READER_BASICREAD_H
+
 
 #include <stdio.h>
 
@@ -53,16 +54,16 @@ void ignore_bytestream(void);
 /* resets the input stream from bytestream_pickup */
 void end_bytestream(void);
 
-/* reads a tdfstring from the input stream */
+
+/*
+ * The following functions read a tdfstring, tdfident, tdfbool and tdfint
+ * from the input stream respectively.
+ */
 tdfstring d_tdfstring(void);
-
-/* reads a tdfident from the input stream */
 tdfstring d_tdfident(void);
-
-/* reads a tdfbool from the input stream */
 tdfbool d_tdfbool(void);
-
-/* reads a tdfint from the input stream */
 tdfint d_tdfint(void);
 
-#endif /* BASICREAD_H */
+
+#endif
+
