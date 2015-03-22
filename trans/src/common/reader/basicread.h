@@ -17,12 +17,6 @@
 #include <construct/installtypes.h>
 #include <reader/token.h>
 
-extern int crt_lno;
-extern char *crt_flnm;
-extern int crt_charno;
-
-/* start the input stream reading from the file f */
-void initreader(FILE *f, const char *n);
 
 /* read n bits from the input stream */
 int getcode(int n);

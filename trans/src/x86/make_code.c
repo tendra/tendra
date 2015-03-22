@@ -13,8 +13,9 @@
  * the others.
  */
 
-#include <string.h>
 #include <limits.h>
+#include <string.h>
+#include <stdio.h>
 
 #include <shared/bool.h>
 #include <shared/check.h>
@@ -33,7 +34,7 @@
 #include <tdf/nat.h>
 
 #include <reader/exp.h>
-#include <reader/basicread.h>
+#include <reader/reader.h>
 #include <reader/externs.h>
 #include <reader/readglob.h>
 

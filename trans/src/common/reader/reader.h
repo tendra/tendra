@@ -19,5 +19,14 @@ struct reader_dispatch {
 extern struct reader_dispatch reader_dispatch;
 
 
+extern int crt_lno;
+extern char *crt_flnm;
+extern int crt_charno;
+
+/* start the input stream reading from the file f */
+void
+initreader(FILE *f, const char *n);
+
+
 #endif
 

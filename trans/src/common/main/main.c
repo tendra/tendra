@@ -20,8 +20,8 @@
 #include <main/version.h>
 #include <main/print.h>
 
+#include <reader/reader.h>
 #include <reader/main_reads.h>
-#include <reader/basicread.h>
 #include <reader/externs.h>
 #include <reader/readglob.h>
 

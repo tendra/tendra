@@ -9,14 +9,16 @@
 
 #include <assert.h>
 #include <stddef.h>
+#include <stdio.h>
 
 #include <shared/bool.h>
 #include <shared/check.h>
 
 #include <tdf/nat.h>
 
-#include <reader/basicread.h>
+#include <reader/reader.h>
 #include <reader/externs.h>
+#include <reader/basicread.h>
 #include <reader/messages_r.h>
 #include <reader/main_reads.h>
 #include <reader/c_arith_type.h>

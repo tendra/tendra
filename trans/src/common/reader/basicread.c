@@ -19,6 +19,7 @@
 #include <reader/messages_r.h>
 #include <reader/readglob.h>
 #include <reader/basicread.h>
+#include <reader/reader.h>
 
 #include <construct/flpt.h>
 #include <construct/installglob.h>
