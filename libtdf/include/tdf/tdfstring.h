@@ -29,5 +29,15 @@ typedef struct {
 	} ints;
 } tdfstring;
 
+/* number tdfstrings */
+typedef struct {
+	int number;
+	tdfstring *elems;
+} tdfstring_list;
+
+typedef tdfstring tdfident;
+
+typedef tdfstring_list tdfident_list;
+
 #endif
 
