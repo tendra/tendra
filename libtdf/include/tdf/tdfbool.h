@@ -11,7 +11,7 @@
 #define TDF_TDFBOOL_H
 
 /* the definition of the internal representation of the sort tdfbool */
-typedef char tdfbool;
+typedef bool tdfbool;
 
 #endif
 
