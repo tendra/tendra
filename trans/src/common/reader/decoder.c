@@ -27,8 +27,6 @@
 #include <refactor/refactor.h>
 
 
-/* REPORT AN ERROR */
-
 static void
 decode_error(char *s)
 {
@@ -36,8 +34,6 @@ decode_error(char *s)
     exit(EXIT_FAILURE);
 }
 
-
-/* DECODE ACCESS */
 
 access
 d_access(void)
@@ -103,8 +99,6 @@ d_access(void)
 }
 
 
-/* DECODE ACCESS_OPTION */
-
 access_option
 d_access_option(void)
 {
@@ -116,8 +110,6 @@ d_access_option(void)
     return no_access_option;
 }
 
-
-/* DECODE AL_TAG */
 
 al_tag
 d_al_tag(void)
@@ -142,8 +134,6 @@ d_al_tag(void)
 }
 
 
-/* DECODE AL_TAGDEF */
-
 al_tagdef
 d_al_tagdef(void)
 {
@@ -162,8 +152,6 @@ d_al_tagdef(void)
 }
 
 
-/* DECODE AL_TAGDEF_LIST */
-
 al_tagdef_list
 d_al_tagdef_list(void)
 {
@@ -180,8 +168,6 @@ d_al_tagdef_list(void)
 }
 
 
-/* DECODE AL_TAGDEF_PROPS */
-
 al_tagdef_props
 d_al_tagdef_props(void)
 {
@@ -192,8 +178,6 @@ d_al_tagdef_props(void)
     return f_make_al_tagdefs( p0, p1);
 }
 
-
-/* DECODE ALIGNMENT */
 
 alignment
 d_alignment(void)
@@ -266,8 +250,6 @@ d_alignment(void)
 }
 
 
-/* DECODE BITFIELD_VARIETY */
-
 bitfield_variety
 d_bitfield_variety(void)
 {
@@ -302,8 +284,6 @@ d_bitfield_variety(void)
 }
 
 
-/* DECODE BOOL */
-
 bool
 d_bool(void)
 {
@@ -337,8 +317,6 @@ d_bool(void)
 }
 
 
-/* DECODE BOOL_OPTION */
-
 bool_option
 d_bool_option(void)
 {
@@ -350,8 +328,6 @@ d_bool_option(void)
     return no_bool_option;
 }
 
-
-/* DECODE CALLEES */
 
 callees
 d_callees(void)
@@ -379,8 +355,6 @@ d_callees(void)
 }
 
 
-/* DECODE CAPSULE */
-
 capsule
 d_capsule(void)
 {
@@ -397,8 +371,6 @@ d_capsule(void)
 }
 
 
-/* DECODE CAPSULE_LINK */
-
 capsule_link
 d_capsule_link(void)
 {
@@ -409,8 +381,6 @@ d_capsule_link(void)
     return f_make_capsule_link( p0, p1);
 }
 
-
-/* DECODE CAPSULE_LINK_LIST */
 
 capsule_link_list
 d_capsule_link_list(void)
@@ -428,8 +398,6 @@ d_capsule_link_list(void)
 }
 
 
-/* DECODE CASELIM */
-
 caselim
 d_caselim(void)
 {
@@ -442,8 +410,6 @@ d_caselim(void)
     return f_make_caselim( p0, p1, p2);
 }
 
-
-/* DECODE CASELIM_LIST */
 
 caselim_list
 d_caselim_list(void)
@@ -461,8 +427,6 @@ d_caselim_list(void)
     return temp;
 }
 
-
-/* DECODE DG */
 
 dg
 d_dg(void)
@@ -715,8 +679,6 @@ d_dg(void)
 }
 
 
-/* DECODE DG_ACCESSIBILITY */
-
 dg_accessibility
 d_dg_accessibility(void)
 {
@@ -740,8 +702,6 @@ d_dg_accessibility(void)
 }
 
 
-/* DECODE DG_ACCESSIBILITY_OPTION */
-
 dg_accessibility_option
 d_dg_accessibility_option(void)
 {
@@ -753,8 +713,6 @@ d_dg_accessibility_option(void)
     return no_dg_accessibility_option;
 }
 
-
-/* DECODE DG_APPEND */
 
 dg_append
 d_dg_append(void)
@@ -774,8 +732,6 @@ d_dg_append(void)
 }
 
 
-/* DECODE DG_APPEND_LIST */
-
 dg_append_list
 d_dg_append_list(void)
 {
@@ -791,8 +747,6 @@ d_dg_append_list(void)
     return temp;
 }
 
-
-/* DECODE DG_BOUND */
 
 dg_bound
 d_dg_bound(void)
@@ -822,8 +776,6 @@ d_dg_bound(void)
 }
 
 
-/* DECODE DG_CLASS_BASE */
-
 dg_class_base
 d_dg_class_base(void)
 {
@@ -848,8 +800,6 @@ d_dg_class_base(void)
 }
 
 
-/* DECODE DG_CLASS_BASE_LIST */
-
 dg_class_base_list
 d_dg_class_base_list(void)
 {
@@ -866,8 +816,6 @@ d_dg_class_base_list(void)
     return temp;
 }
 
-
-/* DECODE DG_CLASSMEM */
 
 dg_classmem
 d_dg_classmem(void)
@@ -927,8 +875,6 @@ d_dg_classmem(void)
 }
 
 
-/* DECODE DG_CLASSMEM_LIST */
-
 dg_classmem_list
 d_dg_classmem_list(void)
 {
@@ -946,8 +892,6 @@ d_dg_classmem_list(void)
 }
 
 
-/* DECODE DG_COMP_PROPS */
-
 dg_comp_props
 d_dg_comp_props(void)
 {
@@ -960,8 +904,6 @@ d_dg_comp_props(void)
     return f_make_dg_compunit( p0, p1, p2);
 }
 
-
-/* DECODE DG_COMPILATION */
 
 dg_compilation
 d_dg_compilation(void)
@@ -1004,8 +946,6 @@ d_dg_compilation(void)
 }
 
 
-/* DECODE DG_CONSTRAINT */
-
 dg_constraint
 d_dg_constraint(void)
 {
@@ -1031,8 +971,6 @@ d_dg_constraint(void)
 }
 
 
-/* DECODE DG_CONSTRAINT_LIST */
-
 dg_constraint_list
 d_dg_constraint_list(void)
 {
@@ -1050,8 +988,6 @@ d_dg_constraint_list(void)
 }
 
 
-/* DECODE DG_CONSTRAINT_LIST_OPTION */
-
 dg_constraint_list_option
 d_dg_constraint_list_option(void)
 {
@@ -1063,8 +999,6 @@ d_dg_constraint_list_option(void)
     return no_dg_constraint_list_option;
 }
 
-
-/* DECODE DG_DEFAULT */
 
 dg_default
 d_dg_default(void)
@@ -1084,8 +1018,6 @@ d_dg_default(void)
 }
 
 
-/* DECODE DG_DEFAULT_OPTION */
-
 dg_default_option
 d_dg_default_option(void)
 {
@@ -1097,8 +1029,6 @@ d_dg_default_option(void)
     return no_dg_default_option;
 }
 
-
-/* DECODE DG_DIM */
 
 dg_dim
 d_dg_dim(void)
@@ -1153,8 +1083,6 @@ d_dg_dim(void)
 }
 
 
-/* DECODE DG_DIM_LIST */
-
 dg_dim_list
 d_dg_dim_list(void)
 {
@@ -1172,8 +1100,6 @@ d_dg_dim_list(void)
 }
 
 
-/* DECODE DG_DIM_OPTION */
-
 dg_dim_option
 d_dg_dim_option(void)
 {
@@ -1185,8 +1111,6 @@ d_dg_dim_option(void)
     return no_dg_dim_option;
 }
 
-
-/* DECODE DG_DISCRIM */
 
 dg_discrim
 d_dg_discrim(void)
@@ -1206,8 +1130,6 @@ d_dg_discrim(void)
 }
 
 
-/* DECODE DG_DISCRIM_LIST */
-
 dg_discrim_list
 d_dg_discrim_list(void)
 {
@@ -1224,8 +1146,6 @@ d_dg_discrim_list(void)
     return temp;
 }
 
-
-/* DECODE DG_ENUM */
 
 dg_enum
 d_dg_enum(void)
@@ -1263,8 +1183,6 @@ d_dg_enum(void)
 }
 
 
-/* DECODE DG_ENUM_LIST */
-
 dg_enum_list
 d_dg_enum_list(void)
 {
@@ -1281,8 +1199,6 @@ d_dg_enum_list(void)
     return temp;
 }
 
-
-/* DECODE DG_FILENAME */
 
 dg_filename
 d_dg_filename(void)
@@ -1313,8 +1229,6 @@ d_dg_filename(void)
 }
 
 
-/* DECODE DG_FILENAME_OPTION */
-
 dg_filename_option
 d_dg_filename_option(void)
 {
@@ -1326,8 +1240,6 @@ d_dg_filename_option(void)
     return no_dg_filename_option;
 }
 
-
-/* DECODE DG_IDNAME */
 
 dg_idname
 d_dg_idname(void)
@@ -1378,8 +1290,6 @@ d_dg_idname(void)
 }
 
 
-/* DECODE DG_IDNAME_LIST */
-
 dg_idname_list
 d_dg_idname_list(void)
 {
@@ -1397,8 +1307,6 @@ d_dg_idname_list(void)
 }
 
 
-/* DECODE DG_IDNAME_OPTION */
-
 dg_idname_option
 d_dg_idname_option(void)
 {
@@ -1410,8 +1318,6 @@ d_dg_idname_option(void)
     return no_dg_idname_option;
 }
 
-
-/* DECODE DG_LIST */
 
 dg_list
 d_dg_list(void)
@@ -1429,8 +1335,6 @@ d_dg_list(void)
     return temp;
 }
 
-
-/* DECODE DG_MACRO */
 
 dg_macro
 d_dg_macro(void)
@@ -1479,8 +1383,6 @@ d_dg_macro(void)
 }
 
 
-/* DECODE DG_MACRO_LIST */
-
 dg_macro_list
 d_dg_macro_list(void)
 {
@@ -1497,8 +1399,6 @@ d_dg_macro_list(void)
     return temp;
 }
 
-
-/* DECODE DG_NAME */
 
 dg_name
 d_dg_name(void)
@@ -1686,8 +1586,6 @@ d_dg_name(void)
 }
 
 
-/* DECODE DG_NAME_LIST */
-
 dg_name_list
 d_dg_name_list(void)
 {
@@ -1705,8 +1603,6 @@ d_dg_name_list(void)
 }
 
 
-/* DECODE DG_NAME_OPTION */
-
 dg_name_option
 d_dg_name_option(void)
 {
@@ -1718,8 +1614,6 @@ d_dg_name_option(void)
     return no_dg_name_option;
 }
 
-
-/* DECODE DG_NAMELIST */
 
 dg_namelist
 d_dg_namelist(void)
@@ -1743,8 +1637,6 @@ d_dg_namelist(void)
     return f_dummy_dg_namelist;
 }
 
-
-/* DECODE DG_PARAM */
 
 dg_param
 d_dg_param(void)
@@ -1779,8 +1671,6 @@ d_dg_param(void)
 }
 
 
-/* DECODE DG_PARAM_LIST */
-
 dg_param_list
 d_dg_param_list(void)
 {
@@ -1797,8 +1687,6 @@ d_dg_param_list(void)
     return temp;
 }
 
-
-/* DECODE DG_PARAM_MODE */
 
 dg_param_mode
 d_dg_param_mode(void)
@@ -1820,8 +1708,6 @@ d_dg_param_mode(void)
 }
 
 
-/* DECODE DG_PARAM_MODE_OPTION */
-
 dg_param_mode_option
 d_dg_param_mode_option(void)
 {
@@ -1833,8 +1719,6 @@ d_dg_param_mode_option(void)
     return no_dg_param_mode_option;
 }
 
-
-/* DECODE DG_QUALIFIER */
 
 dg_qualifier
 d_dg_qualifier(void)
@@ -1861,8 +1745,6 @@ d_dg_qualifier(void)
     return f_dummy_dg_qualifier;
 }
 
-
-/* DECODE DG_SOURCEPOS */
 
 dg_sourcepos
 d_dg_sourcepos(void)
@@ -1910,8 +1792,6 @@ d_dg_sourcepos(void)
 }
 
 
-/* DECODE DG_SOURCEPOS_OPTION */
-
 dg_sourcepos_option
 d_dg_sourcepos_option(void)
 {
@@ -1923,8 +1803,6 @@ d_dg_sourcepos_option(void)
     return no_dg_sourcepos_option;
 }
 
-
-/* DECODE DG_TAG */
 
 dg_tag
 d_dg_tag(void)
@@ -1941,8 +1819,6 @@ d_dg_tag(void)
     return f_dummy_dg_tag;
 }
 
-
-/* DECODE DG_TAG_LIST */
 
 dg_tag_list
 d_dg_tag_list(void)
@@ -1961,8 +1837,6 @@ d_dg_tag_list(void)
 }
 
 
-/* DECODE DG_TAG_OPTION */
-
 dg_tag_option
 d_dg_tag_option(void)
 {
@@ -1974,8 +1848,6 @@ d_dg_tag_option(void)
     return no_dg_tag_option;
 }
 
-
-/* DECODE DG_TYPE */
 
 dg_type
 d_dg_type(void)
@@ -2321,8 +2193,6 @@ d_dg_type(void)
 }
 
 
-/* DECODE DG_TYPE_LIST */
-
 dg_type_list
 d_dg_type_list(void)
 {
@@ -2340,8 +2210,6 @@ d_dg_type_list(void)
 }
 
 
-/* DECODE DG_TYPE_LIST_OPTION */
-
 dg_type_list_option
 d_dg_type_list_option(void)
 {
@@ -2354,8 +2222,6 @@ d_dg_type_list_option(void)
 }
 
 
-/* DECODE DG_TYPE_OPTION */
-
 dg_type_option
 d_dg_type_option(void)
 {
@@ -2367,8 +2233,6 @@ d_dg_type_option(void)
     return no_dg_type_option;
 }
 
-
-/* DECODE DG_VARIANT */
 
 dg_variant
 d_dg_variant(void)
@@ -2388,8 +2252,6 @@ d_dg_variant(void)
 }
 
 
-/* DECODE DG_VARIANT_LIST */
-
 dg_variant_list
 d_dg_variant_list(void)
 {
@@ -2406,8 +2268,6 @@ d_dg_variant_list(void)
     return temp;
 }
 
-
-/* DECODE DG_VARPART */
 
 dg_varpart
 d_dg_varpart(void)
@@ -2441,8 +2301,6 @@ d_dg_varpart(void)
 }
 
 
-/* DECODE DG_VARPART_OPTION */
-
 dg_varpart_option
 d_dg_varpart_option(void)
 {
@@ -2454,8 +2312,6 @@ d_dg_varpart_option(void)
     return no_dg_varpart_option;
 }
 
-
-/* DECODE DG_VIRTUALITY */
 
 dg_virtuality
 d_dg_virtuality(void)
@@ -2474,8 +2330,6 @@ d_dg_virtuality(void)
 }
 
 
-/* DECODE DG_VIRTUALITY_OPTION */
-
 dg_virtuality_option
 d_dg_virtuality_option(void)
 {
@@ -2487,8 +2341,6 @@ d_dg_virtuality_option(void)
     return no_dg_virtuality_option;
 }
 
-
-/* DECODE DIAG_DESCRIPTOR */
 
 diag_descriptor
 d_diag_descriptor(void)
@@ -2530,8 +2382,6 @@ d_diag_descriptor(void)
 }
 
 
-/* DECODE DIAG_DESCRIPTOR_LIST */
-
 diag_descriptor_list
 d_diag_descriptor_list(void)
 {
@@ -2548,8 +2398,6 @@ d_diag_descriptor_list(void)
 }
 
 
-/* DECODE DIAG_FIELD */
-
 diag_field
 d_diag_field(void)
 {
@@ -2562,8 +2410,6 @@ d_diag_field(void)
     return f_make_diag_field( p0, p1, p2);
 }
 
-
-/* DECODE DIAG_FIELD_LIST */
 
 diag_field_list
 d_diag_field_list(void)
@@ -2582,8 +2428,6 @@ d_diag_field_list(void)
 }
 
 
-/* DECODE DIAG_TAG */
-
 diag_tag
 d_diag_tag(void)
 {
@@ -2599,8 +2443,6 @@ d_diag_tag(void)
     return f_dummy_diag_tag;
 }
 
-
-/* DECODE DIAG_TAGDEF */
 
 diag_tagdef
 d_diag_tagdef(void)
@@ -2620,8 +2462,6 @@ d_diag_tagdef(void)
 }
 
 
-/* DECODE DIAG_TAGDEF_LIST */
-
 diag_tagdef_list
 d_diag_tagdef_list(void)
 {
@@ -2637,8 +2477,6 @@ d_diag_tagdef_list(void)
     return temp;
 }
 
-
-/* DECODE DIAG_TQ */
 
 diag_tq
 d_diag_tq(void)
@@ -2663,8 +2501,6 @@ d_diag_tq(void)
     return f_dummy_diag_tq;
 }
 
-
-/* DECODE DIAG_TYPE */
 
 diag_type
 d_diag_type(void)
@@ -2772,8 +2608,6 @@ d_diag_type(void)
 }
 
 
-/* DECODE DIAG_TYPE_LIST */
-
 diag_type_list
 d_diag_type_list(void)
 {
@@ -2791,8 +2625,6 @@ d_diag_type_list(void)
 }
 
 
-/* DECODE DIAG_TYPE_UNIT */
-
 diag_type_unit
 d_diag_type_unit(void)
 {
@@ -2803,8 +2635,6 @@ d_diag_type_unit(void)
     return f_build_diagtype_unit( p0, p1);
 }
 
-
-/* DECODE DIAG_UNIT */
 
 diag_unit
 d_diag_unit(void)
@@ -2817,8 +2647,6 @@ d_diag_unit(void)
 }
 
 
-/* DECODE ENUM_VALUES */
-
 enum_values
 d_enum_values(void)
 {
@@ -2829,8 +2657,6 @@ d_enum_values(void)
     return f_make_enum_values( p0, p1);
 }
 
-
-/* DECODE ENUM_VALUES_LIST */
 
 enum_values_list
 d_enum_values_list(void)
@@ -2848,8 +2674,6 @@ d_enum_values_list(void)
     return temp;
 }
 
-
-/* DECODE ERROR_CODE */
 
 error_code
 d_error_code(void)
@@ -2871,8 +2695,6 @@ d_error_code(void)
 }
 
 
-/* DECODE ERROR_CODE_LIST */
-
 error_code_list
 d_error_code_list(void)
 {
@@ -2889,8 +2711,6 @@ d_error_code_list(void)
     return temp;
 }
 
-
-/* DECODE ERROR_TREATMENT */
 
 error_treatment
 d_error_treatment(void)
@@ -2937,8 +2757,6 @@ d_error_treatment(void)
     return f_dummy_error_treatment;
 }
 
-
-/* DECODE EXP */
 
 exp
 d_exp(void)
@@ -3866,8 +3684,6 @@ d_exp(void)
 }
 
 
-/* DECODE EXP_LIST */
-
 exp_list
 d_exp_list(void)
 {
@@ -3885,8 +3701,6 @@ d_exp_list(void)
 }
 
 
-/* DECODE EXP_OPTION */
-
 exp_option
 d_exp_option(void)
 {
@@ -3899,8 +3713,6 @@ d_exp_option(void)
 }
 
 
-/* DECODE EXTERN_LINK */
-
 extern_link
 d_extern_link(void)
 {
@@ -3909,8 +3721,6 @@ d_extern_link(void)
     return f_make_extern_link( p0);
 }
 
-
-/* DECODE EXTERN_LINK_LIST */
 
 extern_link_list
 d_extern_link_list(void)
@@ -3927,8 +3737,6 @@ d_extern_link_list(void)
     return temp;
 }
 
-
-/* DECODE EXTERNAL */
 
 external
 d_external(void)
@@ -3961,8 +3769,6 @@ d_external(void)
 }
 
 
-/* DECODE FILENAME */
-
 filename
 d_filename(void)
 {
@@ -3989,8 +3795,6 @@ d_filename(void)
     return f_dummy_filename;
 }
 
-
-/* DECODE FLOATING_VARIETY */
 
 floating_variety
 d_floating_variety(void)
@@ -4051,8 +3855,6 @@ d_floating_variety(void)
 }
 
 
-/* DECODE GROUP */
-
 group
 d_group(void)
 {
@@ -4061,8 +3863,6 @@ d_group(void)
     return f_make_group( p0);
 }
 
-
-/* DECODE GROUP_LIST */
 
 group_list
 d_group_list(void)
@@ -4079,8 +3879,6 @@ d_group_list(void)
     return temp;
 }
 
-
-/* DECODE LABEL */
 
 label
 d_label(void)
@@ -4105,8 +3903,6 @@ d_label(void)
 }
 
 
-/* DECODE LABEL_LIST */
-
 label_list
 d_label_list(void)
 {
@@ -4124,8 +3920,6 @@ d_label_list(void)
 }
 
 
-/* DECODE LINK */
-
 link
 d_link(void)
 {
@@ -4136,8 +3930,6 @@ d_link(void)
     return f_make_link( p0, p1);
 }
 
-
-/* DECODE LINK_LIST */
 
 link_list
 d_link_list(void)
@@ -4155,8 +3947,6 @@ d_link_list(void)
 }
 
 
-/* DECODE LINKEXTERN */
-
 linkextern
 d_linkextern(void)
 {
@@ -4167,8 +3957,6 @@ d_linkextern(void)
     return f_make_linkextern( p0, p1);
 }
 
-
-/* DECODE LINKEXTERN_LIST */
 
 linkextern_list
 d_linkextern_list(void)
@@ -4185,8 +3973,6 @@ d_linkextern_list(void)
     return temp;
 }
 
-
-/* DECODE LINKINFO */
 
 linkinfo
 d_linkinfo(void)
@@ -4225,8 +4011,6 @@ d_linkinfo(void)
 }
 
 
-/* DECODE LINKINFO_LIST */
-
 linkinfo_list
 d_linkinfo_list(void)
 {
@@ -4243,8 +4027,6 @@ d_linkinfo_list(void)
 }
 
 
-/* DECODE LINKINFO_PROPS */
-
 linkinfo_props
 d_linkinfo_props(void)
 {
@@ -4256,8 +4038,6 @@ d_linkinfo_props(void)
 }
 
 
-/* DECODE LINKS */
-
 links
 d_links(void)
 {
@@ -4266,8 +4046,6 @@ d_links(void)
     return f_make_links( p0);
 }
 
-
-/* DECODE LINKS_LIST */
 
 links_list
 d_links_list(void)
@@ -4284,8 +4062,6 @@ d_links_list(void)
     return temp;
 }
 
-
-/* DECODE NAT */
 
 nat
 d_nat(void)
@@ -4329,8 +4105,6 @@ d_nat(void)
 }
 
 
-/* DECODE NAT_OPTION */
-
 nat_option
 d_nat_option(void)
 {
@@ -4342,8 +4116,6 @@ d_nat_option(void)
     return no_nat_option;
 }
 
-
-/* DECODE NTEST */
 
 ntest
 d_ntest(void)
@@ -4414,8 +4186,6 @@ d_ntest(void)
 }
 
 
-/* DECODE OTAGEXP */
-
 otagexp
 d_otagexp(void)
 {
@@ -4426,8 +4196,6 @@ d_otagexp(void)
     return f_make_otagexp( p0, p1);
 }
 
-
-/* DECODE OTAGEXP_LIST */
 
 otagexp_list
 d_otagexp_list(void)
@@ -4445,8 +4213,6 @@ d_otagexp_list(void)
     return temp;
 }
 
-
-/* DECODE PROCPROPS */
 
 procprops
 d_procprops(void)
@@ -4500,8 +4266,6 @@ d_procprops(void)
 }
 
 
-/* DECODE PROCPROPS_OPTION */
-
 procprops_option
 d_procprops_option(void)
 {
@@ -4513,8 +4277,6 @@ d_procprops_option(void)
     return no_procprops_option;
 }
 
-
-/* DECODE ROUNDING_MODE */
 
 rounding_mode
 d_rounding_mode(void)
@@ -4557,8 +4319,6 @@ d_rounding_mode(void)
     return f_dummy_rounding_mode;
 }
 
-
-/* DECODE SHAPE */
 
 shape
 d_shape(void)
@@ -4635,8 +4395,6 @@ d_shape(void)
 }
 
 
-/* DECODE SHAPE_OPTION */
-
 shape_option
 d_shape_option(void)
 {
@@ -4648,8 +4406,6 @@ d_shape_option(void)
     return no_shape_option;
 }
 
-
-/* DECODE SIGNED_NAT */
 
 signed_nat
 d_signed_nat(void)
@@ -4696,8 +4452,6 @@ d_signed_nat(void)
     return f_dummy_signed_nat;
 }
 
-
-/* DECODE SORTNAME */
 
 sortname
 d_sortname(void)
@@ -4779,8 +4533,6 @@ d_sortname(void)
 }
 
 
-/* DECODE SORTNAME_LIST */
-
 sortname_list
 d_sortname_list(void)
 {
@@ -4797,8 +4549,6 @@ d_sortname_list(void)
     return temp;
 }
 
-
-/* DECODE SOURCEMARK */
 
 sourcemark
 d_sourcemark(void)
@@ -4819,8 +4569,6 @@ d_sourcemark(void)
     return f_dummy_sourcemark;
 }
 
-
-/* DECODE STRING */
 
 string
 d_string(void)
@@ -4861,8 +4609,6 @@ d_string(void)
 }
 
 
-/* DECODE STRING_LIST */
-
 string_list
 d_string_list(void)
 {
@@ -4880,8 +4626,6 @@ d_string_list(void)
 }
 
 
-/* DECODE STRING_OPTION */
-
 string_option
 d_string_option(void)
 {
@@ -4893,8 +4637,6 @@ d_string_option(void)
     return no_string_option;
 }
 
-
-/* DECODE TAG */
 
 tag
 d_tag(void)
@@ -4919,8 +4661,6 @@ d_tag(void)
 }
 
 
-/* DECODE TAG_OPTION */
-
 tag_option
 d_tag_option(void)
 {
@@ -4933,8 +4673,6 @@ d_tag_option(void)
 }
 
 
-/* DECODE TAGACC */
-
 tagacc
 d_tagacc(void)
 {
@@ -4945,8 +4683,6 @@ d_tagacc(void)
     return f_make_tagacc( p0, p1);
 }
 
-
-/* DECODE TAGACC_OPTION */
 
 tagacc_option
 d_tagacc_option(void)
@@ -4959,8 +4695,6 @@ d_tagacc_option(void)
     return no_tagacc_option;
 }
 
-
-/* DECODE TAGDEC */
 
 tagdec
 d_tagdec(void)
@@ -5006,8 +4740,6 @@ d_tagdec(void)
 }
 
 
-/* DECODE TAGDEC_LIST */
-
 tagdec_list
 d_tagdec_list(void)
 {
@@ -5024,8 +4756,6 @@ d_tagdec_list(void)
 }
 
 
-/* DECODE TAGDEC_PROPS */
-
 tagdec_props
 d_tagdec_props(void)
 {
@@ -5036,8 +4766,6 @@ d_tagdec_props(void)
     return f_make_tagdecs( p0, p1);
 }
 
-
-/* DECODE TAGDEF */
 
 tagdef
 d_tagdef(void)
@@ -5084,8 +4812,6 @@ d_tagdef(void)
 }
 
 
-/* DECODE TAGDEF_LIST */
-
 tagdef_list
 d_tagdef_list(void)
 {
@@ -5102,8 +4828,6 @@ d_tagdef_list(void)
 }
 
 
-/* DECODE TAGDEF_PROPS */
-
 tagdef_props
 d_tagdef_props(void)
 {
@@ -5114,8 +4838,6 @@ d_tagdef_props(void)
     return f_make_tagdefs( p0, p1);
 }
 
-
-/* DECODE TAGSHACC */
 
 tagshacc
 d_tagshacc(void)
@@ -5129,8 +4851,6 @@ d_tagshacc(void)
     return f_make_tagshacc( p0, p1, p2);
 }
 
-
-/* DECODE TAGSHACC_LIST */
 
 tagshacc_list
 d_tagshacc_list(void)
@@ -5149,8 +4869,6 @@ d_tagshacc_list(void)
 }
 
 
-/* DECODE TDFIDENT_LIST */
-
 tdfident_list
 d_tdfident_list(void)
 {
@@ -5167,8 +4885,6 @@ d_tdfident_list(void)
 }
 
 
-/* DECODE TDFINT_LIST */
-
 tdfint_list
 d_tdfint_list(void)
 {
@@ -5184,8 +4900,6 @@ d_tdfint_list(void)
     return temp;
 }
 
-
-/* DECODE TOKDEC */
 
 tokdec
 d_tokdec(void)
@@ -5207,8 +4921,6 @@ d_tokdec(void)
 }
 
 
-/* DECODE TOKDEC_LIST */
-
 tokdec_list
 d_tokdec_list(void)
 {
@@ -5225,8 +4937,6 @@ d_tokdec_list(void)
 }
 
 
-/* DECODE TOKDEC_PROPS */
-
 tokdec_props
 d_tokdec_props(void)
 {
@@ -5235,8 +4945,6 @@ d_tokdec_props(void)
     return f_make_tokdecs( p0);
 }
 
-
-/* DECODE TOKDEF */
 
 tokdef
 d_tokdef(void)
@@ -5258,8 +4966,6 @@ d_tokdef(void)
 }
 
 
-/* DECODE TOKDEF_LIST */
-
 tokdef_list
 d_tokdef_list(void)
 {
@@ -5276,8 +4982,6 @@ d_tokdef_list(void)
 }
 
 
-/* DECODE TOKDEF_PROPS */
-
 tokdef_props
 d_tokdef_props(void)
 {
@@ -5288,8 +4992,6 @@ d_tokdef_props(void)
     return f_make_tokdefs( p0, p1);
 }
 
-
-/* DECODE TOKEN */
 
 token
 d_token(void)
@@ -5319,8 +5021,6 @@ d_token(void)
 }
 
 
-/* DECODE TOKEN_DEFN */
-
 token_defn
 d_token_defn(void)
 {
@@ -5339,8 +5039,6 @@ d_token_defn(void)
 }
 
 
-/* DECODE TOKEN_OPTION */
-
 token_option
 d_token_option(void)
 {
@@ -5353,8 +5051,6 @@ d_token_option(void)
 }
 
 
-/* DECODE TOKFORMALS */
-
 tokformals
 d_tokformals(void)
 {
@@ -5365,8 +5061,6 @@ d_tokformals(void)
     return f_make_tokformals( p0, p1);
 }
 
-
-/* DECODE TOKFORMALS_LIST */
 
 tokformals_list
 d_tokformals_list(void)
@@ -5384,8 +5078,6 @@ d_tokformals_list(void)
     return temp;
 }
 
-
-/* DECODE TRANSFER_MODE */
 
 transfer_mode
 d_transfer_mode(void)
@@ -5436,8 +5128,6 @@ d_transfer_mode(void)
 }
 
 
-/* DECODE UNIQUE */
-
 unique
 d_unique(void)
 {
@@ -5446,8 +5136,6 @@ d_unique(void)
     return f_make_unique( p0);
 }
 
-
-/* DECODE UNIT */
 
 unit
 d_unit(void)
@@ -5462,8 +5150,6 @@ d_unit(void)
     return f_make_unit( p0, p1, p2);
 }
 
-
-/* DECODE UNIT_LIST */
 
 unit_list
 d_unit_list(void)
@@ -5480,8 +5166,6 @@ d_unit_list(void)
     return temp;
 }
 
-
-/* DECODE VARIETY */
 
 variety
 d_variety(void)
@@ -5524,8 +5208,6 @@ d_variety(void)
 }
 
 
-/* DECODE VERSION */
-
 version
 d_version(void)
 {
@@ -5549,8 +5231,6 @@ d_version(void)
 }
 
 
-/* DECODE VERSION_LIST */
-
 version_list
 d_version_list(void)
 {
@@ -5566,8 +5246,6 @@ d_version_list(void)
     return temp;
 }
 
-
-/* DECODE VERSION_PROPS */
 
 version_props
 d_version_props(void)

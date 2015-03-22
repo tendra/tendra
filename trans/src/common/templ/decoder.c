@@ -27,8 +27,6 @@
 #include <refactor/refactor.h>
 
 
-/* REPORT AN ERROR */
-
 static void
 decode_error(char *s)
 {
@@ -44,8 +42,6 @@ decode_error(char *s)
 @loop sort
 @if !sort.builtin
 
-
-/* DECODE %ST */
 
 %SN
 d_%SN(void)
