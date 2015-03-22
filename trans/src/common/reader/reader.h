@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef READ_FNS_H
-#define READ_FNS_H
+#ifndef READER_H
+#define READER_H
 
 
 struct translate {
@@ -19,4 +19,5 @@ struct translate {
 extern struct translate translate;
 
 
-#endif /* READ_FNS_H */
+#endif
+

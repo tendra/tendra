@@ -11,7 +11,7 @@
 #include <stdio.h>
 
 #include <reader/exp.h>
-#include <reader/read_fns.h>
+#include <reader/reader.h>
 
 #include <construct/installtypes.h>
 #include <construct/dec.h>

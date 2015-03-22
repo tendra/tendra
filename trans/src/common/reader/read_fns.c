@@ -32,7 +32,7 @@
 #include <reader/main_reads.h>
 #include <reader/readglob.h>
 #include <reader/table_fns.h>
-#include <reader/read_fns.h>
+#include <reader/reader.h>
 #include <reader/externs.h>
 #include <reader/messages_r.h>
 
