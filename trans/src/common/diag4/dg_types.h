@@ -172,9 +172,9 @@ typedef enum {
 
 typedef struct {
 	unsigned int	d_key:8;
-	unsigned int	low_ref:1;
-	unsigned int	hi_ref:1;
-	unsigned int	hi_cnt:1;
+	bool	low_ref:1;
+	bool	hi_ref:1;
+	bool	hi_cnt:1;
 	long		count;
 	dg_type		d_typ;
 	shape		sha;
@@ -194,7 +194,7 @@ typedef struct {
 	char		*enam;
 	short_sourcepos	pos;
 	exp		value;
-	unsigned int	is_chn:1;
+	bool	is_chn:1;
 	unsigned int	chn:8;
 	dg_tag		tg;
 } dg_enum;
@@ -221,7 +221,7 @@ typedef struct {
 			exp		f_offset;
 			struct dg_dflt	*dflt;
 			unsigned int	acc:4;
-			unsigned int	discr:1;
+			bool	discr:1;
 		} cm_f;
 		struct {
 			dg_name		fn;
@@ -473,8 +473,8 @@ struct dg_type_t {
 			procprops		prps;
 			unsigned int		lang:16;
 			unsigned int		ccv:8;
-			unsigned int		knowpro:1;
-			unsigned int		yespro:1;
+			bool		knowpro:1;
+			bool		yespro:1;
 		} t_proc;
 		struct {
 			dg_type			expanded;
@@ -535,8 +535,8 @@ struct dg_name_t {
 			dg_tag		parent;
 			dg_name		sub;
 			unsigned int	acc:8;
-			unsigned int	child:1;
-			unsigned int	split:1;
+			bool	child:1;
+			bool	split:1;
 		} n_sub;
 		struct {
 			dg_tag		import;
@@ -565,13 +565,13 @@ typedef struct dg_more_t {
 	exp		repn;
 	unsigned int	acc:4;
 	unsigned int	virt:4;		/* proc_name */
-	unsigned int	isinline:1;	/* proc_name */
-	unsigned int	prognm:1;	/* proc_name */
-	unsigned int	isconst:1;	/* obj_name */
-	unsigned int	isspec:1;
-	unsigned int	issep:1;
-	unsigned int	isnew:1;	/* types */
-	unsigned int	aderiv:1;	/* types */
+	bool	isinline:1;	/* proc_name */
+	bool	prognm:1;	/* proc_name */
+	bool	isconst:1;	/* obj_name */
+	bool	isspec:1;
+	bool	issep:1;
+	bool	isnew:1;	/* types */
+	bool	aderiv:1;	/* types */
 } *dg_more_name;
 
 
@@ -773,10 +773,10 @@ struct dg_info_t {
 			unsigned int	rvs_key:8;
 			unsigned int	n_code:2;
 			unsigned int	has_iv:2;
-			unsigned int	holder:1;
-			unsigned int	alt:1;
-			unsigned int	w_abort:1;
-			unsigned int	async:1;
+			bool	holder:1;
+			bool	alt:1;
+			bool	w_abort:1;
+			bool	async:1;
 			unsigned int	kind:16;
 			short_sourcepos	pos;
 			long		lo_pc;
@@ -845,9 +845,9 @@ typedef struct dg_tag_t {
 	ext_lab			outref;
 	long			abstract_lab;
 	unsigned int		key:8;
-	unsigned int		done:1;
-	unsigned int		needed:1;
-	unsigned int		any_inl:1;
+	bool		done:1;
+	bool		needed:1;
+	bool		any_inl:1;
 	dg_tag			copy;
 #if 0
 	exp			e;

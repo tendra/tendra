@@ -42,7 +42,7 @@ typedef int error_code_list;
 typedef tdfstring string;
 
 typedef struct exp_option_t {
-	int present;	/* 1 if val is present, 0 otherwise */
+	bool present;	/* 1 if val is present, 0 otherwise */
 	exp val;
 } exp_option;
 
@@ -56,7 +56,7 @@ typedef int transfer_mode;
 
 struct bfvar_t {
 	int bits;	/* number of bits in bitfield */
-	int has_sign;	/* 1 if signed */
+	bool has_sign;	/* 1 if signed */
 };
 typedef struct bfvar_t bitfield_variety;
 

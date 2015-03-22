@@ -25,7 +25,7 @@
  * The pointer of cont points to the last element of the list.
  */
 typedef struct {
-	int self;
+	bool self;
 	exp cont;
 } maxconst;
 

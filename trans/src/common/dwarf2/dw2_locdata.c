@@ -9,6 +9,7 @@
 
 #include <stdio.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
@@ -81,8 +82,8 @@ typedef struct rsl_s {
 
 typedef struct ll_s {
 	unsigned int	key:8;
-	unsigned int	open:1;
-	unsigned int	has_inner:1;
+	bool open:1;
+	bool has_inner:1;
 	union {
 		dg_info		d;
 		retrec		*r;

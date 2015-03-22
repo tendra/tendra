@@ -12,7 +12,7 @@
 #if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L
 typedef _Bool bool;
 #else
-typedef int bool;
+typedef unsigned int bool; /* unsigned to allow for use in bitfields */
 #endif
 
 #define true  1

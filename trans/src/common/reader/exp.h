@@ -84,11 +84,11 @@ struct exp_t {
 
 	unsigned char name;
 
-	unsigned int last:1;
-	unsigned int park:1;
+	bool last:1;
+	bool park:1;
 
 #ifdef TRANS_HPPA
-	unsigned int commuted:1;
+	bool commuted:1;
 #endif
 
 #ifdef TRANS_ALPHA

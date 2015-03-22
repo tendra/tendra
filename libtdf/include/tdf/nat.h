@@ -18,7 +18,7 @@ typedef struct {
 		int small_nat;
 		flpt big_nat;
 	} nat_val;
-	char issmall; /* 1 if small_nat, 0 if big_nat */
+	bool issmall; /* 1 if small_nat, 0 if big_nat */
 } nat;
 
 union signed_nat_u {
@@ -28,12 +28,12 @@ union signed_nat_u {
 
 typedef struct {
 	union signed_nat_u signed_nat_val;
-	char issmall;  /* 1 if small_s_nat 0 big */
-	char negative; /* 1 for neg, 0 for pos */
+	bool issmall;  /* 1 if small_s_nat 0 big */
+	bool negative; /* 1 for neg, 0 for pos */
 } signed_nat;
 
 typedef struct {
-	int present; /* 1 if val is present, 0 otherwise */
+	bool present; /* 1 if val is present, 0 otherwise */
 	nat val;
 } nat_option;
 

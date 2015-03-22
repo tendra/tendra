@@ -48,14 +48,14 @@ struct dec_t {
 
 	/* bitfields only after this */
 
-	unsigned int extnamed      :1; /* external */
-	unsigned int dec_var       :1; /* this is a variable */
-	unsigned int dec_outermost :1; /* this is global */
-	unsigned int have_def      :1; /* we have a definition */
-	unsigned int processed     :1; /* this exp has been output */
-	unsigned int isweak        :1; /* definition is weak */
-	unsigned int is_common     :1; /* declaration is common */
-	unsigned int has_signature :1; /* declaration has signature */
+	bool extnamed      :1; /* external */
+	bool dec_var       :1; /* this is a variable */
+	bool dec_outermost :1; /* this is global */
+	bool have_def      :1; /* we have a definition */
+	bool processed     :1; /* this exp has been output */
+	bool isweak        :1; /* definition is weak */
+	bool is_common     :1; /* declaration is common */
+	bool has_signature :1; /* declaration has signature */
 };
 
 typedef struct dec_t dec;

@@ -189,12 +189,12 @@ struct tok_define_t {
 	int			tdtoken;		/* the token */
 	struct context_t	*tok_context;		/* context at the token definition */
 	char			*signature;
-	unsigned int		re_evaluate:1;		/* needs to be reevaluated */
-	unsigned int		defined:1;		/* for diagnostic purposes, remove later */
-	unsigned int		is_capsule_token:1;	/* it is a capsule level token */
-	unsigned int		recursive:1;		/* used to check against recursion */
-	unsigned int		valpresent:1;		/* the value is constant and has been computed already */
-	unsigned int		tok_special:1;		/* locally defined token */
+	bool		re_evaluate:1;		/* needs to be reevaluated */
+	bool		defined:1;		/* for diagnostic purposes, remove later */
+	bool		is_capsule_token:1;	/* it is a capsule level token */
+	bool		recursive:1;		/* used to check against recursion */
+	bool		valpresent:1;		/* the value is constant and has been computed already */
+	bool		tok_special:1;		/* locally defined token */
 };
 typedef struct tok_define_t tok_define;
 

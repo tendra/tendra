@@ -66,8 +66,8 @@ struct diag_type_list_t {
 typedef struct diag_type_list_t *diag_type_list;
 
 typedef struct {
-	unsigned	is_const:1;
-	unsigned	is_volatile:1;
+	bool	is_const:1;
+	bool	is_volatile:1;
 } diag_tq;
 
 
