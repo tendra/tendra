@@ -15,6 +15,7 @@
 
 #include <stdlib.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include <reader/exp.h>

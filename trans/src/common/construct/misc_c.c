@@ -9,8 +9,9 @@
 
 #include <stddef.h>
 
-#include <reader/exp.h>
+#include <shared/bool.h>
 
+#include <reader/exp.h>
 #include <reader/externs.h>
 
 #include <construct/exp.h>

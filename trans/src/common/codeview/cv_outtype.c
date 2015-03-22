@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <shared/bool.h>
 #include <shared/xalloc.h>
 
 #include <reader/exp.h>

@@ -18,6 +18,8 @@ where f is any sequence of unary operators including identity
 
 #include <stddef.h>
 
+#include <shared/bool.h>
+
 #include <reader/exp.h>
 #include <reader/exp.h>
 

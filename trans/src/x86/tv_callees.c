@@ -9,6 +9,7 @@
 
 #include <stddef.h>
 
+#include <shared/bool.h>
 
 #include <reader/externs.h>
 

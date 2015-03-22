@@ -17,6 +17,7 @@
  * corresponding to the first entry made is returned.
  */
 
+#include <shared/bool.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
 

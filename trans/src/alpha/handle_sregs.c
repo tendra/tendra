@@ -12,6 +12,7 @@
   This file contains code to handle preserved registers.
 */
 
+#include <shared/bool.h>
 #include <shared/error.h>
 
 #include "alpha_ins.h"

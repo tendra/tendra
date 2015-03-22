@@ -12,6 +12,7 @@
  * e is the operation and dest is where the result is to be put.
  */
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 

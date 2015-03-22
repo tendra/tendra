@@ -9,6 +9,7 @@
 
 #include <stddef.h>
 
+#include <shared/bool.h>
 
 #include <construct/exp.h>
 #include <construct/tags.h>

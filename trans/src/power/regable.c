@@ -14,6 +14,8 @@
  * to mark the props of the exp with inreg_bits or infreg_bits or neither.
  */
 
+#include <shared/bool.h>
+
 #include "memtdf.h"
 #include "codegen.h"
 #include "regable.h"

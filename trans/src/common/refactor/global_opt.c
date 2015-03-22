@@ -10,6 +10,7 @@
 #include <stddef.h>
 #include <string.h>
 
+#include <shared/bool.h>
 #include <shared/error.h>
 #include <shared/string.h>
 

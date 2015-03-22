@@ -9,6 +9,7 @@
 
 #include <stddef.h>
 
+#include <shared/bool.h>
 #include <shared/error.h>
 
 #include <construct/installglob.h>

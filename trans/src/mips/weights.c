@@ -41,6 +41,8 @@
 #include <limits.h>
 #include <stddef.h>
 
+#include <shared/bool.h>
+
 #include <reader/exp.h>
 
 #include <construct/exp.h>

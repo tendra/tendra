@@ -9,7 +9,10 @@
 
 #include <stddef.h>
 
+#include <shared/bool.h>
+
 #include <reader/exp.h>
+
 #include <local/codermacs.h>
 
 #include <construct/tags.h>

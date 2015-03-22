@@ -40,6 +40,8 @@
 
 #include <stddef.h>
 
+#include <shared/bool.h>
+
 #include <tdf/nat.h>
 
 #include <reader/exp.h>

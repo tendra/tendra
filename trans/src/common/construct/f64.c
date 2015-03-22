@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/bool.h>
+
 #include <reader/basicread.h>
 
 #include <construct/messages_c.h>

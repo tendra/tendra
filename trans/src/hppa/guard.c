@@ -22,6 +22,7 @@
  * used by make_code for the second operand.
  */
 
+#include <shared/bool.h>
 #include <shared/error.h>
 
 #include <refactor/optimise.h>

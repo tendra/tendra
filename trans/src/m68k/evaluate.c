@@ -10,6 +10,7 @@
 #include <assert.h>
 #include <float.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 

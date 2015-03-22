@@ -13,9 +13,9 @@
 
 #include <stdio.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/xalloc.h>
-
 
 #include <construct/installglob.h>
 #include <construct/exp.h>

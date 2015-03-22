@@ -15,6 +15,8 @@
 
 #include <stdio.h>
 
+#include <shared/bool.h>
+
 #include <main/driver.h>
 #include <main/print.h>
 

@@ -13,6 +13,8 @@ initial call : comp_eq_exp(a,b,NULL,NULL)  */
 
 #include <stddef.h>
 
+#include <shared/bool.h>
+
 #include <reader/exp.h>
 #include <reader/exp.h>
 

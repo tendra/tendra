@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <time.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/string.h>
 

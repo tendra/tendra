@@ -13,6 +13,8 @@
 
 #include <stdio.h>
 
+#include <shared/bool.h>
+
 #include <construct/flpt.h>
 #include <construct/dec.h>
 

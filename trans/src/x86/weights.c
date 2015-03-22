@@ -10,6 +10,7 @@
 #include <stddef.h>
 #include <limits.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include <reader/basicread.h>

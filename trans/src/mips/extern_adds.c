@@ -10,6 +10,8 @@
 #include <assert.h>
 #include <stddef.h>
 
+#include <shared/bool.h>
+
 #include <reader/externs.h>
 #include <reader/basicread.h>
 

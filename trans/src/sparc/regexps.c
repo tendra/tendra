@@ -9,10 +9,11 @@
 
 #include <assert.h>
 
-#include <reader/exp.h>
-
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
+
+#include <reader/exp.h>
 
 #ifdef DWARF2
 #include <local/dw2_config.h>

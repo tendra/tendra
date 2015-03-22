@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/bool.h>
+
 #include "68k_globals.h"
 
 int need_preserve_stack = 0;

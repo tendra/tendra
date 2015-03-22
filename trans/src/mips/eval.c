@@ -16,6 +16,8 @@
 #include <assert.h>
 #include <stdio.h>
 
+#include <shared/bool.h>
+
 #include <local/ash.h>
 
 #include <shared/error.h>

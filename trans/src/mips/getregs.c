@@ -21,6 +21,7 @@
  * A clear bit indicates that the corresponding register is free for use.
  */
 
+#include <shared/bool.h>
 #include <shared/error.h>
 
 #include <reader/exp.h>

@@ -2,6 +2,9 @@
 
 #include <stdio.h>
 
+#include <shared/bool.h>
+#include <shared/error.h>
+
 #include <construct/installglob.h>
 #include <construct/version.h>
 #include <reader/version.h>
@@ -15,8 +18,6 @@
 #include <dwarf1/dw1_version.h>
 #endif
 #include <dwarf2/dw2_version.h>
-
-#include <shared/error.h>
 
 #include <main/flags.h>
 #include <main/driver.h>

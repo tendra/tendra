@@ -15,6 +15,7 @@ For trivial 'peephole' optimisations
 
 #include <stdlib.h>
 
+#include <shared/bool.h>
 #include <shared/error.h>
 
 #include <reader/exp.h>

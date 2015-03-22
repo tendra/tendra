@@ -8,6 +8,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/bool.h>
+
 #include <reader/externs.h>
 
 #include <construct/label_ops.h>

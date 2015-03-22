@@ -18,6 +18,8 @@
 
 #include <assert.h>
 
+#include <shared/bool.h>
+
 #include <reader/basicread.h>
 
 #include "mips_ins.h"

@@ -12,6 +12,7 @@
  * given by sn and delivers the result inserted into the union tokval
  */
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 

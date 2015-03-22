@@ -9,6 +9,8 @@
 
 #include <stddef.h>
 
+#include <shared/bool.h>
+
 #include <construct/installglob.h>
 
 /* All variables initialised */

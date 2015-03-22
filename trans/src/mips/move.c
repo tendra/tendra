@@ -19,6 +19,7 @@
  * Delivers register used if 1-word destination is instore; otherwise NOREG.
  */
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 

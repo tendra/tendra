@@ -12,6 +12,7 @@
  * bits the operand occupies.
  */
 
+#include <shared/bool.h>
 #include <shared/error.h>
 
 #include <local/out.h>
