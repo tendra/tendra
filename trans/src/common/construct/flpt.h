@@ -21,41 +21,42 @@
 
 #include <local/fbase.h>
 
-
-#if FBASE == 10
+/* Function status values: */
+enum {
+	OKAY    =  0,
+	EXP2BIG = -1,
+	SYNTAX  = -2,
+	DIVBY0  = -3
+};
 
 /* FBASE 10 is obsolete */
+#if FBASE == 10
 
 #define MANT_SIZE 40
 #define MANT_SIZE_MAX 40
 
 #define Fdig unsigned char
 
-#define FNUM_SIZE 65		/* max size required by flt2str */
+#define FNUM_SIZE 65 /* max size required by flt2str */
 /* MANT_SIZE + 1(sign) + 1(point) + 2(E+sign) + log(MAX_LONG) + 1(NULL) */
 
-#define E_MIN	(-1000000)	/* (LONG_MIN/10) doesnt work on 80386 cc
-				*/
-#define E_MAX	(LONG_MAX / 10)
+#define E_MIN (-1000000) /* (LONG_MIN/10) doesnt work on 80386 cc */
+#define E_MAX (LONG_MAX / 10)
 
-/* Function status values:   */
-#define OKAY		0
-#define EXP2BIG	(-1)
-#define SYNTAX		(-2)
-#define DIVBY0		(-3)
-
-/* Rounding types:   */
-#define R2ZERO	0
-#define R2PINF	1
-#define R2NINF	2
-#define R2NEAR	3
+/* Rounding types: */
+enum {
+	R2ZERO = 0,
+	R2PINF = 1,
+	R2NINF = 2,
+	R2NEAR = 3
+};
 
 /* floating point representation */
-typedef struct _flt {
-  Fdig mant[MANT_SIZE]; /* mantissa digit values [0-9] (NOT '0' to '9') */
-  /* point is between 1st and 2nd digits */
-  int sign;		/* -1: negative; +1: positive; 0: value is zero */
-  int exp;		/* signed exponent; in range E_MIN..E_MAX */
+typedef struct {
+	Fdig mant[MANT_SIZE]; /* mantissa digit values [0-9] (NOT '0' to '9') */
+	/* point is between 1st and 2nd digits */
+	int sign; /* -1: negative; +1: positive; 0: value is zero */
+	int exp;  /* signed exponent; in range E_MIN..E_MAX */
 } flt;
 
 #else
@@ -67,7 +68,8 @@ typedef struct _flt {
 #define MANT_SIZE 8
 #endif
 
-/* MANT_SIZE_MAX is the number of mantissas array elements that
+/*
+ * MANT_SIZE_MAX is the number of mantissas array elements that
  * supported by the platform's largest floating point type (double or
  * long double)
  */
@@ -76,31 +78,28 @@ typedef struct _flt {
 #endif
 
 #define Fdig unsigned short
+
 /* FBITS is the number of bits in one array element */
 #define FBITS 16
 
-#define E_MIN	(-16384)
-#define E_MAX	(LONG_MAX / FBASE)
+#define E_MIN (-16384)
+#define E_MAX (LONG_MAX / FBASE)
 
-/* Function status values:   */
-#define OKAY		0
-#define EXP2BIG	(-1)
-#define SYNTAX		(-2)
-#define DIVBY0		(-3)
+/* Rounding types: */
+enum {
+	R2ZERO = 3,
+	R2PINF = 2,
+	R2NINF = 1,
+	R2NEAR = 0
+};
 
-/* Rounding types:   */
-#define R2ZERO	3
-#define R2PINF	2
-#define R2NINF	1
-#define R2NEAR	0
-
-typedef struct _flt {
-  Fdig mant[10];
-  /* point is between 1st and 2nd digits */
-  int sign;		/* -1: negative; +1: positive; 0: value is zero */
-  int exp;		/* signed exponent; in range E_MIN..E_MAX */
-} flt;	/* floating point representation */
-
+/* floating point representation */
+typedef struct {
+	Fdig mant[10];
+	/* point is between 1st and 2nd digits */
+	int sign; /* -1: negative; +1: positive; 0: value is zero */
+	int exp;  /* signed exponent; in range E_MIN..E_MAX */
+} flt;
 
 /* type for result of conversion of reals to ints */
 typedef struct r2l_t {
@@ -112,13 +111,15 @@ typedef struct r2l_t {
 
 #endif
 
-typedef struct flt64_t {
-  int big;		/* more significant 32 bits */
-  unsigned int small;	/* less significant 32 bits */
-} flt64;
-/* used to convert flpt number which are integers into a 64 bit
- * representation */
 
+/*
+ * used to convert flpt number which are integers into a 64 bit
+ * representation
+ */
+typedef struct flt64_t {
+	int big;            /* more significant 32 bits */
+	unsigned int small; /* less significant 32 bits */
+} flt64;
 
 extern void init_flpt(void);
 extern flpt new_flpt(void);
@@ -150,7 +151,6 @@ extern r2l real2longs_IEEE(flt *f, int sw);
 extern int fzero_no;
 extern int fone_no;
 
-
 extern flt64 flt_to_f64(flpt fp, int sg, int *ov);
 extern flpt f64_to_flt(flt64 a, int sg);
 extern int f64_to_flpt(flt64 a, int sg, int *pr, int sz);
@@ -159,3 +159,4 @@ extern flt64 exp_to_f64(exp e);
 
 
 #endif
+
