@@ -8,6 +8,7 @@
  */
 
 #include <stddef.h>
+#include <stdio.h>
 
 #include <reader/exp.h>
 #include <reader/read_fns.h>
@@ -17,6 +18,7 @@
 #include <construct/installglob.h>
 
 #include <main/flags.h>
+#include <main/driver.h>
 
 /*
  * Translate a single TDF unit
@@ -40,5 +42,17 @@ translate_unit(void)
 
 	crt_repeat  = NULL;
 	repeat_list = NULL;
+}
+
+/*
+ * Translate a single TDF capsule
+ *
+ * This may be called from common/reader directly,
+ * as well as by translate_unit() above.
+ */
+void
+translate_capsule(void)
+{
+	driver.translate_capsule();
 }
 

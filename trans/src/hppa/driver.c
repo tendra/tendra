@@ -145,6 +145,8 @@ struct driver driver = {
 	option,
 	NULL,
 
+	local_translate_capsule,
+
 	ABI_HPUX,
 	CCONV_HPPA,
 	ENDIAN_BIG | ENDIAN_LITTLE,

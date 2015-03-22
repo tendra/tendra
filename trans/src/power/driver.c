@@ -144,6 +144,8 @@ struct driver driver = {
 	option,
 	switch_cpu,
 
+	local_translate_capsule,
+
 	ABI_POWER,
 	CCONV_XLC,
 	ENDIAN_BIG | ENDIAN_LITTLE,

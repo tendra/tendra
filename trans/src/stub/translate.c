@@ -16,6 +16,7 @@
 
 #include <refactor/optimise.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 static void
@@ -58,7 +59,7 @@ something(dec *d)
 }
 
 void
-translate_capsule(void)
+local_translate_capsule(void)
 {
 	dec *d;
 

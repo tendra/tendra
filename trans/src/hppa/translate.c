@@ -117,6 +117,7 @@
 #include <construct/tags.h>
 #include <construct/installglob.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 #include <main/print.h>
 
@@ -240,7 +241,7 @@ mark_unaliased(exp e)
 
 /* translate the TDF */
 void
-translate_capsule(void)
+local_translate_capsule(void)
 {
 	dec *crt_def, **proc_def_trans_order;
 	int *src_line = 0, next_proc_def;

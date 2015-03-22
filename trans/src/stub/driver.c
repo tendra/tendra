@@ -67,6 +67,8 @@ struct driver driver = {
 	option,
 	switch_cpu,
 
+	local_translate_capsule,
+
 	0,
 	0,
 	0,

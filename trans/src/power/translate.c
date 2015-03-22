@@ -137,7 +137,7 @@ bool done_scan = 0;
  * Translate a TDF capsule
  */
 void
-translate_capsule(void)
+local_translate_capsule(void)
 {
 	int noprocs, noglobals;
 	int procno, globalno;

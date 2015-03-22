@@ -256,6 +256,8 @@ struct driver driver = {
 	option,
 	NULL,
 
+	local_translate_capsule,
+
 	ABI_SUNOS | ABI_SYSV,
 	CCONV_SPARC,
 	ENDIAN_LITTLE,

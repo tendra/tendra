@@ -22,6 +22,8 @@ struct driver {
 	int (*option)(char c, const char *optarg);
 	int (*cpu)(const char *optarg);
 
+	void (*translate_capsule)(void);
+
 	/* permitted sets */
 	unsigned abi;
 	unsigned cconv;
@@ -36,6 +38,8 @@ extern struct driver driver;
 extern FILE *as_file;
 extern FILE *ba_file;
 extern FILE *st_file;
+
+void local_translate_capsule(void);
 
 #endif
 

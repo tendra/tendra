@@ -31,6 +31,7 @@
 #include <construct/machine.h>
 #include <construct/flpt.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 #include <main/print.h>
 
@@ -314,7 +315,7 @@ mark_unaliased(exp e)
 }
 
 void
-translate_capsule(void)
+local_translate_capsule(void)
 {
 	dec *my_def;
 

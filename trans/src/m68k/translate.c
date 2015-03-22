@@ -22,6 +22,7 @@
 #include <construct/machine.h>
 #include <construct/tags.h>
 
+#include <main/driver.h>
 #include <main/flags.h>
 
 #include <refactor/optimise.h>
@@ -89,7 +90,7 @@ mark_unaliased(exp e)
  * and applies the dead variable and register allocation analysis.
  */
 void
-translate_capsule(void)
+local_translate_capsule(void)
 {
 	dec *d;
 

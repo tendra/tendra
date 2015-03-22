@@ -240,6 +240,8 @@ struct driver driver = {
 	option,
 	switch_cpu,
 
+	local_translate_capsule,
+
 	ABI_SCO | ABI_SVR4 | ABI_LINUX | ABI_SOLARIS | ABI_IBCS,
 	CCONV_GCC, /* TODO: move remove_struct_ref and possibly also gcc_compatible here */
 	ENDIAN_LITTLE,

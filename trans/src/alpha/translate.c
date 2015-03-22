@@ -272,7 +272,7 @@ find_tag(char *name)
 }
 
 void
-translate_capsule(void)
+local_translate_capsule(void)
 {
 	extern exp *usages;
 	dec *my_def;

@@ -366,7 +366,7 @@ exit_translator(void)
  * TRANSLATE AN ENTIRE TDF CAPSULE
  */
 void
-translate_capsule(void)
+local_translate_capsule(void)
 {
 	int i;
 	int r;

@@ -143,6 +143,8 @@ struct driver driver = {
 	option,
 	NULL,
 
+	local_translate_capsule,
+
 	ABI_MIPS,
 	CCONV_O32,
 	ENDIAN_BIG | ENDIAN_LITTLE,

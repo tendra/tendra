@@ -267,7 +267,7 @@ remove_unused(void)
 }
 
 void
-translate_capsule(void)
+local_translate_capsule(void)
 {
 	dec * my_def;
 	int noprocs;
