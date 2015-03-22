@@ -21,9 +21,21 @@
 #include <main/driver.h>
 
 /*
+ * Translate a single TDF capsule
+ *
+ * This may be called from common/reader directly,
+ * as well as by translate_unit() below.
+ */
+static void
+translate_capsule(void)
+{
+	driver.translate_capsule();
+}
+
+/*
  * Translate a single TDF unit
  */
-void
+static void
 translate_unit(void)
 {
 	dec *d;
@@ -44,15 +56,8 @@ translate_unit(void)
 	repeat_list = NULL;
 }
 
-/*
- * Translate a single TDF capsule
- *
- * This may be called from common/reader directly,
- * as well as by translate_unit() above.
- */
-void
-translate_capsule(void)
-{
-	driver.translate_capsule();
-}
+struct translate translate = {
+	translate_unit,
+	translate_capsule
+};
 
