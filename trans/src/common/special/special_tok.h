@@ -26,6 +26,9 @@ special_token(const struct special_tok a[], size_t count,
 extern const struct special_tok special_toks[];
 extern size_t special_toks_count;
 
+extern const struct special_tok special_ariths[];
+extern size_t special_ariths_count;
+
 extern const struct special_tok special_allocs[];
 extern size_t special_allocs_count;
 

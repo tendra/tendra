@@ -18,7 +18,6 @@
 #include <reader/externs.h>
 #include <reader/messages_r.h>
 #include <reader/main_reads.h>
-#include <reader/c_arith_type.h>
 
 #include <construct/tags.h>
 #include <construct/exp.h>
@@ -110,85 +109,6 @@ special_rem(tokval *tkv, token t, bitstream pars)
 
 	set_place(old_place);
 	tkv->tk_exp = me_b2(arg1, arg2, rem0_tag);
-
-	return true;
-}
-
-static bool
-special_arith_type(tokval *tkv, token t, bitstream pars)
-{
-	int a, b;
-	place old_place;
-	signed_nat sn;
-
-	old_place = keep_place();
-	set_place(pars);
-
-	sn = d_signed_nat(); a = snatint(sn);
-	sn = d_signed_nat(); b = snatint(sn);
-
-	set_place(old_place);
-	snatint(sn) = arith_type(a, b);
-	tkv->tk_signed_nat = sn;
-
-	return true;
-}
-
-static bool
-special_promote(tokval *tkv, token t, bitstream pars)
-{
-	int a;
-	place old_place;
-	signed_nat sn;
-
-	old_place = keep_place();
-	set_place(pars);
-
-	sn = d_signed_nat();
-	a = snatint(sn);
-
-	set_place(old_place);
-	snatint(sn) = promote(a);
-	tkv->tk_signed_nat = sn;
-
-	return true;
-}
-
-static bool
-special_sign_promote(tokval *tkv, token t, bitstream pars)
-{
-	int a;
-	place old_place;
-	signed_nat sn;
-
-	old_place = keep_place();
-	set_place(pars);
-
-	sn = d_signed_nat();
-	a = snatint(sn);
-
-	set_place(old_place);
-	snatint(sn) = sign_promote(a);
-	tkv->tk_signed_nat = sn;
-
-	return true;
-}
-
-static bool
-special_convert(tokval *tkv, token t, bitstream pars)
-{
-	int a;
-	place old_place;
-	signed_nat sn;
-
-	old_place = keep_place();
-	set_place(pars);
-
-	sn = d_signed_nat();
-	a = snatint(sn);
-
-	set_place(old_place);
-	tkv->tk_variety = convert((unsigned)a);
 
 	return true;
 }
@@ -299,11 +219,6 @@ const struct special_tok special_toks[] = {
 
 	{ "~div",             BUILTIN_DIV,     special_div             },
 	{ "~rem",             BUILTIN_DIV,     special_rem             },
-
-	{ "~arith_type",      BUILTIN_PROMOTE, special_arith_type      },
-	{ "~promote",         BUILTIN_PROMOTE, special_promote         },
-	{ "~sign_promote",    BUILTIN_PROMOTE, special_sign_promote    },
-	{ "~convert",         BUILTIN_PROMOTE, special_convert         },
 
 	{ "~asm",             BUILTIN_ASM,     special_asm             },
 	{ "~asm_sequence",    BUILTIN_ASM,     special_asm_sequence    },

@@ -181,6 +181,10 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 			return tkv;
 		}
 
+		if (special_token(special_ariths, special_ariths_count, &tkv, td, pars, sortcode)) {
+			return tkv;
+		}
+
 		if (special_token(special_allocs, special_allocs_count, &tkv, td, pars, sortcode)) {
 			return tkv;
 		}

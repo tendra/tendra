@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef ARITH_CODES_H
-#define ARITH_CODES_H
+#ifndef SPECIAL_ARITH_CODES_H
+#define SPECIAL_ARITH_CODES_H
 
 
 /*

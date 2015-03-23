@@ -78,7 +78,6 @@ PARTS+= src/common/main
 CCOPTS+=	${TRANS_CFLAGS}
 
 SRCS+=	assembler.c
-SRCS+=	c_arith_type.c
 SRCS+=	codec.c
 SRCS+=	make_code.c
 SRCS+=	cproc.c
