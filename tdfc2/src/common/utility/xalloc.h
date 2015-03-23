@@ -27,9 +27,6 @@ extern int xumemcmp(string, string, size_t);
 #define xalloc_scale(T, N)\
 	((size_t) (N) * sizeof(T))
 
-#define xmalloc_one(T)\
-	xmalloc(xalloc_scale(T, 1))
-
 #define xmalloc_nof(T, N)\
 	xmalloc(xalloc_scale(T, N))
 

@@ -1407,7 +1407,7 @@ make_ambig_func(CANDIDATE_LIST *p, IDENTIFIER id, LIST(EXP) args,
 	}
 
 	/* Create new instance */
-	all = xmalloc_one(AMBIG_FUNCTION);
+	all = xmalloc(sizeof *all);
 	all->id = NULL_id;
 	all->funcs = funcs;
 	all->types = types;

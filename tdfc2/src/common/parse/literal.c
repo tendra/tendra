@@ -508,7 +508,7 @@ begin_literal(int base, int suff)
 void
 add_range_literal(EXP e, int n)
 {
-	LITERAL_INFO *p = xmalloc_one(LITERAL_INFO);
+	LITERAL_INFO *p = xmalloc(sizeof *p);
 	p->tag = n;
 	if (!IS_NULL_exp(e) && IS_exp_int_lit(e)) {
 		p->bound = DEREF_nat(exp_int_lit_nat(e));

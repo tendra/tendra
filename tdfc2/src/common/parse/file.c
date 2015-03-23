@@ -670,7 +670,7 @@ void
 add_directory(string dir, string nm)
 {
 	INCL_DIR *p = dir_path;
-	INCL_DIR *q = xmalloc_one(INCL_DIR);
+	INCL_DIR *q = xmalloc(sizeof *q);
 	if (nm && find_directory(nm)) {
 		char *s = strlit(nm);
 		error(ERR_WARN, "Directory '%s' already defined", s);
@@ -736,7 +736,7 @@ builtin_startup(void)
 {
 	BUFFER *bf = &internal_buff;
 	internal_name = DEREF_string(posn_file(crt_loc.posn));
-	internal_file = xmalloc_one(FILE *);
+	internal_file = xmalloc(sizeof (FILE *)); /* XXX: this doesn't make sense */
 	if (bf->posn != bf->start) {
 		/* Add to list of start-up files if necessary */
 		CONS_string(internal_name, startup_files, startup_files);
@@ -911,7 +911,7 @@ already_included(string nm, STAT_TYPE *fs, int st)
 	}
 
 	/* Create new imported file structure */
-	p = xmalloc_one(INCL_FILE);
+	p = xmalloc(sizeof *p);
 	if (st != 4) {
 		crt_included_file = p;
 	}

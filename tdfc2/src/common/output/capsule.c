@@ -147,7 +147,7 @@ start_linkage(BITSTREAM **ps, int create)
 	/* Allocate a linkage unit */
 	int i;
 	VAR_INFO *var = vars;
-	LINKAGE *p = xmalloc_one(LINKAGE);
+	LINKAGE *p = xmalloc(sizeof *p);
 	for (i = 0; i < VAR_no; i++) {
 		ulong j, n = var->sz;
 		if (n) {
