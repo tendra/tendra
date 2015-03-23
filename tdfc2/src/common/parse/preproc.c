@@ -1112,8 +1112,8 @@ eq_pptok(PPTOKEN *p, PPTOKEN *q)
 			/* Check string and characters literals */
 			string s1 = p->pp_data.str.start;
 			string s2 = q->pp_data.str.start;
-			gen_size n1 = (gen_size)(p->pp_data.str.end - s1);
-			gen_size n2 = (gen_size)(q->pp_data.str.end - s2);
+			size_t n1 = p->pp_data.str.end - s1;
+			size_t n2 = q->pp_data.str.end - s2;
 			if (n1 != n2) {
 				return 0;
 			}
@@ -1126,7 +1126,7 @@ eq_pptok(PPTOKEN *p, PPTOKEN *q)
 			/* Check unknown characters */
 			string s1 = p->pp_data.buff;
 			string s2 = q->pp_data.buff;
-			gen_size n1 = MULTI_WIDTH;
+			size_t n1 = MULTI_WIDTH;
 			if (xumemcmp(s1, s2, n1)!= 0) {
 				return 0;
 			}

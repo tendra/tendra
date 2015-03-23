@@ -220,7 +220,7 @@ typedef struct bits_tag {
 	unsigned bits;
 	unsigned size;
 	FILE *file;
-	gen_ptr link;
+	void *link;
 	struct bits_tag *prev;
 } BITSTREAM;
 

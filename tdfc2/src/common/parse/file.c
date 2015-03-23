@@ -439,10 +439,10 @@ fill_buffer(void)
 
 	/* Fill the buffer from the input file */
 	if (f == internal_file) {
-		n = (size_t)bfread(&internal_buff, p, (gen_size)BUFF_SZ);
+		n = (size_t)bfread(&internal_buff, p, BUFF_SZ);
 		if (n < BUFF_SZ)m = n;
 	} else if (f) {
-		n = fread((gen_ptr)p, CHAR_SZ, BUFF_SZ, f);
+		n = fread(p, CHAR_SZ, BUFF_SZ, f);
 		if (n < BUFF_SZ)m = n;
 	} else {
 		n = 0;

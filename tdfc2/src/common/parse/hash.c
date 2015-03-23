@@ -211,7 +211,7 @@ lookup_name(string s, unsigned long h, int ext, int tok)
 	/* Create new hash table entry */
 	len = (unsigned long)ustrlen(s);
 	if (tok == lex_unknown) {
-		s = xustrncpy(s, (gen_size)len);
+		s = xustrncpy(s, len);
 		tok = lex_identifier;
 	}
 	tag = hashid_name_tag;

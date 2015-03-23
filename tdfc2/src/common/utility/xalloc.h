@@ -12,20 +12,20 @@
 #define XALLOC_INCLUDED
 
 
-extern gen_ptr xmalloc(gen_size);
-extern gen_ptr xrealloc(gen_ptr, gen_size);
-extern void xfree(gen_ptr);
-extern string xustr(gen_size);
+extern void *xmalloc(size_t);
+extern void *xrealloc(void *, size_t);
+extern void xfree(void *);
+extern string xustr(size_t);
 extern string xustrcpy(string);
-extern string xustrncpy(string, gen_size);
+extern string xustrncpy(string, size_t);
 extern string xustrcat(string, string);
-extern void xufree(string, gen_size);
-extern void xumemcpy(string, string, gen_size);
-extern int xumemcmp(string, string, gen_size);
+extern void xufree(string, size_t);
+extern void xumemcpy(string, string, size_t);
+extern int xumemcmp(string, string, size_t);
 
 
 #define xalloc_scale(T, N)\
-	((gen_size)(N)*(gen_size)sizeof(T))
+	((size_t) (N) * sizeof(T))
 
 #define xmalloc_one(T)\
 	xmalloc(xalloc_scale(T, 1))
@@ -34,10 +34,10 @@ extern int xumemcmp(string, string, gen_size);
 	xmalloc(xalloc_scale(T, N))
 
 #define xrealloc_nof(P, T, N)\
-	xrealloc((gen_ptr)(P), xalloc_scale(T, N))
+	xrealloc((P), xalloc_scale(T, N))
 
 #define xfree_nof(P)\
-	xfree((gen_ptr)(P))
+	xfree((P))
 
 
 #endif

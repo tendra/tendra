@@ -853,7 +853,7 @@ print_bitstream(BITSTREAM *bs, FILE *f)
 		unsigned i = bs->bits;
 		unsigned n = bs->bytes;
 		print_bitstream(bs->prev, f);
-		fprintf_v(f, "0x%p = { ",(gen_ptr)bs);
+		fprintf_v(f, "0x%p = { ", (void *) bs);
 		while (n) {
 			unsigned j;
 			unsigned c = (unsigned)*s;

@@ -170,7 +170,7 @@ start_linkage(BITSTREAM **ps, int create)
 	all_links = p;
 
 	/* Start the bitstream */
-	*ps = start_bitstream(NIL(FILE), (gen_ptr)p);
+	*ps = start_bitstream(NIL(FILE), p);
 	return;
 }
 
@@ -837,7 +837,7 @@ write_capsule_body(BITSTREAM *bs)
 				unsigned ub;
 				BITSTREAM *us = DEREF_bits(HEAD_list(u));
 				BITSTREAM *vs = DEREF_bits(HEAD_list(v));
-				gen_ptr plnk = us->link;
+				void *plnk = us->link;
 
 				/* Output linkage information */
 				if (plnk) {
@@ -950,7 +950,7 @@ init_capsule(void)
 	if (output_capsule) {
 		/* Initialise capsule units */
 		HASHID nm;
-		gen_ptr lnk;
+		void *lnk;
 		if (output_tokdec || output_all) {
 			start_linkage(&tokdec_unit, 1);
 			output_tokdec = 1;

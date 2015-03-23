@@ -18,7 +18,7 @@
     The routines in this module are concerned with low level output.
 */
 
-extern BITSTREAM *start_bitstream(FILE *, gen_ptr);
+extern BITSTREAM *start_bitstream(FILE *, void *);
 extern void end_bitstream(BITSTREAM *, int);
 extern BITSTREAM *enc_bits(BITSTREAM *, unsigned, unsigned);
 extern BITSTREAM *enc_long_bits(BITSTREAM *, unsigned, unsigned long);

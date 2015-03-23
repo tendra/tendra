@@ -24,7 +24,7 @@
 
 #define array_size( A )	( ( int ) sizeof ( A ) / ( int ) sizeof ( *( A ) ) )
 #define NIL( A )	( ( A * ) NULL )
-#define NULL_gen_ptr	( ( gen_ptr ) NULL )
+#define NULL_gen_ptr	( ( void * ) NULL )
 
 #define fclose_v	IGNORE fclose
 #define fflush_v	IGNORE fflush
@@ -39,18 +39,6 @@
 #define vfprintf_v	IGNORE vfprintf
 #define memcpy_v	IGNORE memcpy
 #define strcpy_v	IGNORE strcpy
-
-
-/*
-    GENERIC POINTER AND SIZE TYPES
-
-    The type gen_ptr is used to represent the generic pointer.  The type
-    gen_size is used to represent a generic size type (it is equivalent
-    to size_t).
-*/
-
-typedef void *gen_ptr ;
-typedef unsigned long gen_size ;
 
 
 #endif

@@ -39,7 +39,7 @@ dump_bitstream(BITSTREAM *bs)
 		string t = bs->text;
 		FILE *f = bs->file;
 		if (f) {
-			IGNORE fwrite((gen_ptr)t, sizeof(character), n, f);
+			IGNORE fwrite(t, sizeof(character), n, f);
 		}
 		t[0] = t[n];
 	}
@@ -62,14 +62,14 @@ static BITSTREAM *free_bitstreams = NULL;
 */
 
 BITSTREAM *
-start_bitstream(FILE *f, gen_ptr lnk)
+start_bitstream(FILE *f, void *lnk)
 {
 	BITSTREAM *bs = free_bitstreams;
 	if (bs) {
 		free_bitstreams = bs->prev;
 	} else {
 		bs = xmalloc_one(BITSTREAM);
-		bs->text = xustr((gen_size)CHUNK_SIZE);
+		bs->text = xustr(CHUNK_SIZE);
 	}
 	bs->bytes = 0;
 	bs->bits = 0;

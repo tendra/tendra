@@ -95,7 +95,7 @@ dump_string(void)
 	size_t n = (size_t)(bf->posn - s);
 	fprintf_v(f, "&%lu<",(unsigned long)n);
 	if (n) {
-		IGNORE fwrite((gen_ptr)s, sizeof(character), n, f);
+		IGNORE fwrite(s, sizeof(character), n, f);
 		bf->posn = s;
 	}
 	fputc_v('>', f);

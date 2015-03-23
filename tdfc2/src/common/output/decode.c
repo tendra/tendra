@@ -36,11 +36,11 @@ fill_bitstream(BITSTREAM *bs)
 	unsigned sz;
 	FILE *f = bs->file;
 	string text = bs->text;
-	sz = (unsigned)fread((gen_ptr)text, sizeof(character),
+	sz = (unsigned)fread(text, sizeof(character),
 			     (size_t)CHUNK_SIZE, f);
 	if (sz == 0) {
 		/* No more characters in file */
-		bs->link = (gen_ptr)text;
+		bs->link = text;
 		while (sz < CHUNK_SIZE) {
 			/* Fill buffer with all ones */
 			text[sz] = (character)BYTE_MASK;
@@ -205,7 +205,7 @@ de_tdfstring(BITSTREAM *bs, BUFFER *bf)
 {
 	unsigned m = (unsigned)de_int(bs);
 	unsigned long n = de_int(bs);
-	string p = stretch_buffer(bf, bf->posn,(gen_size)n);
+	string p = stretch_buffer(bf, bf->posn, n);
 	bf->posn = p + n;
 	while (n) {
 		int ch = CHAR_SIMPLE;
