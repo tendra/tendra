@@ -98,6 +98,7 @@
 #include <reader/readglob.h>
 
 #include <construct/installglob.h>
+#include <construct/tags.h>
 #include <construct/exp.h>
 
 #include <main/driver.h>
@@ -108,7 +109,6 @@
 
 #include <diag3/diag_reform.h>
 
-#include "memtdf.h"
 #include "codegen.h"
 #include "tempdecs.h"
 #include "weights.h"

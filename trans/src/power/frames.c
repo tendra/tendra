@@ -25,13 +25,13 @@
 #include <construct/installglob.h>
 #include <construct/exp.h>
 #include <construct/flpt.h>
+#include <construct/tags.h>
 
 #include <main/flags.h>
 #include <main/print.h>
 
 #include <refactor/optimise.h>
 
-#include "memtdf.h"
 #include "codegen.h"
 #include "tempdecs.h"
 #include "weights.h"

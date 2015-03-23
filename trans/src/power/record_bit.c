@@ -14,12 +14,12 @@
 
 #include <construct/label_ops.h>
 #include <construct/installglob.h>
+#include <construct/tags.h>
 
 #include <main/flags.h>
 
 #include <diag3/diag_fns.h>
 
-#include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
 #include "maxminmacs.h"

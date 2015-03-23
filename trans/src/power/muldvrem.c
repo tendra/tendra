@@ -16,9 +16,11 @@
 
 #include <reader/exp.h>
 
+#include <construct/tags.h>
+#include <construct/dec.h>
+
 #include <main/print.h>
 
-#include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
 #include "scan.h"

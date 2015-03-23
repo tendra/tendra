@@ -16,12 +16,12 @@
 
 #include <construct/installtypes.h>
 #include <construct/aldefs.h>
+#include <construct/tags.h>
 #include <construct/dec.h>
 #include <construct/ash.h>
 
 #include <main/print.h>
 
-#include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
 #include "make_code.h"

@@ -23,7 +23,6 @@
 #include <main/flags.h>
 #include <main/print.h>
 
-#include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
 #include "translate.h"

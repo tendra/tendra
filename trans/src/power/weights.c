@@ -57,7 +57,6 @@
 #include "maxminmacs.h"
 #include "regable.h"
 #include "weights.h"
-#include "memtdf.h"
 
 static const weights zeroweights =
 {

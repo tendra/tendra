@@ -29,12 +29,13 @@
 #include <construct/dec.h>
 #include <construct/ash.h>
 #include <construct/flpt.h>
+#include <construct/tags.h>
+#include <construct/shape.h>
 #include <construct/machine.h>
 
 #include <main/driver.h>
 #include <main/print.h>
 
-#include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
 #include "maxminmacs.h"

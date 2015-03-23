@@ -28,9 +28,11 @@
 
 #include <local/ash.h>
 
+#include <construct/installtypes.h>
+#include <construct/shape.h>
+
 #include <main/print.h>
 
-#include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
 #include "proc.h"			/* for mem_temp() */

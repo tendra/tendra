@@ -13,10 +13,12 @@
 #include <shared/bool.h>
 #include <shared/error.h>
 
+#include <construct/installtypes.h>
+#include <construct/dec.h>
+
 #include <main/driver.h>
 #include <main/print.h>
 
-#include "memtdf.h"
 #include "codegen.h"
 #include "macro.h"
 #include "stack.h"

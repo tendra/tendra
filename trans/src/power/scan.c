@@ -48,7 +48,6 @@
 #include <refactor/const.h>
 #include <refactor/refactor.h>
 
-#include "memtdf.h"
 #include "codegen.h"
 #include "procrectypes.h"
 #include "bitsmacs.h"

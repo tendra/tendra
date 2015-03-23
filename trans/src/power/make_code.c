@@ -26,6 +26,7 @@
 #include <construct/ash.h>
 #include <construct/label_ops.h>
 #include <construct/installglob.h>
+#include <construct/tags.h>
 #include <construct/flpt.h>
 
 #include <main/driver.h>
@@ -37,7 +38,6 @@
 
 #include <refactor/optimise.h>
 
-#include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
 

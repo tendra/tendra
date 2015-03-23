@@ -32,12 +32,12 @@
 #include <local/ash.h>
 
 #include <construct/installtypes.h>
+#include <construct/tags.h>
 #include <construct/dec.h>
 #include <construct/ash.h>
 
 #include <main/print.h>
 
-#include "memtdf.h"
 #include "codegen.h"
 #include "maxminmacs.h"
 #include "regalloc.h"

@@ -15,7 +15,6 @@
 
 #include <construct/installtypes.h>
 
-#include "memtdf.h"
 #include "procrectypes.h"
 
 

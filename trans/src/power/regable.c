@@ -16,7 +16,6 @@
 
 #include <shared/bool.h>
 
-#include "memtdf.h"
 #include "codegen.h"
 #include "regable.h"
 #include "localexpmacs.h"

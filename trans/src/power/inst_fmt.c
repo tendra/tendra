@@ -23,6 +23,9 @@
 
 #include <local/cpu.h>
 
+#include <construct/installtypes.h>
+#include <construct/dec.h>
+
 #include <main/driver.h>
 #include <main/flags.h>
 #include <main/print.h>

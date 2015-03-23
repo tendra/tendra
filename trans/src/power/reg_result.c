@@ -14,7 +14,6 @@
 #include <construct/dec.h>
 #include <construct/reg_result.h>
 
-#include "memtdf.h"
 #include "localexpmacs.h"
 
 bool

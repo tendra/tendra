@@ -14,12 +14,14 @@
 
 #include <reader/exp.h>
 
+#include <construct/tags.h>
+#include <construct/aldefs.h>
+
 #include <refactor/refactor.h>
 
 #include <main/flags.h>
 #include <main/print.h>
 
-#include "memtdf.h"
 #include "codegen.h"
 #include "maxminmacs.h"		/* for absval() */
 #include "regexps.h"

@@ -24,10 +24,10 @@
 
 #include <construct/flpt.h>
 #include <construct/me_fns.h>
+#include <construct/tags.h>
 
 #include <main/print.h>
 
-#include "memtdf.h"
 #include "codegen.h"
 #include "translate.h"
 #include "make_code.h"

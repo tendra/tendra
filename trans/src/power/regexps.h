@@ -11,10 +11,6 @@
 #ifndef	REGEXPSDECS_H
 #define	REGEXPSDECS_H	1
 
-#include <construct/installtypes.h>
-
-#include "memtdf.h"
-
 /* number to add to floating point reg number for these functions */
 #define	KEPT_FREG_OFFSET	32
 

@@ -17,9 +17,12 @@
 
 #include <reader/exp.h>
 
+#include <construct/installtypes.h>
+#include <construct/tags.h>
+#include <construct/shape.h>
+
 #include <main/flags.h>
 
-#include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
 #include "maxminmacs.h"		/* for absval() */

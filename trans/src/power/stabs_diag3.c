@@ -25,6 +25,8 @@
 #include <reader/token.h>
 #include <reader/externs.h>		/* for f_floating() */
 
+#include <construct/tags.h>
+
 #include <main/driver.h>
 #include <main/print.h>
 
@@ -49,7 +51,6 @@
 #include <diag3/diaginfo1.h>
 #include <diag3/diag_reform.h>
 
-#include "memtdf.h"
 #include "translate.h"
 #include "maxminmacs.h"
 #include "proc.h"

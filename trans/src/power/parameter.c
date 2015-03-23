@@ -19,10 +19,14 @@
 
 #include <reader/exp.h>
 
+#include <construct/installtypes.h>
+#include <construct/aldefs.h>
+#include <construct/tags.h>
+#include <construct/dec.h>
+
 #include <main/flags.h>
 #include <main/print.h>
 
-#include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
 #include "translate.h"
