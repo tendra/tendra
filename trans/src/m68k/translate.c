@@ -11,6 +11,7 @@
 
 #include <shared/bool.h>
 #include <shared/check.h>
+#include <shared/xalloc.h>
 
 #include <local/szs_als.h>
 
@@ -272,7 +273,7 @@ code_const_list(void)
 		const_list = bro(const_list);
 
 		if (name(s) == proc_tag || name(s) == general_proc_tag) {
-			char *id = alloc_nof(char, 30);
+			char *id = xmalloc(30);
 			sprintf(id, "%s%ld", local_prefix, no(t));
 			gcproc(s, NULL, no(t), 0, 1, NULL);
 		} else {

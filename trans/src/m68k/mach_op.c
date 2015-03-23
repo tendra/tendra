@@ -9,6 +9,7 @@
 
 #include <shared/bool.h>
 #include <shared/error.h>
+#include <shared/xalloc.h>
 
 #include "instrs.h"
 #include "mach.h"
@@ -47,7 +48,7 @@ new_mach_op(void)
 	mach_op *p;
 	if (mach_op_list == NULL) {
 		int i, n = 1000;
-		p = alloc_nof(mach_op, n);
+		p = xmalloc_nof(mach_op, n);
 		for (i = 0; i < n - 1; i++) {
 			(p + i)->plus = p + (i + 1);
 			(p + i)->of = NULL;

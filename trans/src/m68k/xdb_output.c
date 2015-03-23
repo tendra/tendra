@@ -14,6 +14,7 @@
 #include <shared/check.h>
 #include <shared/error.h>
 #include <shared/string.h>
+#include <shared/xalloc.h>
 
 #include <reader/exp.h>
 
@@ -393,7 +394,7 @@ diag_source_file(char *nm, long ln)
 {
     if (diag == DIAG_STABS) {
 	int n = strlen(nm) + 3;
-	char *qnm = alloc_nof(char, n);
+	char *qnm = xmalloc(n);
 	mach_op *op = make_extern_data("Ltext", 0);
 	sprintf(qnm, "\"%s\"", nm);
 	make_stabs(qnm,(have_module ? 132 : 100), 0L, op);

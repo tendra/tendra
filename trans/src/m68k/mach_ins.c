@@ -10,6 +10,7 @@
 #include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/xalloc.h>
 
 #include "instrs.h"
 #include "mach.h"
@@ -129,7 +130,7 @@ make_instr_aux(int insno, mach_op *op1, mach_op *op2, bitpattern ch, int susp)
 	}
 	if (mach_ins_list == NULL) {
 		int i, n = 1000;
-		mach_ins_list = alloc_nof(mach_ins, n);
+		mach_ins_list = xmalloc_nof(mach_ins, n);
 		for (i = 0; i < n - 1; i++) {
 			(mach_ins_list + i) ->next = mach_ins_list + (i + 1);
 		}

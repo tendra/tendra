@@ -9,6 +9,7 @@
 
 #include <shared/bool.h>
 #include <shared/check.h>
+#include <shared/xalloc.h>
 
 #include <construct/exp.h>
 
@@ -124,7 +125,7 @@ find_jump_sizes(long lmin, long lmax)
 		return;
 	}
 
-	tb = alloc_nof(long, n);
+	tb = xmalloc_nof(long, n);
 
 	for (i = 0; i < n; i++) {
 		tb[i] = 0;

@@ -10,6 +10,7 @@
 #include <stdio.h>
 
 #include <shared/bool.h>
+#include <shared/xalloc.h>
 
 #include <reader/exp.h>
 
@@ -29,7 +30,7 @@
 static exp
 make_extn(char* n, shape s, int v)
 {
-	dec * g = alloc_nof(dec, 1);
+	dec * g = xmalloc(sizeof *g);
 	exp id = getexp(s, 0, 1, 0, 0, 0, 0, ident_tag);
 	exp nme = getexp(s, 0, 1, id, 0, 0, 0, name_tag);
 	setglob(id);
@@ -78,7 +79,7 @@ exp
 get_env_size(dec *decl)
 {
 	/* allocate space for 10 digits 2 prefix characters and a NULL */
-	char* lab_name = alloc_nof(char, 13);
+	char* lab_name = xmalloc(13);
 	sprintf(lab_name, "#%c%lu", LPREFIX,(unsigned long)decl);
 	return make_extn(lab_name, ulongsh, 1);
 }

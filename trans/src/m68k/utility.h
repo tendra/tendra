@@ -17,12 +17,6 @@
 
 #include <utility/bits.h> /* XXX */
 
-#define  alloc_nof(TYPE, N)\
-	((TYPE *)xmalloc((N)* sizeof(TYPE)))
-
-#define  realloc_nof(PTR, TYPE, N)\
-	((TYPE *)xrealloc((PTR), (N)* sizeof(TYPE)))
-
 #define  maximum(X, Y)	(((X) > (Y))?(X):(Y))
 #define  minimum(X, Y)	(((X) > (Y))?(Y):(X))
 #define  array_size(X)	(sizeof(X) / sizeof(X[0]))

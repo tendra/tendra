@@ -13,6 +13,7 @@
 #include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/xalloc.h>
 
 #include <tdf/nat.h>
 
@@ -90,7 +91,7 @@ new_table_posn(posn_t n, long sz)
 	static table_posn *tp_free;
 	if (no_tp_free == 0) {
 		no_tp_free = 20;
-		tp_free = alloc_nof(table_posn, no_tp_free);
+		tp_free = xmalloc_nof(table_posn, no_tp_free);
 	}
 	p = tp_free++;
 	no_tp_free--;
@@ -514,8 +515,7 @@ push_dscope(posn_t p, int t)
 	int n = no_dscope++;
 	if (n >= dscope_stk_size) {
 		dscope_stk_size += 20;
-		dscope_stack = realloc_nof(dscope_stack, dscope,
-					   dscope_stk_size);
+		dscope_stack = xrealloc_nof(dscope_stack, dscope, dscope_stk_size);
 	}
 	dscope_stack[n].posn = p;
 	dscope_stack[n].dscope_type = t;

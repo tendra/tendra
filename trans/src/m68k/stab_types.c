@@ -9,6 +9,7 @@
 
 #include <shared/bool.h>
 #include <shared/check.h>
+#include <shared/xalloc.h>
 
 #include <construct/shape.h>
 
@@ -85,7 +86,7 @@ new_page(void)
 {
 	page *p = free_pages;
 	if (p == NULL) {
-		p = alloc_nof(page, 1);
+		p = xmalloc(sizeof *p);
 	} else {
 		free_pages = p->next;
 	}
@@ -139,7 +140,7 @@ static char *
 new_stab_type(diag_type dt)
 {
 	static long next_stab_type = 16;
-	char *res = alloc_nof(char, 8);
+	char *res = xmalloc(8);
 	sprintf(res, "%ld", next_stab_type++);
 	if (dt) {
 		dt->been_outed = res;
@@ -441,7 +442,7 @@ analyse_stab_type(diag_type dt, char *nm, char *cl)
 	for (p = ptr; p; p = p->next) {
 		n += p->index;
 	}
-	res = alloc_nof(char, n + 1);
+	res = xmalloc(n + 1);
 	n = 0;
 	for (p = ptr; p; p = p->next) {
 		strncpy(res + n, p->text, p->index);
