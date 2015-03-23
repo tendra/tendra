@@ -438,7 +438,7 @@ void diag_source
 (char *nm, long ln, int d)
 {
     if (have_module && d == 0) return;
-    if (!eq(nm, crt_fname))diag_source_file(nm, ln);
+    if (!streq(nm, crt_fname))diag_source_file(nm, ln);
     crt_line_num = ln;
     if (d)slt_normal();
 }

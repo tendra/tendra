@@ -136,7 +136,7 @@ bool reserved
 	"_edata", "_etext", "_end", "__edata", "__etext", "__end"
     };
     for (i = 0; i < array_size(rn); i++) {
-	if (eq(nm, rn[i])) return 1;
+	if (streq(nm, rn[i])) return 1;
     }
     return 0;
 }
