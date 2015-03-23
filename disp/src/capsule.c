@@ -308,7 +308,7 @@ de_capsule(void)
 	    blank_line();
 	}
 	var_types = xmalloc_nof(string, no_var);
-	var_letters = xmalloc_nof(char, no_var + 1);
+	var_letters = xmalloc(no_var + 1);
 	var_count = xmalloc_nof(long, no_var);
 	var_letters[no_var] = 0;
 

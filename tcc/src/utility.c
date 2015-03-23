@@ -59,8 +59,8 @@ string_alloc(int n)
 {
 	char *r;
 	if (n >= 1000) {
-		/* Long strings are allocated space by alloc_nof */
-		r = xmalloc_nof(char, n);
+		/* Long strings are allocated space by xmalloc_nof */
+		r = xmalloc(n);
 	} else {
 		/* Short strings are allocated space from a buffer */
 		static int no_free;
@@ -70,7 +70,7 @@ string_alloc(int n)
 		free_chars = NULL;
 		if (n >= no_free) {
 			no_free = 4000;
-			free_chars = xmalloc_nof(char, no_free);
+			free_chars = xmalloc(no_free);
 		}
 		r = free_chars;
 		no_free -= n;

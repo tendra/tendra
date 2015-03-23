@@ -146,7 +146,7 @@ complete_binding(binding *b)
 				} else {
 					/* Make up an internal name */
 					long n = p->encoding;
-					char *nm = xmalloc_nof(char, 32);
+					char *nm = xmalloc(32);
 
 					IGNORE sprintf(nm, "~~%s_%ld", vars[v].name, n);
 					p->name = nm;
@@ -219,7 +219,7 @@ de_aligned_string(void)
 
 	n = tdf_int();
 	byte_align();
-	p = xmalloc_nof(char, n + 1);
+	p = xmalloc(n + 1);
 
 	for ( i = 0 ; i < n ; i++ )
 		p [i] = (char) fetch(8);
@@ -415,7 +415,7 @@ de_capsule(void)
 						}
 					} else {
 						/* Make up internal name */
-						p->name = xmalloc_nof(char, 32);
+						p->name = xmalloc(32);
 						IGNORE sprintf(p->name, "~~extern_%d", un++);
 
 						if (!is_local_name(nm)) {
@@ -433,7 +433,7 @@ de_capsule(void)
 					free_node(nu);
 				else {
 					/* Make up internal name */
-					p->name = xmalloc_nof(char, 32);
+					p->name = xmalloc(32);
 					IGNORE sprintf(p->name, "~~extern_%d", un++);
 					p->ename = new_node();
 					p->ename->cons = &true_cons;
@@ -447,7 +447,7 @@ de_capsule(void)
 					free_node(nc);
 				else {
 					/* Make up internal name */
-					p->name = xmalloc_nof(char, 32);
+					p->name = xmalloc(32);
 					IGNORE sprintf(p->name, "~~extern_%d", un++);
 					p->ename = new_node();
 					p->ename->cons = &true_cons;
@@ -573,7 +573,7 @@ de_library(void)
 
 		n = tdf_int();
 		byte_align();
-		capname = xmalloc_nof(char, n + 1);
+		capname = xmalloc(n + 1);
 
 		for (j = 0; j < n; j++) {
 			capname[j] = (char) fetch(8);
@@ -612,7 +612,7 @@ de_library(void)
 
 		n = tdf_int();
 		byte_align();
-		capname = xmalloc_nof(char, n + 1);
+		capname = xmalloc(n + 1);
 
 		for (j = 0; j < n; j++) {
 			capname[j] = (char) fetch(8);

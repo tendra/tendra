@@ -2311,7 +2311,7 @@ init_dump(string nm, string opt)
 
 		/* Allocate table of error numbers */
 		n = catalog_size;
-		p = xmalloc_nof(char, n);
+		p = xmalloc(n);
 		for (i = 0; i < n; i++) {
 			p[i] = 0;
 		}

@@ -246,7 +246,7 @@ init_spaces(int d)
 {
     int i, j;
     if (helpflag) {
-	spaces1 = xmalloc_nof(char, 5000);
+	spaces1 = xmalloc(5000);
 	/* every dth character should be a '.' */
 	for (i = 0, j = 0; i < 5000; i++) {
 	    if (++j == d) {

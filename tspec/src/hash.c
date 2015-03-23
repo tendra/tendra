@@ -39,7 +39,7 @@ hash_table *type_fields;
 void
 init_hash(void)
 {
-	buffer      = xmalloc_nof(char, buffsize + 100);
+	buffer      = xmalloc(buffsize + 100);
 	exps        = make_hash_table("Expression");
 	files       = make_hash_table("Output file");
 	keywords    = make_hash_table("Keyword");

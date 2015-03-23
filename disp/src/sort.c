@@ -282,7 +282,7 @@ de_tdfstring_format(void)
 	}
 	while (n) {
 	    long m = (n < STRING_WIDTH ? n : STRING_WIDTH);
-	    char *w = xmalloc_nof(char, m + 3);
+	    char *w = xmalloc(m + 3);
 	    IGNORE memcpy(w + 1, s,(size_t)m);
 	    w[0] = QUOTE;
 	    w[m + 1] = QUOTE;

@@ -59,7 +59,7 @@ void
 initialize_tree(void)
 {
     if (page == NULL) {
-	page = xmalloc_nof(char, 10000);
+	page = xmalloc(10000);
 	page_length = 10000;
     }
     word_ptr = &word1;
@@ -104,7 +104,7 @@ new_word(int c)
 	    page += (length + 1);
 	    page_length -= (length + 1);
 	    if (page_length < 100) {
-		page = xmalloc_nof(char, 10000);
+		page = xmalloc(10000);
 		page_length = 10000;
 	    }
 	    length = 0;

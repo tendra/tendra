@@ -111,7 +111,7 @@ main_start(char *prog)
 
 	atexit(main_end);
 
-	buffer = xmalloc_nof(char, buffer_size);
+	buffer = xmalloc(buffer_size);
 	set_progname(find_basename(prog), VERSION);
 
 	srand(time(NULL));

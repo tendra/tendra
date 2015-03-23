@@ -144,7 +144,7 @@ get_string(long n, long sz)
     }
     *(p++) = 0;
     n = (int)(p - buff);
-    s = xmalloc_nof(char, n);
+    s = xmalloc(n);
     IGNORE memcpy(s, buff,(size_t)n);
     return s;
 }
@@ -313,7 +313,7 @@ sortid de_complex_sort(sortname sn)
 	cs.decode = 'T';
 	check_list();
 	n = tdf_int();
-	cs.args = xmalloc_nof(char, n + 1);
+	cs.args = xmalloc(n + 1);
 	IGNORE strcpy(p, "TOKEN(");
 	p = p + strlen(p);
 
@@ -332,7 +332,7 @@ sortid de_complex_sort(sortname sn)
 
 	/* Copy token sort */
 	IGNORE strcpy(p, cr.name);
-	p = xmalloc_nof(char,(int)strlen(buff) + 1);
+	p = xmalloc(strlen(buff) + 1);
 	IGNORE strcpy(p, buff);
 	cs.name = p;
     } else {

@@ -152,7 +152,7 @@ de_tokdec_aux(void)
 	    args = "";
 	} else {
 	    word *wp = new_word(HORIZ_BRACKETS);
-	    args = xmalloc_nof(char, m + 1);
+	    args = xmalloc(m + 1);
 	    for (i = 0; i < m; i++) {
 		sortid p;
 		p = de_sort_name(1);
@@ -222,7 +222,7 @@ de_tokdef_aux(void)
     } else {
 	long i;
 	word *wp = new_word(HORIZ_BRACKETS);
-	args = xmalloc_nof(char, m + 1);
+	args = xmalloc(m + 1);
 	for (i = 0; i < m; i++) {
 	    long pn;
 	    sortid p;
@@ -247,7 +247,7 @@ de_tokdef_aux(void)
 	    if (!dumb_mode && !(tp->named)) {
 		tp->named = 1;
 		tp->name.simple = 1;
-		tp->name.val.str = xmalloc_nof(char, 10);
+		tp->name.val.str = xmalloc(10);
 		IGNORE sprintf(tp->name.val.str, "~par_%ld", i);
 	    }
 	    out_string(p.name);

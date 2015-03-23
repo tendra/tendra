@@ -53,7 +53,7 @@ set_up_labels(long n)
 	labels = xmalloc_nof(construct, n);
 
 	for (i = 0; i < n; i++) {
-		char *nm = xmalloc_nof(char, 32);
+		char *nm = xmalloc(32);
 
 		IGNORE sprintf(nm, "~~label_%ld", lno);
 		labels[i].sortnum = SORT_label;
@@ -95,7 +95,7 @@ de_sortname(bool expand)
 		m = tdf_int();
 		h.no_args = (int)m;
 		h.args = xmalloc_nof(sortname, m);
-		h.name = xmalloc_nof(char, 32);
+		h.name = xmalloc(32);
 		IGNORE sprintf(h.name, "~~sort_%d", made_up_sorts++);
 
 		for (i = 0; i < m; i++)

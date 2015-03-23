@@ -270,7 +270,7 @@ char *
 object_name(long v, long n)
 {
     object *p;
-    char *buff = xmalloc_nof(char, 1000);
+    char *buff = xmalloc(1000);
     if (dumb_mode) {
 	IGNORE sprintf(buff, "%ld", n);
 	return buff;
