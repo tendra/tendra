@@ -949,7 +949,7 @@ TDF libraries.  If this was right sh(e) would be slongsh.
 	case int_to_bitf_tag: {
 		where r;
 		long nbits = shape_size(sh(e));
-		long mask = lsmask[nbits];
+		long mask = lsb_mask[nbits];
 		r = (whereis(dest) == Dreg ? dest : D0);
 		move(slongsh, zw(son(e)), r);
 		and(slongsh, mnw(mask), r, dest);

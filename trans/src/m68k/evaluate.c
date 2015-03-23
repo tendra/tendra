@@ -670,7 +670,7 @@ evalaux(exp e, bool isconst, long al)
 			nx >>= 8;
 			sz -= 8;
 		    }
-		    nx = (nx & lsmask[sz]) << (32 - offn - sz);
+		    nx = (nx & lsb_mask[sz]) << (32 - offn - sz);
 		    work += nx;
 		    bits_left = offn + sz;
 		    while (bits_left >= 8) {

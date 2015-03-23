@@ -5311,7 +5311,7 @@ static void remit
       ++c;
       m = m << 1;
     }
-    and(sha, top, mw(zeroe, lsmask[c]), dest);
+    and(sha, top, mw(zeroe, lsb_mask[c]), dest);
     return;
   }
 
@@ -5784,9 +5784,9 @@ void bits_to_mem
   pos = bit_pos(d, nbits);
 
   lsn = 32 - nbits - pos;
-  mask = msmask[lsn] + lsmask[pos];
+  mask = msb_mask[lsn] + lsb_mask[pos];
 
-  k = lsmask[nbits] << pos;
+  k = lsb_mask[nbits] << pos;
 
   if ((pos+nbits) <= 8)
    {
@@ -5798,7 +5798,7 @@ void bits_to_mem
     move_sh = slongsh;
 
   if (name(e) == int_to_bitf_tag && name(son(e)) == val_tag) {
-    if (no(son(e)) == lsmask[nbits]) {
+    if (no(son(e)) == lsb_mask[nbits]) {
       /* if we are assigning all ones, just or them in */
       or(move_sh, mw(zeroe, k), dest, dest);
       return;
@@ -5841,7 +5841,7 @@ void bits_to_mem
        make_code(reg0, stack, son(e));
     else
        move(sh(e), mw(e, 0), reg0);
-    and(slongsh, mw(zeroe, lsmask[nbits]), reg0, reg0);
+    and(slongsh, mw(zeroe, lsb_mask[nbits]), reg0, reg0);
     /* mask it to the right size */
     if (pos != 0)
       ins2(shll,  32,  32, mw(zeroe, pos), reg0);
@@ -5853,7 +5853,7 @@ void bits_to_mem
     return;
   }
   else {
-    k = (no(e) & lsmask[nbits]) << pos;
+    k = (no(e) & lsb_mask[nbits]) << pos;
     /* constant bits we are assigning */
     if (k == 0)
       return;			/* if we are assigning zero we don't need anything more */

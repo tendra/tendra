@@ -10,11 +10,11 @@
 #include <utility/bits.h>
 
 /*
- * lsmask[n] is the number with its bottom n bits set and the rest zero.
- * msmask[n] is the number with its top n bits set and the rest zero.
+ * lsb_mask[n] is the number with its bottom n bits set and the rest zero.
+ * msb_mask[n] is the number with its top n bits set and the rest zero.
  */
 
-bitpattern lsmask[33] = {
+bitpattern lsb_mask[33] = {
 	0,
 	0x00000001, 0x00000003, 0x00000007, 0x0000000f,
 	0x0000001f, 0x0000003f, 0x0000007f, 0x000000ff,
@@ -26,7 +26,7 @@ bitpattern lsmask[33] = {
 	0x1fffffff, 0x3fffffff, 0x7fffffff, 0xffffffff
 };
 
-bitpattern msmask[33] = {
+bitpattern msb_mask[33] = {
 	0,
 	0x80000000, 0xc0000000, 0xe0000000, 0xf0000000,
 	0xf8000000, 0xfc000000, 0xfe000000, 0xff000000,

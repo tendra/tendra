@@ -636,7 +636,7 @@ bitf_to_int(exp e, shape sha, where dest, ash stack)
 	}
 
 	if (whereis(bf) == Dreg) {
-		bitpattern m = (lsmask[nbits] <<  boff);
+		bitpattern m = lsb_mask[nbits] <<  boff;
 		d = (whereis(dest) == Dreg ? dest : D0);
 		and(slongsh, bf, mnw(m), d);
 		if (extend) {
@@ -695,7 +695,7 @@ int_to_bitf(exp e, exp d, ash stack)
 	bstart = boff - off;
 	bend = sz - nbits - bstart;
 
-	pmask = ((msmask[nbits]) >> bstart) >> (32 - sz);
+	pmask = (msb_mask[nbits] >> bstart) >> (32 - sz);
 	nmask = ~pmask;
 
 	switch (sz) {

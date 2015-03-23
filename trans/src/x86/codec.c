@@ -810,7 +810,7 @@ void codec
 
     case int_to_bitf_tag:
      {
-       int mask = lsmask[shape_size(sh(e))];
+       int mask = lsb_mask[shape_size(sh(e))];
        move(slongsh, mw(son(e), 0), dest);
        and(slongsh, mw(zeroe, mask), dest, dest);
        return;

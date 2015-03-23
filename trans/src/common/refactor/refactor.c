@@ -942,7 +942,7 @@ int
 dochvar(int i, shape t)
 {
 	if (name(t) == bitfhd) {
-		int m = lsmask[shape_size(t)];
+		int m = lsb_mask[shape_size(t)];
 		int x = i & m;
 
 		if (is_signed(t)) {
@@ -988,7 +988,7 @@ dochvar(int i, shape t)
 		return i;
 
 	default:
-		return i & lsmask[shape_size(t)];
+		return i & lsb_mask[shape_size(t)];
 	}
 }
 

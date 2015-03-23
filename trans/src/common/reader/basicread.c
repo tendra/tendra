@@ -158,7 +158,7 @@ getcode(int np)
 
 			n = np;
 			p = getcode_bitposn - n;
-			m = lsmask[n];
+			m = lsb_mask[n];
 		}
 
 		if (p >= 0) {
@@ -177,8 +177,8 @@ getcode(int np)
 			int n;
 
 			n = np - p;
-			m = lsmask[n];
-			q = (int) ((crt_bits.intc & lsmask[p]) << n);
+			m = lsb_mask[n];
+			q = (int) ((crt_bits.intc & lsb_mask[p]) << n);
 			p = 32 - n;
 		}
 
@@ -209,7 +209,7 @@ get_big_code(int n)
 	for (;;) {
 		t = getcode(n);
 		if (t == 0) {
-			res += (int) lsmask[n];
+			res += (int) lsb_mask[n];
 		} else {
 			return res + t;
 		}
