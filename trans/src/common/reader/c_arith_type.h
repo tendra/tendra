@@ -15,4 +15,5 @@ int promote(int a);
 int sign_promote(int a);
 variety convert(unsigned int a);
 
-#endif /* C_ARITH_TYPE_H */
+#endif
+
