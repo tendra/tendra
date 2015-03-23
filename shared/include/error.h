@@ -29,8 +29,8 @@ void fmt_register(char c, void (*f)(FILE *fp, void *));
 extern const char *progname;
 extern const char *progvers;
 extern int exit_status;
-extern int maximum_errors;
-extern int number_errors;
+extern unsigned long maximum_errors;
+extern unsigned long number_errors;
 extern int crt_line_no;
 extern const char *crt_file_name;
 
