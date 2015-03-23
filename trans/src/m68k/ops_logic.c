@@ -22,6 +22,8 @@
 #include <construct/shape.h>
 #include <construct/tags.h>
 
+#include <utility/bits.h>
+
 #include "assembler.h"
 #include "mach.h"
 #include "mach_ins.h"
@@ -634,7 +636,7 @@ bitf_to_int(exp e, shape sha, where dest, ash stack)
 	}
 
 	if (whereis(bf) == Dreg) {
-		bitpattern m = (lo_bits[nbits] <<  boff);
+		bitpattern m = (lsmask[nbits] <<  boff);
 		d = (whereis(dest) == Dreg ? dest : D0);
 		and(slongsh, bf, mnw(m), d);
 		if (extend) {
@@ -693,7 +695,7 @@ int_to_bitf(exp e, exp d, ash stack)
 	bstart = boff - off;
 	bend = sz - nbits - bstart;
 
-	pmask = ((hi_bits[nbits]) >> bstart) >> (32 - sz);
+	pmask = ((msmask[nbits]) >> bstart) >> (32 - sz);
 	nmask = ~pmask;
 
 	switch (sz) {

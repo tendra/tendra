@@ -27,6 +27,8 @@
 #include <main/flags.h>
 #include <main/print.h>
 
+#include <utility/bits.h>
+
 #include "mach.h"
 #include "where.h"
 #include "codec.h"
@@ -947,7 +949,7 @@ TDF libraries.  If this was right sh(e) would be slongsh.
 	case int_to_bitf_tag: {
 		where r;
 		long nbits = shape_size(sh(e));
-		long mask = lo_bits[nbits];
+		long mask = lsmask[nbits];
 		r = (whereis(dest) == Dreg ? dest : D0);
 		move(slongsh, zw(son(e)), r);
 		and(slongsh, mnw(mask), r, dest);

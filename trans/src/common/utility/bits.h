@@ -11,8 +11,8 @@
 
 typedef unsigned long bitpattern;
 
-extern int lsmask[33];
-extern int msmask[33];
+extern bitpattern lsmask[33];
+extern bitpattern msmask[33];
 
 /*
  * Count the bits set.

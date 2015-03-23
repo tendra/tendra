@@ -17,9 +17,6 @@
 
 #include <utility/bits.h> /* XXX */
 
-extern bitpattern lo_bits[];
-extern bitpattern hi_bits[];
-
 #define  alloc_nof(TYPE, N)\
 	((TYPE *)xmalloc((N)* sizeof(TYPE)))
 

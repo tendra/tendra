@@ -35,6 +35,8 @@
 
 #include <main/flags.h>
 
+#include <utility/bits.h>
+
 #include "localtypes.h"
 #include "instr386.h"
 #include "operand.h"

@@ -82,7 +82,6 @@ SRCS+=	special_fn.c
 SRCS+=	special_tok.c
 SRCS+=	tests.c
 SRCS+=	translate.c
-SRCS+=	utility.c
 SRCS+=	weights.c
 SRCS+=	where.c
 

@@ -99,7 +99,6 @@ int in_reg(exp e);
 void end_contop(void);
 
 extern int top_regsinuse;
-extern int lsmask[33];
 extern int first_fl_reg;
 extern int fstack_pos;
 extern exp overflow_e;
