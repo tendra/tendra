@@ -14,6 +14,8 @@
 #include <stdio.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
+#include <shared/xalloc.h>
 
 #include <tdf/capsule.h>
 
@@ -51,44 +53,13 @@
 
 
 /*
-    These variables give the program name and version number.
-*/
-
-const char *progname = NULL;
-const char *progvers = NULL;
-
-
-/*
-    This routine sets the program name to the basename of prog and the
-    program version to vers.
-*/
-
-void
-set_progname(const char *prog, const char *vers)
-{
-	error_file = stderr;
-	if (prog) {
-		char *s = strrchr(prog, '/');
-		if (s)prog = s + 1;
-		s = strrchr(prog, file_sep);
-		if (s)prog = s + 1;
-		progname = prog;
-	} else {
-		progname = "unknown";
-	}
-	progvers = vers;
-	return;
-}
-
-
-/*
     This routine prints the program name and version number plus the
     versions of C++ and the TDF specification it supports to the print
     buffer, returning the result.
 */
 
 string
-report_version(int vers)
+tdfc2_report_version(int vers)
 {
 	BUFFER *bf = clear_buffer(&print_buff, NIL(FILE));
 	bfprintf(bf, "%x: Version %x", progname, progvers);
@@ -127,8 +98,6 @@ LOCATION builtin_loc = NULL_loc;
 */
 
 FILE *error_file = NULL;
-int exit_status = EXIT_SUCCESS;
-unsigned long number_errors = 0;
 unsigned long number_warnings = 0;
 unsigned long max_errors = 32;
 int error_threshold = ERR_NONE;
@@ -1148,29 +1117,6 @@ install_error(LOCATION *loc, ERROR e)
 		destroy_error(e, 1);
 	}
 	return a;
-}
-
-
-/*
-    This routine prints a simple error message at the current location of
-    severity sev given by the printf style string s.  Any extra arguments
-    needed by s should also be given.
-*/
-
-void
-error(int sev, const char *s, ...) /* VARARGS */
-{
-	va_list args;
-	va_start(args, s);
-	if (sev > error_threshold) {
-		FILE *f = error_file;
-		print_error_start(f, NIL(LOCATION), sev);
-		vfprintf_v(f, s, args);
-		fputs_v(MESSAGE_END, f);
-		print_error_end(f, sev);
-	}
-	va_end(args);
-	return;
 }
 
 

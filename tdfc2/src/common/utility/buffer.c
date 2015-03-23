@@ -12,6 +12,8 @@
 #include <stdio.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
+#include <shared/xalloc.h>
 
 #include <utility/config.h>
 #include "c_types.h"

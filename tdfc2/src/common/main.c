@@ -13,7 +13,9 @@
 #include <stdio.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 #include <shared/string.h>
+#include <shared/xalloc.h>
 
 #include <tdf/capsule.h>
 
@@ -678,7 +680,7 @@ process_args(int argc, char **argv)
 
 		    case 'v': {
 			/* Print version number */
-			string v = report_version(1);
+			string v = tdfc2_report_version(1);
 			fprintf_v(error_file, "%s\n\n", strlit(v));
 			break;
 		    }

@@ -13,6 +13,8 @@
 #include <stdio.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
+#include <shared/xalloc.h>
 
 #include <utility/config.h>
 #include <utility/version.h>

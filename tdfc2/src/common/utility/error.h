@@ -12,21 +12,16 @@
 #define ERROR_INCLUDED
 
 
+/* these extend the error_severity enum from <shared/error.h> */
 enum {
-	ERR_WHATEVER,
-	ERR_NONE,
-	ERR_WARN,
-	ERR_OPTION,
-	ERR_SERIOUS,
-	ERR_INTERNAL,
-	ERR_FATAL
+	ERR_WHATEVER = 100,
+	ERR_NONE     = 101,
+	ERR_OPTION   = 102
 };
 
 
 extern ERROR make_error(int, ...);
-extern void error(int, const char *, ...);
-extern void set_progname(const char *, const char *);
-extern string report_version(int);
+extern string tdfc2_report_version(int);
 extern void error_option(string);
 extern void print_error(LOCATION *, ERROR);
 extern EXP install_error(LOCATION *, ERROR);
@@ -44,10 +39,6 @@ extern void restore_prefix(ERROR);
 #define KILL_err	NIL(ERROR)
 
 
-extern const char *progname;
-extern const char *progvers;
-extern int exit_status;
-extern unsigned long number_errors;
 extern unsigned long number_warnings;
 extern unsigned long max_errors;
 extern int error_severity[];

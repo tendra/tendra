@@ -13,6 +13,8 @@
 #include <stdio.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
+#include <shared/xalloc.h>
 
 #include <tdf/capsule.h>
 
@@ -587,7 +589,7 @@ make_version_unit(void)
 	count_item(bs);
 	if (output_all) {
 		/* Output compiler version number */
-		string vers = report_version(0);
+		string vers = tdfc2_report_version(0);
 		ENC_user_info(bs);
 		ENC_make_string(bs);
 		bs = enc_ustring(bs, vers);

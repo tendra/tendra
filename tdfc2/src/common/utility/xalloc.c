@@ -12,6 +12,7 @@
 #include <stdio.h>
 
 #include <shared/check.h>
+#include <shared/xalloc.h>
 
 #include <utility/config.h>
 #include "c_types.h"
@@ -21,69 +22,6 @@
 #include <utility/xalloc.h>
 
 #include <parse/char.h>
-
-
-/*
-    All the program's memory allocation is through the routines defined in
-    this file.  This routine allocates sz bytes of memory.
-*/
-
-void *
-xmalloc(size_t sz)
-{
-	void *p;
-	if (sz == 0) {
-		sz = 1;
-	}
-	p = malloc((size_t)sz);
-	if (p == NULL) {
-		max_errors = ULONG_MAX;
-		error(ERR_INTERNAL, "Memory allocation error");
-		term_error(1);
-	}
-	return p;
-}
-
-
-/*
-    This routine reallocates the block of memory p to contain sz bytes.
-    p can be the result of a previous memory allocation routine, or NULL.
-*/
-
-void *
-xrealloc(void *p, size_t sz)
-{
-	void *q;
-	if (sz == 0) {
-		sz = 1;
-	}
-	if (p) {
-		q = realloc(p,(size_t)sz);
-	} else {
-		q = malloc((size_t)sz);
-	}
-	if (q == NULL) {
-		max_errors = ULONG_MAX;
-		error(ERR_INTERNAL, "Memory allocation error");
-		term_error(1);
-	}
-	return q;
-}
-
-
-/*
-    This routine frees the block of memory p.  p can be the result of a
-    previous memory allocation routine, or NULL.
-*/
-
-void
-xfree(void *p)
-{
-	if (p) {
-		free(p);
-	}
-	return;
-}
 
 
 /*

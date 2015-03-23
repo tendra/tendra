@@ -11,6 +11,7 @@
 #include <stdio.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 
 #include <tdf/capsule.h>
 
@@ -303,7 +304,7 @@ enc_dg_compilation(BITSTREAM *bs)
 {
 	LOCATION loc;
 	ulong date = crt_time;
-	string vers = report_version(0);
+	string vers = tdfc2_report_version(0);
 	ENC_make_dg_compilation(bs);
 	bs = enc_dg_filename(bs, crt_loc.posn);
 	ENC_LIST_SMALL(bs, 0);

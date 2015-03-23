@@ -13,6 +13,7 @@
 #include <stdio.h>
 
 #include <shared/check.h>
+#include <shared/xalloc.h>
 
 #include <tdf/capsule.h>
 

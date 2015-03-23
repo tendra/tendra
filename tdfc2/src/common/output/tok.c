@@ -11,6 +11,7 @@
 #include <stdio.h>
 
 #include <shared/check.h>
+#include <shared/error.h>
 
 #include <tdf/capsule.h>
 
