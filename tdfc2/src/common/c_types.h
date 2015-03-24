@@ -22,7 +22,6 @@
  */
 
 typedef unsigned char character;
-#define ulong ulong_type
 
 
 /*
@@ -60,6 +59,7 @@ extern c_class *debug_c_class(unsigned, unsigned);
  * calculus plus some other useful constructs.
  */
 
+#define ulong			ulong_type
 #define btype_struct		btype_struct_
 #define btype_union		btype_union_
 #define btype_enum		btype_enum_
