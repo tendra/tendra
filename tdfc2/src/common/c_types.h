@@ -110,7 +110,7 @@ extern c_class *debug_c_class(unsigned, unsigned);
 #define LINK_TOKDEF		((ulong)0xfffffffdUL)
 
 
-/**
+/*
  * TYPE REPRESENTING A CHECKING SCOPE
  *
  * This type is used to represent a checking scope, describing which checks
@@ -133,7 +133,7 @@ typedef struct opt_tag {
 } OPTIONS;
 
 
-/**
+/*
  * TYPE REPRESENTING A PREPROCESSING TOKEN
  *
  * This type represents a preprocessing token. This consists of a token value,
@@ -188,7 +188,7 @@ typedef struct pptok_tag {
 } PPTOKEN;
 
 
-/**
+/*
  * TYPE REPRESENTING A SERIES OF BITS
  *
  * A bitstream consists of an array of characters comprising the bits
@@ -208,7 +208,7 @@ typedef struct bits_tag {
 } BITSTREAM;
 
 
-/**
+/*
  * TYPE REPRESENTING A CHARACTER BUFFER
  *
  * A character buffer consists of an array of characters and a pointer to the

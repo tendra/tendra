@@ -71,7 +71,7 @@
 #include <spec/load.h>
 
 
-/**
+/*
  * DEFAULT MACHINE OPTION
  *
  * This macro is used to determine the machine dependent options to be used.
@@ -173,7 +173,7 @@ static PROGRAM_ARG prog_args[] = {
 #define no_prog_args	array_size(prog_args)
 
 
-/**
+/*
  * PRINT PROGRAM USAGE
  *
  * This routine prints the program usage to the file f.
@@ -197,7 +197,7 @@ report_usage(FILE *f)
 }
 
 
-/**
+/*
  * SET MACHINE DEPENDENT FLAGS
  *
  * This routine sets the machine dependent options for the machine described
@@ -227,7 +227,7 @@ set_machine(const char *mach)
 }
 
 
-/**
+/*
  * PRE-SET A COMPILE-TIME OPTION
  *
  * This routine pre-sets the value of option A to be B.
@@ -238,7 +238,7 @@ set_machine(const char *mach)
     OPT_CATALOG[A].def[1] = (B)
 
 
-/**
+/*
  * READ AN ARGUMENT FROM A FILE
  *
  * This routine reads a command-line argument from the file f into the buffer
@@ -264,7 +264,7 @@ read_arg(FILE *f, char *s, int n)
 }
 
 
-/**
+/*
  * PROCESS A LIST OF ARGUMENTS
  *
  * This routine is called by main to process the command-line arguments given
@@ -742,7 +742,7 @@ process_args(int argc, char **argv)
 }
 
 
-/**
+/*
  * INITIALISE FILE LOCATIONS
  *
  * This routine initialises the standard file locations.
@@ -761,7 +761,7 @@ init_loc(void)
 }
 
 
-/**
+/*
  * PERFORM LANGUAGE DEPENDENT INITIALISATION
  *
  * This routine performs any language dependent initialisation not covered in
@@ -780,7 +780,7 @@ init_lang(int c)
 }
 
 
-/**
+/*
  * CALL MAIN INITIALISATION ROUTINES
  *
  * This routine calls all the initialisation routines.
@@ -828,7 +828,7 @@ init_main(void)
 }
 
 
-/**
+/*
  * CALL MAIN TERMINATION ROUTINES
  *
  * This routine frees any memory unneeded after the parsing routines.
@@ -848,7 +848,7 @@ term_main(void)
 }
 
 
-/**
+/*
  * CALL MAIN FILE PROCESSING ROUTINES
  *
  * This routine calls the main routines for processing the given list of
