@@ -13,23 +13,6 @@
 
 
 /*
- * CLEAN UP NAMESPACE
- *
- * Certain symbols need to be undefined on some systems. It is convenient to
- * do this here as this header is usually included directly after any system
- * headers.
- */
-
-#ifdef FLOAT
-#undef FLOAT
-#endif
-
-#ifdef ulong
-#undef ulong
-#endif
-
-
-/*
  * BASIC TYPES
  *
  * All characters and strings within the program are represented in terms of
