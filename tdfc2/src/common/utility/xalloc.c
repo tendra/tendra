@@ -33,78 +33,16 @@ static string chars_free = NULL;
 
 
 /*
-    This routine allocates space for n characters.  The memory allocation
-    is buffered except for very long strings.
-*/
-
-string
-xustr(size_t n)
-{
-	string r;
-	if (n < 1000) {
-		/* Small strings */
-		if (n >= chars_left) {
-			chars_left = 5000;
-			chars_free = xmalloc_nof(character, chars_left);
-		}
-		r = chars_free;
-		chars_free += n;
-		chars_left -= n;
-	} else {
-		/* Large strings */
-		r = xmalloc_nof(character, n);
-	}
-	return r;
-}
-
-
-/*
-    This routine frees the space allocated by a previous call to xustr.
-    For small strings the memory is only freed for the last call to xustr.
-*/
-
-void
-xufree(string s, size_t n)
-{
-	if (s) {
-		if (n < 1000) {
-			/* Small strings */
-			if (s + n == chars_free) {
-				chars_free = s;
-				chars_left += n;
-			}
-		} else {
-			/* Large strings */
-			xfree_nof(s);
-		}
-	}
-	return;
-}
-
-
-/*
     This routine allocates space for a persistent copy of the string s
     of length n.  There is only one copy of each small string, otherwise
-    xustr is used to allocate the space.
+    xmalloc is used to allocate the space.
 */
 
 string
 xustrncpy(string s, size_t n)
 {
 	string r;
-	if (n < 2) {
-		/* Small strings */
-		static character buff[NO_CHAR][2];
-		int c = (int)s[0];
-		if (c < NO_CHAR) {
-			r = buff[c];
-			r[0] = (character)c;
-			r[1] = 0;
-			return r;
-		}
-	}
-	/* Large strings */
-	r = xustr(n + 1);
+	r = xmalloc(n + 1);
 	ustrcpy_v(r, s);
 	return r;
 }
@@ -128,7 +66,7 @@ xustrcpy(string s)
 
 /*
     This routine allocates space for a persistent copy of the string s
-    followed by the string t.  The memory is allocated using xustr.
+    followed by the string t.  The memory is allocated using xmalloc.
 */
 
 string
@@ -144,7 +82,7 @@ xustrcat(string s, string t)
 	}
 	n = ustrlen(s);
 	m = n + ustrlen(t) + 1;
-	r = xustr(m);
+	r = xmalloc(m);
 	ustrcpy_v(r, s);
 	ustrcpy_v(r + n, t);
 	return r;

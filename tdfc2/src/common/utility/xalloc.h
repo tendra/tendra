@@ -12,11 +12,9 @@
 #define XALLOC_INCLUDED
 
 
-extern string xustr(size_t);
 extern string xustrcpy(string);
 extern string xustrncpy(string, size_t);
 extern string xustrcat(string, string);
-extern void xufree(string, size_t);
 extern void xumemcpy(string, string, size_t);
 extern int xumemcmp(string, string, size_t);
 

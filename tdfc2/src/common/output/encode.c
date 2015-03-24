@@ -70,7 +70,7 @@ start_bitstream(FILE *f, void *lnk)
 		free_bitstreams = bs->prev;
 	} else {
 		bs = xmalloc(sizeof *bs);
-		bs->text = xustr(CHUNK_SIZE);
+		bs->text = xmalloc(CHUNK_SIZE);
 	}
 	bs->bytes = 0;
 	bs->bits = 0;

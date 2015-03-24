@@ -181,7 +181,7 @@ token_parts(int t, PPTOKEN *p)
 			/* Optimise for small strings */
 			s2 = xustrcpy(s1);
 		} else {
-			s2 = xustr(n + 1);
+			s2 = xmalloc(n + 1);
 			xumemcpy(s2, s1, n);
 			s2[n] = 0;
 		}

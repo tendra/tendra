@@ -10,6 +10,7 @@
 #include <assert.h>
 #include <limits.h>
 #include <string.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 #include <shared/check.h>
@@ -1390,7 +1391,7 @@ new_string_lit(string s, string se, int lex)
 	unsigned kind = STRING_NONE;
 	int multibyte = allow_multibyte;
 	size_t sz = (se - s) + 1;
-	string str = xustr(sz);
+	string str = xmalloc(sz);
 
 	/* Find string type */
 	switch (lex) {
@@ -1524,7 +1525,7 @@ illegal_lab: {
 			/* Convert to multi-character format */
 			string a;
 			sz *= MULTI_WIDTH;
-			a = xustr(sz);
+			a = xmalloc(sz);
 			make_multi_string(a, str, len, kind);
 			if (len) {
 				len *= MULTI_WIDTH;
@@ -1588,7 +1589,7 @@ illegal_lab: {
 		/* Share string literals */
 		unsigned long v;
 		DESTROY_str_simple(destroy, res, len, str, kind, v, res);
-		xufree(str, sz);
+		free(str);
 		UNUSED(res);
 		UNUSED(len);
 		UNUSED(kind);
@@ -1674,14 +1675,14 @@ concat_string_lit(STRING s, STRING t)
 		unsigned long sa = MULTI_WIDTH * na;
 		unsigned long sc = MULTI_WIDTH * nc;
 		sz = sc + MULTI_WIDTH;
-		c = xustr(sz);
+		c = xmalloc(sz);
 		make_multi_string(c, a, na, ka);
 		make_multi_string(c + sa, b, nb, kb);
 		add_multi_char(c + sc, (unsigned long)0, CHAR_OCTAL);
 	} else {
 		/* Simple strings */
 		sz = nc + 1;
-		c = xustr(sz);
+		c = xmalloc(sz);
 		xumemcpy(c, a, na);
 		xumemcpy(c + na, b, nb);
 		c[nc] = 0;
@@ -1692,7 +1693,7 @@ concat_string_lit(STRING s, STRING t)
 		/* Share string literals */
 		unsigned long v;
 		DESTROY_str_simple(destroy, res, nc, c, kc, v, res);
-		xufree(c, sz);
+		free(c);
 		UNUSED(res);
 		UNUSED(nc);
 		UNUSED(kc);
