@@ -25,14 +25,6 @@
 
 
 /*
-    This buffer is used in the allocation of small strings.
-*/
-
-static size_t chars_left = 0;
-static string chars_free = NULL;
-
-
-/*
     This routine allocates space for a persistent copy of the string s
     of length n.  There is only one copy of each small string, otherwise
     xmalloc is used to allocate the space.
