@@ -802,20 +802,11 @@
 							<td>off</td>
 							<td>show error name</td>
 						</tr>
-						<tr>
-							<td><code>f</code></td>
-							<td>on</td>
-							<td>reliable <code>fseek</code> function</td>
 						</tr>
 						<tr>
 							<td><code>g</code></td>
 							<td>off</td>
 							<td>record statement locations</td>
-						</tr>
-						<tr>
-							<td><code>i</code></td>
-							<td>on</td>
-							<td>reliable <code>stat</code> function</td>
 						</tr>
 						<tr>
 							<td><code>k</code></td>

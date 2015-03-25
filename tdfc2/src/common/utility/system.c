@@ -30,18 +30,6 @@
 #include <parse/file.h>
 
 
-/*
-    The flag good_fseek is true if a simple fseek on the byte count has
-    the desired effect, and false otherwise (for example on DOS machines).
-    Similarly binary_mode is true if there are separate text and binary
-    file modes.  The flag good_stat is true if the st_dev and st_ino
-    fields of struct stat are sufficient to uniquely identify a file
-    (this may not be true for machines with small ino_t types and
-    file systems mounted from machines with large ino_t types).
-*/
-
-int good_fseek = 1;
-int good_stat = 0;
 int text_mode = 0;
 int binary_mode = 0;
 int file_sep = '/';
@@ -63,8 +51,7 @@ const char *machine_name = "";
 
 /*
     This routine seeks a position n bytes from the start of the file f.
-    It returns 0 if good_fseek is false, otherwise it returns 1 for
-    successful seeks and -1 otherwise.
+    It returns 1 for successful seeks and -1 otherwise.
 */
 
 int
@@ -75,15 +62,12 @@ file_seek(FILE *f, long n)
 		rewind(f);
 		return 1;
 	}
-	if (good_fseek) {
-		/* Use fseek if it works */
-		int s = fseek(f, n, SEEK_SET);
-		if (s == -1) {
-			return -1;
-		}
-		return 1;
+
+	if (-1 == fseek(f, n, SEEK_SET)) {
+		return -1;
 	}
-	return 0;
+
+	return 1;
 }
 
 
@@ -224,8 +208,7 @@ stat_date(STAT_TYPE *fs)
 /*
     This routine checks whether the files given by the statistics fs and
     gs represent the same file.  Two files are the same if their device
-    and inode numbers are equal (except on machines where good_stat is
-    false).
+    and inode numbers are equal.
 */
 
 int
@@ -233,7 +216,7 @@ stat_equal(STAT_TYPE *fs, STAT_TYPE *gs)
 {
 	if (fs && gs) {
 		if (fs->st_dev == gs->st_dev && fs->st_ino == gs->st_ino) {
-			return good_stat;
+			return 1;
 		}
 	}
 	return 0;

@@ -126,9 +126,7 @@ error_option(string opt)
 		case 'a': print_ansi_ref     = out; break;
 		case 'c': print_error_source = out; break;
 		case 'e': print_error_name   = out; break;
-		case 'f': good_fseek         = out; break;
 		case 'g': record_location    = out; break;
-		case 'i': good_stat          = out; break;
 		case 'k': output_spec        = out; break;
 		case 'l': print_error_loc    = out; break;
 		case 'm': allow_multibyte    = out; break;

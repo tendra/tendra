@@ -77,8 +77,6 @@ extern unsigned long crt_time;
 extern char uniq_string[];
 extern int binary_mode;
 extern int text_mode;
-extern int good_fseek;
-extern int good_stat;
 extern int drive_sep;
 extern int file_sep;
 extern const char *machine_name;

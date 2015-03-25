@@ -209,7 +209,6 @@ set_machine(const char *mach)
 {
     if (streq(mach, "dos")) {
 	allow_dos_newline = 1;
-	good_fseek = 0;
 	binary_mode = 1;
 	file_sep = '\\';
 	drive_sep = ':';
@@ -217,7 +216,6 @@ set_machine(const char *mach)
     }
     if (streq(mach, "unix")) {
 	allow_dos_newline = 0;
-	good_fseek = 1;
 	binary_mode = 0;
 	file_sep = '/';
 	drive_sep = 0;

@@ -531,27 +531,16 @@ tell_buffer(unsigned long i)
 void
 seek_buffer(unsigned long i, long n, int started)
 {
-	int s;
 	FILE *f = input_file;
 	if (f == NULL) {
 		return;
 	}
 	if (f == internal_file) {
+		string p;
 		if (started) {
 			/* Reset position to start of buffer */
 			internal_buff.posn = internal_buff.start;
 			started = 0;
-		}
-		s = 0;
-	} else {
-		s = file_seek(f, n);
-	}
-	if (s == 0) {
-		/* Perform seek by hand */
-		string p;
-		if (started) {
-			/* Rewind to start of file */
-			IGNORE file_seek(f, (long)0);
 		}
 		p = init_buffer(i);
 		while (input_bytes < n) {
@@ -566,7 +555,7 @@ seek_buffer(unsigned long i, long n, int started)
 		input_posn = input_end - (input_bytes - n);
 		input_crt = input_posn;
 	} else {
-		if (s == -1) {
+		if (-1 == file_seek(f, n)) {
 			char *nm = strlit(input_name);
 			const char *msg = "Internal seek error in '%s'";
 			error(ERR_INTERNAL, msg, nm);
