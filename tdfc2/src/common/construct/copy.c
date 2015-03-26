@@ -55,6 +55,7 @@
 #include <construct/template.h>
 #include <construct/token.h>
 
+#include <output/bitstream.h>
 #include <output/capsule.h>
 #include <output/compile.h>
 #include <output/dump.h>

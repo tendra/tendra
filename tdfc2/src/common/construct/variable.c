@@ -28,6 +28,7 @@
 #include <parse/literal.h>
 #include <parse/preproc.h>
 
+#include <output/bitstream.h>
 #include <output/compile.h>
 #include <output/dump.h>
 #include <output/stmt.h>

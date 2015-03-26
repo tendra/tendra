@@ -33,6 +33,7 @@
 #include <construct/exception.h>
 #include <construct/inttype.h>
 
+#include <output/bitstream.h>
 #include <output/dump.h>
 #include <output/encode.h>
 

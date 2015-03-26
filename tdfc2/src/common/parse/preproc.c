@@ -48,6 +48,7 @@
 #include <construct/tokdef.h>
 #include <construct/token.h>
 
+#include <output/bitstream.h>
 #include <output/compile.h>
 #include <output/dump.h>
 

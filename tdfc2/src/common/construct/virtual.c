@@ -22,6 +22,7 @@
 
 #include <syntax/syntax.h>
 
+#include <output/bitstream.h>
 #include <output/capsule.h>
 #include <output/dump.h>
 

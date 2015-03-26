@@ -52,6 +52,7 @@
 #include <construct/redeclare.h>
 #include <construct/token.h>
 
+#include <output/bitstream.h>
 #include <output/decode.h>
 #include <output/dump.h>
 #include <output/encode.h>

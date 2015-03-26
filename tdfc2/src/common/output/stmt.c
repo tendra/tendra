@@ -27,6 +27,7 @@
 #include <construct/redeclare.h>
 #include <construct/statement.h>
 
+#include <output/bitstream.h>
 #include <output/tdf.h>
 #include <output/capsule.h>
 #include <output/compile.h>

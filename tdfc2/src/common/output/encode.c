@@ -24,6 +24,7 @@
 #include <parse/char.h>
 #include <parse/literal.h>
 
+#include <output/bitstream.h>
 #include <output/encode.h>
 
 /*

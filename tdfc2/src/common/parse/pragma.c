@@ -40,6 +40,7 @@
 #include <construct/token.h>
 #include <construct/variable.h>
 
+#include <output/bitstream.h>
 #include <output/dump.h>
 #include <output/tok.h>
 

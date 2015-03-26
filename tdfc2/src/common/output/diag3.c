@@ -31,6 +31,7 @@
 #include <construct/function.h>
 #include <construct/initialise.h>
 
+#include <output/bitstream.h>
 #include <output/tdf.h>
 #include <output/capsule.h>
 #include <output/compile.h>

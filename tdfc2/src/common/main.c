@@ -62,6 +62,7 @@
 #include <construct/typeid.h>
 #include <construct/variable.h>
 
+#include <output/bitstream.h>
 #include <output/capsule.h>
 #include <output/compile.h>
 #include <output/dump.h>

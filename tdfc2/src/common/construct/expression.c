@@ -43,6 +43,7 @@
 #include <construct/statement.h>
 #include <construct/template.h>
 
+#include <output/bitstream.h>
 #include <output/compile.h>
 
 #include "ctype_ops.h"

@@ -35,6 +35,7 @@
 
 #include <construct/basetype.h>
 
+#include <output/bitstream.h>
 #include <output/tdf.h>
 #include <output/capsule.h>
 #include <output/compile.h>

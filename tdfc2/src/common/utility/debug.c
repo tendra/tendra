@@ -38,6 +38,7 @@
 #include <construct/label.h>
 #include <construct/operator.h>
 
+#include <output/bitstream.h>
 #include <output/capsule.h>
 #include <output/encode.h>
 #include <output/mangle.h>

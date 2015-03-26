@@ -21,6 +21,7 @@
 #include <parse/file.h>
 #include <parse/literal.h>
 
+#include <output/bitstream.h>
 #include <output/decode.h>
 #include <output/encode.h>
 

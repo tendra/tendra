@@ -45,6 +45,7 @@
 #include <construct/template.h>
 #include <construct/variable.h>
 
+#include <output/bitstream.h>
 #include <output/tdf.h>
 #include <output/capsule.h>
 #include <output/mangle.h>

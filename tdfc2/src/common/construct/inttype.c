@@ -33,6 +33,7 @@
 #include <construct/tokdef.h>
 #include <construct/token.h>
 
+#include <output/bitstream.h>
 #include <output/dump.h>
 #include <output/interface.h>
 #include <output/mangle.h>

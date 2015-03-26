@@ -25,6 +25,7 @@
 #include <parse/hash.h>
 #include <parse/literal.h>
 
+#include <output/bitstream.h>
 #include <output/interface.h>
 #include <output/tok.h>
 

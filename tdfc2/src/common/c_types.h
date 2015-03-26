@@ -174,24 +174,4 @@ typedef struct pptok_tag {
 } PPTOKEN;
 
 
-/*
- * TYPE REPRESENTING A SERIES OF BITS
- *
- * A bitstream consists of an array of characters comprising the bits
- * themselves, plus the current offset (in bytes and bits) of the end of these
- * bits. A pointer to the previous bitstream is used to chain bitstreams
- * together.
-*/
-
-typedef struct bits_tag {
-	string text;
-	unsigned bytes;
-	unsigned bits;
-	unsigned size;
-	FILE *file;
-	void *link;
-	struct bits_tag *prev;
-} BITSTREAM;
-
-
 #endif

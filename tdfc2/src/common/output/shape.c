@@ -35,6 +35,7 @@
 #include <construct/derive.h>
 #include <construct/inttype.h>
 
+#include <output/bitstream.h>
 #include <output/tdf.h>
 #include <output/capsule.h>
 #include <output/compile.h>
