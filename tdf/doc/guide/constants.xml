@@ -96,12 +96,12 @@ str: STRING(k, n)
 		<para>Each unsigned integer in <code>str</code> must lie in the variety
 			<code>v</code> and the result is the constant array whose elements
 			are the integers considered to be of VARIETY <code>v</code>. An
-			ASCI-C constant string might have <code>v</code> = variety(-128,127)
+			ASCII-C constant string might have <code>v</code> = variety(-128,127)
 			and <code>k</code> = 7; however, make_nof_int can be used
 			to make strings of any INTEGER VARIETY; a the elements of a Unicode
 			string would be integers of size 16 bits.</para>
 
-		<para>A floating constant uses a STRING which contains the ASCI
+		<para>A floating constant uses a STRING which contains the ASCII
 			characters of a expansion of the number to some base in
 			make_floating:</para>
 
