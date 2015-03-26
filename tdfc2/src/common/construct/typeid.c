@@ -18,6 +18,7 @@
 #include <utility/catalog.h>
 #include <utility/buffer.h>
 #include <utility/ustring.h>
+#include <utility/option.h>
 
 #include <syntax/syntax.h>
 

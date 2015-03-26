@@ -22,6 +22,7 @@
 #include <utility/version.h>
 #include "c_types.h"
 
+#include <utility/option.h>
 #include <utility/ustring.h>
 #include <utility/system.h>
 #include <utility/error.h>

@@ -13,14 +13,37 @@
 
 
 /*
-    OPTION CATALOGUES
+ * TYPE REPRESENTING A CHECKING SCOPE
+ *
+ * This type is used to represent a checking scope, describing which checks
+ * should be applied in a particular part of the program. It consists of an
+ * array of option states - one for each option which can be set - plus a
+ * pointer to the enclosing checking scope. A scope may have an associated
+ * name. Also a list of all scopes is maintained.
+ */
 
-    The table OPT_CATALOG is used to maintain the list of all boolean
-    options.  The table OPT_VALUE_CATALOG is used to hold the value
-    options.  Macros are given to name the entries in the latter table.
-    Names for entries in the former table are generated from the
-    error catalogue.
-*/
+typedef unsigned char OPTION;
+
+typedef struct opt_tag {
+	OPTION *opt;
+	OPTION *set;
+	DECL_SPEC lnk_opt[2];
+	unsigned long val_opt[1];
+	struct opt_tag *prev;
+	HASHID name;
+	struct opt_tag *next;
+} OPTIONS;
+
+
+/*
+ * OPTION CATALOGUES
+ *
+ * The table OPT_CATALOG is used to maintain the list of all boolean
+ * options.  The table OPT_VALUE_CATALOG is used to hold the value
+ * options.  Macros are given to name the entries in the latter table.
+ * Names for entries in the former table are generated from the
+ * error catalogue.
+ */
 
 typedef struct {
     const char *name;
@@ -42,12 +65,11 @@ extern OPT_VALUE_DATA OPT_VALUE_CATALOG[];
 
 
 /*
-    OPTION LEVELS
-
-    These values give the various option levels.  The fact that OPTION_OFF
-    is zero is used extensively.
-*/
-
+ * OPTION LEVELS
+ *
+ * These values give the various option levels.  The fact that OPTION_OFF
+ * is zero is used extensively.
+ */
 enum {
 	OPTION_OFF,
 	OPTION_WARN,
@@ -60,12 +82,11 @@ enum {
 
 
 /*
-    OPTION VALUES
-
-    These macros are used to represent the various numeric option values
-    within the program.
-*/
-
+ * OPTION VALUES
+ *
+ * These macros are used to represent the various numeric option values
+ * within the program.
+ */
 enum {
 	OPT_VAL_statement_depth,
 	OPT_VAL_hash_if_depth,
@@ -111,12 +132,11 @@ enum {
 
 
 /*
-    COMPILER OPTION DECLARATIONS
-
-    The routines in this module are concerned with configurable compiler
-    options.
-*/
-
+ * COMPILER OPTION DECLARATIONS
+ *
+ * The routines in this module are concerned with configurable compiler
+ * options.
+ */
 extern OPTION *crt_opt;
 extern OPTIONS *crt_opts;
 extern OPTIONS *real_opts;

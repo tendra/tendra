@@ -16,6 +16,7 @@
 #include "c_types.h"
 
 #include <utility/error.h>
+#include <utility/option.h>
 
 #include <parse/preproc.h>
 #include <parse/macro.h>

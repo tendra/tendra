@@ -17,6 +17,7 @@
 
 #include <utility/config.h>
 #include "c_types.h"
+#include <utility/option.h>
 
 #include <parse/preproc.h>
 

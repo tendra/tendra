@@ -96,27 +96,4 @@ extern c_class *debug_c_class(unsigned, unsigned);
 #define LINK_TOKDEF		((ulong)0xfffffffdUL)
 
 
-/*
- * TYPE REPRESENTING A CHECKING SCOPE
- *
- * This type is used to represent a checking scope, describing which checks
- * should be applied in a particular part of the program. It consists of an
- * array of option states - one for each option which can be set - plus a
- * pointer to the enclosing checking scope. A scope may have an associated
- * name. Also a list of all scopes is maintained.
- */
-
-typedef unsigned char OPTION;
-
-typedef struct opt_tag {
-	OPTION *opt;
-	OPTION *set;
-	DECL_SPEC lnk_opt[2];
-	unsigned long val_opt[1];
-	struct opt_tag *prev;
-	HASHID name;
-	struct opt_tag *next;
-} OPTIONS;
-
-
 #endif
