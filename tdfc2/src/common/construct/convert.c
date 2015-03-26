@@ -24,6 +24,7 @@
 #include <parse/constant.h>
 #include <parse/literal.h>
 #include <parse/predict.h>
+#include <parse/preproc.h>
 
 #include <construct/basetype.h>
 #include <construct/cast.h>

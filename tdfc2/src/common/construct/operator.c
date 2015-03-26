@@ -23,6 +23,7 @@
 
 #include <parse/constant.h>
 #include <parse/hash.h>
+#include <parse/preproc.h>
 
 #include <construct/allocate.h>
 #include <construct/assign.h>

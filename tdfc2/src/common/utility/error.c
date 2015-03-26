@@ -23,6 +23,8 @@
 #include <utility/version.h>
 #include "c_types.h"
 
+#include <parse/preproc.h>
+
 #include <utility/ustring.h>
 #include <utility/system.h>
 #include <utility/version.h>

@@ -111,6 +111,7 @@ VALUE      -> unsigned ;
 #include <construct/cast.h>
 #include <construct/chktype.h>
 #include <construct/class.h>
+#include <parse/preproc.h>
 #include <parse/constant.h>
 #include <construct/construct.h>
 #include <construct/convert.h>

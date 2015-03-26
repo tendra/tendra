@@ -21,6 +21,8 @@
 
 #include <syntax/syntax.h>
 
+#include <parse/preproc.h>
+
 #include <construct/access.h>
 #include <construct/check.h>
 #include <construct/chktype.h>

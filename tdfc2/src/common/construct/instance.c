@@ -23,6 +23,7 @@
 #include <parse/file.h>
 #include <parse/hash.h>
 #include <parse/predict.h>
+#include <parse/preproc.h>
 
 #include <construct/allocate.h>
 #include <construct/basetype.h>

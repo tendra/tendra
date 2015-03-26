@@ -22,6 +22,7 @@
 #include <utility/option.h>
 #include <utility/ustring.h>
 
+#include <parse/preproc.h>
 #include <parse/char.h>
 #include <parse/file.h>
 #include <parse/lex.h>

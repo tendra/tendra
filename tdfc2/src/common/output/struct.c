@@ -17,6 +17,8 @@
 #include <utility/version.h>
 #include "c_types.h"
 
+#include <parse/preproc.h>
+
 #include <utility/error.h>
 #include <utility/buffer.h>
 #include <utility/print.h>

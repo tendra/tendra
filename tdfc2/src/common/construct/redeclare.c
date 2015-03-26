@@ -30,6 +30,7 @@
 #include <parse/file.h>
 #include <parse/literal.h>
 #include <parse/predict.h>
+#include <parse/preproc.h>
 
 #include <construct/access.h>
 #include <construct/basetype.h>

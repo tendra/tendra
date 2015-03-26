@@ -27,6 +27,7 @@
 
 #include <parse/hash.h>
 #include <parse/predict.h>
+#include <parse/preproc.h>
 
 #include <construct/assign.h>
 #include <construct/basetype.h>

@@ -15,6 +15,8 @@
 #include <utility/config.h>
 #include "c_types.h"
 
+#include <parse/preproc.h>
+
 #include <utility/error.h>
 #include <utility/catalog.h>
 #include <utility/buffer.h>

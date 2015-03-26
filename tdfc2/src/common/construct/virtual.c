@@ -26,6 +26,8 @@
 #include <output/capsule.h>
 #include <output/dump.h>
 
+#include <parse/preproc.h>
+
 #include <construct/access.h>
 #include <construct/check.h>
 #include <construct/chktype.h>

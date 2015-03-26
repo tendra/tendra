@@ -16,6 +16,7 @@
 
 #include <syntax/syntax.h>
 
+#include <parse/preproc.h>
 #include <parse/parse.h>
 #include <parse/predict.h>
 

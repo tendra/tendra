@@ -21,6 +21,7 @@
 
 #include <syntax/syntax.h>
 
+#include <parse/preproc.h>
 #include <parse/constant.h>
 #include <parse/hash.h>
 #include <parse/literal.h>

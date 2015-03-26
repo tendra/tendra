@@ -17,6 +17,7 @@
 
 #include <utility/error.h>
 
+#include <parse/preproc.h>
 #include <parse/macro.h>
 
 #include <construct/destroy.h>

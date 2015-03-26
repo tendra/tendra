@@ -22,6 +22,7 @@
 
 #include <parse/constant.h>
 #include <parse/hash.h>
+#include <parse/preproc.h>
 #include <parse/parse.h>
 #include <parse/predict.h>
 

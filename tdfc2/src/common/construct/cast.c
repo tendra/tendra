@@ -25,6 +25,7 @@
 #include <parse/constant.h>
 #include <parse/literal.h>
 #include <parse/predict.h>
+#include <parse/preproc.h>
 
 #include <output/bitstream.h>
 #include <output/tok.h>

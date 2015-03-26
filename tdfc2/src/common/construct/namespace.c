@@ -18,12 +18,12 @@
 #include <utility/catalog.h>
 #include <utility/option.h>
 #include <utility/buffer.h>
-#include <utility/print.h>
 #include <utility/ustring.h>
 
 #include <syntax/syntax.h>
 
 #include <parse/hash.h>
+#include <parse/preproc.h>
 #include <parse/parse.h>
 #include <parse/predict.h>
 

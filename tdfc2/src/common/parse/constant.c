@@ -22,6 +22,7 @@
 
 #include <syntax/syntax.h>
 
+#include <parse/preproc.h>
 #include <parse/char.h>
 #include <parse/constant.h>
 #include <parse/literal.h>

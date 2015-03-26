@@ -10,7 +10,7 @@
 /* BEGINNING OF HEADER */
 
 #define __SID_SPLIT
-#line 165 "psyntax.act"
+#line 166 "psyntax.act"
 
 
 /* $Id$ */
@@ -45,6 +45,7 @@
 #include <construct/cast.h>
 #include <construct/chktype.h>
 #include <construct/class.h>
+#include <parse/preproc.h>
 #include <parse/constant.h>
 #include <construct/construct.h>
 #include <construct/convert.h>
@@ -96,7 +97,7 @@ extern void parse_mem_type(TYPE *);
 extern void parse_operator(IDENTIFIER *);
 
 
-#line 100 "psyntax1.c"
+#line 101 "psyntax1.c"
 
 /* BEGINNING OF STATIC VARIABLES */
 
@@ -134,10 +135,10 @@ XRbound_Htok_Hpars(SID_LIST_ID *XOp)
 				{
 					/* BEGINNING OF ACTION: list_id_null */
 					{
-#line 519 "psyntax.act"
+#line 520 "psyntax.act"
 
     (XIq) = NULL_list ( IDENTIFIER ) ;
-#line 141 "psyntax1.c"
+#line 142 "psyntax1.c"
 					}
 					/* END OF ACTION: list_id_null */
 				}
@@ -150,10 +151,10 @@ XRbound_Htok_Hpars(SID_LIST_ID *XOp)
 		/* END OF INLINE: 405 */
 		/* BEGINNING OF ACTION: list_id_cons */
 		{
-#line 523 "psyntax.act"
+#line 524 "psyntax.act"
 
     CONS_id ( (XIid), (XIq), (XIp) ) ;
-#line 157 "psyntax1.c"
+#line 158 "psyntax1.c"
 		}
 		/* END OF ACTION: list_id_cons */
 	}
@@ -176,9 +177,9 @@ XRerror_Hstate(unsigned *XOe)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: error_off */
 			{
-#line 821 "psyntax.act"
+#line 822 "psyntax.act"
  (XIe) = ( unsigned ) OPTION_OFF ; 
-#line 182 "psyntax1.c"
+#line 183 "psyntax1.c"
 			}
 			/* END OF ACTION: error_off */
 		}
@@ -188,9 +189,9 @@ XRerror_Hstate(unsigned *XOe)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: error_on */
 			{
-#line 820 "psyntax.act"
+#line 821 "psyntax.act"
  (XIe) = ( unsigned ) OPTION_ON ; 
-#line 194 "psyntax1.c"
+#line 195 "psyntax1.c"
 			}
 			/* END OF ACTION: error_on */
 		}
@@ -200,9 +201,9 @@ XRerror_Hstate(unsigned *XOe)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: error_warning */
 			{
-#line 822 "psyntax.act"
+#line 823 "psyntax.act"
  (XIe) = ( unsigned ) OPTION_WARN ; 
-#line 206 "psyntax1.c"
+#line 207 "psyntax1.c"
 			}
 			/* END OF ACTION: error_warning */
 		}
@@ -264,13 +265,13 @@ XRkeyword_Hid(IDENTIFIER *XOid)
 		ADVANCE_LEXER;
 		/* BEGINNING OF ACTION: rescan_id */
 		{
-#line 1172 "psyntax.act"
+#line 1173 "psyntax.act"
 
     int t = crt_lex_token ;
     if ( t >= FIRST_KEYWORD && t <= LAST_KEYWORD ) {
 	crt_lex_token = lex_identifier ;
     }
-#line 274 "psyntax1.c"
+#line 275 "psyntax1.c"
 		}
 		/* END OF ACTION: rescan_id */
 		/* BEGINNING OF INLINE: any-identifier */
@@ -280,10 +281,10 @@ XRkeyword_Hid(IDENTIFIER *XOid)
 				{
 					/* BEGINNING OF EXTRACT: identifier */
 					{
-#line 194 "psyntax.act"
+#line 195 "psyntax.act"
 
     XIid = crt_token->pp_data.id.use ;
-#line 287 "psyntax1.c"
+#line 288 "psyntax1.c"
 					}
 					/* END OF EXTRACT: identifier */
 					ADVANCE_LEXER;
@@ -293,10 +294,10 @@ XRkeyword_Hid(IDENTIFIER *XOid)
 				{
 					/* BEGINNING OF EXTRACT: namespace-name */
 					{
-#line 202 "psyntax.act"
+#line 203 "psyntax.act"
 
     XIid = crt_token->pp_data.id.use ;
-#line 300 "psyntax1.c"
+#line 301 "psyntax1.c"
 					}
 					/* END OF EXTRACT: namespace-name */
 					ADVANCE_LEXER;
@@ -306,10 +307,10 @@ XRkeyword_Hid(IDENTIFIER *XOid)
 				{
 					/* BEGINNING OF EXTRACT: statement-name */
 					{
-#line 206 "psyntax.act"
+#line 207 "psyntax.act"
 
     XIid = crt_token->pp_data.id.use ;
-#line 313 "psyntax1.c"
+#line 314 "psyntax1.c"
 					}
 					/* END OF EXTRACT: statement-name */
 					ADVANCE_LEXER;
@@ -319,10 +320,10 @@ XRkeyword_Hid(IDENTIFIER *XOid)
 				{
 					/* BEGINNING OF EXTRACT: type-name */
 					{
-#line 198 "psyntax.act"
+#line 199 "psyntax.act"
 
     XIid = crt_token->pp_data.id.use ;
-#line 326 "psyntax1.c"
+#line 327 "psyntax1.c"
 					}
 					/* END OF EXTRACT: type-name */
 					ADVANCE_LEXER;
@@ -368,7 +369,7 @@ XRtoken_Hrule(void)
 		}
 		/* BEGINNING OF ACTION: rescan_tag_line */
 		{
-#line 1205 "psyntax.act"
+#line 1206 "psyntax.act"
 
     int t = crt_lex_token ;
     if ( t >= FIRST_KEYWORD && t <= LAST_KEYWORD ) {
@@ -376,7 +377,7 @@ XRtoken_Hrule(void)
 	    crt_lex_token = lex_identifier ;
 	}
     }
-#line 380 "psyntax1.c"
+#line 381 "psyntax1.c"
 		}
 		/* END OF ACTION: rescan_tag_line */
 		/* BEGINNING OF INLINE: 458 */
@@ -384,28 +385,28 @@ XRtoken_Hrule(void)
 			{
 				/* BEGINNING OF ACTION: is_operator */
 				{
-#line 388 "psyntax.act"
+#line 389 "psyntax.act"
 
     (XI0) = predict_operator () ;
-#line 391 "psyntax1.c"
+#line 392 "psyntax1.c"
 				}
 				/* END OF ACTION: is_operator */
 				if (!XI0)
 					goto XL3;
 				/* BEGINNING OF ACTION: parse_operator */
 				{
-#line 383 "psyntax.act"
+#line 384 "psyntax.act"
 
     (XIa) = DEREF_id ( hashid_id ( KEYWORD ( lex_zzzz ) ) ) ;
     parse_operator ( &(XIa) ) ;
-#line 402 "psyntax1.c"
+#line 403 "psyntax1.c"
 				}
 				/* END OF ACTION: parse_operator */
 				/* BEGINNING OF ACTION: bool_false */
 				{
-#line 1155 "psyntax.act"
+#line 1156 "psyntax.act"
  (XIt) = 0 ; 
-#line 409 "psyntax1.c"
+#line 410 "psyntax1.c"
 				}
 				/* END OF ACTION: bool_false */
 				goto XL2;
@@ -423,13 +424,13 @@ XRtoken_Hrule(void)
 					}
 					/* BEGINNING OF ACTION: rescan_id */
 					{
-#line 1172 "psyntax.act"
+#line 1173 "psyntax.act"
 
     int t = crt_lex_token ;
     if ( t >= FIRST_KEYWORD && t <= LAST_KEYWORD ) {
 	crt_lex_token = lex_identifier ;
     }
-#line 433 "psyntax1.c"
+#line 434 "psyntax1.c"
 					}
 					/* END OF ACTION: rescan_id */
 					/* BEGINNING OF INLINE: any-identifier */
@@ -439,10 +440,10 @@ XRtoken_Hrule(void)
 							{
 								/* BEGINNING OF EXTRACT: identifier */
 								{
-#line 194 "psyntax.act"
+#line 195 "psyntax.act"
 
     XIa = crt_token->pp_data.id.use ;
-#line 446 "psyntax1.c"
+#line 447 "psyntax1.c"
 								}
 								/* END OF EXTRACT: identifier */
 								ADVANCE_LEXER;
@@ -452,10 +453,10 @@ XRtoken_Hrule(void)
 							{
 								/* BEGINNING OF EXTRACT: namespace-name */
 								{
-#line 202 "psyntax.act"
+#line 203 "psyntax.act"
 
     XIa = crt_token->pp_data.id.use ;
-#line 459 "psyntax1.c"
+#line 460 "psyntax1.c"
 								}
 								/* END OF EXTRACT: namespace-name */
 								ADVANCE_LEXER;
@@ -465,10 +466,10 @@ XRtoken_Hrule(void)
 							{
 								/* BEGINNING OF EXTRACT: statement-name */
 								{
-#line 206 "psyntax.act"
+#line 207 "psyntax.act"
 
     XIa = crt_token->pp_data.id.use ;
-#line 472 "psyntax1.c"
+#line 473 "psyntax1.c"
 								}
 								/* END OF EXTRACT: statement-name */
 								ADVANCE_LEXER;
@@ -478,10 +479,10 @@ XRtoken_Hrule(void)
 							{
 								/* BEGINNING OF EXTRACT: type-name */
 								{
-#line 198 "psyntax.act"
+#line 199 "psyntax.act"
 
     XIa = crt_token->pp_data.id.use ;
-#line 485 "psyntax1.c"
+#line 486 "psyntax1.c"
 								}
 								/* END OF EXTRACT: type-name */
 								ADVANCE_LEXER;
@@ -515,13 +516,13 @@ XRtoken_Hrule(void)
 		/* END OF INLINE: hash */
 		/* BEGINNING OF ACTION: rescan_id */
 		{
-#line 1172 "psyntax.act"
+#line 1173 "psyntax.act"
 
     int t = crt_lex_token ;
     if ( t >= FIRST_KEYWORD && t <= LAST_KEYWORD ) {
 	crt_lex_token = lex_identifier ;
     }
-#line 525 "psyntax1.c"
+#line 526 "psyntax1.c"
 		}
 		/* END OF ACTION: rescan_id */
 		/* BEGINNING OF INLINE: 459 */
@@ -532,13 +533,13 @@ XRtoken_Hrule(void)
 					ADVANCE_LEXER;
 					/* BEGINNING OF ACTION: id_anon */
 					{
-#line 439 "psyntax.act"
+#line 440 "psyntax.act"
 
     HASHID nm = lookup_anon () ;
     (XIb) = DEREF_id ( hashid_id ( nm ) ) ;
     crt_id_qualifier = qual_none ;
     qual_namespace = NULL_nspace ;
-#line 542 "psyntax1.c"
+#line 543 "psyntax1.c"
 					}
 					/* END OF ACTION: id_anon */
 				}
@@ -552,10 +553,10 @@ XRtoken_Hrule(void)
 							{
 								/* BEGINNING OF EXTRACT: identifier */
 								{
-#line 194 "psyntax.act"
+#line 195 "psyntax.act"
 
     XIb = crt_token->pp_data.id.use ;
-#line 559 "psyntax1.c"
+#line 560 "psyntax1.c"
 								}
 								/* END OF EXTRACT: identifier */
 								ADVANCE_LEXER;
@@ -565,10 +566,10 @@ XRtoken_Hrule(void)
 							{
 								/* BEGINNING OF EXTRACT: namespace-name */
 								{
-#line 202 "psyntax.act"
+#line 203 "psyntax.act"
 
     XIb = crt_token->pp_data.id.use ;
-#line 572 "psyntax1.c"
+#line 573 "psyntax1.c"
 								}
 								/* END OF EXTRACT: namespace-name */
 								ADVANCE_LEXER;
@@ -578,10 +579,10 @@ XRtoken_Hrule(void)
 							{
 								/* BEGINNING OF EXTRACT: statement-name */
 								{
-#line 206 "psyntax.act"
+#line 207 "psyntax.act"
 
     XIb = crt_token->pp_data.id.use ;
-#line 585 "psyntax1.c"
+#line 586 "psyntax1.c"
 								}
 								/* END OF EXTRACT: statement-name */
 								ADVANCE_LEXER;
@@ -591,10 +592,10 @@ XRtoken_Hrule(void)
 							{
 								/* BEGINNING OF EXTRACT: type-name */
 								{
-#line 198 "psyntax.act"
+#line 199 "psyntax.act"
 
     XIb = crt_token->pp_data.id.use ;
-#line 598 "psyntax1.c"
+#line 599 "psyntax1.c"
 								}
 								/* END OF EXTRACT: type-name */
 								ADVANCE_LEXER;
@@ -617,10 +618,10 @@ XRtoken_Hrule(void)
 		/* END OF INLINE: 459 */
 		/* BEGINNING OF ACTION: token_decl */
 		{
-#line 640 "psyntax.act"
+#line 641 "psyntax.act"
 
     IGNORE make_token_decl ( (XItok), (XIt), (XIa), (XIb) ) ;
-#line 624 "psyntax1.c"
+#line 625 "psyntax1.c"
 		}
 		/* END OF ACTION: token_decl */
 	}
@@ -645,13 +646,13 @@ XL2_781:;
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: rescan_id */
 			{
-#line 1172 "psyntax.act"
+#line 1173 "psyntax.act"
 
     int t = crt_lex_token ;
     if ( t >= FIRST_KEYWORD && t <= LAST_KEYWORD ) {
 	crt_lex_token = lex_identifier ;
     }
-#line 655 "psyntax1.c"
+#line 656 "psyntax1.c"
 			}
 			/* END OF ACTION: rescan_id */
 			/* BEGINNING OF INLINE: any-identifier */
@@ -661,10 +662,10 @@ XL2_781:;
 					{
 						/* BEGINNING OF EXTRACT: identifier */
 						{
-#line 194 "psyntax.act"
+#line 195 "psyntax.act"
 
     XImem = crt_token->pp_data.id.use ;
-#line 668 "psyntax1.c"
+#line 669 "psyntax1.c"
 						}
 						/* END OF EXTRACT: identifier */
 						ADVANCE_LEXER;
@@ -674,10 +675,10 @@ XL2_781:;
 					{
 						/* BEGINNING OF EXTRACT: namespace-name */
 						{
-#line 202 "psyntax.act"
+#line 203 "psyntax.act"
 
     XImem = crt_token->pp_data.id.use ;
-#line 681 "psyntax1.c"
+#line 682 "psyntax1.c"
 						}
 						/* END OF EXTRACT: namespace-name */
 						ADVANCE_LEXER;
@@ -687,10 +688,10 @@ XL2_781:;
 					{
 						/* BEGINNING OF EXTRACT: statement-name */
 						{
-#line 206 "psyntax.act"
+#line 207 "psyntax.act"
 
     XImem = crt_token->pp_data.id.use ;
-#line 694 "psyntax1.c"
+#line 695 "psyntax1.c"
 						}
 						/* END OF EXTRACT: statement-name */
 						ADVANCE_LEXER;
@@ -700,10 +701,10 @@ XL2_781:;
 					{
 						/* BEGINNING OF EXTRACT: type-name */
 						{
-#line 198 "psyntax.act"
+#line 199 "psyntax.act"
 
     XImem = crt_token->pp_data.id.use ;
-#line 707 "psyntax1.c"
+#line 708 "psyntax1.c"
 						}
 						/* END OF EXTRACT: type-name */
 						ADVANCE_LEXER;
@@ -716,10 +717,10 @@ XL2_781:;
 			/* END OF INLINE: any-identifier */
 			/* BEGINNING OF ACTION: token_selector */
 			{
-#line 652 "psyntax.act"
+#line 653 "psyntax.act"
 
     (XIid) = find_mem_token ( (XI779), (XImem) ) ;
-#line 723 "psyntax1.c"
+#line 724 "psyntax1.c"
 			}
 			/* END OF ACTION: token_selector */
 			/* BEGINNING OF INLINE: 781 */
@@ -760,10 +761,10 @@ XR783(int *XIn)
 			}
 			/* BEGINNING OF ACTION: error_state */
 			{
-#line 825 "psyntax.act"
+#line 826 "psyntax.act"
 
     set_error_sev ( (*XIn), (XIe) ) ;
-#line 767 "psyntax1.c"
+#line 768 "psyntax1.c"
 			}
 			/* END OF ACTION: error_state */
 		}
@@ -780,10 +781,10 @@ XR783(int *XIn)
 			}
 			/* BEGINNING OF ACTION: error_state */
 			{
-#line 825 "psyntax.act"
+#line 826 "psyntax.act"
 
     set_error_sev ( (*XIn), (XIe) ) ;
-#line 787 "psyntax1.c"
+#line 788 "psyntax1.c"
 			}
 			/* END OF ACTION: error_state */
 		}
@@ -817,13 +818,13 @@ XR784(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: rescan_id */
 			{
-#line 1172 "psyntax.act"
+#line 1173 "psyntax.act"
 
     int t = crt_lex_token ;
     if ( t >= FIRST_KEYWORD && t <= LAST_KEYWORD ) {
 	crt_lex_token = lex_identifier ;
     }
-#line 827 "psyntax1.c"
+#line 828 "psyntax1.c"
 			}
 			/* END OF ACTION: rescan_id */
 			/* BEGINNING OF INLINE: any-identifier */
@@ -833,10 +834,10 @@ XR784(void)
 					{
 						/* BEGINNING OF EXTRACT: identifier */
 						{
-#line 194 "psyntax.act"
+#line 195 "psyntax.act"
 
     XIid = crt_token->pp_data.id.use ;
-#line 840 "psyntax1.c"
+#line 841 "psyntax1.c"
 						}
 						/* END OF EXTRACT: identifier */
 						ADVANCE_LEXER;
@@ -846,10 +847,10 @@ XR784(void)
 					{
 						/* BEGINNING OF EXTRACT: namespace-name */
 						{
-#line 202 "psyntax.act"
+#line 203 "psyntax.act"
 
     XIid = crt_token->pp_data.id.use ;
-#line 853 "psyntax1.c"
+#line 854 "psyntax1.c"
 						}
 						/* END OF EXTRACT: namespace-name */
 						ADVANCE_LEXER;
@@ -859,10 +860,10 @@ XR784(void)
 					{
 						/* BEGINNING OF EXTRACT: statement-name */
 						{
-#line 206 "psyntax.act"
+#line 207 "psyntax.act"
 
     XIid = crt_token->pp_data.id.use ;
-#line 866 "psyntax1.c"
+#line 867 "psyntax1.c"
 						}
 						/* END OF EXTRACT: statement-name */
 						ADVANCE_LEXER;
@@ -872,10 +873,10 @@ XR784(void)
 					{
 						/* BEGINNING OF EXTRACT: type-name */
 						{
-#line 198 "psyntax.act"
+#line 199 "psyntax.act"
 
     XIid = crt_token->pp_data.id.use ;
-#line 879 "psyntax1.c"
+#line 880 "psyntax1.c"
 						}
 						/* END OF EXTRACT: type-name */
 						ADVANCE_LEXER;
@@ -888,10 +889,10 @@ XR784(void)
 			/* END OF INLINE: any-identifier */
 			/* BEGINNING OF ACTION: check_begin */
 			{
-#line 765 "psyntax.act"
+#line 766 "psyntax.act"
 
     begin_option ( (XIid) ) ;
-#line 895 "psyntax1.c"
+#line 896 "psyntax1.c"
 			}
 			/* END OF ACTION: check_begin */
 		}
@@ -902,20 +903,20 @@ XR784(void)
 
 			/* BEGINNING OF ACTION: id_none */
 			{
-#line 432 "psyntax.act"
+#line 433 "psyntax.act"
 
     (XIid) = NULL_id ;
     crt_id_qualifier = qual_none ;
     qual_namespace = NULL_nspace ;
-#line 911 "psyntax1.c"
+#line 912 "psyntax1.c"
 			}
 			/* END OF ACTION: id_none */
 			/* BEGINNING OF ACTION: check_begin */
 			{
-#line 765 "psyntax.act"
+#line 766 "psyntax.act"
 
     begin_option ( (XIid) ) ;
-#line 919 "psyntax1.c"
+#line 920 "psyntax1.c"
 			}
 			/* END OF ACTION: check_begin */
 		}
@@ -938,10 +939,10 @@ XR785(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: decl_block_end */
 			{
-#line 786 "psyntax.act"
+#line 787 "psyntax.act"
 
     IGNORE end_decl_block ( NULL_id, 1 ) ;
-#line 945 "psyntax1.c"
+#line 946 "psyntax1.c"
 			}
 			/* END OF ACTION: decl_block_end */
 		}
@@ -952,13 +953,13 @@ XR785(void)
 
 			/* BEGINNING OF ACTION: rescan_id */
 			{
-#line 1172 "psyntax.act"
+#line 1173 "psyntax.act"
 
     int t = crt_lex_token ;
     if ( t >= FIRST_KEYWORD && t <= LAST_KEYWORD ) {
 	crt_lex_token = lex_identifier ;
     }
-#line 962 "psyntax1.c"
+#line 963 "psyntax1.c"
 			}
 			/* END OF ACTION: rescan_id */
 			/* BEGINNING OF INLINE: any-identifier */
@@ -968,10 +969,10 @@ XR785(void)
 					{
 						/* BEGINNING OF EXTRACT: identifier */
 						{
-#line 194 "psyntax.act"
+#line 195 "psyntax.act"
 
     XIid = crt_token->pp_data.id.use ;
-#line 975 "psyntax1.c"
+#line 976 "psyntax1.c"
 						}
 						/* END OF EXTRACT: identifier */
 						ADVANCE_LEXER;
@@ -981,10 +982,10 @@ XR785(void)
 					{
 						/* BEGINNING OF EXTRACT: namespace-name */
 						{
-#line 202 "psyntax.act"
+#line 203 "psyntax.act"
 
     XIid = crt_token->pp_data.id.use ;
-#line 988 "psyntax1.c"
+#line 989 "psyntax1.c"
 						}
 						/* END OF EXTRACT: namespace-name */
 						ADVANCE_LEXER;
@@ -994,10 +995,10 @@ XR785(void)
 					{
 						/* BEGINNING OF EXTRACT: statement-name */
 						{
-#line 206 "psyntax.act"
+#line 207 "psyntax.act"
 
     XIid = crt_token->pp_data.id.use ;
-#line 1001 "psyntax1.c"
+#line 1002 "psyntax1.c"
 						}
 						/* END OF EXTRACT: statement-name */
 						ADVANCE_LEXER;
@@ -1007,10 +1008,10 @@ XR785(void)
 					{
 						/* BEGINNING OF EXTRACT: type-name */
 						{
-#line 198 "psyntax.act"
+#line 199 "psyntax.act"
 
     XIid = crt_token->pp_data.id.use ;
-#line 1014 "psyntax1.c"
+#line 1015 "psyntax1.c"
 						}
 						/* END OF EXTRACT: type-name */
 						ADVANCE_LEXER;
@@ -1030,10 +1031,10 @@ XR785(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: decl_block_begin */
 			{
-#line 781 "psyntax.act"
+#line 782 "psyntax.act"
 
     begin_decl_block ( (XIid) ) ;
-#line 1037 "psyntax1.c"
+#line 1038 "psyntax1.c"
 			}
 			/* END OF ACTION: decl_block_begin */
 		}
@@ -1060,9 +1061,9 @@ XR786(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_decl_cond */
 			{
-#line 1005 "psyntax.act"
+#line 1006 "psyntax.act"
  (XIn) = OPT_decl_cond ; 
-#line 1066 "psyntax1.c"
+#line 1067 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_decl_cond */
 		}
@@ -1072,9 +1073,9 @@ XR786(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_cond_lvalue */
 			{
-#line 987 "psyntax.act"
+#line 988 "psyntax.act"
  (XIn) = OPT_cond_lvalue ; 
-#line 1078 "psyntax1.c"
+#line 1079 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_cond_lvalue */
 		}
@@ -1117,9 +1118,9 @@ XR787(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_bitf_type */
 			{
-#line 980 "psyntax.act"
+#line 981 "psyntax.act"
  (XIn) = OPT_bitf_type ; 
-#line 1123 "psyntax1.c"
+#line 1124 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_bitf_type */
 		}
@@ -1129,9 +1130,9 @@ XR787(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_comma_extra */
 			{
-#line 984 "psyntax.act"
+#line 985 "psyntax.act"
  (XIn) = OPT_comma_extra ; 
-#line 1135 "psyntax1.c"
+#line 1136 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_comma_extra */
 		}
@@ -1148,9 +1149,9 @@ XR787(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_macro_redef */
 			{
-#line 1051 "psyntax.act"
+#line 1052 "psyntax.act"
  (XIn) = OPT_macro_redef ; 
-#line 1154 "psyntax1.c"
+#line 1155 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_macro_redef */
 		}
@@ -1177,9 +1178,9 @@ XR787(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_type_redef */
 			{
-#line 1079 "psyntax.act"
+#line 1080 "psyntax.act"
  (XIn) = OPT_type_redef ; 
-#line 1183 "psyntax1.c"
+#line 1184 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_type_redef */
 		}
@@ -1206,9 +1207,9 @@ XR787(int *XOn)
 			/* END OF INLINE: ellipsis-aux */
 			/* BEGINNING OF ACTION: opt_ellipsis_extra */
 			{
-#line 1018 "psyntax.act"
+#line 1019 "psyntax.act"
  (XIn) = OPT_ellipsis_extra ; 
-#line 1212 "psyntax1.c"
+#line 1213 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_ellipsis_extra */
 		}
@@ -1238,16 +1239,16 @@ XRdirective_Hstate(unsigned *XOe, unsigned *XOi)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: error_on */
 			{
-#line 820 "psyntax.act"
+#line 821 "psyntax.act"
  (XIe) = ( unsigned ) OPTION_ON ; 
-#line 1244 "psyntax1.c"
+#line 1245 "psyntax1.c"
 			}
 			/* END OF ACTION: error_on */
 			/* BEGINNING OF ACTION: error_on */
 			{
-#line 820 "psyntax.act"
+#line 821 "psyntax.act"
  (XIi) = ( unsigned ) OPTION_ON ; 
-#line 1251 "psyntax1.c"
+#line 1252 "psyntax1.c"
 			}
 			/* END OF ACTION: error_on */
 		}
@@ -1279,9 +1280,9 @@ XRdirective_Hstate(unsigned *XOe, unsigned *XOi)
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: error_on */
 						{
-#line 820 "psyntax.act"
+#line 821 "psyntax.act"
  (XIa) = ( unsigned ) OPTION_ON ; 
-#line 1285 "psyntax1.c"
+#line 1286 "psyntax1.c"
 						}
 						/* END OF ACTION: error_on */
 					}
@@ -1290,9 +1291,9 @@ XRdirective_Hstate(unsigned *XOe, unsigned *XOi)
 					{
 						/* BEGINNING OF ACTION: error_off */
 						{
-#line 821 "psyntax.act"
+#line 822 "psyntax.act"
  (XIa) = ( unsigned ) OPTION_OFF ; 
-#line 1296 "psyntax1.c"
+#line 1297 "psyntax1.c"
 						}
 						/* END OF ACTION: error_off */
 					}
@@ -1308,9 +1309,9 @@ XRdirective_Hstate(unsigned *XOe, unsigned *XOi)
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: error_off */
 						{
-#line 821 "psyntax.act"
+#line 822 "psyntax.act"
  (XIb) = ( unsigned ) OPTION_OFF ; 
-#line 1314 "psyntax1.c"
+#line 1315 "psyntax1.c"
 						}
 						/* END OF ACTION: error_off */
 					}
@@ -1320,9 +1321,9 @@ XRdirective_Hstate(unsigned *XOe, unsigned *XOi)
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: error_warning */
 						{
-#line 822 "psyntax.act"
+#line 823 "psyntax.act"
  (XIb) = ( unsigned ) OPTION_WARN ; 
-#line 1326 "psyntax1.c"
+#line 1327 "psyntax1.c"
 						}
 						/* END OF ACTION: error_warning */
 					}
@@ -1379,9 +1380,9 @@ XR788(int *XOn)
 			/* END OF INLINE: ellipsis-aux */
 			/* BEGINNING OF ACTION: opt_ellipsis_ident */
 			{
-#line 1019 "psyntax.act"
+#line 1020 "psyntax.act"
  (XIn) = OPT_ellipsis_ident ; 
-#line 1385 "psyntax1.c"
+#line 1386 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_ellipsis_ident */
 		}
@@ -1408,9 +1409,9 @@ XR788(int *XOn)
 			/* END OF INLINE: ellipsis-aux */
 			/* BEGINNING OF ACTION: opt_ellipsis_ident */
 			{
-#line 1019 "psyntax.act"
+#line 1020 "psyntax.act"
  (XIn) = OPT_ellipsis_ident ; 
-#line 1414 "psyntax1.c"
+#line 1415 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_ellipsis_ident */
 		}
@@ -1463,9 +1464,9 @@ XR789(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_func_token_undef */
 			{
-#line 1033 "psyntax.act"
+#line 1034 "psyntax.act"
  (XIn) = OPT_func_token_undef ; 
-#line 1469 "psyntax1.c"
+#line 1470 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_func_token_undef */
 		}
@@ -1501,9 +1502,9 @@ XR790(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_interf_incompat */
 			{
-#line 1043 "psyntax.act"
+#line 1044 "psyntax.act"
  (XIn) = OPT_interf_incompat ; 
-#line 1507 "psyntax1.c"
+#line 1508 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_interf_incompat */
 		}
@@ -1513,9 +1514,9 @@ XR790(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_link_incompat */
 			{
-#line 1046 "psyntax.act"
+#line 1047 "psyntax.act"
  (XIn) = OPT_link_incompat ; 
-#line 1519 "psyntax1.c"
+#line 1520 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_link_incompat */
 		}
@@ -1532,9 +1533,9 @@ XR790(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_member_incompat */
 			{
-#line 1053 "psyntax.act"
+#line 1054 "psyntax.act"
  (XIn) = OPT_member_incompat ; 
-#line 1538 "psyntax1.c"
+#line 1539 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_member_incompat */
 		}
@@ -1558,9 +1559,9 @@ XR790(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_func_incompat */
 			{
-#line 1029 "psyntax.act"
+#line 1030 "psyntax.act"
  (XIn) = OPT_func_incompat ; 
-#line 1564 "psyntax1.c"
+#line 1565 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_func_incompat */
 		}
@@ -1577,9 +1578,9 @@ XR790(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_type_qual_incompat */
 			{
-#line 1078 "psyntax.act"
+#line 1079 "psyntax.act"
  (XIn) = OPT_type_qual_incompat ; 
-#line 1583 "psyntax1.c"
+#line 1584 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_type_qual_incompat */
 		}
@@ -1596,9 +1597,9 @@ XR790(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_func_ret_void */
 			{
-#line 1032 "psyntax.act"
+#line 1033 "psyntax.act"
  (XIn) = OPT_func_ret_void ; 
-#line 1602 "psyntax1.c"
+#line 1603 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_func_ret_void */
 		}
@@ -1647,9 +1648,9 @@ XR791(int *XOn)
 			/* END OF INLINE: hash */
 			/* BEGINNING OF ACTION: opt_ppdir_indent_dir */
 			{
-#line 1064 "psyntax.act"
+#line 1065 "psyntax.act"
  (XIn) = OPT_ppdir_indent_dir ; 
-#line 1653 "psyntax1.c"
+#line 1654 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_ppdir_indent_dir */
 		}
@@ -1678,9 +1679,9 @@ XR791(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_ppdir_indent */
 			{
-#line 1063 "psyntax.act"
+#line 1064 "psyntax.act"
  (XIn) = OPT_ppdir_indent ; 
-#line 1684 "psyntax1.c"
+#line 1685 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_ppdir_indent */
 		}
@@ -1737,9 +1738,9 @@ XR792(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_ppdir_id */
 			{
-#line 1062 "psyntax.act"
+#line 1063 "psyntax.act"
  (XIn) = OPT_ppdir_id ; 
-#line 1743 "psyntax1.c"
+#line 1744 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_ppdir_id */
 		}
@@ -1756,9 +1757,9 @@ XR792(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_decl_none */
 			{
-#line 1007 "psyntax.act"
+#line 1008 "psyntax.act"
  (XIn) = OPT_decl_none ; 
-#line 1762 "psyntax1.c"
+#line 1763 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_decl_none */
 		}
@@ -1788,9 +1789,9 @@ XR792(int *XOn)
 			/* END OF INLINE: hash */
 			/* BEGINNING OF ACTION: opt_hash_ident */
 			{
-#line 1035 "psyntax.act"
+#line 1036 "psyntax.act"
  (XIn) = OPT_hash_ident ; 
-#line 1794 "psyntax1.c"
+#line 1795 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_hash_ident */
 		}
@@ -1821,9 +1822,9 @@ XR792(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_eof_nline */
 			{
-#line 1023 "psyntax.act"
+#line 1024 "psyntax.act"
  (XIn) = OPT_eof_nline ; 
-#line 1827 "psyntax1.c"
+#line 1828 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_eof_nline */
 		}
@@ -1840,9 +1841,9 @@ XR792(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_token_undef */
 			{
-#line 1076 "psyntax.act"
+#line 1077 "psyntax.act"
  (XIn) = OPT_token_undef ; 
-#line 1846 "psyntax1.c"
+#line 1847 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_token_undef */
 		}
@@ -1885,9 +1886,9 @@ XR793(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_func_weak */
 			{
-#line 1034 "psyntax.act"
+#line 1035 "psyntax.act"
  (XIn) = OPT_func_weak ; 
-#line 1891 "psyntax1.c"
+#line 1892 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_func_weak */
 		}
@@ -1896,9 +1897,9 @@ XR793(int *XOn)
 		{
 			/* BEGINNING OF ACTION: opt_func_proto */
 			{
-#line 1031 "psyntax.act"
+#line 1032 "psyntax.act"
  (XIn) = OPT_func_proto ; 
-#line 1902 "psyntax1.c"
+#line 1903 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_func_proto */
 		}
@@ -1925,9 +1926,9 @@ XR794(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_ppdir_unknown */
 			{
-#line 1066 "psyntax.act"
+#line 1067 "psyntax.act"
  (XIn) = OPT_ppdir_unknown ; 
-#line 1931 "psyntax1.c"
+#line 1932 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_ppdir_unknown */
 		}
@@ -1937,9 +1938,9 @@ XR794(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_escape_unknown */
 			{
-#line 1025 "psyntax.act"
+#line 1026 "psyntax.act"
  (XIn) = OPT_escape_unknown ; 
-#line 1943 "psyntax1.c"
+#line 1944 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_escape_unknown */
 		}
@@ -1949,9 +1950,9 @@ XR794(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_pragma_unknown */
 			{
-#line 1067 "psyntax.act"
+#line 1068 "psyntax.act"
  (XIn) = OPT_pragma_unknown ; 
-#line 1955 "psyntax1.c"
+#line 1956 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_pragma_unknown */
 		}
@@ -1975,9 +1976,9 @@ XR794(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_decl_struct_anon */
 			{
-#line 1008 "psyntax.act"
+#line 1009 "psyntax.act"
  (XIn) = OPT_decl_struct_anon ; 
-#line 1981 "psyntax1.c"
+#line 1982 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_decl_struct_anon */
 		}
@@ -2025,10 +2026,10 @@ XRprog_Htok_Hpars(SID_LIST_ID XIr, SID_LIST_ID *XOp)
 				{
 					/* BEGINNING OF ACTION: list_id_null */
 					{
-#line 519 "psyntax.act"
+#line 520 "psyntax.act"
 
     (XIq) = NULL_list ( IDENTIFIER ) ;
-#line 2032 "psyntax1.c"
+#line 2033 "psyntax1.c"
 					}
 					/* END OF ACTION: list_id_null */
 				}
@@ -2041,10 +2042,10 @@ XRprog_Htok_Hpars(SID_LIST_ID XIr, SID_LIST_ID *XOp)
 		/* END OF INLINE: 411 */
 		/* BEGINNING OF ACTION: list_id_cons */
 		{
-#line 523 "psyntax.act"
+#line 524 "psyntax.act"
 
     CONS_id ( (XIa), (XIq), (XIp) ) ;
-#line 2048 "psyntax1.c"
+#line 2049 "psyntax1.c"
 		}
 		/* END OF ACTION: list_id_cons */
 	}
@@ -2074,9 +2075,9 @@ XR795(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_init_aggregate */
 			{
-#line 1039 "psyntax.act"
+#line 1040 "psyntax.act"
  (XIn) = OPT_init_aggregate ; 
-#line 2080 "psyntax1.c"
+#line 2081 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_init_aggregate */
 		}
@@ -2107,9 +2108,9 @@ XR795(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_complete_struct */
 			{
-#line 985 "psyntax.act"
+#line 986 "psyntax.act"
  (XIn) = OPT_complete_struct ; 
-#line 2113 "psyntax1.c"
+#line 2114 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_complete_struct */
 		}
@@ -2145,9 +2146,9 @@ XR796(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_templ_export */
 			{
-#line 1071 "psyntax.act"
+#line 1072 "psyntax.act"
  (XIn) = OPT_templ_export ; 
-#line 2151 "psyntax1.c"
+#line 2152 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_templ_export */
 		}
@@ -2164,9 +2165,9 @@ XR796(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_func_impl */
 			{
-#line 1028 "psyntax.act"
+#line 1029 "psyntax.act"
  (XIn) = OPT_func_impl ; 
-#line 2170 "psyntax1.c"
+#line 2171 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_func_impl */
 		}
@@ -2196,11 +2197,11 @@ XRdirective_Hspec(int *XOn, int *XOm)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_ppdir_assert */
 			{
-#line 1092 "psyntax.act"
+#line 1093 "psyntax.act"
 
     (XIn) = OPT_ppdir_assert ;
     (XIm) = OPT_ppdir_assert_ignore ;
-#line 2204 "psyntax1.c"
+#line 2205 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_ppdir_assert */
 		}
@@ -2210,11 +2211,11 @@ XRdirective_Hspec(int *XOn, int *XOm)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_ppdir_file */
 			{
-#line 1097 "psyntax.act"
+#line 1098 "psyntax.act"
 
     (XIn) = OPT_ppdir_file ;
     (XIm) = OPT_ppdir_file_ignore ;
-#line 2218 "psyntax1.c"
+#line 2219 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_ppdir_file */
 		}
@@ -2224,11 +2225,11 @@ XRdirective_Hspec(int *XOn, int *XOm)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_ppdir_ident */
 			{
-#line 1102 "psyntax.act"
+#line 1103 "psyntax.act"
 
     (XIn) = OPT_ppdir_ident ;
     (XIm) = OPT_ppdir_ident_ignore ;
-#line 2232 "psyntax1.c"
+#line 2233 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_ppdir_ident */
 		}
@@ -2238,11 +2239,11 @@ XRdirective_Hspec(int *XOn, int *XOm)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_ppdir_import */
 			{
-#line 1107 "psyntax.act"
+#line 1108 "psyntax.act"
 
     (XIn) = OPT_ppdir_import ;
     (XIm) = OPT_ppdir_import_ignore ;
-#line 2246 "psyntax1.c"
+#line 2247 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_ppdir_import */
 		}
@@ -2252,11 +2253,11 @@ XRdirective_Hspec(int *XOn, int *XOm)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_ppdir_import */
 			{
-#line 1107 "psyntax.act"
+#line 1108 "psyntax.act"
 
     (XIn) = OPT_ppdir_import ;
     (XIm) = OPT_ppdir_import_ignore ;
-#line 2260 "psyntax1.c"
+#line 2261 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_ppdir_import */
 		}
@@ -2266,11 +2267,11 @@ XRdirective_Hspec(int *XOn, int *XOm)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_ppdir_unassert */
 			{
-#line 1112 "psyntax.act"
+#line 1113 "psyntax.act"
 
     (XIn) = OPT_ppdir_unassert ;
     (XIm) = OPT_ppdir_unassert_ignore ;
-#line 2274 "psyntax1.c"
+#line 2275 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_ppdir_unassert */
 		}
@@ -2280,11 +2281,11 @@ XRdirective_Hspec(int *XOn, int *XOm)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_ppdir_warning */
 			{
-#line 1117 "psyntax.act"
+#line 1118 "psyntax.act"
 
     (XIn) = OPT_ppdir_warning ;
     (XIm) = OPT_ppdir_warning_ignore ;
-#line 2288 "psyntax1.c"
+#line 2289 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_ppdir_warning */
 		}
@@ -2294,11 +2295,11 @@ XRdirective_Hspec(int *XOn, int *XOm)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_ppdir_weak */
 			{
-#line 1122 "psyntax.act"
+#line 1123 "psyntax.act"
 
     (XIn) = OPT_ppdir_weak ;
     (XIm) = OPT_ppdir_weak_ignore ;
-#line 2302 "psyntax1.c"
+#line 2303 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_ppdir_weak */
 		}
@@ -2335,9 +2336,9 @@ XR797(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_int_operator */
 			{
-#line 1044 "psyntax.act"
+#line 1045 "psyntax.act"
  (XIn) = OPT_int_operator ; 
-#line 2341 "psyntax1.c"
+#line 2342 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_int_operator */
 		}
@@ -2354,9 +2355,9 @@ XR797(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_int_overflow */
 			{
-#line 1045 "psyntax.act"
+#line 1046 "psyntax.act"
  (XIn) = OPT_int_overflow ; 
-#line 2360 "psyntax1.c"
+#line 2361 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_int_overflow */
 		}
@@ -2385,9 +2386,9 @@ XRlinkage_Hdescr(unsigned *XOi)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: error_off */
 			{
-#line 821 "psyntax.act"
+#line 822 "psyntax.act"
  (XIi) = ( unsigned ) OPTION_OFF ; 
-#line 2391 "psyntax1.c"
+#line 2392 "psyntax1.c"
 			}
 			/* END OF ACTION: error_off */
 		}
@@ -2397,9 +2398,9 @@ XRlinkage_Hdescr(unsigned *XOi)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: error_on */
 			{
-#line 820 "psyntax.act"
+#line 821 "psyntax.act"
  (XIi) = ( unsigned ) OPTION_ON ; 
-#line 2403 "psyntax1.c"
+#line 2404 "psyntax1.c"
 			}
 			/* END OF ACTION: error_on */
 		}
@@ -2428,9 +2429,9 @@ XR798(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_variable */
 			{
-#line 1082 "psyntax.act"
+#line 1083 "psyntax.act"
  (XIn) = OPT_variable ; 
-#line 2434 "psyntax1.c"
+#line 2435 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_variable */
 		}
@@ -2447,9 +2448,9 @@ XR798(int *XOn)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_decl_hide */
 			{
-#line 1006 "psyntax.act"
+#line 1007 "psyntax.act"
  (XIn) = OPT_decl_hide ; 
-#line 2453 "psyntax1.c"
+#line 2454 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_decl_hide */
 		}
@@ -2494,32 +2495,32 @@ XR799(void)
 			}
 			/* BEGINNING OF ACTION: opt_overload_dep */
 			{
-#line 1057 "psyntax.act"
+#line 1058 "psyntax.act"
  (XIn) = OPT_overload_dep ; 
-#line 2500 "psyntax1.c"
+#line 2501 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_overload_dep */
 			/* BEGINNING OF ACTION: opt_overload_strict */
 			{
-#line 1059 "psyntax.act"
+#line 1060 "psyntax.act"
  (XIm) = OPT_overload_strict ; 
-#line 2507 "psyntax1.c"
+#line 2508 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_overload_strict */
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 2515 "psyntax1.c"
+#line 2516 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIm), (XIi) ) ;
-#line 2523 "psyntax1.c"
+#line 2524 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 		}
@@ -2537,10 +2538,10 @@ XR799(void)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 2544 "psyntax1.c"
+#line 2545 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 		}
@@ -2582,9 +2583,9 @@ XR800(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_macro_arg_dir */
 			{
-#line 1050 "psyntax.act"
+#line 1051 "psyntax.act"
  (XIn) = OPT_macro_arg_dir ; 
-#line 2588 "psyntax1.c"
+#line 2589 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_macro_arg_dir */
 			XRallow_Hstate (&XIe);
@@ -2594,10 +2595,10 @@ XR800(void)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 2601 "psyntax1.c"
+#line 2602 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 		}
@@ -2618,18 +2619,18 @@ XR800(void)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 2625 "psyntax1.c"
+#line 2626 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIm), (XIi) ) ;
-#line 2633 "psyntax1.c"
+#line 2634 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 		}
@@ -2664,9 +2665,9 @@ XR801(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_func_linkage */
 			{
-#line 1030 "psyntax.act"
+#line 1031 "psyntax.act"
  (XIn) = OPT_func_linkage ; 
-#line 2670 "psyntax1.c"
+#line 2671 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_func_linkage */
 			XRerror_Hstate (&XIe);
@@ -2676,10 +2677,10 @@ XR801(void)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 2683 "psyntax1.c"
+#line 2684 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 		}
@@ -2697,10 +2698,10 @@ XR801(void)
 					{
 						/* BEGINNING OF EXTRACT: string-exp */
 						{
-#line 298 "psyntax.act"
+#line 299 "psyntax.act"
 
     XIe = crt_token->pp_data.exp ;
-#line 2704 "psyntax1.c"
+#line 2705 "psyntax1.c"
 						}
 						/* END OF EXTRACT: string-exp */
 						ADVANCE_LEXER;
@@ -2710,10 +2711,10 @@ XR801(void)
 					{
 						/* BEGINNING OF EXTRACT: wstring-exp */
 						{
-#line 302 "psyntax.act"
+#line 303 "psyntax.act"
 
     XIe = crt_token->pp_data.exp ;
-#line 2717 "psyntax1.c"
+#line 2718 "psyntax1.c"
 						}
 						/* END OF EXTRACT: wstring-exp */
 						ADVANCE_LEXER;
@@ -2726,18 +2727,18 @@ XR801(void)
 			/* END OF INLINE: string-literal */
 			/* BEGINNING OF ACTION: linkage_string */
 			{
-#line 496 "psyntax.act"
+#line 497 "psyntax.act"
 
     (XIa) = find_linkage ( (XIe) ) ;
-#line 2733 "psyntax1.c"
+#line 2734 "psyntax1.c"
 			}
 			/* END OF ACTION: linkage_string */
 			/* BEGINNING OF ACTION: analysis_linkage */
 			{
-#line 972 "psyntax.act"
+#line 973 "psyntax.act"
 
     set_link_opt ( (XIa) ) ;
-#line 2741 "psyntax1.c"
+#line 2742 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_linkage */
 		}
@@ -2767,24 +2768,24 @@ XR801(void)
 			/* END OF INLINE: 744 */
 			/* BEGINNING OF ACTION: opt_decl_volatile */
 			{
-#line 1010 "psyntax.act"
+#line 1011 "psyntax.act"
  (XIn) = OPT_decl_volatile ; 
-#line 2773 "psyntax1.c"
+#line 2774 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_decl_volatile */
 			/* BEGINNING OF ACTION: error_on */
 			{
-#line 820 "psyntax.act"
+#line 821 "psyntax.act"
  (XIe) = ( unsigned ) OPTION_ON ; 
-#line 2780 "psyntax1.c"
+#line 2781 "psyntax1.c"
 			}
 			/* END OF ACTION: error_on */
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 2788 "psyntax1.c"
+#line 2789 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 		}
@@ -2812,9 +2813,9 @@ XR802(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_const_cond */
 			{
-#line 988 "psyntax.act"
+#line 989 "psyntax.act"
  (XIn) = OPT_const_cond ; 
-#line 2818 "psyntax1.c"
+#line 2819 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_const_cond */
 			XRallow_Hstate (&XIe);
@@ -2824,10 +2825,10 @@ XR802(void)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 2831 "psyntax1.c"
+#line 2832 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 		}
@@ -2845,17 +2846,17 @@ XR802(void)
 			}
 			/* BEGINNING OF ACTION: opt_const_internal */
 			{
-#line 989 "psyntax.act"
+#line 990 "psyntax.act"
  (XIn) = OPT_const_internal ; 
-#line 2851 "psyntax1.c"
+#line 2852 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_const_internal */
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 2859 "psyntax1.c"
+#line 2860 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 		}
@@ -2890,9 +2891,9 @@ XR803(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_include_full */
 			{
-#line 1038 "psyntax.act"
+#line 1039 "psyntax.act"
  (XIn) = OPT_include_full ; 
-#line 2896 "psyntax1.c"
+#line 2897 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_include_full */
 			XRallow_Hstate (&XIe);
@@ -2902,10 +2903,10 @@ XR803(void)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 2909 "psyntax1.c"
+#line 2910 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 		}
@@ -2923,10 +2924,10 @@ XR803(void)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 2930 "psyntax1.c"
+#line 2931 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 		}
@@ -2959,10 +2960,10 @@ XR804(void)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 2966 "psyntax1.c"
+#line 2967 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 		}
@@ -2980,10 +2981,10 @@ XR804(void)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 2987 "psyntax1.c"
+#line 2988 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 		}
@@ -3019,9 +3020,9 @@ XRconversion_Hspec(int *XOn)
 		{
 			/* BEGINNING OF ACTION: opt_conv */
 			{
-#line 991 "psyntax.act"
+#line 992 "psyntax.act"
  (XIn) = OPT_conv ; 
-#line 3025 "psyntax1.c"
+#line 3026 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_conv */
 		}
@@ -3056,9 +3057,9 @@ XR805(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_decl_unify */
 			{
-#line 1009 "psyntax.act"
+#line 1010 "psyntax.act"
  (XIn) = OPT_decl_unify ; 
-#line 3062 "psyntax1.c"
+#line 3063 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_decl_unify */
 			XRerror_Hstate (&XIe);
@@ -3068,10 +3069,10 @@ XR805(void)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 3075 "psyntax1.c"
+#line 3076 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 		}
@@ -3098,9 +3099,9 @@ XR805(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_concat_string */
 			{
-#line 986 "psyntax.act"
+#line 987 "psyntax.act"
  (XIn) = OPT_concat_string ; 
-#line 3104 "psyntax1.c"
+#line 3105 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_concat_string */
 			XRallow_Hstate (&XIe);
@@ -3110,10 +3111,10 @@ XR805(void)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 3117 "psyntax1.c"
+#line 3118 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 		}
@@ -3145,9 +3146,9 @@ parse_preproc(int *XOt)
 		}
 		/* BEGINNING OF ACTION: lex_none */
 		{
-#line 407 "psyntax.act"
+#line 408 "psyntax.act"
  (XIt) = lex_ignore_token ; 
-#line 3151 "psyntax1.c"
+#line 3152 "psyntax1.c"
 		}
 		/* END OF ACTION: lex_none */
 	}
@@ -3156,9 +3157,9 @@ XL1:;
 	{
 		/* BEGINNING OF ACTION: lex_pragma */
 		{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 3162 "psyntax1.c"
+#line 3163 "psyntax1.c"
 		}
 		/* END OF ACTION: lex_pragma */
 	}
@@ -3178,9 +3179,9 @@ XR806(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_init_dynamic */
 			{
-#line 1040 "psyntax.act"
+#line 1041 "psyntax.act"
  (XIn) = OPT_init_dynamic ; 
-#line 3184 "psyntax1.c"
+#line 3185 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_init_dynamic */
 			XRallow_Hstate (&XIe);
@@ -3190,10 +3191,10 @@ XR806(void)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 3197 "psyntax1.c"
+#line 3198 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 		}
@@ -3211,10 +3212,10 @@ XR806(void)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 3218 "psyntax1.c"
+#line 3219 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 		}
@@ -3249,9 +3250,9 @@ XR807(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_macro_weak */
 			{
-#line 1052 "psyntax.act"
+#line 1053 "psyntax.act"
  (XIn) = OPT_macro_weak ; 
-#line 3255 "psyntax1.c"
+#line 3256 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_macro_weak */
 			XRallow_Hstate (&XIe);
@@ -3261,10 +3262,10 @@ XR807(void)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 3268 "psyntax1.c"
+#line 3269 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 		}
@@ -3284,9 +3285,9 @@ XR807(void)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_weak */
 			{
-#line 1084 "psyntax.act"
+#line 1085 "psyntax.act"
  (XIn) = OPT_weak ; 
-#line 3290 "psyntax1.c"
+#line 3291 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_weak */
 			XRerror_Hstate (&XIe);
@@ -3296,10 +3297,10 @@ XR807(void)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 3303 "psyntax1.c"
+#line 3304 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 		}
@@ -3331,9 +3332,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 3337 "psyntax1.c"
+#line 3338 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -3360,9 +3361,9 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_overload_ambig */
 			{
-#line 1056 "psyntax.act"
+#line 1057 "psyntax.act"
  (XIn) = OPT_overload_ambig ; 
-#line 3366 "psyntax1.c"
+#line 3367 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_overload_ambig */
 			XRallow_Hstate (&XIe);
@@ -3372,17 +3373,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 3379 "psyntax1.c"
+#line 3380 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 3386 "psyntax1.c"
+#line 3387 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -3402,9 +3403,9 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_anon_union */
 			{
-#line 978 "psyntax.act"
+#line 979 "psyntax.act"
  (XIn) = OPT_anon_union ; 
-#line 3408 "psyntax1.c"
+#line 3409 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_anon_union */
 			XRallow_Hstate (&XIe);
@@ -3414,17 +3415,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 3421 "psyntax1.c"
+#line 3422 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 3428 "psyntax1.c"
+#line 3429 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -3436,21 +3437,21 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: rescan_as_line */
 			{
-#line 1196 "psyntax.act"
+#line 1197 "psyntax.act"
 
     rescan_pragma ( lex_as ) ;
     RESCAN_LEXER ;
-#line 3444 "psyntax1.c"
+#line 3445 "psyntax1.c"
 			}
 			/* END OF ACTION: rescan_as_line */
 			/* BEGINNING OF ACTION: parse_type */
 			{
-#line 365 "psyntax.act"
+#line 366 "psyntax.act"
 
     (XI824) = type_error ;
     parse_tok_type ( &(XI824) ) ;
     object_type ( (XI824), null_tag ) ;
-#line 3454 "psyntax1.c"
+#line 3455 "psyntax1.c"
 			}
 			/* END OF ACTION: parse_type */
 			switch (CURRENT_TERMINAL) {
@@ -3467,9 +3468,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 3473 "psyntax1.c"
+#line 3474 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -3496,9 +3497,9 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_bool_assign */
 			{
-#line 981 "psyntax.act"
+#line 982 "psyntax.act"
  (XIn) = OPT_bool_assign ; 
-#line 3502 "psyntax1.c"
+#line 3503 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_bool_assign */
 			XRallow_Hstate (&XIe);
@@ -3508,17 +3509,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 3515 "psyntax1.c"
+#line 3516 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 3522 "psyntax1.c"
+#line 3523 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -3533,9 +3534,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 3539 "psyntax1.c"
+#line 3540 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -3555,9 +3556,9 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_bitf_overflow */
 			{
-#line 979 "psyntax.act"
+#line 980 "psyntax.act"
  (XIn) = OPT_bitf_overflow ; 
-#line 3561 "psyntax1.c"
+#line 3562 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_bitf_overflow */
 			XRallow_Hstate (&XIe);
@@ -3567,17 +3568,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 3574 "psyntax1.c"
+#line 3575 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 3581 "psyntax1.c"
+#line 3582 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -3604,9 +3605,9 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_func_block */
 			{
-#line 1027 "psyntax.act"
+#line 1028 "psyntax.act"
  (XIn) = OPT_func_block ; 
-#line 3610 "psyntax1.c"
+#line 3611 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_func_block */
 			XRallow_Hstate (&XIe);
@@ -3616,17 +3617,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 3623 "psyntax1.c"
+#line 3624 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 3630 "psyntax1.c"
+#line 3631 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -3639,21 +3640,21 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: rescan_id */
 			{
-#line 1172 "psyntax.act"
+#line 1173 "psyntax.act"
 
     int t = crt_lex_token ;
     if ( t >= FIRST_KEYWORD && t <= LAST_KEYWORD ) {
 	crt_lex_token = lex_identifier ;
     }
-#line 3649 "psyntax1.c"
+#line 3650 "psyntax1.c"
 			}
 			/* END OF ACTION: rescan_id */
 			/* BEGINNING OF ACTION: declarator_start */
 			{
-#line 508 "psyntax.act"
+#line 509 "psyntax.act"
 
     crt_templ_qualifier = 0 ;
-#line 3657 "psyntax1.c"
+#line 3658 "psyntax1.c"
 			}
 			/* END OF ACTION: declarator_start */
 			/* BEGINNING OF INLINE: any-identifier */
@@ -3663,10 +3664,10 @@ parse_tendra(int *XOt)
 					{
 						/* BEGINNING OF EXTRACT: identifier */
 						{
-#line 194 "psyntax.act"
+#line 195 "psyntax.act"
 
     XIid = crt_token->pp_data.id.use ;
-#line 3670 "psyntax1.c"
+#line 3671 "psyntax1.c"
 						}
 						/* END OF EXTRACT: identifier */
 						ADVANCE_LEXER;
@@ -3676,10 +3677,10 @@ parse_tendra(int *XOt)
 					{
 						/* BEGINNING OF EXTRACT: namespace-name */
 						{
-#line 202 "psyntax.act"
+#line 203 "psyntax.act"
 
     XIid = crt_token->pp_data.id.use ;
-#line 3683 "psyntax1.c"
+#line 3684 "psyntax1.c"
 						}
 						/* END OF EXTRACT: namespace-name */
 						ADVANCE_LEXER;
@@ -3689,10 +3690,10 @@ parse_tendra(int *XOt)
 					{
 						/* BEGINNING OF EXTRACT: statement-name */
 						{
-#line 206 "psyntax.act"
+#line 207 "psyntax.act"
 
     XIid = crt_token->pp_data.id.use ;
-#line 3696 "psyntax1.c"
+#line 3697 "psyntax1.c"
 						}
 						/* END OF EXTRACT: statement-name */
 						ADVANCE_LEXER;
@@ -3702,10 +3703,10 @@ parse_tendra(int *XOt)
 					{
 						/* BEGINNING OF EXTRACT: type-name */
 						{
-#line 198 "psyntax.act"
+#line 199 "psyntax.act"
 
     XIid = crt_token->pp_data.id.use ;
-#line 3709 "psyntax1.c"
+#line 3710 "psyntax1.c"
 						}
 						/* END OF EXTRACT: type-name */
 						ADVANCE_LEXER;
@@ -3718,24 +3719,24 @@ parse_tendra(int *XOt)
 			/* END OF INLINE: any-identifier */
 			/* BEGINNING OF ACTION: type_bottom */
 			{
-#line 892 "psyntax.act"
+#line 893 "psyntax.act"
  (XI825) = type_bottom ; 
-#line 3724 "psyntax1.c"
+#line 3725 "psyntax1.c"
 			}
 			/* END OF ACTION: type_bottom */
 			/* BEGINNING OF ACTION: type_special */
 			{
-#line 885 "psyntax.act"
+#line 886 "psyntax.act"
 
     typedef_special ( (XIid), (XI825) ) ;
-#line 3732 "psyntax1.c"
+#line 3733 "psyntax1.c"
 			}
 			/* END OF ACTION: type_special */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 3739 "psyntax1.c"
+#line 3740 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -3755,9 +3756,9 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_wall */
 			{
-#line 1083 "psyntax.act"
+#line 1084 "psyntax.act"
  (XIn) = OPT_wall ; 
-#line 3761 "psyntax1.c"
+#line 3762 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_wall */
 			XRallow_Hstate (&XIe);
@@ -3767,17 +3768,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 3774 "psyntax1.c"
+#line 3775 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 3781 "psyntax1.c"
+#line 3782 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -3792,9 +3793,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 3798 "psyntax1.c"
+#line 3799 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -3809,9 +3810,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 3815 "psyntax1.c"
+#line 3816 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -3826,9 +3827,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 3832 "psyntax1.c"
+#line 3833 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -3847,13 +3848,13 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: rescan_id */
 			{
-#line 1172 "psyntax.act"
+#line 1173 "psyntax.act"
 
     int t = crt_lex_token ;
     if ( t >= FIRST_KEYWORD && t <= LAST_KEYWORD ) {
 	crt_lex_token = lex_identifier ;
     }
-#line 3857 "psyntax1.c"
+#line 3858 "psyntax1.c"
 			}
 			/* END OF ACTION: rescan_id */
 			/* BEGINNING OF INLINE: any-identifier */
@@ -3863,10 +3864,10 @@ parse_tendra(int *XOt)
 					{
 						/* BEGINNING OF EXTRACT: identifier */
 						{
-#line 194 "psyntax.act"
+#line 195 "psyntax.act"
 
     XIid = crt_token->pp_data.id.use ;
-#line 3870 "psyntax1.c"
+#line 3871 "psyntax1.c"
 						}
 						/* END OF EXTRACT: identifier */
 						ADVANCE_LEXER;
@@ -3876,10 +3877,10 @@ parse_tendra(int *XOt)
 					{
 						/* BEGINNING OF EXTRACT: namespace-name */
 						{
-#line 202 "psyntax.act"
+#line 203 "psyntax.act"
 
     XIid = crt_token->pp_data.id.use ;
-#line 3883 "psyntax1.c"
+#line 3884 "psyntax1.c"
 						}
 						/* END OF EXTRACT: namespace-name */
 						ADVANCE_LEXER;
@@ -3889,10 +3890,10 @@ parse_tendra(int *XOt)
 					{
 						/* BEGINNING OF EXTRACT: statement-name */
 						{
-#line 206 "psyntax.act"
+#line 207 "psyntax.act"
 
     XIid = crt_token->pp_data.id.use ;
-#line 3896 "psyntax1.c"
+#line 3897 "psyntax1.c"
 						}
 						/* END OF EXTRACT: statement-name */
 						ADVANCE_LEXER;
@@ -3902,10 +3903,10 @@ parse_tendra(int *XOt)
 					{
 						/* BEGINNING OF EXTRACT: type-name */
 						{
-#line 198 "psyntax.act"
+#line 199 "psyntax.act"
 
     XIid = crt_token->pp_data.id.use ;
-#line 3909 "psyntax1.c"
+#line 3910 "psyntax1.c"
 						}
 						/* END OF EXTRACT: type-name */
 						ADVANCE_LEXER;
@@ -3918,17 +3919,17 @@ parse_tendra(int *XOt)
 			/* END OF INLINE: any-identifier */
 			/* BEGINNING OF ACTION: type_compute */
 			{
-#line 873 "psyntax.act"
+#line 874 "psyntax.act"
 
     compute_promote_type ( (XIid) ) ;
-#line 3925 "psyntax1.c"
+#line 3926 "psyntax1.c"
 			}
 			/* END OF ACTION: type_compute */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 3932 "psyntax1.c"
+#line 3933 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -3943,9 +3944,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 3949 "psyntax1.c"
+#line 3950 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -3960,9 +3961,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 3966 "psyntax1.c"
+#line 3967 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -3977,9 +3978,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 3983 "psyntax1.c"
+#line 3984 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -4001,9 +4002,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 4007 "psyntax1.c"
+#line 4008 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -4015,14 +4016,14 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: interface_define */
 			{
-#line 699 "psyntax.act"
+#line 700 "psyntax.act"
  (XIi) = lex_define ; 
-#line 4021 "psyntax1.c"
+#line 4022 "psyntax1.c"
 			}
 			/* END OF ACTION: interface_define */
 			/* BEGINNING OF ACTION: rescan_tag_line */
 			{
-#line 1205 "psyntax.act"
+#line 1206 "psyntax.act"
 
     int t = crt_lex_token ;
     if ( t >= FIRST_KEYWORD && t <= LAST_KEYWORD ) {
@@ -4030,7 +4031,7 @@ parse_tendra(int *XOt)
 	    crt_lex_token = lex_identifier ;
 	}
     }
-#line 4034 "psyntax1.c"
+#line 4035 "psyntax1.c"
 			}
 			/* END OF ACTION: rescan_tag_line */
 			XR479 (&XIi);
@@ -4040,9 +4041,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 4046 "psyntax1.c"
+#line 4047 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -4057,9 +4058,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 4063 "psyntax1.c"
+#line 4064 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -4072,13 +4073,13 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: rescan_id */
 			{
-#line 1172 "psyntax.act"
+#line 1173 "psyntax.act"
 
     int t = crt_lex_token ;
     if ( t >= FIRST_KEYWORD && t <= LAST_KEYWORD ) {
 	crt_lex_token = lex_identifier ;
     }
-#line 4082 "psyntax1.c"
+#line 4083 "psyntax1.c"
 			}
 			/* END OF ACTION: rescan_id */
 			/* BEGINNING OF INLINE: any-identifier */
@@ -4088,10 +4089,10 @@ parse_tendra(int *XOt)
 					{
 						/* BEGINNING OF EXTRACT: identifier */
 						{
-#line 194 "psyntax.act"
+#line 195 "psyntax.act"
 
     XIdir = crt_token->pp_data.id.use ;
-#line 4095 "psyntax1.c"
+#line 4096 "psyntax1.c"
 						}
 						/* END OF EXTRACT: identifier */
 						ADVANCE_LEXER;
@@ -4101,10 +4102,10 @@ parse_tendra(int *XOt)
 					{
 						/* BEGINNING OF EXTRACT: namespace-name */
 						{
-#line 202 "psyntax.act"
+#line 203 "psyntax.act"
 
     XIdir = crt_token->pp_data.id.use ;
-#line 4108 "psyntax1.c"
+#line 4109 "psyntax1.c"
 						}
 						/* END OF EXTRACT: namespace-name */
 						ADVANCE_LEXER;
@@ -4114,10 +4115,10 @@ parse_tendra(int *XOt)
 					{
 						/* BEGINNING OF EXTRACT: statement-name */
 						{
-#line 206 "psyntax.act"
+#line 207 "psyntax.act"
 
     XIdir = crt_token->pp_data.id.use ;
-#line 4121 "psyntax1.c"
+#line 4122 "psyntax1.c"
 						}
 						/* END OF EXTRACT: statement-name */
 						ADVANCE_LEXER;
@@ -4127,10 +4128,10 @@ parse_tendra(int *XOt)
 					{
 						/* BEGINNING OF EXTRACT: type-name */
 						{
-#line 198 "psyntax.act"
+#line 199 "psyntax.act"
 
     XIdir = crt_token->pp_data.id.use ;
-#line 4134 "psyntax1.c"
+#line 4135 "psyntax1.c"
 						}
 						/* END OF EXTRACT: type-name */
 						ADVANCE_LEXER;
@@ -4157,13 +4158,13 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: rescan_id */
 			{
-#line 1172 "psyntax.act"
+#line 1173 "psyntax.act"
 
     int t = crt_lex_token ;
     if ( t >= FIRST_KEYWORD && t <= LAST_KEYWORD ) {
 	crt_lex_token = lex_identifier ;
     }
-#line 4167 "psyntax1.c"
+#line 4168 "psyntax1.c"
 			}
 			/* END OF ACTION: rescan_id */
 			/* BEGINNING OF INLINE: any-identifier */
@@ -4173,10 +4174,10 @@ parse_tendra(int *XOt)
 					{
 						/* BEGINNING OF EXTRACT: identifier */
 						{
-#line 194 "psyntax.act"
+#line 195 "psyntax.act"
 
     XIid = crt_token->pp_data.id.use ;
-#line 4180 "psyntax1.c"
+#line 4181 "psyntax1.c"
 						}
 						/* END OF EXTRACT: identifier */
 						ADVANCE_LEXER;
@@ -4186,10 +4187,10 @@ parse_tendra(int *XOt)
 					{
 						/* BEGINNING OF EXTRACT: namespace-name */
 						{
-#line 202 "psyntax.act"
+#line 203 "psyntax.act"
 
     XIid = crt_token->pp_data.id.use ;
-#line 4193 "psyntax1.c"
+#line 4194 "psyntax1.c"
 						}
 						/* END OF EXTRACT: namespace-name */
 						ADVANCE_LEXER;
@@ -4199,10 +4200,10 @@ parse_tendra(int *XOt)
 					{
 						/* BEGINNING OF EXTRACT: statement-name */
 						{
-#line 206 "psyntax.act"
+#line 207 "psyntax.act"
 
     XIid = crt_token->pp_data.id.use ;
-#line 4206 "psyntax1.c"
+#line 4207 "psyntax1.c"
 						}
 						/* END OF EXTRACT: statement-name */
 						ADVANCE_LEXER;
@@ -4212,10 +4213,10 @@ parse_tendra(int *XOt)
 					{
 						/* BEGINNING OF EXTRACT: type-name */
 						{
-#line 198 "psyntax.act"
+#line 199 "psyntax.act"
 
     XIid = crt_token->pp_data.id.use ;
-#line 4219 "psyntax1.c"
+#line 4220 "psyntax1.c"
 						}
 						/* END OF EXTRACT: type-name */
 						ADVANCE_LEXER;
@@ -4228,17 +4229,17 @@ parse_tendra(int *XOt)
 			/* END OF INLINE: any-identifier */
 			/* BEGINNING OF ACTION: check_directory */
 			{
-#line 773 "psyntax.act"
+#line 774 "psyntax.act"
 
     directory_option ( (XIdir), (XIid) ) ;
-#line 4235 "psyntax1.c"
+#line 4236 "psyntax1.c"
 			}
 			/* END OF ACTION: check_directory */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 4242 "psyntax1.c"
+#line 4243 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -4275,9 +4276,9 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_dollar_ident */
 			{
-#line 1015 "psyntax.act"
+#line 1016 "psyntax.act"
  (XIn) = OPT_dollar_ident ; 
-#line 4281 "psyntax1.c"
+#line 4282 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_dollar_ident */
 			XRallow_Hstate (&XIe);
@@ -4287,17 +4288,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 4294 "psyntax1.c"
+#line 4295 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 4301 "psyntax1.c"
+#line 4302 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -4307,17 +4308,17 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: check_end */
 			{
-#line 770 "psyntax.act"
+#line 771 "psyntax.act"
 
     end_option ( 1 ) ;
-#line 4314 "psyntax1.c"
+#line 4315 "psyntax1.c"
 			}
 			/* END OF ACTION: check_end */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 4321 "psyntax1.c"
+#line 4322 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -4344,9 +4345,9 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_enum_switch */
 			{
-#line 1022 "psyntax.act"
+#line 1023 "psyntax.act"
  (XIn) = OPT_enum_switch ; 
-#line 4350 "psyntax1.c"
+#line 4351 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_enum_switch */
 			XRerror_Hstate (&XIe);
@@ -4356,17 +4357,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 4363 "psyntax1.c"
+#line 4364 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 4370 "psyntax1.c"
+#line 4371 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -4384,10 +4385,10 @@ parse_tendra(int *XOt)
 					{
 						/* BEGINNING OF EXTRACT: char-exp */
 						{
-#line 290 "psyntax.act"
+#line 291 "psyntax.act"
 
     XIa = crt_token->pp_data.exp ;
-#line 4391 "psyntax1.c"
+#line 4392 "psyntax1.c"
 						}
 						/* END OF EXTRACT: char-exp */
 						ADVANCE_LEXER;
@@ -4397,10 +4398,10 @@ parse_tendra(int *XOt)
 					{
 						/* BEGINNING OF EXTRACT: wchar-exp */
 						{
-#line 294 "psyntax.act"
+#line 295 "psyntax.act"
 
     XIa = crt_token->pp_data.exp ;
-#line 4404 "psyntax1.c"
+#line 4405 "psyntax1.c"
 						}
 						/* END OF EXTRACT: wchar-exp */
 						ADVANCE_LEXER;
@@ -4418,17 +4419,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: escape_set */
 			{
-#line 934 "psyntax.act"
+#line 935 "psyntax.act"
 
     set_escape ( (XIa), (XIb) ) ;
-#line 4425 "psyntax1.c"
+#line 4426 "psyntax1.c"
 			}
 			/* END OF ACTION: escape_set */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 4432 "psyntax1.c"
+#line 4433 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -4438,9 +4439,9 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: lex_exhaustive */
 			{
-#line 404 "psyntax.act"
+#line 405 "psyntax.act"
  (XIt) = lex_exhaustive ; 
-#line 4444 "psyntax1.c"
+#line 4445 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_exhaustive */
 		}
@@ -4468,39 +4469,39 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: opt_cast_explicit */
 			{
-#line 983 "psyntax.act"
+#line 984 "psyntax.act"
  (XIn) = OPT_cast_explicit ; 
-#line 4474 "psyntax1.c"
+#line 4475 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_cast_explicit */
 			/* BEGINNING OF ACTION: opt_val_cast_explicit */
 			{
-#line 1086 "psyntax.act"
+#line 1087 "psyntax.act"
  (XIm) = OPT_VAL_cast_explicit ; 
-#line 4481 "psyntax1.c"
+#line 4482 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_val_cast_explicit */
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 4489 "psyntax1.c"
+#line 4490 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: analysis_value */
 			{
-#line 964 "psyntax.act"
+#line 965 "psyntax.act"
 
     set_value ( (XIm), NULL_exp, ( unsigned long ) (XIc) ) ;
-#line 4497 "psyntax1.c"
+#line 4498 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_value */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 4504 "psyntax1.c"
+#line 4505 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -4515,9 +4516,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 4521 "psyntax1.c"
+#line 4522 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -4536,17 +4537,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 4543 "psyntax1.c"
+#line 4544 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 4550 "psyntax1.c"
+#line 4551 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -4573,9 +4574,9 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_case_fall */
 			{
-#line 982 "psyntax.act"
+#line 983 "psyntax.act"
  (XIn) = OPT_case_fall ; 
-#line 4579 "psyntax1.c"
+#line 4580 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_case_fall */
 			XRallow_Hstate (&XIe);
@@ -4585,17 +4586,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 4592 "psyntax1.c"
+#line 4593 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 4599 "psyntax1.c"
+#line 4600 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -4622,9 +4623,9 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_for_scope */
 			{
-#line 1026 "psyntax.act"
+#line 1027 "psyntax.act"
  (XIn) = OPT_for_scope ; 
-#line 4628 "psyntax1.c"
+#line 4629 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_for_scope */
 			XRerror_Hstate (&XIe);
@@ -4634,17 +4635,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 4641 "psyntax1.c"
+#line 4642 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 4648 "psyntax1.c"
+#line 4649 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -4671,9 +4672,9 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_enum_decl */
 			{
-#line 1021 "psyntax.act"
+#line 1022 "psyntax.act"
  (XIn) = OPT_enum_decl ; 
-#line 4677 "psyntax1.c"
+#line 4678 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_enum_decl */
 			XRallow_Hstate (&XIe);
@@ -4683,17 +4684,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 4690 "psyntax1.c"
+#line 4691 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 4697 "psyntax1.c"
+#line 4698 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -4727,9 +4728,9 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_conv_ptr_func */
 			{
-#line 999 "psyntax.act"
+#line 1000 "psyntax.act"
  (XIn) = OPT_conv_ptr_func ; 
-#line 4733 "psyntax1.c"
+#line 4734 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_conv_ptr_func */
 			XRallow_Hstate (&XIe);
@@ -4739,17 +4740,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 4746 "psyntax1.c"
+#line 4747 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 4753 "psyntax1.c"
+#line 4754 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -4768,17 +4769,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 4775 "psyntax1.c"
+#line 4776 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 4782 "psyntax1.c"
+#line 4783 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -4833,9 +4834,9 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_type_tag_ignore */
 			{
-#line 1080 "psyntax.act"
+#line 1081 "psyntax.act"
  (XIn) = OPT_type_tag_ignore ; 
-#line 4839 "psyntax1.c"
+#line 4840 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_type_tag_ignore */
 			XRerror_Hstate (&XIe);
@@ -4845,17 +4846,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 4852 "psyntax1.c"
+#line 4853 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 4859 "psyntax1.c"
+#line 4860 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -4870,9 +4871,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 4876 "psyntax1.c"
+#line 4877 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -4892,9 +4893,9 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_val_include_depth */
 			{
-#line 1087 "psyntax.act"
+#line 1088 "psyntax.act"
  (XIn) = OPT_VAL_include_depth ; 
-#line 4898 "psyntax1.c"
+#line 4899 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_val_include_depth */
 			/* BEGINNING OF INLINE: integer-literal */
@@ -4904,10 +4905,10 @@ parse_tendra(int *XOt)
 					case 21:
 						/* BEGINNING OF EXTRACT: integer-exp */
 						{
-#line 273 "psyntax.act"
+#line 274 "psyntax.act"
 
     XIe = crt_token->pp_data.exp ;
-#line 4911 "psyntax1.c"
+#line 4912 "psyntax1.c"
 						}
 						/* END OF EXTRACT: integer-exp */
 						break;
@@ -4920,17 +4921,17 @@ parse_tendra(int *XOt)
 			/* END OF INLINE: integer-literal */
 			/* BEGINNING OF ACTION: analysis_exp */
 			{
-#line 968 "psyntax.act"
+#line 969 "psyntax.act"
 
     set_value ( (XIn), (XIe), ( unsigned long ) 0 ) ;
-#line 4927 "psyntax1.c"
+#line 4928 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_exp */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 4934 "psyntax1.c"
+#line 4935 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -4949,17 +4950,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 4956 "psyntax1.c"
+#line 4957 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 4963 "psyntax1.c"
+#line 4964 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -5000,9 +5001,9 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_type_obj_incompl */
 			{
-#line 1077 "psyntax.act"
+#line 1078 "psyntax.act"
  (XIn) = OPT_type_obj_incompl ; 
-#line 5006 "psyntax1.c"
+#line 5007 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_type_obj_incompl */
 			XRallow_Hstate (&XIe);
@@ -5012,17 +5013,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 5019 "psyntax1.c"
+#line 5020 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 5026 "psyntax1.c"
+#line 5027 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -5041,17 +5042,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 5048 "psyntax1.c"
+#line 5049 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 5055 "psyntax1.c"
+#line 5056 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -5066,9 +5067,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 5072 "psyntax1.c"
+#line 5073 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -5093,24 +5094,24 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: opt_inline_internal */
 			{
-#line 1042 "psyntax.act"
+#line 1043 "psyntax.act"
  (XIn) = OPT_inline_internal ; 
-#line 5099 "psyntax1.c"
+#line 5100 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_inline_internal */
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 5107 "psyntax1.c"
+#line 5108 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 5114 "psyntax1.c"
+#line 5115 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -5125,9 +5126,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 5131 "psyntax1.c"
+#line 5132 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -5139,14 +5140,14 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: interface_crt */
 			{
-#line 702 "psyntax.act"
+#line 703 "psyntax.act"
  (XIi) = crt_interface ; 
-#line 5145 "psyntax1.c"
+#line 5146 "psyntax1.c"
 			}
 			/* END OF ACTION: interface_crt */
 			/* BEGINNING OF ACTION: rescan_tag_line */
 			{
-#line 1205 "psyntax.act"
+#line 1206 "psyntax.act"
 
     int t = crt_lex_token ;
     if ( t >= FIRST_KEYWORD && t <= LAST_KEYWORD ) {
@@ -5154,7 +5155,7 @@ parse_tendra(int *XOt)
 	    crt_lex_token = lex_identifier ;
 	}
     }
-#line 5158 "psyntax1.c"
+#line 5159 "psyntax1.c"
 			}
 			/* END OF ACTION: rescan_tag_line */
 			XR479 (&XIi);
@@ -5164,9 +5165,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 5170 "psyntax1.c"
+#line 5171 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -5200,39 +5201,39 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: opt_link_resolve */
 			{
-#line 1048 "psyntax.act"
+#line 1049 "psyntax.act"
  (XIn) = OPT_link_resolve ; 
-#line 5206 "psyntax1.c"
+#line 5207 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_link_resolve */
 			/* BEGINNING OF ACTION: opt_link_internal */
 			{
-#line 1047 "psyntax.act"
+#line 1048 "psyntax.act"
  (XIm) = OPT_link_internal ; 
-#line 5213 "psyntax1.c"
+#line 5214 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_link_internal */
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 5221 "psyntax1.c"
+#line 5222 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIm), (XIi) ) ;
-#line 5229 "psyntax1.c"
+#line 5230 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 5236 "psyntax1.c"
+#line 5237 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -5252,9 +5253,9 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_longlong */
 			{
-#line 1049 "psyntax.act"
+#line 1050 "psyntax.act"
  (XIn) = OPT_longlong ; 
-#line 5258 "psyntax1.c"
+#line 5259 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_longlong */
 			XRallow_Hstate (&XIe);
@@ -5264,17 +5265,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 5271 "psyntax1.c"
+#line 5272 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 5278 "psyntax1.c"
+#line 5279 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -5301,9 +5302,9 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_nest_comment */
 			{
-#line 1055 "psyntax.act"
+#line 1056 "psyntax.act"
  (XIn) = OPT_nest_comment ; 
-#line 5307 "psyntax1.c"
+#line 5308 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_nest_comment */
 			XRerror_Hstate (&XIe);
@@ -5313,17 +5314,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 5320 "psyntax1.c"
+#line 5321 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 5327 "psyntax1.c"
+#line 5328 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -5342,17 +5343,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 5349 "psyntax1.c"
+#line 5350 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 5356 "psyntax1.c"
+#line 5357 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -5364,14 +5365,14 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: interface_no_def */
 			{
-#line 700 "psyntax.act"
+#line 701 "psyntax.act"
  (XIi) = lex_no_Hdef ; 
-#line 5370 "psyntax1.c"
+#line 5371 "psyntax1.c"
 			}
 			/* END OF ACTION: interface_no_def */
 			/* BEGINNING OF ACTION: rescan_tag_line */
 			{
-#line 1205 "psyntax.act"
+#line 1206 "psyntax.act"
 
     int t = crt_lex_token ;
     if ( t >= FIRST_KEYWORD && t <= LAST_KEYWORD ) {
@@ -5379,7 +5380,7 @@ parse_tendra(int *XOt)
 	    crt_lex_token = lex_identifier ;
 	}
     }
-#line 5383 "psyntax1.c"
+#line 5384 "psyntax1.c"
 			}
 			/* END OF ACTION: rescan_tag_line */
 			XR479 (&XIi);
@@ -5389,9 +5390,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 5395 "psyntax1.c"
+#line 5396 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -5418,9 +5419,9 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_paren */
 			{
-#line 1061 "psyntax.act"
+#line 1062 "psyntax.act"
  (XIn) = OPT_paren ; 
-#line 5424 "psyntax1.c"
+#line 5425 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_paren */
 			XRerror_Hstate (&XIe);
@@ -5430,17 +5431,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 5437 "psyntax1.c"
+#line 5438 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 5444 "psyntax1.c"
+#line 5445 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -5455,9 +5456,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 5461 "psyntax1.c"
+#line 5462 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -5477,9 +5478,9 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_overload_res */
 			{
-#line 1058 "psyntax.act"
+#line 1059 "psyntax.act"
  (XIn) = OPT_overload_res ; 
-#line 5483 "psyntax1.c"
+#line 5484 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_overload_res */
 			XRallow_Hstate (&XIe);
@@ -5489,17 +5490,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 5496 "psyntax1.c"
+#line 5497 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 5503 "psyntax1.c"
+#line 5504 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -5526,9 +5527,9 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_ptr_operator */
 			{
-#line 1068 "psyntax.act"
+#line 1069 "psyntax.act"
  (XIn) = OPT_ptr_operator ; 
-#line 5532 "psyntax1.c"
+#line 5533 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_ptr_operator */
 			XRerror_Hstate (&XIe);
@@ -5538,17 +5539,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 5545 "psyntax1.c"
+#line 5546 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 5552 "psyntax1.c"
+#line 5553 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -5560,18 +5561,18 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: rescan_line */
 			{
-#line 1186 "psyntax.act"
+#line 1187 "psyntax.act"
 
     rescan_pragma ( lex_unknown ) ;
     RESCAN_LEXER ;
-#line 5568 "psyntax1.c"
+#line 5569 "psyntax1.c"
 			}
 			/* END OF ACTION: rescan_line */
 			/* BEGINNING OF ACTION: lex_postpone */
 			{
-#line 408 "psyntax.act"
+#line 409 "psyntax.act"
  (XIa) = lex_postpone ; 
-#line 5575 "psyntax1.c"
+#line 5576 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_postpone */
 			XRpostpone_Hlist (XIa);
@@ -5581,9 +5582,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 5587 "psyntax1.c"
+#line 5588 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -5598,9 +5599,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 5604 "psyntax1.c"
+#line 5605 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -5613,21 +5614,21 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: rescan_line */
 			{
-#line 1186 "psyntax.act"
+#line 1187 "psyntax.act"
 
     rescan_pragma ( lex_unknown ) ;
     RESCAN_LEXER ;
-#line 5621 "psyntax1.c"
+#line 5622 "psyntax1.c"
 			}
 			/* END OF ACTION: rescan_line */
 			/* BEGINNING OF ACTION: parse_type */
 			{
-#line 365 "psyntax.act"
+#line 366 "psyntax.act"
 
     (XI826) = type_error ;
     parse_tok_type ( &(XI826) ) ;
     object_type ( (XI826), null_tag ) ;
-#line 5631 "psyntax1.c"
+#line 5632 "psyntax1.c"
 			}
 			/* END OF ACTION: parse_type */
 			switch (CURRENT_TERMINAL) {
@@ -5639,27 +5640,27 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: parse_type */
 			{
-#line 365 "psyntax.act"
+#line 366 "psyntax.act"
 
     (XIs) = type_error ;
     parse_tok_type ( &(XIs) ) ;
     object_type ( (XIs), null_tag ) ;
-#line 5648 "psyntax1.c"
+#line 5649 "psyntax1.c"
 			}
 			/* END OF ACTION: parse_type */
 			/* BEGINNING OF ACTION: type_promote */
 			{
-#line 877 "psyntax.act"
+#line 878 "psyntax.act"
 
     set_promote_type ( (XI826), (XIs), ntype_ellipsis ) ;
-#line 5656 "psyntax1.c"
+#line 5657 "psyntax1.c"
 			}
 			/* END OF ACTION: type_promote */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 5663 "psyntax1.c"
+#line 5664 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -5678,17 +5679,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 5685 "psyntax1.c"
+#line 5686 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 5692 "psyntax1.c"
+#line 5693 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -5700,14 +5701,14 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: interface_ignore */
 			{
-#line 701 "psyntax.act"
+#line 702 "psyntax.act"
  (XIi) = lex_ignore ; 
-#line 5706 "psyntax1.c"
+#line 5707 "psyntax1.c"
 			}
 			/* END OF ACTION: interface_ignore */
 			/* BEGINNING OF ACTION: rescan_tag_line */
 			{
-#line 1205 "psyntax.act"
+#line 1206 "psyntax.act"
 
     int t = crt_lex_token ;
     if ( t >= FIRST_KEYWORD && t <= LAST_KEYWORD ) {
@@ -5715,7 +5716,7 @@ parse_tendra(int *XOt)
 	    crt_lex_token = lex_identifier ;
 	}
     }
-#line 5719 "psyntax1.c"
+#line 5720 "psyntax1.c"
 			}
 			/* END OF ACTION: rescan_tag_line */
 			XR479 (&XIi);
@@ -5725,9 +5726,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 5731 "psyntax1.c"
+#line 5732 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -5761,9 +5762,9 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_token_const */
 			{
-#line 1074 "psyntax.act"
+#line 1075 "psyntax.act"
  (XIn) = OPT_token_const ; 
-#line 5767 "psyntax1.c"
+#line 5768 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_token_const */
 			XRallow_Hstate (&XIe);
@@ -5773,17 +5774,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 5780 "psyntax1.c"
+#line 5781 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 5787 "psyntax1.c"
+#line 5788 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -5793,9 +5794,9 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 5799 "psyntax1.c"
+#line 5800 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -5822,11 +5823,11 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: rescan_line */
 			{
-#line 1186 "psyntax.act"
+#line 1187 "psyntax.act"
 
     rescan_pragma ( lex_unknown ) ;
     RESCAN_LEXER ;
-#line 5830 "psyntax1.c"
+#line 5831 "psyntax1.c"
 			}
 			/* END OF ACTION: rescan_line */
 			XRsuspend_Hlist ();
@@ -5836,9 +5837,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 5842 "psyntax1.c"
+#line 5843 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -5865,9 +5866,9 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_ppdir_text */
 			{
-#line 1065 "psyntax.act"
+#line 1066 "psyntax.act"
  (XIn) = OPT_ppdir_text ; 
-#line 5871 "psyntax1.c"
+#line 5872 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_ppdir_text */
 			XRallow_Hstate (&XIe);
@@ -5877,17 +5878,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 5884 "psyntax1.c"
+#line 5885 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 5891 "psyntax1.c"
+#line 5892 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -5907,9 +5908,9 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_this_lvalue */
 			{
-#line 1072 "psyntax.act"
+#line 1073 "psyntax.act"
  (XIn) = OPT_this_lvalue ; 
-#line 5913 "psyntax1.c"
+#line 5914 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_this_lvalue */
 			XRallow_Hstate (&XIe);
@@ -5919,17 +5920,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 5926 "psyntax1.c"
+#line 5927 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 5933 "psyntax1.c"
+#line 5934 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -5949,9 +5950,9 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_throw_bad */
 			{
-#line 1073 "psyntax.act"
+#line 1074 "psyntax.act"
  (XIn) = OPT_throw_bad ; 
-#line 5955 "psyntax1.c"
+#line 5956 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_throw_bad */
 			XRerror_Hstate (&XIe);
@@ -5961,17 +5962,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 5968 "psyntax1.c"
+#line 5969 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 5975 "psyntax1.c"
+#line 5976 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -5984,21 +5985,21 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: rescan_id */
 			{
-#line 1172 "psyntax.act"
+#line 1173 "psyntax.act"
 
     int t = crt_lex_token ;
     if ( t >= FIRST_KEYWORD && t <= LAST_KEYWORD ) {
 	crt_lex_token = lex_identifier ;
     }
-#line 5994 "psyntax1.c"
+#line 5995 "psyntax1.c"
 			}
 			/* END OF ACTION: rescan_id */
 			/* BEGINNING OF ACTION: declarator_start */
 			{
-#line 508 "psyntax.act"
+#line 509 "psyntax.act"
 
     crt_templ_qualifier = 0 ;
-#line 6002 "psyntax1.c"
+#line 6003 "psyntax1.c"
 			}
 			/* END OF ACTION: declarator_start */
 			/* BEGINNING OF INLINE: any-identifier */
@@ -6008,10 +6009,10 @@ parse_tendra(int *XOt)
 					{
 						/* BEGINNING OF EXTRACT: identifier */
 						{
-#line 194 "psyntax.act"
+#line 195 "psyntax.act"
 
     XIid = crt_token->pp_data.id.use ;
-#line 6015 "psyntax1.c"
+#line 6016 "psyntax1.c"
 						}
 						/* END OF EXTRACT: identifier */
 						ADVANCE_LEXER;
@@ -6021,10 +6022,10 @@ parse_tendra(int *XOt)
 					{
 						/* BEGINNING OF EXTRACT: namespace-name */
 						{
-#line 202 "psyntax.act"
+#line 203 "psyntax.act"
 
     XIid = crt_token->pp_data.id.use ;
-#line 6028 "psyntax1.c"
+#line 6029 "psyntax1.c"
 						}
 						/* END OF EXTRACT: namespace-name */
 						ADVANCE_LEXER;
@@ -6034,10 +6035,10 @@ parse_tendra(int *XOt)
 					{
 						/* BEGINNING OF EXTRACT: statement-name */
 						{
-#line 206 "psyntax.act"
+#line 207 "psyntax.act"
 
     XIid = crt_token->pp_data.id.use ;
-#line 6041 "psyntax1.c"
+#line 6042 "psyntax1.c"
 						}
 						/* END OF EXTRACT: statement-name */
 						ADVANCE_LEXER;
@@ -6047,10 +6048,10 @@ parse_tendra(int *XOt)
 					{
 						/* BEGINNING OF EXTRACT: type-name */
 						{
-#line 198 "psyntax.act"
+#line 199 "psyntax.act"
 
     XIid = crt_token->pp_data.id.use ;
-#line 6054 "psyntax1.c"
+#line 6055 "psyntax1.c"
 						}
 						/* END OF EXTRACT: type-name */
 						ADVANCE_LEXER;
@@ -6076,9 +6077,9 @@ parse_tendra(int *XOt)
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: type_bottom */
 						{
-#line 892 "psyntax.act"
+#line 893 "psyntax.act"
  (XI827) = type_bottom ; 
-#line 6082 "psyntax1.c"
+#line 6083 "psyntax1.c"
 						}
 						/* END OF ACTION: type_bottom */
 					}
@@ -6088,9 +6089,9 @@ parse_tendra(int *XOt)
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: type_ptrdiff_t */
 						{
-#line 897 "psyntax.act"
+#line 898 "psyntax.act"
  (XI827) = type_ptrdiff_t ; 
-#line 6094 "psyntax1.c"
+#line 6095 "psyntax1.c"
 						}
 						/* END OF ACTION: type_ptrdiff_t */
 					}
@@ -6100,9 +6101,9 @@ parse_tendra(int *XOt)
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: type_size_t */
 						{
-#line 898 "psyntax.act"
+#line 899 "psyntax.act"
  (XI827) = type_size_t ; 
-#line 6106 "psyntax1.c"
+#line 6107 "psyntax1.c"
 						}
 						/* END OF ACTION: type_size_t */
 					}
@@ -6112,9 +6113,9 @@ parse_tendra(int *XOt)
 						ADVANCE_LEXER;
 						/* BEGINNING OF ACTION: type_wchar_t */
 						{
-#line 899 "psyntax.act"
+#line 900 "psyntax.act"
  (XI827) = type_wchar_t ; 
-#line 6118 "psyntax1.c"
+#line 6119 "psyntax1.c"
 						}
 						/* END OF ACTION: type_wchar_t */
 					}
@@ -6153,17 +6154,17 @@ parse_tendra(int *XOt)
 			/* END OF INLINE: 591 */
 			/* BEGINNING OF ACTION: type_special */
 			{
-#line 885 "psyntax.act"
+#line 886 "psyntax.act"
 
     typedef_special ( (XIid), (XI827) ) ;
-#line 6160 "psyntax1.c"
+#line 6161 "psyntax1.c"
 			}
 			/* END OF ACTION: type_special */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 6167 "psyntax1.c"
+#line 6168 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -6182,17 +6183,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 6189 "psyntax1.c"
+#line 6190 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 6196 "psyntax1.c"
+#line 6197 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -6207,9 +6208,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 6213 "psyntax1.c"
+#line 6214 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -6224,9 +6225,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 6230 "psyntax1.c"
+#line 6231 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -6246,9 +6247,9 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_unmatched */
 			{
-#line 1081 "psyntax.act"
+#line 1082 "psyntax.act"
  (XIn) = OPT_unmatched ; 
-#line 6252 "psyntax1.c"
+#line 6253 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_unmatched */
 			XRallow_Hstate (&XIe);
@@ -6258,17 +6259,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 6265 "psyntax1.c"
+#line 6266 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 6272 "psyntax1.c"
+#line 6273 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -6280,18 +6281,18 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: rescan_line */
 			{
-#line 1186 "psyntax.act"
+#line 1187 "psyntax.act"
 
     rescan_pragma ( lex_unknown ) ;
     RESCAN_LEXER ;
-#line 6288 "psyntax1.c"
+#line 6289 "psyntax1.c"
 			}
 			/* END OF ACTION: rescan_line */
 			/* BEGINNING OF ACTION: lex_unpostpone */
 			{
-#line 413 "psyntax.act"
+#line 414 "psyntax.act"
  (XIa) = lex_unpostpone ; 
-#line 6295 "psyntax1.c"
+#line 6296 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_unpostpone */
 			XRpostpone_Hlist (XIa);
@@ -6301,9 +6302,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 6307 "psyntax1.c"
+#line 6308 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -6323,9 +6324,9 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_reached */
 			{
-#line 1069 "psyntax.act"
+#line 1070 "psyntax.act"
  (XIn) = OPT_reached ; 
-#line 6329 "psyntax1.c"
+#line 6330 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_reached */
 			XRallow_Hstate (&XIe);
@@ -6335,17 +6336,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 6342 "psyntax1.c"
+#line 6343 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 6349 "psyntax1.c"
+#line 6350 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -6360,9 +6361,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 6366 "psyntax1.c"
+#line 6367 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -6377,9 +6378,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 6383 "psyntax1.c"
+#line 6384 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -6394,9 +6395,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 6400 "psyntax1.c"
+#line 6401 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -6423,9 +6424,9 @@ parse_tendra(int *XOt)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: opt_const_string */
 			{
-#line 990 "psyntax.act"
+#line 991 "psyntax.act"
  (XIn) = OPT_const_string ; 
-#line 6429 "psyntax1.c"
+#line 6430 "psyntax1.c"
 			}
 			/* END OF ACTION: opt_const_string */
 			XRallow_Hstate (&XIe);
@@ -6435,17 +6436,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: analysis_state */
 			{
-#line 960 "psyntax.act"
+#line 961 "psyntax.act"
 
     set_option ( (XIn), (XIe) ) ;
-#line 6442 "psyntax1.c"
+#line 6443 "psyntax1.c"
 			}
 			/* END OF ACTION: analysis_state */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 6449 "psyntax1.c"
+#line 6450 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -6462,9 +6463,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 6468 "psyntax1.c"
+#line 6469 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -6492,17 +6493,17 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: keyword_define */
 			{
-#line 914 "psyntax.act"
+#line 915 "psyntax.act"
 
     define_keyword ( (XIid), (XI823) ) ;
-#line 6499 "psyntax1.c"
+#line 6500 "psyntax1.c"
 			}
 			/* END OF ACTION: keyword_define */
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 6506 "psyntax1.c"
+#line 6507 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -6516,9 +6517,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 6522 "psyntax1.c"
+#line 6523 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -6532,9 +6533,9 @@ parse_tendra(int *XOt)
 			}
 			/* BEGINNING OF ACTION: lex_pragma */
 			{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 6538 "psyntax1.c"
+#line 6539 "psyntax1.c"
 			}
 			/* END OF ACTION: lex_pragma */
 		}
@@ -6549,20 +6550,20 @@ XL1:;
 	{
 		/* BEGINNING OF ACTION: error_syntax */
 		{
-#line 1140 "psyntax.act"
+#line 1141 "psyntax.act"
 
     /* Syntax errors */
     ERROR err = ERR_lex_parse ( crt_token ) ;
     report ( crt_loc, err ) ;
     have_syntax_error = 1 ;
-#line 6559 "psyntax1.c"
+#line 6560 "psyntax1.c"
 		}
 		/* END OF ACTION: error_syntax */
 		/* BEGINNING OF ACTION: lex_pragma */
 		{
-#line 409 "psyntax.act"
+#line 410 "psyntax.act"
  (XIt) = lex_hash_Hpragma ; 
-#line 6566 "psyntax1.c"
+#line 6567 "psyntax1.c"
 		}
 		/* END OF ACTION: lex_pragma */
 	}
