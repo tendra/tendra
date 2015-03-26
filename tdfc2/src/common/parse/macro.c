@@ -182,7 +182,7 @@ token_parts(int t, PPTOKEN *p)
 			s2 = xustrcpy(s1);
 		} else {
 			s2 = xmalloc(n + 1);
-			xumemcpy(s2, s1, n);
+			memcpy_v(s2, s1, n);
 			s2[n] = 0;
 		}
 		p->pp_data.str.start = s2;

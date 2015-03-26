@@ -1118,7 +1118,7 @@ eq_pptok(PPTOKEN *p, PPTOKEN *q)
 			if (n1 != n2) {
 				return 0;
 			}
-			if (xumemcmp(s1, s2, n1)!= 0) {
+			if (memcmp(s1, s2, n1) != 0) {
 				return 0;
 			}
 			break;
@@ -1128,7 +1128,7 @@ eq_pptok(PPTOKEN *p, PPTOKEN *q)
 			string s1 = p->pp_data.buff;
 			string s2 = q->pp_data.buff;
 			size_t n1 = MULTI_WIDTH;
-			if (xumemcmp(s1, s2, n1)!= 0) {
+			if (memcmp(s1, s2, n1) != 0) {
 				return 0;
 			}
 			break;

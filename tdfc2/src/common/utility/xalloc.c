@@ -80,30 +80,3 @@ xustrcat(string s, string t)
 	return r;
 }
 
-
-/*
-    This routine copies n characters from t to s.
-*/
-
-void
-xumemcpy(string s, string t, size_t n)
-{
-	if (n) {
-		memcpy_v(s, t, n);
-	}
-	return;
-}
-
-
-/*
-    This routine compares the n characters given by s and t.
-*/
-
-int
-xumemcmp(string s, string t, size_t n)
-{
-	if (s == t || n == 0) {
-		return 0;
-	}
-	return memcmp(s, t, n);
-}

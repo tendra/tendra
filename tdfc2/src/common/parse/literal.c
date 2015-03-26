@@ -1327,7 +1327,7 @@ make_multi_string(string s, string t, unsigned long n, unsigned k)
 {
 	if (k & STRING_MULTI) {
 		n *= MULTI_WIDTH;
-		xumemcpy(s, t, n);
+		memcpy_v(s, t, n);
 	} else {
 		unsigned long i;
 		for (i = 0; i < n; i++) {
@@ -1626,7 +1626,7 @@ eq_string_lit(STRING s, STRING t)
 		if (ks & STRING_MULTI) {
 			ns *= MULTI_WIDTH;
 		}
-		if (xumemcmp(as, at, ns) == 0) {
+		if (memcmp(as, at, ns) == 0) {
 			return 1;
 		}
 	}
@@ -1683,8 +1683,8 @@ concat_string_lit(STRING s, STRING t)
 		/* Simple strings */
 		sz = nc + 1;
 		c = xmalloc(sz);
-		xumemcpy(c, a, na);
-		xumemcpy(c + na, b, nb);
+		memcpy_v(c, a, na);
+		memcpy_v(c + na, b, nb);
 		c[nc] = 0;
 	}
 	MAKE_str_simple(nc, c, kc, res);

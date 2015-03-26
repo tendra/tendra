@@ -265,7 +265,7 @@ bfread(BUFFER *bf, string s, size_t n)
 	size_t m = bf->end - p;
 	if (m > n)m = n;
 	if (m) {
-		xumemcpy(s, p, m);
+		memcpy_v(s, p, m);
 		bf->posn = p + m;
 	}
 	return m;
