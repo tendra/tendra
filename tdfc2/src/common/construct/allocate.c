@@ -17,6 +17,7 @@
 
 #include <utility/error.h>
 #include <utility/catalog.h>
+#include <utility/buffer.h>
 #include <utility/option.h>
 
 #include <syntax/syntax.h>
@@ -24,7 +25,6 @@
 #include <parse/constant.h>
 #include <parse/file.h>
 #include <parse/hash.h>
-#include <parse/lex.h>
 #include <parse/predict.h>
 
 #include <construct/access.h>

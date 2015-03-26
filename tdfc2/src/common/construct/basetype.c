@@ -23,7 +23,6 @@
 #include <syntax/syntax.h>
 
 #include <parse/constant.h>
-#include <parse/lex.h>
 #include <parse/predict.h>
 #include <parse/preproc.h>
 

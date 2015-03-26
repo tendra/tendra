@@ -24,7 +24,6 @@
 
 #include <parse/char.h>
 #include <parse/constant.h>
-#include <parse/file.h>
 #include <parse/literal.h>
 
 #include <construct/basetype.h>

@@ -13,11 +13,28 @@
 
 
 /*
-    BUFFER PRINTING DECLARATIONS
+ * TYPE REPRESENTING A CHARACTER BUFFER
+ *
+ * A character buffer consists of an array of characters and a pointer to the
+ * current position in the buffer.
+ */
 
-    The routines in this module are concerned with the manipulation of
-    character buffers.
-*/
+typedef struct buff_tag {
+	string start;
+	string posn;
+	string end;
+	FILE *file;
+} BUFFER;
+
+#define NULL_buff	{ NULL, NULL, NULL, NULL }
+
+
+/*
+ * BUFFER PRINTING DECLARATIONS
+ *
+ * The routines in this module are concerned with the manipulation of
+ * character buffers.
+ */
 
 extern void free_buffer(BUFFER *);
 extern BUFFER *clear_buffer(BUFFER *, FILE *);

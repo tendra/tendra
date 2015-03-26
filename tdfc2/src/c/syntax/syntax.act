@@ -110,6 +110,7 @@ TYPE       -> TYPE ;
 #include "type_ops.h"
 #include <utility/error.h>
 #include <utility/catalog.h>
+#include <utility/buffer.h>
 #include <utility/option.h>
 #include <construct/access.h>
 #include <construct/allocate.h>

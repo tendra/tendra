@@ -26,6 +26,7 @@
 #include <utility/system.h>
 #include <utility/error.h>
 #include <utility/catalog.h>
+#include <utility/buffer.h>
 #include <utility/xalloc.h>
 
 #include <parse/char.h>

@@ -14,6 +14,7 @@
 
 #include <utility/error.h>
 #include <utility/catalog.h>
+#include <utility/buffer.h>
 
 #include <construct/access.h>
 #include <construct/chktype.h>

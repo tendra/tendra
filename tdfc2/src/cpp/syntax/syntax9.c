@@ -10,7 +10,7 @@
 /* BEGINNING OF HEADER */
 
 #define __SID_SPLIT
-#line 178 "syntax.act"
+#line 179 "syntax.act"
 
 
 /* $Id$ */
@@ -37,6 +37,7 @@
 #include "type_ops.h"
 #include <utility/error.h>
 #include <utility/catalog.h>
+#include <utility/buffer.h>
 #include <utility/option.h>
 #include <construct/access.h>
 #include <construct/allocate.h>
@@ -94,7 +95,7 @@ typedef LIST ( TYPE ) SID_LIST_TYPE ;
 #include <syntax/syntax.h>
 
 
-#line 98 "syntax9.c"
+#line 99 "syntax9.c"
 
 void
 ZR1141(TYPE ZI1139, TYPE *ZO1140)
@@ -115,10 +116,10 @@ ZL2_1141:;
 			}
 			/* BEGINNING OF ACTION: type_build */
 			{
-#line 1387 "syntax.act"
+#line 1388 "syntax.act"
 
     (ZIt) = ( IS_NULL_type ( (ZI1139) ) ? (ZIq) : inject_pre_type ( (ZI1139), (ZIq), 0 ) ) ;
-#line 122 "syntax9.c"
+#line 123 "syntax9.c"
 			}
 			/* END OF ACTION: type_build */
 			/* BEGINNING OF INLINE: 1141 */
@@ -164,21 +165,21 @@ ZR887(BASE_TYPE *ZIb1, TYPE *ZIt1, CV_SPEC *ZIcv1, BASE_TYPE *ZObt, TYPE *ZOt, C
 
 		/* BEGINNING OF ACTION: is_type_specifier */
 		{
-#line 2114 "syntax.act"
+#line 2115 "syntax.act"
 
     /* Resolve type-specifiers from other declarators */
     (ZI0) = predict_tspec ( 0 ) ;
-#line 172 "syntax9.c"
+#line 173 "syntax9.c"
 		}
 		/* END OF ACTION: is_type_specifier */
 		if (!ZI0)
 			goto ZL2;
 		/* BEGINNING OF ACTION: type_none */
 		{
-#line 1266 "syntax.act"
+#line 1267 "syntax.act"
 
     (ZIs) = NULL_type ;
-#line 182 "syntax9.c"
+#line 183 "syntax9.c"
 		}
 		/* END OF ACTION: type_none */
 		ZRtype_Hspecifier (ZIs, &ZI1392, &ZI1393, &ZI1394);
@@ -189,19 +190,19 @@ ZR887(BASE_TYPE *ZIb1, TYPE *ZIt1, CV_SPEC *ZIcv1, BASE_TYPE *ZObt, TYPE *ZOt, C
 		}
 		/* BEGINNING OF ACTION: btype_join */
 		{
-#line 1245 "syntax.act"
+#line 1246 "syntax.act"
 
     if ( (*ZIb1) & (ZIb2) ) {
 	(ZIbt) = join_pre_types ( (*ZIb1), (ZIb2) ) ;
     } else {
 	(ZIbt) = ( (*ZIb1) | (ZIb2) ) ;
     }
-#line 200 "syntax9.c"
+#line 201 "syntax9.c"
 		}
 		/* END OF ACTION: btype_join */
 		/* BEGINNING OF ACTION: type_join */
 		{
-#line 1300 "syntax.act"
+#line 1301 "syntax.act"
 
     /* Join two partial types */
     if ( IS_NULL_type ( (*ZIt1) ) ) {
@@ -212,17 +213,17 @@ ZR887(BASE_TYPE *ZIb1, TYPE *ZIt1, CV_SPEC *ZIcv1, BASE_TYPE *ZObt, TYPE *ZOt, C
 	report ( crt_loc, ERR_dcl_type_simple_many ( (*ZIt1), (ZIt2) ) ) ;
 	(ZIt) = (ZIt2) ;
     }
-#line 216 "syntax9.c"
+#line 217 "syntax9.c"
 		}
 		/* END OF ACTION: type_join */
 		/* BEGINNING OF ACTION: cv_join */
 		{
-#line 1215 "syntax.act"
+#line 1216 "syntax.act"
 
     CV_SPEC c = ( (*ZIcv1) & (ZIcv2) ) ;
     if ( c ) report ( crt_loc, ERR_dcl_type_cv_dup ( c ) ) ;
     (ZIcv) = ( (*ZIcv1) | (ZIcv2) ) ;
-#line 226 "syntax9.c"
+#line 227 "syntax9.c"
 		}
 		/* END OF ACTION: cv_join */
 		goto ZL0;
@@ -294,11 +295,11 @@ ZR1396(NAMESPACE *ZI1395, IDENTIFIER *ZOid)
 			}
 			/* BEGINNING OF ACTION: namespace_templ */
 			{
-#line 509 "syntax.act"
+#line 510 "syntax.act"
 
     (ZIid) = check_id ( (*ZI1395), (ZIuid), (ZIq) ) ;
     last_namespace = (*ZI1395) ;
-#line 302 "syntax9.c"
+#line 303 "syntax9.c"
 			}
 			/* END OF ACTION: namespace_templ */
 		}
@@ -315,26 +316,26 @@ ZR1396(NAMESPACE *ZI1395, IDENTIFIER *ZOid)
 
 			/* BEGINNING OF ACTION: namespace_type */
 			{
-#line 514 "syntax.act"
+#line 515 "syntax.act"
 
     (ZIid1) = DEREF_id ( nspace_name ( (*ZI1395) ) ) ;
-#line 322 "syntax9.c"
+#line 323 "syntax9.c"
 			}
 			/* END OF ACTION: namespace_type */
 			/* BEGINNING OF ACTION: btype_none */
 			{
-#line 1242 "syntax.act"
+#line 1243 "syntax.act"
  (ZIbt1) = btype_none ; 
-#line 329 "syntax9.c"
+#line 330 "syntax9.c"
 			}
 			/* END OF ACTION: btype_none */
 			/* BEGINNING OF ACTION: qual_get */
 			{
-#line 526 "syntax.act"
+#line 527 "syntax.act"
 
     (ZIi) = crt_id_qualifier ;
     (ZIb) = crt_templ_qualifier ;
-#line 338 "syntax9.c"
+#line 339 "syntax9.c"
 			}
 			/* END OF ACTION: qual_get */
 			/* BEGINNING OF INLINE: compl */
@@ -357,28 +358,28 @@ ZR1396(NAMESPACE *ZI1395, IDENTIFIER *ZOid)
 			}
 			/* BEGINNING OF ACTION: qual_set */
 			{
-#line 531 "syntax.act"
+#line 532 "syntax.act"
 
     crt_id_qualifier = (ZIi) ;
     crt_templ_qualifier = (ZIb) ;
-#line 365 "syntax9.c"
+#line 366 "syntax9.c"
 			}
 			/* END OF ACTION: qual_set */
 			/* BEGINNING OF ACTION: pseudo_destructor */
 			{
-#line 445 "syntax.act"
+#line 446 "syntax.act"
 
     (ZIuid) = make_pseudo_destr ( (ZIid1), (ZIbt1), (ZIid2), (ZIbt2) ) ;
-#line 373 "syntax9.c"
+#line 374 "syntax9.c"
 			}
 			/* END OF ACTION: pseudo_destructor */
 			/* BEGINNING OF ACTION: namespace_id */
 			{
-#line 492 "syntax.act"
+#line 493 "syntax.act"
 
     (ZIid) = check_id ( (*ZI1395), (ZIuid), 0 ) ;
     last_namespace = (*ZI1395) ;
-#line 382 "syntax9.c"
+#line 383 "syntax9.c"
 			}
 			/* END OF ACTION: namespace_id */
 		}
@@ -420,14 +421,14 @@ ZR1269(NAMESPACE *ZIns, EXP *ZO1241)
 					{
 						/* BEGINNING OF EXTRACT: template-type */
 						{
-#line 237 "syntax.act"
+#line 238 "syntax.act"
 
     IDENTIFIER id = crt_token->pp_data.tok.id ;
     PPTOKEN *args = crt_token->pp_data.tok.args ;
     ZItid = parse_type_template ( id, args, 0 ) ;
     crt_templ_qualifier = 1 ;
     RESCAN_LEXER ;
-#line 431 "syntax9.c"
+#line 432 "syntax9.c"
 						}
 						/* END OF EXTRACT: template-type */
 						ADVANCE_LEXER;
@@ -437,10 +438,10 @@ ZR1269(NAMESPACE *ZIns, EXP *ZO1241)
 					{
 						/* BEGINNING OF EXTRACT: type-name */
 						{
-#line 211 "syntax.act"
+#line 212 "syntax.act"
 
     ZItid = crt_token->pp_data.id.use ;
-#line 444 "syntax9.c"
+#line 445 "syntax9.c"
 						}
 						/* END OF EXTRACT: type-name */
 						ADVANCE_LEXER;
@@ -453,53 +454,53 @@ ZR1269(NAMESPACE *ZIns, EXP *ZO1241)
 			/* END OF INLINE: any-type-name */
 			/* BEGINNING OF ACTION: namespace_full */
 			{
-#line 488 "syntax.act"
+#line 489 "syntax.act"
 
     crt_id_qualifier = qual_full ;
     qual_namespace = (*ZIns) ;
-#line 461 "syntax9.c"
+#line 462 "syntax9.c"
 			}
 			/* END OF ACTION: namespace_full */
 			/* BEGINNING OF ACTION: namespace_id */
 			{
-#line 492 "syntax.act"
+#line 493 "syntax.act"
 
     (ZIid) = check_id ( (*ZIns), (ZItid), 0 ) ;
     last_namespace = (*ZIns) ;
-#line 470 "syntax9.c"
+#line 471 "syntax9.c"
 			}
 			/* END OF ACTION: namespace_id */
 			/* BEGINNING OF ACTION: type_name */
 			{
-#line 1275 "syntax.act"
+#line 1276 "syntax.act"
 
     MAKE_type_pre ( cv_none, btype_alias, crt_id_qualifier, (ZI1267) ) ;
     COPY_id ( type_name ( (ZI1267) ), (ZIid) ) ;
     have_type_specifier = 1 ;
-#line 480 "syntax9.c"
+#line 481 "syntax9.c"
 			}
 			/* END OF ACTION: type_name */
 			/* BEGINNING OF ACTION: btype_none */
 			{
-#line 1242 "syntax.act"
+#line 1243 "syntax.act"
  (ZIbt) = btype_none ; 
-#line 487 "syntax9.c"
+#line 488 "syntax9.c"
 			}
 			/* END OF ACTION: btype_none */
 			/* BEGINNING OF ACTION: cv_none */
 			{
-#line 1210 "syntax.act"
+#line 1211 "syntax.act"
  (ZIcv) = cv_none ; 
-#line 494 "syntax9.c"
+#line 495 "syntax9.c"
 			}
 			/* END OF ACTION: cv_none */
 			/* BEGINNING OF ACTION: type_complete */
 			{
-#line 1311 "syntax.act"
+#line 1312 "syntax.act"
 
     (ZIt) = complete_pre_type ( (ZIbt), (ZI1267), (ZIcv), 1 ) ;
     have_type_specifier = 0 ;
-#line 503 "syntax9.c"
+#line 504 "syntax9.c"
 			}
 			/* END OF ACTION: type_complete */
 			switch (CURRENT_TERMINAL) {
@@ -522,10 +523,10 @@ ZR1269(NAMESPACE *ZIns, EXP *ZO1241)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: exp_func_cast */
 			{
-#line 670 "syntax.act"
+#line 671 "syntax.act"
 
     (ZIe) = make_func_cast_exp ( (ZIt), (ZIp) ) ;
-#line 529 "syntax9.c"
+#line 530 "syntax9.c"
 			}
 			/* END OF ACTION: exp_func_cast */
 			ZR1242 (ZIe, &ZI1241);
@@ -551,28 +552,28 @@ ZR1269(NAMESPACE *ZIns, EXP *ZO1241)
 			}
 			/* BEGINNING OF ACTION: namespace_full */
 			{
-#line 488 "syntax.act"
+#line 489 "syntax.act"
 
     crt_id_qualifier = qual_full ;
     qual_namespace = (*ZIns) ;
-#line 559 "syntax9.c"
+#line 560 "syntax9.c"
 			}
 			/* END OF ACTION: namespace_full */
 			/* BEGINNING OF ACTION: namespace_templ */
 			{
-#line 509 "syntax.act"
+#line 510 "syntax.act"
 
     (ZIid) = check_id ( (*ZIns), (ZIuid), (ZIq) ) ;
     last_namespace = (*ZIns) ;
-#line 568 "syntax9.c"
+#line 569 "syntax9.c"
 			}
 			/* END OF ACTION: namespace_templ */
 			/* BEGINNING OF ACTION: exp_identifier */
 			{
-#line 674 "syntax.act"
+#line 675 "syntax.act"
 
     (ZIe) = make_id_exp ( (ZIid) ) ;
-#line 576 "syntax9.c"
+#line 577 "syntax9.c"
 			}
 			/* END OF ACTION: exp_identifier */
 			ZR1242 (ZIe, &ZI1241);
@@ -597,8 +598,8 @@ ZL0:;
 
 /* BEGINNING OF TRAILER */
 
-#line 2167 "syntax.act"
+#line 2168 "syntax.act"
 
-#line 603 "syntax9.c"
+#line 604 "syntax9.c"
 
 /* END OF FILE */

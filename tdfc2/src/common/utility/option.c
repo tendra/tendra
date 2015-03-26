@@ -22,6 +22,7 @@
 #include <utility/error.h>
 #include <utility/catalog.h>
 #include <utility/option.h>
+#include <utility/buffer.h>
 #include <utility/ustring.h>
 #include <utility/xalloc.h>
 

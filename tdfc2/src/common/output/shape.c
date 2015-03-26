@@ -20,6 +20,7 @@
 #include "c_types.h"
 
 #include <utility/error.h>
+#include <utility/buffer.h>
 #include <utility/ustring.h>
 
 #include <parse/char.h>

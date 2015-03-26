@@ -17,6 +17,7 @@
 
 #include <utility/error.h>
 #include <utility/catalog.h>
+#include <utility/buffer.h>
 #include <utility/print.h>
 
 #include <syntax/syntax.h>

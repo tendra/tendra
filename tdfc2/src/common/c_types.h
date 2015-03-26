@@ -194,21 +194,4 @@ typedef struct bits_tag {
 } BITSTREAM;
 
 
-/*
- * TYPE REPRESENTING A CHARACTER BUFFER
- *
- * A character buffer consists of an array of characters and a pointer to the
- * current position in the buffer.
- */
-
-typedef struct buff_tag {
-	string start;
-	string posn;
-	string end;
-	FILE *file;
-} BUFFER;
-
-#define NULL_buff	{ NULL, NULL, NULL, NULL }
-
-
 #endif

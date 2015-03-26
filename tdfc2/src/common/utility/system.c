@@ -27,8 +27,6 @@
 #include <utility/ustring.h>
 #include <utility/xalloc.h>
 
-#include <parse/file.h>
-
 
 int text_mode = 0;
 int binary_mode = 0;

@@ -103,6 +103,7 @@ VALUE      -> unsigned ;
 #include <utility/error.h>
 #include <utility/catalog.h>
 #include <utility/option.h>
+#include <utility/buffer.h>
 #include <construct/access.h>
 #include <construct/allocate.h>
 #include <construct/assign.h>
