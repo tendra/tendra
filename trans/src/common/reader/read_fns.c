@@ -41,7 +41,6 @@
 #include <construct/tags.h>
 #include <construct/me_fns.h>
 #include <construct/installglob.h>
-#include <construct/flpt.h>
 #include <construct/shape.h>
 #include <construct/machine.h>
 #include <construct/aldefs.h>
