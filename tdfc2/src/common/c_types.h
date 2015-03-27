@@ -13,11 +13,25 @@
 
 
 /*
- * BASIC TYPES
- *
  * All characters and strings within the program are represented in terms of
  * the type character. In particular, the type string is defined to be
  * chararacter *.
+ *
+ * This represents a value in the C and C++ execution character set.
+ *
+ * An execution character set value is not the same as a character value in
+ * TDFSTRING. The TDF spec does not define a particular character encoding,
+ * and leaves that to producers and installers to agree upon amongst
+ * themselves. tdfc2 uses ASCII values for TDFSTRING, which is output by calling
+ * to_ascii() for each value in the execution character set.
+ *
+ * However, the character type is used for quite a few things where it is not
+ * neccessarily appropriate, including the portability table (which shares its
+ * lexer with the C and C++ lexer).
+ *
+ * Must it be an unsigned type for all the situations where it is used?
+ * Probably not. However I think it does make sense to use an unsigned
+ * types for the execution character set and for TDFSTRING character values.
  */
 
 typedef unsigned char character;
