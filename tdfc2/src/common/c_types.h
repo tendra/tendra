@@ -17,8 +17,7 @@
  *
  * All characters and strings within the program are represented in terms of
  * the type character. In particular, the type string is defined to be
- * chararacter *. ulong is defined as a macro to avoid duplicate definitions
- * in the system headers.
+ * chararacter *.
  */
 
 typedef unsigned char character;
