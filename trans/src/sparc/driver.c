@@ -46,8 +46,6 @@
 
 extern int use_link_stuff;
 
-#include "debug.h"
-
 #define VERSION_STR "3.11"
 
 extern int redo_structparams;
