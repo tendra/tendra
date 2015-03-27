@@ -854,7 +854,7 @@ static void
 print_bitstream(BITSTREAM *bs, FILE *f)
 {
 	if (bs) {
-		string s = bs->text;
+		bitstream_byte *s = bs->text;
 		unsigned i = bs->bits;
 		unsigned n = bs->bytes;
 		print_bitstream(bs->prev, f);

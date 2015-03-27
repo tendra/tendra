@@ -19,10 +19,16 @@
  * themselves, plus the current offset (in bytes and bits) of the end of these
  * bits. A pointer to the previous bitstream is used to chain bitstreams
  * together.
-*/
+ *
+ * Bits are buffered up in byte-sized chunks; this is always an unsigned char
+ * (and so code may rely on that), but is given its own typedef to avoid
+ * confusion with other similar things.
+ */
+
+typedef unsigned char bitstream_byte;
 
 typedef struct bits_tag {
-	string text;
+	bitstream_byte *text;
 	unsigned bytes;
 	unsigned bits;
 	unsigned size;

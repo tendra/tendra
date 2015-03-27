@@ -38,10 +38,10 @@ dump_bitstream(BITSTREAM *bs)
 {
 	size_t n = (size_t)bs->bytes;
 	if (n) {
-		string t = bs->text;
+		bitstream_byte *t = bs->text;
 		FILE *f = bs->file;
 		if (f) {
-			IGNORE fwrite(t, sizeof(character), n, f);
+			IGNORE fwrite(t, sizeof *t, n, f);
 		}
 		t[0] = t[n];
 	}
@@ -71,7 +71,7 @@ start_bitstream(FILE *f, void *lnk)
 		free_bitstreams = bs->prev;
 	} else {
 		bs = xmalloc(sizeof *bs);
-		bs->text = xmalloc(CHUNK_SIZE);
+		bs->text = xmalloc(sizeof *bs->text * CHUNK_SIZE);
 	}
 	bs->bytes = 0;
 	bs->bits = 0;
@@ -137,7 +137,7 @@ enc_bits(BITSTREAM *bs, unsigned n, unsigned d)
 {
 	if (n) {
 		unsigned long b = (unsigned long)d;
-		string text = bs->text;
+		bitstream_byte *text = bs->text;
 		unsigned bytes = bs->bytes;
 		unsigned bits = bs->bits;
 		if (bits) {
@@ -163,7 +163,7 @@ enc_bits(BITSTREAM *bs, unsigned n, unsigned d)
 				bytes = 0;
 			}
 			n -= BYTE_SIZE;
-			text[bytes] = (character)((b >> n) & BYTE_MASK);
+			text[bytes] = (bitstream_byte) ((b >> n) & BYTE_MASK);
 			bytes++;
 		} while (n);
 		if (bits) {
@@ -210,7 +210,7 @@ enc_bytes(BITSTREAM *bs, unsigned long n, string s)
 	} else {
 		/* Aligned bitstream */
 		unsigned long i;
-		string text = bs->text;
+		bitstream_byte *text = bs->text;
 		unsigned bytes = bs->bytes;
 		for (i = 0; i < n; i++) {
 			if (bytes >= CHUNK_SIZE) {

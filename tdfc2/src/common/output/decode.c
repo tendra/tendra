@@ -37,15 +37,14 @@ fill_bitstream(BITSTREAM *bs)
 {
 	unsigned sz;
 	FILE *f = bs->file;
-	string text = bs->text;
-	sz = (unsigned)fread(text, sizeof(character),
-			     (size_t)CHUNK_SIZE, f);
+	bitstream_byte *text = bs->text;
+	sz = (unsigned)fread(text, sizeof *text, (size_t)CHUNK_SIZE, f);
 	if (sz == 0) {
 		/* No more characters in file */
 		bs->link = text;
 		while (sz < CHUNK_SIZE) {
 			/* Fill buffer with all ones */
-			text[sz] = (character)BYTE_MASK;
+			text[sz] = (bitstream_byte) BYTE_MASK;
 			sz++;
 		}
 	}
@@ -99,7 +98,7 @@ unsigned
 de_bits(BITSTREAM *bs, unsigned n)
 {
 	unsigned long d = 0;
-	string text = bs->text;
+	bitstream_byte *text = bs->text;
 	unsigned sz = bs->size;
 	unsigned bytes = bs->bytes;
 	unsigned bits = 0;
