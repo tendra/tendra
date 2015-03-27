@@ -18,6 +18,7 @@
 #include <string.h>
 #include <stdio.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 #include <shared/string.h>
@@ -25,6 +26,7 @@
 
 #include <local/out.h>
 
+#include <construct/exp.h>
 #include <construct/tags.h>
 #include <construct/dec.h>
 

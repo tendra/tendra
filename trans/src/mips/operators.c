@@ -13,6 +13,7 @@
 
 #include <stdlib.h>
 
+#include <shared/bool.h>
 #include <shared/xalloc.h>
 
 #include <local/ash.h>
