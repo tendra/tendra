@@ -13,6 +13,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <tdf/bitstream.h>
+
 #include <utility/config.h>
 #include "c_types.h"
 
@@ -41,7 +43,6 @@
 #include <construct/token.h>
 #include <construct/variable.h>
 
-#include <output/bitstream.h>
 #include <output/dump.h>
 #include <output/tok.h>
 

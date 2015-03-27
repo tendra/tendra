@@ -14,6 +14,7 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
+#include <tdf/bitstream.h>
 #include <tdf/capsule.h>
 
 #include <utility/config.h>
@@ -48,7 +49,6 @@
 #include <construct/variable.h>
 #include <construct/link.h>
 
-#include <output/bitstream.h>
 #include <output/tdf.h>
 #include <output/capsule.h>
 #include <output/compile.h>

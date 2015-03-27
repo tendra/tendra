@@ -12,6 +12,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <tdf/bitstream.h>
+
 #include <utility/config.h>
 #include "c_types.h"
 
@@ -27,7 +29,6 @@
 #include <parse/predict.h>
 #include <parse/preproc.h>
 
-#include <output/bitstream.h>
 #include <output/tok.h>
 
 #include <construct/access.h>

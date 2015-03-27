@@ -11,6 +11,8 @@
 
 #include <shared/check.h>
 
+#include <tdf/bitstream.h>
+
 #include <utility/config.h>
 #include "c_types.h"
 
@@ -27,7 +29,6 @@
 #include <parse/hash.h>
 #include <parse/literal.h>
 
-#include <output/bitstream.h>
 #include <output/interface.h>
 #include <output/tok.h>
 

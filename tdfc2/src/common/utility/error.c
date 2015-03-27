@@ -17,6 +17,7 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
+#include <tdf/bitstream.h>
 #include <tdf/capsule.h>
 
 #include <utility/config.h>
@@ -44,7 +45,6 @@
 #include <construct/basetype.h>
 #include <construct/statement.h>
 
-#include <output/bitstream.h>
 #include <output/tdf.h>
 #include <output/capsule.h>
 #include <output/dump.h>

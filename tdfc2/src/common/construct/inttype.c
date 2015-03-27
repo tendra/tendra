@@ -12,6 +12,8 @@
 
 #include <shared/check.h>
 
+#include <tdf/bitstream.h>
+
 #include <utility/config.h>
 #include "c_types.h"
 #include <utility/option.h>
@@ -37,7 +39,6 @@
 #include <construct/token.h>
 #include <construct/link.h>
 
-#include <output/bitstream.h>
 #include <output/dump.h>
 #include <output/interface.h>
 #include <output/mangle.h>

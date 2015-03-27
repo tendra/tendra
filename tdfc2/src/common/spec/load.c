@@ -18,6 +18,8 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
+#include <tdf/bitstream.h>
+
 #include <utility/config.h>
 #include <utility/version.h>
 #include "c_types.h"
@@ -55,7 +57,6 @@
 #include <construct/token.h>
 #include <construct/link.h>
 
-#include <output/bitstream.h>
 #include <output/decode.h>
 #include <output/dump.h>
 #include <output/encode.h>

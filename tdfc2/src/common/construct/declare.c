@@ -12,6 +12,7 @@
 
 #include <shared/check.h>
 
+#include <tdf/bitstream.h>
 #include <tdf/capsule.h>
 
 #include <utility/config.h>
@@ -53,7 +54,6 @@
 #include <construct/virtual.h>
 #include <construct/link.h>
 
-#include <output/bitstream.h>
 #include <output/capsule.h>
 #include <output/compile.h>
 #include <output/dump.h>

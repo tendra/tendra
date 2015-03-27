@@ -13,6 +13,8 @@
 
 #include <shared/check.h>
 
+#include <tdf/bitstream.h>
+
 #include <utility/config.h>
 #include <utility/version.h>
 #include "c_types.h"
@@ -36,7 +38,6 @@
 #include <construct/inttype.h>
 #include <construct/link.h>
 
-#include <output/bitstream.h>
 #include <output/dump.h>
 #include <output/encode.h>
 

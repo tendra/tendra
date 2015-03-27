@@ -11,6 +11,8 @@
 
 #include <shared/check.h>
 
+#include <tdf/bitstream.h>
+
 #include <utility/config.h>
 #include "c_types.h"
 
@@ -44,7 +46,6 @@
 #include <construct/statement.h>
 #include <construct/template.h>
 
-#include <output/bitstream.h>
 #include <output/compile.h>
 
 #include "ctype_ops.h"

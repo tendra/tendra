@@ -10,6 +10,8 @@
 #include <assert.h>
 #include <stdio.h>
 
+#include <tdf/bitstream.h>
+
 #include <utility/config.h>
 #include "c_types.h"
 
@@ -37,7 +39,6 @@
 #include <construct/tokdef.h>
 #include <construct/token.h>
 
-#include <output/bitstream.h>
 #include <output/tok.h>
 
 #include "ctype_ops.h"

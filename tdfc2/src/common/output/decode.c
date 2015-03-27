@@ -11,6 +11,8 @@
 
 #include <shared/check.h>
 
+#include <tdf/bitstream.h>
+
 #include <utility/config.h>
 #include "c_types.h"
 
@@ -22,7 +24,6 @@
 #include <parse/file.h>
 #include <parse/literal.h>
 
-#include <output/bitstream.h>
 #include <output/decode.h>
 #include <output/encode.h>
 

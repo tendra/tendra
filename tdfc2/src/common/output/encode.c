@@ -14,6 +14,8 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
+#include <tdf/bitstream.h>
+
 #include <utility/config.h>
 #include "c_types.h"
 
@@ -24,7 +26,6 @@
 #include <parse/char.h>
 #include <parse/literal.h>
 
-#include <output/bitstream.h>
 #include <output/encode.h>
 
 /*
