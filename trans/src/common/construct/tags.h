@@ -7,15 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <construct/installtypes.h>
-
-#ifdef TDF_DIAG4
-#include <diag4/dg_first.h>
-#else
-#include <diag3/dg_first.h>
-#include <diag3/diaginfo.h>
-#endif
-
 #define ident_tag 1
 
 #define seq_tag 3
