@@ -7,8 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef c_diff
-
 #include <construct/installtypes.h>
 
 #ifdef TDF_DIAG4
@@ -169,8 +167,6 @@
 #define regpair_tag             102
 
 #endif
-
-#endif /* c_diff */
 
 /*
  *
