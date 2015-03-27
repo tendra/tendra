@@ -45,6 +45,7 @@
 #include <construct/redeclare.h>
 #include <construct/template.h>
 #include <construct/token.h>
+#include <construct/link.h>
 
 #include <output/bitstream.h>
 #include <output/dump.h>

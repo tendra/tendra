@@ -60,6 +60,7 @@
 #include <construct/tokdef.h>
 #include <construct/token.h>
 #include <construct/variable.h>
+#include <construct/link.h>
 
 #include <output/bitstream.h>
 #include <output/compile.h>

@@ -53,6 +53,7 @@
 #include <construct/namespace.h>
 #include <construct/redeclare.h>
 #include <construct/token.h>
+#include <construct/link.h>
 
 #include <output/bitstream.h>
 #include <output/decode.h>

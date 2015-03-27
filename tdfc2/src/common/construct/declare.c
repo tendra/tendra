@@ -51,6 +51,7 @@
 #include <construct/tokdef.h>
 #include <construct/token.h>
 #include <construct/virtual.h>
+#include <construct/link.h>
 
 #include <output/bitstream.h>
 #include <output/capsule.h>

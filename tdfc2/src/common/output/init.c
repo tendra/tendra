@@ -34,6 +34,7 @@
 #include <construct/initialise.h>
 #include <construct/member.h>
 #include <construct/statement.h>
+#include <construct/link.h>
 
 #include <output/bitstream.h>
 #include <output/tdf.h>

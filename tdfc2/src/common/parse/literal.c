@@ -44,6 +44,7 @@
 #include <construct/expression.h>
 #include <construct/inttype.h>
 #include <construct/token.h>
+#include <construct/link.h>
 
 #include <output/bitstream.h>
 #include <output/dump.h>

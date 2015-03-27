@@ -36,6 +36,7 @@
 #include <construct/redeclare.h>
 #include <construct/template.h>
 #include <construct/token.h>
+#include <construct/link.h>
 
 #include "exp_ops.h"
 #include "ftype_ops.h"

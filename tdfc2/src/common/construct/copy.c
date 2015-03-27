@@ -56,6 +56,7 @@
 #include <construct/statement.h>
 #include <construct/template.h>
 #include <construct/token.h>
+#include <construct/link.h>
 
 #include <output/bitstream.h>
 #include <output/capsule.h>

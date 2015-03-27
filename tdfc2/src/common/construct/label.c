@@ -26,6 +26,7 @@
 #include <construct/label.h>
 #include <construct/namespace.h>
 #include <construct/statement.h>
+#include <construct/link.h>
 
 #include <output/dump.h>
 

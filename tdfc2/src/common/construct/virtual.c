@@ -38,6 +38,7 @@
 #include <construct/overload.h>
 #include <construct/template.h>
 #include <construct/virtual.h>
+#include <construct/link.h>
 
 #include "ctype_ops.h"
 #include "graph_ops.h"

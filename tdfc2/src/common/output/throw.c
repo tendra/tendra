@@ -30,6 +30,7 @@
 #include <construct/inttype.h>
 #include <construct/statement.h>
 #include <construct/typeid.h>
+#include <construct/link.h>
 
 #include <output/bitstream.h>
 #include <output/tdf.h>

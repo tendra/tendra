@@ -34,6 +34,7 @@
 #include <construct/chktype.h>
 #include <construct/exception.h>
 #include <construct/inttype.h>
+#include <construct/link.h>
 
 #include <output/bitstream.h>
 #include <output/dump.h>

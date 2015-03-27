@@ -35,6 +35,7 @@
 #include <construct/inttype.h>
 #include <construct/tokdef.h>
 #include <construct/token.h>
+#include <construct/link.h>
 
 #include <output/bitstream.h>
 #include <output/dump.h>

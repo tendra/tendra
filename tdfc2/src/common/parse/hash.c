@@ -34,6 +34,7 @@
 #include <construct/chktype.h>
 #include <construct/namespace.h>
 #include <construct/token.h>
+#include <construct/link.h>
 
 #include "ctype_ops.h"
 #include "etype_ops.h"

@@ -50,6 +50,7 @@
 #include <construct/tokdef.h>
 #include <construct/token.h>
 #include <construct/typeid.h>
+#include <construct/link.h>
 
 #include "ctype_ops.h"
 #include "err_ops.h"

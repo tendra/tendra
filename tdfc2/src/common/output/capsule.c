@@ -35,6 +35,7 @@
 #include <parse/hash.h>
 
 #include <construct/basetype.h>
+#include <construct/link.h>
 
 #include <output/bitstream.h>
 #include <output/tdf.h>

@@ -45,6 +45,7 @@
 #include <construct/namespace.h>
 #include <construct/typeid.h>
 #include <construct/virtual.h>
+#include <construct/link.h>
 
 #include <output/bitstream.h>
 #include <output/tdf.h>

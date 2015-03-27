@@ -44,6 +44,7 @@
 #include <construct/identifier.h>
 #include <construct/initialise.h>
 #include <construct/namespace.h>
+#include <construct/link.h>
 
 #include <output/tdf.h>
 #include <output/mangle.h>

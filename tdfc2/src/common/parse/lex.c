@@ -31,6 +31,8 @@
 
 #include <syntax/syntax.h>
 
+#include <construct/link.h>
+
 #include <parse/char.h>
 #include <parse/constant.h>
 #include <parse/file.h>

@@ -36,6 +36,7 @@
 #include <construct/inttype.h>
 #include <construct/template.h>
 #include <construct/tokdef.h>
+#include <construct/link.h>
 
 #include "etype_ops.h"
 #include "exp_ops.h"

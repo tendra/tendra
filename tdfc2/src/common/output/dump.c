@@ -44,6 +44,7 @@
 #include <construct/function.h>
 #include <construct/statement.h>
 #include <construct/token.h>
+#include <construct/link.h>
 
 #include <output/dump.h>
 #include <output/mangle.h>

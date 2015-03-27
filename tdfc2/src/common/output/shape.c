@@ -34,6 +34,7 @@
 #include <construct/copy.h>
 #include <construct/derive.h>
 #include <construct/inttype.h>
+#include <construct/link.h>
 
 #include <output/bitstream.h>
 #include <output/tdf.h>

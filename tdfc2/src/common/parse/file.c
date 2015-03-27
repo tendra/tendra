@@ -39,6 +39,7 @@
 #include <parse/preproc.h>
 
 #include <construct/token.h>
+#include <construct/link.h>
 
 #include <output/dump.h>
 

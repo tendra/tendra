@@ -40,6 +40,7 @@
 #include <construct/redeclare.h>
 #include <construct/statement.h>
 #include <construct/virtual.h>
+#include <construct/link.h>
 
 #include <output/bitstream.h>
 #include <output/tdf.h>

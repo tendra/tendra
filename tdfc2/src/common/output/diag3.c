@@ -29,6 +29,7 @@
 #include <construct/expression.h>
 #include <construct/function.h>
 #include <construct/initialise.h>
+#include <construct/link.h>
 
 #include <output/bitstream.h>
 #include <output/tdf.h>

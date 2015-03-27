@@ -35,6 +35,7 @@
 #include <construct/initialise.h>
 #include <construct/member.h>
 #include <construct/operator.h>
+#include <construct/link.h>
 
 #include "exp_ops.h"
 #include "id_ops.h"

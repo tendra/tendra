@@ -26,6 +26,7 @@
 #include <construct/destroy.h>
 #include <construct/redeclare.h>
 #include <construct/statement.h>
+#include <construct/link.h>
 
 #include <output/bitstream.h>
 #include <output/tdf.h>

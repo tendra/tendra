@@ -46,6 +46,7 @@
 #include <construct/statement.h>
 #include <construct/token.h>
 #include <construct/variable.h>
+#include <construct/link.h>
 
 #include <output/bitstream.h>
 #include <output/tdf.h>

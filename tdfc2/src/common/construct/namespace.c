@@ -38,6 +38,7 @@
 #include <construct/redeclare.h>
 #include <construct/tokdef.h>
 #include <construct/variable.h>
+#include <construct/link.h>
 
 #include <output/dump.h>
 
