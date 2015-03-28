@@ -13,7 +13,6 @@
 
 #include <tdf/bitstream.h>
 #include <tdf/decode.h>
-#include <tdf/encode.h>
 
 
 /*

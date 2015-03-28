@@ -18,8 +18,6 @@
     The routines in this module are concerned with low level output.
 */
 
-extern BITSTREAM *start_bitstream(FILE *, void *);
-extern void end_bitstream(BITSTREAM *, int);
 extern BITSTREAM *extend_bitstream(BITSTREAM *bs);
 extern BITSTREAM *enc_bits(BITSTREAM *, unsigned, unsigned);
 extern BITSTREAM *enc_long_bits(BITSTREAM *, unsigned, unsigned long);
@@ -30,20 +28,6 @@ extern BITSTREAM *enc_int_aux(BITSTREAM *, unsigned long);
 extern BITSTREAM *enc_boundary(BITSTREAM *);
 extern BITSTREAM *enc_bitstream(BITSTREAM *, BITSTREAM *);
 extern BITSTREAM *join_bitstreams(BITSTREAM *, BITSTREAM *);
-extern unsigned length_bitstream(BITSTREAM *);
-
-
-/*
-    BITSTREAM SIZES
-
-    These macros give the number of bits in a byte and the number of
-    bytes in a bitstream.
-*/
-
-#define BYTE_SIZE		((unsigned)8)
-#define CHUNK_SIZE		((unsigned)64)
-#define CHUNK_COPY		((unsigned)8)
-#define BYTE_MASK		((unsigned)0xff)
 
 
 /*

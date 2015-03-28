@@ -38,4 +38,21 @@ typedef struct bits_tag {
 } BITSTREAM;
 
 
+/*
+ * BITSTREAM SIZES
+ *
+ * These macros give the number of bits in a byte and the number of
+ * bytes in a bitstream.
+ */
+#define BYTE_SIZE       ((unsigned)8)
+#define CHUNK_SIZE      ((unsigned)64)
+#define CHUNK_COPY      ((unsigned)8)
+#define BYTE_MASK       ((unsigned)0xff)
+
+
+extern BITSTREAM *start_bitstream(FILE *, void *);
+extern void end_bitstream(BITSTREAM *, int);
+extern unsigned length_bitstream(BITSTREAM *bs);
+
+
 #endif

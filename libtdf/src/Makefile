@@ -4,6 +4,7 @@
 
 
 SRCS+=	name.c
+SRCS+=	bitstream.c
 SRCS+=	encode.c
 SRCS+=	decode.c
 
