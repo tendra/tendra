@@ -44,6 +44,7 @@ SRCS+= stabs_diag3.c
 PART_CFLAGS+=	${TRANS_CFLAGS}
 
 PARTS+=	src/common/shared
+PARTS+=	src/common/tdf
 PARTS+=	src/common/special
 PARTS+=	src/common/construct
 PARTS+=	src/common/linkinfo
