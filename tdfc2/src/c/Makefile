@@ -19,6 +19,7 @@ PARTS+=	src/common/output
 PARTS+=	src/common/parse
 PARTS+=	src/common/spec
 PARTS+=	src/common/shared
+PARTS+=	src/common/tdf
 PARTS+=	src/common
 
 PARTS+=	src/c/syntax
