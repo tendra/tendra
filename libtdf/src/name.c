@@ -21,6 +21,7 @@ getname(int n)
 {
 	switch (n) {
 	case 0:                       return "zero";
+
 	case ident_tag:               return "ident";
 	case seq_tag:                 return "seq";
 	case cond_tag:                return "cond";
@@ -46,9 +47,6 @@ getname(int n)
 	case movecont_tag:            return "movecont";
 	case testbit_tag:             return "testbit";
 	case alloca_tag:              return "alloca";
-#ifndef TDF_DIAG4
-	case diagnose_tag:            return "diagnose";
-#endif
 	case prof_tag:                return "prof";
 	case ignorable_tag:           return "ignorable";
 	case bfass_tag:               return "bfass";
@@ -142,6 +140,10 @@ getname(int n)
 	case formal_callee_tag:       return "formal_callee";
 	case trap_tag:                return "trap_tag";
 
+#ifndef TDF_DIAG4
+	case diagnose_tag:            return "diagnose";
+#endif
+
 #ifdef TRANS_ALPHA
 	case special_tag:             return "special_tag";
 	case andcomp_tag:             return "andcomp_tag";
@@ -183,7 +185,7 @@ getname(int n)
 	case locptr_tag:              return "locptr_tag";
 #endif
 
-	default:                      return "undefined"; 
+	default:                      return "unknown";
 	}
 }
 
