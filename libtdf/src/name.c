@@ -164,8 +164,11 @@ getname(int n)
 
 #ifdef TRANS_M68K
 	case dummy_tag:               return "dummy";
+#if 0
+	/* XXX: duplicate values */
 	case internal_tag:            return "internal";
 	case regpair_tag:             return "regpair";
+#endif
 #endif
 
 #ifdef TRANS_MIPS
