@@ -13,6 +13,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <local/tag.h>
+
 #include <tdf/tag.h>
 
 #include <reader/basicread.h>
@@ -42,7 +44,6 @@
 #include "translate.h"
 #include "ops_shared.h"
 #include "output.h"
-#include "localtags.h"
 
 static void add_const(shape, long, where);
 

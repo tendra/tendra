@@ -13,6 +13,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <local/tag.h>
+
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
@@ -24,7 +26,6 @@
 #include "move.h"
 #include "bitsmacs.h"
 #include "maxminmacs.h"
-#include "localtags.h"
 #include "reg_defs.h"
 #include "regexps.h"
 

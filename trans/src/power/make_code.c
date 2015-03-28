@@ -17,6 +17,7 @@
 
 #include <local/cpu.h>
 #include <local/ash.h>
+#include <local/tag.h>
 
 #include <tdf/tag.h>
 
@@ -59,7 +60,6 @@
 #include "mask.h"
 #include "error.h"
 #include "localexpmacs.h"
-#include "localtags.h"
 
 #ifndef NDEBUG
 #include "pp.h"

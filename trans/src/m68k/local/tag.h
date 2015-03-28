@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef LOCALTAGS_H
-#define LOCALTAGS_H
+#ifndef LOCAL_TAG_H
+#define LOCAL_TAG_H
 
 /* These are target-specific tags for m68k */
 enum {

@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef LOCALTAGS_H
-#define LOCALTAGS_H
+#ifndef LOCAL_TAG_H
+#define LOCAL_TAG_H
 
 /* introduced with dump_opt */
 enum {
@@ -24,10 +24,6 @@ enum {
 	last_env_tag = 253,
 	refmap_tag   = 254
 };
-
-extern shape LISTsh;
-
-#define isLIST(x) (x)==LISTsh
 
 #endif
 

@@ -26,6 +26,7 @@
 #include <shared/error.h>
 
 #include <local/ash.h>
+#include <local/tag.h>
 
 #include <tdf/tag.h>
 
@@ -58,7 +59,6 @@
 #include "translate.h"
 #include "proc.h"
 #include "frames.h"
-#include "localtags.h"
 #include "scan.h"
 #include "localexpmacs.h"
 

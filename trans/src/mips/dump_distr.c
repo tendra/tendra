@@ -24,6 +24,8 @@
 
 #include <shared/bool.h>
 
+#include <local/tag.h>
+
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
@@ -38,7 +40,6 @@
 #include "frames.h"
 #include "regable.h"
 #include "dump_distr.h"
-#include "localtags.h"
 
 static  space zsp = {
   0, 0

@@ -16,6 +16,7 @@
 
 #include <local/szs_als.h>
 #include <local/ash.h>
+#include <local/tag.h>
 
 #include <tdf/tag.h>
 
@@ -43,7 +44,6 @@
 #include <main/print.h>
 
 #include "addrtypes.h"
-#include "localtags.h"
 #include "maxminmacs.h"
 #include "proctypes.h"
 #include "eval.h"

@@ -14,6 +14,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <local/tag.h>
+
 #include <tdf/nat.h>
 #include <tdf/tag.h>
 
@@ -36,7 +38,6 @@
 
 #include "translate.h"
 #include "scan.h"
-#include "localtags.h"
 
 static bool
 special_va_start(tokval *tkv, token t, bitstream pars)

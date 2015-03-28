@@ -18,6 +18,7 @@
 
 #include <local/ash.h>
 #include <local/out.h>
+#include <local/tag.h>
 
 #include <tdf/tag.h>
 
@@ -65,7 +66,6 @@
 #include "translate.h"
 #include "frames.h"
 #include "make_code.h"
-#include "localtags.h"
 #include "special.h"
 #include "loc_signal.h"
 #include "labexp.h"

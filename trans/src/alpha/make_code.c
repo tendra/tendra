@@ -24,6 +24,7 @@
 
 #include <local/szs_als.h>
 #include <local/ash.h>
+#include <local/tag.h>
 
 #include <tdf/tag.h>
 
@@ -70,7 +71,6 @@
 #include "special.h"
 #include "main.h"
 #include "dump_distr.h"
-#include "localtags.h"
 #include "frames.h"
 #include "reg_defs.h"
 #include "cross.h"

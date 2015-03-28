@@ -25,6 +25,7 @@
 
 #include <local/cpu.h>
 #include <local/ash.h>
+#include <local/tag.h>
 
 #include <tdf/nat.h>
 #include <tdf/tag.h>
@@ -61,7 +62,6 @@
 #include "error.h"
 #include "dynamic_init.h"
 #include "localexpmacs.h"
-#include "localtags.h"
 
 /*
  * Will an ident exp be in memory?

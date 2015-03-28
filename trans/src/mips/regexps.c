@@ -18,6 +18,8 @@ For trivial 'peephole' optimisations
 #include <shared/bool.h>
 #include <shared/error.h>
 
+#include <local/tag.h>
+
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
@@ -31,7 +33,6 @@ For trivial 'peephole' optimisations
 #include "move.h"
 #include "bitsmacs.h"
 #include "maxminmacs.h"
-#include "localtags.h"
 #include "regexps.h"
 
 static regpeep regexps[48]; /* [0:31] fix pt - [32:47] floating pt */

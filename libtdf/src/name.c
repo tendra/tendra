@@ -11,6 +11,11 @@
 #include <tdf/tag.h>
 #include <tdf/name.h>
 
+#if defined(TRANS_ALPHA) || defined(TRANS_HPPA) || defined(TRANS_M68K) \
+	|| defined(TRANS_MIPS) || defined(TRANS_POWER) || defined(TRANS_SPARC)
+#include <local/tag.h>
+#endif
+
 char *
 getname(int n)
 {
@@ -41,7 +46,9 @@ getname(int n)
 	case movecont_tag:            return "movecont";
 	case testbit_tag:             return "testbit";
 	case alloca_tag:              return "alloca";
+#ifndef TDF_DIAG4
 	case diagnose_tag:            return "diagnose";
+#endif
 	case prof_tag:                return "prof";
 	case ignorable_tag:           return "ignorable";
 	case bfass_tag:               return "bfass";
@@ -135,8 +142,56 @@ getname(int n)
 	case formal_callee_tag:       return "formal_callee";
 	case trap_tag:                return "trap_tag";
 
-	/* Powertrans specific */
-#if 0
+#ifdef TRANS_ALPHA
+	case special_tag:             return "special_tag";
+	case andcomp_tag:             return "andcomp_tag";
+	case dump_tag:                return "dump_tag";
+
+	case locptr_tag:              return "locptr_tag";
+	case maxlike_tag:             return "maxlike_tag";
+	case minlike_tag:             return "minlike_tag";
+	case abslike_tag:             return "abslike_tag";
+	case last_env_tag:            return "last_env_tag";
+	case refmap_tag:              return "refmap_tag";
+#endif
+
+#ifdef TRANS_HPPA
+	case dump_tag:                return "dump_tag";
+
+	case locptr_tag:              return "locptr_tag";
+	case maxlike_tag:             return "maxlike_tag";
+	case minlike_tag:             return "minlike_tag";
+	case abslike_tag:             return "abslike_tag";
+	case last_env_tag:            return "last_env_tag";
+	case refmap_tag:              return "refmap_tag";
+#endif
+
+#ifdef TRANS_M68K
+	case dummy_tag:               return "dummy_tag";
+	case internal_tag:            return "internal_tag";
+	case regpair_tag:             return "regpair_tag";
+#endif
+
+#ifdef TRANS_MIPS
+	case locptr_tag:              return "locptr_tag";
+	case maxlike_tag:             return "maxlike_tag";
+	case minlike_tag:             return "minlike_tag";
+	case abslike_tag:             return "abslike_tag";
+	case last_env_tag:            return "last_env_tag";
+	case refmap_tag:              return "refmap_tag";
+#endif
+
+#ifdef TRANS_POWER
+	case locptr_tag:              return "locptr_tag";
+
+	case maxlike_tag:             return "maxlike_tag";
+	case minlike_tag:             return "minlike_tag";
+	case abslike_tag:             return "abslike_tag";
+#endif
+
+#ifdef TRANS_SPARC
+	case special_tag:             return "special_tag";
+
 	case locptr_tag:              return "locptr_tag";
 #endif
 

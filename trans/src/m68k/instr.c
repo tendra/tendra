@@ -12,6 +12,8 @@
 #include <shared/bool.h>
 #include <shared/error.h>
 
+#include <local/tag.h>
+
 #include <tdf/tag.h>
 
 #include <reader/externs.h>
@@ -36,7 +38,6 @@
 #include "instr.h"
 #include "translate.h"
 #include "output.h"
-#include "localtags.h"
 
 
 /*

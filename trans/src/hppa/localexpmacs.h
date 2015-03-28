@@ -23,6 +23,11 @@
 #define l_or_cees(x) ((x &25) !=0)
 
 
+extern shape LISTsh;
+
+#define isLIST(x) (x)==LISTsh
+
+
 /*
  * PROPERTIES OF IDENT CONSTRUCTS
 */

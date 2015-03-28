@@ -3,23 +3,26 @@
 /*
  * Copyright 2011-2015, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
- * Copyright 1993, Open Software Foundation, Inc.
  *
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef LOCALTAGS_H
-#define LOCALTAGS_H
+#ifndef LOCAL_TAG_H
+#define LOCAL_TAG_H
 
+/* introduced with dump_opt */
 enum {
-	locptr_tag = 249
+	dump_tag = 100
 };
 
 /* these are name tags fabricated by scan */
 enum {
-	maxlike_tag	= 250,
-	minlike_tag	= 251,
-	abslike_tag	= 252
+	locptr_tag   = 249,
+	maxlike_tag  = 250,
+	minlike_tag  = 251,
+	abslike_tag  = 252,
+	last_env_tag = 253,
+	refmap_tag   = 254
 };
 
 #endif

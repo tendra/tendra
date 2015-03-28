@@ -28,6 +28,10 @@
 /* properties of STRING construction */
 #define string_char_size(e) props(e)
 
+extern shape LISTsh;
+
+#define isLIST(x) ((x) == LISTsh)
+
 #if 0
 #define proc_has_gen_call(e) (props(e) & 0x4000)
 #define set_proc_has_gen_call(e) props(e) |= 0x4000

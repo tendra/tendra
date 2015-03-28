@@ -15,6 +15,10 @@
 #define includes_vcallees(x) ((x & 16) != 0)
 #define l_or_cees(x) ((x &25) !=0)
 
+extern shape LISTsh;
+
+#define isLIST(x) (x)==LISTsh
+
 /* properties of IDENT */
 
 /* Set in weights and used in coder. At this time no copying */

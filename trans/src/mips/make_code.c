@@ -20,6 +20,7 @@
 #include <shared/error.h>
 
 #include <local/ash.h>
+#include <local/tag.h>
 
 #include <tdf/tag.h>
 
@@ -66,7 +67,6 @@
 #include "ibinasm.h"
 #include "main.h"
 #include "dump_distr.h"
-#include "localtags.h"
 #include "stabs_diag3.h"
 #include "frames.h"
 #include "regable.h"

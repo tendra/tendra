@@ -10,6 +10,8 @@
 #include <shared/bool.h>
 #include <shared/check.h>
 
+#include <local/tag.h>
+
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
@@ -25,7 +27,6 @@
 #include "regable.h"
 #include "reg_defs.h"
 #include "dump_distr.h"
-#include "localtags.h"
 
 static  space zsp = {
   0, 0

@@ -13,6 +13,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <local/tag.h>
+
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
@@ -32,7 +34,6 @@
 #include "utility.h"
 #include "translate.h"
 #include "evaluate.h"
-#include "localtags.h"
 
 #define REGISTER_SIZES
 #include "instr_aux.h"

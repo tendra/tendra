@@ -25,6 +25,7 @@
 
 #include <local/szs_als.h>
 #include <local/ash.h>
+#include <local/tag.h>
 
 #include <tdf/tag.h>
 
@@ -47,7 +48,6 @@
 #include <main/flags.h>
 
 #include "proc.h"
-#include "localtags.h"
 #include "proctypes.h"
 #include "bitsmacs.h"
 #include "maxminmacs.h"

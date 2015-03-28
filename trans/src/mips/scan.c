@@ -24,6 +24,7 @@
 #include <shared/check.h>
 
 #include <local/ash.h>
+#include <local/tag.h>
 
 #include <tdf/tag.h>
 
@@ -53,7 +54,6 @@
 #include "regable.h"
 #include "tempdecs.h"
 #include "special.h"
-#include "localtags.h"
 #include "frames.h"
 #include "main.h"
 #include "scan.h"
