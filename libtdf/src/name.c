@@ -138,51 +138,51 @@ getname(int n)
 	case make_callee_list_tag:    return "make_callee_list";
 	case set_stack_limit_tag:     return "set_stack_limit";
 	case formal_callee_tag:       return "formal_callee";
-	case trap_tag:                return "trap_tag";
+	case trap_tag:                return "trap";
 
 #ifndef TDF_DIAG4
 	case diagnose_tag:            return "diagnose";
 #endif
 
 #ifdef TRANS_ALPHA
-	case special_tag:             return "special_tag";
-	case andcomp_tag:             return "andcomp_tag";
-	case dump_tag:                return "dump_tag";
+	case special_tag:             return "special";
+	case andcomp_tag:             return "andcomp";
+	case dump_tag:                return "dump";
 
-	case locptr_tag:              return "locptr_tag";
-	case maxlike_tag:             return "maxlike_tag";
-	case minlike_tag:             return "minlike_tag";
-	case abslike_tag:             return "abslike_tag";
-	case refmap_tag:              return "refmap_tag";
+	case locptr_tag:              return "locptr";
+	case maxlike_tag:             return "maxlike";
+	case minlike_tag:             return "minlike";
+	case abslike_tag:             return "abslike";
+	case refmap_tag:              return "refmap";
 #endif
 
 #ifdef TRANS_HPPA
-	case dump_tag:                return "dump_tag";
+	case dump_tag:                return "dump";
 
-	case locptr_tag:              return "locptr_tag";
+	case locptr_tag:              return "locptr";
 #endif
 
 #ifdef TRANS_M68K
-	case dummy_tag:               return "dummy_tag";
-	case internal_tag:            return "internal_tag";
-	case regpair_tag:             return "regpair_tag";
+	case dummy_tag:               return "dummy";
+	case internal_tag:            return "internal";
+	case regpair_tag:             return "regpair";
 #endif
 
 #ifdef TRANS_MIPS
-	case locptr_tag:              return "locptr_tag";
-	case maxlike_tag:             return "maxlike_tag";
-	case minlike_tag:             return "minlike_tag";
-	case abslike_tag:             return "abslike_tag";
+	case locptr_tag:              return "locptr";
+	case maxlike_tag:             return "maxlike";
+	case minlike_tag:             return "minlike";
+	case abslike_tag:             return "abslike";
 #endif
 
 #ifdef TRANS_POWER
-	case locptr_tag:              return "locptr_tag";
+	case locptr_tag:              return "locptr";
 #endif
 
 #ifdef TRANS_SPARC
-	case special_tag:             return "special_tag";
+	case special_tag:             return "special";
 
-	case locptr_tag:              return "locptr_tag";
+	case locptr_tag:              return "locptr";
 #endif
 
 	default:                      return "unknown";
