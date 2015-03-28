@@ -8,12 +8,15 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/* these are name tags fabricated by scan */
 #ifndef EXTRATAGS_H
 #define EXTRATAGS_H
 
-#define maxlike_tag	250
-#define minlike_tag	251
-#define abslike_tag	252
+/* these are name tags fabricated by scan */
+enum {
+	maxlike_tag	= 250,
+	minlike_tag	= 251,
+	abslike_tag	= 252
+};
 
 #endif
+

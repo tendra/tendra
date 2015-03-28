@@ -7,10 +7,13 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/* Extra tag definitions */
-
 #ifndef NEW_TAGS_H
 #define NEW_TAGS_H
-#define special_tag 98
+
+/* Extra tag definitions */
+enum {
+	special_tag = 98
+};
+
 #endif
+

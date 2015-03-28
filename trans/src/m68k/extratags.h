@@ -15,10 +15,11 @@
  *
  * These are target-specific tags for m68k.
  */
-
-#define dummy_tag               100
-#define internal_tag            101
-#define regpair_tag             102
+enum {
+	dummy_tag    = 100,
+	internal_tag = 101,
+	regpair_tag  = 102
+};
 
 #endif
 

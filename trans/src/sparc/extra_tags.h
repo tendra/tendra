@@ -11,9 +11,11 @@
 #define EXTRA_TAGS
 
 /*
-  These are tags introduced by scan
-*/
-
-#define locptr_tag	249
+ * These are tags introduced by scan
+ */
+enum {
+	locptr_tag = 249
+};
 
 #endif
+

@@ -8,8 +8,9 @@
  */
 
 /* new_tags. h - introduced with dump_opt */
-
 #ifndef dump_tag
-#define dump_tag 100
-
+enum {
+	dump_tag = 100
+};
 #endif
+

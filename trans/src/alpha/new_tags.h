@@ -7,10 +7,13 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/* new_tags.h */
-
 #ifndef NEW_TAGS_H
-#define dump_tag 100
-#define andcomp_tag 99	/* for and with complement */
-#define special_tag 98
+
+enum {
+	special_tag = 98,
+	andcomp_tag = 99, /* for and with complement */
+	dump_tag    = 100
+};
+
 #endif
+
