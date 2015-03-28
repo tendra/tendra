@@ -9,9 +9,9 @@
 #ifndef TDF_NAME_H
 #define TDF_NAME_H
 
-char *getname(int n);
-char *find_test_name(int n); /* call with test_number(e) */
-char *shape_name(int n);
+const char *getname(int n);
+const char *find_test_name(int n); /* call with test_number(e) */
+const char *shape_name(int n);
 
 #endif
 

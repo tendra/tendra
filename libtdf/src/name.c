@@ -16,7 +16,7 @@
 #include <local/tag.h>
 #endif
 
-char *
+const char *
 getname(int n)
 {
 	switch (n) {
@@ -189,7 +189,7 @@ getname(int n)
 	}
 }
 
-char *
+const char *
 find_test_name(int n)
 {
 	switch (n) {
@@ -211,7 +211,7 @@ find_test_name(int n)
 	}
 }
 
-char *
+const char *
 shape_name(int n)
 {
 	switch (n) {
