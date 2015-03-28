@@ -151,7 +151,6 @@ getname(int n)
 	case maxlike_tag:             return "maxlike_tag";
 	case minlike_tag:             return "minlike_tag";
 	case abslike_tag:             return "abslike_tag";
-	case last_env_tag:            return "last_env_tag";
 	case refmap_tag:              return "refmap_tag";
 #endif
 
@@ -159,11 +158,6 @@ getname(int n)
 	case dump_tag:                return "dump_tag";
 
 	case locptr_tag:              return "locptr_tag";
-	case maxlike_tag:             return "maxlike_tag";
-	case minlike_tag:             return "minlike_tag";
-	case abslike_tag:             return "abslike_tag";
-	case last_env_tag:            return "last_env_tag";
-	case refmap_tag:              return "refmap_tag";
 #endif
 
 #ifdef TRANS_M68K
@@ -177,16 +171,10 @@ getname(int n)
 	case maxlike_tag:             return "maxlike_tag";
 	case minlike_tag:             return "minlike_tag";
 	case abslike_tag:             return "abslike_tag";
-	case last_env_tag:            return "last_env_tag";
-	case refmap_tag:              return "refmap_tag";
 #endif
 
 #ifdef TRANS_POWER
 	case locptr_tag:              return "locptr_tag";
-
-	case maxlike_tag:             return "maxlike_tag";
-	case minlike_tag:             return "minlike_tag";
-	case abslike_tag:             return "abslike_tag";
 #endif
 
 #ifdef TRANS_SPARC

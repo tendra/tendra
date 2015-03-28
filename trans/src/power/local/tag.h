@@ -15,12 +15,5 @@ enum {
 	locptr_tag = 249
 };
 
-/* these are name tags fabricated by scan */
-enum {
-	maxlike_tag	= 250,
-	minlike_tag	= 251,
-	abslike_tag	= 252
-};
-
 #endif
 

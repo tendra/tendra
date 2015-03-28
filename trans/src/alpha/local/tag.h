@@ -22,8 +22,7 @@ enum {
 	maxlike_tag  = 250,
 	minlike_tag  = 251,
 	abslike_tag  = 252,
-	last_env_tag = 253,
-	refmap_tag   = 254
+	refmap_tag   = 253
 };
 
 #endif
