@@ -61,6 +61,7 @@
 #include "error.h"
 #include "dynamic_init.h"
 #include "localexpmacs.h"
+#include "localtags.h"
 
 /*
  * Will an ident exp be in memory?

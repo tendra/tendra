@@ -59,6 +59,7 @@
 #include "mask.h"
 #include "error.h"
 #include "localexpmacs.h"
+#include "localtags.h"
 
 #ifndef NDEBUG
 #include "pp.h"

@@ -72,8 +72,7 @@
 #define includes_vcallees(x) (((x) & 16) != 0)
 #define l_or_cees(x) (((x) &25) !=0)
 #define i_reckon_its_a_general_proc(x) ( ((x)&24 )!=0)
-/* extra tags needed */
-#define locptr_tag 249
+
 #define TEST_LE 1
 #define TEST_LT 2
 #define TEST_GE 3

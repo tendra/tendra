@@ -11,6 +11,10 @@
 #ifndef LOCALTAGS_H
 #define LOCALTAGS_H
 
+enum {
+	locptr_tag = 249
+};
+
 /* these are name tags fabricated by scan */
 enum {
 	maxlike_tag	= 250,
