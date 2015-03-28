@@ -31,7 +31,7 @@ For trivial 'peephole' optimisations
 #include "move.h"
 #include "bitsmacs.h"
 #include "maxminmacs.h"
-#include "extratags.h"
+#include "localtags.h"
 #include "regexps.h"
 
 static regpeep regexps[48]; /* [0:31] fix pt - [32:47] floating pt */

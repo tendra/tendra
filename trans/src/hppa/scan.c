@@ -47,7 +47,6 @@
 #include <refactor/optimise.h>
 #include <refactor/refactor.h>
 
-#include "new_tags.h"
 #include "proctypes.h"
 #include "bitsmacs.h"
 #include "maxminmacs.h"
@@ -59,7 +58,7 @@
 #include "translate.h"
 #include "proc.h"
 #include "frames.h"
-#include "extratags.h"
+#include "localtags.h"
 #include "scan.h"
 #include "localexpmacs.h"
 

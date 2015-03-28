@@ -42,7 +42,7 @@
 #include "translate.h"
 #include "ops_shared.h"
 #include "output.h"
-#include "extratags.h"
+#include "localtags.h"
 
 static void add_const(shape, long, where);
 

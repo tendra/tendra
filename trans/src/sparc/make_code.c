@@ -43,7 +43,7 @@
 #include <main/print.h>
 
 #include "addrtypes.h"
-#include "extra_tags.h"
+#include "localtags.h"
 #include "maxminmacs.h"
 #include "proctypes.h"
 #include "eval.h"
@@ -65,7 +65,6 @@
 #include "special.h"
 #include "translate.h"
 #include "make_code.h"
-#include "new_tags.h"
 #include "localexpmacs.h"
 
 #ifdef TDF_DIAG4

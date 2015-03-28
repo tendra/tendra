@@ -47,8 +47,7 @@
 #include <main/flags.h>
 
 #include "proc.h"
-#include "extra_tags.h"
-#include "new_tags.h"
+#include "localtags.h"
 #include "proctypes.h"
 #include "bitsmacs.h"
 #include "maxminmacs.h"

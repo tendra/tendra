@@ -36,8 +36,8 @@
 
 #include <refactor/refactor.h>
 
-#include "new_tags.h"
 #include "localexpmacs.h"
+#include "localtags.h"
 
 #define MAX_INT 2147483647
 #define MIN_INT (-MAX_INT-1)

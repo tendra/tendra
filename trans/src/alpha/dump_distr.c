@@ -21,11 +21,11 @@
 
 #include "procrectypes.h"
 #include "bitsmacs.h"
-#include "new_tags.h"
 #include "frames.h"
 #include "regable.h"
 #include "reg_defs.h"
 #include "dump_distr.h"
+#include "localtags.h"
 
 static  space zsp = {
   0, 0

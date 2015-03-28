@@ -34,11 +34,11 @@
 #include <main/flags.h>
 
 #include "bitsmacs.h"
-#include "new_tags.h"
 #include "procrectypes.h"
 #include "frames.h"
 #include "regable.h"
 #include "dump_distr.h"
+#include "localtags.h"
 
 static  space zsp = {
   0, 0

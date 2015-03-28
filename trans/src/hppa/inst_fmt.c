@@ -45,7 +45,6 @@
 #include "translate.h"
 #include "inst_fmt.h"
 #include "frames.h"
-#include "new_tags.h"
 #include "eval.h"
 #include "localexpmacs.h"
 

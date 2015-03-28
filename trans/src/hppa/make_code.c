@@ -43,7 +43,6 @@
 #include <refactor/refactor.h>
 
 #include "addrtypes.h"
-#include "new_tags.h"
 #include "maxminmacs.h"
 #include "proctypes.h"
 #include "eval.h"
@@ -66,7 +65,7 @@
 #include "translate.h"
 #include "frames.h"
 #include "make_code.h"
-#include "extratags.h"
+#include "localtags.h"
 #include "special.h"
 #include "loc_signal.h"
 #include "labexp.h"

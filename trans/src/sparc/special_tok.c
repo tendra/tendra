@@ -36,7 +36,7 @@
 
 #include "translate.h"
 #include "scan.h"
-#include "new_tags.h"
+#include "localtags.h"
 
 static bool
 special_va_start(tokval *tkv, token t, bitstream pars)

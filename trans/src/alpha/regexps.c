@@ -24,7 +24,7 @@
 #include "move.h"
 #include "bitsmacs.h"
 #include "maxminmacs.h"
-#include "extratags.h"
+#include "localtags.h"
 #include "reg_defs.h"
 #include "regexps.h"
 
