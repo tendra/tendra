@@ -18,6 +18,7 @@
 
 #include <tdf/bitstream.h>
 #include <tdf/capsule.h>
+#include <tdf/encode.h>
 
 #include <utility/config.h>
 #include <utility/version.h>

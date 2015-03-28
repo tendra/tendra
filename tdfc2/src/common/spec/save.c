@@ -14,6 +14,7 @@
 #include <shared/check.h>
 
 #include <tdf/bitstream.h>
+#include <tdf/encode.h>
 
 #include <utility/config.h>
 #include <utility/version.h>

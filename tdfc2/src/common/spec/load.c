@@ -19,6 +19,8 @@
 #include <shared/xalloc.h>
 
 #include <tdf/bitstream.h>
+#include <tdf/decode.h>
+#include <tdf/encode.h>
 
 #include <utility/config.h>
 #include <utility/version.h>

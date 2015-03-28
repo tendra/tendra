@@ -4,6 +4,8 @@
 
 
 SRCS+=	name.c
+SRCS+=	encode.c
+SRCS+=	decode.c
 
 .include <tendra.obj.mk>
 
