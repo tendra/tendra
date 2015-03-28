@@ -1015,7 +1015,7 @@ flt_round(flt f, flt *res)
 	ex = 1;
 	for (i = f.exp; i >= 0; i--) {
 		res->mant[i] = (unsigned short) ((ex = ex + (unsigned int) res->mant[i]) % FBASE); /* CAST:jmf */
-		if (ex /= FBASE == 0) {
+		if ((ex /= FBASE) == 0) {
 			return;
 		}
 	}
