@@ -36,6 +36,7 @@
 #include "instr.h"
 #include "translate.h"
 #include "output.h"
+#include "extratags.h"
 
 
 /*

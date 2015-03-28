@@ -32,6 +32,7 @@
 #include "utility.h"
 #include "translate.h"
 #include "evaluate.h"
+#include "extratags.h"
 
 #define REGISTER_SIZES
 #include "instr_aux.h"

@@ -147,22 +147,6 @@
 #define is_o(t)	((t) >= cont_tag && (t) <= make_stack_limit_tag)
 #define is_a(t)	((t) >= plus_tag && (t) <= make_stack_limit_tag)
 
-
-#ifdef TRANS_M68K
-
-/*
- * EXTRA TAGS
- *
- * These are target-specific tags.
- */
-
-#define dummy_tag               100
-#define internal_tag            101
-#define regpair_tag             102
-
-#endif
-
-
 #endif
 
 
