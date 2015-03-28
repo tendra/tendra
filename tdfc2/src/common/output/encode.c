@@ -199,7 +199,7 @@ enc_long_bits(BITSTREAM *bs, unsigned n, unsigned long d)
 */
 
 BITSTREAM *
-enc_bytes(BITSTREAM *bs, unsigned long n, string s)
+enc_bytes(BITSTREAM *bs, unsigned long n, bitstream_byte *s)
 {
 	if (bs->bits) {
 		/* Unaligned bitstream */
@@ -282,7 +282,7 @@ enc_ascii(BITSTREAM *bs, unsigned long n, string s)
 static BITSTREAM *
 copy_bitstream(BITSTREAM *fs, BITSTREAM *bs)
 {
-	string text = bs->text;
+	bitstream_byte *text = bs->text;
 	unsigned bits = bs->bits;
 	unsigned bytes = bs->bytes;
 	if (bytes) {

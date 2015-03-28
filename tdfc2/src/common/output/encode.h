@@ -22,7 +22,7 @@ extern BITSTREAM *start_bitstream(FILE *, void *);
 extern void end_bitstream(BITSTREAM *, int);
 extern BITSTREAM *enc_bits(BITSTREAM *, unsigned, unsigned);
 extern BITSTREAM *enc_long_bits(BITSTREAM *, unsigned, unsigned long);
-extern BITSTREAM *enc_bytes(BITSTREAM *, unsigned long, string);
+extern BITSTREAM *enc_bytes(BITSTREAM *, unsigned long, bitstream_byte *);
 extern BITSTREAM *enc_ascii(BITSTREAM *, unsigned long, string);
 extern BITSTREAM *enc_extn(BITSTREAM *, unsigned, unsigned);
 extern BITSTREAM *enc_int(BITSTREAM *, unsigned long);
