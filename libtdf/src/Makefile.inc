@@ -1,12 +1,9 @@
-# $Id$
+# generic Makefile.inc
 
-.if !defined(BASE_DIR)
-. if !defined(_BASEDIR_RELATIVE)
-BASE_DIR!=	cd ${.CURDIR} && pwd
-. else
-BASE_DIR!=	cd ${_BASEDIR_RELATIVE} && pwd
-. endif
+.if defined(_BASEDIR_RELATIVE)
+_BASEDIR_RELATIVE := ${_BASEDIR_RELATIVE}/..
+.else
+_BASEDIR_RELATIVE = ..
 .endif
 
-.MAKEFLAGS:	-m ${BASE_DIR}/shared/mk -r
-
+.include "../Makefile.inc"
