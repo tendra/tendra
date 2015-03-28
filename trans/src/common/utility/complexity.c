@@ -11,8 +11,9 @@
 
 #include <shared/bool.h>
 
+#include <tdf/tag.h>
+
 #include <construct/exp.h>
-#include <construct/tags.h>
 
 #include <utility/complexity.h>
 

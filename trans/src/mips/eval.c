@@ -17,10 +17,11 @@
 #include <stdio.h>
 
 #include <shared/bool.h>
+#include <shared/error.h>
 
 #include <local/ash.h>
 
-#include <shared/error.h>
+#include <tdf/tag.h>
 
 #include <reader/exp.h>
 #include <reader/basicread.h>
@@ -28,7 +29,6 @@
 #include <construct/installtypes.h>
 #include <construct/dec.h>
 #include <construct/ash.h>
-#include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/shape.h>
 #include <construct/flpt.h>

@@ -12,11 +12,10 @@
 #include <shared/bool.h>
 #include <shared/xalloc.h>
 
+#include <tdf/tag.h>
+
 #include <reader/exp.h>
-
 #include <reader/externs.h>
-
-#include <construct/tags.h>
 
 #include "dg_aux.h"
 #include "mark_scope.h"

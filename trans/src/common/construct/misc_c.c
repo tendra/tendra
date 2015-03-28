@@ -11,11 +11,12 @@
 
 #include <shared/bool.h>
 
+#include <tdf/tag.h>
+
 #include <reader/exp.h>
 #include <reader/externs.h>
 
 #include <construct/exp.h>
-#include <construct/tags.h>
 #include <construct/shape.h>
 #include <construct/complex_eq.h>
 #include <construct/misc_c.h>

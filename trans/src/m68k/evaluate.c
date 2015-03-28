@@ -16,11 +16,12 @@
 
 #include <local/fbase.h>
 
+#include <tdf/tag.h>
+
 #include <reader/basicread.h>
 
 #include <construct/shape.h>
 #include <construct/flpt.h>
-#include <construct/tags.h>
 
 #include <main/flags.h>
 

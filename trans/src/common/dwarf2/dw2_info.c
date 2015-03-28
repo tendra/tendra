@@ -16,12 +16,13 @@
 
 #include <local/dw2_config.h>
 
+#include <tdf/tag.h>
+
 #include <reader/basicread.h>
 #include <reader/externs.h>
 
 #include <construct/shape.h>
 #include <construct/flpt.h>
-#include <construct/tags.h>
 
 #include <main/driver.h>
 #include <main/flags.h>

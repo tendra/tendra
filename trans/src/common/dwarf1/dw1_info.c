@@ -19,13 +19,13 @@
 
 #include <local/out.h>
 
+#include <tdf/tag.h>
+
 #include <reader/exp.h>
 #include <reader/readglob.h>
 #include <reader/table_fns.h>
 #include <reader/basicread.h>
 #include <reader/main_reads.h>
-
-#include <construct/tags.h>
 
 #ifdef TDF_DIAG4
 #include <diag4/diag_fns.h>
@@ -45,7 +45,7 @@
 #include <dwarf1/dw1_queue.h>
 
 #ifdef TDF_DIAG4
-#include <construct/tags.h>
+#include <tdf/tag.h>
 #endif
 
 int continue_decs;

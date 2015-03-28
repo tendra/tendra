@@ -15,11 +15,12 @@
 
 #include <local/foralls.h>
 
+#include <tdf/tag.h>
+
 #include <reader/exp.h>
 #include <reader/basicread.h>
 #include <reader/externs.h>
 
-#include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/shape.h>
 #include <construct/install_fns.h>

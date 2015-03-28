@@ -15,14 +15,14 @@
 #include <shared/error.h>
 
 #include <local/szs_als.h>
-
 #include <local/dw2_config.h>
+
+#include <tdf/tag.h>
 
 #include <reader/exp.h>
 #include <reader/basicread.h>
 
 #include <construct/shape.h>
-#include <construct/tags.h>
 #include <construct/flpt.h>
 
 #include <main/driver.h>

@@ -26,8 +26,9 @@
 
 #include <local/out.h>
 
+#include <tdf/tag.h>
+
 #include <construct/exp.h>
-#include <construct/tags.h>
 #include <construct/dec.h>
 
 #include <main/driver.h>

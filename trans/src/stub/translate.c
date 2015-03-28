@@ -9,10 +9,11 @@
 #include <assert.h>
 #include <stdio.h>
 
+#include <tdf/tag.h>
+
 #include <construct/installtypes.h>
 #include <construct/dec.h>
 #include <construct/installglob.h>
-#include <construct/tags.h>
 
 #include <refactor/optimise.h>
 

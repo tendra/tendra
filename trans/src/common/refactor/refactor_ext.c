@@ -12,9 +12,10 @@
 #include <shared/bool.h>
 #include <shared/error.h>
 
+#include <tdf/tag.h>
+
 #include <construct/installglob.h>
 #include <construct/exp.h>
-#include <construct/tags.h>
 #include <construct/shape.h>
 
 #include <main/flags.h>

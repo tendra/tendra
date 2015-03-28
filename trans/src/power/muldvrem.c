@@ -14,10 +14,11 @@
 
 #include <local/cpu.h>
 
+#include <tdf/tag.h>
+
 #include <reader/exp.h>
 
 #include <construct/exp.h>
-#include <construct/tags.h>
 #include <construct/dec.h>
 
 #include <main/print.h>

@@ -15,13 +15,14 @@
 
 #include <local/szs_als.h>
 
+#include <tdf/tag.h>
+
 #include <reader/exp.h>
 
 #include <construct/exp.h>
 #include <construct/installglob.h>
 #include <construct/shape.h>
 #include <construct/machine.h>
-#include <construct/tags.h>
 
 #include <main/driver.h>
 #include <main/flags.h>

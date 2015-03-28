@@ -12,12 +12,13 @@
 #include <shared/bool.h>
 #include <shared/check.h>
 
+#include <tdf/tag.h>
+
 #include <reader/exp.h>
 #include <reader/externs.h>
 #include <reader/basicread.h>
 #include <reader/table_fns.h>
 
-#include <construct/tags.h>
 #include <construct/shape.h>
 #include <construct/exp.h>
 #include <construct/installglob.h>

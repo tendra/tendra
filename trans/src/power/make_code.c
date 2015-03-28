@@ -18,6 +18,8 @@
 #include <local/cpu.h>
 #include <local/ash.h>
 
+#include <tdf/tag.h>
+
 #include <reader/exp.h>
 #include <reader/externs.h>
 
@@ -26,7 +28,6 @@
 #include <construct/ash.h>
 #include <construct/label_ops.h>
 #include <construct/installglob.h>
-#include <construct/tags.h>
 #include <construct/flpt.h>
 
 #include <main/driver.h>

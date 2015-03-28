@@ -12,14 +12,14 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
-#include <reader/exp.h>
+#include <tdf/tag.h>
 
+#include <reader/exp.h>
 #include <reader/externs.h>
 #include <reader/basicread.h>
 #include <reader/table_fns.h>
 
 #include <construct/installglob.h>
-#include <construct/tags.h>
 #include <construct/shape.h>
 #include <construct/flpt.h>
 #include <construct/messages_c.h>

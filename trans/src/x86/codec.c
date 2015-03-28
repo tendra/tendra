@@ -12,6 +12,8 @@
  * e is the operation and dest is where the result is to be put.
  */
 
+#include <stddef.h>
+
 #include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
@@ -19,7 +21,7 @@
 #include <local/ash.h>
 #include <local/codermacs.h>
 
-#include <stddef.h>
+#include <tdf/tag.h>
 
 #include <reader/exp.h>
 
@@ -28,7 +30,6 @@
 #include <reader/externs.h>
 
 #include <construct/exp.h>
-#include <construct/tags.h>
 #include <construct/shape.h>
 #include <construct/install_fns.h>
 #include <construct/flpt.h>

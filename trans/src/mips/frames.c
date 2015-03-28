@@ -12,9 +12,9 @@
 #include <shared/bool.h>
 #include <shared/error.h>
 
-#include <reader/basicread.h>
+#include <tdf/tag.h>
 
-#include <construct/tags.h>
+#include <reader/basicread.h>
 
 #include <utility/bits.h>
 

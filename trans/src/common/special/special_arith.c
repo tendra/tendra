@@ -13,13 +13,13 @@
 #include <shared/check.h>
 
 #include <tdf/nat.h>
+#include <tdf/tag.h>
 
 #include <reader/basicread.h>
 #include <reader/externs.h>
 #include <reader/messages_r.h>
 #include <reader/main_reads.h>
 
-#include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/me_fns.h>
 #include <construct/aldefs.h>

@@ -13,9 +13,10 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
+#include <tdf/tag.h>
+
 #include <construct/flpt.h>
 #include <construct/shape.h>
-#include <construct/tags.h>
 
 #include "float.h"
 #include "localexpmacs.h"

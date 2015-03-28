@@ -13,11 +13,12 @@
 #include <shared/error.h>
 #include <shared/string.h>
 
+#include <tdf/tag.h>
+
 #include <reader/exp.h>
 #include <reader/externs.h>
 
 #include <construct/exp.h>
-#include <construct/tags.h>
 #include <construct/me_fns.h>
 #include <construct/installglob.h>
 #include <construct/machine.h>

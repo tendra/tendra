@@ -26,13 +26,14 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <tdf/tag.h>
+
 #include <reader/exp.h>
 
 #include <reader/externs.h>
 #include <reader/basicread.h>
 
 #include <construct/exp.h>
-#include <construct/tags.h>
 #include <construct/shape.h>
 #include <construct/label_ops.h>
 #include <construct/install_fns.h>

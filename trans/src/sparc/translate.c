@@ -97,6 +97,8 @@
 
 #include <local/ash.h>
 
+#include <tdf/tag.h>
+
 #ifdef DWARF2
 #include <local/dw2_config.h>
 #endif
@@ -107,10 +109,8 @@
 #include <reader/externs.h>
 
 #include <construct/flpt.h>
-#include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/shape.h>
-#include <construct/tags.h>
 #include <construct/installglob.h>
 
 #include <refactor/optimise.h>

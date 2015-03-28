@@ -32,6 +32,7 @@
 #include <shared/xalloc.h>
 
 #include <tdf/nat.h>
+#include <tdf/tag.h>
 
 #include <local/szs_als.h>
 
@@ -41,7 +42,6 @@
 #include <reader/readglob.h>
 
 #include <construct/exp.h>
-#include <construct/tags.h>
 #include <construct/flpt.h>
 #include <construct/install_fns.h>
 #include <construct/shape.h>

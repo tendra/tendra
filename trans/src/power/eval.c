@@ -24,12 +24,13 @@
 
 #include <local/ash.h>
 
+#include <tdf/tag.h>
+
 #include <construct/installtypes.h>
 #include <construct/aldefs.h>
 #include <construct/dec.h>
 #include <construct/ash.h>
 #include <construct/flpt.h>
-#include <construct/tags.h>
 #include <construct/shape.h>
 #include <construct/machine.h>
 

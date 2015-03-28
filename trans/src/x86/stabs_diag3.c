@@ -18,6 +18,8 @@
 #include <shared/string.h>
 #include <shared/xalloc.h>
 
+#include <tdf/tag.h>
+
 #include <reader/exp.h>
 
 #include <local/szs_als.h>
@@ -28,7 +30,6 @@
 #include <construct/dec.h>
 #include <construct/machine.h>
 #include <construct/shape.h>
-#include <construct/tags.h>
 #include <construct/exp.h>
 
 #include <diag3/dg_first.h>

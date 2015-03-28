@@ -9,7 +9,7 @@
 
 #include <shared/bool.h>
 
-#include <construct/tags.h>
+#include <tdf/tag.h>
 
 #include <main/flags.h>
 

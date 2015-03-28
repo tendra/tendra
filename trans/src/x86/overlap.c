@@ -9,7 +9,8 @@
 
 #include <shared/bool.h>
 
-#include <construct/tags.h>
+#include <tdf/tag.h>
+
 #include <construct/exp.h>
 
 #include "localtypes.h"

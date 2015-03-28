@@ -15,10 +15,10 @@
 #include <local/szs_als.h>
 #include <local/dw2_config.h>
 
+#include <tdf/tag.h>
+
 #include <reader/exp.h>
 #include <reader/basicread.h>
-
-#include <construct/tags.h>
 
 #include <main/driver.h>
 #include <main/flags.h>

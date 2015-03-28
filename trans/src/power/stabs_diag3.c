@@ -20,12 +20,11 @@
 #include <local/ash.h>
 
 #include <tdf/nat.h>
+#include <tdf/tag.h>
 
 #include <reader/exp.h>
 #include <reader/token.h>
 #include <reader/externs.h>		/* for f_floating() */
-
-#include <construct/tags.h>
 
 #include <main/driver.h>
 #include <main/print.h>

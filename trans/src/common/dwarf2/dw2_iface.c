@@ -18,9 +18,9 @@
 
 #include <local/dw2_config.h>
 
-#include <reader/basicread.h>
+#include <tdf/tag.h>
 
-#include <construct/tags.h>
+#include <reader/basicread.h>
 
 #include <main/driver.h>
 #include <main/print.h>

@@ -25,14 +25,15 @@
 #include <assert.h>
 #include <stddef.h>
 
+#include <shared/error.h>
+
 #include <local/ash.h>
 
-#include <shared/error.h>
+#include <tdf/tag.h>
 
 #include <construct/installtypes.h>
 #include <construct/dec.h>
 #include <construct/ash.h>
-#include <construct/tags.h>
 
 #include <main/print.h>
 

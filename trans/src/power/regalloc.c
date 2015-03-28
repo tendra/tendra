@@ -31,8 +31,9 @@
 
 #include <local/ash.h>
 
+#include <tdf/tag.h>
+
 #include <construct/installtypes.h>
-#include <construct/tags.h>
 #include <construct/dec.h>
 #include <construct/ash.h>
 

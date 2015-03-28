@@ -11,11 +11,12 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <tdf/tag.h>
+
 #include <reader/externs.h>
 
 #include <construct/exp.h>
 #include <construct/shape.h>
-#include <construct/tags.h>
 
 #include "tests.h"
 #include "utility.h"

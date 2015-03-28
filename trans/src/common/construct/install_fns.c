@@ -31,9 +31,10 @@
 #include <shared/string.h>
 #include <shared/xalloc.h>
 
-#include <tdf/nat.h>
-
 #include <local/szs_als.h>
+
+#include <tdf/nat.h>
+#include <tdf/tag.h>
 
 #include <reader/basicread.h>
 #include <reader/main_reads.h>
@@ -43,7 +44,6 @@
 #include <reader/externs.h>
 
 #include <construct/exp.h>
-#include <construct/tags.h>
 #include <construct/me_fns.h>
 #include <construct/installglob.h>
 #include <construct/flpt.h>

@@ -13,6 +13,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <tdf/tag.h>
+
 #include <reader/exp.h>
 
 #ifdef DWARF2
@@ -20,7 +22,6 @@
 #endif
 
 #include <construct/aldefs.h>
-#include <construct/tags.h>
 #include <construct/shape.h>
 
 #include <main/flags.h>

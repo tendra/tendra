@@ -16,12 +16,13 @@
 #include <shared/string.h>
 #include <shared/xalloc.h>
 
+#include <tdf/tag.h>
+
 #include <reader/exp.h>
 
 #include <construct/installtypes.h>
 #include <construct/dec.h>
 #include <construct/exp.h>
-#include <construct/tags.h>
 
 #include <main/flags.h>
 #include <main/driver.h>

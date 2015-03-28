@@ -92,13 +92,14 @@
 #include <shared/string.h>
 #include <shared/xalloc.h>
 
+#include <tdf/tag.h>
+
 #include <reader/externs.h>		/* for "inits.h" init_XXX() procs */
 #include <reader/basicread.h>
 #include <reader/main_reads.h>
 #include <reader/readglob.h>
 
 #include <construct/installglob.h>
-#include <construct/tags.h>
 #include <construct/exp.h>
 
 #include <main/driver.h>

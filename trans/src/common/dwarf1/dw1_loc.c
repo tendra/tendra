@@ -16,13 +16,14 @@
 #include <local/codermacs.h>
 #include <local/out.h>
 
+#include <tdf/tag.h>
+
 #include <reader/basicread.h>
 
 #include <construct/installtypes.h>
 #include <construct/dec.h>
 #include <construct/shape.h>
 #include <construct/machine.h>
-#include <construct/tags.h>
 
 #include <dwarf1/dw1_consts.h>
 #include <dwarf1/dw1_types.h>

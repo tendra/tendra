@@ -24,10 +24,11 @@
 
 #include <shared/bool.h>
 
+#include <tdf/tag.h>
+
 #include <reader/exp.h>
 
 #include <construct/exp.h>
-#include <construct/tags.h>
 #include <construct/shape.h>
 
 #include <main/flags.h>

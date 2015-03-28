@@ -20,9 +20,9 @@
 #include <local/ash.h>
 
 #include <tdf/nat.h>
+#include <tdf/tag.h>
 
 #include <construct/installglob.h>
-#include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/shape.h>
 #include <construct/dec.h>

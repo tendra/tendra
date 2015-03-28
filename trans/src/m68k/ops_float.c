@@ -15,6 +15,8 @@
 
 #include <local/fbase.h>
 
+#include <tdf/tag.h>
+
 #include <main/driver.h>
 #include <main/print.h>
 
@@ -25,7 +27,6 @@
 #include <construct/install_fns.h>
 #include <construct/flpt.h>
 #include <construct/shape.h>
-#include <construct/tags.h>
 
 #include "assembler.h"
 #include "mach.h"

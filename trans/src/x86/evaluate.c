@@ -14,11 +14,12 @@
 #include <local/out.h>
 #include <local/codermacs.h>
 
+#include <tdf/tag.h>
+
 #include <reader/basicread.h>
 #include <reader/externs.h>
 #include <reader/table_fns.h>
 
-#include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/shape.h>
 #include <construct/flpt.h>

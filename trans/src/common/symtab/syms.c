@@ -16,6 +16,8 @@
 
 #include <local/ash.h>
 
+#include <tdf/tag.h>
+
 #include "cross_config.h"
 
 #include <symtab/symconst.h>
@@ -26,7 +28,6 @@
 
 #include <construct/ash.h>
 #include <construct/shape.h>
-#include <construct/tags.h>
 
 #include <main/flags.h>
 

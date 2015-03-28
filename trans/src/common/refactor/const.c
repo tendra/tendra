@@ -31,12 +31,13 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
+#include <tdf/tag.h>
+
 #include <reader/exp.h>
 #include <reader/externs.h>
 #include <reader/basicread.h>
 
 #include <construct/const.h>
-#include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/install_fns.h>
 #include <construct/shape.h>

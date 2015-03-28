@@ -7,6 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#ifndef TDF_TAG_H
+#define TDF_TAG_H
+
 #define ident_tag 1
 
 #define seq_tag 3
@@ -158,6 +161,10 @@
 #define regpair_tag             102
 
 #endif
+
+
+#endif
+
 
 /*
  *

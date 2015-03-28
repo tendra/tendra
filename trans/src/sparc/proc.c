@@ -24,6 +24,8 @@
 #include <local/szs_als.h>
 #include <local/ash.h>
 
+#include <tdf/tag.h>
+
 #include <reader/exp.h>
 
 #ifdef DWARF2
@@ -37,7 +39,6 @@
 #include <construct/installtypes.h>
 #include <construct/dec.h>
 #include <construct/ash.h>
-#include <construct/tags.h>
 #include <construct/installtypes.h>
 #include <construct/exp.h>
 #include <construct/shape.h>

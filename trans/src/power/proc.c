@@ -19,13 +19,14 @@
 
 #include <local/ash.h>
 
+#include <tdf/tag.h>
+
 #include <reader/exp.h>
 
 #include <construct/installtypes.h>
 #include <construct/aldefs.h>
 #include <construct/dec.h>
 #include <construct/ash.h>
-#include <construct/tags.h>
 #include <construct/reg_result.h>
 
 #include <main/driver.h>

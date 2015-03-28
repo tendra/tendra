@@ -19,9 +19,10 @@
 #include <local/codermacs.h>
 #include <local/out.h>
 
+#include <tdf/tag.h>
+
 #include <reader/basicread.h>
 
-#include <construct/tags.h>
 #include <construct/installtypes.h>
 #include <construct/dec.h>
 #include <construct/shape.h>

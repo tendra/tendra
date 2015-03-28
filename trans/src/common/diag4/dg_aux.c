@@ -17,13 +17,13 @@
 
 #include <tdf/nat.h>
 #include <tdf/sort.h>
+#include <tdf/tag.h>
 
 #include <reader/exp.h>
 #include <reader/basicread.h>
 #include <reader/externs.h>
 #include <reader/table_fns.h>
 
-#include <construct/tags.h>
 #include <construct/exp.h>
 #include <construct/me_fns.h>
 

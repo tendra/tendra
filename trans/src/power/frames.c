@@ -15,6 +15,8 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
+#include <tdf/tag.h>
+
 #include <reader/exp.h>
 
 #include <reader/externs.h>
@@ -25,7 +27,6 @@
 #include <construct/installglob.h>
 #include <construct/exp.h>
 #include <construct/flpt.h>
-#include <construct/tags.h>
 
 #include <main/flags.h>
 #include <main/print.h>

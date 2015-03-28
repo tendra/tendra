@@ -14,13 +14,14 @@
 #include <shared/error.h>
 #include <shared/string.h>
 
+#include <tdf/tag.h>
+
 #include <reader/externs.h>
 #include <reader/table_fns.h>
 #include <reader/basicread.h>
 
 #include <construct/installglob.h>
 #include <construct/exp.h>
-#include <construct/tags.h>
 #include <construct/shape.h>
 
 #include <special/special_call.h>

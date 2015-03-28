@@ -10,7 +10,8 @@
 #include <shared/bool.h>
 #include <shared/check.h>
 
-#include <construct/tags.h>
+#include <tdf/tag.h>
+
 #include <construct/exp.h>
 #include <construct/shape.h>
 #include <construct/is_worth.h>

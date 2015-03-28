@@ -15,15 +15,15 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
-#include <reader/exp.h>
+#include <tdf/tag.h>
 
+#include <reader/exp.h>
 #include <reader/main_reads.h>
 #include <reader/externs.h>
 #include <reader/readglob.h>
 #include <reader/basicread.h>
 
 #include <construct/exp.h>
-#include <construct/tags.h>
 #include <construct/machine.h>
 #include <construct/installtypes.h>
 #include <construct/dec.h>

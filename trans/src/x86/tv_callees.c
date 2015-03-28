@@ -11,11 +11,12 @@
 
 #include <shared/bool.h>
 
+#include <tdf/tag.h>
+
 #include <reader/externs.h>
 
 #include <construct/installglob.h>
 #include <construct/install_fns.h>
-#include <construct/tags.h>
 #include <construct/exp.h>
 
 #include <main/flags.h>

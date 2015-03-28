@@ -22,10 +22,11 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <tdf/tag.h>
+
 #include <reader/exp.h>
 
 #include <construct/exp.h>
-#include <construct/tags.h>
 
 #include <main/print.h>
 

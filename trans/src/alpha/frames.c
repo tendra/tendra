@@ -12,7 +12,7 @@
 #include <shared/bool.h>
 #include <shared/error.h>
 
-#include <construct/tags.h>
+#include <tdf/tag.h>
 
 #include <utility/bits.h>
 

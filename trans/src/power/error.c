@@ -18,13 +18,13 @@
 #include <local/cpu.h>
 
 #include <tdf/nat.h>
+#include <tdf/tag.h>
 
 #include <reader/exp.h>
 #include <reader/externs.h>
 
 #include <construct/flpt.h>
 #include <construct/me_fns.h>
-#include <construct/tags.h>
 
 #include <main/print.h>
 

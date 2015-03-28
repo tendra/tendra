@@ -18,6 +18,9 @@
 #include <local/out.h>
 
 #include <tdf/nat.h>
+#ifdef TDF_DIAG4
+#include <tdf/tag.h>
+#endif
 
 #include <reader/basicread.h>
 
@@ -41,10 +44,6 @@
 #include <dwarf1/dw1_types.h>
 #include <dwarf1/dw1_loc.h>
 #include <dwarf1/dw1_out.h>
-
-#ifdef TDF_DIAG4
-#include <construct/tags.h>
-#endif
 
 #define WHOLE_LINE (0xffff)	/* this should be in dw1_consts.h */
 #define WHOLE_SECT (0)		/* this should be in dw1_consts.h */

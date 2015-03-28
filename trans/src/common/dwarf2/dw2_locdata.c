@@ -14,12 +14,12 @@
 #include <shared/xalloc.h>
 
 #include <local/dw2_config.h>
-#include <reader/exp.h>
 
+#include <tdf/tag.h>
+
+#include <reader/exp.h>
 #include <reader/basicread.h>
 #include <reader/externs.h>
-
-#include <construct/tags.h>
 
 #include <main/driver.h>
 #include <main/print.h>
