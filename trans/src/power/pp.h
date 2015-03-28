@@ -20,7 +20,5 @@ extern exp show_father(int);
 extern exp show_pt(int);
 extern exp recurse(int);
 extern void properties(int);
-extern char *shape_name(int);
-extern char *getname(int);
 #endif
 #endif
