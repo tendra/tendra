@@ -9,16 +9,18 @@ $PROTECT = "";
 
 +SUBSET "fail" := {
 
-	+FUNC void __assert_aux(const char *, const char *, int);
+	+FUNC void __assert_aux(const char *, const char *, int, const char *);
 
 	%%%
 	#include <stdio.h>
 	#include <stdlib.h>
 
-	/* Provide token definition here */
-	#define __assert_aux(e, f, l) \
-		(fprintf(stderr, "assertion failed: %s, file %s, line %d\n", \
-			(e), (f), (l) ), abort())
+	#define __assert_aux(e, f, n, l)                                  \
+	    ((n) ? fprintf(stderr, "assertion failed: %s:%s():%d (%s)\n", \
+	             (f), (n), (l), (e))                                  \
+	         : fprintf(stderr, "assertion failed: %s:%d (%s)\n",      \
+	             (f), (l), (e))                                       \
+	         , abort())
 	%%%
 
 };
@@ -29,6 +31,6 @@ $PROTECT = "";
 +IFDEF NDEBUG
 +DEFINE assert.1(e) %% ((void) 0) %%;
 +ELSE
-+DEFINE assert.2(e) %% ((e) ? (void) 0 : __assert_aux(#e, __FILE__, __LINE__)) %%;
++DEFINE assert.2(e) %% ((e) ? (void) 0 : __assert_aux(#e, __FILE__, 0, __LINE__)) %%;
 +ENDIF
 
