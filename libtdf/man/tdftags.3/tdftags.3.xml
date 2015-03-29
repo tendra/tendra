@@ -1,0 +1,2821 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE refentry SYSTEM "minidocbook.dtd" [
+	<!ENTITY exp.h "&lt;reader/exp.h&gt;">
+]>
+
+<!-- $Id -->
+<refentry>
+<!--
+	Copyright (c) 2015 The TenDRA Project <http://www.tendra.org/>.
+	All rights reserved.
+
+	Redistribution and use in source and binary forms, with or without
+	modification, are permitted provided that the following conditions are met</code></term>
+
+
+	1. Redistributions of source code must retain the above copyright notice,
+	   this list of conditions and the following disclaimer.
+	2. Redistributions in binary form must reproduce the above copyright notice,
+	   this list of conditions and the following disclaimer in the documentation
+	   and/or other materials provided with the distribution.
+	3. Neither the name of The TenDRA Project nor the names of its contributors
+	   may be used to endorse or promote products derived from this software
+	   without specific, prior written permission.
+
+	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+	IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+	THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+	PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+	CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+	EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+	PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+	OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+	WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+	OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+	ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<!--
+			 Crown Copyright (c) 1997
+
+	This TenDRA(r) Manual Page is subject to Copyright
+	owned by the United Kingdom Secretary of State for Defence
+	acting through the Defence Evaluation and Research Agency
+	(DERA).	It is made available to Recipients with a
+	royalty\-free licence for its use, reproduction, transfer
+	to other parties and amendment for any purpose not excluding
+	product development provided that any such use et cetera
+	shall be deemed to be acceptance of the following conditions:\-
+
+		(1) Its Recipients shall ensure that this Notice is
+		reproduced upon any copies or amended versions of it;
+
+		(2) Any amended version of it shall be clearly marked to
+		show both the nature of and the organisation responsible
+		for the relevant amendment or amendments;
+
+		(3) Its onward transfer from a recipient to another
+		party shall be deemed to be that party's acceptance of
+		these conditions;
+
+		(4) DERA gives no warranty or assurance as to its
+		quality or suitability for any purpose and DERA accepts
+		no liability whatsoever in relation to any use to which
+		it may be put.
+-->
+
+	<refmeta>
+		<refentrytitle>tdftags</refentrytitle>
+		<manvolnum>3</manvolnum>
+	</refmeta>
+
+	<refnamediv>
+		<refname>tdftags</refname>
+		<refpurpose>TDF tag fields</refpurpose>
+	</refnamediv>
+
+	<refsynopsisdiv>
+		<cmdsynopsis>
+			<command>#include &lt;tdf/exp.h&gt;<sbr/>
+			#include &lt;tdf/tag.h&gt;</command>
+		</cmdsynopsis>
+	</refsynopsisdiv>
+
+	<refsection>
+		<title>Description</title>
+
+		<para>An exp can occur in just one place in the tree, because of
+			the backward pointers. Except for name_tag the general structure is
+			that an exp has a son which is NULL or its first argument exp. The
+			next argument is the bro of the first, the next the bro of that etc.
+			The last argument has the last field set and its bro is the head exp
+			of the construction. In a name_tag the son contains the ident_tag which
+			declares the identity or variable being used. case, env_offset and string
+			are also special cases.</para>
+
+		<para>The pt field is used in goto and test-like constructions to hold the
+			labst being jumped to. It is used in ident and name constructions
+			to hold a list of uses of a declaration.</para>
+
+		<para>A name_tag or an exp with at pt to a labst MUST NOT be removed from
+			the tree without the usage count being decreased. In the case of name_tag
+			the exp must be removed from the pt-list which starts in the pt
+			of the defining ident_tag. kill_exp does these operations. It
+			also applies kill_exp recursively to all arguments.</para>
+
+		<para>For constructions not involving tags or labels, install_fns.c contains
+			examples of ways of constructing exps which may be used during
+			TDF transformations. However, at the time when the functions in
+			install_fns.c are being used, tags and labels are represented by
+			indexes into arrays. During TDF transformations this is no longer so.
+			name_tag refers directly to the ident_tag of the appropriate declaration,
+			and labels are represented by labst_tag exps. The form of a labst is
+			explained below, but remember that the count of uses must be kept
+			correctly up to date. The form of ident_tag and name_tag constructions
+			are also explained below, as are the uses of some functions defined
+			in me_fns.c to help in creating them.</para>
+
+		<para>The props field is zero except for those properties defined in &exp.h;.
+			Operations with ntests, rounding modes or error treatments
+			have these represented in the props field. as in &exp.h;.</para>
+
+		<para>An exp should normally have hold_refactor applied to it after being created.</para>
+	</refsection>
+
+	<refsection>
+		<title>Tag fields</title>
+
+		<variablelist>
+			<varlistentry>
+				<term><code>abs_tag</code>:
+					Represents integer abs construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>sh(arg1)</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>labst if error_jump, NULL otherwise</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>absbool_tag</code>:
+					Represents comparison and conversion to boolean</term>
+
+				<listitem>
+					<para>Only produced (by refactor.c) is HAS_SETCC is set.</para>
+
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>bro(arg1)</code></td>
+							<td>arg2</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>a variety shape</td>
+						</tr>
+						<tr>
+							<td><code>ntest</code></td>
+							<td>represented in props, qv</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+					</informaltable>
+
+					<para>Delivers 1 in shape if arg1 ntest arg2, 0 otherwise.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>addptr_tag</code>:
+					Adds pointer and offset to produce pointer</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1 (pointer)</td>
+						</tr>
+						<tr>
+							<td><code>bro(arg1)</code></td>
+							<td>arg2 (offset)</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>pointer(al2(sh(arg2)))</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>alloca_tag</code>:
+					Represents local_alloc construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>pointer(x)</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>props(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>and_tag</code>:
+					represents and</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>a brother list of argument, all of the same shape.
+								At least two arguments. After check any constants will
+								have been combined into one, which will be the last exp.</td>
+						</tr>
+						<tr>
+							<td><code>	if there</code></td>
+							<td>a constant contribution.</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>shape of son(e). This may be changed in some installers
+								by chvar_tag transformations in check - only if
+								<code>HAS_BYTEOPS</code> is set.</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>apply_tag</code>:
+					Represents apply_proc construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>bro(son(e))</code></td>
+							<td>arg2 in the form of a brother list of zero or more exps.</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>result_shape.</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+
+					<para>Properties in the props field are defined in &exp.h;</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>asm_tag</code>:
+					Represents the ~asm group of token applications</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>top</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+
+					<para>Properties in the props field are defined in &exp.h;</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>ass_tag</code>:
+					Represents assign construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>bro(son(e))</code></td>
+							<td>arg2</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>top</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>assvol_tag</code>:
+					Represents assign_to_volatile construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>bro(son(e))</code></td>
+							<td>arg2</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>top</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>bfass_tag</code> and <code>bfassvol_tag</code>:
+					represent bitfield assignment ops</term>
+				<term><code>bfcont_tag</code> and <code>bfcontvol_tag</code>:
+					represent bitfield contents ops</term>
+
+				<listitem>
+					<para>These tags are removed by refactor.c and should not be seen elsewhere.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>bitf_to_int_tag</code>:
+					represents bitfield to int conversion
+					son(e)arg1.</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>shape</code></td>
+							<td>variety being converted to</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>case_tag</code>:
+					Represents case construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>control</td>
+						</tr>
+						<tr>
+							<td><code>bro(son(e))</code></td>
+							<td>a brother list of exps representing branches.
+							   Each element is zero-named exp with:
+									   pt is destination labst_tag.
+									   no is lower limit.
+									   if upper limit is equal to lower
+										 then son is NULL
+										 else son is exp with no the upper limit.
+							   The elements of this list are arranged in increasing
+							   order of lower limit.</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>bottom if exhausive, top otherwise</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>chfl_tag</code>:
+					represents change floating variety</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>floating shape being converted to</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>chvar_tag</code>:
+					represents change variety</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>variety being converted to</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>clear_tag</code>:
+					represents make_value</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>shape of value required</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>component_tag</code>:
+					represents component</term>
+
+				<listitem>
+					<para>Always removed by refactor.c. Should not occur elsewhere.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>compound_tag</code>:
+					Represents the compound construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg2 in the form of a brother list of zero
+								or more pairs. The first of each pair will be a val_tag
+								with shape some offset. Its no field will be the offset
+								in which to put the next item of the pair.</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>compound(arg1).</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>concatnof_tag</code>:
+					represents concat nof</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>bro(arg1)</code></td>
+							<td>arg2. arg1 and arg2 will be nof(m, s) and nof(n, s)</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>nof(m + n, s)</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>cond_tag</code>:
+					Represents conditional construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>first</td>
+						</tr>
+						<tr>
+							<td><code>bro(son(e))</code></td>
+							<td>alt, which will be a labst_tag</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>LUB of first and alt</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>cont_tag</code>:
+					represents contents</term>
+				<term><code>contvol_tag</code>:
+					represents contents with volatile qualifier</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1 (a pointer)</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>shape of value being extracted</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+
+					<para>Properties in the props field are defined in &exp.h;</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>current_env_tag</code>:
+					represents current env</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>pointer(frame alignment)</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>diagnose_tag</code>:
+					represents a diagnosing operation</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>dno(e)</code></td>
+							<td>diag_info (qv.)</td>
+						</tr>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>controlled exp.</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>sh(son(e))</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>div0_tag</code></term>
+				<term><code>div1_tag</code></term>
+				<term><code>div2_tag</code>:
+					represent div0/1/2</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>bro(arg1)</code></td>
+							<td>arg2</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>sh(arg1) unless changed by chvar_tag (HAS_BYTEOPS)</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>labst if error_jump, NULL otherwise</td>
+						</tr>
+					</informaltable>
+
+					<para>Remember to increment labst count if used.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>env_offset_tag</code>:
+					represents env_offset</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>ident_tag referred to</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>offset from frame alignment.</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>fabs_tag</code>:
+					represents floating abs</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>sh(arg1)</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>labst if error_jump, NULL otherwise</td>
+						</tr>
+					</informaltable>
+
+					<para>Remember to increment labst count if used.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>fdiv_tag</code>:
+					represents floating division</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>bro(arg1)</code></td>
+							<td>arg2</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>sh(arg1)</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>labst if error_jump, NULL otherwise</td>
+						</tr>
+					</informaltable>
+
+					<para>Remember to increment labst count if used.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>field_tag</code>:
+					represents selection from a compound shape</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1 (value of shape compound)</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>shape of the component required</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>the offset (in bits) from the start of the
+								compound to the required component.</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>float_tag</code>:
+					represents conversion from int to float</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1 (int)</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>the floating shape required.</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>labst if error_jump, NULL otherwise</td>
+						</tr>
+					</informaltable>
+
+					<para>Remember to increment labst count if used.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>fmax_tag</code></term>
+				<term><code>fmin_tag</code>:
+					represents floating maximum and minimum</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>bro(arg1)</code></td>
+							<td>arg2</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>sh(arg1)</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>fminus_tag</code>:
+					represents floating subtraction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>bro(arg1)</code></td>
+							<td>arg2</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>sh(arg1)</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>labst if error_jump, NULL otherwise</td>
+						</tr>
+					</informaltable>
+
+					<para>Remember to increment labst count if used.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>fmult_tag</code>:
+					represents floating multiplication</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>a brother list of argument, all of the same shape.
+								At least two arguments. After check any constants will
+								have been combined into one, which will be the last exp.
+								if there is a constant contribution.</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>shape of son(e)</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>labst if error_jump, NULL otherwise</td>
+						</tr>
+					</informaltable>
+
+					<para>Remember to increment labst count if used.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>fneg_tag</code>:
+					represents floating negation</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>sh(arg1)</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>labst if error_jump, NULL otherwise.</td>
+						</tr>
+					</informaltable>
+
+					<para>Remember to increment labst count if used.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>fplus_tag</code>:
+					represents floating addition</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>a brother list of argument, all of the same shape.
+								At least two arguments. After check any constants will
+								have been combined into one, which will be the last exp
+								if there is a constant contribution.</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>shape of son(e)</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>labst if error_jump, NULL otherwise</td>
+						</tr>
+					</informaltable>
+
+					<para>Remember to increment labst count if used.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>fpower_tag</code>:
+					represents floating power</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>bro(arg1)</code></td>
+							<td>arg2</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>shape of son(e)</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>labst if error_jump, NULL otherwise</td>
+						</tr>
+					</informaltable>
+
+					<para>Remember to increment labst count if used.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>goto_tag</code>:
+					Represents goto construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>bottom</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>destination labst_tag</td>
+						</tr>
+					</informaltable>
+
+					<para>Create using me_l1, then set the pt field and
+						increment the usage counter in the labst_tag.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>goto_lv_tag</code>:
+					Represents the goto_local_lv construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>local_lv value</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>bottom</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>hold_tag</code>:
+					used as a dummy father at some times</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>exp being so held.</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>ident_tag</code>:
+					Represents identify and variable constructions</term>
+
+				<listitem>
+					<para>For identify:</para>
+
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>definition</td>
+						</tr>
+						<tr>
+							<td><code>bro(son(e))</code></td>
+							<td>body</td>
+						</tr>
+					</informaltable>
+
+					<para>For variable:</para>
+
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>init</td>
+						</tr>
+						<tr>
+							<td><code>bro(son(e))</code></td>
+							<td>body</td>
+						</tr>
+					</informaltable>
+
+					<para>The shape of the result is the shape of body.
+						The no(e) is a count of the number of uses.
+						The pt(e) is the start of a chain of uses through name_tag's.</para>
+
+					<para>Properties in the props field are defined in &exp.h;</para>
+
+					<para>Create an ident_tag using me_startid, add name_tag uses of it
+						using me_obtain, complete the definition using me_complete_id.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>ignorable_tag</code>:
+					represents ignorable construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>exp being controlled</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>sh(son(e))</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>imag_tag</code>:
+					represents imaginary part</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>complex number</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>floating shape with same control parameters as the complex</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>int_to_bitf_tag</code>:
+					represents integer to bitfield conversion</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1 (int)</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>bitfield required</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>labst_tag</code>:
+					Represents exps which are destination of jumps.</term>
+
+				<listitem>
+					<para>Produced from alt of conditional,
+						body of repeat and each place of labelled.</para>
+
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>a holder</td>
+						</tr>
+						<tr>
+							<td><code>bro(son(e))</code></td>
+							<td>the destination exp</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>shape of bro(son(e))</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+
+					<para>Properties in the props field are defined in &exp.h;</para>
+
+					<para>The holder (i.e. the son of the labst) can have any name_tag;
+						its no field is the number of uses of the labst and
+						its bro is the destination exp. No other field is defined.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>last_local_tag</code>:
+					represents last_local construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>top</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>pointer(x)</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>local_free_all_tag</code>:
+					represents local_free_all construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>top</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>local_free_tag</code>:
+					Represents local_free construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg2 (pointer)</td>
+						</tr>
+						<tr>
+							<td><code>bro(son(e))</code></td>
+							<td>arg1 (offset)</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>top</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>long_jump_tag</code>:
+					Represents long_jump construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>bro(son(e))</code></td>
+							<td>arg2</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>bottom</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>make_complex_tag</code>:
+					represent make complex number</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>bro(arg1)</code></td>
+							<td>arg2</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>make_lv_tag</code>:
+					represents make label value</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>lv</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>labst</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+					</informaltable>
+
+					<para>Remember to increment labst count.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>max_tag</code></term>
+				<term><code>min_tag</code>:
+					represent maximum and minimum integer ops</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>bro(arg1)</code></td>
+							<td>arg2</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>minptr_tag</code>:
+					Represents subtract_pointers construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>bro(son(e))</code></td>
+							<td>arg2</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>offset(al1(arg2),al1(arg1))</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>minus_tag</code>:
+					represents subtraction</term>
+
+				<listitem>
+					<para>This is replaced by addition of negation by refactor.c.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>mod_tag</code>:
+					Represents rem1 construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>bro(son(e))</code></td>
+							<td>arg2</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>sh(arg1)</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>labst if error_jump, NULL otherwise.</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>movecont_tag</code>:
+					Represents move_some construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>bro(son(e))</code></td>
+							<td>arg2</td>
+						</tr>
+						<tr>
+							<td><code>bro(bro(son(e)))</code></td>
+							<td>arg3</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>top</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+					</informaltable>
+
+					<para>Properties in the props field are defined in &exp.h;</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>mult_tag</code>:
+					represents integer multiplication</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>a brother list of argument, all of the same shape.
+								At least two arguments. After check any constants will
+								have been combined into one, which will be the last exp
+								if there is a constant contribution.</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>shape of son(e)</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>labst if error_jump, NULL otherwise</td>
+						</tr>
+					</informaltable>
+
+					<para>Remember to increment labst count if used.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>name_tag</code>:
+					Represents obtain_tag</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>declaration (an ident_tag).</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>offset in bits from the start of that declaration's value</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>the next name_tag on the chain of uses of an ident_tag,
+								which started in th pt field of the ident_tag, or
+								NULL if the end of the chain.</td>
+						</tr>
+					</informaltable>
+
+					<para>Properties in the props field are defined in &exp.h;</para>
+
+    				<para>Remember to increment ident_tag count or use me_obtain from
+    					me_fns.c to create this.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>ncopies_tag</code>:
+					represents ncopies</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>value to be copied</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>n, the number of copies</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>nof(n, sh(son(e)))</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>neg_tag</code>:
+					Represents negate construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>sh(arg1)</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>destination labst if ov_err is error_jump, otherwise NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>nof_tag</code>:
+					represents the make_nof construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1 as a brother list of zero or more exps, each of
+    							the same shape (under eq_shape)</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>nof(n, shape of item)</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>not_tag</code>:
+					Represents logical complement construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>sh(arg1)</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>null_tag</code>:
+					represent ptr NULL and proc null</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>pointer(approprite alignment)</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>offset_add_tag</code>:
+					Represents offset_add construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>bro(son(e))</code></td>
+							<td>arg2</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>offset(max(al1(arg1),al1(arg2)),al2(arg2))</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>offset_div_tag</code>:
+					Represents offset_div construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>bro(son(e))</code></td>
+							<td>arg2</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>integer(v)</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>offset_div_by_int_tag</code>:
+					Represents offset_div_by_int construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>bro(son(e))</code></td>
+							<td>arg2</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>offset(x,x)</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>offset_max_tag</code>:
+					Represents offset_max construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>bro(son(e))</code></td>
+							<td>arg2</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>offset(max(al1(arg1),al1(arg2)),max(al2(arg1),al2(arg2)))</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>offset_mult_tag</code>:
+					Represents offset_mult construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>bro(son(e))</code></td>
+							<td>arg2</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>offset(x,x)</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>offset_negate_tag</code>:
+					Represents offset_negate construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>offset(x,x)</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>offset_pad_tag</code>:
+					represents offset pad</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1 (offset)</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>offset of required padded shape</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>offset_subtract_tag</code>:
+					Represents offset_subtract construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>bro(son(e))</code></td>
+							<td>arg2</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>offset(al2(arg1),al2(arg2))</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>or_tag</code>:
+					represents or</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>a brother list of argument, all of the same shape.
+								At least two arguments. After check any constants will
+								have been combined into one, which will be the last exp
+								if there is a a constant contribution.</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>shape of son(e)</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>plus_tag</code>:
+					represents the combination of plus and minus constructions</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>a brother list of argument, all of the same shape.
+								At least two arguments. After check any constants will
+								have been combined into one, which will be the last exp
+								if there is a constant contribution.</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>shape of son(e)</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>destination labst if ov_err is error_jump, otherwise NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>power_tag</code>:
+					represents integer power</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>bro(arg1)</code></td>
+							<td>arg2</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>sh(arg1)</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>labst if error_jump, NULL otherwise</td>
+						</tr>
+					</informaltable>
+
+					<para>Remember to increment labst count if used.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>proc_tag</code>:
+					represents make_proc</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>body of procedure, starting with declarations
+    							(ident_tag) of parameters.</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>proc</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>shape of return</td>
+						</tr>
+					</informaltable>
+
+					<para>Properties in the props field are defined in &exp.h;</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>prof_tag</code>:
+					represents profile exp</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>top</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>expected number of times through this point</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>real_tag</code>:
+					represents a floating point constant</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>a floating shape (not complex)</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>index of number in flptnos</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>realpart_tag</code>:
+					represents operation to take the real part of a complex</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1 (complex)</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>floating derived from same controls as complex</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>reff_tag</code>:
+					represents increment of a pointer by a constant offset</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1 (pointer)</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>shape of resulting pointer</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>offset in bits</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>rem0_tag</code></term>
+				<term><code>rem2_tag</code>:
+					Represents rem0/2 construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>bro(son(e))</code></td>
+							<td>arg2</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>sh(arg1)</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>labst if error_jump, NULL otherwise</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>rep_tag</code>:
+					represents repeat construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>start</td>
+						</tr>
+						<tr>
+							<td><code>bro(son(e))</code></td>
+							<td>body, which will be a labst_tag</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>shape of body</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>loop record of this repeat</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+					</informaltable>
+
+					<para>Properties in the props field are defined in &exp.h;</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>res_tag</code>:
+					Represents the return construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>bottom</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>rotl_tag</code></term>
+				<term><code>rotr_tag</code>:
+					represent rotate left and right</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1 (value to be rotated)</td>
+						</tr>
+						<tr>
+							<td><code>bro(arg1)</code></td>
+							<td>arg2 (no of places)</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>sh(arg1)</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>round_tag</code>:
+					represents round_with_mode construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>integer(r)</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>destination labst if ov_err is error_jump, otherwise NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>seq_tag</code>:
+					Represents the sequence construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>bro(son(e))</code></td>
+							<td>result.
+								son(e) is statements in the form of a zero-named exp, with its
+								son as the first statement, and the remaining statements
+								chained through the bro fields.</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>the shape of result</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+					</informaltable>
+
+    				<para>Use new_exp_list to start and empty sequence, add_exp_list to
+						add an exp. When all but the result exp have been added, use
+						clear_exp_list on the list. Then create the sequence with
+						f_sequence.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>shl_tag</code>:
+					Represents shift_left construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>bro(son(e))</code></td>
+							<td>arg2</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>sh(arg1)</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>labst if error_jump, NULL otherwise.</td>
+						</tr>
+					</informaltable>
+
+					<para>Remember to increment labst count if used.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>shr_tag</code>:
+					Represents shift_right construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>bro(son(e))</code></td>
+							<td>arg2</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>sh(arg1)</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>solve_tag</code>:
+					Represents the labelled construction</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>starter</td>
+						</tr>
+						<tr>
+							<td><code>bro(son(e))</code></td>
+							<td>the start of a brother list of one or more exps,
+    							which will be labst_tag's for each of the places</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>LUB of starter and each of the places</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>loop record of this solve</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0;</td>
+						</tr>
+					</informaltable>
+
+					<para>Properties in the props field are defined in &exp.h;</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>string_tag</code>:
+					represents constant array of integers</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>nof(n, s)</td>
+						</tr>
+						<tr>
+							<td><code>nostr(e)</code></td>
+							<td>pointer to array of integers</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+
+					<para>Properties in the props field are defined in &exp.h;</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>subptr_tag</code>:
+					represents subtract offset from pointer</term>
+
+				<listitem>
+					<para>No longer used.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>testbit_tag</code>:
+					Introduced by check to replace test(nt, and(x, mask), 0)
+					if tn is equal or not_equal.</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>x</td>
+						</tr>
+						<tr>
+							<td><code>bro(son(e))</code></td>
+							<td>mask (not necessarily constant)</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>top</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>either between 0 and 100 inclusive, in which case
+								the probability of continuing to the next construction
+								(not jumping), or no(e) is 1000 in which case the
+								probability of jumping is not known.</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>destination labst_tag</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>test_tag</code>:
+					Represents floating_test, integer_test, local_lv_test
+					offset_test, pointer_test, proc_test constructions.</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>arg1</td>
+						</tr>
+						<tr>
+							<td><code>bro(son(e))</code></td>
+							<td>arg2</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>top</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>either between 0 and 100 inclusive, in which case
+								the probability of continuing to the next construction
+								(not jumping), or no(e) is 1000 in which case the
+								probability of jumping is not known.</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>destination labst_tag</td>
+						</tr>
+					</informaltable>
+
+				<para>Create using me_q1 or me_q2 which will increment the usage
+					counter in the labst_tag.</para>
+
+				<para>If a test_tag is removed from the tree it must be killed using
+					kill_exp which will decrease the labst usage count AND kill
+					the arguments. If the arguments must not be killed, the labst
+					count must be decreased explicitly.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>top_tag</code>:
+					represents &ldquo;do nothing&rdquo; operation</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>top</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>0</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>val_tag</code>:
+					represents constant integers and offsets</term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>integer or offset shape</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>NULL</td>
+						</tr>
+						<tr>
+							<td><code>no(e)</code></td>
+							<td>if shape is integer and !isbigval(e), no(e) is the number.
+								if shape is integer and isbigval(e), no(e) is
+								the index of a representation of the integer in flptnos.
+								if shape is offset, no(e) the offset measured in bits.</td>
+						</tr>
+					</informaltable>
+
+					<para>Properties in the props field are defined in &exp.h;</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>general_proc_tag</code></term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son</code></td>
+							<td>(ident for caller-formal as in proc_tag)
+    			....
+    	      with body = (ident for callee_formal with
+    	      			def = formal_callee_tag)
+    	      			....
+    	      		   with body of proc</td>
+						</tr>
+						<tr>
+							<td><code>props</code></td>
+							<td>procprops</td>
+						</tr>
+						<tr>
+							<td><code>shape</code></td>
+							<td>proc</td>
+						</tr>
+						<tr>
+							<td><code>pt(e)</code></td>
+							<td>shape of return.</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>apply_general_tag</code></term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son</code></td>
+							<td>proc</td>
+						</tr>
+						<tr>
+							<td><code>bro(son)</code></td>
+							<td>
+		exp(tag = 0; props = procprops; no = number of otagexps;
+				son = list of otagexps ie caller actuals)
+			   if tag is present in otagexp, then
+					name(otagexp) = caller_tag
+					son(otagexp) = actual
+				and postlude will have ident with
+					def = caller_name_tag
+				and no(def) = no of corresponding caller_tag
+					in the otagexp list, starting from 0
+			   else otagexp is the actual exp
+							</td>
+						</tr>
+						<tr>
+							<td><code>bro(bro(son))</code></td>
+							<td>
+		callees = (1) make_callee_list_tag with son list of exps
+							and number = number in list
+						 (2) make_dynamic_callee_tag with son ptr
+							and bro(son) size
+						 (3) same_callees_tag
+				and props = procprops
+							</td>
+						</tr>
+						<tr>
+							<td><code>bro(bro(bro(son)))</code></td>
+							<td>postlude with tags identified as above</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>tail_call_tag</code></term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son</code></td>
+							<td>proc</td>
+						</tr>
+						<tr>
+							<td><code>bro(son)</code></td>
+							<td>(tag = 0; props = procprops; son = callees as above)</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>untidy_return</code></term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>son</code></td>
+							<td>result exp</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>trap_tag</code></term>
+
+				<listitem>
+					<informaltable>
+						<tr>
+							<td><code>no()</code></td>
+							<td>error_code</td>
+						</tr>
+					</informaltable>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</refsection>
+
+</refentry>
+
