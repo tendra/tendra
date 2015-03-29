@@ -243,7 +243,7 @@ test-doc:
 	cd ${.CURDIR}/${project}/doc && ${MAKE} test
 .endfor
 	@echo "===> validating manpages"
-.for project in calculus disp trans lexi make_err make_tdf \
+.for project in calculus disp trans libtdf lexi make_err make_tdf \
 	tdfc2 sid tcc tld tnc tpl tspec
 	cd ${.CURDIR}/${project}/man && ${MAKE} test
 .endfor
@@ -258,7 +258,7 @@ build-doc:
 	    -DDEVELOPER OBJ_DIR=${OBJ_DOC}/${project}
 .endfor
 	@echo "===> building manpages"
-.for project in calculus disp trans lexi make_err make_tdf \
+.for project in calculus disp trans libtdf lexi make_err make_tdf \
 	tdfc2 sid tcc tld tnc tpl tspec
 	cd ${.CURDIR}/${project}/man && ${MAKE} \
 	    OBJ_DIR=${OBJ_DOC}/${project}
