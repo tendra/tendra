@@ -2,6 +2,7 @@
 
 <!DOCTYPE refentry SYSTEM "minidocbook.dtd" [
 	<!ENTITY exp.h "&lt;reader/exp.h&gt;">
+	<!ENTITY NULL  "<code>NULL</code>">
 ]>
 
 <!-- $Id -->
@@ -76,8 +77,8 @@
 
 	<refsynopsisdiv>
 		<cmdsynopsis>
-			<command>#include &lt;tdf/exp.h&gt;<sbr/>
-			#include &lt;tdf/tag.h&gt;</command>
+			<command>#include &lt;tdf/exp.h&gt;&br;
+				#include &lt;tdf/tag.h&gt;</command>
 		</cmdsynopsis>
 	</refsynopsisdiv>
 
@@ -86,7 +87,7 @@
 
 		<para>An exp can occur in just one place in the tree, because of
 			the backward pointers. Except for name_tag the general structure is
-			that an exp has a son which is NULL or its first argument exp. The
+			that an exp has a son which is &NULL; or its first argument exp. The
 			next argument is the bro of the first, the next the bro of that etc.
 			The last argument has the last field set and its bro is the head exp
 			of the construction. In a name_tag the son contains the ident_tag which
@@ -142,7 +143,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>labst if error_jump, NULL otherwise</td>
+							<td>labst if error_jump, &NULL; otherwise</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -174,7 +175,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>no(e)</code></td>
@@ -206,7 +207,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>no(e)</code></td>
@@ -240,7 +241,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -274,7 +275,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -304,7 +305,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 
@@ -332,7 +333,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 
@@ -364,7 +365,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -394,7 +395,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -428,7 +429,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -451,7 +452,7 @@
 									   pt is destination labst_tag.
 									   no is lower limit.
 									   if upper limit is equal to lower
-										 then son is NULL
+										 then son is &NULL;
 										 else son is exp with no the upper limit.
 							   The elements of this list are arranged in increasing
 							   order of lower limit.</td>
@@ -466,7 +467,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -492,7 +493,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -518,7 +519,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -532,7 +533,7 @@
 					<informaltable>
 						<tr>
 							<td><code>son(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>shape</code></td>
@@ -544,7 +545,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -578,7 +579,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>no(e)</code></td>
@@ -612,7 +613,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -638,7 +639,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>no(e)</code></td>
@@ -670,7 +671,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 
@@ -686,7 +687,7 @@
 					<informaltable>
 						<tr>
 							<td><code>son(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>shape</code></td>
@@ -698,7 +699,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -724,7 +725,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -756,7 +757,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>labst if error_jump, NULL otherwise</td>
+							<td>labst if error_jump, &NULL; otherwise</td>
 						</tr>
 					</informaltable>
 
@@ -784,7 +785,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -810,7 +811,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>labst if error_jump, NULL otherwise</td>
+							<td>labst if error_jump, &NULL; otherwise</td>
 						</tr>
 					</informaltable>
 
@@ -842,7 +843,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>labst if error_jump, NULL otherwise</td>
+							<td>labst if error_jump, &NULL; otherwise</td>
 						</tr>
 					</informaltable>
 
@@ -871,7 +872,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -897,7 +898,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>labst if error_jump, NULL otherwise</td>
+							<td>labst if error_jump, &NULL; otherwise</td>
 						</tr>
 					</informaltable>
 
@@ -930,7 +931,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -960,7 +961,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>labst if error_jump, NULL otherwise</td>
+							<td>labst if error_jump, &NULL; otherwise</td>
 						</tr>
 					</informaltable>
 
@@ -991,7 +992,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>labst if error_jump, NULL otherwise</td>
+							<td>labst if error_jump, &NULL; otherwise</td>
 						</tr>
 					</informaltable>
 
@@ -1019,7 +1020,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>labst if error_jump, NULL otherwise.</td>
+							<td>labst if error_jump, &NULL; otherwise.</td>
 						</tr>
 					</informaltable>
 
@@ -1050,7 +1051,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>labst if error_jump, NULL otherwise</td>
+							<td>labst if error_jump, &NULL; otherwise</td>
 						</tr>
 					</informaltable>
 
@@ -1082,7 +1083,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>labst if error_jump, NULL otherwise</td>
+							<td>labst if error_jump, &NULL; otherwise</td>
 						</tr>
 					</informaltable>
 
@@ -1098,7 +1099,7 @@
 					<informaltable>
 						<tr>
 							<td><code>son(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>shape</code></td>
@@ -1131,7 +1132,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>no(e)</code></td>
@@ -1217,7 +1218,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -1243,7 +1244,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -1269,7 +1270,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -1298,7 +1299,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 
@@ -1318,7 +1319,7 @@
 					<informaltable>
 						<tr>
 							<td><code>son(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>shape</code></td>
@@ -1344,7 +1345,7 @@
 					<informaltable>
 						<tr>
 							<td><code>son(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>shape</code></td>
@@ -1352,7 +1353,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>no(e)</code></td>
@@ -1382,7 +1383,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>no(e)</code></td>
@@ -1412,7 +1413,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>no(e)</code></td>
@@ -1442,7 +1443,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -1456,7 +1457,7 @@
 					<informaltable>
 						<tr>
 							<td><code>son(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>shape</code></td>
@@ -1497,7 +1498,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -1523,7 +1524,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>no(e)</code></td>
@@ -1562,7 +1563,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>labst if error_jump, NULL otherwise.</td>
+							<td>labst if error_jump, &NULL; otherwise.</td>
 						</tr>
 						<tr>
 							<td><code>no(e)</code></td>
@@ -1596,7 +1597,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>no(e)</code></td>
@@ -1631,7 +1632,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>labst if error_jump, NULL otherwise</td>
+							<td>labst if error_jump, &NULL; otherwise</td>
 						</tr>
 					</informaltable>
 
@@ -1657,7 +1658,7 @@
 							<td><code>pt(e)</code></td>
 							<td>the next name_tag on the chain of uses of an ident_tag,
 								which started in th pt field of the ident_tag, or
-								NULL if the end of the chain.</td>
+								&NULL; if the end of the chain.</td>
 						</tr>
 					</informaltable>
 
@@ -1688,7 +1689,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -1714,7 +1715,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>destination labst if ov_err is error_jump, otherwise NULL</td>
+							<td>destination labst if ov_err is error_jump, otherwise &NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -1737,7 +1738,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>no(e)</code></td>
@@ -1767,7 +1768,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -1775,13 +1776,13 @@
 
 			<varlistentry>
 				<term><code>null_tag</code>:
-					represent ptr NULL and proc null</term>
+					represent ptr &NULL; and proc null</term>
 
 				<listitem>
 					<informaltable>
 						<tr>
 							<td><code>son(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>shape</code></td>
@@ -1793,7 +1794,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -1819,7 +1820,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>no(e)</code></td>
@@ -1849,7 +1850,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>no(e)</code></td>
@@ -1879,7 +1880,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>no(e)</code></td>
@@ -1909,7 +1910,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>no(e)</code></td>
@@ -1939,7 +1940,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>no(e)</code></td>
@@ -1965,7 +1966,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>no(e)</code></td>
@@ -1995,7 +1996,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -2021,7 +2022,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>no(e)</code></td>
@@ -2054,7 +2055,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -2083,7 +2084,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>destination labst if ov_err is error_jump, otherwise NULL</td>
+							<td>destination labst if ov_err is error_jump, otherwise &NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -2113,7 +2114,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>labst if error_jump, NULL otherwise</td>
+							<td>labst if error_jump, &NULL; otherwise</td>
 						</tr>
 					</informaltable>
 
@@ -2158,7 +2159,7 @@
 					<informaltable>
 						<tr>
 							<td><code>son(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>shape</code></td>
@@ -2170,7 +2171,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -2184,7 +2185,7 @@
 					<informaltable>
 						<tr>
 							<td><code>son(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>shape</code></td>
@@ -2196,7 +2197,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -2222,7 +2223,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -2248,7 +2249,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -2275,7 +2276,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>labst if error_jump, NULL otherwise</td>
+							<td>labst if error_jump, &NULL; otherwise</td>
 						</tr>
 						<tr>
 							<td><code>no(e)</code></td>
@@ -2333,7 +2334,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>no(e)</code></td>
@@ -2368,7 +2369,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -2394,7 +2395,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>destination labst if ov_err is error_jump, otherwise NULL</td>
+							<td>destination labst if ov_err is error_jump, otherwise &NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -2419,7 +2420,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>no(e)</code></td>
@@ -2458,7 +2459,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>labst if error_jump, NULL otherwise.</td>
+							<td>labst if error_jump, &NULL; otherwise.</td>
 						</tr>
 					</informaltable>
 
@@ -2490,7 +2491,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -2537,7 +2538,7 @@
 					<informaltable>
 						<tr>
 							<td><code>son(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>shape</code></td>
@@ -2549,7 +2550,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 
@@ -2650,7 +2651,7 @@
 					<informaltable>
 						<tr>
 							<td><code>son(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>shape</code></td>
@@ -2662,7 +2663,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -2676,7 +2677,7 @@
 					<informaltable>
 						<tr>
 							<td><code>son(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>shape</code></td>
@@ -2684,7 +2685,7 @@
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
-							<td>NULL</td>
+							<td>&NULL;</td>
 						</tr>
 						<tr>
 							<td><code>no(e)</code></td>
