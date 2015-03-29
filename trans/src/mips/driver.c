@@ -24,10 +24,11 @@
 #include <reader/main_reads.h>
 #include <reader/externs.h>
 
-#include <construct/flpt.h>
 #include <construct/installglob.h>
 #include <construct/machine.h>
 #include <construct/exp.h>
+
+#include <flpt/flpt.h>
 
 #include <main/flags.h>
 

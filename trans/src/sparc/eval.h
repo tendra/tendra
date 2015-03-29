@@ -11,8 +11,10 @@
 #define EVALDECS_INCLUDED
 
 #include <construct/installtypes.h>
+
+#include <flpt/flpt.h>
+
 #include "addrtypes.h"
-#include <construct/flpt.h>
 
 extern bool is_zero(exp);
 extern instore evaluated(exp, long, bool);

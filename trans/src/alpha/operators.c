@@ -24,7 +24,8 @@
 #include <tdf/tag.h>
 
 #include <construct/shape.h>
-#include <construct/flpt.h>
+
+#include <flpt/flpt.h>
 
 #include "code_here.h"
 #include "addrtypes.h"

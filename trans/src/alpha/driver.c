@@ -20,10 +20,11 @@
 #include <reader/externs.h>
 #include <reader/readglob.h>
 
-#include <construct/flpt.h>
 #include <construct/installglob.h>
 #include <construct/machine.h>
 #include <construct/exp.h>
+
+#include <flpt/flpt.h>
 
 #include <symtab/cross_config.h>
 #include <symtab/symtab.h>

@@ -28,7 +28,8 @@
 #include <reader/exp.h>
 
 #include <construct/installtypes.h>
-#include <construct/flpt.h>
+
+#include <flpt/flpt.h>
 
 extern flt64 exp_to_f64(exp);
 typedef int INT32;

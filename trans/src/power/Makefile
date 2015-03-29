@@ -42,6 +42,7 @@ PARTS+=	src/common/tdf
 PARTS+=	src/common/special
 PARTS+=	src/common/construct
 PARTS+=	src/common/linkinfo
+PARTS+=	src/common/flpt
 PARTS+=	src/common/reader
 PARTS+=	src/common/refactor
 PARTS+= src/common/utility

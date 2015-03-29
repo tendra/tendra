@@ -43,9 +43,10 @@
 #include <construct/shape.h>
 #include <construct/installglob.h>
 #include <construct/is_worth.h>
-#include <construct/flpt.h>
 #include <construct/messages_c.h>
 #include <construct/me_fns.h>
+
+#include <flpt/flpt.h>
 
 #include <main/flags.h>
 

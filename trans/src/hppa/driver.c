@@ -21,12 +21,13 @@
 #include <reader/main_reads.h>		/* for d_capsule */
 #include <reader/externs.h>
 
-#include <construct/flpt.h>
 #include <construct/exp.h>		/* for current_alloc_size */
 #include <construct/installglob.h>	/* for top_def */
 #include <construct/installtypes.h>
 #include <construct/dec.h>
 #include <construct/machine.h>
+
+#include <flpt/flpt.h>
 
 #include <main/driver.h>
 #include <main/flags.h>

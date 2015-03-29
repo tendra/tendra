@@ -108,10 +108,11 @@
 #include <reader/basicread.h>
 #include <reader/externs.h>
 
-#include <construct/flpt.h>
 #include <construct/exp.h>
 #include <construct/shape.h>
 #include <construct/installglob.h>
+
+#include <flpt/flpt.h>
 
 #include <refactor/optimise.h>
 

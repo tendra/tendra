@@ -32,9 +32,10 @@
 #include <construct/exp.h>
 #include <construct/shape.h>
 #include <construct/install_fns.h>
-#include <construct/flpt.h>
 #include <construct/misc_c.h>
 #include <construct/reg_result.h>
+
+#include <flpt/flpt.h>
 
 #include <main/driver.h>
 #include <main/flags.h>

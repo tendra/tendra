@@ -36,8 +36,9 @@
 #include <construct/shape.h>
 #include <construct/exp.h>
 #include <construct/install_fns.h>
-#include <construct/flpt.h>
 #include <construct/installglob.h>
+
+#include <flpt/flpt.h>
 
 #include <main/flags.h>
 #include <main/print.h>

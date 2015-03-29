@@ -15,8 +15,10 @@
 
 #include <shared/bool.h>
 
-#include <construct/flpt.h>
+#include <construct/exp.h>
 #include <construct/dec.h>
+
+#include <flpt/flpt.h>
 
 #include <main/print.h>
 

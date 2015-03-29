@@ -25,8 +25,9 @@
 
 #include <construct/exp.h>
 #include <construct/install_fns.h>
-#include <construct/flpt.h>
 #include <construct/shape.h>
+
+#include <flpt/flpt.h>
 
 #include "assembler.h"
 #include "mach.h"

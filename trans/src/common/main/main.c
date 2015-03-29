@@ -26,8 +26,9 @@
 #include <reader/externs.h>
 #include <reader/readglob.h>
 
-#include <construct/flpt.h>
 #include <construct/installglob.h>
+
+#include <flpt/flpt.h>
 
 extern int report_versions; /* XXX */
 

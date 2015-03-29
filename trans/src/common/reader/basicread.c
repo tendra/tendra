@@ -23,8 +23,9 @@
 #include <reader/basicread.h>
 #include <reader/reader.h>
 
-#include <construct/flpt.h>
 #include <construct/installglob.h>
+
+#include <flpt/flpt.h>
 
 #include <utility/bits.h>
 

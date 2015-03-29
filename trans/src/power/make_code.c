@@ -29,7 +29,8 @@
 #include <construct/ash.h>
 #include <construct/label_ops.h>
 #include <construct/installglob.h>
-#include <construct/flpt.h>
+
+#include <flpt/flpt.h>
 
 #include <main/driver.h>
 #include <main/flags.h>

@@ -7,15 +7,14 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef flpt_key
-#define flpt_key 1
+#ifndef COMMON_FLPT_H
+#define COMMON_FLPT_H
 
 #include <limits.h>
 
 #include <tdf/nat.h>
 
 #include <construct/installtypes.h>
-#include <construct/flpt.h>
 
 #include <main/flags.h>
 

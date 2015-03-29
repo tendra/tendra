@@ -112,10 +112,11 @@
 #include <construct/installtypes.h>
 #include <construct/dec.h>
 #include <construct/ash.h>
-#include <construct/flpt.h>
 #include <construct/exp.h>
 #include <construct/shape.h>
 #include <construct/installglob.h>
+
+#include <flpt/flpt.h>
 
 #include <main/driver.h>
 #include <main/flags.h>

@@ -15,8 +15,9 @@
 
 #include <tdf/tag.h>
 
-#include <construct/flpt.h>
 #include <construct/shape.h>
+
+#include <flpt/flpt.h>
 
 #include "float.h"
 #include "localexpmacs.h"

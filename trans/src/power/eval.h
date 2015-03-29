@@ -13,7 +13,7 @@
 
 #include "addrtypes.h"
 
-#include <construct/flpt.h>
+#include <flpt/flpt.h>
 
 extern int next_data_lab(void);
 

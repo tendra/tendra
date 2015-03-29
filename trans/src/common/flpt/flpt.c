@@ -23,11 +23,11 @@
 
 #include <reader/basicread.h>
 
-#include <construct/flpt.h>
 #include <construct/exp.h>
 #include <construct/messages_c.h>
 #include <construct/installglob.h>
-#include <construct/flpt.h>
+
+#include <flpt/flpt.h>
 
 #include <main/flags.h>
 

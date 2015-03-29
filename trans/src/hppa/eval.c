@@ -39,7 +39,8 @@
 #include <construct/ash.h>
 #include <construct/exp.h>
 #include <construct/shape.h>
-#include <construct/flpt.h>
+
+#include <flpt/flpt.h>
 
 #include "addrtypes.h"
 #include "maxminmacs.h"

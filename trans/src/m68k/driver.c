@@ -21,9 +21,10 @@
 #include <reader/externs.h>
 #include <reader/readglob.h>
 
-#include <construct/flpt.h>
 #include <construct/installglob.h>
 #include <construct/exp.h>
+
+#include <flpt/flpt.h>
 
 #include <diag3/diag_reform.h>
 

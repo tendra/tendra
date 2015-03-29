@@ -23,8 +23,9 @@
 #include <reader/exp.h>
 #include <reader/externs.h>
 
-#include <construct/flpt.h>
 #include <construct/me_fns.h>
+
+#include <flpt/flpt.h>
 
 #include <main/print.h>
 

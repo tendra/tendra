@@ -26,7 +26,8 @@
 
 #include <construct/installglob.h>
 #include <construct/exp.h>
-#include <construct/flpt.h>
+
+#include <flpt/flpt.h>
 
 #include <main/flags.h>
 #include <main/print.h>

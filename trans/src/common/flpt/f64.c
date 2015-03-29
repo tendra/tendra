@@ -12,8 +12,9 @@
 #include <reader/basicread.h>
 
 #include <construct/messages_c.h>
-#include <construct/flpt.h>
 #include <construct/exp.h>
+
+#include <flpt/flpt.h>
 
 flt64
 flt_to_f64(flpt fp, int sg, int *ov)

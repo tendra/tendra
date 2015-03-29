@@ -8,7 +8,8 @@
  */
 
 #include "addrtypes.h"
-#include <construct/flpt.h>
+
+#include <flpt/flpt.h>
 
 extern int next_dlab_sym(void);
 extern mm maxmin(shape s);

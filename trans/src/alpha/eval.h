@@ -9,7 +9,7 @@
 
 #include <local/ash.h>
 
-#include <construct/flpt.h>
+#include <flpt/flpt.h>
 
 #include "addrtypes.h"
 #include "cross.h"

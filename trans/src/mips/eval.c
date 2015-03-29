@@ -31,7 +31,8 @@
 #include <construct/ash.h>
 #include <construct/exp.h>
 #include <construct/shape.h>
-#include <construct/flpt.h>
+
+#include <flpt/flpt.h>
 
 #include <main/driver.h>
 #include <main/flags.h>

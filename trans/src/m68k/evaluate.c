@@ -21,7 +21,8 @@
 #include <reader/basicread.h>
 
 #include <construct/shape.h>
-#include <construct/flpt.h>
+
+#include <flpt/flpt.h>
 
 #include <main/flags.h>
 

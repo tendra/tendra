@@ -30,9 +30,10 @@
 #include <construct/aldefs.h>
 #include <construct/dec.h>
 #include <construct/ash.h>
-#include <construct/flpt.h>
 #include <construct/shape.h>
 #include <construct/machine.h>
+
+#include <flpt/flpt.h>
 
 #include <main/driver.h>
 #include <main/print.h>
