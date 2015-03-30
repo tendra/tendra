@@ -2418,7 +2418,7 @@ f_make_compound(exp arg1, exp_list arg2)
 exp
 f_make_int(variety v, signed_nat value)
 {
-	int n;
+	long n;
 
 	if (!snat_issmall(value) ||
 	    (n = snatint(value), shape_size(v) > 32 &&

@@ -45,13 +45,8 @@ typedef unsigned short prop;
 typedef union {
 	struct exp_t *e;
 	char *str;
-#if defined(TRANS_M68K) && !defined(tdf3)
-	long l;
-	unsigned long ui;
-#else
-	int l;
+	long int l;
 	unsigned int ui;
-#endif
 	float f;
 	struct dec_t *glob;
 
