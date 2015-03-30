@@ -49,13 +49,7 @@
     GIVE PROTOTYPE FOR MFW
 */
 
-#if (FBASE == 10)
-extern where mfw(int, char *, int);
-#define FBASE_10
-#else
 extern where mfw(int, long *, int);
-#undef FBASE_10
-#endif
 
 extern int need_dummy_double;
 
@@ -574,14 +568,10 @@ void round_float
 	    		exp jt = simple_exp(0);
 	    		ptno(jt) = lab1;
 	    		regsinproc |= regmsk(REG_FP1);
-#ifdef FBASE_10
-	    		fm = mfw(1, "2147483648", 9);
-#else
 	    		{
 				static long fmd[] = { 32768, 0, -1 };
 				fm = mfw(1, fmd, 1);
 	    		}
-#endif
 
 			change_flvar(realsh, from, FP0);
 			move(realsh, fm, FP1);
@@ -743,14 +733,10 @@ void int_to_float
 		long lab = next_lab();
 		exp jt = simple_exp(0);
 		ptno(jt) = lab;
-#ifdef FBASE_10
-		fm = mfw(1, "4294967296", 9);
-#else
 		{
 		    static long fmd[] = { 1, 0, 0, -1 };
 		    fm = mfw(1, fmd, 2);
 		}
-#endif
 
 		if (whereis(from) == Dreg) {
 			ins2(m_fmovel, 32L, 64L, from, fpr, 1);

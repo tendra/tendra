@@ -2449,28 +2449,6 @@ mult_tag_case:
 		return remneeds ( e, at ) ;
 
 	case fdiv_tag:
-#if ( FBASE == 10 )
-	{
-		exp z = *e ;
-		exp a2 = bro ( son ( z ) ) ;
-
-		if ( name ( a2 ) == real_tag ) {
-			/* replace X / const by X * ( 1.0 / const ) */
-			flt inverse ;
-			flt unitflt ;
-			unitflt = flptnos [ fone_no ] ;
-			if ( flt_div ( unitflt, flptnos [ no ( a2 ) ],
-			               &inverse ) == OKAY ) {
-				int f = new_flpt () ;
-				flptnos [f] = inverse ;
-				no ( a2 ) = f ;
-				setname ( z, fmult_tag ) ;
-			}
-		}
-	}
-		/* FALL THROUGH */
-#endif
-
 	case fplus_tag:
 	case fminus_tag:
 	case fmult_tag: {

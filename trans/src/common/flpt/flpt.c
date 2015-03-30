@@ -528,72 +528,6 @@ flt_sub(flt f1, flt f2, flt *res)
 	return flt_add(f1, f2, res);
 }
 
-
-#if FBASE == 10
-
-/*
- * "f1" and "f2" are legal single precision numbers. "res" is a pointer to a
- * single precision number.
- *
- * On return, if the result is OKAY, then the number pointed to by "res" will
- * contain the value of multiplying "f1" by "f2". If the result is EXP2BIG,
- * then the value of the number pointed to by "res" is undefined.
- */
-int
-flt_mul(flt f1, flt f2, flt *res)
-{
-	unsigned int acc[2 * MANT_SIZE];
-	unsigned int c;
-	dbl rdbl;
-	int i, j;
-
-	c = 0;
-
-	if (f1.sign == 0 || f2.sign == 0) {
-		flt_zero(res);
-		return OKAY;
-	}
-
-	rdbl.sign = f1.sign == f2.sign ? 1 : -1;
-	rdbl.exp  = f1.exp + f2.exp + 1;
-	if (rdbl.exp >= E_MAX || rdbl.exp <= E_MIN) {
-		return EXP2BIG;
-	}
-
-	for (i = 0; i < 2 * MANT_SIZE; i++) {
-		acc[i] = 0;
-	}
-
-	for (i = MANT_SIZE - 1; i >= 0; i--) {
-		for (j = MANT_SIZE - 1; j >= 0; j--) {
-			acc[i + j + 1] += f1.mant[i] * f2.mant[j];
-		}
-	}
-
-	for (i = 2 * MANT_SIZE - 1; i >= 0; i--) {
-		c += acc[i];
-		rdbl.mant[i] = (c % FBASE);
-		c /= FBASE;
-	}
-
-	while (rdbl.mant[0] == 0) {
-		for (i = 1; i < 2 * MANT_SIZE; i++) {
-			rdbl.mant[i - 1] = rdbl.mant[i];
-		}
-
-		rdbl.mant[2 * MANT_SIZE - 1] = 0;
-		if (--rdbl.exp <= E_MIN) {
-			return EXP2BIG;
-		}
-	}
-
-	dbl2float(rdbl, res);
-
-	return OKAY;
-}
-
-#else
-
 /*
  * "f1" and "f2" are legal single precision numbers. "res" is a pointer to a
  * single precision number.
@@ -658,93 +592,6 @@ flt_mul(flt f1, flt f2, flt *res)
 	dbl2float(rdbl, res);
 	return OKAY;
 }
-
-#endif
-
-#if FBASE == 10
-
-/*
- * "f1" and "f2" are legal single precision numbers, and "f2" is non-zero.
- * "res" is a pointer to a single precision number.
- *
- * On return, if the result is OKAY, then the number pointed to by "res"
- * contains the result of dividing "f1" by "f2". If the result is EXP2BIG
- * or DIVBY0 then the contents of the number pointed to by "res" are undefined.
- */
-int
-flt_div(flt f1, flt f2, flt *res)
-{
-	dbl rdbl;
-	int i = 0;
-	flt f3;
-
-	if (f2.sign == 0) {
-		return DIVBY0;
-	}
-
-	if (f1.sign == 0) {
-		flt_zero(res);
-		return OKAY;
-	}
-
-	rdbl.sign = f1.sign == f2.sign ? 1 : -1;
-	rdbl.exp  = f1.exp - f2.exp;
-	if (rdbl.exp >= E_MAX || rdbl.exp <= E_MIN) {
-		return EXP2BIG;
-	}
-
-	f1.sign = 1;
-	f2.sign = 1;
-	f1.exp  = 0;
-	f2.exp  = 0;
-	flt_copy(f1, &f3);
-
-	while (i < 2 * MANT_SIZE) {
-		int count;
-
-		for (count = -1; f3.sign != -1; count++) {
-			if (flt_sub(f3, f2, &f3) != OKAY) {
-				return EXP2BIG;
-			}
-		}
-
-		if (flt_add(f3, f2, &f3) != OKAY) {
-			return EXP2BIG;
-		}
-
-		rdbl.mant[i++] = count;
-
-		if (f3.sign == 0) {
-			break;
-		}
-
-		if (--f2.exp <= E_MIN) {
-			return EXP2BIG;
-		}
-	}
-
-	while (i < 2 * MANT_SIZE) {
-		rdbl.mant[i++] = 0;
-	}
-
-	while (rdbl.mant[0] == 0) {
-		for (i = 1; i < 2 * MANT_SIZE; i++) {
-			rdbl.mant[i - 1] = rdbl.mant[i];
-		}
-
-		rdbl.mant[2 * MANT_SIZE - 1] = 0;
-
-		if (--rdbl.exp <= E_MIN) {
-			return EXP2BIG;
-		}
-	}
-
-	dbl2float(rdbl, res);
-
-	return OKAY;
-}
-
-#else
 
 int
 flt_div(flt f1, flt f2, flt *res)
@@ -926,8 +773,6 @@ flt_div(flt f1, flt f2, flt *res)
 	return OKAY;
 }
 
-#endif
-
 /*
  * "f1" and "f2" are legal single precision numbers.
  *
@@ -1056,167 +901,6 @@ flt_trunc(flt f, flt *res)
 	}
 }
 
-/*
- * "s" is a pointer to an array of characters. "f" is a pointer to a single
- * precision number. "ret" is NULL, or a pointer to a pointer to a character.
- *
- * On return, if the return value is OKAY, then the number pointed to by
- * "f" is the floating point number represented in the string "s".
- *
- * If "ret" was not NULL, then it will point to a pointer to the next character
- * in "s" not used in the number. If the return value is SYNTAX or EXP2BIG,
- * then the value of the number pointed to by "f" is undefined. In this case,
- * if "ret" was not NULL, then it will point to a pointer to the start of the
- * string. Leading white space in the string will be ignored.
- *
- * Numbers have the following form:
- * [+-]?(([0-9]+(\.[0-9]*)?)|([0-9]*\.[0-9]+))([Ee][+-]?[0-9]+)?
- */
-
-#if FBASE == 10
-
-int
-str2flt(char *s, flt *f, char **r)
-{
-	int i, ids, rounded, mant_empty, zero;
-
-	i = 0;
-	ids = -1;
-	rounded = 0;
-	mant_empty = 1;
-	zero = 1;
-
-	f->sign = 1;
-	f->exp  = 0;
-
-	if (r) {
-		*r = s;
-	}
-
-	while (*s && ' ' == *s) {
-		s++;
-	}
-
-	if (*s == '-') {
-		f->sign = -1;
-		s++;
-	} else if (*s == '+') {
-		s++;
-	}
-
-	while (*s == '0') {
-		mant_empty = 0;
-		s++;
-	}
-
-	while (*s >= '0' && *s <= '9') {
-		mant_empty = 0;
-		zero = 0;
-
-		if (i < MANT_SIZE) {
-			f->mant[i++] = (*s - '0'); /* ASCII */
-		} else if (!rounded) {
-			flt_int_round(f, *s - '0');
-			rounded = 1; /* ASCII */
-		}
-
-		if (ids >= E_MAX) {
-			return EXP2BIG;
-		}
-
-		ids++;
-		s++;
-	}
-
-	if (*s == '.') {
-		s++;
-
-		if (zero) {
-			while (*s == '0') {
-				if (ids <= E_MIN) {
-					return EXP2BIG;
-				}
-
-				ids--;
-				s++;
-
-				mant_empty = 0;
-			}
-		}
-
-		while (*s >= '0' && *s <= '9') {
-			if (i < MANT_SIZE) {
-				f->mant[i++] = *s - '0'; /* ASCII */
-			} else if (!rounded) {
-				flt_int_round(f, *s - '0');
-				rounded = 1; /* ASCII */
-			}
-
-			s++;
-			zero = 0;
-			mant_empty = 0;
-		}
-	}
-
-	while (i < MANT_SIZE) {
-		f->mant[i++] = 0;
-	}
-
-	if (*s == 'E' || *s == 'e') {
-		int e_sign, exp_empty;
-		int e;
-
-		e_sign    = 1;
-		exp_empty = 1;
-		e = 0;
-
-		if (*++s == '-') {
-			e_sign = -1;
-			s++;
-		} else if (*s == '+') {
-			s++;
-		}
-
-		while (*s && *s >= '0' && *s <= '9') {
-			if (e >= (E_MAX / 10)) {
-				return EXP2BIG;
-			}
-
-			e = e * 10 + *s++ - '0'; /* ASCII */
-			exp_empty = 0;
-		}
-
-		if (exp_empty) {
-			return SYNTAX;
-		}
-
-		e *= e_sign;
-		f->exp += e + ids;
-	} else {
-		f->exp += ids;
-	}
-
-	if (f->exp >= E_MAX || f->exp <= E_MIN) {
-		return EXP2BIG;
-	}
-
-	if (zero) {
-		f->sign = 0;
-		f->exp  = 0;
-	}
-
-	if (mant_empty) {
-		return SYNTAX;
-	}
-
-	if (r) {
-		*r = s;
-	}
-
-	return OKAY;
-}
-
-#endif
 
 /*
  * Interface to TDF translator
@@ -1324,47 +1008,6 @@ cmpflpt(flpt a, flpt b, int testno)
 	default: return res !=  0;
 	}
 }
-
-#if FBASE == 10
-
-flpt
-floatrep(int n)
-{
-	flpt res;
-	char *pr;
-	flt fr;
-
-	res = new_flpt();
-	pr  = intchars(n);
-
-	/* this is wrong for unsigned integers */
-
-	IGNORE str2flt(pr, &fr, NULL);
-	flptnos[res] = fr;
-
-	return res;
-}
-
-flpt
-floatrep_unsigned(unsigned int n)
-{
-	error(ERR_INTERNAL, "floatrep_unsigned not used");
-
-	return 0;
-}
-
-int
-flpt_bits(floating_variety fv)
-{
-	return 0;
-}
-
-void
-flpt_round(int round_t, int posn, flt *res)
-{
-}
-
-#else
 
 static flpt
 floatrep_aux(int n, int sign)
@@ -1988,6 +1631,4 @@ real2longs_IEEE(flt *fp, int sw)
 
 	return res;
 }
-
-#endif
 

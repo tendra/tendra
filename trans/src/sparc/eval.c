@@ -107,42 +107,6 @@ outlab ( int ll ){
   asm_printf ( "%s", ext_name ( ll ) ) ;
 }
 
-#if 0
-/*
- * Output a floating point constant
- *
- * This routine should only be called if FBASE is 10.
- */
-static void 
-outfloat ( flpt f, bool ro ){
-#if ( FBASE == 10 )
-  int i, n ;
-  unsigned char *frac = flptnos [f].mant ;
-  char *exppos ;
-  char fltrepr [120] ;
-  if (ro)
-    insection ( rodata_section ) ;
-  else
-    insection ( data_section ) ;
-  for ( n = MANT_SIZE - 1 ; n > 1 && frac [n] == 0 ; n-- ) /* SKIP */ ;
-  fltrepr [0] = ( ( flptnos [f].sign < 0 ) ? '-' : '+' ) ;
-  fltrepr [1] = frac [0] + '0' ;
-  fltrepr [2] = '.' ;
-  for ( i = 1 ; i <= n ; ++i ) fltrepr [ i + 2 ] = frac [i] + '0' ;
-  exppos = &fltrepr [ i + 2 ] ;
-  if ( flptnos [f].exp != 0 ) {
-    sprintf ( exppos, "e%ld", flptnos [f].exp ) ;
-  } 
-  else {
-    exppos [0] = 0 ;
-  }
-  asm_printf ( "%s", fltrepr ) ;
-#else
-  error(ERR_SERIOUS,  "Illegal floating point constant" ) ;
-#endif
-}
-#endif
-
 /*
  * Find the value of an integer constant expression
  */

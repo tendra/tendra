@@ -1277,78 +1277,6 @@ f_make_complex(floating_variety f, exp arg1, exp arg2)
 	}
 }
 
-#if FBASE == 10
-
-exp
-f_make_floating(floating_variety fv, rounding_mode rm, bool sign,
-	string mantissa, nat base, signed_nat expo)
-{
-	int ignore_zero = 1;
-	int lg = mantissa.number;
-	flpt f = new_flpt();
-	int sig_digs = 0;
-	int i;
-	int point = 0;
-	char ch;
-	int exponent = snatint(expo);
-
-	if (PIC_code) {
-		proc_externs = 1;
-	}
-
-	if (snatneg(expo)) {
-		exponent = - exponent;
-	}
-
-	if (natint(base) != 10) {
-		error(ERR_INTERNAL, BASE_NOT_10);
-	}
-
-	for (i = 0; i < MANT_SIZE; ++i) {
-		(flptnos[f].mant)[i] = 0;
-	}
-
-	for (i = 0; i < lg; ++i) {
-		ch = mantissa.ints.chars[i];
-		if (ch == '0' && ignore_zero) {
-			if (point) {
-				--exponent;
-			}
-		} else {
-			if (ch == '.') {
-				point = 1;
-			} else {
-				ignore_zero = 0;
-
-				if (!point) {
-					++exponent;
-				}
-
-				if (sig_digs < MANT_SIZE) {
-					flptnos[f].mant[sig_digs++] = ch - '0';
-				}
-			}
-		}
-	}
-
-	if (ignore_zero) {
-		flptnos[f].exp = 0;
-		flptnos[f].sign = 0;
-	} else {
-		flptnos[f].exp = exponent - 1;
-		flptnos[f].sign = (sign ? -1 : 1);
-	}
-
-	if (flptnos[f].exp > target_dbl_maxexp) {
-		error(ERR_INTERNAL, BIG_FLPT);
-	}
-
-	return getexp(f_floating(fv), NULL, 0, NULL, NULL, 0, f, real_tag);
-
-}
-
-#else
-
 exp
 f_make_floating(floating_variety fv, rounding_mode rm, bool sign,
 	string mantissa, nat natbase, signed_nat expo)
@@ -1420,8 +1348,6 @@ f_make_floating(floating_variety fv, rounding_mode rm, bool sign,
 
 	return getexp(f_floating(fv), NULL, 0, NULL, NULL, 0, f, real_tag);
 }
-
-#endif
 
 exp
 f_power(error_treatment ov_err, exp arg1, exp arg2)

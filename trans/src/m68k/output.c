@@ -206,24 +206,7 @@ out_float(flt *f)
 {
 	UNUSED(f);
 
-#if (FBASE == 10)
-	int i;
-	asm_fprefix();
-	if (f->sign < 0) {
-		asm_printf("-");
-	}
-	asm_printf( "%c.", f->mant[0]);
-	for (i = 1; i < MANT_SIZE; i++) {
-		asm_printf("%c", '0' + f->mant[i]);
-	}
-	asm_printf("e");
-	if (f->exp >= 0) {
-		asm_printf("+");
-	}
-	asm_printf( "%ld", f->exp);
-#else
 	error(ERR_SERIOUS, "Illegal floating point constant");
-#endif
 }
 
 

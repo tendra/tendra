@@ -28,40 +28,6 @@ enum {
 	DIVBY0  = -3
 };
 
-/* FBASE 10 is obsolete */
-#if FBASE == 10
-
-#define MANT_SIZE 40
-#define MANT_SIZE_MAX 40
-
-#define Fdig unsigned char
-
-#define FNUM_SIZE 65 /* max size required by flt2str */
-/* MANT_SIZE + 1(sign) + 1(point) + 2(E+sign) + log(MAX_LONG) + 1(NULL) */
-
-#define E_MIN (-1000000) /* (LONG_MIN/10) doesnt work on 80386 cc */
-#define E_MAX (LONG_MAX / 10)
-
-/* Rounding types: */
-enum {
-	R2ZERO = 0,
-	R2PINF = 1,
-	R2NINF = 2,
-	R2NEAR = 3
-};
-
-/* floating point representation */
-typedef struct {
-	Fdig mant[MANT_SIZE]; /* mantissa digit values [0-9] (NOT '0' to '9') */
-	/* point is between 1st and 2nd digits */
-	int sign; /* -1: negative; +1: positive; 0: value is zero */
-	int exp;  /* signed exponent; in range E_MIN..E_MAX */
-} flt;
-
-#else
-
-/* all installers should use this definition */
-
 /* MANT_SIZE is the number of mantissa array elements */
 #ifndef MANT_SIZE
 #define MANT_SIZE 8
@@ -108,9 +74,6 @@ typedef struct r2l_t {
 	int i4;	/* most significant */
 } r2l;
 
-#endif
-
-
 /*
  * used to convert flpt number which are integers into a 64 bit
  * representation
@@ -142,10 +105,7 @@ extern void flpt_scale(int decexp, flt *res, int base);
 extern void flpt_round(int rdnmd, int pos, flt *res);
 extern int flpt_bits(floating_variety fv);
 extern int flpt_round_to_integer(int rndmd, flt *f);
-
-#if FBASE != 10
 extern r2l real2longs_IEEE(flt *f, int sw);
-#endif
 
 extern int fzero_no;
 extern int fone_no;

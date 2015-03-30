@@ -2118,27 +2118,6 @@ scan(exp *e, exp **at)
 		return likediv(e, at);
 
 	case fdiv_tag:
-#if (FBASE==10)		/* (FBASE==10) is now defunct */
-	{
-		/* replace X/const by X*const^-1 */
-		exp z = *(e);
-		exp a2 = bro(son(z));
-
-		if (name(a2) == real_tag) {
-			flt inverse;
-			flt unitflt;
-			str2flt("1.0", &unitflt, NULL);
-			if (flt_div(unitflt, flptnos[no(a2)], &inverse) == OKAY) {
-
-				int f = new_flpt();
-				flptnos[f] = inverse;
-				no(a2) = f;
-				setname(z, fmult_tag);
-			}
-		}
-	}
-#endif
-
 	case fplus_tag:
 	case fminus_tag:
 	case fmult_tag: {

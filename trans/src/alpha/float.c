@@ -25,39 +25,6 @@
 #define is_negative(x)	(x.sign<0)
 
 
-/*
-  This function takes an exp _e_ corresponding to a real_tag, and
-  returns the floating point value referenced, by reading it from 
-  the flptnos[] array in the correct format.
-*/
-#if (FBASE == 10)
-char *
-floating_value(exp e)
-{
-  int ref = no(e);
-  unsigned char *frac = (flptnos[ref].mant);
-  char *result = (char*)xcalloc(128,sizeof(char*));
-  int n,j;
-  int pos=0;
-
-  /* find end of value */
-  for(n=MANT_SIZE-1;(n>1) && (frac[n]==0);n--);
-  if( is_negative(flptnos[ref]) )
-    result[pos++]='-';
-  result[pos++]=frac[0]+'0';
-  result[pos++]='.';
-  for(j=1;j<=n;++pos,++j)
-    result[pos] = frac[j]+'0';
-  if(flptnos[ref].exp != 0){
-    char *expstr=(char*)xcalloc(20,sizeof(char));
-    sprintf(expstr,"E%ld",flptnos[ref].exp);
-    strcat(result,expstr);
-  }
-  return result;
-}
-#endif
-
-
 
 /*
   Return true if the floating point constant produced by the 
