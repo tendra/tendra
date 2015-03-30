@@ -8,10 +8,9 @@
  */
 
 /*
-    Scans through the program and puts all the arguments of operations
-    into a suitable 68000 operand form.
-
-*/
+ * Scans through the program and puts all the arguments of operations
+ * into a suitable 68000 operand form.
+ */
 
 #include <stdlib.h>
 
@@ -36,61 +35,64 @@
 void scan(bool, exp, exp);
 
 /*
-    MACROS TO SET OR GET THE SON OR BRO
-*/
-
+ * MACROS TO SET OR GET THE SON OR BRO
+ */
 #define assexp(I, P, V)	if (I) setson(P, V); else setbro(P, V)
 #define contexp(I, P)	((I) ? son(P): bro(P))
 
-
 /*
-  Transform a non-bit offset into a bit offset.
-  (borrowed from trans386)
-*/
+ * Transform a non-bit offset into a bit offset.
+ * (borrowed from trans386)
+ */
 static void
 make_bitfield_offset(exp e, exp pe, int spe, shape sha)
 {
 	exp omul;
 	exp val8;
+
 	if (name(e) == val_tag) {
-		no(e)*= 8;
+		no(e) *= 8;
 		return;
 	}
-	omul = getexp(sha, bro(e), (int)(last(e)), e, NULL, 0, 0,
-		      offset_mult_tag);
+
+	omul = getexp(sha, bro(e), (int)(last(e)), e, NULL, 0, 0, offset_mult_tag);
 	val8 = getexp(slongsh, omul, 1, NULL, NULL, 0, 8, val_tag);
+
 	clearlast(e);
 	setbro(e, val8);
 	if (spe) {
 		son(pe) = omul;
-	} else{
+	} else {
 		bro(pe) = omul;
 	}
 }
 
-
 /*
-    This routine inserts an identity declaration of x at to and replaces
-    x by a use of this identity.
-*/
-
+ * This routine inserts an identity declaration of x at to and replaces
+ * x by a use of this identity.
+ */
 static void
 cca(bool sto, exp to, bool sx, exp x)
 {
 	exp d, a, id, tg;
 	d = contexp(sx, x);
+
 #ifndef tdf3
-	if (name(d)==caller_tag) {	/* position sensitive */
+	if (name(d) == caller_tag) {	/* position sensitive */
 		cca(sto, to, 1, d);
 		return;
 	}
 #endif
+
 	d = contexp(sx, x);
 	a = contexp(sto, to);
+
 	id = getexp(sh(a), bro(a), last(a), d, NULL, 0, 1L, ident_tag);
 	tg = getexp(sh(d), bro(d), last(d), id, NULL, 0, 0L, name_tag);
+
 	pt(id) = tg;
 	clearlast(d);
+
 	if (d != a) {
 		bro(d) = a;
 		bro(a) = id;
@@ -106,16 +108,14 @@ cca(bool sto, exp to, bool sx, exp x)
 	}
 }
 
-
 /*
-    Keeping the same to, cc scans along the bro list e, applying cca to
-    introduce an identity declaration when doit is 1.  It keeps count as
-    the index position along the list in order to pass it to doit.  If it
-    uses cca it scans the resulting declaration, using the same to.  If it
-    doesn't, it scans the list element, still using the same to.  This keeps
-    all operations in the same order.
-*/
-
+ * Keeping the same to, cc scans along the bro list e, applying cca to
+ * introduce an identity declaration when doit is 1.  It keeps count as
+ * the index position along the list in order to pass it to doit.  If it
+ * uses cca it scans the resulting declaration, using the same to.  If it
+ * doesn't, it scans the list element, still using the same to.  This keeps
+ * all operations in the same order.
+ */
 static void
 cc(bool sto, exp to, bool se, exp e, bool(*doit)(exp, int), int count)
 {
@@ -142,18 +142,17 @@ cc(bool sto, exp to, bool se, exp e, bool(*doit)(exp, int), int count)
 	}
 }
 
-
 /*
-    This routine is the same as cca, but forces the declaration into
-    a register.
-*/
-
+ * This routine is the same as cca, but forces the declaration into
+ * a register.
+ */
 static void
 ccp(bool sto, exp to, bool sx, exp x)
 {
 	exp xc = contexp(sx, x);
 	exp toc;
-	if (name(xc)!= name_tag || !isusereg(son(xc))) {
+
+	if (name(xc) != name_tag || !isusereg(son(xc))) {
 		cca(sto, to, sx, x);
 		toc = contexp(sto, to);
 		setusereg(toc);
@@ -161,11 +160,9 @@ ccp(bool sto, exp to, bool sx, exp x)
 	}
 }
 
-
 /*
-    IS THE EXP e AN OPERAND?
-*/
-
+ * IS THE EXP e AN OPERAND?
+ */
 static bool
 is_opnd(exp e)
 {
@@ -173,7 +170,7 @@ is_opnd(exp e)
 	case name_tag: {
 		exp s = son(e);
 		return !isvar(s) && (son(son(e)) != NULL) &&
-			!isparam(son(son(e)));
+		       !isparam(son(son(e)));
 	}
 
 	case val_tag:
@@ -186,14 +183,13 @@ is_opnd(exp e)
 	case null_tag:
 		return 1;
 	}
+
 	return 0;
 }
 
-
 /*
-    CHECK THE POINTER ARGUMENT OF AN ADDPTR
-*/
-
+ * CHECK THE POINTER ARGUMENT OF AN ADDPTR
+ */
 static void
 ap_arg1(bool sto, exp to, bool sa, exp a, bool b)
 {
@@ -212,11 +208,9 @@ ap_arg1(bool sto, exp to, bool sa, exp a, bool b)
 	ccp(sto, to, sa, a);
 }
 
-
 /*
-    CHECK THE INTEGER ARGUMENT OF AN ADDPTR
-*/
-
+ * CHECK THE INTEGER ARGUMENT OF AN ADDPTR
+ */
 static void
 ap_argsc(bool sto, exp to, bool se, exp e, int sz, bool b)
 {
@@ -252,11 +246,9 @@ ap_argsc(bool sto, exp to, bool se, exp e, int sz, bool b)
 	scan(1, temp, son(temp));
 }
 
-
 /*
-    CHECK THE ARGUMENT OF A CONT OR THE DESTINATION OF AN ASSIGN
-*/
-
+ * CHECK THE ARGUMENT OF A CONT OR THE DESTINATION OF AN ASSIGN
+ */
 static void
 cont_arg(bool sto, exp to, exp e, shape sa)
 {
@@ -305,11 +297,9 @@ cont_arg(bool sto, exp to, exp e, shape sa)
 	ccp(sto, to, 1, e);
 }
 
-
 /*
-    DOIT ROUTINE, IS t NOT AN OPERAND?
-*/
-
+ * DOIT ROUTINE, IS t NOT AN OPERAND?
+ */
 static bool
 notopnd(exp t, int i)
 {
@@ -325,9 +315,11 @@ scan_alloc_args(exp s)
 	if (scan_for_alloca(s)) {
 		return 1;
 	}
+
 	if (last(s)) {
 		return 0;
 	}
+
 	return scan_alloc_args(bro(s));
 }
 
@@ -341,23 +333,30 @@ scan_for_alloca(exp t)
 	case alloca_tag:
 	case make_lv_tag:
 		return 1;
+
 	case case_tag:
 		return scan_for_alloca(son(t));
+
 	case labst_tag:
 		return scan_for_alloca(bro(son(t)));
+
 	case env_offset_tag:
 	case string_tag:
 	case name_tag:
 		return 0;
+
 	case apply_general_tag:
 		if call_is_untidy(t) {
 			return 1;
 		}
+
 		return scan_alloc_args(son(t));
+
 	default:
 		if (son(t) == NULL) {
 			return 0;
 		}
+
 		return scan_alloc_args(son(t));
 	}
 }
@@ -372,102 +371,98 @@ no_alloca(exp t, int i)
 #endif
 
 /*
-    APPLY cc, DOING IT WITH OPERANDS
-*/
-
+ * APPLY cc, DOING IT WITH OPERANDS
+ */
 static void
 all_opnd(bool sto, exp to, exp e)
 {
 #if 0
 	if (!last(bro(son(e)))) {
-
 		/* Operation has more than two parameters.  Make it diadic */
-		exp opn = getexp(sh(e), e, 0, bro(son(e)), NULL, 0, 0,
-				 name(e));
-		exp nd = getexp(sh(e), bro(e), last(e), opn, NULL, 0, 1,
-				ident_tag);
+		exp opn = getexp(sh(e), e, 0, bro(son(e)), NULL, 0, 0, name(e));
+		exp nd = getexp(sh(e), bro(e), last(e), opn, NULL, 0, 1, ident_tag);
 		exp id = getexp(sh(e), e, 1, nd, NULL, 0, 0, name_tag);
+
 		pt(nd) = id;
 		bro(son(e)) = id;
 		setlast(e);
 		bro(e) = nd;
+
 		while (!last(bro(son(e)))) {
 			bro(son(e)) = bro(bro(son(e)));
 		}
+
 		bro(bro(son(e))) = opn;
 		e = nd;
 		scan(sto, e, e);
 	}
 #endif
+
 	cc(sto, to, 1, e, notopnd, 1);
 }
 
-
 /*
-    IS e ASSIGNABLE?
-*/
-
+ * IS e ASSIGNABLE?
+ */
 static bool
 is_assable(exp e)
 {
 	long sz;
 	unsigned char n = name(e);
+
 	if (is_a(n)) {
 		return 1;
 	}
+
 	if (n != apply_tag && n != apply_general_tag) {
 		return 0;
 	}
+
 	n = name(sh(e));
 	sz = shape_size(sh(e));
+
 	return n <= ulonghd || (n == ptrhd && sz == 32);
 }
 
-
 /*
-    DOIT ROUTINE, IS t NOT ASSIGNABLE?
-*/
-
+ * DOIT ROUTINE, IS t NOT ASSIGNABLE?
+ */
 static bool
 notass(exp t, int i)
 {
 	return i >= 0 && !is_assable(t);
 }
 
-
 /*
-    APPLY cc, DOING IT WITH ASSIGNABLES
-*/
-
+ * APPLY cc, DOING IT WITH ASSIGNABLES
+ */
 static void
 all_assable(bool sto, exp to, exp e)
 {
 	cc(sto, to, 1, e, notass, 1);
 }
 
-
 /*
-    IS e DIRECTLY ADDRESSABLE?
-*/
-
+ * IS e DIRECTLY ADDRESSABLE?
+ */
 static bool
 is_direct(exp e)
 {
-    unsigned char s = name(e);
-    return (s == name_tag && !isglob(son(e)) && !isvar(son(e))) ||
-	    (s == cont_tag && name(son(e)) == name_tag &&
-	     !isglob(son(son(e))) && isvar(son(son(e))));
+	unsigned char s = name(e);
+
+	return (s == name_tag && !isglob(son(e)) && !isvar(son(e))) ||
+	       (s == cont_tag && name(son(e)) == name_tag &&
+	        !isglob(son(son(e))) && isvar(son(son(e))));
 }
 
-
 /*
-    IS e INDIRECTLY ADDRESSABLE?
-*/
-
+ * IS e INDIRECTLY ADDRESSABLE?
+ */
 static bool
 is_indable(exp e)
 {
 	unsigned char s = name(e);
+
 	if (s == name_tag) {
 		return 1;
 	}
@@ -475,9 +470,9 @@ is_indable(exp e)
 	if (s == cont_tag) {
 		unsigned char t = name(son(e));
 		return (t == name_tag && isvar(son(son(e)))) ||
-			(t == cont_tag && name(son(son(e))) == name_tag &&
-			 isvar(son(son(son(e))))) ||
-			(t == reff_tag && is_direct(son(son(e))));
+		       (t == cont_tag && name(son(son(e))) == name_tag &&
+		        isvar(son(son(son(e))))) ||
+		       (t == reff_tag && is_direct(son(son(e))));
 	}
 
 	return (s == reff_tag && is_direct(son(e))) || s == addptr_tag;
@@ -492,6 +487,7 @@ indable_son(bool sto, exp to, exp e)
 {
 	if (!is_indable(son(e))) {
 		exp ec;
+
 		cca(sto, to, 1, e);
 		ec = contexp(sto, to);
 		scan(1, ec, son(ec));
@@ -503,9 +499,8 @@ indable_son(bool sto, exp to, exp e)
 #endif
 
 /*
-    APPLY scan TO A BRO LIST
-*/
-
+ * APPLY scan TO A BRO LIST
+ */
 static void
 scanargs(bool st, exp e)
 {
@@ -519,11 +514,9 @@ scanargs(bool st, exp e)
 	}
 }
 
-
 /*
-    DOIT ROUTINE FOR APPLY
-*/
-
+ * DOIT ROUTINE FOR APPLY
+ */
 #if 0
 static bool
 apdo(exp t, int i)
@@ -536,11 +529,9 @@ apdo(exp t, int i)
 }
 #endif
 
-
 /*
-    DOIT ROUTINE FOR PLUS
-*/
-
+ * DOIT ROUTINE FOR PLUS
+ */
 static bool
 plusdo(exp t, int i)
 {
@@ -548,29 +539,27 @@ plusdo(exp t, int i)
 	if (i == 1) {
 		return !is_opnd(t);
 	}
+
 	/* But can negate the rest */
 	if (name(t) == neg_tag) {
 		return 0;
 	}
+
 	return !is_opnd(t);
 }
 
-
 /*
-    DOIT ROUTINE FOR MULT
-*/
-
+ * DOIT ROUTINE FOR MULT
+ */
 static bool
 multdo(exp t, int i)
 {
 	return i >= 0 && !is_o(name(t));
 }
 
-
 /*
-    DOIT ROUTINE FOR AND
-*/
-
+ * DOIT ROUTINE FOR AND
+ */
 static bool
 anddo(exp t, int i)
 {
@@ -581,29 +570,24 @@ anddo(exp t, int i)
 	if (i == 1) {
 		return !is_o(name(t));
 	}
+
 	/* But can negate the rest */
 	if (name(t) == not_tag) {
 		return 0;
 	}
 #endif
+
 	return !is_o(name(t));
 }
 
-
 /*
-    DOIT ROUTINE FOR XOR
-*/
-
+ * DOIT ROUTINE FOR XOR
+ */
 static bool
 notado(exp t, int i)
 {
 	return i >= 0 && !is_o(name(t));
 }
-
-
-/*
-    MAIN SCAN ROUTINE
-*/
 
 void
 scan(bool sto, exp to, exp e)
@@ -625,23 +609,28 @@ scan(bool sto, exp to, exp e)
 			/* empty make_nof */
 			return;
 		}
+
 		scanargs(1, e);
 		return;
 #else
 		scanargs(1, e);
 		return;
 #endif
+
 	case labst_tag:
 		scan(0, son(e), bro(son(e)));
 		return;
+
 	case ident_tag:
 		scan(0, son(e), bro(son(e)));
 		scan(1, e, son(e));
 		return;
+
 	case seq_tag:
 		scanargs(1, son(e));
 		scan(0, son(e), bro(son(e)));
 		return;
+
 #if 0
 	case diag_tag:
 	case cscope_tag:
@@ -649,14 +638,17 @@ scan(bool sto, exp to, exp e)
 		scanargs(1, e);
 		return;
 #endif
+
 	case local_free_tag:
 	case long_jump_tag:
 	case ncopies_tag:
 		all_assable(sto, to, e);
 		return;
+
 	case alloca_tag:
 		all_opnd(sto, to, e);
 		return;
+
 #ifndef tdf3
 	case set_stack_limit_tag: {
 		exp lim = get_stack_limit();
@@ -667,14 +659,17 @@ scan(bool sto, exp to, exp e)
 		return;
 	}
 #endif
+
 	case offset_add_tag:
 	case offset_subtract_tag:
 		if ((al2(sh(son(e))) == 1) && (al2(sh(bro(son(e)))) != 1)) {
 			make_bitfield_offset(bro(son(e)), son(e), 0, sh(e));
 		}
+
 		if ((al2(sh(son(e))) != 1) && (al2(sh(bro(son(e)))) == 1)) {
 			make_bitfield_offset(son(e), e, 1, sh(e));
 		}
+
 	case test_tag:
 	case absbool_tag:
 	case testbit_tag:
@@ -710,23 +705,28 @@ scan(bool sto, exp to, exp e)
 	case movecont_tag:
 		all_opnd(sto, to, e);
 		return;
+
 	case not_tag:
 	case neg_tag:
 	case abs_tag:
 	case chvar_tag:
 		all_opnd(sto, to, e);
 		return;
+
 	case bitf_to_int_tag:
 	case int_to_bitf_tag:
 		all_opnd(sto, to, e);
 		return;
+
 	case ass_tag:
 	case assvol_tag: {
 		exp toc;
+
 		/* Change assvol into ass */
 		if (name(e) == assvol_tag) {
 			setname(e, ass_tag);
 		}
+
 		if (!is_assable(bro(son(e)))) {
 			cca(sto, to, 0, son(e));
 			toc = contexp(sto, to);
@@ -734,9 +734,11 @@ scan(bool sto, exp to, exp e)
 		} else {
 			scan(sto, to, bro(son(e)));
 		}
+
 		cont_arg(sto, to, e, sh(bro(son(e))));
 		return;
 	}
+
 #ifndef tdf3
 	case tail_call_tag: {
 		exp cees = bro(son(e));
@@ -751,6 +753,7 @@ scan(bool sto, exp to, exp e)
 
 		return;
 	}
+
 	case apply_general_tag: {
 		exp cees = bro(bro(son(e)));
 		exp p_post = cees;	/* bro(p_post) is postlude */
@@ -761,10 +764,12 @@ scan(bool sto, exp to, exp e)
 		       name(son(bro(p_post))) == caller_name_tag) {
 			p_post = son(bro(p_post));
 		}
+
 		scan(0, p_post, bro(p_post));
 		if (son(cees) != NULL) {
 			scanargs(1, cees);
 		}
+
 		if (no(bro(son(e))) != 0) {
 			scanargs(1, bro(son(e)));
 		}
@@ -777,12 +782,16 @@ scan(bool sto, exp to, exp e)
 		} else {
 			scan(sto, to, son(e));
 		}
+
 		return;
 	}
 #endif
+
 	case apply_tag:
 		scanargs(1, e);
+
 		/* Fall through */
+
 	case goto_lv_tag:
 		if (!is_indable(son(e))) {
 			exp ec;
@@ -792,7 +801,9 @@ scan(bool sto, exp to, exp e)
 		} else {
 			scan(sto, to, son(e));
 		}
+
 		return;
+
 #ifndef tdf3
 	case untidy_return_tag:
 #endif
@@ -800,8 +811,7 @@ scan(bool sto, exp to, exp e)
 		long sz;
 
 		if (name(son(e)) == apply_tag ||
-		    name(son(e)) == apply_general_tag)
-		{
+		    name(son(e)) == apply_general_tag) {
 			scan(sto, to, son(e));
 			return;
 		}
@@ -812,11 +822,14 @@ scan(bool sto, exp to, exp e)
 			all_assable(sto, to, e);
 			return;
 		}
+
 		all_opnd(sto, to, e);
 		return;
 	}
+
 	case case_tag: {
 		exp toc;
+
 		if (!is_opnd(son(e))) {
 			cca(sto, to, 1, e);
 			toc = contexp(sto, to);
@@ -824,16 +837,20 @@ scan(bool sto, exp to, exp e)
 		} else {
 			scan(sto, to, son(e));
 		}
+
 		return;
 	}
+
 	case plus_tag:
 		if (name(son(e)) == neg_tag &&
 		    name(bro(son(e))) == val_tag) {
 			scan(sto, to, son(e));
 			return;
 		}
+
 		cc(sto, to, 1, e, plusdo, 1);
 		return;
+
 	case addptr_tag: {
 		exp a = bro(son(e));
 
@@ -851,24 +868,30 @@ scan(bool sto, exp to, exp e)
 		ap_arg1(sto, to, 1, e, 0);
 		return;
 	}
+
 	case mult_tag:
 		cc(sto, to, 1, e, multdo, 1);
 		return;
+
 	case and_tag:
 		cc(sto, to, 1, e, anddo, 1);
 		return;
+
 	case or_tag:
 	case xor_tag:
 		cc(sto, to, 1, e, notado, 1);
 		return;
+
 	case cont_tag:
 	case contvol_tag:
 		/* Change contvol into cont */
 		if (name(e) == contvol_tag) {
 			setname(e, cont_tag);
 		}
+
 		cont_arg(sto, to, e, sh(e));
 		return;
+
 	case field_tag:
 		if (!is_o(name(son(e))) || name(e) == cont_tag) {
 			exp temp;
@@ -879,19 +902,24 @@ scan(bool sto, exp to, exp e)
 			scan(sto, to, son(e));
 		}
 		return;
+
 	case reff_tag: {
 		exp s = son(e);
+
 		if (name(s) == name_tag || (name(s) == cont_tag &&
-		     name(son(s)) == name_tag)) {
+		                            name(son(s)) == name_tag)) {
 			return;
 		}
+
 		ccp(sto, to, 1, e);
 		return;
 	}
+
 	case general_proc_tag:
 	case proc_tag:
 		scan(1, e, son(e));
 		return;
+
 #if 0
 	case val_tag:
 		if (name(sh(e)) == offsethd && al2(sh(e)) >= 8) {
@@ -899,7 +927,9 @@ scan(bool sto, exp to, exp e)
 		}
 		return;
 #endif
+
 	default:
 		return;
 	}
 }
+
