@@ -9,9 +9,11 @@
 	<section id="LINKINFO_PROPS">
 		<title>LINKINFO_PROPS</title>
 
-		<literallayout>Number of encoding bits: 0</literallayout>
-		<literallayout>Is coding extendable: no</literallayout>
-		<literallayout>Unit identification: linkinfo</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>0</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>no</td> </tr>
+			<tr> <td>Unit identification</td> <td>linkinfo</td> </tr>
+		</informaltable>
 
 		<para>This is an additional <code>UNIT</code> which gives extra information
 			about linking.</para>
@@ -19,7 +21,9 @@
 		<section id="make_linkinfos">
 			<title>make_linkinfos</title>
 
-			<literallayout>Encoding number: 0</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>0</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">no_labels:       TDFINT
 tds:             SLIST(LINKINFO)
@@ -32,13 +36,17 @@ tds:             SLIST(LINKINFO)
 	<section id="LINKINFO">
 		<title>LINKINFO</title>
 
-		<literallayout>Number of encoding bits: 2</literallayout>
-		<literallayout>Is encoding extendable: yes</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>2</td> </tr>
+			<tr> <td>Is encoding extendable</td> <td>yes</td> </tr>
+		</informaltable>
 
 		<section id="static_name_def">
 			<title>static_name_def</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">assexp:          EXP POINTER x
 id:              TDFSTRING(k, n)
@@ -64,7 +72,9 @@ id:              TDFSTRING(k, n)
 		<section id="make_comment">
 			<title>make_comment</title>
 
-			<literallayout>Encoding number: 2</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>2</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">n:               TDFSTRING(k, n)
 		   -&gt; LINKINFO</programlisting>
@@ -76,7 +86,9 @@ id:              TDFSTRING(k, n)
 		<section id="make_weak_defn">
 			<title>make_weak_defn</title>
 
-			<literallayout>Encoding number: 3</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>3</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">namer:           EXP POINTER x
 val:             EXP POINTER y
@@ -93,7 +105,9 @@ val:             EXP POINTER y
 		<section id="make_weak_symbol">
 			<title>make_weak_symbol</title>
 
-			<literallayout>Encoding number: 4</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>4</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">id:              TDFSTRING(k, n)
 val:             EXP POINTER x

@@ -99,7 +99,9 @@ branches:        LIST(CASELIM)
 		The values used for unit identifications are specified in the text as
 		follows:</para>
 
-	<literallayout>Unit identification: <replaceable>some_name</replaceable></literallayout>
+	<informaltable>
+		<tr> <td>Unit identification</td> <td><replaceable>some_name</replaceable></td> </tr>
+	</informaltable>
 
 	<para>where <replaceable>some_name</replaceable> might be <replaceable>tokdec</replaceable>,
 		<replaceable>tokdef</replaceable> etc.</para>
@@ -109,7 +111,9 @@ branches:        LIST(CASELIM)
 		values used for linkable entity identification are specified in the text as
 		follows:</para>
 
-	<literallayout>Linkable entity identification: <replaceable>some_name</replaceable></literallayout>
+	<informaltable>
+		<tr> <td>Linkable entity identification</td> <td><replaceable>some_name</replaceable></td> </tr>
+	</informaltable>
 
 	<para>where <replaceable>some_name</replaceable> might be <replaceable>tag</replaceable>,
 		<replaceable>token</replaceable> etc.</para>
@@ -122,18 +126,24 @@ branches:        LIST(CASELIM)
 	<para>With each <code>SORT</code> the number of bits used to encode the constructs
 		is given in the following form:</para>
 
-	<literallayout>Number of encoding bits: <replaceable>n</replaceable></literallayout>
+	<informaltable>
+		<tr> <td>Number of encoding bits</td> <td><replaceable>n</replaceable></td> </tr>
+	</informaltable>
 
 	<para>This number may be zero; if so the encoding is non-extendable. If it is
 		non-zero the encoding may be extendable or non-extendable. This is specified
 		in the following form:</para>
 
-	<literallayout>Is coding extendable: yes/no</literallayout>
+	<informaltable>
+		<tr> <td>Is coding extendable</td> <td>yes/no</td> </tr>
+	</informaltable>
 
 	<para>With each construct the number used to encode it is given in the following
 		form:</para>
 
-	<literallayout>Encoding number: <replaceable>n</replaceable></literallayout>
+	<informaltable>
+		<tr> <td>Encoding number</td> <td><replaceable>n</replaceable></td> </tr>
+	</informaltable>
 
 	<para>If the number of encoding bits is zero, <replaceable>n</replaceable> will be zero.</para>
 

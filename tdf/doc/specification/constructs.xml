@@ -9,8 +9,10 @@ $Id$
 	<section id="tdf-access">
 		<title>Access</title>
 
-		<literallayout>Number of encoding bits: 4</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>4</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+		</informaltable>
 
 		<para>An <code>ACCESS</code> describes properties a variable or identity may
 			have which may constrain or describe the ways in which the variable or
@@ -31,7 +33,9 @@ $Id$
 		<section id="access_apply_token">
 			<title>access_apply_token</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">token_value:		 TOKEN
 token_args:			BITSTREAM param_sorts(token_value)
@@ -54,7 +58,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 		<section id="access_cond">
 			<title>access_cond</title>
 
-			<literallayout>Encoding number: 2</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>2</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
 e1:							BITSTREAM ACCESS
@@ -73,7 +79,9 @@ e2:							BITSTREAM ACCESS
 		<section id="add_access">
 			<title>add_access</title>
 
-			<literallayout>Encoding number: 3</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>3</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">a1:							ACCESS
 a2:							ACCESS
@@ -87,7 +95,9 @@ a2:							ACCESS
 		<section id="constant">
 			<title>constant</title>
 
-			<literallayout>Encoding number: 4</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>4</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; ACCESS</programlisting>
 
@@ -100,7 +110,9 @@ a2:							ACCESS
 		<section id="long_jump_access">
 			<title>long_jump_access</title>
 
-			<literallayout>Encoding number: 5</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>5</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; ACCESS</programlisting>
 
@@ -112,7 +124,9 @@ a2:							ACCESS
 		<section id="no_other_read">
 			<title>no_other_read</title>
 
-			<literallayout>Encoding number: 6</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>6</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; ACCESS</programlisting>
 
@@ -137,7 +151,9 @@ a2:							ACCESS
 		<section id="no_other_write">
 			<title>no_other_write</title>
 
-			<literallayout>Encoding number: 7</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>7</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; ACCESS</programlisting>
 
@@ -162,7 +178,9 @@ a2:							ACCESS
 		<section id="out_par">
 			<title>out_par</title>
 
-			<literallayout>Encoding number: 8</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>8</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; ACCESS</programlisting>
 
@@ -176,7 +194,9 @@ a2:							ACCESS
 		<section id="preserve">
 			<title>preserve</title>
 
-			<literallayout>Encoding number: 9</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>9</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; ACCESS</programlisting>
 
@@ -189,7 +209,9 @@ a2:							ACCESS
 		<section id="register">
 			<title>register</title>
 
-			<literallayout>Encoding number: 10</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>10</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; ACCESS</programlisting>
 
@@ -200,7 +222,9 @@ a2:							ACCESS
 		<section id="standard_access">
 			<title>standard_access</title>
 
-			<literallayout>Encoding number: 11</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>11</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; ACCESS</programlisting>
 
@@ -211,7 +235,9 @@ a2:							ACCESS
 		<section id="used_as_volatile">
 			<title>used_as_volatile</title>
 
-			<literallayout>Encoding number: 12</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>12</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; ACCESS</programlisting>
 
@@ -225,7 +251,9 @@ a2:							ACCESS
 		<section id="visible">
 			<title>visible</title>
 
-			<literallayout>Encoding number: 13</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>13</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; ACCESS</programlisting>
 
@@ -239,9 +267,11 @@ a2:							ACCESS
 	<section id="AL_TAG">
 		<title>AL_TAG</title>
 
-		<literallayout>Number of encoding bits: 1</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
-		<literallayout>Linkable entity identification: alignment</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>1</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+			<tr> <td>Linkable entity identification</td> <td>alignment</td> </tr>
+		</informaltable>
 
 		<para><code>AL_TAG</code>s name <code>ALIGNMENT</code>s. They are used so that
 			circular definitions can be written in TDF. However, because of the
@@ -256,7 +286,9 @@ a2:							ACCESS
 		<section id="al_tag_apply_token">
 			<title>al_tag_apply_token</title>
 
-			<literallayout>Encoding number: 2</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>2</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">token_value:		 TOKEN
 token_args:			BITSTREAM param_sorts(token_value)
@@ -275,7 +307,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 		<section id="make_al_tag">
 			<title>make_al_tag</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">al_tagno:				TDFINT
 								 -&gt; AL_TAG</programlisting>
@@ -288,8 +322,10 @@ token_args:			BITSTREAM param_sorts(token_value)
 	<section id="AL_TAGDEF">
 		<title>AL_TAGDEF</title>
 
-		<literallayout>Number of encoding bits: 1</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>1</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+		</informaltable>
 
 		<para>An <code>AL_TAGDEF</code> gives the definition of an <code>AL_TAG</code>
 			for incorporation into a <code>AL_TAGDEF_PROPS</code>.</para>
@@ -297,7 +333,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 		<section id="make_al_tagdef">
 			<title>make_al_tagdef</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">t:							 TDFINT
 a:							 ALIGNMENT
@@ -329,14 +367,18 @@ a:							 ALIGNMENT
 	<section id="AL_TAGDEF_PROPS">
 		<title>AL_TAGDEF_PROPS</title>
 
-		<literallayout>Number of encoding bits: 0</literallayout>
-		<literallayout>Is coding extendable: no</literallayout>
-		<literallayout>Unit identificaiton: aldef</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>0</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>no</td> </tr>
+			<tr> <td>Unit identificaiton</td> <td>aldef</td> </tr>
+		</informaltable>
 
 		<section id="make_al_tagdefs">
 			<title>make_al_tagdefs</title>
 
-			<literallayout>Encoding number: 0</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>0</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">no_labels:			 TDFINT
 tds:						 SLIST(AL_TAGDEF)
@@ -352,8 +394,10 @@ tds:						 SLIST(AL_TAGDEF)
 	<section id="ALIGNMENT">
 		<title>ALIGNMENT</title>
 
-		<literallayout>Number of encoding bits: 4</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>4</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+		</informaltable>
 
 		<para>An <code>ALIGNMENT</code> gives information about the layout of data in
 			memory and hence is a parameter for the <code>POINTER</code> and
@@ -407,7 +451,9 @@ tds:						 SLIST(AL_TAGDEF)
 		<section id="alignment_apply_token">
 			<title>alignment_apply_token</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">token_value:		 TOKEN
 token_args:			BITSTREAM param_sorts(token_value)
@@ -426,7 +472,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 		<section id="alignment_cond">
 			<title>alignment_cond</title>
 
-			<literallayout>Encoding number: 2</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>2</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
 e1:							BITSTREAM ALIGNMENT
@@ -445,7 +493,9 @@ e2:							BITSTREAM ALIGNMENT
 		<section id="alignment">
 			<title>alignment</title>
 
-			<literallayout>Encoding number: 3</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>3</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">sha:						 SHAPE
 								 -&gt; ALIGNMENT</programlisting>
@@ -517,7 +567,9 @@ e2:							BITSTREAM ALIGNMENT
 		<section id="alloca_allignment">
 			<title>alloca_allignment</title>
 
-			<literallayout>Encoding number: 4</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>4</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; ALIGNMENT</programlisting>
 
@@ -528,7 +580,9 @@ e2:							BITSTREAM ALIGNMENT
 		<section id="callees_alignment">
 			<title>callees_alignment</title>
 
-			<literallayout>Encoding number: 5</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>5</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">var:						 BOOL
 								 -&gt; ALIGNMENT</programlisting>
@@ -551,7 +605,9 @@ e2:							BITSTREAM ALIGNMENT
 		<section id="callers_alignment">
 			<title>callers_alignment</title>
 
-			<literallayout>Encoding number: 6</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>6</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">var:						 BOOL
 								 -&gt; ALIGNMENT</programlisting>
@@ -574,7 +630,9 @@ e2:							BITSTREAM ALIGNMENT
 		<section id="code_alignment">
 			<title>code_alignment</title>
 
-			<literallayout>Encoding number: 7</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>7</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; ALIGNMENT</programlisting>
 
@@ -585,7 +643,9 @@ e2:							BITSTREAM ALIGNMENT
 		<section id="locals_alignment">
 			<title>locals_alignment</title>
 
-			<literallayout>Encoding number: 8</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>8</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; ALIGNMENT</programlisting>
 
@@ -600,7 +660,9 @@ e2:							BITSTREAM ALIGNMENT
 		<section id="obtain_al_tag">
 			<title>obtain_al_tag</title>
 
-			<literallayout>Encoding number: 9</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>9</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">at:							AL_TAG
 								 -&gt; ALIGNMENT</programlisting>
@@ -612,7 +674,9 @@ e2:							BITSTREAM ALIGNMENT
 		<section id="parameter_alignment">
 			<title>parameter_alignment</title>
 
-			<literallayout>Encoding number: 10</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>10</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">sha:						 SHAPE
 								 -&gt; ALIGNMENT</programlisting>
@@ -624,7 +688,9 @@ e2:							BITSTREAM ALIGNMENT
 		<section id="unite_alignments">
 			<title>unite_alignments</title>
 
-			<literallayout>Encoding number: 11</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>11</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">a1:							ALIGNMENT
 a2:							ALIGNMENT
@@ -640,7 +706,9 @@ a2:							ALIGNMENT
 		<section id="var_param_alignment">
 			<title>var_param_alignment</title>
 
-			<literallayout>Encoding number: 12</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>12</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; ALIGNMENT</programlisting>
 			<para>Delivers the <code>ALIGNMENT</code> used in the
@@ -652,8 +720,10 @@ a2:							ALIGNMENT
 	<section id="BITFIELD_VARIETY">
 		<title>BITFIELD_VARIETY</title>
 
-		<literallayout>Number of encoding bits: 2</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>2</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+		</informaltable>
 
 		<para>These describe runtime bitfield values. The intention is that these values
 			are usually kept in memory locations which need not be aligned on
@@ -666,7 +736,9 @@ a2:							ALIGNMENT
 		<section id="bfvar_apply_token">
 			<title>bfvar_apply_token</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">token_value:		 TOKEN
 token_args:			BITSTREAM param_sorts(token_value)
@@ -685,7 +757,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 		<section id="bfvar_cond">
 			<title>bfvar_cond</title>
 
-			<literallayout>Encoding number: 2</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>2</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
 e1:							BITSTREAM BITFIELD_VARIETY
@@ -704,7 +778,9 @@ e2:							BITSTREAM BITFIELD_VARIETY
 		<section id="bfvar_bits">
 			<title>bfvar_bits</title>
 
-			<literallayout>Encoding number: 3</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>3</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">issigned:				BOOL
 bits:						NAT
@@ -738,8 +814,10 @@ twos-complement signed number: otherwise it is considered to be
 	<section id="BOOL">
 		<title>BOOL</title>
 
-		<literallayout>Number of encoding bits: 3</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>3</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+		</informaltable>
 
 		<para>A <code>BOOL</code> is a piece of TDF which can take two values,
 			<replaceable>true</replaceable> or <replaceable>false</replaceable>.</para>
@@ -747,7 +825,9 @@ twos-complement signed number: otherwise it is considered to be
 		<section id="bool_apply_token">
 			<title>bool_apply_token</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">token_value:		 TOKEN
 token_args:			BITSTREAM param_sorts(token_value)
@@ -766,7 +846,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 		<section id="bool_cond">
 			<title>bool_cond</title>
 
-			<literallayout>Encoding number: 2</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>2</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
 e1:							BITSTREAM BOOL
@@ -785,7 +867,9 @@ e2:							BITSTREAM BOOL
 		<section id="false">
 			<title>false</title>
 
-			<literallayout>Encoding number: 3</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>3</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; BOOL</programlisting>
 
@@ -795,7 +879,9 @@ e2:							BITSTREAM BOOL
 		<section id="true">
 			<title>true</title>
 
-			<literallayout>Encoding number: 4</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>4</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; BOOL</programlisting>
 
@@ -815,8 +901,10 @@ e2:							BITSTREAM BOOL
 	<section id="CALLEES">
 		<title>CALLEES</title>
 
-		<literallayout>Number of encoding bits: 2</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>2</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+		</informaltable>
 
 		<para>This is an auxilliary <code>SORT</code> used in calling procedures by
 			<replaceable>apply_general_proc</replaceable> and <replaceable>tail_call</replaceable>
@@ -825,7 +913,9 @@ e2:							BITSTREAM BOOL
 		<section id="make_callee_list">
 			<title>make_callee_list</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">args:						LIST(EXP)
 								 -&gt; CALLEES</programlisting>
@@ -838,7 +928,9 @@ e2:							BITSTREAM BOOL
 		<section id="make_dynamic_callees">
 			<title>make_dynamic_callees</title>
 
-			<literallayout>Encoding number: 2</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>2</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">ptr:						 EXP POINTER(x)
 sze:						 EXP OFFSET(x, y)
@@ -874,7 +966,9 @@ sze:						 EXP OFFSET(x, y)
 		<section id="same_callees">
 			<title>same_callees</title>
 
-			<literallayout>Encoding number: 3</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>3</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; CALLEES</programlisting>
 
@@ -886,8 +980,10 @@ sze:						 EXP OFFSET(x, y)
 	<section id="CAPSULE">
 		<title>CAPSULE</title>
 
-		<literallayout>Number of encoding bits: 0</literallayout>
-		<literallayout>Is coding extendable: no</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>0</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>no</td> </tr>
+		</informaltable>
 
 		<para>A <code>CAPSULE</code> is an independent piece of TDF. There is only one
 			construction, <replaceable>make_capsule</replaceable>.</para>
@@ -895,7 +991,9 @@ sze:						 EXP OFFSET(x, y)
 		<section id="make_capsule">
 			<title>make_capsule</title>
 
-			<literallayout>Encoding number: 0</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>0</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">prop_names:			SLIST(TDFIDENT)
 cap_linking:		 SLIST(CAPSULE_LINK)
@@ -955,8 +1053,10 @@ groups:					SLIST(GROUP)
 	<section id="CAPSULE_LINK">
 		<title>CAPSULE_LINK</title>
 
-		<literallayout>Number of encoding bits: 0</literallayout>
-		<literallayout>Is coding extendable: no</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>0</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>no</td> </tr>
+		</informaltable>
 
 		<para>An auxiliary <code>SORT</code> which gives the number of linkable entities
 			of a given kind at <code>CAPSULE</code> level. It is used only in
@@ -965,7 +1065,9 @@ groups:					SLIST(GROUP)
 		<section id="make_capsule_link">
 			<title>make_capsule_link</title>
 
-			<literallayout>Encoding number: 0</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>0</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">sn:							TDFIDENT
 n:							 TDFINT
@@ -981,8 +1083,10 @@ n:							 TDFINT
 	<section id="CASELIM">
 		<title>CASELIM</title>
 
-		<literallayout>Number of encoding bits: 0</literallayout>
-		<literallayout>Is coding extendable: no</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>0</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>no</td> </tr>
+		</informaltable>
 
 		<para>An auxiliary <code>SORT</code> which provides lower and upper bounds and
 			the <code>LABEL</code> destination for the <replaceable>case</replaceable>
@@ -991,7 +1095,9 @@ n:							 TDFINT
 		<section id="make_caselim">
 			<title>make_caselim</title>
 
-			<literallayout>Encoding number: 0</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>0</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">branch:					LABEL
 lower:					 SIGNED_NAT
@@ -1009,13 +1115,17 @@ upper:					 SIGNED_NAT
 	<section id="error_code">
 		<title>ERROR_code</title>
 
-		<literallayout>Number of encoding bits: 2</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>2</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+		</informaltable>
 
 		<section id="nil_access">
 			<title>nil_access</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; ERROR_code</programlisting>
 
@@ -1027,7 +1137,9 @@ upper:					 SIGNED_NAT
 		<section id="overflow">
 			<title>overflow</title>
 
-			<literallayout>Encoding number: 2</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>2</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; ERROR_code</programlisting>
 
@@ -1039,7 +1151,9 @@ upper:					 SIGNED_NAT
 		<section id="stack_overflow">
 			<title>stack_overflow</title>
 
-			<literallayout>Encoding number: 3</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>3</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; ERROR_code</programlisting>
 
@@ -1053,8 +1167,10 @@ upper:					 SIGNED_NAT
 	<section id="ERROR_TREATMENT">
 		<title>ERROR_TREATMENT</title>
 
-		<literallayout>Number of encoding bits: 3</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>3</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+		</informaltable>
 
 		<para>These values describe the way to handle various forms of error which can
 			occur during the evaluation of operations.</para>
@@ -1065,7 +1181,9 @@ upper:					 SIGNED_NAT
 		<section id="errt_apply_token">
 			<title>errt_apply_token</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">token_value:		 TOKEN
 token_args:			BITSTREAM param_sorts(token_value)
@@ -1084,7 +1202,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 		<section id="errt_cond">
 			<title>errt_cond</title>
 
-			<literallayout>Encoding number: 2</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>2</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
 e1:							BITSTREAM ERROR_TREATMENT
@@ -1103,7 +1223,9 @@ e2:							BITSTREAM ERROR_TREATMENT
 		<section id="continue">
 			<title>continue</title>
 
-			<literallayout>Encoding number: 3</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>3</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; ERROR_TREATMENT</programlisting>
 
@@ -1116,7 +1238,9 @@ e2:							BITSTREAM ERROR_TREATMENT
 		<section id="error_jump">
 			<title>error_jump</title>
 
-			<literallayout>Encoding number: 4</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>4</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">lab:						 LABEL
 								 -&gt; ERROR_TREATMENT</programlisting>
@@ -1140,7 +1264,9 @@ e2:							BITSTREAM ERROR_TREATMENT
 		<section id="trap">
 			<title>trap</title>
 
-			<literallayout>Encoding number: 5</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>5</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">trap_list:			 LIST(ERROR_code)
 								 -&gt; ERROR_TREATMENT</programlisting>
@@ -1158,7 +1284,9 @@ e2:							BITSTREAM ERROR_TREATMENT
 		<section id="wrap">
 			<title>wrap</title>
 
-			<literallayout>Encoding number: 6</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>6</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; ERROR_TREATMENT</programlisting>
 
@@ -1176,7 +1304,9 @@ e2:							BITSTREAM ERROR_TREATMENT
 		<section id="impossible">
 			<title>impossible</title>
 
-			<literallayout>Encoding number: 7</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>7</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; ERROR_TREATMENT</programlisting>
 
@@ -1192,8 +1322,10 @@ e2:							BITSTREAM ERROR_TREATMENT
 	<section id="EXP">
 		<title>EXP</title>
 
-		<literallayout>Number of encoding bits: 7</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>7</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+		</informaltable>
 
 		<para><code>EXP</code>s are pieces of TDF which are translated into program.
 			<code>EXP</code> is by far the richest <code>SORT</code>. There are few
@@ -1206,7 +1338,9 @@ primitive <code>EXP</code>s: most of the constructions take arguments
 		<section id="exp_apply_token">
 			<title>exp_apply_token</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">token_value:		 TOKEN
 token_args:			BITSTREAM param_sorts(token_value)
@@ -1225,7 +1359,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 		<section id="exp_cond">
 			<title>exp_cond</title>
 
-			<literallayout>Encoding number: 2</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>2</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
 e1:							BITSTREAM EXP x
@@ -1244,7 +1380,9 @@ e2:							BITSTREAM EXP y
 		<section id="abs">
 			<title>abs</title>
 
-			<literallayout>Encoding number: 3</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>3</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">ov_err:					ERROR_TREATMENT
 arg1:						EXP INTEGER(v)
@@ -1261,7 +1399,9 @@ arg1:						EXP INTEGER(v)
 		<section id="add_to_ptr">
 			<title>add_to_ptr</title>
 
-			<literallayout>Encoding number: 4</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>4</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						EXP POINTER(x)
 arg2:						EXP OFFSET(y, z)
@@ -1300,7 +1440,9 @@ arg2:						EXP OFFSET(y, z)
 		<section id="and">
 			<title>and</title>
 
-			<literallayout>Encoding number: 5</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>5</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						EXP INTEGER(v)
 arg2:						EXP INTEGER(v)
@@ -1318,7 +1460,9 @@ arg2:						EXP INTEGER(v)
 		<section id="apply_proc">
 			<title>apply_proc</title>
 
-			<literallayout>Encoding number: 6</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>6</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">result_shape:		SHAPE
 p:							 EXP PROC
@@ -1369,7 +1513,9 @@ var_param:			 OPTION(EXP)
 		<section id="apply_general_proc">
 			<title>apply_general_proc</title>
 
-			<literallayout>Encoding number: 7</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>7</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">result_shape:		SHAPE
 prcprops:				OPTION(PROCPROPS)
@@ -1478,7 +1624,9 @@ present, the inlining process is modified by: The binding of P is
 		<section id="assign">
 			<title>assign</title>
 
-			<literallayout>Encoding number: 8</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>8</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						EXP POINTER(x)
 arg2:						EXP y
@@ -1510,7 +1658,9 @@ arg2:						EXP y
 		<section id="assign_with_mode">
 			<title>assign_with_mode</title>
 
-			<literallayout>Encoding number: 9</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>9</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">md:							TRANSFER_MODE
 arg1:						EXP POINTER(x)
@@ -1544,7 +1694,9 @@ arg2:						EXP y
 		<section id="bitfield_assign">
 			<title>bitfield_assign</title>
 
-			<literallayout>Encoding number: 10</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>10</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						EXP POINTER(x)
 arg2:						EXP OFFSET(y, z)
@@ -1565,7 +1717,9 @@ arg3:						EXP BITFIELD(v)
 		<section id="bitfield_assign_with_mode">
 			<title>bitfield_assign_with_mode</title>
 
-			<literallayout>Encoding number: 11</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>11</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">md:							TRANSFER_MODE
 arg1:						EXP POINTER(x)
@@ -1590,7 +1744,9 @@ arg3:						EXP BITFIELD(v)
 		<section id="bitfield_contents">
 			<title>bitfield_contents</title>
 
-			<literallayout>Encoding number: 12</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>12</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">v:							 BITFIELD_VARIETY
 arg1:						EXP POINTER(x)
@@ -1612,7 +1768,9 @@ arg2:						EXP OFFSET(y, z)
 		<section id="bitfield_contents_with_mode">
 			<title>bitfield_contents_with_mode</title>
 
-			<literallayout>Encoding number: 13</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>13</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">md:							TRANSFER_MODE
 v:							 BITFIELD_VARIETY
@@ -1641,7 +1799,9 @@ arg2:						EXP OFFSET(y, z)
 		<section id="case">
 			<title>case</title>
 
-			<literallayout>Encoding number: 14</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>14</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">exhaustive:			BOOL
 control: EXP INTEGER(v)
@@ -1670,7 +1830,9 @@ branches:				LIST(CASELIM)
 		<section id="change_bitfield_to_int">
 			<title>change_bitfield_to_int</title>
 
-			<literallayout>Encoding number: 15</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>15</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">v:							 VARIETY
 arg1:						EXP BITFIELD(bv)
@@ -1686,7 +1848,9 @@ arg1:						EXP BITFIELD(bv)
 		<section id="change_floating_variety">
 			<title>change_floating_variety</title>
 
-			<literallayout>Encoding number: 16</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>16</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">flpt_err:				ERROR_TREATMENT
 r:							 FLOATING_VARIETY
@@ -1710,7 +1874,9 @@ arg1:						EXP FLOATING(f)
 		<section id="change_variety">
 			<title>change_variety</title>
 
-			<literallayout>Encoding number: 17</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>17</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">ov_err:					ERROR_TREATMENT
 r:							 VARIETY
@@ -1730,7 +1896,9 @@ arg1:						EXP INTEGER(v)
 		<section id="change_int_to_bitfield">
 			<title>change_int_to_bitfield</title>
 
-			<literallayout>Encoding number: 18</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>18</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">bv:							BITFIELD_VARIETY
 arg1:						EXP INTEGER(v)
@@ -1746,7 +1914,9 @@ arg1:						EXP INTEGER(v)
 		<section id="complex_conjugate">
 			<title>complex_conjugate</title>
 
-			<literallayout>Encoding number: 19</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>19</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">c:							 EXP FLOATING(cv)
 								 -&gt; EXP FLOATING(cv)</programlisting>
@@ -1759,7 +1929,9 @@ arg1:						EXP INTEGER(v)
 		<section id="component">
 			<title>component</title>
 
-			<literallayout>Encoding number: 20</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>20</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">sha:						 SHAPE
 arg1:						EXP COMPOUND(EXP OFFSET(x, y))
@@ -1782,7 +1954,9 @@ arg2:						EXP OFFSET(x, alignment(sha))
 		<section id="concat_nof">
 			<title>concat_nof</title>
 
-			<literallayout>Encoding number: 21</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>21</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						EXP NOF(n, s)
 arg2:						EXP NOF(m, s)
@@ -1797,7 +1971,9 @@ arg2:						EXP NOF(m, s)
 		<section id="conditional">
 			<title>conditional</title>
 
-			<literallayout>Encoding number: 22</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>22</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">altlab_intro:		LABEL
 first:					 EXP x
@@ -1832,7 +2008,9 @@ alt:						 EXP z
 		<section id="contents">
 			<title>contents</title>
 
-			<literallayout>Encoding number: 23</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>23</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">s:							 SHAPE
 arg1:						EXP POINTER(x)
@@ -1863,7 +2041,9 @@ arg1:						EXP POINTER(x)
 		<section id="contents_with_mode">
 			<title>contents_with_mode</title>
 
-			<literallayout>Encoding number: 24</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>24</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">md:							TRANSFER_MODE
 s:							 SHAPE
@@ -1896,7 +2076,9 @@ arg1:						EXP POINTER(x)
 		<section id="current_env">
 			<title>current_env</title>
 
-			<literallayout>Encoding number: 25</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>25</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; EXP POINTER(fa)</programlisting>
 
@@ -1939,7 +2121,9 @@ arg1:						EXP POINTER(x)
 		<section id="div0">
 			<title>div0</title>
 
-			<literallayout>Encoding number: 26</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>26</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">div_by_0_err:		ERROR_TREATMENT
 ov_err:					ERROR_TREATMENT
@@ -1975,7 +2159,9 @@ arg2:						EXP INTEGER(v)
 		<section id="div1">
 			<title>div1</title>
 
-			<literallayout>Encoding number: 27</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>27</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">div_by_0_err:		ERROR_TREATMENT
 ov_err:					ERROR_TREATMENT
@@ -2008,7 +2194,9 @@ arg2:						EXP INTEGER(v)
 		<section id="div2">
 			<title>div2</title>
 
-			<literallayout>Encoding number: 28</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>28</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">div_by_0_err:		ERROR_TREATMENT
 ov_err:					ERROR_TREATMENT
@@ -2042,7 +2230,9 @@ arg2:						EXP INTEGER(v)
 		<section id="env_offset">
 			<title>env_offset</title>
 
-			<literallayout>Encoding number: 29</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>29</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">fa:							ALIGNMENT
 y:							 ALIGNMENT
@@ -2092,7 +2282,9 @@ t:							 TAG x
 		<section id="env_size">
 			<title>env_size</title>
 
-			<literallayout>Encoding number: 30</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>30</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">proctag: TAG PROC
 								 -&gt; EXP OFFSET(locals_alignment, {})</programlisting>
@@ -2112,7 +2304,9 @@ t:							 TAG x
 		<section id="fail_installer">
 			<title>fail_installer</title>
 
-			<literallayout>Encoding number: 31</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>31</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">message: STRING(k, n)
 								 -&gt; EXP BOTTOM</programlisting>
@@ -2126,7 +2320,9 @@ t:							 TAG x
 		<section id="float_int">
 			<title>float_int</title>
 
-			<literallayout>Encoding number: 32</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>32</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">flpt_err:				ERROR_TREATMENT
 f:							 FLOATING_VARIETY
@@ -2149,7 +2345,9 @@ arg1:						EXP INTEGER(v)
 		<section id="floating_abs">
 			<title>floating_abs</title>
 
-			<literallayout>Encoding number: 33</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>33</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">flpt_err:				ERROR_TREATMENT
 arg1:						EXP FLOATING(f)
@@ -2173,7 +2371,9 @@ arg1:						EXP FLOATING(f)
 		<section id="floating_div">
 			<title>floating_div</title>
 
-			<literallayout>Encoding number: 34</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>34</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">flpt_err:				ERROR_TREATMENT
 arg1:						EXP FLOATING(f)
@@ -2197,7 +2397,9 @@ arg2:						EXP FLOATING(f)
 		<section id="floating_minus">
 			<title>floating_minus</title>
 
-			<literallayout>Encoding number: 35</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>35</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">flpt_err:				ERROR_TREATMENT
 arg1:						EXP FLOATING(f)
@@ -2221,7 +2423,9 @@ arg2:						EXP FLOATING(f)
 		<section id="floating_maximum">
 			<title>floating_maximum</title>
 
-			<literallayout>Encoding number: 36</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>36</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">flpt_err:				ERROR_TREATMENT
 arg1:						EXP FLOATING(f)
@@ -2242,7 +2446,9 @@ arg2:						EXP FLOATING(f)
 		<section id="floating_minimum">
 			<title>floating_minimum</title>
 
-			<literallayout>Encoding number: 37</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>37</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">flpt_err:				ERROR_TREATMENT
 arg1:						EXP FLOATING(f)
@@ -2263,7 +2469,9 @@ arg2:						EXP FLOATING(f)
 		<section id="floating_mult">
 			<title>floating_mult</title>
 
-			<literallayout>Encoding number: 38</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>38</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">flpt_err:				ERROR_TREATMENT
 arg1:						LIST(EXP)
@@ -2297,7 +2505,9 @@ arg1:						LIST(EXP)
 		<section id="floating_negate">
 			<title>floating_negate</title>
 
-			<literallayout>Encoding number: 39</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>39</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">flpt_err:				ERROR_TREATMENT
 arg1:						EXP FLOATING(f)
@@ -2320,7 +2530,9 @@ arg1:						EXP FLOATING(f)
 		<section id="floating_plus">
 			<title>floating_plus</title>
 
-			<literallayout>Encoding number: 40</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>40</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">flpt_err:				ERROR_TREATMENT
 arg1:						LIST(EXP)
@@ -2354,7 +2566,9 @@ arg1:						LIST(EXP)
 		<section id="floating_power">
 			<title>floating_power</title>
 
-			<literallayout>Encoding number: 41</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>41</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">flpt_err:				ERROR_TREATMENT
 arg1:						EXP FLOATING(f)
@@ -2375,7 +2589,9 @@ arg2:						EXP INTEGER(v)
 		<section id="floating_test">
 			<title>floating_test</title>
 
-			<literallayout>Encoding number: 42</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>42</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">prob:						OPTION(NAT)
 flpt_err:				ERROR_TREATMENT
@@ -2413,7 +2629,9 @@ arg2:						EXP FLOATING(f)
 		<section id="goto">
 			<title>goto</title>
 
-			<literallayout>Encoding number: 43</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>43</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">dest:						LABEL
 								 -&gt; EXP BOTTOM</programlisting>
@@ -2426,7 +2644,9 @@ arg2:						EXP FLOATING(f)
 		<section id="goto_local_lv">
 			<title>goto_local_lv</title>
 
-			<literallayout>Encoding number: 44</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>44</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						EXP POINTER({code})
 								 -&gt; EXP BOTTOM</programlisting>
@@ -2446,7 +2666,9 @@ arg2:						EXP FLOATING(f)
 		<section id="identify">
 			<title>identify</title>
 
-			<literallayout>Encoding number: 45</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>45</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">opt_access:			OPTION(ACCESS)
 name_intro:			TAG x
@@ -2490,7 +2712,9 @@ of one <code>TAG</code> by another are given: this will not happen. The
 		<section id="ignorable">
 			<title>ignorable</title>
 
-			<literallayout>Encoding number: 46</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>46</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						EXP x
 								 -&gt; EXP x</programlisting>
@@ -2504,7 +2728,9 @@ of one <code>TAG</code> by another are given: this will not happen. The
 		<section id="imaginary_part">
 			<title>imaginary_part</title>
 
-			<literallayout>Encoding number: 47</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>47</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						EXP c
 								 -&gt; EXP FLOATING (float_of_complex(c))</programlisting>
@@ -2517,7 +2743,9 @@ of one <code>TAG</code> by another are given: this will not happen. The
 			<title>initial_value</title>
 
 
-		<literallayout>Encoding number: 48</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>48</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">init:						EXP s
 								 -&gt; EXP s</programlisting>
@@ -2544,7 +2772,9 @@ of one <code>TAG</code> by another are given: this will not happen. The
 		<section id="integer_test">
 			<title>integer_test</title>
 
-			<literallayout>Encoding number: 49</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>49</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">prob:						OPTION(NAT)
 nt:							NTEST
@@ -2571,7 +2801,9 @@ arg2:						EXP INTEGER(v)
 		<section id="labelled">
 			<title>labelled</title>
 
-			<literallayout>Encoding number: 50</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>50</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">labs_intro:			LIST(LABEL)
 starter: EXP x
@@ -2617,7 +2849,9 @@ places:					LIST(EXP)
 		<section id="last_local">
 			<title>last_local</title>
 
-			<literallayout>Encoding number: 51</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>51</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">x:							 EXP OFFSET(y, z)
 								 -&gt; EXP POINTER(alloca_alignment)</programlisting>
@@ -2642,7 +2876,9 @@ places:					LIST(EXP)
 		<section id="local_alloc">
 			<title>local_alloc</title>
 
-			<literallayout>Encoding number: 52</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>52</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						EXP OFFSET(x, y)
 								 -&gt; EXP POINTER(alloca_alignment)</programlisting>
@@ -2689,7 +2925,9 @@ places:					LIST(EXP)
 		<section id="local_alloc_check">
 			<title>local_alloc_check</title>
 
-			<literallayout>Encoding number: 53</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>53</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						EXP OFFSET(x, y)
 								 -&gt; EXP POINTER(alloca_alignment)</programlisting>
@@ -2705,7 +2943,9 @@ places:					LIST(EXP)
 		<section id="local_free">
 			<title>local_free</title>
 
-			<literallayout>Encoding number: 54</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>54</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">a:							 EXP OFFSET(x, y)
 p:							 EXP POINTER(alloca_alignment)
@@ -2726,7 +2966,9 @@ p:							 EXP POINTER(alloca_alignment)
 		<section id="local_free_all">
 			<title>local_free_all</title>
 
-			<literallayout>Encoding number: 55</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>55</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; EXP TOP</programlisting>
 
@@ -2744,7 +2986,9 @@ p:							 EXP POINTER(alloca_alignment)
 		<section id="long_jump">
 			<title>long_jump</title>
 
-			<literallayout>Encoding number: 56</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>56</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						EXP POINTER(fa)
 arg2:						EXP POINTER({code})
@@ -2769,7 +3013,9 @@ arg2:						EXP POINTER({code})
 		<section id="make_complex">
 			<title>make_complex</title>
 
-			<literallayout>Encoding number: 57</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>57</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">c:							 FLOATING_VARIETY
 arg1:						EXP FLOATING(f)
@@ -2786,7 +3032,9 @@ arg2:						EXP FLOATING(f)
 		<section id="make_compound">
 			<title>make_compound</title>
 
-			<literallayout>Encoding number: 58</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>58</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						EXP OFFSET(base, y)
 arg2:						LIST(EXP)
@@ -2834,7 +3082,9 @@ arg2:						LIST(EXP)
 		<section id="make_floating">
 			<title>make_floating</title>
 
-			<literallayout>Encoding number: 59</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>59</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">f:							 FLOATING_VARIETY
 rm:							ROUNDING_MODE
@@ -2873,7 +3123,9 @@ exponent:				SIGNED_NAT
 		<section id="make_general_proc">
 			<title>make_general_proc</title>
 
-			<literallayout>Encoding number: 60</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>60</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">result_shape:		SHAPE
 prcprops:				OPTION(PROCPROPS)
@@ -2955,7 +3207,9 @@ body:						EXP BOTTOM
 		<section id="make_int">
 			<title>make_int</title>
 
-			<literallayout>Encoding number: 61</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>61</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">v:							 VARIETY
 value:					 SIGNED_NAT
@@ -2971,7 +3225,9 @@ value:					 SIGNED_NAT
 		<section id="make_local_lv">
 			<title>make_local_lv</title>
 
-			<literallayout>Encoding number: 62</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>62</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">lab:						 LABEL
 								 -&gt; EXP POINTER({code})</programlisting>
@@ -2987,7 +3243,9 @@ value:					 SIGNED_NAT
 		<section id="make_nof">
 			<title>make_nof</title>
 
-			<literallayout>Encoding number: 63</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>63</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						LIST(EXP)
 								 -&gt; EXP NOF(n, s)</programlisting>
@@ -3003,7 +3261,9 @@ value:					 SIGNED_NAT
 		<section id="make_nof_int">
 			<title>make_nof_int</title>
 
-			<literallayout>Encoding number: 64</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>64</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">v:							 VARIETY
 str:						 STRING(k, n)
@@ -3019,7 +3279,9 @@ str:						 STRING(k, n)
 		<section id="make_null_local_lv">
 			<title>make_null_local_lv</title>
 
-			<literallayout>Encoding number: 65</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>65</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; EXP POINTER({code})</programlisting>
 
@@ -3035,7 +3297,9 @@ str:						 STRING(k, n)
 		<section id="make_null_proc">
 			<title>make_null_proc</title>
 
-			<literallayout>Encoding number: 66</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>66</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; EXP PROC</programlisting>
 
@@ -3051,7 +3315,9 @@ str:						 STRING(k, n)
 		<section id="make_null_ptr">
 			<title>make_null_ptr</title>
 
-			<literallayout>Encoding number: 67</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>67</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">a:							 ALIGNMENT
 								 -&gt; EXP POINTER(a)</programlisting>
@@ -3070,7 +3336,9 @@ str:						 STRING(k, n)
 		<section id="make_proc">
 			<title>make_proc</title>
 
-			<literallayout>Encoding number: 68</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>68</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">result_shape:		SHAPE
 params_intro:		LIST(TAGSHACC)
@@ -3139,7 +3407,9 @@ body:						EXP BOTTOM
 		<section id="make_stack_limit">
 			<title>make_stack_limit</title>
 
-			<literallayout>Encoding number: 116</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>116</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">stack_base:			EXP POINTER(fa)
 frame_size:			EXP OFFSET(locals_alignment, x)
@@ -3181,7 +3451,9 @@ alloc_size:			EXP OFFSET(alloca_alignment, y)
 		<section id="make_top">
 			<title>make_top</title>
 
-			<literallayout>Encoding number: 69</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>69</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; EXP TOP</programlisting>
 
@@ -3192,7 +3464,9 @@ alloc_size:			EXP OFFSET(alloca_alignment, y)
 		<section id="make_value">
 			<title>make_value</title>
 
-			<literallayout>Encoding number: 70</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>70</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">s:							 SHAPE
 								 -&gt; EXP s</programlisting>
@@ -3221,7 +3495,9 @@ alloc_size:			EXP OFFSET(alloca_alignment, y)
 		<section id="maximum">
 			<title>maximum</title>
 
-			<literallayout>Encoding number: 71</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>71</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						EXP INTEGER(v)
 arg2:						EXP INTEGER(v)
@@ -3234,7 +3510,9 @@ arg2:						EXP INTEGER(v)
 		<section id="minimum">
 			<title>minimum</title>
 
-			<literallayout>Encoding number: 72</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>72</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						EXP INTEGER(v)
 arg2:						EXP INTEGER(v)
@@ -3247,7 +3525,9 @@ arg2:						EXP INTEGER(v)
 		<section id="minus">
 			<title>minus</title>
 
-			<literallayout>Encoding number: 73</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>73</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">ov_err:					ERROR_TREATMENT
 arg1:						EXP INTEGER(v)
@@ -3269,7 +3549,9 @@ arg2:						EXP INTEGER(v)
 		<section id="move_some">
 			<title>move_some</title>
 
-			<literallayout>Encoding number: 74</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>74</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">md:							TRANSFER_MODE
 arg1:						EXP POINTER(x)
@@ -3304,7 +3586,9 @@ arg3:						EXP OFFSET(z, t)
 		<section id="mult">
 			<title>mult</title>
 
-			<literallayout>Encoding number: 75</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>75</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">ov_err:					ERROR_TREATMENT
 arg1:						EXP INTEGER(v)
@@ -3326,7 +3610,9 @@ arg2:						EXP INTEGER(v)
 		<section id="n_copies">
 			<title>n_copies</title>
 
-			<literallayout>Encoding number: 76</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>76</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">n:							 NAT
 arg1:						EXP x
@@ -3343,7 +3629,9 @@ arg1:						EXP x
 		<section id="negate">
 			<title>negate</title>
 
-			<literallayout>Encoding number: 78</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>78</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">ov_err:					ERROR_TREATMENT
 arg1:						EXP INTEGER(v)
@@ -3362,7 +3650,9 @@ arg1:						EXP INTEGER(v)
 		<section id="not">
 			<title>not</title>
 
-			<literallayout>Encoding number: 78</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>78</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						EXP INTEGER(v)
 								 -&gt; EXP INTEGER(v)</programlisting>
@@ -3379,7 +3669,9 @@ arg1:						EXP INTEGER(v)
 		<section id="obtain_tag">
 			<title>obtain_tag</title>
 
-			<literallayout>Encoding number: 79</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>79</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">t:							 TAG x
 								 -&gt; EXP x</programlisting>
@@ -3393,7 +3685,9 @@ arg1:						EXP INTEGER(v)
 		<section id="offset_add">
 			<title>offset_add</title>
 
-			<literallayout>Encoding number: 80</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>80</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						EXP OFFSET(x, y)
 arg2:						EXP OFFSET(z, t)
@@ -3415,7 +3709,9 @@ arg2:						EXP OFFSET(z, t)
 		<section id="offset_div">
 			<title>offset_div</title>
 
-			<literallayout>Encoding number: 81</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>81</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">v:							 VARIETY
 arg1:						EXP OFFSET(x, x)
@@ -3434,7 +3730,9 @@ arg2:						EXP OFFSET(x, x)
 		<section id="offset_div_by_int">
 			<title>offset_div_by_int</title>
 
-			<literallayout>Encoding number: 82</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>82</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						EXP OFFSET(x, x)
 arg2:						EXP INTEGER(v)
@@ -3456,7 +3754,9 @@ arg2:						EXP INTEGER(v)
 		<section id="offset_max">
 			<title>offset_max</title>
 
-			<literallayout>Encoding number: 83</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>83</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						EXP OFFSET(x, y)
 arg2:						EXP OFFSET(z, y)
@@ -3476,7 +3776,9 @@ arg2:						EXP OFFSET(z, y)
 		<section id="offset_mult">
 			<title>offset_mult</title>
 
-			<literallayout>Encoding number: 84</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>84</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						EXP OFFSET(x, x)
 arg2:						EXP INTEGER(v)
@@ -3494,7 +3796,9 @@ arg2:						EXP INTEGER(v)
 		<section id="offset_negate">
 			<title>offset_negate</title>
 
-			<literallayout>Encoding number: 85</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>85</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						EXP OFFSET(x, x)
 								 -&gt; EXP OFFSET(x, x)</programlisting>
@@ -3508,7 +3812,9 @@ arg2:						EXP INTEGER(v)
 		<section id="offset_pad">
 			<title>offset_pad</title>
 
-			<literallayout>Encoding number: 86</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>86</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">a:							 ALIGNMENT
 arg1:						EXP OFFSET(z, t)
@@ -3536,7 +3842,9 @@ arg1:						EXP OFFSET(z, t)
 		<section id="offset_subtract">
 			<title>offset_subtract</title>
 
-			<literallayout>Encoding number: 87</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>87</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						EXP OFFSET(x, y)
 arg2:						EXP OFFSET(x, z)
@@ -3559,7 +3867,9 @@ arg2:						EXP OFFSET(x, z)
 		<section id="offset_test">
 			<title>offset_test</title>
 
-			<literallayout>Encoding number: 88</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>88</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">prob:						OPTION(NAT)
 nt:							NTEST
@@ -3593,7 +3903,9 @@ arg2:						EXP OFFSET(x, y)
 		<section id="offset_zero">
 			<title>offset_zero</title>
 
-			<literallayout>Encoding number: 89</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>89</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">a:							 ALIGNMENT
 								 -&gt; EXP OFFSET(a, a)</programlisting>
@@ -3611,7 +3923,9 @@ arg2:						EXP OFFSET(x, y)
 		<section id="or">
 			<title>or</title>
 
-			<literallayout>Encoding number: 90</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>90</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						EXP INTEGER(v)
 arg2:						EXP INTEGER(v)
@@ -3629,7 +3943,9 @@ arg2:						EXP INTEGER(v)
 		<section id="plus">
 			<title>plus</title>
 
-			<literallayout>Encoding number: 91</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>91</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">ov_err:					ERROR_TREATMENT
 arg1:						EXP INTEGER(v)
@@ -3651,7 +3967,9 @@ arg2:						EXP INTEGER(v)
 		<section id="pointer_test">
 			<title>pointer_test</title>
 
-			<literallayout>Encoding number: 92</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>92</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">prob:						OPTION(NAT)
 nt:							NTEST
@@ -3688,7 +4006,9 @@ arg2:						EXP POINTER(x)
 		<section id="power">
 			<title>power</title>
 
-			<literallayout>Encoding number: 93</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>93</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">ov_err:					ERROR_TREATMENT
 arg1:						EXP INTEGER(v)
@@ -3707,7 +4027,9 @@ arg2:						EXP INTEGER(w)
 		<section id="proc_test">
 			<title>proc_test</title>
 
-			<literallayout>Encoding number: 94</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>94</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">prob:						OPTION(NAT)
 nt:							NTEST
@@ -3740,7 +4062,9 @@ arg2:						EXP PROC
 		<section id="profile">
 			<title>profile</title>
 
-			<literallayout>Encoding number: 95</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>95</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">uses:						NAT
 								 -&gt; EXP TOP</programlisting>
@@ -3755,7 +4079,9 @@ arg2:						EXP PROC
 		<section id="real_part">
 			<title>real_part</title>
 
-			<literallayout>Encoding number: 96</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>96</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						EXP c
 								 -&gt; EXP FLOATING (float_of_complex(c))</programlisting>
@@ -3767,7 +4093,9 @@ arg2:						EXP PROC
 		<section id="rem0">
 			<title>rem0</title>
 
-			<literallayout>Encoding number: 97</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>97</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">div_by_0_err:		ERROR_TREATMENT
 ov_err:					ERROR_TREATMENT
@@ -3812,7 +4140,9 @@ arg2:						EXP INTEGER(v)
 		<section id="rem1">
 			<title>rem1</title>
 
-			<literallayout>Encoding number: 98</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>98</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">div_by_0_err:		ERROR_TREATMENT
 ov_err:					ERROR_TREATMENT
@@ -3846,7 +4176,9 @@ arg2:						EXP INTEGER(v)
 		<section id="rem2">
 			<title>rem2</title>
 
-			<literallayout>Encoding number: 99</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>99</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">div_by_0_err:		ERROR_TREATMENT
 ov_err:					ERROR_TREATMENT
@@ -3881,7 +4213,9 @@ arg2:						EXP INTEGER(v)
 		<section id="repeat">
 			<title>repeat</title>
 
-			<literallayout>Encoding number: 100</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>100</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">replab_intro:		LABEL
 start:					 EXP TOP
@@ -3910,7 +4244,9 @@ body:						EXP y
 		<section id="return">
 			<title>return</title>
 
-			<literallayout>Encoding number: 101</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>101</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						EXP x
 								 -&gt; EXP BOTTOM</programlisting>
@@ -3932,7 +4268,9 @@ body:						EXP y
 		<section id="return_to_label">
 			<title>return_to_label</title>
 
-			<literallayout>Encoding number: 102</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>102</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">lab_val: EXP POINTER code_alignment
 								 -&gt; EXP BOTTOM</programlisting>
@@ -3948,7 +4286,9 @@ body:						EXP y
 		<section id="round_with_mode">
 			<title>round_with_mode</title>
 
-			<literallayout>Encoding number: 103</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>103</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">flpt_err:				ERROR_TREATMENT
 mode:						ROUNDING_MODE
@@ -3973,7 +4313,9 @@ arg1:						EXP FLOATING(f)
 		<section id="rotate_left">
 			<title>rotate_left</title>
 
-			<literallayout>Encoding number: 104</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>104</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						EXP INTEGER(v)
 arg2:						EXP INTEGER(w)
@@ -3992,7 +4334,9 @@ arg2:						EXP INTEGER(w)
 		<section id="rotate_right">
 			<title>rotate_right</title>
 
-			<literallayout>Encoding number: 105</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>105</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						EXP INTEGER(v)
 arg2:						EXP INTEGER(w)
@@ -4011,7 +4355,9 @@ arg2:						EXP INTEGER(w)
 		<section id="sequence">
 			<title>sequence</title>
 
-			<literallayout>Encoding number: 106</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>106</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">statements:			LIST(EXP)
 result:					EXP x
@@ -4041,7 +4387,9 @@ result:					EXP x
 		<section id="set_stack_limit">
 			<title>set_stack_limit</title>
 
-			<literallayout>Encoding number: 107</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>107</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">lim:						 EXP POINTER({locals_alignment, alloca_alignment})
 								 -&gt; EXP TOP</programlisting>
@@ -4070,7 +4418,9 @@ result:					EXP x
 		<section id="shape_offset">
 			<title>shape_offset</title>
 
-			<literallayout>Encoding number: 108</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>108</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">s:							 SHAPE
 								 -&gt; EXP OFFSET(alignment(s), {})</programlisting>
@@ -4101,7 +4451,9 @@ result:					EXP x
 		<section id="shift_left">
 			<title>shift_left</title>
 
-			<literallayout>Encoding number: 109</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>109</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">ov_err:					ERROR_TREATMENT
 arg1:						EXP INTEGER(v)
@@ -4128,7 +4480,9 @@ arg2:						EXP INTEGER(w)
 		<section id="shift_right">
 			<title>shift_right</title>
 
-			<literallayout>Encoding number: 110</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>110</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						EXP INTEGER(v)
 arg2:						EXP INTEGER(w)
@@ -4151,7 +4505,9 @@ arg2:						EXP INTEGER(w)
 		<section id="subtract_ptrs">
 			<title>subtract_ptrs</title>
 
-			<literallayout>Encoding number: 111</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>111</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						EXP POINTER(y)
 arg2:						EXP POINTER(x)
@@ -4171,7 +4527,9 @@ arg2:						EXP POINTER(x)
 		<section id="tail_call">
 			<title>tail_call</title>
 
-			<literallayout>Encoding number: 112</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>112</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">prcprops:				OPTION(PROCPROPS)
 p:							 EXP PROC
@@ -4199,7 +4557,9 @@ callee_pars:		 CALLEES
 		<section id="untidy_return">
 			<title>untidy_return</title>
 
-			<literallayout>Encoding number: 113</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>113</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						EXP x
 								 -&gt; EXP BOTTOM</programlisting>
@@ -4218,7 +4578,9 @@ callee_pars:		 CALLEES
 		<section id="variable">
 			<title>variable</title>
 
-			<literallayout>Encoding number: 114</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>114</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">opt_access:			OPTION(ACCESS)
 name_intro:			TAG POINTER(alignment(x))
@@ -4268,7 +4630,9 @@ of one <code>TAG</code> by another are given: this will not happen.</para>
 		<section id="xor">
 			<title>xor</title>
 
-			<literallayout>Encoding number: 115</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>115</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						EXP INTEGER(v)
 arg2:						EXP INTEGER(v)
@@ -4287,8 +4651,10 @@ arg2:						EXP INTEGER(v)
 	<section id="EXTERNAL">
 		<title>EXTERNAL</title>
 
-		<literallayout>Number of encoding bits: 2</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>2</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+		</informaltable>
 
 		<para>An <code>EXTERNAL</code> defines the classes of external name available
 			for connecting the internal names inside a <code>CAPSULE</code> to the
@@ -4297,7 +4663,9 @@ arg2:						EXP INTEGER(v)
 		<section id="string_extern">
 			<title>string_extern</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">s:							 BYTE_ALIGN TDFIDENT(n)
 								 -&gt; EXTERNAL</programlisting>
@@ -4309,7 +4677,9 @@ arg2:						EXP INTEGER(v)
 		<section id="unique_extern">
 			<title>unique_extern</title>
 
-			<literallayout>Encoding number: 2</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>2</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">u:							 BYTE_ALIGN UNIQUE
 								 -&gt; EXTERNAL</programlisting>
@@ -4321,7 +4691,9 @@ arg2:						EXP INTEGER(v)
 		<section id="chain_extern">
 			<title>chain_extern</title>
 
-			<literallayout>Encoding number: 3</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>3</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">s:							 BYTE_ALIGN TDFIDENT
 prev:						TDFINT
@@ -4334,8 +4706,10 @@ prev:						TDFINT
 	<section id="EXTERN_LINK">
 		<title>EXTERN_LINK</title>
 
-		<literallayout>Number of encoding bits: 0</literallayout>
-		<literallayout>Is coding extendable: no</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>0</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>no</td> </tr>
+		</informaltable>
 
 		<para>An auxiliary <code>SORT</code> providing a list of
 			<code>LINKEXTERN</code>.</para>
@@ -4344,7 +4718,9 @@ prev:						TDFINT
 			<title>make_extern_link</title>
 
 
-		<literallayout>Encoding number: 0</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>0</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">el:							SLIST(LINKEXTERN)
 								 -&gt; EXTERN_LINK</programlisting>
@@ -4359,15 +4735,19 @@ prev:						TDFINT
 	<section id="FLOATING_VARIETY">
 		<title>FLOATING_VARIETY</title>
 
-		<literallayout>Number of encoding bits: 3</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>3</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+		</informaltable>
 
 		<para>These describe kinds of floating point number.</para>
 
 		<section id="flvar_apply_token">
 			<title>flvar_apply_token</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">token_value:		 TOKEN
 token_args:			BITSTREAM param_sorts(token_value)
@@ -4386,7 +4766,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 		<section id="flvar_cond">
 			<title>flvar_cond</title>
 
-			<literallayout>Encoding number: 2</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>2</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
 e1:							BITSTREAM FLOATING_VARIETY
@@ -4405,7 +4787,9 @@ e2:							BITSTREAM FLOATING_VARIETY
 		<section id="flvar_parms">
 			<title>flvar_parms</title>
 
-			<literallayout>Encoding number: 3</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>3</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">base:						NAT
 mantissa_digs:	 NAT
@@ -4452,7 +4836,9 @@ max_exponent:		NAT
 		<section id="complex_parms">
 			<title>complex_parms</title>
 
-			<literallayout>Encoding number: 4</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>4</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">base:						NAT
 mantissa_digs:	 NAT
@@ -4470,7 +4856,9 @@ max_exponent:		NAT
 		<section id="float_of_complex">
 			<title>float_of_complex</title>
 
-			<literallayout>Encoding number: 5</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>5</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">csh:						 SHAPE
 								 -&gt; FLOATING_VARIETY</programlisting>
@@ -4485,7 +4873,9 @@ max_exponent:		NAT
 		<section id="complex_of_float">
 			<title>complex_of_float</title>
 
-			<literallayout>Encoding number: 6</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>6</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">fsh:						 SHAPE
 								 -&gt; FLOATING_VARIETY</programlisting>
@@ -4501,8 +4891,10 @@ max_exponent:		NAT
 	<section id="GROUP">
 		<title>GROUP</title>
 
-		<literallayout>Number of encoding bits: 0</literallayout>
-		<literallayout>Is coding extendable: no</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>0</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>no</td> </tr>
+		</informaltable>
 
 		<para>A <code>GROUP</code> is a list of <code>UNIT</code>s with the same unit
 			identification.</para>
@@ -4510,7 +4902,9 @@ max_exponent:		NAT
 		<section id="make_group">
 			<title>make_group</title>
 
-			<literallayout>Encoding number: 0</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>0</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">us:							SLIST(UNIT)
 								 -&gt; GROUP</programlisting>
@@ -4525,8 +4919,10 @@ max_exponent:		NAT
 	<section id="LABEL">
 		<title>LABEL</title>
 
-		<literallayout>Number of encoding bits: 1</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>1</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+		</informaltable>
 
 		<para>A <code>LABEL</code> marks an <code>EXP</code> in certain constructions,
 			and is used in jump-like constructions to change the control to the
@@ -4535,7 +4931,9 @@ max_exponent:		NAT
 		<section id="label_apply_token">
 			<title>label_apply_token</title>
 
-			<literallayout>Encoding number: 2</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>2</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">token_value:		 TOKEN
 token_args:			BITSTREAM param_sorts(token_value)
@@ -4552,7 +4950,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 		<section id="make_label">
 			<title>make_label</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">labelno: TDFINT
 								 -&gt; LABEL</programlisting>
@@ -4566,8 +4966,10 @@ token_args:			BITSTREAM param_sorts(token_value)
 	<section id="LINK">
 		<title>LINK</title>
 
-		<literallayout>Number of encoding bits: 0</literallayout>
-		<literallayout>Is coding extendable: no</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>0</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>no</td> </tr>
+		</informaltable>
 
 		<para>A <code>LINK</code> expresses the connection between two variables of the
 			same <code>SORT</code>.</para>
@@ -4575,7 +4977,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 		<section id="make_link">
 			<title>make_link</title>
 
-			<literallayout>Encoding number: 0</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>0</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">unit_name:			 TDFINT
 capsule_name:		TDFINT
@@ -4596,8 +5000,10 @@ capsule_name:		TDFINT
 	<section id="LINKEXTERN">
 		<title>LINKEXTERN</title>
 
-		<literallayout>Number of encoding bits: 0</literallayout>
-		<literallayout>Is coding extendable: no</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>0</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>no</td> </tr>
+		</informaltable>
 
 		<para>A value of <code>SORT LINKEXTERN</code> expresses the connection between
 			the name by which an object is known inside a <code>CAPSULE</code> and a
@@ -4606,7 +5012,9 @@ capsule_name:		TDFINT
 		<section id="make_linkextern">
 			<title>make_linkextern</title>
 
-			<literallayout>Encoding number: 0</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>0</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">internal:				TDFINT
 ext:						 EXTERNAL
@@ -4625,13 +5033,17 @@ ext:						 EXTERNAL
 	<section id="LINKS">
 		<title>LINKS</title>
 
-		<literallayout>Number of encoding bits: 0</literallayout>
-		<literallayout>Is coding extendable: no</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>0</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>no</td> </tr>
+		</informaltable>
 
 		<section id="make_links">
 			<title>make_links</title>
 
-			<literallayout>Encoding number: 0</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>0</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">ls:							SLIST(LINK)
 								 -&gt; LINKS</programlisting>
@@ -4647,15 +5059,19 @@ ext:						 EXTERNAL
 	<section id="NAT">
 		<title>NAT</title>
 
-		<literallayout>Number of encoding bits: 3</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>3</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+		</informaltable>
 
 		<para>These are non-negative integers of unlimited size.</para>
 
 		<section id="nat_apply_token">
 			<title>nat_apply_token</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">token_value:		 TOKEN
 token_args:			BITSTREAM param_sorts(token_value)
@@ -4672,7 +5088,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 		<section id="nat_cond">
 			<title>nat_cond</title>
 
-			<literallayout>Encoding number: 2</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>2</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
 e1:							BITSTREAM NAT
@@ -4691,7 +5109,9 @@ e2:							BITSTREAM NAT
 		<section id="computed_nat">
 			<title>computed_nat</title>
 
-			<literallayout>Encoding number: 3</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>3</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg:						 EXP INTEGER(v)
 								 -&gt; NAT</programlisting>
@@ -4703,7 +5123,9 @@ e2:							BITSTREAM NAT
 		<section id="error_val">
 			<title>error_val</title>
 
-			<literallayout>Encoding number: 4</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>4</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">err:						 ERROR_code
 								 -&gt; NAT</programlisting>
@@ -4716,7 +5138,9 @@ e2:							BITSTREAM NAT
 		<section id="make_nat">
 			<title>make_nat</title>
 
-			<literallayout>Encoding number: 5</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>5</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">n:							 TDFINT
 								 -&gt; NAT</programlisting>
@@ -4728,8 +5152,10 @@ e2:							BITSTREAM NAT
 	<section id="NTEST">
 		<title>NTEST</title>
 
-		<literallayout>Number of encoding bits: 4</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>4</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+		</informaltable>
 
 		<para>These describe the comparisons which are possible in the various
 			<replaceable>test</replaceable> constructions. Note that
@@ -4740,7 +5166,9 @@ e2:							BITSTREAM NAT
 		<section id="ntest_apply">
 			<title>ntest_apply</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">token_value:		 TOKEN
 token_args:			BITSTREAM param_sorts(token_value)
@@ -4757,7 +5185,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 		<section id="ntest_cond">
 			<title>ntest_cond</title>
 
-			<literallayout>Encoding number: 2</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>2</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
 e1:							BITSTREAM NTEST
@@ -4776,7 +5206,9 @@ e2:							BITSTREAM NTEST
 		<section id="equal">
 			<title>equal</title>
 
-			<literallayout>Encoding number: 3</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>3</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; NTEST</programlisting>
 
@@ -4786,7 +5218,9 @@ e2:							BITSTREAM NTEST
 		<section id="greater_than">
 			<title>greater_than</title>
 
-			<literallayout>Encoding number: 4</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>4</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; NTEST</programlisting>
 
@@ -4796,7 +5230,9 @@ e2:							BITSTREAM NTEST
 		<section id="greater_than_or_equal">
 			<title>greater_than_or_equal</title>
 
-			<literallayout>Encoding number: 5</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>5</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; NTEST</programlisting>
 
@@ -4806,7 +5242,9 @@ e2:							BITSTREAM NTEST
 		<section id="less_than">
 			<title>less_than</title>
 
-			<literallayout>Encoding number: 6</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>6</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; NTEST</programlisting>
 
@@ -4816,7 +5254,9 @@ e2:							BITSTREAM NTEST
 		<section id="less_than_or_equal">
 			<title>less_than_or_equal</title>
 
-			<literallayout>Encoding number: 7</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>7</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; NTEST</programlisting>
 
@@ -4826,7 +5266,9 @@ e2:							BITSTREAM NTEST
 		<section id="not_equal">
 			<title>not_equal</title>
 
-			<literallayout>Encoding number: 8</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>8</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; NTEST</programlisting>
 
@@ -4836,7 +5278,9 @@ e2:							BITSTREAM NTEST
 		<section id="not_greater_than">
 			<title>not_greater_than</title>
 
-			<literallayout>Encoding number: 9</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>9</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; NTEST</programlisting>
 
@@ -4846,7 +5290,9 @@ e2:							BITSTREAM NTEST
 		<section id="not_greater_than_or_equal">
 			<title>not_greater_than_or_equal</title>
 
-			<literallayout>Encoding number: 10</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>10</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; NTEST</programlisting>
 
@@ -4856,7 +5302,9 @@ e2:							BITSTREAM NTEST
 		<section id="not_less_than">
 			<title>not_less_than</title>
 
-			<literallayout>Encoding number: 11</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>11</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; NTEST</programlisting>
 
@@ -4866,7 +5314,9 @@ e2:							BITSTREAM NTEST
 		<section id="not_less_than_or_equal">
 			<title>not_less_than_or_equal</title>
 
-			<literallayout>Encoding number: 12</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>12</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; NTEST</programlisting>
 
@@ -4876,7 +5326,9 @@ e2:							BITSTREAM NTEST
 		<section id="less_than_or_greater_than">
 			<title>less_than_or_greater_than</title>
 
-			<literallayout>Encoding number: 13</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>13</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; NTEST</programlisting>
 
@@ -4886,7 +5338,9 @@ e2:							BITSTREAM NTEST
 		<section id="not_less_than_and_not_greater_than">
 			<title>not_less_than_and_not_greater_than</title>
 
-			<literallayout>Encoding number: 14</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>14</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; NTEST</programlisting>
 
@@ -4896,7 +5350,9 @@ e2:							BITSTREAM NTEST
 		<section id="comparable">
 			<title>comparable</title>
 
-			<literallayout>Encoding number: 15</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>15</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; NTEST</programlisting>
 
@@ -4909,7 +5365,9 @@ e2:							BITSTREAM NTEST
 		<section id="not_comparable">
 			<title>not_comparable</title>
 
-			<literallayout>Encoding number: 16</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>16</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; NTEST</programlisting>
 
@@ -4923,8 +5381,10 @@ e2:							BITSTREAM NTEST
 	<section id="OTAGEXP">
 		<title>OTAGEXP</title>
 
-		<literallayout>Number of encoding bits: 0</literallayout>
-		<literallayout>Is coding extendable: no</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>0</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>no</td> </tr>
+		</informaltable>
 
 		<para>This is a auxilliary <code>SORT</code> used in
 			<replaceable>apply_general_proc</replaceable>.</para>
@@ -4932,7 +5392,9 @@ e2:							BITSTREAM NTEST
 		<section id="make_otagexp">
 			<title>make_otagexp</title>
 
-			<literallayout>Encoding number: 0</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>0</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">tgopt:					 OPTION(TAG x)
 e:							 EXP x
@@ -4949,8 +5411,10 @@ e:							 EXP x
 	<section id="PROCPROPS">
 		<title>PROCPROPS</title>
 
-		<literallayout>Number of encoding bits: 4</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>4</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+		</informaltable>
 
 		<para><code>PROCPROPS</code> is a set of properties ascribed to procedure
 			definitions and calls.</para>
@@ -4958,7 +5422,9 @@ e:							 EXP x
 		<section id="procprops_apply_token">
 			<title>procprops_apply_token</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">token_value:		 TOKEN
 token_args:			BITSTREAM param_sorts(token_value)
@@ -4975,7 +5441,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 		<section id="procprops_cond">
 			<title>procprops_cond</title>
 
-			<literallayout>Encoding number: 2</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>2</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
 e1:							BITSTREAM PROCPROPS
@@ -4994,7 +5462,9 @@ e2:							BITSTREAM PROCPROPS
 		<section id="add_procprops">
 			<title>add_procprops</title>
 
-			<literallayout>Encoding number: 3</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>3</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						PROCPROPS
 arg2:						PROCPROPS
@@ -5006,7 +5476,9 @@ arg2:						PROCPROPS
 		<section id="check_stack">
 			<title>check_stack</title>
 
-			<literallayout>Encoding number: 4</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>4</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; PROCPROPS</programlisting>
 
@@ -5016,7 +5488,9 @@ arg2:						PROCPROPS
 		<section id="inline">
 			<title>inline</title>
 
-			<literallayout>Encoding number: 5</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>5</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; PROCPROPS</programlisting>
 
@@ -5026,7 +5500,9 @@ arg2:						PROCPROPS
 		<section id="no_long_jump_dest">
 			<title>no_long_jump_dest</title>
 
-			<literallayout>Encoding number: 6</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>6</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; PROCPROPS</programlisting>
 
@@ -5037,7 +5513,9 @@ arg2:						PROCPROPS
 		<section id="untidy">
 			<title>untidy</title>
 
-			<literallayout>Encoding number: 7</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>7</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; PROCPROPS</programlisting>
 
@@ -5048,7 +5526,9 @@ arg2:						PROCPROPS
 		<section id="var_callees">
 			<title>var_callees</title>
 
-			<literallayout>Encoding number: 8</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>8</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; PROCPROPS</programlisting>
 
@@ -5059,7 +5539,9 @@ arg2:						PROCPROPS
 		<section id="var_callers">
 			<title>var_callers</title>
 
-			<literallayout>Encoding number: 9</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>9</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; PROCPROPS</programlisting>
 
@@ -5130,8 +5612,10 @@ These are:</para>
 	<section id="ROUNDING_MODE">
 		<title>ROUNDING_MODE</title>
 
-		<literallayout>Number of encoding bits: 3</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>3</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+		</informaltable>
 
 		<para><code>ROUNDING_MODE</code> specifies the way rounding is to be performed
 			in floating point arithmetic.</para>
@@ -5139,7 +5623,9 @@ These are:</para>
 		<section id="rounding_mode_apply_token">
 			<title>rounding_mode_apply_token</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">token_value:		 TOKEN
 token_args:			BITSTREAM param_sorts(token_value)
@@ -5157,7 +5643,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 		<section id="rounding_mode_cond">
 			<title>rounding_mode_cond</title>
 
-			<literallayout>Encoding number: 2</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>2</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
 e1:							BITSTREAM ROUNDING_MODE
@@ -5176,7 +5664,9 @@ e2:							BITSTREAM ROUNDING_MODE
 		<section id="round_as_state">
 			<title>round_as_state</title>
 
-			<literallayout>Encoding number: 3</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>3</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; ROUNDING_MODE</programlisting>
 
@@ -5186,7 +5676,9 @@ e2:							BITSTREAM ROUNDING_MODE
 		<section id="to_nearest">
 			<title>to_nearest</title>
 
-			<literallayout>Encoding number: 4</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>4</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; ROUNDING_MODE</programlisting>
 
@@ -5197,7 +5689,9 @@ e2:							BITSTREAM ROUNDING_MODE
 		<section id="toward_larger">
 			<title>toward_larger</title>
 
-			<literallayout>Encoding number: 5</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>5</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; ROUNDING_MODE</programlisting>
 
@@ -5207,7 +5701,9 @@ e2:							BITSTREAM ROUNDING_MODE
 		<section id="toward_smaller">
 			<title>toward_smaller</title>
 
-			<literallayout>Encoding number: 6</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>6</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; ROUNDING_MODE</programlisting>
 
@@ -5217,7 +5713,9 @@ e2:							BITSTREAM ROUNDING_MODE
 		<section id="toward_zero">
 			<title>toward_zero</title>
 
-			<literallayout>Encoding number: 7</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>7</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; ROUNDING_MODE</programlisting>
 
@@ -5228,8 +5726,10 @@ e2:							BITSTREAM ROUNDING_MODE
 	<section id="SHAPE">
 		<title>SHAPE</title>
 
-		<literallayout>Number of encoding bits: 4</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>4</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+		</informaltable>
 
 		<para><code>SHAPE</code>s express symbolic size and representation information
 			about run time values.</para>
@@ -5241,7 +5741,9 @@ e2:							BITSTREAM ROUNDING_MODE
 		<section id="shape_apply_token">
 			<title>shape_apply_token</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">token_value:		 TOKEN
 token_args:			BITSTREAM param_sorts(token_value)
@@ -5258,7 +5760,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 		<section id="shape_cond">
 			<title>shape_cond</title>
 
-			<literallayout>Encoding number: 2</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>2</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
 e1:							BITSTREAM SHAPE
@@ -5277,7 +5781,9 @@ e2:							BITSTREAM SHAPE
 		<section id="bitfield">
 			<title>bitfield</title>
 
-			<literallayout>Encoding number: 3</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>3</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">bf_var:					BITFIELD_VARIETY
 								 -&gt; SHAPE</programlisting>
@@ -5302,7 +5808,9 @@ e2:							BITSTREAM SHAPE
 		<section id="bottom">
 			<title>bottom</title>
 
-			<literallayout>Encoding number: 4</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>4</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; SHAPE</programlisting>
 
@@ -5317,7 +5825,9 @@ e2:							BITSTREAM SHAPE
 		<section id="compound">
 			<title>compound</title>
 
-			<literallayout>Encoding number: 5</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>5</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">sz:							EXP OFFSET(x, y)
 								 -&gt; SHAPE</programlisting>
@@ -5339,7 +5849,9 @@ e2:							BITSTREAM SHAPE
 		<section id="floating">
 			<title>floating</title>
 
-			<literallayout>Encoding number: 6</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>6</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">fv:							FLOATING_VARIETY
 								 -&gt; SHAPE</programlisting>
@@ -5362,7 +5874,9 @@ e2:							BITSTREAM SHAPE
 		<section id="integer">
 			<title>integer</title>
 
-			<literallayout>Encoding number: 7</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>7</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">var:						 VARIETY
 								 -&gt; SHAPE</programlisting>
@@ -5404,7 +5918,9 @@ attempted to add two values whose <code>SHAPE</code>s were:</para>
 		<section id="nof">
 			<title>nof</title>
 
-			<literallayout>Encoding number: 8</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>8</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">n:							 NAT
 s:							 SHAPE
@@ -5418,7 +5934,9 @@ s:							 SHAPE
 		<section id="offset">
 			<title>offset</title>
 
-			<literallayout>Encoding number: 9</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>9</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						ALIGNMENT
 arg2:						ALIGNMENT
@@ -5451,7 +5969,9 @@ arg2:						ALIGNMENT
 		<section id="pointer">
 			<title>pointer</title>
 
-			<literallayout>Encoding number: 10</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>10</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg:						 ALIGNMENT
 								 -&gt; SHAPE</programlisting>
@@ -5466,7 +5986,9 @@ arg2:						ALIGNMENT
 		<section id="proc">
 			<title>proc</title>
 
-			<literallayout>Encoding number: 11</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>11</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; SHAPE</programlisting>
 
@@ -5477,7 +5999,9 @@ arg2:						ALIGNMENT
 		<section id="top">
 			<title>top</title>
 
-			<literallayout>Encoding number: 12</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>12</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; SHAPE</programlisting>
 
@@ -5490,15 +6014,19 @@ program which return no useful value. assign is an example: it performs
 	<section id="SIGNED_NAT">
 		<title>SIGNED_NAT</title>
 
-		<literallayout>Number of encoding bits: 3</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>3</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+		</informaltable>
 
 		<para>These are positive or negative integers of unbounded size.</para>
 
 		<section id="signed_nat_apply_token">
 			<title>signed_nat_apply_token</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">token_value:		 TOKEN
 token_args:			BITSTREAM param_sorts(token_value)
@@ -5515,7 +6043,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 		<section id="signed_nat_cond">
 			<title>signed_nat_cond</title>
 
-			<literallayout>Encoding number: 2</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>2</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
 e1:							BITSTREAM SIGNED_NAT
@@ -5534,7 +6064,9 @@ e2:							BITSTREAM SIGNED_NAT
 		<section id="computed_signed_nat">
 			<title>computed_signed_nat</title>
 
-			<literallayout>Encoding number: 3</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>3</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg:						 EXP INTEGER(v)
 								 -&gt; SIGNED_NAT</programlisting>
@@ -5546,7 +6078,9 @@ e2:							BITSTREAM SIGNED_NAT
 		<section id="make_signed_nat">
 			<title>make_signed_nat</title>
 
-			<literallayout>Encoding number: 4</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>4</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">neg:						 TDFBOOL
 n:							 TDFINT
@@ -5559,7 +6093,9 @@ n:							 TDFINT
 		<section id="snat_from_nat">
 			<title>snat_from_nat</title>
 
-			<literallayout>Encoding number: 5</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>5</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">neg:						 BOOL
 n:							 NAT
@@ -5572,8 +6108,10 @@ n:							 NAT
 	<section id="SORTNAME">
 		<title>SORTNAME</title>
 
-		<literallayout>Number of encoding bits: 5</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>5</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+		</informaltable>
 
 		<para>These are the names of the <code>SORT</code>s which can be parameters of
 			<code>TOKEN</code> definitions.</para>
@@ -5581,7 +6119,9 @@ n:							 NAT
 		<section id="access">
 			<title>access</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
@@ -5589,7 +6129,9 @@ n:							 NAT
 		<section id="al_tag">
 			<title>al_tag</title>
 
-			<literallayout>Encoding number: 2</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>2</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
@@ -5597,7 +6139,9 @@ n:							 NAT
 		<section id="alignment_sort">
 			<title>alignment_sort</title>
 
-			<literallayout>Encoding number: 3</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>3</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
@@ -5605,7 +6149,9 @@ n:							 NAT
 		<section id="bitfield_variety">
 			<title>bitfield_variety</title>
 
-			<literallayout>Encoding number: 4</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>4</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
@@ -5613,7 +6159,9 @@ n:							 NAT
 		<section id="bool">
 			<title>bool</title>
 
-			<literallayout>Encoding number: 5</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>5</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
@@ -5621,7 +6169,9 @@ n:							 NAT
 		<section id="error_treatment">
 			<title>error_treatment</title>
 
-			<literallayout>Encoding number: 6</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>6</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
@@ -5629,7 +6179,9 @@ n:							 NAT
 		<section id="exp">
 			<title>exp</title>
 
-			<literallayout>Encoding number: 7</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>7</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
@@ -5637,7 +6189,9 @@ n:							 NAT
 		<section id="floating_variety">
 			<title>floating_variety</title>
 
-			<literallayout>Encoding number: 8</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>8</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
@@ -5645,7 +6199,9 @@ n:							 NAT
 		<section id="foreign_sort">
 			<title>foreign_sort</title>
 
-			<literallayout>Encoding number: 9</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>9</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">foreign_name:		STRING(k, n)
 								 -&gt; SORTNAME</programlisting>
@@ -5657,7 +6213,9 @@ n:							 NAT
 		<section id="label">
 			<title>label</title>
 
-			<literallayout>Encoding number: 10</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>10</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
@@ -5665,7 +6223,9 @@ n:							 NAT
 		<section id="nat">
 			<title>nat</title>
 
-			<literallayout>Encoding number: 11</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>11</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
@@ -5673,7 +6233,9 @@ n:							 NAT
 		<section id="ntest">
 			<title>ntest</title>
 
-			<literallayout>Encoding number: 12</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>12</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
@@ -5681,7 +6243,9 @@ n:							 NAT
 		<section id="procprops">
 			<title>procprops</title>
 
-			<literallayout>Encoding number: 13</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>13</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
@@ -5689,7 +6253,9 @@ n:							 NAT
 		<section id="rounding_mode">
 			<title>rounding_mode</title>
 
-			<literallayout>Encoding number: 14</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>14</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
@@ -5697,7 +6263,9 @@ n:							 NAT
 		<section id="shape">
 			<title>shape</title>
 
-			<literallayout>Encoding number: 15</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>15</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
@@ -5705,7 +6273,9 @@ n:							 NAT
 		<section id="signed_nat">
 			<title>signed_nat</title>
 
-			<literallayout>Encoding number: 16</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>16</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
@@ -5713,7 +6283,9 @@ n:							 NAT
 		<section id="string">
 			<title>string</title>
 
-			<literallayout>Encoding number: 17</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>17</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
@@ -5721,7 +6293,9 @@ n:							 NAT
 		<section id="tag">
 			<title>tag</title>
 
-			<literallayout>Encoding number: 18</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>18</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 
@@ -5731,7 +6305,9 @@ n:							 NAT
 		<section id="transfer_mode">
 			<title>transfer_mode</title>
 
-			<literallayout>Encoding number: 19</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>19</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
@@ -5739,7 +6315,9 @@ n:							 NAT
 		<section id="token">
 			<title>token</title>
 
-			<literallayout>Encoding number: 20</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>20</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">result:					SORTNAME
 params:					LIST(SORTNAME)
@@ -5753,7 +6331,9 @@ params:					LIST(SORTNAME)
 		<section id="variety">
 			<title>variety</title>
 
-			<literallayout>Encoding number: 21</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>21</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; SORTNAME
 			</programlisting>
@@ -5763,13 +6343,17 @@ params:					LIST(SORTNAME)
 	<section id="STRING">
 		<title>STRING</title>
 
-		<literallayout>Number of encoding bits: 3</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>3</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+		</informaltable>
 
 		<section id="string_apply_token">
 			<title>string_apply_token</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">token_value:		 TOKEN
 token_args:			BITSTREAM param_sorts(token_value)
@@ -5786,7 +6370,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 		<section id="string_cond">
 			<title>string_cond</title>
 
-			<literallayout>Encoding number: 2</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>2</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
 e1:							BITSTREAM STRING
@@ -5805,7 +6391,9 @@ e2:							BITSTREAM STRING
 		<section id="concat_string">
 			<title>concat_string</title>
 
-			<literallayout>Encoding number: 3</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>3</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg1:						STRING(k, n)
 arg2:						STRING(k, m)
@@ -5818,7 +6406,9 @@ arg2:						STRING(k, m)
 		<section id="make_string">
 			<title>make_string</title>
 
-			<literallayout>Encoding number: 4</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>4</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">arg:						 TDFSTRING(k, n)
 								 -&gt; STRING(k, n)</programlisting>
@@ -5831,16 +6421,20 @@ arg2:						STRING(k, m)
 	<section id="TAG">
 		<title>TAG</title>
 
-		<literallayout>Number of encoding bits: 1</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
-		<literallayout>Linkable entity identification: tag</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>1</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+			<tr> <td>Linkable entity identification</td> <td>tag</td> </tr>
+		</informaltable>
 
 		<para>These are used to name values and variables in the run time program.</para>
 
 		<section id="tag_apply_token">
 			<title>tag_apply_token</title>
 
-			<literallayout>Encoding number: 2</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>2</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">token_value:		 TOKEN
 token_args:			BITSTREAM param_sorts(token_value)
@@ -5857,7 +6451,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 		<section id="make_tag">
 			<title>make_tag</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">tagno:					 TDFINT
 								 -&gt; TAG x</programlisting>
@@ -5870,8 +6466,10 @@ token_args:			BITSTREAM param_sorts(token_value)
 	<section id="TAGACC">
 		<title>TAGACC</title>
 
-		<literallayout>Number of encoding bits: 0</literallayout>
-		<literallayout>Is coding extendable: no</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>0</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>no</td> </tr>
+		</informaltable>
 
 		<para>Constructs a pair of a <code>TAG</code> and an <code>OPTION(ACCESS)</code>
 			for use in <replaceable>make_proc</replaceable>.</para>
@@ -5879,7 +6477,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 		<section id="make_tagacc">
 			<title>make_tagacc</title>
 
-			<literallayout>Encoding number: 0</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>0</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">tg:							TAG POINTER var_param_alignment
 acc:						 OPTION(ACCESS)
@@ -5892,8 +6492,10 @@ acc:						 OPTION(ACCESS)
 	<section id="TAGDEC">
 		<title>TAGDEC</title>
 
-		<literallayout>Number of encoding bits: 2</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>2</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+		</informaltable>
 
 		<para>A <code>TAGDEC</code> declares a <code>TAG</code> for incorporation into a
 			<code>TAGDEC_PROPS.</code></para>
@@ -5901,7 +6503,9 @@ acc:						 OPTION(ACCESS)
 		<section id="make_id_tagdec">
 			<title>make_id_tagdec</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">t_intro: TDFINT
 acc:						 OPTION(ACCESS)
@@ -5931,7 +6535,9 @@ x:							 SHAPE
 		<section id="make_var_tagdec">
 			<title>make_var_tagdec</title>
 
-			<literallayout>Encoding number: 2</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>2</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">t_intro: TDFINT
 acc:						 OPTION(ACCESS)
@@ -5963,7 +6569,9 @@ x:							 SHAPE
 		<section id="common_tagdec">
 			<title>common_tagdec</title>
 
-			<literallayout>Encoding number: 3</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>3</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">t_intro: TDFINT
 acc:						 OPTION(ACCESS)
@@ -6032,14 +6640,18 @@ is defined as follows:
 	<section id="TAGDEC_PROPS">
 		<title>TAGDEC_PROPS</title>
 
-		<literallayout>Number of encoding bits: 0</literallayout>
-		<literallayout>Is coding extendable: no</literallayout>
-		<literallayout>Unit identification: tagdec</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>0</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>no</td> </tr>
+			<tr> <td>Unit identification</td> <td>tagdec</td> </tr>
+		</informaltable>
 
 		<section id="make_tagdecs">
 			<title>make_tagdecs</title>
 
-			<literallayout>Encoding number: 0</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>0</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">no_labels:			 TDFINT
 tds:						 SLIST(TAGDEC)
@@ -6055,8 +6667,10 @@ tds:						 SLIST(TAGDEC)
 	<section id="TAGDEF">
 		<title>TAGDEF</title>
 
-		<literallayout>Number of encoding bits: 2</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>2</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+		</informaltable>
 
 		<para>A value of <code>SORT TAGDEF</code> gives the definition of a
 			<code>TAG</code> for incorporation into a <code>TAGDEF_PROPS</code>.</para>
@@ -6064,7 +6678,9 @@ tds:						 SLIST(TAGDEC)
 		<section id="make_id_tagdef">
 			<title>make_id_tagdef</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">t:							 TDFINT
 signature:			 OPTION(STRING)
@@ -6098,7 +6714,9 @@ e:							 EXP x
 		<section id="make_var_tagdef">
 			<title>make_var_tagdef</title>
 
-			<literallayout>Encoding number: 2</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>2</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">t:							 TDFINT
 opt_access:			OPTION(ACCESS)
@@ -6137,7 +6755,9 @@ e:							 EXP x
 		<section id="common_tagdef">
 			<title>common_tagdef</title>
 
-			<literallayout>Encoding number: 3</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>3</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">t:							 TDFINT
 opt_access:			OPTION(ACCESS)
@@ -6235,14 +6855,18 @@ follows:
 	<section id="TAGDEF_PROPS">
 		<title>TAGDEF_PROPS</title>
 
-		<literallayout>Number of encoding bits: 0</literallayout>
-		<literallayout>Is coding extendable: no</literallayout>
-		<literallayout>Unit identification: tagdef</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>0</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>no</td> </tr>
+			<tr> <td>Unit identification</td> <td>tagdef</td> </tr>
+		</informaltable>
 
 		<section id="make_tagdefs">
 			<title>make_tagdefs</title>
 
-			<literallayout>Encoding number: 0</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>0</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">no_labels:			 TDFINT
 tds:						 SLIST(TAGDEF)
@@ -6259,13 +6883,17 @@ tds:						 SLIST(TAGDEF)
 	<section id="TAGSHACC">
 		<title>TAGSHACC</title>
 
-		<literallayout>Number of encoding bits: 0</literallayout>
-		<literallayout>Is coding extendable: no</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>0</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>no</td> </tr>
+		</informaltable>
 
 		<section id="make_tagshacc">
 			<title>make_tagshacc</title>
 
-			<literallayout>Encoding number: 0</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>0</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">sha:						 SHAPE
 opt_access:			OPTION(ACCESS)
@@ -6313,8 +6941,10 @@ tg_intro:				TAG
 	<section id="TOKDEC">
 		<title>TOKDEC</title>
 
-		<literallayout>Number of encoding bits: 1</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>1</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+		</informaltable>
 
 		<para>A <code>TOKDEC</code> declares a <code>TOKEN</code> for incorporation into
 			a <code>UNIT</code>.</para>
@@ -6322,7 +6952,9 @@ tg_intro:				TAG
 		<section id="make_tokdec">
 			<title>make_tokdec</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">tok:						 TDFINT
 signature:			 OPTION(STRING)
@@ -6347,14 +6979,18 @@ s:							 SORTNAME
 	<section id="TOKDEC_PROPS">
 		<title>TOKDEC_PROPS</title>
 
-		<literallayout>Number of encoding bits: 0</literallayout>
-		<literallayout>Is coding extendable: no</literallayout>
-		<literallayout>Unit identification: tokdec</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>0</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>no</td> </tr>
+			<tr> <td>Unit identification</td> <td>tokdec</td> </tr>
+		</informaltable>
 
 		<section id="make_tokdecs">
 			<title>make_tokdecs</title>
 
-			<literallayout>Encoding number: 0</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>0</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">tds:						 SLIST(TOKDEC)
 								 -&gt; TOKDEC_PROPS</programlisting>
@@ -6367,8 +7003,10 @@ s:							 SORTNAME
 	<section id="TOKDEF">
 		<title>TOKDEF</title>
 
-		<literallayout>Number of encoding bits: 1</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>1</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+		</informaltable>
 
 		<para><replaceable>tds</replaceable> is a list of <code>TOKDEC</code>s which gives the
 			sorts associated with <code>TOKEN</code>s.</para>
@@ -6376,7 +7014,9 @@ s:							 SORTNAME
 		<section id="make_tokdef">
 			<title>make_tokdef</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">tok:						 TDFINT
 signature:			 OPTION(STRING)
@@ -6411,14 +7051,18 @@ def:						 BITSTREAM TOKEN_DEFN
 	<section id="TOKDEF_PROPS">
 		<title>TOKDEF_PROPS</title>
 
-		<literallayout>Number of encoding bits: 0</literallayout>
-		<literallayout>Is coding extendable: no</literallayout>
-		<literallayout>Unit identification: tokdef</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>0</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>no</td> </tr>
+			<tr> <td>Unit identification</td> <td>tokdef</td> </tr>
+		</informaltable>
 
 		<section id="make_tokdefs">
 			<title>make_tokdefs</title>
 
-			<literallayout>Encoding number: 0</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>0</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">no_labels:			 TDFINT
 tds:						 SLIST(TOKDEF)
@@ -6434,9 +7078,11 @@ tds:						 SLIST(TOKDEF)
 	<section id="TOKEN">
 		<title>TOKEN</title>
 
-		<literallayout>Number of encoding bits: 2</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
-		<literallayout>Linkable entity identification: token</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>2</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+			<tr> <td>Linkable entity identification</td> <td>token</td> </tr>
+		</informaltable>
 
 		<para>These are used to stand for functions evaluated at installation time.
 			They are represented by <code>TDFINT</code>s.</para>
@@ -6444,7 +7090,9 @@ tds:						 SLIST(TOKDEF)
 		<section id="token_apply_token">
 			<title>token_apply_token</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">token_value:		 TOKEN
 token_args:			BITSTREAM param_sorts(token_value)
@@ -6461,7 +7109,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 		<section id="make_tok">
 			<title>make_tok</title>
 
-			<literallayout>Encoding number: 2</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>2</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">tokno:					 TDFINT
 								 -&gt; TOKEN</programlisting>
@@ -6473,7 +7123,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 		<section id="use_tokdef">
 			<title>use_tokdef</title>
 
-			<literallayout>Encoding number: 3</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>3</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">tdef:						BITSTREAM TOKEN_DEFN
 								 -&gt; TOKEN</programlisting>
@@ -6487,8 +7139,10 @@ token_args:			BITSTREAM param_sorts(token_value)
 	<section id="TOKEN_DEFN">
 		<title>TOKEN_DEFN</title>
 
-		<literallayout>Number of encoding bits: 1</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>1</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+		</informaltable>
 
 		<para>An auxiliary <code>SORT</code> used in <replaceable>make_tokdef</replaceable>
 			and <replaceable>use_tokdef</replaceable>.</para>
@@ -6496,7 +7150,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 		<section id="token_definition">
 			<title>token_definition</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">result_sort:		 SORTNAME
 tok_params:			LIST(TOKFORMALS)
@@ -6562,13 +7218,17 @@ body:						result_sort
 	<section id="TOKFORMALS">
 		<title>TOKFORMALS</title>
 
-		<literallayout>Number of encoding bits: 0</literallayout>
-		<literallayout>Is coding extendable: no</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>0</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>no</td> </tr>
+		</informaltable>
 
 		<section id="make_tokformals">
 			<title>make_tokformals</title>
 
-			<literallayout>Encoding number: 0</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>0</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">sn:							SORTNAME
 tk:							TDFINT
@@ -6582,8 +7242,10 @@ tk:							TDFINT
 	<section id="TRANSFER_MODE">
 		<title>TRANSFER_MODE</title>
 
-		<literallayout>Number of encoding bits: 3</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>3</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+		</informaltable>
 
 		<para>A <code>TRANSFER_MODE</code> controls the operation of
 			<replaceable>assign_with_mode</replaceable>,
@@ -6599,7 +7261,9 @@ tk:							TDFINT
 		<section id="transfer_mode_apply_token">
 			<title>transfer_mode_apply_token</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">token_value:		 TOKEN
 token_args:			BITSTREAM param_sorts(token_value)
@@ -6622,7 +7286,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 		<section id="transfer_mode_cond">
 			<title>transfer_mode_cond</title>
 
-			<literallayout>Encoding number: 2</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>2</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
 e1:							BITSTREAM TRANSFER_MODE
@@ -6641,7 +7307,9 @@ e2:							BITSTREAM TRANSFER_MODE
 		<section id="add_modes">
 			<title>add_modes</title>
 
-			<literallayout>Encoding number: 3</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>3</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">md1:						 TRANSFER_MODE
 md2:						 TRANSFER_MODE
@@ -6658,7 +7326,9 @@ md2:						 TRANSFER_MODE
 		<section id="overlap">
 			<title>overlap</title>
 
-			<literallayout>Encoding number: 4</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>4</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; TRANSFER_MODE</programlisting>
 
@@ -6676,7 +7346,9 @@ md2:						 TRANSFER_MODE
 		<section id="standard_transfer_mode">
 			<title>standard_transfer_mode</title>
 
-			<literallayout>Encoding number: 5</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>5</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; TRANSFER_MODE</programlisting>
 
@@ -6686,7 +7358,9 @@ md2:						 TRANSFER_MODE
 		<section id="trap_on_nil">
 			<title>trap_on_nil</title>
 
-			<literallayout>Encoding number: 6</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>6</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; TRANSFER_MODE</programlisting>
 
@@ -6701,7 +7375,9 @@ md2:						 TRANSFER_MODE
 		<section id="volatile">
 			<title>volatile</title>
 
-			<literallayout>Encoding number: 7</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>7</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; TRANSFER_MODE</programlisting>
 
@@ -6717,7 +7393,9 @@ md2:						 TRANSFER_MODE
 		<section id="complete">
 			<title>complete</title>
 
-			<literallayout>Encoding number: 8</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>8</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf"> -&gt; TRANSFER_MODE</programlisting>
 
@@ -6729,8 +7407,10 @@ md2:						 TRANSFER_MODE
 	<section id="UNIQUE">
 		<title>UNIQUE</title>
 
-		<literallayout>Number of encoding bits: 0</literallayout>
-		<literallayout>Is coding extendable: no</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>0</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>no</td> </tr>
+		</informaltable>
 
 		<para>These are used to provide world-wide unique names for <code>TOKEN</code>s
 			and <code>TAG</code>s.</para>
@@ -6740,7 +7420,9 @@ md2:						 TRANSFER_MODE
 		<section id="make_unique">
 			<title>make_unique</title>
 
-			<literallayout>Encoding number: 0</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>0</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">text:						SLIST(TDFIDENT)
 								 -&gt; UNIQUE</programlisting>
@@ -6753,8 +7435,10 @@ md2:						 TRANSFER_MODE
 	<section id="UNIT">
 		<title>UNIT</title>
 
-		<literallayout>Number of encoding bits: 0</literallayout>
-		<literallayout>Is coding extendable: no</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>0</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>no</td> </tr>
+		</informaltable>
 
 		<para>A <code>UNIT</code> gathers together a <code>PROPS</code> and
 			<code>LINK</code>s which relate the names by which objects are known
@@ -6764,7 +7448,9 @@ md2:						 TRANSFER_MODE
 		<section id="make_unit">
 			<title>make_unit</title>
 
-			<literallayout>Encoding number: 0</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>0</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">local_vars:			SLIST(TDFINT)
 lks:						 SLIST(LINKS)
@@ -6793,11 +7479,13 @@ properties:			BYTESTREAM PROPS
 	<section id="VARIETY">
 		<title>VARIETY</title>
 
-		<literallayout>Number of encoding bits: 2</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>2</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+		</informaltable>
 
 		<para>These describe the different kinds of integer which can occur at run time.
-		The fundamental construction consists of a <code>SIGNED_NAT</code> for the
+			The fundamental construction consists of a <code>SIGNED_NAT</code> for the
 			lower bound of the range of possible values, and a <code>SIGNED_NAT</code>
 			for the upper bound (inclusive at both ends).</para>
 
@@ -6808,7 +7496,9 @@ properties:			BYTESTREAM PROPS
 		<section id="var_apply_token">
 			<title>var_apply_token</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">token_value:		 TOKEN
 token_args:			BITSTREAM param_sorts(token_value)
@@ -6825,7 +7515,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 		<section id="var_cond">
 			<title>var_cond</title>
 
-			<literallayout>Encoding number: 2</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>2</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
 e1:							BITSTREAM VARIETY
@@ -6844,7 +7536,9 @@ e2:							BITSTREAM VARIETY
 		<section id="var_limits">
 			<title>var_limits</title>
 
-			<literallayout>Encoding number: 3</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>3</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">lower_bound:		 SIGNED_NAT
 upper_bound:		 SIGNED_NAT
@@ -6859,7 +7553,9 @@ upper_bound:		 SIGNED_NAT
 		<section id="var_width">
 			<title>var_width</title>
 
-			<literallayout>Encoding number: 4</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>4</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">signed_width:		BOOL
 width:					 NAT
@@ -6878,9 +7574,11 @@ width:					 NAT
 	<section id="VERSION_PROPS">
 		<title>VERSION_PROPS</title>
 
-		<literallayout>Number of encoding bits: 0</literallayout>
-		<literallayout>Is coding extendable: no</literallayout>
-		<literallayout>Unit identification: versions</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>0</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>no</td> </tr>
+			<tr> <td>Unit identification</td> <td>versions</td> </tr>
+		</informaltable>
 
 		<para>This <code>UNIT</code> gives information about version numbers and user
 			information.</para>
@@ -6888,7 +7586,9 @@ width:					 NAT
 		<section id="make_versions">
 			<title>make_versions</title>
 
-			<literallayout>Encoding number: 0</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>0</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">version_info:		SLIST(VERSION)
 								 -&gt; VERSION_PROPS</programlisting>
@@ -6900,13 +7600,17 @@ width:					 NAT
 	<section id="VERSION">
 		<title>VERSION</title>
 
-		<literallayout>Number of encoding bits: 1</literallayout>
-		<literallayout>Is coding extendable: yes</literallayout>
+		<informaltable>
+			<tr> <td>Number of encoding bits</td> <td>1</td> </tr>
+			<tr> <td>Is coding extendable</td> <td>yes</td> </tr>
+		</informaltable>
 
 		<section id="make_version">
 			<title>make_version</title>
 
-			<literallayout>Encoding number: 1</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>1</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">major_version:	 TDFINT
 minor_version:	 TDFINT
@@ -6928,7 +7632,9 @@ minor_version:	 TDFINT
 		<section id="user_info">
 			<title>user_info</title>
 
-			<literallayout>Encoding number: 2</literallayout>
+			<informaltable>
+				<tr> <td>Encoding number</td> <td>2</td> </tr>
+			</informaltable>
 
 			<programlisting language="tdf">information:		 STRING(k, n)
 								 -&gt; VERSION</programlisting>
