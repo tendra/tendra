@@ -1111,6 +1111,11 @@
 						</tr>
 					</informaltable>
 
+<!-- TODO: hppa, mips, power say:
+    son is exp for value jumped with
+    ptr is labelled exp
+-->
+
 					<para>Create using me_l1, then set the pt field and
 						increment the usage counter in the labst_tag.</para>
 				</listitem>
@@ -1186,6 +1191,11 @@
 							<td>body</td>
 						</tr>
 					</informaltable>
+
+<!-- TODO: hppa, mips say:
+    shape of exp is body,
+    ptr of ident exp is chain of uses
+-->
 
 					<para>The shape of the result is the shape of body.
 						The no(e) is a count of the number of uses.
@@ -2140,6 +2150,9 @@
 						<tr>
 							<td><code>no(e)</code></td>
 							<td>0</td>
+<!-- TODO: hppa, mips, power say:
+	number is number of proc (useful for indexing). true for all platforms?
+-->
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
@@ -2290,6 +2303,10 @@
 				<term><code>rep_tag</code>:
 					represents repeat construction</term>
 
+power/scan.c:
+         * The arguments are effectively independent pieces of code
+         * for these constructions.
+
 				<listitem>
 					<informaltable>
 						<tr>
@@ -2428,6 +2445,11 @@
 						</tr>
 					</informaltable>
 
+<!-- TODO: mips, power say:
+    shape of exp is shape of end of sequence
+    son is sequence holder, son of this is list of voided statements.
+-->
+
     				<para>Use new_exp_list to start and empty sequence, add_exp_list to
 						add an exp. When all but the result exp have been added, use
 						clear_exp_list on the list. Then create the sequence with
@@ -2500,6 +2522,10 @@
 			<varlistentry>
 				<term><code>solve_tag</code>:
 					Represents the labelled construction</term>
+
+power/scan.c:
+         * The arguments are effectively independent pieces of code
+         * for these constructions.
 
 				<listitem>
 					<informaltable>
