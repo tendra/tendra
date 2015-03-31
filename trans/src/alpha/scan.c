@@ -674,7 +674,7 @@ chase(exp sel, exp *e)
 
 	case solve_tag:
 	case cond_tag: {
-		one;
+		exp *one;
 
 		for (one = &son(*e); ; one = &bro(*one)) {
 			b |= chase(sel, one);
