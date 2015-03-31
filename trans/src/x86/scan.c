@@ -88,7 +88,7 @@ cca(int sto, exp to, int sx, exp x)
 #ifdef TDF_DIAG4
 	if (diag != DIAG_NONE) {
 		dgf(id) = dgf(bro(son(id)));
-		dgf(bro(son(id))) = nildiag;
+		dgf(bro(son(id))) = NULL;
 	}
 #endif
 }

@@ -151,7 +151,7 @@ cca ( exp ** to, exp * x )
 #ifdef TDF_DIAG4
 		if (diag != DIAG_NONE) {
 			dgf(id) = dgf(bro(son(id)));
-			dgf(bro(son(id))) = nildiag;
+			dgf(bro(son(id))) = NULL;
 		}
 #endif
 	} else {
@@ -183,7 +183,7 @@ cca ( exp ** to, exp * x )
 #ifdef TDF_DIAG4
 		if (diag != DIAG_NONE) {
 			dgf(id) = dgf(bro(son(id)));
-			dgf(bro(son(id))) = nildiag;
+			dgf(bro(son(id))) = NULL;
 		}
 #endif
 	}

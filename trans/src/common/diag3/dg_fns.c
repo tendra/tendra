@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stddef.h>
+
 #include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
@@ -251,7 +253,7 @@ f_inline_call_dg(dg_tag proc, dg_name_list act_params, nat_option call_kind)
 		ans->data.i_inl.ck = 0;
 	}
 
-	ans->data.i_inl.resref = nildiag;
+	ans->data.i_inl.resref = NULL;
 	proc->any_inl = 1;
 
 	return ans;

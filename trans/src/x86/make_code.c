@@ -1052,7 +1052,7 @@ make_code1(where dest, ash stack, exp e)
 			/* Beware lost information !!! */
 			bro(son(e))->tag = top_tag;
 			son(bro(son(e))) = NULL;
-			dgf(bro(son(e))) = nildiag;
+			dgf(bro(son(e))) = NULL;
 #endif
 		}
 
@@ -1075,7 +1075,7 @@ make_code1(where dest, ash stack, exp e)
 				/* Beware lost information !!! */
 				bro(son(alt))->tag = top_tag;
 				son(bro(son(alt))) = NULL;
-				dgf(bro(son(alt))) = nildiag;
+				dgf(bro(son(alt))) = NULL;
 #endif
 			}
 
@@ -2602,7 +2602,7 @@ make_code(where dest, ash stack, exp e)
 	dg_info d;
 	dg_info was_current = current_dg_info;
 
-	current_dg_info = nildiag;
+	current_dg_info = NULL;
 	if (extra_diags) {
 		switch (e->tag) {
 		case apply_tag:
@@ -2698,14 +2698,14 @@ make_code(where dest, ash stack, exp e)
 	}
 
 	d = dgf(e);
-	if (d != nildiag) {
-		dg_info dpos = nildiag;
+	if (d != NULL) {
+		dg_info dpos = NULL;
 		struct make_code_args args;
 		args.dest = dest;
 		args.stack = stack;
 		current_dg_exp = args.e = e;
 
-		while (d != nildiag) {
+		while (d != NULL) {
 			if (d->key == DGA_SRC && d->data.i_src.startpos.file) {
 				crt_lno = d->data.i_src.startpos.line;
 				crt_charno = d->data.i_src.startpos.column;

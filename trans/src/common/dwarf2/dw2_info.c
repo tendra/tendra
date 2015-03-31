@@ -1918,7 +1918,7 @@ static void prepare_detch
 void dw2_code_info
     ( dg_info d , void (*mcode) (void *) , void * args )
 {
-  if (d == nildiag) {
+  if (d == NULL) {
     (*mcode)(args);
     return;
   }

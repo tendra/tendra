@@ -4837,7 +4837,7 @@ make_code( exp e, space sp, where dest, int exitlab )
 	return make_code_1(e, sp, dest, exitlab);
 #else
 	dg_info was_current = current_dg_info;
-	current_dg_info = nildiag;
+	current_dg_info = NULL;
 
 	if (extra_diags) {
 		switch (e->tag) {
@@ -4933,7 +4933,7 @@ make_code( exp e, space sp, where dest, int exitlab )
 		}
 	}
 
-	if (dgf(e) != nildiag && e->tag != proc_tag && e->tag != general_proc_tag) {
+	if (dgf(e) != NULL && e->tag != proc_tag && e->tag != general_proc_tag) {
 		struct make_code_args args;
 		current_dg_exp = args.e = e;
 		args.sp = sp;

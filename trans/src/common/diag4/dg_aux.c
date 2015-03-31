@@ -1126,7 +1126,7 @@ copy_res_diag(exp e, dg_info d, exp var, exp lab)
 	    /* only one defining name tag */
 	   ) {
 		dg_info all = dgf(e);
-		dgf(e) = nildiag;
+		dgf(e) = NULL;
 		ans = copy_res(e, var, lab);
 		dgf(e) = all;
 		dgf(ans) = combine_diaginfo(dgf(ans), d);
@@ -1536,11 +1536,11 @@ dg_rem_ass(exp ass)
 		rem->data.i_remval.var = hold(me_obtain(son(son(ass))));
 		setisdiaginfo(son(rem->data.i_remval.var));
 		--no(son(son(rem->data.i_remval.var)));
-		dgf(val) = nildiag;
+		dgf(val) = NULL;
 		rem->data.i_remval.val = copy(val);
 		dgf(val) = h;
 		rem->data.i_remval.lo_pc = 0;
-		rem->more = nildiag;
+		rem->more = NULL;
 
 		while (*dx) {
 			dx = &((*dx)->more);
@@ -1702,7 +1702,7 @@ make_optim_dg(int reason, exp e)
 	exp body = bro(konst);
 	dg_info *dx;
 	dgf(e) = dgf(body);
-	dgf(body) = nildiag;
+	dgf(body) = NULL;
 	dx = after_dg_context(e);
 
 	if (!*dx || (*dx)->key != DGA_OPTIM ||

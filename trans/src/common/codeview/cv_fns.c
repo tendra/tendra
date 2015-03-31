@@ -76,7 +76,7 @@ out_diagnose_postlude(void)
 void
 code_diag_info(diag_info *d, int proc_no, void(*mcode)(void *), void *args)
 {
-  if (d == nildiag) {
+  if (d == NULL) {
    (*mcode)(args);
     return;
   }

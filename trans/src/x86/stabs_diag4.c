@@ -198,7 +198,7 @@ stabd(dg_filename f, long lno, int seg)
 static void
 code_diag_info(dg_info d, void(*mcode)(void *), void *args)
 {
-	if (d == nildiag) {
+	if (d == NULL) {
 		mcode(args);
 		return;
 	}

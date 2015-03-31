@@ -16,7 +16,6 @@
 
 
 typedef dg_info dg;
-#define nildiag	NULL
 
 typedef struct dg_tag_t *dg_tag;
 typedef struct dg_comp_t *dg_compilation;

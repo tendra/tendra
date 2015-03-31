@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stddef.h>
+
 #include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
@@ -247,7 +249,7 @@ f_inline_call_dg(dg_tag proc, dg_name_list act_params, nat_option call_kind)
 
 	ans->data.i_inl.proc = proc;
 	ans->data.i_inl.args = act_params;
-	ans->data.i_inl.resref = nildiag;
+	ans->data.i_inl.resref = NULL;
 
 	if (call_kind.present) {
 		ans->data.i_inl.ck = call_kind.val.nat_val.small_nat;

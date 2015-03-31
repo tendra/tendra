@@ -565,7 +565,7 @@ refactor_id(exp e, exp scope)
 #ifdef TDF_DIAG4
 			dg_info dgh = dgf(def);
 			/* don't copy line info to all uses */
-			dgf(def) = nildiag;
+			dgf(def) = NULL;
 #endif
 
 			while (pt(e) != NULL) {

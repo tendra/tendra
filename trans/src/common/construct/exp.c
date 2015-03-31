@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <stddef.h>
+
 #include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
@@ -144,7 +146,7 @@ getexp(shape s, exp b, int l, exp sn, exp px, prop pr, int n, unsigned char tg)
 	res->tag    = tg;
 	parked(res) = 0;
 #ifdef TDF_DIAG4
-	dgf(res)    = nildiag;
+	dgf(res)    = NULL;
 #endif
 
 	return res;
@@ -926,7 +928,7 @@ copy_res(exp e, exp var, exp lab)
 	if (e == NULL) {
 		return e;
 #ifdef TDF_DIAG4
-	} else if (dgf(e) != nildiag) {
+	} else if (dgf(e) != NULL) {
 		return copy_res_diag(e, dgf(e), var, lab);
 #endif
 	}

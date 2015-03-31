@@ -50,7 +50,7 @@ mark_scope(exp e)
 	}
 
 	ptr = &(d->more);
-	d = nildiag;
+	d = NULL;
 
 	while (*ptr && (*ptr)->key != DGA_SCOPE) {
 		ptr = &((*ptr)->more);
@@ -101,7 +101,7 @@ mark_scope2(exp e)
 	}
 
 	ptr = &(d->more);
-	d = nildiag;
+	d = NULL;
 	while (*ptr && (*ptr)->key != DGA_SCOPE) {
 		ptr = &((*ptr)->more);
 	}
@@ -123,7 +123,7 @@ mark_scope2(exp e)
 void
 correct_mark_scope(exp e)
 {
-	dg_info d = nildiag;
+	dg_info d = NULL;
 	dg_info *ptr = &(dgf(bro(son(e))));
 
 	while (*ptr && (*ptr)->key != DGA_SCOPE) {
