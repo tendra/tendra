@@ -662,7 +662,6 @@ static bool
 chase(exp sel, exp *e)
 {
 	bool b = 0;
-	exp *one;
 
 	switch (name(*e)) {
 	case ident_tag:

@@ -873,7 +873,6 @@ static bool
 chase(exp sel, exp * e)
 {
 	bool b = 0;
-	exp * one;
 	switch(name(*e)) {
 	case ident_tag:
 	case seq_tag:
@@ -884,15 +883,13 @@ chase(exp sel, exp * e)
 
 	case solve_tag:
 	case cond_tag: {
-		one = &son(*e);
+		exp *one;
 
-		for(;;)  {
+		for (one = &son(*e); ; one = &bro(*one)) {
 			b |= chase(sel, one);
 			if (last(*one)) {
 				break;
 			}
-
-			one = &bro(*one);
 		}
 		break;
 	}
