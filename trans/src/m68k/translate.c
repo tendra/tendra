@@ -76,8 +76,8 @@ mark_unaliased(exp e)
 
 		if (q == NULL) {
 			ca = 0;
-		} else if (!(last(p) && name(q) == cont_tag) &&
-		          !(!last(p) && last(q) && name(bro(q)) == ass_tag)) {
+		} else if (!(last(p) && q->tag == cont_tag) &&
+		          !(!last(p) && last(q) && bro(q)->tag == ass_tag)) {
 			ca = 0;
 		}
 	}
@@ -106,9 +106,9 @@ local_translate_capsule(void)
 			continue;
 		}
 
-		if ((name(sh(crt_exp)) != prokhd || (idval = son(crt_exp),
-			 idval != NULL && name(idval) != null_tag &&
-			 name(idval) != proc_tag && name(idval) != general_proc_tag)))
+		if ((sh(crt_exp)->tag != prokhd || (idval = son(crt_exp),
+			 idval != NULL && idval->tag != null_tag &&
+			 idval->tag != proc_tag && idval->tag != general_proc_tag)))
 		{
 			exp p, np;
 
@@ -220,7 +220,7 @@ code_proc(dec *d, char *id, exp c, exp s)
 
 	/* Code procedure body */
 #if 0
-	if (name(s) == proc_tag) {
+	if (s->tag == proc_tag) {
 		cproc(s, id, -1, is_ext, reg_res, di);
 	} else
 #endif
@@ -270,10 +270,10 @@ code_const_list(void)
 
 		t = const_list;
 		s = son(t);
-		b = (name(s) != res_tag);
+		b = (s->tag != res_tag);
 		const_list = bro(const_list);
 
-		if (name(s) == proc_tag || name(s) == general_proc_tag) {
+		if (s->tag == proc_tag || s->tag == general_proc_tag) {
 			char *id = xmalloc(30);
 			sprintf(id, "%s%ld", local_prefix, no(t));
 			gcproc(s, NULL, no(t), 0, 1, NULL);
@@ -292,7 +292,7 @@ code_const_list(void)
 static int
 const_ready(exp e)
 {
-	unsigned char n = name(e);
+	unsigned char n = e->tag;
 
 	if (n == env_size_tag) {
 		return brog(son(son(e)))->processed;
@@ -399,7 +399,7 @@ output_all_exps(void)
 		init_output();
 
 		if (s != NULL) {
-			if (name(s) == proc_tag || name(s) == general_proc_tag) {
+			if (s->tag == proc_tag || s->tag == general_proc_tag) {
 				code_proc(d, id, c, s);
 				code_const_list();
 				d->processed = 1;

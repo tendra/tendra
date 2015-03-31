@@ -56,27 +56,27 @@ int is_crc
 (exp e)
 {
 		/* make sure (is_o && is_crc -> !is_opnd) */
-  if (name(e) == name_tag) {
+  if (e->tag == name_tag) {
     if (isvar(son(e)))
       return !isglob(son(e)) || PIC_code;
     /* else */
       return son(son(e)) == NULL ||
-	(isglob(son(e)) && PIC_code && name(sh(son(e))) == prokhd &&
+	(isglob(son(e)) && PIC_code && sh(son(e))->tag == prokhd &&
 			!(brog(son(e)) -> extnamed)) ||
-	(name(son(son(e))) == ident_tag && isparam(son(son(e))));
+	(son(son(e))->tag == ident_tag && isparam(son(son(e))));
   }
 
-  if (name(e) == reff_tag || name(e) == field_tag)
+  if (e->tag == reff_tag || e->tag == field_tag)
     return 1;
 
-  if (name(e)!= cont_tag)
+  if (e->tag!= cont_tag)
     return 0;
 
-  if (name(son(e)) == cont_tag)
+  if (son(e)->tag == cont_tag)
     return 1;
 
-  return name(son(e)) == reff_tag &&
-	  name(son(son(e))) == cont_tag;
+  return son(e)->tag == reff_tag &&
+	  son(son(e))->tag == cont_tag;
 }
 
 /*
@@ -94,7 +94,7 @@ int is_crc
 static void
 uop(void(*op)(shape, where, where), shape sha, exp a, where dest, ash stack)
 {
-  if (!is_o(name(a)) || is_crc(a)) {
+  if (!is_o(a->tag) || is_crc(a)) {
     where qw;
     if (!inmem(dest))
       qw.where_exp = copyexp(dest.where_exp);
@@ -114,14 +114,14 @@ uop(void(*op)(shape, where, where), shape sha, exp a, where dest, ash stack)
 static int no_reg_needed
 (exp e)
 {
-  if (name(e) == val_tag)
+  if (e->tag == val_tag)
     return 1;
-  if (name(e) == cont_tag &&
-	name(son(e)) == name_tag &&
+  if (e->tag == cont_tag &&
+	son(e)->tag == name_tag &&
 	isvar(son(son(e))) &&
 	ptno(son(son(e)))!= reg_pl)
     return 1;
-  if (name(e) == name_tag &&
+  if (e->tag == name_tag &&
 	!isvar(son(e)) &&
 	ptno(son(e))!= reg_pl)
     return 1;
@@ -147,7 +147,7 @@ void bop
 {
   where qw;
 
-  if (!is_o(name(a)) || is_crc(a)) {
+  if (!is_o(a->tag) || is_crc(a)) {
     if (!inmem(dest) && no_reg_needed(b))
       qw.where_exp = copyexp(dest.where_exp);
     else
@@ -160,7 +160,7 @@ void bop
     cond1_set = 0;
     return;
   }
-  if (!is_o(name(b)) || is_crc(b)) {
+  if (!is_o(b->tag) || is_crc(b)) {
     if (!inmem(dest) && no_reg_needed(a))
       qw.where_exp = copyexp(dest.where_exp);
     else
@@ -216,7 +216,7 @@ static void logop
   t = arg1;
   /* now look for an argument which is not a possible 80386 operand */
   while (1) {
-    if (!is_o(name(t)) || is_crc(t))
+    if (!is_o(t->tag) || is_crc(t))
       break;
     if (last(t)) {
       t = NULL;
@@ -297,7 +297,7 @@ static void multop
   t = arg1;
   /* now look for an argument which is not a possible 80386 operand */
   while (1) {
-    if (!is_o(name(t)) || is_crc(t))
+    if (!is_o(t->tag) || is_crc(t))
       break;
     if (last(t)) {
       t = NULL;
@@ -347,7 +347,7 @@ static void addsub
 (shape sha, where a, where b, where dest, exp e)
 {
   UNUSED(e);
-  if (name(a.where_exp) == neg_tag)
+  if (a.where_exp->tag == neg_tag)
     sub(sha, mw(son(a.where_exp), 0), b, dest);
   else
     add(sha, a, b, dest);
@@ -361,7 +361,7 @@ static void addsub
 void codec
 (where dest, ash stack, exp e)
 {
-  switch (name(e)) {
+  switch (e->tag) {
     case plus_tag:
       {
 		/* at most one of the arguments will not be a possible 80386 operand */
@@ -379,11 +379,12 @@ void codec
 	if (!optop(e))
           overflow_e = e;
 
-	if (last(arg2) && is_o(name(arg1)) && !is_crc(arg1) &&
-	   ((is_o(name(arg2)) && !is_crc(arg2)) ||
-	     (name(arg2) == neg_tag &&
+	if (last(arg2) && is_o(arg1->tag) && !is_crc(arg1) &&
+	   ((is_o(arg2->tag) && !is_crc(arg2)) ||
+	     (arg2->tag == neg_tag &&
 	       !is_crc(son(arg2)) &&
-	       is_o(name(son(arg2)))))) {
+	       is_o(son(arg2)->tag))))
+	{
 	  /* just two arguments. */
 	  addsub(sh(e), mw(arg2, 0), mw(arg1, 0), dest, e);
           overflow_e = old_overflow_e;
@@ -400,8 +401,8 @@ void codec
 
 	/* now look for argument which is not a possible 80386 operand */
 	while (1) {
-	  if ((!is_o(name(t)) || is_crc(t)) &&
-	     (name(t)!= neg_tag || !is_o(name(son(t))) ||
+	  if ((!is_o(t->tag) || is_crc(t)) &&
+	     (t->tag!= neg_tag || !is_o(son(t)->tag) ||
 	       is_crc(son(t))))
 	    break;
 	  if (last(t)) {
@@ -411,13 +412,13 @@ void codec
 	  t = bro(t);
 	}
 
-	if (t == NULL && name(arg1) == neg_tag &&
-	    name(arg2) == neg_tag)
+	if (t == NULL && arg1->tag == neg_tag &&
+	    arg2->tag == neg_tag)
 	  t = arg1;
 
 	if (t == NULL) {	/* all arguments are possible 80386 operands */
 	  t = bro(arg2);
-	  if (name(arg1) == neg_tag)
+	  if (arg1->tag == neg_tag)
 	    addsub(sh(e), mw(arg1, 0), mw(arg2, 0),
 		(t == e)? dest : qw, e);
 	  else
@@ -469,7 +470,7 @@ void codec
 	exp old_overflow_e = overflow_e;
         if (!optop(e))
           overflow_e = e;
-	if (!is_o(name(a)) || is_crc(a)) {
+	if (!is_o(a->tag) || is_crc(a)) {
 	  /* argument is not a possible 80386 operand, so evaluate it in reg0 */
 	  if (inmem(dest) ||
 		(shape_size(sh(a)) == 8 && bad_from_reg(dest)) ||
@@ -486,7 +487,7 @@ void codec
 	    return;
 	  }
 	  make_code(dest, stack, a);
-	  if (name(sh(e)) > name(sh(a)))
+	  if (sh(e)->tag > sh(a)->tag)
 	    change_var_sh(sh(e), sh(a), dest, dest);
 	  overflow_e = old_overflow_e;
 	  return;
@@ -641,7 +642,7 @@ void codec
 		break;
 	}
         test_fl_ovfl(e, d);
-	if (name(s)!= name(sh(e))) {
+	if (s->tag!= sh(e)->tag) {
 	  exp old_overflow_e = overflow_e;
           if (!optop(e))
             overflow_e = e;
@@ -699,10 +700,10 @@ void codec
 	return;
       }
     case chfl_tag: {
-	if (name(sh(e)) < name(sh(son(e))))
+	if (sh(e)->tag < sh(son(e))->tag)
 	  setup_fl_ovfl(e);
 	changefl(sh(e), mw(son(e), 0), dest);
-	if (name(sh(e)) < name(sh(son(e))))
+	if (sh(e)->tag < sh(son(e))->tag)
 	  test_fl_ovfl(e, dest);
 	return;
       }
@@ -828,7 +829,7 @@ void codec
       error(ERR_INTERNAL, "integer power not implemented");
       return;
     case cont_tag:
-      if (!newcode && name(sh(e)) == bitfhd)
+      if (!newcode && sh(e)->tag == bitfhd)
         {
           mem_to_bits(e, sh(e), dest, stack);
           return;
@@ -836,7 +837,7 @@ void codec
        /* deliberate fall through into default */
     default:
       {
-	if (!is_o (name (e))) {
+	if (!is_o(e->tag)) {
 	  /*
 	   * e is not a possible 80386 operand, precompute it into reg0
 	   * and move to dest
@@ -852,19 +853,19 @@ void codec
 	  return;
 	}
 
-	if (is_crc(e) && name(e)!= name_tag
-		 && name(e)!= reff_tag && name(e)!= field_tag) {
+	if (is_crc(e) && e->tag!= name_tag
+		 && e->tag!= reff_tag && e->tag!= field_tag) {
 	  exp s = son(e);
 	  exp ss = son(s);
 	  exp sss = ss;
 	  exp * p = & son(e);
 
-	  if (name(s) == reff_tag) {
+	  if (s->tag == reff_tag) {
 	    sss = son(ss);
 	    p = & son(s);
 	  }
 
-	  if (name(sss) == name_tag && ptno(son(sss)) == reg_pl) {
+	  if (sss->tag == name_tag && ptno(son(sss)) == reg_pl) {
 	    move(sh(e), mw(e, 0), dest);
 	    return;
 	  }
@@ -880,29 +881,29 @@ void codec
 	}
 
 
-	if (name(e) == reff_tag &&
-	   (name(son(e)) == name_tag ||
-	     (name(son(e)) == cont_tag &&
-		name(son(son(e))) == name_tag))) {
+	if (e->tag == reff_tag &&
+	   (son(e)->tag == name_tag ||
+	     (son(e)->tag == cont_tag &&
+		son(son(e))->tag == name_tag))) {
 	  /* look for case when reff should be done by add */
 	  add(slongsh, mw(son(e), 0), mw(zeroe, no(e) / 8), dest);
 	  return;
 	}
 
-	if ((name(e) == name_tag && isvar(son(e))) ||
-	    name(e) == reff_tag ||
-           (PIC_code && name(e) == name_tag && isglob(son(e)) &&
-               name(sh(son(e))) == prokhd &&
+	if ((e->tag == name_tag && isvar(son(e))) ||
+	    e->tag == reff_tag ||
+           (PIC_code && e->tag == name_tag && isglob(son(e)) &&
+               sh(son(e))->tag == prokhd &&
                !brog(son(e)) ->  extnamed)) {
           if (ptno(son(e))!= nowhere_pl)
 	    mova(mw(e, 0), dest);
 	  return;
 	}
 
-        if (name(e) == clear_tag)
+        if (e->tag == clear_tag)
           {
-            if ((name(sh(e)) >= shrealhd && name(sh(e)) <= doublehd &&
-		!inmem(dest)) || name(dest.where_exp) == apply_tag)
+            if ((sh(e)->tag >= shrealhd && sh(e)->tag <= doublehd &&
+		!inmem(dest)) || dest.where_exp->tag == apply_tag)
               move(sh(e), fzero, dest);
             return;
           }
@@ -910,7 +911,7 @@ void codec
 
 	/* other values */
 
-	if (name(e)!= top_tag && name(e)!= prof_tag)
+	if (e->tag!= top_tag && e->tag!= prof_tag)
 	  move(sh(e), mw(e, 0), dest);
 	else
 	  top_regsinuse = regsinuse;

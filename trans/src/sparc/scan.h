@@ -17,9 +17,9 @@
 #include "proctypes.h"
 
 /* condition for shape to be treated as a struct */
-#define sparccpd(s) (name(s) == cpdhd || name(s) == nofhd || \
-                     name(s) == shcomplexhd || shape_size(s) >64 || \
-                     name(s) == u64hd || name(s) == s64hd)
+#define sparccpd(s) (s->tag == cpdhd || s->tag == nofhd || \
+                     s->tag == shcomplexhd || shape_size(s) >64 || \
+                     s->tag == u64hd || s->tag == s64hd)
 
 extern bool subvar_use(exp);
 extern needs likediv(exp *, exp **);

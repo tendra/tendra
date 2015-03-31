@@ -60,7 +60,7 @@ baseoff boff
   else {
     int   x = no(id);
     int   b = x & 0x3f;
-    if (name(son(id)) == caller_name_tag) {
+    if (son(id)->tag == caller_name_tag) {
       an.base = SP;
       an.offset = (x-b) >>4;
     }
@@ -119,7 +119,7 @@ locate1(exp e, space sp, shape s, int dreg)
 
   a = ashof(s);
 
-  switch (name(e)) {
+  switch (e->tag) {
    case name_tag:
     {
       exp decx = son(e);
@@ -177,9 +177,9 @@ locate1(exp e, space sp, shape s, int dreg)
       }
       else {		/* ... it is in memory */
 	instore is;
-	if (var || (name(sh(e)) == prokhd &&
-		   (son(decx) == NULL || name(son(decx)) == proc_tag
-		     || name(son(decx)) == general_proc_tag))) {
+	if (var || (sh(e)->tag == prokhd &&
+		   (son(decx) == NULL || son(decx)->tag == proc_tag
+		     || son(decx)->tag == general_proc_tag))) {
 	  is.adval = 1;
 	}
 	else {
@@ -234,7 +234,7 @@ locate1(exp e, space sp, shape s, int dreg)
 	     multiplier.  Not shure if this is any faster than
 	     using two instructions : mult & add.
 	     */
-	  if (name(bro(sum)) == offset_mult_tag) {
+	  if (bro(sum)->tag == offset_mult_tag) {
 	    multiplier = no(bro(son(bro(sum))));
 	    switch (multiplier) {
 	    case 4:
@@ -297,15 +297,15 @@ locate1(exp e, space sp, shape s, int dreg)
     breakpt: 		/* register ind contains the evaluation of
 		        1st operand of addptr */
       nsp = guardreg(ind, sp);
-      if (name(bro(sum)) == env_offset_tag ||
-	  name(bro(sum)) ==general_env_offset_tag) {
+      if (bro(sum)->tag == env_offset_tag ||
+	  bro(sum)->tag ==general_env_offset_tag) {
 	is.b.base = ind;
 	is.b.offset = frame_offset(son(bro(sum)));
       }
       else {
 	instruction ins=i_addq;
-	if (name(bro(sum)) == offset_mult_tag &&
-	   name(bro(son(bro(sum)))) ==val_tag) {
+	if (bro(sum)->tag == offset_mult_tag &&
+	   bro(son(bro(sum)))->tag ==val_tag) {
 	  switch (no(bro(son(bro(sum))))) {
 	  case 4:
 	    ins=i_s4addq;
@@ -351,7 +351,7 @@ locate1(exp e, space sp, shape s, int dreg)
       instore isa;
       isa.adval = 1;
       sum = bro(sum);
-      if (name(sum) == val_tag) {
+      if (sum->tag == val_tag) {
 	instore isa;
 	isa.b.base = ind;
 	isa.b.offset = -no(e);
@@ -449,7 +449,7 @@ locate1(exp e, space sp, shape s, int dreg)
 	    isa.b.base = reg;
 	    isa.b.offset = 0;
 	    setinsalt(aa, isa);
-	    if (name(e)!= contvol_tag && fc.ashwhere.ashalign != 1)
+	    if (e->tag!= contvol_tag && fc.ashwhere.ashalign != 1)
 	      keepexp(e, aa);
 	  }
 	  goto breakson;

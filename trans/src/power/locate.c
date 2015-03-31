@@ -227,11 +227,11 @@ static where locate1(exp e, space sp, shape s, int dreg)
   ans aa;
   where wans;
 
-  asm_comment("locate1: name(e) =%d, name(s) =%d, dreg=%d", name(e), name(s), dreg);
+  asm_comment("locate1: e->tag =%d, s->tag =%d, dreg=%d", e->tag, s->tag, dreg);
 
   a = ashof(s);
 
-  switch (name(e))
+  switch (e->tag)
   {
    case name_tag:
     {
@@ -239,7 +239,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
       exp dc = son(e);
       bool var = isvar(dc);
 
-      asm_comment("locate1 name_tag: name(dc) =%d, var=%d", name(dc), var);
+      asm_comment("locate1 name_tag: dc->tag =%d, var=%d", dc->tag, var);
 
       if (props(dc) & defer_bit)
       {
@@ -305,7 +305,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
 	/* ... it is in memory */
 	instore is;
 
-	if (var|| (name(sh(e)) == prokhd &&
+	if (var|| (sh(e)->tag == prokhd &&
 		     (son(dc) == NULL || IS_A_PROC(son(dc)))))
 	{
 	  is.adval = 1;
@@ -320,7 +320,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
 	is.b.offset += (no(e) / 8);
 
 #if 1
-	if (var && name(sh(e))!= prokhd && !IS_FIXREG(is.b.base) && is.b.offset == 0)
+	if (var && sh(e)->tag!= prokhd && !IS_FIXREG(is.b.base) && is.b.offset == 0)
 	{
 	  /*
 	   * A global which has to be accessed via TOC.
@@ -436,7 +436,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
       /* register ind contains the evaluation of 1st operand of addptr */
       nsp = guardreg(ind, sp);
 
-      if (name(bro(sum)) == env_offset_tag || name(bro(sum)) ==general_env_offset_tag)
+      if (bro(sum)->tag == env_offset_tag || bro(sum)->tag ==general_env_offset_tag)
       {
 	is.b.base = ind;
 	is.b.offset = frame_offset(son(bro(sum)));
@@ -475,7 +475,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
 
       isa.adval = 1;
       sum = bro(sum);
-      if (name(sum) == val_tag)
+      if (sum->tag == val_tag)
       {
 	instore isa;
 
@@ -593,7 +593,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
 	    isa.b.base = reg;
 	    isa.b.offset = 0;
 	    setinsalt(aa, isa);
-	    if (name(e)!= contvol_tag && fc.ashwhere.ashalign != 1)
+	    if (e->tag!= contvol_tag && fc.ashwhere.ashalign != 1)
 	      keepexp(e, aa);
 	  }
 	  goto breakson;

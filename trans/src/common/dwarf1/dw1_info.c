@@ -122,17 +122,17 @@ code_diag_info(diag_info *d, int proc_no, void(*mcode)(void *), void *args)
 		next_dwarf_lab(&tlab);
 		OUT_DWARF_BEG(&tlab);	/* always needed for start_scope */
 		while (1) {
-			if (name(x) != hold_tag) {
+			if (x->tag != hold_tag) {
 				error(ERR_INTERNAL, "access should be in hold");
 				break;
 			}
 			x = son(x);
-			if (name(x) == cont_tag && name(son(x)) == name_tag &&
+			if (x->tag == cont_tag && son(x)->tag == name_tag &&
 			    isvar(son(son(x)))) {
 				x = son(x);
 			}
-			if ((name(x) != name_tag || isdiscarded(x)) &&
-			    name(x) != val_tag && name(x) != null_tag) {
+			if ((x->tag != name_tag || isdiscarded(x)) &&
+			    x->tag != val_tag && x->tag != null_tag) {
 				break;	/* should do better ! */
 			}
 
@@ -142,7 +142,7 @@ code_diag_info(diag_info *d, int proc_no, void(*mcode)(void *), void *args)
 					TDFSTRING2CHAR(d->data.id_scope.nme));
 				break;
 			}
-			if (name(x) == name_tag && isglob(son(x))) {
+			if (x->tag == name_tag && isglob(son(x))) {
 				if (brog(son(x)) ->extnamed) {
 					break;
 				} else {
@@ -151,7 +151,7 @@ code_diag_info(diag_info *d, int proc_no, void(*mcode)(void *), void *args)
 					/* only for local vars */
 					out_dwarf_start_scope(&tlab);
 				}
-			} else if (name(x) == name_tag && isparam(son(x))) {
+			} else if (x->tag == name_tag && isparam(son(x))) {
 				cont_sib_chain(TAG_formal_parameter);
 			} else {
 				cont_sib_chain(TAG_local_variable);
@@ -224,7 +224,7 @@ dw1_output_diag(diag_info *d, int proc_no, exp e)
 		case DIAG_INFO_ID: {
 			exp x = d->data.id_scope.access;
 
-			if (name(x) != name_tag) {
+			if (x->tag != name_tag) {
 				error(ERR_INTERNAL, "diagnosing non-identifier");
 				return;
 			}

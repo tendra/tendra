@@ -34,7 +34,7 @@
  */
 static bool is_worth_cont_aux(exp c)
 {
-	switch(name(c)) {
+	switch (c->tag) {
 	case reff_tag:
 		if (no(c) != 0) {
 			return 0;    /* dont optimise non-zero offset */
@@ -63,15 +63,15 @@ static bool is_worth_cont_aux(exp c)
 bool
 is_worth(exp c)
 {
-	int cnam = name(c);
+	int cnam = c->tag;
 	shape s = sh(c);
 
-	if (!is_floating(name(s)) && !valregable(s)) {
+	if (!is_floating(s->tag) && !valregable(s)) {
 		/* cannot go inreg, and anyway * too big to be worthwhile */
 		return false;
 	}
 
-	if (name(s) == ptrhd && al1(s) == 1) {
+	if (s->tag == ptrhd && al1(s) == 1) {
 		return false;    /* ptr bits */
 	}
 
@@ -83,7 +83,7 @@ is_worth(exp c)
 		return false;    /* never identify a goto (causes bad labels) */
 	}
 
-	if (cnam == cont_tag && name(son(c)) == name_tag) {
+	if (cnam == cont_tag && son(c)->tag == name_tag) {
 		/* a simple load, most worthwile for globals to avoid TOC access */
 		return INMEMIDENT(son(son(c)));
 	}
@@ -93,9 +93,9 @@ is_worth(exp c)
 		return is_worth_cont_aux(son(c));
 	}
 
-	if (cnam == name_tag && isglob(son(c)) && name(s) != prokhd) {
+	if (cnam == name_tag && isglob(son(c)) && s->tag != prokhd) {
 		/* avoid load of TOC table entry in loops, except for params where there is no load delay */
-		return name(father(c)) != apply_tag;
+		return father(c)->tag != apply_tag;
 	}
 
 	if (cnam == val_tag) {
@@ -103,7 +103,7 @@ is_worth(exp c)
 		long n = no(c);
 		exp dad = father(c);
 
-		switch (name(dad)) {
+		switch (dad->tag) {
 		case and_tag:	/* +++ allow for rlimn instruction */
 		case or_tag:
 		case xor_tag:
@@ -128,7 +128,7 @@ is_worth(exp c)
 			/* +++ better way of working out inmem lhs */
 			exp lhs = son(dad);
 
-			if (name(lhs) == name_tag) {
+			if (lhs->tag == name_tag) {
 				if (INMEMIDENT(son(lhs))) {
 					return true;    /* inmem */
 				} else {

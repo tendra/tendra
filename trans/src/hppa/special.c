@@ -144,7 +144,7 @@ specialneeds(int i, exp application, exp pars)
 int
 specialfn(exp fn)
 {
-  if (name(fn) == name_tag && name(son(fn)) == ident_tag &&
+  if (fn->tag == name_tag && son(fn)->tag == ident_tag &&
       isglob(son(fn)) && son(son(fn)) == NULL)
   {
     char *extname = brog(son(fn))->dec_id;
@@ -158,7 +158,7 @@ specialfn(exp fn)
 int
 specialopt(exp fn)
 {
-  if (name(fn) == name_tag && name(son(fn)) == ident_tag &&
+  if (fn->tag == name_tag && son(fn)->tag == ident_tag &&
       isglob(son(fn)) && son(son(fn)) == NULL)
   {
     char *extname = brog(son(fn))->dec_id;
@@ -197,7 +197,7 @@ specialmake(int i, exp par, space sp, where dest, int exitlab)
 
       /* "par" is (eval_tag (pack_tag (string_tag no=string-table-index))) */
       e = son(son(par));
-      if (name(e) != string_tag)
+      if (e->tag != string_tag)
       {
 	error(ERR_SERIOUS, "asm argument not string");
 	return 0;
@@ -223,7 +223,7 @@ specialmake(int i, exp par, space sp, where dest, int exitlab)
 
        dreg = ((discrim(dest.answhere)==inreg) ? regalt(dest.answhere) : getreg(sp.fixed));
 
-       if (name(par) == val_tag)
+       if (par->tag == val_tag)
        {
 	  /* n is a constant */
 	  int n = no(par);

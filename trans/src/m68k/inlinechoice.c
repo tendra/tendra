@@ -49,12 +49,12 @@ int inlinechoice
     apars = bro(t);
     fpars = son(def);
     for (; ;) {
-	if (name(fpars)!= ident_tag || !isparam(fpars)) {
-	    if (name(apars)!= top_tag)newdecs = 10;
+	if (fpars->tag!= ident_tag || !isparam(fpars)) {
+	    if (apars->tag!= top_tag)newdecs = 10;
 	    break;
 	}
 
-	switch (name(apars)) {
+	switch (apars->tag) {
 	    case val_tag:
 	    case real_tag:
 	    case string_tag:
@@ -62,7 +62,7 @@ int inlinechoice
 		break;
 	    }
 	    case cont_tag: {
-		if (name(son(apars)) == name_tag &&
+		if (son(apars)->tag == name_tag &&
 		     isvar(son(son(apars))) &&
 		     !isvar(fpars))break;
 		/* ... else continue */

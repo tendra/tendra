@@ -62,10 +62,10 @@ suses(exp e, space * pars, int incpars)
   ans = zsp;
   if (e == NULL)
     return ans;
-  switch (name(e)) {
+  switch (e->tag) {
     case name_tag: {
 	exp id = son (e);
-	if (name (id) == ident_tag) {
+	if (id->tag == ident_tag) {
 	  if (isglob (id) || (props (id) & inanyreg) == 0)
 	    return ans /* global or not in register */ ;
 	  if ((props (id) & defer_bit) != 0)
@@ -132,12 +132,12 @@ suses(exp e, space * pars, int incpars)
 	/* proc call preserves s-regs; however must make sure that any
 	   pars destined for s-regs get there */
 	exp dad = father(e);
-	if (name(dad)==res_tag && props(dad)) {
+	if (dad->tag==res_tag && props(dad)) {
 		/* tl recursion  - don't have to dump link or later regs */
 		int i;
 		exp p = bro(son(e));
 
-		if (last(son(e)) || name(p)==top_tag) return ans;
+		if (last(son(e)) || p->tag==top_tag) return ans;
 		for(i=(incpars>4)?incpars:4; ; i++) {
 			if (!valregable(sh(p))) i=8;
 			maxsp(&ans, suses(p, pars, i));
@@ -207,14 +207,14 @@ goodcond(exp first, exp second, space * beforeb, space * pars)
   exp t;
   space nds;
   int   n = no (son (second));	/* no of uses of labst second */
-  if (name (first) != seq_tag)
+  if (first->tag != seq_tag)
     return NULL;
   t = son (son (first));
   *beforeb = zsp;
   for (;;) {
     maxsp(beforeb, suses(t, pars, 0));
 
-    if (name (t) == test_tag) {
+    if (t->tag == test_tag) {
       if (pt (t) != second)
 	return NULL;
       if (--n == 0) break;
@@ -236,7 +236,7 @@ alljumps(exp e, exp slv, int * nol)
 {
 	/* all all branches to labsts of slove_tag slv in e ? */
      recurse:
-	switch (name(e)) {
+	switch (e->tag) {
 	   case case_tag: {
 	   	exp z = bro(son(e));
 	   	for(;;) {
@@ -251,7 +251,7 @@ alljumps(exp e, exp slv, int * nol)
 	     	 if (father(pt(e))==slv) {
 	     	 	if (--(*nol)==0) return 1;
 	     	 }
-	     	 if (name(e)== goto_tag) return 0;
+	     	 if (e->tag== goto_tag) return 0;
 	     	 /* and continue */
 	   }
 	   case name_tag: case val_tag: case float_tag: case string_tag:
@@ -300,14 +300,14 @@ pushdumps(exp * pe, space * dmpd, space * tobd, space * pars)
   exp e = *(pe);
   exp *arg;
 
-  switch (name (e)) {
+  switch (e->tag) {
     case ident_tag: {
 	nds = suses (son (e), pars,0);
 	if ((props (e) & inanyreg) != 0 && no (e) == 0) {
 	  /*  This definition will be allocated into a t-reg so make sure
 	     of enough t-regs which are not par regs; I reuse any par
 	     registers whose pars are put in s-regs as t-regs  */
-	  if (is_floating (name (sh (son (e))))) {
+	  if (is_floating (sh(son(e))->tag)) {
 	    if (notfregs-- < 0) {
 	      nds = remd (tobd, dmpd);
 	      placedump ( pe, dmpd, tobd, &nds);
@@ -323,7 +323,7 @@ pushdumps(exp * pe, space * dmpd, space * tobd, space * pars)
 	  }
 	}
 
-	if (name (son (e)) != clear_tag ||
+	if (son(e)->tag != clear_tag ||
 	      (isparam(e) && props(son(e))==0 /* ie initially on stack */)  ) {
 	  /* id could be in s-reg; find from use */
 	  maxsp (&nds, suses (pt (e), pars, 0));
@@ -364,7 +364,7 @@ pushdumps(exp * pe, space * dmpd, space * tobd, space * pars)
 	    /* uses undumped s-regs; construct new seq as result of this
 	       one .... */
 	    exp s_hold = getexp (sh (e), bro (son (e)), 0, list, NULL, 0, 0,
-		name (son (e)));
+		son(e)->tag);
 	    exp seq = getexp (sh (e), e, 1, s_hold, NULL, 0, 0, seq_tag);
 
 	    bro (prev) = son (e);
@@ -407,11 +407,8 @@ pushdumps(exp * pe, space * dmpd, space * tobd, space * pars)
 	  	}
 	  }
 	  if (!last (t)) {
-	    exp seq_hold =
-	      getexp (sh (first), bro (son (first)), 0, bro (t), NULL, 0, 0,
-		name (son (first)));
-	    exp new =
-	      getexp (sh (first), first, 1, seq_hold, NULL, 0, 0, seq_tag);
+	    exp seq_hold = getexp (sh (first), bro (son (first)), 0, bro (t), NULL, 0, 0, son(first)->tag);
+	    exp new = getexp (sh (first), first, 1, seq_hold, NULL, 0, 0, seq_tag);
 	    exp x = son (seq_hold);
 	    while (!last (x)) {
 	      x = bro (x);
@@ -497,7 +494,7 @@ dump_opt(exp rscope, space * tobd, space * pars)
   notregs = 10;
   notfregs = 8;			/* no of t-regs != par regs */
   if (~optim & OPTIM_DUMP || No_S || sameregs (tobd, &dmpd) ||
-  	name(rscope)!=proc_tag) {
+  	rscope->tag!=proc_tag) {
     placedump ( arg, &dmpd, tobd, tobd);
   }
   else {

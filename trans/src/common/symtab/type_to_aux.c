@@ -172,7 +172,7 @@ add_type_to_aux(diag_type dt, long ind)
 			break;
 
 		case DIAG_TYPE_VARIETY: {
-			switch (name(dt->data.var)) {
+			switch (dt->data.var->tag) {
 			case scharhd: type->bt = btChar;   retaux.ti = (*type); break;
 			case ucharhd: type->bt = btUChar;  retaux.ti = (*type); break;
 			case swordhd: type->bt = btShort;  retaux.ti = (*type); break;

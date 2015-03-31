@@ -1661,7 +1661,7 @@ f_dg_static_bound(exp bound)
 {
 	dg_bound ans;
 
-	if (name(bound) != val_tag) {
+	if (bound->tag != val_tag) {
 		error(ERR_INTERNAL, "not a constant");
 	}
 
@@ -1806,7 +1806,7 @@ f_make_dg_enum(exp value, dg_idname idname, dg_sourcepos src_pos)
 {
 	dg_enum ans;
 
-	if (!value || name(value) != val_tag) {
+	if (!value || value->tag != val_tag) {
 		error(ERR_INTERNAL, "enum value not const");
 	}
 
@@ -1824,7 +1824,7 @@ f_dg_char_enum(exp value, nat idchar, dg_sourcepos src_pos)
 {
 	dg_enum ans;
 
-	if (!value || name(value) != val_tag) {
+	if (!value || value->tag != val_tag) {
 		error(ERR_INTERNAL, "enum value not const");
 	}
 
@@ -2264,7 +2264,7 @@ f_make_dg_discrim(exp lower, exp upper)
 {
 	dg_discrim ans;
 
-	if (name(lower) != val_tag || name(upper) != val_tag ||
+	if (lower->tag != val_tag || upper->tag != val_tag ||
 	    sh(lower) != sh(upper)) {
 		error(ERR_INTERNAL, "malformed discriminant");
 	}

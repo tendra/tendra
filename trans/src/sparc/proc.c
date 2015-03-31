@@ -122,7 +122,7 @@ static int aritherr_lab = 0;
 int stackerr_lab = 0;
 int local_stackerr_lab = 0;
 
-#define is64(X)((name(X) ==u64hd) || (name(X) ==s64hd))
+#define is64(X)((X->tag ==u64hd) || (X->tag ==s64hd))
 
 
 static void
@@ -165,8 +165,8 @@ update_plc(postlude_chain* chain, int maxargs) {
 
   while (chain) {
     exp pl = chain->postlude;
-    while (name(pl) == ident_tag) {
-      if (name(son(pl)) == caller_name_tag)
+    while (pl->tag == ident_tag) {
+      if (son(pl)->tag == caller_name_tag)
 	no(pl) += (maxargs<<1);
       pl = bro(son(pl));
     }
@@ -193,9 +193,9 @@ makeans make_proc_tag_code
   exp par;
   old_postludes = (postlude_chain*)NULL;
   current_proc = e;
-  Has_vcallees = (name(e) == general_proc_tag) && (proc_has_vcallees(e));
-  Has_no_vcallers = (name(e) == proc_tag) || (!proc_has_vcallers(e));
-  in_general_proc = (name(e) == general_proc_tag);
+  Has_vcallees = (e->tag == general_proc_tag) && (proc_has_vcallees(e));
+  Has_no_vcallers = (e->tag == proc_tag) || (!proc_has_vcallers(e));
+  in_general_proc = (e->tag == general_proc_tag);
 
   UNUSED(dest);
 
@@ -217,7 +217,7 @@ makeans make_proc_tag_code
   }
 
   /* this is a procedure definition */
-  assert(name(e) == proc_tag || name(e) == general_proc_tag);
+  assert(e->tag == proc_tag || e->tag == general_proc_tag);
 
   /* set global flag for res_tag */
   proc_state.leaf_proc = leaf;
@@ -279,7 +279,7 @@ makeans make_proc_tag_code
   }
 #endif
 
-  if (name(e) == general_proc_tag) {
+  if (e->tag == general_proc_tag) {
     if (proc_has_checkstack(e) && (st > 64)) {
       rir_ins(i_save,R_SP,-64,R_SP);
     }
@@ -328,7 +328,7 @@ makeans make_proc_tag_code
 
   local_stackerr_lab = 0;
   stackerr_lab = 0;
-  if (name(e) == general_proc_tag) {
+  if (e->tag == general_proc_tag) {
     if (proc_has_checkstack(e)) {
       baseoff b;
       int rtmp;
@@ -421,12 +421,12 @@ makeans make_proc_tag_code
 
     /* Move params if necessary */
   par = son(e);
-  while (name(par) == ident_tag) {
+  while (par->tag == ident_tag) {
     if (isparam(par)) {
       /* Got a parameter ident */
       int r = (int)props(son(par));
       /* ( r == 0 ) ? ( on stack ) : ( input reg no ) */
-/*	assert ( name ( son ( par ) ) == clear_tag ) ;*/
+/*	assert ( son ( par ) -> tag == clear_tag ) ;*/
 
       if (r != 0) {
 	/* Parameter in register */
@@ -440,18 +440,18 @@ makeans make_proc_tag_code
 		     !floatregable(par));
 	  }
 	  else if (no(par) == r) {
-	    if (name(sh(son(par))) == ucharhd) {
+	    if (sh(son(par))->tag == ucharhd) {
 	      rir_ins(i_and, r, 255, no(par));
 	    }
-	    else if (name(sh(son(par))) == uwordhd) {
+	    else if (sh(son(par))->tag == uwordhd) {
 	      rir_ins(i_and, r, 65535, no(par));
 	    }
 	  }
 	  else {
-	    if (name(sh(son(par))) == ucharhd) {
+	    if (sh(son(par))->tag == ucharhd) {
 	      rir_ins(i_and, r, 255, no(par));
 	    }
-	    else if (name(sh(son(par))) == uwordhd) {
+	    else if (sh(son(par))->tag == uwordhd) {
 	      rir_ins(i_and, r, 65535, no(par));
 	    }
 	    else {
@@ -584,7 +584,7 @@ makeans make_res_tag_code
   mka.regmove = NOREG;
 
   UNUSED(dest);
-  assert(name(e) == res_tag || name(e) == untidy_return_tag);
+  assert(e->tag == res_tag || e->tag == untidy_return_tag);
 
   w.answhere = proc_state.procans;
   w.ashwhere = ashof(sh(son(e)));
@@ -611,7 +611,7 @@ makeans make_res_tag_code
     default :
     {
       /* not struct or union result */
-      if (proc_state.leaf_proc && name(e) == res_tag && !sysV_assembler
+      if (proc_state.leaf_proc && e->tag == res_tag && !sysV_assembler
 #ifdef TDF_DIAG4
 		&& !diag_visible) {
 #else
@@ -646,7 +646,7 @@ makeans make_res_tag_code
 	  if (diag == DIAG_DWARF2)
 	    dw2_return_pos(0);
 #endif
-	  if (name(e) == res_tag) {
+	  if (e->tag == res_tag) {
 	    ret_restore_ins();
 	  }
 	  else {
@@ -684,7 +684,7 @@ makeans make_res_tag_code
 	if (diag == DIAG_DWARF2)
 	  dw2_return_pos(0);
 #endif
-	if (name(e) == res_tag) {
+	if (e->tag == res_tag) {
 	  ret_restore_ins();
 	}
 	else {
@@ -715,14 +715,14 @@ makeans make_apply_tag_code
   exp fn = son(e);
   exp par = bro(fn);
   exp list = par;
-  int hda = (int)name(sh(e));
+  int hda = (int)sh(e)->tag;
   int special;
   int param_reg = R_O0 ;	 /* next param reg to use */
   int param_regs_used ;	 /* how many were used */
   ash ansash;
   space nsp;
-  int void_result = ((name(sh(e)) == tophd) ||
-		    (name(sh(e)) == bothd));
+  int void_result = ((sh(e)->tag == tophd) ||
+		    (sh(e)->tag == bothd));
 
   int reg_res = reg_result(sh(e));
   int guarded_dest_reg = R_NO_REG ;/* reg used to address tuple result */
@@ -730,13 +730,13 @@ makeans make_apply_tag_code
 
   exp dad = father(e);
   bool tlrecurse = (bool)(proc_state.rscope_level == 0 &&
-			      name(dad) == res_tag && props(dad));
+			      dad->tag == res_tag && props(dad));
 
   nsp = sp;
 
   mka.lab = exitlab;
   mka.regmove = NOREG;
-  assert(name(e) == apply_tag);
+  assert(e->tag == apply_tag);
 
   /* first see if it is a special to be handled inline */
   if ((special = specialfn(fn)) > 0) {
@@ -800,7 +800,7 @@ makeans make_apply_tag_code
       ash ap;
       where w;
       shape a = sh(list);
-      int hd = (int)name(a);
+      int hd = (int)a->tag;
       ap = ashof(a);
       w.ashwhere = ap;
 
@@ -888,11 +888,11 @@ makeans make_apply_tag_code
     extj_special_ins(i_call, special_call_name(special),
 		       param_regs_used);
   }
-  else if (name(fn) == name_tag &&
-	      name(son(fn)) == ident_tag &&
+  else if (fn->tag == name_tag &&
+	      son(fn)->tag == ident_tag &&
 	     (son(son(fn)) == NULL ||
-		(name(son(son(fn))) == proc_tag ||
-		 name(son(son(fn))) == general_proc_tag))) {
+		(son(son(fn))->tag == proc_tag ||
+		 son(son(fn))->tag == general_proc_tag))) {
     baseoff b;
     b = boff(son(fn));
     if (!tlrecurse) {
@@ -1014,8 +1014,8 @@ static space do_callers
     ash ap;
     where w;
     shape a = sh(list);
-    int hd = (int)name(a);
-    exp par = (name(list) == caller_tag)?son(list): list;
+    int hd = (int)a->tag;
+    exp par = (list->tag == caller_tag)?son(list): list;
     ap = ashof(a);
     w.ashwhere = ap;
     if (is_floating(hd) && *param_reg <= last_reg) {
@@ -1090,8 +1090,8 @@ static space do_callers
 	baseoff curr_pos;
 	curr_pos.base = R_SP;
 	curr_pos.offset = start_offset;
-	if (is64(sh(list)) || (name(sh(list)) == cpdhd) ||
-	  (name(sh(list)) == nofhd)) {
+	if (is64(sh(list)) || (sh(list)->tag == cpdhd) ||
+	  (sh(list)->tag == nofhd)) {
 	  rir_ins(i_add,curr_pos.base,curr_pos.offset,*param_reg);
 	 (*param_reg) ++;
 	  block_size -=32;
@@ -1162,7 +1162,7 @@ static void move_parameters
   /* top is sp + param_offset + callers * num */
   while (!last_caller) {
     last_caller = last(current_caller);
-    if (name(current_caller) == caller_tag) {
+    if (current_caller->tag == caller_tag) {
       has_callers = 1;
     }
     current_caller = bro(current_caller);
@@ -1186,7 +1186,7 @@ static void move_parameters
 
   for (i=no(callers);i>0;--i) {
     exp par = get_param(son(callers),i);
-    if (name(par) == caller_tag) {
+    if (par->tag == caller_tag) {
       /* move it up the stack */
       b.base = rtop;
       ld_ro_ins(i_ld,b,rtmp);
@@ -1214,20 +1214,20 @@ makeans make_apply_general_tag_code
   exp callers = bro(fn);
   exp cllees = bro(callers);
   exp postlude = bro(cllees);
-  int hda = (int)name(sh(e));
+  int hda = (int)sh(e)->tag;
   int param_reg = R_O0;
   int param_regs_used;
   ash ansash;
   space nsp;
-  int void_result = ((name(sh(e)) == tophd) ||
-		    (name(sh(e)) == bothd));
+  int void_result = ((sh(e)->tag == tophd) ||
+		    (sh(e)->tag == bothd));
 
   int reg_res = reg_result(sh(e));
   int guarded_dest_reg = R_NO_REG; /* reg used to address tuple result */
   makeans mka;
   exp dad = father(e);
   bool tlrecurse = (bool)(proc_state.rscope_level == 0 &&
-			      name(dad) == res_tag && props(dad));
+			      dad->tag == res_tag && props(dad));
   bool trad_call = 0;
   ansash = ashof(sh(e));
   nsp = sp;
@@ -1241,12 +1241,12 @@ makeans make_apply_general_tag_code
   UNUSED(param_regs_used);
 
   if (gencompat && (call_has_vcallees(cllees) == 0)) {
-    if (name(cllees) == make_callee_list_tag) {
+    if (cllees->tag == make_callee_list_tag) {
       if (no(cllees) == 0)
 	trad_call = 1;
     }
-    else if (name(cllees) == make_dynamic_callee_tag) {
-      if (name(bro(son(cllees))) == val_tag && no(bro(son(cllees))) == 0)
+    else if (cllees->tag == make_dynamic_callee_tag) {
+      if (bro(son(cllees))->tag == val_tag && no(bro(son(cllees))) == 0)
 	trad_call = 1;
     }
     else {	/* same callees */
@@ -1323,10 +1323,10 @@ makeans make_apply_general_tag_code
   }
   call_base_reg = R_SP;
 
-  if (name(fn) == name_tag && name(son(fn)) == ident_tag &&
+  if (fn->tag == name_tag && son(fn)->tag == ident_tag &&
       (son(son(fn)) == NULL ||
-	(name(son(son(fn))) == proc_tag ||
-	  name(son(son(fn))) == general_proc_tag))) {
+	(son(son(fn))->tag == proc_tag ||
+	  son(son(fn))->tag == general_proc_tag))) {
     baseoff b;
     b = boff(son(fn));
     if (!tlrecurse) {
@@ -1384,11 +1384,11 @@ makeans make_apply_general_tag_code
     if ((gencompat && trad_call) || !gencompat)
       size_reg = R_NO_REG;
     else {
-      if (name(cllees) == make_callee_list_tag) {
+      if (cllees->tag == make_callee_list_tag) {
 	size_reg = getreg(nsp.fixed);
 	ir_ins(i_mov,((no(cllees) >>3) +23) &~7,size_reg);
       }
-      else if (name(cllees) == make_dynamic_callee_tag) {
+      else if (cllees->tag == make_dynamic_callee_tag) {
 	size_reg = reg_operand(bro(son(cllees)),nsp);
 	rir_ins(i_add,size_reg,4*(PTR_SZ>>3) +7,size_reg);
 	rir_ins(i_and,size_reg,~7,size_reg);
@@ -1460,7 +1460,7 @@ makeans make_apply_general_tag_code
 	}
 	else {
 	  /* no move required */
-	  assert(name(postlude) == top_tag);
+	  assert(postlude->tag == top_tag);
 	}
 	mka.regmove = R_O0;
       }
@@ -1483,7 +1483,7 @@ makeans make_apply_general_tag_code
 
   if (call_is_untidy(cllees)) {
     /*    rir_ins(i_sub,R_SP,proc_state.maxargs>>3,R_SP);*/
-    /*assert(name(bro(cllees)) == top_tag);*/
+    /*assert(bro(cllees)->tag == top_tag);*/
   }
   else if (postlude_has_call(e)) {
     exp x = son(callers);
@@ -1491,10 +1491,10 @@ makeans make_apply_general_tag_code
 
     if (x != NULL) {
       for (;;) {
-	if (name(x) == caller_tag) {
+	if (x->tag == caller_tag) {
 	  no(x) += proc_state.maxargs;
 #if 0
-	  if (name(sh(x)) == realhd) {
+	  if (sh(x)->tag == realhd) {
 	    no(x) -=32;
 	  }
 #endif
@@ -1807,20 +1807,20 @@ makeans make_tail_call_tag
   makeans mka;
   baseoff bproc;
 
-  bool glob = ((name(fn) == name_tag) && (name(son(fn)) == ident_tag) &&
-	      ((son(son(fn)) == NULL) || (name(son(son(fn))) == proc_tag)
-		|| (name(son(son(fn))) == general_proc_tag)));
+  bool glob = ((fn->tag == name_tag) && (son(fn)->tag == ident_tag) &&
+	      ((son(son(fn)) == NULL) || (son(son(fn))->tag == proc_tag)
+		|| (son(son(fn))->tag == general_proc_tag)));
   bool trad_proc = 0;
 
   UNUSED(dest);
 
   if (gencompat && !vc) {
-    if (name(cllees) == make_callee_list_tag) {
+    if (cllees->tag == make_callee_list_tag) {
       if (no(cllees) == 0)
 	trad_proc = 1;
     }
-    else if (name(cllees) == make_dynamic_callee_tag) {
-      if (name(bro(son(cllees))) == val_tag && no(bro(son(cllees))) == 0)
+    else if (cllees->tag == make_dynamic_callee_tag) {
+      if (bro(son(cllees))->tag == val_tag && no(bro(son(cllees))) == 0)
 	trad_proc = 1;
     }
     else {	/* same callees */
@@ -1833,24 +1833,24 @@ makeans make_tail_call_tag
   mka.regmove = R_G0;
   nsp = sp;
   nsp.fixed |= PARAM_TREGS;
-  if (name(cllees)!= same_callees_tag) {
+  if (cllees->tag!= same_callees_tag) {
     code_here(cllees,sp,nowhere);
   }
 #ifndef TDF_DIAG4
-  for (;name(bdy) == diagnose_tag;bdy=son(bdy));
+  for (;bdy->tag == diagnose_tag;bdy=son(bdy));
 #endif
 
-  while (name(bdy) == ident_tag && isparam(bdy)) {
+  while (bdy->tag == ident_tag && isparam(bdy)) {
     exp sbdy = son(bdy);
     baseoff b;
     b.base = R_FP;
     b.offset = (no(sbdy) >>3) + (proc_state.params_offset>>3);
 
-    if (name(sbdy) == formal_callee_tag) {
+    if (sbdy->tag == formal_callee_tag) {
       if ((props(bdy) & inanyreg)!=0) {
 	b.offset -= (proc_state.callee_size>>3);
 	if (isvar(bdy)) {
-	  if (is_floating(name(sh(bdy)))) {
+	  if (is_floating(sh(bdy)->tag)) {
 	    stf_ins(i_st,no(bdy)<<1,b); 	/* add case for long double */
 	  }
 	  else {
@@ -1862,7 +1862,7 @@ makeans make_tail_call_tag
     else if (props(sbdy) == 0 && ((props(bdy) & inanyreg)!=0)) {
       /* move from reg to store */
       if (isvar(bdy)) {
-	if (is_floating(name(sh(sbdy)))) {
+	if (is_floating(sh(sbdy)->tag)) {
 	  stf_ins(i_stf,no(bdy) <<1,b);
 	}
 	else{
@@ -1892,10 +1892,10 @@ makeans make_tail_call_tag
       }
     }
     else if (props(sbdy)!= 0 && (props(sbdy)!= no(bdy))) {
-      if (is_floating(name(sh(sbdy)))) {
+      if (is_floating(sh(sbdy)->tag)) {
 	freg fr;
 	fr.fr = no(bdy);
-	fr.dble = (name(sh(sbdy)) == realhd);
+	fr.dble = (sh(sbdy)->tag == realhd);
 	stf_ins(i_st, fr.fr<<1, mem_temp(0));
 	ld_ro_ins(i_ld, mem_temp(0), props(sbdy));
 	if (fr.dble) {
@@ -1944,11 +1944,11 @@ makeans make_tail_call_tag
   else
   {
     bproc.offset = 12;
-    if (name(cllees)!= same_callees_tag) {
+    if (cllees->tag!= same_callees_tag) {
       rr_ins(i_mov,callee_start_reg_out,callee_start_reg);
       if (vc)rr_ins(i_mov,callee_end_reg_out,callee_end_reg);
     }
-    if (name(cllees) == same_callees_tag && (vc && !Has_vcallees)) {
+    if (cllees->tag == same_callees_tag && (vc && !Has_vcallees)) {
       rir_ins(i_add,callee_start_reg,callee_size>>3,callee_end_reg);
     }
 

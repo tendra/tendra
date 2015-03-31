@@ -214,7 +214,7 @@ static int do_mul_comm_const(exp seq, space sp, int final_reg, bool sgned)
   exp arg2 = bro(seq);
   int lhs_reg = reg_operand(seq, sp);
 
-  assert(name(arg2) == val_tag && offset_mul_const_simple(no(arg2), sgned)!= NOT_MUL_CONST_SIMPLE);
+  assert(arg2->tag == val_tag && offset_mul_const_simple(no(arg2), sgned)!= NOT_MUL_CONST_SIMPLE);
 
 
   sp = guardreg(lhs_reg, sp);
@@ -237,7 +237,7 @@ static int do_div(exp seq, space sp, int final_reg, bool sgned)
   exp rhs = bro(lhs);
   exp e = bro(rhs);
 
-  int div_type=name(bro(rhs));
+  int div_type=bro(rhs)->tag;
 
   int lhs_reg = reg_operand(lhs, sp);
   int rhs_reg;
@@ -252,7 +252,7 @@ static int do_div(exp seq, space sp, int final_reg, bool sgned)
 
   assert(last(rhs));
 
-  if (name(rhs) == val_tag && IS_POW2(no(rhs)))
+  if (rhs->tag == val_tag && IS_POW2(no(rhs)))
   {
     /*
      * OPTIMISATION: Division by power of 2 can be done as a shift
@@ -436,7 +436,7 @@ static int do_rem(exp seq, space sp, int final_reg, bool sgned)
   exp rhs = bro(lhs);
   exp e = bro(rhs);
   int lhs_reg;
-  int rem_type=name(bro(rhs));
+  int rem_type=bro(rhs)->tag;
   int rhs_reg;
   assert(last(rhs));
 
@@ -449,7 +449,7 @@ static int do_rem(exp seq, space sp, int final_reg, bool sgned)
     final_reg = getreg(sp.fixed);
   }
 
-  if (name(rhs) == val_tag && IS_POW2(no(rhs)))
+  if (rhs->tag == val_tag && IS_POW2(no(rhs)))
   {
     long constval = no(rhs);
 
@@ -661,7 +661,7 @@ int do_mul_comm_op(exp e, space sp, where dest, bool sgned)
 {
   exp arg2 = bro(son(e));
 
-  if (name(arg2) == val_tag &&
+  if (arg2->tag == val_tag &&
       offset_mul_const_simple(no(arg2), sgned)!= NOT_MUL_CONST_SIMPLE)
   {
     return find_reg_and_apply(e, sp, dest, sgned, do_mul_comm_const);
@@ -702,7 +702,7 @@ needs multneeds(exp *e, exp **at)
 
   /* remember that mult may have more than two args after optimisation */
 
-  if (last(arg2) && name(arg2) == val_tag)
+  if (last(arg2) && arg2->tag == val_tag)
   {
     /*
      * const optim, additional reg only needed where src and dest are same reg,
@@ -720,11 +720,11 @@ needs divneeds(exp *e, exp **at)
   needs n = likeminus(e, at);
   exp lhs = son(*e);
   exp rhs = bro(lhs);
-  bool sgned = name(sh(*e)) & 1;
+  bool sgned = sh(*e)->tag & 1;
 
   assert(last(rhs));
 
-  if (name(rhs) ==val_tag)
+  if (rhs->tag ==val_tag)
   {
     long constval = no(rhs);
 
@@ -749,11 +749,11 @@ needs remneeds(exp *e, exp **at)
   needs n = likeminus(e, at);
   exp lhs = son(*e);
   exp rhs = bro(lhs);
-  bool sgned = name(sh(*e)) & 1;
+  bool sgned = sh(*e)->tag & 1;
 
   assert(last(rhs));
 
-  if (name(rhs) ==val_tag)
+  if (rhs->tag ==val_tag)
   {
     long constval = no(rhs);
 

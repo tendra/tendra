@@ -78,7 +78,7 @@ static mm uswmm = { 0xffffffff, 0, "\t.word\t%ld\n" } ;
  */
 mm
 maxmin ( shape s ){
-  switch ( name ( s ) ) {
+  switch ( s->tag ) {
     case scharhd: return scmm;
     case ucharhd: return uscmm;
     case swordhd: return shmm;
@@ -113,9 +113,9 @@ outlab ( int ll ){
 static long 
 evalexp ( exp e )
 {
-  switch ( name ( e ) ) {
+  switch ( e->tag ) {
     case val_tag : {
-      if(name(sh(e)) == offsethd && al2(sh(e))>=8) {
+      if(sh(e)->tag == offsethd && al2(sh(e))>=8) {
 	return no(e)>>3;
       }
       else {
@@ -126,7 +126,7 @@ evalexp ( exp e )
     case env_offset_tag : {
       exp id = son(e);	/* as per tags.h, son is ident, not name */
     
-      assert (name(id) == ident_tag);
+      assert (id->tag == ident_tag);
     
       return boff_env_offset(id);
     }
@@ -163,7 +163,7 @@ evalexp ( exp e )
       ash a ;
       unsigned long w = ( unsigned long ) evalexp ( son ( e ) ) ;
       a = ashof ( sh ( e ) ) ;
-      if ( a.ashalign != 1 && !( name ( sh ( e ) ) == cpdhd &&
+      if ( a.ashalign != 1 && !( sh ( e ) -> tag == cpdhd &&
 				 a.ashalign == 32 ) ) {
 	error(ERR_SERIOUS,  "Illegal bitfield constant" ) ;
       }
@@ -197,7 +197,7 @@ evalexp ( exp e )
     }
 
     case shr_tag : {
-      bool sgned = ( bool ) ( name ( sh ( e ) ) & 1 ) ;
+      bool sgned = ( bool ) ( sh ( e ) -> tag & 1 ) ;
       long a1 = evalexp ( son ( e ) ) ;
       long a2 = evalexp ( bro ( son ( e ) ) ) ;
       if ( sgned ) {
@@ -432,7 +432,7 @@ addconcbitaux ( unsigned long w, int size, concbittype b4, bool ro ){
  */
 static concbittype 
 evalconcbitaux ( exp e, concbittype b4, bool ro ){
-  switch ( name ( e ) )    {
+  switch ( e->tag )    {
     case concatnof_tag : {
       concbittype lhs, rhs ;
       lhs = evalconcbitaux ( son ( e ), b4, ro ) ;
@@ -470,7 +470,7 @@ evalconcbit ( exp e, int bitposn, bool ro ){
 bool 
 is_zero ( exp e ){
   if ( e == NULL ) return 1;
-  switch ( name ( e ) ) {
+  switch ( e->tag ) {
     case null_tag : return 1;
     case val_tag : return no ( e ) == 0 ? 1 : 0 ;
     case ncopies_tag :
@@ -530,7 +530,7 @@ evalone ( exp e, int bitposn, bool ro ){
     insection ( data_section ) ;
   set_align ( al ) ;
   if ( al != 0 ) bitposn = ( int ) ( ( bitposn / al ) * al ) ;
-  switch ( name ( e ) ) {
+  switch ( e->tag ) {
     case string_tag : {
       /* Strings or arrays of integers */
       int i, j ;
@@ -586,14 +586,14 @@ evalone ( exp e, int bitposn, bool ro ){
       /* Fall through */
     }
     case val_tag : {
-      if(name(sh(e)) == s64hd || name(sh(e)) == u64hd){
+      if(sh(e)->tag == s64hd || sh(e)->tag == u64hd){
 	flt64 bval;
 	bval = exp_to_f64(e);
 	oneval(bval.small,32,1);
 	oneval(bval.big,32,1);
       }
       /* Integer constant */
-      if(al2(sh(e))>=8 && name(sh(e)) == offsethd){
+      if(al2(sh(e))>=8 && sh(e)->tag == offsethd){
 	no(e) = no(e)>>3;
       }
       if ( al == 1 ) {
@@ -709,7 +709,7 @@ evalone ( exp e, int bitposn, bool ro ){
       /* Multiple copies */
       ash c ;
       int i, n = no ( e ) ;
-      while ( name ( son ( e ) ) == ncopies_tag ) {
+      while ( son ( e ) -> tag == ncopies_tag ) {
 	e = son ( e ) ;
 	n *= no ( e ) ;
       }
@@ -792,7 +792,7 @@ evalone ( exp e, int bitposn, bool ro ){
     case minptr_tag : {
       exp p1 = son ( e ) ;
       exp p2 = bro ( p1 ) ;
-      if ( name ( p1 ) == name_tag && name ( p2 ) == name_tag ) {
+      if ( p1->tag == name_tag && p2->tag == name_tag ) {
 	long n = no ( p1 ) - no ( p2 ) ;
 	char *n1 = brog ( son ( p1 ) )->dec_id ;
 	char *n2 = brog ( son ( p2 ) )->dec_id ;
@@ -852,7 +852,7 @@ evaluated ( exp e, long ll, bool ro ){
   if ( is_zero ( e ) ) {
     int byte_size = ( int ) ( ( a.ashsize + 7 ) >> 3 ) ;
     int align = ( ( a.ashalign > 32 || a.ashsize > 32 ) ? 8 : 4 ) ;
-    if ( !extnamed || (name(e) == clear_tag && no(e) == -1) ||
+    if ( !extnamed || (e->tag == clear_tag && no(e) == -1) ||
 		/* SUNOS simplifies extraction of .common from library modules */
 	 (!sysV_assembler && dynamic_init_proc != NULL &&
 		!(main_globals [ -lab - 1 ]->is_common))
@@ -866,7 +866,7 @@ evaluated ( exp e, long ll, bool ro ){
 	asm_printf(",%d,\"bss\",%d\n", byte_size, align);
       }
 #ifdef DWARF2
-      if (diag == DIAG_DWARF2 && (name(e) == clear_tag && no(e) == -1))
+      if (diag == DIAG_DWARF2 && (e->tag == clear_tag && no(e) == -1))
         note_data (lab, ro);	/* do_prom */
 #endif
     } 

@@ -58,7 +58,7 @@ static int find_where(exp);
 int shtype
 (shape sha)
 {
-    char n = name(sha);
+    char n = sha->tag;
     if (n >= scharhd && n <= ulonghd) return Dreg;
     if (n >= shrealhd && n <= doublehd) return Freg;
     if (n != bitfhd && n != nofhd && n != cpdhd) return Areg;
@@ -117,7 +117,7 @@ static int find_where
 (exp e)
 {
     bitpattern rm;
-    switch (name(e)) {
+    switch (e->tag) {
 
 	case val_tag:
 	case null_tag:
@@ -164,9 +164,9 @@ static int find_where
 	case name_tag: {
 	    exp id = son(e);
 #if 0
-	    if ((name(sh(e)) == prokhd) &&
-	      ((son(id) == NULL) || (name(son(id)) == proc_tag) ||
-		(name(son(id)) == general_proc_tag))) {
+	    if ((sh(e)->tag == prokhd) &&
+	      ((son(id) == NULL) || (son(id)->tag == proc_tag) ||
+		(son(id)->tag == general_proc_tag))) {
 	      exp proc_cont = getexp(sh(e),NULL,0,e,NULL,0,
 				     0,cont_tag);
 	      /*return find_where(proc_cont);*/
@@ -201,14 +201,14 @@ static int find_where
 	case cont_tag:
 	case ass_tag: {
 	    exp r = son(e);
-	    switch (name(r)) {
+	    switch (r->tag) {
 
 		case name_tag: {
 		    exp id = son(r);
 		    long pt_id = ptno(id);
 		    if (isvar(id)) return find_where(r);
 		    if (isglob(id)) {
-			if (name(sh(e)) == prokhd) return External;
+			if (sh(e)->tag == prokhd) return External;
 			return Other;
 		    }
 		    switch (pt_id) {
@@ -226,7 +226,7 @@ static int find_where
 
 		case cont_tag: {
 		    exp rr = son(r);
-		    if (name(rr) == name_tag) {
+		    if (rr->tag == name_tag) {
 			exp id = son(rr);
 			if (!isvar(id))break;
 			if (isglob(id)) return Other;
@@ -248,7 +248,7 @@ static int find_where
 
 		case reff_tag: {
 		    exp rr = son(r);
-		    switch (name(rr)) {
+		    switch (rr->tag) {
 
 			case name_tag: {
 			    exp id = son(rr);
@@ -276,7 +276,7 @@ static int find_where
 		    exp eb = bro(rr);
 		    exp ec = simple_exp(cont_tag);
 		    son(ec) = rr;
-		    switch (name(eb)) {
+		    switch (eb->tag) {
 			case name_tag:
 			case cont_tag: return find_ind(eb, ec);
 			case offset_mult_tag: {
@@ -292,7 +292,7 @@ static int find_where
 	case reff_tag:
 	case dummy_tag: {
 	    exp r = son(e);
-	    switch (name(r)) {
+	    switch (r->tag) {
 
 		case ident_tag: {
 		    if (ptno(r) == reg_pl) {
@@ -330,7 +330,7 @@ static int find_where
 	    exp eb = bro(r);
 	    exp ec = simple_exp(cont_tag);
 	    son(ec) = r;
-	    switch (name(eb)) {
+	    switch (eb->tag) {
 		case name_tag:
 		case cont_tag: return find_ind(eb, ec);
 		case offset_mult_tag: {
@@ -361,10 +361,10 @@ where mw
   where w;
 #if 0
 
-  if ((name(e) ==name_tag && name(sh(e)) == prokhd) &&
-      !(((son(son(e)) == NULL || name(son(son(e))) == proc_tag ||
-	  name(son(son(e))) == apply_tag ||
-	  name(son(son(e))) == apply_general_tag)))) {
+  if ((e->tag ==name_tag && sh(e)->tag == prokhd) &&
+      !(((son(son(e)) == NULL || son(son(e))->tag == proc_tag ||
+	  son(son(e))->tag == apply_tag ||
+	  son(son(e))->tag == apply_general_tag)))) {
     exp proc_cont = getexp(sh(e),NULL,0,e,NULL,0,0,cont_tag);
     e = proc_cont;
   }
@@ -540,8 +540,8 @@ bool eq_where_a
     where sa, sb;
     exp a = wa.wh_exp;
     exp b = wb.wh_exp;
-    char na = name(a);
-    char nb = name(b);
+    char na = a->tag;
+    char nb = b->tag;
 
     if (wa.wh_off != wb.wh_off) return 0;
     if (a == b) return 1;
@@ -614,7 +614,7 @@ bool eq_where_a
     }
 
     if ((na == cont_tag || na == ass_tag) &&
-	 name(son(a)) == name_tag &&
+	 son(a)->tag == name_tag &&
 	 isvar(son(son(a))) &&
 	(nb == ident_tag || nb == name_tag)) {
 	if (no(son(a))) return 0;
@@ -624,7 +624,7 @@ bool eq_where_a
     }
 
     if ((nb == cont_tag || nb == ass_tag) &&
-	 name(son(b)) == name_tag &&
+	 son(b)->tag == name_tag &&
 	 isvar(son(son(b))) &&
 	(na == ident_tag || na == name_tag)) {
 	if (no(son(b))) return 0;

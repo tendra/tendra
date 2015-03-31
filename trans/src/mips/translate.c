@@ -95,7 +95,7 @@ not_reserved(char *id)
 static char
 varsize(shape sha)
 {
-	return name(sha) == nofhd;
+	return sha->tag == nofhd;
 }
 
 int current_symno;
@@ -137,7 +137,7 @@ code_it(dec *my_def)
 	}
 
 	if (son(tg) != NULL && (!extnamed || !is_comm(son(tg)))) {
-		if (name(son(tg)) == proc_tag || name(son(tg)) == general_proc_tag) {
+		if (son(tg)->tag == proc_tag || son(tg)->tag == general_proc_tag) {
 			diag_descriptor * dd =  my_def->diag_info;
 
 			/* compile code for proc */
@@ -195,7 +195,7 @@ code_it(dec *my_def)
 		shape s = (son(tg) == NULL) ? my_def->dec_shape : sh(son(tg));
 		size = (shape_size(s) + 7) >> 3;
 
-		if ((isvar(tg) || name(s) != prokhd) && not_reserved(id)) {
+		if ((isvar(tg) || s->tag != prokhd) && not_reserved(id)) {
 			if ((son(tg) != NULL && is_comm(son(tg)))
 			    || (son(tg) == NULL && varsize(sh(tg))))
 			{
@@ -239,8 +239,8 @@ mark_unaliased(exp e)
 
 	for (p = pt(e); p != NULL && ca; p = pt(p)) {
 		if (bro(p) == NULL ||
-		    (!(last(p) && name(bro(p)) == cont_tag) &&
-		     !(!last(p) && last(bro(p)) && name(bro(bro(p))) == ass_tag))) {
+		    (!(last(p) && bro(p)->tag == cont_tag) &&
+		     !(!last(p) && last(bro(p)) && bro(bro(p))->tag == ass_tag))) {
 			ca = 0;
 		}
 	}
@@ -281,7 +281,7 @@ local_translate_capsule(void)
 			exp crt_exp = my_def->dec_exp;
 			char * id = my_def->dec_id;
 			if (streq(id, "main") && son(crt_exp) != NULL &&
-			    name(son(crt_exp)) == proc_tag) {
+			    son(crt_exp)->tag == proc_tag) {
 				exp fn = me_obtain(find_named_tg("__DO_I_TDF", f_proc));
 				exp cll = getexp(f_top, NULL, 0, fn, NULL, 0, 0, apply_tag);
 				exp * dm = &son(son(crt_exp));
@@ -289,7 +289,7 @@ local_translate_capsule(void)
 				bro(fn) = cll;
 				setlast(fn);
 
-				while (name(*dm) == ident_tag && isparam(*dm)) {
+				while ((*dm)->tag == ident_tag && isparam(*dm)) {
 					dm = &bro(son(*dm));
 				}
 				/* dm is body of main after params */
@@ -320,8 +320,8 @@ local_translate_capsule(void)
 	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
 		exp crt_exp = my_def->dec_exp;
 		if (son(crt_exp) != NULL
-		    && (name(son(crt_exp)) == proc_tag ||
-		        name(son(crt_exp)) == general_proc_tag)) {
+		    && (son(crt_exp)->tag == proc_tag ||
+		        son(crt_exp)->tag == general_proc_tag)) {
 			noprocs++;
 		}
 	}
@@ -337,7 +337,7 @@ local_translate_capsule(void)
 	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
 		exp crt_exp = my_def->dec_exp;
 		if (son(crt_exp) != NULL &&
-		    (name(son(crt_exp)) == proc_tag || name(son(crt_exp)) == general_proc_tag)) {
+		    (son(crt_exp)->tag == proc_tag || son(crt_exp)->tag == general_proc_tag)) {
 			no(son(crt_exp)) = noprocs++;
 			/* put index into procrecs in no(proc) */
 		}
@@ -370,8 +370,8 @@ local_translate_capsule(void)
 	/* scan to put everything in MIPS form */
 	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
 		exp crt_exp = my_def->dec_exp;
-		if (son(crt_exp) != NULL && (name(son(crt_exp)) == proc_tag ||
-	        name(son(crt_exp)) == general_proc_tag))
+		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag ||
+	        son(crt_exp)->tag == general_proc_tag))
 		{
 			procrec * pr = &procrecs[no(son(crt_exp))];
 			exp * st = &son(crt_exp);
@@ -384,8 +384,8 @@ local_translate_capsule(void)
 	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
 		exp crt_exp = my_def->dec_exp;
 		if (son(crt_exp) != NULL
-		    && (name(son(crt_exp)) == proc_tag ||
-		        name(son(crt_exp)) == general_proc_tag))
+		    && (son(crt_exp)->tag == proc_tag ||
+		        son(crt_exp)->tag == general_proc_tag))
 		{
 			procrec * pr = &procrecs[no(son(crt_exp))];
 			needs * ndpr = & pr->needsproc;

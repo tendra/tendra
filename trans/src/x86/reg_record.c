@@ -82,23 +82,23 @@ void clear_low_reg_record
 static  int inval
 (exp d, exp r)
 {
-  if ((d == NULL || name(d) == cont_tag) &&
-     (name(r) == cont_tag || (name(r) == name_tag && isglob(son(r)))))
+  if ((d == NULL || d->tag == cont_tag) &&
+     (r->tag == cont_tag || (r->tag == name_tag && isglob(son(r)))))
     return 1;
-  if ((name(r) == name_tag && !isvar(son(r))) ||
-	name(r) == cont_tag)
+  if ((r->tag == name_tag && !isvar(son(r))) ||
+	r->tag == cont_tag)
     return eq_where(mw(d, 0), mw(r, 0));
 
-  if (name(r) == reff_tag)
+  if (r->tag == reff_tag)
     return inval(d, son(r));
 
-  if (name(r) == addptr_tag) {
-    if (name(bro(son(r))) == offset_mult_tag)
+  if (r->tag == addptr_tag) {
+    if (bro(son(r))->tag == offset_mult_tag)
       return inval(d, son(r)) || inval(d, son(bro(son(r))));
     return inval(d, son(r)) || inval(d, bro(son(r)));
   }
 
-  if (name(r) == ident_tag)
+  if (r->tag == ident_tag)
     return inval(d, son(r)) || inval(d, bro(son(r)));
 
   return 0;
@@ -108,7 +108,7 @@ static  int inval
 int invalidates
 (exp d, exp r)
 {
-  if (name(r) == cont_tag || name(r) == ass_tag)
+  if (r->tag == cont_tag || r->tag == ass_tag)
     return inval(d, son(r));
   return 0;
 }
@@ -169,11 +169,11 @@ static int is_aliased
 {
   if (dest == NULL)
     return 0;
-  if (name(dest)!= cont_tag &&
-      name(dest)!= ass_tag)
+  if (dest->tag!= cont_tag &&
+      dest->tag!= ass_tag)
     return 0;
 
-  if (name(son(dest)) == name_tag &&
+  if (son(dest)->tag == name_tag &&
       isvar(son(son(dest))) &&
       iscaonly(son(son(dest))))
     return 0;
@@ -185,9 +185,9 @@ static  int shape_overlap
 {
   shape s1 = sh(e1);
   shape s2 = sh(e2);
-  if (name(s1) <= doublehd && name(s1) > tophd && name(s2) == ptrhd)
+  if (s1->tag <= doublehd && s1->tag > tophd && s2->tag == ptrhd)
     return 0;
-  if (name(s2) <= doublehd && name(s2) > tophd && name(s1) == ptrhd)
+  if (s2->tag <= doublehd && s2->tag > tophd && s1->tag == ptrhd)
     return 0;
   return 1;
 }
@@ -341,7 +341,7 @@ void move_reg
   int  regmask_to = in_reg(to.where_exp);
   int  regmask_from = in_reg(from.where_exp);
   int sz = shape_size(sha);
-  if (name(sha) == shrealhd)
+  if (sha->tag == shrealhd)
     return;
   if (regmask_from != 0 && regmask_to != 0)
     return;

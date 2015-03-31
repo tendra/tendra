@@ -69,9 +69,9 @@ static void fail_unimplemented
 static exp find_id
     ( exp e )
 {
-  if (name(e) == name_tag && !isdiscarded(e) && !isvar(son(e)))
+  if (e->tag == name_tag && !isdiscarded(e) && !isvar(son(e)))
     return son(e);
-  if (name(e) == cont_tag && name(son(e)) == name_tag && !isdiscarded(son(e))
+  if (e->tag == cont_tag && son(e)->tag == name_tag && !isdiscarded(son(e))
 		&& ( isvar(son(son(e))) || isparam(son(son(e))) ))
     return son(son(e));
   return NULL;
@@ -81,7 +81,7 @@ static exp find_id
 void dw_out_const
     ( exp e )
 {
-  switch (name(e)) {
+  switch (e->tag) {
     case real_tag: {
       int sw = (shape_size(sh(e)) <= 32 ? 0 : 1);
 				/* DWARF cannot represent extended reals */
@@ -203,10 +203,10 @@ static void check_trivial
 #if 0
 	/* This is still far too strong; e may be anything with equivalent
 		already in a register! */
-  if (e && name(e) != val_tag && name(e) != name_tag &&
-	(name(e) != cont_tag || name(son(e)) != name_tag) &&
-	name(e) != goto_tag && name(e) != top_tag ) {
-    if (name(e) == chvar_tag || name(e) == chfl_tag)
+  if (e && e->tag != val_tag && e->tag != name_tag &&
+	(e->tag != cont_tag || son(e)->tag != name_tag) &&
+	e->tag != goto_tag && e->tag != top_tag ) {
+    if (e->tag == chvar_tag || e->tag == chfl_tag)
       check_trivial (son(e));
     else
       error(ERR_INTERNAL, "lost information?");
@@ -230,12 +230,12 @@ static void output_info
 	output_detch (sub_detch);
       return;
     }
-    if (name(e) == name_tag || name(e) == env_size_tag || 
-	name(e) == env_offset_tag || (t = son(e), !t))
+    if (e->tag == name_tag || e->tag == env_size_tag || 
+	e->tag == env_offset_tag || (t = son(e), !t))
       return;
     for (;;) {
       output_info (t, dgf(t));
-      if (last(t) || name(e) == case_tag) return;
+      if (last(t) || e->tag == case_tag) return;
       t = bro(t);
     }
   }
@@ -964,7 +964,7 @@ static void dw2_out_proc
   id = di->data.n_proc.obtain_val;
   if (id) {
     exp p;
-    if (name(id) != hold_tag || name(son(id)) != name_tag) {
+    if (id->tag != hold_tag || son(id)->tag != name_tag) {
       error(ERR_INTERNAL, "wrong proc obtain_tag");
       return;
     }
@@ -978,9 +978,9 @@ static void dw2_out_proc
 	error(ERR_INTERNAL, "inconsistent proc info");
       if (proc_has_vcallees(p))
 	is_callable = DW_CC_nocall;
-      while (name(t) == ident_tag && isparam(t) && name(son(t)) != formal_callee_tag)
+      while (t->tag == ident_tag && isparam(t) && son(t)->tag != formal_callee_tag)
 	t = bro(son(t));
-      if (name(t) == ident_tag && name(son(t)) == formal_callee_tag)
+      if (t->tag == ident_tag && son(t)->tag == formal_callee_tag)
 	is_callable = DW_CC_nocall;
       if (brog(id)->extnamed) {
 	infolab = next_dwarf_label ();
@@ -1516,10 +1516,10 @@ void dw2_out_name
       exp id = di->data.n_mod.init;
       dg_instantn * generic = NULL;
       dg_name mem;
-      if (id && name(id) == hold_tag && name(son(id)) == name_tag) {
+      if (id && id->tag == hold_tag && son(id)->tag == name_tag) {
 	id = son(son(id));
-	if (son(id) && (name(son(id)) == apply_tag ||
-			name(son(id)) == apply_general_tag)) {
+	if (son(id) && (son(id)->tag == apply_tag ||
+			son(id)->tag == apply_general_tag)) {
 	  dw2_prepare_locate (id);
 	  if (dgf(son(id)))
 	    has_init_code = 1;

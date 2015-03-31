@@ -41,8 +41,8 @@ refactor_ext(exp e)
 	}
 
 	if ((!PIC_code || brog(e)->dec_var == 0) && !isvar(e) &&
-	    (name(def) == val_tag || name(def) == real_tag ||
-	     name(def) == null_tag))
+	    (def->tag == val_tag || def->tag == real_tag ||
+	     def->tag == null_tag))
 	{
 		while (pt(e) != NULL) {
 			/* substitute constants in */

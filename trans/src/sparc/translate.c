@@ -259,8 +259,8 @@ mark_unaliased(exp e)
 #endif
 				ca = 0;
 		} else {
-			if (!(last(p) && name(q) == cont_tag) &&
-			  !(!last(p) && last(q) && name(bro(q)) == ass_tag))
+			if (!(last(p) && q->tag == cont_tag) &&
+			  !(!last(p) && last(q) && bro(q)->tag == ass_tag))
 			{
 #ifdef TDF_DIAG4
 				if (!isdiaginfo(p))
@@ -423,7 +423,7 @@ local_translate_capsule(void)
 			mark_unaliased(c);
 		}
 
-		if (name(son(c)) == proc_tag || name(son(c)) == general_proc_tag) {
+		if (son(c)->tag == proc_tag || son(c)->tag == general_proc_tag) {
 			noprocs++;
 		}
 	}
@@ -470,7 +470,7 @@ local_translate_capsule(void)
 			continue;
 		}
 
-		if ((name(s) == proc_tag || name(s) == general_proc_tag)) {
+		if ((s->tag == proc_tag || s->tag == general_proc_tag)) {
 			procrec *pr = &procrecs [ procno ];
 			pr->nameproc = bro(c);
 			no(s) = procno++;
@@ -505,7 +505,7 @@ local_translate_capsule(void)
 		c = d->dec_exp;
 		s = son(c);
 
-		if (s != NULL && (name(s) == proc_tag || name(s) == general_proc_tag)) {
+		if (s != NULL && (s->tag == proc_tag || s->tag == general_proc_tag)) {
 			exp *st = &s;
 			procrec *pr = &procrecs[no(s)];
 
@@ -513,7 +513,7 @@ local_translate_capsule(void)
 				set_proc_uses_external(s); /* for PIC_code, should be done in install_fns? */
 			}
 
-			Has_vcallees = (name(s) == general_proc_tag) &&
+			Has_vcallees = (s->tag == general_proc_tag) &&
 			               proc_has_vcallees(s);
 			for (r = R_G1; r <= R_G0 + g_reg_max; r++) {
 				tempregs.fixed &= ~RMASK(r);
@@ -529,12 +529,12 @@ local_translate_capsule(void)
 				}
 			}
 
-			if (name(s) == general_proc_tag) {
+			if (s->tag == general_proc_tag) {
 				int any_envoff = 0;
 				exp a;
 
 				for (a = son(s);
-					name(a) == ident_tag && isparam(a) && name(son(a)) != formal_callee_tag;
+					a->tag == ident_tag && isparam(a) && son(a)->tag != formal_callee_tag;
 					a = bro(son(a)))
 				{
 					if (isenvoff(a) && caller_offset_used) {
@@ -545,7 +545,7 @@ local_translate_capsule(void)
 					}
 				}
 
-				if (gencompat && ((name(a) == ident_tag && isparam(a)) || Has_vcallees)) {
+				if (gencompat && ((a->tag == ident_tag && isparam(a)) || Has_vcallees)) {
 					set_proc_may_have_callees(s);
 				}
 			}
@@ -571,7 +571,7 @@ local_translate_capsule(void)
 				continue;
 			}
 
-			if (name(s) == proc_tag || name(s) == general_proc_tag) {
+			if (s->tag == proc_tag || s->tag == general_proc_tag) {
 				deadvar(s);
 			}
 		}
@@ -587,14 +587,14 @@ local_translate_capsule(void)
 			continue;
 		}
 
-		if (name(s) == proc_tag || name(s) == general_proc_tag) {
+		if (s->tag == proc_tag || s->tag == general_proc_tag) {
 			spacereq forrest;
 			int freefixed, freefloat;
 			procrec *pr = &procrecs[no(s)];
 
 			avoid_L7 = (bool) (PIC_code && proc_uses_external(s));
-			Has_vcallees = (name(s) == general_proc_tag) && proc_has_vcallees(s);
-			in_general_proc = (name(s) == general_proc_tag);
+			Has_vcallees = (s->tag == general_proc_tag) && proc_has_vcallees(s);
+			in_general_proc = (s->tag == general_proc_tag);
 			if (gencompat) {
 				May_have_callees = proc_may_have_callees(s);
 			}
@@ -662,7 +662,7 @@ local_translate_capsule(void)
 			if (extnamed) {
 				assert(id[0] != '$');
 
-				if (name(stg) != proc_tag && name(stg) != general_proc_tag) {
+				if (stg->tag != proc_tag && stg->tag != general_proc_tag) {
 					if (!isvar(tg) || (d->acc & f_constant) || do_prom) {
 						insection(rodata_section);
 					} else {
@@ -684,7 +684,7 @@ local_translate_capsule(void)
 			}
 
 			/* evaluate all outer level constants */
-			if (name(stg) != proc_tag && name(stg) != general_proc_tag) {
+			if (stg->tag != proc_tag && stg->tag != general_proc_tag) {
 				instore is;
 				long symdef = d->sym_number + 1;
 #ifdef TDF_DIAG4
@@ -729,7 +729,7 @@ local_translate_capsule(void)
 		char *id = d->dec_id;
 		bool extnamed = d->extnamed;
 
-		if (stg != NULL && shape_size(sh(stg)) == 0 && name(stg) == asm_tag) {
+		if (stg != NULL && shape_size(sh(stg)) == 0 && stg->tag == asm_tag) {
 			if (props(stg) != 0) {
 				error(ERR_INTERNAL, "~asm not in ~asm_sequence");
 			}
@@ -748,7 +748,7 @@ local_translate_capsule(void)
 			continue;
 		}
 
-		if (name(stg) == proc_tag || name(stg) == general_proc_tag) {
+		if (stg->tag == proc_tag || stg->tag == general_proc_tag) {
 			/* translate code for procedure */
 			int proc_directive;
 			exp c = d->dec_exp;
@@ -764,7 +764,7 @@ local_translate_capsule(void)
 				if (gencompat) {
 					optim_level = (proc_may_have_callees(stg)) ? 0 : 2;
 				} else {
-					optim_level = (name(stg) == general_proc_tag) ? 0 : 2;
+					optim_level = (stg->tag == general_proc_tag) ? 0 : 2;
 				}
 			}
 

@@ -38,8 +38,8 @@ typedef unsigned int UINT32;
 #define int16 short
 #define int32 int
 
-#define is64(X)	((name(X) ==u64hd) || (name(X) ==s64hd) || (name(X) ==ptrhd))
-#define is32(X)((name(X) ==slonghd) || (name(X) ==ulonghd))
+#define is64(X)	((X->tag ==u64hd) || (X->tag ==s64hd) || (X->tag ==ptrhd))
+#define is32(X)((X->tag ==slonghd) || (X->tag ==ulonghd))
 
 /* some macros to access the fields of the flt64/INT64 type */
 #if BLDARCHBITS == 64 /* 64 bit ints can be represented as longs */

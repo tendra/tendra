@@ -141,7 +141,7 @@ getexp(shape s, exp b, int l, exp sn, exp px, prop pr, int n, unsigned char tg)
   pt(res) = px;
   props(res) = pr;
   no(res) = n;
-  name(res) = tg;
+  res->tag = tg;
   parked(res) = 0;
 #ifdef TDF_DIAG4
   dgf(res) = nildiag;
@@ -175,7 +175,7 @@ getshape(int l, alignment sn, alignment px, alignment pr, int n,
   res->pt.ald = px;
   res->bro.ald = pr;
   no(res) = n;
-  name(res) = tg;
+  res->tag = tg;
   return res;
 }
 
@@ -198,7 +198,7 @@ internal_to(exp whole, exp part)
   int f = 1;
   exp q = part;
   while (q != whole && q != NULL &&
-	 !(name(q) == ident_tag && isglob(q))) {
+	 !(q->tag == ident_tag && isglob(q))) {
     f = (int)(last(q));
     q = bro(q);
   }
@@ -217,7 +217,7 @@ void
 kill_exp(exp e, exp scope)
 {
   if (e != NULL) {
-    unsigned char n = name(e);
+    unsigned char n = e->tag;
 
 
     if (n == name_tag) {
@@ -382,10 +382,10 @@ lub_shape(shape a, shape b)
 {
   int asz = shape_size(a);
   int bsz = shape_size(b);
-  if (name(a) ==bothd) {
+  if (a->tag ==bothd) {
    return b;
   }
-  if (name(b) == bothd) {
+  if (b->tag == bothd) {
    return a;
   }
   if (asz == bsz && shape_align(a) == shape_align(b)) {
@@ -400,14 +400,14 @@ lub_shape(shape a, shape b)
 int
 eq_shape(shape a, shape b)
 {
-  if (name(a) != name(b)) {
+  if (a->tag != b->tag) {
     return 0;
   }
   if (shape_size(a) != shape_size(b) || is_signed(a) != is_signed(b) ||
       shape_align(a) !=shape_align(b) || al1(a) !=al1(b)) {
     return 0;
   }
-  if (name(a) == nofhd) {
+  if (a->tag == nofhd) {
     return 1;
   } else {
     return al2(a) == al2(b);
@@ -551,7 +551,7 @@ case_item(exp i)
 static void
 scan_solve(exp e)
 {
-  unsigned char n = name(e);
+  unsigned char n = e->tag;
   switch (n) {
     case name_tag:
     case make_lv_tag:
@@ -700,16 +700,16 @@ static void
 altaux(exp e, int n, exp scope)
 {
   exp f;
-  if (bro(e) == NULL || e == scope || (name(e) == ident_tag && isglob(e))) {
+  if (bro(e) == NULL || e == scope || (e->tag == ident_tag && isglob(e))) {
     /* ignore if top of tree */
     return;
   }
   f = father(e);
-  if (f == NULL || bro(f) == NULL || (name(f) == ident_tag && isglob(f))) {
+  if (f == NULL || bro(f) == NULL || (f->tag == ident_tag && isglob(f))) {
     /* ignore if top of tree */
     return;
   }
-  if (name(f) == 0) {
+  if (f->tag == 0) {
     altaux(f, n, scope);
     return;
   }
@@ -852,7 +852,7 @@ copy_res(exp e, exp var, exp lab)
     return copy_res_diag(e, dgf(e), var, lab);
 #endif
   } else {
-    unsigned char n = name(e);
+    unsigned char n = e->tag;
 
     if (n == ident_tag) {
       exp t = copyexp(e);
@@ -997,7 +997,7 @@ copy_res(exp e, exp var, exp lab)
 	exp go = getexp(f_bottom, NULL, 0, NULL, lab, 0, 0, goto_tag);
 	no(son(lab)) ++;
 
-	if (name(son(e)) == clear_tag) {
+	if (son(e)->tag == clear_tag) {
 #ifdef TDF_DIAG4
 	  if (extra_diags) {
 	    diag_inline_result(go);
@@ -1055,7 +1055,7 @@ copy_res(exp e, exp var, exp lab)
       exp p = pt(e);
       exp z = copyexp(e);
       exp tp;
-      switch (name(e)) {
+      switch (e->tag) {
 	case alloca_tag:
 	case apply_general_tag:
 	  has_alloca = 1;
@@ -1125,7 +1125,7 @@ is_comm(exp e)
   if (no_bss) {
     return 0;
   }
-  switch (name(e)) {
+  switch (e->tag) {
 
   case val_tag:
     return no(e) ? 0 : 1;
@@ -1146,12 +1146,12 @@ is_comm(exp e)
     }
     while (1) {
       t = bro(t);
-      if (name(sh(t)) != bitfhd) {
+      if (sh(t)->tag != bitfhd) {
 	if (!is_comm(t)) {
 	  return 0;
 	}
       } else {
-	if (name(t) == val_tag) {
+	if (t->tag == val_tag) {
 	  if (no(t)) {
 	    return 0;
 	  }

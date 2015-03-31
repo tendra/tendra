@@ -68,7 +68,7 @@ static mm uswmm = {0xffffffff, 0, "\t.WORD\t%ld\n"};
 mm
 maxmin(shape s)
 {
-  switch (name(s))
+  switch (s->tag)
   {
     case scharhd:
     return scmm;
@@ -161,7 +161,7 @@ realrep(exp e)
 	exp_bits = 15 ;
     }
 
-    if ( name ( e ) == real_tag ) {
+    if ( e->tag == real_tag ) {
 	int j, k = -1 ;
 	flt *f = flptnos + no ( e ) ;
 
@@ -238,13 +238,13 @@ realrep(exp e)
 static long
 evalexp(exp e)
 {
-  switch (name(e))
+  switch (e->tag)
   {
   case top_tag:
      return 0;
   case val_tag: case null_tag:
   {
-     if (name(sh(e)) == offsethd && al2(sh(e)) >= 8) 
+     if (sh(e)->tag == offsethd && al2(sh(e)) >= 8) 
      {
 	return no(e)>>3;
      }
@@ -261,7 +261,7 @@ evalexp(exp e)
       unsigned long w = evalexp(son(e));
 
       a = ashof(sh(e));
-      if (a.ashalign != 1 && !(name(sh(e)) == cpdhd && a.ashalign == 32))
+      if (a.ashalign != 1 && !(sh(e)->tag == cpdhd && a.ashalign == 32))
       {
 	error(ERR_SERIOUS, "should be align 1");
       }
@@ -587,7 +587,7 @@ addconcbitaux(unsigned long w, int sz, concbittype before)
 static concbittype
 evalconcbitaux(exp e, concbittype before)
 {
-  switch (name(e))
+  switch (e->tag)
   {
     case concatnof_tag:
     {
@@ -627,7 +627,7 @@ is_zero(exp e)
   if (e == NULL)
     return 1;
 
-  switch (name(e))
+  switch (e->tag)
   {
     /* +++ real values always explicitly initialised, which is not necessary */
   case null_tag:
@@ -700,7 +700,7 @@ evalone(exp e, int bitposn)
 
   a = ashof(sh(e));
 
-  asm_comment("evalone: name(e)=%d, bitposn=%d, ash=%ld,%ld", name(e), bitposn, a.ashsize, a.ashalign);
+  asm_comment("evalone: e->tag=%d, bitposn=%d, ash=%ld,%ld", e->tag, bitposn, a.ashsize, a.ashalign);
 
   set_align(a.ashalign);
 
@@ -709,7 +709,7 @@ evalone(exp e, int bitposn)
     bitposn = (bitposn / a.ashalign) * a.ashalign;
 
   /* generate data initialiser for e */
-  switch (name(e))
+  switch (e->tag)
   {
     case string_tag:
       {
@@ -846,8 +846,8 @@ evalone(exp e, int bitposn)
 	assert(isglob(son(e)));
 
 	if ( son(globdec->dec_exp)!=NULL &&
-	     ( name(son(globdec->dec_exp))==proc_tag ||
-	       name(son(globdec->dec_exp))==general_proc_tag ) )
+	     ( son(globdec->dec_exp)->tag==proc_tag ||
+	       son(globdec->dec_exp)->tag==general_proc_tag ) )
 	{
 	   /* It's a plabel */
 	   outs( "\t.WORD\tP%" ) ;
@@ -980,7 +980,7 @@ evalone(exp e, int bitposn)
       int n = no(e);
       int i;
 
-      while (name(son(e)) == ncopies_tag)
+      while (son(e)->tag == ncopies_tag)
       {
 	e = son(e);
 	n *= no(e);
@@ -1139,7 +1139,7 @@ evaluated(exp e, long l)
   bool extnamed = (l == 0) ? 0 : main_globals[-lab - 1]->extnamed;
   a = ashof(sh(e));
 
-  asm_comment("evaluated: %d %ld", name(e), l);
+  asm_comment("evaluated: %d %ld", e->tag, l);
 
   isa.adval = 0;
   isa.b.offset = 0;

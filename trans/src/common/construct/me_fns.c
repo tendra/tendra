@@ -305,7 +305,7 @@ long_to_al(int n)
 int
 is_integer(shape s)
 {
-	return name(s) >= scharhd && name(s) <= u64hd;
+	return s->tag >= scharhd && s->tag <= u64hd;
 }
 
 
@@ -313,7 +313,7 @@ is_integer(shape s)
 int
 is_float(shape s)
 {
-	return name(s) >= shrealhd && name(s) <= doublehd;
+	return s->tag >= shrealhd && s->tag <= doublehd;
 }
 
 
@@ -321,10 +321,10 @@ int
 is_complex(shape s)
 {
 	if (~has & HAS_COMPLEX) {
-		return name(s) == cpdhd;
+		return s->tag == cpdhd;
 	}
 
-	return name(s) >= shcomplexhd && name(s) <= complexdoublehd;
+	return s->tag >= shcomplexhd && s->tag <= complexdoublehd;
 }
 
 

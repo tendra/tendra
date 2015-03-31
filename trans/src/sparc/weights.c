@@ -241,13 +241,12 @@ weightsv ( double scale, exp e ){
   int n ;
 
 tailrecurse :
-    n = ( int ) name ( e ) ;
+    n = ( int ) e->tag ;
   switch ( n ) {
   case name_tag : {
     exp s = son ( e ) ;
-    if ( name ( s ) == ident_tag && !isglob ( s ) ) {
-      if ( is_floating ( name ( sh ( e ) ) ) &&
-	   name ( sh ( e ) ) != shrealhd ) {
+    if ( s->tag == ident_tag && !isglob ( s ) ) {
+      if ( is_floating ( sh ( e ) -> tag ) && sh ( e ) -> tag != shrealhd ) {
 	fno ( s ) += scale * 2.0 ;
       } 
       else {
@@ -264,15 +263,14 @@ tailrecurse :
       int noe = no ( e ) ;	/* set by scan */
       
       /* weights for initialisation of dec */
-      if ( name ( son ( e ) ) == clear_tag ||
+      if ( son ( e ) -> tag == clear_tag ||
 	   props ( e ) & defer_bit ) {
 	wdef = zeroweights ;
 	fno ( e ) = 0.0 ;
       } 
       else {
 	/* maybe needs a store to initialise */
-	if ( is_floating ( name ( sh ( son ( e ) ) ) ) &&
-	     name ( sh ( son ( e ) ) ) != shrealhd ) {
+	if ( is_floating ( sh ( son ( e ) ) -> tag ) && sh ( son ( e ) ) -> tag != shrealhd ) {
 	  fno ( e ) = scale * 2.0 ;
 	} else {
 	  fno ( e ) = scale ;
@@ -289,19 +287,19 @@ tailrecurse :
 	exp s ;
 	exp t = son ( e ) ;
 	
-	if ( ( name ( t ) == val_tag ) ||
-	     ( name ( t ) == real_tag ) ) {
+	if ( ( t->tag == val_tag ) ||
+	     ( t->tag == real_tag ) ) {
 	  /* string_tag too? */
 	  return wbody;
 	}
-	while ( name ( t ) != name_tag ) {
+	while ( t->tag != name_tag ) {
 	  t = son ( t ) ;
 	}
 	
 	/* usage of tag stored in number of son of
 	   load_name (decl) */
 	s = son ( t ) ;
-	if ( name ( s ) == ident_tag && !isglob ( t ) ) {
+	if ( s->tag == ident_tag && !isglob ( t ) ) {
 	  fno ( s ) += fno ( e ) ;
 	}
 	return wbody;

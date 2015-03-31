@@ -36,11 +36,11 @@ mark_scope(exp e)
 	}
 
 	id = son(d->data.i_nam.dnam->data.n_obj.obtain_val);
-	if (name(id) == cont_tag) {
+	if (id->tag == cont_tag) {
 		id = son(id);
 	}
 
-	if (name(id) != name_tag) {
+	if (id->tag != name_tag) {
 		return;
 	}
 
@@ -56,8 +56,8 @@ mark_scope(exp e)
 		ptr = &((*ptr)->more);
 	}
 
-	if (!*ptr && name(e) == seq_tag && name(son(son(e))) == ass_tag &&
-	    last(son(son(e))) && name(bro(son(e))) != ident_tag) {
+	if (!*ptr && e->tag == seq_tag && son(son(e))->tag == ass_tag &&
+	    last(son(son(e))) && bro(son(e))->tag != ident_tag) {
 		ptr = &dgf(bro(son(e)));
 		while (*ptr && (*ptr)->key != DGA_SCOPE) {
 			ptr = &((*ptr)->more);

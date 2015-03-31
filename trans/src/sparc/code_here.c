@@ -54,7 +54,7 @@ int
 regofval ( exp e )
 {
   exp dc = son ( e ) ;
-  if ( name ( e ) == name_tag && name ( dc ) == ident_tag ) {
+  if ( e->tag == name_tag && dc->tag == ident_tag ) {
     if ( ( props ( dc ) & defer_bit ) != 0 ) {
       return regofval ( son ( dc ) ) ;
     }
@@ -63,7 +63,7 @@ regofval ( exp e )
     }
     return R_NO_REG;
   } 
-  else if ( name ( e ) == val_tag && no ( e ) == 0 ) {
+  else if ( e->tag == val_tag && no ( e ) == 0 ) {
     return R_G0;
   }
   return R_NO_REG;
@@ -81,7 +81,7 @@ int
 fregofval ( exp e )
 {
   exp dc = son ( e ) ;
-  if ( name ( e ) == name_tag && name ( dc ) == ident_tag ) {
+  if ( e->tag == name_tag && dc->tag == ident_tag ) {
     if ( ( props ( dc ) & infreg_bits ) != 0 ) {
       return no ( dc ) ;
     }
@@ -124,7 +124,7 @@ is_reg_operand ( exp e )
   ans aa ;
   int x = regofval ( e ) ;
   if ( x >= 0 && x < R_NO_REG ) return x;
-  if ( name ( e ) == cont_tag ) {
+  if ( e->tag == cont_tag ) {
     x = regofval ( son ( e ) ) ;
     if ( x < 0 ) return -x;
   }
@@ -195,7 +195,7 @@ reg_operand_here ( exp e, space sp, int this_reg )
     assert ( IS_FIXREG ( reg ) ) ;
     if ( reg != this_reg ) rr_ins ( i_mov, reg, this_reg ) ;
   }
-  if(name(e) != make_lv_tag) keepreg ( e, this_reg ) ;
+  if(e->tag != make_lv_tag) keepreg ( e, this_reg ) ;
 }
 
 
@@ -215,11 +215,11 @@ freg_operand ( exp e, space sp, int reg )
   if ( x >= 0 && x < R_NO_REG ) return x;
   w.ashwhere = ashof ( sh ( e ) ) ;
   fr.dble = ( bool ) ( ( w.ashwhere.ashsize == 64 ) ? 1 : 0 ) ;
-  if ( name ( e ) == cont_tag ) {
+  if ( e->tag == cont_tag ) {
     x = fregofval ( son ( e ) ) ;
     if ( x < R_NO_REG ) return x;
   } 
-  else if ( name ( e ) == apply_tag || name(e) == apply_general_tag) {
+  else if ( e->tag == apply_tag || e->tag == apply_general_tag) {
     fr.fr = 0 ;
     setfregalt ( aa, fr ) ;
     w.answhere = aa ;

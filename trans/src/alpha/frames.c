@@ -42,12 +42,12 @@ void setframe_flags
 (exp e, bool leaf)
 {
    /* e is proc_tag */
-  No_S = (!leaf && (name(e)!= general_proc_tag || !proc_has_nolongj(e))
+  No_S = (!leaf && (e->tag!= general_proc_tag || !proc_has_nolongj(e))
 	  && proc_uses_crt_env(e) && proc_has_lv(e));
-  Has_fp = (No_S || proc_has_alloca(e) || name(e) == general_proc_tag);
+  Has_fp = (No_S || proc_has_alloca(e) || e->tag == general_proc_tag);
   Has_tos = (No_S && proc_has_alloca(e));
-  Has_vcallees = (name(e) == general_proc_tag && proc_has_vcallees(e));
-  Has_no_vcallers = (name(e) == proc_tag || !proc_has_vcallers(e));
+  Has_vcallees = (e->tag == general_proc_tag && proc_has_vcallees(e));
+  Has_no_vcallers = (e->tag == proc_tag || !proc_has_vcallers(e));
 #ifdef Try_No_S
   No_S = true;
 #endif
@@ -129,8 +129,8 @@ int frame_offset
   int  x = no(id);
   int  b = x & 0x3f;
 
-  assert(name(id) == ident_tag);
-  for (p = father(id); name(p)!=proc_tag && name(p)!=general_proc_tag;
+  assert(id->tag == ident_tag);
+  for (p = father(id); p->tag!=proc_tag && p->tag!=general_proc_tag;
 		       p = father(p));
   pr = & procrecs[no(p)];
   if ((b == SP) || (b == FP)) {
@@ -142,12 +142,12 @@ int frame_offset
       /*- (pr->callee_size>>3)*/;
   }
   else{
-    bool Has_vcallees = (name(p) == general_proc_tag && proc_has_vcallees(p));
+    bool Has_vcallees = (p->tag == general_proc_tag && proc_has_vcallees(p));
     int n = -8 - (no(son(id)) >>3);
-    if (isparam(id) && name(son(id))!= formal_callee_tag) {
+    if (isparam(id) && son(id)->tag!= formal_callee_tag) {
       return n;
     }
-    else if (isparam(id) && name(son(id)) == formal_callee_tag) {
+    else if (isparam(id) && son(id)->tag == formal_callee_tag) {
       return (Has_vcallees)?n:((pr->callee_size>>3) - n);
     }
     else{

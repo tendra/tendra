@@ -380,7 +380,7 @@ find_proc_type(dg_type t)
 static void
 scan_diag_names(exp e, exp whole)
 {
-	if (name(e) == name_tag) {
+	if (e->tag == name_tag) {
 		exp id = son(e);
 
 		if (!isdiaginfo(e) && !internal_to(whole, id)) {
@@ -391,7 +391,7 @@ scan_diag_names(exp e, exp whole)
 		return;
 	}
 
-	if (son(e) != NULL && name(e) != env_offset_tag) {
+	if (son(e) != NULL && e->tag != env_offset_tag) {
 		exp t;
 
 		for (t = son(e); ; t = bro(t)) {
@@ -449,12 +449,12 @@ void
 set_obj_ref(dg_name nm)
 {
 	exp e = nm->data.n_obj.obtain_val;
-	while (e && (name(e) == hold_tag || name(e) == cont_tag ||
-	             name(e) == reff_tag)) {
+	while (e && (e->tag == hold_tag || e->tag == cont_tag ||
+	             e->tag == reff_tag)) {
 		e = son(e);
 	}
 
-	if (e && name(e) == name_tag && isglob(son(e)) &&
+	if (e && e->tag == name_tag && isglob(son(e)) &&
 	    !(brog(son(e))->dg_name)) {
 		brog(son(e))->dg_name = nm;
 	}
@@ -471,12 +471,12 @@ matched_obj(exp e, dg_name nm, dg_tag *refans)
 	}
 
 	x = nm->data.n_obj.obtain_val;
-	while (x && (name(x) == hold_tag || name(x) == cont_tag ||
-	             name(x) == reff_tag)) {
+	while (x && (x->tag == hold_tag || x->tag == cont_tag ||
+	             x->tag == reff_tag)) {
 		x = son(x);
 	}
 
-	if ((x) && name(x) == name_tag && son(x) == son(e)) {
+	if ((x) && x->tag == name_tag && son(x) == son(e)) {
 		if ((no(x) <= no(e)) &&
 		    (no(x) + shape_size(sh(x)) >= no(e) + shape_size(sh(e)))) {
 			if (!nm->mor || !nm->mor->this_tag) {
@@ -533,7 +533,7 @@ find_obj_ref(exp contex, exp e)
 {
 	dg_tag ans = NULL;
 
-	while ((name(contex) != ident_tag || !isglob(contex)) &&
+	while ((contex->tag != ident_tag || !isglob(contex)) &&
 	       (!dgf(contex) || !end_ref_search(e, dgf(contex), &ans))) {
 		contex = father(contex);
 	}
@@ -561,7 +561,7 @@ check_const_exp(exp e)
 		return;
 	}
 
-	if (name(e) != hold_tag || name(son(e)) != val_tag) {
+	if (e->tag != hold_tag || son(e)->tag != val_tag) {
 		error(ERR_INTERNAL, "diag_type may need copying");
 	}
 
@@ -693,7 +693,7 @@ is_copied(exp e)
 		return 0;
 	}
 
-	switch (name(e)) {
+	switch (e->tag) {
 	case name_tag:
 		return copying(son(e));
 
@@ -768,7 +768,7 @@ update_diag_copy(exp e, dg_info d, int update)
 	}
 
 	if (!d && e) {
-		switch (name(e)) {
+		switch (e->tag) {
 		case name_tag:
 		case env_offset_tag:
 		case general_env_offset_tag:
@@ -1122,7 +1122,7 @@ copy_res_diag(exp e, dg_info d, exp var, exp lab)
 	exp ans;
 
 	if (!d /* ||
-		  (name(e) == name_tag && isdiaginfo(e) && !doing_inlining && !clean-copy) */
+		  (e->tag == name_tag && isdiaginfo(e) && !doing_inlining && !clean-copy) */
 	    /* only one defining name tag */
 	   ) {
 		dg_info all = dgf(e);
@@ -1171,7 +1171,7 @@ static dg_tag current_inliner = NULL;
 static int
 ref_param(exp e)
 {
-	switch (name(e)) {
+	switch (e->tag) {
 	case name_tag:
 	case cont_tag:
 	case chvar_tag:
@@ -1205,7 +1205,7 @@ start_diag_inlining(exp e, dg_name dn)
 		return;
 	}
 
-	while (name(body) == ident_tag &&
+	while (body->tag == ident_tag &&
 	       (isparam(body) || (!dgf(body) && ref_param(son(body))))) {
 		body = bro(son(body));
 	}
@@ -1240,7 +1240,7 @@ end_diag_inlining(exp e, dg_name dn)
 	}
 
 	body = son(e);
-	while (name(body) == ident_tag &&
+	while (body->tag == ident_tag &&
 	       (isparam(body) || (!dgf(body) && ref_param(son(body))))) {
 		body = bro(son(body));
 	}
@@ -1315,9 +1315,9 @@ dg_complete_inline(exp whole, exp comp)
 		if (rem) {
 			/* we must find DGA_INL_CALL to replace the DGA_CALL */
 			while (!dgf(comp)) {
-				if (name(comp) == ident_tag) {
+				if (comp->tag == ident_tag) {
 					comp = bro(son(comp));
-				} else if (name(comp) == cond_tag) {
+				} else if (comp->tag == cond_tag) {
 					comp = son(comp);
 				} else {
 					break;
@@ -1434,7 +1434,7 @@ gather_detch(exp e, dg_info *dx, int reason, int descend, int reuse,
 	}
 
 	if (extra_diags && reuse &&
-	    (name(e) == apply_tag || name(e) == apply_general_tag)) {
+	    (e->tag == apply_tag || e->tag == apply_general_tag)) {
 		/* need info to modify in case of subsequent inlining */
 		dg_info x = dgf(e);
 
@@ -1456,13 +1456,13 @@ gather_detch(exp e, dg_info *dx, int reason, int descend, int reuse,
 	}
 
 	s = son(e);
-	if (name(e) == name_tag || name(e) == env_size_tag ||
-	    name(e) == env_offset_tag || !s) {
+	if (e->tag == name_tag || e->tag == env_size_tag ||
+	    e->tag == env_offset_tag || !s) {
 		return NULL;
 	}
 
 	ans = gather_detch(s, &(dgf(s)), reason, descend, reuse, opt_ref);
-	if (name(e) != case_tag) {
+	if (e->tag != case_tag) {
 		detch_info **ptr;
 
 		while (!last(s)) {
@@ -1527,9 +1527,9 @@ dg_rem_ass(exp ass)
 {
 	exp val = bro(son(ass));
 
-	if (name(son(ass)) == name_tag &&
-	    (name(val) == val_tag || name(val) == real_tag ||
-	     name(val) == null_tag)) {
+	if (son(ass)->tag == name_tag &&
+	    (val->tag == val_tag || val->tag == real_tag ||
+	     val->tag == null_tag)) {
 		dg_info h = dgf(val);
 		dg_info *dx = &(dgf(ass));
 		dg_info rem = new_dg_info(DGA_REMVAL);
@@ -1584,7 +1584,7 @@ dg_extracted(exp nm, exp old)
 	dg_info con_end = (strip_dg_context(old), dgf(old));
 	dg_info *dx;
 
-	if (name(nm) != name_tag ||
+	if (nm->tag != name_tag ||
 	    (dx = after_dg_context(son(nm)), !(*dx)->this_tag)) {
 		error(ERR_INTERNAL, "make_optim error");
 		return;
@@ -1611,7 +1611,7 @@ gather_objects(exp e, exp whole, objset **obs, int ass)
 {
 	exp t;
 
-	switch (name(e)) {
+	switch (e->tag) {
 	case name_tag:
 		if (!intnl_to(whole, son(e))) {
 			dg_tag tg = find_obj_ref(whole, e);

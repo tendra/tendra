@@ -88,7 +88,7 @@ static int no_location;
 int dw_is_const
 (exp e)
 {
-  switch (name(e)) {
+  switch (e->tag) {
     case val_tag:
     case null_tag:
     case real_tag:
@@ -97,7 +97,7 @@ int dw_is_const
       return !isdiscarded(e) && isvar(son(e));
 #if 0
     case cont_tag:
-      return name(son(e)) == name_tag && !isdiscarded(son(e)) &&
+      return son(e)->tag == name_tag && !isdiscarded(son(e)) &&
 		!isvar(son(son(e))) && !isparam(son(son(e)));
 #endif
     case reff_tag:
@@ -110,7 +110,7 @@ int dw_is_const
 exp dw_has_location
 (exp e)
 {
-  switch (name(e)) {
+  switch (e->tag) {
     case name_tag: {
       if (isdiscarded(e) || isvar(son(e)))
 	return NULL;
@@ -119,10 +119,10 @@ exp dw_has_location
     case cont_tag: {
       do {
 	e = son(e);
-	if (name(e) == name_tag && isdiscarded(e))
+	if (e->tag == name_tag && isdiscarded(e))
 	  return NULL;
       }
-      while (name(e)!= ident_tag);
+      while (e->tag!= ident_tag);
       return e;
     }
     default:
@@ -136,7 +136,7 @@ static loc_s name_to_loc(exp e);
 static loc_s find_param
 (exp e)
 {
-  switch (name(e)) {
+  switch (e->tag) {
     case name_tag:
       if (isvar(son(e)))
 	extra_deref--;
@@ -164,9 +164,9 @@ static loc_s name_to_loc
   if (locate_param && !isparam(id)) {
     return find_param(son(id));
 #if 0
-    if (name(son(id)) == name_tag && isloadparam(son(id)) && isparam(son(son(id))))
+    if (son(id)->tag == name_tag && isloadparam(son(id)) && isparam(son(son(id))))
       return name_to_loc(son(id));
-    if (name(son(id)) == cont_tag && name(son(son(id))) == name_tag &&
+    if (son(id)->tag == cont_tag && son(son(id))->tag == name_tag &&
 		isparam(son(son(son(id)))))
       return name_to_loc(son(son(id)));
     error(ERR_INTERNAL, "parameter inconsistency");
@@ -183,7 +183,7 @@ static loc_s name_to_loc
 	l.key = L_REGOFF;
 	l.reg = -1;
 	l.off = (no(id) /8) + n_off;
-	if (name(id))
+	if (id)->tag
 	  l.off -= locals_offset;
 	else {			/* env_off modification */
 	  if (locate_param) {
@@ -225,7 +225,7 @@ static loc_s find_loc
 (exp e)
 {
   loc_s l;
-  switch (name(e)) {
+  switch (e->tag) {
 
     case name_tag: {
       if (isdiscarded(e) || (isglob(son(e)) && no(son(e)) == 0 &&
@@ -242,7 +242,7 @@ static loc_s find_loc
 
     case cont_tag:
     case contvol_tag: {
-      if (name(son(e)) == name_tag) {
+      if (son(e)->tag == name_tag) {
 	if (isdiscarded(son(e)) ||
 			(isglob(son(son(e))) && no(son(son(e))) == 0 &&
 			 !(brog(son(son(e))) ->extnamed))) {
@@ -355,7 +355,7 @@ static int indirect_length
 {
   int length;
   loc_s l;
-  switch (name(e)) {
+  switch (e->tag) {
     case cont_tag: {
       length = 1;
       break;
@@ -421,7 +421,7 @@ static void out_indirect
       break;
     }
   }
-  switch (name(e)) {
+  switch (e->tag) {
     case cont_tag: {
       asm_printf("%d", DW_OP_deref);
       break;
@@ -557,7 +557,7 @@ void dw2_locate_result
   int reg = 0;
   int indirect = 0;
   int multi = 0;
-  if (is_floating(name(sha))) {
+  if (is_floating(sha->tag)) {
     reg = 100;
     length = inreg_length(reg, 0);
   }
@@ -642,7 +642,7 @@ static int dw_eval_exp
     out8();
     line_started = 1;
   }
-  switch (name(e)) {
+  switch (e->tag) {
     case name_tag:
     case cont_tag:
     case contvol_tag:
@@ -701,7 +701,7 @@ static int dw_eval_exp
     case plus_tag:
     case offset_add_tag: {
       line_started = dw_eval_exp(son(e), line_started);
-      if (name(bro(son(e))) == val_tag && !is_signed(sh(e)) && !isbigval(bro(son(e)))) {
+      if (bro(son(e))->tag == val_tag && !is_signed(sh(e)) && !isbigval(bro(son(e)))) {
 	if (line_started)
 	  asm_printf(", ");
 	else {
@@ -788,13 +788,13 @@ void dw2_offset_exp
 (exp e)
 {
   long block_end = next_dwarf_label();
-  if (name(sh(e))!= offsethd)
+  if (sh(e)->tag!= offsethd)
     error(ERR_INTERNAL, "wrong shape for offset expression");
   dw_at_form(DW_FORM_block2); asm_printf("\n");
   out16(); out_dwf_dist_to_label(block_end); asm_printf("\n");
   if (dw_eval_exp(e, 0))
     asm_printf("\n");
-  if (name(sh(e)) == offsethd && al2(sh(e)) < 8) {
+  if (sh(e)->tag == offsethd && al2(sh(e)) < 8) {
     out8(); asm_printf("%d, %d\n", DW_OP_lit0 + 8, DW_OP_mul);
   }
   out_dwf_label(block_end, 1);
@@ -1174,7 +1174,7 @@ static void trace_branch_aux
 (exp whole, exp e)
 {
   exp t;
-  switch (name(e)) {
+  switch (e->tag) {
     case test_tag:
     case goto_tag: {
       if (!intnl_to(whole, pt(e)))
@@ -1206,7 +1206,7 @@ static void trace_branch_aux
   if (t) {
     for (;;) {
       trace_branch_aux(whole, t);
-      if (last(t) || name(e) == case_tag)break;
+      if (last(t) || e->tag == case_tag)break;
       t = bro(t);
     }
   }

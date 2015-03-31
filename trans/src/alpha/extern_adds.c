@@ -41,13 +41,13 @@ static bool enter_parents
 {
   exp dad =e;
   bool inloop = 0;
-  assert(name(e) ==name_tag);
+  assert(e->tag ==name_tag);
   for (;;) {
     dad = father(dad);
-    if (name(dad) ==rep_tag) {
+    if (dad->tag ==rep_tag) {
       inloop=1;
     }
-    else if (name(dad) ==proc_tag) {
+    else if (dad->tag ==proc_tag) {
       exp nu = usages[no(dad)];
       if (nu == NULL) {
 	nu = getexp(sh(e), e, 1, dad, NULL, 0,0, 0);
@@ -60,10 +60,10 @@ static bool enter_parents
       no(nu) ++;
       return 1;
     }
-    else if (name(dad) == ident_tag && isglob(dad)) {
+    else if (dad->tag == ident_tag && isglob(dad)) {
       return 0;
     }
-    else if (name(dad) == 102 || name(dad) == hold_tag) {
+    else if (dad->tag == 102 || dad->tag == hold_tag) {
       /* thou shalt use descriptive names for constants (102 ?) */
 
       /* could be leftover from exp token expansion with no pars */
@@ -79,7 +79,7 @@ void global_usages
 {
   exp plist, nextpl;
   int i;
-  assert(name(id) ==ident_tag && isglob(id) && son(id) ==NULL);
+  assert(id->tag ==ident_tag && isglob(id) && son(id) ==NULL);
   if (no(id) ==0) return;
   for (i=0; i<nop; i++) {
     usages[i] = NULL;
@@ -106,10 +106,10 @@ void global_usages
 	exp * pi;
 	shape sname = f_pointer(f_alignment(sh(id)));
 	for (pi= &son(son(ui));;) {
-	  if (name(*pi) == ident_tag && isparam(*pi)) {
+	  if ((*pi)->tag == ident_tag && isparam(*pi)) {
 	    pi = &bro(son(*pi));
 	  }
-	  else if (name(*pi) == diagnose_tag || name(*pi) == prof_tag) {
+	  else if ((*pi)->tag == diagnose_tag || (*pi)->tag == prof_tag) {
 	    pi = &son(*pi);
 	  }
 	  else {

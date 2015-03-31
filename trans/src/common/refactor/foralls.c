@@ -76,15 +76,15 @@ incr_var(exp e)
 	exp dest;
 	exp src;
 
-	if (name(e) != ass_tag) {
+	if (e->tag != ass_tag) {
 		return false;
 	}
 
 	dest = son(e);
 	src = bro(dest);
 
-	return (name(dest) == name_tag && name(src) == plus_tag
-		&& name(son(src)) == name_tag && name(bro(son(src))) == val_tag
+	return (dest->tag == name_tag && src->tag == plus_tag
+		&& son(src)->tag == name_tag && bro(son(src))->tag == val_tag
 		&& last(bro(son(src))) && son(dest) == son(son(src))
 		&& no(dest) == no(son(src)));
 }
@@ -101,13 +101,13 @@ isaltered(exp ld, int always)
 
 	for (z = alteredset; z != NULL; z = bro(z)) {
 		if (son(ld) == son(son(z)) &&
-		    (name(son(ld)) != proc_tag || no(ld) == no(son(z)))) {
+		    (son(ld)->tag != proc_tag || no(ld) == no(son(z)))) {
 			props(z) &= (prop)always;
 			return;
 		}
 	}
 
-	nld = getexp(sh(ld), alteredset, 1, son(ld), NULL, props(ld), no(ld), name(ld));
+	nld = getexp(sh(ld), alteredset, 1, son(ld), NULL, props(ld), no(ld), ld->tag);
 	alteredset = getexp(NULL, alteredset, alteredset == NULL, nld, NULL, (prop)always, 0, 0);
 }
 
@@ -127,7 +127,7 @@ scan_for_incr(exp e, exp piece, void(*f)(exp, int))
 {
 	static int everytime = true;
 
-	switch (name(e)) {
+	switch (e->tag) {
 	case name_tag:
 	case env_offset_tag:
 		return;
@@ -136,15 +136,15 @@ scan_for_incr(exp e, exp piece, void(*f)(exp, int))
 		exp dest = son(e);
 		exp src = bro(son(e));
 
-		if (name(dest) == name_tag && isvar(son(dest)) &&
+		if (dest->tag == name_tag && isvar(son(dest)) &&
 		    !isglob(son(dest)) && iscaonly(son(dest)) &&
-		    name(src) == plus_tag)
+		    src->tag == plus_tag)
 		{
 			exp la = son(src);
 			exp ra = bro(son(src));
 
-			if (last(ra) && name(ra) == val_tag && name(la) == cont_tag &&
-			    name(son(la)) == name_tag && son(son(la)) == son(dest) &&
+			if (last(ra) && ra->tag == val_tag && la->tag == cont_tag &&
+			    son(la)->tag == name_tag && son(son(la)) == son(dest) &&
 			    no(dest) == no(son(la)) && !intnl_to(piece, son(dest)))
 			{
 				exp p = pt(son(dest)); /*uses of var */
@@ -155,7 +155,7 @@ scan_for_incr(exp e, exp piece, void(*f)(exp, int))
 #else
 					if (p == dest || p == son(la) ||
 #endif
-					    (last(p) && name(bro(p)) == cont_tag) ||
+					    (last(p) && bro(p)->tag == cont_tag) ||
 					    incr_var(father(p)) || !intnl_to(piece, p)) {
 						continue;
 					}
@@ -170,22 +170,22 @@ scan_for_incr(exp e, exp piece, void(*f)(exp, int))
 
 tryalias:
 
-		if (name(dest) == name_tag && isvar(son(dest))) {
+		if (dest->tag == name_tag && isvar(son(dest))) {
 			isaltered(dest, everytime);
-		} else if (name(dest) == addptr_tag && name(son(dest)) == name_tag &&
+		} else if (dest->tag == addptr_tag && son(dest)->tag == name_tag &&
 		           isvar(son(son(dest)))) {
 			isaltered(son(dest), everytime);
-		} else if (name(dest) == reff_tag && name(son(dest)) == addptr_tag &&
-		           name(son(son(dest))) == name_tag && isvar(son(son(son(dest))))) {
+		} else if (dest->tag == reff_tag && son(dest)->tag == addptr_tag &&
+		           son(son(dest))->tag == name_tag && isvar(son(son(son(dest))))) {
 			isaltered(son(son(dest)), everytime);
-		} else if (name(dest) == name_tag &&
+		} else if (dest->tag == name_tag &&
 		           (props(son(dest)) & 0x10) != 0) {
 			/* const in some loop */
 			exp def = son(son(dest));
-			if (name(def) == reff_tag) {
+			if (def->tag == reff_tag) {
 				def = son(def);
 			}
-			if (name(def) == addptr_tag && name(son(def)) == name_tag &&
+			if (def->tag == addptr_tag && son(def)->tag == name_tag &&
 			    isvar(son(son(def)))) {
 				isaltered(dest, everytime);
 			} else {
@@ -268,9 +268,9 @@ good_val(exp a, exp piece)
 	/* result ((a is name external to piece)
 	       || (a is cont(name) where all uses of name in piece is cont))
 	*/
-	if (name(a) == name_tag) {
+	if (a->tag == name_tag) {
 		return !intnl_to(piece, son(a));
-	} else if (name(a) == cont_tag && name(son(a)) == name_tag &&
+	} else if (a->tag == cont_tag && son(a)->tag == name_tag &&
 	           !intnl_to(piece, son(son(a))) && !isvis(son(son(a)))) {
 		exp lda = son(a);
 		exp pa = pt(son(lda));
@@ -281,7 +281,7 @@ good_val(exp a, exp piece)
 #else
 			if (pa == lda || no(pa) != no(lda) ||
 #endif
-			    (last(pa) && name(bro(pa)) == cont_tag) ||
+			    (last(pa) && bro(pa)->tag == cont_tag) ||
 			    !intnl_to(piece, pa))
 			{
 				continue;
@@ -301,11 +301,11 @@ usage_in(exp whole, exp part)
 {
 	exp q = part;
 	int res = 1;
-	int n = (int) name(q);
+	int n = (int) q->tag;
 
 	while (q != whole && q != NULL && (n != ident_tag || (props(q) & 0x40) == 0)) {
 		q = father(q);
-		n = (int)name(q);
+		n = (int)q->tag;
 
 		if (n == cond_tag || n == rep_tag || n == solve_tag) {
 			res = 2;
@@ -358,7 +358,7 @@ find_common_index(exp ldname, exp piece, void(*f)(exp, int))
 		}
 
 		otheruses++;
-		if (!last(p) || name(bro(p)) != cont_tag) {
+		if (!last(p) || bro(p)->tag != cont_tag) {
 			continue;
 		}
 
@@ -370,7 +370,7 @@ find_common_index(exp ldname, exp piece, void(*f)(exp, int))
 			return 0;
 		}
 
-		if (name(dad) == addptr_tag && bro(son(dad)) == bro(p) &&
+		if (dad->tag == addptr_tag && bro(son(dad)) == bro(p) &&
 			last(bro(p))) {
 			if (good_val(son(dad), piece)) {
 				f(dad, usagex == 1);
@@ -384,8 +384,8 @@ find_common_index(exp ldname, exp piece, void(*f)(exp, int))
 					return 0;
 				}
 			}
-		} else if (name(dad) == offset_mult_tag && son(dad) == bro(p) &&
-				   name(bro(son(dad))) == val_tag && last(dad)) {
+		} else if (dad->tag == offset_mult_tag && son(dad) == bro(p) &&
+				   bro(son(dad))->tag == val_tag && last(dad)) {
 			exp grandad = father(dad);
 			if (!good_index_factor(no(bro(son(dad))) / 8)) {
 				stride = -1;
@@ -393,7 +393,7 @@ find_common_index(exp ldname, exp piece, void(*f)(exp, int))
 				return 0;
 			}
 
-			if (name(grandad) == addptr_tag && bro(son(grandad)) == dad &&
+			if (grandad->tag == addptr_tag && bro(son(grandad)) == dad &&
 				last(dad)) {
 				if (good_val(son(grandad), piece)) {
 					f(grandad, usagex == 1);
@@ -408,7 +408,7 @@ find_common_index(exp ldname, exp piece, void(*f)(exp, int))
 					/*printf("stride=%d\n", stride);*/
 				}
 			}
-		} else if ((name(dad) == test_tag || name(dad) == testbit_tag) &&
+		} else if ((dad->tag == test_tag || dad->tag == testbit_tag) &&
 				   piece == bro(son(pt(dad)))) {
 			f(dad, usagex == 1);
 			otheruses--;
@@ -455,12 +455,12 @@ find_pointer_opt(exp ldname, exp piece, void(*f)(exp, int))
 		}
 
 		otheruses++;
-		if (!last(p) || name(bro(p)) != cont_tag) {
+		if (!last(p) || bro(p)->tag != cont_tag) {
 			continue;
 		}
 
 		dad = father(bro(p));
-		if (name(dad) == addptr_tag && bro(son(dad)) == bro(p) &&
+		if (dad->tag == addptr_tag && bro(son(dad)) == bro(p) &&
 			last(bro(p)) && good_pointer_factor(1)) {
 			if (good_val(son(dad), piece)) {
 				f(dad, usagex == 1);
@@ -472,13 +472,13 @@ find_pointer_opt(exp ldname, exp piece, void(*f)(exp, int))
 					stride = -1;
 				}
 			}
-		} else if (name(dad) == offset_mult_tag && son(dad) == bro(p) &&
+		} else if (dad->tag == offset_mult_tag && son(dad) == bro(p) &&
 				   simple_const(piece, bro(son(dad)), false,
 								!assign_alias) && last(dad) &&
-				   (name(bro(son(dad))) != val_tag ||
+				   (bro(son(dad))->tag != val_tag ||
 					good_pointer_factor(no(bro(son(dad))) / 8))) {
 			exp grandad = father(dad);
-			if (name(grandad) == addptr_tag && bro(son(grandad)) == dad &&
+			if (grandad->tag == addptr_tag && bro(son(grandad)) == dad &&
 				last(dad)) {
 				if (good_val(son(grandad), piece)) {
 					int n = -1;
@@ -486,11 +486,11 @@ find_pointer_opt(exp ldname, exp piece, void(*f)(exp, int))
 					f(grandad, usagex == 1);
 					otheruses--;
 
-					if (name(bro(son(dad))) == val_tag) {
+					if (bro(son(dad))->tag == val_tag) {
 						n = no(bro(son(dad))) / 8;
-					} else if (name(bro(son(dad))) == name_tag) {
+					} else if (bro(son(dad))->tag == name_tag) {
 						exp id = son(bro(son(dad)));
-						if (name(son(id)) == val_tag) {
+						if (son(id)->tag == val_tag) {
 							n = no(son(id));
 						}
 					}
@@ -502,7 +502,7 @@ find_pointer_opt(exp ldname, exp piece, void(*f)(exp, int))
 					}
 				}
 			}
-		} else if (name(dad) == test_tag && piece == bro(son(pt(dad)))) {
+		} else if (dad->tag == test_tag && piece == bro(son(pt(dad)))) {
 			f(dad, usagex == 1);
 			otheruses--;
 		}
@@ -533,7 +533,7 @@ collect_loopthings(exp ind, int everytime)
 {
 	/* builds addptrs and tests*/
 	exp z;
-	exp *loopthing = (name(ind) == test_tag) ? &tests : &addptrs;
+	exp *loopthing = (ind->tag == test_tag) ? &tests : &addptrs;
 	for (z = *loopthing; z != NULL; z = bro(z)) {
 		if (eq_exp(son(z), ind)) {
 			exp n = getexp(topsh, NULL, 0, ind, pt(z), 0, 0, 0);
@@ -561,17 +561,17 @@ maybe_incr(exp e)
 {
 	exp incs = incrs;
 
-	if (name(e) == cont_tag) {
+	if (e->tag == cont_tag) {
 		e = son(e);
 	}
 
-	if (name(e) != name_tag) {
+	if (e->tag != name_tag) {
 		return 1;
 	}
 
 	while (incs != NULL) {
 		exp dest = son(son(incs));
-		assert(name(dest) == name_tag);
+		assert(dest->tag == name_tag);
 		if (son(dest) == son(e)) {
 			return 1;
 		}
@@ -936,22 +936,22 @@ unaltered(exp e, int assign_alias)
 {
 	exp z = alteredset;
 
-	if (name(e) == name_tag && isvar(son(e))) {
+	if (e->tag == name_tag && isvar(son(e))) {
 		for (; z != NULL; z = bro(z)) {
 			exp dest = son(z);
-			assert(name(dest) == name_tag);
+			assert(dest->tag == name_tag);
 
 			if (!isvar(son(dest))) {
 				dest = son(son(dest));
-				if (name(dest) == reff_tag) {
+				if (dest->tag == reff_tag) {
 					dest = son(dest);
 				}
-				assert(name(dest) == addptr_tag);
+				assert(dest->tag == addptr_tag);
 				dest = son(dest);
 			}
 
 			if (son(e) == son(dest) &&
-			    (name(son(e)) != proc_tag || no(e) == no(dest))) {
+			    (son(e)->tag != proc_tag || no(e) == no(dest))) {
 				return false;
 			}
 		}
@@ -965,8 +965,8 @@ unaltered(exp e, int assign_alias)
 static int
 invariant(exp e, int assign_alias)
 {
-	return (name(e) == name_tag) ||
-	       (name(e) == cont_tag && unaltered(son(e), assign_alias));
+	return (e->tag == name_tag) ||
+	       (e->tag == cont_tag && unaltered(son(e), assign_alias));
 }
 
 static int multiplier;	/* part of answer to weaken */
@@ -987,7 +987,7 @@ weaken(exp loop, exp addptrset, exp incrset)
 	int simple_c = 0;
 	int res = -1;
 
-	if (name(minc) == cont_tag) {
+	if (minc->tag == cont_tag) {
 		multiplier = inci;
 		arraystep = 1;
 		simple_c = 1;
@@ -1036,18 +1036,18 @@ unwind(exp loop, exp contset, exp incr, int incval)
 		exp w;
 		int n;
 		exp next = pt(z);
-		assert(name(c) == cont_tag);
+		assert(c->tag == cont_tag);
 
 		if (!last(c)) {
 			z = next;
 			continue;
 		}
 
-		if (name(bro(c)) == cont_tag) {
+		if (bro(c)->tag == cont_tag) {
 			n = 0;
 			w = bro(c);
-		} else if (name(bro(c)) == reff_tag && last(bro(c)) &&
-		           name(bro(bro(c))) == cont_tag) {
+		} else if (bro(c)->tag == reff_tag && last(bro(c)) &&
+		           bro(bro(c))->tag == cont_tag) {
 			n = no(bro(c));
 			w = bro(bro(c));
 		} else {
@@ -1138,7 +1138,7 @@ all_before(exp addptrset, exp inc, exp body)
 }
 
 /*
- * ld is copy of the name(id) assigned to safely in loop (see do_one_rep)
+ * ld is copy of the id->tag assigned to safely in loop (see do_one_rep)
  * replace loop(id) by Var x := cont(id) in loop(x); id = cont(x) ni;
  */
 static void
@@ -1147,7 +1147,7 @@ replace_var(exp ldcpy, exp loop, shape shcont)
 	exp z;
 	exp *pos;
 	exp ld = getexp(sh(ldcpy), NULL, 1, son(ldcpy), pt(son(ldcpy)),
-	                props(ldcpy), no(ldcpy), name(ldcpy));
+	                props(ldcpy), no(ldcpy), ldcpy->tag);
 	exp def = getexp(shcont, NULL, 0, ld, NULL, 0, 0, cont_tag);
 	exp varid = getexp(sh(loop), bro(loop), last(loop), def, NULL,
 	                   subvar | 1 /*var*/, 1, ident_tag);
@@ -1193,12 +1193,12 @@ limexp(exp test, exp ld)
 	exp lh = son(test);
 	exp rh = bro(lh);
 
-	if (name(lh) == cont_tag && name(son(lh)) == name_tag &&
+	if (lh->tag == cont_tag && son(lh)->tag == name_tag &&
 	    son(son(lh)) == son(ld) && no(son(lh)) == no(ld)) {
 		return rh;
 	}
 
-	if (name(rh) == cont_tag && name(son(rh)) == name_tag &&
+	if (rh->tag == cont_tag && son(rh)->tag == name_tag &&
 	    son(son(rh)) == son(ld) && no(son(rh)) == no(ld)) {
 		return lh;
 	}
@@ -1280,7 +1280,7 @@ limdec(exp adec, exp val, int mult)
 {
 	exp init = son(adec);
 	exp bdy = bro(init);
-	exp ninit = (name(val) != val_tag) ? limaddptr(son(init), val, mult) :
+	exp ninit = (val->tag != val_tag) ? limaddptr(son(init), val, mult) :
 	            limreff(son(init), mult * no(val));
 	exp nb = getexp(sh(bdy), adec, 1, ninit, NULL, 0, 0, ident_tag);
 
@@ -1307,7 +1307,7 @@ remove_incr(exp adec, exp test, exp incr, int mult)
 	exp ldn = getexp(sh(son(ndec)), NULL, 0, ndec, pt(ndec), 0, 0,
 	                 name_tag);
 	exp ntestx = getexp(sh(test), bro(test), last(test), NULL, pt(test),
-	                    props(test), no(test), name(test));
+	                    props(test), no(test), test->tag);
 
 	bro(lda) = clda;
 	pt(adec) = lda;
@@ -1332,7 +1332,7 @@ remove_incr(exp adec, exp test, exp incr, int mult)
 	pos = position(test);
 	*pos = ntestx;
 	kill_exp(test, NULL);
-	setname(incr, top_tag);
+	incr->tag = top_tag;
 	kill_exp(bro(son(incr)), NULL);
 	kill_exp(son(incr), NULL);
 	son(incr) = NULL;
@@ -1347,7 +1347,7 @@ remove_incr2(exp adec, exp test, exp incr, int mult)
 	exp bdy = bro(init);
 	exp ninit, ldn, ntestx, lda, clda;
 
-	if (name(le) != val_tag && !remove_unused_index_counters) {
+	if (le->tag != val_tag && !remove_unused_index_counters) {
 		return;
 	}
 
@@ -1355,7 +1355,7 @@ remove_incr2(exp adec, exp test, exp incr, int mult)
 	             1, adec, pt(adec), 0, 0, name_tag);
 	clda = getexp(/*sh(son(adec))*/slongsh, NULL, 0, lda, NULL, 0, 0, cont_tag);
 
-	if (name(le) == val_tag) {
+	if (le->tag == val_tag) {
 		ninit = limconst(son(init), mult * no(le));
 		ldn = ninit;
 	} else {
@@ -1376,7 +1376,7 @@ remove_incr2(exp adec, exp test, exp incr, int mult)
 	}
 
 	ntestx = getexp(sh(test), bro(test), last(test), NULL, pt(test),
-	                props(test), no(test), name(test));
+	                props(test), no(test), test->tag);
 	bro(lda) = clda;
 	pt(adec) = lda;
 	no(adec)++;
@@ -1398,7 +1398,7 @@ remove_incr2(exp adec, exp test, exp incr, int mult)
 	pos = position(test);
 	*pos = ntestx;
 	kill_exp(test, NULL);
-	setname(incr, top_tag);
+	incr->tag = top_tag;
 	kill_exp(bro(son(incr)), NULL);
 	kill_exp(son(incr), NULL);
 	son(incr) = NULL;
@@ -1407,7 +1407,7 @@ remove_incr2(exp adec, exp test, exp incr, int mult)
 static int
 use_in(exp w, exp ld)
 {
-	switch (name(w)) {
+	switch (w->tag) {
 	case name_tag:
 		return (son(w) == son(ld) && no(w) == no(ld));
 
@@ -1417,7 +1417,7 @@ use_in(exp w, exp ld)
 			return z;
 		}
 
-		if (name(son(w)) == name_tag && son(son(w)) == son(ld) &&
+		if (son(w)->tag == name_tag && son(son(w)) == son(ld) &&
 		    no(son(w)) == no(ld)) {
 			return -1;
 		}
@@ -1461,7 +1461,7 @@ suitable_test(exp tests, exp incrld, exp loop)
 
 	t = son(tests);
 	v = limexp(t, incrld);
-	if (name(v) != val_tag &&
+	if (v->tag != val_tag &&
 	    (!invariant(v, assign_alias) || maybe_incr(v))) {
 		return 0;
 	}
@@ -1474,7 +1474,7 @@ suitable_test(exp tests, exp incrld, exp loop)
 		return 0;
 	}
 
-	while (name(t) != proc_tag && t != decx) {
+	while (t->tag != proc_tag && t != decx) {
 		exp b = bro(t);
 
 		if (!last(t)) {
@@ -1498,14 +1498,14 @@ do_one_rep(exp loop)
 	exp z;
 	int res = 0;
 	exp xincrs;
-	assert(name(loop) == rep_tag);
+	assert(loop->tag == rep_tag);
 	incrs = NULL;
 	alteredset = NULL;
 	assign_alias = false;
 	jump_out = false;
 	scan_for_incr(body, loop, collect_incrs);
 
-	if (!jump_out && name(sh(loop)) == tophd) {
+	if (!jump_out && sh(loop)->tag == tophd) {
 		/*
 		 * look to see if var assigned to in loop can be
 		 * locally declared ie Rep f(z) => Var x := cont(z) in
@@ -1516,7 +1516,7 @@ do_one_rep(exp loop)
 		for (z = alteredset; z != NULL; z = bro(z)) {
 			exp a = son(z);
 
-			if (name(a) == name_tag &&
+			if (a->tag == name_tag &&
 			    (isglob(son(a)) || !isvar(son(a))) &&
 			    (props(son(a)) & subvar) == 0 &&
 			    (!assign_alias ||
@@ -1527,10 +1527,10 @@ do_one_rep(exp loop)
 				shape shcont;
 
 				int const_init = !isglob(dc) &&
-				                 (name(son(dc)) == clear_tag ||
-				                  name(son(dc)) == val_tag ||
-				                  name(son(dc)) == real_tag ||
-				                  (name(son(dc)) == name_tag &&
+				                 (son(dc)->tag == clear_tag ||
+				                  son(dc)->tag == val_tag ||
+				                  son(dc)->tag == real_tag ||
+				                  (son(dc)->tag == name_tag &&
 				                   !isvar(son(son(dc)))));
 
 				for (p = pt(son(a)); p != NULL; p = pt(p)) {
@@ -1554,13 +1554,13 @@ do_one_rep(exp loop)
 					}
 
 					if (last(p) &&
-					    name(bro(p)) == cont_tag) {
+					    bro(p)->tag == cont_tag) {
 						shcont = sh(bro(p));
 						continue;
 					}
 
 					if (!last(p) && last(bro(p)) &&
-					    name(bro(bro(p))) == ass_tag) {
+					    bro(bro(p))->tag == ass_tag) {
 						shcont = sh(bro(p));
 						continue;
 					}
@@ -1576,11 +1576,11 @@ do_one_rep(exp loop)
 					/* check to see whether underlying id is used in loop */
 					exp w = son(son(a));
 					const_init = 0;
-					if (name(w) == reff_tag) {
+					if (w->tag == reff_tag) {
 						w = son(w);
 					}
 
-					assert(name(w) == addptr_tag);
+					assert(w->tag == addptr_tag);
 					/* uses of underlying var */
 					w = pt(son(son(w)));
 
@@ -1600,7 +1600,7 @@ do_one_rep(exp loop)
 					exp dc = son(a);
 					exp bd = bro(son(dc));
 
-					if (bd != loop && name(dc) == ident_tag) {
+					if (bd != loop && dc->tag == ident_tag) {
 						exp brodc = bro(dc);
 						int ldc = last(dc);
 						exp broloop = bro(loop);
@@ -1776,10 +1776,10 @@ order_loops(exp reps)
 			order_loops(bro(reps));
 		}
 
-		if (son(reps) != NULL && name(son(reps)) == rep_tag && no(reps) < max_loop_depth) {
+		if (son(reps) != NULL && son(reps)->tag == rep_tag && no(reps) < max_loop_depth) {
 			exp loop = son(reps);
 			/* ALTERATION #2 - does not affect C */
-			if (name(son(loop)) != top_tag) {
+			if (son(loop)->tag != top_tag) {
 				/* make loop(st, b) into seq((st), loop(make_top, b))
 				 * analysis assumes son(loop) = top! */
 				exp st = son(loop);

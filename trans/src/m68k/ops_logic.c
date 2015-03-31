@@ -549,7 +549,7 @@ adjust_bitf(exp e)
 static long
 bitf_posn(exp e)
 {
-	char n = name(e);
+	char n = e->tag;
 	if (n == name_tag) {
 		return adjust_bitf(e);
 	}
@@ -602,7 +602,7 @@ bitf_to_int(exp e, shape sha, where dest, ash stack)
 	}
 	bstart = boff - off;
 
-	switch (name(t)) {
+	switch (t->tag) {
 	case ident_tag:
 		dsha = sh(son(t));
 		break;
@@ -610,10 +610,10 @@ bitf_to_int(exp e, shape sha, where dest, ash stack)
 		dsha = sh(bro(son(t)));
 		break;
 	}
-	if (name(dsha) == bitfhd) {
+	if (dsha->tag == bitfhd) {
 		dsha = (extend ? slongsh : ulongsh);
 	}
-	if (name(dsha) == tophd) {
+	if (dsha->tag == tophd) {
 		error(ERR_WARN, "Top in bitfield assignment");
 	}
 
@@ -713,9 +713,9 @@ int_to_bitf(exp e, exp d, ash stack)
 		break;
 	}
 
-	if (name(e) == int_to_bitf_tag) {
+	if (e->tag == int_to_bitf_tag) {
 		exp s = son(e);
-		if (is_o(name(s))) {
+		if (is_o(s->tag)) {
 			e = s;
 		} else {
 			regsinproc |= regmsk(REG_D1);
@@ -734,7 +734,7 @@ int_to_bitf(exp e, exp d, ash stack)
 		return;
 	}
 
-	if ((bstart + nbits > 32) || (name(e)!= val_tag)) {
+	if ((bstart + nbits > 32) || (e->tag!= val_tag)) {
 		where dd;
 		bitpattern ch;
 		mach_op *op1, *op2;

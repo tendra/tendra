@@ -65,7 +65,7 @@ baseoff boff
     an.base = - (sno + 1);
     an.offset = 0;
   }
-  else if (name(son(e)) ==caller_name_tag)
+  else if (son(e)->tag ==caller_name_tag)
   {
      int n = no(e);
      an.base = SP;
@@ -74,7 +74,7 @@ baseoff boff
   else if (isparam(e))
   {
      /* parameter */
-     assert(name(son(e)) == clear_tag);
+     assert(son(e)->tag == clear_tag);
      if (Has_vcallees)
      {
 	an.base = FP;
@@ -83,7 +83,7 @@ baseoff boff
      {
 	an.base = EP;
      }
-     if (name(son(e)) ==formal_callee_tag)
+     if (son(e)->tag ==formal_callee_tag)
      {
 	an.offset=(no(son(e))-callees_offset)>>3;/* outermost ()'s for gcc */
      }
@@ -153,19 +153,19 @@ where locate1
   ans aa;
   where wans;
 #if 0				/* causes core dump spec/espresso/set.c */
-  asm_comment("locate1: %s, %s, dreg=%d",(int)tag_name(name(e)), (int)sh_name(name(s)), dreg);
+  asm_comment("locate1: %s, %s, dreg=%d",(int)tag_name(e->tag), (int)sh_name(s->tag), dreg);
   asm_comment("        space= (%ld,%ld) no(e) =%d no(son(e)) =%d", sp.fixed, sp.flt, no(e), no(son(e)));
 #endif
 
   a = ashof(s);
 
 /*
-  while (name(e) == diag_tag || name(e) == fscope_tag || name(e) == cscope_tag)
+  while (e->tag == diag_tag || e->tag == fscope_tag || e->tag == cscope_tag)
   {
     e = son(e);
   }
 */
-  switch (name(e))
+  switch (e->tag)
   {
   case name_tag:
     {
@@ -246,7 +246,7 @@ where locate1
 	/* ... it is in memory */
 	instore is;
 
-	if (var || (name(sh(e)) == prokhd &&
+	if (var || (sh(e)->tag == prokhd &&
 		   (son(dc) == NULL || IS_A_PROC(son(dc)))))
 	{
 	  is.adval = 1;
@@ -257,7 +257,7 @@ where locate1
 	}
 	is.b = boff(dc);
 #if USE_BITAD
-	if (a.ashalign == 1 && (var || name(sh(e))!= ptrhd))
+	if (a.ashalign == 1 && (var || sh(e)->tag!= ptrhd))
 	  /* some bit field */
 	{
 	  is.b.offset = (is.b.offset << 3) + no(e);
@@ -321,7 +321,7 @@ where locate1
 	    nsp = guardreg(b.base, sp);
 
 	    shift=no(bro(son(bro(sum))));
-	    if (name(bro(sum)) ==offset_mult_tag && name(bro(son(bro(sum)))) ==val_tag && (shift==0 || shift==2 || shift==4))
+	    if (bro(sum)->tag ==offset_mult_tag && bro(son(bro(sum)))->tag ==val_tag && (shift==0 || shift==2 || shift==4))
 	    {
 	       addend=reg_operand(son(bro(sum)),nsp);
 	       if (dreg == 0)
@@ -376,8 +376,8 @@ where locate1
       /* register ind contains the evaluation of 1st operand of addptr */
       nsp = guardreg(ind, sp);
       /* evaluate displacement, add it to ind in new reg */
-      if (name(bro(sum)) == env_offset_tag ||
-	  name(bro(sum)) == general_env_offset_tag)
+      if (bro(sum)->tag == env_offset_tag ||
+	  bro(sum)->tag == general_env_offset_tag)
       {
 	  is.b.base = ind;
 	  is.b.offset = frame_offset(son(bro(sum)));
@@ -385,7 +385,7 @@ where locate1
       else
       {
 	 shift=no(bro(son(bro(sum))));
-	 if (name(bro(sum)) ==offset_mult_tag && name(bro(son(bro(sum)))) ==val_tag && (shift==0 || shift==2 || shift==4))
+	 if (bro(sum)->tag ==offset_mult_tag && bro(son(bro(sum)))->tag ==val_tag && (shift==0 || shift==2 || shift==4))
 	 {
 	    addend=reg_operand(son(bro(sum)),nsp);
 	    if (dreg == 0)
@@ -421,7 +421,7 @@ where locate1
 
       isa.adval = 1;
       sum = bro(sum);
-      if (name(sum) == val_tag)
+      if (sum->tag == val_tag)
       {
 	instore isa;
 
@@ -455,7 +455,7 @@ where locate1
       wans = locate(son(e), sp, sh(son(e)), 0);
 
 #if USE_BITAD
-      bitfield = ((name(sh(e)) == ptrhd) && (al1(sh(e)) == 1));
+      bitfield = ((sh(e)->tag == ptrhd) && (al1(sh(e)) == 1));
 #endif
       switch (discrim(wans.answhere))
       {
@@ -580,7 +580,7 @@ where locate1
 	    isa.b.base = reg;
 	    isa.b.offset = 0;
 	    setinsalt(aa, isa);
-	    if (name(e)!= contvol_tag && fc.ashwhere.ashalign != 1)
+	    if (e->tag!= contvol_tag && fc.ashwhere.ashalign != 1)
 	      keepexp(e, aa);
 	  }
 #if USE_BITAD

@@ -294,7 +294,7 @@ out_sh_type(shape s)
 {
 	last_type_sz = shape_size(s);
 
-	switch (name(s)) {
+	switch (s->tag) {
 	case scharhd:  return STAB_SCHAR;
 	case ucharhd:  return STAB_UCHAR;
 	case swordhd:  return STAB_SSHRT;
@@ -728,12 +728,12 @@ stab_local(char *nm, diag_type dt, exp ldid, long disp, long findex)
 
 	UNUSED(findex);
 
-	if (name(id) == ident_tag && ((props(id) & defer_bit) == 0)) {
+	if (id->tag == ident_tag && ((props(id) & defer_bit) == 0)) {
 		disp += boff(id).offset;	 /* is this condition right ? */
 	}
 
 again:
-	if (name(id) == ident_tag) {
+	if (id->tag == ident_tag) {
 		if ((props(id) & defer_bit) == 0) {
 			/* +++ add assembler comment to say which reg is being used */
 			if (isparam(id)) {
@@ -754,7 +754,7 @@ again:
 			long d = disp;
 
 			while (sn != NULL) {
-				switch (name(sn)) {
+				switch (sn->tag) {
 				case name_tag:
 					disp = d + no(sn);
 					id = son(sn);

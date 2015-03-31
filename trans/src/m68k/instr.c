@@ -77,7 +77,7 @@ static mach_op *
 index_opnd(where w1, where w2, int sf)
 {
 	mach_op *op1, *op2;
-	if (name(w2.wh_exp) != name_tag) {
+	if (w2.wh_exp->tag != name_tag) {
 		error(ERR_SERIOUS, "Illegal index operand");
 		return NULL;
 	}
@@ -110,7 +110,7 @@ operand(long sz, where wh)
 	exp w = wh.wh_exp;
 	long off = wh.wh_off;
 
-	switch (name(w)) {
+	switch (w->tag) {
 	case val_tag: {
 		long k = no(w) + off;
 		if (is_offset(w)) {
@@ -153,11 +153,11 @@ operand(long sz, where wh)
 		long d2 = no(id);
 
 		if (isglob(id)) {
-			if (name(sh(w)) == prokhd) {
+			if (sh(w)->tag == prokhd) {
 #if 1
 				if ((son(id) == NULL ||
-				     name(son(id)) == proc_tag ||
-				     name(son(id)) == general_proc_tag))
+				     son(id)->tag == proc_tag ||
+				     son(id)->tag == general_proc_tag))
 #endif
 					return make_ext(id, d1);
 
@@ -186,13 +186,13 @@ operand(long sz, where wh)
 	case cont_tag:
 	case ass_tag: {
 		exp r = son(w);
-		switch (name(r)) {
+		switch (r->tag) {
 		case name_tag: {
 			exp id = son(r);
 			if (!isvar(id)) {
 				if (isglob(id)) {
 					int ra;
-					if (name(sh(w)) == prokhd) {
+					if (sh(w)->tag == prokhd) {
 						if (off) {
 							error(ERR_SERIOUS, illegal_operand, 2);
 						}
@@ -237,11 +237,11 @@ operand(long sz, where wh)
 		case cont_tag: {
 			exp rr = son(r);
 			int roff = 0;
-			if (name(rr) == reff_tag) {
+			if (rr->tag == reff_tag) {
 				rr = son(rr);
 				roff = no(rr);
 			}
-			switch (name(rr)) {
+			switch (rr->tag) {
 			case name_tag: {
 				exp id = son(rr);
 #if 0
@@ -289,7 +289,7 @@ operand(long sz, where wh)
 		}
 		case reff_tag: {
 			exp rr = son(r);
-			switch (name(rr)) {
+			switch (rr->tag) {
 			case name_tag: {
 				exp id = son(rr);
 				if (isglob(id)) {
@@ -371,7 +371,7 @@ operand(long sz, where wh)
 			wc.wh_exp = ec;
 			wc.wh_off = off;
 
-			switch (name(eb)) {
+			switch (eb->tag) {
 			case name_tag:
 			case cont_tag:
 				return index_opnd(wc, wb, 1);
@@ -398,7 +398,7 @@ operand(long sz, where wh)
 	case dummy_tag: {
 		exp r = son(w);
 
-		switch (name(r)) {
+		switch (r->tag) {
 		case ident_tag:
 			/* This is used by m_lea */
 			switch (ptno(r)) {
@@ -480,7 +480,7 @@ operand(long sz, where wh)
 	case reff_tag: {
 		exp r = son(w);
 
-		switch (name(r)) {
+		switch (r->tag) {
 		case name_tag: {
 			exp id = son(r);
 			if (isglob(id)) {
@@ -566,7 +566,7 @@ operand(long sz, where wh)
 		wc.wh_exp = ec;
 		wc.wh_off = off;
 
-		switch (name(eb)) {
+		switch (eb->tag) {
 		case name_tag:
 		case cont_tag:
 			return index_opnd(wc, wb, 1);

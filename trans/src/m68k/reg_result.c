@@ -30,7 +30,7 @@
 bool
 reg_result(shape sha)
 {
-	char n = name(sha);
+	char n = sha->tag;
 
 	if (cconv == CCONV_HP) {
 		/* HP cc doesn't return any tuples, unions etc in a register */

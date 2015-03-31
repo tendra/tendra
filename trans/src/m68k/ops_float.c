@@ -262,7 +262,7 @@ get_min_limit(shape sha, int adj)
 {
    long fmd[4], min;
 
-   if (name(sha) ==ulonghd) {
+   if (sha->tag ==ulonghd) {
       switch (adj) {
       case 0:
          /* res = 0 */
@@ -281,7 +281,7 @@ get_min_limit(shape sha, int adj)
          return mfw(-1,fmd,-1);
       }
    }
-   if (name(sha) ==slonghd) {
+   if (sha->tag ==slonghd) {
       switch (adj) {
       case 0:
          break;
@@ -337,7 +337,7 @@ get_max_limit(shape sha, int adj)
 {
    long fmd[6];
    long max = range_max(sha);
-   if (name(sha) ==ulonghd) {
+   if (sha->tag ==ulonghd) {
       switch (adj) {
       case 0:
          /* max */
@@ -550,7 +550,7 @@ void round_float
     where dest;
     int mode = crt_rmode;
 
-    if (name(sha) == ulonghd) {
+    if (sha->tag == ulonghd) {
         if (have_overflow()) {
             /*
              * This must be checked before a round operation is attempted
@@ -725,7 +725,7 @@ void int_to_float
 #else
     fpr = FP0;
 #endif
-    if (name(shf) == ulonghd) {
+    if (shf->tag == ulonghd) {
 	switch (abi) {
 	case ABI_NEXT:
 	case ABI_SUNOS: {
@@ -772,7 +772,7 @@ void int_to_float
 	}
     }
 
-    if (name(shf) == slonghd && whereis(from) == Dreg) {
+    if (shf->tag == slonghd && whereis(from) == Dreg) {
 	ins2(m_fmovel, 32L, 64L, from, fpr, 1);
     } else {
 	change_var_sh(slongsh, shf, from, D0);

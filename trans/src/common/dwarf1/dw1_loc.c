@@ -35,7 +35,7 @@
 void
 out_dwarf_const4(exp x)
 {
-	if (name(x) != val_tag && name(x) != null_tag) {
+	if (x->tag != val_tag && x->tag != null_tag) {
 		error(ERR_INTERNAL, "non const exp in out_dwarf_const4");
 		return;
 	}
@@ -46,7 +46,7 @@ out_dwarf_const4(exp x)
 void
 out_dwarf_const_by8(exp x)
 {
-	if (name(x) != val_tag) {
+	if (x->tag != val_tag) {
 		error(ERR_INTERNAL, "non const exp in out_dwarf_const_by8");
 		return;
 	}
@@ -60,7 +60,7 @@ out_dwarf_member_loc_attr(exp e)
 	int o;
 
 	OUT_DWARF_ATTR(AT_location);
-	if (name(e) != val_tag) {
+	if (e->tag != val_tag) {
 		error(ERR_INTERNAL, "out_mem_loc_attr");
 	}
 
@@ -175,7 +175,7 @@ out_dwarf_loc_attr(exp t, int proc_no)
 
 	UNUSED(proc_no);
 
-	if (name(t) != name_tag) {
+	if (t->tag != name_tag) {
 		OUT_DWARF_ATTR(AT_const_value);
 		out_dwarf_const4(t);
 		return rval;

@@ -112,7 +112,7 @@ static void out_classmem
 	attr1 |= H_NM;
       if (m.d.cm_f.f_pos.file)
 	attr1 |= H_XY;
-      if (name(off) == val_tag)
+      if (off->tag == val_tag)
 	attr1 |= H_LC;
       if (f->key == DGT_BITF) {
 	attr1 |= H_BF;
@@ -260,7 +260,7 @@ static void out_class_data
 		cm->d.cm_fn.fn->mor && cm->d.cm_fn.fn->mor->virt) {
 	exp a, b, c;
 	if (!vtable_exp || !cm->d.cm_fn.slot ||
-		name(sh(son(cm->d.cm_fn.slot))) != offsethd)
+		sh(son(cm->d.cm_fn.slot))->tag != offsethd)
 	  error(ERR_INTERNAL, "wrong virtual function data");
 	a = copy (son(vtable_exp));
 	b = copy (son(cm->d.cm_fn.slot));
@@ -330,7 +330,7 @@ static void out_variant_part
     }
     else {
       long block_end = next_dwarf_label ();
-      int ss = (name(sh(d_el->lower)) & 1);
+      int ss = (sh(d_el->lower)->tag & 1);
       IGNORE dw_entry (dwe_variant_n, 0);
       out16 (); out_dwf_dist_to_label (block_end); asm_printf("\n");
       for (j = 0; j < v_el[i].discr.len; j++) {
@@ -461,7 +461,7 @@ void dw_out_type
 	  encoding = (is_signed (sha) ? DW_ATE_signed : DW_ATE_unsigned);
 	  break;
 	case DG_FLOAT_T:
-	  encoding = (is_floating (name(sha)) ? DW_ATE_float : DW_ATE_complex_float);
+	  encoding = (is_floating (sha->tag) ? DW_ATE_float : DW_ATE_complex_float);
 	  break;
       }
       IGNORE dw_entry (dwe_base_type, 0);
@@ -525,7 +525,7 @@ void dw_out_type
     case DGT_ARRAY: {
       exp stride_e = son(t->data.t_arr.stride);
       dg_dim * el = t->data.t_arr.dims.array;
-      int stride_known = (name(stride_e) == val_tag);
+      int stride_known = (stride_e->tag == val_tag);
       int size_known = stride_known;
       unsigned long tot_size = (unsigned long) no(stride_e);
       int i;
@@ -896,7 +896,7 @@ void dw_out_type
 
     case DGT_STRING: {
       exp l_e = son(t->data.t_string.length);	/* other fields ignored */
-      if (name(l_e) == val_tag) {
+      if (l_e->tag == val_tag) {
 	IGNORE dw_entry (dwe_stringc_t, 0);
 	dw_at_udata ((unsigned long)no(l_e));
       }

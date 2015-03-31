@@ -176,7 +176,7 @@ static int nofds = 0;
 #define CSTRING(tdfstring)	((tdfstring).ints.chars)
 
 /* tdf exp -> C int */
-#define EXPINT(exp)		(assert(name(exp) == val_tag), no(exp))
+#define EXPINT(exp)		(assert((exp)->tag == val_tag), no(exp))
 
 /* tdf nat -> C int */
 #define NATINT(n)		((n).nat_val.small_nat)
@@ -1316,7 +1316,7 @@ static long out_sh_type
 (shape s)
 {
     last_type_sz = shape_size(s);
-    switch (name(s))
+    switch (s->tag)
       {
       case scharhd: return STAB_SCHAR;
       case ucharhd: return STAB_UCHAR;
@@ -2081,7 +2081,7 @@ stab_local(char *nm, diag_type dt, exp ldid, long disp, long findex)
 	id = son(ldid);
     disp += boff(id).offset;
     again:
-    if (name(id) == ident_tag)
+    if (id->tag == ident_tag)
     {
        if ((props(id) & defer_bit) == 0)
        {
@@ -2139,7 +2139,7 @@ stab_local(char *nm, diag_type dt, exp ldid, long disp, long findex)
 	  long d = disp;
 	  while (sn != NULL)
 	  {
-	     switch (name(sn))
+	     switch (sn->tag)
 	     {
 		case name_tag:
 		{

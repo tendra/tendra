@@ -68,7 +68,7 @@ static int spareparregs = 0;
 spacereq
 regalloc(exp e, int freefixed, int freefloat, int stack)
 {
-  int   n = name (e);
+  int   n = e->tag;
   exp s = son (e);
   spacereq def;
 
@@ -85,8 +85,8 @@ regalloc(exp e, int freefixed, int freefloat, int stack)
     }
     else {
       a = ashof (sh (s));
-      if (name(s) != compound_tag && name(s) != nof_tag 
-	  && name(s) != concatnof_tag ) {
+      if (s->tag != compound_tag && s->tag != nof_tag 
+	  && s->tag != concatnof_tag ) {
       	def = regalloc (s, freefixed, freefloat, stack);
       }
       else  { 
@@ -128,11 +128,11 @@ regalloc(exp e, int freefixed, int freefloat, int stack)
 	    }	
 	    else
 	    /* not suitable for reg allocation */
-	      if (name (son (e)) == val_tag && !isvar (e) && !isvis(e)) {
+	      if (son(e)->tag == val_tag && !isvar (e) && !isvis(e)) {
 		exp t = pt (e);
 		for (; t != NULL;) {
 		  exp p = pt(t);
-		  setname (t, val_tag);
+		  t->tag = val_tag;
 		  son(t) = NULL;
 		  no(t) = no (son (e));
 		  props(t) = 0;
@@ -144,7 +144,7 @@ regalloc(exp e, int freefixed, int freefloat, int stack)
 		def = zerospace;
 	      }
 	      else
-		if (name (son (e)) == name_tag && !isvar (e) && !isvis(e)) {
+		if (son(e)->tag == name_tag && !isvar (e) && !isvis(e)) {
 		  /* must have been forced  - defer it */
 		  props (e) |= defer_bit;
 		  def = zerospace;

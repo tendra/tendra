@@ -48,29 +48,29 @@ static int locate_param(exp);
 
 bool APPLYLIKE(exp e)
 {
-  if (name(e) ==apply_tag)
+  if (e->tag ==apply_tag)
     return 1;
-  if (name(e) ==apply_general_tag)
+  if (e->tag ==apply_general_tag)
     return 1;
-  if (name(e) ==round_tag)
-    if (name(sh(e)) == ulonghd || cpu != CPU_POWERPC)
+  if (e->tag ==round_tag)
+    if (sh(e)->tag == ulonghd || cpu != CPU_POWERPC)
       return 1;
   return 0;
 }
 /* RETURNS_R_RESULT returns 1 if the exp returns R_RESULT when evaluated */
 bool RETURNS_R_RESULT(exp e)
 {
-  if (name(e) ==apply_tag && valregable(sh(e)))
+  if (e->tag ==apply_tag && valregable(sh(e)))
   {
     return 1;
   }
-  if (name(e) ==apply_general_tag && valregable(sh(e)))
+  if (e->tag ==apply_general_tag && valregable(sh(e)))
   {
     return 1;
   }
-  if (name(e) ==round_tag)
+  if (e->tag ==round_tag)
   {
-    if (name(sh(e)) ==ulonghd || cpu != CPU_POWERPC)
+    if (sh(e)->tag ==ulonghd || cpu != CPU_POWERPC)
       return 1;
   }
   return 0;
@@ -78,11 +78,11 @@ bool RETURNS_R_RESULT(exp e)
 /* RETURNS_FR_RESULT returns 1 if the exp returns FR_RESULT when evaluated */
 bool RETURNS_FR_RESULT(exp e)
 {
-  if (name(e) ==apply_tag && is_floating(name(sh(e))))
+  if (e->tag ==apply_tag && is_floating(sh(e)->tag))
   {
     return 1;
   }
-  if (name(e) ==apply_general_tag && is_floating(name(sh(e))))
+  if (e->tag ==apply_general_tag && is_floating(sh(e)->tag))
   {
     return 1;
   }
@@ -129,7 +129,7 @@ trace_uses(exp e, exp id)
     return 0;
   }
 
-  switch (name(e))
+  switch (e->tag)
   {
    case caller_name_tag:
    case env_offset_tag:
@@ -200,7 +200,7 @@ trace_uses(exp e, exp id)
 
    case ass_tag:
     {
-      if (isvar(id) && name(son(e)) == name_tag && son(son(e)) == id)
+      if (isvar(id) && son(e)->tag == name_tag && son(son(e)) == id)
       {
 	trace_uses(bro(son(e)), id);
 	return 2;
@@ -278,10 +278,10 @@ tailrecurse:
   dad = father(a);
   if (nouses == 0)
     return;
-  if (name(dad) == cond_tag || name(dad) == rep_tag
-      || name(dad) == solve_tag || name(dad) == labst_tag
-      || name(dad) == case_tag || name(dad) == goto_tag
-      || name(dad) == test_tag || APPLYLIKE(dad))
+  if (dad->tag == cond_tag || dad->tag == rep_tag
+      || dad->tag == solve_tag || dad->tag == labst_tag
+      || dad->tag == case_tag || dad->tag == goto_tag
+      || dad->tag == test_tag || APPLYLIKE(dad))
   {
     /* dont try too hard ! */
     while (APPLYLIKE(dad) && dad != id)
@@ -319,8 +319,8 @@ simple_seq(exp e, exp id)
   {
     if (dad == id)
       return 1;
-    if (name(dad) == seq_tag || name(dad) == 0
-	|| name(dad) == ident_tag)
+    if (dad->tag == seq_tag || dad->tag == 0
+	|| dad->tag == ident_tag)
     {
       dad = father(dad);
     }
@@ -354,7 +354,7 @@ tempdec(exp e, bool enoughs)
     {
       /* find no of uses which are not assignments to id ... */
       if (!last(p) && last(bro(p))
-	  && name(bro(bro(p))) == ass_tag)
+	  && bro(bro(p))->tag == ass_tag)
       {
 	if (!simple_seq(bro(bro(p)), e))
 	  return 0;
@@ -372,7 +372,7 @@ tempdec(exp e, bool enoughs)
    * id)
    */
 
-  if (name(son(e))!= clear_tag || isparam(e))
+  if (son(e)->tag!= clear_tag || isparam(e))
   {
     after_a(son(e), e);
   }
@@ -382,7 +382,7 @@ tempdec(exp e, bool enoughs)
     for (p = pt(e); p != NULL; p = pt(p))
     {
       if (!last(p) && last(bro(p))
-	  && name(bro(bro(p))) == ass_tag)
+	  && bro(bro(p))->tag == ass_tag)
       {
 	after_a(bro(bro(p)), e);
       }
@@ -427,12 +427,12 @@ static int param_uses(exp id)
 static int locate_param(exp e)
 {
   exp f = father(e);
-  bool is_float = is_floating(name(sh(e)));
+  bool is_float = is_floating(sh(e)->tag);
   exp par;
 
 
   assert(APPLYLIKE(f));
-  switch (name(f))
+  switch (f->tag)
   {
    case apply_general_tag:
     par =  son(bro(son(f)));
@@ -475,7 +475,7 @@ static int locate_param(exp e)
       }
       stparam = ALIGNNEXT(stparam + par_size,32);
       fxparam = (stparam/32) + R_FIRST_PARAM;
-      if (is_floating(name(sh(par))))
+      if (is_floating(sh(par)->tag))
       {
 	flparam++;
       }

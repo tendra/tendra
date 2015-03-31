@@ -70,7 +70,7 @@ int inlinechoice
   const_param_bonus = 0;
 
   pr_ident = son(t);		/* t is name_tag */
-  assert(name(pr_ident) == ident_tag);
+  assert(pr_ident->tag == ident_tag);
 
   max_complexity = ( 300 / cnt) ; /* was no(pr_ident), but that changes */
 
@@ -97,13 +97,13 @@ int inlinechoice
   {
     exp proc_in = t;
 
-    while (name(proc_in)!= proc_tag)
+    while (proc_in->tag!= proc_tag)
     {
       proc_in = father(proc_in);
       assert(proc_in != NULL);
     }
     proc_in = bro(proc_in);
-    assert(name(proc_in) = ident_tag);
+    assert(proc_in->tag = ident_tag);
 
     fprintf(stderr,"Considering %s in %s\n",
 	    brog(pr_ident) ->dec_id,
@@ -114,23 +114,23 @@ int inlinechoice
   fpars = son(def);
 
   for (;;) {
-     if (name(fpars)!=ident_tag || !isparam(fpars)) { /* first beyond formals */
+     if (fpars->tag!=ident_tag || !isparam(fpars)) { /* first beyond formals */
        if (!last(t))
 	 newdecs = 10; /* more actuals than formals, since last(apars)->break */
        break;
      }
      nparam++;
 
-     switch (name(apars)) {
+     switch (apars->tag) {
       case val_tag: case real_tag: case string_tag: case name_tag:
       	   break;
       case cont_tag: {
-      	   if (name(son(apars)) ==name_tag && isvar(son(son(apars))) &&
+      	   if (son(apars)->tag ==name_tag && isvar(son(son(apars))) &&
       	        		!isvar(fpars))break;
       	   } /* ... else continue */
       default: newdecs++;
      }
-     switch (name(apars))
+     switch (apars->tag)
      {
       case val_tag: {
 	int n = no(apars);
@@ -167,7 +167,7 @@ int inlinechoice
 	 break;
 
       case cont_tag:
-	if (name(son(apars)) == name_tag &&
+	if (son(apars)->tag == name_tag &&
 	    isvar(son(son(apars))) &&
 	    !isvar(fpars)) {
 	  break;

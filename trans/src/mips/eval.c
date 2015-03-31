@@ -80,7 +80,7 @@ static mm uswmm = { 0xffffffff, 0,          "\t.word %ld :%ld\n" };
 mm maxmin
 (shape s)
 {
-  switch (name(s)) {
+  switch (s->tag) {
     case scharhd:
       return scmm;
     case ucharhd:
@@ -127,9 +127,9 @@ outlab(int l)
 static long
 evalexp(exp e)
 {
-  switch (name(e)) {
+  switch (e->tag) {
     case  val_tag: case null_tag: case top_tag:{
-	if (name(sh(e)) == offsethd && al2(sh(e)) >= 8) {
+	if (sh(e)->tag == offsethd && al2(sh(e)) >= 8) {
 		return no(e) >> 3;
 	}
         return no(e);
@@ -273,7 +273,7 @@ evalone(exp e, long rep)
 {
   ash a;
   a = ashof(sh(e));
-  switch (name(e)) {
+  switch (e->tag) {
 
     case string_tag:
       {
@@ -369,7 +369,7 @@ evalone(exp e, long rep)
 	char *nm = globdec -> dec_id;
 	long symdef = globdec ->sym_number;
 	if (!isvar(dc) && son(dc)!= NULL
-		&& name(son(dc))!= proc_tag && name(son(dc))!= general_proc_tag
+		&& son(dc)->tag!= proc_tag && son(dc)->tag!= general_proc_tag
 		&& no(e) ==0
 		&& shape_size(sh(e)) == shape_size(sh(son(dc)))) {
 		evalone(son(dc), rep);
@@ -525,8 +525,8 @@ evalone(exp e, long rep)
 
     case ncopies_tag:
       {
-        if (name(son(e)) == compound_tag || name(son(e)) == concatnof_tag ||
-               name(son(e)) == nof_tag) {
+        if (son(e)->tag == compound_tag || son(e)->tag == concatnof_tag ||
+               son(e)->tag == nof_tag) {
              int n;
              for (n = rep*no(e); n > 0; n--) {
              	evalone(son(e), 1);
@@ -584,7 +584,7 @@ evalone(exp e, long rep)
       }
    case seq_tag:
       {
-	if (name(son(son(e))) == prof_tag && last(son(son(e))))
+	if (son(son(e))->tag == prof_tag && last(son(son(e))))
 	   { evalone(bro(son(e)),rep); return;}
       }		/* otherwise drop through to failure */
 
@@ -618,7 +618,7 @@ instore evaluated
   isa.b.base = lab0;
 
 
-  if (name (e) == clear_tag) {/* uninitialised global */
+  if (e->tag == clear_tag) {/* uninitialised global */
     int   size = (ashof(sh(e)).ashsize + 7) >> 3;
     bool temp = (l == 0 ||
 	(main_globals[-lab - 1] -> dec_id)[0] == '$');

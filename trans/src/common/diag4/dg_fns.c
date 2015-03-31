@@ -673,7 +673,7 @@ f_dg_object_name(dg_idname idname, dg_sourcepos whence, dg_type type,
 		ans->data.n_obj.obtain_val = diaginfo_exp(acc);
 		set_obj_ref(ans);		/* globals only */
 #if 0
-		if (name(acc) == cont_tag && name(son(acc)) == name_tag &&
+		if (acc->tag == cont_tag && son(acc)->tag == name_tag &&
 		    isglob(son(son(acc))) && isvar(son(son(acc)))) {
 			brog(son(son(acc)))->dg_name = ans;
 		}
@@ -705,7 +705,7 @@ f_dg_proc_name(dg_idname idname, dg_sourcepos whence, dg_type type,
 	if (obtain_value.present) {
 		exp acc = obtain_value.val;
 		ans->data.n_proc.obtain_val = diaginfo_exp(acc);
-		if (name(acc) == name_tag && isglob(son(acc))) {
+		if (acc->tag == name_tag && isglob(son(acc))) {
 			brog(son(acc))->dg_name = ans;
 		}
 	} else {
@@ -902,7 +902,7 @@ f_dg_module_name(dg_idname idname, dg_sourcepos whence, dg_namelist memlist,
 	if (init.present) {
 		exp acc = init.val;
 		ans->data.n_mod.init = diaginfo_exp(acc);
-		if (name(acc) == name_tag && isglob(son(acc))) {
+		if (acc->tag == name_tag && isglob(son(acc))) {
 			brog(son(acc))->dg_name = ans;
 		}
 	} else {
@@ -1688,7 +1688,7 @@ f_dg_static_bound(exp bound)
 {
 	dg_bound ans;
 
-	if (name(bound) != val_tag) {
+	if (bound->tag != val_tag) {
 		error(ERR_INTERNAL, "not a constant");
 	}
 
@@ -1833,7 +1833,7 @@ f_make_dg_enum(exp value, dg_idname idname, dg_sourcepos src_pos)
 {
 	dg_enum ans;
 
-	if (!value || name(value) != val_tag) {
+	if (!value || value->tag != val_tag) {
 		error(ERR_INTERNAL, "enum value not const");
 	}
 
@@ -1850,7 +1850,7 @@ dg_enum
 f_dg_char_enum(exp value, nat idchar, dg_sourcepos src_pos)
 {
 	dg_enum ans;
-	if (!value || name(value) != val_tag) {
+	if (!value || value->tag != val_tag) {
 		error(ERR_INTERNAL, "enum value not const");
 	}
 	ans.chn = idchar.nat_val.small_nat;
@@ -2284,7 +2284,7 @@ f_make_dg_discrim(exp lower, exp upper)
 {
 	dg_discrim ans;
 
-	if (name(lower) != val_tag || name(upper) != val_tag ||
+	if (lower->tag != val_tag || upper->tag != val_tag ||
 	    sh(lower) != sh(upper)) {
 		error(ERR_INTERNAL, "malformed discriminant");
 	}

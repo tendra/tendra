@@ -43,14 +43,14 @@ enter_parents(exp e)
 {
 	exp dad =e;
 	bool inloop = 0;
-	assert(name(e)==name_tag);
+	assert(e->tag==name_tag);
 	for(;;) {
 	  	dad = father(dad);
-		if (name(dad)==rep_tag) {
+		if (dad->tag==rep_tag) {
 		  	inloop=1;
 		}
 		else
-		if (name(dad)==proc_tag) {
+		if (dad->tag==proc_tag) {
 			exp nu = usages[no(dad)];
 			if (nu == NULL) {
 			  nu = getexp(sh(e), e, 1, dad, NULL, 0,
@@ -65,11 +65,11 @@ enter_parents(exp e)
 			return 1;
 		}
 		else
-		if (name(dad)== ident_tag && isglob(dad)) {
+		if (dad->tag== ident_tag && isglob(dad)) {
 			return 0;
 		}
 		else
-		if (name(dad) == 102) {
+		if (dad->tag == 102) {
 			/* could be leftover from exp token expansion
 				with no pars */
 			return 0;
@@ -84,7 +84,7 @@ global_usages(exp id, int nop)
 {
 	exp plist, nextpl;
 	int i;
-	assert(name(id)==ident_tag && isglob(id) && son(id)==NULL);
+	assert(id->tag==ident_tag && isglob(id) && son(id)==NULL);
 	if (no(id)==0) return;
 
 	for(i=0; i<nop; i++) {
@@ -113,11 +113,11 @@ global_usages(exp id, int nop)
 		exp * pi;
 		shape sname = f_pointer(f_alignment(sh(id)));
 		for(pi= &son(son(ui));;) {
-		  if (name(*pi)== ident_tag && isparam(*pi)) {
+		  if ((*pi)->tag== ident_tag && isparam(*pi)) {
 		  	pi = &bro(son(*pi));
 		  }
 		  else
-		  if (name(*pi) == diagnose_tag || name(*pi) == prof_tag) {
+		  if ((*pi)->tag == diagnose_tag || (*pi)->tag == prof_tag) {
 			pi = &son(*pi);
 		  }
 		  else {

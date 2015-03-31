@@ -395,7 +395,7 @@ f_diag_bitfield(diag_type typ, nat number_of_bits)
 		sha = slongsh;
 	}
 
-	return f_dg_bitfield_type(typ, f_bfvar_bits(((name(sha) & 1) ? 1 : 0),
+	return f_dg_bitfield_type(typ, f_bfvar_bits(((sha->tag & 1) ? 1 : 0),
 	                          number_of_bits), sha);
 }
 
@@ -501,7 +501,7 @@ f_diag_union(shape tdf_shape, tdfstring n, diag_field_list fields)
 diag_type
 f_diag_variety(variety var)
 {
-	switch (name(var)) {
+	switch (var->tag) {
 	case scharhd: return f_dg_named_type(dg_tag_signed_char);
 	case ucharhd: return f_dg_named_type(dg_tag_unsigned_char);
 	case swordhd: return f_dg_named_type(dg_tag_short);

@@ -47,9 +47,9 @@ void try_record_bit(exp e)
   exp r = bro(l);
   bool sgned = is_signed(sh(l)); 
   
-  if (name(r)==val_tag && optop(l) &&
+  if (r->tag==val_tag && optop(l) &&
       no(r)==0 &&
-      !is_floating(name(sh(l))) &&
+      !is_floating(sh(l)->tag) &&
       (sgned||test_number(e)==TEST_NE || test_number(e)==TEST_EQ)
       /* The record bit is set as if the comparison where algebraic
 	 however we can use TEST_NE and TEST_EQ as well since the
@@ -57,7 +57,7 @@ void try_record_bit(exp e)
 	 */
       )
   {
-    switch(name(l))
+    switch (l->tag)
     {
      case CASE_RECORD_BIT:
       setrecordbit(l);
@@ -67,7 +67,7 @@ void try_record_bit(exp e)
 
 bool record_bit_set(exp e)
 {
-  switch(name(e))
+  switch (e->tag)
   {
    case CASE_RECORD_BIT:
     return isrecordbit(e);

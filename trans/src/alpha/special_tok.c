@@ -83,7 +83,7 @@ special_alpha(tokval *tkv, token t, bitstream pars)
 	old_place = keep_place();
 	set_place(pars);
 	arg = d_exp();
-	assert(name(arg) == val_tag);
+	assert(arg->tag == val_tag);
 
 	if (no(arg) == 0) {
 		/* trapb : used to ensure that all pending execptions have been raised
@@ -122,7 +122,7 @@ special_isfloat(tokval *tkv, token t, bitstream pars)
 	lower.signed_nat_val.small_s_nat = MIN_INT;
 	upper.signed_nat_val.small_s_nat = MAX_INT;
 
-	if (is_floating(name(arg))) {
+	if (is_floating(arg->tag)) {
 		resval.signed_nat_val.small_s_nat=1;
 	} else {
 		resval.signed_nat_val.small_s_nat=0;

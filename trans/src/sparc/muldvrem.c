@@ -158,18 +158,18 @@ call_muldivrem(exp lhs, exp rhs, space sp, int proc, int err_t)
   int rhs_reg = -1;
   if (err_t) {
     /* division has error treatment, so check -MAXINT-1/-1 */
-    if ((name(sh(lhs)) == slonghd) &&
-      ((name(lhs)!=val_tag) || (no(lhs) == -0x80000000)) &&
-      ((name(rhs)!= val_tag) || (no(rhs) == -1))) {
+    if ((sh(lhs)->tag == slonghd) &&
+      ((lhs->tag!=val_tag) || (no(lhs) == -0x80000000)) &&
+      ((rhs->tag!= val_tag) || (no(rhs) == -1))) {
       int ok_lab = new_label();
       lhs_reg = reg_operand(lhs,sp);
       rhs_reg = reg_operand(rhs,guardreg(lhs_reg,sp));
-      if (name(rhs) == val_tag) {
+      if (rhs->tag == val_tag) {
 	if (no(rhs)!= -1) {
 	  uncond_ins(i_b,ok_lab);
 	}
       }
-      if (name(lhs) == val_tag) {
+      if (lhs->tag == val_tag) {
 	if (no(lhs)!= -0x80000000) {
 	  uncond_ins(i_b,ok_lab);
 	}
@@ -492,7 +492,7 @@ static int do_mul_comm
   int mul_proc;
   exp arg2 = bro(seq);
   int has_error_treatment = !optop(father(seq));
-  if (name(arg2) == val_tag && !has_error_treatment) {
+  if (arg2->tag == val_tag && !has_error_treatment) {
     /* const optim */
     int lhs_reg = reg_operand(seq, sp);
     sp = guardreg(lhs_reg, sp);
@@ -514,7 +514,7 @@ static int do_mul_comm
     /* should have break out below by now */
     assert(!last(seq));
     seq = bro(seq);
-    if (!has_error_treatment && name(seq) == val_tag &&
+    if (!has_error_treatment && seq->tag == val_tag &&
 	 offset_mul_const_simple((long)no(seq), sgned)!=
 	 NOT_MUL_CONST_SIMPLE) {
       /* const optim */
@@ -577,7 +577,7 @@ static int do_div
   int has_error_treatment = !optop(father(seq)) && !error_treatment_is_trap(father(seq));
   int et;
   assert ( last ( rhs ) ) ;	/* so bro(rhs) == the div exp  */
-  if (!has_error_treatment && name(rhs) == val_tag &&
+  if (!has_error_treatment && rhs->tag == val_tag &&
        IS_POW2(no(rhs)) && no(rhs) > 0) {
     long constval = no(rhs);
     /* const optim, replace div by 2**n by shift right */
@@ -600,7 +600,7 @@ static int do_div
       return final_reg;
     }
 
-    if (name(bro(rhs)) == div2_tag) /* shift and fix up for sgned div2 */
+    if (bro(rhs)->tag == div2_tag) /* shift and fix up for sgned div2 */
     {
       /* signed, adjust lhs before shift */
       int tmp_reg = R_TMP;
@@ -643,7 +643,7 @@ static int do_div
     return R_O0;
     /* otherwise need to call .div/.udiv */
   }
-  else if (sgned && name(bro(rhs)) == div1_tag) {
+  else if (sgned && bro(rhs)->tag == div1_tag) {
     p = SPECIAL_DIV1;
   }
   else {
@@ -674,7 +674,7 @@ static int do_rem
 
   assert(last(rhs));
 
-  if (name(rhs) == val_tag && IS_POW2(no(rhs)) && (no(rhs) > 0)) {
+  if (rhs->tag == val_tag && IS_POW2(no(rhs)) && (no(rhs) > 0)) {
     long constval = no(rhs);
 
     /* const optim, replace rem by 2**n by and with mask */
@@ -695,7 +695,7 @@ static int do_rem
       rcr_ins(i_and, lhs_reg, constval - 1, final_reg);
       return final_reg;
     }
-    if (name(bro(rhs)) == rem2_tag) {
+    if (bro(rhs)->tag == rem2_tag) {
       /* signed, need to allow for negative lhs. Treat l % c
 	 as l - ( l / c ) * c */
       int tmp_reg = R_TMP;
@@ -722,7 +722,7 @@ static int do_rem
   }
 
   /* otherwise need to call .rem/.urem */
-  if (sgned && name(bro(rhs)) == mod_tag) {
+  if (sgned && bro(rhs)->tag == mod_tag) {
     p = SPECIAL_REM1;
   }
   else {
@@ -792,7 +792,7 @@ int do_mul_comm_op
 
 int do_div_op
 (exp e, space sp, where dest, bool sgned) {
-/*    other_div = ( bool ) ( ( name ( e ) == div1_tag && sgned ) ? 1 : 0 ) ;*/
+/*    other_div = ( bool ) ( ( e->tag == div1_tag && sgned ) ? 1 : 0 ) ;*/
   return find_reg_and_apply(e, sp, dest, sgned, do_div);
 }
 
@@ -803,7 +803,7 @@ int do_div_op
 
 int do_rem_op
 (exp e, space sp, where dest, bool sgned) {
-/*    other_div = ( bool ) ( ( name ( e ) == mod_tag && sgned ) ? 1 : 0 ) ;*/
+/*    other_div = ( bool ) ( ( e->tag == mod_tag && sgned ) ? 1 : 0 ) ;*/
   return find_reg_and_apply(e, sp, dest, sgned, do_rem);
 }
 
@@ -817,14 +817,14 @@ int do_rem_op
 
 bool is_muldivrem_call
 (exp e) {
-  switch (name(e)) {
+  switch (e->tag) {
 
     case test_tag:
     case chfl_tag:
     case round_tag:
      if ((has & HAS_LONG_DOUBLE)) {
       exp s = son(e);
-      if (name(sh(s)) == doublehd) return 1;
+      if (sh(s)->tag == doublehd) return 1;
       /* FALL THROUGH */
      }
     case fplus_tag:
@@ -835,7 +835,7 @@ bool is_muldivrem_call
     case fabs_tag:
     case float_tag:
      if ((has & HAS_LONG_DOUBLE)) {
-      if (name(sh(e)) == doublehd) return 1;
+      if (sh(e)->tag == doublehd) return 1;
       return 0;
      }
      return 0;
@@ -844,7 +844,7 @@ bool is_muldivrem_call
     case offset_mult_tag: {
       /*multneeds - simple cases don't need a call */
       exp arg2 = bro(son(e));
-      if (last(arg2) && name(arg2) == val_tag && optop(e)) {
+      if (last(arg2) && arg2->tag == val_tag && optop(e)) {
 	return 0;
       }
       return 1;
@@ -859,7 +859,7 @@ bool is_muldivrem_call
     case offset_div_by_int_tag: {
       /*remneeds, divneeds - simple cases don't need a call */
       exp arg2 = bro(son(e));
-      if (last(arg2) && name(arg2) == val_tag && optop(e)) {
+      if (last(arg2) && arg2->tag == val_tag && optop(e)) {
 	long constval = no(arg2);
 	if (constval > 0 && IS_POW2(constval))
 	  return 0;
@@ -888,7 +888,7 @@ needs multneeds
 
   /* remember that mult may have more than two args after
      optimisation */
-  if (last(arg2) && name(arg2) == val_tag && optop(*e)) {
+  if (last(arg2) && arg2->tag == val_tag && optop(*e)) {
     /* const optim, additional reg only needed where src and dest are
        same reg, in which case it has already been allowed for */
     return n;
@@ -912,7 +912,7 @@ needs divneeds
   assert ( last ( rhs ) ) ;	/* after likediv may not be so */
 
   n = likediv(e, at);
-  if (name(rhs) == val_tag && optop(*e)) {
+  if (rhs->tag == val_tag && optop(*e)) {
     long constval = no(rhs);
     if (constval > 0 && IS_POW2(constval)) {
       /* const optim, replace div by shift */
@@ -936,7 +936,7 @@ needs remneeds
   exp rhs = bro(lhs);
   assert ( last ( rhs ) ) ;	/* after likediv may not be so */
   n = likediv(e, at);
-  if (name(rhs) == val_tag && optop(*e)) {
+  if (rhs->tag == val_tag && optop(*e)) {
     long constval = no(rhs);
     if (constval > 0 && IS_POW2(constval)) {
       /* const optim of rem by positive, non-zero, 2**n */

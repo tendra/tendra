@@ -21,7 +21,7 @@
 bool
 valregable(shape s)
 {
-  int n = name(s);
+  int n = s->tag;
   if (is_floating (n)) {	
     /* check shape to see if floating point */
     return 0;
@@ -46,7 +46,7 @@ bool
 fixregable(exp e)
 {
   if (!isvis (e) && !isglob (e) && !isoutpar(e) && 
-      name(son(e))!=caller_name_tag) {
+      son(e)->tag!=caller_name_tag) {
     shape s = sh (son (e));	/* son of ident exp is def */
     return valregable (s);
   }		
@@ -66,9 +66,9 @@ bool
 floatregable(exp e)
 {
   if (!isvis (e) && !isglob (e) && !isoutpar(e) &&
-      name(son(e))!=caller_name_tag) {
+      son(e)->tag!=caller_name_tag) {
     shape s = sh (son (e));
-    if (is_floating(name (s))) {
+    if (is_floating(s->tag)) {
       return 1;
     }
     else {

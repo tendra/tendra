@@ -94,7 +94,7 @@ do_comm(exp seq, space sp, int final, char *rins)
   for (;;) {
     nsp = guardreg (a1, sp);
     seq = bro (seq);
-    if (name (seq) == val_tag) {/* next operand is a constant */
+    if (seq->tag == val_tag) {/* next operand is a constant */
       if (last (seq)) {
 	rri_ins (rins, final, a1, no (seq));
 	return;
@@ -145,7 +145,7 @@ comm_op(exp e, space sp, where d, char *rrins)
 	if (usesdest && last (seq)) {
 				/* ...it was used, but there is only one
 				   other operand */
-	  if (name (seq) == val_tag) {
+	  if (seq->tag == val_tag) {
 	    rri_ins (rins, dest, dest, no (seq));
 	  }
 	  else {

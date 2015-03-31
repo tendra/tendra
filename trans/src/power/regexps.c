@@ -48,8 +48,8 @@ static bool sim_exp(exp, exp);
 /* both either floating or fixed and same size and alignment */
 bool keep_eq_size(shape as, shape bs)
 {
-  bool as_flt = is_floating(name(as));
-  bool bs_flt = is_floating(name(bs));
+  bool as_flt = is_floating(as->tag);
+  bool bs_flt = is_floating(bs->tag);
 
   if (as_flt != bs_flt)
     return 0;			/* dissimilar float/fixed */
@@ -81,9 +81,9 @@ static bool sim_exp(exp a, exp b)
    * basically eq_exp except equal shapes requirement is weakened to equal
    * sizes and alignments
    */
-  if (name(a) == name(b))
+  if (a->tag == b->tag)
   {
-    if (name(a) == name_tag)
+    if (a->tag == name_tag)
     {
       /* See if both are name_tags for same ident
 	 with same offsets and same size and alignment */
@@ -95,11 +95,11 @@ static bool sim_exp(exp a, exp b)
        if they are not the same size and alignment and same
      register type
      */
-    if (!is_a(name(a)) || !keep_eq_size(sh(a), sh(b)))
+    if (!is_a(a->tag) || !keep_eq_size(sh(a), sh(b)))
     {
       return 0;
     }
-    if (name(a) ==float_tag)
+    if (a->tag ==float_tag)
     {
       return eq_exp(son(a),son(b));
       /* float_tag is special since we could have e.g float (-1 slongsh) float (-1 ulongsh) */
@@ -155,7 +155,7 @@ static ans iskept_regrange(exp e, int low_reg, int hi_reg)
 
   /* reg tracking of unions unsafe, as views of location can differ */
   /* +++ improve this */
-  if (name(sh(e)) == cpdhd)
+  if (sh(e)->tag == cpdhd)
   {
     return aa;
   }
@@ -174,15 +174,15 @@ static ans iskept_regrange(exp e, int low_reg, int hi_reg)
 
       if (
 	 ((!isc && sim_exp(ke, e)) ||
-	  (name(e) == cont_tag && isc && keep_eq_size(sh(ke), sh(e))
+	  (e->tag == cont_tag && isc && keep_eq_size(sh(ke), sh(e))
 	    && sim_exp(ke, son(e)) && al1(sh(son(e))) == al1(sh(ke)))
 	  )
 	)
       {
 	aa = (regexps[i].inans);
 
-	asm_comment("iskept found 1: reg=%d isc=%d name(e) =%d name(son(e)) =%d",
-		     i, isc, name(e), name(son(e)));
+	asm_comment("iskept found 1: reg=%d isc=%d e->tag =%d son(e)->tag =%d",
+		     i, isc, e->tag, son(e)->tag);
 	asm_comment("iskept found: no = %d",no(e));
 
 
@@ -205,7 +205,7 @@ static ans iskept_regrange(exp e, int low_reg, int hi_reg)
 	  return aa;
 	}
       }
-      else if (name(ke) == cont_tag && !isc)
+      else if (ke->tag == cont_tag && !isc)
       {
 	ans aq;
 
@@ -226,14 +226,14 @@ static ans iskept_regrange(exp e, int low_reg, int hi_reg)
 	    is.adval = 1;
 	    setinsalt(aq, is);
 
-	    asm_comment("iskept found 2: reg=%d isc=%d name(e) =%d name(son(e)) =%d",
-			 i, isc, name(e), name(son(e)));
+	    asm_comment("iskept found 2: reg=%d isc=%d e->tag =%d son(e)->tag =%d",
+			 i, isc, e->tag, son(e)->tag);
 
 	    return aq;
 	  }
 	}
       }
-      else if (name(ke) == reff_tag && !isc)
+      else if (ke->tag == reff_tag && !isc)
       {
 	ans aq;
 
@@ -255,8 +255,8 @@ static ans iskept_regrange(exp e, int low_reg, int hi_reg)
 	    is.b.offset = 0;
 	    setinsalt(aq, is);
 
-	    asm_comment("iskept found 3: reg=%d isc=%d name(e) =%d name(son(e)) =%d",
-			 i, isc, name(e), name(son(e)));
+	    asm_comment("iskept found 3: reg=%d isc=%d e->tag =%d son(e)->tag =%d",
+			 i, isc, e->tag, son(e)->tag);
 
 	    return aq;
 	  }
@@ -353,7 +353,7 @@ void keepexp(exp e, ans loc)
   regexps[pos].keptexp = e;
   regexps[pos].inans = loc;
   regexps[pos].iscont = 0;
-  asm_comment("keepexp : reg %d kept name is %d",pos,name(e));
+  asm_comment("keepexp : reg %d kept name is %d",pos,e->tag);
 }
 
 
@@ -390,7 +390,7 @@ void keepcont(exp e, int reg)
   assert(z >= 0 && z <= LAST_ALL_REGS);
   regexps[z].keptexp = e;
   regexps[z].iscont = 1;
-  asm_comment("keepcont : reg %d kept name is %d",z,name(e));
+  asm_comment("keepcont : reg %d kept name is %d",z,e->tag);
 
 }
 
@@ -431,7 +431,7 @@ void keepreg(exp e, int reg)
   assert(z >= 0 && z <= LAST_ALL_REGS);
   regexps[z].keptexp = e;
   regexps[z].iscont = 0;
-  asm_comment("keepreg : reg %d kept name is %d no %d",z,name(e),no(e));
+  asm_comment("keepreg : reg %d kept name is %d no %d",z,e->tag,no(e));
 }
 
 static bool couldaffect(exp , exp);
@@ -440,7 +440,7 @@ static bool couldaffect(exp , exp);
 static bool
 couldbe(exp e, exp lhs)/* is var name_tag exp or 0 meaning cont */
 {
-  int ne = name(e);
+  int ne = e->tag;
   exp s = son(e);
 
   if (ne == name_tag)
@@ -461,7 +461,7 @@ couldbe(exp e, exp lhs)/* is var name_tag exp or 0 meaning cont */
   }
   if (ne == cont_tag)
   {
-    if (lhs != 0 && name(s) == name_tag && son(s)!= NULL)
+    if (lhs != 0 && s->tag == name_tag && son(s)!= NULL)
     {
       return son(s) == son(lhs) || isvis(son(lhs)) || isvis(son(s));
     }
@@ -485,7 +485,7 @@ couldbe(exp e, exp lhs)/* is var name_tag exp or 0 meaning cont */
 static bool
 couldaffect(exp e, exp z)/* a name or zero */
 {
-  int ne = name(e);
+  int ne = e->tag;
 
   if (ne == cont_tag)
   {
@@ -529,15 +529,15 @@ bool dependson(exp e, bool isc, exp z)
   }
   for (;;)
   {
-    if (name(z) == reff_tag || name(z) == addptr_tag ||
-	name(z) == subptr_tag)
+    if (z->tag == reff_tag || z->tag == addptr_tag ||
+	z->tag == subptr_tag)
     {
       z = son(z);
     }
 
-    if (name(z)!= name_tag)
+    if (z->tag!= name_tag)
     {
-      if (name(z)!= cont_tag)
+      if (z->tag!= cont_tag)
 	return 1;
       z = 0;
       break;
@@ -570,7 +570,7 @@ void clear_dep_reg(exp lhs)
   {
     if (regexps[i].keptexp != NULL)
     {
-      switch (name(regexps[i].keptexp))
+      switch (regexps[i].keptexp->tag)
       {
       case val_tag:
       case null_tag:

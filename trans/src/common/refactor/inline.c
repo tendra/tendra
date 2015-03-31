@@ -38,7 +38,7 @@ last_action(exp e)
 		return e;
 	}
 
-	if (name(e) == ident_tag || name(e) == seq_tag) {
+	if (e->tag == ident_tag || e->tag == seq_tag) {
 		return last_action(bro(son(e)));
 	}
 
@@ -52,7 +52,7 @@ change_last_shapes(exp e, shape sha)
 		return;
 	}
 
-	if (name(e) == ident_tag || name(e) == seq_tag) {
+	if (e->tag == ident_tag || e->tag == seq_tag) {
 		sh(e) = sha;
 		change_last_shapes(bro(son(e)), sha);
 	}
@@ -96,13 +96,13 @@ inline_exp(exp e)
 	exp res;
 	exp last_act;
 
-	if (name(sha) == tophd) {
+	if (sha->tag == tophd) {
 		/* not returning a result, no ass needed */
 		var = NULL;
 		cond_alt = f_make_top();
 	} else {
-		if (last(e) && name(bro(e)) == ass_tag &&
-		    name(son(bro(e))) == name_tag) {
+		if (last(e) && bro(e)->tag == ass_tag &&
+		    son(bro(e))->tag == name_tag) {
 
 			/* the result of the application is being assigned to a name_tag */
 			var = son(bro(e));	/* the destination of the ass */
@@ -133,14 +133,14 @@ inline_exp(exp e)
 
 	lab = me_b3(sh(cond_alt), me_shint(sha, 0), cond_alt, labst_tag);
 	/* the labst for the new cond_tag we are making up */
-	name(son(lab)) = clear_tag;
+	son(lab)->tag = clear_tag;
 
 	t = fn;	  /* start t so that its bro is the first actual parameter */
 	q = body; /* start q so that its son is the first formal parameter */
 
 	while (!last(t)) {
 		/* check actual and formal shapes */
-		if (name(q) != ident_tag || !isparam(q)) {
+		if (q->tag != ident_tag || !isparam(q)) {
 			return;  /* no inline if more actuals than formals */
 		}
 		if (shape_size(sh(bro(t))) != shape_size(sh(son(q)))) {
@@ -150,7 +150,7 @@ inline_exp(exp e)
 		q = bro(son(q));	/* next formal */
 	}
 
-	if (name(q) == ident_tag && isparam(q)) {
+	if (q->tag == ident_tag && isparam(q)) {
 		return;  /* no inline if more formals than actuals */
 	}
 
@@ -176,10 +176,10 @@ inline_exp(exp e)
 	retcell(bc);	/* and retcell it */
 
 	last_act = last_action(res);
-	if (no(son(lab)) == 1 && name(last_act) == goto_tag && pt(last_act) == lab) {
+	if (no(son(lab)) == 1 && last_act->tag == goto_tag && pt(last_act) == lab) {
 		/* there is only one (final) goto replacement for return */
-		if (name(res) == goto_tag) {
-			res = (name(sha) == tophd) ? f_make_top() :
+		if (res->tag == goto_tag) {
+			res = (sha->tag == tophd) ? f_make_top() :
 			      f_make_value(sha);
 		} else {
 			change_last_shapes(res, sh(bro(son(lab))));

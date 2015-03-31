@@ -32,16 +32,16 @@ might_overlap(shape sha, where w1, where w2)
 	e1 = w1.where_exp;
 	e2 = w2.where_exp;
 
-	if (name(e1) != name_tag) {
-		if (name(e2) == name_tag && iscaonly(son(e2))) {
+	if (e1->tag != name_tag) {
+		if (e2->tag == name_tag && iscaonly(son(e2))) {
 			return 0;
 		}
 
 		return 1;
 	}
 
-	if (name(e2) != name_tag) {
-		if (name(e1) == name_tag && iscaonly(son(e1))) {
+	if (e2->tag != name_tag) {
+		if (e1->tag == name_tag && iscaonly(son(e1))) {
 			return 0;
 		}
 

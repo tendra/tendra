@@ -73,7 +73,7 @@ static exp real_power(error_treatment, exp, exp);
 exp
 f_change_floating_variety(error_treatment flpt_err, floating_variety r, exp arg1)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		return arg1;
 	}
 
@@ -113,7 +113,7 @@ f_change_floating_variety(error_treatment flpt_err, floating_variety r, exp arg1
 #if TRANS_HPPA
 	{
 		exp t = me_c1(f_floating(r), flpt_err, arg1, chfl_tag);
-		if (!optop(t) && name(sh(t)) == doublehd) {
+		if (!optop(t) && sh(t)->tag == doublehd) {
 			exp id = me_startid(sh(t), t, 0);
 			exp tmp = me_complete_id(id, me_obtain(id));
 			return tmp;
@@ -129,7 +129,7 @@ f_change_floating_variety(error_treatment flpt_err, floating_variety r, exp arg1
 exp
 f_complex_conjugate(exp arg1)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		return arg1;
 	}
 
@@ -167,7 +167,7 @@ f_complex_conjugate(exp arg1)
 exp
 f_float_int(error_treatment flpt_err, floating_variety f, exp arg1)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		return arg1;
 	}
 
@@ -190,7 +190,7 @@ f_float_int(error_treatment flpt_err, floating_variety f, exp arg1)
 	}
 
 	if (~has & HAS_64_BIT) {
-		if ((name(arg1) != val_tag || flpt_err.err_code > 2) &&
+		if ((arg1->tag != val_tag || flpt_err.err_code > 2) &&
 		    shape_size(sh(arg1)) > 32) {
 			if (has & HAS_LONG_DOUBLE) {
 				exp z = TDFcallaux(flpt_err, arg1,
@@ -221,7 +221,7 @@ f_float_int(error_treatment flpt_err, floating_variety f, exp arg1)
 exp
 f_floating_abs(error_treatment ov_err, exp arg1)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		return arg1;
 	}
 
@@ -234,7 +234,7 @@ f_floating_abs(error_treatment ov_err, exp arg1)
 #if TRANS_HPPA
 	{
 		exp r = me_u1(ov_err, arg1, fabs_tag);
-		if (!optop(r) && name(sh(r)) == doublehd) {
+		if (!optop(r) && sh(r)->tag == doublehd) {
 			exp id  = me_startid(sh(r), r, 0);
 			exp tmp = me_complete_id(id, me_obtain(id));
 
@@ -251,11 +251,11 @@ f_floating_abs(error_treatment ov_err, exp arg1)
 exp
 f_floating_div(error_treatment ov_err, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -342,7 +342,7 @@ f_floating_div(error_treatment ov_err, exp arg1, exp arg2)
 		exp r;
 
 		r = hold_refactor(me_b1(ov_err, arg1, arg2, fdiv_tag));
-		if (!optop(r) && name(sh(r)) == doublehd) {
+		if (!optop(r) && sh(r)->tag == doublehd) {
 			exp id = me_startid(sh(r), r, 0);
 			exp tmp = me_complete_id(id, me_obtain(id));
 
@@ -359,12 +359,12 @@ f_floating_div(error_treatment ov_err, exp arg1, exp arg2)
 exp
 f_floating_maximum(error_treatment flpt_err, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
 
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -381,11 +381,11 @@ f_floating_maximum(error_treatment flpt_err, exp arg1, exp arg2)
 exp
 f_floating_minimum(error_treatment flpt_err, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -415,18 +415,18 @@ f_floating_minimum(error_treatment flpt_err, exp arg1, exp arg2)
  * a constant that will fit into type 'int'.
  */
 #define is_constant_arg(E1)                     \
-    (name(E1) == val_tag && !isbigval(E1) &&    \
+    (E1->tag == val_tag && !isbigval(E1) &&    \
     (is_signed(sh(E1)) || (no(E1) >> 31 == 0)))
 
 exp
 f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
 
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -453,7 +453,7 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 		exp sn = me_startid(integer_shape, arg2, 0);
 
 		if (is_constant_arg(arg2) ||
-		    ((name(arg2) == name_tag) && (name(son(arg2)) == ident_tag)
+		    (arg2->tag == name_tag && son(arg2)->tag == ident_tag
 		     && !isvar(son(arg2)) && is_constant_arg(son(son(arg2)))))
 		{
 			/* we know the power */
@@ -764,12 +764,12 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 exp
 f_floating_minus(error_treatment ov_err, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
 
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -808,7 +808,7 @@ f_floating_minus(error_treatment ov_err, exp arg1, exp arg2)
 #if TRANS_HPPA
 	{
 		exp r = hold_refactor(me_b1(ov_err, arg1, arg2, fminus_tag));
-		if (!optop(r) && name(sh(r)) == doublehd) {
+		if (!optop(r) && sh(r)->tag == doublehd) {
 			exp id = me_startid(sh(r), r, 0);
 			exp tmp = me_complete_id(id, me_obtain(id));
 			return tmp;
@@ -827,7 +827,7 @@ f_floating_mult(error_treatment ov_err, exp_list arg1)
 	exp first = arg1.start;
 	exp r = getexp(sh(first), NULL, 0, first, NULL, 0, 0, fmult_tag);
 
-	if (name(sh(first)) == bothd || arg1.number == 1) {
+	if (sh(first)->tag == bothd || arg1.number == 1) {
 		return first;
 	}
 
@@ -851,7 +851,7 @@ f_floating_mult(error_treatment ov_err, exp_list arg1)
 			}
 
 			t = bro(t);
-			if (name(sh(t)) == bothd) {
+			if (sh(t)->tag == bothd) {
 				return t;
 			}
 		}
@@ -920,7 +920,7 @@ f_floating_mult(error_treatment ov_err, exp_list arg1)
 	setfather(r, arg1.end);
 
 #if TRANS_HPPA
-	if (!optop(r) && name(sh(r)) == doublehd) {
+	if (!optop(r) && sh(r)->tag == doublehd) {
 		exp id = me_startid(sh(r), r, 0);
 		exp tmp = me_complete_id(id, me_obtain(id));
 		return tmp;
@@ -932,7 +932,7 @@ f_floating_mult(error_treatment ov_err, exp_list arg1)
 exp
 f_floating_negate(error_treatment ov_err, exp arg1)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		return arg1;
 	}
 
@@ -968,7 +968,7 @@ f_floating_negate(error_treatment ov_err, exp arg1)
 #if TRANS_HPPA
 	{
 		exp r = hold_refactor(me_u1(ov_err, arg1, fneg_tag));
-		if (!optop(r) && name(sh(r)) == doublehd) {
+		if (!optop(r) && sh(r)->tag == doublehd) {
 			exp id = me_startid(sh(r), r, 0);
 			exp tmp = me_complete_id(id, me_obtain(id));
 			return tmp;
@@ -987,7 +987,7 @@ f_floating_plus(error_treatment ov_err, exp_list arg1)
 	exp first = arg1.start;
 	exp r = getexp(sh(first), NULL, 0, first, NULL, 0, 0, fplus_tag);
 
-	if (name(sh(first)) == bothd || arg1.number == 1) {
+	if (sh(first)->tag == bothd || arg1.number == 1) {
 		return first;
 	}
 
@@ -1012,7 +1012,7 @@ f_floating_plus(error_treatment ov_err, exp_list arg1)
 			}
 
 			t = bro(t);
-			if (name(sh(t)) == bothd) {
+			if (sh(t)->tag == bothd) {
 				return t;
 			}
 		}
@@ -1057,7 +1057,7 @@ f_floating_plus(error_treatment ov_err, exp_list arg1)
 	setfather(r, arg1.end);
 
 #if TRANS_HPPA
-	if (!optop(r) && name(sh(r)) == doublehd) {
+	if (!optop(r) && sh(r)->tag == doublehd) {
 		exp id = me_startid(sh(r), r, 0);
 		exp tmp = me_complete_id(id, me_obtain(id));
 		return tmp;
@@ -1070,12 +1070,12 @@ exp
 f_floating_test(nat_option prob, error_treatment flpt_err, ntest nt,
                 label dest, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
 
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -1150,7 +1150,7 @@ f_imaginary_part(exp arg1)
 {
 	shape real_shape;
 
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		return arg1;
 	}
 
@@ -1175,7 +1175,7 @@ f_real_part(exp arg1)
 {
 	shape real_shape;
 
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		return arg1;
 	}
 
@@ -1198,12 +1198,12 @@ f_real_part(exp arg1)
 exp
 f_make_complex(floating_variety f, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
 
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -1352,12 +1352,12 @@ f_make_floating(floating_variety fv, rounding_mode rm, bool sign,
 exp
 f_power(error_treatment ov_err, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
 
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -1376,7 +1376,7 @@ f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r, exp a
 {
 	exp res;
 
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		return arg1;
 	}
 
@@ -1391,7 +1391,7 @@ f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r, exp a
 	}
 
 	if (~has & HAS_64_BIT) {
-		if (shape_size(r) > 32 && (name(arg1) != real_tag || flpt_err.err_code >= 4)) {
+		if (shape_size(r) > 32 && (arg1->tag != real_tag || flpt_err.err_code >= 4)) {
 			int s = is_signed(r);
 			char *fn;
 			exp e;
@@ -1416,7 +1416,7 @@ f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r, exp a
 	 * mips does not seem to get float->unsigned long right,
 	 * so convert to signed long and adjust if too big.
 	 */
-	else if (name(arg1) != real_tag && shape_size(r) == 32 &&
+	else if (arg1->tag != real_tag && shape_size(r) == 32 &&
 	         !is_signed(r)) {
 		floating_variety fa = (shape_size(sh(arg1)) == 32) ? 0 : 1;
 		exp_list st;
@@ -1454,7 +1454,7 @@ f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r, exp a
 #endif
 
 #if TRANS_POWER
-	if (name(arg1) != real_tag || flpt_err.err_code > 2) {
+	if (arg1->tag != real_tag || flpt_err.err_code > 2) {
 		if (cpu != CPU_POWERPC) {
 			exp id;
 			exp apply1;
@@ -1467,7 +1467,7 @@ f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r, exp a
 			int power_mode;
 
 			/* Set up ident to hold arg1 */
-			if (name(sh(arg1)) == shrealhd) {
+			if (sh(arg1)->tag == shrealhd) {
 				arg1 = f_change_floating_variety(f_impossible, realfv, arg1);
 			}
 			id = me_startid(f_top, arg1, 0);
@@ -1773,7 +1773,7 @@ make_comp_1_z(floating_variety complex_fv, error_treatment ov_err,
 	return me_complete_id(mod_sq, make_comp);
 }
 
-#define is_const(X)	(name(X) != ident_tag)
+#define is_const(X)	(X->tag != ident_tag)
 
 static exp_list
 reorder_list(exp_list arg1, int consts_first)
@@ -1939,7 +1939,7 @@ real_power(error_treatment ov_err, exp arg1, exp arg2)
 	f_real_mult = (is_integer(real_shape) ? f_mult : f_bin_floating_mult);
 
 	if (is_constant_arg(arg2) ||
-	    ((name(arg2) == name_tag) && (name(son(arg2)) == ident_tag) &&
+	    (arg2->tag == name_tag && son(arg2)->tag == ident_tag &&
 	     !isvar(son(arg2)) && is_constant_arg(son(son(arg2))))) {
 		/* we know the power */
 		int exponent;

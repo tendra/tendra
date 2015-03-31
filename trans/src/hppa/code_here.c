@@ -66,7 +66,7 @@ regofval(exp e)
 {
   exp dc = son(e);
 
-  if (name(e) == name_tag && name(dc) == ident_tag)	/* ident tag */
+  if (e->tag == name_tag && dc->tag == ident_tag)	/* ident tag */
   {
     if ((props(dc) & defer_bit) != 0)
     {
@@ -78,9 +78,9 @@ regofval(exp e)
     }
     return R_NO_REG;
   }
-  else if ( (name(e) == val_tag && no(e) == 0) 
+  else if ( (e->tag == val_tag && no(e) == 0) 
 #if 0
-	    || name(e) == clear_tag || name(e)== top_tag 
+	    || e->tag == clear_tag || e->tag== top_tag 
 #endif
 	  )
   {
@@ -97,7 +97,7 @@ fregofval(exp e)
 {
   exp dc = son(e);
 
-  if (name(e) == name_tag && name(dc) == ident_tag)
+  if (e->tag == name_tag && dc->tag == ident_tag)
   {
     if ((props(dc) & infreg_bits) != 0)
     {
@@ -139,7 +139,7 @@ is_reg_operand(exp e, space sp)
   if (x >= 0 && x < R_NO_REG)
     return x;			/* x is a register for e */
 
-  if (name(e) == cont_tag)
+  if (e->tag == cont_tag)
   {
     x = regofval(son(e));
     if (x < 0)
@@ -250,7 +250,7 @@ freg_operand(exp e, space sp, int reg)
     return x;
   }
 
-  if (name(e) == cont_tag)
+  if (e->tag == cont_tag)
   {
     x = fregofval(son(e));
     if (x < R_NO_REG)
@@ -258,7 +258,7 @@ freg_operand(exp e, space sp, int reg)
       return x;
     }
   }
-  else if (name(e) == apply_tag)
+  else if (e->tag == apply_tag)
   {
     fr.fr = R_FR4;
     setfregalt(aa, fr);

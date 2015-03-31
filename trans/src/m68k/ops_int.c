@@ -269,9 +269,9 @@ static void addsub_const_3_args
 		set_cond(dest, sz);
 		return;
 	    }
-	    if (whi == Areg && (name(dest.wh_exp) == apply_tag
-                         || name(dest.wh_exp) == apply_general_tag
-                         || name(dest.wh_exp) == tail_call_tag)) {
+	    if (whi == Areg && (dest.wh_exp->tag == apply_tag
+                         || dest.wh_exp->tag == apply_general_tag
+                         || dest.wh_exp->tag == tail_call_tag)) {
 		load_ea(sha, c, inc, dest, 1);
 		return;
 	    }
@@ -1207,7 +1207,7 @@ static void euclid
     if (!sg) form = 2;
 
     /* Deal with division by constants */
-    if (name(bottom.wh_exp) == val_tag) {
+    if (bottom.wh_exp->tag == val_tag) {
 	b_const = 1;
 	v = nw(bottom);
 	if (is_offset(bottom.wh_exp))v /= 8;

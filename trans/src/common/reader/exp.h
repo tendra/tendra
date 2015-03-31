@@ -63,7 +63,7 @@ typedef union {
  *
  * An expression has a number of constituents given by the son, bro,
  * ptr and num fields, a shape (which is another expression),
- * a name representing the expression type and a properties field.
+ * a tag name representing the expression type and a properties field.
  *
  * .last serves as an end marker.
  */
@@ -77,7 +77,7 @@ struct exp_t {
 
 	prop props;
 
-	unsigned char name;
+	unsigned char tag;
 
 	bool last:1;
 	bool park:1;
@@ -113,7 +113,6 @@ typedef struct exp_t *exp;
 #define son(x)            ((x)->son.e)
 #define bro(x)            ((x)->bro.e)
 #define last(x)           ((x)->last)
-#define name(x)           ((x)->name)
 #define sh(x)             ((x)->sh)
 #define pt(x)             ((x)->pt.e)
 #define props(x)          ((x)->props)
@@ -151,7 +150,6 @@ typedef struct exp_t *exp;
 #define setpt(x, b)       pt(x) = (b)
 #define setlast(x)        last(x) = 1
 #define clearlast(x)      last(x) = 0
-#define setname(x, n)     name(x) = (n)
 #define setfather(f, s)   setbro(s, f); setlast(s)
 
 
@@ -478,7 +476,7 @@ typedef struct exp_t *exp;
 #define proc_has_nolongj(e)      ((props(e) & 0x1000) != 0)
 #define call_is_untidy(e)        ((props(e) & 4)      != 0)
 
-#define set_callee(id) setname(son(id), formal_callee_tag)
+#define set_callee(id) son(id)->tag = formal_callee_tag
 
 
 #endif

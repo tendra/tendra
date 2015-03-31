@@ -56,10 +56,10 @@ regpeep regexps [48] ;
 static bool 
 eq_sze ( shape as, shape bs )
 {
-    if ( is_floating ( name ( as ) ) ) {
-	return ( bool ) ( name ( as ) == name ( bs ) ) ;
+    if ( is_floating ( as->tag ) ) {
+	return ( bool ) ( as->tag == bs->tag ) ;
     }
-    if ( is_floating ( name ( bs ) ) ) {
+    if ( is_floating ( bs->tag ) ) {
 	return 0;
     }
     return ( bool ) ( shape_size ( as ) == shape_size ( bs ) &&
@@ -91,18 +91,18 @@ sim_explist ( exp al, exp bl )
 bool 
 sim_exp ( exp a, exp b )
 {
-    if ( name ( a ) == name ( b ) ) {
-	if ( name ( a ) == name_tag ) {
+    if ( a->tag == b->tag ) {
+	if ( a->tag == name_tag ) {
 	    return ( bool ) ( son ( a ) == son ( b ) &&
 				no ( a ) == no ( b ) &&
 				eq_sze ( sh ( a ), sh ( b ) ) ) ;
 	}
-	if ( !is_a ( name ( a ) ) || !eq_sze ( sh ( a ), sh ( b ) ) ) {
+	if ( !is_a ( a->tag ) || !eq_sze ( sh ( a ), sh ( b ) ) ) {
 	    return 0;
 	}
 	return ( bool ) ( no ( a ) == no ( b ) &&
 			    sim_explist ( son ( a ), son ( b ) ) 
-			    && ((name(a) != current_env_tag) || 
+			    && ((a->tag != current_env_tag) || 
 				(props(a) == props(b))));
     }
     return 0;
@@ -162,7 +162,7 @@ iskept ( exp e )
     return nilans;
 #endif
 
-    if ( name ( sh ( e ) ) == cpdhd ) {
+    if ( sh ( e ) -> tag == cpdhd ) {
 	/* Tracking of unions is unsafe */
 	return nilans;
     }
@@ -174,7 +174,7 @@ iskept ( exp e )
 	if ( ke != NULL ) {
 	    /* there is an association with register i? */
 	    if ( ( ( !isc && sim_exp ( ke, e ) ) ||
-		 ( name ( e ) == cont_tag && isc &&
+		 ( e->tag == cont_tag && isc &&
 		   eq_sze ( sh ( ke ), sh ( e ) ) &&
 		   sim_exp ( ke, son ( e ) )  && 
 		   al1(sh(son(e))) == al1(sh(ke))  ) ) ) {
@@ -200,7 +200,7 @@ iskept ( exp e )
 			return aa;
 		    }
 		}
-	    } else if ( name ( ke ) == cont_tag && !isc ) {
+	    } else if ( ke->tag == cont_tag && !isc ) {
 		ans aq ;
 
 		aq = regexps [i].inans ;
@@ -221,7 +221,7 @@ iskept ( exp e )
 			return aq;
 		    }
 		}
-	    } else if ( name ( ke ) == reff_tag && !isc ) {
+	    } else if ( ke->tag == reff_tag && !isc ) {
 		ans aq ;
 		aq = regexps [i].inans ;
 		if ( discrim ( aq ) == notinreg ) {
@@ -358,7 +358,7 @@ keepreg ( exp e, int regcode )
 static bool 
 couldbe ( exp e, exp lhs )
 {
-    unsigned char ne = name ( e ) ;
+    unsigned char ne = e->tag ;
     exp s = son ( e ) ;
 
     if ( ne == name_tag ) {
@@ -366,12 +366,12 @@ couldbe ( exp e, exp lhs )
 	if ( isvar ( s ) ) 
 	  return ( bool ) ( lhs == 0 && 
 			     (isvis ( s ) || isglob(s)));
-	if ( name ( s ) == proc_tag ) return ( bool ) ( lhs == 0 ) ;
+	if ( s->tag == proc_tag ) return ( bool ) ( lhs == 0 ) ;
 	if ( son ( s ) == NULL ) return 1;
 	return couldbe ( son ( s ), lhs ) ;
     }
     if ( ne == cont_tag ) {
-	if ( lhs != 0 && name ( s ) == name_tag && son ( s ) != NULL ) {
+	if ( lhs != 0 && s->tag == name_tag && son ( s ) != NULL ) {
 	    return ( bool ) ( son ( s ) == son ( lhs ) ||
 				isvis ( son ( lhs ) ) ||
 				isvis ( son ( s ) ) ) ;
@@ -396,14 +396,14 @@ couldbe ( exp e, exp lhs )
 static bool 
 couldaffect ( exp e, exp z )
 {
-    unsigned char ne = name ( e ) ;
+    unsigned char ne = e->tag ;
 
     if ( ne == cont_tag ) return couldbe ( son ( e ), z ) ;
     if ( ne == name_tag ) {
 	if ( isvar ( son ( e ) ) ) {
 	    return ( bool ) ( z == 0 && isvis ( son ( e ) ) ) ;
 	}
-	if ( name ( son ( e ) ) == proc_tag ) return 0;
+	if ( son ( e ) -> tag == proc_tag ) return 0;
 	if ( son ( son ( e ) ) == NULL ) return 1;
 	return couldaffect ( son ( son ( e ) ), z ) ;
 
@@ -431,18 +431,18 @@ dependson ( exp e, bool isc, exp z )
 	return 0;
     }
     for ( ; ; ) {
-	if ( name ( z ) == reff_tag || name ( z ) == addptr_tag ||
-	     name ( z ) == subptr_tag ) {
+	if ( z->tag == reff_tag || z->tag == addptr_tag ||
+	     z->tag == subptr_tag ) {
 	    z = son ( z ) ;
 	}
-	if ( name ( z ) != name_tag ) {
-	    if ( name ( z ) != cont_tag ) return 1;
+	if ( z->tag != name_tag ) {
+	    if ( z->tag != cont_tag ) return 1;
 	    z = 0 ;
 	    break ;
 	}
 	
 	if ( isvar ( son ( z ) ) ) break ;
-	if ( name ( son ( z ) ) == proc_tag ) {
+	if ( son ( z ) -> tag == proc_tag ) {
 	    z = 0 ;
 	    break ;
 	}
@@ -469,7 +469,7 @@ clear_dep_reg ( exp lhs )
   for ( i = 0 ; i < 48 ; i++ )
   {
     if (regexps[i].keptexp != NULL)
-      switch(name(regexps[i].keptexp))
+      switch(regexps[i].keptexp->tag)
       {
        case val_tag:
        case null_tag:

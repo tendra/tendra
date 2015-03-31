@@ -22,16 +22,16 @@
 bool
 is_worth(exp c)
 {
-	unsigned char cnam = name ( c ) ;
-	bool isflt = ( bool ) is_floating ( name ( sh ( c ) ) ) ;
+	unsigned char cnam = c->tag ;
+	bool isflt = ( bool ) is_floating ( sh( c )->tag ) ;
 
-	if ( name ( sh ( c ) ) == ptrhd && al1 ( sh ( c ) ) == 1 ) {
+	if ( sh ( c ) -> tag == ptrhd && al1 ( sh ( c ) ) == 1 ) {
 		/* Pointers to bits aren't */
 		return false;
 	}
 
 #if 0
-	if (cnam == name_tag && name(father(c)) == addptr_tag && isglob(son(c))) {
+	if (cnam == name_tag && father(c)->tag == addptr_tag && isglob(son(c))) {
 		return true;
 	}
 #endif
@@ -48,24 +48,24 @@ is_worth(exp c)
 
 	if ( cnam == cont_tag ) {
 		exp s = son ( c ) ;
-		if ( isflt && ( name ( s ) != name_tag || isglob ( son ( s ) ) ) ) {
+		if ( isflt && ( s->tag != name_tag || isglob ( son ( s ) ) ) ) {
 			return true;
 		}
 
-		if ( name ( s ) == reff_tag && no ( s ) == 0 ) {
+		if ( s->tag == reff_tag && no ( s ) == 0 ) {
 			s = son ( s ) ;
 		}
 
-		if ( name ( s ) == name_tag && isglob ( son ( s ) ) ) {
+		if ( s->tag == name_tag && isglob ( son ( s ) ) ) {
 			return true;
 		}
 
-		if ( name ( s ) == cont_tag ) {
+		if ( s->tag == cont_tag ) {
 			exp ss = son ( s ) ;
-			if ( name ( ss ) == reff_tag && no ( ss ) == 0 ) {
+			if ( ss->tag == reff_tag && no ( ss ) == 0 ) {
 				ss = son ( ss ) ;
 			}
-			if ( name ( ss ) == name_tag ) {
+			if ( ss->tag == name_tag ) {
 				return true;
 			}
 		}
@@ -73,7 +73,7 @@ is_worth(exp c)
 	}
 
 #if 0
-	if ( name ( sh ( c ) ) == ptrhd && isglob(son(c)) ) {
+	if ( sh ( c ) -> tag == ptrhd && isglob(son(c)) ) {
 		return true;
 	}
 #endif
@@ -99,15 +99,15 @@ is_worth(exp c)
 			return true;
 		}
 
-		switch ( name ( dad ) ) {
+		switch ( dad->tag ) {
 		case and_tag : {
 			exp grandad = father ( dad ) ;
 
-			if ( (name ( grandad ) == test_tag && ( n & ( n - 1 ) ) == 0
+			if ( (grandad->tag == test_tag && ( n & ( n - 1 ) ) == 0
 			      && ( props ( grandad ) == 5 || props ( grandad ) == 6 )
-			      && ( name ( bro ( son ( grandad ) ) ) == val_tag
+			      && ( bro ( son ( grandad ) ) -> tag == val_tag
 			           && no ( bro ( son ( grandad ) ) ) == 0 ))
-			     || ( name ( son ( grandad ) ) == val_tag
+			     || ( son ( grandad ) -> tag == val_tag
 			          && no ( son ( grandad ) ) == 0 ) ) {
 				/* a & 2^n == 0 is transformed into a shift */
 				return false;

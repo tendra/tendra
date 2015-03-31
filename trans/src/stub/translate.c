@@ -38,9 +38,9 @@ something(dec *d)
 
 		sha = d->dec_shape;
 
-		fprintf(stderr, "shape %u: %s\n", name(sha), id);
+		fprintf(stderr, "shape %u: %s\n", sha->tag, id);
 	} else {
-		switch (name(s)) {
+		switch (s->tag) {
 		case proc_tag:
 		case general_proc_tag:
 			fprintf(stderr, "proc: %s\n", id);
@@ -51,7 +51,7 @@ something(dec *d)
 			break;
 
 		default:
-			fprintf(stderr, "tag %d: %s\n", name(s), id);
+			fprintf(stderr, "tag %d: %s\n", s->tag, id);
 			return;
 		}
 	}

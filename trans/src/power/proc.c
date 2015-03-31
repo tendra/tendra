@@ -63,7 +63,7 @@ update_plc(postl_chain * ch, int ma)
 {
 	while (ch != NULL) {
 	  exp pl= ch->pl;
-	  while (name(pl) ==ident_tag && name(son(pl)) ==caller_name_tag) {
+	  while (pl->tag ==ident_tag && son(pl)->tag ==caller_name_tag) {
 		no(pl) += (ma<<6);
 		pl = bro(son(pl));
 	  }
@@ -126,7 +126,7 @@ bool last_caller_param(exp e)
 {
   exp next;
 
-  assert(IS_A_PROC(e) || (name(e) == ident_tag && isparam(e)));
+  assert(IS_A_PROC(e) || (e->tag == ident_tag && isparam(e)));
   /* Look at the body of the ident for another param */
   if (IS_A_PROC(e))
   {
@@ -138,14 +138,14 @@ bool last_caller_param(exp e)
   }
 
   /* Skip diagnose_tag which may be before next param */
-  while (name(next) == diagnose_tag)
+  while (next->tag == diagnose_tag)
   {
     next = son(next);
   }
 
-  if (name(next) == ident_tag
+  if (next->tag == ident_tag
       && isparam(next)
-      && name(son(next))!=formal_callee_tag)
+      && son(next)->tag!=formal_callee_tag)
   {
     return 0;			/* another caller param */
   }
@@ -248,7 +248,7 @@ makeans make_ident_tag_code(exp e, space sp, where dest, int exitlab)
   }
 
   /* Is it an identification of a caller in a postlude? */
-  if (name(init_exp) ==caller_name_tag)
+  if (init_exp->tag ==caller_name_tag)
   {
     exp ote = find_ote(e,no(init_exp));
     long caller_disp = no(ote) >>3;
@@ -308,7 +308,7 @@ makeans make_ident_tag_code(exp e, space sp, where dest, int exitlab)
   {
     instore is;
 
-    if (name(init_exp)!= formal_callee_tag)
+    if (init_exp->tag!= formal_callee_tag)
     {
       /* Caller parameter living on stack */
       long caller_offset = no(init_exp) >>3;
@@ -350,7 +350,7 @@ makeans make_ident_tag_code(exp e, space sp, where dest, int exitlab)
 
   if (isparam(e))
   {
-    if (name(init_exp) ==formal_callee_tag && (props(e) & inanyreg))
+    if (init_exp->tag ==formal_callee_tag && (props(e) & inanyreg))
     {
       instore is;
       ans aa;
@@ -397,7 +397,7 @@ makeans make_ident_tag_code(exp e, space sp, where dest, int exitlab)
 void make_res_tag_code(exp e, space sp)
 {
   where w;
-  bool untidy = (name(e) ==untidy_return_tag)? 1 : 0;
+  bool untidy = (e->tag ==untidy_return_tag)? 1 : 0;
 
   w.answhere = p_result;
   w.ashwhere = ashof(sh(son(e)));
@@ -533,7 +533,7 @@ makeans make_apply_general_tag_code(exp e, space sp, where dest, int exitlab)
     postl_chain p;
     for (;x != NULL;)
     {
-      if (name(x) ==caller_tag)
+      if (x->tag ==caller_tag)
       {
 	no(x) += p_args_and_link_size<<3;
       }
@@ -612,8 +612,8 @@ void make_tail_call_tag_code(exp e, space sp)
   exp fn =son(e);
   exp cees = bro(fn);
   baseoff callee_pointer;
-  bool direct_call = (name(fn) == name_tag
-		      && name(son(fn)) == ident_tag
+  bool direct_call = (fn->tag == name_tag
+		      && son(fn)->tag == ident_tag
 		      && (son(son(fn)) == NULL || IS_A_PROC(son(son(fn)))));
   static int identification = 0;
   identification++;
@@ -625,7 +625,7 @@ void make_tail_call_tag_code(exp e, space sp)
   assert(p_has_fp);
 
 
-  if (name(cees) ==make_callee_list_tag || name(cees) ==make_dynamic_callee_tag)
+  if (cees->tag ==make_callee_list_tag || cees->tag ==make_dynamic_callee_tag)
   {
     /* +++ This is a bit of a long winded way to do the tail call for
        make_dynamic_callee_tag since the callees are copied twice. */
@@ -661,7 +661,7 @@ void make_tail_call_tag_code(exp e, space sp)
     /* At this point R_TP is R_TEMP_TP and R_FP is R_TEMP_FP */
 
     /* Pull down R_TEMP_TP by the size of the callees */
-    if (name(cees) ==make_callee_list_tag)
+    if (cees->tag ==make_callee_list_tag)
     {
       int size_of_callee_list=ALIGNNEXT((no(cees) >>3) +EXTRA_CALLEE_BYTES , 8);
       st_ro_ins(i_st,R_TEMP_TP,callee_pointer);
@@ -687,9 +687,9 @@ void make_tail_call_tag_code(exp e, space sp)
     /* Finally put the stack pointer at the bottom of the callees */
 
   }
-  else if (name(cees) ==same_callees_tag)
+  else if (cees->tag ==same_callees_tag)
   {
-    if (name(p_current) ==general_proc_tag)
+    if (p_current->tag ==general_proc_tag)
     {
       if (direct_call ==0)
       {
@@ -759,7 +759,7 @@ void make_same_callees_tag_code(exp e, space sp)
 
   UNUSED(e);
 
-  assert(name(p_current) ==general_proc_tag);
+  assert(p_current->tag ==general_proc_tag);
 
   rfrom = getreg(nsp.fixed);nsp = guardreg(rfrom,nsp);
   rto = getreg(nsp.fixed);nsp = guardreg(rto,nsp);
@@ -908,14 +908,14 @@ do_callers(int n, exp list, space sp)
 
   for (;;)
   {
-    exp par = name(list) ==caller_tag ?son(list):list;
+    exp par = list->tag ==caller_tag ?son(list):list;
     shape par_shape = sh(par);
     ash ap;
     where w;
     ap = ashof(sh(par));
     w.ashwhere = ap;
 
-    if (is_floating(name(par_shape)) && param_reg <= final_param)
+    if (is_floating(par_shape->tag) && param_reg <= final_param)
     {
       bool dble = is_double_precision(par_shape);
       instore is;
@@ -989,13 +989,13 @@ do_callers(int n, exp list, space sp)
 	/* Fix for avs suite FlowControl/apply_proc*/
 	code_here(par,sp,nowhere);
       }
-      else if (is_floating(name(par_shape)))
+      else if (is_floating(par_shape->tag))
       {
 	freg frg;
 	/* store floating parameter on the stack */
 	frg.fr= (fr_param_reg<=FR_LAST_PARAM ? fr_param_reg : getfreg(nsp.flt));
 
-	frg.dble = name(par_shape)!= shrealhd;
+	frg.dble = par_shape->tag!= shrealhd;
 	setfregalt(w.answhere, frg);
 	code_here(par, nsp, w);
 
@@ -1030,7 +1030,7 @@ do_callers(int n, exp list, space sp)
 	  allinreg = 1;
 	}
 
-	if (allinreg && name(par) == cont_tag)
+	if (allinreg && par->tag == cont_tag)
 	{
 	  /* a small simple ident, which we can load easily */
 	  where w;
@@ -1099,7 +1099,7 @@ do_callers(int n, exp list, space sp)
       param_reg += (param_size + 31) / 32;
     }
 
-    if (name(list) ==caller_tag)
+    if (list->tag ==caller_tag)
     {
       no(list) =disp;
     }
@@ -1119,8 +1119,8 @@ do_callers(int n, exp list, space sp)
 static void
 do_function_call(exp fn, space sp)
 {
-  if (name(fn) == name_tag
-      && name(son(fn)) == ident_tag
+  if (fn->tag == name_tag
+      && son(fn)->tag == ident_tag
       && (son(son(fn)) == NULL || IS_A_PROC(son(son(fn))))
      )
   {
@@ -1159,8 +1159,8 @@ do_function_call(exp fn, space sp)
 static void
 do_general_function_call(exp fn, space sp)
 {
-  if (name(fn) == name_tag
-      && name(son(fn)) == ident_tag
+  if (fn->tag == name_tag
+      && son(fn)->tag == ident_tag
       && (son(son(fn)) == NULL || IS_A_PROC(son(son(fn))))
      )
   {
@@ -1206,7 +1206,7 @@ static makeans
 move_result_to_dest(exp e, space sp, where dest, int exitlab)
 {
   makeans mka;
-  int hda = name(sh(e));	/* Shape of result */
+  int hda = sh(e)->tag;	/* Shape of result */
   ans aa;
   mka.regmove=R_NO_REG;
   mka.lab = exitlab;
@@ -1271,12 +1271,12 @@ restore_callers(int n)
   int final_param = n + R_FIRST_PARAM - 1;
 
   asm_comment("restore callers");
-  while (name(bdy) ==diagnose_tag)
+  while (bdy->tag ==diagnose_tag)
   {
     bdy = son(bdy);
   }
-  while (name(bdy) ==ident_tag && isparam(bdy)
-	 && name(son(bdy))!=formal_callee_tag)
+  while (bdy->tag ==ident_tag && isparam(bdy)
+	 && son(bdy)->tag!=formal_callee_tag)
   {
     exp sbdy = son(bdy);
     baseoff parampos;
@@ -1306,7 +1306,7 @@ restore_callers(int n)
       if (isvar(bdy))
       {
 	/* somebody has assigned to it so it must be reloaded */
-	if (is_floating(name(sh(sbdy))))
+	if (is_floating(sh(sbdy)->tag))
 	{
 	  bool dble = is_double_precision(sh(sbdy));
 	  stf_ro_ins(dble ? i_stfd :i_stfs,no(bdy),parampos);
@@ -1337,7 +1337,7 @@ restore_callers(int n)
 	  bo.offset +=4;
 	}
       }
-      else if (is_floating(name(sh(sbdy))))
+      else if (is_floating(sh(sbdy)->tag))
       {
 	bool dble = is_double_precision(sh(sbdy));
 	ldf_ro_ins(dble ? i_lfd:i_lfs,parampos,param_reg);
@@ -1350,7 +1350,7 @@ restore_callers(int n)
     else if (props(sbdy)!=0 && props(sbdy)!=no(bdy))
     {
       /* in wrong register */
-      if (is_floating(name(sh(sbdy))))
+      if (is_floating(sh(sbdy)->tag))
       {
 	rrf_ins(i_fmr,no(bdy),param_reg);
       }
@@ -1392,16 +1392,16 @@ restore_callees(void)
   exp bdy = son(p_current);
   asm_comment("restore callees");
 
-  while (name(bdy) ==diagnose_tag)
+  while (bdy->tag ==diagnose_tag)
   {
     bdy = son(bdy);
   }
-  while (name(bdy) ==ident_tag && isparam(bdy)
-	 && name(son(bdy))!=formal_callee_tag)
+  while (bdy->tag ==ident_tag && isparam(bdy)
+	 && son(bdy)->tag!=formal_callee_tag)
   {
     bdy = bro(son(bdy));
   }
-  while (name(bdy) ==ident_tag && isparam(bdy))
+  while (bdy->tag ==ident_tag && isparam(bdy))
   {
     exp sbdy = son(bdy);
     baseoff stackpos;
@@ -1424,9 +1424,9 @@ restore_callees(void)
 static exp find_ote(exp e, int n)
 {
   exp d = father(e);
-  while (name(d)!=apply_general_tag)d = father(d);
+  while (d->tag!=apply_general_tag)d = father(d);
   d = son(bro(son(d))); /* list otagexps */
   while (n !=0) { d = bro(d); n--;}
-  assert(name(d) ==caller_tag);
+  assert(d->tag ==caller_tag);
   return d;
 }

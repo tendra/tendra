@@ -509,12 +509,12 @@ void diag_proc_main
 
     /* Step over actual procedure arguments */
     a = son(e);
-    while (name(a) == ident_tag /* && isparam(a) */ ) {
+    while (a->tag == ident_tag /* && isparam(a) */ ) {
 	a = bro(son(a));
     }
 
     /* Read procedure argument definitions */
-    while (name(a) == diagnose_tag) {
+    while (a->tag == diagnose_tag) {
 	diag_info *di = dno(a);
 	if (di->key == DIAG_INFO_ID) {
 	    exp ps = di->data.id_scope.access;

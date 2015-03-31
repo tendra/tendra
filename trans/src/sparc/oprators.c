@@ -55,9 +55,9 @@
 
 static void 
 tidyshort ( int r, shape s ){
-  if ( name ( s ) == ucharhd ) {
+  if ( s->tag == ucharhd ) {
     rir_ins ( i_and, r, 0xff, r ) ;
-  } else if ( name ( s ) == uwordhd ) {
+  } else if ( s->tag == uwordhd ) {
     rir_ins ( i_and, r, 0xffff, r ) ;
   }
 }
@@ -103,14 +103,13 @@ do_comm ( exp seq, space sp, int final, ins_p rins ){
   space nsp ;
   int a1, a2 ;
   /* should have been optimised in scan... */
-  assert ( !( rins == i_add && name ( seq ) == neg_tag &&
-	      name ( bro ( seq ) ) != val_tag ) ) ;
+  assert ( !( rins == i_add && seq->tag == neg_tag && bro ( seq ) -> tag != val_tag ) ) ;
   /* evaluate first operand into a1 */
   a1 = reg_operand ( seq, sp ) ;
   for ( ; ; ) {
     nsp = guardreg ( a1, sp ) ;
     seq = bro ( seq ) ;
-    if ( name ( seq ) == val_tag ) {
+    if ( seq->tag == val_tag ) {
       /* next operand is a constant */
       if ( last ( seq ) ) {
 	rir_ins ( rins, a1, ( long ) no ( seq ), final ) ;
@@ -164,7 +163,7 @@ comm_op ( exp e, space sp, where d, ins_p rrins ){
 	 alter it before possible use as an operand ... */
       if ( usesdest && last ( seq ) ) {
 	/* used, but there is only one other operand */
-	if ( name ( seq ) == val_tag ) {
+	if ( seq->tag == val_tag ) {
 	  rir_ins ( rins, dest, ( long ) no ( seq ), dest ) ;
 	} 
         else {
@@ -333,7 +332,7 @@ absop ( exp e, space sp, where dest ){
 static void 
 quad_addr ( exp e, int r, space sp ){
   instore is ;
-  if ( name ( e ) == real_tag ) {
+  if ( e->tag == real_tag ) {
     is = evaluated ( e, 0, 1 ) ;
   } 
   else {
@@ -436,7 +435,7 @@ quad_op ( exp a1, exp a2, space sp, where dest, int op ){
   /* hack for float integer */
   if ( op == float_tag ) {
     int r = reg_operand ( a1, sp ) ;
-    if ( name ( sh ( a1 ) ) == ulonghd ) s = "_Q_utoq,1" ;
+    if ( sh ( a1 ) -> tag == ulonghd ) s = "_Q_utoq,1" ;
     if ( r != R_O0 ) rr_ins ( i_mov, r, R_O0 ) ;
     a1 = NULL ;
   }
@@ -446,7 +445,7 @@ quad_op ( exp a1, exp a2, space sp, where dest, int op ){
     where w ;
     freg frg ;
     frg.fr = getfreg ( sp.flt ) ;
-    if ( name ( sh ( a1 ) ) == realhd ) {
+    if ( sh ( a1 ) -> tag == realhd ) {
       s = "_Q_dtoq,1" ;
       frg.dble = 1 ;
     } 
@@ -496,12 +495,12 @@ fop ( exp e, space sp, where dest, ins_p ins ){
   space nsp ;
   int a1, a2 ;
 
-  if ( (has & HAS_LONG_DOUBLE) && name ( sh ( e ) ) == doublehd ) {
+  if ( (has & HAS_LONG_DOUBLE) && sh ( e ) -> tag == doublehd ) {
     if ( IsRev ( e ) ) {
-      quad_op ( r, l, sp, dest, ( int ) name ( e ) ) ;
+      quad_op ( r, l, sp, dest, ( int ) e->tag ) ;
     } 
     else {
-      quad_op ( l, r, sp, dest, ( int ) name ( e ) ) ;
+      quad_op ( l, r, sp, dest, ( int ) e->tag ) ;
     }
     return NOREG;
   }

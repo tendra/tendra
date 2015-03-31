@@ -72,14 +72,14 @@ unroll_complex(exp e, int n, exp control, int lia, exp ul, int decr)
 	}
 
 	if (son(e) == NULL) {
-		if (name(e) == goto_tag) {
+		if (e->tag == goto_tag) {
 			/* prevent removal of internal test */
 			allow_double = 0;
 		}
 		return n;
 	}
 
-	switch (name(e)) {
+	switch (e->tag) {
 	case test_tag:
 	case testbit_tag:
 		if (!isunroll(pt(e))) {
@@ -103,7 +103,7 @@ unroll_complex(exp e, int n, exp control, int lia, exp ul, int decr)
 		int t;
 
 		setunroll(bro(son(e)));		/* mark internal label */
-		if (name(sh(son(e))) == bothd) {
+		if (sh(son(e))->tag == bothd) {
 			t = unroll_complex(son(e), n - (4 * decr), control, lia, ul, 0);
 			t = unroll_complex(bro(son(e)), t - decr, control, lia, ul, decr);
 		} else {
@@ -118,18 +118,18 @@ unroll_complex(exp e, int n, exp control, int lia, exp ul, int decr)
 	case ass_tag:
 	case assvol_tag: {
 		exp assdest = son(e);	/* destination of assignment */
-		if (name(assdest) == name_tag && son(assdest) == ul) {
+		if (assdest->tag == name_tag && son(assdest) == ul) {
 			/* prevent removal of internal test; assigning to limit */
 			allow_double = 0;
 		}
 
 		if (lia) {
-			if (name(assdest) == name_tag && !isvar(son(assdest))) {
+			if (assdest->tag == name_tag && !isvar(son(assdest))) {
 				/* prevent removal of internal test; perhaps assigning to limit */
 				allow_double = 0;
 			}
 
-			if (name(assdest) == name_tag &&
+			if (assdest->tag == name_tag &&
 			    !iscaonly(son(assdest))) {
 				/* prevent removal of internal test; perhaps assigning to limit */
 				allow_double = 0;
@@ -144,7 +144,7 @@ unroll_complex(exp e, int n, exp control, int lia, exp ul, int decr)
 		if (son(e) == control) {
 			exp t;
 
-			if (!last(e) || name(bro(e)) != cont_tag) {
+			if (!last(e) || bro(e)->tag != cont_tag) {
 				/* any use but contents -> no test elim */
 				allow_double = 0;
 			} else {
@@ -152,11 +152,11 @@ unroll_complex(exp e, int n, exp control, int lia, exp ul, int decr)
 				t = bro(e);
 
 #if TRANS_ALPHA
-				if (!last(t) || name(bro(t)) != chvar_tag ||
+				if (!last(t) || bro(t)->tag != chvar_tag ||
 					last(bro(t)) ||
-					name(bro(bro(t))) != val_tag ||
+					bro(bro(t))->tag != val_tag ||
 					!last(bro(bro(t))) ||
-					name(bro(bro(bro(t)))) != offset_mult_tag) {
+					bro(bro(bro(t)))->tag != offset_mult_tag) {
 					/* not offset_mult -> no test elim */
 					allow_double = 0;
 				} else {
@@ -164,9 +164,9 @@ unroll_complex(exp e, int n, exp control, int lia, exp ul, int decr)
 					names[names_index++] = bro(e);
 				}
 #else
-				if (last(t) || name(bro(t)) != val_tag ||
+				if (last(t) || bro(t)->tag != val_tag ||
 					!last(bro(t)) ||
-					name(bro(bro(t))) != offset_mult_tag) {
+					bro(bro(t))->tag != offset_mult_tag) {
 					/* not offset_mult -> no test elim */
 					allow_double = 0;
 				} else {
@@ -355,9 +355,9 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 	    /* allow_double==0 prevents test elimination */
 	    (nt == (int)f_greater_than || nt == (int)f_greater_than_or_equal) &&
 	    /* the permitted tests - we are counting upwards */
-	    ((name(limit) == name_tag && !isvar(son(limit))) ||
-	     name(limit) == val_tag ||
-	     (name(limit) == cont_tag && name(son(limit)) == name_tag &&
+	    ((limit->tag == name_tag && !isvar(son(limit))) ||
+	     limit->tag == val_tag ||
+	     (limit->tag == cont_tag && son(limit)->tag == name_tag &&
 	      isvar(son(son(limit)))))	/* permitted forms of limit */
 	   ) {
 		/* unroll and remove the internal increment and test */
@@ -384,7 +384,7 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 			exp li = getexp(f_bottom, NULL, 0, lia, NULL, 0, 0,
 			                labst_tag);
 			fno(li) = (float)(freq / 20.0);
-			name(lia) = clear_tag;
+			lia->tag = clear_tag;
 			clearlast(lia);
 			branches[i] = li;
 		}
@@ -458,7 +458,7 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 		temp = me_b3(f_top, temp, te, seq_tag);
 		lrep = me_b3(f_top, me_shint(sha, 1), temp, labst_tag);
 		fno(lrep) = freq / (float)times;
-		name(son(lrep)) = clear_tag;
+		son(lrep)->tag = clear_tag;
 		repeater = me_b3(f_top, f_make_top(), lrep, rep_tag);
 		son(reps) = repeater;
 		pt(te) = lrep;	/* label in repeater */
@@ -547,7 +547,7 @@ unroller(void)
 	exp rb;
 
 	for (reps = repeat_list; reps != NULL; reps = pt(reps)) {
-		if (no(reps) != 0 || son(reps) == NULL || name(son(reps)) != rep_tag) {
+		if (no(reps) != 0 || son(reps) == NULL || son(reps)->tag != rep_tag) {
 			continue;
 		}
 
@@ -562,8 +562,8 @@ unroller(void)
 		 * count		seq_tag
 		 * 0	seq_tag
 		 */
-		if (name(son(candidate)) == top_tag && no(son(labst)) == 1 &&
-			name(rb) == seq_tag && name(bro(son(rb))) == seq_tag) {
+		if (son(candidate)->tag == top_tag && no(son(labst)) == 1 &&
+			rb->tag == seq_tag && bro(son(rb))->tag == seq_tag) {
 			exp final = bro(son(rb));
 			exp body = son(son(rb));
 			exp ass = son(son(final));
@@ -577,7 +577,7 @@ unroller(void)
 			 * body	0	test_tag = te
 			 * ass_tag = ass
 			 */
-			if (name(ass) == ass_tag && name(te) == test_tag) {
+			if (ass->tag == ass_tag && te->tag == test_tag) {
 				exp dest = son(ass);
 				exp val = bro(dest);
 
@@ -591,7 +591,7 @@ unroller(void)
 				 * name = dest	val (32)
 				 * var & ca
 				 */
-				if (name(dest) == name_tag && isvar(son(dest)) &&
+				if (dest->tag == name_tag && isvar(son(dest)) &&
 					iscaonly(son(dest)) && shape_size(sh(val)) == 32)
 				{
 					int count;
@@ -607,10 +607,10 @@ unroller(void)
 					 * var & ca	cont_tag	val_tag
 					 * name_tag -> dest
 					 */
-					if (name(val) == plus_tag && name(son(val)) == cont_tag &&
-						name(son(son(val))) == name_tag &&
+					if (val->tag == plus_tag && son(val)->tag == cont_tag &&
+						son(son(val))->tag == name_tag &&
 						son(son(son(val))) == son(dest) &&
-						name(bro(son(val))) == val_tag)
+						bro(son(val))->tag == val_tag)
 					{
 						exp konst = bro(son(val));
 						int nt = (int)test_number(te);
@@ -626,7 +626,7 @@ unroller(void)
 						 * var & ca	cont_tag val_tag = konst
 						 * name_tag -> dest
 						 */
-						if (name(son(te)) == cont_tag && name(son(son(te))) == name_tag &&
+						if (son(te)->tag == cont_tag && son(son(te))->tag == name_tag &&
 							pt(te) == labst && son(son(son(te))) == son(dest))
 						{
 							int count;
@@ -645,7 +645,7 @@ unroller(void)
 							 * var & ca	cont_tag val_tag = konst
 							 * name_tag -> dest
 							 */
-							if (name(limit) == cont_tag && name(son(limit)) == name_tag &&
+							if (limit->tag == cont_tag && son(limit)->tag == name_tag &&
 								isvar(son(son(limit))))
 							{
 								if (iscaonly(son(son(limit)))) {

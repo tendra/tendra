@@ -243,7 +243,7 @@ out_sh_type(shape s, char *nm)
 {
 	last_type_sz = shape_size(s);
 
-	switch (name(s)) {
+	switch (s->tag) {
 	case scharhd:  return STAB_SCHAR;
 	case ucharhd:  return STAB_UCHAR;
 	case swordhd:  return STAB_SSHRT;
@@ -906,11 +906,11 @@ stab_local(dg_name di, int param)
 	}
 
 	id = son(id);
-	if (name(id) == cont_tag && name(son(id)) == name_tag && isvar(son(son(id)))) {
+	if (id->tag == cont_tag && son(id)->tag == name_tag && isvar(son(son(id)))) {
 		id = son(id);
 	}
 
-	if (name(id) != name_tag || isdiscarded(id) || (isglob(son(id)) &&
+	if (id->tag != name_tag || isdiscarded(id) || (isglob(son(id)) &&
 	        no(son(id)) == 0 && !(brog(son(id))->extnamed))) {
 		return;
 	}
@@ -921,13 +921,13 @@ stab_local(dg_name di, int param)
 	dt = di->data.n_obj.typ;
 	t = next_del_stab();
 
-	if (name(id) == ident_tag && ((props(id) & defer_bit) == 0)) {
+	if (id->tag == ident_tag && ((props(id) & defer_bit) == 0)) {
 		disp += boff ( id ).offset; /* is this condition right ? */
 	}
 
 again:
 
-	if (name(id) == ident_tag) {
+	if (id->tag == ident_tag) {
 		if ((props(id) & defer_bit) == 0) {
 			/* +++ add assembler comment to say which reg is being used */
 			t->del_t = (param ? D_PARAM : D_LOCAL);
@@ -940,7 +940,7 @@ again:
 			long d = disp;
 
 			while (sn != NULL) {
-				switch (name(sn)) {
+				switch (sn->tag) {
 				case name_tag: {
 					disp = d + no(sn);
 					id = son(sn);

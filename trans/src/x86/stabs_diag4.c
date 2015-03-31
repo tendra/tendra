@@ -267,7 +267,7 @@ out_sh_type(shape s, char *nm)
 {
 	last_type_sz = shape_size(s);
 
-	switch (name(s)) {
+	switch (s->tag) {
 	case scharhd:  return STAB_SCHAR;
 	case ucharhd:  return STAB_UCHAR;
 	case swordhd:  return STAB_SSHRT;
@@ -934,11 +934,11 @@ stab_local(dg_name di, int param)
 	}
 
 	id = son(id);
-	if (name(id) == cont_tag && name(son(id)) == name_tag && isvar(son(son(id)))) {
+	if (id->tag == cont_tag && son(id)->tag == name_tag && isvar(son(son(id)))) {
 		id = son(id);
 	}
 
-	if (name(id) != name_tag || isdiscarded(id) || (isglob(son(id)) &&
+	if (id->tag != name_tag || isdiscarded(id) || (isglob(son(id)) &&
 	        no(son(id)) == 0 && !(brog(son(id))->extnamed))) {
 		return;
 	}

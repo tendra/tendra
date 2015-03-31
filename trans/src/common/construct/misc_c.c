@@ -51,18 +51,18 @@ invar_list(exp e)
 static int
 invariant_to_apply(exp e)
 {
-	if (name(e) == cont_tag) {
-		return name(son(e)) == name_tag && isvar(son(son(e))) &&
+	if (e->tag == cont_tag) {
+		return son(e)->tag == name_tag && isvar(son(son(e))) &&
 		       iscaonly(son(son(e))) && !isglob(son(son(e)));
 	}
 
-	if (name(e) == seq_tag || name(e) == ident_tag ||
-	    (name(e) >= plus_tag && name(e) < cont_tag) ||
-	    name(e) == field_tag || name(e) == reff_tag) {
+	if (e->tag == seq_tag || e->tag == ident_tag ||
+	    (e->tag >= plus_tag && e->tag < cont_tag) ||
+	    e->tag == field_tag || e->tag == reff_tag) {
 		return invar_list(son(e));
 	}
 
-	if (name(e) == contvol_tag) {
+	if (e->tag == contvol_tag) {
 		return 0;
 	}
 
@@ -73,7 +73,7 @@ invariant_to_apply(exp e)
 int
 is_tester(exp e, int eq)
 {
-	if (name(e) == test_tag || name(e) == testbit_tag) {
+	if (e->tag == test_tag || e->tag == testbit_tag) {
 		if (!eq || test_number(e) == f_equal) {
 			return 1;
 		}
@@ -86,46 +86,46 @@ int
 take_out_of_line(exp first, exp alt, int in_repeat, double scale)
 {
 	int extract;
-	extract = in_repeat && name(first) == seq_tag &&
-	    name(sh(first)) == bothd && no(son(alt)) == 1 &&
+	extract = in_repeat && first->tag == seq_tag &&
+	    sh(first)->tag == bothd && no(son(alt)) == 1 &&
 	    ((is_tester(son(son(first)), 0) && pt(son(son(first))) == alt) ||
-	     (name(son(son(first))) == ident_tag &&
+	     (son(son(first))->tag == ident_tag &&
 	      is_tester(bro(son(son(son(first)))), 0) &&
 	      pt(bro(son(son(son(first))))) == alt));
-	if (!extract && name(first) == seq_tag && no(son(alt)) == 1 &&
-	    name(bro(son(first))) == apply_tag &&
+	if (!extract && first->tag == seq_tag && no(son(alt)) == 1 &&
+	    bro(son(first))->tag == apply_tag &&
 	    ((is_tester(son(son(first)), 0) && pt(son(son(first))) == alt) ||
-	     (name(son(son(first))) == ident_tag &&
+	     (son(son(first))->tag == ident_tag &&
 	      is_tester(bro(son(son(son(first)))), 0) &&
 	      pt(bro(son(son(son(first))))) == alt))) {
 		extract = 1;
 	}
 
-	if (!extract && name(first) == seq_tag && no(son(alt)) == 1 &&
+	if (!extract && first->tag == seq_tag && no(son(alt)) == 1 &&
 	    ((is_tester(son(son(first)), 1) && pt(son(son(first))) == alt &&
-	      name(bro(son(son(son(first))))) == null_tag) ||
-	     (name(son(son(first))) == ident_tag &&
+	      bro(son(son(son(first))))->tag == null_tag) ||
+	     (son(son(first))->tag == ident_tag &&
 	      is_tester(bro(son(son(son(first)))), 1) &&
 	      pt(bro(son(son(son(first))))) == alt &&
-	      name(bro(son(bro(son(son(son(first))))))) == null_tag))) {
+	      bro(son(bro(son(son(son(first))))))->tag == null_tag))) {
 		extract = 1;
 	}
-	if (!extract && name(first) == seq_tag && no(son(alt)) == 1 &&
-	    name(son(son(first))) == ident_tag &&
+	if (!extract && first->tag == seq_tag && no(son(alt)) == 1 &&
+	    son(son(first))->tag == ident_tag &&
 	    is_tester(bro(son(son(son(first)))), 0) &&
 	    pt(bro(son(son(son(first))))) == alt &&
 	    no(bro(son(son(son(first))))) < 29) {
 		extract = 1;
 	}
-	if (!extract && name(first) == seq_tag && no(son(alt)) == 1 &&
+	if (!extract && first->tag == seq_tag && no(son(alt)) == 1 &&
 	    (is_tester(son(son(first)), 0) && pt(son(son(first))) == alt)) {
 		exp q = bro(son(son(first)));
 		exp p = NULL;
-		if (name(q) == prof_tag) {
+		if (q->tag == prof_tag) {
 			p = q;
 		}
-		if (name(q) == 0 && name(bro(q)) == seq_tag &&
-		    name(son(son(bro(q)))) == prof_tag) {
+		if (q->tag == 0 && bro(q)->tag == seq_tag &&
+		    son(son(bro(q)))->tag == prof_tag) {
 			p = son(son(bro(q)));
 		}
 
@@ -141,13 +141,13 @@ int
 take_out_by_prob(exp first, exp alt)
 {
 	int extract = 0;
-	if (!extract && name(first) == seq_tag && no(son(alt)) == 1 &&
+	if (!extract && first->tag == seq_tag && no(son(alt)) == 1 &&
 	    (is_tester(son(son(first)), 0) && pt(son(son(first))) == alt &&
 	     no(son(son(first))) < 29)) {
 		extract = 1;
 	}
-	if (!extract && name(first) == seq_tag && no(son(alt)) == 1 &&
-	    name(son(son(first))) == ident_tag &&
+	if (!extract && first->tag == seq_tag && no(son(alt)) == 1 &&
+	    son(son(first))->tag == ident_tag &&
 	    is_tester(bro(son(son(son(first)))), 0) &&
 	    pt(bro(son(son(son(first))))) == alt &&
 	    no(bro(son(son(son(first))))) < 29) {
@@ -165,12 +165,12 @@ int
 is_maxop(exp x, exp *t)
 {
 	exp op1, op2, z, l, w;
-	if (name(x) != cond_tag) {
+	if (x->tag != cond_tag) {
 		goto flab0;
 	}
 	{
 		exp xC = son(x);
-		if (name(xC) != seq_tag) {
+		if (xC->tag != seq_tag) {
 			goto flab0;
 		}
 		{
@@ -178,14 +178,14 @@ is_maxop(exp x, exp *t)
 			{
 				exp xCCC = son(xCC);
 				*t = xCCC;
-				if (name(xCCC) != test_tag) {
+				if (xCCC->tag != test_tag) {
 					goto flab0;
 				}
 				l=pt(*t);
 				{
 					exp xCCCC = son(xCCC);
 					op1 = xCCCC;
-					if (!(!is_floating(name(sh(op1))))) {
+					if (!(!is_floating(sh(op1)->tag))) {
 						goto flab0;
 					}
 					if (last(xCCCC)) {
@@ -256,12 +256,12 @@ int
 is_minop(exp x, exp *t)
 {
 	exp op1, op2, z, l, w;
-	if (name(x) != cond_tag) {
+	if (x->tag != cond_tag) {
 		goto flab0;
 	}
 	{
 		exp xC = son(x);
-		if (name(xC) != seq_tag) {
+		if (xC->tag != seq_tag) {
 			goto flab0;
 		}
 		{
@@ -269,14 +269,14 @@ is_minop(exp x, exp *t)
 			{
 				exp xCCC = son(xCC);
 				*t = xCCC;
-				if (name(xCCC) != test_tag) {
+				if (xCCC->tag != test_tag) {
 					goto flab0;
 				}
 				l=pt(*t);
 				{
 					exp xCCCC = son(xCCC);
 					op1 = xCCCC;
-					if (!(!is_floating(name(sh(op1))))) {
+					if (!(!is_floating(sh(op1)->tag))) {
 						goto flab0;
 					}
 					if (last(xCCCC)) {
@@ -348,7 +348,7 @@ is_condassign(exp e, exp *to_test, exp *to_ass)
 	exp st;
 	exp ass;
 	exp val;
-	if (name(arg1) != seq_tag) {
+	if (arg1->tag != seq_tag) {
 		return 0;
 	}
 
@@ -356,26 +356,26 @@ is_condassign(exp e, exp *to_test, exp *to_ass)
 	st = son(z);
 	ass = bro(z);
 
-	if (no(son(arg2)) != 1 || name(bro(son(arg2))) != top_tag) {
+	if (no(son(arg2)) != 1 || bro(son(arg2))->tag != top_tag) {
 		return 0;
 	}
-	if (name(st) != test_tag && name(st) != testbit_tag) {
+	if (st->tag != test_tag && st->tag != testbit_tag) {
 		return 0;
 	}
 	if (!last(st)) {
 		return 0;
 	}
-	if (name(ass) != ass_tag) {
+	if (ass->tag != ass_tag) {
 		return 0;
 	}
-	if (name(son(ass)) != name_tag || !isvar(son(son(ass)))) {
+	if (son(ass)->tag != name_tag || !isvar(son(son(ass)))) {
 		return 0;
 	}
 
 	val = bro(son(ass));
 	*to_test = st;
 	*to_ass = ass;
-	if (name(val) == val_tag) {
+	if (val->tag == val_tag) {
 		return 1;
 	}
 

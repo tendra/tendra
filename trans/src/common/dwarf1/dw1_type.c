@@ -93,7 +93,7 @@ out_plain_fund_attr(diag_type t)
 		}
 		break;
 	case DIAG_TYPE_VARIETY:
-		switch (name(t->data.var)) {
+		switch (t->data.var->tag) {
 		case scharhd:
 			dwarf2c(FT_signed_char);
 			break;

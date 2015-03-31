@@ -171,7 +171,7 @@ f_diag_desc_id(tdfstring n, sourcemark whence, exp acc, diag_type new_type)
 {
 	diag_descriptor new;
 
-	if (name(acc) != name_tag) {
+	if (acc->tag != name_tag) {
 		error(ERR_INTERNAL, "No name in f_diag_desc_id");
 	}
 

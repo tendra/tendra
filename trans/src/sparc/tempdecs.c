@@ -31,8 +31,8 @@
   IS THE EXPRESSION e A PROCEDURE APPLICATION?
 */
 
-#define APPLYLIKE( e ) ( name ( e ) == apply_tag || \
-			 name ( e ) == apply_general_tag || \
+#define APPLYLIKE( e ) ( e->tag == apply_tag || \
+			 e->tag == apply_general_tag || \
 			 is_muldivrem_call ( e ) )
 
 
@@ -67,7 +67,7 @@ trace_uses ( exp e, exp id ){
     }
     return 0;
   }
-  switch ( name ( e ) ) {
+  switch ( e->tag ) {
   case env_offset_tag :
   case name_tag : {
     nouses -= ( son ( e ) == id ? 1 : 0 ) ;
@@ -108,7 +108,7 @@ trace_uses ( exp e, exp id ){
     UNREACHED;
   }
   case ass_tag : {
-    if ( isvar ( id ) && name ( son ( e ) ) == name_tag &&
+    if ( isvar ( id ) && son ( e ) -> tag == name_tag &&
 	 son ( son ( e ) ) == id ) {
       ( void ) trace_uses ( bro ( son ( e ) ), id ) ;
       return 2;
@@ -151,7 +151,7 @@ after_a ( exp a, exp id ){
   exp l ;
   tailrec : {
     dad = father ( a ) ;
-    n = name ( dad ) ;
+    n = dad->tag ;
     if ( nouses == 0 ) return ;
     if ( n == cond_tag || n == rep_tag || n == solve_tag ||
 	 n == labst_tag || n == case_tag || n == goto_tag ||
@@ -183,8 +183,8 @@ simple_seq ( exp e, exp id ){
   exp dad = father ( e ) ;
   for ( ; ; ) {
     if ( dad == id ) return 1;
-    if ( name ( dad ) == seq_tag || name ( dad ) == 0 ||
-	 name ( dad ) == ident_tag ) {
+    if ( dad->tag == seq_tag || dad->tag == 0 ||
+	 dad->tag == ident_tag ) {
       dad = father ( dad ) ;
     } 
     else {
@@ -217,7 +217,7 @@ tempdec ( exp e, bool enoughs ){
 	continue ;
 #endif
       if ( !last ( p ) && last ( bro ( p ) ) &&
-	   name ( bro ( bro ( p ) ) ) == ass_tag ) {
+	   bro ( bro ( p ) ) -> tag == ass_tag ) {
 	if ( !simple_seq ( bro ( bro ( p ) ), e ) ) return  ( 0 ) ;
 	/* ... in simple sequence */
 	continue ;
@@ -232,7 +232,7 @@ tempdec ( exp e, bool enoughs ){
      id to find if all uses occur before unpredictable change of 
      control (or another assignment to id ) */
   
-  if ( name ( son ( e ) ) != clear_tag || isparam ( e ) ) {
+  if ( son ( e ) -> tag != clear_tag || isparam ( e ) ) {
     after_a ( son ( e ), e ) ;
   }
   if ( isvar ( e ) ) {
@@ -242,7 +242,7 @@ tempdec ( exp e, bool enoughs ){
 	continue ;
 #endif
       if ( !last ( p ) && last ( bro ( p ) ) &&
-	   name ( bro ( bro ( p ) ) ) == ass_tag ) {
+	   bro ( bro ( p ) ) -> tag == ass_tag ) {
 	after_a ( bro ( bro ( p ) ), e ) ;
       }
     }

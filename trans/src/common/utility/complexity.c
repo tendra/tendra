@@ -49,7 +49,7 @@ int
 complexity(exp e, int count, int newdecs,
 	int crit_decs, int crit_decsatapp, int apply_cost)
 {
-	unsigned char n = name(e);
+	unsigned char n = e->tag;
 
 	if (count < 0) {
 		return -1;

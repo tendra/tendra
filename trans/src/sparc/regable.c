@@ -26,7 +26,7 @@
 
 bool 
 valregable ( shape s ){
-  if ( is_floating ( name ( s ) ) ) {
+  if ( is_floating ( s->tag ) ) {
     /* Floating point values don't go in fixed registers */
     return 0;
   } 
@@ -37,7 +37,7 @@ valregable ( shape s ){
       /* Reject anything too big */
       return 0;
     } 
-    else if ( name ( s ) == cpdhd || name (s) == nofhd) {
+    else if ( s->tag == cpdhd || s->tag == nofhd) {
       /* Compound shapes are not put in registers */
       return 0;
     } 
@@ -57,7 +57,7 @@ valregable ( shape s ){
 bool 
 fixregable ( exp e ){
   if ( !isvis ( e ) && !isoutpar ( e) && !isglob ( e ) && !isenvoff(e) &&
-       name(son(e)) != caller_name_tag) {
+       son(e)->tag != caller_name_tag) {
     shape s = sh ( son ( e ) ) ;
     return valregable ( s ) ;
   }
@@ -72,9 +72,9 @@ fixregable ( exp e ){
 bool 
 floatregable ( exp e ){
   if ( !isvis ( e ) && !isoutpar ( e) && !isglob ( e ) && !isenvoff(e) &&
-       name(son(e)) != caller_name_tag) {
+       son(e)->tag != caller_name_tag) {
     shape s = sh ( son ( e ) ) ;
-    if ( is_floating ( name ( s ) ) ) {
+    if ( is_floating ( s->tag ) ) {
       if ( (has & HAS_LONG_DOUBLE) && shape_size ( s ) > 64 ) return 0;
       return 1;
     } 

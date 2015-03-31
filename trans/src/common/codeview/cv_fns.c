@@ -105,15 +105,15 @@ code_diag_info(diag_info *d, int proc_no, void(*mcode)(void *), void *args)
 	exp acc = d->data.id_scope.access;
 	ot ty;
 	int p, param_dec;
-	if (name(acc)!= hold_tag && name(acc) != hold2_tag) {
+	if (acc->tag!= hold_tag && acc->tag != hold2_tag) {
 	  failer("not hold_tag");
 	}
 	acc = son(acc);
-	if (name(acc) == cont_tag && name(son(acc)) == name_tag &&
+	if (acc->tag == cont_tag && son(acc)->tag == name_tag &&
 	    isvar(son(son(acc)))) {
 	  acc = son(acc);
 	}
-	if (name(acc) == name_tag && !isdiscarded(acc) && !isglob(son(acc))) {
+	if (acc->tag == name_tag && !isdiscarded(acc) && !isglob(son(acc))) {
 	  p = (no(acc) + no(son(acc))) / 8;
 	  param_dec = isparam(son(acc));
 	  asm_printf( " .def %s; .val ", d->data.id_scope.nme.ints.chars);

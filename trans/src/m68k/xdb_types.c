@@ -158,7 +158,7 @@ analyse_diag_shape(FILE *file, shape sha)
 
 	t = NULL_POSN;
 	sz = shape_size(sha);
-	switch (name(sha)) {
+	switch (sha->tag) {
 	case scharhd:
 		t = CHAR_POSN + sz;
 		break;

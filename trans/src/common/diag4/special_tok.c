@@ -49,7 +49,7 @@ read_exp_to_source(exp body)
 		s2.from_column = s1.from_column;
 	}
 
-	if (name(body) == proc_tag || name(body) == general_proc_tag) {
+	if (body->tag == proc_tag || body->tag == general_proc_tag) {
 		return body;
 	}
 
@@ -79,10 +79,10 @@ read_diag_id_scope(exp body)
 	                       no_dg_accessibility_option);
 
 	if (isparam(son(acc)) ||
-	    (son(son(acc)) != NULL && name(son(son(acc))) == chvar_tag &&
+	    (son(son(acc)) != NULL && son(son(acc))->tag == chvar_tag &&
 	     shape_size(sh(son(son(acc)))) < 32 &&
-	     name(son(son(son(acc)))) == cont_tag &&
-	     name(son(son(son(son(acc))))) == name_tag &&
+	     son(son(son(acc)))->tag == cont_tag &&
+	     son(son(son(son(acc))))->tag == name_tag &&
 	     isparam(son(son(son(son(son(acc)))))))) {
 		dg_info x = dgf(body);
 		if (x && x->key == DGA_PARAMS) {

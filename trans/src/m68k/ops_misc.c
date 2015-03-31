@@ -224,10 +224,10 @@ callins(long longs, exp fn)
 	fn_exp = fn;
 
 	/* Let's see if we have the procedure at compilation time */
-	if (name(fn) == name_tag && ! isvar(s) && isglob(s)) {
+	if (fn->tag == name_tag && ! isvar(s) && isglob(s)) {
 		exp def = son (s) ; /* Definition of Identify construct */
-		if (!def || name(def) == proc_tag ||
-		    name(def) == general_proc_tag) {
+		if (!def || def->tag == proc_tag ||
+		    def->tag == general_proc_tag) {
 			simple_proc = 1;
 		}
 	}
@@ -267,7 +267,7 @@ jmpins(exp fn)
 	fn_exp = fn;
 
 	/* If this is not a straight jmp, put the name into an A register */
-	if (name(fn)!= name_tag || isvar(s) || !isglob(s)) {
+	if (fn->tag!= name_tag || isvar(s) || !isglob(s)) {
 		where w;
 		w = zw(fn);
 		if (whereis(w)!= Areg) {
@@ -336,7 +336,7 @@ cmp_zero(shape sha, long sz, where a)
 		/* This does work, despite the manual */
 		int instr = ins(sz, ml_tst);
 		ins1(instr, sz, a, 0);
-	} else if (w == Freg || (w == External && name(sha) == prokhd)) {
+	} else if (w == Freg || (w == External && sha->tag == prokhd)) {
 		/* Moving to D0 sets the flags */
 		move(sha, a, D0);
 	} else {
@@ -470,7 +470,7 @@ cmp(shape sha, where var, where limit, long ntst)
 	long whl = whereis(limit);
 
 #if 0
-	if (name(sha) == ptrhd) {
+	if (sha->tag == ptrhd) {
 		asm_comment("HACK shape size");
 		shape_size(sha) = 32;
 		sz = 32;
@@ -547,9 +547,9 @@ cmp(shape sha, where var, where limit, long ntst)
 	}
 
 #if 0
-	if (name(var.wh_exp) == name_tag && name(sha) == prokhd &&
+	if (var.wh_exp->tag == name_tag && sha->tag == prokhd &&
 	    ((son(son(var.wh_exp)) ==NULL) ||
-	     (name(son(son(var.wh_exp))) == proc_tag))) {
+	     (son(son(var.wh_exp))->tag == proc_tag))) {
 		exp proc_cont = getexp(sha, NULL, 0, var.wh_exp, NULL, 0,
 				       0, cont_tag);
 		var.wh_exp = proc_cont;
@@ -899,11 +899,11 @@ move_to_freg(long sz, where from, where to)
 static bool
 ca_extern(exp e)
 {
-	char n = name(e);
+	char n = e->tag;
 	if (n != cont_tag && n != ass_tag) {
 		return 0;
 	}
-	return name(son(e)) == name_tag ? 1 : 0;
+	return son(e)->tag == name_tag ? 1 : 0;
 }
 
 /*
@@ -935,8 +935,8 @@ move_bytes(long sz, where from, where to, int down)
 	if (whfrom == External && ca_extern(fe)) {
 		s1 = 3;
 	}
-	if (name(te) == apply_tag || name(te) == apply_general_tag ||
-	    name(te) == tail_call_tag) {
+	if (te->tag == apply_tag || te->tag == apply_general_tag ||
+	    te->tag == tail_call_tag) {
 		s2 = 1;
 	}
 	if (whto == External && ca_extern(te)) {
@@ -1070,16 +1070,16 @@ move(shape sha, where from, where to)
 	}
 	sz = round(sz, shape_align(sha));
 
-	if (name(sha) == bitfhd && sz != 8 && sz != 16) {
+	if (sha->tag == bitfhd && sz != 8 && sz != 16) {
 		sz = 32;
 	}
 
 	if (rt == Freg || whfrom == Freg || whto == Freg) {
-		if (name(fe) == real_tag) {
+		if (fe->tag == real_tag) {
 			whfrom = Value;
 		}
-		if (name(te) == apply_tag || name(te) == apply_general_tag ||
-		    name(te) == tail_call_tag) {
+		if (te->tag == apply_tag || te->tag == apply_general_tag ||
+		    te->tag == tail_call_tag) {
 			switch (whfrom) {
 			case Dreg:
 			case Areg:
@@ -1212,8 +1212,8 @@ move(shape sha, where from, where to)
 
 	/* Move things of size 8, 16 or 32 */
 	if (sz <= 32 && sz != 24) {
-		if (name(te) == apply_tag || name(te) == apply_general_tag ||
-		    name(te) == tail_call_tag) {
+		if (te->tag == apply_tag || te->tag == apply_general_tag ||
+		    te->tag == tail_call_tag) {
 			if (whfrom == Value) {
 				mach_op *op1, *op2;
 				long v = nw(from);
@@ -1252,7 +1252,7 @@ move(shape sha, where from, where to)
 			return;
 		}
 
-		if (name(fe) == null_tag) {
+		if (fe->tag == null_tag) {
 			move_const(sha, sz, 0L, to);
 			return;
 		}
@@ -1285,7 +1285,7 @@ move(shape sha, where from, where to)
 			return;
 		}
 # if 0
-		if ((name(sha) == prokhd) && (whfrom == External) &&
+		if ((sha->tag == prokhd) && (whfrom == External) &&
 		    (whto == Dreg)) {
 			/* We need the contents of this address */
 			move(sha,from,A0);
@@ -1307,7 +1307,7 @@ move(shape sha, where from, where to)
 		return;
 	}
 
-	if (name(fe) == null_tag) {
+	if (fe->tag == null_tag) {
 		move_const(sha, sz, 0L, to);
 		return;
 	}
@@ -1326,8 +1326,8 @@ mova(where from, where to)
 {
 	int r;
 	exp fe = from.wh_exp;
-	char nf = name(fe);
-	char nt = name(to.wh_exp);
+	char nf = fe->tag;
+	char nt = to.wh_exp->tag;
 
 	if (nf == reff_tag) {
 		exp s = son(from.wh_exp);
@@ -1355,7 +1355,7 @@ mova(where from, where to)
 	case cont_tag:
 	case ass_tag: {
 		exp s = son(from.wh_exp);
-		if (from.wh_off == 0 && name(s) == name_tag) {
+		if (from.wh_off == 0 && s->tag == name_tag) {
 			exp ss = son(s);
 			if (!isvar(ss) && !isglob(ss)) {
 				move(slongsh, zw(s), to);
@@ -1396,7 +1396,7 @@ mova(where from, where to)
 long
 range_max(shape shp)
 {
-	switch (name(shp)) {
+	switch (shp->tag) {
 	case scharhd:
 		return 0x7f;
 	case swordhd:
@@ -1418,7 +1418,7 @@ range_max(shape shp)
 long
 range_min(shape shp)
 {
-	switch (name(shp)) {
+	switch (shp->tag) {
 	case scharhd:
 		return -0x80;
 	case swordhd:
@@ -1458,7 +1458,7 @@ change_var_sh(shape sht, shape shf, where from, where to)
 		if (whf == Value) {
 			if (((nw(from) < 0) && !is_signed(sht)) ||
 			    ((nw(from)) < 0 &&
-			     (is_signed(sht) && name(shf) ==ulonghd))) {
+			     (is_signed(sht) && shf->tag ==ulonghd))) {
 				test_overflow(UNCONDITIONAL);
 			}
 			if (is_signed(sht)) {
@@ -1481,7 +1481,7 @@ change_var_sh(shape sht, shape shf, where from, where to)
 		return;
 	}
 
-	if (name(sht) == bitfhd) {
+	if (sht->tag == bitfhd) {
 		sgt = is_signed(sht);
 		switch (szt) {
 		case 8:
@@ -1497,7 +1497,7 @@ change_var_sh(shape sht, shape shf, where from, where to)
 		}
 	}
 
-	if (name(shf) == bitfhd) {
+	if (shf->tag == bitfhd) {
 		sgf = is_signed(shf);
 		switch (szf) {
 		case 8:
@@ -1525,13 +1525,12 @@ change_var_sh(shape sht, shape shf, where from, where to)
 			exp zero_exp = getexp(shf, NULL, 0, NULL, NULL,
 					      0, 0, val_tag);
 			sw = cmp(shf, from, zw(zero_exp), tst_ls);
-			br_ins = branch_ins(tst_ls, sw, 1,
-					    is_floating(name(shf)));
+			br_ins = branch_ins(tst_ls, sw, 1, is_floating(shf->tag));
 			test_overflow2(br_ins);
 			kill_exp(zero_exp, zero_exp);
 		}
 
-		if (is_signed(sht) && (name(shf) == ulonghd)) {
+		if (is_signed(sht) && (shf->tag == ulonghd)) {
 			/*
 			 * Treat the unsigned value as signed and check .lt.
 			 * zero.
@@ -1540,13 +1539,12 @@ change_var_sh(shape sht, shape shf, where from, where to)
 			exp zero_exp = getexp(slongsh, NULL, 0, NULL,
 					      NULL, 0, 0, val_tag);
 			sw = cmp(slongsh, from, zw(zero_exp), tst_ls);
-			br_ins = branch_ins(tst_ls, sw, 1,
-					    is_floating(name(shf)));
+			br_ins = branch_ins(tst_ls, sw, 1, is_floating(shf->tag));
 			test_overflow2(br_ins);
 			kill_exp(zero_exp, zero_exp);
 		}
 
-		if(name(sht) <= name(shf)) {
+		if(sht->tag <= shf->tag) {
 			/* shortening variety */
 			exp max_val = getexp(sht, NULL, 0, NULL, NULL, 0,
 					     range_max(sht), val_tag);
@@ -1572,13 +1570,11 @@ change_var_sh(shape sht, shape shf, where from, where to)
 
 			sw = cmp(is_signed(sht) ?slongsh : ulongsh, from,
 				 zw(max_val), tst_gr);
-			br_ins = branch_ins(tst_gr, sw, is_signed(sht),
-					    is_floating(name(sht)));
+			br_ins = branch_ins(tst_gr, sw, is_signed(sht), is_floating(sht->tag));
 			test_overflow2(br_ins);
 			sw = cmp(is_signed(sht) ? slongsh : ulongsh, from,
 				 zw(min_val), tst_ls);
-			br_ins = branch_ins(tst_ls, sw, is_signed(sht),
-					    is_floating(name(sht)));
+			br_ins = branch_ins(tst_ls, sw, is_signed(sht), is_floating(sht->tag));
 			test_overflow2(br_ins);
 
 			kill_exp(max_val, max_val);

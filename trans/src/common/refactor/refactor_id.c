@@ -115,7 +115,7 @@ used_in(exp vardec, exp piece)
 		q = t;
 
 		while (q != NULL && q != piece && q != vardec &&
-		       !parked(q) && (name(q) != ident_tag || !isglob(q))) {
+		       !parked(q) && (q->tag != ident_tag || !isglob(q))) {
 			upwards = q;
 			q = bro(q);
 		}
@@ -124,9 +124,9 @@ used_in(exp vardec, exp piece)
 		if (last (upwards) && q == piece) {
 			/* the use was in piece */
 			res = 1;
-			if ((last(t) || !last(bro(t)) || name(bro(bro(t))) != 0)) {
+			if ((last(t) || !last(bro(t)) || bro(bro(t))->tag != 0)) {
 				/* the use was not contents or in diagnostics*/
-				if (!last(t) || name(bro(t)) != cont_tag) {
+				if (!last(t) || bro(t)->tag != cont_tag) {
 					res = 3;
 				}
 			}
@@ -156,20 +156,20 @@ used_in(exp vardec, exp piece)
 int
 simple_const(exp whole, exp e, int decl, int no_ass)
 {
-	if (name(e) == val_tag || name(e) == real_tag || name(e) == null_tag) {
+	if (e->tag == val_tag || e->tag == real_tag || e->tag == null_tag) {
 		return 1;
 	}
 
-	if (name(e) == name_tag && !isvar(son(e)) &&
+	if (e->tag == name_tag && !isvar(son(e)) &&
 	    (decl || !internal_to(whole, son(e)))) {
 		return 1;
 	}
 
-	if (name(e) == reff_tag) {
+	if (e->tag == reff_tag) {
 		e = son(e);
 	}
 
-	if (name(e) == cont_tag && name(son(e)) == name_tag &&
+	if (e->tag == cont_tag && son(e)->tag == name_tag &&
 	    !isparam(son(son(e))) && isvar(son(son(e)))) {
 		exp var = son(son(e));
 		int  u = used_in(var, whole);
@@ -262,22 +262,22 @@ up: /* up ascends the tree */
 
 		if (!last(p)) {
 			p = bro(p);
-			if (name(p) == labst_tag) {
+			if (p->tag == labst_tag) {
 				/* can't go further */
 				return 0;
 			}
 		} else {
-			if (name(bro(p)) == proc_tag ||
-				name(bro(p)) == labst_tag ||
-				name(bro(p)) == condassign_tag) {
+			if (bro(p)->tag == proc_tag ||
+				bro(p)->tag == labst_tag ||
+				bro(p)->tag == condassign_tag) {
 				/* can't go further */
 				return 0;
 			}
 
 			p = bro(p);
-			if ((name(p) == ass_tag ||
-				 name(p) == assvol_tag) &&
-				name(son(p)) == name_tag &&
+			if ((p->tag == ass_tag ||
+				 p->tag == assvol_tag) &&
+				son(p)->tag == name_tag &&
 				son(son(p)) == vardec) {
 				return 0;
 			}
@@ -288,8 +288,8 @@ up: /* up ascends the tree */
 
 rep: /* rep processes an exp */
 
-	if (name(p) == ass_tag || name(p) == assvol_tag) {
-		if (name(son(p)) == name_tag && son(son(p)) == vardec) {
+	if (p->tag == ass_tag || p->tag == assvol_tag) {
+		if (son(p)->tag == name_tag && son(son(p)) == vardec) {
 			/* just process the value */
 			p = bro(son(p));
 			goto rep;
@@ -300,8 +300,8 @@ rep: /* rep processes an exp */
 		}
 	}
 
-	if (name(p) == cont_tag) {
-		if (name(son(p)) == name_tag && son(son(p)) == vardec) {
+	if (p->tag == cont_tag) {
+		if (son(p)->tag == name_tag && son(son(p)) == vardec) {
 			set_propagate(p);		/* mark it */
 			goto up;
 		} else {
@@ -310,11 +310,11 @@ rep: /* rep processes an exp */
 		}
 	}
 
-	if (name(p) == name_tag || name(p) == env_offset_tag) {
+	if (p->tag == name_tag || p->tag == env_offset_tag) {
 		goto up;
 	}
 
-	if (name(p) == apply_tag || name(p) == apply_general_tag) {
+	if (p->tag == apply_tag || p->tag == apply_general_tag) {
 		if (isglob(vardec)) {
 			/* vardec is global */
 			return 0;
@@ -325,11 +325,11 @@ rep: /* rep processes an exp */
 		}
 	}
 
-	if (name(p) == rep_tag) {
+	if (p->tag == rep_tag) {
 		return 0;
 	}
 
-	if (name(p) == cond_tag) {
+	if (p->tag == cond_tag) {
 		if (propagate(vardec, son(p), son(p), 1)) {
 			good = propagate(vardec, bro(son(bro(son(p)))),
 			                 bro(son(bro(son(p)))), 1);
@@ -346,13 +346,13 @@ rep: /* rep processes an exp */
 		}
 	}
 
-	if (name(p) == solve_tag) {
+	if (p->tag == solve_tag) {
 		IGNORE propagate(vardec, son(p), son(p), 1);
 		/* give up after trying the first element */
 		return 0;
 	}
 
-	if (name(p) == case_tag) {
+	if (p->tag == case_tag) {
 		if (propagate(vardec, son(p), son(p), 1)) {
 			goto up;
 		}
@@ -375,7 +375,7 @@ rep: /* rep processes an exp */
 static exp
 change_shape(exp e, shape sha)
 {
-	if (name(e) == val_tag) {
+	if (e->tag == val_tag) {
 		no(e) = dochvar(no(e), sha);
 	}
 
@@ -397,7 +397,7 @@ change_cont(exp vardec, exp val, int force)
 		t = pt(vardec);
 		go = 0;
 		while (!go && t != NULL) {
-			if (last(t) && name(bro(t)) == cont_tag &&
+			if (last(t) && bro(t)->tag == cont_tag &&
 #ifdef TDF_DIAG4
 			    !isdiaginfo(t) &&
 #endif
@@ -458,7 +458,7 @@ refactor_id(exp e, exp scope)
 	}
 
 	if (load_ptr_pars) {
-		if (!is_vis && is_var && isparam(e) && no(e) > 1 && name(sh(def)) == ptrhd
+		if (!is_vis && is_var && isparam(e) && no(e) > 1 && sh(def)->tag == ptrhd
 #if TRANS_M68K
 		    && check_anyway(e)
 #endif
@@ -473,10 +473,10 @@ refactor_id(exp e, exp scope)
 				if (!isdiaginfo(t1)) {
 #endif
 
-					if (!last(t1) && last(bro(t1)) && name(bro(bro(t1))) == ass_tag &&
+					if (!last(t1) && last(bro(t1)) && bro(bro(t1))->tag == ass_tag &&
 					    shape_size(sh(bro(t1))) == sz) {
 						;
-					} else if (!last(t1) || name(bro(t1)) != cont_tag ||
+					} else if (!last(t1) || bro(t1)->tag != cont_tag ||
 					           shape_size(sh(bro(t1))) != sz) {
 						ch_load = 0;
 					}
@@ -500,7 +500,7 @@ refactor_id(exp e, exp scope)
 
 				t1 = e;
 
-				while (name(bro(son(t1))) == ident_tag && isparam(bro(son(t1)))) {
+				while (bro(son(t1))->tag == ident_tag && isparam(bro(son(t1)))) {
 					t1 = bro(son(t1));
 				}
 
@@ -531,34 +531,34 @@ refactor_id(exp e, exp scope)
 	}
 
 	if (!is_vis && !is_var &&
-	    (!load_ptr_pars || ((name(def) != name_tag || !isloadparam(def)))) &&
-	    (name(def) == val_tag ||
+	    (!load_ptr_pars || ((def->tag != name_tag || !isloadparam(def)))) &&
+	    (def->tag == val_tag ||
 	     (load_ptr_pars
-	      ? ((name(def) == name_tag &&
-	          (!isparam(son(def)) || name(sh(def)) == ptrhd)))
-	      : name(def) == name_tag )
+	      ? ((def->tag == name_tag &&
+	          (!isparam(son(def)) || sh(def)->tag == ptrhd)))
+	      : def->tag == name_tag )
 	     ||
 #if TRANS_X86
-	     (name(def) == name_tag && isparam(son(def)) && !isvar(son(def)) &&
+	     (def->tag == name_tag && isparam(son(def)) && !isvar(son(def)) &&
 	      shape_size(sh(def)) < shape_size(sh(son(son(def)))) &&
-	      name(sh(def)) <= ulonghd) ||
+	      sh(def)->tag <= ulonghd) ||
 #endif
 
 	     /*
 	      * Substitute the definitions of identity declarations into body
 	      * if it seems cheaper to do so.
 	      */
-	     (name(def) == reff_tag && name(son(def)) == cont_tag &&
-	      name(son(son(def))) == name_tag && isvar(son(son(son(def)))) &&
+	     (def->tag == reff_tag && son(def)->tag == cont_tag &&
+	      son(son(def))->tag == name_tag && isvar(son(son(son(def)))) &&
 	      !isglob(son(son(son(def)))) &&
 	      used_in(son(son(son(def))), body) != 3) ||
-	     (name(def) == reff_tag && name(son(def)) == name_tag &&
+	     (def->tag == reff_tag && son(def)->tag == name_tag &&
 	      isvar(son(son(def))) && !isglob(son(son(def))) &&
-	      used_in(son(son(def)), body) != 3) || name(def) == null_tag ||
-	     name(def) == real_tag)) {
+	      used_in(son(son(def)), body) != 3) || def->tag == null_tag ||
+	     def->tag == real_tag)) {
 
 		/* identifying a constant or named value */
-		if (optim & OPTIM_SUBSTPARAMS || name(def) != name_tag || !isparam(son(def)) ||
+		if (optim & OPTIM_SUBSTPARAMS || def->tag != name_tag || !isparam(son(def)) ||
 		    isvar(son(def))) {
 			exp bh = hold(body);
 
@@ -584,12 +584,12 @@ refactor_id(exp e, exp scope)
 				--no(e);
 #endif
 
-				if (name(cp) == name_tag) {
+				if (cp->tag == name_tag) {
 					no(cp) += no(mem);
 				}
 
 				if (sh(cp) != sh(mem)) {
-					if (name(sh(cp)) <= u64hd) {
+					if (sh(cp)->tag <= u64hd) {
 						cp = hold_refactor(me_u3(sh(mem), cp, chvar_tag));
 					} else {
 						sh(cp) = sh(mem);
@@ -622,7 +622,7 @@ refactor_id(exp e, exp scope)
 	/*
 	 * Also substitute identity definitions which are references to bitfields.
 	 */
-	if (!is_vis && !is_var && name(def) == reff_tag && al1(sh(def)) == 1) {
+	if (!is_vis && !is_var && def->tag == reff_tag && al1(sh(def)) == 1) {
 		exp t = pt(e);
 		int n = no(def);
 		shape sha = sh(def);
@@ -652,12 +652,12 @@ refactor_id(exp e, exp scope)
 	}
 
 	/* and substitute strings */
-	if (!is_vis && !is_var && name(def) == string_tag) {
+	if (!is_vis && !is_var && def->tag == string_tag) {
 		exp t = pt(e);
 		int all_chars = 1;
 
 		for (;;) {
-			if (name(sh(t)) > ucharhd) {
+			if (sh(t)->tag > ucharhd) {
 				all_chars = 0;
 				break;
 			}
@@ -679,7 +679,7 @@ refactor_id(exp e, exp scope)
 				exp n = bro(t);
 				int  v = str[no(t) / 8];
 				exp c;
-				if (name(sh(t)) == ucharhd) {
+				if (sh(t)->tag == ucharhd) {
 					v = v & 0xff;
 				}
 				c = getexp(sh(t), NULL, 0, NULL, NULL, 0,
@@ -701,10 +701,10 @@ refactor_id(exp e, exp scope)
 		}
 	}
 
-	if (!is_vis && !is_var && name(body) == seq_tag &&
-	    name(son(son(body))) == ass_tag && name(bro(son(body))) == name_tag) {
+	if (!is_vis && !is_var && body->tag == seq_tag &&
+	    son(son(body))->tag == ass_tag && bro(son(body))->tag == name_tag) {
 		exp tb = bro(son(son(son(body))));
-		if (name(tb) == name_tag && son(tb) == e &&
+		if (tb->tag == name_tag && son(tb) == e &&
 		    son(bro(son(body))) == e && last(son(son(body))) &&
 		    sh(tb) == sh(def) && sh(tb) == sh(bro(son(body)))) {
 			/* e=id(def, seq(ass(tz, n(e)), n(e)) -> seq(ass(tz, def), cont(tz)) */
@@ -750,8 +750,8 @@ refactor_id(exp e, exp scope)
 
 		do {
 			/* scan the uses of the variable */
-			if (last(tc) && (name(bro(tc)) == hold_tag ||
-			                 name(bro(tc)) == hold2_tag)) {
+			if (last(tc) && (bro(tc)->tag == hold_tag ||
+			                 bro(tc)->tag == hold2_tag)) {
 #ifdef TDF_DIAG4
 				if (diag_visible) {
 #else
@@ -761,21 +761,21 @@ refactor_id(exp e, exp scope)
 					return 0;
 				}
 			} else {
-				if (last(tc) && name(bro(tc)) == cont_tag && no(tc) == 0 &&
+				if (last(tc) && bro(tc)->tag == cont_tag && no(tc) == 0 &&
 #ifdef TDF_DIAG4
 				    !isdiaginfo(tc) &&
 #endif
-				    (name(sh(bro(tc))) < shrealhd || name(sh(bro(tc))) > doublehd ||
-				     (name(sh(def)) >= shrealhd && name(sh(def)) <= doublehd))) {
+				    (sh(bro(tc))->tag < shrealhd || sh(bro(tc))->tag > doublehd ||
+				     (sh(def)->tag >= shrealhd && sh(def)->tag <= doublehd))) {
 					int qq = shape_size(sh(bro(tc)));
 					/* contents op so not all assignments */
 					all_a = 0;
 
-					if (name(father(bro(tc))) != test_tag) {
+					if (father(bro(tc))->tag != test_tag) {
 						conversion = -1;
 					}
 
-					if ((defsize != qq) && (name(sh(def)) < shrealhd)) {
+					if ((defsize != qq) && (sh(def)->tag < shrealhd)) {
 #if TRANS_X86
 						if (!isparam(e) || no(e) != 1) {
 							if (no(tc) == 0 && defsize <= 32) {
@@ -797,20 +797,20 @@ refactor_id(exp e, exp scope)
 #ifdef TDF_DIAG4
 					    !isdiaginfo(tc) &&
 #endif
-					    name(bro(bro(tc))) == ass_tag) {
+					    bro(bro(tc))->tag == ass_tag) {
 						/* assignment op */
 						all_c = 0;		/* not all contents */
 						assd_val = bro(tc);
 
-						if (name(assd_val) == val_tag) {
+						if (assd_val->tag == val_tag) {
 							if (no(assd_val) < 0) {
 								conversion = -1;
 							}
 							if (no(assd_val) > biggest_assigned_const) {
 								biggest_assigned_const = no(assd_val);
 							}
-						} else if (name(assd_val) == chvar_tag &&
-						           name(sh(son(assd_val))) <= uwordhd &&
+						} else if (assd_val->tag == chvar_tag &&
+						           sh(son(assd_val))->tag <= uwordhd &&
 						           is_signed(sh(son(assd_val)))) {
 							int sz1 = shape_size(sh(son(assd_val)));
 							if (conversion == 0) {
@@ -838,12 +838,12 @@ refactor_id(exp e, exp scope)
 #endif
 						}
 
-						if (name(assd_val) == val_tag || name(assd_val) == real_tag ||
-						    name(assd_val) == null_tag ||
-						    (name(assd_val) == name_tag && isglob(son(assd_val)))) {
+						if (assd_val->tag == val_tag || assd_val->tag == real_tag ||
+						    assd_val->tag == null_tag ||
+						    (assd_val->tag == name_tag && isglob(son(assd_val)))) {
 							ca = 1;		/* assigning a constant */
 						} else {
-							if (name(assd_val) == ident_tag && isvar(assd_val)) {
+							if (assd_val->tag == ident_tag && isvar(assd_val)) {
 								vardecass = 1;
 							}
 						}
@@ -860,15 +860,15 @@ refactor_id(exp e, exp scope)
 								exp dad = father(tc);
 								all_c = 0;
 								all_a = 0;
-								if (!((name(dad) == addptr_tag ||
-								       name(dad) == subptr_tag) &&
+								if (!((dad->tag == addptr_tag ||
+								       dad->tag == subptr_tag) &&
 								      ((!last(dad) && last(bro(dad)) &&
-								        name(bro(bro(dad))) == ass_tag) ||
-								       (last(dad) && name(bro(dad)) == cont_tag))) ||
-								    (name(sh(def)) == realhd &&
-								     name(sh(bro(dad))) != realhd) ||
-								    (name(sh(def)) == doublehd &&
-								     name(sh(bro(dad))) != doublehd)) {
+								        bro(bro(dad))->tag == ass_tag) ||
+								       (last(dad) && bro(dad)->tag == cont_tag))) ||
+								    (sh(def)->tag == realhd &&
+								     sh(bro(dad))->tag != realhd) ||
+								    (sh(def)->tag == doublehd &&
+								     sh(bro(dad))->tag != doublehd)) {
 									/* not an assignment to element of array */
 									not_aliased = 0;
 								} else {
@@ -904,7 +904,7 @@ refactor_id(exp e, exp scope)
 
 			do {
 				tc = pt(tc);
-				if (name(bro(tc)) == cont_tag) {
+				if (bro(tc)->tag == cont_tag) {
 					sh(tc) = sh(bro(tc));
 #ifdef TDF_DIAG4
 					if (diag != DIAG_NONE) {
@@ -941,11 +941,11 @@ refactor_id(exp e, exp scope)
 
 #if TRANS_X86 || TRANS_HPPA
 		/* look for places where we can avoid sign extending */
-		if (not_aliased && name(sh(def)) == slonghd &&
+		if (not_aliased && sh(def)->tag == slonghd &&
 		    conversion == 16 && /* not 8 because of 80x86 regs */
 		    (biggest_assigned_const & ((conversion == 8) ? (int) 0xffffff80 :
 		                               (int) 0xffff8000)) == 0 &&
-		    name(def) == clear_tag) {
+		    def->tag == clear_tag) {
 			exp temp, next;
 			shape ish = (conversion == 8) ? scharsh : swordsh;
 			setse_opt(e);
@@ -954,8 +954,8 @@ refactor_id(exp e, exp scope)
 				next = pt(temp);
 
 				if (last(temp)) {
-					if ((last(bro(temp)) || name(bro(bro(temp))) != val_tag) &&
-					    name(bro(temp)) != hold_tag) {
+					if ((last(bro(temp)) || bro(bro(temp))->tag != val_tag) &&
+					    bro(temp)->tag != hold_tag) {
 						exp x = me_u3(slongsh, copy(bro(temp)), chvar_tag);
 						sh(son(x)) = ish;
 						replace(bro(temp), x, x);
@@ -963,7 +963,7 @@ refactor_id(exp e, exp scope)
 						kill_exp(bro(temp), bro(temp));
 					}
 				} else {
-					if (name(bro(temp)) == val_tag) {
+					if (bro(temp)->tag == val_tag) {
 						sh(bro(temp)) = ish;
 					} else {
 						bro(son(bro(temp))) = bro(bro(temp));
@@ -980,19 +980,19 @@ refactor_id(exp e, exp scope)
 #endif
 
 		if (not_aliased && no(e) < 1000 &&
-		    (name(sh(def)) < shrealhd || name(sh(def)) > doublehd) &&
-		    (ca || vardecass || name(def) == val_tag ||
-		     name(son(e)) == real_tag || name(def) == null_tag))
+		    (sh(def)->tag < shrealhd || sh(def)->tag > doublehd) &&
+		    (ca || vardecass || def->tag == val_tag ||
+		     son(e)->tag == real_tag || def->tag == null_tag))
 		{
 			/* propagate constant assignment forward from the place where they occur */
 			int  no_ass;
 			int chv;
 
-			if (name(def) == val_tag || name(son(e)) == real_tag ||
-			    name(def) == null_tag
+			if (def->tag == val_tag || son(e)->tag == real_tag ||
+			    def->tag == null_tag
 			    /*
 			       ||
-			       (name(def) == name_tag &&
+			       (def->tag == name_tag &&
 			       isglob (son(def)))
 			     */
 			   ) {
@@ -1015,17 +1015,17 @@ refactor_id(exp e, exp scope)
 					    !isdiaginfo(tc) &&
 #endif
 					    sh(bro(tc)) == sh(son(son(tc))) && last(bro(tc)) &&
-					    name(bro(bro(tc))) == ass_tag)
+					    bro(bro(tc))->tag == ass_tag)
 					{
 						exp var = bro(tc);
 						exp va, df, bd;
 
 						if (eq_shape(sh(bro(tc)), sh(son(e))) &&
-						    (name(bro(tc)) == val_tag || name(bro(tc)) == real_tag ||
-						     name(bro(tc)) == null_tag
+						    (bro(tc)->tag == val_tag || bro(tc)->tag == real_tag ||
+						     bro(tc)->tag == null_tag
 						     /*
 						        ||
-						        (name(bro(tc)) == name_tag &&
+						        (bro(tc)->tag == name_tag &&
 						        isglob (son(bro(tc))))
 						      */
 						    ))
@@ -1040,8 +1040,8 @@ refactor_id(exp e, exp scope)
 
 							if (df != NULL && (bd = bro(df)) != NULL &&
 							    !isinlined(e) && !isglob(va) && isvar(va) &&
-							    name(bd) == seq_tag && name(bro(son(bd))) == cont_tag &&
-							    name(son(bro(son(bd)))) == name_tag &&
+							    bd->tag == seq_tag && bro(son(bd))->tag == cont_tag &&
+							    son(bro(son(bd)))->tag == name_tag &&
 							    son(son(bro(son(bd)))) == var &&
 							    isvar(var) && used_in(va, bd) == 0) {
 								exp a = son(bro(var));
@@ -1058,7 +1058,7 @@ refactor_id(exp e, exp scope)
 								} while (pt(tc) != NULL);
 								pt(tc) = prev_uses;
 
-								if (name(df) == clear_tag) {
+								if (df->tag == clear_tag) {
 									ass = getexp(f_top, NULL, 0, NULL, NULL, 0, 0,
 									             top_tag);
 								} else {
@@ -1112,9 +1112,9 @@ refactor_id(exp e, exp scope)
 			return 1;
 		}
 
-		if (!isparam(e) && name(def) == clear_tag && name(body) == seq_tag &&
-		    name(son(son(body))) == ass_tag &&
-		    name(son(son(son(body)))) == name_tag &&
+		if (!isparam(e) && def->tag == clear_tag && body->tag == seq_tag &&
+		    son(son(body))->tag == ass_tag &&
+		    son(son(son(body)))->tag == name_tag &&
 		    son(son(son(son(body)))) == e &&
 		    eq_shape(sh(def), sh(bro(son(son(son(body)))))))
 		{
@@ -1145,7 +1145,7 @@ refactor_id(exp e, exp scope)
 			tc = pt(e);
 
 			while (1) {
-				if (!last(tc) && name(bro(bro(tc))) == ass_tag) {
+				if (!last(tc) && bro(bro(tc))->tag == ass_tag) {
 #ifdef TDF_DIAG4
 					if (diag != DIAG_NONE) {
 						dg_rem_ass(bro(bro(tc)));
@@ -1166,7 +1166,7 @@ refactor_id(exp e, exp scope)
 	}
 
 	if (!is_var && !is_vis && no(e) == 1 && !isparam(e) &&
-	    name(body) == ident_tag && name(son(body)) == name_tag &&
+	    body->tag == ident_tag && son(body)->tag == name_tag &&
 	    son(son(body)) == e && shape_size(def) == shape_size(son(body))) {
 
 #ifdef TDF_DIAG4
@@ -1192,13 +1192,13 @@ refactor_id(exp e, exp scope)
 		return 1;
 	}
 
-	if (!is_var && !is_vis && name(def) == compound_tag) {
+	if (!is_var && !is_vis && def->tag == compound_tag) {
 		exp c = son(def);
 		int nuses = no(e);
 		int changed = 0;
 
 		for (;;) {
-			int n = name(bro(c));
+			int n = bro(c)->tag;
 
 			if (n == val_tag || n == real_tag || n == name_tag || n == null_tag) {
 				exp u = pt(e);
@@ -1235,7 +1235,7 @@ refactor_id(exp e, exp scope)
 		return changed;
 	}
 
-	if (!is_var && !is_vis && name(def) == nof_tag) {
+	if (!is_var && !is_vis && def->tag == nof_tag) {
 		exp c = son(def);
 		int changed = 0;
 		int nuses = no(e);
@@ -1243,7 +1243,7 @@ refactor_id(exp e, exp scope)
 		int nd = 0;
 
 		for (;;) {
-			int n = name(c);
+			int n = c->tag;
 
 			if (n == val_tag || n == real_tag || n == name_tag || n == null_tag) {
 				exp u = pt(e);

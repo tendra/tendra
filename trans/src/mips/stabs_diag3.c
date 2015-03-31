@@ -184,7 +184,7 @@ stab_local(char *nm, diag_type dt, exp ldid, long disp, long findex)
   long  v;
   disp+=no(ldid);
 again:
-  if (name (id) == ident_tag) {
+  if (id->tag == ident_tag) {
     if ((props (id) & defer_bit) == 0) {
       if ((props (id) & inreg_bits) != 0) {
 	sc = scRegister;
@@ -213,7 +213,7 @@ again:
       exp sn = son (id);
       long  d = disp;
       while (sn != NULL) {
-	switch (name(sn)) {
+	switch (sn->tag) {
 	  case name_tag:
 	    {
 	      disp = d + no (sn);

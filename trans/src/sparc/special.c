@@ -136,16 +136,16 @@ specialneeds ( int i, exp application, exp pars )
 	    exp par1 = pars ;
 	    exp par2 = bro ( pars ) ;
 
-	    if ( name ( par2 ) == eval_tag &&
-		 name ( son ( par2 ) ) == pack_tag &&
-		 name ( son ( son ( par2 ) ) ) == string_tag ) {
+	    if ( par2->tag == eval_tag &&
+		 son ( par2 ) -> tag == pack_tag &&
+		 son ( son ( par2 ) ) -> tag == string_tag ) {
 		/* strcpy of constant string */
 		if ( no ( sh ( son ( son ( par2 ) ) ) ) > 7 ) {
 		    break ;
 		}
 
 		/* apply_tag into ass_tag */
-		setname ( application, ass_tag ) ;
+		 application->tag = ass_tag  ;
 
 		/* params of ass_tag as params of application */
 		son ( application ) = pars ;
@@ -186,7 +186,7 @@ specialneeds ( int i, exp application, exp pars )
 int 
 specialfn ( exp fn )
 {
-    if ( name ( fn ) == name_tag && name ( son ( fn ) ) == ident_tag &&
+    if ( fn->tag == name_tag && son ( fn ) -> tag == ident_tag &&
 	 isglob ( son ( fn ) ) && son ( son ( fn ) ) == NULL ) {
 	char *extname = brog ( son ( fn ) )->dec_id ;
 	return specno ( extname ) ;
@@ -204,7 +204,7 @@ specialfn ( exp fn )
 int 
 specialopt ( exp fn )
 {
-    if ( name ( fn ) == name_tag && name ( son ( fn ) ) == ident_tag &&
+    if ( fn->tag == name_tag && son ( fn ) -> tag == ident_tag &&
 	 isglob ( son ( fn ) ) && son ( son ( fn ) ) == NULL ) {
 	char *extname = brog ( son ( fn ) )->dec_id ;
 	if ( extname == NULL ) return 0;
@@ -236,7 +236,7 @@ specialmake ( int i, exp par, space sp, where dest, int exitlab ){
       exp e ;
       char *s ;
       e = son ( son ( par ) ) ;
-      if ( name ( e ) != string_tag ) {
+      if ( e->tag != string_tag ) {
 	error(ERR_SERIOUS,  "asm argument is not a string" ) ;
 	return 0;
       }
@@ -271,7 +271,7 @@ specialmake ( int i, exp par, space sp, where dest, int exitlab ){
 	rd = R_SP;
       }
       /* grow the stack frame */
-      if ( name ( par ) == val_tag ) {
+      if ( par->tag == val_tag ) {
 	/* n is a constant */
 	int n = no ( par ) ;
 	/* adjust n to be multiple of 8 */

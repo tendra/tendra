@@ -28,7 +28,7 @@
 bool
 valregable(shape s)
 {
-    int n = name(s);
+    int n = s->tag;
     if ( is_floating(n) )
     {
 	return 0; /* floats don't go in fixed point registers */
@@ -64,7 +64,7 @@ bool
 fixregable(exp e)
 {
     if ( !isvis ( e ) && !isoutpar( e ) && !isglob ( e ) && !isenvoff(e)
-		      && (name(son(e))!=caller_name_tag) ) {
+		      && (son(e)->tag!=caller_name_tag) ) {
 	shape s = sh ( son ( e ) ) ;
 	return valregable ( s );
     }
@@ -80,9 +80,9 @@ bool
 floatregable(exp e)
 {
     if ( !isvis ( e ) && !isoutpar( e ) && !isglob ( e ) && !isenvoff(e)
-		      && (name(son(e))!=caller_name_tag) ) {
+		      && (son(e)->tag!=caller_name_tag) ) {
 	shape s = sh ( son ( e ) ) ;
-	if ( is_floating ( name ( s ) ) ) {
+	if ( is_floating ( s->tag ) ) {
 	   if ( (has & HAS_LONG_DOUBLE) && shape_size ( s ) > 64 )
 	   {
 	      return 0;

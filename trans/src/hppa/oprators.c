@@ -38,7 +38,7 @@
 #include "oprators.h"
 #include "labexp.h"
 
-#define isdbl(e)((bool)(name(e)!= shrealhd))
+#define isdbl(e)((bool)(e->tag!= shrealhd))
 
 
 #include <reader/externs.h>
@@ -65,9 +65,9 @@ static int long_double_0 = 0;
 void tidyshort
 (int r, shape s)
 {
-  if (name(s) == ucharhd)
+  if (s->tag == ucharhd)
      riir_ins(i_dep,c_,0,23,24,r);
-  else if (name(s) == uwordhd)
+  else if (s->tag == uwordhd)
      riir_ins(i_dep,c_,0,15,16,r);
 }
 
@@ -219,10 +219,10 @@ do_comm(exp seq, space sp, int final, ins_p rins)
   int a2;
   exp next = bro(seq);
 
-  if (name(seq) ==not_tag &&
+  if (seq->tag ==not_tag &&
        last(next) &&
        rins==i_and &&
-       name(next)!=val_tag)
+       next->tag!=val_tag)
   {
      a1=reg_operand(son(seq), sp);
      nsp = guardreg(a1, sp);
@@ -231,10 +231,10 @@ do_comm(exp seq, space sp, int final, ins_p rins)
      return;
   }
 
-  if (name(next) ==not_tag &&
+  if (next->tag ==not_tag &&
       last(next) &&
       rins==i_and &&
-      name(seq)!=val_tag)
+      seq->tag!=val_tag)
   {
      a1=reg_operand(seq, sp);
      nsp = guardreg(a1, sp);
@@ -243,13 +243,13 @@ do_comm(exp seq, space sp, int final, ins_p rins)
      return;
   }
 
-  if (name(next) ==val_tag &&
+  if (next->tag ==val_tag &&
        last(next) &&
        rins==i_and &&
-       name(seq) ==shr_tag)
+       seq->tag ==shr_tag)
   {
      exp shift=bro(son(seq));
-     if (name(shift) ==val_tag)
+     if (shift->tag ==val_tag)
      {
 	int n,s;
 	n=no(next);
@@ -270,7 +270,7 @@ do_comm(exp seq, space sp, int final, ins_p rins)
 
   /* evaluate 1st operand into a1 */
 
-  if (name(seq) ==cont_tag && name(bro(seq)) ==val_tag && last(bro(seq))
+  if (seq->tag ==cont_tag && bro(seq)->tag ==val_tag && last(bro(seq))
        && !(props(son(seq)) & inreg_bits))
   {
      reg_operand_here(seq, sp, final);
@@ -279,7 +279,7 @@ do_comm(exp seq, space sp, int final, ins_p rins)
   else
      a1 = reg_operand(seq, sp);
 
-  if (name(father(seq)) ==make_stack_limit_tag)
+  if (father(seq)->tag ==make_stack_limit_tag)
   {
      baseoff b;
      b.offset = FP_BOFF.offset;
@@ -291,7 +291,7 @@ do_comm(exp seq, space sp, int final, ins_p rins)
   {
     nsp = guardreg(a1, sp);
     seq = bro(seq);
-    if (name(seq) == val_tag)	/* next operand is a constant */
+    if (seq->tag == val_tag)	/* next operand is a constant */
     {
       int n=no(seq);
       if (last(seq))
@@ -374,7 +374,7 @@ int comm_op
       if (usesdest && last(seq))
       {
 	/* used, but there is only one other operand */
-	if (name(seq) ==val_tag)
+	if (seq->tag ==val_tag)
 	{
 	   int n = no(seq);
 	   if (rrins==i_add)
@@ -532,7 +532,7 @@ static void quad_addr
 (exp e, int r, space sp)
 {
     instore is;
-    if (name(e) ==real_tag)
+    if (e->tag ==real_tag)
     {
 	labexp next;
 	next  = (labexp)xmalloc(sizeof(struct labexp_t));
@@ -626,7 +626,7 @@ void quad_op
    char *s=0,*stub=0;
    bool quad_ret = 1;
 
-   switch (name(e))
+   switch (e->tag)
    {
       case test_tag:
       {
@@ -687,15 +687,15 @@ void quad_op
 	 where w;
 	 freg frg;
 	 exp l;
-	 if (name(sh(e)) == doublehd)
+	 if (sh(e)->tag == doublehd)
 	 {
 	    baseoff b;
 	    b.base=SP;
 	    l = son(e);
-	    if (name(sh(l)) == doublehd)
+	    if (sh(l)->tag == doublehd)
 	       return;
 	    else
-	    if (name(sh(l)) ==realhd)
+	    if (sh(l)->tag ==realhd)
 	    {
 	       s = "_U_Qfcnvff_dbl_to_quad";
 	       long_double_lib[5].called=1;
@@ -753,7 +753,7 @@ void quad_op
 	 exp l = son(e);
 	 reg_operand_here(l,sp,ARG0);
 	 sp = guardreg(ARG0,sp);
-	 if (name(sh(l)) ==ulonghd)
+	 if (sh(l)->tag ==ulonghd)
 	 {
 	    rr_ins(i_copy,0,ARG1);
 	    long_double_lib[7].called=1;
@@ -798,19 +798,19 @@ void quad_op
       case fdiv_tag:
       {
 	 exp l,r;
-	 if (name(e) == fplus_tag)
+	 if (e->tag == fplus_tag)
 	 {
 	    s = "_U_Qfadd";
 	    long_double_lib[1].called=1;
 	 }
 	 else
-	 if (name(e) == fminus_tag)
+	 if (e->tag == fminus_tag)
 	 {
 	   s = "_U_Qfsub";
 	   long_double_lib[2].called=1;
 	 }
 	 else
-	 if (name(e) == fmult_tag)
+	 if (e->tag == fmult_tag)
 	 {
 	    s = "_U_Qfmpy";
 	    long_double_lib[3].called=1;
@@ -863,7 +863,7 @@ void quad_op
    /* ..and make call */
    call_ins(cmplt_,s,RP,stub);
 #if 1
-   if (!optop(e) && name(e)!=test_tag)
+   if (!optop(e) && e->tag!=test_tag)
    {
       int trap = trap_label(e);
       baseoff b;
@@ -907,7 +907,7 @@ void quad_op
 	 outlab("L$$",end);
       }
       else
-      if (name(e) == chfl_tag)
+      if (e->tag == chfl_tag)
       {
 	 if (isdbl(sh(e)))
 	 {
@@ -957,7 +957,7 @@ int fop
    ans aa;
    baseoff b;
 
-   if ((has & HAS_LONG_DOUBLE) && name(sh(e)) ==doublehd)
+   if ((has & HAS_LONG_DOUBLE) && sh(e)->tag ==doublehd)
    {
       /* i.e. quads */
       quad_op(e, sp, dest);
@@ -965,7 +965,7 @@ int fop
    }
 
 
-   dble= (name(sh(e)) ==realhd ? 1 : 0);
+   dble= (sh(e)->tag ==realhd ? 1 : 0);
    if (IsRev(e))
    {
       a2 = freg_operand(r, sp, getfreg(sp.flt));

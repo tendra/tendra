@@ -406,7 +406,7 @@ static char *bad_refloc = "unimplemented relative location";
 static int
 refloc_length(exp e, exp id)
 {
-	switch (name(e)) {
+	switch (e->tag) {
 	case name_tag:
 		if (son(e) != id) {
 			error(ERR_INTERNAL, bad_refloc);
@@ -433,7 +433,7 @@ refloc_length(exp e, exp id)
 static void
 out_refloc(exp e, exp id)
 {
-	switch (name(e)) {
+	switch (e->tag) {
 	case name_tag:
 		if (son(e) != id) {
 			error(ERR_INTERNAL, bad_refloc);
@@ -463,7 +463,7 @@ void
 dw_locate_reloffset(exp e)
 {
 	int length;
-	if (name(e) != ident_tag) {
+	if (e->tag != ident_tag) {
 		error(ERR_INTERNAL, bad_refloc);
 		return;
 	}

@@ -125,10 +125,10 @@ item_present(dg_name item)
 			x = item->data.n_proc.obtain_val;
 		else
 			return 1;
-	while (x && (name(x) == hold_tag || name(x) == name_tag ||
-		     name(x) == cont_tag || name(x) == reff_tag))
+	while (x && (x->tag == hold_tag || x->tag == name_tag ||
+		     x->tag == cont_tag || x->tag == reff_tag))
 		x = son(x);
-	if (x && name(x) == ident_tag)
+	if (x && x->tag == ident_tag)
 		x = son(x);
 	if (x) return 1;
 	return 0;

@@ -129,7 +129,7 @@ spacereq
 regalloc ( exp e, int freefixed, int freefloat, long stack ){
   spacereq def ;
   exp s = son ( e ) ;
-  unsigned char n = name ( e ) ;
+  unsigned char n = e->tag ;
   if ( n == ident_tag ) {
     int ffix = freefixed ;
     int ffloat = freefloat ;
@@ -145,8 +145,8 @@ regalloc ( exp e, int freefixed, int freefloat, long stack ){
     else {
       a = ashof ( sh ( s ) ) ;
 #if 1
-      if(name(s) != compound_tag && name(s) != nof_tag && 
-	 name(s) != concatnof_tag) {
+      if(s->tag != compound_tag && s->tag != nof_tag && 
+	 s->tag != concatnof_tag) {
 	def = regalloc ( s, freefixed, freefloat, stack ) ;
       }
       else {
@@ -205,14 +205,14 @@ regalloc ( exp e, int freefixed, int freefloat, long stack ){
 	error(ERR_SERIOUS,  "regalloc : no float point s regs on SPARC" ) ;
       } 
       else if ( ( props ( e ) & inanyreg ) == 0 ) {
-	if ( name ( son ( e ) ) == val_tag && !isvar ( e )
+	if ( son ( e ) -> tag == val_tag && !isvar ( e )
 	     && !isenvoff(e)) {
 	  /* must have been forced by const optimisation -
 	     replace uses by the value */
 	  exp t = pt ( e ) ;
 	  for ( ; t != NULL ; ) {
 	    exp p = pt ( t ) ;
-	    setname ( t, val_tag ) ;
+	     t->tag = val_tag  ;
 	    son ( t ) = NULL ;
 	    no ( t ) = no ( son ( e ) ) ;
 	    props ( t ) = 0 ;
@@ -223,7 +223,7 @@ regalloc ( exp e, int freefixed, int freefloat, long stack ){
 	  pset ( e, defer_bit ) ;
 	  def = zerospace ;
 	} 
-	else if ( name ( son ( e ) ) == name_tag && !isvar ( e ) 
+	else if ( son ( e ) -> tag == name_tag && !isvar ( e ) 
 		  & !isenvoff(e)) {
 	  /* must have been forced - defer it */
 	  pset ( e, defer_bit ) ;

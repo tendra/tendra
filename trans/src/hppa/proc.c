@@ -194,8 +194,8 @@ static void add_odd_bits
    outlab("L$$",r->labno);
    sp=r->sp;
    clear_all();
-   make_code(r->body,sp,r->dest, name(sh(r->body))!=bothd ? ptno(r->jr): res_label);
-   if (name(sh(r->body))!=bothd)
+   make_code(r->body,sp,r->dest, sh(r->body)->tag!=bothd ? ptno(r->jr): res_label);
+   if (sh(r->body)->tag!=bothd)
       ub_ins(cmplt_,ptno(r->jr));
 }
 
@@ -265,7 +265,7 @@ makeans make_proc_tag_code
    mka.lab = exitlab;
    mka.regmove = NOREG;
 
-   assert(name(e) == proc_tag);	/* procedure definition */
+   assert(e->tag == proc_tag);	/* procedure definition */
 
    export[0] =0;
    outnl();
@@ -751,13 +751,13 @@ makeans make_res_tag_code
    mka.lab = exitlab;
    mka.regmove = NOREG;
 
-   if (name(e) ==res_tag)
+   if (e->tag ==res_tag)
    {
       nm=RES;
       ret_label=&res_label;
    }
    else
-   if (name(e) ==return_to_label_tag)
+   if (e->tag ==return_to_label_tag)
    {
       nm=TO_LAB;
       ret_label=&return_to_label_label;

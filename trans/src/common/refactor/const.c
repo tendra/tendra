@@ -216,8 +216,8 @@ intnl_to(exp whole, exp part)
 {
 	exp q = part;
 
-	while (q != whole && q != NULL && name(q) != hold_tag &&
-	       name(q) != hold2_tag && (name(q) != ident_tag || !isglob(q))) {
+	while (q != whole && q != NULL && q->tag != hold_tag &&
+	       q->tag != hold2_tag && (q->tag != ident_tag || !isglob(q))) {
 		q = father(q);
 	}
 
@@ -245,12 +245,12 @@ not_ass2(exp vardec, exp piece)
 		/* test each use of the identifier */
 		q = t;
 		while (q != NULL && q != piece && q != vardec &&
-		       name(q) != rep_tag && (name(q) != ident_tag || !isglob(q))) {
+		       q->tag != rep_tag && (q->tag != ident_tag || !isglob(q))) {
 			upwards = q;
 			q = bro(q);
 		}
 
-		if (q != NULL && q != piece && name(q) == rep_tag) {
+		if (q != NULL && q != piece && q->tag == rep_tag) {
 			/* q has got to a repeat, so */
 			/* scan up repeat_list structure for holder of piece */
 			exp h = pt(q), hp = pt(piece);
@@ -279,12 +279,12 @@ not_ass2(exp vardec, exp piece)
 			}
 
 			if (!last(t) && last(bro(t)) &&
-			    (name(bro(bro(t))) == ass_tag || name(bro(bro(t))) == assvol_tag)) {
+			    (bro(bro(t))->tag == ass_tag || bro(bro(t))->tag == assvol_tag)) {
 				/* the use was an assignment */
 				return false;
 			}
 
-			if (!last(t) && last(bro(t)) && name(bro(bro(t))) == ident_tag) {
+			if (!last(t) && last(bro(t)) && bro(bro(t))->tag == ident_tag) {
 				/* use in declaration */
 				if (!isvar(bro(bro(t))) && !not_assigned_to(bro(bro(t)), bro(t))) {
 					return false;
@@ -292,18 +292,18 @@ not_ass2(exp vardec, exp piece)
 			} else {
 				exp dad = father(t);
 
-				if (name(dad) == addptr_tag && son(dad) == t) {
+				if (dad->tag == addptr_tag && son(dad) == t) {
 					/* use in subscript .... */
 					if (!last(dad) && last(bro(dad)) &&
-					    (name(bro(bro(dad))) == ass_tag ||
-					     name(bro(bro(dad))) == assvol_tag))
+					    (bro(bro(dad))->tag == ass_tag ||
+					     bro(bro(dad))->tag == assvol_tag))
 					{
 						/* the use was an assignment */
 						return false;
 					}
 
 					if (!last(dad) && last(bro(dad)) &&
-					    name(bro(bro(dad))) == ident_tag)
+					    bro(bro(dad))->tag == ident_tag)
 					{
 						/* ... which is identified */
 						if (!isvar(bro(bro(dad))) &&
@@ -399,7 +399,7 @@ not_assigned_to(exp vardec, exp body)
 static maxconst
 max_const(exp whole, exp e, int ass_ok)
 {
-	switch (name(e)) {
+	switch (e->tag) {
 	case labst_tag:
 		return mc_list(whole, bro(son(e)), ass_ok, false);
 
@@ -482,7 +482,7 @@ max_const(exp whole, exp e, int ass_ok)
 		}
 
 	case cont_tag:
-		if ((name(son(e)) == name_tag) && isvar(son(son(e)))) {
+		if ((son(e)->tag == name_tag) && isvar(son(son(e)))) {
 			/* so e is extracting the contents of a variable */
 			exp var = son(son(e));
 
@@ -555,7 +555,7 @@ max_const(exp whole, exp e, int ass_ok)
 		maxconst mc, mx;
 
 		/* find the root pointer */
-		for (p = son(e); name(p) == addptr_tag; p = son(p))
+		for (p = son(e); p->tag == addptr_tag; p = son(p))
 			;
 
 		mc = max_const(whole, p, ass_ok);
@@ -583,10 +583,10 @@ max_const(exp whole, exp e, int ass_ok)
 				if (mx.cont != NULL) {
 					/* the offset is not constant, but PARTS of it are */
 
-					/* remove any "negate(name(...))" */
+					/* remove any "negate(...)->tag" */
 					exp lim = pt(mx.cont), h = son(mx.cont);
 					while (h != NULL) {
-						if (name(son(h)) == neg_tag && name(son(son(h))) == name_tag) {
+						if (son(h)->tag == neg_tag && son(son(h))->tag == name_tag) {
 							no(h) = -1;	/* set "done" flag */
 						}
 
@@ -688,7 +688,7 @@ max_const(exp whole, exp e, int ass_ok)
 			int j;
 
 			ret_constlist(mc1.cont);
-			if (name(arg1) == mult_tag) {
+			if (arg1->tag == mult_tag) {
 				exp m_arg = son(arg1);
 				/* sort into const and varying args */
 				while (m_arg != NULL) {
@@ -756,7 +756,7 @@ max_const(exp whole, exp e, int ass_ok)
 		if (son(e) == NULL) {
 			return self_const;
 		} else {
-			return mc_list(whole, son(e), ass_ok, is_a(name(e)) && optop(e));
+			return mc_list(whole, son(e), ass_ok, is_a(e->tag) && optop(e));
 		}
 	}
 }
@@ -807,7 +807,7 @@ do_this_k(exp kdec, exp patn, exp list, exp limit)
 				*(refto(f, e)) = tagt;
 				no(t) = -1;		/* dealt with */
 				kill_exp(son(t), son(t));
-			} else if (pt(t) != NULL && name(pt(t)) == name(patn)) {
+			} else if (pt(t) != NULL && pt(t)->tag == patn->tag) {
 				/* try for complex match - at least the operator is correct */
 				/* check errtreat ??? */
 				int scan2 = true;
@@ -915,7 +915,7 @@ safe_arg(exp e, exp esc)
 	exp v1, v2, z, s, konst, tst;
 
 	/* make the unsafe value for this shape */
-	switch (name(sh(e))) {
+	switch (sh(e)->tag) {
 	case ptrhd:
 		konst = me_null(sh(e), ptr_null, null_tag);
 		break;
@@ -1019,7 +1019,7 @@ safe_eval(exp e, exp escape_route)
 		esc_lab = escape_route;
 	}
 
-	switch (name(e)) {
+	switch (e->tag) {
 	case ident_tag:
 	case cond_tag:
 	case rep_tag:
@@ -1059,7 +1059,7 @@ safe_eval(exp e, exp escape_route)
 	case cont_tag: {
 		exp arg = son(e);
 
-		if (name(arg) == name_tag &&
+		if (arg->tag == name_tag &&
 		    (isglob(son(arg)) || isvar(son(arg)))) {
 			res = copy(e);
 		} else {
@@ -1077,7 +1077,7 @@ safe_eval(exp e, exp escape_route)
 	case reff_tag: {
 		exp arg = son(e);
 
-		if (name(arg) == name_tag && isglob(son(arg))) {
+		if (arg->tag == name_tag && isglob(son(arg))) {
 			res = copy(e);
 		} else {
 			arg = safe_eval(arg, esc_lab);
@@ -1115,7 +1115,7 @@ safe_eval(exp e, exp escape_route)
 	}
 	}
 
-	arg_is_reff = (name(e) == reff_tag);
+	arg_is_reff = (e->tag == reff_tag);
 	if (escape_route != NULL) {
 		/* this was an inner call */
 		return res;
@@ -1144,18 +1144,18 @@ safe_eval(exp e, exp escape_route)
 static void
 look_for_caonly(exp e)
 {
-	if (name(e) == name_tag) {
+	if (e->tag == name_tag) {
 		if (isvar(son(e))) {
 			clearcaonly(son(e));
 		}
 		return;
 	}
 
-	if (name(e) == addptr_tag) {
+	if (e->tag == addptr_tag) {
 		look_for_caonly(son(e));
 	}
 
-	if (name(e) == seq_tag || name(e) == ident_tag) {
+	if (e->tag == seq_tag || e->tag == ident_tag) {
 		look_for_caonly(bro(son(e)));
 	}
 }
@@ -1198,7 +1198,7 @@ extract_consts(int issn, exp rf, exp list_head)
 				f = father(e);
 
 				/* ?????????????????? */
-				if (!last(e) && last(bro(e)) && (name(f) == ident_tag) && !isvar(f)) {
+				if (!last(e) && last(bro(e)) && (f->tag == ident_tag) && !isvar(f)) {
 					/*
 					 * This is an in-register constant declaration so remove the
 					 * force register bit from f so that it becomes a simple renaming
@@ -1291,7 +1291,7 @@ extract_consts(int issn, exp rf, exp list_head)
 #endif
 				}
 
-				if (name(sh(konst)) == ptrhd) {
+				if (sh(konst)->tag == ptrhd) {
 					look_for_caonly(konst);
 				}
 
@@ -1342,7 +1342,7 @@ extract_consts(int issn, exp rf, exp list_head)
 static int
 named_dest(exp dest)
 {
-	switch (name(dest)) {
+	switch (dest->tag) {
 	case name_tag:
 		if (!isvar(son(dest))) {
 			if (son(son(dest)) != NULL) {
@@ -1388,7 +1388,7 @@ named_dest(exp dest)
 static int
 assigns_alias(exp e)
 {
-	switch (name(e)) {
+	switch (e->tag) {
 	case assvol_tag:
 	case ass_tag: {
 		exp dest = son(e);
@@ -1438,7 +1438,7 @@ assigns_alias(exp e)
 static int
 scan_for_lv(exp e)
 {
-	switch (name(e)) {
+	switch (e->tag) {
 	case make_lv_tag:
 		return true;
 
@@ -1488,7 +1488,7 @@ repeat_consts(void)
 			continue;
 		}
 
-		if (name(son(reps)) != rep_tag) {
+		if (son(reps)->tag != rep_tag) {
 			continue;
 		}
 
@@ -1539,12 +1539,12 @@ repeat_consts(void)
 		}
 
 		if (sn || bro(rr) == loop) {
-			while (name(fa) != proc_tag && name(fa) != general_proc_tag &&
-				   name(fa) != hold_tag && name(fa) != hold2_tag) {
+			while (fa->tag != proc_tag && fa->tag != general_proc_tag &&
+				   fa->tag != hold_tag && fa->tag != hold2_tag) {
 				fa = father(fa);
 			}
 
-			if (name(fa) == hold_tag || name(fa) == hold2_tag) {
+			if (fa->tag == hold_tag || fa->tag == hold2_tag) {
 				continue;
 			}
 
@@ -1587,7 +1587,7 @@ get_repeats(void)
 			do {
 				set_dist (sup);	/* no(x) is now max dist to leaf */
 				no(sup) = dist;
-				if (son(sup) != NULL && name(son(sup)) == rep_tag) {
+				if (son(sup) != NULL && son(sup)->tag == rep_tag) {
 					++dist;		/* only repeats are significant */
 				}
 				sup = bro(sup);	/* go to enclosing repeat */

@@ -272,7 +272,7 @@ promote_actuals(exp par)
 {
 	for (;;) {
 		shape s = sh(par);
-		if (name(s) >= scharhd && name(s) <= uwordhd) {
+		if (s->tag >= scharhd && s->tag <= uwordhd) {
 			shape ns = (is_signed(s)) ? slongsh : ulongsh;
 			exp w = hold_refactor(f_change_variety(f_wrap, ns,
 							    copy(par)));
@@ -291,17 +291,17 @@ promote_actuals(exp par)
 static void
 promote_formals(exp bdy)
 {
-	while ((name(bdy) == ident_tag && isparam(bdy))
+	while ((bdy->tag == ident_tag && isparam(bdy))
 #ifndef TDF_DIAG4
-	       || name(bdy) == diagnose_tag
+	       || bdy->tag == diagnose_tag
 #endif
 	      ) {
 		shape spar = sh(son(bdy));
-		if (name(bdy) != ident_tag) {
+		if (bdy->tag != ident_tag) {
 			bdy = son(bdy);
 			continue;
 		}
-		if (name(spar) >= scharhd && name(spar) <= uwordhd) {
+		if (spar->tag >= scharhd && spar->tag <= uwordhd) {
 			shape ns = (is_signed(spar)) ? slongsh : ulongsh;
 			exp u = pt(bdy);
 			exp w;
@@ -320,7 +320,7 @@ promote_formals(exp bdy)
 				shape ps = f_pointer(f_alignment(ns));
 				while (u != NULL) {
 					exp nextu = pt(u);
-					if (last(u) && name(bro(u)) == cont_tag) {
+					if (last(u) && bro(u)->tag == cont_tag) {
 						if (endian == ENDIAN_LITTLE) {
 							exp con = bro(u);
 							sh(u) = ps;
@@ -433,7 +433,7 @@ add_otagexp_list(otagexp_list list, otagexp ote, int n)
 		list.end = ote;
 	}
 	setlast(ote);
-	if (name(ote) == caller_tag) {
+	if (ote->tag == caller_tag) {
 		exp id = pt(ote);
 		exp lid = list.id;
 		bro(son(id)) = lid;
@@ -717,7 +717,7 @@ get_pal(alignment a, int sh_hd, int al)
 alignment
 f_parameter_alignment(shape sha)
 {
-	int n = name(sha);
+	int n = sha->tag;
 	alignment t =
 #if TRANS_SPARC
 	    MIN_PAR_ALIGNMENT;
@@ -839,7 +839,7 @@ error_treatment f_dummy_error_treatment;
 exp
 f_abs(error_treatment ov_err, exp arg1)
 {
-	if (name(sh(arg1)) == bothd || !is_signed(sh(arg1))) {
+	if (sh(arg1)->tag == bothd || !is_signed(sh(arg1))) {
 		return arg1;
 	}
 
@@ -849,8 +849,8 @@ f_abs(error_treatment ov_err, exp arg1)
 		}
 	}
 
-	if (~has & HAS_64_BIT && name(sh(arg1)) >= s64hd &&
-	    (name(arg1) != val_tag || ov_err.err_code > 2)) {
+	if (~has & HAS_64_BIT && sh(arg1)->tag >= s64hd &&
+	    (arg1->tag != val_tag || ov_err.err_code > 2)) {
 		return TDFcallop1(ov_err, arg1, abs_tag);
 	}
 
@@ -861,18 +861,18 @@ f_abs(error_treatment ov_err, exp arg1)
 exp
 f_add_to_ptr(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
 
 	if (check & CHECK_SHAPE) {
-		if (!doing_aldefs && (name(sh(arg1)) != ptrhd ||
-				      name(sh(arg2)) != offsethd ||
+		if (!doing_aldefs && (sh(arg1)->tag != ptrhd ||
+				      sh(arg2)->tag != offsethd ||
 				      (al1(sh(arg1)) < al1(sh(arg2))
 #if TRANS_SPARC
 			     	  && al1_of(sh(arg2)) != REAL_ALIGN
@@ -901,11 +901,11 @@ f_add_to_ptr(exp arg1, exp arg2)
 exp
 f_and(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -916,8 +916,8 @@ f_and(exp arg1, exp arg2)
 		}
 	}
 
-	if (~has & HAS_64_BIT && name(sh(arg1)) >= s64hd &&
-	    (name(arg1) != val_tag || name(arg2) != val_tag)) {
+	if (~has & HAS_64_BIT && sh(arg1)->tag >= s64hd &&
+	    (arg1->tag != val_tag || arg2->tag != val_tag)) {
 		return TDFcallop3(arg1, arg2, and_tag);
 	}
 
@@ -931,12 +931,12 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 	exp res = getexp(result_shape, NULL, 0, arg1, NULL, 0, 0,
 			 apply_tag);
 	int varhack = 0;
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		return arg1;
 	}
 
 	if (check & CHECK_SHAPE) {
-		if (name(sh(arg1)) != prokhd) {
+		if (sh(arg1)->tag != prokhd) {
 			error(ERR_INTERNAL, CHSH_APPLY);
 		}
 	}
@@ -949,7 +949,7 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 
 	clear_exp_list(arg2);
 
-	if (name(arg1) == name_tag && isglob(son(arg1)) && !isvar(son(arg1))) {
+	if (arg1->tag == name_tag && isglob(son(arg1)) && !isvar(son(arg1))) {
 		exp e;
 
 		/* check for substitutions for certain global procedures */
@@ -980,17 +980,17 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 		while (1 /*"break" below*/) {
 			if ((varhack && last(param)) ||
 #if TRANS_HPPA
-			    ((name(sh(param)) == cpdhd ||
-			      name(sh(param)) == nofhd ||
-			      name(sh(param)) == doublehd) &&
+			    ((sh(param)->tag == cpdhd ||
+			      sh(param)->tag == nofhd ||
+			      sh(param)->tag == doublehd) &&
 			     (shape_size(sh(param)) > 64)))
 #else
 #if TRANS_SPARC
 				sparccpd(sh(param)))
 #else
-				    name(sh(param)) == cpdhd ||
-				    name(sh(param)) == nofhd ||
-				    name(sh(param)) == doublehd)
+				    sh(param)->tag == cpdhd ||
+				    sh(param)->tag == nofhd ||
+				    sh(param)->tag == doublehd)
 #endif
 #endif
 				    {
@@ -1120,11 +1120,11 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 exp
 f_assign(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -1136,11 +1136,11 @@ f_assign(exp arg1, exp arg2)
 exp
 f_assign_with_mode(transfer_mode md, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -1173,7 +1173,7 @@ f_assign_with_mode(transfer_mode md, exp arg1, exp arg2)
 	if ((md & f_volatile) != 0) {
 		return me_b3(f_top, arg1, arg2, assvol_tag);
 	} else if ((md & f_overlap) &&
-		   (name(arg2) == cont_tag || name(arg2) == contvol_tag) &&
+		   (arg2->tag == cont_tag || arg2->tag == contvol_tag) &&
 		   !reg_result(sh(arg2))) {
 		return f_move_some(md, son(arg2), arg1,
 				   f_shape_offset(sh(arg2)));
@@ -1187,20 +1187,20 @@ exp
 f_bitfield_assign(exp p, exp off, exp val)
 {
 	exp res;
-	if (name(sh(p)) == bothd) {
+	if (sh(p)->tag == bothd) {
 		return p;
 	}
-	if (name(sh(val)) == bothd) {
+	if (sh(val)->tag == bothd) {
 		return val;
 	}
 
 	if (check & CHECK_SHAPE) {
-		if (name(sh(p)) != ptrhd || name(sh(off)) != offsethd) {
+		if (sh(p)->tag != ptrhd || sh(off)->tag != offsethd) {
 			error(ERR_INTERNAL, CHSH_BFASS);
 		}
 	}
 
-	if (name(off) == val_tag) {
+	if (off->tag == val_tag) {
 		res = me_b3(f_top, p, val, bfass_tag);
 		no(res) = no(off);
 		return res;
@@ -1296,10 +1296,10 @@ exp
 f_bitfield_assign_with_mode(transfer_mode md, exp p, exp off, exp val)
 {
 	exp res;
-	if (name(sh(p)) == bothd) {
+	if (sh(p)->tag == bothd) {
 		return p;
 	}
-	if (name(sh(val)) == bothd) {
+	if (sh(val)->tag == bothd) {
 		return val;
 	}
 
@@ -1308,8 +1308,8 @@ f_bitfield_assign_with_mode(transfer_mode md, exp p, exp off, exp val)
 	}
 
 	if (check & CHECK_SHAPE) {
-		if (name(sh(p)) != ptrhd || name(sh(off)) != offsethd ||
-		    name(off) != val_tag) {
+		if (sh(p)->tag != ptrhd || sh(off)->tag != offsethd ||
+		    off->tag != val_tag) {
 			error(ERR_INTERNAL, CHSH_BFASS);
 		}
 	}
@@ -1345,19 +1345,19 @@ exp
 f_bitfield_contents(bitfield_variety bf, exp p, exp off)
 {
 	exp res;
-	if (name(sh(p)) == bothd) {
+	if (sh(p)->tag == bothd) {
 		return off;
 	}
-	if (name(sh(off)) == bothd) {
+	if (sh(off)->tag == bothd) {
 		return p;
 	}
 
 	if (check & CHECK_SHAPE) {
-		if (name(sh(p)) != ptrhd || name(sh(off)) != offsethd)
+		if (sh(p)->tag != ptrhd || sh(off)->tag != offsethd)
 			error(ERR_INTERNAL, CHSH_BFCONT);
 	}
 
-	if (name(off) == val_tag) {
+	if (off->tag == val_tag) {
 		res = me_u3(f_bitfield(bf), p, bfcont_tag);
 		no(res) = no(off);
 		return res;
@@ -1422,13 +1422,13 @@ f_bitfield_contents_with_mode(transfer_mode md, bitfield_variety bf, exp p,
 			      exp off)
 {
 	exp res;
-	if (name(sh(p)) == bothd) {
+	if (sh(p)->tag == bothd) {
 		return p;
 	}
 
 	if (check & CHECK_SHAPE) {
-		if (name(sh(p)) != ptrhd || name(sh(off)) != offsethd ||
-		    name(off) != val_tag) {
+		if (sh(p)->tag != ptrhd || sh(off)->tag != offsethd ||
+		    off->tag != val_tag) {
 			error(ERR_INTERNAL, CHSH_BFCONT);
 		}
 	}
@@ -1477,7 +1477,7 @@ f_case_transform(bool exhaustive, exp control, caselim_list branches)
 
 	/*  UNUSED(branches);
 	 */
-	if (name(sh(control)) == bothd) {
+	if (sh(control)->tag == bothd) {
 		return control;
 	}
 
@@ -1555,10 +1555,10 @@ f_case_notransform(bool exhaustive, exp control, caselim_list branches)
 	exp r, ht;
 	shape case_shape;
 	/*  UNUSED(branches);
-	    if (name(sh(control)) == bothd || bro(global_case) == NULL)
+	    if (sh(control)->tag == bothd || bro(global_case) == NULL)
 	    return control;
 	 */
-	if (name(sh(control)) == bothd) {
+	if (sh(control)->tag == bothd) {
 		return control;
 	}
 
@@ -1632,12 +1632,12 @@ f_case(bool exhaustive, exp control, caselim_list branches)
 exp
 f_change_bitfield_to_int(variety x, exp arg1)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		return arg1;
 	}
 
 	if (check & CHECK_SHAPE) {
-		if (name(sh(arg1)) != bitfhd) {
+		if (sh(arg1)->tag != bitfhd) {
 			error(ERR_INTERNAL, CHSH_CHBITFIELD);
 		}
 	}
@@ -1655,7 +1655,7 @@ f_change_bitfield_to_int(variety x, exp arg1)
 exp
 f_change_int_to_bitfield(bitfield_variety x, exp arg1)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		return arg1;
 	}
 
@@ -1678,7 +1678,7 @@ f_change_int_to_bitfield(bitfield_variety x, exp arg1)
 exp
 f_change_variety(error_treatment ov_err, variety r, exp arg1)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		return arg1;
 	}
 
@@ -1688,9 +1688,9 @@ f_change_variety(error_treatment ov_err, variety r, exp arg1)
 		}
 	}
 
-	if (~has & HAS_64_BIT && ((name(arg1) != val_tag || ov_err.err_code > 2) &&
-	    (shape_size(sh(arg1)) > 32 || name(r) >=s64hd) &&
-	    name(sh(arg1)) != name(r))) {
+	if (~has & HAS_64_BIT && ((arg1->tag != val_tag || ov_err.err_code > 2) &&
+	    (shape_size(sh(arg1)) > 32 || r->tag >=s64hd) &&
+	    sh(arg1)->tag != r->tag)) {
 		exp e = arg1;
 		int ss = is_signed(sh(arg1));
 		int sd = is_signed(r);
@@ -1701,7 +1701,7 @@ f_change_variety(error_treatment ov_err, variety r, exp arg1)
 			    "__TDFUsswiden" : "__TDFUuswiden") : (ss) ?
 			    "__TDFUsuwiden" : "__TDFUuuwiden", r);
 			return z;
-		} else if (name(r) >= s64hd) {
+		} else if (r->tag >= s64hd) {
 			return TDFcallaux(ov_err, e, (sd) ? "__TDFUu642s64" :
 					  "__TDFUs642u64", r);
 		} else {
@@ -1721,18 +1721,18 @@ f_change_variety(error_treatment ov_err, variety r, exp arg1)
 exp
 f_component(shape sha, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
 
 	if (check & CHECK_SHAPE) {
 		if (!doing_aldefs &&
-		    (name(sh(arg2)) != offsethd || name(sh(arg1)) != cpdhd ||
+		    (sh(arg2)->tag != offsethd || sh(arg1)->tag != cpdhd ||
 		     shape_align(sh(arg1)) < al1(sh(arg2)) ||
 		     shape_align(sha) > al2(sh(arg2)))) {
 			error(ERR_INTERNAL, CHSH_COMPONENT);
@@ -1749,11 +1749,11 @@ f_concat_nof(exp arg1, exp arg2)
 	shape sha = getshape(0, const_al1, al2_of(sh(arg1)), align_of(sh(arg1)),
 			     shape_size(sh(arg1)) + shape_size(sh(arg2)),
 			     nofhd);
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -1809,13 +1809,13 @@ start_conditional(label alt_label_intro)
 exp
 f_contents(shape s, exp arg1)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		return arg1;
 	}
 
 	if (check & CHECK_SHAPE) {
 		if (!doing_aldefs &&
-		    (name(sh(arg1)) != ptrhd ||
+		    (sh(arg1)->tag != ptrhd ||
 		     (al1(sh(arg1)) < shape_align(s)
 #if TRANS_SPARC
 		      && align_of(s) != REAL_ALIGN
@@ -1832,13 +1832,13 @@ f_contents(shape s, exp arg1)
 exp
 f_contents_with_mode(transfer_mode md, shape s, exp arg1)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		return arg1;
 	}
 
 	if (check & CHECK_SHAPE) {
 		if (!doing_aldefs &&
-		    (name(sh(arg1)) != ptrhd ||
+		    (sh(arg1)->tag != ptrhd ||
 		     (al1(sh(arg1)) < shape_align(s) &&
 		      al1_of(sh(arg1))->al.sh_hd != doublehd))) {
 			error(ERR_INTERNAL, CHSH_CONTENTS_VOL);
@@ -1927,8 +1927,8 @@ div_rem(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2,
 static exp
 div0_aux(error_treatment ov_err, exp arg1, exp arg2)
 {
-	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
-	    (name(arg1) != val_tag || name(arg2) != val_tag ||
+	if (~has & HAS_64_BIT && (sh(arg1)->tag >= s64hd &&
+	    (arg1->tag != val_tag || arg2->tag != val_tag ||
 	     ov_err.err_code > 2))) {
 		return TDFcallop2(ov_err, arg1, arg2, div0_tag);
 	}
@@ -1937,7 +1937,7 @@ div0_aux(error_treatment ov_err, exp arg1, exp arg2)
 		return me_b1(ov_err, arg1, arg2, div0_tag);
 	}
 
-	if (name(arg2) == val_tag && !isbigval(arg2)) {
+	if (arg2->tag == val_tag && !isbigval(arg2)) {
 		int n = no(arg2);
 		if ((n & (n - 1)) == 0) {
 			return me_b1(ov_err, arg1, arg2, div1_tag);
@@ -1950,11 +1950,11 @@ div0_aux(error_treatment ov_err, exp arg1, exp arg2)
 exp
 f_div0(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -1972,8 +1972,8 @@ f_div0(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2)
 static exp
 div1_aux(error_treatment ov_err, exp arg1, exp arg2)
 {
-	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
-	    (name(arg1) != val_tag || name(arg2) != val_tag ||
+	if (~has & HAS_64_BIT && (sh(arg1)->tag >= s64hd &&
+	    (arg1->tag != val_tag || arg2->tag != val_tag ||
 	     ov_err.err_code > 2))) {
 		return TDFcallop2(ov_err, arg1, arg2, div1_tag);
 	}
@@ -1985,11 +1985,11 @@ div1_aux(error_treatment ov_err, exp arg1, exp arg2)
 exp
 f_div1(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -2007,8 +2007,8 @@ f_div1(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2)
 static exp
 div2_aux(error_treatment ov_err, exp arg1, exp arg2)
 {
-	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
-	    (name(arg1) != val_tag || name(arg2) != val_tag ||
+	if (~has & HAS_64_BIT && (sh(arg1)->tag >= s64hd &&
+	    (arg1->tag != val_tag || arg2->tag != val_tag ||
 	     ov_err.err_code > 2))) {
 		return TDFcallop2(ov_err, arg1, arg2, div2_tag);
 	}
@@ -2019,11 +2019,11 @@ div2_aux(error_treatment ov_err, exp arg1, exp arg2)
 exp
 f_div2(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -2085,12 +2085,12 @@ f_goto(label dest)
 exp
 f_goto_local_lv(exp arg1)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		return arg1;
 	}
 
 	if (check & CHECK_SHAPE) {
-		if (name(sh(arg1)) != ptrhd) {
+		if (sh(arg1)->tag != ptrhd) {
 			error(ERR_INTERNAL, CHSH_GOLOCALLV);
 		}
 	}
@@ -2105,7 +2105,7 @@ f_identify(access_option acc, tag name_intro, exp definition, exp body)
 	exp i = get_tag(name_intro);
 	exp d = son(i);
 	UNUSED(acc);
-	if (name(sh(definition)) == bothd) {
+	if (sh(definition)->tag == bothd) {
 		kill_exp(body, body);
 		return definition;
 	}
@@ -2139,7 +2139,7 @@ start_identify(access_option acc, tag name_intro, exp definition)
 exp
 f_ignorable(exp arg1)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		return arg1;
 	}
 	return me_u2(arg1, ignorable_tag);
@@ -2149,11 +2149,11 @@ f_ignorable(exp arg1)
 exp
 f_integer_test(nat_option prob, ntest nt, label dest, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -2164,8 +2164,8 @@ f_integer_test(nat_option prob, ntest nt, label dest, exp arg1, exp arg2)
 		}
 	}
 
-	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
-	    (name(arg1) != val_tag || name(arg2) != val_tag))) {
+	if (~has & HAS_64_BIT && (sh(arg1)->tag >= s64hd &&
+	    (arg1->tag != val_tag || arg2->tag != val_tag))) {
 		error_treatment ov_err;
 		ov_err = f_wrap;
 		arg1 = TDFcallop2(ov_err, arg1, arg2, test_tag);
@@ -2198,9 +2198,9 @@ f_labelled(label_list placelabs_intro, exp starter, exp_list places)
 		setbro(f, labst);
 		setlast(f);
 		setsh(labst, sh(f));
-		if (name(starter) == case_tag ||
-		    (name(starter) == seq_tag &&
-		     name(son(son(starter))) == case_tag)) {
+		if (starter->tag == case_tag ||
+		    (starter->tag == seq_tag &&
+		     son(son(starter))->tag == case_tag)) {
 			fno(labst) = (float)(1.0 / places.number);
 		} else {
 			fno(labst) = (float)5.0;
@@ -2237,12 +2237,12 @@ exp
 f_local_alloc(exp arg1)
 {
 	alignment a;
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		return arg1;
 	}
 
 	if (check & CHECK_SHAPE) {
-		if (name(sh(arg1)) != offsethd) {
+		if (sh(arg1)->tag != offsethd) {
 			error(ERR_INTERNAL, CHSH_LOCALLOC);
 		}
 	}
@@ -2260,7 +2260,7 @@ exp
 f_local_alloc_check(exp arg1)
 {
 	exp res = f_local_alloc(arg1);
-	if (name(res) ==alloca_tag) {
+	if (res->tag ==alloca_tag) {
 		set_checkalloc(res);
 	}
 	return res;
@@ -2270,17 +2270,17 @@ f_local_alloc_check(exp arg1)
 exp
 f_local_free(exp a, exp p)
 {
-	if (name(sh(a)) == bothd) {
+	if (sh(a)->tag == bothd) {
 		kill_exp(p, p);
 		return a;
 	}
-	if (name(sh(p)) == bothd) {
+	if (sh(p)->tag == bothd) {
 		kill_exp(a, a);
 		return p;
 	}
 
 	if (check & CHECK_SHAPE) {
-		if (name(sh(a)) != offsethd || name(sh(p)) != ptrhd) {
+		if (sh(a)->tag != offsethd || sh(p)->tag != ptrhd) {
 			error(ERR_INTERNAL, CHSH_LOCFREE);
 		}
 	}
@@ -2306,17 +2306,17 @@ f_local_free_all(void)
 exp
 f_long_jump(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
 
 	if (check & CHECK_SHAPE) {
-		if (name(sh(arg1)) != ptrhd || name(sh(arg2)) != ptrhd) {
+		if (sh(arg1)->tag != ptrhd || sh(arg2)->tag != ptrhd) {
 			error(ERR_INTERNAL, CHSH_LONGJUMP);
 		}
 	}
@@ -2343,17 +2343,17 @@ f_make_compound(exp arg1, exp_list arg2)
 	clear_exp_list(arg2);
 
 	if (arg2.number == 0) {
-		setname(r, clear_tag);
+		r->tag = clear_tag;
 		return r;
 	}
 
 	if (check & CHECK_SHAPE) {
 		exp t = first;
 		while (1) {
-			if (t != arg2.end && name(sh(bro(t))) == bothd) {
+			if (t != arg2.end && sh(bro(t))->tag == bothd) {
 				return bro(t);
 			}
-			if (t == arg2.end || name(sh(t)) != offsethd ||
+			if (t == arg2.end || sh(t)->tag != offsethd ||
 			    (!doing_aldefs &&
 			     al2(sh(t)) < shape_align(sh(bro(t))))) {
 				error(ERR_INTERNAL, CHSH_MAKECPD);
@@ -2386,7 +2386,7 @@ f_make_compound(exp arg1, exp_list arg2)
 				alignment a = al2_of(sh(arr[i]));
 				if (a->al.sh_hd != 0) {
 					shape s = sh(arr[i + 1]);
-					if (name(s) >= scharhd && name(s) <= uwordhd) {
+					if (s->tag >= scharhd && s->tag <= uwordhd) {
 						shape ns = (is_signed(s)) ? slongsh :
 						    ulongsh;
 						exp w = hold_refactor(f_change_variety(
@@ -2519,7 +2519,7 @@ f_make_nof(exp_list arg1)
 		}
 	}
 
-	if (name(sh(first)) == bitfhd) {
+	if (sh(first)->tag == bitfhd) {
 		/* make make_nof bitbields into make-compound */
 		int sf = shape_size(sh(first));
 		int snof = shape_size(sh(r));
@@ -2726,11 +2726,11 @@ f_make_null_ptr(alignment a)
 exp
 f_maximum(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -2741,8 +2741,8 @@ f_maximum(exp arg1, exp arg2)
 		}
 	}
 
-	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
-	    (name(arg1) != val_tag || name(arg2) != val_tag))) {
+	if (~has & HAS_64_BIT && (sh(arg1)->tag >= s64hd &&
+	    (arg1->tag != val_tag || arg2->tag != val_tag))) {
 		return TDFcallop3(arg1, arg2, max_tag);
 	}
 
@@ -2752,11 +2752,11 @@ f_maximum(exp arg1, exp arg2)
 exp
 f_minimum(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -2767,8 +2767,8 @@ f_minimum(exp arg1, exp arg2)
 		}
 	}
 
-	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
-	    (name(arg1) != val_tag || name(arg2) != val_tag))) {
+	if (~has & HAS_64_BIT && (sh(arg1)->tag >= s64hd &&
+	    (arg1->tag != val_tag || arg2->tag != val_tag))) {
 		error_treatment ov_err;
 		ov_err = f_wrap;
 		return TDFcallop2(ov_err, arg1, arg2, min_tag);
@@ -2879,7 +2879,7 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 #endif
 
 	if (check & CHECK_SHAPE) {
-		if (name(sh(body)) != bothd) {
+		if (sh(body)->tag != bothd) {
 			error(ERR_INTERNAL, CHSH_MAKE_PROC);
 		}
 	}
@@ -2954,17 +2954,17 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 			if (redo_structparams &&
 #if TRANS_HPPA
 			    (varhack || ((shape_size(sh(son(param))) >64) &&
-					 (name(sh(son(param))) == cpdhd ||
-					  name(sh(son(param))) == nofhd ||
-					  name(sh(son(param))) == doublehd))))
+					 (sh(son(param))->tag == cpdhd ||
+					  sh(son(param))->tag == nofhd ||
+					  sh(son(param))->tag == doublehd))))
 #else
 #if TRANS_SPARC
 			    (varhack || sparccpd(sh(son(param)))))
 
 #else
-			    (varhack || name(sh(son(param))) == cpdhd ||
-			     name(sh(son(param))) == nofhd ||
-			     name(sh(son(param))) == doublehd))
+			    (varhack || sh(son(param))->tag == cpdhd ||
+			     sh(son(param))->tag == nofhd ||
+			     sh(son(param))->tag == doublehd))
 #endif
 #endif
 			{
@@ -3046,7 +3046,7 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 							pt(prev) = new_use;
 							pt(use) = NULL;
 							props(use) = (prop)0;
-							setname(use, cont_tag);
+							use->tag = cont_tag;
 							/* retain same no and
 							   sh */
 
@@ -3066,7 +3066,7 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 							pt(prev) = new_use;
 							pt(use) = NULL;
 							props(use) = (prop)0;
-							setname(use, reff_tag);
+							use->tag = reff_tag;
 							/* retain same no and
 							   sh */
 
@@ -3186,7 +3186,7 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 	exp res;
 
 	if (check & CHECK_SHAPE) {
-		if (name(sh(body)) != bothd) {
+		if (sh(body)->tag != bothd) {
 			error(ERR_INTERNAL, CHSH_MAKE_PROC);
 		}
 	}
@@ -3264,12 +3264,12 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 #if TRANS_HPPA
 			    shape_size(sh(son(param))) > 64)
 #else
-				(name(sh(son(param))) == cpdhd ||
-				 name(sh(son(param))) == nofhd ||
+				(sh(son(param))->tag == cpdhd ||
+				 sh(son(param))->tag == nofhd ||
 #if TRANS_SPARC
 				 sparccpd(sh(son(param))) ||
 #endif
-				 name(sh(son(param))) == doublehd))
+				 sh(son(param))->tag == doublehd))
 #endif
 			{
 				/*
@@ -3302,7 +3302,7 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 						pt(use) = NULL;
 						props(use) = (prop)0;
 						/* retain same no and sh */
-						setname(use, cont_tag);
+						use->tag = cont_tag;
 
 						use = new_use;
 					}
@@ -3318,7 +3318,7 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 						pt(use) = NULL;
 						props(use) = (prop)0;
 						/* retain same no and sh */
-						setname(use, reff_tag);
+						use->tag = reff_tag;
 
 						use = new_use;
 					}
@@ -3397,8 +3397,8 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 static exp
 find_caller_id(int n, exp p)
 {
-	while (name(p) == ident_tag) {
-		if (name(son(p)) == caller_name_tag && no(son(p)) ==n) {
+	while (p->tag == ident_tag) {
+		if (son(p)->tag == caller_name_tag && no(son(p)) ==n) {
 			return p;
 		}
 		p = bro(son(p));
@@ -3432,7 +3432,7 @@ f_apply_general_proc(shape result_shape, procprops prcprops, exp p,
 	exp last_redo;
 	has_alloca = 1;
 
-	if (name(callee_pars) == same_callees_tag) {
+	if (callee_pars->tag == same_callees_tag) {
 		/* it's a constant */
 		callee_pars = copy(callee_pars);
 	}
@@ -3443,10 +3443,10 @@ f_apply_general_proc(shape result_shape, procprops prcprops, exp p,
 		exp *plce = &caller_pars.start;
 		for (i = 0; i < caller_pars.number; i++) {
 			exp ote = *plce;
-			exp param = (name(ote) == caller_tag) ? son(ote) : ote;
-			if ((name(sh(param)) == cpdhd ||
-			     name(sh(param)) == nofhd ||
-			     name(sh(param)) == doublehd)
+			exp param = (ote->tag == caller_tag) ? son(ote) : ote;
+			if ((sh(param)->tag == cpdhd ||
+			     sh(param)->tag == nofhd ||
+			     sh(param)->tag == doublehd)
 #if TRANS_SPARC
 			    || sparccpd(sh(param))
 #endif
@@ -3460,7 +3460,7 @@ f_apply_general_proc(shape result_shape, procprops prcprops, exp p,
 				exp rd = me_startid(nshape, param, 1);
 				exp npar = me_obtain(rd);
 				exp id;
-				if (name(ote) ==caller_tag &&
+				if (ote->tag ==caller_tag &&
 				    (id = find_caller_id(i, caller_pars.id)) !=
 				    NULL) {
 					exp p = pt(id);
@@ -3542,21 +3542,21 @@ f_apply_general_proc(shape result_shape, procprops prcprops, exp p,
 		exp ote = caller_pars.start;
 		for (i = 0; i < caller_pars.number; i++) {
 			shape s = sh(ote);
-			if (name(s) >= scharhd && name(s) <= uwordhd) {
+			if (s->tag >= scharhd && s->tag <= uwordhd) {
 				shape ns = (is_signed(s)) ? slongsh : ulongsh;
-				exp par = (name(ote) == caller_tag) ?
+				exp par = (ote->tag == caller_tag) ?
 				    son(ote) : ote;
 				exp next = bro(ote);
 				exp id;
 				int l = last(ote);
 				exp w = hold_refactor(f_change_variety(f_wrap, ns,
 								    copy(par)));
-				if (name(ote) == caller_tag) {
+				if (ote->tag == caller_tag) {
 					sh(ote) = ns;
 				}
 				replace(par, w, NULL);
 				kill_exp(par, NULL);
-				if (name(ote) == caller_tag &&
+				if (ote->tag == caller_tag &&
 				    (id = find_caller_id(i, postlude)) !=
 				    NULL) {
 					exp p = pt(id);
@@ -3609,8 +3609,8 @@ f_apply_general_proc(shape result_shape, procprops prcprops, exp p,
 		son(r_p) = appname;
 
 		tmp = postlude;
-		while (name(tmp) ==ident_tag &&
-		       name(son(tmp)) == caller_name_tag) {
+		while (tmp->tag ==ident_tag &&
+		       son(tmp)->tag == caller_name_tag) {
 			no(son(tmp))++;
 			tmp = bro(son(tmp));
 		}
@@ -3643,7 +3643,7 @@ exp
 f_tail_call(procprops prcprops, exp p, callees callee_params)
 {
 	exp res = getexp(f_bottom, NULL, 0, p, NULL, 0, 0, tail_call_tag);
-	if (name(callee_params) == same_callees_tag) {
+	if (callee_params->tag == same_callees_tag) {
 		/* it's a constant */
 		callee_params = copy(callee_params);
 	}
@@ -3741,11 +3741,11 @@ f_make_value(shape s)
 exp
 f_minus(error_treatment ov_err, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -3756,8 +3756,8 @@ f_minus(error_treatment ov_err, exp arg1, exp arg2)
 		}
 	}
 
-	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
-	    (name(arg1) != val_tag || name(arg2) != val_tag ||
+	if (~has & HAS_64_BIT && (sh(arg1)->tag >= s64hd &&
+	    (arg1->tag != val_tag || arg2->tag != val_tag ||
 	     ov_err.err_code > 2))) {
 		return TDFcallop2(ov_err, arg1, arg2, minus_tag);
 	}
@@ -3769,25 +3769,25 @@ exp
 f_move_some(transfer_mode md, exp arg1, exp arg2, exp arg3)
 {
 	exp r = getexp(f_top, NULL, 0, arg1, NULL, 0, 0, movecont_tag);
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		kill_exp(arg3, arg3);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		kill_exp(arg3, arg3);
 		return arg2;
 	}
-	if (name(sh(arg3)) == bothd) {
+	if (sh(arg3)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		kill_exp(arg2, arg2);
 		return arg3;
 	}
 
 	if (check & CHECK_SHAPE) {
-		if (name(sh(arg1)) != ptrhd || name(sh(arg2)) != ptrhd ||
-		    name(sh(arg3)) != offsethd || al1(sh(arg1)) < al1(sh(arg3)) ||
+		if (sh(arg1)->tag != ptrhd || sh(arg2)->tag != ptrhd ||
+		    sh(arg3)->tag != offsethd || al1(sh(arg1)) < al1(sh(arg3)) ||
 		    al1(sh(arg2)) < al1(sh(arg3))) {
 			error(ERR_INTERNAL, CHSH_MOVESOME);
 		}
@@ -3818,7 +3818,7 @@ f_move_some(transfer_mode md, exp arg1, exp arg2, exp arg3)
 					       arg3)), trp)));
 	}
 
-	if (!(md & f_overlap) && name(arg3) == val_tag && al2(sh(arg3)) > 1) {
+	if (!(md & f_overlap) && arg3->tag == val_tag && al2(sh(arg3)) > 1) {
 		exp c = f_contents(f_compound(arg3), arg1);
 		return f_assign(arg2, c);
 	}
@@ -3842,11 +3842,11 @@ f_move_some(transfer_mode md, exp arg1, exp arg2, exp arg3)
 exp
 f_mult(error_treatment ov_err, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -3857,8 +3857,8 @@ f_mult(error_treatment ov_err, exp arg1, exp arg2)
 		}
 	}
 
-	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
-	    (name(arg1) != val_tag || name(arg2) != val_tag ||
+	if (~has & HAS_64_BIT && (sh(arg1)->tag >= s64hd &&
+	    (arg1->tag != val_tag || arg2->tag != val_tag ||
 	     ov_err.err_code > 2))) {
 		return TDFcallop2(ov_err, arg1, arg2, mult_tag);
 	}
@@ -3871,7 +3871,7 @@ exp
 f_n_copies(nat n, exp arg1)
 {
 	exp r;
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		return arg1;
 	}
 
@@ -3881,7 +3881,7 @@ f_n_copies(nat n, exp arg1)
 
 	r = getexp(f_nof(n, sh(arg1)), NULL, 0, arg1, NULL, 0, natint(n),
 		   ncopies_tag);
-	if (name(sh(arg1)) == bitfhd) {
+	if (sh(arg1)->tag == bitfhd) {
 		/* make ncopies bitfields into (ncopies) make-compound */
 		int sf = shape_size(sh(arg1));
 		int snof = shape_size(sh(r));
@@ -3928,7 +3928,7 @@ f_n_copies(nat n, exp arg1)
 exp
 f_negate(error_treatment ov_err, exp arg1)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		return arg1;
 	}
 
@@ -3942,8 +3942,8 @@ f_negate(error_treatment ov_err, exp arg1)
 		return f_minus(ov_err, me_shint(sh(arg1), 0), arg1);
 	}
 
-	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
-	    (name(arg1) != val_tag|| ov_err.err_code > 2))) {
+	if (~has & HAS_64_BIT && (sh(arg1)->tag >= s64hd &&
+	    (arg1->tag != val_tag|| ov_err.err_code > 2))) {
 		return TDFcallop1(ov_err, arg1, neg_tag);
 	}
 
@@ -3954,7 +3954,7 @@ f_negate(error_treatment ov_err, exp arg1)
 exp
 f_not(exp arg1)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		return arg1;
 	}
 
@@ -3964,8 +3964,8 @@ f_not(exp arg1)
 		}
 	}
 
-	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
-	    name(arg1) != val_tag)) {
+	if (~has & HAS_64_BIT && (sh(arg1)->tag >= s64hd &&
+	    arg1->tag != val_tag)) {
 		return TDFcallop4(arg1, not_tag);
 	}
 
@@ -4016,18 +4016,18 @@ exp
 f_offset_add(exp arg1, exp arg2)
 {
 	shape sres;
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
 
 	if (check & CHECK_SHAPE) {
 		if (!doing_aldefs &&
-		    ((name(sh(arg1)) != offsethd || name(sh(arg2)) != offsethd ||
+		    ((sh(arg1)->tag != offsethd || sh(arg2)->tag != offsethd ||
 		      (al1(sh(arg2)) > al2(sh(arg1))
 #if TRANS_SPARC
 		       && al1_of(sh(arg2)) != REAL_ALIGN
@@ -4059,17 +4059,17 @@ f_offset_add(exp arg1, exp arg2)
 exp
 f_offset_div(variety v, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
 
 	if (check & CHECK_SHAPE) {
-		if (name(sh(arg1)) != offsethd || name(sh(arg2)) != offsethd) {
+		if (sh(arg1)->tag != offsethd || sh(arg2)->tag != offsethd) {
 			error(ERR_INTERNAL, CHSH_OFFSETDIV);
 		}
 	}
@@ -4081,18 +4081,18 @@ f_offset_div(variety v, exp arg1, exp arg2)
 exp
 f_offset_div_by_int(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
 
 	if (check & CHECK_SHAPE) {
 		if (!doing_aldefs &&
-		    (name(sh(arg1)) != offsethd || !is_integer(sh(arg2)) ||
+		    (sh(arg1)->tag != offsethd || !is_integer(sh(arg2)) ||
 		     (al1(sh(arg1)) != al2(sh(arg1)) && al2(sh(arg1)) != 1))) {
 			error(ERR_INTERNAL, CHSH_OFFSETDIVINT);
 		}
@@ -4109,18 +4109,18 @@ f_offset_max(exp arg1, exp arg2)
 	alignment a2 = al1_of(sh(arg2));
 	alignment a3 = al2_of(sh(arg1));
 	shape sha;
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
 
 	if (check & CHECK_SHAPE) {
 		if (!doing_aldefs &&
-		    (name(sh(arg1)) != offsethd || name(sh(arg2)) != offsethd)) {
+		    (sh(arg1)->tag != offsethd || sh(arg2)->tag != offsethd)) {
 			error(ERR_INTERNAL, CHSH_OFFSETMAX);
 		}
 	}
@@ -4148,18 +4148,18 @@ f_offset_max(exp arg1, exp arg2)
 exp
 f_offset_mult(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
 
 	if (check & CHECK_SHAPE) {
 		if (!doing_aldefs &&
-		    (name(sh(arg1)) != offsethd || !is_integer(sh(arg2)))) {
+		    (sh(arg1)->tag != offsethd || !is_integer(sh(arg2)))) {
 			error(ERR_INTERNAL, CHSH_OFFSETMULT);
 		}
 	}
@@ -4182,13 +4182,13 @@ f_offset_mult(exp arg1, exp arg2)
 exp
 f_offset_negate(exp arg1)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		return arg1;
 	}
 
 	if (check & CHECK_SHAPE) {
 		if (!doing_aldefs &&
-		    (name(sh(arg1)) != offsethd ||
+		    (sh(arg1)->tag != offsethd ||
 		     (al1(sh(arg1)) != al2(sh(arg1)) && al2(sh(arg1)) != 1
 #if TRANS_SPARC
 		      && al1_of(sh(arg1)) != REAL_ALIGN
@@ -4206,12 +4206,12 @@ exp
 f_offset_pad(alignment a, exp arg1)
 {
 	shape sha;
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		return arg1;
 	}
 
 	if (check & CHECK_SHAPE) {
-		if (name(sh(arg1)) != offsethd) {
+		if (sh(arg1)->tag != offsethd) {
 			error(ERR_INTERNAL, CHSH_OFFSETPAD);
 		}
 	}
@@ -4241,11 +4241,11 @@ f_offset_pad(alignment a, exp arg1)
 exp
 f_offset_subtract(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -4258,18 +4258,18 @@ f_offset_subtract(exp arg1, exp arg2)
 exp
 f_offset_test(nat_option prob, ntest nt, label dest, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
 
 	if (check & CHECK_SHAPE) {
 		if (!doing_aldefs &&
-		    (name(sh(arg1)) != offsethd || name(sh(arg2)) != offsethd ||
+		    (sh(arg1)->tag != offsethd || sh(arg2)->tag != offsethd ||
 		     /* al1(sh(arg1)) != al1(sh(arg2)) || */
 		     al2(sh(arg1)) != al2(sh(arg2)))) {
 			error(ERR_INTERNAL, CHSH_OFFSETTEST);
@@ -4295,11 +4295,11 @@ f_offset_zero(alignment a)
 exp
 f_or(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -4310,8 +4310,8 @@ f_or(exp arg1, exp arg2)
 		}
 	}
 
-	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
-	    (name(arg1) != val_tag || name(arg2) != val_tag))) {
+	if (~has & HAS_64_BIT && (sh(arg1)->tag >= s64hd &&
+	    (arg1->tag != val_tag || arg2->tag != val_tag))) {
 		return TDFcallop3(arg1, arg2, or_tag);
 	}
 
@@ -4322,11 +4322,11 @@ f_or(exp arg1, exp arg2)
 exp
 f_plus(error_treatment ov_err, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -4337,8 +4337,8 @@ f_plus(error_treatment ov_err, exp arg1, exp arg2)
 		}
 	}
 
-	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
-	    (name(arg1) != val_tag || name(arg2) != val_tag||
+	if (~has & HAS_64_BIT && (sh(arg1)->tag >= s64hd &&
+	    (arg1->tag != val_tag || arg2->tag != val_tag||
 	     ov_err.err_code > 2))) {
 		return TDFcallop2(ov_err, arg1, arg2, plus_tag);
 	}
@@ -4350,18 +4350,18 @@ f_plus(error_treatment ov_err, exp arg1, exp arg2)
 exp
 f_pointer_test(nat_option prob, ntest nt, label dest, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
 
 	if (check & CHECK_SHAPE) {
 		if (!doing_aldefs &&
-		    (name(sh(arg1)) != ptrhd || al1(sh(arg1)) != al1(sh(arg2)))) {
+		    (sh(arg1)->tag != ptrhd || al1(sh(arg1)) != al1(sh(arg2)))) {
 			error(ERR_INTERNAL, CHSH_PTRTEST);
 		}
 	}
@@ -4378,11 +4378,11 @@ f_pointer_test(nat_option prob, ntest nt, label dest, exp arg1, exp arg2)
 exp
 f_proc_test(nat_option prob, ntest nt, label dest, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -4390,7 +4390,7 @@ f_proc_test(nat_option prob, ntest nt, label dest, exp arg1, exp arg2)
 	if (check & CHECK_SHAPE) {
 		/*
 		   ONLY REMOVED TEMPORARILY!
-		   if (name(sh(arg1)) != prokhd || name(sh(arg2)) != prokhd)
+		   if (sh(arg1)->tag != prokhd || sh(arg2)->tag != prokhd)
 		   error(ERR_INTERNAL, CHSH_PROCTEST);
 		 */
 	}
@@ -4414,8 +4414,8 @@ f_profile(nat n)
 static exp
 rem1_aux(error_treatment ov_err, exp arg1, exp arg2)
 {
-	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
-	    (name(arg1) != val_tag || name(arg2) != val_tag ||
+	if (~has & HAS_64_BIT && (sh(arg1)->tag >= s64hd &&
+	    (arg1->tag != val_tag || arg2->tag != val_tag ||
 	     ov_err.err_code > 2))) {
 		return TDFcallop2(ov_err, arg1, arg2, mod_tag);
 	}
@@ -4427,11 +4427,11 @@ rem1_aux(error_treatment ov_err, exp arg1, exp arg2)
 exp
 f_rem1(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -4449,8 +4449,8 @@ f_rem1(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2)
 static exp
 rem0_aux(error_treatment ov_err, exp arg1, exp arg2)
 {
-	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
-	    (name(arg1) != val_tag || name(arg2) != val_tag ||
+	if (~has & HAS_64_BIT && (sh(arg1)->tag >= s64hd &&
+	    (arg1->tag != val_tag || arg2->tag != val_tag ||
 	     ov_err.err_code > 2))) {
 		return TDFcallop2(ov_err, arg1, arg2, rem0_tag);
 	}
@@ -4459,7 +4459,7 @@ rem0_aux(error_treatment ov_err, exp arg1, exp arg2)
 		return me_b1(ov_err, arg1, arg2, rem0_tag);
 	}
 
-	if (name(arg2) == val_tag && !isbigval(arg2)) {
+	if (arg2->tag == val_tag && !isbigval(arg2)) {
 		int n = no(arg2);
 		if ((n & (n - 1)) == 0) {
 			return me_b1(ov_err, arg1, arg2, mod_tag);
@@ -4472,11 +4472,11 @@ rem0_aux(error_treatment ov_err, exp arg1, exp arg2)
 exp
 f_rem0(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -4494,8 +4494,8 @@ f_rem0(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2)
 static exp
 rem2_aux(error_treatment ov_err, exp arg1, exp arg2)
 {
-	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
-	    (name(arg1) != val_tag || name(arg2) != val_tag ||
+	if (~has & HAS_64_BIT && (sh(arg1)->tag >= s64hd &&
+	    (arg1->tag != val_tag || arg2->tag != val_tag ||
 	     ov_err.err_code > 2))) {
 		return TDFcallop2(ov_err, arg1, arg2, rem2_tag);
 	}
@@ -4507,11 +4507,11 @@ rem2_aux(error_treatment ov_err, exp arg1, exp arg2)
 exp
 f_rem2(error_treatment div0_err, error_treatment ov_err, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -4583,7 +4583,7 @@ start_repeat(label repeat_label_intro)
 exp
 f_return(exp arg1)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		return arg1;
 	}
 	if (!reg_result(sh(arg1))) {
@@ -4632,11 +4632,11 @@ f_return(exp arg1)
 exp
 f_rotate_left(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -4682,11 +4682,11 @@ f_rotate_left(exp arg1, exp arg2)
 exp
 f_rotate_right(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -4775,11 +4775,11 @@ f_shape_offset(shape s)
 exp
 f_shift_left(error_treatment ov_err, exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -4790,8 +4790,8 @@ f_shift_left(error_treatment ov_err, exp arg1, exp arg2)
 		}
 	}
 
-	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
-	    (name(arg1) != val_tag || name(arg2) != val_tag ||
+	if (~has & HAS_64_BIT && (sh(arg1)->tag >= s64hd &&
+	    (arg1->tag != val_tag || arg2->tag != val_tag ||
 	     ov_err.err_code > 2))) {
 		arg2 = hold_refactor(f_change_variety(ov_err, ulongsh, arg2));
 		return TDFcallop2(ov_err, arg1, arg2, shl_tag);
@@ -4843,11 +4843,11 @@ f_shift_left(error_treatment ov_err, exp arg1, exp arg2)
 exp
 f_shift_right(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -4858,8 +4858,8 @@ f_shift_right(exp arg1, exp arg2)
 		}
 	}
 
-	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
-	    (name(arg1) != val_tag || name(arg2) != val_tag))) {
+	if (~has & HAS_64_BIT && (sh(arg1)->tag >= s64hd &&
+	    (arg1->tag != val_tag || arg2->tag != val_tag))) {
 		error_treatment ov_err;
 		ov_err = f_wrap;
 		arg2 = hold_refactor(f_change_variety(ov_err, ulongsh, arg2));
@@ -4873,11 +4873,11 @@ f_shift_right(exp arg1, exp arg2)
 exp
 f_subtract_ptrs(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -4932,11 +4932,11 @@ start_variable(access_option acc, tag name_intro, exp init)
 exp
 f_xor(exp arg1, exp arg2)
 {
-	if (name(sh(arg1)) == bothd) {
+	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
 		return arg1;
 	}
-	if (name(sh(arg2)) == bothd) {
+	if (sh(arg2)->tag == bothd) {
 		kill_exp(arg1, arg1);
 		return arg2;
 	}
@@ -4947,8 +4947,8 @@ f_xor(exp arg1, exp arg2)
 		}
 	}
 
-	if (~has & HAS_64_BIT && (name(sh(arg1)) >= s64hd &&
-	    (name(arg1) != val_tag || name(arg2) != val_tag))) {
+	if (~has & HAS_64_BIT && (sh(arg1)->tag >= s64hd &&
+	    (arg1->tag != val_tag || arg2->tag != val_tag))) {
 		return TDFcallop3(arg1, arg2, xor_tag);
 	}
 
@@ -4994,7 +4994,7 @@ nat
 f_computed_nat(exp arg)
 {
 	nat res;
-	if (name(arg) == val_tag) {
+	if (arg->tag == val_tag) {
 		if (check & CHECK_EXTRA) {
 			if (constovf(arg)) {
 				error(ERR_INTERNAL, ILLNAT);
@@ -5012,7 +5012,7 @@ f_computed_nat(exp arg)
 		}
 	}
 
-	if (name(arg) == name_tag && !isvar(son(arg))) {
+	if (arg->tag == name_tag && !isvar(son(arg))) {
 		res = f_computed_nat(son(son(arg)));
 		kill_exp(arg, arg);
 		return res;
@@ -5080,7 +5080,7 @@ shape
 f_compound(exp off)
 {
 	int sz;
-	if (name(off) ==val_tag) {
+	if (off->tag ==val_tag) {
 		sz = no(off);
 	} else {
 		error(ERR_INTERNAL, ILLCPDOFFSET);
@@ -5121,10 +5121,10 @@ f_nof(nat n, shape s)
 	} else {
 		int al = shape_align(s);
 		int sz = rounder(shape_size(s), al);
-		int nm = (int)name(s);
+		int nm = (int)s->tag;
 		int nofsz = natint(n)*sz;
 		shape res;
-		if (name(s) == nofhd) {
+		if (s->tag == nofhd) {
 			nm = ptno(s);
 		}
 
@@ -5132,7 +5132,7 @@ f_nof(nat n, shape s)
 			error(ERR_INTERNAL, TOO_BIG_A_VECTOR);
 		}
 
-		if (name(s) == tophd) {
+		if (s->tag == tophd) {
 			/* pathological - make it nof(0, char) */
 			res = getshape(0, const_al1, const_al1,
 				       align_of(ucharsh), 0, nofhd);
@@ -5402,7 +5402,7 @@ signed_nat
 f_computed_signed_nat(exp arg)
 {
 	signed_nat res;
-	if (name(arg) == val_tag) {
+	if (arg->tag == val_tag) {
 		if (check & CHECK_EXTRA) {
 			if (constovf(arg)) {
 				error(ERR_INTERNAL, ILLNAT);
@@ -5433,7 +5433,7 @@ f_computed_signed_nat(exp arg)
 		}
 	}
 
-	if (name(arg) == name_tag && !isvar(son(arg))) {
+	if (arg->tag == name_tag && !isvar(son(arg))) {
 		res = f_computed_signed_nat(son(son(arg)));
 		kill_exp(arg, arg);
 		return res;
@@ -6141,7 +6141,7 @@ tidy_initial_values(void)
 			good_name = my_def->dec_id;
 		}
 		if (son(crt_exp) != NULL &&
-		    name(son(crt_exp)) == initial_value_tag) {
+		    son(crt_exp)->tag == initial_value_tag) {
 			/* accumulate assignments of initial values in one
 			   explist */
 			if (!(my_def->dec_var)) {
@@ -6181,11 +6181,11 @@ tidy_initial_values(void)
 			if (good_name == NULL) {
 				good_name = my_def->dec_id;
 			}
-			if (name(init) == compound_tag ||
-			    name(init) == nof_tag ||
-			    name(init) == concatnof_tag ||
-			    name(init) == ncopies_tag ||
-			    name(init) == string_tag) {
+			if (init->tag == compound_tag ||
+			    init->tag == nof_tag ||
+			    init->tag == concatnof_tag ||
+			    init->tag == ncopies_tag ||
+			    init->tag == string_tag) {
 				dec *id_dec = make_extra_dec(make_local_name(),
 							     0, 0, init,
 							     sh(init));

@@ -62,10 +62,10 @@
 /*
  * A few new macros for powertrans
  */
-#define is_single_precision( x )        ( name( x ) == shrealhd )
-#define is_double_precision( x )        ( name( x ) != shrealhd )
+#define is_single_precision( x )        ( (x)->tag == shrealhd )
+#define is_double_precision( x )        ( (x)->tag != shrealhd )
 
-#define IS_A_PROC( x )         ( name(x)==proc_tag || name(x)==general_proc_tag)
+#define IS_A_PROC( x )         ( x->tag==proc_tag || x->tag==general_proc_tag)
 /* These are used in TDF 3.1 for general_env_offset */
 #define frame_al_of_ptr(x) (x)->son.ald->al.al_val.al_frame
 #define frame_al1_of_offset(x) (x)->son.ald->al.al_val.al_frame
@@ -80,7 +80,7 @@
 #define TEST_NE 5
 #define TEST_EQ 6
 
-#define IS_AGGREGATE(s)  (name(s)==nofhd||name(s)==cpdhd||name(s)==s64hd||name(s)==u64hd)
+#define IS_AGGREGATE(s)  (s->tag==nofhd||s->tag==cpdhd||s->tag==s64hd||s->tag==u64hd)
 
 #endif
 

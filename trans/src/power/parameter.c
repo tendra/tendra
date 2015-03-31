@@ -82,7 +82,7 @@ void output_parameters(exp e)
 {
   exp par;
 
-  if (name(e) ==general_proc_tag)
+  if (e->tag ==general_proc_tag)
   {
     end_param = GENERAL_PROC_PARAM_REGS + R_FIRST_PARAM - 1;
   }
@@ -113,12 +113,12 @@ void output_parameters(exp e)
     where dest;
 
     if ((!isparam(par)) ||
-	(name(par)!=ident_tag) ||
-	(name(son(par)) ==formal_callee_tag))
+	(par->tag!=ident_tag) ||
+	(son(par)->tag ==formal_callee_tag))
       break;
 
     init_exp = son(par);
-    is_float = is_floating(name(sh(init_exp)));
+    is_float = is_floating(sh(init_exp)->tag);
     param_reg = props(init_exp);
     param_size = shape_size(sh(init_exp));
     param_align = shape_align(sh(init_exp));

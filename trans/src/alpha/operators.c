@@ -45,11 +45,11 @@ tidyshort(int r, shape s)
 {
   /* corrects possible overflows of chars
      and shorts in reg r */
-  if (name (s) == ucharhd) {
+  if (s->tag == ucharhd) {
     operate_fmt_immediate (i_and, r,255,r);
   }
   else
-    if (name (s) == uwordhd) {
+    if (s->tag == uwordhd) {
       operate_fmt_immediate (i_and, r,0xffff,r);
     }
 }
@@ -98,7 +98,7 @@ do_comm(exp seq, space sp, int final, instruction rins)
   for (;;) {
     nsp = guardreg (a1, sp);
     seq = bro (seq);
-    if (name (seq) == val_tag) {/* next operand is a constant */
+    if (seq->tag == val_tag) {/* next operand is a constant */
       if (last (seq)) {
 	if(isbigval(seq)){
 	  int ov;
@@ -168,7 +168,7 @@ comm_op(exp e, space sp, where d, instruction rrins)
       if (usesdest && last (seq)) {
 	/* ...it was used, but there is only one
 	   other operand */
-	if (name (seq) == val_tag) {
+	if (seq->tag == val_tag) {
 	  operate_fmt_immediate (rins, dest, no (seq),dest);
 	}
 	else {

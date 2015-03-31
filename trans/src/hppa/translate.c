@@ -228,8 +228,8 @@ mark_unaliased(exp e)
 		if (bro(p) == NULL) {
 			ca = 0;
 		} else {
-			if (!(last(p) && name(bro(p)) == cont_tag) &&
-			    !(!last(p) && last(bro(p)) && name(bro(bro(p))) == ass_tag)) {
+			if (!(last(p) && bro(p)->tag == cont_tag) &&
+			    !(!last(p) && last(bro(p)) && bro(bro(p))->tag == ass_tag)) {
 				ca = 0;
 			}
 		}
@@ -329,7 +329,7 @@ local_translate_capsule(void)
 			mark_unaliased(crt_exp);
 		}
 
-		if (name(scexp) == proc_tag || name(scexp) == general_proc_tag) {
+		if (scexp->tag == proc_tag || scexp->tag == general_proc_tag) {
 			noprocs++;
 
 			if (dyn_init && !strncmp("__I.TDF", crt_def->dec_id, 7)) {
@@ -376,8 +376,8 @@ local_translate_capsule(void)
 	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next) {
 		exp crt_exp = crt_def->dec_exp;
 
-		if (son(crt_exp) != NULL && (name(son(crt_exp)) == proc_tag ||
-		                             name(son(crt_exp)) == general_proc_tag))
+		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag ||
+		                             son(crt_exp)->tag == general_proc_tag))
 		{
 			procrec *pr = &procrecs[procno];
 			proc_def_trans_order[procno] = crt_def;
@@ -443,8 +443,8 @@ local_translate_capsule(void)
 	nexps = 0;
 	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next) {
 		exp crt_exp = crt_def->dec_exp;
-		if (son(crt_exp) != NULL && (name(son(crt_exp)) == proc_tag ||
-		                             name(son(crt_exp)) == general_proc_tag)) {
+		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag ||
+		                             son(crt_exp)->tag == general_proc_tag)) {
 			procrec *pr = &procrecs[no(son(crt_exp))];
 			exp *st = &son(crt_exp);
 			cpr = pr;
@@ -461,8 +461,8 @@ local_translate_capsule(void)
 	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next) {
 		exp crt_exp = crt_def->dec_exp;
 
-		if (son(crt_exp) != NULL && (name(son(crt_exp)) == proc_tag ||
-		                             name(son(crt_exp)) == general_proc_tag)) {
+		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag ||
+		                             son(crt_exp)->tag == general_proc_tag)) {
 			procrec *pr = &procrecs[no(son(crt_exp))];
 			needs * ndpr = & pr->needsproc;
 			long pprops = (ndpr->propsneeds);
@@ -556,9 +556,9 @@ local_translate_capsule(void)
 		if (son(tg) == NULL && no(tg) != 0 && extnamed) {
 			outs("\t.IMPORT\t");
 			outs(id);
-			outs(name(sh(tg)) == prokhd ? (isvar(tg) ? ",DATA\n" : ",CODE\n") : ",DATA\n");
+			outs(sh(tg)->tag == prokhd ? (isvar(tg) ? ",DATA\n" : ",CODE\n") : ",DATA\n");
 		} else if (son(tg) != NULL && (extnamed || no(tg) != 0)) {
-			if (name(son(tg)) != proc_tag && name(son(tg)) != general_proc_tag) {
+			if (son(tg)->tag != proc_tag && son(tg)->tag != general_proc_tag) {
 				/* evaluate all outer level constants */
 				instore is;
 				long symdef = crt_def->sym_number + 1;

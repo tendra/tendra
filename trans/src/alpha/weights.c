@@ -227,13 +227,13 @@ weights weightsv
 {
  unsigned char  n;
  tailrecurse:
-  n = name(e);
+  n = e->tag;
   switch (n) {
     case name_tag:
       {
 	exp s = son(e);
-	if (name(s) == ident_tag && !isglob(s)) {
-	  if (is_floating(name(sh(e))) && name(sh(e))!= shrealhd) {
+	if (s->tag == ident_tag && !isglob(s)) {
+	  if (is_floating(sh(e)->tag) && sh(e)->tag!= shrealhd) {
 	  	fno(s) += scale*2.0;
 	  } else fno(s) += scale;
 	}
@@ -247,13 +247,13 @@ weights weightsv
 	  weights wdef;
 	  weights wbody;
 	  long  noe = no (e) /* set by scan */ ;
-	  if ((name(son(e)) == clear_tag) || (props(e) & defer_bit)) {
+	  if ((son(e)->tag == clear_tag) || (props(e) & defer_bit)) {
 	    wdef = zeroweights;
 	    fno(e) = 0.0;
 	  }
 	  else {
 	    /* maybe needs a store to initialise */
-	    if (is_floating(name(sh(son(e)))) && name(sh(son(e)))!= shrealhd) {
+	    if (is_floating(sh(son(e))->tag) && sh(son(e))->tag!= shrealhd) {
 	  		fno(e) = scale*2.0;
 	    } else fno(e) = scale;
 	    wdef = weightsv(scale, son(e));
@@ -267,15 +267,15 @@ weights weightsv
 				   transparently in code production */
 	    exp t = son(e);
 	    exp s;
-	    if (name(t) == val_tag || name(t) == real_tag) {
+	    if (t->tag == val_tag || t->tag == real_tag) {
 	      return wbody;
 	    }
-	    while (name(t)!= name_tag) {
+	    while (t->tag!= name_tag) {
 	      t = son(t);
 	    }
 
 	    s = son(t);
-	    if (name(s) == ident_tag && !isglob(t)) {
+	    if (s->tag == ident_tag && !isglob(t)) {
 	      fno (s) = fno (e);	/* is this correct */
 	    }
 	    /* usage of tag stored in number of son of

@@ -20,10 +20,10 @@
 bool
 is_worth(exp c)
 {
-	unsigned char cnam = name (c);
-	bool isflt = is_floating(name(sh(c)));
+	unsigned char cnam = c->tag;
+	bool isflt = is_floating(sh(c)->tag);
 
-	if (name (sh (c)) == ptrhd && al1(sh(c)) == 1 ) {
+	if (sh(c)->tag == ptrhd && al1(sh(c)) == 1 ) {
 		return 0;    /* ptr bits */
 	}
 
@@ -31,11 +31,11 @@ is_worth(exp c)
 		return true;
 	}
 
-	if (cnam == cont_tag && isflt && (name(son(c)) != name_tag || isglob(son(son(c))) )) {
+	if (cnam == cont_tag && isflt && (son(c)->tag != name_tag || isglob(son(son(c))) )) {
 		return true;
 	}
 
-	if (cnam == cont_tag && name (son (c)) == name_tag && isglob (son (son (c)))) {
+	if (cnam == cont_tag && son(c)->tag == name_tag && isglob (son (son (c)))) {
 		return true;
 	}
 
@@ -53,14 +53,14 @@ is_worth(exp c)
 			return false;
 		}
 
-		switch (name (dad)) {
+		switch (dad->tag) {
 		case and_tag: {
 			exp grandad = father (dad);
 			if ( grandad != NULL &&
-			     name (grandad) == test_tag && (n & (n - 1)) == 0 &&
+			     grandad->tag == test_tag && (n & (n - 1)) == 0 &&
 			     (props (grandad) == 5 || props (grandad) == 6) &&
-			     ((name (bro (son (grandad))) == val_tag && no (bro (son (grandad))) == 0)
-			      || (name (son (grandad)) == val_tag && no (son (grandad)) == 0))
+			     ((bro (son (grandad))->tag == val_tag && no (bro (son (grandad))) == 0)
+			      || (son (grandad)->tag == val_tag && no (son (grandad)) == 0))
 			   ) {
 				/*  a & 2^n == 0 is transformed later to
 						   shift and test negative */
@@ -102,7 +102,7 @@ is_worth(exp c)
 
 	return (!is_o (cnam) && cnam != clear_tag) ||
 	        /* ignore simple things unless ... */
-	        (cnam == cont_tag && name (son (c)) == cont_tag &&
-	         name (son (son (c))) == name_tag);
+	        (cnam == cont_tag && son(c)->tag == cont_tag &&
+	         son(son(c))->tag == name_tag);
 }
 

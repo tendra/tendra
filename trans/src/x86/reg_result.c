@@ -27,7 +27,7 @@ int gcc_compatible = 0;
 bool
 reg_result(shape sha)
 {
-	unsigned char n = name(sha);
+	unsigned char n = sha->tag;
 
 	if (gcc_compatible) {
 		int sz = shape_size(sha);

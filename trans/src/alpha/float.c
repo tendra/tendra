@@ -36,11 +36,11 @@ is_denormal(exp e)
 {
   int fraction;
   int exponent;
-  int fv = name(sh(e)) - shrealhd;
+  int fv = sh(e)->tag - shrealhd;
   bool result;
   r2l ieeeflt = real2longs_IEEE(&flptnos[no(e)],fv);
-  assert(name(e) == real_tag);
-  switch(name(sh(e))){
+  assert(e->tag == real_tag);
+  switch (sh(e)->tag){
   case shrealhd:
     exponent = ieeeflt.i1 & 0x7f800000;
     fraction = ieeeflt.i1 & ~0xff800000;

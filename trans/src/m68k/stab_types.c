@@ -195,10 +195,10 @@ test_type(diag_type dt)
 	case DIAG_TYPE_FLOAT: {
 		shape sha = f_floating(dt->data.f_var);
 		last_type_sz = shape_size(sha);
-		if (name(sha) == shrealhd) {
+		if (sha->tag == shrealhd) {
 			return STAB_FLOAT;
 		}
-		if (name(sha) == realhd) {
+		if (sha->tag == realhd) {
 			return STAB_DOUBLE;
 		}
 		return STAB_LDOUBLE;
@@ -206,7 +206,7 @@ test_type(diag_type dt)
 	case DIAG_TYPE_VARIETY: {
 		shape sha = f_integer(dt->data.var);
 		last_type_sz = shape_size(sha);
-		switch (name(sha)) {
+		switch (sha->tag) {
 		case scharhd:
 			return STAB_SCHAR;
 		case swordhd:

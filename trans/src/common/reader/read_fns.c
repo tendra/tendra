@@ -257,7 +257,7 @@ f_procprops_cond(exp control, bitstream e1, bitstream e2)
   bs = keep_place();
 
   /* the control must evaluate to a constant */
-  if (name(control) != val_tag) {
+  if (control->tag != val_tag) {
     error(ERR_INTERNAL, CONTROL_EXP);
   }
   n = no(control);
@@ -293,7 +293,7 @@ f_string_cond(exp control, bitstream e1, bitstream e2)
   bs = keep_place();
 
   /* the control must evaluate to a constant */
-  if (name(control) != val_tag) {
+  if (control->tag != val_tag) {
     error(ERR_INTERNAL, CONTROL_EXP);
   }
   n = no(control);
@@ -330,7 +330,7 @@ f_alignment_cond(exp control, bitstream e1, bitstream e2)
   bs = keep_place();
 
   /* the control must evaluate to a constant */
-  if (name(control) != val_tag) {
+  if (control->tag != val_tag) {
     error(ERR_INTERNAL, CONTROL_EXP);
   }
   n = no(control);
@@ -366,7 +366,7 @@ f_access_cond(exp control, bitstream e1, bitstream e2)
   bs = keep_place();
 
   /* the control must evaluate to a constant */
-  if (name(control) != val_tag) {
+  if (control->tag != val_tag) {
     error(ERR_INTERNAL, CONTROL_EXP);
   }
   n = no(control);
@@ -402,7 +402,7 @@ f_transfer_mode_cond(exp control, bitstream e1, bitstream e2)
   bs = keep_place();
 
   /* the control must evaluate to a constant */
-  if (name(control) != val_tag) {
+  if (control->tag != val_tag) {
     error(ERR_INTERNAL, CONTROL_EXP);
   }
   n = no(control);
@@ -436,7 +436,7 @@ f_bfvar_cond(exp control, bitstream e1, bitstream e2)
   bitfield_variety res;
   int n;
   bs = keep_place();
-  if (name(control) != val_tag) {
+  if (control->tag != val_tag) {
     error(ERR_INTERNAL, CONTROL_EXP);
   }
   n = no(control);
@@ -468,7 +468,7 @@ f_bool_cond(exp control, bitstream e1, bitstream e2)
   bool res;
   int n;
   bs = keep_place();
-  if (name(control) != val_tag) {
+  if (control->tag != val_tag) {
     error(ERR_INTERNAL, CONTROL_EXP);
   }
   n = no(control);
@@ -630,7 +630,7 @@ f_errt_cond(exp control, bitstream e1, bitstream e2)
   error_treatment res;
   int n;
   bs = keep_place();
-  if (name(control) != val_tag) {
+  if (control->tag != val_tag) {
     error(ERR_INTERNAL, CONTROL_EXP);
   }
   n = no(control);
@@ -662,7 +662,7 @@ f_exp_cond(exp control, bitstream e1, bitstream e2)
   exp res;
   int n;
   bs = keep_place();
-  if (name(control) != val_tag) {
+  if (control->tag != val_tag) {
     error(ERR_INTERNAL, CONTROL_EXP);
   }
   n = no(control);
@@ -727,7 +727,7 @@ f_flvar_cond(exp control, bitstream e1, bitstream e2)
   floating_variety res;
   int n;
   bs = keep_place();
-  if (name(control) != val_tag) {
+  if (control->tag != val_tag) {
     error(ERR_INTERNAL, CONTROL_EXP);
   }
   n = no(control);
@@ -780,7 +780,7 @@ f_nat_cond(exp control, bitstream e1, bitstream e2)
   nat res;
   int n;
   bs = keep_place();
-  if (name(control) != val_tag) {
+  if (control->tag != val_tag) {
     error(ERR_INTERNAL, CONTROL_EXP);
   }
   n = no(control);
@@ -811,7 +811,7 @@ f_ntest_cond(exp control, bitstream e1, bitstream e2)
   ntest res;
   int n;
   bs = keep_place();
-  if (name(control) != val_tag) {
+  if (control->tag != val_tag) {
     error(ERR_INTERNAL, CONTROL_EXP);
   }
   n = no(control);
@@ -842,7 +842,7 @@ f_rounding_mode_cond(exp control, bitstream e1, bitstream e2)
   rounding_mode res;
   int n;
   bs = keep_place();
-  if (name(control) != val_tag)
+  if (control->tag != val_tag)
     error(ERR_INTERNAL, CONTROL_EXP);
   n = no(control);
   retcell(control);
@@ -872,7 +872,7 @@ f_shape_cond(exp control, bitstream e1, bitstream e2)
   shape res;
   int n;
   bs = keep_place();
-  if (name(control) != val_tag) {
+  if (control->tag != val_tag) {
     error(ERR_INTERNAL, CONTROL_EXP);
   }
   n = no(control);
@@ -903,7 +903,7 @@ f_signed_nat_cond(exp control, bitstream e1, bitstream e2)
   signed_nat res;
   int n;
   bs = keep_place();
-  if (name(control) != val_tag) {
+  if (control->tag != val_tag) {
     error(ERR_INTERNAL, CONTROL_EXP);
   }
   n = no(control);
@@ -1519,7 +1519,7 @@ f_var_cond(exp control, bitstream e1, bitstream e2)
   variety res;
   int n;
   bs = keep_place();
-  if (name(control) != val_tag) {
+  if (control->tag != val_tag) {
     error(ERR_INTERNAL, CONTROL_EXP);
   }
   n = no(control);
@@ -2388,7 +2388,7 @@ add_tagdef_list(tagdef_list list, tagdef elem, int index)
 
   if (old_def == NULL ||
       shape_size(sh(new_def)) > shape_size(sh(old_def)) ||
-      (name(new_def) != clear_tag && name(old_def) == clear_tag)) {
+      (new_def->tag != clear_tag && old_def->tag == clear_tag)) {
     son(dp->dec_exp) = new_def;
     setfather(dp->dec_exp, elem.def);
   }

@@ -201,16 +201,16 @@ local_translate_capsule(void)
 		id = crt_def->dec_id;		/* might be changed by fixup_name() */
 
 		asm_comment("%s: extnamed=%d no(tg)=%d isvar(tg)=%d", id, extnamed, no(tg), isvar(tg));
-		asm_comment("\tname(tg)=%d dec_outermost=%d have_def=%d son(tg)!=NULL=%d",
-		            name(tg), crt_def->dec_outermost, crt_def->have_def, son(tg) != NULL);
+		asm_comment("\ttg->tag=%d dec_outermost=%d have_def=%d son(tg)!=NULL=%d",
+		            tg->tag, crt_def->dec_outermost, crt_def->have_def, son(tg) != NULL);
 		if (son(tg) != NULL) {
-			asm_comment("\tdec_shape, sh(tg), sh(son(tg))=%d,%d,%d", name(s), name(sh(tg)), name(sh(son(tg))));
+			asm_comment("\tdec_shape, sh(tg), sh(son(tg))=%d,%d,%d", s->tag, sh(tg)->tag, sh(son(tg))->tag);
 		}
 
 		crt_def->have_def = (son(tg) != NULL);
 
-		assert(name(tg) == ident_tag);
-		assert(son(tg) == NULL || name(sh(tg)) == name(s));
+		assert(tg->tag == ident_tag);
+		assert(son(tg) == NULL || sh(tg)->tag == s->tag);
 
 		if (son(tg) == NULL) {
 #if 0
@@ -221,7 +221,7 @@ local_translate_capsule(void)
 			{
 				/* no use of this tag, do nothing */
 			} else if (extnamed) {
-				if (name(s) == prokhd) {
+				if (s->tag == prokhd) {
 					asm_printop(".extern %s", id);	/* proc descriptor */
 					asm_printop(".extern .%s", id);	/* proc entry point */
 				} else {
@@ -360,7 +360,7 @@ local_translate_capsule(void)
 
 			if (extnamed && son(tg) == NULL) {
 				/* extern from another module */
-				if (name(crt_def->dec_shape) == prokhd) {
+				if (crt_def->dec_shape->tag == prokhd) {
 					storage_class = ""; /* proc descriptor */
 				} else {
 					storage_class = ""; /* unknown data */

@@ -36,11 +36,11 @@ oddunary(exp x, exp y, exp *v)
 {
   exp z;
   *v = x;
-  if (name(x) != val_tag) goto flab1; 
-  if (!(name(y)==val_tag && ((no(x)==1 && no(y)==-1) || (no(x)==-1 && no(y)==1) ))) goto flab1;
+  if (x->tag != val_tag) goto flab1; 
+  if (!(y->tag==val_tag && ((no(x)==1 && no(y)==-1) || (no(x)==-1 && no(y)==1) ))) goto flab1;
   goto tlab1;
  flab1:
-  if (!(name(x)==name(y))) goto flab0;
+  if (x->tag != y->tag) goto flab0;
   { exp xC = son(x);
     z = xC;
     if (!(z!=NULL && last(z) && son(y) != NULL && oddunary(z, son(y),v))) goto flab0;
@@ -55,13 +55,13 @@ int
 oddtest(exp x, exp *t, exp *f, exp *v)
 {
   exp l, z, g;
-  if (name(x) != cond_tag) goto flab0; 
+  if (x->tag != cond_tag) goto flab0; 
   { exp xC = son(x);
-    if (name(xC) != seq_tag) goto flab0; 
+    if (xC->tag != seq_tag) goto flab0; 
     { exp xCC = son(xC);
       { exp xCCC = son(xCC);
         *t = xCCC;
-        if (name(xCCC) != test_tag) goto flab0; 
+        if (xCCC->tag != test_tag) goto flab0; 
         l =pt(*t);
         if(!last(xCCC)) goto flab0;
       }	
@@ -92,17 +92,17 @@ static int
 is_maxlike(exp x, exp *t)
 {
   exp op1, op2, z, l, w;
-  if (name(x) != cond_tag) goto flab0; 
+  if (x->tag != cond_tag) goto flab0; 
   { exp xC = son(x);
-    if (name(xC) != seq_tag) goto flab0; 
+    if (xC->tag != seq_tag) goto flab0; 
     { exp xCC = son(xC);
       { exp xCCC = son(xCC);
         *t = xCCC;
-        if (name(xCCC) != test_tag) goto flab0; 
+        if (xCCC->tag != test_tag) goto flab0; 
         l=pt(*t);
         { exp xCCCC = son(xCCC);
           op1 = xCCCC;
-          if (!(!is_floating(name(sh(op1))))) goto flab0;
+          if (is_floating(sh(op1)->tag)) goto flab0;
           if (last(xCCCC)) goto flab0;
           xCCCC = bro(xCCCC);
           op2 = xCCCC;
@@ -139,17 +139,17 @@ static int
 is_minlike(exp x, exp *t)
 {
   exp op1, op2, z, l, w;
-  if (name(x) != cond_tag) goto flab0; 
+  if (x->tag != cond_tag) goto flab0; 
   { exp xC = son(x);
-    if (name(xC) != seq_tag) goto flab0; 
+    if (xC->tag != seq_tag) goto flab0; 
     { exp xCC = son(xC);
       { exp xCCC = son(xCC);
         *t = xCCC;
-        if (name(xCCC) != test_tag) goto flab0; 
+        if (xCCC->tag != test_tag) goto flab0; 
         l=pt(*t);
         { exp xCCCC = son(xCCC);
           op1 = xCCCC;
-          if (!(!is_floating(name(sh(op1))))) goto flab0;
+          if (is_floating(sh(op1)->tag)) goto flab0;
           if (last(xCCCC)) goto flab0;
           xCCCC = bro(xCCCC);
           op2 = xCCCC;
@@ -188,19 +188,19 @@ int
 is_abslike(exp x, exp *t)
 {
   exp op, l, z, w;
-  if (name(x) != cond_tag) goto flab0; 
+  if (x->tag != cond_tag) goto flab0; 
   { exp xC = son(x);
-    if (name(xC) != seq_tag) goto flab0; 
+    if (xC->tag != seq_tag) goto flab0; 
     { exp xCC = son(xC);
       { exp xCCC = son(xCC);
         *t = xCCC;
-        if (name(xCCC) != test_tag) goto flab0; 
+        if (xCCC->tag != test_tag) goto flab0; 
         l=pt(*t);
         { exp xCCCC = son(xCCC);
           op = xCCCC;
           if (last(xCCCC)) goto flab0;
           xCCCC = bro(xCCCC);
-          if (name(xCCCC) != val_tag || no(xCCCC) != 0) goto flab0;
+          if (xCCCC->tag != val_tag || no(xCCCC) != 0) goto flab0;
           if(!last(xCCCC)) goto flab0;
         }
         if(!last(xCCC)) goto flab0;
@@ -219,7 +219,7 @@ is_abslike(exp x, exp *t)
       if (!(no(z)==1)) goto flab0;
       if (last(xCC)) goto flab0;
       xCC = bro(xCC);
-      if (name(xCC) != neg_tag) goto flab0; 
+      if (xCC->tag != neg_tag) goto flab0; 
       { exp xCCC = son(xCC);
         w = xCCC;
         if (!(comp_eq_exp(op, w,NULL,NULL))) goto flab0;
@@ -239,19 +239,19 @@ int
 is_fabs(exp x, exp *t)
 {
   exp op, l, z, w;
-  if (name(x) != cond_tag) goto flab0; 
+  if (x->tag != cond_tag) goto flab0; 
   { exp xC = son(x);
-    if (name(xC) != seq_tag) goto flab0; 
+    if (xC->tag != seq_tag) goto flab0; 
     { exp xCC = son(xC);
       { exp xCCC = son(xCC);
         *t = xCCC;
-        if (name(xCCC) != test_tag) goto flab0; 
+        if (xCCC->tag != test_tag) goto flab0; 
         l=pt(*t);
         { exp xCCCC = son(xCCC);
           op = xCCCC;
           if (last(xCCCC)) goto flab0;
           xCCCC = bro(xCCCC);
-          if (name(xCCCC) != val_tag || no(xCCCC) != 0) goto flab0;
+          if (xCCCC->tag != val_tag || no(xCCCC) != 0) goto flab0;
           if(!last(xCCCC)) goto flab0;
         }
         if(!last(xCCC)) goto flab0;
@@ -270,7 +270,7 @@ is_fabs(exp x, exp *t)
       if (!(no(z)==1)) goto flab0;
       if (last(xCC)) goto flab0;
       xCC = bro(xCC);
-      if (name(xCC) != fneg_tag) goto flab0; 
+      if (xCC->tag != fneg_tag) goto flab0; 
       { exp xCCC = son(xCC);
         w = xCCC;
         if (!(eq_exp(op, w))) goto flab0;

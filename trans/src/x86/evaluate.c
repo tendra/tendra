@@ -69,12 +69,12 @@ static void outsize
 static long
 evalexp(exp e)
 {
-  switch (name(e)) {
+  switch (e->tag) {
     case  val_tag:
     case null_tag:
     case top_tag:
       {
-	if (name(sh(e)) == offsethd && al2(sh(e)) >= 8) {
+	if (sh(e)->tag == offsethd && al2(sh(e)) >= 8) {
 		return no(e) >> 3;
 	}
         return no(e);
@@ -135,7 +135,7 @@ evalexp(exp e)
       }
     case env_offset_tag:
       {
-	if (name(son(e)) == 0)
+	if (son(e)->tag == 0)
    	  return no(son(e)) / 8;
 	break;
       }
@@ -179,13 +179,13 @@ evalexp(exp e)
       }
     case seq_tag:
       {
-	if (name(son(son(e))) == prof_tag && last(son(son(e))))
+	if (son(son(e))->tag == prof_tag && last(son(son(e))))
 	   return evalexp(bro(son(e)));
 	break;
       }
     case cont_tag:
       {
-	if (PIC_code && name(son(e)) == name_tag && isglob(son(son(e)))
+	if (PIC_code && son(e)->tag == name_tag && isglob(son(son(e)))
 		&& son(son(son(e)))!= NULL
 		&& !(brog(son(son(e))) -> dec_var))
 	   return evalexp(son(son(son(e))));
@@ -202,11 +202,11 @@ static void evalval
 (exp e)
 {
   int e_size = shape_size(sh(e));
-  unsigned char  n = name(e);
+  unsigned char  n = e->tag;
   int ov;
 
   if (n == val_tag) {
-    int k = (name(sh(e)) == offsethd && al2(sh(e))!= 1)
+    int k = (sh(e)->tag == offsethd && al2(sh(e))!= 1)
                   ? no(e) /8 : no(e);
     flt64 x;
     if (isbigval(e)) {
@@ -246,7 +246,7 @@ static void evalval
     return;
   }
 
-  if (n == reff_tag && name(son(e)) == name_tag && isglob(son(son(e)))) {
+  if (n == reff_tag && son(e)->tag == name_tag && isglob(son(son(e)))) {
     outopenbr();
     asm_printf("%s + %d", brog(son(son(e))) -> dec_id, (no(e) + no(son(e))) / 8);
     outclosebr();
@@ -314,7 +314,7 @@ static void evalaux
 (exp e, int isconst, int al)
 {
   int e_size = shape_size(sh(e));
-  unsigned char  n = name(e);
+  unsigned char  n = e->tag;
 
   if (n == compound_tag) {		/* output components in turn */
     int work = 0;
@@ -351,7 +351,7 @@ static void evalaux
               crt_off = off & -8;
            }
 
-       if (name(sh(val))!= bitfhd)
+       if (sh(val)->tag!= bitfhd)
          {
            evalaux(val, isconst,(crt_off + al) & 56);
            crt_off += shape_size(sh(val));
@@ -360,7 +360,7 @@ static void evalaux
          {
            offn = off - crt_off;
            sz = shape_size(sh(val));
-           nx = (name(val) ==int_to_bitf_tag)? no(son(val)): no(val);
+           nx = (val->tag ==int_to_bitf_tag)? no(son(val)): no(val);
            work += nx << offn;
            bits_left = offn+sz;
            if ((offn + sz) <= 32)
@@ -492,13 +492,13 @@ static void evalaux
     int  m = no(e);
     int  sz, i;
     exp val = son(e);
-    while (name(val) == ncopies_tag) {
+    while (val->tag == ncopies_tag) {
 	m *= no(val);
 	val = son(val);
     }
     sz = shape_size(sh(val)) / 8;
-    if ((name(val) == null_tag ||
-	 name(val) == val_tag) && !isbigval(val) && no(val) == 0)
+    if ((val->tag == null_tag ||
+	 val->tag == val_tag) && !isbigval(val) && no(val) == 0)
       clear_out(m * sz, isconst, shape_align(sh(val)));
     else {
       for (i = 0; i < m; i++)
@@ -564,8 +564,8 @@ void evaluate
     asm_printf(".globl %s\n", s);
   }
 
-  if (name(sh(c)) == realhd ||
-       (name(sh(c)) == nofhd && ptno(sh(c)) == realhd) ||
+  if (sh(c)->tag == realhd ||
+       (sh(c)->tag == nofhd && ptno(sh(c)) == realhd) ||
       shape_size(sh(c)) >= 512)
     al = 64;
 

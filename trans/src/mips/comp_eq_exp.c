@@ -39,25 +39,25 @@ comp_eq_explist(exp a, exp b, exp laba, exp labb)
 bool
 comp_eq_exp(exp a, exp b, exp laba, exp labb)
 {
-	if (name(a) != name(b) || !eq_shape(sh(a), sh(b))) return 0;
-	if (name(a) == seq_tag) {
+	if (a->tag != b->tag || !eq_shape(sh(a), sh(b))) return 0;
+	if (a->tag == seq_tag) {
 		return (comp_eq_explist(son(son(a)), son(son(b)), laba, labb) &&
 			comp_eq_exp(bro(son(a)), bro(son(b)),laba,labb) );
 	}
-	if (name(a) == cond_tag) {
+	if (a->tag == cond_tag) {
 		exp fa = son(a);
 		exp fb = son(b);
 	 	return (comp_eq_exp(fa,fb, bro(fa), bro(fb)) &&
 	 		  comp_eq_exp(bro(son(bro(fa))), bro(son(bro(fb))), laba, labb) );
 	}
-	if (name(a)==test_tag) {
+	if (a->tag==test_tag) {
 		return(pt(a)==laba && pt(b)==labb && props(a)==props(b) &&
 			comp_eq_explist(son(a),son(b), laba, labb) );
 	}
-	if (name(a)==name_tag) {
+	if (a->tag==name_tag) {
 		return (son(a)==son(b) && no(a)==no(b));
 	}
 
-	return (is_a(name(a)) && no(a)==no(b) &&
+	return (is_a(a->tag) && no(a)==no(b) &&
 		 comp_eq_explist(son(a), son(b), laba, labb) );
 }

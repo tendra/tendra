@@ -47,7 +47,7 @@ int
 regofval(exp e)
 {
   exp decx = son (e);
-  if (name (e) == name_tag && name (decx) == ident_tag) {/* ident tag */
+  if (e->tag == name_tag && decx->tag == ident_tag) {/* ident tag */
     if ((props (decx) & defer_bit) != 0) {
       return regofval (son (decx));
     }
@@ -57,8 +57,8 @@ regofval(exp e)
     return 100;
   }
   else
-  if ((name (e) == val_tag && no (e) == 0) || name(e) == clear_tag ||
-    name(e) == top_tag) {
+  if ((e->tag == val_tag && no (e) == 0) || e->tag == clear_tag ||
+    e->tag == top_tag) {
 	return 31;
   }
   else {
@@ -73,7 +73,7 @@ static int
 fregofval(exp e)
 {
   exp decx = son (e);
-  if (name (e) == name_tag && name (decx) == ident_tag) {
+  if (e->tag == name_tag && decx->tag == ident_tag) {
     if ((props (decx) & infreg_bits) != 0) {
       return no (decx);
     }
@@ -85,7 +85,7 @@ fregofval(exp e)
     return 100;
   }
   else
-    if(name(e) == clear_tag || name(e) == top_tag){
+    if(e->tag == clear_tag || e->tag == top_tag){
       return 0;
     }
     else {
@@ -126,14 +126,14 @@ reg_operand(exp e, space sp)
   if (x >= 0 && x < 100) {
     return x;
   }				/* x is a register for e */
-  if (name (e) == cont_tag) {
+  if (e->tag == cont_tag) {
     x = regofval (son (e));
     if (x < 0) {
       return -x;
     }
   }
   else
-    if (name (e) == apply_tag || (name(e) == apply_general_tag && 
+    if (e->tag == apply_tag || (e->tag == apply_general_tag && 
 	specialfn (son (e)) == 0)) {
 				/* apply proc */
       setregalt (aa, RESULT_REG);
@@ -186,18 +186,18 @@ freg_operand(exp e, space sp)
   if (x >= 0 && x < 100) {
     return x;
   }
-  if (name (e) == cont_tag) {
+  if (e->tag == cont_tag) {
     x = fregofval (son (e));
     if (x < 100) {
       return x;
     }
   }
   else
-    if (name (e) == apply_tag || name(e) == apply_general_tag) {
-      if(is_floating(name(sh(e)))) {
+    if (e->tag == apply_tag || e->tag == apply_general_tag) {
+      if(is_floating(sh(e)->tag)) {
 	freg fr;
 	fr.fr = 0;
-	fr.type = (name(e)==realhd)?IEEE_double:IEEE_single;
+	fr.type = (e->tag==realhd)?IEEE_double:IEEE_single;
 	setfregalt(aa,fr);
       }
       else{

@@ -78,7 +78,7 @@ settempregs(exp tg)
   }
   else maxfixed = 31;
   
-  while (name(stg)==ident_tag && isparam(stg)) {
+  while (stg->tag==ident_tag && isparam(stg)) {
     if ((props(stg) & inreg_bits) !=0 ) {
       useable_fixed &= ~ (1<<no(stg));
     }

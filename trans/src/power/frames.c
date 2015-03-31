@@ -57,7 +57,7 @@ long frame_offset(exp id)
   long n = no (id);
   long off = n>>6;
 
-  assert(name(id) == ident_tag);
+  assert(id->tag == ident_tag);
   for (p = father(id); !IS_A_PROC(p); p = father(p));
 
   pr = & procrecs[no(p)];
@@ -65,7 +65,7 @@ long frame_offset(exp id)
 	
   if (isparam(id))
   {
-    if( name(init_exp)==formal_callee_tag)
+    if( init_exp->tag==formal_callee_tag)
     {
       /* Callee parameter accessed through R_FP */
       return (no(init_exp)>>3) + EXTRA_CALLEE_BYTES;
@@ -76,7 +76,7 @@ long frame_offset(exp id)
       return (no(init_exp)>>3) + STACK_ARG_AREA;
     }
   }
-  else if (name(init_exp)==caller_name_tag)
+  else if (init_exp->tag==caller_name_tag)
   {
     error(ERR_SERIOUS, "Taking env_offset of an identified caller within a postlude");
     return 0;
@@ -138,7 +138,7 @@ void set_up_frame_pointer(procrec * pr, exp e)
     pr->has_saved_sp = 1;
   }
 
-  if (name(e)==general_proc_tag)
+  if (e->tag==general_proc_tag)
   {
     /* All general_proc_tag's have a frame pointer */
     pr->has_tp = 1;/* +++ is this only really needed for vcallees */

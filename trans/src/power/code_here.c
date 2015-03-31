@@ -46,9 +46,9 @@ int regofval(exp e)
    * dc-->  | ident |
    *        ~~~~~~~~~
    */
-  if (name(e) == name_tag)
+  if (e->tag == name_tag)
   {
-    assert(name(dc) == ident_tag);
+    assert(dc->tag == ident_tag);
     if (props(dc) & defer_bit)
     {
       return regofval(son(dc));
@@ -77,7 +77,7 @@ fregofval(exp e)
 {
   exp dc = son(e);
 
-  if (name(e) == name_tag)
+  if (e->tag == name_tag)
   {
     /*
      *        _________
@@ -87,7 +87,7 @@ fregofval(exp e)
      * dc-->  | ident |
      *        ~~~~|~~~~
      */
-    assert(name(dc) == ident_tag);
+    assert(dc->tag == ident_tag);
 
     if ((props(dc) & infreg_bits) != 0)
     {
@@ -128,7 +128,7 @@ static int is_reg_operand(exp e)
     return x;
   }
   
-  if (name(e) == cont_tag)
+  if (e->tag == cont_tag)
   {
     x = regofval(son(e));
     if (x < 0)
@@ -278,7 +278,7 @@ int freg_operand(exp e, space sp, int reg)
     return x;
   }
 
-  if (name(e) == cont_tag)
+  if (e->tag == cont_tag)
   {
     x = fregofval(son(e));
     if (x < R_NO_REG)

@@ -66,7 +66,7 @@ baseoff boff
   else {
     int   x = no(id);
     int   b = x & 0x3f;
-    if (name(son(id)) ==caller_name_tag) {
+    if (son(id)->tag ==caller_name_tag) {
     	an.base = 29;
     	an.offset = (x-b) >>4;
     	/* caller tags */
@@ -131,12 +131,12 @@ locate1(exp e, space sp, shape s, int dreg)
   where wans;
   a = ashof(s);
 
-/*  while (name (e) == diag_tag || name (e) == fscope_tag
-      || name (e) == cscope_tag) {
+/*  while (e->tag == diag_tag || e->tag == fscope_tag
+      || e->tag == cscope_tag) {
     e = son (e);
   }
 */
-  switch (name(e)) {
+  switch (e->tag) {
     case name_tag:
       {
 	exp decx = son(e);
@@ -194,9 +194,9 @@ locate1(exp e, space sp, shape s, int dreg)
 	      }
 	      else {		/* ... it is in memory */
 		instore is;
-		if (var || (name(sh(e)) == prokhd &&
-		     (son(decx) == NULL || name(son(decx)) == proc_tag
-	                || name(son(decx)) == general_proc_tag))) {
+		if (var || (sh(e)->tag == prokhd &&
+		     (son(decx) == NULL || son(decx)->tag == proc_tag
+	                || son(decx)->tag == general_proc_tag))) {
 		  is.adval = 1;
 		}
 		else {
@@ -286,8 +286,8 @@ locate1(exp e, space sp, shape s, int dreg)
     breakpt: 			/* register ind contains the evaluation of
 				   1st operand of addptr */
 	nsp = guardreg(ind, sp);
-	if (name(bro(sum)) == env_offset_tag
-		|| name(bro(sum)) == general_env_offset_tag) {
+	if (bro(sum)->tag == env_offset_tag
+		|| bro(sum)->tag == general_env_offset_tag) {
           is.b.base = ind;
           is.b.offset = frame_offset(son(bro(sum)));
 	}
@@ -318,7 +318,7 @@ locate1(exp e, space sp, shape s, int dreg)
 	instore isa;
 	isa.adval = 1;
 	sum = bro(sum);
-	if (name(sum) == val_tag) {
+	if (sum->tag == val_tag) {
 	  instore isa;
 	  isa.b.base = ind;
 	  isa.b.offset = -no(e);
@@ -412,7 +412,7 @@ locate1(exp e, space sp, shape s, int dreg)
 		isa.b.base = reg;
 		isa.b.offset = 0;
 		setinsalt(aa, isa);
-		if (name(e)!= contvol_tag && fc.ashwhere.ashalign != 1)
+		if (e->tag!= contvol_tag && fc.ashwhere.ashalign != 1)
 		  keepexp(e, aa);
 	      }
 	      goto breakson;

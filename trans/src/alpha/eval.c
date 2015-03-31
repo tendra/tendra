@@ -108,7 +108,7 @@ static mm s64mm = { s64mm_max,s64mm_min, "\t.quad %ld :%ld\n" };
 mm
 maxmin(shape s)
 {
-  switch (name (s)) {
+  switch (s->tag) {
   case scharhd: return scmm;
   case ucharhd: return uscmm;
   case swordhd: return shmm;
@@ -154,7 +154,7 @@ outfloat(exp e, int rep, ash a)
 
   UNUSED(a);
 
-  fv = name(sh(e)) - shrealhd;
+  fv = sh(e)->tag - shrealhd;
   ieeeflt = real2longs_IEEE(&flptnos[no(e)],fv);
   switch(fv){
     case 0:
@@ -186,9 +186,9 @@ static INT64
 evalexp(exp e)
 {
   
-  switch (name(e)) {
+  switch (e->tag) {
     case  val_tag : {
-      if(al2(sh(e))>=8 && name(sh(e)) == offsethd) {
+      if(al2(sh(e))>=8 && sh(e)->tag == offsethd) {
 	return INT64_shift_right(flt64_to_INT64(exp_to_f64(e)),3,1);
       }
       return flt64_to_INT64(exp_to_f64(e));
@@ -321,7 +321,7 @@ evalone(exp e, int rep)
   int overflow;
   if (e == NULL) return;
   a = ashof (sh (e));
-  switch (name (e)) {
+  switch (e->tag) {
   case string_tag: {
     long char_size = props(e);
     long  strsize = shape_size(sh(e))/char_size;
@@ -416,7 +416,7 @@ evalone(exp e, int rep)
       oneval(flt64_to_INT64(exp_to_f64(e)),a.ashalign,rep);
     }	
     else{
-      if((al2(sh(e)) >= 8) && (name(sh(e)) == offsethd)){
+      if((al2(sh(e)) >= 8) && (sh(e)->tag == offsethd)){
 	no(e) = no(e)>>3;
       }
       if(is_signed(sh(e))){
@@ -577,8 +577,8 @@ evalone(exp e, int rep)
     }
   }		
   case ncopies_tag: {
-    if (name(son(e)) == compound_tag || name(son(e)) == concatnof_tag ||
-	name(son(e)) == nof_tag) {
+    if (son(e)->tag == compound_tag || son(e)->tag == concatnof_tag ||
+	son(e)->tag == nof_tag) {
       int n;
       for (n = rep*no(e); n > 0; n--) {
 	evalone(son(e), 1);
@@ -672,7 +672,7 @@ evaluated(exp e, int l)
   isa.adval = 0;
   isa.b.offset = 0;
   isa.b.base = lab0;
-  if (name (e) == clear_tag) {/* uninitialised global */
+  if (e->tag == clear_tag) {/* uninitialised global */
     int   size = (ashof (sh (e)).ashsize + 7) >> 3;
     bool temp = (l == 0 ||
 		 (main_globals[-lab - 1] -> dec_id)[0] == '$');

@@ -374,7 +374,7 @@ find_proc_type(dg_type t)
 static void
 scan_diag_names(exp e, exp whole)
 {
-	if (name(e) == name_tag) {
+	if (e->tag == name_tag) {
 		exp id = son(e);
 
 		if (!isdiaginfo(e) && !internal_to(whole, id)) {
@@ -385,7 +385,7 @@ scan_diag_names(exp e, exp whole)
 		return;
 	}
 
-	if (son(e) != NULL && name(e) != env_offset_tag) {
+	if (son(e) != NULL && e->tag != env_offset_tag) {
 		exp t;
 
 		for (t = son(e); ; t = bro(t)) {

@@ -49,9 +49,9 @@ static bool sim_exp(exp, exp);
 bool eq_sze
 (shape as, shape bs)
 {
-  if (is_floating(name(as)))
-    return name(as) == name(bs);
-  if (is_floating(name(bs)))
+  if (is_floating(as->tag))
+    return as->tag == bs->tag;
+  if (is_floating(bs->tag))
     return 0;
   return shape_size(as) == shape_size(bs) && shape_align(as) == shape_align(bs);
 }
@@ -79,16 +79,16 @@ sim_explist(exp al, exp bl)
 static bool
 sim_exp (exp a, exp b)
 {
-   if (name(a) == name(b))
+   if (a->tag == b->tag)
    {
-      if (name(a) == name_tag)
+      if (a->tag == name_tag)
       {
 	 return son(a) == son(b) && no(a) == no(b) &&
 	      eq_sze(sh(a), sh(b));
       }
-      if (!is_a(name(a)) || !eq_sze(sh(a), sh(b)))
+      if (!is_a(a->tag) || !eq_sze(sh(a), sh(b)))
 	 return 0;
-      if(name(a)==float_tag)/* NEW bit */
+      if(a->tag==float_tag)/* NEW bit */
       {
 	return eq_exp(son(a),son(b));
       }
@@ -142,7 +142,7 @@ ans iskept
   /* reg tracking of unions unsafe, as views of location can differ */
   /* +++ track on fields */
   /* +++ safe to allow structs but not unions */
-  if (name(sh(e)) == cpdhd)
+  if (sh(e)->tag == cpdhd)
   {
     return nilans;
   }
@@ -157,7 +157,7 @@ ans iskept
       /* there is an accociation with reg i */
       if (
 	 ((!isc && sim_exp(ke, e)) ||
-	  (name(e) == cont_tag && isc && eq_sze(sh(ke), sh(e))
+	  (e->tag == cont_tag && isc && eq_sze(sh(ke), sh(e))
 	    && sim_exp(ke, son(e)))
 	  )
 	)
@@ -166,8 +166,8 @@ ans iskept
 	aa = (regexps[i].inans);
 
 #if 0
-	asm_comment("iskept found: reg=%d isc=%d name(e) =%d name(son(e)) =%d", i, isc, name(e), name(son(e)));
-	asm_comment("	hd(e) =%d hd(son(e)) =%d hd(ke) =%d", name(sh(e)), name(sh(son(e))), name(sh(ke)));
+	asm_comment("iskept found: reg=%d isc=%d e->tag =%d son(e)->tag =%d", i, isc, e->tag, son(e)->tag);
+	asm_comment("	hd(e) =%d hd(son(e)) =%d hd(ke) =%d", sh(e)->tag, sh(son(e))->tag, sh(ke)->tag);
 	asm_comment("	sim_exp(ke, e) =%d sim_exp(ke, son(e)) =%d eq_size(sh(ke), sh(e)) =%d",
 		sim_exp(ke, e), sim_exp(ke, son(e)), eq_size(sh(ke), sh(e)));
 #endif
@@ -192,7 +192,7 @@ ans iskept
 	  return aa;
 	}
       }
-      else if (name(ke) == cont_tag && !isc)
+      else if (ke->tag == cont_tag && !isc)
       {
 	ans aq;
 
@@ -212,7 +212,7 @@ ans iskept
 	  }
 	}
       }
-      else if (name(ke) == reff_tag && !isc)
+      else if (ke->tag == reff_tag && !isc)
       {
 	ans aq;
 
@@ -353,7 +353,7 @@ static bool couldaffect(exp, exp);
 static bool
 couldbe(exp e, exp lhs)
 {
-  int ne = name(e);
+  int ne = e->tag;
   exp s = son(e);
 
   if (ne == name_tag)
@@ -374,7 +374,7 @@ couldbe(exp e, exp lhs)
   }
   if (ne == cont_tag)
   {
-    if (lhs != 0 && name(s) == name_tag && son(s)!= NULL)
+    if (lhs != 0 && s->tag == name_tag && son(s)!= NULL)
     {
       return son(s) == son(lhs) || isvis(son(lhs)) || isvis(son(s));
     }
@@ -397,7 +397,7 @@ couldbe(exp e, exp lhs)
 static bool
 couldaffect(exp e, exp z /* a name or zero */)
 {
-  int ne = name(e);
+  int ne = e->tag;
   if (ne == cont_tag)
   {
     return couldbe(son(e), z);
@@ -439,15 +439,15 @@ bool dependson
   }
   for (;;)
   {
-    if (name(z) == reff_tag || name(z) == addptr_tag ||
-	name(z) == subptr_tag)
+    if (z->tag == reff_tag || z->tag == addptr_tag ||
+	z->tag == subptr_tag)
     {
       z = son(z);
     }
 
-    if (name(z)!= name_tag)
+    if (z->tag!= name_tag)
     {
-      if (name(z)!= cont_tag)
+      if (z->tag!= cont_tag)
 	return 1;
       z = 0;
       break;

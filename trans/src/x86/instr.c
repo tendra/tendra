@@ -116,7 +116,7 @@ void outreal
 (exp e)
 {
   flt * f = &flptnos[no(e)];
-  int sw = name(sh(e)) - shrealhd;
+  int sw = sh(e)->tag - shrealhd;
   r2l longs;
 
   longs = real2longs_IEEE(f, sw);
@@ -247,7 +247,7 @@ void regn
   UNUSED(rdisp);
   z = get_reg_no(regs);
 
-  if (name(ldname) == name_tag && islastuse(ldname))
+  if (ldname->tag == name_tag && islastuse(ldname))
     regsinuse = regsinuse & ~regs;
 
   if (z >= first_fl_reg) {
@@ -308,8 +308,8 @@ void index_opnd
 (where whmain, where wh, int sc)
 {
   exp m = whmain.where_exp;
-  if ((name(m) == name_tag && ptno(son(m)) == reg_pl) ||
-     (name(m) == cont_tag && name(son(m)) == name_tag &&
+  if ((m->tag == name_tag && ptno(son(m)) == reg_pl) ||
+     (m->tag == cont_tag && son(m)->tag == name_tag &&
 	isvar(son(son(m))) && ptno(son(son(m))) == reg_pl))
     asm_printf("(");
   operand(32, whmain, 0, 0);
@@ -942,7 +942,7 @@ void mult_op
   if (inc != 0)
     asm_printf("%d", inc);
   asm_printf("(");
-  if (name(rmain.where_exp)!= val_tag ||
+  if (rmain.where_exp->tag!= val_tag ||
      (no(rmain.where_exp) + rmain.where_off)!= 0)
     operand(32, rmain, 1, 0);
   asm_printf(",");
@@ -975,7 +975,7 @@ void caseins
   where a;
   int need_label_flag=0;
   exp next= short_next_jump(case_exp);
-  if (next != NULL && name(next) ==goto_tag)
+  if (next != NULL && next->tag ==goto_tag)
   {
     exp lab=final_dest(pt(next));
     absent=ptno(pt(son(lab)));
@@ -1099,7 +1099,7 @@ exp make_extn
 void rotshift64
 (int shft, int sig, where wshift)
 {
-  if (name(wshift.where_exp) == val_tag) {	/* no of places is constant */
+  if (wshift.where_exp->tag == val_tag) {	/* no of places is constant */
     int places = no(wshift.where_exp) + wshift.where_off;
     if (places >= 32) {
       places -= 32;

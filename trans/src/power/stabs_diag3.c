@@ -92,7 +92,7 @@
 #define CSTRING(tdfstring)	((tdfstring).ints.chars)
 
 /* tdf exp -> C int */
-#define EXPINT(exp)		(assert(name(exp) == val_tag), no(exp))
+#define EXPINT(exp)		(assert(exp->tag == val_tag), no(exp))
 
 /* tdf nat -> C int */
 #define NATINT(n)		((n).nat_val.small_nat)
@@ -594,7 +594,7 @@ static void output_diag(diag_info * d, int proc_no, exp e)
     return;
   }
 
-  assert(name(id) == ident_tag);
+  assert(id->tag == ident_tag);
 
   mark_scope(e);
   asm_comment("output_diag: DIAG_INFO_ID mark_scope props(e) =%#x", props(e));
@@ -895,13 +895,13 @@ static int next_typen(void)
  */
 static int TypeNo_of_shape(shape s)
 {
-  /* tokensh is special to this module, cannot use name(tokensh) */
+  /* tokensh is special to this module, cannot use tokensh->tag */
   if (s == tokensh)
   {
     return TYPEID_TOKEN;
   }
 
-  switch (name(s))
+  switch (s->tag)
   {
    case bothd:		/*FALLTHROUGH*/
    case tophd:		return TYPEID_VOID;
@@ -1772,7 +1772,7 @@ stab_local(char *nm, diag_type dt, exp id, int disp, long findex)
   asm_comment("stab_local: %s disp=%d boff(id).offset=%d",(long)nm, disp, boff(id).offset);
   disp += boff(id).offset;
 again:
-  if (name(id) == ident_tag)
+  if (id->tag == ident_tag)
   {
     asm_comment("stab_local ident_tag: %s disp=%d",(long)nm, disp);
     if ((props(id) & defer_bit) == 0)
@@ -1799,7 +1799,7 @@ again:
 
       while (sn != NULL)
       {
-	switch (name(sn))
+	switch (sn->tag)
 	{
 	case name_tag:
 	  {

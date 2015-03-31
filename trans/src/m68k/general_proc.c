@@ -139,8 +139,8 @@ void gcproc
   /* the callees are encoded first. Scan to first callee if any */
 
   t = son(p);
-  while (name(t) == ident_tag && isparam(t) &&
-          name(son(t))!= formal_callee_tag) {
+  while (t->tag == ident_tag && isparam(t) &&
+          son(t)->tag!= formal_callee_tag) {
     t = bro(son(t));
     has_callers = 1;
   }
@@ -156,8 +156,8 @@ void gcproc
 
 
   /* do we have any callees? */
-  if (name(t) == ident_tag && name(son(t)) == formal_callee_tag) {
-    while (name(t) == ident_tag && name(son(t)) == formal_callee_tag) {
+  if (t->tag == ident_tag && son(t)->tag == formal_callee_tag) {
+    while (t->tag == ident_tag && son(t)->tag == formal_callee_tag) {
       ast a;
       a = add_shape_to_stack(param_pos, sh(son(t)));
       no(t) = a.astoff + a.astadj + (cur_proc_has_vcallees ? 4*8 : 0);
@@ -180,8 +180,8 @@ void gcproc
       location_id = par2_pl;
       param_pos = 0;
     }
-    while (name(caller) == ident_tag && isparam(caller) &&
-           name(son(caller))!= formal_callee_tag) {
+    while (caller->tag == ident_tag && isparam(caller) &&
+           son(caller)->tag!= formal_callee_tag) {
 
       ast a;
       a = add_shape_to_stack(param_pos, sh(son(caller)));
@@ -200,7 +200,7 @@ void gcproc
   if (! uses_callers_pointer)
   cur_proc_callers_size -= cur_proc_callees_size;
 
-  /* Output procedure name(s) */
+  /* Output procedure s->tag */
   area(ptext);
   make_instr(m_as_align4, NULL, NULL, 0);
   if (is_ext && pname) {
@@ -625,10 +625,10 @@ push_dynamic_callees(exp pcallees, ash stack)
    make_code(D1, stack, sze);
 
    /* are callees of compond shape ? */
-   if (name(ptr) == name_tag) {
+   if (ptr->tag == name_tag) {
       ident = son(ptr);
       ident_def = son(ident);
-      if (name(ident_def) == compound_tag) {
+      if (ident_def->tag == compound_tag) {
          const_compound_shape = !(isvar(ident));
       }
    }
@@ -793,10 +793,10 @@ A1_result_pointer(long comp_size, long longs, long start_stack, where dest)
 static bool postlude_has_code
 (exp postlude)
 {
-   while (name(postlude) == ident_tag && name(son(postlude)) == caller_name_tag) {
+   while (postlude->tag == ident_tag && son(postlude)->tag == caller_name_tag) {
       postlude = bro(son(postlude));
    }
-   return name(postlude) != top_tag;
+   return postlude->tag != top_tag;
 }
 
 /*
@@ -832,7 +832,7 @@ void apply_general_proc
    proc = son(e);
    caller_args = (!last(proc))? bro(proc): NULL;
 
-   if (name(e) == apply_general_tag) {
+   if (e->tag == apply_general_tag) {
       pcallees     = bro(caller_args);
       postlude    = bro(pcallees);
       callee_args = son(pcallees);
@@ -848,7 +848,7 @@ void apply_general_proc
    if (! test_push_args(caller_args, &callers_size))use_push = 0;
 
    if (pcallees) {
-      if (name(pcallees) == make_callee_list_tag) {
+      if (pcallees->tag == make_callee_list_tag) {
          /* calculate length of callees and see if we can push them */
          if (! test_push_args(callee_args, &callees_size))use_push = 0;
       }
@@ -890,11 +890,11 @@ void apply_general_proc
       }
 
       if (pcallees) {
-         if (name(pcallees) == make_dynamic_callee_tag) {
+         if (pcallees->tag == make_dynamic_callee_tag) {
             push_dynamic_callees(pcallees, stack);
             stack_dec -= callees_size_total;
          }
-         else if (name(pcallees) == same_callees_tag) {
+         else if (pcallees->tag == same_callees_tag) {
             push_same_callees(call_has_vcallees(pcallees));
             stack_dec -= callees_size_total;
          }
@@ -925,10 +925,10 @@ void apply_general_proc
          place_arguments(caller_args, stack, callees_size_total);
       }
       if (pcallees) {
-         if (name(pcallees) == make_dynamic_callee_tag) {
+         if (pcallees->tag == make_dynamic_callee_tag) {
             push_dynamic_callees(pcallees, stack);
          }
-         else if (name(pcallees) == same_callees_tag) {
+         else if (pcallees->tag == same_callees_tag) {
             push_same_callees(call_has_vcallees(pcallees));
          }
          else {
@@ -1019,7 +1019,7 @@ void apply_general_proc
           * cc doesn't always get this right for union results.
           */
 #ifdef OLD_SPEC
-         if (cconv == CCONV_HP && name(sh(e)) == unhd) {
+         if (cconv == CCONV_HP && sh(e)->tag == unhd) {
             regsinproc |= regmsk(REG_A0);
             move(slongsh, D0, A0);
             move(sh(e), A0_p, dest);
@@ -1072,17 +1072,17 @@ static bool test_push_args
    ast stack_add_res;
 
    while (arg != NULL) {
-      formal = (name(arg) == caller_tag)? son(arg): arg;
+      formal = (arg->tag == caller_tag)? son(arg): arg;
 
       if (cpd_param(sh(formal)))use_push = 0;
-      if ((name(sh(formal)) == s64hd) || (name(sh(formal)) == u64hd))use_push = 0;
+      if ((sh(formal)->tag == s64hd) || (sh(formal)->tag == u64hd))use_push = 0;
       if (! push_arg(formal))use_push = 0;
 
       stack_add_res = add_shape_to_stack(stack, sh(formal));
       stack = stack_add_res.astash;
 
       /* information used by code_postlude */
-      if (name(arg) == caller_tag)
+      if (arg->tag == caller_tag)
       no(arg) = stack_add_res.astoff + stack_add_res.astadj;
 
       arg = (last(arg)? NULL : bro(arg));
@@ -1113,9 +1113,9 @@ static void place_arguments
 
    /* Encode the arguments onto the stack */
    while (arg != NULL) {
-      exp formal = (name(arg) == caller_tag)? son(arg): arg;
+      exp formal = (arg->tag == caller_tag)? son(arg): arg;
 
-      char nc = name(sh(formal));
+      char nc = sh(formal)->tag;
       if (nc == scharhd || nc == ucharhd)adj = 24;
       else
       if (nc == swordhd || nc == uwordhd)adj = 16;
@@ -1146,14 +1146,14 @@ static void push_args
 
    if (last(args)) {
       /* Code last argument */
-      formal = (name(args) == caller_tag)? son(args): args;
+      formal = (args->tag == caller_tag)? son(args): args;
       make_code(w, stack, formal);
       stack_dec -= rounder(sz, param_align);
    } else {
       /* Code the following arguments */
       push_args(w, stack, bro(args));
       /* And then this one */
-      formal = (name(args) == caller_tag)? son(args): args;
+      formal = (args->tag == caller_tag)? son(args): args;
       make_code(w, stack, formal);
       stack_dec -= rounder(sz, param_align );
    }
@@ -1185,7 +1185,7 @@ void tail_call
 
    update_stack();
 
-   if (name(pcallees) == make_dynamic_callee_tag) {
+   if (pcallees->tag == make_dynamic_callee_tag) {
       /*
        * A0 and A1 are used by cleanup. We are just about to make the tail
        * call with shape bottom, so they are free
@@ -1198,7 +1198,7 @@ void tail_call
    /*
     * Same callees?
     */
-   if (name(pcallees) == same_callees_tag) {
+   if (pcallees->tag == same_callees_tag) {
       restore_regs(ALL);
 
       if (! cur_proc_has_vcallees  && call_has_vcallees(pcallees)) {
@@ -1576,14 +1576,14 @@ static void code_postlude
    asm_comment("Postlude ...");
 
    /* mark parameters by use of the values calculated by gcproc */
-   while (name(postlude) == ident_tag && name(son(postlude)) == caller_name_tag) {
+   while (postlude->tag == ident_tag && son(postlude)->tag == caller_name_tag) {
       int n = no(son(postlude));
       exp a = callers;
       while (n != 0) {
          a = bro(a);
          n--;
       }
-      if (name(a)!= caller_tag)
+      if (a->tag!= caller_tag)
       error(ERR_SERIOUS, "Bad postlude");
 
       ptno(postlude) = par3_pl;
@@ -1726,13 +1726,13 @@ static void transform
    exp s = son(e);
 
    /* Transform the childs (if any) */
-   if (s && (name(e)!= name_tag) && (name(e)!= env_offset_tag) && (name(e)!= case_tag))
+   if (s && (e->tag!= name_tag) && (e->tag!= env_offset_tag) && (e->tag!= case_tag))
    for (; s && s!=e; s=bro(s)) {
       transform(s);
    }
 
    /* Transform this one */
-   switch (name(e)) {
+   switch (e->tag) {
    case addptr_tag:
       fix_addptr(e);
       break;

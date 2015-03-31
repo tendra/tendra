@@ -59,14 +59,14 @@ boff ( exp e ){
     an.base = ( int ) ( -( sno + 1 ) ) ;
     an.offset = 0 ;
   } 
-  else if ( isparam ( e ) && name(son(e)) != formal_callee_tag) {
+  else if ( isparam ( e ) && son(e)->tag != formal_callee_tag) {
     /* parameter, positive offset from %fp */
-    /* assert ( name ( son ( e ) ) == clear_tag ) ;*/
+    /* assert ( son ( e ) -> tag == clear_tag ) ;*/
     an.base = R_FP ;
     an.offset = BITS2BYTES( no ( son ( e ) ) + proc_state.params_offset );
     assert ( an.offset >= BITS2BYTES(proc_state.params_offset) ) ;
   } 
-  else if (isparam(e) && name(son(e)) == formal_callee_tag){
+  else if (isparam(e) && son(e)->tag == formal_callee_tag){
     an.base = R_SP;
     an.offset = BITS2BYTES(no(son(e)));
 #if 1
@@ -85,7 +85,7 @@ boff ( exp e ){
     }
 #endif
   }
-  else if(name(son(e)) == caller_name_tag){
+  else if(son(e)->tag == caller_name_tag){
     /* caller name tag is located at [%sp+paramsoffset] */
     an.base = R_SP;
      an.base = call_base_reg;
@@ -153,14 +153,14 @@ boff_env_offset ( exp e ){
 
 #define VAL_params_offset ( ( 16 + 1 ) * 32 )
 #define VAL_locals_offset (0)
-  while (name(x) != proc_tag && name(x)!=general_proc_tag){
+  while (x->tag != proc_tag && x->tag!=general_proc_tag){
     x = father(x);
     assert (x != NULL);
   }
   if ( isparam ( e ) ) {
     /* parameter, positive offset from %fp */
-    /*    assert ( name ( son ( e ) ) == clear_tag ) ;*/
-    if(name(son(e)) == formal_callee_tag) {
+    /*    assert ( son ( e ) -> tag == clear_tag ) ;*/
+    if(son(e)->tag == formal_callee_tag) {
       offset =  no(son(e))>>3;
     }
     else {
@@ -199,7 +199,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
   where wans ;
   a = ashof ( s ) ;
 
-  switch ( name ( e ) ) {
+  switch ( e->tag ) {
     case name_tag : {
       /* this a locally declared name ... */
       exp dc = son ( e ) ;
@@ -250,10 +250,10 @@ locate1 ( exp e, space sp, shape s, int dreg ){
       else {
 	/* ... it is in memory */
 	instore is ;
-	if ( var || ( name ( sh ( e ) ) == prokhd &&
+	if ( var || ( sh ( e ) -> tag == prokhd &&
 		      ( son ( dc ) == NULL ||
-			name ( son ( dc ) ) == proc_tag ||
-			name(son(dc)) == general_proc_tag) ) ) {
+			son ( dc ) -> tag == proc_tag ||
+			son(dc)->tag == general_proc_tag) ) ) {
 	  is.adval = 1 ;
 	} 
         else {
@@ -334,8 +334,8 @@ locate1 ( exp e, space sp, shape s, int dreg ){
 	}
       }
     /*register ind contains the evaluation of 1st operand of addptr*/
-      if ( name ( bro ( sum ) ) == env_offset_tag || 
-	   name (bro(sum)) == general_env_offset_tag) {
+      if ( bro ( sum ) -> tag == env_offset_tag || 
+	   bro(sum)->tag == general_env_offset_tag) {
 	is.b.base = ind;
 	is.b.offset = boff_env_offset(son(bro(sum)));
       }
@@ -362,7 +362,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
       instore isa ;
       isa.adval = 1 ;
       sum = bro ( sum ) ;
-      if ( name ( sum ) == val_tag ) {
+      if ( sum->tag == val_tag ) {
 	isa.b.base = ind ;
 	isa.b.offset = -no ( e ) ;
 	setinsalt ( aa, isa ) ;
@@ -445,7 +445,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
 	    isa.b.base = reg ;
 	    isa.b.offset = 0 ;
 	    setinsalt ( aa, isa ) ;
-	    if ( name ( e ) != contvol_tag &&
+	    if ( e->tag != contvol_tag &&
 		 fc.ashwhere.ashalign != 1 ) {
 	      keepexp ( e, aa ) ;
 	    }

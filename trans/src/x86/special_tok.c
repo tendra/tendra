@@ -58,13 +58,13 @@ special_inline(tokval *tkv, token t, bitstream pars)
 	IGNORE d_shape();
 
 	s = d_exp();
-	if (name(s) == apply_tag) {
+	if (s->tag == apply_tag) {
 		settoinline(s);
 	}
 
-	if (name(s) == ident_tag && name(son(s)) == clear_tag &&
-		name(bro(son(s))) == seq_tag &&
-		name(son(son(bro(son(s))))) == apply_tag)
+	if (s->tag == ident_tag && son(s)->tag == clear_tag &&
+		bro(son(s))->tag == seq_tag &&
+		son(son(bro(son(s))))->tag == apply_tag)
 	{
 		settoinline(son(son(bro(son(s)))));
 	}

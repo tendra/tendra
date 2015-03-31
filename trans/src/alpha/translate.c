@@ -122,7 +122,7 @@ code_it(dec *my_def)
 	}
 
 	if (son(tg) != NULL && (!extnamed || !is_comm(son(tg)))) {
-		if (name(son(tg)) == proc_tag || name(son(tg)) == general_proc_tag) {
+		if (son(tg)->tag == proc_tag || son(tg)->tag == general_proc_tag) {
 			diag_descriptor *dd =  my_def->diag_info;
 
 			/* compile code for proc */
@@ -196,7 +196,7 @@ code_it(dec *my_def)
 		bool vs = son(tg) != NULL /* ie is_comm */;
 		size = (shape_size(s) + 7) >> 3;
 
-		if ((isvar(tg) || name(s) != prokhd) && not_reserved(id)) {
+		if ((isvar(tg) || s->tag != prokhd) && not_reserved(id)) {
 			if (vs /* && size != 0 */) {
 				if (as_file) {
 					asm_printop(".comm %s %ld", id, size == 0 ? 4 : size);
@@ -235,8 +235,8 @@ mark_unaliased(exp e)
 	exp p;
 
 	for (p = pt (e); p != NULL && ca; p = pt(p)) {
-		if (bro(p) == NULL || (!(last(p) && name(bro(p)) == cont_tag) &&
-		                      !(!last(p) && last(bro(p)) && name(bro(bro(p))) == ass_tag))) {
+		if (bro(p) == NULL || (!(last(p) && bro(p)->tag == cont_tag) &&
+		                      !(!last(p) && last(bro(p)) && bro(bro(p))->tag == ass_tag))) {
 			ca = 0;
 		}
 	}
@@ -305,8 +305,8 @@ local_translate_capsule(void)
 
 			crt_exp = (*ptr_def)->dec_exp;
 			if (son(crt_exp) != NULL) {
-				if ((name(son(crt_exp)) == general_proc_tag ||
-				    name(son(crt_exp)) == proc_tag) &&
+				if ((son(crt_exp)->tag == general_proc_tag ||
+				    son(crt_exp)->tag == proc_tag) &&
 				   (no(crt_exp) == 0 && diag != DIAG_NONE && !(*ptr_def)->extnamed)) {
 					dec *old_ptr = *ptr_def;
 					*ptr_def = (*ptr_def)->def_next;
@@ -323,8 +323,8 @@ local_translate_capsule(void)
 	noprocs = 0;
 	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
 		exp crt_exp = my_def->dec_exp;
-		if (son(crt_exp) != NULL && (name(son(crt_exp)) == proc_tag ||
-		                             name(son(crt_exp)) == general_proc_tag)) {
+		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag ||
+		                             son(crt_exp)->tag == general_proc_tag)) {
 			noprocs++;
 		}
 	}
@@ -335,8 +335,8 @@ local_translate_capsule(void)
 
 	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
 		exp crt_exp = my_def->dec_exp;
-		if (son(crt_exp) != NULL && (name(son(crt_exp)) == proc_tag
-		                              || name(son(crt_exp)) == general_proc_tag)) {
+		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag
+		                              || son(crt_exp)->tag == general_proc_tag)) {
 			no(son(crt_exp)) = noprocs++;
 			/* put index into procrecs in no(proc) */
 		}
@@ -384,8 +384,8 @@ local_translate_capsule(void)
 
 	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
 		exp crt_exp = my_def->dec_exp;
-		if (son(crt_exp) != NULL && (name(son(crt_exp)) == proc_tag
-		                              || name(son(crt_exp)) == general_proc_tag)) {
+		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag
+		                              || son(crt_exp)->tag == general_proc_tag)) {
 			procrec *pr;
 			exp *st;
 			bool has_varargs;
@@ -410,8 +410,8 @@ local_translate_capsule(void)
 	/* calculate the break points for register allocation and do it */
 	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
 		exp crt_exp = my_def->dec_exp;
-		if (son(crt_exp) != NULL && (name(son(crt_exp)) == proc_tag
-		                              || name(son(crt_exp)) == general_proc_tag)) {
+		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag
+		                              || son(crt_exp)->tag == general_proc_tag)) {
 			procrec *pr = &procrecs[no(son(crt_exp))];
 			needs *ndpr = & pr->needsproc;
 			long pprops = ndpr->propsneeds;
@@ -468,7 +468,7 @@ local_translate_capsule(void)
 		     || streq(id, "__alpha_errhandler") || streq(id, "__alpha_stack_limit"))
 		{
 			if (no(tg) == 1 && son(tg) == NULL && (bro(pt(tg)) == NULL ||
-			    name(bro(pt(tg))) == 101 || name(bro(pt(tg))) == 102 )
+			    bro(pt(tg))->tag == 101 || bro(pt(tg))->tag == 102 )
 			   /* diagnostics only! */ )
 			{
 				symnos[i] = -1;

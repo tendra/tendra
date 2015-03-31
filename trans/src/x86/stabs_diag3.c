@@ -301,7 +301,7 @@ out_sh_type(shape s)
 {
 	last_type_sz = shape_size(s);
 
-	switch (name(s)) {
+	switch (s->tag) {
 	case scharhd:  return STAB_SCHAR;
 	case ucharhd:  return STAB_UCHAR;
 	case swordhd:  return STAB_SSHRT;

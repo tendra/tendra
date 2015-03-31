@@ -266,7 +266,7 @@ static weights add_wlist
     IS X AN ASSIGNMENT?
 */
 
-#define  ass(X)	(name(X) == ass_tag || name(X) == assvol_tag)
+#define  ass(X)	(X->tag == ass_tag || X->tag == assvol_tag)
 
 
 /*
@@ -276,7 +276,7 @@ static weights add_wlist
 static weights weightsv
 (exp e, explist *el)
 {
-    unsigned char n = name(e);
+    unsigned char n = e->tag;
     switch (n) {
 
 	case name_tag: {
@@ -305,7 +305,7 @@ static weights weightsv
 
 	    while (isvar(e) && !isvis(e) && t != NULL) {
 		/* Scan along pt list */
-		if (!(last(t) && name(bro(t)) == cont_tag) &&
+		if (!(last(t) && bro(t)->tag == cont_tag) &&
 		     !(last(bro(t)) &&
 		     ass(bro(bro(t)))))
 		    /* Make sure it will not go in register */
@@ -322,11 +322,11 @@ static weights weightsv
 		wbody = weightsv(bro(d), &nel);
 
 		/* Work out weights for the definition */
-		if (name(d) == clear_tag) {
+		if (d->tag == clear_tag) {
 		    wdef = zeros;
 		} else {
 		    float old_scale = scale;
-		    if (name(d) == name_tag)scale = fno(e);
+		    if (d->tag == name_tag)scale = fno(e);
 		    wdef = weightsv(d, el);
 		    scale = old_scale;
 		}
@@ -338,14 +338,14 @@ static weights weightsv
 
 #if 0
 		/* Correct producer bug */
-		if (name(sha) == slonghd && name(d) == val_tag &&
+		if (sha->tag == slonghd && d->tag == val_tag &&
 		     no(d) == 0) {
 		    bool fix = 0;
 		    t = pt(e);
 		    while (t != NULL) {
 			exp f = father(t);
-			if (name(f) == cont_tag &&
-			     name(sh(f)) == ptrhd)fix = 1;
+			if (f->tag == cont_tag &&
+			     sh(f)->tag == ptrhd)fix = 1;
 			t = (last(t)? NULL : pt(t));
 		    }
 		    if (fix) {
@@ -366,7 +366,7 @@ static weights weightsv
 		if (regable(e)) {
 		    /* Work out breakpoint */
 		    float loc = fno(e);
-		    if (name(d) == name_tag && isusereg(e)) {
+		    if (d->tag == name_tag && isusereg(e)) {
 			loc = (float)1.0;
 		    }
 		    p = max_weights(sz, loc, wbody, sht);

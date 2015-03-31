@@ -88,7 +88,7 @@ maxspace2(spacereq a, spacereq b)
  */
 spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
 {
-  int n = name(e);
+  int n = e->tag;
   exp s = son(e);
   spacereq def;
 
@@ -99,7 +99,7 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
       int ffix = freefixed;
       int ffloat = freefloat;
       long st = stack;
-      bool caller_in_postlude = (name(s)==caller_name_tag);
+      bool caller_in_postlude = (s->tag==caller_name_tag);
       spacereq body;
       
       asm_comment("regalloc ident_tag:	vis=%d	freefixed,freefloat,stack = %d %d %ld", isvis(e)!=0, freefixed, freefloat, stack);
@@ -114,7 +114,7 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
       }
       else if (
 	       !isvar(e) && !isparam(e)
-	       && name(s) == name_tag
+	       && s->tag == name_tag
 	       && !isvar(son(s))
 	       && !isvis(son(s))
 	       && !isparam(son(s))
@@ -134,9 +134,9 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
 	ash a;
 	a = ashof(sh(s));
 	
-	if (name(s) == compound_tag || 
-	    name(s) == nof_tag || 
-	    name(s) == concatnof_tag )
+	if (s->tag == compound_tag || 
+	    s->tag == nof_tag || 
+	    s->tag == concatnof_tag )
 	{
 	  /*
 	   * elements of tuples are done separately so evaluate above dec
@@ -195,7 +195,7 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
 	  /*
 	   * not suitable for reg allocation
 	   */
-	  if (name(son(e)) == val_tag && !isvar(e) && !isenvoff(e))
+	  if (son(e)->tag == val_tag && !isvar(e) && !isenvoff(e))
 	  {
 	    /*
 	     * must have been forced by const optimisation
@@ -207,7 +207,7 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
 	    {
 	      exp p = pt(t);
 	      
-	      setname(t, val_tag);
+	      t->tag = val_tag;
 	      son(t) = NULL;
 	      no(t) = no(son(e));
 	      props(t) = 0;
@@ -220,7 +220,7 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
 	    props(e) |= defer_bit;
 	    def = zerospace;
 	  }
-	  else if (name(son(e)) == name_tag && !isvar(e) && !isenvoff(e))
+	  else if (son(e)->tag == name_tag && !isvar(e) && !isenvoff(e))
 	  {
 	    /* must have been forced  - defer it */
 	    asm_comment("regalloc heavily used address: no spare regs - replace use by value");
@@ -281,8 +281,8 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
       return def;
     }
    case cont_tag:
-    if (name(s)==name_tag &&
-	name(son(s))==ident_tag &&
+    if (s->tag==name_tag &&
+	son(s)->tag==ident_tag &&
 	isvar(son(s)) &&
 	(
 	(((props(son(s)) & inreg_bits)!=0) && IS_SREG(no(son(s))))  ||
@@ -304,7 +304,7 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
       def = zerospace;
       def.stack = stack;
       
-      if( name(s)==ident_tag &&
+      if( s->tag==ident_tag &&
 	 !isvar(s) &&
 	 (
 	 (((props(s) & inreg_bits)!=0) && IS_SREG(no(s))) ||

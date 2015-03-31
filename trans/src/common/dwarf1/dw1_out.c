@@ -608,16 +608,16 @@ dwarf_out_descriptor(diag_descriptor *x)
 		exp acc = x->data.id.access;
 		exp t = son(acc);
 #ifdef TDF_DIAG4
-		if (name(acc) != hold_tag) {
+		if (acc->tag != hold_tag) {
 			error(ERR_INTERNAL, "access should be in hold");
 			break;
 		}
 		acc = son(acc);
-		if (name(acc) == cont_tag && name(son(acc)) == name_tag &&
+		if (acc->tag == cont_tag && son(acc)->tag == name_tag &&
 		    isvar(son(son(acc)))) {
 			acc = son(acc);
 		}
-		if (name(acc) != name_tag) {
+		if (acc->tag != name_tag) {
 			error(ERR_INTERNAL, "not name_tag");
 			break;
 		}
@@ -625,7 +625,7 @@ dwarf_out_descriptor(diag_descriptor *x)
 #endif
 
 		if (!isvar(brog(t)->dec_exp) &&
-		    (name(brog(t)->dec_shape) == prokhd)) {
+		    brog(t)->dec_shape->tag == prokhd) {
 			/*	fprintf(stderr, "%s was a proc\n",
 			 *	TDFSTRING2CHAR(x->data.id.nme));*/
 			break;

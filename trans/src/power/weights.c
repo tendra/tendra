@@ -239,13 +239,13 @@ weights weightsv(double scale, exp e)
 
 tailrecurse:
 
-  switch (name(e))
+  switch (e->tag)
   {
   case name_tag:
     {
       exp s = son(e);
 
-      if (name(s) == ident_tag && !isglob(s))
+      if (s->tag == ident_tag && !isglob(s))
       {
 	/*
 	 * 64-bit & 32-bit float load same speed on POWER,
@@ -275,7 +275,7 @@ tailrecurse:
 	}
 	else
 #endif
-	if (name(son(e)) == clear_tag || props(e) & defer_bit)
+	if (son(e)->tag == clear_tag || props(e) & defer_bit)
 	{
 	  fno(e) = 0.0;
 	  wdef_set = 0;
@@ -302,18 +302,18 @@ tailrecurse:
 	  exp t = son(e);
 	  exp s;
 
-	  if (name(t) == val_tag || name(t) == real_tag)
+	  if (t->tag == val_tag || t->tag == real_tag)
 	  {
 	    return wbody;
 	  }
 
-	  while (name(t)!= name_tag)
+	  while (t->tag!= name_tag)
 	  {
 	    t = son(t);
 	  }
 
 	  s = son(t);
-	  if (name(s) == ident_tag && !isglob(t))
+	  if (s->tag == ident_tag && !isglob(t))
 	  {
 	    fno(s) += fno(e);
 	  }

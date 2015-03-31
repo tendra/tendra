@@ -123,7 +123,7 @@ static void add_odd_bits
   repeat_level = r->repeat_level;
   scale = r->scale;
   make_code(r->dest, r->stack, r->body);
-  if (name(sh(r->body))!= bothd) {
+  if (sh(r->body)->tag != bothd) {
     clean_stack();
     jump(r->jr, 0);
   }
@@ -353,15 +353,15 @@ int cproc
 				/* set up params before any diagnostics */
   t = son(p);
   param_pos = 0;
-  while (name(t) == ident_tag && isparam(t) && name(son(t))!= formal_callee_tag)
+  while (t->tag == ident_tag && isparam(t) && son(t)->tag!= formal_callee_tag)
    {
      t = bro(son(t));
    }
-  if (name(t) == ident_tag && name(son(t)) == formal_callee_tag)
+  if (t->tag == ident_tag && son(t)->tag == formal_callee_tag)
    {
      if (callee_size < 0)
 	vc_pointer = t;
-     while (name(t) == ident_tag && name(son(t)) == formal_callee_tag)
+     while (t->tag == ident_tag && son(t)->tag == formal_callee_tag)
       {
 	ptno(t) = par_pl;
 	no(t) = param_pos;
@@ -375,7 +375,7 @@ int cproc
    }
    {
      exp pp = son(p);
-     while (name(pp) == ident_tag && isparam(pp) && name(son(pp))!= formal_callee_tag)
+     while (pp->tag == ident_tag && isparam(pp) && son(pp)->tag!= formal_callee_tag)
       {
 	ptno(pp) = par_pl;
 	no(pp) = param_pos;
@@ -608,7 +608,7 @@ int cproc
   this_pos = out_tell_pos();
   while (returns_list != NULL) {
 	  out_set_pos(no(returns_list)); /* XXX: no (macro) returns int */
-    if (name(returns_list) == 1)
+    if (returns_list->tag == 1)
       out_untidy_pops(tot_sp, push_space);
     else
       out_pops(tot_sp, push_space, ptno(returns_list) /8, sonno(returns_list));
@@ -741,10 +741,10 @@ int cproc
    * now prepare params with env_offset for possible constant evaluation
    */
   t = son(p);
-  while (name(t) == ident_tag && isparam(t)) {
+  while (t->tag == ident_tag && isparam(t)) {
     if (isenvoff(t)) {
       no(t) += 64;
-      name(t) = 0;
+      t->tag = 0;
       ptno(t) = local_pl;
     }
     t = bro(son(t));
@@ -753,7 +753,7 @@ int cproc
     exp id = son(hasenvoff_list);
     exp next = bro(hasenvoff_list);
     no(id) -= (locals_offset * 8);
-    name(id) = 0;
+    id->tag = 0;
     retcell(hasenvoff_list);
     hasenvoff_list = next;
   }

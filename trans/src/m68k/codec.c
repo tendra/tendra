@@ -74,7 +74,7 @@ static void
 uop(void(*op)(shape, where, where), shape sha, exp a, where dest, ash stack)
 {
 	int old_rmode;
-	if (!is_o(name(a))) {
+	if (!is_o(a->tag)) {
 		/*
 		 * If a is not an operand, we need to calculate its value
 		 * first.
@@ -122,8 +122,8 @@ bop(void(*op)(shape, where, where, where), shape sha, exp a, exp b, where dest,
     ash stack)
 {
 	where w, t;
-	bool noa = !is_o(name(a));
-	bool nob = !is_o(name(b));
+	bool noa = !is_o(a->tag);
+	bool nob = !is_o(b->tag);
 	if (noa) {
 		/*
 		 * If a is not an operand, we need to calculate its value
@@ -234,7 +234,7 @@ logop(void(*op)(shape, where, where, where), exp e, where dest, ash stack)
 	   at most one non-operand.  */
 
 	while (1) {
-		if (!is_o(name(t))) {
+		if (!is_o(t->tag)) {
 			break;
 		}
 		if (last(t)) {
@@ -317,7 +317,7 @@ static void
 addsub(shape sha, where a, where b, where dest, ash stack)
 {
 	exp e = a.wh_exp;
-	if (name(e) == neg_tag) {
+	if (e->tag == neg_tag) {
 		bop(sub, sha, son(e), b.wh_exp, dest, stack);
 	}
 	else {
@@ -342,12 +342,10 @@ check_unset_overflow(where dest, shape shp)
 		ins1((shape_size(shp) == 16) ? m_extl : m_extbl, 32, D0, 1);
 	}
 	sw = cmp(is_signed(shp) ? slongsh : ulongsh, D0, zw(max_val), tst_gr);
-	test_overflow2(branch_ins(tst_gr, sw, is_signed(shp),
-				  is_floating(name(shp))));
+	test_overflow2(branch_ins(tst_gr, sw, is_signed(shp), is_floating(shp->tag)));
 
 	sw = cmp(is_signed(shp) ? slongsh : ulongsh, D0, zw(min_val), tst_ls);
-	test_overflow2(branch_ins(tst_ls, sw, is_signed(shp),
-				  is_floating(name(shp))));
+	test_overflow2(branch_ins(tst_ls, sw, is_signed(shp), is_floating(shp->tag)));
 
 	kill_exp(max_val, max_val);
 	kill_exp(min_val, min_val);
@@ -369,7 +367,7 @@ codec(where dest, ash stack, exp e)
 		return;
 	}
 
-	switch (name(e)) {
+	switch (e->tag) {
 	case plus_tag: {
 		/*
 		 * Addition is treated similarly to logical operations - see
@@ -406,8 +404,8 @@ codec(where dest, ash stack, exp e)
 
 		/* Look for the non-operand if there is one */
 		while (1) {
-			if (!is_o(name(t)) &&
-			    (name(t)!= neg_tag || !is_o(name(son(t))))) {
+			if (!is_o(t->tag) &&
+			    (t->tag!= neg_tag || !is_o(son(t)->tag))) {
 				break;
 			}
 			if (last(t)) {
@@ -416,8 +414,8 @@ codec(where dest, ash stack, exp e)
 			}
 			t = bro(t);
 		}
-		if (t == NULL && name(arg1) == neg_tag &&
-		    name(arg2) == neg_tag) {
+		if (t == NULL && arg1->tag == neg_tag &&
+		    arg2->tag == neg_tag) {
 			t = arg1;
 		}
 
@@ -425,7 +423,7 @@ codec(where dest, ash stack, exp e)
 		if (t == NULL) {
 			t = bro(arg2);
 			/* Deal with the first two arguments */
-			if (name(arg1) == neg_tag) {
+			if (arg1->tag == neg_tag) {
 				addsub(sh(e), zw(arg1), zw(arg2),
 				       ((t == e)? dest : w), stack);
 			} else {
@@ -488,7 +486,7 @@ codec(where dest, ash stack, exp e)
 		/* Change variety, the son of e, a, gives the argument */
 		exp a = son(e);
 		int prev_ov = set_overflow(e);
-		if (!is_o(name(a))) {
+		if (!is_o(a->tag)) {
 			/* If a is not an operand */
 			if (whereis(dest)!= Dreg) {
 				/*
@@ -539,8 +537,8 @@ codec(where dest, ash stack, exp e)
 		/* Multiply is treated as a logical operation */
 		int prev_ov = set_overflow(e);
 		logop(mult, e, dest, stack);
-		if (!optop(e) && (name(sh(e)) != slonghd) &&
-		    (name(sh(e)) != ulonghd)) {
+		if (!optop(e) && (sh(e)->tag != slonghd) &&
+		    (sh(e)->tag != ulonghd)) {
 			check_unset_overflow(dest,sh(e));
 		}
 		clear_overflow(prev_ov);
@@ -552,8 +550,8 @@ codec(where dest, ash stack, exp e)
 		int prev_ov = set_overflow(e);
 		bop(div2, sh(e), bro(son(e)), son(e),
 		    dest, stack);
-		if (!optop(e) && (name(sh(e)) != slonghd) &&
-		    (name(sh(e)) != ulonghd)) {
+		if (!optop(e) && (sh(e)->tag != slonghd) &&
+		    (sh(e)->tag != ulonghd)) {
 			check_unset_overflow(dest,sh(e));
 		}
 		clear_overflow(prev_ov);
@@ -563,8 +561,8 @@ codec(where dest, ash stack, exp e)
 		/* Division is a binary operation */
 		int prev_ov = set_overflow(e);
 		bop(div1, sh(e), bro(son(e)), son(e), dest, stack);
-		if (!optop(e) && (name(sh(e)) != slonghd) &&
-		    (name(sh(e)) != ulonghd)) {
+		if (!optop(e) && (sh(e)->tag != slonghd) &&
+		    (sh(e)->tag != ulonghd)) {
 			check_unset_overflow(dest,sh(e));
 		}
 		clear_overflow(prev_ov);
@@ -734,7 +732,7 @@ codec(where dest, ash stack, exp e)
 
 		if (last(f2)) {
 			/* If there are two arguments code directly */
-			if (name(f2) == fneg_tag) {
+			if (f2->tag == fneg_tag) {
 				f2 = son(f2);
 				fl_binop(fminus_tag, sh(e), zw(f2),
 					 zw(f1), dest);
@@ -746,15 +744,15 @@ codec(where dest, ash stack, exp e)
 			return;
 		}
 
-		if (last(bro(f2)) && name(bro(f2)) == real_tag &&
-		    name(dest.wh_exp) != apply_tag &&
-		    name(dest.wh_exp) != tail_call_tag &&
-		    name(dest.wh_exp) != apply_general_tag) {
+		if (last(bro(f2)) && bro(f2)->tag == real_tag &&
+		    dest.wh_exp->tag != apply_tag &&
+		    dest.wh_exp->tag != tail_call_tag &&
+		    dest.wh_exp->tag != apply_general_tag) {
 			/*
 			 * If there are 3 arguments, the last of which is
 			 * constant.
 			 */
-			if (name(f2) == fneg_tag) {
+			if (f2->tag == fneg_tag) {
 				f2 = son(f2);
 				fl_binop(fminus_tag, sh(e), zw(f2), zw(f1),
 					 dest);
@@ -770,7 +768,7 @@ codec(where dest, ash stack, exp e)
 			return;
 		}
 
-		if (name(de) == ass_tag && name(son(de)) == name_tag &&
+		if (de->tag == ass_tag && son(de)->tag == name_tag &&
 		    ((props(son(son(de))) & 0x9) == 0x9)) {
 			count_dest = 0;
 			t = f1;
@@ -779,7 +777,7 @@ codec(where dest, ash stack, exp e)
 			}
 			while (!last(t)) {
 				t = bro(t);
-				if (name(t) == fneg_tag) {
+				if (t->tag == fneg_tag) {
 					if (eq_where(zw(son(t)), dest)) {
 						count_dest = 2;
 					}
@@ -792,13 +790,13 @@ codec(where dest, ash stack, exp e)
 		}
 
 		if (count_dest < 2 &&
-		    (name(dest.wh_exp) != apply_tag &&
-		     name(dest.wh_exp) != tail_call_tag &&
-		     name(dest.wh_exp) != apply_general_tag)) {
+		    (dest.wh_exp->tag != apply_tag &&
+		     dest.wh_exp->tag != tail_call_tag &&
+		     dest.wh_exp->tag != apply_general_tag)) {
 			if (count_dest == 1) {
 				t = f1;
 			} else {
-				if (name(f2) == fneg_tag) {
+				if (f2->tag == fneg_tag) {
 					exp m = son(f2);
 					fl_binop(fminus_tag, sh(e), zw(m),
 						 zw(f1), dest);
@@ -811,7 +809,7 @@ codec(where dest, ash stack, exp e)
 
 			for (;;) {
 				where tw;
-				if (name(t) == fneg_tag) {
+				if (t->tag == fneg_tag) {
 					tw = zw(son(t));
 					if (!eq_where(dest, tw)) {
 						fl_binop(fminus_tag, sh(e), tw,
@@ -830,7 +828,7 @@ codec(where dest, ash stack, exp e)
 				t = bro(t);
 			}
 		} else {
-			if (name(f2) == fneg_tag) {
+			if (f2->tag == fneg_tag) {
 				fl_binop(fminus_tag, sh(e), zw(son(f2)),
 					 zw(f1), FP0);
 			} else {
@@ -839,7 +837,7 @@ codec(where dest, ash stack, exp e)
 			}
 			t = bro(f2);
 			while (!last(t)) {
-				if (name(t) == fneg_tag) {
+				if (t->tag == fneg_tag) {
 					fl_binop(fminus_tag, sh(e), zw(son(t)),
 						 FP0, FP0);
 				} else {
@@ -848,7 +846,7 @@ codec(where dest, ash stack, exp e)
 				}
 				t = bro(t);
 			}
-			if (name(t) == fneg_tag) {
+			if (t->tag == fneg_tag) {
 				fl_binop(fminus_tag, sh(e), zw(son(t)), FP0,
 					 dest);
 			} else {
@@ -890,7 +888,7 @@ TDF libraries.  If this was right sh(e) would be slongsh.
 	case offset_div_tag:
 	case offset_div_by_int_tag:
 		/* Offset division is a binary operation */
-		if (name(sh(bro(son(e)))) < slonghd) {
+		if (sh(bro(son(e)))->tag < slonghd) {
 			exp changer = me_u3(slongsh, bro(son(e)), chvar_tag);
 			bro(son(e)) = changer;
 		}
@@ -969,7 +967,7 @@ TDF libraries.  If this was right sh(e) would be slongsh.
 	case cont_tag:
 		asm_comment("cont_tag ...");
 
-		if (name(sh(e)) == bitfhd) {
+		if (sh(e)->tag == bitfhd) {
 			bitf_to_int(e, sh(e), dest, stack);
 			return;
 		}
@@ -979,13 +977,13 @@ TDF libraries.  If this was right sh(e) would be slongsh.
 		asm_comment("cont_tag done");
 		return;
 	default:
-		if (!is_o(name(e))) {
+		if (!is_o(e->tag)) {
 			/* If e is not an operand, code e into a register */
 			exp s;
 			where w;
-			if (name(e) == apply_tag
-			     || name(e) == apply_general_tag
-			     || name(e) == tail_call_tag) {
+			if (e->tag == apply_tag
+			     || e->tag == apply_general_tag
+			     || e->tag == tail_call_tag) {
 				s = sim_exp(sh(e), D0);
 			} else {
 				if (whereis(dest) == Dreg) {
@@ -1009,7 +1007,7 @@ TDF libraries.  If this was right sh(e) would be slongsh.
 			return;
 		}
 
-		if (name(e) == reff_tag && shape_size(sh(e)) != 32) {
+		if (e->tag == reff_tag && shape_size(sh(e)) != 32) {
 			/* Deal with pointers to bitfields */
 			where d;
 			/* s = sim_exp(sh(e), D0); */
@@ -1028,10 +1026,10 @@ TDF libraries.  If this was right sh(e) would be slongsh.
 			return;
 		}
 
-		if (name(e) == reff_tag &&
-		    (name(son(e)) == name_tag ||
-		     (name(son(e)) == cont_tag &&
-		      name(son(son(e))) == name_tag))) {
+		if (e->tag == reff_tag &&
+		    (son(e)->tag == name_tag ||
+		     (son(e)->tag == cont_tag &&
+		      son(son(e))->tag == name_tag))) {
 			/* Deal with pointers with offsets */
 			long off = no(e) / 8;
 			asm_comment("reff_tag ...");
@@ -1040,31 +1038,31 @@ TDF libraries.  If this was right sh(e) would be slongsh.
 			return;
 		}
 
-		if ((name(e) == name_tag && isvar(son(e))) ||
-		    name(e) == reff_tag) {
+		if ((e->tag == name_tag && isvar(son(e))) ||
+		    e->tag == reff_tag) {
 			/* Deal with pointers */
 			mova(zw(e), dest);
 			return;
 		}
 
-		if (name(e) == clear_tag) {
+		if (e->tag == clear_tag) {
 			/* Deal with clear shapes */
-			char sn = name(sh(e));
+			char sn = sh(e)->tag;
 			if (sn >= shrealhd && sn <= doublehd) {
 				move(sh(e), fzero, dest);
 			}
 #ifndef tdf3
-			if (name(dest.wh_exp) == apply_tag ||
-			    name(dest.wh_exp) == apply_general_tag ||
-			    name(dest.wh_exp) == tail_call_tag) {
+			if (dest.wh_exp->tag == apply_tag ||
+			    dest.wh_exp->tag == apply_general_tag ||
+			    dest.wh_exp->tag == tail_call_tag) {
 				move(sh(e), zero, dest);
 			}
 #endif
 			return;
 		}
 
-		if (name(e) == val_tag &&
-		    ((name(sh(e)) == s64hd) || name(sh(e)) == u64hd)) {
+		if (e->tag == val_tag &&
+		    ((sh(e)->tag == s64hd) || sh(e)->tag == u64hd)) {
 			flt64 bval;
 			where w;
 			bval = exp_to_f64(e);
@@ -1082,7 +1080,7 @@ TDF libraries.  If this was right sh(e) would be slongsh.
 
 
 		/* If all else fails, use move */
-		if (name(e) == top_tag) {
+		if (e->tag == top_tag) {
 			return;
 		}
 

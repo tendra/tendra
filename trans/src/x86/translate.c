@@ -72,14 +72,14 @@ static exp delayed_const_list = NULL;
 static int
 const_ready(exp e)
 {
-	unsigned char n = name(e);
+	unsigned char n = e->tag;
 
 	if (n == env_size_tag) {
 		return brog(son(son(e)))->processed;
 	}
 
 	if (n == env_offset_tag) {
-		return name(son(e)) == 0;
+		return son(e)->tag == 0;
 	}
 
 	if (n == name_tag || son(e) == NULL) {
@@ -106,7 +106,7 @@ eval_if_ready(exp t, int now)
 	}
 
 	if (!isglob(t)) {
-		if (!writable_strings && name(son(t)) != res_tag) {
+		if (!writable_strings && son(t)->tag != res_tag) {
 			out_readonly_section();
 			asm_printf("\n");
 		} else {
@@ -116,7 +116,7 @@ eval_if_ready(exp t, int now)
 			asm_printf(".data\n");
 		}
 
-		evaluate(son(t), no(t), NULL, (name(son(t)) != res_tag), 0, NULL);
+		evaluate(son(t), no(t), NULL, (son(t)->tag != res_tag), 0, NULL);
 	} else {
 		dec *d = ptg(t);
 
@@ -160,7 +160,7 @@ code_def(dec *my_def)
 	exp tg = my_def->dec_exp;
 	char *id = my_def->dec_id;
 
-	if (son(tg) != NULL && shape_size(sh(son(tg))) == 0 && name(son(tg)) == asm_tag) {
+	if (son(tg) != NULL && shape_size(sh(son(tg))) == 0 && son(tg)->tag == asm_tag) {
 		ash stack;
 		stack.ashsize = stack.ashalign = 0;
 
@@ -175,7 +175,7 @@ code_def(dec *my_def)
 	}
 
 	if (son(tg) != NULL && (my_def->extnamed || no(tg) != 0)) {
-		if (name(son(tg)) == proc_tag || name(son(tg)) == general_proc_tag) {
+		if (son(tg)->tag == proc_tag || son(tg)->tag == general_proc_tag) {
 			if (dyn_init && strncmp("__I.TDF", id + strlen(name_prefix), 7) == 0) {
 				out_initialiser(id);
 				set_proc_uses_external (son (tg));	/* for PIC_code, should be done in install_fns? */
@@ -230,8 +230,8 @@ code_def(dec *my_def)
 				} else {
 					asm_printf(".set %s, 0\n", id);
 				}
-			} else if (!PIC_code && !isvar(tg) && name(son(tg)) == null_tag &&
-			           name(sh(son(tg))) == prokhd) {
+			} else if (!PIC_code && !isvar(tg) && son(tg)->tag == null_tag &&
+			           sh(son(tg))->tag == prokhd) {
 				if (my_def->extnamed) {
 					asm_printf(".globl %s\n", id);
 				} else if (assembler == ASM_SUN) {
@@ -250,7 +250,7 @@ code_def(dec *my_def)
 #endif
 					}
 
-					if (name(son(tg)) == clear_tag && no(son(tg)) == -1) {
+					if (son(tg)->tag == clear_tag && no(son(tg)) == -1) {
 						/* prom global data */
 						if (is_ext) {
 							asm_printf(".globl %s\n", id);
@@ -302,9 +302,9 @@ mark_unaliased(exp e)
 #else
 		if (bro(p) == NULL ||
 #endif
-		     (!(last(p) && name(bro(p)) == cont_tag) &&
+		     (!(last(p) && bro(p)->tag == cont_tag) &&
 		     !(!last(p) && last(bro(p)) &&
-		        name(bro(bro(p))) == ass_tag)))
+		        bro(bro(p))->tag == ass_tag)))
 #ifdef TDF_DIAG4
 		    && !isdiaginfo(p))
 #endif
@@ -333,12 +333,12 @@ local_translate_capsule(void)
 		if (PIC_code) {
 			exp idval = son(crt_exp);
 			if (!(my_def->dec_var) &&
-			    (idval == NULL || (name(idval) != val_tag && name(idval) != real_tag &&
-			                       name(idval) != null_tag) /* optimised out in opt_all_exps/refactor_ext */
+			    (idval == NULL || (idval->tag != val_tag && idval->tag != real_tag &&
+			                       idval->tag != null_tag) /* optimised out in opt_all_exps/refactor_ext */
 			    ) &&
-			    (name(sh(crt_exp)) != prokhd ||
-			     (idval != NULL && name(idval) != null_tag &&
-			      name(idval) != proc_tag && name(idval) != general_proc_tag)))
+			    (sh(crt_exp)->tag != prokhd ||
+			     (idval != NULL && idval->tag != null_tag &&
+			      idval->tag != proc_tag && idval->tag != general_proc_tag)))
 			{
 				/* make variable, and change all uses to contents */
 				exp p, np;
@@ -371,7 +371,7 @@ local_translate_capsule(void)
 		} else {
 			/* !PIC_code; make indirect global idents direct */
 			exp tg = crt_exp;
-			while (!isvar(tg) && son(tg) != NULL && name(son(tg)) == name_tag && no(son(tg)) == 0) {
+			while (!isvar(tg) && son(tg) != NULL && son(tg)->tag == name_tag && no(son(tg)) == 0) {
 				tg = son(son(tg));
 			}
 

@@ -57,7 +57,7 @@ special_strcpy(dec *dp)
 		shape sha;
 
 		if (last(t) || last(bro(t)) || !last(bro(bro(t))) ||
-			name(bro(bro(bro(t)))) != apply_tag ||
+			bro(bro(bro(t)))->tag != apply_tag ||
 			son(bro(bro(bro(t)))) != t)
 		{
 			continue;
@@ -66,7 +66,7 @@ special_strcpy(dec *dp)
 		dst = bro(t);
 		src = bro(dst);
 
-		if (name(src) != name_tag ||
+		if (src->tag != name_tag ||
 			!isglob(son(src)) || !isvar(son(src)) || no(son(src)) != 1)
 		{
 			continue;
@@ -81,7 +81,7 @@ special_strcpy(dec *dp)
 		src_def = son(son(src));
 		sha = sh(src_def);
 
-		if (name(src_def) == string_tag &&
+		if (src_def->tag == string_tag &&
 			props(src_def) == 8)
 		{
 			char *s = nostr(src_def);
@@ -141,7 +141,7 @@ special_strlen(dec *dp)
 		shape sha;
 
 		if (last(t) || !last(bro(t)) ||
-			name(bro(bro(t))) != apply_tag ||
+			bro(bro(t))->tag != apply_tag ||
 			son(bro(bro(t))) != t)
 		{
 			continue;
@@ -149,7 +149,7 @@ special_strlen(dec *dp)
 
 		st = bro(t);
 
-		if (name(st) != name_tag || !isglob(son(st)) ||
+		if (st->tag != name_tag || !isglob(son(st)) ||
 			!isvar(son(st)) || no(son(st)) != 1)
 		{
 			continue;
@@ -164,7 +164,7 @@ special_strlen(dec *dp)
 		st_def = son(son(st));
 		sha = sh(st_def);
 
-		if (name(st_def) == string_tag &&
+		if (st_def->tag == string_tag &&
 			props(st_def) == 8)
 		{
 			char *s = nostr(st_def);

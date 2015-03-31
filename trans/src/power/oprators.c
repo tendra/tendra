@@ -37,27 +37,27 @@ static void
 tidyshort(int r, exp e)
 {
   shape s = sh(e);
-  switch(name(e))
+  switch (e->tag)
   {
    case and_tag:
     {
       exp r = bro(son(e));/* could be a val_tag */
-      if(name(s)==ucharhd && name(r)==val_tag && ( (no(r) & 0xff) == no(r) ))
+      if(s->tag==ucharhd && r->tag==val_tag && ( (no(r) & 0xff) == no(r) ))
       {
 	return;
       }
-      if(name(s)==uwordhd && name(r)==val_tag && ( (no(r) & 0xffff) == no(r) ))
+      if(s->tag==uwordhd && r->tag==val_tag && ( (no(r) & 0xffff) == no(r) ))
       {
 	return;
       }
     }
   }
   
-  if (name(s) == ucharhd)
+  if (s->tag == ucharhd)
   {
     rir_ins(i_and, r, 255, r);
   }
-  else if (name(s) == uwordhd)
+  else if (s->tag == uwordhd)
   {
     rir_ins(i_and, r, 0xffff, r);
   }
@@ -111,7 +111,7 @@ do_comm(exp seq, space sp, int final, Instruction_P rins)
   int a2;
 
   /* should have been optimised in scan... */
-  assert(!(rins == i_a && name(seq) == neg_tag && name(bro(seq)) != val_tag));
+  assert(!(rins == i_a && seq->tag == neg_tag && bro(seq)->tag != val_tag));
 
   /* evaluate 1st operand into a1 */
   a1 = reg_operand(seq, sp);
@@ -120,7 +120,7 @@ do_comm(exp seq, space sp, int final, Instruction_P rins)
   {
     nsp = guardreg(a1, sp);
     seq = bro(seq);
-    if (name(seq) == val_tag)	/* next operand is a constant */
+    if (seq->tag == val_tag)	/* next operand is a constant */
     {
       if (last(seq))
       {
@@ -181,7 +181,7 @@ int comm_op(exp e, space sp, where d, Instruction_P rrins)
       if (usesdest && last(seq))
       {
 	/* used, but there is only one other operand */
-	if (name(seq) == val_tag)
+	if (seq->tag == val_tag)
 	{
 	  rir_ins(rins, dest, no(seq), dest);
 	}
@@ -237,7 +237,7 @@ int non_comm_op(exp e, space sp, where dest, Instruction_P ins)
 {
   exp l = son(e);
   exp r = bro(l);
-  bool sf_imm = name(l) == val_tag && ins == i_s && IMM_SIZE(no(l));
+  bool sf_imm = l->tag == val_tag && ins == i_s && IMM_SIZE(no(l));
 		/* we can use sfi instruction */
   int a1;
   int a2;

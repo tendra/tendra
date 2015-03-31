@@ -69,7 +69,7 @@ int next_data_lab(void)
  */
 mm maxmin(shape s)
 {
-  switch (name(s))
+  switch (s->tag)
   {
   case scharhd:
     return scmm;
@@ -104,14 +104,14 @@ outlab(int l)
 static long
 evalexp(exp e)
 {
-  switch (name(e))
+  switch (e->tag)
   {
    case null_tag:case top_tag:
     return 0;
    case val_tag:
     {
       /* offsets appear as bits, but are converted to bytes if alignment is not bits */
-      if (name(sh(e)) == offsethd && al2(sh(e)) >= 8)
+      if (sh(e)->tag == offsethd && al2(sh(e)) >= 8)
       {
 	return no(e) >>3;
       }
@@ -149,7 +149,7 @@ evalexp(exp e)
 
    case chvar_tag:
     {
-      return correct_shape(evalexp(son(e)),name(sh(e)));
+      return correct_shape(evalexp(son(e)),sh(e)->tag);
     }
    case bitf_to_int_tag:
     {
@@ -174,7 +174,7 @@ evalexp(exp e)
     }
    case not_tag:
     {
-      return correct_shape(~evalexp(son(e)),name(sh(e)));
+      return correct_shape(~evalexp(son(e)),sh(e)->tag);
     }
 
    case and_tag:
@@ -199,19 +199,19 @@ evalexp(exp e)
       unsigned long ul;
       if (sgned)
       {
-	sl = (long)correct_shape(evalexp(son(e)),name(sh(e)));
+	sl = (long)correct_shape(evalexp(son(e)),sh(e)->tag);
 	return sl >> evalexp(bro(son(e)));
       }
       else
       {
-	ul = (unsigned long)correct_shape(evalexp(son(e)),name(sh(e)));
+	ul = (unsigned long)correct_shape(evalexp(son(e)),sh(e)->tag);
 	return ul >> evalexp(bro(son(e)));
       }
     }
 
   case shl_tag:
     {
-      return correct_shape(evalexp(son(e)) <<evalexp(bro(son(e))),name(sh(e)));
+      return correct_shape(evalexp(son(e)) <<evalexp(bro(son(e))),sh(e)->tag);
     }
 
   case concatnof_tag:
@@ -258,7 +258,7 @@ evalexp(exp e)
     }
 
   default:
-    asm_comment("tag not in evalexp: %d", name(e));
+    asm_comment("tag not in evalexp: %d", e->tag);
     error(ERR_SERIOUS, "tag not in evalexp");
     return 0;
   }
@@ -416,7 +416,7 @@ static concbittype addconcbitaux(unsigned long w, int size, concbittype before)
 
 static concbittype evalconcbitaux(exp e, concbittype before)
 {
-  switch (name(e))
+  switch (e->tag)
   {
   case concatnof_tag:
     {
@@ -482,7 +482,7 @@ static void evalone(exp e, int bitposn)
 
   a = ashof(sh(e));
 
-  asm_comment("evalone: name(e) =%d, bitposn=%d, ash=%ld,%ld", name(e),
+  asm_comment("evalone: e->tag =%d, bitposn=%d, ash=%ld,%ld", e->tag,
 	   bitposn, a.ashsize, a.ashalign);
   asm_comment("evalone no(e) =%d",no(e));
 
@@ -495,7 +495,7 @@ static void evalone(exp e, int bitposn)
   }
 
   /* generate data initialiser for e */
-  switch (name(e))
+  switch (e->tag)
   {
    case string_tag:
     {
@@ -799,7 +799,7 @@ static void evalone(exp e, int bitposn)
 
       asm_comment("ncopies_tag: n=%d", n);
 
-      while (name(son(e)) == ncopies_tag)
+      while (son(e)->tag == ncopies_tag)
       {
 	e = son(e);
 	n *= no(e);
@@ -882,7 +882,7 @@ static void evalone(exp e, int bitposn)
     {
       exp p1 = son(e);
       exp p2 = bro(p1);
-      if (name(p1) ==name_tag && name(p2) ==name_tag)
+      if (p1->tag ==name_tag && p2->tag ==name_tag)
       {
 	long n = no(p1) -no(p2);
 	char *n1 = brog(son(p1)) ->dec_id;
@@ -902,7 +902,7 @@ static void evalone(exp e, int bitposn)
     }
 
    default:
-    asm_comment("tag not in evaluated: %d", name(e));
+    asm_comment("tag not in evaluated: %d", e->tag);
     error(ERR_SERIOUS, "illegal constant");
   }				/* end switch */
 }
@@ -926,8 +926,8 @@ instore evaluated(exp e, int l)
   isa.b.base = lab;
 
 
-  assert(name(e) != clear_tag);	/* +++ history */
-  if (name(e) == clear_tag)	/* uninitialised global */
+  assert(e->tag != clear_tag);	/* +++ history */
+  if (e->tag == clear_tag)	/* uninitialised global */
   {
     long byte_size = (a.ashsize + 7) >> 3;
     bool temp = (l == 0 || (extname[0] == local_prefix[0] && extname[1] == local_prefix[1]));

@@ -35,10 +35,10 @@ extern shape LISTsh;
 #define set_intnl_call( x )		pset ( x, 0x80 )
 #define has_intnl_call( x )		ptst ( x, 0x80 )
 
-#define is_fn_glob(e) ( name(e)==name_tag && name(son(e))==ident_tag\
-	&& ( son(son(e))==NULL || name(son(son(e)))==proc_tag ||\
-         name(son(son(e)))==general_proc_tag ) )
-#define IS_A_PROC(e) ( name(e)==proc_tag || name(e)==general_proc_tag )
+#define is_fn_glob(e) ( e->tag==name_tag && son(e)->tag==ident_tag\
+	&& ( son(son(e))==NULL || son(son(e))->tag==proc_tag ||\
+         son(son(e))->tag==general_proc_tag ) )
+#define IS_A_PROC(e) ( e->tag==proc_tag || e->tag==general_proc_tag )
 
 
 #endif /* EXPMACS_INCLUDED */

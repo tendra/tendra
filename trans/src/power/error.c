@@ -269,7 +269,7 @@ int abs_error_treatment(exp e, space sp, where dest)
   int cr;
   space nsp;
   nsp = guardreg(destr,sp);
-  switch (name(sh(e)))
+  switch (sh(e)->tag)
   {
    case ucharhd:
    case uwordhd:
@@ -305,7 +305,7 @@ int chvar_error_treatment(exp e, space sp, where dest)
 {
   int r = reg_operand(son(e),sp);
   ans aa;
-  int new_shpe = name(sh(e));
+  int new_shpe = sh(e)->tag;
   long trap = trap_label(e);
   bool sgned = is_signed(sh(son(e)));
 
@@ -388,7 +388,7 @@ void div_error_treatment(int l, int r, exp e)
     lab=new_label();
     cmp_ri_ins(i_cmp,r,-1,creg2);
     bc_ins(i_bne,creg2,lab,LIKELY_TO_JUMP);
-    switch (name(sh(e)))
+    switch (sh(e)->tag)
     {
      case slonghd:minus_infinity = 0x80000000;break;
      case swordhd:minus_infinity = 0xffff8000;break;
@@ -415,7 +415,7 @@ int minus_error_treatment(exp e, space sp, where dest)
   destr=regfrmdest(&dest,sp);
   setregalt(aa,destr);
   /* Both sides evaluated lhs in lhs_reg ,rhs in rhs_reg*/
-  switch (name(sh(e)))
+  switch (sh(e)->tag)
   {
    case slonghd:
     {
@@ -478,7 +478,7 @@ int mult_error_treatment(exp e, space sp, where dest)
   destr=regfrmdest(&dest,sp);
   setregalt(aa,destr);
   /* Both sides evaluated lhs in lhs_reg,rhs in rhs_reg*/
-  switch (name(sh(e)))
+  switch (sh(e)->tag)
   {
    case slonghd:
     {
@@ -578,7 +578,7 @@ int plus_error_treatment(exp e, space sp, where dest)
   rhs_reg = reg_operand(bro(son(e)),guardreg(lhs_reg,sp));
   destr=regfrmdest(&dest,sp);
   setregalt(aa,destr);
-  switch (name(sh(e)))
+  switch (sh(e)->tag)
   {
    case slonghd:
     {
@@ -658,7 +658,7 @@ void round_error_treatment(exp *e)
   exp cond;
 
   assert(shape_size(sh(round)) ==32);
-  if (name(sh(round)) ==ulonghd)
+  if (sh(round)->tag ==ulonghd)
   {
     lower_bound = me_u3(fl_shpe,me_shint(ulongsh,0)      ,float_tag);
     upper_bound = me_u3(fl_shpe,me_shint(ulongsh,UINT_MAX),float_tag);
@@ -775,7 +775,7 @@ int neg_error_treatment(exp e, space sp, where dest)
   space nsp;
   nsp = guardreg(destr,sp);
 
-  switch (name(sh(e)))
+  switch (sh(e)->tag)
   {
    case ucharhd:
    case uwordhd:
@@ -829,7 +829,7 @@ void chfl_error_treatment(exp e, int f)
 {
   long trap = trap_label(e);
 
-  assert(name(e) ==chfl_tag);
+  assert(e->tag ==chfl_tag);
   rrf_ins(i_frsp_cr,f,f);
   mcrfs_ins(CRF0,0);
   long_bc_ins(i_bso,CRF0,trap,UNLIKELY_TO_JUMP);
@@ -840,7 +840,7 @@ void do_fmop_error_jump(exp e, int fs, int fd)
   long trap = trap_label(e);
   Instruction_P ins;
 
-  switch (name(e))
+  switch (e->tag)
   {
    case fabs_tag:ins=i_fabs;break;
    case fneg_tag:ins=i_fneg;break;
@@ -862,7 +862,7 @@ void do_fop_error_jump(exp e, int fs1, int fs2, int fd)
   long trap = trap_label(e);
   Instruction_P ins;
 
-  switch (name(e))
+  switch (e->tag)
   {
    case fplus_tag: ins = i_fa;break;
    case fminus_tag:ins = i_fs;break;
@@ -873,7 +873,7 @@ void do_fop_error_jump(exp e, int fs1, int fs2, int fd)
   rrrf_ins(ins,fs1,fs2,fd);
   mcrfs_ins(CRF0,0);
   long_bc_ins(i_bso,CRF0,trap,UNLIKELY_TO_JUMP);
-  switch (name(e))
+  switch (e->tag)
   {
     /* div by 0 */
    case fdiv_tag:

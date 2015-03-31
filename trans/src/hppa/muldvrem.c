@@ -528,7 +528,7 @@ static int do_mul_comm
   baseoff b;
   int v;
 
-  if (name(arg2) == val_tag)
+  if (arg2->tag == val_tag)
   {
     /* const optim */
     v = reg_operand(seq, sp);
@@ -559,9 +559,9 @@ static int do_mul_comm
     seq = bro(seq);
     arg++;
 
-    asm_comment("do_mul_comm: name(seq) = %d", name(seq));
+    asm_comment("do_mul_comm: seq->tag = %d", seq->tag);
 
-    if (name(seq) == val_tag && offset_mul_const_simple(no(seq), sgned)!= NOT_MUL_CONST_SIMPLE)
+    if (seq->tag == val_tag && offset_mul_const_simple(no(seq), sgned)!= NOT_MUL_CONST_SIMPLE)
     {
       /* const optim */
       assert(last(seq)); /* refactor() & scan() should move const to last */
@@ -634,7 +634,7 @@ static int do_div
     *   ov_err can only occur when calculating p div1 q with p == variety's
     *   minimum and q==-1
     */
-   if (name(rhs) ==val_tag)
+   if (rhs->tag ==val_tag)
    {
       /*   nb. div_by_zero_err handled by common code  */
       int n = no(rhs);
@@ -712,7 +712,7 @@ static int do_div
       }
    }
 
-   if (name(bro(rhs)) == div1_tag && sgned)
+   if (bro(rhs)->tag == div1_tag && sgned)
    {
       int fin = new_label();
       baseoff b;
@@ -767,7 +767,7 @@ static int do_rem
    b = mem_temp(0);
    if (!optop(e))
       trap = trap_label(e);
-   if (name(rhs) == val_tag)
+   if (rhs->tag == val_tag)
    {
       int n = no(rhs);
       if (n==0)
@@ -794,7 +794,7 @@ static int do_rem
 	    return final_reg;
 	 }
 	 while (((1<< (++p)) & n) ==0);
-	 if (sgned && name(bro(rhs)) == rem2_tag)
+	 if (sgned && bro(rhs)->tag == rem2_tag)
 	 {
 	    /*
 	     *   Allow for negative lhs. Calculate lhs % n ( = 2**p ) by
@@ -840,7 +840,7 @@ static int do_rem
 	 if (sgned)
 	 {
 	    call_millicode(MILLI_REMI,RP,stub,1);
-	    if (name(bro(rhs)) == mod_tag)
+	    if (bro(rhs)->tag == mod_tag)
 	    {
 	       if (SIMM14(n))
 	       {
@@ -880,7 +880,7 @@ static int do_rem
    if (!optop(e))
       cj_ins(c_eq,GR0,ARG1,trap);
 
-   if (name(bro(rhs)) == mod_tag && sgned)
+   if (bro(rhs)->tag == mod_tag && sgned)
    {
       st_ins(i_sw,ARG1,b);
       call_millicode(MILLI_REMI,RP,stub,1);
@@ -970,14 +970,14 @@ bool is_muldivrem_call
 (exp e)
 {
 
-  switch (name(e))
+  switch (e->tag)
   {
      case test_tag:
      case chfl_tag:
      case round_tag:
        if ((has & HAS_LONG_DOUBLE)) {
 	 exp s = son(e);
-	 if (name(sh(s)) ==doublehd)
+	 if (sh(s)->tag ==doublehd)
 	    return 1;
 	 /* FALL THROUGH */
        }
@@ -990,7 +990,7 @@ bool is_muldivrem_call
      case fabs_tag:
      case float_tag:
        if ((has & HAS_LONG_DOUBLE)) {
-	if (name(sh(e)) ==doublehd)
+	if (sh(e)->tag ==doublehd)
 	   return 1;
 	else
 	   return 0;
@@ -1006,7 +1006,7 @@ bool is_muldivrem_call
       {
 	/*multneeds - simple cases don't need a call */
 	exp arg2 = bro(son(e));
-	if (last(arg2) && name(arg2) == val_tag)
+	if (last(arg2) && arg2->tag == val_tag)
 	{
 	  return 0;
 	}
@@ -1025,7 +1025,7 @@ bool is_muldivrem_call
 	/*remneeds, divneeds - simple cases don't need a call */
 	exp arg2 = bro(son(e));
 
-	if (last(arg2) && name(arg2) == val_tag)
+	if (last(arg2) && arg2->tag == val_tag)
 	{
 	  long constval = no(arg2);
 	  if (constval > 0 && IS_POW2(constval))
@@ -1056,7 +1056,7 @@ needs multneeds
 
   /* remember that mult may have more than two args after optimisation */
 
-  if (last(arg2) && name(arg2) == val_tag)
+  if (last(arg2) && arg2->tag == val_tag)
   {
 
     /*
@@ -1085,7 +1085,7 @@ needs divneeds
 
   assert(last(rhs));
 
-  if (name(rhs) == val_tag)
+  if (rhs->tag == val_tag)
   {
     long constval = no(rhs);
 
@@ -1114,7 +1114,7 @@ needs remneeds
   n = likediv(e, at);
 
   assert(last(rhs));
-  if (name(rhs) == val_tag)
+  if (rhs->tag == val_tag)
   {
     long constval = no(rhs);
 

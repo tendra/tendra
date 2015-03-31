@@ -42,8 +42,8 @@ static bool sim_exp(exp a, exp b);
 bool eq_sze
 (shape as, shape bs)
 {
-  if (is_floating(name(as))) return name(as) == name(bs);
-  if (is_floating(name(bs))) return 0;
+  if (is_floating(as->tag)) return as->tag == bs->tag;
+  if (is_floating(bs->tag)) return 0;
   return shape_size(as) == shape_size(bs) && shape_align(as) == shape_align(bs);
 }
 
@@ -74,15 +74,15 @@ sim_exp(exp a, exp b)
   /* basically eq_exp except equal shapes
      requirement  is weakened to equal sizes
      and alignments */
-  if (name(a) == name(b)) {
-    if (name(a) == name_tag)
+  if (a->tag == b->tag) {
+    if (a->tag == name_tag)
       return son(a) == son(b) && no(a) == no(b) &&
 	      eq_sze(sh(a), sh(b));
-    if (name(a) ==maxlike_tag || name(a) ==minlike_tag || name(a) ==abslike_tag) {
+    if (a->tag ==maxlike_tag || a->tag ==minlike_tag || a->tag ==abslike_tag) {
     	return(props(son(a)) ==props(son(b)) && eq_size(sh(a), sh(b)) &&
     			sim_explist(son(son(a)),son(son(b))));
     }
-    if (!is_a(name(a)) || !eq_sze(sh(a), sh(b)))
+    if (!is_a(a->tag) || !eq_sze(sh(a), sh(b)))
       return 0;
     return no(a) == no(b) &&
 	sim_explist(son(a), son(b));
@@ -153,7 +153,7 @@ ans iskept
     if (ke != NULL) {		/* there is an accociation with reg i */
       if (
 	 ((!isc && sim_exp(ke, e)) ||
-	  (name(e) == cont_tag && isc && eq_sze(sh(ke), sh(e))
+	  (e->tag == cont_tag && isc && eq_sze(sh(ke), sh(e))
 	    && sim_exp(ke, son(e)))
 	  )
 	 ) {
@@ -175,7 +175,7 @@ ans iskept
 	}
       }
       else
-	if (name(ke) == cont_tag && !isc) {
+	if (ke->tag == cont_tag && !isc) {
 	  ans aq;
 	  aq = regexps[i].inans;
 	  if (aq.discrim == notinreg) {
@@ -192,7 +192,7 @@ ans iskept
 	  }
 	}
 	else
-	  if (name(ke) == reff_tag && !isc) {
+	  if (ke->tag == reff_tag && !isc) {
 	    ans aq;
 	    aq = regexps[i].inans;
 	    if (aq.discrim == notinreg) {
@@ -305,7 +305,7 @@ static bool
 couldbe(exp e, exp lhs)
 {
   /* could e be lhs? */
-  int   ne = name(e);
+  int   ne = e->tag;
   exp s = son(e);
 
   if (ne == name_tag) {
@@ -317,14 +317,14 @@ couldbe(exp e, exp lhs)
       /*
       return lhs == 0 && (isvis (s) || isglob(s));*/
     }
-    if (name(s) == proc_tag)
+    if (s->tag == proc_tag)
       return lhs == 0;
     if (son(s) == NULL)
       return 1;
     return couldbe(son(s), lhs);
   }
   if (ne == cont_tag) {
-    if (lhs != 0 && name(s) == name_tag && son(s)!= NULL) {
+    if (lhs != 0 && s->tag == name_tag && son(s)!= NULL) {
       return son(s) == son(lhs) || isvis(son(lhs)) || isvis(son(s));
     }
     return 1;
@@ -344,14 +344,14 @@ static bool
 couldaffect(exp e, exp z)
 {
   /* could alteration to z affect e? */
-  int   ne = name(e);
+  int   ne = e->tag;
   if (ne == cont_tag) {
     return couldbe(son(e), z);
   }
   if (ne == name_tag) {
     if (isvar(son(e)))
       return z == 0 && isvis(son(e));
-    if (name(son(e)) == proc_tag)
+    if (son(e)->tag == proc_tag)
       return 0;
     if (son(son(e)) == NULL)
       return 1 /* could it happen? */ ;
@@ -384,25 +384,25 @@ bool dependson
     return 0;
   }
   for (;;) {
-    if (name(z) == reff_tag || name(z) == addptr_tag ||
-	name(z) == subptr_tag) {
+    if (z->tag == reff_tag || z->tag == addptr_tag ||
+	z->tag == subptr_tag) {
       z = son(z);
-      if (name(z) == null_tag) return 0;
+      if (z->tag == null_tag) return 0;
     }
     else
-      if (name(z)!= name_tag) {
-	if (name(z)!= cont_tag)
+      if (z->tag!= name_tag) {
+	if (z->tag!= cont_tag)
 	  return 1;
 	z = 0;
 	break;
     }
-      if (name(z) == current_env_tag) {
+      if (z->tag == current_env_tag) {
 	return 0;
       }
 
     if (isvar(son(z)))
       break;
-    if (name(son(z)) == proc_tag) {
+    if (son(z)->tag == proc_tag) {
       z = 0;
       break;
     }

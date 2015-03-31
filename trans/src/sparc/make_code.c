@@ -451,8 +451,8 @@ prop notbranch [] = {
 
 #define obranch( i )	( notbranch [i] )
 
-#define is_char_variety(v) ((name(v) == scharhd) || (name(v) == ucharhd))
-#define is_short_variety(v) ((name(v) == swordhd) || (name(v) == uwordhd))
+#define is_char_variety(v) ((v->tag == scharhd) || (v->tag == ucharhd))
+#define is_short_variety(v) ((v->tag == swordhd) || (v->tag == uwordhd))
 
 /*
  * MOVE A FLOATING POINT CONSTANT INTO A REGISTER
@@ -535,24 +535,24 @@ testlast ( exp e, exp second )
 {
 	exp b;
 
-	if ( name ( e ) == test_tag && pt ( e ) == second ) {
+	if ( e->tag == test_tag && pt ( e ) == second ) {
 		return e;
 	}
 
-	if ( name ( e ) != seq_tag ) {
+	if ( e->tag != seq_tag ) {
 		return NULL;
 	}
 
 	b = bro ( son ( e ) ) ;
-	if ( name ( b ) == test_tag && pt ( b ) == second ) {
+	if ( b->tag == test_tag && pt ( b ) == second ) {
 		return b;
-	} else if ( name ( b ) == top_tag ) {
+	} else if ( b->tag == top_tag ) {
 		exp list;
 
 		for (list = son(son(e)); !last(list); list = bro(list))
 			;
 
-		if ( name ( list ) == test_tag &&
+		if ( list->tag == test_tag &&
 			 pt ( list ) == second ) {
 			return list;
 		} else {
@@ -580,13 +580,13 @@ aa:
 #endif
 
 	{
-		if ( (name ( e ) == ident_tag && name(son(e)) != formal_callee_tag) &&
+		if ( (e->tag == ident_tag && son(e)->tag != formal_callee_tag) &&
 		     isparam ( e ) ) {
 			return 0;
 		}
 
 #ifndef TDF_DIAG4
-		if ( name ( e ) == diagnose_tag ) {
+		if ( e->tag == diagnose_tag ) {
 			e = son ( e ) ;
 			goto aa ;
 		}
@@ -609,7 +609,7 @@ has_bitfield ( exp e )
 		return 0;
 	}
 
-	switch ( name ( e ) ) {
+	switch ( e->tag ) {
 	case compound_tag : {
 		for ( e = bro ( son ( e ) ) ; ; e = bro ( bro ( e ) ) ) {
 			if ( has_bitfield ( e ) ) {
@@ -639,12 +639,12 @@ has_bitfield ( exp e )
 static void
 fix_nonbitfield ( exp e )
 {
-	if ( name ( e ) != compound_tag ) {
+	if ( e->tag != compound_tag ) {
 		return;
 	}
 
 	for ( e = son ( e ) ; ; e = bro ( bro ( e ) ) ) {
-		if ( name ( e ) == val_tag && name ( sh ( e ) ) == offsethd
+		if ( e->tag == val_tag && sh ( e ) -> tag == offsethd
 		     && al2 ( sh ( e ) ) >= 8 ) {
 			no ( e ) = no ( e ) << 3 ;
 		}
@@ -662,8 +662,8 @@ fix_nonbitfield ( exp e )
  * USEFUL MACROS
  */
 #define issgn( s )	is_signed ( s )
-#define isdbl( s )	( ( bool ) ( name ( s ) != shrealhd ) )
-#define is_long_double(s) ((bool) (name(s) == doublehd))
+#define isdbl( s )	( ( bool ) ( s->tag != shrealhd ) )
+#define is_long_double(s) ((bool) (s->tag == doublehd))
 #define fregno( d, f )	( ( d ) ? -( ( f ) + 32 ) : ( ( f ) + 32 ) )
 #define GETREG( d, s )	( discrim ( ( d ).answhere ) == inreg ?\
 			  regalt ( ( d ).answhere ) :\
@@ -680,7 +680,7 @@ find_ote ( exp nom, int n )
 {
 	exp dad = father(nom);
 
-	while(name(dad) != apply_general_tag) {
+	while(dad->tag != apply_general_tag) {
 		dad = father(dad);
 	}
 
@@ -690,7 +690,7 @@ find_ote ( exp nom, int n )
 		n -- ;
 	}
 
-	assert(name(dad) == caller_tag);
+	assert(dad->tag == caller_tag);
 
 	return dad;
 }
@@ -708,7 +708,7 @@ check_range_and_do_error_jump ( shape rep_var, int r, int lab, space sp, int rmo
 	int ftmp = getfreg(sp.flt);
 	int to_small = (rmode == (int)f_toward_smaller);
 
-	switch(name(rep_var)) {
+	switch (rep_var->tag) {
 	case ulonghd :
 		/* check    0 <= value <= (unsigned)-1 */
 		/* fconst(ftmp,1106247679,-2097152); */
@@ -851,7 +851,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 	mka.regmove = NOREG ;
 	insection ( text_section ) ;
 
-	switch ( name ( e ) ) {
+	switch ( e->tag ) {
 	case general_proc_tag :
 	case proc_tag : {
 		/* Procedure body */
@@ -965,7 +965,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		for ( ; ; ) {
 			exp nt = ( last ( t ) ? f : bro ( t ) ) ;
 
-			if ( name ( nt ) == goto_tag ) {
+			if ( nt->tag == goto_tag ) {
 				/* Gotos end sequences */
 				make_code ( t, sp, nowhere, no ( son ( pt ( nt ) ) ) ) ;
 			} else {
@@ -1012,7 +1012,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 
 	case make_lv_tag :  {
 		exp labst = pt(e);
-		assert(name(labst) == labst_tag);
+		assert(labst->tag == labst_tag);
 
 		{
 			int lab = no(son(labst)); /* this is the asm lab no without
@@ -1105,7 +1105,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		}
 
 		if ((has & HAS_LONG_DOUBLE)) {
-			if ( name ( sh ( l ) ) == doublehd ) {
+			if ( sh ( l ) -> tag == doublehd ) {
 				if ( IsRev ( e ) ) {
 					quad_op ( r, l, sp, dest, -n ) ;
 				} else {
@@ -1135,7 +1135,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 			}
 		}
 
-		if ( is_floating ( name ( sh ( l ) ) ) ) {
+		if ( is_floating ( sh ( l ) -> tag ) ) {
 			/* Floating tests */
 			space nsp ;
 			int a1, a2 ;
@@ -1182,13 +1182,13 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 			int a1, a2 ;
 			bool unsgn ;
 
-			assert(name(l) != val_tag); /* now in common section */
+			assert(l->tag != val_tag); /* now in common section */
 			/* Choose branch instruction */
-			unsgn = (bool)(!is_signed(shl) || name(shl) == ptrhd);
+			unsgn = (bool)(!is_signed(shl) || shl->tag == ptrhd);
 			branch = ( unsgn ? usbranches ( n ) : sbranches ( n ) ) ;
 			a1 = reg_operand ( l, sp ) ;
 
-			if ( name ( r ) == val_tag ) {
+			if ( r->tag == val_tag ) {
 				long v = no(r);
 #ifdef DWARF2
 				if (current_dg_info) {
@@ -1300,7 +1300,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 					l = new_label () ;
 				}
 
-				if ( name ( sh ( m ) ) != bothd ) {
+				if ( sh ( m ) -> tag != bothd ) {
 					uncond_ins ( i_b, l ) ;
 				}
 			}
@@ -1320,35 +1320,35 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		/* Change integer variety */
 		exp arg = son ( e ) ;
 		int size_e = shape_size ( sh ( e ) ) ;
-		int to = ( int ) name ( sh ( e ) ), from ;
+		int to = ( int ) sh ( e ) -> tag, from ;
 		int sreg, dreg ;
 		bool inmem_dest ;
 
 		space nsp;
 
 		/* For a series of chvar_tags, do large to small in one go */
-		while ( name ( arg ) == chvar_tag &&
+		while ( arg->tag == chvar_tag &&
 		        shape_size ( sh ( arg ) ) >= size_e ) {
 			arg = son ( arg ) ;
 		}
 
-		from = (int) name ( sh ( arg ) ) ;
+		from = (int) sh ( arg ) -> tag ;
 #if 1
 		if (from == bitfhd) {
 			switch (shape_size(sh(arg))) {
 			case 8:
 				sh(arg) = is_signed(sh(arg)) ? scharsh : ucharsh;
-				from = name(sh(arg));
+				from = sh(arg)->tag;
 				break;
 
 			case 16:
 				sh(arg) = is_signed(sh(arg)) ? swordsh : uwordsh;
-				from = name(sh(arg));
+				from = sh(arg)->tag;
 				break;
 
 			case 32:
 				sh(arg) = is_signed(sh(arg)) ? slongsh : ulongsh;
-				from = name(sh(arg));
+				from = sh(arg)->tag;
 				break;
 			}
 		}
@@ -1357,17 +1357,17 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 			switch (shape_size(sh(e))) {
 			case 8:
 				sh(e) = is_signed(sh(e)) ? scharsh : ucharsh;
-				to = name (sh(e));
+				to = sh(e)->tag;
 				break;
 
 			case 16:
 				sh(e) = is_signed(sh(e)) ? swordsh : uwordsh;
-				to = name (sh(e));
+				to = sh(e)->tag;
 				break;
 
 			case 32:
 				sh(e) = is_signed(sh(e)) ? slongsh : ulongsh;
-				to = name (sh(e));
+				to = sh(e)->tag;
 				break;
 			}
 		}
@@ -1672,10 +1672,10 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 
 			newdest.answhere.val.regans = res_reg;
 			nsp = guardreg(res_reg, sp);
-			/*       if (name(sh(e)) != ulonghd && name(sh(e)) != slonghd)*/
+			/*       if (sh(e)->tag != ulonghd && sh(e)->tag != slonghd)*/
 			mka.regmove = comm_op ( e, sp, newdest, (optop(e)) ? i_add : i_addcc) ;
 
-			switch(name(sh(e))) {
+			switch (sh(e)->tag) {
 			case ulonghd: {
 				int l;
 				/*int newlab = new_label();*/
@@ -1774,7 +1774,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 			nsp = guardreg(res_reg, sp);
 			mka.regmove = comm_op ( e, sp, newdest, (optop(e)) ? i_sub : i_subcc) ;
 
-			switch(name(sh(e))) {
+			switch (sh(e)->tag) {
 			case ulonghd: {
 				int l, r;
 				l = reg_operand(son(e), nsp);
@@ -1872,7 +1872,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 
 			mka.regmove = do_mul_comm_op ( e, sp, newdest, sgned );
 
-			switch(name(sh(e))) {
+			switch (sh(e)->tag) {
 			case ulonghd :
 			case slonghd :
 				check_integer_multiply_exception(e, sp, res_reg);
@@ -1930,9 +1930,9 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		space nsp;
 		ans aa;
 
-		int n = (name(e) == min_tag) ? 2 : 3; /* min -> lt, max -> ge */
+		int n = (e->tag == min_tag) ? 2 : 3; /* min -> lt, max -> ge */
 
-		/*assert(name(l) != val_tag);*/ /* now in common section */
+		/*assert(l->tag != val_tag);*/ /* now in common section */
 
 		/* Choose branch instruction */
 		branch = fbranches (n);
@@ -1942,7 +1942,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		a1.fr = freg_operand ( l, nsp, getfreg(sp.flt) ) ;
 		nsp = guardfreg ( a1.fr, nsp ) ;
 		a2.fr = freg_operand ( r, nsp, getfreg(sp.flt)) ;
-		fmaxminrr_ins ( branch, a1.fr << 1, a2.fr << 1, d.fr << 1, name(sh(e))) ;
+		fmaxminrr_ins ( branch, a1.fr << 1, a2.fr << 1, d.fr << 1, sh(e)->tag) ;
 
 		setfregalt (aa, d);
 		move (aa, dest, guardfreg (d.fr, sp).fixed, 0);
@@ -1963,21 +1963,21 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		space nsp;
 		ans aa;
 
-		int n = (name(e) == min_tag) ? 2 : 3; /* min -> lt, max -> ge */
+		int n = (e->tag == min_tag) ? 2 : 3; /* min -> lt, max -> ge */
 
 		bool unsgn ;
 
-		/*assert(name(l) != val_tag);*/ /* now in common section */
+		/*assert(l->tag != val_tag);*/ /* now in common section */
 
 		/* Choose branch instruction */
-		unsgn = ( bool ) ( name ( shl ) >= ptrhd || !issgn ( shl ) ) ;
+		unsgn = ( bool ) ( shl->tag >= ptrhd || !issgn ( shl ) ) ;
 		branch = ( unsgn ? usbranches ( n ) : sbranches ( n ) ) ;
 
 		d = GETREG(dest, sp);
 		nsp = guardreg(d, sp);
 		a1 = reg_operand ( l, nsp ) ;
 
-		if ( name ( r ) == val_tag ) {
+		if ( r->tag == val_tag ) {
 			int v = no ( r ) ;
 			maxminri_ins ( branch, a1, v, d ) ;
 		} else {
@@ -2024,7 +2024,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		if (!optop(e)) {
 			/* note : mka.regmove should always be a valid register if the
 			division has an error treatment */
-			switch(name(sh(e))) {
+			switch (sh(e)->tag) {
 			case slonghd :
 			case ulonghd :
 				break;
@@ -2110,7 +2110,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		}
 
 		if (!optop(e) /* && !error_treatment_is_trap(e)*/) {
-			switch(name(sh(e))) {
+			switch (sh(e)->tag) {
 			case ulonghd :
 				if (!error_treatment_is_trap(e)) {
 					condrr_ins(i_blt, rd, R_G0, no(son(pt(e))));
@@ -2187,7 +2187,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 			return mka;
 		}
 
-		switch(name(sh(e))) {
+		switch (sh(e)->tag) {
 		case slonghd :
 			if (error_treatment_is_trap(e)) {
 				test_unsigned_and_trap(mka.regmove, 0x7fffffff, f_overflow);
@@ -2235,13 +2235,13 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		int sz = shape_size(sh(s));
 		int norms = 0;
 
-		bool lded = ((name(s) == name_tag && regofval(s) >= 100)
-		             || (name(s) == cont_tag &&
-		                 (name(son(s)) != name_tag || regofval(son(s)) > 0)
+		bool lded = ((s->tag == name_tag && regofval(s) >= 100)
+		             || (s->tag == cont_tag &&
+		                 (son(s)->tag != name_tag || regofval(son(s)) > 0)
 		                ));
-		bool signok = (sz == 32) || (name(s) == chvar_tag) || lded;
+		bool signok = (sz == 32) || (s->tag == chvar_tag) || lded;
 
-		if ( name ( e ) == shr_tag ) {
+		if ( e->tag == shr_tag ) {
 			shnat = ( sgned ? i_sra : i_srl ) ;
 			if (!signok) {
 				rir_ins(i_sll, a, norms = 32 - sz, a);
@@ -2253,7 +2253,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		nsp = guardreg ( a, sp ) ;
 		d = GETREG ( dest, nsp ) ;
 
-		if ( name ( b ) == val_tag ) {
+		if ( b->tag == val_tag ) {
 			/* Special cases? */
 			if (((no(b) + norms) >= 32) && sysV_assembler) {
 				long shiftval = (long)no(b) + norms;
@@ -2411,9 +2411,9 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 			turn_off_trap_on_exceptions(sp);
 		}
 
-		if ( (has & HAS_LONG_DOUBLE) && name ( sh ( e ) ) == doublehd ) {
-			if (name(e) != fabs_tag) {
-				quad_op ( son ( e ), NULL, sp, dest, ( int ) name ( e ) ) ;
+		if ( (has & HAS_LONG_DOUBLE) && sh ( e ) -> tag == doublehd ) {
+			if (e->tag != fabs_tag) {
+				quad_op ( son ( e ), NULL, sp, dest, ( int ) e->tag ) ;
 			} else {	/* would it be so hard to implement _Q_abs? */
 				where newdest;
 				exp zero_exp;
@@ -2439,7 +2439,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		r1 = getfreg ( sp.flt ) ;
 		a1 = freg_operand ( son ( e ), sp, r1 ) ;
 		dble = isdbl ( sh ( e ) ) ;
-		i = ( name ( e ) == fneg_tag ? i_fnegs : i_fabss ) ;
+		i = ( e->tag == fneg_tag ? i_fnegs : i_fabss ) ;
 
 		switch ( discrim ( dest.answhere ) ) {
 		case infreg :
@@ -2492,7 +2492,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 			turn_off_trap_on_exceptions(sp);
 		}
 
-		if ( (has & HAS_LONG_DOUBLE) && name ( sh ( e ) ) == doublehd ) {
+		if ( (has & HAS_LONG_DOUBLE) && sh ( e ) -> tag == doublehd ) {
 			quad_op ( son ( e ), NULL, sp, dest, float_tag ) ;
 			return mka;
 		}
@@ -2567,14 +2567,14 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		}
 
 		if ((has & HAS_LONG_DOUBLE)) {
-			if ( name ( sh ( e ) ) == doublehd ) {
-				if ( name ( sh ( son ( e ) ) ) == doublehd ) {
+			if ( sh ( e ) -> tag == doublehd ) {
+				if ( sh ( son ( e ) ) -> tag == doublehd ) {
 					/* no change in representation */
 					return make_code ( son ( e ), sp, dest, exitlab ) ;
 				}
 				quad_op ( son ( e ), NULL, sp, dest, chfl_tag ) ;
 				return mka;
-			} else if ( name ( sh ( son ( e ) ) ) == doublehd ) {
+			} else if ( sh ( son ( e ) ) -> tag == doublehd ) {
 				int o = ( dto ? 100 : 101 ) ;
 				quad_op ( son ( e ), NULL, sp, dest, o ) ;
 				frg.fr = 0 ;
@@ -2686,7 +2686,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		int r ;
 		space nsp ;
 
-		if (name(sh(e)) == u64hd || name(sh(e)) == s64hd) {
+		if (sh(e)->tag == u64hd || sh(e)->tag == s64hd) {
 			instore is;
 			flt64 bval;
 
@@ -2808,7 +2808,7 @@ null_tag_case :
 		}
 
 		/* Get two floating registers */
-		if ( (has & HAS_LONG_DOUBLE) && name ( sh ( son ( e ) ) ) == doublehd ) {
+		if ( (has & HAS_LONG_DOUBLE) && sh ( son ( e ) ) -> tag == doublehd ) {
 			quad_op ( son ( e ), NULL, sp, dest, 100 ) ;
 			sfr = getfreg ( sp.flt ) ;
 			rrf_ins ( i_fmovd, 0, sfr << 1 ) ;
@@ -2820,7 +2820,7 @@ null_tag_case :
 		dfr = getfreg ( nsp.flt ) ;
 
 		/* Apart from round signed to zero we need an extra register */
-		if ( rm != f_toward_zero || name ( sh ( e ) ) == ulonghd ) {
+		if ( rm != f_toward_zero || sh ( e ) -> tag == ulonghd ) {
 			nsp = guardfreg ( dfr, nsp ) ;
 			tfr = getfreg ( nsp.flt ) ;
 
@@ -2875,7 +2875,7 @@ null_tag_case :
 
 		for ( li = 0 ; li < ln ; li++ ) {
 			/* For each case ... */
-			if ( name ( sh ( e ) ) == ulonghd ) {
+			if ( sh ( e ) -> tag == ulonghd ) {
 				/* Floating to unsigned conversion is tricky */
 				int ulab1 = new_label () ;
 				int ulab2 = new_label () ;
@@ -2915,7 +2915,7 @@ null_tag_case :
 				/* Floating to signed conversion is easy */
 				ins_p ins = ( s == 32 ? i_fstoi : i_fdtoi ) ;
 
-				if (check_ranges && (name(sh(e)) == slonghd || name(sh(e)) == ulonghd)) {
+				if (check_ranges && (sh(e)->tag == slonghd || sh(e)->tag == ulonghd)) {
 					check_range_and_do_error_jump(sh(e), tfr, error_lab,
 					                              guardfreg(tfr, sp), rm);
 				}
@@ -2938,7 +2938,7 @@ null_tag_case :
 					fbr_ins ( i_fbe, lab2 ) ;
 
 					/* If not adjust the result by one */
-					if (!optop(e) && name(sh(e)) == ulonghd) {
+					if (!optop(e) && sh(e)->tag == ulonghd) {
 						/* watch out for unwanted wrap on addition */
 						condri_ins(i_be, r, -1, error_lab);
 					}
@@ -2957,7 +2957,7 @@ null_tag_case :
 		}
 
 		/* Shorten to type if needed */
-		switch ( name ( sh ( e ) ) ) {
+		switch ( sh ( e ) -> tag ) {
 		case ucharhd :
 			if (check_ranges) {
 				test_unsigned(r, 255, error_lab);
@@ -3047,8 +3047,8 @@ null_tag_case :
 
 #if 0
 		/* Some cases are simple moves */
-		if ( ( name ( son ( e ) ) == cont_tag ||
-		       name ( son ( e ) ) == name_tag ) &&
+		if ( ( son ( e ) -> tag == cont_tag ||
+		       son ( e ) -> tag == name_tag ) &&
 		     ( sz == 8 || sz == 16 || sz == 32 ) ) {
 			where intreg ;
 			int olds = sh ( son ( e ) ) ;
@@ -3110,8 +3110,8 @@ null_tag_case :
 
 		asm_comment("local free tag");
 
-		if (name(off) == val_tag) {
-			assert(name(sh(off)) == offsethd);
+		if (off->tag == val_tag) {
+			assert(sh(off)->tag == offsethd);
 			rir_ins(i_add, r, ((no(off) >> 3) + 7) & ~7, r);
 		} else {
 			int rtmp = reg_operand(off, guardreg(r, sp));
@@ -3217,7 +3217,7 @@ null_tag_case :
 			 * G0 are valid, others are NOT.
 			 */
 
-			assert ( name ( t ) == val_tag ) ;
+			assert ( t->tag == val_tag ) ;
 
 			v = no ( t ) ;
 			if ( v != 0 ) {
@@ -3236,7 +3236,7 @@ null_tag_case :
 			while ( !last ( bro ( t ) ) ) {
 				int z ;
 				t = bro ( bro ( t ) ) ;
-				assert ( name ( t ) == val_tag ) ;
+				assert ( t->tag == val_tag ) ;
 				z = reg_operand ( bro ( t ), nsp ) ;
 				v = no ( t ) ;
 
@@ -3437,8 +3437,7 @@ null_tag_case :
 		int r = NOREG ;
 		bool remember = 0 ;
 
-		if ( name ( sh ( son ( e ) ) ) == ptrhd &&
-		     name ( son ( e ) ) != cont_tag ) {
+		if ( sh ( son ( e ) ) -> tag == ptrhd && son ( e ) -> tag != cont_tag ) {
 			/* we should never be identifing a pointer to bits */
 			if ( al1 ( sh ( son ( e ) ) ) == 1 ) {
 				/* ??? changed al1 to al2 here */
@@ -3462,7 +3461,7 @@ null_tag_case :
 		if ( son ( e ) == NULL ) {
 			/* historical - unused tags are now removed cleanly */
 			placew = nowhere ;
-		} else if (name(son(e)) == caller_name_tag) {
+		} else if (son(e)->tag == caller_name_tag) {
 			/*      int disp = ((no(son(son(e)))>>3)<<4) +R_SP;*/
 			exp ote = find_ote(e, no(son(e)));
 
@@ -3476,7 +3475,7 @@ null_tag_case :
 			/* unlike mips, do this first as params in fixed regs treated differently */
 
 			if ( isparam ( e ) ) {
-				if (name(son(e)) != formal_callee_tag) {
+				if (son(e)->tag != formal_callee_tag) {
 					instore is ;
 					/* bit disp of params */
 					int n2 = no ( son ( e ) ) ;
@@ -3490,7 +3489,7 @@ null_tag_case :
 							/* store input regs used (may be more than one) */
 							int max_reg;
 							bool struct_par =
-							    !( is_floating ( name ( sh ( son ( e ) ) ) ) ||
+							    !( is_floating ( sh ( son ( e ) ) -> tag ) ||
 							       valregable ( sh ( son ( e ) ) ) ) ;
 							if ((gencompat && May_have_callees) || (!gencompat && in_general_proc)) {
 								if (Has_vcallees) {
@@ -3645,7 +3644,7 @@ null_tag_case :
 		}
 
 		/* evaluate the initialisation of tag, putting it into place allocated */
-		if (isparam(e) && name(son(e)) == formal_callee_tag) {
+		if (isparam(e) && son(e)->tag == formal_callee_tag) {
 			exp se = son(e);
 			exp d = e;
 
@@ -3674,7 +3673,7 @@ null_tag_case :
 				}
 #endif
 
-				if ( isvar ( e ) && name(sh(nm)) == ptrhd &&
+				if ( isvar ( e ) && sh(nm)->tag == ptrhd &&
 				     al1(sh(nm)) == shape_align(sh(son(e)))) {
 					keepcont ( nm, r ) ;
 					break;
@@ -3710,14 +3709,14 @@ null_tag_case :
 			setregalt ( dest.answhere, *sr ) ;
 		}
 
-		if ( name ( first ) == goto_tag && pt ( first ) == second ) {
+		if ( first->tag == goto_tag && pt ( first ) == second ) {
 			/* first is goto second */
 			no ( son ( second ) ) = 0 ;
 			return make_code ( second, sp, dest, exitlab ) ;
 		}
 #if 0
 		/* not correct, see email from Mark Brandreth DRA, 22 Jan 92 */
-		else if ( name ( first ) == test_tag && pt ( first ) == second ) {
+		else if ( first->tag == test_tag && pt ( first ) == second ) {
 			/* nugatory test */
 			no ( son ( second ) ) = 0 ;
 			( void ) code_here ( son ( first ), sp, nowhere ) ;
@@ -3725,16 +3724,14 @@ null_tag_case :
 			return make_code ( second, sp, dest, exitlab ) ;
 		}
 #endif
-		else if ( name ( second ) == labst_tag &&
-		          name ( bro ( son ( second ) ) ) == top_tag ) {
+		else if ( second->tag == labst_tag && bro ( son ( second ) ) -> tag == top_tag ) {
 			/* second is empty */
 			int endl = ( exitlab == 0 ) ? new_label () : exitlab ;
 			no ( son ( second ) ) = endl ;
 			make_code ( first, sp, dest, endl ) ;
 			mka.lab = endl ;
 			return mka;
-		} else if ( name ( second ) == labst_tag &&
-		            name ( bro ( son ( second ) ) ) == goto_tag ) {
+		} else if ( second->tag == labst_tag && bro ( son ( second ) ) -> tag == goto_tag ) {
 			/* second is goto */
 			exp g = bro ( son ( second ) ) ;
 			no ( son ( second ) ) = no ( son ( pt ( g ) ) ) ;
@@ -3766,7 +3763,7 @@ null_tag_case :
 			{
 				int l = ( fl != 0 ) ? fl :
 				        ( ( exitlab != 0 ) ? exitlab : new_label () ) ;
-				if (name(sh(first)) != bothd) {
+				if (sh(first)->tag != bothd) {
 					uncond_ins ( i_b, l ) ;
 				}
 
@@ -3787,7 +3784,7 @@ null_tag_case :
 		where assdest ;
 		space nsp ;
 		int contreg = NOREG ;
-		int hdrhs = ( int ) name ( sh ( rhs ) ) ;
+		int hdrhs = ( int ) sh ( rhs ) -> tag ;
 		bool is_float = ( bool ) is_floating ( hdrhs ) ;
 
 		if ( (has & HAS_LONG_DOUBLE) && hdrhs == doublehd ) {
@@ -3795,17 +3792,17 @@ null_tag_case :
 		}
 
 		/* lose chvar_tag on rhs if no res, remember to invalidate reg */
-		/* remove name ( e ) == ass_tag tests now assbits_tag has gone */
+		/* remove e->tag == ass_tag tests now assbits_tag has gone */
 
-		if ( name ( e ) == assvol_tag ) {
+		if ( e->tag == assvol_tag ) {
 			/* Assign to volatile location.  Disable register location
 			tracing.  Disable peephole optimisation (not possible on SunOS 4.1.1 ) */
 			clear_all () ;
 			setvolatile () ;
 		}
 
-		if ( name ( e ) == ass_tag &&
-		     ((name(rhs) == apply_tag || name(rhs) == apply_general_tag)
+		if ( e->tag == ass_tag &&
+		     ((rhs->tag == apply_tag || rhs->tag == apply_general_tag)
 		      || is_muldivrem_call ( rhs ) ) &&
 		     ( ( is_float ) || valregable ( sh ( rhs ) ) ) ) {
 			where apply_res ;
@@ -3836,7 +3833,7 @@ null_tag_case :
 #if 1
 #ifndef NO_REGREG_ST
 		/* see if we can use [ reg + reg ] addressing for this store */
-		if ( name ( lhs ) == addptr_tag ) {
+		if ( lhs->tag == addptr_tag ) {
 			exp addptr_sons = son ( lhs ) ;
 			ash ashe ;
 			int ashsize ;
@@ -3927,7 +3924,7 @@ null_tag_case :
 #if 0
 			setbitadalt ( assdest.answhere, isb ) ;
 #endif
-		} else if ( name ( e ) == ass_tag &&
+		} else if ( e->tag == ass_tag &&
 		            discrim ( assdest.answhere ) == notinreg ) {
 			instore is ;
 			is = insalt ( assdest.answhere ) ;
@@ -3948,7 +3945,7 @@ null_tag_case :
 		}
 
 #if 1
-		if ( name ( e ) == ass_tag && is_float &&
+		if ( e->tag == ass_tag && is_float &&
 		     discrim ( assdest.answhere ) == notinreg ) {
 			/* Ensure floating point values assigned using floating
 			point regs so floating point reg tracking works better.
@@ -4013,7 +4010,7 @@ null_tag_case :
 
 #if 0
 		case bitad :
-			if ( contreg != NOREG && name ( e ) == ass_tag ) {
+			if ( contreg != NOREG && e->tag == ass_tag ) {
 				ans aa ;
 				space nnsp ;
 
@@ -4032,7 +4029,7 @@ null_tag_case :
 				clear_dep_reg ( lhs ) ;
 				/* remember that dest contains source, provided
 				   that it is not dependent on it */
-				if ( name ( lhs ) == name_tag ) {
+				if ( lhs->tag == name_tag ) {
 					exp dc = son ( lhs ) ;
 					if ( son ( dc ) != NULL ) {
 						dc = son ( dc ) ;
@@ -4064,7 +4061,7 @@ null_tag_case :
 			error(ERR_INTERNAL, "Insomefreg not expected here...");
 		}
 
-		if ( name ( e ) == assvol_tag ) {
+		if ( e->tag == assvol_tag ) {
 			setnovolatile () ;
 		}
 		return mka;
@@ -4381,7 +4378,7 @@ null_tag_case :
 
 		overlaps = 1;	/* for now use memmove always */
 
-		if (overlaps || (name(nbytes) != val_tag)) {
+		if (overlaps || (nbytes->tag != val_tag)) {
 			int param_reg = R_O0 ;	 /* next param reg to use */
 			space nsp;
 			nsp.fixed = sp.fixed;
@@ -4465,7 +4462,7 @@ null_tag_case :
 
 	case cont_tag :
 	case contvol_tag : {
-		if ( name ( e ) == contvol_tag ) {
+		if ( e->tag == contvol_tag ) {
 			/* Load contents of volatile location.  Disable register
 			location tracing.  Disable peephole optimisation (not
 			 possible with SPARC assembler ) */
@@ -4476,11 +4473,11 @@ null_tag_case :
 #if 1
 #ifndef NO_REGREG_LOADS
 		/* see if we can use [ reg + reg ] addressing for this load */
-		if ( name ( son ( e ) ) == addptr_tag ) {
+		if ( son ( e ) -> tag == addptr_tag ) {
 			exp addptr_sons = son ( son ( e ) ) ;
 			ash ashe ;
 			int ashsize ;
-			bool is_float = ( bool ) is_floating ( name ( sh ( e ) ) ) ;
+			bool is_float = ( bool ) is_floating ( sh ( e ) -> tag ) ;
 			ashe = ashof ( sh ( e ) ) ;
 			ashsize = ( int ) ashe.ashsize ;
 
@@ -4523,7 +4520,7 @@ null_tag_case :
 				}
 
 				mka.regmove = move ( aa, dest, sp.fixed, sgned ) ;
-				if ( name ( e ) == contvol_tag ) {
+				if ( e->tag == contvol_tag ) {
 					mka.regmove = NOREG ;
 					setnovolatile () ;
 				}
@@ -4546,7 +4543,7 @@ null_tag_case :
 
 		int dr = ( ( discrim ( dest.answhere ) == inreg ) ?
 		           dest.answhere.val.regans : 0 ) ;
-		if ( name ( e ) == contvol_tag ) {
+		if ( e->tag == contvol_tag ) {
 			clear_all () ;
 			setvolatile () ;
 		}
@@ -4559,7 +4556,7 @@ null_tag_case :
 		mka.regmove = move ( w.answhere, dest,
 		                     ( guard ( w, sp ) ).fixed, sgned ) ;
 
-		if ( name ( e ) == contvol_tag ) {
+		if ( e->tag == contvol_tag ) {
 			setnovolatile () ;
 			mka.regmove = NOREG ;
 		}
@@ -4590,10 +4587,10 @@ null_tag_case :
 		baseoff b;
 		exp id = son(e);	/* as per tags.h, son is ident, not name */
 
-		assert (name(id) == ident_tag);
+		assert (id->tag == ident_tag);
 		/* b = boff(id); */
 		b.base = R_FP;
-		if (name(son(id)) == formal_callee_tag) {
+		if (son(id)->tag == formal_callee_tag) {
 			b.base = callee_start_reg;
 		}
 
@@ -4704,13 +4701,13 @@ null_tag_case :
 
 	case asm_tag :
 		if (props(e)) {
-			if (name(son(e)) == string_tag) {
+			if (son(e)->tag == string_tag) {
 				asm_printf("%s", nostr(son(e)));
-			} else if (name(son(e)) == val_tag) {
+			} else if (son(e)->tag == val_tag) {
 				asm_printf("%d", no(son(e)));
 			} else if (asm_in(e)) {
 				exp s = son(e);
-				if (name(s) == name_tag && !isvar(son(s))) {
+				if (s->tag == name_tag && !isvar(son(s))) {
 					int r = regofval(s);
 					if (r != R_NO_REG) {
 						out_asm_reg (r, 0);
@@ -4719,7 +4716,7 @@ null_tag_case :
 					} else {
 						out_asm_boff (boff(son(s)), no(s) / 8);
 					}
-				} else if (name(s) == cont_tag && name(son(s)) == name_tag && isvar(son(son(s)))) {
+				} else if (s->tag == cont_tag && son(s)->tag == name_tag && isvar(son(son(s)))) {
 					int r = regofval(son(s));
 					if (r != R_NO_REG) {
 						out_asm_reg (-r, 0);
@@ -4734,7 +4731,7 @@ null_tag_case :
 			} else if (asm_var(e)) {
 				exp s = son(e);
 
-				if (name(s) == name_tag && isvar(son(s))) {
+				if (s->tag == name_tag && isvar(son(s))) {
 					int r = regofval(s);
 					if (r != R_NO_REG) {
 						out_asm_reg (-r, 0);
@@ -4843,7 +4840,7 @@ make_code( exp e, space sp, where dest, int exitlab )
 	current_dg_info = nildiag;
 
 	if (extra_diags) {
-		switch (name (e)) {
+		switch (e->tag) {
 		case apply_tag:
 		case apply_general_tag: {
 			dg_info d = dgf(e);
@@ -4936,7 +4933,7 @@ make_code( exp e, space sp, where dest, int exitlab )
 		}
 	}
 
-	if (dgf(e) != nildiag && name(e) != proc_tag && name(e) != general_proc_tag) {
+	if (dgf(e) != nildiag && e->tag != proc_tag && e->tag != general_proc_tag) {
 		struct make_code_args args;
 		current_dg_exp = args.e = e;
 		args.sp = sp;

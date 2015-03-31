@@ -45,7 +45,7 @@ regable(exp e)
 	}
 
 	sha = sh(son(e));
-	n = name(sha);
+	n = sha->tag;
 	if (n == realhd || n == doublehd) {
 		return 1;
 	}
@@ -63,7 +63,7 @@ regable(exp e)
 bool
 no_side(exp e)
 {
-	int n = name(e);
+	int n = e->tag;
 	if (n == ident_tag) {
 		return no_side(son(e)) && (no_side(bro(son(e))));
 	}
@@ -79,7 +79,7 @@ no_side(exp e)
 bool
 push_arg(exp e)
 {
-	unsigned char n = name(e);
+	unsigned char n = e->tag;
 
 	if (is_a(n)) {
 		return 1;
@@ -116,7 +116,7 @@ is_ptr_void(shape sha)
 	}
 	do {
 		go = (last(t) ? 0 : 1);
-		if (name(sh(t)) != ptrhd) {
+		if (sh(t)->tag != ptrhd) {
 			return 0;
 		}
 		ptrs++;
@@ -145,7 +145,7 @@ is_ptr_void(shape sha)
 bool
 cpd_param(shape sha)
 {
-	char n = name(sha);
+	char n = sha->tag;
 	if (cconv != CCONV_HP || n == bitfhd) {
 		long sz = shape_size(sha);
 		if (sz <= 32) {
@@ -164,7 +164,7 @@ cpd_param(shape sha)
 bool
 varsize(shape sha)
 {
-	return name(sha) == nofhd ? 1 : 0;
+	return sha->tag == nofhd ? 1 : 0;
 }
 
 #if 0
@@ -178,7 +178,7 @@ Use is_signed macro instead
 bool
 issigned(shape sha)
 {
-	char n = name(sha);
+	char n = sha->tag;
 	if (n == ucharhd || n == uwordhd || n == ulonghd) {
 		return 0;
 	}
@@ -211,11 +211,11 @@ check_anyway(exp e)
 bool
 is_worth(exp c)
 {
-	unsigned char cnam = name(c);
+	unsigned char cnam = c->tag;
 	return (!is_o(cnam) && cnam != clear_tag) ||
 		/* ignore simple things unless ... */
-		(cnam == cont_tag && name(son(c)) == cont_tag &&
-		 name(son(son(c))) == name_tag) ||
+		(cnam == cont_tag && son(c)->tag == cont_tag &&
+		 son(son(c))->tag == name_tag) ||
 		(cnam == name_tag && isparam(son(c)) && !isvar(son(c)) &&
-		 shape_size(sh(c)) <= 32 && name(sh(c)) != shrealhd);
+		 shape_size(sh(c)) <= 32 && sh(c)->tag != shrealhd);
 }

@@ -86,23 +86,23 @@ int inlinechoice
   fpars = son(def);
 
   for (;;) {
-     if (name(fpars)!=ident_tag || !isparam(fpars)) {
-       if (name(apars)!= top_tag)newdecs = 10;
+     if (fpars->tag!=ident_tag || !isparam(fpars)) {
+       if (apars->tag!= top_tag)newdecs = 10;
       	 break;
      }
      nparam++;
 
-     switch (name(apars)) {
+     switch (apars->tag) {
       case val_tag: case real_tag: case string_tag: case name_tag:
        break;
       case cont_tag: {
-	if (name(son(apars)) ==name_tag && isvar(son(son(apars))) &&
+	if (son(apars)->tag ==name_tag && isvar(son(son(apars))) &&
 	    !isvar(fpars))break;
       } /* ... else continue */
        FALL_THROUGH
 	default: newdecs++;
      }
-     switch (name(apars))
+     switch (apars->tag)
      {
       case val_tag: {
 	int n = no(apars);
@@ -139,7 +139,7 @@ int inlinechoice
 	 break;
 
       case cont_tag:
-	if (name(son(apars)) == name_tag &&
+	if (son(apars)->tag == name_tag &&
 	    isvar(son(son(apars))) &&
 	    !isvar(fpars)) {
 	  break;

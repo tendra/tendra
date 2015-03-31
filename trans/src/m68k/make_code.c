@@ -75,7 +75,7 @@ ast
 add_shape_to_stack(ash p, shape s)
 {
 	ast res;
-	char n = name(s);
+	char n = s->tag;
 	long sz = shape_size(s);
 	long adj = 0;
 
@@ -184,7 +184,7 @@ reuse_check(exp e)
 {
 	exp id;
 
-	if (name(e) != name_tag) {
+	if (e->tag != name_tag) {
 		return 0;
 	}
 
@@ -204,7 +204,7 @@ reuse_check(exp e)
 static long
 reuse(exp def)
 {
-	switch (name(def)) {
+	switch (def->tag) {
 	case name_tag:
 		return reuse_check(def);
 
@@ -255,7 +255,7 @@ reuse(exp def)
 static bool
 nouse(exp e)
 {
-	char n = name(e);
+	char n = e->tag;
 
 	if (n == test_tag) {
 		return 1;
@@ -282,7 +282,7 @@ alloc_variable(exp e, exp def, ash stack)
 	allocation dc;
 	bitpattern ru;
 
-	unsigned char n = name(def);
+	unsigned char n = def->tag;
 	exp s = son(def);
 	exp body = bro(def);
 	int br = (int)no(e);
@@ -294,7 +294,7 @@ alloc_variable(exp e, exp def, ash stack)
 	dc.new_stack = stack;
 	dc.is_new = 1;
 
-	if (name(sh(def)) == tophd && !isvis(e)) {
+	if (sh(def)->tag == tophd && !isvis(e)) {
 		dc.place = nowhere_pl;
 		dc.num = 0;
 		return dc;
@@ -302,7 +302,7 @@ alloc_variable(exp e, exp def, ash stack)
 
 	if (n == name_tag) {
 		in_reg1 = (!isvar(s) && (no(def) == 0 || !isglob(s)));
-	} else if (n == cont_tag && name(s) == name_tag) {
+	} else if (n == cont_tag && s->tag == name_tag) {
 		exp t = son(s);
 		in_reg2 = (isvar(t) && (no(s) == 0 || !isglob(t)) &&
 		           no_side(body));
@@ -491,7 +491,7 @@ solve(exp s, exp l, where dest, exp jr, ash stack)
 
 	r1 = regsinuse;
 
-	if (name(s) != goto_tag || pt(s) != bro(s)) {
+	if (s->tag != goto_tag || pt(s) != bro(s)) {
 		/* Code the starting expression */
 		have_cond = 0;
 		make_code(dest, stack, s);
@@ -501,7 +501,7 @@ solve(exp s, exp l, where dest, exp jr, ash stack)
 
 	do {
 		regsinuse = r1;
-		if (name(sh(t)) != bothd) {
+		if (sh(t)->tag != bothd) {
 			make_jump(m_bra, ptno(jr));
 		}
 
@@ -783,7 +783,7 @@ stack_room(ash stack, where dest, long off)
 {
 	exp e = dest.wh_exp;
 
-	if (name(e) == ident_tag) {
+	if (e->tag == ident_tag) {
 		if (ptno(e) != var_pl) {
 			return stack;
 		}
@@ -813,7 +813,7 @@ make_code(where dest, ash stack, exp e)
 		return;
 	}
 
-	switch (name(e)) {
+	switch (e->tag) {
 	case ident_tag: {
 		long sz;
 		int dw = 0;
@@ -923,7 +923,7 @@ make_code(where dest, ash stack, exp e)
 
 		/* Code each sub-expression */
 		while (make_code(zero, stack, t),
-		       no_bottom = (name(sh(t)) != bothd),
+		       no_bottom = (sh(t)->tag != bothd),
 		       !last(t)) {
 			t = bro(t);
 		}
@@ -948,7 +948,7 @@ make_code(where dest, ash stack, exp e)
 		exp alt = bro(first);
 
 		/* Check for "if cond goto ..." */
-		if (name(bro(son(alt))) == goto_tag) {
+		if (bro(son(alt))->tag == goto_tag) {
 			is_condgoto = 1;
 		}
 
@@ -972,8 +972,8 @@ make_code(where dest, ash stack, exp e)
 		no(alt) = dc.num;
 
 		/* If first is just a jump to alt, just encode alt */
-		if (name(first) == goto_tag && pt(first) == alt &&
-		    son(first) != NULL && name(sh(son(first))) == tophd) {
+		if (first->tag == goto_tag && pt(first) == alt &&
+		    son(first) != NULL && sh(son(first))->tag == tophd) {
 			make_code(dest, stack, bro(son(alt)));
 			return;
 		}
@@ -987,7 +987,7 @@ make_code(where dest, ash stack, exp e)
 		regsinuse = r1;
 
 		/* If alt is trivial, no further action is required */
-		if (name(bro(son(alt))) == top_tag) {
+		if (bro(son(alt))->tag == top_tag) {
 			bitpattern ch = last_jump_regs;
 			make_label(ptno(record));
 			if (!is_condgoto && !output_immediately &&
@@ -1003,7 +1003,7 @@ make_code(where dest, ash stack, exp e)
 		}
 
 		/* If first doesn't end with a jump, add one */
-		if (name(sh(first)) != bothd) {
+		if (sh(first)->tag != bothd) {
 			long lb2 = next_lab();
 			jr = simple_exp(0);
 			ptno(jr) = lb2;
@@ -1018,7 +1018,7 @@ make_code(where dest, ash stack, exp e)
 		reuseables = 0;
 
 		/* Output the label for the jump added to first if necessary */
-		if (name(sh(first)) != bothd) {
+		if (sh(first)->tag != bothd) {
 			make_label(ptno(jr));
 			retcell(jr);
 		}
@@ -1106,8 +1106,8 @@ make_code(where dest, ash stack, exp e)
 		exp lab;
 
 		/* Try to avoid unnecessary jumps */
-		if (last(e) && name(bro(e)) == seq_tag &&
-		    name(bro(bro(e))) == labst_tag &&
+		if (last(e) && bro(e)->tag == seq_tag &&
+		    bro(bro(e))->tag == labst_tag &&
 		    red_jump(e, bro(e))) {
 			return;
 		}
@@ -1183,7 +1183,7 @@ make_code(where dest, ash stack, exp e)
 		exp jr = pt(son(lab_exp));
 
 		/* If arg1 is not an operand, code it into D1 */
-		if (!is_o(name(arg1))) {
+		if (!is_o(arg1->tag)) {
 			qwe = sim_exp(sh(arg1), D1);
 			qw = zw(qwe);
 			regsinproc |= regmsk(REG_D1);
@@ -1192,7 +1192,7 @@ make_code(where dest, ash stack, exp e)
 		}
 
 		/* If arg2 is not an operand, code it into D1 */
-		if (!is_o(name(arg2))) {
+		if (!is_o(arg2->tag)) {
 			qwe = sim_exp(sh(arg2), D1);
 			qw = zw(qwe);
 			regsinproc |= regmsk(REG_D1);
@@ -1201,7 +1201,7 @@ make_code(where dest, ash stack, exp e)
 		}
 
 		/* Look for unsigned or floating tests */
-		shn = name(sh(arg1));
+		shn = sh(arg1)->tag;
 		switch (shn) {
 		case ucharhd:
 		case uwordhd:
@@ -1219,7 +1219,7 @@ make_code(where dest, ash stack, exp e)
 		}
 
 		/* Certain comparisons with 1 or -1 can be changed */
-		if (name(arg1) == val_tag) {
+		if (arg1->tag == val_tag) {
 			long d = no(arg1);
 			if (is_offset(arg1)) {
 				d /= 8;
@@ -1249,7 +1249,7 @@ make_code(where dest, ash stack, exp e)
 		}
 
 		/* Certain other comparisons with 1 or -1 can be changed */
-		if (name(arg2) == val_tag) {
+		if (arg2->tag == val_tag) {
 			long d = no(arg2);
 			if (is_offset(arg2)) {
 				d /= 8;
@@ -1323,7 +1323,7 @@ make_code(where dest, ash stack, exp e)
 		exp jr = pt(son(lab_exp));
 
 		/* If arg1 is not an operand, code it into D1 */
-		if (!is_o(name(arg1))) {
+		if (!is_o(arg1->tag)) {
 			qwe = sim_exp(sh(arg1), D1);
 			qw = zw(qwe);
 			regsinproc |= regmsk(REG_D1);
@@ -1332,7 +1332,7 @@ make_code(where dest, ash stack, exp e)
 		}
 
 		/* If arg2 is not an operand, code it into D1 */
-		if (!is_o(name(arg2))) {
+		if (!is_o(arg2->tag)) {
 			qwe = sim_exp(sh(arg2), D1);
 			qw = zw(qwe);
 			regsinproc |= regmsk(REG_D1);
@@ -1354,7 +1354,7 @@ make_code(where dest, ash stack, exp e)
 		exp assdest = son(e);
 		exp assval = bro(assdest);
 		asm_comment("assign ...");
-		if (name(sh(assval)) == bitfhd) {
+		if (sh(assval)->tag == bitfhd) {
 			int_to_bitf(assval, e, stack);
 			return;
 		}
@@ -1374,7 +1374,7 @@ make_code(where dest, ash stack, exp e)
 			return;
 		}
 
-		if (name(dest.wh_exp) == val_tag) {
+		if (dest.wh_exp->tag == val_tag) {
 			return;
 		}
 
@@ -1408,7 +1408,7 @@ make_code(where dest, ash stack, exp e)
 			return;
 		}
 
-		if (name(dest.wh_exp) == val_tag) {
+		if (dest.wh_exp->tag == val_tag) {
 			return;
 		}
 
@@ -1526,8 +1526,8 @@ make_code(where dest, ash stack, exp e)
 				if (cpd_param(sh(t))) {
 					use_push = 0;
 				}
-				if ((name(sh(t)) == s64hd) ||
-				    (name(sh(t)) == u64hd)) {
+				if ((sh(t)->tag == s64hd) ||
+				    (sh(t)->tag == u64hd)) {
 					use_push = 0;
 				}
 				if (!push_arg(t)) {
@@ -1585,7 +1585,7 @@ make_code(where dest, ash stack, exp e)
 				ast a;
 				where stp;
 				long adj = 0;
-				char nc = name(sh(t));
+				char nc = sh(t)->tag;
 
 				if (nc == scharhd || nc == ucharhd) {
 					adj = 24;
@@ -1702,7 +1702,7 @@ make_code(where dest, ash stack, exp e)
 			 * union results.
 			 */
 #ifdef OLD_SPEC
-			if (cconv == CCONV_HP && name(sh(e)) == unhd) {
+			if (cconv == CCONV_HP && sh(e)->tag == unhd) {
 				regsinproc |= regmsk(REG_A0);
 				move(slongsh, D0, A0);
 				move(sh(e), A0_p, dest);
@@ -1724,7 +1724,7 @@ make_code(where dest, ash stack, exp e)
 
 		/* Create a where representing the value to be allocated */
 
-		if (name(s) == val_tag) {
+		if (s->tag == val_tag) {
 			long off = no(s);
 			if (!is_offset(s)) {
 				off *= 8;
@@ -1785,7 +1785,7 @@ make_code(where dest, ash stack, exp e)
 
 		make_code(w_a0, stack, base);
 
-		if (name(offset) == val_tag) {
+		if (offset->tag == val_tag) {
 			long off = no(offset);
 
 			if (!is_offset(offset)) {
@@ -1856,9 +1856,9 @@ make_code(where dest, ash stack, exp e)
 				}
 
 				/* Jump to the return label */
-				if (name(rsha) != bothd) {
+				if (rsha->tag != bothd) {
 #ifndef tdf3
-					if (name(e) == untidy_return_tag) {
+					if (e->tag == untidy_return_tag) {
 						untidy_return();
 					} else
 #endif
@@ -1874,8 +1874,8 @@ make_code(where dest, ash stack, exp e)
 			 * procedure. This value was stored in A6_4. The value
 			 * of this pointer is returned in D0.
 			 */
-			if (name(son(e)) == apply_tag ||
-			    name(son(e)) == apply_general_tag) {
+			if (son(e)->tag == apply_tag ||
+			    son(e)->tag == apply_general_tag) {
 				make_code(A6_4_p, stack, son(e));
 			} else {
 				codec(A6_4_p, stack, son(e));
@@ -1889,7 +1889,7 @@ make_code(where dest, ash stack, exp e)
 
 			regsinproc |= regmsk(REG_A1);
 #ifndef tdf3
-			if (name(e) == untidy_return_tag) {
+			if (e->tag == untidy_return_tag) {
 				untidy_return();
 			} else
 #endif
@@ -1902,7 +1902,7 @@ make_code(where dest, ash stack, exp e)
 			 */
 			make_code(rscope_dest, stack, son(e));
 #ifndef tdf3
-			if (name(e) == untidy_return_tag) {
+			if (e->tag == untidy_return_tag) {
 				untidy_return();
 			} else
 #endif
@@ -1920,8 +1920,8 @@ make_code(where dest, ash stack, exp e)
 
 		/* Check for inlined procedures */
 		if (last(e) &&
-		    (name(bro(e)) == proc_tag ||
-		     name(bro(e)) == general_proc_tag)) {
+		    (bro(e)->tag == proc_tag ||
+		     bro(e)->tag == general_proc_tag)) {
 			/* Non-inlined procedures are simple */
 			crt_rscope = 0;
 			make_code(zero, stack, son(e));
@@ -2026,12 +2026,12 @@ make_code(where dest, ash stack, exp e)
 		return;
 
 	default:
-		if (!is_a(name(e))) {
+		if (!is_a(e->tag)) {
 			error(ERR_SERIOUS, "Bad operation");
 			return;
 		}
 
-		if (name(dest.wh_exp) != val_tag) {
+		if (dest.wh_exp->tag != val_tag) {
 			/* All other cases are passed to codec */
 			codec(dest, stack, e);
 			return;

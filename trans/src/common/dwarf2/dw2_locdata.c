@@ -253,7 +253,7 @@ find_equiv_object(exp e, int isc)
 			if (nm->key == DGN_OBJECT) {
 				exp x = nm->data.n_obj.obtain_val;
 				if (isc) {
-					if (x && name(son(x)) == cont_tag &&
+					if (x && son(x)->tag == cont_tag &&
 					    dw_loc_equivalence(e,
 							       son(son(x)))) {
 						return nm;
@@ -286,12 +286,12 @@ find_simple_object(exp e)
 		while (nm) {
 			if (nm->key == DGN_OBJECT) {
 				exp x = nm->data.n_obj.obtain_val;
-				while (x && (name(x) == hold_tag ||
-					     name(x) == cont_tag ||
-					     name(x) == reff_tag)) {
+				while (x && (x->tag == hold_tag ||
+					     x->tag == cont_tag ||
+					     x->tag == reff_tag)) {
 					x = son(x);
 				}
-				if ((x) && name(x) == name_tag &&
+				if ((x) && x->tag == name_tag &&
 				    son(x) == son(e) &&
 				    (no(x) <= no(e)) &&
 				    (no(x) + shape_size(sh(x))) >=
@@ -371,12 +371,12 @@ set_obj_rets(retrec * rec)
 		while (nm) {
 			if (nm->key == DGN_OBJECT) {
 				exp x = nm->data.n_obj.obtain_val;
-				while (x && (name(x) == hold_tag ||
-					     name(x) == cont_tag ||
-					     name(x) == reff_tag)) {
+				while (x && (x->tag == hold_tag ||
+					     x->tag == cont_tag ||
+					     x->tag == reff_tag)) {
 					x = son(x);
 				}
-				if ((x) && name(x) == name_tag &&
+				if ((x) && x->tag == name_tag &&
 				    !isdiscarded(x) &&
 				    !isglob(son(x))) {
 					ll_item *l = ll_root(nm);

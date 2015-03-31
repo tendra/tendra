@@ -46,7 +46,7 @@ trace_uses(exp e, exp id)
 {
   assert(e!=(exp)0);
   assert(id!=(exp)0);
-  switch(name(e)) {
+  switch (e->tag) {
     case name_tag: {
       nouses -=(son(e)==id);
       return 1;
@@ -98,7 +98,7 @@ trace_uses(exp e, exp id)
      }
    }
   case ass_tag: {
-    if (isvar(id) && name(son(e))==name_tag && son(son(e))==id) {
+    if (isvar(id) && son(e)->tag==name_tag && son(son(e))==id) {
       trace_uses(bro(son(e)),id);
       return 2;
     }
@@ -161,13 +161,13 @@ after_a(exp a, exp id)
   exp l;
  tailrec: dad = father(a);
   if (nouses == 0) return;
-  if (name(dad)==cond_tag || name(dad)==rep_tag || name(dad) == res_tag
-      || name(dad) == solve_tag || name(dad) == labst_tag
-      || name(dad) == case_tag || name(dad)== goto_lv_tag
-      || name(dad) == test_tag ||  name(dad) == apply_tag) {
+  if (dad->tag==cond_tag || dad->tag==rep_tag || dad->tag == res_tag
+      || dad->tag == solve_tag || dad->tag == labst_tag
+      || dad->tag == case_tag || dad->tag== goto_lv_tag
+      || dad->tag == test_tag ||  dad->tag == apply_tag) {
     /* dont try too hard ! */
-    while (name(dad) != apply_tag && dad !=id) dad = father(dad);
-    if (name(dad) == apply_tag) { useinpar =1;}
+    while (dad->tag != apply_tag && dad !=id) dad = father(dad);
+    if (dad->tag == apply_tag) { useinpar =1;}
     return;
   }
   
@@ -188,8 +188,8 @@ simple_seq(exp e, exp id)
   exp dad = father(e);
   for(;;) {
     if (dad == id) return 1;
-    if (name(dad)==seq_tag || name(dad)==0
-	|| name(dad) == ident_tag) { dad = father(dad);}
+    if (dad->tag==seq_tag || dad->tag==0
+	|| dad->tag == ident_tag) { dad = father(dad);}
     else return 0;
   }
 }
@@ -209,7 +209,7 @@ tempdec(exp e, bool enoughs)
     for (p=pt(e); p!=NULL; p =pt(p)) {
       /* find no of uses which are not assignments to id ... */
       if (!last(p) && last(bro(p)) 
-	  && name(bro(bro(p))) == ass_tag ) {
+	  && bro(bro(p))->tag == ass_tag ) {
     (void) simple_seq;
 /*	if (!simple_seq(bro(bro(p)), e) ) return 0;*/
 	/* ... in simple sequence */		 
@@ -223,11 +223,11 @@ tempdec(exp e, bool enoughs)
   /* trace simple successors to assignmnts or init to id to find 
      if all uses occur before unpredictable change of control 
      (or another assignment to id) */
-  if (name(son(e)) != clear_tag || isparam(e)) { after_a(son(e), e); }
+  if (son(e)->tag != clear_tag || isparam(e)) { after_a(son(e), e); }
   if (isvar(e)) {
     for (p=pt(e); p!=NULL; p =pt(p)) {
       if (!last(p) && last(bro(p)) 
-	  && name(bro(bro(p))) == ass_tag ) {	
+	  && bro(bro(p))->tag == ass_tag ) {	
 	after_a(bro(bro(p)), e);
       }
     }

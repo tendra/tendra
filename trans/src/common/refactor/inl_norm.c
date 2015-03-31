@@ -51,7 +51,7 @@ apply_only(exp e)
 #endif
 			f = father(t);
 
-			if (name(f) != apply_tag || son(f) != t) {
+			if (f->tag != apply_tag || son(f) != t) {
 				return 0;
 			}
 		}
@@ -86,7 +86,7 @@ normalised_inlining(void)
 		exp crt_exp = my_def -> dec_exp;
 
 		def = son(crt_exp);
-		if (def != NULL && !isvar(crt_exp) && name(def) == proc_tag &&
+		if (def != NULL && !isvar(crt_exp) && def->tag == proc_tag &&
 		    !isrecursive(def) && apply_only(crt_exp) && !proc_has_setjmp(def) &&
 		    !proc_uses_crt_env(def) && !proc_has_alloca(def) && !proc_has_lv(def)) {
 			proc_count++;
@@ -123,7 +123,7 @@ normalised_inlining(void)
 		exp crt_exp = my_def->dec_exp;
 
 		def = son(crt_exp);
-		if (def != NULL && !isvar(crt_exp) && name(def) == proc_tag &&
+		if (def != NULL && !isvar(crt_exp) && def->tag == proc_tag &&
 		    !isrecursive(def) && apply_only(crt_exp) && !proc_has_setjmp(def) &&
 		    !proc_uses_crt_env(def) && !proc_has_alloca(def) && !proc_has_lv(def)) {
 			to_dec[i] = my_def;
@@ -150,12 +150,12 @@ normalised_inlining(void)
 					continue;
 				}
 #endif
-				while (k != NULL && name(k) != hold_tag && name(k) != 102 &&
-				       name(k) != proc_tag && name(k) != general_proc_tag) {
+				while (k != NULL && k->tag != hold_tag && k->tag != 102 &&
+				       k->tag != proc_tag && k->tag != general_proc_tag) {
 					k = bro(k);
 				}
 
-				if (k != NULL && name(k) == proc_tag) {
+				if (k != NULL && k->tag == proc_tag) {
 					int up = brog(bro(k))->index;
 					if (up >= 0 && up < proc_count) {
 						uses[proc_count * up + i] = 1;
@@ -258,7 +258,7 @@ normalised_inlining(void)
 					if (istoinline(dad)) {
 						inline_exp(dad);
 
-						for (k = t; k != NULL && name(k) != hold_tag && name(k) != proc_tag; k = bro(k))
+						for (k = t; k != NULL && k->tag != hold_tag && k->tag != proc_tag; k = bro(k))
 							;
 
 						if (print_inlines) {
@@ -283,7 +283,7 @@ normalised_inlining(void)
 							inline_exp(dad);
 							no_inlined++;
 
-							for (k = t; k != NULL && name(k) != hold_tag && name(k) != proc_tag; k = bro(k))
+							for (k = t; k != NULL && k->tag != hold_tag && k->tag != proc_tag; k = bro(k))
 								;
 
 							if (print_inlines) {

@@ -158,7 +158,7 @@ void setframe_flags
 (exp e, bool leaf)
 {
    /* e is a proc_tag */
-   unsigned char ne = name(e);
+   unsigned char ne = e->tag;
    Uses_crt_env = proc_uses_crt_env(e);
    No_S = (!leaf && Uses_crt_env && proc_has_lv(e)
 		  && (ne!=general_proc_tag || !proc_has_nolongj(e)));
@@ -320,7 +320,7 @@ long frame_offset
    exp p;
    procrec *pr;
    int eo,lo,po,co;
-   for (p = father(e);(name(p)!=proc_tag && name(p)!=general_proc_tag);                              p = father(p));
+   for (p = father(e);(p->tag!=proc_tag && p->tag!=general_proc_tag);                              p = father(p));
    pr = &procrecs[no(p)];
    lo = pr->locals_offset>>3;
    po = pr->params_offset>>3;
@@ -328,7 +328,7 @@ long frame_offset
    if (isparam(e))
    {
       int nse = no(son(e));
-      if (name(son(e)) ==formal_callee_tag)
+      if (son(e)->tag ==formal_callee_tag)
       {
 	 eo = -co+ (nse>>3);
       }

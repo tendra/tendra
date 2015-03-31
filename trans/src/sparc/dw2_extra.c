@@ -92,7 +92,7 @@ typedef struct {
 
 int dw_is_const(exp e)
 {
-  switch (name(e)) {
+  switch (e->tag) {
     case val_tag:
     case null_tag:
     case real_tag:
@@ -107,7 +107,7 @@ int dw_is_const(exp e)
       return 0;
 #if 0
     case cont_tag:
-      return name(son(e)) == name_tag && !isdiscarded(son(e)) &&
+      return son(e)->tag == name_tag && !isdiscarded(son(e)) &&
 		!isvar(son(son(e))) && !isparam(son(son(e)));
 #endif
     case reff_tag:
@@ -119,7 +119,7 @@ int dw_is_const(exp e)
 
 exp dw_has_location(exp e)
 {			/* return ident or NULL */
-  switch (name(e)) {
+  switch (e->tag) {
     case name_tag: {
       if (isdiscarded(e) || isvar(son(e)))
 	return NULL;
@@ -130,10 +130,10 @@ exp dw_has_location(exp e)
     case cont_tag: {
       do {
 	e = son(e);
-	if (name(e) == name_tag && isdiscarded(e))
+	if (e->tag == name_tag && isdiscarded(e))
 	  return NULL;
       }
-      while (name(e) != ident_tag || (props(e) & defer_bit));
+      while (e->tag != ident_tag || (props(e) & defer_bit));
       return e;
     }
     default:
@@ -158,7 +158,7 @@ static loc_s find_in_store(exp dc, long off)
 static loc_s find_loc(exp e)
 {
   loc_s l;
-  switch ( name ( e ) ) {
+  switch ( e->tag ) {
 
     case name_tag : {
       if (isdiscarded(e) || (isglob(son(e)) && no(son(e)) == 0 &&
@@ -178,8 +178,8 @@ static loc_s find_loc(exp e)
       if (locate_param) {
 	int r = no(son(son(e)))/32;
 	if (!isparam(son(e))) {
-	  if (name(son(son(e))) == chvar_tag ||
-		name(son(son(e))) == chfl_tag)
+	  if (son(son(e))->tag == chvar_tag ||
+		son(son(e))->tag == chfl_tag)
 	    return find_loc (son(son(son(e))));
 	  error(ERR_INTERNAL, "param inconsistency");
 	}
@@ -214,7 +214,7 @@ static loc_s find_loc(exp e)
 
     case cont_tag :
     case contvol_tag : {
-      if (name(son(e)) == name_tag && (isdiscarded(son(e)) ||
+      if (son(e)->tag == name_tag && (isdiscarded(son(e)) ||
 			(isglob(son(son(e))) && no(son(son(e))) == 0 &&
 			 !(brog(son(son(e)))->extnamed) ))) {
 	l.key = L_INREG;
@@ -222,7 +222,7 @@ static loc_s find_loc(exp e)
 	no_location = 1;
 	return l;
       }
-      if ( name(son(e)) != name_tag || !isvar(son(son(e))) ) {
+      if ( son(e)->tag != name_tag || !isvar(son(son(e))) ) {
 	l = find_loc (son(e));
 	if (l.key == L_INREG) {
 	  l.key = L_REGOFF;
@@ -240,8 +240,8 @@ static loc_s find_loc(exp e)
       if (locate_param) {
 	int r = no(son(son(son(e))))/32;
 	if (!isparam(son(son(e)))) {
-	  if (name(son(son(son(e)))) == chvar_tag ||
-		name(son(son(son(e)))) == chfl_tag)
+	  if (son(son(son(e)))->tag == chvar_tag ||
+		son(son(son(e)))->tag == chfl_tag)
 	    return find_loc (son(son(son(son(e)))));
 	  error(ERR_INTERNAL, "param inconsistency");
 	}
@@ -392,7 +392,7 @@ static int indirect_length(exp e)
   if (needs_debug_align && !calc_length)
     return 0;
 
-  switch (name(e)) {
+  switch (e->tag) {
     case cont_tag: {
       length = 1;
       break;
@@ -443,7 +443,7 @@ static int indirect_length(exp e)
 static void out_indirect(exp e)
 {
   loc_s l;
-  if (name(e) == name_tag) {
+  if (e->tag == name_tag) {
     assert (props(son(e)) & defer_bit);
     out_indirect (son(son(e)));
     return;
@@ -456,7 +456,7 @@ static void out_indirect(exp e)
     case L_GLOB:     out_glob(l); asm_printf("\n"); out8(); break;
     case L_INDIRECT: out_indirect(son(e)); asm_printf(", "); break;
   }
-  switch (name(e)) {
+  switch (e->tag) {
     case cont_tag: {
       asm_printf("%d", DW_OP_deref);
       break;
@@ -561,7 +561,7 @@ void dw2_prepare_locate(exp id)
   long maxargs = ndpr->maxargs ;/* maxargs of proc body in bits */
   long st = sppr->stack ;		/* space for locals in bits */
 
-  Has_vcallees = (name(e) == general_proc_tag) && (proc_has_vcallees(e));
+  Has_vcallees = (e->tag == general_proc_tag) && (proc_has_vcallees(e));
 	/* callee_start_reg as initialisation */
   call_base_reg = R_NO_REG;	/* needs reset at apply_general */
   proc_state.params_offset = PARAMS_OFFSET;
@@ -582,8 +582,8 @@ void dw2_prepare_locate(exp id)
 void dw2_locate_result(shape sha)
 {
   out8 ();
-  if ( !valregable (sha) && name (sha) != tophd &&
-	( !is_floating ( name (sha) ) || shape_size(sha) > 64 )) {
+  if ( !valregable (sha) && sha->tag != tophd &&
+	( !is_floating ( sha->tag ) || shape_size(sha) > 64 )) {
       /* structure or union result, address of space to [ %fp+64 ] */
     loc_s l;
     l.key = L_REGOFF;
@@ -594,11 +594,11 @@ void dw2_locate_result(shape sha)
   }
   else {
     int r;
-    if ( is_floating ( name (sha) ) ) {
+    if ( is_floating ( sha->tag ) ) {
 	/* proc has real result */
       r = R_F0 + DIAG_FREG;
     }
-    else if ( name (sha) > tophd  ) {
+    else if ( sha->tag > tophd  ) {
       r = R_I0;
     }
     else {
@@ -684,7 +684,7 @@ static int dw_eval_exp(exp e, int line_started)
     out8 ();
     line_started = 1;
   }
-  switch (name(e)) {
+  switch (e->tag) {
     case name_tag:
     case cont_tag:
     case contvol_tag:
@@ -729,7 +729,7 @@ static int dw_eval_exp(exp e, int line_started)
     case plus_tag:
     case offset_add_tag : {
       line_started = dw_eval_exp (son(e), line_started);
-      if (name(bro(son(e))) == val_tag && !is_signed(sh(e)) && !isbigval(bro(son(e)))) {
+      if (bro(son(e))->tag == val_tag && !is_signed(sh(e)) && !isbigval(bro(son(e)))) {
 	if (line_started)
 	  asm_printf(", ");
 	else {
@@ -815,13 +815,13 @@ static int dw_eval_exp(exp e, int line_started)
 void dw2_offset_exp(exp e)
 {
   long block_end = next_dwarf_label ();
-  if (name(sh(e)) != offsethd)
+  if (sh(e)->tag != offsethd)
     error(ERR_INTERNAL, "wrong shape for offset expression");
   dw_at_form (DW_FORM_block2); asm_printf("\n");
   out16 (); out_dwf_dist_to_label (block_end); asm_printf("\n");
   if (dw_eval_exp (e, 0))
     asm_printf("\n");
-  if (name(sh(e)) == offsethd && al2(sh(e)) < 8 ) {
+  if (sh(e)->tag == offsethd && al2(sh(e)) < 8 ) {
     out8 (); asm_printf("%d, %d\n", DW_OP_lit0 + 8, DW_OP_mul);
   }
   out_dwf_label (block_end, 1);
@@ -954,7 +954,7 @@ static void mark_lab(exp labst)
 static void trace_branch_aux(exp whole, exp e)
 {
   exp t;
-  switch (name(e)) {
+  switch (e->tag) {
     case test_tag:
     case goto_tag: {
       if (!intnl_to (whole, pt(e)))
@@ -980,7 +980,7 @@ static void trace_branch_aux(exp whole, exp e)
   if (t) {
     for (;;) {
       trace_branch_aux (whole, t);
-      if (last(t) || name(e) == case_tag) break;
+      if (last(t) || e->tag == case_tag) break;
       t = bro(t);
     }
   }
@@ -1031,7 +1031,7 @@ void dw_allocated(dg_name nm, exp id)
   }
   for (i=0; i<TRACKREGS; i++) {
     if (regexps[i].keptexp && 
-	(regexps[i].iscont ? (name(x) == cont_tag &&
+	(regexps[i].iscont ? (x->tag == cont_tag &&
 			sim_exp (son(x), regexps[i].keptexp))
 		      : sim_exp (x, regexps[i].keptexp) )) {
       regassns[i].nm = nm;

@@ -52,7 +52,7 @@ int inlinechoice(exp t, exp def, int total)
   fpars = son(def);
 
   for (;;) {
-     if (name(fpars)!=ident_tag || !isparam(fpars)) {
+     if (fpars->tag!=ident_tag || !isparam(fpars)) {
 	if (!last(apars)) return 1;
       	break;
      }
@@ -60,11 +60,11 @@ int inlinechoice(exp t, exp def, int total)
      if (last(apars)) return 1;
      apars = bro(apars);
 
-     switch (name(apars)) {
+     switch (apars->tag) {
       case val_tag: case real_tag: case string_tag: case name_tag:
       	   break;
       case cont_tag: {
-      	   if (name(son(apars)) ==name_tag && isvar(son(son(apars))) &&
+      	   if (son(apars)->tag ==name_tag && isvar(son(son(apars))) &&
       	        		!isvar(fpars))break;
       	   } /* ... else continue */
       default: newdecs++;

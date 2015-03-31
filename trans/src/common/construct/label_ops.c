@@ -37,11 +37,11 @@ label_is_next(exp lab, exp e)
 	}
 	while (last(e)) {
 		e = bro(e);
-		if (e == NULL || name(e) >= ass_tag || name(sh(e)) != bothd) {
+		if (e == NULL || e->tag >= ass_tag || sh(e)->tag != bothd) {
 			return 0;
 		}
 	}
-	if (name(bro(e)) == labst_tag) {
+	if (bro(e)->tag == labst_tag) {
 		return bro(e) == lab;
 	}
 	return 0;
@@ -51,8 +51,8 @@ label_is_next(exp lab, exp e)
 static exp
 is_jumper(exp e)
 {
-	if (name(e) == test_tag || name(e) == goto_tag ||
-	    name(e) == testbit_tag || name(e) == res_tag) {
+	if (e->tag == test_tag || e->tag == goto_tag ||
+	    e->tag == testbit_tag || e->tag == res_tag) {
 		return e;
 	}
 	return NULL;
@@ -62,10 +62,10 @@ is_jumper(exp e)
 static exp
 down(exp e)
 {
-	if (name(e) == seq_tag) {
+	if (e->tag == seq_tag) {
 		return down(son(son(e)));
 	}
-	if (name(e) == cond_tag) {
+	if (e->tag == cond_tag) {
 		return down(son(e));
 	}
 	return e;
@@ -86,20 +86,20 @@ next_jump(exp e)
 	do {
 		while (last(e)) {
 			e = bro(e);
-			if (e == NULL || name(e) >= goto_tag) {
+			if (e == NULL || e->tag >= goto_tag) {
 				return NULL;
 			}
 		}
 		e = bro(e);
-	} while (name(e) == labst_tag && (e = father(e), name(e) !=rep_tag));
+	} while (e->tag == labst_tag && (e = father(e), e->tag !=rep_tag));
 
 	if (is_jumper(e)) {
 		return e;
 	}
-	if (name(e) == seq_tag || name(e) == cond_tag) {
+	if (e->tag == seq_tag || e->tag == cond_tag) {
 		return is_jumper(down(e));
 	}
-	if (name(e) == top_tag) {
+	if (e->tag == top_tag) {
 		return next_jump(e);
 	}
 	return NULL;
@@ -119,7 +119,7 @@ short_next_jump(exp e)
 
 	while (last(e)) {
 		e = bro(e);
-		if (e == NULL || name(e) >= cond_tag) {
+		if (e == NULL || e->tag >= cond_tag) {
 			return NULL;
 		}
 	}
@@ -128,10 +128,10 @@ short_next_jump(exp e)
 	if (is_jumper(e)) {
 		return e;
 	}
-	if (name(e) == seq_tag || name(e) == cond_tag) {
+	if (e->tag == seq_tag || e->tag == cond_tag) {
 		return is_jumper(down(e));
 	}
-	if (name(e) == top_tag) {
+	if (e->tag == top_tag) {
 		return short_next_jump(e);
 	}
 	return NULL;
@@ -150,9 +150,9 @@ final_dest(exp lab)
 {
 	exp final = lab;
 	exp temp, ll;
-	while (name(final) == labst_tag) {
+	while (final->tag == labst_tag) {
 		temp = jump_dest(final);
-		if (temp != NULL && name(temp) == goto_tag &&
+		if (temp != NULL && temp->tag == goto_tag &&
 		    pt(temp) != final) {
 			ll = lab;
 			while (ll != final) {
@@ -176,7 +176,7 @@ final_dest(exp lab)
 static int
 subsumes(exp a, exp b)
 {
-	if (name(a) == name(b) && test_number(a) == test_number(b) &&
+	if (a->tag == b->tag && test_number(a) == test_number(b) &&
 	    eq_exp(son(a), son(b)) && eq_exp(bro(son(a)), bro(son(b)))) {
 		return 1;
 	}
@@ -189,13 +189,13 @@ final_dest_test(exp lab, exp e)
 {
 	exp final = lab;
 	exp temp, ll;
-	while (name(final) == labst_tag) {
+	while (final->tag == labst_tag) {
 		temp = jump_dest(final);
 		if (temp == NULL || final == pt(temp)) {
 			return final;
 		}
-		if (name(temp) == goto_tag ||
-		    (name(temp) == name(e) && subsumes(e, temp))) {
+		if (temp->tag == goto_tag ||
+		    (temp->tag == e->tag && subsumes(e, temp))) {
 			ll = lab;
 			while (ll != final) {
 				if (pt(temp) == ll) {

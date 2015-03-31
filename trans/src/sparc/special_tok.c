@@ -52,7 +52,7 @@ special_va_start(tokval *tkv, token t, bitstream pars)
 	arg1 = hold_refactor(d_exp());
 	set_place(old_place);
 
-	if (name(arg1) != name_tag) {
+	if (arg1->tag != name_tag) {
 		error(ERR_INTERNAL, "Not a tag in va_start");
 	}
 
@@ -169,7 +169,7 @@ special_sparc(tokval *tkv, token t, bitstream pars)
 	old_place = keep_place();
 	set_place(pars);
 	arg = d_exp();
-	assert(name(arg) == val_tag);
+	assert(arg->tag == val_tag);
 
 	if (no(arg) == 0) {
 		tkv->tk_exp = getexp(f_bottom, NULL, 0, NULL, NULL, 0, 0, special_tag);

@@ -19,11 +19,11 @@
 #if 1
 
 #define  is_offset(X)\
-	(name(sh(X)) == offsethd && al2(sh(X)) != 1)
+	(sh(X)->tag == offsethd && al2(sh(X)) != 1)
 #else
 
 #define is_offset(X)\
-        (name(sh(X)) == offsethd && \
+        (sh(X)->tag == offsethd && \
 	 (((al2(sh(son(X))) == 1) && (al2(sh(bro(son(X))))!=1)) || \
 	  ((al2(sh(son(X)))!=1) && (al2(sh(bro(son(X)))) == 1))))
 #endif

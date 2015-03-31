@@ -48,7 +48,7 @@ special_va_start(tokval *tkv, token t, bitstream pars)
 	arg1 = hold_refactor(d_exp());
 	set_place(old_place);
 
-	if (name(arg1) != name_tag) {
+	if (arg1->tag != name_tag) {
 		error(ERR_INTERNAL, "Not a tag in va_start");
 	}
 

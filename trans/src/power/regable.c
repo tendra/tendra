@@ -22,7 +22,7 @@
 
 bool valregable(shape s)
 {
-  int n = name(s);
+  int n = s->tag;
 
   if (is_floating(n) || IS_AGGREGATE(s))
   {
@@ -68,7 +68,7 @@ bool floatregable(exp e)
   {
     shape s = sh(son(e));
 
-    return is_floating(name(s));
+    return is_floating(s->tag);
   }
   else
   {

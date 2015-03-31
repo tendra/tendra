@@ -125,7 +125,7 @@ extern int PIC_code;
 static long
 evalexp(exp e)
 {
-   switch (name(e)) {
+   switch (e->tag) {
    case  val_tag:
    case null_tag:
    case top_tag:
@@ -255,13 +255,13 @@ evalexp(exp e)
     }
    case seq_tag:
     {
-       if (name(son(son(e))) == prof_tag && last(son(son(e))))
+       if (son(son(e))->tag == prof_tag && last(son(son(e))))
 	   return evalexp(bro(son(e)));
        break;
     }
    case cont_tag:
     {
-       if (PIC_code && name(son(e)) == name_tag && isglob(son(son(e)))
+       if (PIC_code && son(e)->tag == name_tag && isglob(son(son(e)))
            && son(son(son(e)))!= NULL
            && !(brog(son(son(e))) -> dec_var))
        return evalexp(son(son(son(e))));
@@ -363,7 +363,7 @@ long *realrep
 	exp_bits = 15;
     }
 
-    if (name(e) == real_tag) {
+    if (e->tag == real_tag) {
 	int j, k = -1;
 	flt *f = flptnos + no(e);
 
@@ -512,7 +512,7 @@ static void clear_out
 static void
 evalaux(exp e, bool isconst, long al)
 {
-    switch (name(e)) {
+    switch (e->tag) {
 
 	case real_tag: {
 	    /* Real values */
@@ -565,9 +565,9 @@ evalaux(exp e, bool isconst, long al)
 		    crt_off = off;
 		}
 
-		if (name(sh(val))!= bitfhd) {
+		if (sh(val)->tag!= bitfhd) {
                    if (param_aligned) {
-                      switch (name(sh(val))) {
+                      switch (sh(val)->tag) {
                       case scharhd:
                       case ucharhd:
                          clear_out(3, 1, al);
@@ -588,7 +588,7 @@ evalaux(exp e, bool isconst, long al)
 		    long offn = off - crt_off;
 		    long nx, enx;
 		    long extra_byte = 0;
-		    if (name(val) == val_tag) {
+		    if (val->tag == val_tag) {
 			nx = no(val);
 		    } else {
 			nx = no(son(val));
@@ -742,7 +742,7 @@ evalaux(exp e, bool isconst, long al)
 	case chvar_tag:
 	case int_to_bitf_tag: {
 	    /* Change variety */
-	    if (name(son(e)) == val_tag) {
+	    if (son(e)->tag == val_tag) {
 		sh(son(e)) = sh(e);
 		evalaux(son(e), isconst, al);
 		return;
@@ -753,7 +753,7 @@ evalaux(exp e, bool isconst, long al)
 
 	case chfl_tag: {
 	    /* Change floating variety */
-	    if (name(son(e)) == real_tag) {
+	    if (son(e)->tag == real_tag) {
 		sh(son(e)) = sh(e);
 		evalaux(son(e), isconst, al);
 		return;
@@ -790,7 +790,7 @@ evalaux(exp e, bool isconst, long al)
 	case ident_tag: {
 	     /* Simple identifications */
 	     exp body = bro(son(e));
-	     if (name(body) == name_tag && son(body) == e) {
+	     if (body->tag == name_tag && son(body) == e) {
 		evalaux(son(e), isconst, al);
 		return;
 	     }
@@ -800,7 +800,7 @@ evalaux(exp e, bool isconst, long al)
 	case minptr_tag: {
 	    exp p1 = son(e);
 	    exp p2 = bro(p1);
-	    if (name(p1) == name_tag && name(p2) == name_tag) {
+	    if (p1->tag == name_tag && p2->tag == name_tag) {
 		long n = no(p1) - no(p2);
 		long sz = shape_size(sh(e));
 		char *n1 = brog(son(p1)) ->dec_id;
@@ -841,7 +841,7 @@ evalaux(exp e, bool isconst, long al)
 static int is_comm
 (exp e)
 {
-    switch (name(e)) {
+    switch (e->tag) {
 
 	case val_tag: return no(e) ? 0 : 1;
 
@@ -858,10 +858,10 @@ static int is_comm
 	    if (t == NULL) return 1;
 	    while (1) {
 		t = bro(t);
-		if (name(sh(t))!= bitfhd) {
+		if (sh(t)->tag!= bitfhd) {
 		    if (!is_comm(t)) return 0;
 		} else {
-		    if (name(t) == val_tag) {
+		    if (t->tag == val_tag) {
 			if (no(t)) return 0;
 		    } else {
 			if (no(son(t))) return 0;
@@ -912,7 +912,7 @@ void evaluate
     long al = (long)shape_align(sh(c));
 
     if (is_comm(c) ||
-       ((name(c) == name_tag) && (son(son(c))) && (name(son(son(c))) == null_tag))) {
+       ((c->tag == name_tag) && (son(son(c))) && (son(son(c))->tag == null_tag))) {
 
 	long sz = rounder(shape_size(sh(c)), 32);
 
