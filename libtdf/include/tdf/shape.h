@@ -10,39 +10,43 @@
 #ifndef TDF_SHAPE_H
 #define TDF_SHAPE_H
 
-#define bothd  1
-#define tophd  2
-#define scharhd  3
-#define ucharhd  4
-#define swordhd  5
-#define uwordhd  6
-#define slonghd  7
-#define ulonghd  8
-#define s64hd 9
-#define u64hd 10
+enum {
+	bothd           = 1,
+	tophd           = 2,
+	scharhd         = 3,
+	ucharhd         = 4,
+	swordhd         = 5,
+	uwordhd         = 6,
+	slonghd         = 7,
+	ulonghd         = 8,
+	s64hd           = 9,
+	u64hd           = 10,
 
-#define shcomplexhd  17
-#define complexhd  18
-#define complexdoublehd  19
-#define shrealhd  20
-#define realhd  21
-#define doublehd  22
-#define bitfhd 23
-#define prokhd  24
-#define ptrhd  25
-#define offsethd  26
-#define sizehd  27
-#define cpdhd  28
+	shcomplexhd     = 17,
+	complexhd       = 18,
+	complexdoublehd = 19,
+	shrealhd        = 20,
+	realhd          = 21,
+	doublehd        = 22,
+	bitfhd          = 23,
+	prokhd          = 24,
+	ptrhd           = 25,
+	offsethd        = 26,
+	sizehd          = 27,
+	cpdhd           = 28,
 
-#define nofhd  29
-#define tokhd  30
+	nofhd           = 29,
+	tokhd           = 30
+};
 
-#define shrealfv  0
-#define realfv  1
-#define doublefv  2
-#define shcomplexfv  3
-#define complexfv  4
-#define complexdoublefv  5
+enum {
+	shrealfv        = 0,
+	realfv          = 1,
+	doublefv        = 2,
+	shcomplexfv     = 3,
+	complexfv       = 4,
+	complexdoublefv = 5
+};
 
 #define is_floating(x)	((x) >= shrealhd && (x) <= doublehd)
 
