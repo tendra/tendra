@@ -217,11 +217,11 @@ reuse(exp def)
 		exp arg1 = son(def);
 		exp arg2 = bro(arg1);
 
-		if (last(arg1)) {
+		if (arg1->last) {
 			return reuse_check(arg1);
 		}
 
-		if (last(arg2)) {
+		if (arg2->last) {
 			return reuse_check(arg1) || reuse_check(arg2);
 		}
 
@@ -470,13 +470,13 @@ solve(exp s, exp l, where dest, exp jr, ash stack)
 	exp t;
 	long r1;
 
-	while (!last(l)) {
+	while (!l->last) {
 		allocation dc;
 		long lb = next_lab();
 		exp record = simple_exp(0);
 
 		if (props(son(bro(l))) & 2) {
-			setlast(record);
+			record->last = true;
 		}
 
 		no(record) = stack;
@@ -510,7 +510,7 @@ solve(exp s, exp l, where dest, exp jr, ash stack)
 			make_label(ptno(pt(son(t))));
 			make_code(dest, stack, t);
 		}
-	} while (!last(t));
+	} while (!t->last);
 
 	regsinuse = r1;
 	have_cond = 0;
@@ -592,7 +592,7 @@ caser(exp arg, long already)
 		exp old_bro = bro(split_at);
 		bro(new) = old_bro;
 		bro(split_at) = NULL;
-		setlast(split_at);
+		split_at->last = true;
 
 		/* Code the first half */
 		a = caser(arg, already);
@@ -768,7 +768,7 @@ reset_stack_pointer(void)
 static bool
 red_jump(exp e, exp la)
 {
-	if (!last(la) && pt(e) == bro(la)) {
+	if (!la->last && pt(e) == bro(la)) {
 		return 1;
 	}
 
@@ -924,7 +924,7 @@ make_code(where dest, ash stack, exp e)
 		/* Code each sub-expression */
 		while (make_code(zero, stack, t),
 		       no_bottom = (sh(t)->tag != bothd),
-		       !last(t)) {
+		       !t->last) {
 			t = bro(t);
 		}
 
@@ -1088,7 +1088,7 @@ make_code(where dest, ash stack, exp e)
 		lb = next_lab();
 		make_label(lb);
 		record = simple_exp(0);
-		setlast(record);
+		record->last = true;
 		no(record) = stack;
 		sonno(record) = stack_dec;
 		ptno(record) = lb;
@@ -1106,7 +1106,7 @@ make_code(where dest, ash stack, exp e)
 		exp lab;
 
 		/* Try to avoid unnecessary jumps */
-		if (last(e) && bro(e)->tag == seq_tag &&
+		if (e->last && bro(e)->tag == seq_tag &&
 		    bro(bro(e))->tag == labst_tag &&
 		    red_jump(e, bro(e))) {
 			return;
@@ -1388,7 +1388,7 @@ make_code(where dest, ash stack, exp e)
 			wh = mw(dest.wh_exp, crt);
 			stack2 = stack_room(stack, dest, off + crt);
 			make_code(wh, stack2, v);
-			if (last(v)) {
+			if (v->last) {
 				return;
 			}
 			crt += off;
@@ -1500,7 +1500,7 @@ make_code(where dest, ash stack, exp e)
 
 		/* Find the procedure and the arguments */
 		exp proc = son(e);
-		exp arg = (last(proc) ? NULL : bro(proc));
+		exp arg = (proc->last ? NULL : bro(proc));
 
 #if 0
 		/*
@@ -1536,7 +1536,7 @@ make_code(where dest, ash stack, exp e)
 				a = add_shape_to_stack(st, sh(t));
 				st = a.astash;
 
-				t = (last(t) ? NULL : bro(t));
+				t = (t->last ? NULL : bro(t));
 			}
 		}
 		longs = st;
@@ -1599,7 +1599,7 @@ make_code(where dest, ash stack, exp e)
 				make_code(stp, stack, t);
 				a = add_shape_to_stack(st, sh(t));
 				st = a.astash;
-				t = (last(t) ? NULL : bro(t));
+				t = (t->last ? NULL : bro(t));
 			}
 
 			apply_tag_flag--;
@@ -1919,7 +1919,7 @@ make_code(where dest, ash stack, exp e)
 		old_rscope_dest = rscope_dest;
 
 		/* Check for inlined procedures */
-		if (last(e) &&
+		if (e->last &&
 		    (bro(e)->tag == proc_tag ||
 		     bro(e)->tag == general_proc_tag)) {
 			/* Non-inlined procedures are simple */
@@ -1964,7 +1964,7 @@ make_code(where dest, ash stack, exp e)
 		exp t = arg1;
 
 		/* Mark the end of the cases */
-		while (!last(t)) {
+		while (!t->last) {
 			t = bro(t);
 		}
 		bro(t) = NULL;

@@ -208,7 +208,7 @@ add_wlist(double scale, exp re)
   {
     return zeroweights;
   }
-  else if (last(r))
+  else if (r->last)
   {
     return weightsv(scale, r);
   }
@@ -220,7 +220,7 @@ add_wlist(double scale, exp re)
       r = bro(r);
       w1 = weightsv(scale, r);
       w = add_weights(&w, &w1);
-    } while (!last(r));
+    } while (!r->last);
     return w;
   }
 }
@@ -412,7 +412,7 @@ tailrecurse:
       {
 	return zeroweights;
       }
-      if (last(son(e)))
+      if (son(e)->last)
       {
 	e = son(e);
 	goto tailrecurse;

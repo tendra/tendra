@@ -51,7 +51,7 @@ uc_list(exp e, int n, exp control, int lia, exp ul, int decr)
 	int c;
 
 	c = unroll_complex(e, n, control, lia, ul, decr);
-	if (c < 0 || last(e)) {
+	if (c < 0 || e->last) {
 		return c;
 	}
 
@@ -144,7 +144,7 @@ unroll_complex(exp e, int n, exp control, int lia, exp ul, int decr)
 		if (son(e) == control) {
 			exp t;
 
-			if (!last(e) || bro(e)->tag != cont_tag) {
+			if (!e->last || bro(e)->tag != cont_tag) {
 				/* any use but contents -> no test elim */
 				allow_double = 0;
 			} else {
@@ -152,10 +152,10 @@ unroll_complex(exp e, int n, exp control, int lia, exp ul, int decr)
 				t = bro(e);
 
 #if TRANS_ALPHA
-				if (!last(t) || bro(t)->tag != chvar_tag ||
-					last(bro(t)) ||
+				if (!t->last || bro(t)->tag != chvar_tag ||
+					bro(t)->last ||
 					bro(bro(t))->tag != val_tag ||
-					!last(bro(bro(t))) ||
+					!bro(bro(t))->last ||
 					bro(bro(bro(t)))->tag != offset_mult_tag) {
 					/* not offset_mult -> no test elim */
 					allow_double = 0;
@@ -164,8 +164,8 @@ unroll_complex(exp e, int n, exp control, int lia, exp ul, int decr)
 					names[names_index++] = bro(e);
 				}
 #else
-				if (last(t) || bro(t)->tag != val_tag ||
-					!last(bro(t)) ||
+				if (t->last || bro(t)->tag != val_tag ||
+					!bro(t)->last ||
 					bro(bro(t))->tag != offset_mult_tag) {
 					/* not offset_mult -> no test elim */
 					allow_double = 0;
@@ -243,18 +243,18 @@ simple_unroll(exp candidate, exp body, exp inc, exp te)
 	/* decrease label count (increased by copy(te)) */
 	no(son(bro(son(candidate))))--;
 
-	setlast(second_inc);
+	second_inc->last = true;
 	bro(second_inc) = z;
-	clearlast(second_body);
+	second_body->last = false;
 	bro(second_body) = second_inc;
-	clearlast(second_test);
+	second_test->last = false;
 	bro(second_test) = second_body;
-	clearlast(inc);
+	inc->last = false;
 	bro(inc) = second_test;
-	clearlast(body);
+	body->last = false;
 	bro(body) = inc;
 	son(z) = body;
-	setlast(te);
+	te->last = true;
 	bro(te) = seq;
 	bro(son(bro(son(candidate)))) = seq;
 
@@ -276,7 +276,7 @@ simple_unroll(exp candidate, exp body, exp inc, exp te)
 	pt(second_test) = cond_labst;
 	settest_number(second_test, (int)int_inverse_ntest[test_number(te)]);
 
-	cond = getexp(f_top, bro(candidate), (int)(last(candidate)), candidate,
+	cond = getexp(f_top, bro(candidate), (int)(candidate->last), candidate,
 	              NULL, 0, 0, cond_tag);
 	bro(cond_labst) = cond;
 
@@ -284,7 +284,7 @@ simple_unroll(exp candidate, exp body, exp inc, exp te)
 	point = refto(f, candidate);
 	*point = cond;
 
-	clearlast(candidate);
+	candidate->last = false;
 	bro(candidate) = cond_labst;
 
 	/*
@@ -385,7 +385,7 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 			                labst_tag);
 			fno(li) = (float)(freq / 20.0);
 			lia->tag = clear_tag;
-			clearlast(lia);
+			lia->last = false;
 			branches[i] = li;
 		}
 
@@ -400,7 +400,7 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 			                       branches[i + 1], 0, 0, goto_tag),
 			                seq_tag);
 			bro(son(branches[i])) = seq;
-			setlast(seq);
+			seq->last = true;
 			bro(seq) = branches[i];
 		}
 
@@ -410,14 +410,14 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 		             getexp(f_bottom, NULL, 0, NULL,
 		                    branches[times], 0, 0, goto_tag), seq_tag);
 		bro(son(branches[times - 1])) = temp;
-		setlast(temp);
+		temp->last = true;
 		bro(temp) = branches[times - 1];
 
 		temp = copy(body);
 		temp1 = temp;
 		if (jumps_out) {
 			bro(temp1) = copy(inc);
-			clearlast(temp1);
+			temp1->last = false;
 			temp1 = bro(temp1);
 		}
 
@@ -428,17 +428,17 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 				bro(temp1) = inc_offset(var, sha, konst, body, i);
 			}
 
-			clearlast(temp1);
+			temp1->last = false;
 			temp1 = bro(temp1);
 			if (jumps_out) {
 				bro(temp1) = copy(inc);
-				clearlast(temp1);
+				temp1->last = false;
 				temp1 = bro(temp1);
 			}
 		}
 
 		bc = getexp(f_top, NULL, 0, temp, NULL, 0, 0, 0);
-		setlast(temp1);
+		temp1->last = true;
 		bro(temp1) = bc;
 		if (jumps_out) {
 			bc = me_b3(f_top, bc, copy(body), seq_tag);
@@ -466,7 +466,7 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 
 		temp = f_make_top();
 		bro(son(branches[times + 1])) = temp;
-		setlast(temp);
+		temp->last = true;
 		bro(temp) = branches[times + 1];
 
 		temp = me_u3(f_top, repeater, 0);
@@ -474,7 +474,7 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 		             getexp(f_bottom, NULL, 0, NULL,
 		                    branches[times + 1], 0, 0, goto_tag), seq_tag);
 		bro(son(branches[times])) = temp;
-		setlast(temp);
+		temp->last = true;
 		bro(temp) = branches[times];
 
 		temp = me_u3(sha, copy(var), cont_tag);
@@ -492,7 +492,7 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 		temp = getexp(f_top, NULL, 0, me_obtain(id), branches[times], 0, 0, test_tag);
 		settest_number(temp, f_not_equal);
 		bro(son(temp)) = me_shint(sha, 0);
-		setlast(bro(son(temp)));
+		bro(son(temp))->last = true;
 		bro(bro(son(temp))) = temp;
 		temp1 = temp;
 
@@ -500,16 +500,16 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 			temp2 = getexp(f_top, NULL, 0, me_obtain(id), branches[times - i - 1], 0, 0, test_tag);
 			settest_number(temp2, f_not_equal);
 			bro(son(temp2)) = me_shint(sha, i);
-			setlast(bro(son(temp2)));
+			bro(son(temp2))->last = true;
 			bro(bro(son(temp2))) = temp2;
 			settest_number(temp, f_not_equal);
-			clearlast(temp1);
+			temp1->last = false;
 			bro(temp1) = temp2;
 			temp1 = temp2;
 		}
 
 		bc = getexp(f_top, NULL, 0, temp, NULL, 0, 0, 0);
-		setlast(temp1);
+		temp1->last = true;
 		bro(temp1) = bc;
 		bc = me_b3(f_bottom, bc,
 		           getexp(f_bottom, NULL, 0, NULL, branches[0], 0,
@@ -520,12 +520,12 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 
 		for (i = 0; i < (times + 2); ++i) {
 			bro(temp1) = branches[i];
-			clearlast(temp1);
+			temp1->last = false;
 			temp1 = bro(temp1);
 		}
 
 		res = getexp(f_top, NULL, 0, id, NULL, 0, 0, solve_tag);
-		setlast(temp1);
+		temp1->last = true;
 		bro(temp1) = res;
 		setunrolled(repeater);
 

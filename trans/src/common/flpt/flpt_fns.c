@@ -687,14 +687,14 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 				seq_zero = me_b2(square_z, update_w, 0);
 				setbro(square_z, half_n); /* insert half_n between */
 				setbro(half_n, update_w); /* square_x and update_w */
-				clearlast(half_n);
+				half_n->last = false;
 				seq_zero = hold_refactor(seq_zero);
 
 				seq = hold_refactor(me_b3(sh(if_n_equals_1), seq_zero,
 					if_n_equals_1, seq_tag));
 
 				setbro(son(body_labst), seq);
-				clearlast(son(body_labst));
+				son(body_labst)->last = false;
 				setfather(body_labst, seq);
 
 				repeat_body = hold_refactor(me_b3(sh(seq), top_cell, body_labst, rep_tag));
@@ -1228,11 +1228,11 @@ f_make_complex(floating_variety f, exp arg1, exp arg2)
 		exp r = getexp(f_compound(sz), NULL, 0, val1, NULL, 0, 0, compound_tag);
 
 		setbro(val1, arg1);
-		clearlast(val1);
+		val1->last = false;
 		setbro(arg1, val2);
-		clearlast(arg1);
+		arg1->last = false;
 		setbro(val2, arg2);
-		clearlast(val2);
+		val2->last = false;
 		setfather(r, arg2);
 		return hold_refactor(r);
 	}
@@ -1245,11 +1245,11 @@ f_make_complex(floating_variety f, exp arg1, exp arg2)
 		exp r = getexp(f_compound(sz), NULL, 0, val1, NULL, 0, 0, compound_tag);
 
 		setbro(val1, arg1);
-		clearlast(val1);
+		val1->last = false;
 		setbro(arg1, val2);
-		clearlast(arg1);
+		arg1->last = false;
 		setbro(val2, arg2);
-		clearlast(val2);
+		val2->last = false;
 		setfather(r, arg2);
 		return hold_refactor(r);
 	}
@@ -1262,11 +1262,11 @@ f_make_complex(floating_variety f, exp arg1, exp arg2)
 		exp r = getexp(f_compound(sz), NULL, 0, val1, NULL, 0, 0, compound_tag);
 
 		setbro(val1, arg1);
-		clearlast(val1);
+		val1->last = false;
 		setbro(arg1, val2);
-		clearlast(arg1);
+		arg1->last = false;
 		setbro(val2, arg2);
-		clearlast(val2);
+		val2->last = false;
 		setfather(r, arg2);
 		return hold_refactor(r);
 	}
@@ -2091,7 +2091,7 @@ real_power(error_treatment ov_err, exp arg1, exp arg2)
 
 			setbro(son(body_labst), seq);
 			setsh (body_labst, sh (seq));	/*  put seq into the body  */
-			clearlast (son(body_labst));	/*  of the labst           */
+			son(body_labst)->last = false;	/*  of the labst           */
 			setfather(body_labst, seq);
 
 			repeat_body = hold_refactor(me_b3(sh(body_labst), f_make_top(),

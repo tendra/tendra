@@ -182,7 +182,7 @@ code_pars(ash stack, exp t)
 {
 	int tsize = shape_size(sh(t));
 
-	if (last (t)) {		/* last parameter is pushed first */
+	if (t->last) {		/* last parameter is pushed first */
 		code_push(stack, (t->tag == caller_tag) ? son(t) : t);
 		stack_dec -= rounder(tsize, param_align);
 	} else {
@@ -216,7 +216,7 @@ procargs(ash stack, exp arg, int has_checkstack)
 		}
 
 		longs = rounder(longs + shape_size(sh(t)), param_align);
-		if (last(t)) {
+		if (t->last) {
 			break;
 		}
 	}
@@ -273,7 +273,7 @@ procargs(ash stack, exp arg, int has_checkstack)
 		for (t = arg; ; t = bro(t)) {
 			make_code(mw(ind_sp.where_exp, off), stack, (t->tag == caller_tag ? son(t) : t));
 			off = rounder(off + shape_size(sh(t)), param_align);
-			if (last(t)) {
+			if (t->last) {
 				break;
 			}
 		}
@@ -783,7 +783,7 @@ static void
 solve(exp s, exp l, where dest, exp jr, ash stack)
 {
 	/* while not the last branch */
-	while (!last(l)) {
+	while (!l->last) {
 		exp record = getexp(f_bottom, NULL,
 		                    (bool)(props(son(bro(l))) & 2),
 		                    NULL,
@@ -829,7 +829,7 @@ solve(exp s, exp l, where dest, exp jr, ash stack)
 			set_label(pt(son(t)));
 			make_code(dest, stack, t);
 			reset_fpucon();
-		} while (!last(t));
+		} while (!t->last);
 
 		regsinuse = r1;
 
@@ -1041,7 +1041,7 @@ make_code1(where dest, ash stack, exp e)
 		while (make_code(zero, stack, t),
 		       /* code and discard the statements */
 		       no_bottom = (sh(t)->tag != bothd),
-		       !last(t)) {
+		       !t->last) {
 			t = bro(t);
 		}
 
@@ -1123,7 +1123,7 @@ make_code1(where dest, ash stack, exp e)
 				rec->scale        = (float)0.5 * scale;
 				rec->jr           = jr;	/* jump record for return from bit */
 
-				if (last(t)) {
+				if (t->last) {
 					first = bro(son(first));
 				} else {
 					son(son(first)) = bro(son(son(first)));
@@ -1760,7 +1760,7 @@ make_code1(where dest, ash stack, exp e)
 		while (1) {
 			make_code(mw(dest.where_exp, dest.where_off + crt),
 			          stack_room(stack, dest, dest.where_off + crt), v);
-			if (last(v)) {
+			if (v->last) {
 				return;
 			}
 
@@ -1780,7 +1780,7 @@ make_code1(where dest, ash stack, exp e)
 		while (1) {
 			make_code(mw(dest.where_exp, dest.where_off + no(v)),
 			          stack_room(stack, dest, dest.where_off + no(v)), bro(v));
-			if (last(bro(v))) {
+			if (bro(v)->last) {
 				return;
 			}
 
@@ -1791,7 +1791,7 @@ make_code1(where dest, ash stack, exp e)
 	case apply_tag:
 	case apply_general_tag: {
 		exp proc = son(e);
-		exp arg = (!last(proc)) ? bro(proc) : NULL;
+		exp arg = (!proc->last) ? bro(proc) : NULL;
 		exp cees = NULL;
 		exp postlude = NULL;
 		int untidy_call = 0;
@@ -2392,7 +2392,7 @@ make_code1(where dest, ash stack, exp e)
 		exp b = bro(arg1);
 		exp t = arg1;
 
-		while (!last(t)) {
+		while (!t->last) {
 			t = bro(t);
 		}
 		bro(t) = NULL;
@@ -2468,7 +2468,7 @@ make_code1(where dest, ash stack, exp e)
 			/* catch all discards with side-effects */
 			for (l = son(e); ; l = bro(l)) {
 				make_code(dest, stack, l);
-				if (last(l)) {
+				if (l->last) {
 					break;
 				}
 			}

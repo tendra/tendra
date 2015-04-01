@@ -64,7 +64,7 @@ replace_pars(exp actual, exp formal_par)
 {
 	exp def;
 
-	if (!last(actual)) {
+	if (!actual->last) {
 		replace_pars(bro(actual), bro(son(formal_par)));
 	}
 
@@ -101,7 +101,7 @@ inline_exp(exp e)
 		var = NULL;
 		cond_alt = f_make_top();
 	} else {
-		if (last(e) && bro(e)->tag == ass_tag &&
+		if (e->last && bro(e)->tag == ass_tag &&
 		    son(bro(e))->tag == name_tag) {
 
 			/* the result of the application is being assigned to a name_tag */
@@ -138,7 +138,7 @@ inline_exp(exp e)
 	t = fn;	  /* start t so that its bro is the first actual parameter */
 	q = body; /* start q so that its son is the first formal parameter */
 
-	while (!last(t)) {
+	while (!t->last) {
 		/* check actual and formal shapes */
 		if (q->tag != ident_tag || !isparam(q)) {
 			return;  /* no inline if more actuals than formals */
@@ -166,7 +166,7 @@ inline_exp(exp e)
 	bc = hold(bc);
 
 	/* if there are any parameters */
-	if (!last(fn)) {
+	if (!fn->last) {
 		/* replace formals by actuals */
 		replace_pars(pars, son(bc));
 	}

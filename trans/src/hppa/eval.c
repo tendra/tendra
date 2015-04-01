@@ -646,7 +646,7 @@ is_zero(exp e)
 	if (is_zero(e) == 0)
 	  return 0;		/* found non-zero */
 
-	if (last(e))
+	if (e->last)
 	  return 1;		/* all done, all zero */
 
 	e = bro(bro(e));
@@ -891,12 +891,12 @@ evalone(exp e, int bitposn)
 
 	 if ( shape_size(sh(tup)) == 0 )
 	 {
-	    if (last(tup)) 
+	    if (tup->last) 
 	       return;
 	    else
 	    {
 	       off = bro(bro(off));
-	       assert(!last(off));
+	       assert(!off->last);
 	       tup = bro(off);
 	       tupa = ashof(sh(tup));
 	       continue;
@@ -937,7 +937,7 @@ evalone(exp e, int bitposn)
  	    evalone(tup,left.bitposn);
 	    left.bitposn += tupa.ashsize;
 	 }
- 	 if (last(tup))
+ 	 if (tup->last)
 	 {
 	    /* output final bits from any previous field */
 	    long databits = no(off) + tupa.ashsize;
@@ -955,7 +955,7 @@ evalone(exp e, int bitposn)
  	    return;
 	 }
  	 off = bro(bro(off));
-	 assert(!last(off));
+	 assert(!off->last);
 	 tup = bro(off);
 	 tupa = ashof(sh(tup));
       }
@@ -969,7 +969,7 @@ evalone(exp e, int bitposn)
       for (;;)
       {
 	evalone(s, bitposn);
-	if (last(s))
+	if (s->last)
 	  return;
 	s = bro(s);
       }

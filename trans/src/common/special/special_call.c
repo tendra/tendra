@@ -56,7 +56,7 @@ special_strcpy(dec *dp)
 		exp src_def;
 		shape sha;
 
-		if (last(t) || last(bro(t)) || !last(bro(bro(t))) ||
+		if (t->last || bro(t)->last || !bro(bro(t))->last ||
 			bro(bro(bro(t)))->tag != apply_tag ||
 			son(bro(bro(bro(t)))) != t)
 		{
@@ -107,7 +107,7 @@ special_strcpy(dec *dp)
 				el.number = 1;
 
 				q = f_sequence(el, n2);
-				clearlast(dst);
+				dst->last = false;
 				bro(dst) = q;
 				setfather(idsc, q);
 				kill_exp(t, t);
@@ -140,7 +140,7 @@ special_strlen(dec *dp)
 		exp st_def;
 		shape sha;
 
-		if (last(t) || !last(bro(t)) ||
+		if (t->last || !bro(t)->last ||
 			bro(bro(t))->tag != apply_tag ||
 			son(bro(bro(t))) != t)
 		{

@@ -497,7 +497,7 @@ static int do_mul_comm
     int lhs_reg = reg_operand(seq, sp);
     sp = guardreg(lhs_reg, sp);
     /* check () & scan () should move const to last */
-    assert(last(arg2));
+    assert(arg2->last);
     if (final_reg == R_NO_REG || final_reg == R_G0) {
       /* better code from mul_const if src != dest reg */
       final_reg = getreg(sp.fixed);
@@ -512,14 +512,14 @@ static int do_mul_comm
   nsp = needreg(R_O0, sp);
   for (; ;) {
     /* should have break out below by now */
-    assert(!last(seq));
+    assert(!seq->last);
     seq = bro(seq);
     if (!has_error_treatment && seq->tag == val_tag &&
 	 offset_mul_const_simple((long)no(seq), sgned)!=
 	 NOT_MUL_CONST_SIMPLE) {
       /* const optim */
       /* check () & scan () should move const to last */
-      assert(last(seq));
+      assert(seq->last);
       if (final_reg == R_NO_REG) {
 	/* better code from mul_const if src != dest reg */
 	final_reg = R_O1;
@@ -536,7 +536,7 @@ static int do_mul_comm
 	call_special_routine(mul_proc);
       }
       clear_sun_call_divrem_regs(nsp);
-      if (last(seq)) {
+      if (seq->last) {
 	if (final_reg == R_NO_REG || final_reg == R_G0) {
 	  final_reg = R_O0;
 	}
@@ -576,7 +576,7 @@ static int do_div
   exp rhs = bro(lhs);
   int has_error_treatment = !optop(father(seq)) && !error_treatment_is_trap(father(seq));
   int et;
-  assert ( last ( rhs ) ) ;	/* so bro(rhs) == the div exp  */
+  assert ( rhs -> last ) ;	/* so bro(rhs) == the div exp  */
   if (!has_error_treatment && rhs->tag == val_tag &&
        IS_POW2(no(rhs)) && no(rhs) > 0) {
     long constval = no(rhs);
@@ -672,7 +672,7 @@ static int do_rem
   exp lhs = seq;
   exp rhs = bro(lhs);
 
-  assert(last(rhs));
+  assert(rhs->last);
 
   if (rhs->tag == val_tag && IS_POW2(no(rhs)) && (no(rhs) > 0)) {
     long constval = no(rhs);
@@ -844,7 +844,7 @@ bool is_muldivrem_call
     case offset_mult_tag: {
       /*multneeds - simple cases don't need a call */
       exp arg2 = bro(son(e));
-      if (last(arg2) && arg2->tag == val_tag && optop(e)) {
+      if (arg2->last && arg2->tag == val_tag && optop(e)) {
 	return 0;
       }
       return 1;
@@ -859,7 +859,7 @@ bool is_muldivrem_call
     case offset_div_by_int_tag: {
       /*remneeds, divneeds - simple cases don't need a call */
       exp arg2 = bro(son(e));
-      if (last(arg2) && arg2->tag == val_tag && optop(e)) {
+      if (arg2->last && arg2->tag == val_tag && optop(e)) {
 	long constval = no(arg2);
 	if (constval > 0 && IS_POW2(constval))
 	  return 0;
@@ -888,7 +888,7 @@ needs multneeds
 
   /* remember that mult may have more than two args after
      optimisation */
-  if (last(arg2) && arg2->tag == val_tag && optop(*e)) {
+  if (arg2->last && arg2->tag == val_tag && optop(*e)) {
     /* const optim, additional reg only needed where src and dest are
        same reg, in which case it has already been allowed for */
     return n;
@@ -909,7 +909,7 @@ needs divneeds
   exp lhs = son(*e);
   exp rhs = bro(lhs);
 
-  assert ( last ( rhs ) ) ;	/* after likediv may not be so */
+  assert ( rhs -> last ) ;	/* after likediv may not be so */
 
   n = likediv(e, at);
   if (rhs->tag == val_tag && optop(*e)) {
@@ -934,7 +934,7 @@ needs remneeds
   needs n;
   exp lhs = son(*e);
   exp rhs = bro(lhs);
-  assert ( last ( rhs ) ) ;	/* after likediv may not be so */
+  assert ( rhs -> last ) ;	/* after likediv may not be so */
   n = likediv(e, at);
   if (rhs->tag == val_tag && optop(*e)) {
     long constval = no(rhs);

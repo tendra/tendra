@@ -533,7 +533,7 @@ static int do_mul_comm
     /* const optim */
     v = reg_operand(seq, sp);
     sp = guardreg(v,sp);
-    assert(last(arg2));	 /* refactor() & scan() should move const to last */
+    assert(arg2->last);	 /* refactor() & scan() should move const to last */
     if (final_reg == R_NO_REG)
     {
        final_reg = getreg(sp.fixed);
@@ -554,7 +554,7 @@ static int do_mul_comm
 
   for (;;)
   {
-    assert(!last(seq));		/* should have break out below by now */
+    assert(!seq->last);		/* should have break out below by now */
 
     seq = bro(seq);
     arg++;
@@ -564,7 +564,7 @@ static int do_mul_comm
     if (seq->tag == val_tag && offset_mul_const_simple(no(seq), sgned)!= NOT_MUL_CONST_SIMPLE)
     {
       /* const optim */
-      assert(last(seq)); /* refactor() & scan() should move const to last */
+      assert(seq->last); /* refactor() & scan() should move const to last */
 
       stf_ins(i_fstw,14,b);
       ld_ins(i_lw,SIGNED,b,ARG0);
@@ -580,7 +580,7 @@ static int do_mul_comm
     else
     {
        reg_operand_here(seq,sp,ARG0);
-       if (last(seq) && b.offset<-17)
+       if (seq->last && b.offset<-17)
        {
 	  ld_ins(i_lo,1,b,GR1);
 	  b.base=GR1;
@@ -595,7 +595,7 @@ static int do_mul_comm
 
        clear_t_regs();
 
-       if (last(seq))
+       if (seq->last)
        {
 	  stf_ins(i_fstw,14,b);
 	  if (final_reg == R_NO_REG || final_reg == RET0)
@@ -629,7 +629,7 @@ static int do_div
    char *stub="ARGW0=GR ARGW1=GR";
    if (!optop(e))
       trap = trap_label(e);
-   assert(last(rhs));
+   assert(rhs->last);
    /*
     *   ov_err can only occur when calculating p div1 q with p == variety's
     *   minimum and q==-1
@@ -763,7 +763,7 @@ static int do_rem
    int trap = 0;
    baseoff b;
    char *stub="ARGW0=GR ARGW1=GR";
-   assert(last(rhs));
+   assert(rhs->last);
    b = mem_temp(0);
    if (!optop(e))
       trap = trap_label(e);
@@ -1006,7 +1006,7 @@ bool is_muldivrem_call
       {
 	/*multneeds - simple cases don't need a call */
 	exp arg2 = bro(son(e));
-	if (last(arg2) && arg2->tag == val_tag)
+	if (arg2->last && arg2->tag == val_tag)
 	{
 	  return 0;
 	}
@@ -1025,7 +1025,7 @@ bool is_muldivrem_call
 	/*remneeds, divneeds - simple cases don't need a call */
 	exp arg2 = bro(son(e));
 
-	if (last(arg2) && arg2->tag == val_tag)
+	if (arg2->last && arg2->tag == val_tag)
 	{
 	  long constval = no(arg2);
 	  if (constval > 0 && IS_POW2(constval))
@@ -1056,7 +1056,7 @@ needs multneeds
 
   /* remember that mult may have more than two args after optimisation */
 
-  if (last(arg2) && arg2->tag == val_tag)
+  if (arg2->last && arg2->tag == val_tag)
   {
 
     /*
@@ -1083,7 +1083,7 @@ needs divneeds
   exp rhs = bro(lhs);
   n = likediv(e, at);
 
-  assert(last(rhs));
+  assert(rhs->last);
 
   if (rhs->tag == val_tag)
   {
@@ -1113,7 +1113,7 @@ needs remneeds
   exp rhs = bro(lhs);
   n = likediv(e, at);
 
-  assert(last(rhs));
+  assert(rhs->last);
   if (rhs->tag == val_tag)
   {
     long constval = no(rhs);

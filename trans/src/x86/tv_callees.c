@@ -99,7 +99,7 @@ void transform_var_callees
 	(son(tg)->tag == proc_tag || son(tg)->tag == general_proc_tag)) {
       exp nlist = pt(tg);
       while (nlist != NULL) {
-	if (nlist->tag == name_tag && last(nlist) && bro(nlist)!= NULL &&
+	if (nlist->tag == name_tag && nlist->last && bro(nlist)!= NULL &&
 		bro(nlist)->tag == env_size_tag)
 	  set_proc_needs_envsize(son(tg));
 	nlist = pt(nlist);

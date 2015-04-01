@@ -115,7 +115,7 @@ is_ptr_void(shape sha)
 		return 0;
 	}
 	do {
-		go = (last(t) ? 0 : 1);
+		go = (t->last ? 0 : 1);
 		if (sh(t)->tag != ptrhd) {
 			return 0;
 		}

@@ -72,7 +72,7 @@ int inlinechoice
   }
 
   apars = bro(t); /* only uses are applications */
-  no_actuals = last(t);		/* if so then apars is apply_tag... */
+  no_actuals = t->last;		/* if so then apars is apply_tag... */
   fpars = son(def);
 
   for (;;) {
@@ -80,7 +80,7 @@ int inlinechoice
 		 /* first beyond formals */
        if (!no_actuals)
 	 newdecs = 10;
-	 /* more actuals than formals, since last(apars)->break */
+	 /* more actuals than formals, since apars->last->break */
        break;
      }
      nparam++;
@@ -145,7 +145,7 @@ int inlinechoice
       }
      }
      fpars = bro(son(fpars));
-     if (last(apars))break;
+     if (apars->last)break;
      apars = bro(apars);
    }
 

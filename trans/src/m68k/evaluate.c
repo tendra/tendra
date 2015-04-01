@@ -255,7 +255,7 @@ evalexp(exp e)
     }
    case seq_tag:
     {
-       if (son(son(e))->tag == prof_tag && last(son(son(e))))
+       if (son(son(e))->tag == prof_tag && son(son(e))->last)
 	   return evalexp(bro(son(e)));
        break;
     }
@@ -535,7 +535,7 @@ evalaux(exp e, bool isconst, long al)
 
             /* look ahead to determine if it is parameter aligned */
             val = bro(offe);
-            if (! last(val)) {
+            if (! val->last) {
                offe = bro(val);
                if (sh(offe)->son.ald->al.al_val.al == 32) {
                   param_aligned = 1;
@@ -618,7 +618,7 @@ evalaux(exp e, bool isconst, long al)
 		    }
 		}
 
-		if (last(val)) {
+		if (val->last) {
 		    long left;
 		    if (bits_left) {
 			op = make_value((work >> 24) & 0xff);
@@ -725,7 +725,7 @@ evalaux(exp e, bool isconst, long al)
 	    if (t == NULL) return;
 	    while (1) {
 		evalaux(t, isconst, al);
-		if (last(t)) return;
+		if (t->last) return;
 		t = bro(t);
 	    }
 	    /* Not reached */
@@ -867,7 +867,7 @@ static int is_comm
 			if (no(son(t))) return 0;
 		    }
 		}
-		if (last(t)) return 1;
+		if (t->last) return 1;
 		t = bro(t);
 	    }
 	    /* Not reached */
@@ -880,7 +880,7 @@ static int is_comm
 	    if (t == NULL) return 1;
 	    while (1) {
 		if (!is_comm(t)) return 0;
-		if (last(t)) return 1;
+		if (t->last) return 1;
 		t = bro(t);
 	    }
 	    /* Not reached */

@@ -191,7 +191,7 @@ regalloc(exp e, int freefixed, int freefloat, int stack)
       if (n != name_tag && n!= env_offset_tag && n != general_env_offset_tag 
 	  && s != NULL) {
 	def = regalloc (s, freefixed, freefloat, stack);
-	while (!last (s)) {
+	while (!s->last) {
 	  s = bro (s);
 	  def = maxspace (def, regalloc (s, freefixed, freefloat, stack));
 	}

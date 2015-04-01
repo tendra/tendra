@@ -116,11 +116,11 @@ void global_usages
 	    /* invent new def to identify global ... */
 	    exp nl = getexp(sname,
 			    *pi, 0, id, pt(id), 0, 0, name_tag);
-	    exp ndef = getexp(sh(*pi), bro(*pi),last(*pi),
+	    exp ndef = getexp(sh(*pi), bro(*pi),(*pi)->last,
 			      nl, NULL, 0x10/*don't defer */,
 			      0, ident_tag);
 	    exp lu = pt(ui);
-	    setlast(*pi); bro(*pi) = ndef;
+	    (*pi)->last = true; bro(*pi) = ndef;
 	    pt(id) = nl; no(id) ++;
 	    setcaonly(ndef);
 	    *pi = ndef;
@@ -129,11 +129,11 @@ void global_usages
 	      exp nlu = pt(lu);
 	      if (no(lu)!=0) {
 		exp * plu = ptr_position(lu);
-		exp nrf = getexp(sh(lu), bro(lu), last(lu),
+		exp nrf = getexp(sh(lu), bro(lu), lu->last,
 				 lu, NULL, 0, no(lu), reff_tag);
 		sh(lu) = sname;
 		no(lu) = 0;
-		bro(lu) = nrf; setlast(lu);
+		bro(lu) = nrf; lu->last = true;
 		*plu = nrf;
 	      }
 	      son(lu) = ndef;

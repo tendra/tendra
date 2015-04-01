@@ -77,8 +77,8 @@ sim_explist ( exp al, exp bl )
     if ( al == NULL && bl == NULL ) return 1;
     if ( al == NULL || bl == NULL ) return 0;
     if ( !sim_exp ( al, bl ) ) return 0;
-    if ( last ( al ) && last ( bl ) ) return 1;
-    if ( last ( al ) || last ( bl ) ) return 0;
+    if ( al -> last && bl -> last ) return 1;
+    if ( al -> last || bl -> last ) return 0;
     return sim_explist ( bro ( al ), bro ( bl ) ) ;
 }
 
@@ -413,7 +413,7 @@ couldaffect ( exp e, exp z )
     e = son ( e ) ;
     while ( e != NULL ) {
 	if ( couldaffect ( e, z ) ) return 1;
-	if ( last ( e ) ) return 0;
+	if ( e -> last ) return 0;
 	e = bro ( e ) ;
     }
     return 0;

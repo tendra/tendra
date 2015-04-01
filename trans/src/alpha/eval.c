@@ -533,7 +533,7 @@ evalone(exp e, int rep)
 	}
 	evalone(bro(tup),1);
       }
-      if (last(bro(tup))) {
+      if (bro(tup)->last) {
 	offs += ae.ashsize;
 	for(;!first_bits;) {
 	  if (endian == ENDIAN_BIG) {
@@ -572,7 +572,7 @@ evalone(exp e, int rep)
     if (s == NULL) return;
     for(;;) {
       evalone(s,1);
-      if (last(s)) return;
+      if (s->last) return;
       s = bro(s);
     }
   }		

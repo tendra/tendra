@@ -265,7 +265,7 @@ regalloc ( exp e, int freefixed, int freefloat, long stack ){
 	    && s != NULL ) {
     /* recurse on all expressions in tree */
     def = regalloc ( s, freefixed, freefloat, stack ) ;
-    while ( !last ( s ) ) {
+    while ( ! s -> last ) {
       spacereq sdef ;
       s = bro ( s ) ;
       sdef = regalloc ( s, freefixed, freefloat, stack ) ;

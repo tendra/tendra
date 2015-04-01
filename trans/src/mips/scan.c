@@ -101,23 +101,23 @@ cca(exp **to, exp *x)
 	if (x == (*to)) {
 		exp def = *x;
 		/* replace by  Let tg = def In tg Ni */
-		exp id = getexp (sh (def), bro(def), last (def), def, NULL, 0, 1, ident_tag);
+		exp id = getexp (sh (def), bro(def), def->last, def, NULL, 0, 1, ident_tag);
 		exp tg = getexp (sh (def), id, 1, id, NULL, 0, 0, name_tag);
 		pt (id) = tg;		/* use of tag */
 		bro(def) = tg;		/* bro(def) is body of Let = tg */
-		clearlast (def);
+		def->last = false;
 		*x = id;		/* replace pointer to x by Let */
 	} else {
 		/* replace by Let tg = def In ato/def = tg Ni */
 		exp def = *x;
 		exp ato = **to;
-		exp id = getexp (sh (ato), bro(ato), last (ato), def, NULL, 0, 1, ident_tag);
-		exp tg = getexp (sh (def), bro(def), last (def), id, NULL, 0, 0, name_tag);
+		exp id = getexp (sh (ato), bro(ato), ato->last, def, NULL, 0, 1, ident_tag);
+		exp tg = getexp (sh (def), bro(def), def->last, id, NULL, 0, 0, name_tag);
 		pt (id) = tg;		/* use of tg */
 		bro(def) = ato;		/* ato is body of Let */
-		clearlast (def);
+		def->last = false;
 		bro(ato) = id;		/* its father is Let */
-		setlast (ato);
+		ato->last = true;
 		**to = id;		/* replace pointer to 'to' by Let */
 		*x = tg;		/* replace use of x by tg */
 
@@ -215,7 +215,7 @@ scan_cond(exp *e, exp outer_id)
 		*/
 
 		exp l = son(son(first));
-		while(!last(l)) {
+		while(!l->last) {
 			l = bro(l);
 		}
 
@@ -228,13 +228,13 @@ scan_cond(exp *e, exp outer_id)
 			pt(l) = pt(bro(son(first)));
 			bro(son(first)) = second;
 			bro(second) = first;
-			setlast(second);
+			second->last = true;
 			bro(first) = bro(ste);
 
-			if(last(ste)) {
-				setlast(first);
+			if(ste->last) {
+				first->last = true;
 			} else {
-				clearlast(first);
+				first->last = false;
 			}
 
 			*e = first;
@@ -264,7 +264,7 @@ scan_cond(exp *e, exp outer_id)
 
 		if (c1 && eq_exp (op11, op12)) {
 			/* ....if first operands of tests are same, identify them */
-			exp newid = getexp (sh (ste), bro(ste), last (ste), op11, NULL,
+			exp newid = getexp (sh (ste), bro(ste), ste->last, op11, NULL,
 			                    0, 2, ident_tag);
 			exp tg1 = getexp (sh (op11), op21, 0, newid, NULL, 0, 0, name_tag);
 			exp tg2 = getexp (sh (op12), op22, 0, newid, NULL, 0, 0, name_tag);
@@ -272,10 +272,10 @@ scan_cond(exp *e, exp outer_id)
 			pt(newid) = tg1;
 			pt(tg1)   = tg2;	/* uses of newid */
 			bro(op11) = ste;
-			clearlast(op11);/* body of newid */
+			op11->last = false;/* body of newid */
 			/* forget son test2 = son test1 */
 			bro(ste) = newid;
-			setlast (ste);	/* father body = newid */
+			ste->last = true;	/* father body = newid */
 			son(test1) = tg1;
 			son(test2) = tg2;	/* relace 1st operands of test */
 
@@ -297,18 +297,18 @@ scan_cond(exp *e, exp outer_id)
 		} else if (c2 && eq_exp (op21, op22)) {
 			/* ....if second operands of tests are same, identify them */
 
-			exp newid = getexp (sh (ste), bro(ste), last (ste), op21, NULL, 0, 2, ident_tag);
+			exp newid = getexp (sh (ste), bro(ste), ste->last, op21, NULL, 0, 2, ident_tag);
 			exp tg1 = getexp (sh (op21), test1, 1, newid, NULL, 0, 0, name_tag);
 			exp tg2 = getexp (sh (op22), test2, 1, newid, NULL, 0, 0, name_tag);
 
 			pt (newid) = tg1;
 			pt (tg1) = tg2;	/* uses of newid */
 			bro(op21) = ste;
-			clearlast (op21);
+			op21->last = false;
 			/* body of newid */
 			/* forget bro son test2 = bro son test1 */
 			bro(ste) = newid;
-			setlast (ste);	/* father body = newid */
+			ste->last = true;	/* father body = newid */
 			bro(op11) = tg1;
 			bro(op12) = tg2;
 
@@ -394,15 +394,15 @@ likeplus(exp *e, exp **at)
 							 register usage */
 					exp op1 = son(dad);
 					exp cop = * (br);
-					bool lcop = last (cop);
+					bool lcop = cop->last;
 					bro(prev) = bro(cop);
 
 					if (lcop) {
-						setlast (prev);
+						prev->last = true;
 					}
 
 					bro(cop) = op1;
-					clearlast (cop);
+					cop->last = false;
 					son(dad) = cop;
 					br = (prev == op1) ? &bro(cop) : prevbr;
 					a1.fixneeds = max (a2.fixneeds, a1.fixneeds + 1);
@@ -416,15 +416,15 @@ likeplus(exp *e, exp **at)
 				exp dad = * (e);
 				exp op1 = son(dad);
 				exp cop = * (br);
-				bool lcop = last (cop);
+				bool lcop = cop->last;
 				bro(prev) = bro(cop);
 
 				if (lcop) {
-					setlast (prev);
+					prev->last = true;
 				}
 
 				bro(cop) = op1;
-				clearlast (cop);
+				cop->last = false;
 				son(dad) = cop;
 				br = (prev == op1) ? &bro(cop) : prevbr;
 				commuted = 1;
@@ -441,7 +441,7 @@ likeplus(exp *e, exp **at)
 				a1.maxargs = max (a1.maxargs, a2.maxargs);
 			}
 		}
-	} while (!last(*br));
+	} while (!(*br)->last);
 
 	if (!optop(*e)) {
 		if (a1.fixneeds < 4) {
@@ -567,7 +567,7 @@ maxtup(exp e, exp ** at)
 		return an;
 	}
 
-	while (an = maxneeds (an, scan (stat, at)), !last(*stat) ) {
+	while (an = maxneeds (an, scan (stat, at)), !(*stat)->last) {
 		stat = &bro(*stat);
 	}
 
@@ -589,11 +589,11 @@ unchanged(exp usedname, exp ident)
 			continue;
 		}
 
-		if (!last (uses) || bro(uses)->tag != cont_tag) {
+		if (!uses->last || bro(uses)->tag != cont_tag) {
 			exp z;
 
 			for (z = uses; z != ident; z = bro(z)) {
-				if (!last (z) ||
+				if (!z->last ||
 				    (bro(z)->tag != seq_tag && bro(z)->tag != ident_tag)) {
 					return 0;
 				}
@@ -621,7 +621,7 @@ absbool(exp id /* declaration */ )
 		    /* one use is result  of sequence body */ )
 		{
 			exp c = son(son(bdy));
-			if (last (c) && c->tag == cond_tag /* seq is cond=c; id */ ) {
+			if (c->last && c->tag == cond_tag /* seq is cond=c; id */ ) {
 				exp first = son(c);
 				exp second = bro(son(c));
 				if (no (son(second)) == 1 /* only one jump to else */ &&
@@ -634,7 +634,7 @@ absbool(exp id /* declaration */ )
 					if (r->tag == ass_tag && son(r)->tag == name_tag &&
 					    son(son(r)) == id && bro(son(r))->tag == val_tag &&
 					    no (bro(son(r))) == 1 /* last of seq is id = 1 */ &&
-					    last (s) && s->tag == test_tag && pt (s) == second
+					    s->last && s->tag == test_tag && pt (s) == second
 					    && !is_floating(sh(son(s))->tag))
 					{
 					    /**t of seq is int test jumping to
@@ -682,10 +682,10 @@ change_to_var(exp e)
 
 	while (p != NULL) {
 		exp * pos = ptr_position(p);
-		exp ncont = getexp(sh(p), bro(p), last(p), p, NULL, 0, 0, cont_tag);
+		exp ncont = getexp(sh(p), bro(p), p->last, p, NULL, 0, 0, cont_tag);
 
 		bro(p) = ncont;
-		setlast(p);
+		p->last = true;
 		sh(p) = ns;
 		*pos = ncont;
 
@@ -760,17 +760,17 @@ tidy_ident(exp e)
 			change_names(init, e, idy);
 
 			broe3 = bro(e3);
-			laste3 = last(e3);
+			laste3 = e3->last;
 			bro(son(bdyinit)) = e3;
 			bro(e3) = bdyinit;
-			setlast(bdyinit);
+			bdyinit->last = true;
 			/* bdyinit is now { e2/(y=>x); e3} */
 			bro(bdyinit) = broe3;
 
 			if (laste3) {
-				setlast(bdyinit);
+				bdyinit->last = true;
 			} else {
-				clearlast(bdyinit);
+				bdyinit->last = false;
 			}
 
 			son(e) = e1;  /* bro(e1) is bdyinit */
@@ -820,17 +820,17 @@ tidy_ident(exp e)
 			change_names(init, e, idy);
 
 			broe3 = bro(e3);
-			laste3 = last(e3);
+			laste3 = e3->last;
 			bro(son(bdyinit)) = e3;
 			bro(e3) = bdyinit;
-			setlast(bdyinit);
+			bdyinit->last = true;
 			/* bdyinit is now { e2/(y=>x); e3} */
 			bro(bdyinit) = broe3;
 
 			if (laste3) {
-				setlast(bdyinit);
+				bdyinit->last = true;
 			} else {
-				clearlast(bdyinit);
+				bdyinit->last = false;
 			}
 
 			son(e) = e1;  /* bro(e1) is bdyinit */
@@ -886,7 +886,7 @@ chase(exp sel, exp * e)
 
 		for (one = &son(*e); ; one = &bro(*one)) {
 			b |= chase(sel, one);
-			if (last(*one)) {
+			if ((*one)->last) {
 				break;
 			}
 		}
@@ -899,8 +899,8 @@ chase(exp sel, exp * e)
 			exp stare = *e;
 			exp ss = son(stare);
 
-			if (!last (stare)) {
-				clearlast (ss);
+			if (!stare->last) {
+				ss->last = false;
 			}
 
 			bro(ss) = bro(stare);
@@ -915,11 +915,11 @@ chase(exp sel, exp * e)
 		if (son(sel) != *e && sh(*e)->tag != bothd) {
 			/* only change if not outer */
 			exp stare = *e;
-			exp newsel = getexp (sh (sel), bro(stare), last (stare), stare, NULL,
+			exp newsel = getexp (sh (sel), bro(stare), stare->last, stare, NULL,
 			                     props (sel), no (sel), sel->tag);
 			*e =  newsel;
 			bro(stare) = newsel;
-			setlast(stare);
+			stare->last = true;
 			b = 1;
 		}
 	}
@@ -1021,14 +1021,14 @@ scan(exp *e, exp **at)
 		if (dad->tag == compound_tag || dad->tag == nof_tag
 		    || dad->tag == concatnof_tag) {
 			cantdo = 0;
-		} else if (last(ste) ) {
+		} else if (ste->last ) {
 			if (bro(ste)->tag == ass_tag ) {
 				exp a = son(bro(ste));
 				cantdo = (a->tag != name_tag || !isvar(son(a)) );
 			} else {
 				cantdo = 1;
 			}
-		} else if (last(bro(ste)) ) {
+		} else if (bro(ste)->last) {
 			cantdo = (bro(bro(ste))->tag != ident_tag) ;
 		} else {
 			cantdo = 1;
@@ -1056,7 +1056,7 @@ scan(exp *e, exp **at)
 		if (oddtest(ste, & t, &f, &v) ) {
 			/* transform to f((absbool(t) <<1)-1)  */
 			exp bc = bro(ste);
-			bool lc = last(ste);
+			bool lc = ste->last;
 
 			exp ab  = getexp(sh(v), NULL, 0, t, NULL, 0, 0, absbool_tag);
 			exp shl = getexp(sh(v), NULL, 0, ab, NULL, 0, 0, shl_tag);
@@ -1067,7 +1067,7 @@ scan(exp *e, exp **at)
 			bro(ab) = v1;
 			bro(shl) = vm1;
 			bro(t) = ab;
-			setlast(t);
+			t->last = true;
 
 			if (no(v) == -1) {
 				settest_number(t, notbranch[test_number(t) - 1]);
@@ -1083,9 +1083,9 @@ scan(exp *e, exp **at)
 
 			bro(*e) = bc;
 			if (lc) {
-				setlast(*e);
+				(*e)->last = true;
 			} else {
-				clearlast(*e);
+				(*e)->last = false;
 			}
 
 			return scan(e, at);
@@ -1094,7 +1094,7 @@ scan(exp *e, exp **at)
 		if (is_maxlike(ste, &t) ) {
 			son(ste) = t;
 			bro(t) = ste;
-			setlast(t);
+			t->last = true;
 			ste->tag = maxlike_tag;
 			return scan(&son(ste), at);
 		}
@@ -1102,7 +1102,7 @@ scan(exp *e, exp **at)
 		if (is_minlike(ste, &t) ) {
 			son(ste) = t;
 			bro(t) = ste;
-			setlast(t);
+			t->last = true;
 			ste->tag = minlike_tag;
 			return scan(&son(ste), at);
 		}
@@ -1110,7 +1110,7 @@ scan(exp *e, exp **at)
 		if (is_abslike(ste, &t) ) {
 			son(ste) = t;
 			bro(t) = ste;
-			setlast(t);
+			t->last = true;
 			ste->tag = abslike_tag;
 			return scan(&son(ste), at);
 		}
@@ -1118,7 +1118,7 @@ scan(exp *e, exp **at)
 		if (is_fabs(ste, &t) ) {
 			son(ste) = son(t);
 			bro(son(t)) = ste;
-			setlast(son(t));
+			son(t)->last = true;
 			ste->tag = fabs_tag;
 			return scan(&son(ste), at);
 		}
@@ -1139,7 +1139,7 @@ scan(exp *e, exp **at)
 		statat = stat;
 		an = zeroneeds;
 
-		while (an = maxneeds(an, scan(stat, &statat)), !last(*stat)) {
+		while (an = maxneeds(an, scan(stat, &statat)), !(*stat)->last) {
 			stat = &bro(*stat);
 			statat = stat;
 		}
@@ -1181,18 +1181,18 @@ scan(exp *e, exp **at)
 			exp * posu = ptr_position(u);
 			bro(init) = bro(u);
 
-			if (last(u)) {
-				setlast(init);
+			if (u->last) {
+				init->last = true;
 			} else {
-				clearlast(init);
+				init->last = false;
 			}
 
 			*posu = init;
 			bro(bdy) = bro(stare);
-			if (last(stare)) {
-				setlast(bdy);
+			if (stare->last) {
+				bdy->last = true;
 			} else {
-				clearlast(bdy);
+				bdy->last = false;
 			}
 
 			*e = bdy;
@@ -1303,7 +1303,7 @@ scan(exp *e, exp **at)
 				   a=1 | L:top) ni replace declaration by
 				   ABS */
 				bro(ab) = stare;
-				setlast(ab); /* father => *e */
+				ab->last = true; /* father => *e */
 				son(stare) = ab;
 				pt(stare) = NULL;
 				pt(ab) = NULL;
@@ -1407,13 +1407,13 @@ scan(exp *e, exp **at)
 					make_top by next exp in sequence */
 				exp lbst = bro(son(sc));
 				exp mkt = bro(son(lbst));
-				exp ne = (last(sc)) ? bro(son(*e)) : bro(sc);
+				exp ne = (sc->last) ? bro(son(*e)) : bro(sc);
 				exp bne = bro(ne);
-				bool lne = last(ne);
+				bool lne = ne->last;
 
 				/* only worthwhile eliding if ne is a cond */
 				if (ne->tag != cond_tag ) {
-					if (last(sc)) {
+					if (sc->last) {
 						break;
 					}
 
@@ -1423,17 +1423,17 @@ scan(exp *e, exp **at)
 
 				sh(sc) = sh(ne);
 				bro(ne) = lbst;
-				setlast(ne);
+				ne->last = true;
 				bro(son(lbst)) = ne;
 
 				/* sc is now cond( ... goto | next cond exp) */
-				if (!last(sc)) { /* not last in seq - swallow next*/
+				if (!sc->last) { /* not last in seq - swallow next*/
 					bro(sc) = bne;
 
 					if (lne) {
-						setlast(sc);
+						sc->last = true;
 					} else {
-						clearlast(sc);
+						sc->last = false;
 					}
 
 					no(son(*e))--; /* one less statement */
@@ -1441,14 +1441,14 @@ scan(exp *e, exp **at)
 					/* last but not only - replace by
 							make_top and put cond in res posn */
 					bro(mkt) = bro(sc);
-					setlast(mkt);
+					mkt->last = true;
 					*atsc = mkt;
 					bro(sc) = bne;
 
 					if (lne) {
-						setlast(sc);
+						sc->last = true;
 					} else {
-						clearlast(sc);
+						sc->last = false;
 					}
 
 					*arg = sc;
@@ -1456,10 +1456,10 @@ scan(exp *e, exp **at)
 				} else { /* whole sequence can be replace by cond */
 					bro(sc) = bro(*e);
 
-					if (last(*e)) {
-						setlast(sc);
+					if ((*e)->last) {
+						sc->last = true;
 					} else {
-						clearlast(sc);
+						sc->last = false;
 					}
 
 					*e = sc;
@@ -1467,7 +1467,7 @@ scan(exp *e, exp **at)
 				}
 			}
 
-			if (last(sc)) {
+			if (sc->last) {
 				break;
 			}
 
@@ -1484,7 +1484,7 @@ scan(exp *e, exp **at)
 			/* initial statements voided */
 			an = maxneeds(an, stneeds);
 
-			if (last(*stat)) {
+			if ((*stat)->last) {
 				if ((an.propsneeds & usesproccall) != 0) {
 					an.propsneeds |= hasproccall;
 				}
@@ -1766,19 +1766,19 @@ scan(exp *e, exp **at)
 		bool tlrecpos = nonevis && callerfortr && (rscope_level == 0);
 		int i;
 
-		if (endian == ENDIAN_BIG && !last(fn)) {
+		if (endian == ENDIAN_BIG && !fn->last) {
 			/* ABI says that all int pars <32 bits are promoted to int*/
 			for(;;) {
 				shape s = sh(*par);
 				if (shape_size(s) < 32 && valregable(s)) {
 					exp cv = getexp((is_signed(s)) ? slongsh : ulongsh, bro(*par),
-					                last(*par), *par, NULL, 0, 0, chvar_tag);
+					                (*par)->last, *par, NULL, 0, 0, chvar_tag);
 					bro(*par) = cv;
-					setlast(*par);
+					(*par)->last = true;
 					*par = cv;
 				}
 
-				if (last(*par)) {
+				if ((*par)->last) {
 					break;
 				}
 
@@ -1805,7 +1805,7 @@ scan(exp *e, exp **at)
 		}
 
 		/* scan parameters in turn ... */
-		for (i = 1; !last(fn); ++i) {
+		for (i = 1; !fn->last; ++i) {
 			needs onepar;
 			shape shpar = sh(*par);
 			onepar = scan (par, at);
@@ -1838,7 +1838,7 @@ scan(exp *e, exp **at)
 				tlrecpos = 0;
 			}
 
-			if (last(*par)) {
+			if ((*par)->last) {
 				break;
 			}
 
@@ -1901,10 +1901,10 @@ scan(exp *e, exp **at)
 			exp ao = me_b3(vs, nm, v, addptr_tag);
 			bro(ao) = bro(*e);
 
-			if (last(*e)) {
-				setlast(ao);
+			if ((*e)->last) {
+				ao->last = true;
 			} else {
-				clearlast(ao);
+				ao->last = false;
 			}
 
 			*e = ao;
@@ -2036,10 +2036,10 @@ scan(exp *e, exp **at)
 		shape sres = sh(*e);
 
 		if (shape_size(sres) != 32 ) {
-			exp ch = getexp(sres, bro(*e), last(*e), *e, pt(*e), props(*e),
+			exp ch = getexp(sres, bro(*e), (*e)->last, *e, pt(*e), props(*e),
 			                0, chvar_tag);
 			bro(*e) = ch;
-			setlast(*e);
+			(*e)->last = true;
 			sh(*e) = slongsh;
 
 			*e = ch;
@@ -2093,20 +2093,20 @@ scan(exp *e, exp **at)
 		bool xlike = (dad->tag == maxlike_tag || dad->tag == minlike_tag || dad->tag == abslike_tag);
 		/* don't do various optimisations if xlike */
 
-		if (!last (stare) && bro(stare)->tag == test_tag &&
+		if (!stare->last && bro(stare)->tag == test_tag &&
 		    no (stare) == no (bro(stare)) &&
 		    props(stare) == props(bro(stare)) &&
 		    eq_exp (l, son(bro(stare))) && eq_exp (r, bro(son(bro(stare)))))
 		{
 			/* same test following in seq list - remove second test */
-			if (last (bro(stare))) {
-				setlast (stare);
+			if (bro(stare)->last) {
+				stare->last = true;
 			}
 
 			bro(stare) = bro(bro(stare));
 		}
 
-		if (last (stare) && bro(stare)->tag == 0/* seq holder */
+		if (stare->last && bro(stare)->tag == 0/* seq holder */
 		    && bro(bro(stare))->tag == test_tag &&
 		    bro(bro(bro(stare)))->tag == seq_tag &&
 		    no (stare) == no (bro(bro(stare))) &&
@@ -2123,9 +2123,9 @@ scan(exp *e, exp **at)
 		if (!xlike && l->tag == val_tag && (props (stare) == 5 || props (stare) == 6)) {
 			/* commute  const = x */
 			bro(l) = stare;
-			setlast (l);
+			l->last = true;
 			bro(r) = l;
-			clearlast (r);
+			r->last = false;
 			son(stare) = r;
 			r = l;
 			l = son(stare);
@@ -2259,7 +2259,7 @@ scan(exp *e, exp **at)
 				allneg = 0;
 			}
 
-			if (last (list)) {
+			if (list->last) {
 				break;
 			}
 
@@ -2274,37 +2274,37 @@ scan(exp *e, exp **at)
 				list = son(x);
 
 				for (;;) {
-					if (!last (x)) {
+					if (!x->last) {
 						bro(list) = son(bro(x));
-						clearlast (list);
+						list->last = false;
 						list = bro(list);
 						x = bro(x);
 					} else {
 						bro(list) = sum;
-						setlast (list);
+						list->last = true;
 						son(sum) = son(son(sum));
 						/* use existing exp */
 						break;
 					}
 				}
 
-				x = getexp (sh (sum), bro(sum), last (sum), sum, NULL,
+				x = getexp (sh (sum), bro(sum), sum->last, sum, NULL,
 				            0, 0, neg_tag);
-				setlast(sum);
+				sum->last = true;
 				bro(sum) = x; /* set father of sum to be negate */
 				*e = x;
 			} else {
 				/* transform to  ((..(..+..) - ..) -..) */
 				int   n = 0;
 				exp brosum = bro(sum);
-				bool lastsum = last (sum);
+				bool lastsum = sum->last;
 				exp x = son(sum);
 				exp newsum = sum;
 				list = NULL;
 
 				for (;;) {
 					exp nxt = bro(x);
-					bool final = last (x);
+					bool final = x->last;
 
 					if (x->tag == neg_tag) {
 						bro(son(x)) = list;
@@ -2313,9 +2313,9 @@ scan(exp *e, exp **at)
 						bro(x) = newsum;
 						newsum = x;
 						if ((n++) == 0) {
-							setlast (newsum);
+							newsum->last = true;
 						} else {
-							clearlast (newsum);
+							newsum->last = false;
 						}
 					}
 
@@ -2335,11 +2335,11 @@ scan(exp *e, exp **at)
 					/* introduce - operations */
 					exp nxt = bro(list);
 					bro(newsum) = list;
-					clearlast(newsum);
+					newsum->last = false;
 					x = getexp(sh(sum), NULL, 0, newsum, NULL, 0, 0, minus_tag);
 
 					bro(list) = x;
-					setlast (list);
+					list->last = true;
 					newsum = x;
 
 					if ((list = nxt) == NULL) {
@@ -2349,9 +2349,9 @@ scan(exp *e, exp **at)
 
 				bro(newsum) = brosum;
 				if (lastsum) {
-					setlast (newsum);
+					newsum->last = true;
 				} else {
-					clearlast (newsum);
+					newsum->last = false;
 				}
 
 				*e = newsum;
@@ -2388,7 +2388,7 @@ scan(exp *e, exp **at)
 				exp ne = getexp(sh(p), d, 0, p, NULL, 0, 0,
 				                locptr_tag);
 				bro(p) = ne;
-				setlast(p);
+				p->last = true;
 				son(*e) = ne;
 			}
 		}
@@ -2448,10 +2448,10 @@ scan(exp *e, exp **at)
 				/* offset is one  byte */
 				bro(op1) = bro(*e);
 
-				if (last(*e)) {
-					setlast(op1);
+				if ((*e)->last) {
+					op1->last = true;
 				} else {
-					clearlast(op1);
+					op1->last = false;
 				}
 
 				*e = op1;
@@ -2486,10 +2486,10 @@ scan(exp *e, exp **at)
 							no(ac) = na * n;
 							bro(op1) = bro(*e);
 
-							if (last(*e)) {
-								setlast(op1);
+							if ((*e)->last) {
+								op1->last = true;
 							} else {
-								clearlast(op1);
+								op1->last = false;
 							}
 
 							*e = op1;
@@ -2513,9 +2513,9 @@ scan(exp *e, exp **at)
 		if (l->tag == val_tag) {
 			sh(l) = sh(r); /* both offsets will be treated the same */
 			son(*e) = r;
-			clearlast(r);
+			r->last = false;
 			bro(r) = l;
-			setlast(l);
+			l->last = true;
 			bro(l) = *e;
 			/* ... and put val last */
 		} else if (al2(sh(l)) >= 8 && al2(sh(r)) < 8) {
@@ -2610,17 +2610,17 @@ scan(exp *e, exp **at)
 		/* + and * can have >2 parameters
 		  - make them diadic - can do better
 		  a+exp => let x = exp in a+x */
-		if (!last(a2) ) {
+		if (!a2->last ) {
 			exp opn = getexp(sh(op), op, 0, a2, NULL, 0, 0, op->tag);
 			/* dont need to transfer error treatment - nans */
-			exp nd = getexp(sh(op), bro(op), last(op), opn, NULL, 0, 1, ident_tag);
+			exp nd = getexp(sh(op), bro(op), op->last, opn, NULL, 0, 1, ident_tag);
 			exp id = getexp(sh(op), op, 1, nd, NULL, 0, 0, name_tag);
 			pt(nd) = id;
 			bro(son(op)) = id;
-			setlast(op);
+			op->last = true;
 			bro(op) = nd;
 
-			while (!last(a2)) {
+			while (!a2->last) {
 				a2 = bro(a2);
 			}
 
@@ -2641,8 +2641,8 @@ scan(exp *e, exp **at)
 			exp stare = *e;
 			exp ss = son(stare);
 
-			if (!last (stare)) {
-				clearlast (ss);
+			if (!stare->last) {
+				ss->last = false;
 			}
 
 			bro(ss) = bro(stare);

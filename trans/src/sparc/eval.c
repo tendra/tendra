@@ -481,7 +481,7 @@ is_zero ( exp e ){
       e = bro ( son ( e ) ) ;
       while ( 1 ) {
 	if ( is_zero ( e ) == 0 ) return 0;
-	if ( last ( e ) ) return 1;
+	if ( e -> last ) return 1;
 	e = bro ( bro ( e ) ) ;
       }
       UNREACHED;
@@ -633,10 +633,10 @@ evalone ( exp e, int bitposn, bool ro ){
 	assert ( ( noff / ta ) * ta <= noff ) ;
 	assert ( ta <= al ) ;
 	if(ts == 0){
-	  if(last(tup)) return;
+	  if(tup->last) return;
 	  else {
 	    off = bro ( bro ( off ) ) ;
-	    assert ( !last ( off ) ) ;
+	    assert ( ! off -> last ) ;
 	    tup = bro ( off ) ;
 	    ta = ( long ) shape_align ( sh ( tup ) ) ;
 	    ts = shape_size ( sh ( tup ) ) ;
@@ -674,7 +674,7 @@ evalone ( exp e, int bitposn, bool ro ){
 	  evalone ( tup, left.bitposn, ro ) ;
 	  left.bitposn = ( int ) ( left.bitposn + ts ) ;
 	}
-	if ( last ( tup ) ) {
+	if ( tup -> last ) {
 	  /* output final bits from any previous field */
 	  long databits = no ( off ) + ts ;
 	  long trailing_bytes = ( sz - databits ) / 8 ;
@@ -687,7 +687,7 @@ evalone ( exp e, int bitposn, bool ro ){
 	  return ;
 	}
 	off = bro ( bro ( off ) ) ;
-	assert ( !last ( off ) ) ;
+	assert ( ! off -> last ) ;
 	tup = bro ( off ) ;
 	ta = ( long ) shape_align ( sh ( tup ) ) ;
 	ts = shape_size ( sh ( tup ) ) ;
@@ -700,7 +700,7 @@ evalone ( exp e, int bitposn, bool ro ){
       set_align ( al ) ;
       for ( ; ; ) {
 	evalone ( s, bitposn, ro ) ;
-	if ( last ( s ) ) return ;
+	if ( s -> last ) return ;
 	s = bro ( s ) ;
       }
       UNREACHED;

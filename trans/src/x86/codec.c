@@ -197,12 +197,12 @@ static void logop
   exp t, u;
   where qw;
 
-  if (last(arg1)) {
+  if (arg1->last) {
     make_code(dest, stack, arg1);
     return;
   }
 
-  if (last (arg2)) {		/* just two arguments. */
+  if (arg2->last) {		/* just two arguments. */
     bop(op, sha, arg1, arg2, dest, stack);
     return;
   }
@@ -218,7 +218,7 @@ static void logop
   while (1) {
     if (!is_o(t->tag) || is_crc(t))
       break;
-    if (last(t)) {
+    if (t->last) {
       t = NULL;
       break;
     }
@@ -229,7 +229,7 @@ static void logop
 				   operands */
    (*op)(sha, mw(arg1, 0), mw(arg2, 0), qw);
     t = bro(arg2);
-    while (!last(t)) {
+    while (!t->last) {
       (*op) (sha, mw (t, 0), qw, qw);/* encode operations in turn */
       t = bro(t);
     }
@@ -246,12 +246,12 @@ static void logop
   /* now encode the remaining operations */
   while (1) {
     if (t != u) {
-      if (last(u) || (bro(u) == t && last(bro(u))))
+      if (u->last || (bro(u) == t && bro(u)->last))
 	(*op)(sha, mw(u, 0), qw, dest);
       else
 	(*op)(sha, mw(u, 0), qw, qw);
     }
-    if (last(u))
+    if (u->last)
       break;
     u = bro(u);
   }
@@ -278,12 +278,12 @@ static void multop
   exp t, u;
   where qw;
 
-  if (last(arg1)) {
+  if (arg1->last) {
     make_code(dest, stack, arg1);
     return;
   }
 
-  if (last (arg2)) {		/* just two arguments. */
+  if (arg2->last) {		/* just two arguments. */
     bop(op, sh(e), arg1, arg2, dest, stack);
     return;
   }
@@ -299,7 +299,7 @@ static void multop
   while (1) {
     if (!is_o(t->tag) || is_crc(t))
       break;
-    if (last(t)) {
+    if (t->last) {
       t = NULL;
       break;
     }
@@ -310,7 +310,7 @@ static void multop
 	/* all arguments are possible 80386 operands */
    (*op)(sh(e), mw(arg1, 0), mw(arg2, 0), qw);
     t = bro(arg2);
-    while (!last(t)) {
+    while (!t->last) {
       (*op) (sh (e), mw (t, 0), qw, qw);/* encode operations in turn */
       t = bro(t);
     }
@@ -327,12 +327,12 @@ static void multop
   /* now encode the remaining operations */
   while (1) {
     if (t != u) {
-      if (last(u) || (bro(u) == t && last(bro(u))))
+      if (u->last || (bro(u) == t && bro(u)->last))
 	(*op)(sh(e), mw(u, 0), qw, dest);
       else
 	(*op)(sh(e), mw(u, 0), qw, qw);
     }
-    if (last(u))
+    if (u->last)
       break;
     u = bro(u);
   }
@@ -371,7 +371,7 @@ void codec
 	where qw;
 	exp old_overflow_e = overflow_e;
 
-	if (last (arg1)) {	/* there is only one argument */
+	if (arg1->last) {	/* there is only one argument */
 	  make_code(dest, stack, arg1);
 	  return;
 	}
@@ -379,7 +379,7 @@ void codec
 	if (!optop(e))
           overflow_e = e;
 
-	if (last(arg2) && is_o(arg1->tag) && !is_crc(arg1) &&
+	if (arg2->last && is_o(arg1->tag) && !is_crc(arg1) &&
 	   ((is_o(arg2->tag) && !is_crc(arg2)) ||
 	     (arg2->tag == neg_tag &&
 	       !is_crc(son(arg2)) &&
@@ -405,7 +405,7 @@ void codec
 	     (t->tag!= neg_tag || !is_o(son(t)->tag) ||
 	       is_crc(son(t))))
 	    break;
-	  if (last(t)) {
+	  if (t->last) {
 	    t = NULL;
 	    break;
 	  }
@@ -429,7 +429,7 @@ void codec
              overflow_e = old_overflow_e;
 	     return;
            }
-	  while (!last(t)) {
+	  while (!t->last) {
 	    u = bro(t);
 	    addsub(sh(e), mw(t, 0), qw, qw, e);
 	    t = u;
@@ -447,12 +447,12 @@ void codec
 	while (1) {
 	  v = bro(u);
 	  if (t != u) {
-	    if (last(u) || (v == t && last(v)))
+	    if (u->last || (v == t && v->last))
 	      addsub(sh(e), mw(u, 0), qw, dest, e);
 	    else
 	      addsub(sh(e), mw(u, 0), qw, qw, e);
 	  }
-	  if (last(u))
+	  if (u->last)
 	    break;
 	  u = v;
 	}

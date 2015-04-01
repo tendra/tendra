@@ -116,7 +116,7 @@ static int no_side_aux
   {
     if ((!is_a(arg->tag) && arg->tag!= ident_tag) || !no_side_aux(arg))
       return 0;
-    if (last(arg))
+    if (arg->last)
       return 1;
   }
 }
@@ -298,7 +298,7 @@ add_wlist(exp re, int usemc3, explist * el)
   if (usemc3)
     wl1 = try_mc3(re, wl1, el);
 
-  while (!last(re)) {
+  while (!re->last) {
     re = bro(re);
     wl2 = weightsv(re, el);
     if (usemc3)
@@ -365,9 +365,9 @@ weightsv(exp e, explist * el)
 	nel.wident = e;
 	nel.etl = el;
 	while (isvar(e) && !isvis(e) && t != NULL) {
-	  if (!(last(t) && bro(t)->tag == cont_tag) &&
-              !(last(t) && bro(t)->tag == hold_tag) &&
-	      !(last(bro(t)) && (bro(bro(t))->tag == ass_tag ||
+	  if (!(t->last && bro(t)->tag == cont_tag) &&
+              !(t->last && bro(t)->tag == hold_tag) &&
+	      !(bro(t)->last && (bro(bro(t))->tag == ass_tag ||
 		  bro(bro(t))->tag == assvol_tag
 		)))
 	    setvis(e);

@@ -390,7 +390,7 @@ scan_diag_names(exp e, exp whole)
 
 		for (t = son(e); ; t = bro(t)) {
 			scan_diag_names(t, whole);
-			if (last(t)) {
+			if (t->last) {
 				return;
 			}
 		}
@@ -413,7 +413,7 @@ diaginfo_exp(exp e)
 	setbro (ans, NULL);	/* these fields are used in dwarf generation */
 	no(ans) = 0;
 	props(ans) = 0;
-	clearlast(ans);
+	ans->last = false;
 	IGNORE refactor(e, e);
 
 	return ans;

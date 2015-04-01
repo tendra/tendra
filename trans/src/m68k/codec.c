@@ -209,13 +209,13 @@ logop(void(*op)(shape, where, where, where), exp e, where dest, ash stack)
 	exp t, u, v;
 	where w;
 
-	if (last(arg1)) {
+	if (arg1->last) {
 		/* If there is of one argument, code it into dest */
 		make_code(dest, stack, arg1);
 		return;
 	}
 
-	if (last(arg2)) {
+	if (arg2->last) {
 		/* If there are two arguments, use bop */
 		bop(op, sh(e), arg1, arg2, dest, stack);
 		return;
@@ -237,7 +237,7 @@ logop(void(*op)(shape, where, where, where), exp e, where dest, ash stack)
 		if (!is_o(t->tag)) {
 			break;
 		}
-		if (last(t)) {
+		if (t->last) {
 			t = NULL;
 			break;
 		}
@@ -257,7 +257,7 @@ logop(void(*op)(shape, where, where, where), exp e, where dest, ash stack)
 		/* Process the first two terms */
 		(*op)(sh(e), zw(arg1), zw(arg2), w);
 		t = bro(arg2);
-		while (!last(t)) {
+		while (!t->last) {
 			/* Process the third, fourth, ... terms */
 			(*op)(sh(e), zw(t), w, w);
 			t = bro(t);
@@ -287,13 +287,13 @@ logop(void(*op)(shape, where, where, where), exp e, where dest, ash stack)
 	u = arg1;
 	while (1) {
 		if (t != u) {
-			if (last(u) || (bro(u) == t && last(bro(u)))) {
+			if (u->last || (bro(u) == t && bro(u)->last)) {
 				(*op)(sh(e), zw(u), w, dest);
 			} else {
 				(*op)(sh(e), zw(u), w, w);
 			}
 		}
-		if (last(u)) {
+		if (u->last) {
 			break;
 		}
 		u = bro(u);
@@ -381,7 +381,7 @@ codec(where dest, ash stack, exp e)
 		where w;
 		int prev_ov;
 
-		if (last(arg1)) {
+		if (arg1->last) {
 			/* One argument */
 			make_code(dest, stack, arg1);
 			return;
@@ -389,7 +389,7 @@ codec(where dest, ash stack, exp e)
 
 		prev_ov = set_overflow(e);
 
-		if (last(arg2)) {
+		if (arg2->last) {
 			/* Two arguments */
 			addsub(sh(e), zw(arg2), zw(arg1), dest, stack);
 			clear_overflow(prev_ov);
@@ -408,7 +408,7 @@ codec(where dest, ash stack, exp e)
 			    (t->tag!= neg_tag || !is_o(son(t)->tag))) {
 				break;
 			}
-			if (last(t)) {
+			if (t->last) {
 				t = NULL;
 				break;
 			}
@@ -435,7 +435,7 @@ codec(where dest, ash stack, exp e)
 				return;
 			}
 			/* Deal with the third, fourth, ... arguments */
-			while (!last(t)) {
+			while (!t->last) {
 				u = bro(t);
 				addsub(sh(e), zw(t), w, w, stack);
 				t = u;
@@ -456,13 +456,13 @@ codec(where dest, ash stack, exp e)
 		while (1) {
 			v = bro(u);
 			if (t != u) {
-				if (last(u) || (v == t && last(v))) {
+				if (u->last || (v == t && v->last)) {
 					addsub(sh(e), zw(u), w, dest, stack);
 				} else {
 					addsub(sh(e), zw(u), w, w, stack);
 				}
 			}
-			if (last(u)) {
+			if (u->last) {
 				break;
 			}
 			u = v;
@@ -623,7 +623,7 @@ codec(where dest, ash stack, exp e)
 		exp f1 = son(e);
 		exp f2 = bro(f1);
 		int prev_ov = set_overflow(e);
-		if (last(f2)) {
+		if (f2->last) {
 			/* two arguments */
 			fl_binop(fmult_tag, sh(e), zw(f1), zw(f2), dest);
 		} else {
@@ -637,10 +637,10 @@ codec(where dest, ash stack, exp e)
 			w = zw(s);
 
 			fl_binop(fmult_tag,sh(e),zw(f1),zw(f2),w);
-			while (!last(f2)) {
+			while (!f2->last) {
 				f2 = bro(f2);
 				fl_binop(fmult_tag, sh(e), w, zw(f2),
-					 (last(f2) ? dest : w));
+					 (f2->last ? dest : w));
 			}
 		}
 
@@ -723,14 +723,14 @@ codec(where dest, ash stack, exp e)
 
 		int prev_ov = set_overflow(e);
 
-		if (last(f1)) {
+		if (f1->last) {
 			/* If there is only one argument things are simple */
 			move(sh(e), zw(f1), dest);
 			clear_overflow(prev_ov);
 			return;
 		}
 
-		if (last(f2)) {
+		if (f2->last) {
 			/* If there are two arguments code directly */
 			if (f2->tag == fneg_tag) {
 				f2 = son(f2);
@@ -744,7 +744,7 @@ codec(where dest, ash stack, exp e)
 			return;
 		}
 
-		if (last(bro(f2)) && bro(f2)->tag == real_tag &&
+		if (bro(f2)->last && bro(f2)->tag == real_tag &&
 		    dest.wh_exp->tag != apply_tag &&
 		    dest.wh_exp->tag != tail_call_tag &&
 		    dest.wh_exp->tag != apply_general_tag) {
@@ -775,7 +775,7 @@ codec(where dest, ash stack, exp e)
 			if (eq_where(dest, zw(t))) {
 				count_dest++;
 			}
-			while (!last(t)) {
+			while (!t->last) {
 				t = bro(t);
 				if (t->tag == fneg_tag) {
 					if (eq_where(zw(son(t)), dest)) {
@@ -822,7 +822,7 @@ codec(where dest, ash stack, exp e)
 							 dest, dest);
 					}
 				}
-				if (last(t)) {
+				if (t->last) {
 					break;
 				}
 				t = bro(t);
@@ -836,7 +836,7 @@ codec(where dest, ash stack, exp e)
 					 FP0);
 			}
 			t = bro(f2);
-			while (!last(t)) {
+			while (!t->last) {
 				if (t->tag == fneg_tag) {
 					fl_binop(fminus_tag, sh(e), zw(son(t)),
 						 FP0, FP0);

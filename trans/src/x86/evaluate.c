@@ -179,7 +179,7 @@ evalexp(exp e)
       }
     case seq_tag:
       {
-	if (son(son(e))->tag == prof_tag && last(son(son(e))))
+	if (son(son(e))->tag == prof_tag && son(son(e))->last)
 	   return evalexp(bro(son(e)));
 	break;
       }
@@ -390,7 +390,7 @@ static void evalaux
              }
          }
 
-       if (last(val))   /* CLEAR OUT SHAPE size_shape(e) - crt_off */
+       if (val->last)   /* CLEAR OUT SHAPE size_shape(e) - crt_off */
         {
           if (bits_left)
             {
@@ -515,7 +515,7 @@ static void evalaux
      while (1)
       {
         evalaux(t, isconst, al);
-        if (last(t))
+        if (t->last)
           return;
         t = bro(t);
         dot_align((shape_align(sh(t)) <=8)? 1 : shape_align(sh(t)) /8);

@@ -465,7 +465,7 @@ makeans make_apply_tag_code(exp e, space sp, where dest, int exitlab)
 */
 
   /* Callers evaluated to usual place relative to sp */
-  if (!last(fn)) {nsp = do_callers(PROC_PARAM_REGS,par,nsp);}
+  if (!fn->last) {nsp = do_callers(PROC_PARAM_REGS,par,nsp);}
 
   /* Function call */
   IGNORE do_function_call(fn,nsp);
@@ -537,7 +537,7 @@ makeans make_apply_general_tag_code(exp e, space sp, where dest, int exitlab)
       {
 	no(x) += p_args_and_link_size<<3;
       }
-      if (last(x))
+      if (x->last)
       {
 	break;
       }
@@ -844,7 +844,7 @@ void make_callee_list_tag_code(exp e, space sp)
       setinsalt(w.answhere,is);
       code_here(list,sp,w);
       disp = ALIGNNEXT(disp + ap.ashsize,32);
-      if (last(list))
+      if (list->last)
 	break;
       list = bro(list);
     }
@@ -1104,7 +1104,7 @@ do_callers(int n, exp list, space sp)
       no(list) =disp;
     }
 
-    if (last(list))
+    if (list->last)
       break;
     list = bro(list);
 

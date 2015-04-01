@@ -235,7 +235,7 @@ static void output_info
       return;
     for (;;) {
       output_info (t, dgf(t));
-      if (last(t) || e->tag == case_tag) return;
+      if (t->last || e->tag == case_tag) return;
       t = bro(t);
     }
   }

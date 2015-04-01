@@ -134,9 +134,9 @@ getexp(shape s, exp b, int l, exp sn, exp px, prop pr, int n, unsigned char tg)
 	bro(res) = b;
 
 	if (l) {
-		setlast(res);
+		res->last = true;
 	} else {
-		clearlast(res);
+		res->last = false;
 	}
 
 	son(res)    = sn;
@@ -174,9 +174,9 @@ getshape(int l, alignment sn, alignment px, alignment pr, int n,
 
 	res = next_exp();
 	if (l) {
-		setlast(res);
+		res->last = true;
 	} else {
-		clearlast(res);
+		res->last = false;
 	}
 
 	res->son.ald = sn;
@@ -211,7 +211,7 @@ internal_to(exp whole, exp part)
 	q = part;
 	while (q != whole && q != NULL &&
 	       !(q->tag == ident_tag && isglob(q))) {
-		f = (int)(last(q));
+		f = (int)(q->last);
 		q = bro(q);
 	}
 
@@ -267,13 +267,13 @@ kill_exp(exp e, exp scope)
 	if (n == solve_tag) {
 		int looping;
 
-		if (!last(son(e))) {
+		if (!son(e)->last) {
 			exp t;
 
 			t = bro(son(e));
 			do {
 				no(son(t)) = 0;
-				looping = !last(t);
+				looping = !t->last;
 				t = bro(t);
 			} while (looping);
 		}
@@ -316,7 +316,7 @@ kill_exp(exp e, exp scope)
 			int l;
 
 			nextb = bro(b);
-			l     = last(b);
+			l     = b->last;
 
 			no(son(pt(b)))--;
 			if (son(b) != NULL) {
@@ -402,7 +402,7 @@ kill_el (exp e, exp scope)
 	}
 
 	do {
-		l = (int)(last(e));
+		l = (int)(e->last);
 		next = bro(e);
 		kill_exp(e, scope);
 		e = next;
@@ -622,7 +622,7 @@ scan_solve(exp e)
 	case case_tag: {
 		exp t;
 
-		for (t = son(e); !last(t); t = bro(t)) {
+		for (t = son(e); !t->last; t = bro(t)) {
 			exp s = son(pt(bro(t)));
 			if (isvar(s)) {
 				++no(s);
@@ -643,7 +643,7 @@ scan_solve(exp e)
 		if (son(e) != NULL) {
 			exp t;
 
-			for (t = son(e); scan_solve(t), !last(t); t = bro(t))
+			for (t = son(e); scan_solve(t), !t->last; t = bro(t))
 				;
 		}
 
@@ -719,7 +719,7 @@ clean_labelled(exp main, label_list placelabs)
 	q = main;
 	for (i = 0; i < ord_no; ++i) {
 		/* set up the solve with the statements in the order specified by ord */
-		clearlast(q);
+		q->last = false;
 		bro(q) = get_lab(placelabs.elems[ord[i]]);
 		q = bro(q);
 		props(son(q)) = (prop)(props(son(q)) & 0xfe);
@@ -755,7 +755,7 @@ father(exp e)
 		return e;
 	}
 
-	while (!last(e)) {
+	while (!e->last) {
 		e = bro(e);
 	}
 
@@ -814,10 +814,10 @@ replace(exp old, exp e, exp scope)
 	exp *ref;
 
 	ref = refto(f, old);
-	if (last(*ref)) {
-		setlast(e);
+	if ((*ref)->last) {
+		e->last = true;
 	} else {
-		clearlast(e);
+		e->last = false;
 	}
 
 	bro(e) = bro(*ref);
@@ -884,7 +884,7 @@ exp copy_cpd(exp e, exp new_record, exp var, exp lab)
 	/* copy the labelled statements */
 	q = bro(son(e));
 	copy_labst(q);
-	while (!last(q)) {
+	while (!q->last) {
 		q = bro(q);
 		copy_labst(q);
 	}
@@ -892,25 +892,25 @@ exp copy_cpd(exp e, exp new_record, exp var, exp lab)
 	/* copy the bodies of the labelled statments */
 	q = bro(son(e));
 	while (j = copy_res(bro(son(q)), var, lab), c = pt(q), bro(son(c)) = j,
-	       bro(j) = c, setlast(j), !last(q)) {
+	       bro(j) = c, j->last = true, !q->last) {
 		q = bro(q);
 	}
 
 	/* copy the lead statement */
 	s = copy_res(son(e), var, lab);
 	son(t) = s;
-	clearlast(s);
+	s->last = false;
 	q = bro(son(e));
 	n = s;
 
 	/* restore the labelled statements */
-	while (k = undo_labst(q), bro(n) = k, clearlast(n), !last(q)) {
+	while (k = undo_labst(q), bro(n) = k, n->last = false, !q->last) {
 		q = bro(q);
 		n = bro(n);
 	}
 
 	n = bro(n);
-	setlast(n);
+	n->last = true;
 	bro(n) = t;
 	return t;
 }
@@ -950,8 +950,8 @@ copy_res(exp e, exp var, exp lab)
 		son(t) = s;
 		bro(s) = bs;
 		bro(bs) = t;
-		clearlast(s);
-		setlast(bs);
+		s->last = false;
+		bs->last = true;
 		pt(e) = x;		/* reset the remembered usage list */
 		clearcopy (e);		/* remove the copying flag */
 
@@ -1044,7 +1044,7 @@ copy_res(exp e, exp var, exp lab)
 		exp labloc, tp;
 
 		son(z) = t;
-		while (!last(q)) {
+		while (!q->last) {
 			setbro(p, copyexp(bro(q)));
 			if (son(bro(q)) != NULL) {
 				setson(bro(p), copyexp(son(bro(q))));
@@ -1196,16 +1196,16 @@ copy_res(exp e, exp var, exp lab)
 			exp q = copy_res(t, var, lab);
 			exp ptt = q;
 
-			while (!last (t)) {	/* copy the arguments */
+			while (!t->last) {	/* copy the arguments */
 				setbro(ptt, copy_res(bro(t), var, lab));
-				clearlast(ptt);
+				ptt->last = false;
 				t = bro(t);
 				ptt = bro(ptt);
 			}
 
 			son(z) = q;
 			bro(ptt) = z;
-			setlast(ptt);
+			ptt->last = true;
 
 			if (n == labst_tag || n == seq_tag) {
 				/* in case bro(son(z)) is a tuple */
@@ -1270,7 +1270,7 @@ is_comm(exp e)
 				}
 			}
 
-			if (last(t)) {
+			if (t->last) {
 				return 1;
 			}
 
@@ -1294,7 +1294,7 @@ is_comm(exp e)
 				return 0;
 			}
 
-			if (last(t)) {
+			if (t->last) {
 				return 1;
 			}
 

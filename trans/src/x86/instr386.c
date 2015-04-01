@@ -242,7 +242,7 @@ static int use_pop_ass
   if (ln->tag!= name_tag)
     return 0;
   id = son(ln);
-  while (n != id && last(n) &&
+  while (n != id && n->last &&
 	(is_a(n->tag) || n->tag == ident_tag ||
 		n->tag == ass_tag))
     n = bro(n);
@@ -260,7 +260,7 @@ static int   use_pop
   if (ln->tag!= name_tag)
     return 0;
   id = son(ln);
-  while (n != id && last(n))
+  while (n != id && n->last)
     n = bro(n);
   if (n == id)
     return get_reg_no(no(id)) - fstack_pos + 2;
@@ -6194,11 +6194,11 @@ void fl_multop
 {
   exp arg1 = arglist;
   exp arg2 = bro(arg1);
-  if (last (arg1)) {	/* only one arg, so just move to dest */
+  if (arg1->last) {	/* only one arg, so just move to dest */
     move(sha, mw(arg1, 0), dest);
     return;
   }
-  if (last (arg2)) {	/* two args */
+  if (arg2->last) {	/* two args */
     fl_binop(op, sha, mw(arg1, 0), mw(arg2, 0), dest, arg2);
     return;
   }
@@ -6215,7 +6215,7 @@ void fl_multop
 	   error(ERR_INTERNAL, BAD_FLOP); break;
       }
     pop_fl;
-    if (last(arg2))break;
+    if (arg2->last)break;
     arg2 = bro(arg2);
   }
   move(sha, flstack, dest);

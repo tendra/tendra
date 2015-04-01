@@ -115,8 +115,8 @@ int inlinechoice
 
   for (;;) {
      if (fpars->tag!=ident_tag || !isparam(fpars)) { /* first beyond formals */
-       if (!last(t))
-	 newdecs = 10; /* more actuals than formals, since last(apars)->break */
+       if (!t->last)
+	 newdecs = 10; /* more actuals than formals, since apars->last->break */
        break;
      }
      nparam++;
@@ -180,7 +180,7 @@ int inlinechoice
       }
      }
      fpars = bro(son(fpars));
-     if (last(apars))break;
+     if (apars->last)break;
      apars = bro(apars);
    }
 

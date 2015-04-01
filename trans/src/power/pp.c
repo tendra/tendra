@@ -141,7 +141,7 @@ scan_for_labsts(exp e)
 	/* don't scan sons of these tags */
 	case name_tag:
 	case env_offset_tag:
-		if (!last(e)) {
+		if (!e->last) {
 			scan_for_labsts(bro(e));
 		}
 		return;
@@ -153,7 +153,7 @@ scan_for_labsts(exp e)
 	}
 
 	scan_for_labsts(son(e));
-	if (!last(e)) {
+	if (!e->last) {
 		scan_for_labsts(bro(e));
 	}
 }
@@ -396,7 +396,7 @@ infotag(exp e, int i)
 		printf("|                                      |");
 	}
 	if (bro(e) != NULL) {
-		if (last(e)) {
+		if (e->last) {
 			printf("-->father:%s\n", getname(bro(e)->tag));
 		} else {
 			printf("-->brother:%s\n", getname(bro(e)->tag));
@@ -420,7 +420,7 @@ infotag(exp e, int i)
 		printf("|                                      |\n");
 	}
 
-	printf("| last(e)      = %d                     ", last(e));
+	printf("| e->last      = %d                     ", e->last);
 
 	if (sh(e) != NULL) {
 		printf("| al2(sh(e))         = %-2d              |\n", (int)al2(sh(e)));
@@ -441,7 +441,7 @@ infotag(exp e, int i)
 
 		/* first line */
 		while (!finished) {
-			finished = last(point);
+			finished = point->last;
 			printf("------------------------------   ");
 			point = bro(point);
 		}
@@ -451,7 +451,7 @@ infotag(exp e, int i)
 		point = son(e);
 		finished = 0;
 		while (!finished) {
-			finished = last(point);
+			finished = point->last;
 			printf("| %-17s0x%-8x|   ", getname(point->tag), (unsigned int)point);
 			point = bro(point);
 		}
@@ -460,7 +460,7 @@ infotag(exp e, int i)
 		point = son(e);
 		finished = 0;
 		while (!finished) {
-			finished = last(point);
+			finished = point->last;
 			printf("------------------------------   ");
 			point = bro(point);
 		}
@@ -470,7 +470,7 @@ infotag(exp e, int i)
 		point = son(e);
 		finished = 0;
 		while (!finished) {
-			finished = last(point);
+			finished = point->last;
 			printf("| no          = %-10d   |   ", no(point));
 			point = bro(point);
 		}
@@ -480,7 +480,7 @@ infotag(exp e, int i)
 		point = son(e);
 		finished = 0;
 		while (!finished) {
-			finished = last(point);
+			finished = point->last;
 			printf("| pt          = 0x%-8x   |   ", (unsigned int)pt(point));
 			point = bro(point);
 		}
@@ -490,7 +490,7 @@ infotag(exp e, int i)
 		point = son(e);
 		finished = 0;
 		while (!finished) {
-			finished = last(point);
+			finished = point->last;
 			if (sh(point) != NULL) {
 				printf("| sh->tag = %-15s |", shape_name(sh(point)->tag));
 			} else {
@@ -507,7 +507,7 @@ infotag(exp e, int i)
 		point = son(e);
 		finished = 0;
 		while (!finished) {
-			finished = last(point);
+			finished = point->last;
 			if (sh(point) != NULL) {
 				printf("| shape_size  = %-4d         |   ", shape_size(sh(point)));
 			} else {
@@ -520,7 +520,7 @@ infotag(exp e, int i)
 		point = son(e);
 		finished = 0;
 		while (!finished) {
-			finished = last(point);
+			finished = point->last;
 			if (sh(point) != NULL) {
 				printf("| shape_align = %-4d         |   ", (int)shape_align(sh(point)));
 			} else {
@@ -534,7 +534,7 @@ infotag(exp e, int i)
 		point = son(e);
 		finished = 0;
 		while (!finished) {
-			finished = last(point);
+			finished = point->last;
 			if (sh(point) != NULL) {
 				printf("| is_signed   = %-4d         |   ", is_signed(sh(e)));
 			} else {
@@ -548,7 +548,7 @@ infotag(exp e, int i)
 		point = son(e);
 		finished = 0;
 		while (!finished) {
-			finished = last(point);
+			finished = point->last;
 			printf("------------------------------   ");
 			point = bro(point);
 		}
@@ -558,7 +558,7 @@ infotag(exp e, int i)
 		point = son(e);
 		finished = 0;
 		while (!finished) {
-			finished = last(point);
+			finished = point->last;
 			if (son(point) == NULL) {
 
 				printf("                                 ");
@@ -689,7 +689,7 @@ exp_show(exp e, int depth, int depth_of_recursion, int flag)
 				} else {
 					printf(" ----> (0x%x)\n", (int)pt(s));
 				}
-			} while (!last(s));
+			} while (!s->last);
 		}
 		break;
 	case goto_tag: {
@@ -889,7 +889,7 @@ exp_show(exp e, int depth, int depth_of_recursion, int flag)
 	}
 
 	/* always look at brother unless told not to or it is last */
-	if (last(e) || flag) {
+	if (e->last || flag) {
 		return;
 	} else {
 		exp_show(bro(e), depth, depth_of_recursion, 0);

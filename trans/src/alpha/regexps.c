@@ -59,9 +59,9 @@ sim_explist(exp al, exp bl)
     return 0;
   if (!sim_exp(al, bl))
     return 0;
-  if (last(al) && last(bl))
+  if (al->last && bl->last)
     return 1;
-  if (last(al) || last(bl))
+  if (al->last || bl->last)
     return 0;
   return sim_explist(bro(al), bro(bl));
 }
@@ -367,7 +367,7 @@ couldaffect(exp e, exp z)
   while (e != NULL) {
     if (couldaffect(e, z))
       return 1;
-    if (last(e))
+    if (e->last)
       return 0;
     e = bro(e);
   }

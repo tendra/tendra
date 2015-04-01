@@ -1019,7 +1019,7 @@ testlast(exp e, exp second)
 		list = son(son(e));
 
 		for (;;) {
-			if (last(list)) {
+			if (list->last) {
 				if (list->tag == test_tag && pt(list) == second) {
 					return list;
 				} else {
@@ -1427,7 +1427,7 @@ do_callers(exp list, space sp, int *sizecallers)
 		disp = rounder(disp, REG_SIZE);
 		*sizecallers = min(disp, NUM_PARAM_REGS * REG_SIZE);
 
-		if (last(list)) {
+		if (list->last) {
 			return sp;
 		}
 
@@ -1852,7 +1852,7 @@ tailrecurse:
 		exp t;
 
 		for (t = son(son(e)); ; t = bro(t)) {
-			exp next = (last(t)) ? (bro(son(e))) : bro(t);
+			exp next = (t->last) ? (bro(son(e))) : bro(t);
 
 			if (next->tag == goto_tag) {/* gotos end sequences */
 				make_code(t, sp, nowhere, no(son(pt(next))));
@@ -1860,7 +1860,7 @@ tailrecurse:
 				code_here(t, sp, nowhere);
 			}
 
-			if (last(t)) {
+			if (t->last) {
 				e = bro(son(e));
 				goto tailrecurse;
 			}
@@ -2623,7 +2623,7 @@ tailrecurse:
 				newdest.ashwhere = ashof(sh(bro(t)));
 				code_here(bro(t), nsp, newdest);
 
-				if (last(bro(t))) {
+				if (bro(t)->last) {
 					return mka;
 				}
 
@@ -2653,7 +2653,7 @@ tailrecurse:
 			}
 
 			nsp = guardreg(r, sp);
-			while (!last(bro(t))) {
+			while (!bro(t)->last) {
 				int z;
 				t = bro(bro(t));
 				assert(t->tag == val_tag);
@@ -2706,7 +2706,7 @@ tailrecurse:
 				newdest.ashwhere = ashof(sh(t));
 				code_here(t, nsp, newdest);
 
-				if (last(t)) {
+				if (t->last) {
 					return mka;
 				}
 
@@ -2737,7 +2737,7 @@ tailrecurse:
 			r = regalt(dest.answhere);
 			nsp = guardreg(r, sp);
 
-			while (!last(t)) {
+			while (!t->last) {
 				int z;
 				disp += rounder(shape_size(sh(t)), shape_align(sh(bro(t))));
 				t = bro(t);
@@ -2840,7 +2840,7 @@ tailrecurse:
 		disp = 0;
 		spar = FIRST_INT_ARG; /* register holding 1st integer parameter */
 
-		if (!last(fn)) {
+		if (!fn->last) {
 			/* evaluate parameters in turn */
 			for (;;) {
 				int hd = sh(list)->tag;
@@ -2923,7 +2923,7 @@ tailrecurse:
 				disp += parsize;
 				disp = rounder(disp, REG_SIZE);
 
-				if (last(list)) {
+				if (list->last) {
 					break;
 				}
 
@@ -3090,7 +3090,7 @@ tailrecurse:
 					no(x) += postlude_arg_space;
 				}
 
-				if (last(x)) {
+				if (x->last) {
 					break;
 				}
 
@@ -3175,7 +3175,7 @@ tailrecurse:
 				code_here(list, sp, w);
 				disp = rounder(disp + ap.ashsize, PTR_SZ);
 				/*	disp = rounder(disp+ap.ashsize,is32(sh(list))?32:64);*/
-				lastpar = last(list);
+				lastpar = list->last;
 			}
 		}
 
@@ -3677,7 +3677,7 @@ tailrecurse:
 		for (;;) {
 			/* set up all the labels in the component labst_tags */
 			no(son(m)) = new_label();
-			if (last(m)) {
+			if (m->last) {
 				break;
 			}
 			m = bro(m);
@@ -3692,7 +3692,7 @@ tailrecurse:
 				l = fl;
 			}
 
-			if (!last (m)) {	/* jump to end of solve */
+			if (!m->last) {	/* jump to end of solve */
 				if (l == 0) {
 					l = new_label();
 				}
@@ -3702,7 +3702,7 @@ tailrecurse:
 				}
 			}
 
-			if (last(m)) {
+			if (m->last) {
 				mka.lab = l;
 				return mka;
 			}
@@ -3734,7 +3734,7 @@ tailrecurse:
 				n = INT64_increment(n);
 			}
 
-			if (last(zt)) {
+			if (zt->last) {
 				u = (son(zt) != NULL) ? exp_to_INT64(son(zt)) : exp_to_INT64(zt);
 				break;
 			}
@@ -3813,7 +3813,7 @@ tailrecurse:
 					out_value(-no(son(pt(z))), igprel32, make_INT64(0, 0), 1);
 				}
 
-				if (last(z)) {
+				if (z->last) {
 					break;
 				}
 
@@ -3911,7 +3911,7 @@ tailrecurse:
 					integer_branch(i_br, 31, lab);
 				}
 
-				if (last(z)) {
+				if (z->last) {
 					if (over != 0) {
 						set_label(over);
 					}
@@ -4459,7 +4459,7 @@ out:
 			mult_ins = is64(sh(e)) ? i_mulq : i_mull;
 		}
 
-		if (last(rop) && rop->tag == val_tag && optop(e)) {
+		if (rop->last && rop->tag == val_tag && optop(e)) {
 			/* multiplication by constant m */
 			int   m = no(rop);
 			int   p2;

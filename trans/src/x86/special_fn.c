@@ -38,7 +38,7 @@ special_trans386(exp a1, exp a2, shape s, exp *e)
 {
 	exp r;
 
-	if (a2 == NULL || !last(a2)) {
+	if (a2 == NULL || !a2->last) {
 		return false;
 	}
 
@@ -68,7 +68,7 @@ special_longjmp(exp a1, exp a2, shape s, exp *e)
 {
 	exp r;
 
-	if (last(a2) || bro(a2) == NULL) {
+	if (a2->last || bro(a2) == NULL) {
 		return 0;
 	}
 
@@ -76,12 +76,12 @@ special_longjmp(exp a1, exp a2, shape s, exp *e)
 	has_setjmp = 1;
 
 	bro(a1) = a2;
-	clearlast(a1);
+	a1->last = false;
 	parked(a2) = 0;
-	clearlast(a2);
+	a2->last = false;
 
 	a2 = bro(a2);
-	setlast(a2);
+	a2->last = true;
 	parked(a2) = 0;
 	bro(a2) = r;
 
@@ -95,7 +95,7 @@ special_alloca(exp a1, exp a2, shape s, exp *e)
 {
 	exp r;
 
-	if (a2 == NULL || !last(a2)) {
+	if (a2 == NULL || !a2->last) {
 		return false;
 	}
 
@@ -112,7 +112,7 @@ special_alloca(exp a1, exp a2, shape s, exp *e)
 static bool
 special_exit(exp a1, exp a2, shape s, exp *e)
 {
-	if (a2 == NULL || !last(a2)) {
+	if (a2 == NULL || !a2->last) {
 		return false;
 	}
 
@@ -124,7 +124,7 @@ special_exit(exp a1, exp a2, shape s, exp *e)
 static bool
 special_abort(exp a1, exp a2, shape s, exp *e)
 {
-	if (a2 == NULL || !last(a2)) {
+	if (a2 == NULL || !a2->last) {
 		return false;
 	}
 

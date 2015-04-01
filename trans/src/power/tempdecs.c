@@ -122,7 +122,7 @@ trace_uses(exp e, exp id)
 
       if (p == 0)
 	nouses = u;
-      if (last(l))
+      if (l->last)
 	break;
       l = bro(l);
     }
@@ -192,7 +192,7 @@ trace_uses(exp e, exp id)
 
 	if (el != 1)
 	  return el;
-	if (last(s))
+	if (s->last)
 	  return trace_uses(bro(son(e)), id);
 	s = bro(s);
       }
@@ -244,7 +244,7 @@ trace_uses(exp e, exp id)
 	  bad_arguments++;
 	  ret_value = el;
 	}
-	if (last(s))
+	if (s->last)
 	  break;
 	s = bro(s);
       }
@@ -294,7 +294,7 @@ tailrecurse:
   }
 
 
-  for (l = a; !last(l); l = bro(l))
+  for (l = a; !l->last; l = bro(l))
   {
     int u = trace_uses(bro(l), id);
 
@@ -353,8 +353,7 @@ tempdec(exp e, bool enoughs)
     for (p = pt(e); p != NULL; p = pt(p))
     {
       /* find no of uses which are not assignments to id ... */
-      if (!last(p) && last(bro(p))
-	  && bro(bro(p))->tag == ass_tag)
+      if (!p->last && bro(p)->last && bro(bro(p))->tag == ass_tag)
       {
 	if (!simple_seq(bro(bro(p)), e))
 	  return 0;
@@ -381,8 +380,7 @@ tempdec(exp e, bool enoughs)
   {
     for (p = pt(e); p != NULL; p = pt(p))
     {
-      if (!last(p) && last(bro(p))
-	  && bro(bro(p))->tag == ass_tag)
+      if (!p->last && bro(p)->last && bro(bro(p))->tag == ass_tag)
       {
 	after_a(bro(bro(p)), e);
       }
@@ -479,7 +477,7 @@ static int locate_param(exp e)
       {
 	flparam++;
       }
-      if (last(par))
+      if (par->last)
 	break;
       par = bro(par);
     }

@@ -66,11 +66,11 @@ regremoved(exp * seq, int reg)
   for (;;) {
     if (abs (regofval (t)) == reg) {
       bro (s) = bro (t);
-      if (last (t))
-	setlast (s);
+      if (t->last)
+	s->last = true;
       return 1;
     }
-    if (last (t)) {
+    if (t->last) {
       return 0;
     }
     s = t;
@@ -95,7 +95,7 @@ do_comm(exp seq, space sp, int final, char *rins)
     nsp = guardreg (a1, sp);
     seq = bro (seq);
     if (seq->tag == val_tag) {/* next operand is a constant */
-      if (last (seq)) {
+      if (seq->last) {
 	rri_ins (rins, final, a1, no (seq));
 	return;
       }
@@ -110,7 +110,7 @@ do_comm(exp seq, space sp, int final, char *rins)
       char *ins = rins;
       a2 = reg_operand (sq, nsp);
       /* evaluate next operand */
-      if (last (seq)) {
+      if (seq->last) {
 	rrr_ins (ins, final, a1, a2);
 	return;
       }
@@ -142,7 +142,7 @@ comm_op(exp e, space sp, where d, char *rrins)
 	exp seq = son (e);
 	/* the destination is in a register; take care that we dont alter
 	   it before possible use as an operand .... */
-	if (usesdest && last (seq)) {
+	if (usesdest && seq->last) {
 				/* ...it was used, but there is only one
 				   other operand */
 	  if (seq->tag == val_tag) {

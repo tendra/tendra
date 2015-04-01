@@ -417,7 +417,7 @@ testlast(exp e, exp second)
 		return 0;
 	}
 
-	for (list = son(son(e)); !last(list); list = bro(list))
+	for (list = son(son(e)); !list->last; list = bro(list))
 		;
 
 	if (list->tag == test_tag && pt(list) == second) {
@@ -550,7 +550,7 @@ do_callers(exp list, space sp)
 		disp += parsize;
 		disp = rounder(disp, 32);
 
-		if (last(list)) {
+		if (list->last) {
 			return sp;
 		}
 
@@ -621,7 +621,7 @@ do_callee_list(exp e, space sp)
 			code_here(list, sp, w);
 			disp = rounder(disp + ap.ashsize, 32);
 
-			if (last(list)) {
+			if (list->last) {
 				break;
 			}
 
@@ -911,7 +911,7 @@ tailrecurse:
 		exp t = son(son(e));
 
 		for (;;) {
-			exp next = (last(t)) ? (bro(son(e))) : bro(t);
+			exp next = (t->last) ? (bro(son(e))) : bro(t);
 
 			if (next->tag == goto_tag) {/* gotos end sequences */
 				make_code(t, sp, nowhere, no(son(pt(next))));
@@ -919,7 +919,7 @@ tailrecurse:
 				code_here(t, sp, nowhere);
 			}
 
-			if (last(t)) {
+			if (t->last) {
 				e = bro(son(e));
 				goto tailrecurse;
 			}
@@ -1062,8 +1062,8 @@ tailrecurse:
 		int   lab = no(son(gotodest));
 		clear_all();
 
-		if (!last(e) || bro(e)->tag != seq_tag || !last(bro(e)) ||
-		    last(bro(bro(e))) || bro(bro(bro(e))) != gotodest) {
+		if (!e->last || bro(e)->tag != seq_tag || !bro(e)->last ||
+		    bro(bro(e))->last || bro(bro(bro(e))) != gotodest) {
 			uncond_ins(i_b, lab);
 		} /* dest is next in sequence */
 
@@ -1397,7 +1397,7 @@ tailrecurse:
 
 					while (u != NULL) {
 						/* loook through uses to find cont(name) */
-						if (last(u) && no(u) == no(lhs) && bro(u) != NULL &&
+						if (u->last && no(u) == no(lhs) && bro(u) != NULL &&
 						    bro(u)->tag == cont_tag &&
 						    shape_size(sh(bro(u))) == shape_size(sh(rhs))) {
 							keepreg(bro(u), contreg);
@@ -1466,7 +1466,7 @@ tailrecurse:
 				setinsalt(newdest.answhere, newis);
 				newdest.ashwhere = ashof(sh(bro(t)));
 				code_here(bro(t), nsp, newdest);
-				if (last(bro(t))) {
+				if (bro(t)->last) {
 					return mka;
 				}
 
@@ -1497,7 +1497,7 @@ tailrecurse:
 			}
 
 			nsp = guardreg(r, sp);
-			while (!last(bro(t))) {
+			while (!bro(t)->last) {
 				int z;
 				t = bro(bro(t));
 				assert(t->tag == val_tag);
@@ -1528,7 +1528,7 @@ tailrecurse:
 
 		case infreg:
 			code_here(bro(t), sp, dest);
-			if (!last(bro(t)) || t->tag != val_tag || no(t) != 0) {
+			if (!bro(t)->last || t->tag != val_tag || no(t) != 0) {
 				error(ERR_INTERNAL, "No Tuples in freg");
 			}
 
@@ -1569,7 +1569,7 @@ tailrecurse:
 				newdest.ashwhere = ashof(sh(t));
 				code_here(t, nsp, newdest);
 
-				if (last(t)) {
+				if (t->last) {
 					return mka;
 				}
 
@@ -1594,7 +1594,7 @@ tailrecurse:
 			r = regalt(dest.answhere);
 			nsp = guardreg(r, sp);
 
-			while (!last(t)) {
+			while (!t->last) {
 				int z;
 
 				disp += rounder(shape_size(sh(t)), shape_align(sh(bro(t))));
@@ -1757,7 +1757,7 @@ tailrecurse:
 					no(x) += max_args;
 				}
 
-				if (last(x)) {
+				if (x->last) {
 					break;
 				}
 
@@ -2186,7 +2186,7 @@ tailrecurse:
 			return mka;
 		}
 
-		if (!last(fn)) {
+		if (!fn->last) {
 			sp = do_callers(list, sp);
 		}
 
@@ -2448,13 +2448,13 @@ tailrecurse:
 			/* set up all the labels in the component
 						   labst_tags */
 			no(son(m)) = new_label();
-			if (last(m)) {
+			if (m->last) {
 				break;
 			}
 			m = bro(m);
 		}
 
-		for (m = son(e); !last(m); m = bro(m)) {
+		for (m = son(e); !m->last; m = bro(m)) {
 			/* evaluate all the component statements */
 			int fl = make_code(m, sp, dest, l).lab;
 			clear_all();
@@ -2463,7 +2463,7 @@ tailrecurse:
 				l = fl;
 			}
 
-			if (!last(m)) {
+			if (!m->last) {
 				/* jump to end of solve */
 				if (l == 0) {
 					l = new_label();
@@ -2499,7 +2499,7 @@ tailrecurse:
 				n++;
 			}
 
-			if (last(zt)) {
+			if (zt->last) {
 				u = (son(zt) != NULL) ? no(son(zt)) : no(zt);
 				break;
 			}
@@ -2561,7 +2561,7 @@ tailrecurse:
 					out_value(-no(son(pt(z))), (PIC_code) ? igpword : iword, 0, 1);
 				}
 
-				if (last(z)) {
+				if (z->last) {
 					break;
 				}
 
@@ -2631,7 +2631,7 @@ tailrecurse:
 					}
 				}
 
-				if (last(z)) {
+				if (z->last) {
 					if (over != 0) {
 						set_label(over);
 					}
@@ -2683,7 +2683,7 @@ tailrecurse:
 					}
 				}
 
-				if (last(z)) {
+				if (z->last) {
 					if (over != 0) {
 						set_label(over);
 					}
@@ -3068,7 +3068,7 @@ out:
 			return mka;
 		}
 
-		if (last(rop) && rop->tag == val_tag) {
+		if (rop->last && rop->tag == val_tag) {
 			/* multiplication by constant m */
 			int m = no(rop);
 			int p2;
@@ -3732,7 +3732,7 @@ alreadythere:
 		space nsp;
 		where d1;
 
-		if (last(l) && l->tag == val_tag && (no(l) == 255 || no(l) == 0xffff)
+		if (l->last && l->tag == val_tag && (no(l) == 255 || no(l) == 0xffff)
 		    && ((r->tag == name_tag && regofval(r) == 100)
 		        || (r->tag == cont_tag &&
 		            (son(r)->tag != name_tag

@@ -228,8 +228,8 @@ mark_unaliased(exp e)
 		if (bro(p) == NULL) {
 			ca = 0;
 		} else {
-			if (!(last(p) && bro(p)->tag == cont_tag) &&
-			    !(!last(p) && last(bro(p)) && bro(bro(p))->tag == ass_tag)) {
+			if (!(p->last && bro(p)->tag == cont_tag) &&
+			    !(!p->last && bro(p)->last && bro(bro(p))->tag == ass_tag)) {
 				ca = 0;
 			}
 		}

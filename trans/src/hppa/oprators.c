@@ -93,11 +93,11 @@ regremoved(exp * seq, int reg)
     if (ABS_OF(regofval(t)) == reg)
     {
       bro(s) = bro(t);
-      if (last(t))
-	setlast(s);
+      if (t->last)
+	s->last = true;
       return 1;
     }
-    if (last(t))
+    if (t->last)
     {
       return 0;
     }
@@ -220,7 +220,7 @@ do_comm(exp seq, space sp, int final, ins_p rins)
   exp next = bro(seq);
 
   if (seq->tag ==not_tag &&
-       last(next) &&
+       next->last &&
        rins==i_and &&
        next->tag!=val_tag)
   {
@@ -232,7 +232,7 @@ do_comm(exp seq, space sp, int final, ins_p rins)
   }
 
   if (next->tag ==not_tag &&
-      last(next) &&
+      next->last &&
       rins==i_and &&
       seq->tag!=val_tag)
   {
@@ -244,7 +244,7 @@ do_comm(exp seq, space sp, int final, ins_p rins)
   }
 
   if (next->tag ==val_tag &&
-       last(next) &&
+       next->last &&
        rins==i_and &&
        seq->tag ==shr_tag)
   {
@@ -270,7 +270,7 @@ do_comm(exp seq, space sp, int final, ins_p rins)
 
   /* evaluate 1st operand into a1 */
 
-  if (seq->tag ==cont_tag && bro(seq)->tag ==val_tag && last(bro(seq))
+  if (seq->tag ==cont_tag && bro(seq)->tag ==val_tag && bro(seq)->last
        && !(props(son(seq)) & inreg_bits))
   {
      reg_operand_here(seq, sp, final);
@@ -294,7 +294,7 @@ do_comm(exp seq, space sp, int final, ins_p rins)
     if (seq->tag == val_tag)	/* next operand is a constant */
     {
       int n=no(seq);
-      if (last(seq))
+      if (seq->last)
       {
 	if (rins==i_add)
 	{
@@ -335,7 +335,7 @@ do_comm(exp seq, space sp, int final, ins_p rins)
 
        a2 = reg_operand(sq, nsp);
        /* evaluate next operand */
-       if (last(seq))
+       if (seq->last)
        {
  	  rrr_ins(ins,c_,a1,a2,final);
 	  return;
@@ -371,7 +371,7 @@ int comm_op
        * the destination is in a register; take care that we dont alter it
        * before possible use as an operand ....
        */
-      if (usesdest && last(seq))
+      if (usesdest && seq->last)
       {
 	/* used, but there is only one other operand */
 	if (seq->tag ==val_tag)

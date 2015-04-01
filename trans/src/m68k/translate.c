@@ -76,8 +76,8 @@ mark_unaliased(exp e)
 
 		if (q == NULL) {
 			ca = 0;
-		} else if (!(last(p) && q->tag == cont_tag) &&
-		          !(!last(p) && last(q) && bro(q)->tag == ass_tag)) {
+		} else if (!(p->last && q->tag == cont_tag) &&
+		          !(!p->last && q->last && bro(q)->tag == ass_tag)) {
 			ca = 0;
 		}
 	}
@@ -126,7 +126,7 @@ local_translate_capsule(void)
 
 				np = pt(p);
 				ptr = refto(father(p), p);
-				c = getexp(sh(p), bro(p), last(p), p, NULL, 0, 0, cont_tag);
+				c = getexp(sh(p), bro(p), p->last, p, NULL, 0, 0, cont_tag);
 
 				setfather(c, p);
 
@@ -306,7 +306,7 @@ const_ready(exp e)
 		return 1;
 	}
 
-	for (e = son(e); !last(e); e = bro(e)) {
+	for (e = son(e); !e->last; e = bro(e)) {
 		if (!const_ready(e)) {
 			return 0;
 		}

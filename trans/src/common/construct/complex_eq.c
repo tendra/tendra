@@ -29,8 +29,8 @@ complex_eq_explist(exp a, exp b, exp laba, exp labb)
 {
 	if (a == NULL) return b == NULL;
 	if (b == NULL || !complex_eq_exp(a,b,laba,labb)) return 0;
-	if (last(a)) return last(b);
-	if (last(b)) return 0;
+	if (a->last) return b->last;
+	if (b->last) return 0;
 	return complex_eq_explist(bro(a), bro(b), laba, labb);
 }
 

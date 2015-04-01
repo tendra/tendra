@@ -151,7 +151,7 @@ static exp testlast(exp e, exp second)
 		exp list;
 
 		/* find the penultimate exp of the seq_tag */
-		for (list = son(son(e)); !last(list); list = bro(list))
+		for (list = son(son(e)); !list->last; list = bro(list))
 			;
 
 		if (list->tag == test_tag && pt(list) == second) {
@@ -182,7 +182,7 @@ static int has_bitfield(exp e)
 				return 1;    /* found bitfield */
 			}
 
-			if (last(e)) {
+			if (e->last) {
 				return 0;    /* all done, no bitfield */
 			}
 
@@ -222,7 +222,7 @@ fix_nonbitfield(exp e)
 			/* recursively fix the rest of the struct */
 			fix_nonbitfield(bro(e));
 
-			if (last(bro(e))) {
+			if (bro(e)->last) {
 				return; /* all done */
 			}
 		}
@@ -390,7 +390,7 @@ case_tag_code_transform(int caseint_reg, exp e, space sp)
 			asm_printop(".long L.%d-%s", no(son(pt(z))), veclabname);
 		}
 
-		if (last(z)) {
+		if (z->last) {
 			break;
 		}
 
@@ -421,7 +421,7 @@ case_tag_code_notransform(int caseint_reg, exp e, space sp)
 			n++;
 		}
 
-		if (last(zt)) {
+		if (zt->last) {
 			u = (son(zt) != NULL) ? no(son(zt)) : no(zt);
 			break;
 		}
@@ -538,7 +538,7 @@ case_tag_code_notransform(int caseint_reg, exp e, space sp)
 			for (; u + 1 != n; n++) {
 				asm_printop(".long L.%d-%s", no(son(pt(z))), veclabname);
 			}
-			if (last(z)) {
+			if (z->last) {
 				break;
 			}
 			z = bro(z);
@@ -603,7 +603,7 @@ case_tag_code_notransform(int caseint_reg, exp e, space sp)
 				uncond_ins(i_b, lab);
 			}
 
-			if (last(z)) {
+			if (z->last) {
 				flush_branch_queue();
 				if (endlab != 0) {
 					set_label(endlab);
@@ -674,7 +674,7 @@ case_tag_code_notransform(int caseint_reg, exp e, space sp)
 				uncond_ins(i_b, lab);
 			}
 
-			if (last(z)) {
+			if (z->last) {
 				flush_branch_queue();
 				if (endlab != 0) {
 					set_label(endlab);
@@ -853,7 +853,7 @@ tailrecurse:
 		exp t;
 
 		for (t = son(son(e)); ; t = bro(t)) {
-			exp next = (last(t)) ? (bro(son(e))) : bro(t);
+			exp next = (t->last) ? (bro(son(e))) : bro(t);
 
 			if (next->tag == goto_tag) {	/* gotos end sequences */
 				make_code(t, sp, nowhere, no(son(pt(next))));
@@ -861,7 +861,7 @@ tailrecurse:
 				code_here(t, sp, nowhere);
 			}
 
-			if (last(t)) {
+			if (t->last) {
 				exp l = bro(son(e)); /* last exp of sequence */
 
 				if (sh(t)->tag == bothd && l->tag == res_tag &&
@@ -1128,7 +1128,7 @@ tailrecurse:
 
 		lab = no(son(gotodest));
 		clear_all();
-		if (last(e) == 0 || bro(e)->tag != seq_tag || last(bro(e)) ||
+		if (e->last == 0 || bro(e)->tag != seq_tag || bro(e)->last ||
 		    bro(bro(e)) != gotodest) {
 			uncond_ins(i_b, lab);
 		} /* otherwise dest is next in sequence */
@@ -1247,7 +1247,7 @@ tailrecurse:
 			a = ashof(sh(rhs));
 			ashsize = a.ashsize;
 
-			if (last(bro(addptr_sons))
+			if (bro(addptr_sons)->last
 			    && a.ashalign == ashsize
 			    && (ashsize == 8 || ashsize == 16 || ashsize == 32 || is_float)) {
 				int lhs_addptr_reg;
@@ -1497,7 +1497,7 @@ tailrecurse:
 
 				code_here(bro(t), nsp, newdest);
 
-				if (last(bro(t))) {
+				if (bro(t)->last) {
 					return mka;
 				}
 
@@ -1527,7 +1527,7 @@ tailrecurse:
 			}
 
 			nsp = guardreg(r, sp);
-			while (!last(bro(t))) {
+			while (!bro(t)->last) {
 				int z;
 
 				t = bro(bro(t));
@@ -1582,7 +1582,7 @@ tailrecurse:
 				setinsalt(newdest.answhere, newis);
 				newdest.ashwhere = ashof(sh(t));
 				code_here(t, nsp, newdest);
-				if (last(t)) {
+				if (t->last) {
 					return mka;
 				}
 
@@ -1608,7 +1608,7 @@ tailrecurse:
 			r = regalt(dest.answhere);
 			nsp = guardreg(r, sp);
 
-			while (!last(t)) {
+			while (!t->last) {
 				int z;
 
 				disp += rounder(shape_size(sh(t)), shape_align(sh(bro(t))));
@@ -1740,7 +1740,7 @@ tailrecurse:
 		/* Set up all the labels in the component labst_tags */
 		for (;;) {
 			no(son(m)) = new_label();
-			if (last(m)) {
+			if (m->last) {
 				break;
 			}
 
@@ -1757,7 +1757,7 @@ tailrecurse:
 				l = fl;
 			}
 
-			if (!last(m)) {
+			if (!m->last) {
 				/* jump to end of solve */
 				if (l == 0) {
 					l = new_label();
@@ -1767,7 +1767,7 @@ tailrecurse:
 				}
 			}
 
-			if (last(m)) {
+			if (m->last) {
 				mka.lab = l;
 				return mka;
 			}
@@ -2350,7 +2350,7 @@ tailrecurse:
 			exp addptr_sons = son(son(e));
 			bool is_float = is_floating(cont_shape->tag);
 
-			if (last(bro(addptr_sons))
+			if (bro(addptr_sons)->last
 			    && cont_align == cont_size
 			    && (cont_size == 8 || cont_size == 16 || cont_size == 32 || is_float)) {
 				int lhsreg;

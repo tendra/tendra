@@ -478,7 +478,7 @@ evalone(exp e, long rep)
 		bits_start += shape_size(sh(bro(tup)));
 	     }
 
-	     if (last(bro(tup))) {
+	     if (bro(tup)->last) {
 	     	     offs += ae.ashsize;
 		     offs = (offs+7) &~7;
 		     for (;!first_bits;) {
@@ -517,7 +517,7 @@ evalone(exp e, long rep)
    	set_align(a.ashalign);
    	for (;;) {
    		evalone(s,1);
-   		if (last(s)) return;
+   		if (s->last) return;
    		s = bro(s);
    	}
    }
@@ -584,7 +584,7 @@ evalone(exp e, long rep)
       }
    case seq_tag:
       {
-	if (son(son(e))->tag == prof_tag && last(son(son(e))))
+	if (son(son(e))->tag == prof_tag && son(son(e))->last)
 	   { evalone(bro(son(e)),rep); return;}
       }		/* otherwise drop through to failure */
 

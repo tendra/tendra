@@ -219,7 +219,7 @@ static int do_mul_comm_const(exp seq, space sp, int final_reg, bool sgned)
 
   sp = guardreg(lhs_reg, sp);
 
-  assert(last(arg2));			/* refactor() & scan() should move const to last */
+  assert(arg2->last);			/* refactor() & scan() should move const to last */
 
   if (final_reg == R_NO_REG)
     final_reg = getreg(sp.fixed);	/* better code from mul_const if src != dest reg */
@@ -250,7 +250,7 @@ static int do_div(exp seq, space sp, int final_reg, bool sgned)
     sp = guardreg(final_reg, sp);
   }
 
-  assert(last(rhs));
+  assert(rhs->last);
 
   if (rhs->tag == val_tag && IS_POW2(no(rhs)))
   {
@@ -438,7 +438,7 @@ static int do_rem(exp seq, space sp, int final_reg, bool sgned)
   int lhs_reg;
   int rem_type=bro(rhs)->tag;
   int rhs_reg;
-  assert(last(rhs));
+  assert(rhs->last);
 
   lhs_reg = reg_operand(lhs, sp);
 
@@ -702,7 +702,7 @@ needs multneeds(exp *e, exp **at)
 
   /* remember that mult may have more than two args after optimisation */
 
-  if (last(arg2) && arg2->tag == val_tag)
+  if (arg2->last && arg2->tag == val_tag)
   {
     /*
      * const optim, additional reg only needed where src and dest are same reg,
@@ -722,7 +722,7 @@ needs divneeds(exp *e, exp **at)
   exp rhs = bro(lhs);
   bool sgned = sh(*e)->tag & 1;
 
-  assert(last(rhs));
+  assert(rhs->last);
 
   if (rhs->tag ==val_tag)
   {
@@ -751,7 +751,7 @@ needs remneeds(exp *e, exp **at)
   exp rhs = bro(lhs);
   bool sgned = sh(*e)->tag & 1;
 
-  assert(last(rhs));
+  assert(rhs->last);
 
   if (rhs->tag ==val_tag)
   {

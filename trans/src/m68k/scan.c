@@ -55,10 +55,10 @@ make_bitfield_offset(exp e, exp pe, int spe, shape sha)
 		return;
 	}
 
-	omul = getexp(sha, bro(e), (int)(last(e)), e, NULL, 0, 0, offset_mult_tag);
+	omul = getexp(sha, bro(e), (int)(e->last), e, NULL, 0, 0, offset_mult_tag);
 	val8 = getexp(slongsh, omul, 1, NULL, NULL, 0, 8, val_tag);
 
-	clearlast(e);
+	e->last = false;
 	setbro(e, val8);
 	if (spe) {
 		son(pe) = omul;
@@ -87,23 +87,23 @@ cca(bool sto, exp to, bool sx, exp x)
 	d = contexp(sx, x);
 	a = contexp(sto, to);
 
-	id = getexp(sh(a), bro(a), last(a), d, NULL, 0, 1L, ident_tag);
-	tg = getexp(sh(d), bro(d), last(d), id, NULL, 0, 0L, name_tag);
+	id = getexp(sh(a), bro(a), a->last, d, NULL, 0, 1L, ident_tag);
+	tg = getexp(sh(d), bro(d), d->last, id, NULL, 0, 0L, name_tag);
 
 	pt(id) = tg;
-	clearlast(d);
+	d->last = false;
 
 	if (d != a) {
 		bro(d) = a;
 		bro(a) = id;
-		setlast(a);
+		a->last = true;
 		assexp(sto, to, id);
 		assexp(sx, x, tg);
 	} else {
 		bro(d) = tg;
 		bro(tg) = id;
-		setlast(tg);
-		clearlast(d);
+		tg->last = true;
+		d->last = false;
 		assexp(sto, to, id);
 	}
 }
@@ -121,7 +121,7 @@ cc(bool sto, exp to, bool se, exp e, bool(*doit)(exp, int), int count)
 {
 	exp ec = contexp(se, e);
 
-	if (last(ec)) {
+	if (ec->last) {
 		if (doit(ec, count)) {
 			cca(sto, to, se, e);
 			ec = contexp(sto, to);
@@ -316,7 +316,7 @@ scan_alloc_args(exp s)
 		return 1;
 	}
 
-	if (last(s)) {
+	if (s->last) {
 		return 0;
 	}
 
@@ -377,18 +377,18 @@ static void
 all_opnd(bool sto, exp to, exp e)
 {
 #if 0
-	if (!last(bro(son(e)))) {
+	if (!bro(son(e))->last) {
 		/* Operation has more than two parameters.  Make it diadic */
 		exp opn = getexp(sh(e), e, 0, bro(son(e)), NULL, 0, 0, e->tag);
-		exp nd = getexp(sh(e), bro(e), last(e), opn, NULL, 0, 1, ident_tag);
+		exp nd = getexp(sh(e), bro(e), e->last, opn, NULL, 0, 1, ident_tag);
 		exp id = getexp(sh(e), e, 1, nd, NULL, 0, 0, name_tag);
 
 		pt(nd) = id;
 		bro(son(e)) = id;
-		setlast(e);
+		e->last = true;
 		bro(e) = nd;
 
-		while (!last(bro(son(e)))) {
+		while (!bro(son(e))->last) {
 			bro(son(e)) = bro(bro(son(e)));
 		}
 
@@ -508,7 +508,7 @@ scanargs(bool st, exp e)
 	exp temp;
 
 	while (temp = contexp(st, t), scan(st, t, temp),
-	       temp = contexp(st, t), !last(temp)) {
+	       temp = contexp(st, t), !temp->last) {
 		t = contexp(st, t);
 		st = 0;
 	}

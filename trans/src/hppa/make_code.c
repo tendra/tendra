@@ -282,7 +282,7 @@ testlast(exp e, exp second)
 			exp list = son(son(e));
 
 			for (;;) {
-				if (last(list)) {
+				if (list->last) {
 					if (list->tag == test_tag && pt(list) == second) {
 						return list;
 					} else {
@@ -342,7 +342,7 @@ has_bitfield(exp e)
 				return 1;    /* found bitfield */
 			}
 
-			if (last(e)) {
+			if (e->last) {
 				return 0;    /* all done, no bitfield */
 			}
 
@@ -378,7 +378,7 @@ fix_nonbitfield(exp e)
 
 		fix_nonbitfield(bro(e));	/* recursively fix the rest of the struct */
 
-		if (last(bro(e))) {
+		if (bro(e)->last) {
 			return;    /* all done */
 		}
 
@@ -588,7 +588,7 @@ do_callers(exp list, space sp, char *stub)
 				no(list) = off;
 		}
 
-		if (last(list)) {
+		if (list->last) {
 			return sp;
 		} else {
 			list = bro(list);
@@ -623,7 +623,7 @@ do_callee_list(exp e, space sp)
 		code_here(list, sp, w);
 		disp = rounder(disp + ap.ashsize, 32);
 
-		if (last(list)) {
+		if (list->last) {
 			break;
 		}
 
@@ -937,7 +937,7 @@ tailrecurse:
 			return mka;
 		}
 
-		if (!last(fn)) {
+		if (!fn->last) {
 			nsp = do_callers(par, sp, stub);
 		}
 
@@ -1124,7 +1124,7 @@ tailrecurse:
 				if (x->tag == caller_tag) {
 					no(x) += ma;
 				}
-				if (last(x)) {
+				if (x->last) {
 					break;
 				} else {
 					x = bro(x);
@@ -1497,14 +1497,14 @@ tailrecurse:
 	case seq_tag: {
 		exp t = son(son(e));
 		for (;;) {
-			exp next = (last(t)) ? (bro(son(e))) : bro(t);
+			exp next = (t->last) ? (bro(son(e))) : bro(t);
 			if ( next->tag == goto_tag ) {	/* gotos end sequences */
 				make_code(t, sp, nowhere, no(son(pt(next))));
 			} else {
 				code_here(t, sp, nowhere);
 			}
 
-			if (last(t)) {
+			if (t->last) {
 				return make_code(bro(son(e)), sp, dest, exitlab);
 			}
 
@@ -1567,7 +1567,7 @@ tailrecurse:
 				rec->dest = dest;
 				rec->labno = new_label();	/* label for outofline body */
 
-				if (last(t)) {
+				if (t->last) {
 					first = bro(son(first));
 				} else {
 					son(son(first)) = bro(son(son(first)));
@@ -2174,7 +2174,7 @@ tailrecurse:
 				newdest.ashwhere = ashof(sh(bro(t)));
 				assert(ashof(bro(t)).ashalign != 1); /* stray bitfield */
 				code_here(bro(t), nsp, newdest);
-				if (last(bro(t))) {
+				if (bro(t)->last) {
 					return mka;
 				}
 				t = bro(bro(t));
@@ -2201,7 +2201,7 @@ tailrecurse:
 			}
 
 			nsp = guardreg(r, sp);
-			while (!last(bro(t))) {
+			while (!bro(t)->last) {
 				int z;
 				t = bro(bro(t));
 				assert(t->tag == val_tag);
@@ -2231,7 +2231,7 @@ tailrecurse:
 
 		case infreg:
 			code_here(bro(t), sp, dest);
-			if (!last(bro(t)) || t->tag != val_tag || no(t) != 0) {
+			if (!bro(t)->last || t->tag != val_tag || no(t) != 0) {
 				error(ERR_INTERNAL, "No Tuples in freg");
 			}
 
@@ -2276,7 +2276,7 @@ tailrecurse:
 				setinsalt(newdest.answhere, newis);
 				newdest.ashwhere = ashof(sh(t));
 				code_here(t, nsp, newdest);
-				if (last(t)) {
+				if (t->last) {
 					return mka;
 				}
 				disp += (rounder(shape_size(sh(t)), shape_align(sh(bro(t)))) >> 3);
@@ -2300,7 +2300,7 @@ tailrecurse:
 			r = regalt(dest.answhere);
 			nsp = guardreg(r, sp);
 
-			while (!last(t)) {
+			while (!t->last) {
 				int z;
 				disp += rounder(shape_size(sh(t)), shape_align(sh(bro(t))));
 				t = bro(t);
@@ -2408,7 +2408,7 @@ tailrecurse:
 		/* set up all the labels in the component labst_tags */
 		for (;;) {
 			no(son(m)) = new_label();
-			if (last(m)) {
+			if (m->last) {
 				break;
 			}
 			m = bro(m);
@@ -2424,7 +2424,7 @@ tailrecurse:
 				l = fl;
 			}
 
-			if (!last(m)) {
+			if (!m->last) {
 				/* jump to end of solve */
 				if (l == 0) {
 					l = new_label();
@@ -2434,7 +2434,7 @@ tailrecurse:
 				}
 			}
 
-			if (last(m)) {
+			if (m->last) {
 				mka.lab = l;
 				return mka;
 			}
@@ -2462,7 +2462,7 @@ tailrecurse:
 				n++;
 			}
 
-			if (last(zt)) {
+			if (zt->last) {
 				u = (son(zt) != NULL) ? no(son(zt)) : no(zt);
 				break;
 			}
@@ -2593,7 +2593,7 @@ tailrecurse:
 					out_directive(".WORD", labl);
 				}
 
-				if (last(z)) {
+				if (z->last) {
 					break;
 				}
 
@@ -2644,7 +2644,7 @@ tailrecurse:
 						ub_ins(cmplt_, lab);
 					}
 
-					if (last(z)) {
+					if (z->last) {
 						if (over != 0) {
 							clear_all();
 							outlab("L$$", over);
@@ -2688,7 +2688,7 @@ tailrecurse:
 						ub_ins(cmplt_, lab);
 					}
 
-					if (last(z)) {
+					if (z->last) {
 						if (over != 0) {
 							clear_all();
 							outlab("L$$", over);
@@ -3735,7 +3735,7 @@ tailrecurse:
 		ans aa;
 
 		/* +++ enable this optimisation for big-endian */
-		if (last(l) && l->tag == val_tag && (no(l) == 255 || no(l) == 0xffff)
+		if (l->last && l->tag == val_tag && (no(l) == 255 || no(l) == 0xffff)
 		    && ((r->tag == name_tag && regofval(r) == R_NO_REG)
 		        || (r->tag == cont_tag &&
 		            (son(r)->tag != name_tag
@@ -3907,7 +3907,7 @@ tailrecurse:
 				bool is_float = is_floating(sh(e)->tag);
 				ashe = ashof(sh(e));
 				ashsize = ashe.ashsize;
-				if (last(bro(addptr_sons)) && ashe.ashalign == ashsize &&
+				if (bro(addptr_sons)->last && ashe.ashalign == ashsize &&
 				    (ashsize == 8 || ashsize == 16 || ashsize == 32 || is_float)) {
 					int lhsreg;
 					int rhsreg;

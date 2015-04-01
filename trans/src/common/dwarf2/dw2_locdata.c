@@ -170,7 +170,7 @@ set_locdata(obj_list this_obl)
 						master = brog(id)->dg_name = this_nm;
 					}
 					if (master == this_nm) {
-						setlast(x);
+						x->last = true;
 						no(x) = next_dwarf_label();
 					} else {
 						exp y = master->data.n_obj.obtain_val;
@@ -189,7 +189,7 @@ set_locdata(obj_list this_obl)
 						while (nm) {
 							if (nm->key == DGN_OBJECT) {
 								exp y = nm->data.n_obj.obtain_val;
-								if (y && last(y) && dw_has_location(son(y)) == id) {
+								if (y && y->last && dw_has_location(son(y)) == id) {
 									setbro(x, bro(y));
 									setbro(y, (exp)((void *)this_nm));
 									no(x) = no(y);
@@ -207,7 +207,7 @@ set_locdata(obj_list this_obl)
 						obl = obl->next;
 					}
 					if (!found) {
-						setlast(x);
+						x->last = true;
 						no(x) = next_dwarf_label();
 						dw_allocated(this_nm, id);
 					}
@@ -231,7 +231,7 @@ close_locdata(obj_list this_obl)
 	while (this_nm) {
 		if (this_nm->key == DGN_OBJECT) {
 			exp x = this_nm->data.n_obj.obtain_val;
-			if (x && last(x)) {
+			if (x && x->last) {
 				dw_deallocated(this_nm);
 			}
 		}
@@ -573,7 +573,7 @@ decide_ll_type(exp x)
 {
 	/* 1 if need location list, 2 if extension list */
 	ll_item l = (ll_item)((void *)(pt(x)));
-	if ((last(x) && bro(x)) || (!last(x) && no(x))) {
+	if ((x->last && bro(x)) || (!x->last && no(x))) {
 		/* main location is shared */
 		return 2;
 	} else {
@@ -697,7 +697,7 @@ void
 out_obj_extloclist(long l1, long l2, exp x)
 {
 	ll_item l = (ll_item)((void *)(pt(x)));
-	if ((last(x) && bro(x)) || (!last(x) && no(x))) {
+	if ((x->last && bro(x)) || (!x->last && no(x))) {
 		/* main location is shared */
 		out_loc_range(l1, l2, 0);
 		dw_at_data(1, LOp_Shared);
@@ -721,7 +721,7 @@ out_obj_shared_set(dg_name dn)
 {
 	exp x = dn->data.n_obj.obtain_val;
 	ll_item l = find_ll_item(dn, LL_MASTERSHARE, 0);
-	if (last(x) && (bro(x) || l)) {
+	if (x->last && (bro(x) || l)) {
 		out_dwf_label(no(x), 1);
 		dw_at_ext_address(dn->mor->this_tag);
 		while (bro(x)) {

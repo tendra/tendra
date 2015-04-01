@@ -62,7 +62,7 @@ trace_uses ( exp e, exp id ){
       p = trace_uses ( l, id ) ;
       if ( u != nouses || p == 2 ) useinpar = 1 ;
       if ( p == 0 ) nouses = u ;
-      if ( last ( l ) ) break ;
+      if ( l -> last ) break ;
       l = bro ( l ) ;
     }
     return 0;
@@ -99,7 +99,7 @@ trace_uses ( exp e, exp id ){
     for ( ; ; ) {
       int el = trace_uses ( s, id ) ;
       if ( el != 1 ) return el;
-      if ( last ( s ) ) {
+      if ( s -> last ) {
 	return trace_uses ( bro ( son ( e ) ), id ) ;
       }
       s = bro ( s ) ;
@@ -128,7 +128,7 @@ trace_uses ( exp e, exp id ){
 	nouses = nu ;
 	return el ;
       }
-      if ( last ( s ) ) return 1;
+      if ( s -> last ) return 1;
       s = bro ( s ) ;
     }
 
@@ -164,7 +164,7 @@ after_a ( exp a, exp id ){
       }
       return ;
     }
-    for ( l = a ; !last ( l ) ; l = bro ( l ) ){
+    for ( l = a ; ! l -> last ; l = bro ( l ) ){
       int u = trace_uses ( bro ( l ), id ) ;
       if ( u != 1 || nouses == 0 ) return ;
     }
@@ -216,7 +216,7 @@ tempdec ( exp e, bool enoughs ){
       if (isdiaginfo(p))
 	continue ;
 #endif
-      if ( !last ( p ) && last ( bro ( p ) ) &&
+      if ( ! p -> last && bro ( p ) -> last &&
 	   bro ( bro ( p ) ) -> tag == ass_tag ) {
 	if ( !simple_seq ( bro ( bro ( p ) ), e ) ) return  ( 0 ) ;
 	/* ... in simple sequence */
@@ -241,7 +241,7 @@ tempdec ( exp e, bool enoughs ){
       if (isdiaginfo(p))
 	continue ;
 #endif
-      if ( !last ( p ) && last ( bro ( p ) ) &&
+      if ( ! p -> last && bro ( p ) -> last &&
 	   bro ( bro ( p ) ) -> tag == ass_tag ) {
 	after_a ( bro ( bro ( p ) ), e ) ;
       }

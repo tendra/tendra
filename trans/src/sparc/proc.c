@@ -791,7 +791,7 @@ makeans make_apply_tag_code
 
 
   /* evaluate params to param reg or stack */
-  if (!last(fn)) {
+  if (!fn->last) {
     int param_offset = (16 + 1)* 32;
     /* beyond reg window save area and hidden param of caller's frame */
 
@@ -876,7 +876,7 @@ makeans make_apply_tag_code
 	param_offset = (int)(param_offset + ap.ashsize);
       }
 
-      if (last(list))break;
+      if (list->last)break;
       list = bro(list);
     }
   }
@@ -1107,7 +1107,7 @@ static space do_callers
       }
       param_offset = (int)(param_offset + ap.ashsize);
     }
-    if (last(list)) return sp;
+    if (list->last) return sp;
     list = bro(list);
   }
 
@@ -1161,7 +1161,7 @@ static void move_parameters
 
   /* top is sp + param_offset + callers * num */
   while (!last_caller) {
-    last_caller = last(current_caller);
+    last_caller = current_caller->last;
     if (current_caller->tag == caller_tag) {
       has_callers = 1;
     }
@@ -1499,7 +1499,7 @@ makeans make_apply_general_tag_code
 	  }
 #endif
 	}
-	if (last(x))break;
+	if (x->last)break;
 	x = bro(x);
       }
     }
@@ -1597,7 +1597,7 @@ makeans make_make_callee_list_tag
       setinsalt(w.answhere,is);
       code_here(list,guard(w,nsp),w);
       disp = rounder(disp+ap.ashsize,PTR_SZ);
-      lastpar = last(list);
+      lastpar = list->last;
     }
   }
   rr_ins(i_mov,rdest,callee_start_reg_out);/* Not before, as the construction

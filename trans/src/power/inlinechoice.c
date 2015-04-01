@@ -53,11 +53,11 @@ int inlinechoice(exp t, exp def, int total)
 
   for (;;) {
      if (fpars->tag!=ident_tag || !isparam(fpars)) {
-	if (!last(apars)) return 1;
+	if (!apars->last) return 1;
       	break;
      }
 
-     if (last(apars)) return 1;
+     if (apars->last) return 1;
      apars = bro(apars);
 
      switch (apars->tag) {

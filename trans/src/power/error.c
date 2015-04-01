@@ -755,7 +755,7 @@ void round_error_treatment(exp *e)
 
   seterrhandle(round,0);
 
-  setlast(id);
+  id->last = true;
   bro(id) = round;
   son(round) = id;
 }

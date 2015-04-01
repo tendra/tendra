@@ -35,7 +35,7 @@ label_is_next(exp lab, exp e)
 	if (~optim & OPTIM_JUMPS) {
 		return 0;
 	}
-	while (last(e)) {
+	while (e->last) {
 		e = bro(e);
 		if (e == NULL || e->tag >= ass_tag || sh(e)->tag != bothd) {
 			return 0;
@@ -84,7 +84,7 @@ next_jump(exp e)
 	}
 
 	do {
-		while (last(e)) {
+		while (e->last) {
 			e = bro(e);
 			if (e == NULL || e->tag >= goto_tag) {
 				return NULL;
@@ -117,7 +117,7 @@ short_next_jump(exp e)
 		return NULL;
 	}
 
-	while (last(e)) {
+	while (e->last) {
 		e = bro(e);
 		if (e == NULL || e->tag >= cond_tag) {
 			return NULL;

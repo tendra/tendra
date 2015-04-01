@@ -34,7 +34,7 @@ invar_list(exp e)
 		if (!invariant_to_apply(e)) {
 			return 0;
 		}
-		if (last(e)) {
+		if (e->last) {
 			return 1;
 		}
 		e = bro(e);
@@ -188,20 +188,20 @@ is_maxop(exp x, exp *t)
 					if (!(!is_floating(sh(op1)->tag))) {
 						goto flab0;
 					}
-					if (last(xCCCC)) {
+					if (xCCCC->last) {
 						goto flab0;
 					}
 					xCCCC = bro(xCCCC);
 					op2 = xCCCC;
-					if (!last(xCCCC)) {
+					if (!xCCCC->last) {
 						goto flab0;
 					}
 				}
-				if (!last(xCCC)) {
+				if (!xCCC->last) {
 					goto flab0;
 				}
 			}
-			if (last(xCC)) {
+			if (xCC->last) {
 				goto flab0;
 			}
 			xCC = bro(xCC);
@@ -209,11 +209,11 @@ is_maxop(exp x, exp *t)
 			if (!(complex_eq_exp(z, op1, NULL,NULL))) {
 				goto flab0;
 			}
-			if (!last(xCC)) {
+			if (!xCC->last) {
 				goto flab0;
 			}
 		}
-		if (last(xC)) {
+		if (xC->last) {
 			goto flab0;
 		}
 		xC = bro(xC);
@@ -226,7 +226,7 @@ is_maxop(exp x, exp *t)
 			if (!(no(z) == 1)) {
 				goto flab0;
 			}
-			if (last(xCC)) {
+			if (xCC->last) {
 				goto flab0;
 			}
 			xCC = bro(xCC);
@@ -234,11 +234,11 @@ is_maxop(exp x, exp *t)
 			if (!(complex_eq_exp(w, op2, NULL, NULL))) {
 				goto flab0;
 			}
-			if (!last(xCC)) {
+			if (!xCC->last) {
 				goto flab0;
 			}
 		}
-		if (!last(xC)) {
+		if (!xC->last) {
 			goto flab0;
 		}
 	}
@@ -279,20 +279,20 @@ is_minop(exp x, exp *t)
 					if (!(!is_floating(sh(op1)->tag))) {
 						goto flab0;
 					}
-					if (last(xCCCC)) {
+					if (xCCCC->last) {
 						goto flab0;
 					}
 					xCCCC = bro(xCCCC);
 					op2 = xCCCC;
-					if (!last(xCCCC)) {
+					if (!xCCCC->last) {
 						goto flab0;
 					}
 				}
-				if (!last(xCCC)) {
+				if (!xCCC->last) {
 					goto flab0;
 				}
 			}
-			if (last(xCC)) {
+			if (xCC->last) {
 				goto flab0;
 			}
 			xCC = bro(xCC);
@@ -300,11 +300,11 @@ is_minop(exp x, exp *t)
 			if (!(complex_eq_exp(z, op2,NULL,NULL))) {
 				goto flab0;
 			}
-			if (!last(xCC)) {
+			if (!xCC->last) {
 				goto flab0;
 			}
 		}
-		if (last(xC)) {
+		if (xC->last) {
 			goto flab0;
 		}
 		xC = bro(xC);
@@ -317,7 +317,7 @@ is_minop(exp x, exp *t)
 			if (!(no(z) == 1)) {
 				goto flab0;
 			}
-			if (last(xCC)) {
+			if (xCC->last) {
 				goto flab0;
 			}
 			xCC = bro(xCC);
@@ -325,11 +325,11 @@ is_minop(exp x, exp *t)
 			if (!(complex_eq_exp(w, op1,NULL,NULL))) {
 				goto flab0;
 			}
-			if (!last(xCC)) {
+			if (!xCC->last) {
 				goto flab0;
 			}
 		}
-		if (!last(xC)) {
+		if (!xC->last) {
 			goto flab0;
 		}
 	}
@@ -362,7 +362,7 @@ is_condassign(exp e, exp *to_test, exp *to_ass)
 	if (st->tag != test_tag && st->tag != testbit_tag) {
 		return 0;
 	}
-	if (!last(st)) {
+	if (!st->last) {
 		return 0;
 	}
 	if (ass->tag != ass_tag) {

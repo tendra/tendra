@@ -164,7 +164,7 @@ maxconst mc_list(exp whole, exp e, int ass_ok, int good)
 		/* NB - t may be killed within max_const (offset_mult) */
 		/* so remember next one in list */
 		exp next_t = bro(t);
-		if (last(t)) {
+		if (t->last) {
 			contin = false;
 		}
 
@@ -263,7 +263,7 @@ not_ass2(exp vardec, exp piece)
 				/* q was within piece */
 				q = piece;
 				upwards = son(q);
-				while (!last(upwards)) {
+				while (!upwards->last) {
 					upwards = bro(upwards);
 				}
 			} else {
@@ -272,19 +272,19 @@ not_ass2(exp vardec, exp piece)
 		}
 
 		/* ascend from the use until we reach either vardec or piece */
-		if (q == piece && last (upwards)) {
+		if (q == piece && upwards->last) {
 			/* the use was in piece */
 			if (isreallyass(t)) {
 				return false;
 			}
 
-			if (!last(t) && last(bro(t)) &&
+			if (!t->last && bro(t)->last &&
 			    (bro(bro(t))->tag == ass_tag || bro(bro(t))->tag == assvol_tag)) {
 				/* the use was an assignment */
 				return false;
 			}
 
-			if (!last(t) && last(bro(t)) && bro(bro(t))->tag == ident_tag) {
+			if (!t->last && bro(t)->last && bro(bro(t))->tag == ident_tag) {
 				/* use in declaration */
 				if (!isvar(bro(bro(t))) && !not_assigned_to(bro(bro(t)), bro(t))) {
 					return false;
@@ -294,7 +294,7 @@ not_ass2(exp vardec, exp piece)
 
 				if (dad->tag == addptr_tag && son(dad) == t) {
 					/* use in subscript .... */
-					if (!last(dad) && last(bro(dad)) &&
+					if (!dad->last && bro(dad)->last &&
 					    (bro(bro(dad))->tag == ass_tag ||
 					     bro(bro(dad))->tag == assvol_tag))
 					{
@@ -302,7 +302,7 @@ not_ass2(exp vardec, exp piece)
 						return false;
 					}
 
-					if (!last(dad) && last(bro(dad)) &&
+					if (!dad->last && bro(dad)->last &&
 					    bro(bro(dad))->tag == ident_tag)
 					{
 						/* ... which is identified */
@@ -518,7 +518,7 @@ max_const(exp whole, exp e, int ass_ok)
 			int arg_count = 0;
 			int tot_args = 1;
 
-			for (this = son(e); !last(this); this = bro(this)) {
+			for (this = son(e); !this->last; this = bro(this)) {
 				tot_args++;
 			}
 
@@ -528,7 +528,7 @@ max_const(exp whole, exp e, int ass_ok)
 				this = son(h);
 				arg = son(e);
 				while (arg != NULL && arg != this) {
-					arg = (last(arg) ? NULL : bro(arg));
+					arg = (arg->last ? NULL : bro(arg));
 				}
 				if (arg != NULL) {
 					/* it's an argument of this operator */
@@ -703,7 +703,7 @@ max_const(exp whole, exp e, int ass_ok)
 						                0,  0, 0);
 						ret_constlist(mc1.cont);
 					}
-					if (last(m_arg)) {
+					if (m_arg->last) {
 						m_arg = NULL;
 					} else {
 						m_arg = bro(m_arg);
@@ -721,9 +721,9 @@ max_const(exp whole, exp e, int ass_ok)
 						exp offmul = getexp(ofsh, NULL, false, a1, NULL,
 						                    0,  0, offset_mult_tag);
 						setbro(a1, m_res);
-						clearlast(a1);
+						a1->last = false;
 						setbro(m_res, offmul);
-						setlast(m_res);
+						m_res->last = true;
 						m_res = hold_refactor(offmul);
 						*list = bro(z);
 						retcell(z);
@@ -732,10 +732,10 @@ max_const(exp whole, exp e, int ass_ok)
 
 				/* insert m_res - kill left overs */
 				ref = refto(father(e), e);
-				if (last(*ref)) {
-					setlast(m_res);
+				if ((*ref)->last) {
+					m_res->last = true;
 				} else {
-					clearlast(m_res);
+					m_res->last = false;
 				}
 
 				bro(m_res) = bro(*ref);
@@ -785,7 +785,7 @@ do_this_k(exp kdec, exp patn, exp list, exp limit)
 			exp arg_h = getexp(NULL, arglist, 0, p, NULL, 0, 0, 0);
 			arglist = arg_h;
 			++nargs;
-			p = (last(p) ? NULL : bro(p));
+			p = (p->last ? NULL : bro(p));
 		}
 	}
 
@@ -795,7 +795,7 @@ do_this_k(exp kdec, exp patn, exp list, exp limit)
 				/* simple correspondence */
 				exp e = son(t);
 				exp f = father(e);
-				exp tagt = getexp(sh(e), bro(e), (int)(last(e)),
+				exp tagt = getexp(sh(e), bro(e), (int)(e->last),
 				                  kdec, pt(kdec), 0,  0, name_tag);
 				pt(kdec) = tagt;
 				++no(kdec);
@@ -848,7 +848,7 @@ do_this_k(exp kdec, exp patn, exp list, exp limit)
 					++no(kdec);
 
 					while (oparg != NULL) {
-						last_arg = (int)last(oparg);
+						last_arg = (int)oparg->last;
 
 						for (ap = arglist; ap != NULL && son(pt(ap)) != oparg; ap = bro(ap))
 							;
@@ -861,7 +861,7 @@ do_this_k(exp kdec, exp patn, exp list, exp limit)
 								bro(prev_arg) = oparg;
 							}
 
-							clearlast(oparg);
+							oparg->last = false;
 							prev_arg = oparg;
 						}
 
@@ -970,11 +970,11 @@ safe_arg(exp e, exp esc)
 
 	z = getexp(f_top, v2, 0, tst, NULL, 0,  0, 0);
 	setbro(tst, z);
-	setlast(tst);
+	tst->last = true;
 
 	s = getexp(sh(e), decl, 1, z, NULL, 0,  0, seq_tag);
 	setbro(e, s);
-	clearlast(e);
+	e->last = false;
 	s = hc(s, v2);
 
 	return hc(decl, s);
@@ -1051,7 +1051,7 @@ safe_eval(exp e, exp escape_route)
 		setson(res, arg1);
 		arg2 = safe_arg(arg2, esc_lab);
 		setbro(arg1, arg2);
-		clearlast(arg1);
+		arg1->last = false;
 		res = hc(res, arg2);
 		break;
 	}
@@ -1103,10 +1103,10 @@ safe_eval(exp e, exp escape_route)
 
 		p = safe_eval(arg, esc_lab);
 		setson(k, p);
-		while (!last(arg)) {
+		while (!arg->last) {
 			exp safe = safe_eval(bro(arg), esc_lab);
 			setbro(p, safe);
-			clearlast(p);
+			p->last = false;
 			p = bro(p);
 			arg = bro(arg);
 		}
@@ -1135,7 +1135,7 @@ safe_eval(exp e, exp escape_route)
 		setbro(son(esc_lab), safe);
 		IGNORE hc(esc_lab, safe);
 		setbro(res, esc_lab);
-		clearlast(res);
+		res->last = false;
 		IGNORE hc(cond, esc_lab);
 		return cond;
 	}
@@ -1198,7 +1198,7 @@ extract_consts(int issn, exp rf, exp list_head)
 				f = father(e);
 
 				/* ?????????????????? */
-				if (!last(e) && last(bro(e)) && (f->tag == ident_tag) && !isvar(f)) {
+				if (!e->last && bro(e)->last && (f->tag == ident_tag) && !isvar(f)) {
 					/*
 					 * This is an in-register constant declaration so remove the
 					 * force register bit from f so that it becomes a simple renaming
@@ -1234,7 +1234,7 @@ extract_consts(int issn, exp rf, exp list_head)
 							son(new_c) = c_arg;
 						} else {
 							bro(prev) = c_arg;
-							clearlast(prev);
+							prev->last = false;
 						}
 
 						prev = c_arg;
@@ -1274,7 +1274,7 @@ extract_consts(int issn, exp rf, exp list_head)
 				}
 
 				newdec = getexp(sh(val), bro(val),
-					(int) (last(val)), konst, NULL, 0,  0, ident_tag);
+					(int) (val->last), konst, NULL, 0,  0, ident_tag);
 				if (has_lj_dest) {
 					setvis(newdec);
 				}
@@ -1296,10 +1296,10 @@ extract_consts(int issn, exp rf, exp list_head)
 				}
 
 				bro(konst) = val;
-				clearlast(konst);
+				konst->last = false;
 
 				bro(val) = newdec;
-				setlast(val);
+				val->last = true;
 
 				if (issn) {
 					son(rf) = newdec;
@@ -1420,7 +1420,7 @@ assigns_alias(exp e)
 
 		while ((s != NULL) && !aa) {
 			aa = assigns_alias(s);
-			if (aa || last(s)) {
+			if (aa || s->last) {
 				s = NULL;
 			} else {
 				s = bro(s);
@@ -1453,7 +1453,7 @@ scan_for_lv(exp e)
 
 		while ((s != NULL) && !aa) {
 			aa = scan_for_lv(s);
-			if (aa || last(s)) {
+			if (aa || s->last) {
 				s = NULL;
 			} else {
 				s = bro(s);
@@ -1533,7 +1533,7 @@ repeat_consts(void)
 		} else {
 			sn = 0;
 			rr = son(fa);
-			while (bro(rr) != loop && !last(rr)) {
+			while (bro(rr) != loop && !rr->last) {
 				rr = bro(rr);
 			}
 		}

@@ -151,7 +151,7 @@ int inlinechoice
       }
      }
      fpars = bro(son(fpars));
-     if (last(apars))break;
+     if (apars->last)break;
      apars = bro(apars);
    }
 

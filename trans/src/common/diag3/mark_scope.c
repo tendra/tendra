@@ -25,7 +25,7 @@
 static exp
 previous_scope(exp e)
 {
-	if (!last(e) || bro(e) == NULL) {
+	if (!e->last || bro(e) == NULL) {
 		return NULL;
 	}
 
@@ -37,7 +37,7 @@ previous_scope(exp e)
 		return bro(e);
 	}
 
-	if (bro(e)->tag == ident_tag && last(bro(e))) {
+	if (bro(e)->tag == ident_tag && bro(e)->last) {
 		if (bro(bro(e)) == NULL) {
 			return NULL;
 		}

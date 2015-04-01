@@ -253,7 +253,7 @@ static weights add_wlist
 
     wl1 = weightsv(re, el);
 
-    while (!last(re)) {
+    while (!re->last) {
 	re = bro(re);
 	wl2 = weightsv(re, el);
 	wl1 = add_weights(wl1, wl2);
@@ -305,9 +305,8 @@ static weights weightsv
 
 	    while (isvar(e) && !isvis(e) && t != NULL) {
 		/* Scan along pt list */
-		if (!(last(t) && bro(t)->tag == cont_tag) &&
-		     !(last(bro(t)) &&
-		     ass(bro(bro(t)))))
+		if (!(t->last && bro(t)->tag == cont_tag) &&
+		     !(bro(t)->last && ass(bro(bro(t)))))
 		    /* Make sure it will not go in register */
 		    setvis(e);
 		t = pt(t);
@@ -346,7 +345,7 @@ static weights weightsv
 			exp f = father(t);
 			if (f->tag == cont_tag &&
 			     sh(f)->tag == ptrhd)fix = 1;
-			t = (last(t)? NULL : pt(t));
+			t = (t->last? NULL : pt(t));
 		    }
 		    if (fix) {
 			sh(d) = ptr_shape(sha);

@@ -645,7 +645,7 @@ push_dynamic_callees(exp pcallees, ash stack)
          make_instr(m_movl, op1, op2, regmsk(REG_SP));
          total_size += 4;
 
-         if (last(pair))break;
+         if (pair->last)break;
          pair = bro(pair);
       }
    }
@@ -830,7 +830,7 @@ void apply_general_proc
 
    tmp_dest = dest;
    proc = son(e);
-   caller_args = (!last(proc))? bro(proc): NULL;
+   caller_args = (!proc->last)? bro(proc): NULL;
 
    if (e->tag == apply_general_tag) {
       pcallees     = bro(caller_args);
@@ -1085,7 +1085,7 @@ static bool test_push_args
       if (arg->tag == caller_tag)
       no(arg) = stack_add_res.astoff + stack_add_res.astadj;
 
-      arg = (last(arg)? NULL : bro(arg));
+      arg = (arg->last? NULL : bro(arg));
    }
 
   (* args_size) = stack;
@@ -1126,7 +1126,7 @@ static void place_arguments
       stack_add_res = add_shape_to_stack(st, sh(formal));
       st = stack_add_res.astash;
 
-      arg = (last(arg)? NULL : bro(arg));
+      arg = (arg->last? NULL : bro(arg));
    }
 
    apply_tag_flag --;
@@ -1144,7 +1144,7 @@ static void push_args
    long sz = shape_size(sh(args));
    exp formal;
 
-   if (last(args)) {
+   if (args->last) {
       /* Code last argument */
       formal = (args->tag == caller_tag)? son(args): args;
       make_code(w, stack, formal);

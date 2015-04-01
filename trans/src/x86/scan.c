@@ -66,22 +66,22 @@ cca(int sto, exp to, int sx, exp x)
 	}
 
 	ato = contexp(sto, to);
-	id = getexp(sh(ato), bro(ato), (int)(last(ato)), def, NULL, 0, 1, ident_tag);
-	tg = getexp(sh(def), bro(def), (int)(last(def)), id, NULL, 0, 0, name_tag);
+	id = getexp(sh(ato), bro(ato), (int)(ato->last), def, NULL, 0, 1, ident_tag);
+	tg = getexp(sh(def), bro(def), (int)(def->last), id, NULL, 0, 0, name_tag);
 	pt(id) = tg;
-	clearlast(def);
+	def->last = false;
 
 	if (def != ato) {
 		bro(def) = ato;
 		bro(ato) = id;
-		setlast(ato);
+		ato->last = true;
 		assexp(sto, to, id);
 		assexp(sx, x, tg);
 	} else {
 		bro(def) = tg;
 		bro(tg) = id;
-		setlast(tg);
-		clearlast(def);
+		tg->last = true;
+		def->last = false;
 		assexp(sto, to, id);
 	}
 
@@ -116,7 +116,7 @@ cc(int sto, exp to, int se, exp e,
 	int unused = usereg0;	/* can still use reg0 */
 	exp ec = contexp(se, e);
 
-	if (last(ec)) {
+	if (ec->last) {
 		if (doit(ec, count, unused)) {
 			cca(sto, to, se, e);
 			ec = contexp(sto, to);
@@ -165,7 +165,7 @@ cc1(int sto, exp to, int se, exp e,
 	int unused = ((count == 1) ? usereg0 : 0);
 
 	exp ec = contexp(se, e);
-	if (last(ec)) {
+	if (ec->last) {
 		if (doit(ec, count, unused)) {
 			cca(sto, to, se, e);
 			ec = contexp(sto, to);
@@ -399,7 +399,7 @@ scan_alloc_args(exp s)
 		return 1;
 	}
 
-	if (last(s)) {
+	if (s->last) {
 		return 0;
 	}
 
@@ -533,7 +533,7 @@ scanargs(int st, exp e, int usereg0)
 	exp temp;
 
 	while (temp = contexp(st, t), IGNORE scan(st, t, temp, usereg0),
-	       temp = contexp(st, t), !last(temp)) {
+	       temp = contexp(st, t), !temp->last) {
 		t = contexp(st, t);
 		st = 0;
 	}
@@ -594,10 +594,10 @@ make_bitfield_offset(exp e, exp pe, int spe, shape sha)
 		return;
 	}
 
-	omul = getexp(sha, bro(e), (int)(last(e)), e, NULL, 0, 0, offset_mult_tag);
+	omul = getexp(sha, bro(e), (int)(e->last), e, NULL, 0, 0, offset_mult_tag);
 	val8 = getexp(slongsh, omul, 1, NULL, NULL, 0, 8, val_tag);
 
-	clearlast(e);
+	e->last = false;
 	setbro(e, val8);
 	assexp(spe, pe, omul);
 }
@@ -688,7 +688,7 @@ check_asm_seq(exp e, int ext)
 
 		for (t = son(son(e)); ; t = bro(t)) {
 			check_asm_seq(t, ext);
-			if (last(t)) {
+			if (t->last) {
 				break;
 			}
 		}
@@ -891,14 +891,14 @@ scan(int sto, exp to, exp e, int usereg0)
 	case apply_tag:
 		if (builtinproc(e)) {
 			/* son must be named global */
-			if (!last(son(e))) {
+			if (!son(e)->last) {
 				IGNORE cc(sto, to, 0, son(e), notopnd, 1, 0);
 			}
 
 			return 0;
 		}
 
-		if (!last(son(e))) {
+		if (!son(e)->last) {
 			scan_apply_args(sto, to, 0, son(e));
 		}
 
@@ -1005,10 +1005,10 @@ scan(int sto, exp to, exp e, int usereg0)
 
 	case addptr_tag: {
 		exp f = father(e);
-		exp new_r = getexp(sh(e), bro(e), (int)(last(e)),
+		exp new_r = getexp(sh(e), bro(e), (int)(e->last),
 		                   e, NULL, 0, 0, reff_tag);
 		exp * ref = refto(f, e);
-		setlast(e);
+		e->last = true;
 		bro(e) = new_r;
 		*ref = new_r;
 		ap_argsc(sto, to, new_r);
@@ -1023,17 +1023,17 @@ scan(int sto, exp to, exp e, int usereg0)
 				    (is_signed(sh(e)) || !is_signed(sh(son(*arglist))))) {
 					if (shape_size(sh(son(*arglist))) == 32) {
 						setbro(son(*arglist), bro(*arglist));
-						if (last(*arglist)) {
-							setlast(son(*arglist));
+						if ((*arglist)->last) {
+							son(*arglist)->last = true;
 						} else {
-							clearlast(son(*arglist));
+							son(*arglist)->last = false;
 						}
 						*arglist = son(*arglist);
 					} else {
 						setsh(son(*arglist), (is_signed(sh(e)) ? slongsh : ulongsh));
 					}
 				}
-				if (last(*arglist)) {
+				if ((*arglist)->last) {
 					break;
 				}
 				arglist = &bro(*arglist);

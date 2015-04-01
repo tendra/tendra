@@ -36,7 +36,7 @@ sbl(exp e, int count, int newdecs,
 		return c;
 	}
 
-	if (last(e)) {
+	if (e->last) {
 		return c;
 	}
 

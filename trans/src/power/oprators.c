@@ -84,11 +84,11 @@ regremoved(exp * seq, int reg)
     if (absval(regofval(t)) == reg)
     {
       bro(s) = bro(t);
-      if (last(t))
-	setlast(s);
+      if (t->last)
+	s->last = true;
       return 1;
     }
-    if (last(t))
+    if (t->last)
     {
       return 0;
     }
@@ -122,7 +122,7 @@ do_comm(exp seq, space sp, int final, Instruction_P rins)
     seq = bro(seq);
     if (seq->tag == val_tag)	/* next operand is a constant */
     {
-      if (last(seq))
+      if (seq->last)
       {
 	rir_ins(rins, a1, no(seq), final);
 	return;
@@ -141,7 +141,7 @@ do_comm(exp seq, space sp, int final, Instruction_P rins)
 
       a2 = reg_operand(sq, nsp);
       /* evaluate next operand */
-      if (last(seq))
+      if (seq->last)
       {
 	rrr_ins(ins, a1, a2, final);
 	return;
@@ -178,7 +178,7 @@ int comm_op(exp e, space sp, where d, Instruction_P rrins)
        * the destination is in a register; take care that we don't alter it
        * before possible use as an operand ....
        */
-      if (usesdest && last(seq))
+      if (usesdest && seq->last)
       {
 	/* used, but there is only one other operand */
 	if (seq->tag == val_tag)

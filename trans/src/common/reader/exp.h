@@ -112,7 +112,6 @@ typedef struct exp_t *exp;
 
 #define son(x)            ((x)->son.e)
 #define bro(x)            ((x)->bro.e)
-#define last(x)           ((x)->last)
 #define sh(x)             ((x)->sh)
 #define pt(x)             ((x)->pt.e)
 #define props(x)          ((x)->props)
@@ -148,9 +147,7 @@ typedef struct exp_t *exp;
 #define setsh(x, b)       sh(x) = (b)
 #define setson(x, b)      son(x) = (b)
 #define setpt(x, b)       pt(x) = (b)
-#define setlast(x)        last(x) = 1
-#define clearlast(x)      last(x) = 0
-#define setfather(f, s)   setbro(s, f); setlast(s)
+#define setfather(f, s)   setbro(s, f); (s)->last = true
 
 
 /*

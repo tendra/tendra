@@ -359,7 +359,7 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
 	  }
 	}
 	
-	while (!last(s))
+	while (!s->last)
 	{
 	  s = bro(s);
 	  def = maxspace(def, regalloc(s, freefixed, freefloat, stack));

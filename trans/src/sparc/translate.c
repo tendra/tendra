@@ -259,8 +259,8 @@ mark_unaliased(exp e)
 #endif
 				ca = 0;
 		} else {
-			if (!(last(p) && q->tag == cont_tag) &&
-			  !(!last(p) && last(q) && bro(q)->tag == ass_tag))
+			if (!(p->last && q->tag == cont_tag) &&
+			  !(!p->last && q->last && bro(q)->tag == ass_tag))
 			{
 #ifdef TDF_DIAG4
 				if (!isdiaginfo(p))

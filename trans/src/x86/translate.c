@@ -86,7 +86,7 @@ const_ready(exp e)
 		return 1;
 	}
 
-	for (e = son(e); !last(e); e = bro(e)) {
+	for (e = son(e); !e->last; e = bro(e)) {
 		if (!const_ready(e)) {
 			return 0;
 		}
@@ -302,8 +302,8 @@ mark_unaliased(exp e)
 #else
 		if (bro(p) == NULL ||
 #endif
-		     (!(last(p) && bro(p)->tag == cont_tag) &&
-		     !(!last(p) && last(bro(p)) &&
+		     (!(p->last && bro(p)->tag == cont_tag) &&
+		     !(!p->last && bro(p)->last &&
 		        bro(bro(p))->tag == ass_tag)))
 #ifdef TDF_DIAG4
 		    && !isdiaginfo(p))
@@ -355,7 +355,7 @@ local_translate_capsule(void)
 
 					np = pt(p);
 					ptr = refto(father(p), p);
-					c = getexp(sh(p), bro(p), last(p), p, NULL, 0, 0, cont_tag);
+					c = getexp(sh(p), bro(p), p->last, p, NULL, 0, 0, cont_tag);
 					setfather(c, p);
 
 					if (no(p) != 0) {

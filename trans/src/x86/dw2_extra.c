@@ -1186,7 +1186,7 @@ static void trace_branch_aux
       for (;;) {
 	if (!intnl_to(whole, pt(t)))
 	  mark_lab(pt(t));
-	if (last(t))break;
+	if (t->last)break;
 	t = bro(t);
       }
       break;
@@ -1206,7 +1206,7 @@ static void trace_branch_aux
   if (t) {
     for (;;) {
       trace_branch_aux(whole, t);
-      if (last(t) || e->tag == case_tag)break;
+      if (t->last || e->tag == case_tag)break;
       t = bro(t);
     }
   }

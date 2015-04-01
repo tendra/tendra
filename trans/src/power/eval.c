@@ -749,7 +749,7 @@ static void evalone(exp e, int bitposn)
 	  remainderbits.bitposn += tupa.ashsize;
 	}
 
-	if (last(tup))
+	if (tup->last)
 	{
 	  /* output final bits from any previous field */
 	  long databits = no(off) + tupa.ashsize;
@@ -768,7 +768,7 @@ static void evalone(exp e, int bitposn)
 	}
 
 	off = bro(bro(off));
-	assert(!last(off));
+	assert(!off->last);
 	tup = bro(off);
 
 	tupa = ashof(sh(tup));
@@ -783,7 +783,7 @@ static void evalone(exp e, int bitposn)
       for (;;)
       {
 	evalone(s, bitposn);
-	if (last(s))
+	if (s->last)
 	  return;
 	s = bro(s);
       }

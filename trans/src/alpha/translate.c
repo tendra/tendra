@@ -235,8 +235,8 @@ mark_unaliased(exp e)
 	exp p;
 
 	for (p = pt (e); p != NULL && ca; p = pt(p)) {
-		if (bro(p) == NULL || (!(last(p) && bro(p)->tag == cont_tag) &&
-		                      !(!last(p) && last(bro(p)) && bro(bro(p))->tag == ass_tag))) {
+		if (bro(p) == NULL || (!(p->last && bro(p)->tag == cont_tag) &&
+		                      !(!p->last && bro(p)->last && bro(bro(p))->tag == ass_tag))) {
 			ca = 0;
 		}
 	}

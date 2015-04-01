@@ -94,7 +94,7 @@ suses(exp e, space *pars, int incpars)
     ans = suses (bro (son (e)), pars, incpars);
     for (;;) {
       maxsp (&ans, suses (t, pars,incpars));
-      if (last (t)) {
+      if (t->last) {
 	return ans;
       }
       t = bro (t);
@@ -128,11 +128,11 @@ suses(exp e, space *pars, int incpars)
       /* tl recursion  - don't have to dump link or later regs */
       int i;
       exp p = bro(son(e));
-      if (last(son(e)) || p->tag==top_tag) return ans;
+      if (son(e)->last || p->tag==top_tag) return ans;
       for(i=(incpars>6)?incpars:6; ; i++) {
 	if (!valregable(sh(p))) i=22;
 	maxsp(&ans, suses(p, pars, i));
-	if(last(p)) return ans;
+	if(p->last) return ans;
 	p = bro(p);
       }
     } else 	maxsp (&ans, *pars);
@@ -141,7 +141,7 @@ suses(exp e, space *pars, int incpars)
   default: def1:{
     exp t = son (e);
     maxsp (&ans, suses (t, pars,incpars));
-    while (t!=NULL && !last (t)) {
+    while (t!=NULL && !t->last) {
       t = bro (t);
       maxsp (&ans, suses (t, pars,incpars));
     }
@@ -180,10 +180,10 @@ placedump(exp *pe, space *dmpd, space *tobd, space *nds)
 {
   exp e = *pe;
   exp dflt = getexp(NULL, NULL, 1, NULL,NULL, 0, nds->flt & ~dmpd->flt, dump_tag);
-  exp dump = getexp (sh (e), bro (e), last (e), e, dflt, 0, (nds -> fixed & ~dmpd -> fixed),
+  exp dump = getexp (sh (e), bro (e), e->last, e, dflt, 0, (nds -> fixed & ~dmpd -> fixed),
        dump_tag);
   bro (e) = dump;
-  setlast (e);
+  e->last = true;
   *(pe) = dump;
   (dmpd -> fixed) |= nds -> fixed;
   (dmpd -> flt) |= nds -> flt;
@@ -215,7 +215,7 @@ goodcond(exp first, exp second, space *beforeb, space *pars)
 	return NULL;
       if (--n == 0) break;
     }
-    if (last (t)) {
+    if (t->last) {
      	return NULL;
     }
     t = bro (t);
@@ -238,7 +238,7 @@ alljumps(exp e, exp slv, int *nol)
       if (father(pt(z))==slv) {
 	if (--(*nol)==0) return 1;
       }
-      if (last(z)) { e = son(e); goto recurse; }
+      if (z->last) { e = son(e); goto recurse; }
       z = bro(z);
     }
   }
@@ -256,7 +256,7 @@ alljumps(exp e, exp slv, int *nol)
     exp se = son(e);
     if (se==NULL) return 0;
     for(;;) {
-      if (last(se)) { e = se; goto recurse; }
+      if (se->last) { e = se; goto recurse; }
       if (alljumps(se, slv, nol)) return 1;
       se = bro(se);
     }
@@ -273,7 +273,7 @@ goodsolve(exp e)
   int nol;
   for(nol=0;;nol++) {
     if (no(son(m))!=1) return 0; /* more than one branch to labst */
-    if (last(m)) break;
+    if (m->last) break;
     m = bro(m);
   }
   return alljumps(son(e), e, &nol);
@@ -335,7 +335,7 @@ pushdumps(exp *pe, space *dmpd, space *tobd, space *pars)
   case seq_tag: {
     exp prev;
     exp list = son (son (e));
-    if (last(list) ) {
+    if (list->last ) {
       nds = suses(bro(son(e)), pars, 22);
       if (nds.fixed==0 && nds.flt==0) {
 	/* seq consists of two exps with last not using regs */
@@ -351,7 +351,7 @@ pushdumps(exp *pe, space *dmpd, space *tobd, space *pars)
       }
     }
     prev = list;
-    while (!last (list)) {
+    while (!list->last) {
       prev = list;
       list = bro (list);
       nds = suses (list, pars, 0);
@@ -361,10 +361,10 @@ pushdumps(exp *pe, space *dmpd, space *tobd, space *pars)
 	exp s_hold = getexp (sh (e), bro (son (e)), 0, list, NULL, 0, 0, son(e)->tag);
 	exp seq = getexp (sh (e), e, 1, s_hold, NULL, 0, 0, seq_tag);
 	bro (prev) = son (e);
-	setlast (prev);
+	prev->last = true;
 	bro (son (e)) = seq;
 	bro (bro (s_hold)) = seq;
-	while (!last (list)) {
+	while (!list->last) {
 	  list = bro (list);
 	}
 	bro (list) = s_hold;
@@ -396,18 +396,18 @@ pushdumps(exp *pe, space *dmpd, space *tobd, space *pars)
 	  return;
 	}
       }	  	
-      if (!last (t)) {
+      if (!t->last) {
 	exp seq_hold = getexp (sh (first), bro (son (first)), 0, bro (t), NULL, 0, 0, son(first)->tag);
 	exp new = getexp (sh (first), first, 1, seq_hold, NULL, 0, 0, seq_tag);
 	exp x = son (seq_hold);
-	while (!last (x)) {
+	while (!x->last) {
 	  x = bro (x);
 	}
 	bro (x) = seq_hold;	/* set dad son seq_hold */
 	bro (bro (seq_hold)) = new;
-	setlast (bro (seq_hold));/* set dad of seq_hold */
+	bro (seq_hold)->last = true;/* set dad of seq_hold */
 	bro (son (first)) = new;
-	setlast (t);
+	t->last = true;
 	bro (t) = son (first);
 	/* first is now (t; (rest of first)) */
       }
@@ -449,7 +449,7 @@ pushdumps(exp *pe, space *dmpd, space *tobd, space *pars)
       old_dmpd = *dmpd;
       for(;;) {
 	pushdumps(&bro(son(m)), dmpd, tobd, pars);
-	if (last(m)) return;
+	if (m->last) return;
 	m = bro(m);
 	*dmpd = old_dmpd;
       }

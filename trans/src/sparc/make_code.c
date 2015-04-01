@@ -549,7 +549,7 @@ testlast ( exp e, exp second )
 	} else if ( b->tag == top_tag ) {
 		exp list;
 
-		for (list = son(son(e)); !last(list); list = bro(list))
+		for (list = son(son(e)); !list->last; list = bro(list))
 			;
 
 		if ( list->tag == test_tag &&
@@ -616,7 +616,7 @@ has_bitfield ( exp e )
 				return 1;
 			}
 
-			if ( last ( e ) ) {
+			if ( e -> last ) {
 				return 0;
 			}
 		}
@@ -650,7 +650,7 @@ fix_nonbitfield ( exp e )
 		}
 
 		fix_nonbitfield ( bro ( e ) ) ;
-		if ( last ( bro ( e ) ) ) {
+		if ( bro ( e ) -> last ) {
 			return ;
 		}
 	}
@@ -963,7 +963,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		exp f = bro ( son ( e ) ) ;
 
 		for ( ; ; ) {
-			exp nt = ( last ( t ) ? f : bro ( t ) ) ;
+			exp nt = ( t -> last ? f : bro ( t ) ) ;
 
 			if ( nt->tag == goto_tag ) {
 				/* Gotos end sequences */
@@ -972,7 +972,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				( void ) code_here ( t, sp, nowhere ) ;
 			}
 
-			if ( last ( t ) ) {
+			if ( t -> last ) {
 				return make_code ( f, sp, dest, exitlab ) ;
 			}
 
@@ -1042,7 +1042,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 
 	case goto_lv_tag : {
 		int ptr_reg;
-		assert (last(son(e)));
+		assert (son(e)->last);
 		ptr_reg = reg_operand (son(e), sp ) ;
 
 #ifdef DWARF2
@@ -1278,7 +1278,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		/* Set up all the labels */
 		for ( ; ; ) {
 			no ( son ( m ) ) = new_label () ;
-			if ( last ( m ) ) {
+			if ( m -> last ) {
 				break ;
 			}
 
@@ -1294,7 +1294,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				l = fl ;
 			}
 
-			if ( !last ( m ) ) {
+			if ( ! m -> last ) {
 				/* jump to end of solve */
 				if ( l == 0 ) {
 					l = new_label () ;
@@ -1305,7 +1305,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				}
 			}
 
-			if ( last ( m ) ) {
+			if ( m -> last ) {
 				mka.lab = l ;
 				return mka;
 			}
@@ -3181,7 +3181,7 @@ null_tag_case :
 				setinsalt ( newdest.answhere, newis ) ;
 				newdest.ashwhere = ashof ( sh ( bro ( t ) ) ) ;
 				( void ) code_here ( bro ( t ), nsp, newdest ) ;
-				if ( last ( bro ( t ) ) ) {
+				if ( bro ( t ) -> last ) {
 					return mka;
 				}
 				t = bro ( bro ( t ) ) ;
@@ -3233,7 +3233,7 @@ null_tag_case :
 			assert (null_dest || bits_used <= 32);
 
 			nsp = guardreg ( r, sp ) ;
-			while ( !last ( bro ( t ) ) ) {
+			while ( ! bro ( t ) -> last ) {
 				int z ;
 				t = bro ( bro ( t ) ) ;
 				assert ( t->tag == val_tag ) ;
@@ -3305,7 +3305,7 @@ null_tag_case :
 				newdest.ashwhere = ashof ( sh ( t ) ) ;
 				( void ) code_here ( t, nsp, newdest ) ;
 
-				if ( last ( t ) ) {
+				if ( t -> last ) {
 					return mka;
 				}
 
@@ -3338,7 +3338,7 @@ null_tag_case :
 			r = regalt ( dest.answhere ) ;
 			nsp = guardreg ( r, sp ) ;
 
-			while ( !last ( t ) ) {
+			while ( ! t -> last ) {
 				int z ;
 				disp += rounder ( shape_size ( sh ( t ) ),
 				                  shape_align ( sh ( bro ( t ) ) ) ) ;
@@ -3840,7 +3840,7 @@ null_tag_case :
 			ashe = ashof ( sh ( rhs ) ) ;
 			ashsize = ( int ) ( ashe.ashsize ) ;
 
-			if ( last ( bro ( addptr_sons ) ) &&
+			if ( bro ( addptr_sons ) -> last &&
 			     ashe.ashalign == ashsize &&
 			     ( ashsize == 8 || ashsize == 16 ||
 			       ashsize == 32 || ( is_float && !param_aligned(bro(addptr_sons)) )
@@ -4088,7 +4088,7 @@ null_tag_case :
 				n++ ;
 			}
 
-			if ( last ( zt ) ) {
+			if ( zt -> last ) {
 				u = ( son ( zt ) != NULL ) ? no ( son ( zt ) ) :
 				    no ( zt ) ;
 				break ;
@@ -4228,7 +4228,7 @@ null_tag_case :
 					asm_printf("\n") ;
 				}
 
-				if ( last ( z ) ) {
+				if ( z -> last ) {
 					break ;
 				}
 
@@ -4291,7 +4291,7 @@ null_tag_case :
 					uncond_ins ( i_b, lab ) ;
 				}
 
-				if ( last ( z ) ) {
+				if ( z -> last ) {
 					if ( over != 0 ) {
 						clear_all () ;
 						set_label ( over ) ;
@@ -4351,7 +4351,7 @@ null_tag_case :
 					uncond_ins ( i_b, lab ) ;
 				}
 
-				if ( last ( z ) ) {
+				if ( z -> last ) {
 					if ( over != 0 ) {
 						clear_all () ;
 						set_label ( over ) ;
@@ -4481,7 +4481,7 @@ null_tag_case :
 			ashe = ashof ( sh ( e ) ) ;
 			ashsize = ( int ) ashe.ashsize ;
 
-			if ( last ( bro ( addptr_sons ) ) &&
+			if ( bro ( addptr_sons ) -> last &&
 			     ashe.ashalign == ashsize &&
 			     ( ashsize == 8 || ashsize == 16 ||
 			       ashsize == 32 || ( is_float && !param_aligned(bro(addptr_sons)))))

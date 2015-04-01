@@ -79,7 +79,7 @@ case_optimisation(exp body, exp id, shape shape_of_case, exp control_expression)
 
 	no_of_nodes = 0;
 	/* Calculate the number of cases in the case_tag */
-	for (t = body; !last(t); t = bro(t)) {
+	for (t = body; !t->last; t = bro(t)) {
 		no_of_cases = no_of_cases + 1;
 	}
 
@@ -181,7 +181,7 @@ case_optimisation(exp body, exp id, shape shape_of_case, exp control_expression)
 		 * Sets the last of ELEMENTS[i] so can be substituted directly into
 		 * new case_tag's
 		 */
-		setlast(ELEMENTS[i]);
+		ELEMENTS[i]->last = true;
 	}
 
 	if (has & HAS_BYTEOPS) {
@@ -197,7 +197,7 @@ case_optimisation(exp body, exp id, shape shape_of_case, exp control_expression)
 					sh(son(t)) = sh(control_expression);
 				}
 
-				if (last(t)) {
+				if (t->last) {
 					break;
 				}
 			}
@@ -379,9 +379,9 @@ set_up_exhaustive_case(exp body_of_case, exp id)
 	CASE__TAG = getexp(f_bottom, NULL, 0, CONT__TAG, NULL, 0, 0, case_tag);
 
 	bro(CONT__TAG) = body_of_case;
-	clearlast(CONT__TAG);
+	CONT__TAG->last = false;
 
-	for (r = body_of_case; !last(r); r = bro(r))
+	for (r = body_of_case; !r->last; r = bro(r))
 		;
 
 	bro(r) = CASE__TAG;
@@ -409,9 +409,9 @@ set_up_inexhaustive_case(exp body_of_case, exp id, exp default_exp)
 	/* shape of case is f_top since it is not exhaustive */
 	CASE__TAG = getexp(f_top, NULL, 0, CONT__TAG, NULL, 0, 0, case_tag);
 	bro(CONT__TAG) = body_of_case;
-	clearlast(CONT__TAG);
+	CONT__TAG->last = false;
 
-	for (r = body_of_case; !last(r); r = bro(r))
+	for (r = body_of_case; !r->last; r = bro(r))
 		;
 
 	bro(r) = CASE__TAG;
@@ -439,7 +439,7 @@ like_me_q1(int prob, ntest nt, exp lab, exp arg1, exp arg2, unsigned char nm)
 	no(r) = prob;
 	settest_number(r, nt);
 	setbro(arg1, arg2);
-	clearlast(arg1);
+	arg1->last = false;
 	++no(son(lab));
 	setfather(r, arg2);
 

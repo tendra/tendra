@@ -397,7 +397,7 @@ scan_diag_names(exp e, exp whole)
 		for (t = son(e); ; t = bro(t)) {
 			scan_diag_names(t, whole);
 
-			if (last(t)) {
+			if (t->last) {
 				return;
 			}
 
@@ -423,7 +423,7 @@ diaginfo_exp(exp e)
 	setbro (ans, NULL);	/* these fields are used in dwarf generation */
 	no(ans) = 0;
 	props(ans) = 0;
-	clearlast(ans);
+	ans->last = false;
 	IGNORE refactor(e, e);
 
 	return ans;
@@ -779,7 +779,7 @@ update_diag_copy(exp e, dg_info d, int update)
 
 			for (s = son(e); s; s = bro(s)) {
 				update_diag_copy(s, dgf(s), update);
-				if (last(s)) {
+				if (s->last) {
 					break;
 				}
 			}
@@ -1465,7 +1465,7 @@ gather_detch(exp e, dg_info *dx, int reason, int descend, int reuse,
 	if (e->tag != case_tag) {
 		detch_info **ptr;
 
-		while (!last(s)) {
+		while (!s->last) {
 			s = bro(s);
 
 			for (ptr = &ans; *ptr; ptr = &((*ptr)->next))
@@ -1662,7 +1662,7 @@ gather_objects(exp e, exp whole, objset **obs, int ass)
 	case solve_tag:
 		for (t = son(e); ; t = bro(t)) {
 			gather_objects(t, whole, obs, ass);
-			if (last(t)) {
+			if (t->last) {
 				return;
 			}
 		}
@@ -1688,7 +1688,7 @@ gather_objects(exp e, exp whole, objset **obs, int ass)
 	/* remaining cases all no_ass */
 	for (t = son(e); t; t = bro(t)) {
 		gather_objects(t, whole, obs, 0);
-		if (last(t)) {
+		if (t->last) {
 			return;
 		}
 	}

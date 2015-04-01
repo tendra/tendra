@@ -188,7 +188,7 @@ add_wlist(double scale, exp re)
     return zeroweights;
   }
   else
-    if (last(r)) {
+    if (r->last) {
       return weightsv(scale, r);
     }
     else {
@@ -197,7 +197,7 @@ add_wlist(double scale, exp re)
 	r = bro(r);
 	w1 = weightsv(scale, r);
 	w = add_weights(&w, &w1);
-      } while (!last(r));
+      } while (!r->last);
       return w;
     }
 }
@@ -329,7 +329,7 @@ tailrecurse:
 	exp r = bro(son(e));
 	weights w, w1;
         w = weightsv(scale, l);
-	while (!last(l)) {
+	while (!l->last) {
 		l = bro(l);
 		w1 = weightsv(scale, l);
 		w = add_weights(&w, &w1);
@@ -345,7 +345,7 @@ tailrecurse:
 		|| n == general_env_offset_tag) {
 	  return zeroweights;
 	}
-	if (last(son(e))) {
+	if (son(e)->last) {
 	  e = son(e);
 	  goto tailrecurse;
 	}

@@ -239,8 +239,8 @@ mark_unaliased(exp e)
 
 	for (p = pt(e); p != NULL && ca; p = pt(p)) {
 		if (bro(p) == NULL ||
-		    (!(last(p) && bro(p)->tag == cont_tag) &&
-		     !(!last(p) && last(bro(p)) && bro(bro(p))->tag == ass_tag))) {
+		    (!(p->last && bro(p)->tag == cont_tag) &&
+		     !(!p->last && bro(p)->last && bro(bro(p))->tag == ass_tag))) {
 			ca = 0;
 		}
 	}
@@ -287,7 +287,7 @@ local_translate_capsule(void)
 				exp * dm = &son(son(crt_exp));
 				exp hld, seq;
 				bro(fn) = cll;
-				setlast(fn);
+				fn->last = true;
 
 				while ((*dm)->tag == ident_tag && isparam(*dm)) {
 					dm = &bro(son(*dm));
@@ -295,11 +295,11 @@ local_translate_capsule(void)
 				/* dm is body of main after params */
 
 				hld = getexp(f_top, *dm, 0, cll, NULL, 0, 1, 0);
-				seq = getexp(sh(*dm), bro(*dm), last(*dm), hld, NULL, 0, 0, seq_tag);
+				seq = getexp(sh(*dm), bro(*dm), (*dm)->last, hld, NULL, 0, 0, seq_tag);
 				bro(*dm) = seq;
-				setlast(*dm);
+				(*dm)->last = true;
 				bro(cll) = hld;
-				setlast(cll);
+				cll->last = true;
 				*dm = seq;
 				break;
 			}
