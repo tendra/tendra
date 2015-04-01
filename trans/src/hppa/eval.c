@@ -20,6 +20,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <utility/max.h>
+
 #include <local/szs_als.h>		/* for MAX_BF_SIZE */
 #include <local/ash.h>
 #include <local/fbase.h>
@@ -43,7 +45,6 @@
 #include <flpt/flpt.h>
 
 #include "addrtypes.h"
-#include "maxminmacs.h"
 #include "translate.h"
 #include "inst_fmt.h"
 #include "frames.h"
@@ -346,7 +347,7 @@ evalexp(exp e)
    }
    case offset_max_tag:
    {
-    	return MAX_OF(evalexp(son(e)),evalexp(bro(son(e))));
+    	return MAX(evalexp(son(e)),evalexp(bro(son(e))));
    }   
    case offset_pad_tag:
    {
@@ -1067,7 +1068,7 @@ evalone(exp e, int bitposn)
    case offset_max_tag:
    {
 	outs( "\t.WORD\t" ) ;
-    	outn(MAX_OF(evalexp(son(e)),evalexp(bro(son(e)))));
+    	outn(MAX(evalexp(son(e)),evalexp(bro(son(e)))));
 	outnl();
 	return ;
    }   

@@ -20,7 +20,6 @@
 #include "addrtypes.h"
 #include "frames.h"
 #include "reg_defs.h"
-#include "maxminmacs.h"
 
 extern long frame_size;
 extern int arg_stack_space;

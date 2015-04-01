@@ -7,14 +7,12 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#ifndef MAX_H
+#define MAX_H
 
-/* 
-   minmaxmacs.h 
-   defines min, max, and abs
-*/
+#define MAX(a,b) (((a) >= (b)) ?  (a) : (b))
+#define MIN(a,b) (((a) <= (b)) ?  (a) : (b))
+#define ABS(a)   (((a) <   0 ) ? -(a) : (a))
 
-#ifndef max
-#define max(a,b) (((a)>=(b)) ? (a):(b))
-#define min(a,b) (((a)<=(b)) ? (a):(b))
-#define absval(a) (((a)<0) ? -(a):(a))
 #endif
+

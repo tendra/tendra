@@ -13,6 +13,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <utility/max.h>
+
 #include <local/tag.h>
 
 #include <tdf/shape.h>

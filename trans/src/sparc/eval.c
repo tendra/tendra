@@ -19,6 +19,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <utility/max.h>
+
 #ifdef DWARF2
 #include <local/dw2_config.h>
 #endif
@@ -45,7 +47,6 @@
 #include <main/print.h>
 
 #include "addrtypes.h"
-#include "maxminmacs.h"
 #include "translate.h"
 #include "inst_fmt.h"
 #include "locate.h"
@@ -70,8 +71,6 @@ static mm shmm = { 0x7fff, 0xffff8000, "\t.half\t%ld\n" } ;
 static mm ushmm = { 0xffff, 0, "\t.half\t%ld\n" } ;
 static mm swmm = { 0x7fffffff, 0x80000000, "\t.word\t%ld\n" } ;
 static mm uswmm = { 0xffffffff, 0, "\t.word\t%ld\n" } ;
-
-#define max(X,Y) ((X>Y)?X:Y)
 
 /*
  * Find the output data corresponding to a shape
@@ -139,14 +138,14 @@ evalexp ( exp e )
 	arg_space = 16*32;
       }
       else {
-	arg_space = ((max(pr->needsproc.maxargs,6*32)+((16+1)*32))+63)&~63;
+	arg_space = ((MAX(pr->needsproc.maxargs,6*32)+((16+1)*32))+63)&~63;
       }
       return ( ((pr->spacereqproc.stack+63)&~63) + 
 	       pr->needsproc.callee_size +arg_space)>>3;
     }
         
     case offset_add_tag:  return evalexp(son(e)) + evalexp(bro(son(e)));
-    case offset_max_tag:  return max(evalexp(son(e)),evalexp(bro(son(e))));
+    case offset_max_tag:  return MAX(evalexp(son(e)),evalexp(bro(son(e))));
     case offset_pad_tag:  return rounder(evalexp(son(e)),shape_align(sh(e)));
     case offset_mult_tag: return evalexp(son(e))*evalexp(bro(son(e)));
 

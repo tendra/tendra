@@ -51,7 +51,6 @@
 #include <diag3/diag_reform.h>
 
 #include "translate.h"
-#include "maxminmacs.h"
 #include "proc.h"
 #include "stack.h"
 #include "stabs_diag3.h"

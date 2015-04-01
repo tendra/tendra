@@ -15,6 +15,9 @@
 #include <tdf/shape.h>
 #include <tdf/tag.h>
 
+#include <utility/bits.h>
+#include <utility/max.h>
+
 #include <local/ash.h>
 
 #include <reader/exp.h>
@@ -28,8 +31,6 @@
 #include <main/driver.h>
 #include <main/flags.h>
 #include <main/print.h>
-
-#include <utility/bits.h>
 
 #include "mach.h"
 #include "where.h"

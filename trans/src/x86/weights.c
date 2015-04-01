@@ -13,6 +13,8 @@
 #include <shared/bool.h>
 #include <shared/check.h>
 
+#include <utility/max.h>
+
 #include <tdf/shape.h>
 #include <tdf/tag.h>
 
@@ -30,8 +32,6 @@
 
 
 /* MACROS */
-
-#define max(x,y)((x>=y)?(x):(y))
 
 #define wno 6
  /* number of available registers */
@@ -145,8 +145,8 @@ add_weights(weights w1, weights w2)
     wb = (w2.w_weights)[i];
    (r.w_weights)[i] = wa + wb;
   }
-  r.booked = max(w1.booked, w2.booked);
-  r.flbooked = max(w1.flbooked, w2.flbooked);
+  r.booked = MAX(w1.booked, w2.booked);
+  r.flbooked = MAX(w1.flbooked, w2.flbooked);
   return r;
 }
 

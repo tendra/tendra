@@ -12,6 +12,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <utility/max.h>
+
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
@@ -24,7 +26,6 @@
 #include <main/print.h>
 
 #include "codegen.h"
-#include "maxminmacs.h"		/* for absval() */
 #include "regexps.h"
 #include "localexpmacs.h"
 
@@ -127,7 +128,7 @@ void clear_all(void)
 void clear_reg(int i)
 {
   /* forget reg i - exp association */
-  i = absval(i);
+  i = ABS(i);
   if (i >= 0 && i <= LAST_ALL_REGS)
   {
     regexps[i].keptexp = NULL;
@@ -365,7 +366,7 @@ void keepexp(exp e, ans loc)
 void keepcont(exp e, int reg)
 {
   freg fr;
-  int z = absval(reg);
+  int z = ABS(reg);
 
   if (z >= FR_OFFSET)
   {
@@ -403,7 +404,7 @@ void keepcont(exp e, int reg)
 void keepreg(exp e, int reg)
 {
   freg fr;
-  int z = absval(reg);
+  int z = ABS(reg);
 
   if (z >= FR_OFFSET)
   {

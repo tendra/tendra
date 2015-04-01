@@ -29,6 +29,8 @@
 
 #include <shared/error.h>
 
+#include <utility/max.h>
+
 #include <local/ash.h>
 
 #include <tdf/tag.h>
@@ -40,7 +42,6 @@
 #include <main/print.h>
 
 #include "codegen.h"
-#include "maxminmacs.h"
 #include "regalloc.h"
 #include "stack.h"
 
@@ -57,7 +58,7 @@ maxspace(spacereq a, spacereq b)
 {
   a.fixdump |= b.fixdump;
   a.fltdump |= b.fltdump;
-  a.stack = max(a.stack, b.stack);
+  a.stack = MAX(a.stack, b.stack);
   a.obtain = NULL;
   return a;
 }
@@ -71,7 +72,7 @@ maxspace2(spacereq a, spacereq b)
 {
   a.fixdump |= b.fixdump;
   a.fltdump |= b.fltdump;
-  a.stack = max(a.stack, b.stack);
+  a.stack = MAX(a.stack, b.stack);
   a.obtain = b.obtain;
   return a;
 }
@@ -256,7 +257,7 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
 	    assert(st-stack>=a.ashsize);
 	    assert((stack&31)==0);
 	    
-	    def.stack = max(def.stack, st);
+	    def.stack = MAX(def.stack, st);
 	    no(e) = (stack<<3) + R_FP;		/* no() decoded by boff() */
 	    assert((stack&7)==0);			/* must be byte aligned */
 	    asm_comment("regalloc allocate on stack:	stack,st=%ld,%ld	no(e)=%d", stack,st,no(e));

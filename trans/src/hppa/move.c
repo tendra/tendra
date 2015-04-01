@@ -23,6 +23,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <utility/max.h>
+
 #include <local/ash.h>
 
 #include <main/print.h>
@@ -36,7 +38,6 @@
 #include "labels.h"
 #include "bitsmacs.h"
 #include "regmacs.h"
-#include "maxminmacs.h"
 #include "make_code.h"
 #include "move.h"
 
@@ -734,7 +735,7 @@ start:
 	  bool unalign = al < 32;
 
 	  /* we are limited by 32 bit regs */
-	  bits_per_step = MIN_OF(al, 32);
+	  bits_per_step = MIN(al, 32);
 
 	  bytes_per_step = bits_per_step / 8;
 

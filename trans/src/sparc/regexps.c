@@ -13,6 +13,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <utility/max.h>
+
 #include <tdf/shape.h>
 #include <tdf/tag.h>
 
@@ -29,7 +31,6 @@
 #include "addrtypes.h"
 #include "move.h"
 #include "bitsmacs.h"
-#include "maxminmacs.h"
 #include "regmacs.h"
 #include "regexps.h"
 
@@ -134,7 +135,7 @@ clear_all (void) {
 void 
 clear_reg ( int i )
 {
-    i = ABS_OF ( i ) ;
+    i = ABS ( i ) ;
     if ( i >= 0 && i < 48 ) {
 	regexps [i].keptexp = NULL ;
 	setregalt ( regexps [i].inans, 0 ) ;
@@ -296,7 +297,7 @@ void
 keepcont ( exp e, int regcode )
 {
     freg fr ;
-    int reg = ABS_OF ( regcode ) ;
+    int reg = ABS ( regcode ) ;
     assert ( reg >= 0 && reg < 48 ) ;
     assert ( reg != R_TMP ) ;
 
@@ -329,7 +330,7 @@ void
 keepreg ( exp e, int regcode )
 {
     freg fr ;
-    int reg = ABS_OF ( regcode ) ;
+    int reg = ABS ( regcode ) ;
     assert ( reg >= 0 && reg < 48 ) ;
     assert ( reg != R_TMP ) ;
 

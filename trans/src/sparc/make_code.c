@@ -14,6 +14,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <utility/max.h>
+
 #include <local/szs_als.h>
 #include <local/ash.h>
 #include <local/tag.h>
@@ -45,7 +47,6 @@
 #include <main/print.h>
 
 #include "addrtypes.h"
-#include "maxminmacs.h"
 #include "proctypes.h"
 #include "eval.h"
 #include "move.h"
@@ -4019,7 +4020,7 @@ null_tag_case :
 					nnsp = guardreg ( contreg, sp ) ;
 				} else {
 					freg frg ;
-					frg.fr = ABS_OF ( contreg ) - 32 ;
+					frg.fr = ABS ( contreg ) - 32 ;
 					frg.dble = ( bool ) ( contreg < 0 ) ;
 					nnsp = nsp ;
 					setfregalt ( aa, frg ) ;

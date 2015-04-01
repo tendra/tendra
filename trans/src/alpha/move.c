@@ -21,6 +21,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <utility/max.h>
+
 #include <construct/installtypes.h>
 #include <construct/dec.h>
 
@@ -31,7 +33,6 @@
 #include "addrtypes.h"
 #include "procrectypes.h"
 #include "bitsmacs.h"
-#include "maxminmacs.h"
 #include "main.h"
 #include "reg_defs.h"
 #include "guard.h"
@@ -107,13 +108,13 @@ choose_block_size(where dest, int al)
 {
   int bsize;
   if(!(insalt(dest.answhere).b.offset%8)){
-    bsize = (dest.ashwhere.ashsize%64==0)?64:min(al,64);
+    bsize = (dest.ashwhere.ashsize%64==0)?64:MIN(al,64);
   }
   else if(!(insalt(dest.answhere).b.offset%4)){
-    bsize = (dest.ashwhere.ashsize%32==0)?32:min(al,32);
+    bsize = (dest.ashwhere.ashsize%32==0)?32:MIN(al,32);
   }
   else if(!(insalt(dest.answhere).b.offset%2)){
-    bsize = (dest.ashwhere.ashsize%16==0)?16:min(al,16);
+    bsize = (dest.ashwhere.ashsize%16==0)?16:MIN(al,16);
   }
   else{
     bsize=8;
@@ -712,8 +713,8 @@ move(ans src, where dest, space freeregs, bool sgned)
 	  /* source and dest both instore */
 	  instore isdest=insalt(dest.answhere);	  
 	  int sunit = (size>64)?choose_block_size(dest,al):
-	    ((dest.ashwhere.ashsize%64==0)?64:min(al,64));
-	  /*int sunit= ((dest.ashwhere.ashsize%64==0)?64: min(al,64));*/
+	    ((dest.ashwhere.ashsize%64==0)?64:MIN(al,64));
+	  /*int sunit= ((dest.ashwhere.ashsize%64==0)?64: MIN(al,64));*/
 	  int step=sunit>>3;
 	  int s=(dest.ashwhere.ashsize+sunit-1)/sunit;
 	  bool unalign=0;

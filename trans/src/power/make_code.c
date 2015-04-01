@@ -15,6 +15,10 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <utility/max.h>
+
+#include <utility/max.h>
+
 #include <local/cpu.h>
 #include <local/ash.h>
 #include <local/tag.h>
@@ -44,7 +48,6 @@
 #include "codegen.h"
 #include "geninst.h"
 
-#include "maxminmacs.h"
 #include "muldvrem.h"
 #include "proc.h"
 #include "translate.h"
@@ -409,7 +412,7 @@ case_tag_code_notransform(int caseint_reg, exp e, space sp)
 	long n;
 	long l;
 	long u = 0x80000000;
-	unsigned long approx_range;	/* max(u-l, 0x7fffffff) avoiding overflow */
+	unsigned long approx_range;	/* MAX(u-l, 0x7fffffff) avoiding overflow */
 	bool use_jump_vector;
 
 	assert(e->tag == case_tag);
@@ -784,7 +787,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 	 * 13500 exp nodes generate 8k words of instructions.
 	 * We play safe and allow 1 instruction per exp.
 	 */
-#define TEST_TAG_NEAR_BRANCH(e)	(ptno(e) < 0 || absval(ptno(son(pt(e))) -exp_num) < 8192)
+#define TEST_TAG_NEAR_BRANCH(e)	(ptno(e) < 0 || ABS(ptno(son(pt(e))) -exp_num) < 8192)
 
 tailrecurse:
 
@@ -1385,7 +1388,7 @@ tailrecurse:
 				} else {
 					freg frg;
 
-					frg.fr = absval(contreg) - 32;
+					frg.fr = ABS(contreg) - 32;
 					frg.dble = (contreg < 0);
 					nnsp = nsp;
 					setfregalt(aa, frg);

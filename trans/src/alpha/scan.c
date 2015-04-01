@@ -23,6 +23,8 @@
 #include <shared/bool.h>
 #include <shared/check.h>
 
+#include <utility/max.h>
+
 #include <local/szs_als.h>
 #include <local/ash.h>
 #include <local/tag.h>
@@ -48,7 +50,6 @@
 
 #include "procrectypes.h"
 #include "bitsmacs.h"
-#include "maxminmacs.h"
 #include "regable.h"
 #include "tempdecs.h"
 #include "special.h"
@@ -412,11 +413,11 @@ likeplus(exp *e, exp **at)
 			continue;
 		}
 
-		a1.floatneeds = max(a1.floatneeds, a2.floatneeds);
+		a1.floatneeds = MAX(a1.floatneeds, a2.floatneeds);
 		pc = a2.propsneeds & hasproccall;
 		if (a2.fixneeds < maxfix && pc == 0) {
 			/* ..its evaluation  will not disturb the accumulated result */
-			a1.fixneeds   = max(a1.fixneeds, a2.fixneeds + 1);
+			a1.fixneeds   = MAX(a1.fixneeds, a2.fixneeds + 1);
 			a1.propsneeds = a1.propsneeds | a2.propsneeds;
 		} else if (a1.fixneeds < maxfix &&
 				   (a1.propsneeds & hasproccall) == 0 && !commuted) {
@@ -434,17 +435,17 @@ likeplus(exp *e, exp **at)
 			br = (prev == op1) ? &bro(cop) : prevbr;
 			commuted = 1;
 
-			a1.fixneeds    = max(a2.fixneeds, a1.fixneeds + 1);
+			a1.fixneeds    = MAX(a2.fixneeds, a1.fixneeds + 1);
 			a1.propsneeds |= a2.propsneeds;
-			a1.maxargs     = max(a1.maxargs, a2.maxargs);
+			a1.maxargs     = MAX(a1.maxargs, a2.maxargs);
 		} else {
 			/* ... its evaluation would disturb accumulated result,
 			 * so replace it by a newly declared tag */
 			cca(at, br);
 
-			a1.fixneeds   = max(a1.fixneeds, 2);
+			a1.fixneeds   = MAX(a1.fixneeds, 2);
 			a1.propsneeds = a1.propsneeds | morefix | (pc << 1);
-			a1.maxargs    = max(a1.maxargs, a2.maxargs);
+			a1.maxargs    = MAX(a1.maxargs, a2.maxargs);
 		}
 	} while (!(*br)->last);
 
@@ -466,18 +467,18 @@ likediv(exp *e, exp **at)
 	r = scan(arg, at);
 
 	/* scan second operand ... */
-	l.floatneeds = max(l.floatneeds, r.floatneeds);
+	l.floatneeds = MAX(l.floatneeds, r.floatneeds);
 	pc = r.propsneeds & hasproccall;
 	if (r.fixneeds < maxfix && pc == 0) {
 		/* ...it fits into registers */
-		l.fixneeds   = max(l.fixneeds, r.fixneeds + 1);
+		l.fixneeds   = MAX(l.fixneeds, r.fixneeds + 1);
 		l.propsneeds = l.propsneeds | r.propsneeds;
 	} else {
 		/* ...it requires new declaration of second operand */
 		cca(at, arg);
-		l.fixneeds   = max(l.fixneeds, 1);
+		l.fixneeds   = MAX(l.fixneeds, 1);
 		l.propsneeds = l.propsneeds | morefix | (pc << 1);
-		l.maxargs    = max(l.maxargs, r.maxargs);
+		l.maxargs    = MAX(l.maxargs, r.maxargs);
 	}
 
 	return l;
@@ -497,28 +498,28 @@ fpop(exp *e, exp **at)
 	l = scan(arg, at);
 	arg = &bro(*arg);
 	r = scan(arg, at);
-	l.fixneeds = max(l.fixneeds, r.fixneeds);
+	l.fixneeds = MAX(l.fixneeds, r.fixneeds);
 	pcr = r.propsneeds & hasproccall;
 	pcl = l.propsneeds & hasproccall;
 
 	if (r.floatneeds <= l.floatneeds && r.floatneeds < maxfloat && pcr == 0) {
-		l.floatneeds = max(2, max(l.floatneeds, r.floatneeds + 1));
+		l.floatneeds = MAX(2, MAX(l.floatneeds, r.floatneeds + 1));
 		l.propsneeds = l.propsneeds | r.propsneeds;
 		ClearRev(op);
 	} else if (pcl == 0 && l.floatneeds <= r.floatneeds && l.floatneeds < maxfloat) {
-		l.floatneeds = max(2, max(r.floatneeds, l.floatneeds + 1));
+		l.floatneeds = MAX(2, MAX(r.floatneeds, l.floatneeds + 1));
 		l.propsneeds = l.propsneeds | r.propsneeds;
 		SetRev(op);
 	} else if (r.floatneeds < maxfloat && pcr == 0) {
-		l.floatneeds = max(2, max(l.floatneeds, r.floatneeds + 1));
+		l.floatneeds = MAX(2, MAX(l.floatneeds, r.floatneeds + 1));
 		l.propsneeds = l.propsneeds | r.propsneeds;
 		ClearRev(op);
 	} else {
 		cca(at, arg);
 		ClearRev(op);
-		l.floatneeds = max(l.floatneeds, 2);
+		l.floatneeds = MAX(l.floatneeds, 2);
 		l.propsneeds = l.propsneeds | morefloat | (pcr << 1);
-		l.maxargs = max(l.maxargs, r.maxargs);
+		l.maxargs = MAX(l.maxargs, r.maxargs);
 	}
 
 	if (withert && l.fixneeds < 2) {
@@ -537,10 +538,10 @@ maxneeds(needs a, needs b)
 {
 	needs an;
 
-	an.fixneeds   = max(a.fixneeds,   b.fixneeds);
-	an.floatneeds = max(a.floatneeds, b.floatneeds);
-	an.maxargs    = max(a.maxargs,    b.maxargs);
-	an.numparams  = max(a.numparams,  b.numparams);
+	an.fixneeds   = MAX(a.fixneeds,   b.fixneeds);
+	an.floatneeds = MAX(a.floatneeds, b.floatneeds);
+	an.maxargs    = MAX(a.maxargs,    b.maxargs);
+	an.numparams  = MAX(a.numparams,  b.numparams);
 	an.propsneeds = a.propsneeds | b.propsneeds;
 
 	return an;
@@ -961,8 +962,8 @@ scan(exp *e, exp **at)
 			shape shdef = sh(def);
 			long n = rounder(stparam, shape_align(shdef));
 			long sizep = shape_size(shdef);
-			numparams = min(numparams + rounder(sizep, REG_SIZE), 6 * REG_SIZE);
-			/*numparams=min(numparams+max(REG_SIZE,sizep),6*REG_SIZE);*/
+			numparams = MIN(numparams + rounder(sizep, REG_SIZE), 6 * REG_SIZE);
+			/*numparams=MIN(numparams+MAX(REG_SIZE,sizep),6*REG_SIZE);*/
 			/*assert(def->tag==clear_tag); */
 
 			if (is_floating(shdef->tag)) {
@@ -1011,7 +1012,7 @@ scan(exp *e, exp **at)
 		}
 
 		if (gen_call) {
-			numparams = max(6 * REG_SIZE, numparams);
+			numparams = MAX(6 * REG_SIZE, numparams);
 		}
 
 		nonevis &= !isvis(stare);
@@ -1327,7 +1328,7 @@ scan(exp *e, exp **at)
 				cca(at, par);
 				nds.propsneeds |= usesproccall;
 				nds = maxneeds(shapeneeds(sh(*(par))), nds);
-				nds.maxargs = max(nds.maxargs, onepar.maxargs);
+				nds.maxargs = MAX(nds.maxargs, onepar.maxargs);
 			} else {
 				nds = maxneeds(onepar, nds);
 			}
@@ -1341,7 +1342,7 @@ scan(exp *e, exp **at)
 			cerl = &bro(*cerl);
 		}
 
-		nds.maxargs = max(nds.maxargs, stpar);
+		nds.maxargs = MAX(nds.maxargs, stpar);
 		nds = maxneeds(scan(&bro(bro(son(application))), at), nds);
 		pstldnds = scan(&bro(bro(bro(son(application)))), at);
 
@@ -1379,7 +1380,7 @@ scan(exp *e, exp **at)
 				cca(at, par);
 				nds.propsneeds |= usesproccall;
 				nds = maxneeds(shapeneeds(sh(*par)), nds);
-				nds.maxargs = max(nds.maxargs, onepar.maxargs);
+				nds.maxargs = MAX(nds.maxargs, onepar.maxargs);
 			} else {
 				nds = maxneeds(onepar, nds);
 			}
@@ -1404,7 +1405,7 @@ scan(exp *e, exp **at)
 			cca(at, ptr);
 			nds.propsneeds |= usesproccall;
 			nds = maxneeds(shapeneeds(sh(*ptr)), nds);
-			nds.maxargs = max(nds.maxargs, ndsp.maxargs);
+			nds.maxargs = MAX(nds.maxargs, ndsp.maxargs);
 		} else {
 			nds = ndsp;
 		}
@@ -1414,7 +1415,7 @@ scan(exp *e, exp **at)
 			cca(at, &bro(son(callees)));
 			nds.propsneeds |= usesproccall;
 			nds = maxneeds(shapeneeds(sh(bro(son(*e)))), nds);
-			nds.maxargs = max(nds.maxargs, ndsp.maxargs);
+			nds.maxargs = MAX(nds.maxargs, ndsp.maxargs);
 		} else {
 			nds = maxneeds(ndsp, nds);
 		}
@@ -1442,7 +1443,7 @@ scan(exp *e, exp **at)
 			cca(at, fn);
 			nds.propsneeds |= usesproccall;
 			nds = maxneeds(shapeneeds(sh(*fn)), nds);
-			nds.maxargs = max(nds.maxargs, ndsp.maxargs);
+			nds.maxargs = MAX(nds.maxargs, ndsp.maxargs);
 		} else {
 			nds = ndsp;
 		}
@@ -1492,7 +1493,7 @@ scan(exp *e, exp **at)
 				cca(at, par);
 				nds.propsneeds |= usesproccall;
 				nds = maxneeds(shapeneeds(sh(*(par))), nds);
-				nds.maxargs = max(nds.maxargs, onepar.maxargs);
+				nds.maxargs = MAX(nds.maxargs, onepar.maxargs);
 			} else {
 				nds = maxneeds(onepar, nds);
 			}
@@ -1544,7 +1545,7 @@ scan(exp *e, exp **at)
 		}
 
 		nds.propsneeds |= hasproccall;
-		nds.maxargs = max(nds.maxargs, parsize);
+		nds.maxargs = MAX(nds.maxargs, parsize);
 
 		return nds;
 	}
@@ -1685,8 +1686,8 @@ scan(exp *e, exp **at)
 		exp *arg = &son(*e);
 
 		s = scan(arg, at);
-		s.fixneeds = max(s.fixneeds, 2);
-		s.floatneeds = max(s.floatneeds, 2);
+		s.fixneeds = MAX(s.fixneeds, 2);
+		s.floatneeds = MAX(s.floatneeds, 2);
 		has_float = 1;
 
 		return s;
@@ -2022,9 +2023,9 @@ scan(exp *e, exp **at)
 		nds = maxneeds(scan(arg, at), shapeneeds(sh(*(e))));
 
 		if (is_awkward_variety(sh(*e)->tag)) {
-			nds.fixneeds = max(nds.fixneeds, 4);
+			nds.fixneeds = MAX(nds.fixneeds, 4);
 		} else {
-			nds.fixneeds = max(nds.fixneeds, 2);
+			nds.fixneeds = MAX(nds.fixneeds, 2);
 		}
 
 		if (nstare != cont_tag) {

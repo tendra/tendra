@@ -18,6 +18,8 @@
 #include <shared/error.h>
 #include <shared/string.h>
 
+#include <utility/max.h>
+
 #include <local/ash.h>
 #include <local/out.h>
 #include <local/cpu.h>

@@ -22,6 +22,8 @@
 #include <shared/string.h>
 #include <shared/xalloc.h>
 
+#include <utility/max.h>
+
 #include <local/szs_als.h>
 #include <local/ash.h>
 #include <local/tag.h>
@@ -53,7 +55,6 @@
 
 #include "addrtypes.h"
 #include "make_code.h"
-#include "maxminmacs.h"
 #include "procrectypes.h"
 #include "eval.h"
 #include "move.h"
@@ -1395,7 +1396,7 @@ do_callers(exp list, space sp, int *sizecallers)
 			ans ansr;
 			int par_reg;
 			int numleft = parsize - ((LAST_INT_ARG - spar + 1) << 6);
-			int pregs_used = min((numleft >> 6) + 6, 6);
+			int pregs_used = MIN((numleft >> 6) + 6, 6);
 
 			setregalt(ansr, spar);
 			w.answhere = ansr;
@@ -1413,7 +1414,7 @@ do_callers(exp list, space sp, int *sizecallers)
 		} else {
 			/* pass remaining parameters on the stack. The parameters are aligned on 8 byte boundaries. */
 			setinsalt(w.answhere, is);
-			is.b.offset += (max(ap.ashsize, REG_SIZE) >> 3);
+			is.b.offset += (MAX(ap.ashsize, REG_SIZE) >> 3);
 			/* 'size' was used here */
 			code_here(list, sp, w);
 			/* eval parameter into argument space on stack */
@@ -1425,7 +1426,7 @@ do_callers(exp list, space sp, int *sizecallers)
 
 		disp += parsize;
 		disp = rounder(disp, REG_SIZE);
-		*sizecallers = min(disp, NUM_PARAM_REGS * REG_SIZE);
+		*sizecallers = MIN(disp, NUM_PARAM_REGS * REG_SIZE);
 
 		if (list->last) {
 			return sp;
@@ -2891,7 +2892,7 @@ tailrecurse:
 					ans ansr;
 					int par_reg;
 					int numleft = parsize - ((LAST_INT_ARG - spar + 1) << 6);
-					int pregs_used = min((numleft >> 6) + 6, 6);
+					int pregs_used = MIN((numleft >> 6) + 6, 6);
 					setregalt(ansr, spar);
 					w.answhere = ansr;
 
@@ -2910,7 +2911,7 @@ tailrecurse:
 					 * The parameters are aligned on 8 byte boundaries.
 					 */
 					setinsalt(w.answhere, is);
-					is.b.offset += (max(ap.ashsize, REG_SIZE) >> 3);
+					is.b.offset += (MAX(ap.ashsize, REG_SIZE) >> 3);
 					/* 'size' was used here */
 					code_here(list, sp, w);
 					/* eval parameter into argument space on stack */
@@ -3072,9 +3073,9 @@ tailrecurse:
 		}
 
 		if (in_vcallers_apply) {
-			postlude_arg_space = max(max_args, sizecallers);
+			postlude_arg_space = MAX(max_args, sizecallers);
 		} else {
-			postlude_arg_space = max(max_args, 6 * PTR_SZ);
+			postlude_arg_space = MAX(max_args, 6 * PTR_SZ);
 		}
 
 		if (call_is_untidy(cllees)) {
@@ -3326,7 +3327,7 @@ tailrecurse:
 		exp bdy = son(crt_proc);
 		int stack_space;
 		int rsize = -1;
-		stack_space = max(arg_stack_space, 6 * (PTR_SZ >> 3));
+		stack_space = MAX(arg_stack_space, 6 * (PTR_SZ >> 3));
 
 		if (cllees->tag == make_callee_list_tag) {
 			code_here(cllees, sp, nowhere);
@@ -5937,14 +5938,14 @@ out:
 		frame_size = pr->frame_size;
 		locals_offset = pr->locals_offset;
 		max_args = pr->max_args;
-		param_stack_space = (min(max_args, (Has_no_vcallers) ? 6 * PTR_SZ : 12 * PTR_SZ)) >> 3;
-		arg_stack_space = min(pr->needsproc.numparams, (has_va) ? 12 * PTR_SZ : 6 * PTR_SZ) >> 3;
+		param_stack_space = (MIN(max_args, (Has_no_vcallers) ? 6 * PTR_SZ : 12 * PTR_SZ)) >> 3;
+		arg_stack_space = MIN(pr->needsproc.numparams, (has_va) ? 12 * PTR_SZ : 6 * PTR_SZ) >> 3;
 
 #if 0
 		if (pr->needsproc.numparams > 11 * PTR_SZ) {
 			arg_stack_space = 12 * PTR_SZ;
 		} else {
-			arg_stack_space = max(pr->needsproc.numparams,
+			arg_stack_space = MAX(pr->needsproc.numparams,
 			                      (Has_no_vcallers ? 6 * PTR_SZ : 12 * PTR_SZ));
 		}
 #endif
@@ -5969,7 +5970,7 @@ out:
 		 * within the current frame.
 		 */
 		UNUSED(param_stack_space);
-		for (i = 0; i < min(pr->needsproc.numparams >> 6, NUM_PARAM_REGS); ++i) {
+		for (i = 0; i < MIN(pr->needsproc.numparams >> 6, NUM_PARAM_REGS); ++i) {
 			sp = guardreg(FIRST_INT_ARG + i, sp);
 		}
 
@@ -6182,7 +6183,7 @@ out:
 		}
 
 		reset_tos();
-		operate_fmt_immediate(i_addq, SP, max(0, (max_args - 6 * (PTR_SZ)) >> 3), r);
+		operate_fmt_immediate(i_addq, SP, MAX(0, (max_args - 6 * (PTR_SZ)) >> 3), r);
 		/*operate_fmt(i_bis,SP,SP,r);*/
 		setregalt(aa, r);
 		mka.regmove = move(aa, dest, sp, 1);

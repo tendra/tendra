@@ -23,7 +23,6 @@
 
 #include "codegen.h"
 #include "geninst.h"
-#include "maxminmacs.h"
 #include "muldvrem.h"
 #include "proc.h"
 #include "translate.h"

@@ -39,7 +39,6 @@
 
 #include "addrtypes.h"
 #include "frames.h"
-#include "maxminmacs.h"
 #include "proctypes.h"
 #include "eval.h"
 #include "move.h"

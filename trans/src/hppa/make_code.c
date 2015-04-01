@@ -16,6 +16,8 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
+#include <utility/max.h>
+
 #include <local/ash.h>
 #include <local/out.h>
 #include <local/tag.h>
@@ -45,7 +47,6 @@
 #include <refactor/refactor.h>
 
 #include "addrtypes.h"
-#include "maxminmacs.h"
 #include "proctypes.h"
 #include "eval.h"
 #include "move.h"
@@ -194,7 +195,7 @@ checknan(exp e, int fr)
 
 #if 0
 	long trap = no(son(pt(e)));
-	int t = (ABS_OF(fr) - 32) << 1;
+	int t = (ABS(fr) - 32) << 1;
 
 	asm_comment("checknan: %%f%d trap=%d", t, trap);
 	error(ERR_SERIOUS, "checknan");
@@ -2067,7 +2068,7 @@ tailrecurse:
 					nnsp = guardreg(contreg, sp);
 				} else {
 					freg frg;
-					frg.fr = ABS_OF(contreg) - 32;
+					frg.fr = ABS(contreg) - 32;
 					frg.dble = (contreg < 0);
 					nnsp = nsp;
 					setfregalt(aa, frg);
@@ -2452,7 +2453,7 @@ tailrecurse:
 		long l;
 		long u = 0x80000000;
 
-		unsigned long approx_range;  /* max(u-l, 0x7fffffff) avoiding overflow */
+		unsigned long approx_range;  /* MAX(u-l, 0x7fffffff) avoiding overflow */
 		bool use_jump_vector;
 
 		l = no(zt);
@@ -3770,7 +3771,7 @@ tailrecurse:
 				/* else drop through to load short case */
 			}
 
-			dest.ashwhere.ashsize = dest.ashwhere.ashalign = min(dsize, asize);
+			dest.ashwhere.ashsize = dest.ashwhere.ashalign = MIN(dsize, asize);
 			mka.regmove = move(w.answhere, dest, guard(w, sp).fixed, 0 /* unsigned */ );
 		} else
 #endif

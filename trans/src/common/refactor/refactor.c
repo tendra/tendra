@@ -35,6 +35,8 @@
 #include <tdf/shape.h>
 #include <tdf/tag.h>
 
+#include <utility/max.h>
+
 #include <local/szs_als.h>
 
 #include <reader/exp.h>

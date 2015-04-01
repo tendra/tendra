@@ -17,8 +17,6 @@
 
 #include <utility/bits.h> /* XXX */
 
-#define  maximum(X, Y)	(((X) > (Y))?(X):(Y))
-#define  minimum(X, Y)	(((X) > (Y))?(Y):(X))
 #define  array_size(X)	(sizeof(X) / sizeof(X[0]))
 #define  round(X, Y)		((Y)*(((X) + (Y) - 1) / (Y)))
 #define  log2(X)		bit_one(X)

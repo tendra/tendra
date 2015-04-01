@@ -15,6 +15,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <utility/max.h>
+
 #include <tdf/nat.h>
 #include <tdf/ecodes.h>
 

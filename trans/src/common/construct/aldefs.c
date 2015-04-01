@@ -10,13 +10,13 @@
 #include <shared/bool.h>
 #include <shared/error.h>
 
+#include <utility/max.h>
+
 #include <reader/basicread.h>
 
 #include <construct/installglob.h>
 #include <construct/messages_c.h>
 #include <construct/aldefs.h>
-
-#define max(x, y)	((x) > (y)) ? (x) : (y)
 
 
 /* The alignment definitions form a set of simultaneous equations
@@ -60,7 +60,7 @@ process_aldefs(void)
 				if (a1->al.al_n == 1 && a2->al.al_n == 1) {
 					my_aldef->al.al_n = 1;
 					my_aldef->al.al_val.al =
-					    max(a1->al.al_val.al, a2->al.al_val.al);
+					    MAX(a1->al.al_val.al, a2->al.al_val.al);
 					changed = 1;
 				} else {
 					complete = 0;

@@ -23,6 +23,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <utility/max.h>
+
 #include <local/ash.h>
 
 #include <reader/basicread.h>
@@ -39,7 +41,6 @@
 #include "bitsmacs.h"
 #include "main.h"
 #include "guard.h"
-#include "maxminmacs.h"
 #include "move.h"
 
 
@@ -300,7 +301,7 @@ start:
 	      char *st = (al <= 8) ? i_sb : ((al <= 16) ? i_sh : i_sw);
 	      /* determine which store instruction from al (align from dest) */
 	      instore isd;
-	      int   sunit = min (al, 32);
+	      int   sunit = MIN(al, 32);
 	      int   step = sunit >> 3;
 	      int   s = (dest.ashwhere.ashsize + sunit - 1) / sunit;
 	      bool unalign = 0;

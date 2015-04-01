@@ -11,6 +11,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <utility/max.h>
+
 #include <tdf/shape.h>
 #include <tdf/tag.h>
 
@@ -106,9 +108,9 @@ static weights add_weights
 	   (r.wts)[i] = wa + wb;
 	}
     }
-    r.d_used = maximum(w1.d_used, w2.d_used);
-    r.a_used = maximum(w1.a_used, w2.a_used);
-    r.f_used = maximum(w1.f_used, w2.f_used);
+    r.d_used = MAX(w1.d_used, w2.d_used);
+    r.a_used = MAX(w1.a_used, w2.a_used);
+    r.f_used = MAX(w1.f_used, w2.f_used);
     return r;
 }
 

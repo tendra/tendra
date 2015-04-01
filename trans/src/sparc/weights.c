@@ -61,7 +61,6 @@
 #include "proctypes.h"
 #include "procrec.h"
 #include "bitsmacs.h"
-#include "maxminmacs.h"
 #include "regable.h"
 #include "weights.h"
 

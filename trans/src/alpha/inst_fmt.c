@@ -48,7 +48,6 @@
 #include "locate.h"
 #include "getregs.h"
 #include "code_here.h"
-#include "maxminmacs.h"
 #include "pseudo.h"
 
 bool trap_all_fops;

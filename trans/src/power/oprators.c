@@ -13,6 +13,8 @@
 #include <shared/bool.h>
 #include <shared/error.h>
 
+#include <utility/max.h>
+
 #include <local/ash.h>
 
 #include <tdf/shape.h>
@@ -26,7 +28,6 @@
 
 #include "codegen.h"
 #include "geninst.h"
-#include "maxminmacs.h"		/* for absval() */
 #include "instruct.h"
 #include "proc.h"
 #include "oprators.h"
@@ -74,14 +75,14 @@ regremoved(exp * seq, int reg)
   exp s = *seq;
   exp t = bro(s);
 
-  if (absval(regofval(s)) == reg)
+  if (ABS(regofval(s)) == reg)
   {
     (*seq) = t;
     return 1;
   }
   for (;;)
   {
-    if (absval(regofval(t)) == reg)
+    if (ABS(regofval(t)) == reg)
     {
       bro(s) = bro(t);
       if (t->last)

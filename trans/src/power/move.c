@@ -26,6 +26,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <utility/max.h>
+
 #include <local/ash.h>
 
 #include <tdf/shape.h>
@@ -37,7 +39,6 @@
 #include "codegen.h"
 #include "geninst.h"
 #include "proc.h"			/* for mem_temp() */
-#include "maxminmacs.h"
 #include "make_code.h"
 #include "move.h"
 
@@ -436,7 +437,7 @@ static int moveinstore(instore iss, instore isd, int size, int al, long regs, bo
   }
   
   /* we are limited by 32 bit regs */
-  bits_per_step = min(al, 32);
+  bits_per_step = MIN(al, 32);
 
   bytes_per_step = bits_per_step / 8;
 

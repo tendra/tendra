@@ -28,6 +28,8 @@
 
 #include <local/ash.h>
 
+#include <utility/max.h>
+
 #include <tdf/tag.h>
 
 #include <construct/installtypes.h>
@@ -38,7 +40,6 @@
 
 #include "procrectypes.h"
 #include "bitsmacs.h"
-#include "maxminmacs.h"
 #include "regable.h"
 #include "regmacs.h"
 #include "frames.h"
@@ -60,7 +61,7 @@ maxspace(spacereq a, spacereq b)
 {
   a.fixdump |= b.fixdump;
   a.fltdump |= b.fltdump;
-  a.stack = max (a.stack, b.stack);
+  a.stack = MAX(a.stack, b.stack);
   return a;
 }
 
@@ -184,7 +185,7 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 		  stack += 32;
 		  st = stack + ((a.ashsize + 31) & ~31);
 		}
-		def.stack = max (def.stack, st);
+		def.stack = MAX(def.stack, st);
 		no (e) = stack * 2 + basereg;
 	      }
 	  }

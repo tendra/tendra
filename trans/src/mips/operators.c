@@ -25,7 +25,6 @@
 #include "addrtypes.h"
 #include "inst_fmt.h"
 #include "move.h"
-#include "maxminmacs.h"
 #include "getregs.h"
 #include "guard.h"
 #include "bitsmacs.h"

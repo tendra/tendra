@@ -21,6 +21,8 @@
 #include <shared/bool.h>
 #include <shared/error.h>
 
+#include <utility/max.h>
+
 #include <local/cpu.h>
 
 #include <construct/installtypes.h>
@@ -33,7 +35,6 @@
 #include "geninst.h"
 #include "proc.h"
 #include "translate.h"
-#include "maxminmacs.h"		/* for absval() */
 #include "stack.h"
 #include "inst_fmt.h"
 #include "macro.h"
@@ -177,7 +178,7 @@ void st_ro_ins(Instruction_P ins, int src, baseoff a)
 
 
   /* in general we cannot cope with store using temp reg, catch it always */
-  if ((src == R_TMP0 || a.base == R_TMP0) && absval(a.offset) > (16 + 1 + 6) * 4)	/* leeway for mem_temp() */
+  if ((src == R_TMP0 || a.base == R_TMP0) && ABS(a.offset) > (16 + 1 + 6) * 4)	/* leeway for mem_temp() */
     error(ERR_SERIOUS, "st_ro_ins: store of temp reg to offset not allowed");	/* should not happen */
 
   if (a.base == R_0)
@@ -905,7 +906,7 @@ void stf_ro_ins(Instruction_P ins, int src, baseoff a)
   CHECKREG(a.base); CHECKFREG(src);
 
   /* in general we cannot cope with store using temp reg, catch it always */
-  if (a.base == R_TMP0 && absval(a.offset) > (16 + 1 + 6) * 4)	/* leeway for mem_temp() */
+  if (a.base == R_TMP0 && ABS(a.offset) > (16 + 1 + 6) * 4)	/* leeway for mem_temp() */
     error(ERR_SERIOUS, "stf_ro_ins: store of temp reg to offset not allowed");	/* should not happen */
 
   if (a.base == R_0)

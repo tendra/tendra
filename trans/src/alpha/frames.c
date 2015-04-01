@@ -15,6 +15,7 @@
 #include <tdf/tag.h>
 
 #include <utility/bits.h>
+#include <utility/max.h>
 
 #include "frames.h"
 #include "procrecs.h"
@@ -33,10 +34,6 @@ bool Has_no_vcallers = true;
 
 int local_reg = 14;
 int callee_size;
-
-#define max(x,y)	(x>y)?x:y
-
-#define min(x,y)      (x>y)?y:x
 
 void setframe_flags
 (exp e, bool leaf)
@@ -83,14 +80,14 @@ void setframe_info
     pa=12*64;	/* should be 11 */
   }
   else{
-    pa=min(pa,6*64);
+    pa=MIN(pa,6*64);
   }
 
   st = (st + 32) & ~63;
   pa = (pa+32) &~63;
   ma = (ma + 32) & ~63;	/* put on 64 bit boundaries */
   pr->max_args = ma;
-  save_offset=max(ma-384,0);
+  save_offset=MAX(ma-384,0);
   /* locate the register to be saved */
   pr->fixdump = sppr->fixdump<<9;/* 8 */
   if (!leaf) {

@@ -19,6 +19,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <utility/max.h>
+
 #include <local/ash.h>
 #include <local/tag.h>
 
@@ -47,7 +49,6 @@
 
 #include "addrtypes.h"
 #include "loc_signal.h"
-#include "maxminmacs.h"
 #include "procrectypes.h"
 #include "eval.h"
 #include "move.h"

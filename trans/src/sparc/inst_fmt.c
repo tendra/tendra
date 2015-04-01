@@ -22,6 +22,8 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
+#include <utility/max.h>
+
 #ifdef DWARF2
 #include <local/dw2_config.h>
 #endif
@@ -36,7 +38,6 @@
 #include "regexps.h"
 #include "regmacs.h"
 #include "sparcins.h"
-#include "maxminmacs.h"
 #include "translate.h"
 #include "inst_fmt.h"
 #include "labels.h"
@@ -215,7 +216,7 @@ st_ro_ins ( ins_p ins, int src, baseoff a )
 
     /* in general we cannot cope with store using temp reg, catch it always */
     if ( ( src == R_TMP || a.base == R_TMP )
-	 && ABS_OF ( off ) > ( 16 + 1 + 6 ) * 4 /* leeway for mem_temp */ ) {
+	 && ABS ( off ) > ( 16 + 1 + 6 ) * 4 /* leeway for mem_temp */ ) {
 	error(ERR_SERIOUS,  "Temporary register problem in st_ro_ins" ) ;
     }
 
@@ -919,7 +920,7 @@ void
 stf_ro_ins ( ins_p ins, int src, baseoff a ){
   long off = a.offset ;
   assert ( IS_FIXREG ( a.base ) ) ;
-  if ( a.base == R_TMP && ABS_OF ( off )  > ( 16 + 1 + 6 ) * 4 ) {
+  if ( a.base == R_TMP && ABS ( off )  > ( 16 + 1 + 6 ) * 4 ) {
     error(ERR_SERIOUS,  "Temporary register problem in stf_ro_ins" ) ;
   }
   if ( SIMM13_SIZE ( off ) ) {

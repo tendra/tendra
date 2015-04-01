@@ -25,7 +25,6 @@
 #include "addrtypes.h"
 #include "move.h"
 #include "bitsmacs.h"
-#include "maxminmacs.h"
 #include "reg_defs.h"
 #include "regexps.h"
 

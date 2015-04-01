@@ -49,7 +49,6 @@
 #include <main/print.h>
 
 #include "addrtypes.h"
-#include "maxminmacs.h"
 #include "proctypes.h"
 #include "eval.h"
 #include "move.h"

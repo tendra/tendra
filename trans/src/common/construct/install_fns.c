@@ -31,6 +31,8 @@
 #include <shared/string.h>
 #include <shared/xalloc.h>
 
+#include <utility/max.h>
+
 #include <local/szs_als.h>
 
 #include <tdf/nat.h>
@@ -552,7 +554,6 @@ transfer_mode f_volatile = 1;
 transfer_mode f_overlap = 2;
 transfer_mode f_complete = 4;
 
-#define max(x, y)	((x) > (y)) ? (x) : (y)
 /* careful: use simple arguments! */
 
 alignment
@@ -684,7 +685,7 @@ init_alignment(void)
 	f_alloca_alignment = ALLOCA_ALIGN;
 	f_var_param_alignment = VAR_PARAM_ALIGN;
 	f_code_alignment = CODE_ALIGN;
-	stack_align = max(param_align, double_align);
+	stack_align = MAX(param_align, double_align);
 }
 
 
@@ -4137,8 +4138,7 @@ f_offset_max(exp arg1, exp arg2)
 		top_aldef = ares;
 		sha = f_offset(ares, a3);
 	} else {
-		sha = f_offset(long_to_al(max(a1->al.al_val.al,
-					      a2->al.al_val.al)), a3);
+		sha = f_offset(long_to_al(MAX(a1->al.al_val.al, a2->al.al_val.al)), a3);
 	}
 
 	return me_b3(sha, arg1, arg2, offset_max_tag);
@@ -4230,8 +4230,7 @@ f_offset_pad(alignment a, exp arg1)
 	} else if (al1_of(sh(arg1))->al.al_val.al_frame != 0) {
 		sha = f_offset(al1_of(sh(arg1)), a);
 	} else {
-		sha = f_offset(long_to_al(max(a->al.al_val.al, al1(sh(arg1)))),
-			       a);
+		sha = f_offset(long_to_al(MAX(a->al.al_val.al, al1(sh(arg1)))), a);
 	}
 
 	return me_u3(sha, arg1, offset_pad_tag);

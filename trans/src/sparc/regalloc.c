@@ -30,6 +30,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <utility/max.h>
+
 #include <local/ash.h>
 
 #include <tdf/tag.h>
@@ -44,7 +46,6 @@
 #include "proctypes.h"
 #include "procrec.h"
 #include "bitsmacs.h"
-#include "maxminmacs.h"
 #include "regable.h"
 #include "regmacs.h"
 #include "proc.h"
@@ -113,7 +114,7 @@ static spacereq
 maxspace ( spacereq a, spacereq b ){
   a.fixdump |= b.fixdump ;
   a.fltdump |= b.fltdump ;
-  a.stack = MAX_OF ( a.stack, b.stack ) ;
+  a.stack = MAX ( a.stack, b.stack ) ;
   return a;
 }
 
@@ -239,7 +240,7 @@ regalloc ( exp e, int freefixed, int freefloat, long stack ){
 	  st = ALIGNNEXT ( stack + a.ashsize, 32 ) ;
 	  assert ( st - stack >= a.ashsize ) ;
 	  assert ( ( stack & 31 ) == 0 ) ;
-	  def.stack = MAX_OF ( def.stack, st ) ;
+	  def.stack = MAX ( def.stack, st ) ;
 	  no ( e ) = ( int ) ( stack * 2 + basereg) ;
 	}
       } 

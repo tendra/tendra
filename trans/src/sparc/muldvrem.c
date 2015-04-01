@@ -27,7 +27,6 @@
 
 #include "scan.h"
 #include "addrtypes.h"
-#include "maxminmacs.h"
 #include "proctypes.h"
 #include "eval.h"
 #include "move.h"

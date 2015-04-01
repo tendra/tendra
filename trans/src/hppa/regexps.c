@@ -19,6 +19,8 @@ For trivial 'peephole' optimisations
 #include <shared/bool.h>
 #include <shared/error.h>
 
+#include <utility/max.h>
+
 #include <tdf/shape.h>
 #include <tdf/tag.h>
 
@@ -33,7 +35,6 @@ For trivial 'peephole' optimisations
 #include "addrtypes.h"
 #include "move.h"
 #include "bitsmacs.h"
-#include "maxminmacs.h"
 #include "regmacs.h"
 #include "regexps.h"
 #include "localexpmacs.h"
@@ -116,7 +117,7 @@ void clear_all
 void clear_reg
 (int i)
 {
-  i = ABS_OF(i);
+  i = ABS(i);
   if (i >= 0 && i < 48)
   {
     regexps[i].keptexp = NULL;
@@ -291,7 +292,7 @@ void keepcont
 (exp e, int regcode)
 {
   freg fr;
-  int reg = ABS_OF(regcode);
+  int reg = ABS(regcode);
 
   assert(reg >= 0 && reg < 48);
   assert(reg != GR1);
@@ -321,7 +322,7 @@ void keepreg
 (exp e, int regcode)
 {
   freg fr;
-  int reg = ABS_OF(regcode);
+  int reg = ABS(regcode);
 
   assert(reg >= 0 && reg < 48);
   assert(reg != GR1);

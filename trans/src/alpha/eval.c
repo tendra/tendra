@@ -22,6 +22,8 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
+#include <utility/max.h>
+
 #include <local/ash.h>
 #include <local/fbase.h>
 
@@ -44,7 +46,6 @@
 #include <symtab/syms.h>
 
 #include "addrtypes.h"
-#include "maxminmacs.h"
 #include "main.h"
 #include "frames.h"
 #include "reg_defs.h"
@@ -245,7 +246,7 @@ evalexp(exp e)
     }
 
     case offset_add_tag:        return evalexp(son(e)) + evalexp(bro(son(e)));
-    case offset_max_tag:        return max(evalexp(son(e)),evalexp(bro(son(e))));
+    case offset_max_tag:        return MAX(evalexp(son(e)),evalexp(bro(son(e))));
     case offset_pad_tag:        return rounder(evalexp(son(e)),shape_align(sh(e))>>3);
     case offset_mult_tag:       return evalexp(son(e))*evalexp(bro(son(e)));
     case offset_div_tag: 

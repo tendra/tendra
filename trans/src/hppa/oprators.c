@@ -12,6 +12,8 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
+#include <utility/max.h>
+
 #include <local/ash.h>
 
 #include <tdf/shape.h>
@@ -29,7 +31,6 @@
 #include "addrtypes.h"
 #include "inst_fmt.h"
 #include "move.h"
-#include "maxminmacs.h"
 #include "getregs.h"
 #include "guard.h"
 #include "bitsmacs.h"
@@ -83,14 +84,14 @@ regremoved(exp * seq, int reg)
   exp s = *seq;
   exp t = bro(s);
 
-  if (ABS_OF(regofval(s)) == reg)
+  if (ABS(regofval(s)) == reg)
   {
    (*seq) = t;
     return 1;
   }
   for (;;)
   {
-    if (ABS_OF(regofval(t)) == reg)
+    if (ABS(regofval(t)) == reg)
     {
       bro(s) = bro(t);
       if (t->last)

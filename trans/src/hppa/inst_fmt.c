@@ -41,7 +41,6 @@
 #include "regexps.h"
 #include "regmacs.h"
 #include "hppains.h"
-#include "maxminmacs.h"
 #include "translate.h"
 #include "inst_fmt.h"
 #include "frames.h"

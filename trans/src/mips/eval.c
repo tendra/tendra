@@ -19,6 +19,8 @@
 #include <shared/bool.h>
 #include <shared/error.h>
 
+#include <utility/max.h>
+
 #include <local/ash.h>
 
 #include <tdf/shape.h>
@@ -41,7 +43,6 @@
 #include <symtab/syms.h>
 
 #include "addrtypes.h"
-#include "maxminmacs.h"
 #include "out_ba.h"
 #include "main.h"
 #include "ibinasm.h"
@@ -207,7 +208,7 @@ evalexp(exp e)
     	return evalexp(son(e)) +evalexp(bro(son(e)));
    }
    case offset_max_tag:{
-    	return max(evalexp(son(e)),evalexp(bro(son(e))));
+    	return MAX(evalexp(son(e)),evalexp(bro(son(e))));
    }
    case offset_pad_tag:{
 	return rounder(evalexp(son(e)), shape_align(sh(e)));
