@@ -48,12 +48,12 @@
 
 #include <shared/bool.h>
 
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
 
 #include <construct/exp.h>
-#include <construct/shape.h>
 
 #include "procrectypes.h"
 #include "procrecs.h"

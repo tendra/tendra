@@ -18,6 +18,7 @@
 #include <local/out.h>
 
 #include <tdf/nat.h>
+#include <tdf/shape.h>
 #ifdef TDF_DIAG4
 #include <tdf/tag.h>
 #endif
@@ -27,7 +28,6 @@
 #include <construct/installtypes.h>
 #include <construct/dec.h>
 #include <construct/machine.h>
-#include <construct/shape.h>
 
 #include <main/driver.h>
 #include <main/print.h>

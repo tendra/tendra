@@ -17,12 +17,12 @@
 #include <local/out.h>
 
 #include <tdf/nat.h>
+#include <tdf/shape.h>
 
 #include <reader/basicread.h>
 
 #include <construct/installtypes.h>
 #include <construct/dec.h>
-#include <construct/shape.h>
 
 #include <main/driver.h>
 #include <main/flags.h>

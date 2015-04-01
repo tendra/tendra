@@ -15,12 +15,12 @@ initial call : comp_eq_exp(a,b,NULL,NULL)  */
 
 #include <shared/bool.h>
 
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
 #include <reader/exp.h>
 
-#include <construct/shape.h>
 #include <construct/exp.h>
 
 #include "comp_eq_exp.h"

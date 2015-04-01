@@ -20,11 +20,10 @@
 
 #include <shared/bool.h>
 
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
-
-#include <construct/shape.h>
 
 #include <refactor/refactor.h>
 

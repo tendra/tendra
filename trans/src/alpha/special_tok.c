@@ -18,6 +18,7 @@
 #include <local/tag.h>
 
 #include <tdf/nat.h>
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <reader/basicread.h>
@@ -29,7 +30,6 @@
 #include <construct/me_fns.h>
 #include <construct/installglob.h>
 #include <construct/install_fns.h>
-#include <construct/shape.h>
 
 #include <special/special_tok.h>
 

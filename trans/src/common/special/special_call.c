@@ -15,6 +15,7 @@
 #include <shared/error.h>
 #include <shared/string.h>
 
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <reader/externs.h>
@@ -23,7 +24,6 @@
 
 #include <construct/installglob.h>
 #include <construct/exp.h>
-#include <construct/shape.h>
 
 #include <special/special_call.h>
 

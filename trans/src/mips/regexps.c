@@ -20,12 +20,11 @@ For trivial 'peephole' optimisations
 
 #include <local/tag.h>
 
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
 #include <reader/basicread.h>
-
-#include <construct/shape.h>
 
 #include <refactor/refactor.h>
 

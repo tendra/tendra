@@ -17,6 +17,7 @@
 #include <shared/xalloc.h>
 
 #include <tdf/nat.h>
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
@@ -28,7 +29,6 @@
 
 #include <construct/installtypes.h>
 #include <construct/dec.h>
-#include <construct/shape.h>
 #include <construct/exp.h>
 #include <construct/installglob.h>
 

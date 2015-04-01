@@ -10,13 +10,13 @@
 #include <shared/bool.h>
 #include <shared/check.h>
 
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
 
 #include <construct/installglob.h>
 #include <construct/exp.h>
-#include <construct/shape.h>
 
 #include <main/flags.h>
 

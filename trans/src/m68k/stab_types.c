@@ -11,9 +11,8 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include <construct/shape.h>
-
 #include <tdf/nat.h>
+#include <tdf/shape.h>
 
 #include <reader/externs.h>
 

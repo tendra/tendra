@@ -31,6 +31,7 @@
 
 #include <local/ash.h>
 
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <main/print.h>
@@ -39,7 +40,6 @@
 #include <construct/dec.h>
 #include <construct/ash.h>
 #include <construct/exp.h>
-#include <construct/shape.h>
 
 #include "addrtypes.h"
 #include "proctypes.h"

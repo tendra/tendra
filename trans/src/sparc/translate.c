@@ -97,6 +97,7 @@
 
 #include <local/ash.h>
 
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #ifdef DWARF2
@@ -109,7 +110,6 @@
 #include <reader/externs.h>
 
 #include <construct/exp.h>
-#include <construct/shape.h>
 #include <construct/installglob.h>
 
 #include <flpt/flpt.h>

@@ -17,6 +17,7 @@
 #include <local/cpu.h>
 #include <local/ash.h>
 
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
@@ -24,7 +25,6 @@
 #include <construct/installtypes.h>
 #include <construct/dec.h>
 #include <construct/ash.h>
-#include <construct/shape.h>
 #include <construct/exp.h>
 
 #include <main/flags.h>

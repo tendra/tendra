@@ -19,6 +19,7 @@
 
 #include <local/ash.h>
 
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
@@ -27,7 +28,6 @@
 #include <construct/installtypes.h>
 #include <construct/dec.h>
 #include <construct/ash.h>
-#include <construct/shape.h>
 
 #include "addrtypes.h"
 #include "move.h"

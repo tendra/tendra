@@ -25,6 +25,7 @@
 #include <local/ash.h>
 #include <local/fbase.h>
 
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
@@ -33,7 +34,6 @@
 #include <construct/dec.h>
 #include <construct/ash.h>
 #include <construct/exp.h>
-#include <construct/shape.h>
 
 #include <flpt/flpt.h>
 

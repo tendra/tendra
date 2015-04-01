@@ -10,10 +10,10 @@
 #include <shared/bool.h>
 #include <shared/check.h>
 
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <construct/exp.h>
-#include <construct/shape.h>
 #include <construct/is_worth.h>
 #include <construct/reg_result.h>
 

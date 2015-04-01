@@ -17,12 +17,11 @@
 #include <local/szs_als.h>
 #include <local/dw2_config.h>
 
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
 #include <reader/basicread.h>
-
-#include <construct/shape.h>
 
 #include <flpt/flpt.h>
 

@@ -14,12 +14,12 @@
 
 #include <local/ash.h>
 
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <construct/installtypes.h>
 #include <construct/dec.h>
 #include <construct/ash.h>
-#include <construct/shape.h>
 
 #include <main/driver.h>
 #include <main/flags.h>

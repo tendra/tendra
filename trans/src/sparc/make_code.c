@@ -18,6 +18,7 @@
 #include <local/ash.h>
 #include <local/tag.h>
 
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #ifdef DWARF2
@@ -35,7 +36,6 @@
 #include <construct/ash.h>
 #include <construct/installtypes.h>
 #include <construct/exp.h>
-#include <construct/shape.h>
 #include <construct/install_fns.h>
 
 #include <flpt/flpt.h>

@@ -18,9 +18,8 @@
 
 #include <local/ash.h>
 
+#include <tdf/shape.h>
 #include <tdf/tag.h>
-
-#include <construct/shape.h>
 
 #include "code_here.h"
 #include "addrtypes.h"

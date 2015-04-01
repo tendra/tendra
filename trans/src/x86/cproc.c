@@ -28,6 +28,7 @@
 #include <local/cpu.h>
 #include <local/codermacs.h>
 
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <reader/basicread.h>
@@ -35,7 +36,6 @@
 #include <reader/token.h>
 
 #include <construct/exp.h>
-#include <construct/shape.h>
 #include <construct/install_fns.h>
 #include <construct/installglob.h>
 #include <construct/machine.h>

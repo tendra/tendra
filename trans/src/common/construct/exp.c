@@ -14,6 +14,7 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
@@ -22,7 +23,6 @@
 #include <reader/table_fns.h>
 
 #include <construct/installglob.h>
-#include <construct/shape.h>
 #include <construct/messages_c.h>
 #include <construct/install_fns.h>
 #include <construct/exp.h>

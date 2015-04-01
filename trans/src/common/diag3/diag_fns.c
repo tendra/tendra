@@ -16,6 +16,7 @@
 #include <shared/xalloc.h>
 
 #include <tdf/nat.h>
+#include <tdf/shape.h>
 #include <tdf/sort.h>
 #include <tdf/tag.h>
 
@@ -25,7 +26,6 @@
 #include <reader/basicread.h>
 #include <reader/main_reads.h>
 
-#include <construct/shape.h>
 #include <construct/install_fns.h>
 #include <construct/aldefs.h>
 

@@ -13,6 +13,7 @@
 #include <shared/bool.h>
 #include <shared/check.h>
 
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
@@ -20,7 +21,6 @@
 #include <reader/table_fns.h>
 #include <reader/basicread.h>
 
-#include <construct/shape.h>
 #include <construct/exp.h>
 #include <construct/installglob.h>
 #include <construct/installtypes.h>

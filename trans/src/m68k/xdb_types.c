@@ -16,10 +16,9 @@
 #include <shared/xalloc.h>
 
 #include <tdf/nat.h>
+#include <tdf/shape.h>
 
 #include <reader/externs.h>
-
-#include <construct/shape.h>
 
 #include <main/flags.h>
 #include <main/print.h>

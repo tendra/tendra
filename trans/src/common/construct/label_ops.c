@@ -11,6 +11,7 @@
 
 #include <shared/bool.h>
 
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
@@ -19,7 +20,6 @@
 #include <construct/label_ops.h>
 #include <construct/exp.h>
 #include <construct/installglob.h>
-#include <construct/shape.h>
 
 #include <main/flags.h>
 

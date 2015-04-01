@@ -25,6 +25,7 @@
 #include <shared/xalloc.h>
 
 #include <tdf/nat.h>
+#include <tdf/shape.h>
 #include <tdf/sort.h>
 #include <tdf/tag.h>
 
@@ -41,7 +42,6 @@
 #include <construct/exp.h>
 #include <construct/me_fns.h>
 #include <construct/installglob.h>
-#include <construct/shape.h>
 #include <construct/machine.h>
 #include <construct/aldefs.h>
 

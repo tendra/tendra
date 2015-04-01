@@ -21,9 +21,8 @@
 
 #include <local/ash.h>
 
+#include <tdf/shape.h>
 #include <tdf/tag.h>
-
-#include <construct/shape.h>
 
 #include <flpt/flpt.h>
 

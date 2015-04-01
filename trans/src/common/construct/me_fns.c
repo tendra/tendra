@@ -14,6 +14,7 @@
 #include <shared/error.h>
 
 #include <tdf/nat.h>
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
@@ -25,7 +26,6 @@
 #include <construct/installglob.h>
 #include <construct/install_fns.h>
 #include <construct/messages_c.h>
-#include <construct/shape.h>
 #include <construct/me_fns.h>
 
 #include <main/flags.h>

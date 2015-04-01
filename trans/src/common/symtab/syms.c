@@ -16,6 +16,7 @@
 
 #include <local/ash.h>
 
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include "cross_config.h"
@@ -27,7 +28,6 @@
 #include <reader/basicread.h>
 
 #include <construct/ash.h>
-#include <construct/shape.h>
 
 #include <main/flags.h>
 

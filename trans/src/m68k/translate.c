@@ -15,13 +15,13 @@
 
 #include <local/szs_als.h>
 
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
 
 #include <construct/exp.h>
 #include <construct/installglob.h>
-#include <construct/shape.h>
 #include <construct/machine.h>
 
 #include <main/driver.h>

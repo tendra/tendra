@@ -17,15 +17,15 @@
 
 #include <local/ash.h>
 
-#include <tdf/tag.h>
 #include <tdf/name.h>
+#include <tdf/shape.h>
+#include <tdf/tag.h>
 
 #include <reader/exp.h>
 
 #include <construct/installtypes.h>
 #include <construct/dec.h>
 #include <construct/exp.h>
-#include <construct/shape.h>
 
 #include "localexpmacs.h"
 #include "addrtypes.h"

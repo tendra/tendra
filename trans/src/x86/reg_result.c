@@ -12,10 +12,11 @@
 #include <local/szs_als.h>
 #include <local/out.h>
 
+#include <tdf/shape.h>
+
 #include <main/flags.h>
 
 #include <construct/exp.h>
-#include <construct/shape.h>
 #include <construct/reg_result.h>
 
 int gcc_compatible = 0;

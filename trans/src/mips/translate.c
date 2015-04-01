@@ -18,6 +18,7 @@
 #include <local/ash.h>
 
 #include <tdf/nat.h>
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <reader/basicread.h>
@@ -29,7 +30,6 @@
 
 #include <construct/installglob.h>
 #include <construct/exp.h>
-#include <construct/shape.h>
 #include <construct/me_fns.h>
 
 #include <main/driver.h>

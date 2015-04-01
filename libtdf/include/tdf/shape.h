@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef CONSTRUCT_SHAPE_H
-#define CONSTRUCT_SHAPE_H
+#ifndef TDF_SHAPE_H
+#define TDF_SHAPE_H
 
 #define bothd  1
 #define tophd  2

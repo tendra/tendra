@@ -13,7 +13,8 @@
 #include <reader/basicread.h>
 #include <reader/externs.h>
 
-#include <construct/shape.h>
+#include <tdf/shape.h>
+
 #include <construct/install_fns.h>
 
 #ifdef TDF_DIAG4

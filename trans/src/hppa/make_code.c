@@ -20,6 +20,7 @@
 #include <local/out.h>
 #include <local/tag.h>
 
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
@@ -30,7 +31,6 @@
 #include <construct/dec.h>
 #include <construct/ash.h>
 #include <construct/exp.h>
-#include <construct/shape.h>
 #include <construct/install_fns.h>
 #include <construct/misc_c.h>
 #include <construct/reg_result.h>

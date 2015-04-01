@@ -13,7 +13,7 @@
 
 #include "bitsmacs.h"
 
-#include <construct/shape.h>
+#include <tdf/shape.h>
 
 
 /*

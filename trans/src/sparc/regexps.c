@@ -13,6 +13,7 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
@@ -22,7 +23,6 @@
 #endif
 
 #include <construct/aldefs.h>
-#include <construct/shape.h>
 
 #include <main/flags.h>
 

@@ -13,6 +13,7 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
@@ -23,7 +24,6 @@
 #include <construct/installglob.h>
 #include <construct/me_fns.h>
 #include <construct/install_fns.h>
-#include <construct/shape.h>
 
 #include <refactor/refactor.h>
 #include <refactor/optimise.h>

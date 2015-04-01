@@ -31,6 +31,7 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
@@ -40,7 +41,6 @@
 #include <construct/const.h>
 #include <construct/exp.h>
 #include <construct/install_fns.h>
-#include <construct/shape.h>
 #include <construct/installglob.h>
 #include <construct/is_worth.h>
 #include <construct/messages_c.h>

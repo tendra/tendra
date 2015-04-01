@@ -9,7 +9,8 @@
 
 #include <shared/bool.h>
 
-#include <construct/shape.h>
+#include <tdf/shape.h>
+
 #include <construct/installtypes.h>
 #include <construct/dec.h>
 #include <construct/reg_result.h>

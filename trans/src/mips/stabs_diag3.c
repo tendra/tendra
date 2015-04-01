@@ -27,6 +27,7 @@
 #include <shared/xalloc.h>
 
 #include <tdf/nat.h>
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
@@ -36,7 +37,6 @@
 #include <symtab/symtab.h>
 #include <symtab/new_symbol.h>
 
-#include <construct/shape.h>
 #include <construct/exp.h>
 
 #include <diag3/diagtypes.h>

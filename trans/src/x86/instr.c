@@ -26,6 +26,7 @@
 #include <local/dw2_config.h>
 #endif
 
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
@@ -35,7 +36,6 @@
 #include <reader/externs.h>
 
 #include <construct/exp.h>
-#include <construct/shape.h>
 #include <construct/installglob.h>
 #include <construct/install_fns.h>
 #include <construct/machine.h>

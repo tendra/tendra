@@ -15,6 +15,7 @@
 
 #include <local/fbase.h>
 
+#include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <main/driver.h>
@@ -25,7 +26,6 @@
 
 #include <construct/exp.h>
 #include <construct/install_fns.h>
-#include <construct/shape.h>
 
 #include <flpt/flpt.h>
 
