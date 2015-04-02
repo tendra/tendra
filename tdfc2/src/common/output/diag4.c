@@ -614,8 +614,6 @@ enc_dg_decl(BITSTREAM *bs, IDENTIFIER id, ulong n, unsigned use)
 		bs = enc_dg_type(bs, t, 0);
 		if (use & USAGE_DEFN) {
 			EXP e;
-			int et = error_threshold;
-			error_threshold = ERR_SERIOUS;
 			ENC_ON(bs);
 			MAKE_exp_identifier(t, id, qual_none, e);
 			e = convert_reference(e, REF_NORMAL);
@@ -626,7 +624,6 @@ enc_dg_decl(BITSTREAM *bs, IDENTIFIER id, ulong n, unsigned use)
 			}
 			bs = enc_exp(bs, e);
 			free_exp(e, 1);
-			error_threshold = et;
 		} else {
 			ENC_OFF(bs);
 		}

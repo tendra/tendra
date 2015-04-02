@@ -76,21 +76,17 @@ static EXP
 make_dim_exp(int op, EXP a, EXP b)
 {
 	EXP e;
-	int et;
 	if (IS_NULL_exp(a)) {
 		return b;
 	}
 	if (IS_NULL_exp(b)) {
 		return a;
 	}
-	et = error_threshold;
-	error_threshold = ERR_SERIOUS;
 	if (op == lex_plus) {
 		e = make_plus_exp(a, b);
 	} else {
 		e = make_mult_exp(op, a, b);
 	}
-	error_threshold = et;
 	return e;
 }
 

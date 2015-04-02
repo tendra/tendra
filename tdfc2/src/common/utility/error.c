@@ -104,7 +104,6 @@ LOCATION builtin_loc = NULL_loc;
 FILE *error_file = NULL;
 unsigned long number_warnings = 0;
 unsigned long max_errors = 32;
-int error_threshold = ERR_NONE;
 int no_error_args = 0;
 int verbose = 0;
 static int print_short = 0;
@@ -1064,28 +1063,26 @@ print_error(LOCATION *loc, ERROR e)
 	if (!IS_NULL_err(e)) {
 		int d = 1;
 		int sev = DEREF_int(err_severity(e));
-		if (sev > error_threshold) {
-			ERROR p = error_prefix;
-			if (!IS_NULL_err(p)) {
-				/* Add error prefix */
-				MAKE_err_compound(sev, p, e, e);
-				d = 0;
-			}
-			if (do_error && dump_error(e, loc, sev, 0)) {
-				/* Dump error to file */
-				unsigned long n;
-				IGNORE error_header(sev);
-				n = number_errors;
-				error_break();
-				if (sev == ERR_FATAL)term_error(0);
-				if (n >= max_errors)term_error(0);
-			} else {
-				/* Print error to standard error */
-				FILE *f = error_file;
-				print_error_start(f, loc, sev);
-				print_error_msg(e, loc, f);
-				print_error_end(f, sev);
-			}
+		ERROR p = error_prefix;
+		if (!IS_NULL_err(p)) {
+			/* Add error prefix */
+			MAKE_err_compound(sev, p, e, e);
+			d = 0;
+		}
+		if (do_error && dump_error(e, loc, sev, 0)) {
+			/* Dump error to file */
+			unsigned long n;
+			IGNORE error_header(sev);
+			n = number_errors;
+			error_break();
+			if (sev == ERR_FATAL)term_error(0);
+			if (n >= max_errors)term_error(0);
+		} else {
+			/* Print error to standard error */
+			FILE *f = error_file;
+			print_error_start(f, loc, sev);
+			print_error_msg(e, loc, f);
+			print_error_end(f, sev);
 		}
 		destroy_error(e, d);
 	}

@@ -281,10 +281,8 @@ parse_pragma(PPTOKEN *p, int tendra)
 		 * handled during preprocessing, and pragmas may refer to them.
 		 * pragmas should be parsed when possible though because they can
 		 * affect how #if expressions are evaluated */
-		int et = error_threshold;
-		error_threshold = ERR_SERIOUS;
+		/* XXX: ignoring errors was removed here. if this is too noisy, it ought to return */
 		parse_tendra(&tok);
-		error_threshold = et;
 	} else {
 		parse_tendra(&tok);
 	}

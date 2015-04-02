@@ -43,7 +43,6 @@ extern unsigned long max_errors;
 extern int error_severity[];
 extern int default_severity[];
 extern int verbose;
-extern int error_threshold;
 extern int no_error_args;
 extern LOCATION crt_loc;
 extern LOCATION builtin_loc;
