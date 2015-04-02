@@ -9,7 +9,7 @@ $PROTECT = "";
 
 +SUBSET "fail" := {
 
-	+FUNC void __assert_aux(const char *, const char *, int, const char *);
+	+FUNC void __assert_aux(const char *, const char *, const char *, int);
 
 	%%%
 	#include <stdio.h>
