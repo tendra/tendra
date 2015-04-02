@@ -6,7 +6,7 @@
 # See doc/copyright/ for the full copyright terms.
 
 
-+IMPLEMENT "c/c95", "wchar.h.ts", "wint" ;
++IMPLEMENT "c/c95", "wchar.h.ts", "wint_t" ;
 +IMPLEMENT "c/c95", "wchar.h.ts", "mse" ;
 +IMPLEMENT "c/c95", "wctype.h.ts", "mse2" (!?) ;
 

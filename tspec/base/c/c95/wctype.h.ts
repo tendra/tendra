@@ -8,7 +8,7 @@
 
 +SUBSET "mse2" := {
 	# scalar: wctype() wctype_t result comparable with 0
-	+IMPLEMENT "c/c95", "wchar.h.ts", "wint";
+	+IMPLEMENT "c/c95", "wchar.h.ts", "wint_t";
 	+TYPE (scalar) wctype_t;
 
 	# 7.15.2.1.n

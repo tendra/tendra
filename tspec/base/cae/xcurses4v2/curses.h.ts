@@ -24,7 +24,7 @@
 +TYPE (int) cchar_t ;
 +TYPE WINDOW ;
 
-+IMPLEMENT "c/c95", "wchar.h.ts", "wint" ;	# wint_t and WEOF
++IMPLEMENT "c/c95", "wchar.h.ts", "wint_t" ;
 
 +EXP (extern) int COLOR_PAIRS ;
 +EXP (extern) int COLORS ;

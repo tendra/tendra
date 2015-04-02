@@ -5,7 +5,7 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
-+SUBSET "wint" := {
++SUBSET "wint_t" := {
 	# 7.16.1
 	+TYPE (int) wint_t;
 	+CONST wint_t WEOF;
