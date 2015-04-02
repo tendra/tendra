@@ -15,8 +15,7 @@
 /* these extend the error_severity enum from <shared/error.h> */
 enum {
 	ERR_WHATEVER = 100,
-	ERR_NONE     = 101,
-	ERR_OPTION   = 102
+	ERR_NONE     = 101
 };
 
 
