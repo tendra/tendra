@@ -9,18 +9,19 @@ $PROTECT = "";
 
 +SUBSET "fail" := {
 
-	+FUNC void __assert_aux(const char *, const char *, const char *, int);
+	+FUNC void __assert_aux(const char *exp,
+		const char *file, const char *func, int line);
 
 	%%%
 	#include <stdio.h>
 	#include <stdlib.h>
 
-	#define __assert_aux(e, f, n, l)                                  \
-	    ((n) ? fprintf(stderr, "assertion failed: %s:%s():%d (%s)\n", \
-	             (f), (n), (l), (e))                                  \
-	         : fprintf(stderr, "assertion failed: %s:%d (%s)\n",      \
-	             (f), (l), (e))                                       \
-	         , abort())
+	#define __assert_aux(exp, file, func, line)                          \
+	    ((func) ? fprintf(stderr, "assertion failed: %s:%s():%d (%s)\n", \
+	                (file), (func), (line), (exp))                       \
+	            : fprintf(stderr, "assertion failed: %s:%d (%s)\n",      \
+	                (file), (line), (exp))                               \
+	            , abort())
 	%%%
 
 };
@@ -29,8 +30,8 @@ $PROTECT = "";
 
 # 4.2.1.1 The assert macro
 +IFDEF NDEBUG
-+DEFINE assert.1(e) %% ((void) 0) %%;
++DEFINE assert.1(exp) %% ((void) 0) %%;
 +ELSE
-+DEFINE assert.2(e) %% ((e) ? (void) 0 : __assert_aux(#e, __FILE__, 0, __LINE__)) %%;
++DEFINE assert.2(exp) %% ((exp) ? (void) 0 : __assert_aux(#exp, __FILE__, 0, __LINE__)) %%;
 +ENDIF
 
