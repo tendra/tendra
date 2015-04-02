@@ -995,6 +995,7 @@ int
 main(int argc, char **argv)
 {
     LIST(string)files;
+    error_file = stderr;
     set_progname(argv[0], PROG_VERSION);
     IGNORE set_machine(FS_MACHINE);
     init_loc();
