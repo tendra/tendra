@@ -19,7 +19,6 @@
 	<!ENTITY p.opt "<option>-p</option>">
 	<!ENTITY r.opt "<option>-r</option>">
 	<!ENTITY s.opt "<option>-s</option>">
-	<!ENTITY t.opt "<option>-t</option>">
 	<!ENTITY u.opt "<option>-u</option>">
 	<!ENTITY y.opt "<option>-y</option>">
 	<!ENTITY v.opt "<option>-v</option>">
@@ -112,7 +111,6 @@
 			<arg choice="opt">&b.opt;</arg>
 			<arg choice="opt">&p.opt;</arg>
 			<arg choice="opt">&r.opt;</arg>
-			<arg choice="opt">&t.opt;</arg>
 			<arg choice="opt">&u.opt;</arg>
 			<arg choice="opt">&v.opt;</arg>
 
@@ -156,7 +154,6 @@
 			<!-- Common options -->
 			<arg choice="opt">&p.opt;</arg>
 			<arg choice="opt">&r.opt;</arg>
-			<arg choice="opt">&t.opt;</arg>
 			<arg choice="opt">&u.opt;</arg>
 			<arg choice="opt">&v.opt;</arg>
 
@@ -198,7 +195,6 @@
 			<!-- Common options -->
 			<arg choice="opt">&b.opt;</arg>
 			<arg choice="opt">&r.opt;</arg>
-			<arg choice="opt">&t.opt;</arg>
 			<arg choice="opt">&v.opt;</arg>
 
 			<sbr/>
@@ -403,15 +399,6 @@
 					<para>Causes &tspec; to check each header in an &api;
 						separately, as opposed to all at once
 						(as with the &a.opt; option).</para>
-				</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term>&t.opt;</term>
-
-				<listitem>
-					<para>Causes &tspec; to allow <code>long long</code> type
-						specifiers.</para>
 				</listitem>
 			</varlistentry>
 

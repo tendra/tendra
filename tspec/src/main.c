@@ -207,7 +207,6 @@ main(int argc, char **argv)
 					case 'p': preproc_input   = 1; break;
 					case 'r': restrict_use    = 1; break;
 					case 's': separate_files  = 1; break;
-					case 't': allow_long_long = 1; break;
 					case 'u': unique_names    = 1; break;
 					case 'w': warnings        = 0; break;
 					case 'y': output_env      = 1; break;

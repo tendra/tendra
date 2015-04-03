@@ -94,7 +94,6 @@ char *block_name(char *, char *, char *);
  * These are standard flags which are set by command line options.
  */
 extern bool basename_apis;
-extern bool allow_long_long;
 extern bool force_output;
 extern bool local_input;
 extern bool restrict_depth;

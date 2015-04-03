@@ -178,7 +178,7 @@
 
 	<btype_join>: (a, b) -> (c) = @{
 		while (@a & @b) {
-			if (@a == BTYPE_LONG && allow_long_long) {
+			if (@a == BTYPE_LONG) {
 				@a = BTYPE_LLONG;
 			} else {
 				error(ERR_SERIOUS, "Duplicate type specifier");

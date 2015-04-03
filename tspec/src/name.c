@@ -30,14 +30,13 @@
  * These flags are set by the command-line options and determine the
  * action of the program.
  */
-bool basename_apis   = 0;
-bool allow_long_long = 0;
-bool force_output    = 0;
-bool local_input     = 0;
-bool restrict_depth  = 1;
-bool restrict_use    = 0;
-bool unique_names    = 0;
-int verbose          = 0;
+bool basename_apis  = 0;
+bool force_output   = 0;
+bool local_input    = 0;
+bool restrict_depth = 1;
+bool restrict_use   = 0;
+bool unique_names   = 0;
+int verbose         = 0;
 
 /*
  * FIND THE BASENAME OF A FILE NAME

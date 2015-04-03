@@ -5491,7 +5491,7 @@ ZRbuiltin_Htype(unsigned *ZOb)
 #line 180 "syntax.act"
 
 		while ((ZIa) & (ZId)) {
-			if ((ZIa) == BTYPE_LONG && allow_long_long) {
+			if ((ZIa) == BTYPE_LONG) {
 				(ZIa) = BTYPE_LLONG;
 			} else {
 				error(ERR_SERIOUS, "Duplicate type specifier");
