@@ -9,7 +9,7 @@ tdf_types.mli: tdf_types.mli.make_tdf
 tdf_read.ml: tdf_read.ml.make_tdf
 	$(MAKE_TDF) $(DB) $< $@
 
-trans.byte: tdf_types.mli tdf_read.ml
+trans.byte: tdf_types.mli tdf_read.ml tdf_to_llvm.ml
 	ocamlbuild trans.byte
 
 clean:
@@ -18,4 +18,5 @@ clean:
 
 check: trans.byte
 	cd tests; ./compile.sh test_001.c && ./a.out
+	cd tests; ./compile.sh test_002.c && ./a.out
 	@echo Check success!
