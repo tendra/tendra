@@ -9,7 +9,7 @@
 #ifndef SHARED_BOOL_H
 #define SHARED_BOOL_H
 
-#if defined(__STDC_VERSION__) && (__STDC_VERSION__ - 0L) >= 199901L
+#if __STDC_VERSION__ >= 199901L
 typedef _Bool bool;
 #else
 typedef unsigned int bool; /* unsigned to allow for use in bitfields */
