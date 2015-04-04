@@ -558,7 +558,6 @@
 
 	<xi:include href="grammars.xml"/>
 	<xi:include href="overview.xml"/>
-	<xi:include href="invocation.xml"/>
 <!-- TODO:
 	<xi:include href="languages.xml"/>
 -->
