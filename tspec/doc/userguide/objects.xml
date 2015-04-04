@@ -368,12 +368,12 @@ size_t sz ;</programlisting>
 				</tr>
 		
 				<tr>
-					<td><code>(arith)<replaceable>name</replaceable></code></td>
+					<td><code>(arith) <replaceable>name</replaceable></code></td>
 					<td>An arithmetic (integral or floating) type</td>
 				</tr>
 		
 				<tr>
-					<td><code>(scalar)<replaceable>name</replaceable></code></td>
+					<td><code>(scalar) <replaceable>name</replaceable></code></td>
 					<td>A scalar (arithmetic or pointer) type</td>
 				</tr>
 			</tbody>
