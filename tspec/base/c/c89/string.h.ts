@@ -10,23 +10,23 @@
 
 # 4.11.2.n Copying functions
 +IFNDEF __JUST_POSIX
-+FUNC void *memcpy(void *, const void *, size_t);
++FUNC void *memcpy(void * ~restrict, const void * ~restrict, size_t);
 +IFNDEF __JUST_XPG3
 +FUNC void *memmove(void *, const void *, size_t);
 +ENDIF
-+FUNC char *strcpy(char *, const char *);
++FUNC char *strcpy(char * ~restrict, const char * ~restrict);
 +ENDIF
 +FUNC char *strncpy(char *, const char *, size_t);
 
 # 4.11.3.n Concatenation functions
-+FUNC char *strcat(char *, const char *);
-+FUNC char *strncat(char *, const char *, size_t);
++FUNC char *strcat(char * ~restrict, const char * ~restrict);
++FUNC char *strncat(char * ~restrict, const char * ~restrict, size_t);
 
 # 4.11.4.n Comparison functions
 +IFNDEF __JUST_POSIX
 +FUNC int memcmp(const void *, const void *, size_t);
 +FUNC int strcoll(const char *, const char *);
-+FUNC size_t strxfrm(char *, const char *, size_t);
++FUNC size_t strxfrm(char * ~restrict, const char * ~restrict, size_t);
 +ENDIF
 +FUNC int strcmp(const char *, const char *);
 +FUNC int strncmp(const char *, const char *, size_t);
@@ -44,7 +44,7 @@
 +ENDIF
 +FUNC size_t strcspn(const char *, const char *);
 +FUNC size_t strspn(const char *, const char *);
-+FUNC char *strtok(char *, const char *);
++FUNC char *strtok(char * ~restrict, const char * ~restrict);
 
 # 4.11.6.n Miscellaneous functions
 +IFNDEF __JUST_POSIX

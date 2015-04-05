@@ -48,31 +48,32 @@
 # 4.9.5.n File access functions
 +FUNC int fclose(FILE *);
 +FUNC int fflush(FILE *);
-+FUNC FILE *fopen(const char *, const char *);
-+FUNC FILE *freopen(const char *, const char *, FILE *);
-+FUNC void setbuf(FILE *, char *);
++FUNC FILE *fopen(const char * ~restrict, const char * ~restrict);
++FUNC FILE *freopen(const char * ~restrict, const char * ~restrict,
+	FILE * ~restrict);
++FUNC void setbuf(FILE * ~restrict, char * ~restrict);
 +IFNDEF __JUST_POSIX
-+FUNC int setvbuf(FILE *, char *, int, size_t);
++FUNC int setvbuf(FILE * ~restrict, char * ~restrict, int, size_t);
 +ENDIF
 
 # 4.9.6.n Formatted input/output functions
-+FUNC int fprintf(FILE *, ~printf_string, ...);
-+FUNC int fscanf(FILE *, ~scanf_string, ...);
-+FUNC int printf(~printf_string, ...);
-+FUNC int scanf(~scanf_string, ...);
-+FUNC int sprintf(char *, ~printf_string, ...);
-+FUNC int sscanf(const char *, ~scanf_string, ...);
++FUNC int fprintf(FILE * ~restrict, ~printf_string ~restrict, ...);
++FUNC int fscanf(FILE * ~restrict, ~scanf_string ~restrict, ...);
++FUNC int printf(~printf_string ~restrict, ...);
++FUNC int scanf(~scanf_string ~restrict, ...);
++FUNC int sprintf(char * ~restrict, ~printf_string ~restrict, ...);
++FUNC int sscanf(const char * ~restrict, ~scanf_string ~restrict, ...);
 +IFNDEF __JUST_POSIX
-+FUNC int vprintf(const char *, ~va_list);
-+FUNC int vfprintf(FILE *, const char *, ~va_list);
-+FUNC int vsprintf(char *, const char *, ~va_list);
++FUNC int vprintf(const char * ~restrict, ~va_list);
++FUNC int vfprintf(FILE * ~restrict, const char * ~restrict, ~va_list);
++FUNC int vsprintf(char * ~restrict, const char * ~restrict, ~va_list);
 +ENDIF
 
 # 4.9.7.n Character input/output functions
 +FUNC int fgetc(FILE *);
-+FUNC char *fgets(char *, int, FILE *);
++FUNC char *fgets(char * ~restrict, int, FILE * ~restrict);
 +FUNC int fputc(int, FILE *);
-+FUNC int fputs(const char *, FILE *);
++FUNC int fputs(const char * ~restrict, FILE * ~restrict);
 +FUNC int getc(FILE *);
 +FUNC int getchar(void);
 +FUNC char *gets(char *);
@@ -80,14 +81,14 @@
 +FUNC int putchar(int);
 +FUNC int puts(const char *);
 +FUNC int ungetc(int, FILE *);
-+FUNC size_t fread(void *, size_t, size_t, FILE *);
-+FUNC size_t fwrite(const void *, size_t, size_t, FILE *);
++FUNC size_t fread(void * ~restrict, size_t, size_t, FILE * ~restrict);
++FUNC size_t fwrite(const void * ~restrict, size_t, size_t, FILE * ~restrict);
 
 # 4.9.9.n File positioning functions
 +IFNDEF __JUST_POSIX
 +IFNDEF __JUST_XPG3
 +TYPE fpos_t;
-+FUNC int fgetpos(FILE *, fpos_t *);
++FUNC int fgetpos(FILE * ~restrict, fpos_t * ~restrict);
 +FUNC int fsetpos(FILE *, const fpos_t *);
 +ENDIF
 +ENDIF

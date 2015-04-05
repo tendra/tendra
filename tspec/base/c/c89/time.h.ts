@@ -51,5 +51,6 @@
 +FUNC char *ctime(const time_t *);
 +FUNC struct tm *gmtime(const time_t *);
 +FUNC struct tm *localtime(const time_t *);
-+FUNC size_t strftime(char *, size_t, const char *, const struct tm *);
++FUNC size_t strftime(char * ~restrict, size_t, const char * ~restrict,
+	const struct tm * ~restrict);
 

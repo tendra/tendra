@@ -29,10 +29,10 @@
 +FUNC int atoi(const char *);
 +FUNC long atol(const char *);
 +IFNDEF __JUST_POSIX
-+FUNC double strtod(const char *, char **);
-+FUNC long strtol(const char *, char **, int);
++FUNC double strtod(const char * ~restrict, char ** ~restrict);
++FUNC long strtol(const char * ~restrict, char ** ~restrict, int);
 +IFNDEF __JUST_XPG3
-+FUNC unsigned long strtoul(const char *, char **, int);
++FUNC unsigned long strtoul(const char * ~restrict, char ** ~restrict, int);
 +ENDIF
 +ENDIF
 
@@ -86,7 +86,7 @@
 +IFNDEF __JUST_POSIX
 +IFNDEF __JUST_XPG3
 +FUNC int mblen(const char *, size_t);
-+FUNC int mbtowc(wchar_t *, const char *, size_t);
++FUNC int mbtowc(wchar_t * ~restrict, const char * ~restrict, size_t);
 +FUNC int wctomb(char *, wchar_t);
 +ENDIF
 +ENDIF
@@ -94,8 +94,8 @@
 # 4.10.8.n Multibyte string functions
 +IFNDEF __JUST_POSIX
 +IFNDEF __JUST_XPG3
-+FUNC size_t mbstowcs(wchar_t *, const char *, size_t);
-+FUNC size_t wcstombs(char *, const wchar_t *, size_t);
++FUNC size_t mbstowcs(wchar_t * ~restrict, const char * ~restrict, size_t);
++FUNC size_t wcstombs(char * ~restrict, const wchar_t * ~restrict, size_t);
 +ENDIF
 +ENDIF
 
