@@ -15,6 +15,10 @@
 	+TYPE (arith) time_t;
 };
 
++SUBSET "tm" := {
+	+TYPE struct tm;
+};
+
 +FIELD struct tm {
 	int tm_sec;
 	int tm_min;

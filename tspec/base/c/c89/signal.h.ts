@@ -17,7 +17,10 @@
 +IFNDEF __JUST_POSIX
 +FUNC void (*signal(int, void (*)(int)))(int);
 +IFNDEF __JUST_XPG3
-+TYPE (int) sig_atomic_t;
++SUBSET "sig_atomic_t" := {
+	+TYPE (int) sig_atomic_t | "sig_atomic_t";
+	+TYPEDEF ~promote(sig_atomic_t) __sig_atomic_t | "__sig_atomic_t";
+};
 +FUNC int raise(int);
 +ENDIF
 +ENDIF

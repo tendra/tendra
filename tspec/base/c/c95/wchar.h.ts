@@ -66,7 +66,9 @@
 
 # 7.16.1
 +TYPE mbstate_t;
-+CONST wchar_t WCHAR_MAX, WCHAR_MIN;
++SUBSET "ranges" := {
+	+CONST wchar_t WCHAR_MAX, WCHAR_MIN; # XXX: should be __wchar_t for promoted type
+};
 
 # 7.16.2.n
 +FUNC int fwprintf(FILE * ~restrict, const wchar_t * ~restrict, ...);

@@ -21,9 +21,13 @@
 
 +SUBSET "wchar_t" := {
 	+TYPE (int) wchar_t | "wchar_t";
+	+TYPEDEF ~promote(wchar_t) __wchar_t | "__wchar_t";
 };
 
-+TYPE (signed) ptrdiff_t | "ptrdiff_t";
++SUBSET "ptrdiff_t" := {
+	+TYPE (signed) ptrdiff_t | "ptrdiff_t";
+	+TYPEDEF ~promote(ptrdiff_t) __ptrdiff_t | "__ptrdiff_t";
+};
 
 +TOKEN offsetof # This is tricky
 %% PROC { STRUCT s, TYPE t, MEMBER t : s : m | \
