@@ -46,6 +46,7 @@ MAKE_KEYWORD("float", lex_float);
 MAKE_KEYWORD("int", lex_int);
 MAKE_KEYWORD("long", lex_long);
 MAKE_KEYWORD("lvalue", lex_lvalue);
+MAKE_KEYWORD("restrict", lex_restrict);
 MAKE_KEYWORD("scalar", lex_scalar);
 MAKE_KEYWORD("short", lex_short);
 MAKE_KEYWORD("signed", lex_signed);

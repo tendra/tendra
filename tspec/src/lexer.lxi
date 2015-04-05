@@ -64,6 +64,7 @@ KEYWORD "float"    -> $float;
 KEYWORD "int"      -> $int;
 KEYWORD "long"     -> $long;
 KEYWORD "lvalue"   -> $lvalue;
+KEYWORD "restrict" -> $restrict;
 KEYWORD "scalar"   -> $scalar;
 KEYWORD "short"    -> $short;
 KEYWORD "signed"   -> $signed;

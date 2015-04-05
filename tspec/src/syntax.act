@@ -111,8 +111,11 @@
 	static char *cv_qualifier [] = {
 		NULL,
 		"const",
+		"restrict",
+		"const restrict",
 		"volatile",
-		"const volatile"
+		"const volatile",
+		"const restrict volatile"
 	};
 
 @}, @{
@@ -227,8 +230,8 @@
 	/*
 	 * TYPE QUALIFIERS
 	 *
-	 * These actions describe the type qualifiers. const is represented by 1
-	 * and volatile by 2.
+	 * These actions describe the type qualifiers. const is represented by 1,
+	 * restrict by 2 and volatile by 4.
 	 */
 
 	<cv_none>: () -> (c) = @{
@@ -243,12 +246,20 @@
 		@c = (@a | 1);
 	@};
 
-	<cv_volatile>: (a) -> (c) = @{
+	<cv_restrict>: (a) -> (c) = @{
 		if (@a & 2) {
 			error(ERR_SERIOUS, "Duplicate type qualifier");
 		}
 
 		@c = (@a | 2);
+	@};
+
+	<cv_volatile>: (a) -> (c) = @{
+		if (@a & 4) {
+			error(ERR_SERIOUS, "Duplicate type qualifier");
+		}
+
+		@c = (@a | 4);
 	@};
 
 	/*

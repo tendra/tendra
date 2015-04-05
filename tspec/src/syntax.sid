@@ -53,7 +53,7 @@
 	set; statement; !subset; token; type; typedef; use; defmin;
 
 	arith; char; const; double; enum; extern; float; int; long;
-	lvalue; scalar; short; signed; struct; union; unsigned; void;
+	lvalue; restrict; scalar; short; signed; struct; union; unsigned; void;
 	volatile; weak;
 
 	building; promote; protect; special;
@@ -149,6 +149,7 @@
 
 	<cv_none>:      ()           -> (:TYPE_QUAL);
 	<cv_const>:     (:TYPE_QUAL) -> (:TYPE_QUAL);
+	<cv_restrict>:  (:TYPE_QUAL) -> (:TYPE_QUAL);
 	<cv_volatile>:  (:TYPE_QUAL) -> (:TYPE_QUAL);
 	<type_qualify>: (:TYPE, :TYPE_QUAL) -> (:TYPE);
 
@@ -164,6 +165,10 @@
 		const;
 		a = type-qualifier-opt;
 		cv = <cv_const>(a);
+	||
+		restrict;
+		a = type-qualifier-opt;
+		cv = <cv_restrict>(a);
 	||
 		volatile;
 		a = type-qualifier-opt;
