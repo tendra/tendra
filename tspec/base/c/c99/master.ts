@@ -1,4 +1,4 @@
-# $Id: master.ts 3401 2014-12-24 14:59:30Z kate $
+# $Id$
 
 # Copyright 2015, The TenDRA Project.
 #

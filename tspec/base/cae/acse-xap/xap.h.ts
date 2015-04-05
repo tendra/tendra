@@ -1,4 +1,4 @@
-# $Id: xap.h.ts 3121 2014-05-03 15:20:48Z kate $
+# $Id$
 
 # Copyright 2014, The TenDRA Project.
 #
