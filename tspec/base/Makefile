@@ -10,6 +10,8 @@ TSPEC=	${OBJ_DIR}/src/tspec
 APIS+=	c/c89
 APIS+=	c/c89-fs
 APIS+=	c/c95
+APIS+=	c/c99
+APIS+=	c/c99-fs
 
 # XXX: disabled until all the parameter lists are populated
 #APIS+=	svid/svid3
