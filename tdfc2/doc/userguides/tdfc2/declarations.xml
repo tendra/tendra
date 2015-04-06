@@ -277,5 +277,45 @@ return i ;	// OK in older dialects, error in ISO C++</programlisting>
 			set of rules.</para>
 	</section>
 
+	<section>
+		<title>Anonymous unions</title>
+
+		<para>A union declared without introducing a tag or identifier
+			is termed an <emphasis>anonymous union</emphasis>.
+			Members populate the scope where the union itself is declared.
+			For example, this may be a surrounding struct, or a block:</para>
+
+		<programlisting language="c">union {
+	int a;
+	int b;
+};
+a = 5;</programlisting>
+
+		<para>The ISO C Standard (Section 6.5.2.1) states that a union
+			declaration must contain a tag or identifier.
+			Several compilers permit this as an extension to C,
+			and the later C11 standard formalises this as a required
+			feature.
+			Permissibility may be controlled using the pragma:</para>
+
+		<programlisting language="c">#pragma TenDRA anonymous union <emphasis>permit</emphasis></programlisting>
+
+		<para>where replacing <emphasis>permit</emphasis> by <code>allow</code>
+			permits the declaration of an anonymous union,
+			and <emphasis>warning</emphasis> will allow the declaration
+			but produce a warning.
+			A <code>disallow</code> variant which restores the default
+			behaviour is also available.</para>
+
+		<para>By default anonymous unions are dissallowed for C.</para>
+		<!-- TODO: but would need to be permitted by default for C11 -->
+
+		<para>Anonymous unions are required to be supported by C++,
+			and setting this pragma has no effect.
+			For C++, an anonymous union cannot have private
+			or protected members or member functions
+			(in addition, no union can have static data members).</para>
+	</section>
+
 </chapter>
 
