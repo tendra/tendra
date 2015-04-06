@@ -124,7 +124,7 @@ extern void flush_output(void);
 extern void open_file(char *, char *, char *);
 extern void close_file(void);
 extern void output_type(TYPE_P);
-extern number log2(number);
+extern number ilog2(number);
 
 extern void output(char *, ...);
 

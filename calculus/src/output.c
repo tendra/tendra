@@ -27,7 +27,7 @@
  * r such that n <= 2**r).
  */
 number
-log2(number n)
+ilog2(number n)
 {
 	number r;
 	number m;
@@ -426,7 +426,7 @@ output(char *s, ...)
 					number_P pn = en_order(CRT_ENUM);
 					number n = DEREF_number(pn);
 					if (*s == '2') {
-						n = log2(n);
+						n = ilog2(n);
 						s++;
 					}
 					sprintf(nbuff, "%lu", n);
@@ -661,10 +661,10 @@ output(char *s, ...)
 					number n = (number)DEREF_int(pi);
 					c = *s;
 					if (c == '2') {
-						n = log2(n);
+						n = ilog2(n);
 						s++;
 					} else if (c == '3') {
-						n = log2(n + 1);
+						n = ilog2(n + 1);
 						s++;
 					}
 					sprintf(nbuff, "%lu", n);
