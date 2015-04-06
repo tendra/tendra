@@ -10,10 +10,11 @@
 #include "calculus.h"
 #include "code.h"
 #include "common.h"
-#include "disk.h"
 #include "output.h"
 #include "suffix.h"
 #include "type_ops.h"
+
+#include <out/disk.h>
 
 /*
  * OUTPUT ENUMERATION READING ROUTINE

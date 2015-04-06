@@ -18,16 +18,17 @@
 #include "read.h"
 #include "calculus.h"
 #include "check.h"
-#include "code.h"
 #include "common.h"
-#include "disk.h"
 #include "lex.h"
 #include "output.h"
-#include "pretty.h"
-#include "print.h"
-#include "template.h"
-#include "token.h"
-#include "write.h"
+
+#include <out/code.h>
+#include <out/disk.h>
+#include <out/pretty.h>
+#include <out/template.h>
+#include <out/token.h>
+#include <out/write.h>
+#include <out/print.h>
 
 /*
  * These describe the various actions which the program can perform.

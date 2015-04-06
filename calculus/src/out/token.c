@@ -18,8 +18,9 @@
 #include "lex.h"
 #include "output.h"
 #include "suffix.h"
-#include "token.h"
 #include "type_ops.h"
+
+#include <out/token.h>
 
 /*
  * PRINT SIMPLE TOKENS

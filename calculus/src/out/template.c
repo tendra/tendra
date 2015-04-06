@@ -18,7 +18,8 @@
 #include "cmd_ops.h"
 #include "common.h"
 #include "output.h"
-#include "template.h"
+
+#include <out/template.h>
 
 /*
  * GET A COMMAND FROM A STRING

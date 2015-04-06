@@ -8,7 +8,8 @@
 #ifndef READ_DEF_H_INCLUDED
 #define READ_DEF_H_INCLUDED
 
-#include "disk.h"
+#include <out/disk.h>
+
 #include "type_ops.h"
 
 /* Disk reading function declarations */

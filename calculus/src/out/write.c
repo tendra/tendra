@@ -17,7 +17,8 @@
 #include "read.h"
 #include "calculus.h"
 #include "common.h"
-#include "write.h"
+
+#include <out/write.h>
 
 /*
  * OUTPUT FILE

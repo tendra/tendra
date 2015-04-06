@@ -5,24 +5,20 @@
 
 PARTS+=	src/shared
 PARTS+=	src/obj_c
+PARTS+=	src/out
 
 .include <tendra.partial.mk>
 
 
+CCOPTS+=    -I${.CURDIR}
+
 SRCS+=	output.c
-SRCS+=	template.c
-SRCS+=	code.c
 SRCS+=	read.c
-SRCS+=	pretty.c
-SRCS+=	disk.c
 SRCS+=	check.c
-SRCS+=	token.c
 SRCS+=	main.c
 SRCS+=	syntax.c
 SRCS+=	common.c
 SRCS+=	lex.c
-SRCS+=	write.c
-SRCS+=	print.c
 
 .include <tendra.obj.mk>
 

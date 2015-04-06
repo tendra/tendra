@@ -17,7 +17,8 @@
 #define calculus_IO_ROUTINES
 #include "calculus.h"
 #include "common.h"
-#include "pretty.h"
+
+#include <out/pretty.h>
 
 /*
  * AUTOMATICALLY GENERATED PRETTY PRINTING ROUTINES
