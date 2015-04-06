@@ -8,8 +8,8 @@
 +USE "c/c89", "stddef.h.ts", "size_t";
 +USE "c/c89", "signal.h.ts", "sig_atomic_t";
 +USE "c/c95", "wchar.h.ts",  "wint_t";
-+USE "c/c95", "wchar.h.ts",  "ranges";
 +USE "c/c89", "stddef.h.ts", "wchar_t";
++USE "c/c95", "wchar.h.ts",  "ranges";
 
 # Arbitary type widths are permitted here. We can add more as required,
 # which would typically only be when an implementation exists for that token.
