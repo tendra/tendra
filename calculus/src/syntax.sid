@@ -9,719 +9,680 @@
 
 %types%
 
-/*
-    TYPES
+	/*
+	 * TYPES
+	 *
+	 * The types are fairly self-explanitory.  There are types for each of
+	 * the concepts in the syntax, plus list types for most of them.
+	*/
 
-    The types are fairly self-explanitory.  There are types for each of
-    the concepts in the syntax, plus list types for most of them.
-*/
+	CLASS-ID;
+	FLAG;
+	IDENTIFIER;
+	NUMBER;
+	TYPE;
+	STRING;
 
-CLASS-ID ;
-FLAG ;
-IDENTIFIER ;
-NUMBER ;
-TYPE ;
-STRING ;
+	ARGUMENT;
+	COMPONENT;
+	ECONST;
+	ENUM;
+	FIELD;
+	IDENTITY;
+	MAP;
+	PRIMITIVE;
+	STRUCTURE;
+	UNION;
 
-ARGUMENT ;
-COMPONENT ;
-ECONST ;
-ENUM ;
-FIELD ;
-IDENTITY ;
-MAP ;
-PRIMITIVE ;
-STRUCTURE ;
-UNION ;
-
-ARGUMENT-LIST ;
-COMPONENT-LIST ;
-ECONST-LIST ;
-ENUM-LIST ;
-FIELD-LIST ;
-IDENTITY-LIST ;
-MAP-LIST ;
-PRIMITIVE-LIST ;
-STRUCTURE-LIST ;
-UNION-LIST ;
-
+	ARGUMENT-LIST;
+	COMPONENT-LIST;
+	ECONST-LIST;
+	ENUM-LIST;
+	FIELD-LIST;
+	IDENTITY-LIST;
+	MAP-LIST;
+	PRIMITIVE-LIST;
+	STRUCTURE-LIST;
+	UNION-LIST;
 
 %terminals%
 
-/*
-    TERMINALS
+	/*
+	 * TERMINALS
+	 *
+	 * The terminals are in three groups, identifiers etc., keywords and
+	 * symbols.
+	 */
 
-    The terminals are in three groups, identifiers etc., keywords and
-    symbols.
-*/
+	identifier: () -> (:IDENTIFIER);
+	number:     () -> (:NUMBER);
+	string:     () -> (:STRING);
 
-identifier : () -> ( :IDENTIFIER ) ;
-number : () -> ( :NUMBER ) ;
-string : () -> ( :STRING ) ;
+	algebra;
+	enum;
+	struct;
+	union;
+	import;
 
-algebra ;
-enum ;
-struct ;
-union ;
-import ;
+	list;
+	ptr;
+	stack;
+	vec;
+	vec-ptr;
 
-list ;
-ptr ;
-stack ;
-vec ;
-vec-ptr ;
+	open-brace;  close-brace;
+	open-round;  close-round;
+	open-square; close-square;
 
-and ;
-arrow ;
-close-brace ;
-close-round ;
-close-square ;
-colon ;
-colon-colon ;
-comma ;
-compl ;
-div ;
-dot ;
-eof ;
-equal ;
-exclaim ;
-hash ;
-lshift ;
-minus ;
-open-brace ;
-open-round ;
-open-square ;
-or ;
-plus ;
-question ;
-rem ;
-rshift ;
-semicolon ;
-star ;
-xor ;
-!unknown ;
+	and;
+	arrow;
+	colon;
+	colon-colon;
+	comma;
+	compl;
+	div;
+	dot;
+	eof;
+	equal;
+	exclaim;
+	hash;
+	lshift;
+	minus;
+	or;
+	plus;
+	question;
+	rem;
+	rshift;
+	semicolon;
+	star;
+	xor;
 
+	!unknown;
 
 %productions%
 
+	/*
+	 * ACTION DECLARATIONS
+	 *
+	 * Only the declarations of the various actions are given here.  They
+	 * are described in more detail in the actions definition file.
+	 */
+
+	<zero>:  () -> (:FLAG);
+	<one>:   () -> (:FLAG);
+	<two>:   () -> (:FLAG);
+	<three>: () -> (:FLAG);
+
+	<syntax-error>: () -> ();
+
+	<null-string>: () -> (:STRING);
+	<null-identifier>: () -> (:IDENTIFIER);
+
+	<default-name>:  (:IDENTIFIER) -> (:IDENTIFIER);
+	<make-class-id>: (:IDENTIFIER, :IDENTIFIER, :FLAG) -> (:CLASS-ID);
+
+	<find-type>:    (:IDENTIFIER) -> (:TYPE);
+	<ptr-type>:     (:TYPE) -> (:TYPE);
+	<list-type>:    (:TYPE) -> (:TYPE);
+	<stack-type>:   (:TYPE) -> (:TYPE);
+	<vec-type>:     (:TYPE) -> (:TYPE);
+	<vec-ptr-type>: (:TYPE) -> (:TYPE);
+	<quoted-type>:  (:STRING) -> (:TYPE);
+	<error-type>:   () -> (:TYPE);
+
+	<null-econst>: () -> (:ECONST-LIST);
+	<make-econst>: (:IDENTIFIER) -> (:ECONST);
+	<join-econst>: (:ECONST, :ECONST-LIST) -> (:ECONST-LIST);
+	<set-econst>:  (:NUMBER) -> ();
+
+	<null-primitive>: () -> (:PRIMITIVE-LIST);
+	<make-primitive>: (:CLASS-ID, :STRING) -> (:PRIMITIVE);
+	<join-primitive>: (:PRIMITIVE, :PRIMITIVE-LIST) -> (:PRIMITIVE-LIST);
+
+	<null-identity>: () -> (:IDENTITY-LIST);
+	<make-identity>: (:CLASS-ID, :TYPE) -> (:IDENTITY);
+	<join-identity>: (:IDENTITY, :IDENTITY-LIST) -> (:IDENTITY-LIST);
+
+	<exp-crt>:    () -> (:NUMBER);
+	<exp-id>:     (:IDENTIFIER) -> (:NUMBER);
+	<exp-neg>:    (:NUMBER) -> (:NUMBER);
+	<exp-compl>:  (:NUMBER) -> (:NUMBER);
+	<exp-mult>:   (:NUMBER, :NUMBER) -> (:NUMBER);
+	<exp-div>:    (:NUMBER, :NUMBER) -> (:NUMBER);
+	<exp-rem>:    (:NUMBER, :NUMBER) -> (:NUMBER);
+	<exp-plus>:   (:NUMBER, :NUMBER) -> (:NUMBER);
+	<exp-minus>:  (:NUMBER, :NUMBER) -> (:NUMBER);
+	<exp-lshift>: (:NUMBER, :NUMBER) -> (:NUMBER);
+	<exp-rshift>: (:NUMBER, :NUMBER) -> (:NUMBER);
+	<exp-and>:    (:NUMBER, :NUMBER) -> (:NUMBER);
+	<exp-xor>:    (:NUMBER, :NUMBER) -> (:NUMBER);
+	<exp-or>:     (:NUMBER, :NUMBER) -> (:NUMBER);
+
+	<null-enum>: () -> (:ENUM-LIST);
+	<get-enum>:  (:IDENTIFIER) -> (:ECONST-LIST);
+	<make-enum>: (:CLASS-ID, :FLAG, :ECONST-LIST, :ECONST-LIST) -> (:ENUM);
+	<join-enum>: (:ENUM, :ENUM-LIST) -> (:ENUM-LIST);
+
+	<null-component>: () -> (:COMPONENT-LIST);
+	<make-component>: (:IDENTIFIER, :TYPE, :STRING) -> (:COMPONENT);
+	<join-component>: (:COMPONENT, :COMPONENT-LIST) -> (:COMPONENT-LIST);
+	<link-component>: (:COMPONENT-LIST, :COMPONENT-LIST) -> (:COMPONENT-LIST);
+
+	<null-structure>: () -> (:STRUCTURE-LIST);
+	<make-structure>: (:CLASS-ID, :IDENTIFIER, :COMPONENT-LIST) -> (:STRUCTURE);
+	<join-structure>: (:STRUCTURE, :STRUCTURE-LIST) -> (:STRUCTURE-LIST);
+
+	<null-field>: () -> (:FIELD-LIST);
+	<make-field>: (:IDENTIFIER, :COMPONENT-LIST, :FLAG) -> (:FIELD);
+	<join-field>: (:FIELD, :FIELD-LIST) -> (:FIELD-LIST);
+	<link-field>: (:FIELD-LIST, :FIELD-LIST) -> (:FIELD-LIST);
+	<set-field-cmp>: (:FIELD-LIST, :IDENTIFIER, :COMPONENT-LIST) -> ();
+
+	<null-argument>: () -> (:ARGUMENT-LIST);
+	<make-argument>: (:IDENTIFIER, :TYPE) -> (:ARGUMENT);
+	<join-argument>: (:ARGUMENT, :ARGUMENT-LIST) -> (:ARGUMENT-LIST);
+	<link-argument>: (:ARGUMENT-LIST, :ARGUMENT-LIST) -> (:ARGUMENT-LIST);
+
+	<null-map>: () -> (:MAP-LIST);
+	<make-map>: (:IDENTIFIER, :TYPE, :ARGUMENT-LIST, :FLAG) -> (:MAP);
+	<join-map>: (:MAP, :MAP-LIST) -> (:MAP-LIST);
+
+	<null-union>: () -> (:UNION-LIST);
+	<make-union>: (:CLASS-ID, :IDENTIFIER, :COMPONENT-LIST, :FIELD-LIST, :MAP-LIST) -> (:UNION);
+	<join-union>: (:UNION, :UNION-LIST) -> (:UNION-LIST);
+
+	<make-extra>: (:TYPE) -> ();
+
+	<import-all>: (:IDENTIFIER) -> ();
+	<import-one>: (:IDENTIFIER, :IDENTIFIER) -> ();
+
+	<set-main>: (:IDENTIFIER) -> ();
+	<set-version>: (:NUMBER, :NUMBER) -> ();
+	<add-primitive>: (:PRIMITIVE-LIST) -> ();
+	<add-identity>: (:IDENTITY-LIST) -> ();
+	<add-enum>: (:ENUM-LIST) -> ();
+	<add-structure>: (:STRUCTURE-LIST) -> ();
+	<add-union>: (:UNION-LIST) -> ();
+
+	/*
+	 * CLASS IDENTIFIERS
+	 *
+	 * A class identifier consists of a pair of identifiers (the second of
+	 * which is optional) qualified as above.
+	 */
+	class-id: () -> (i :CLASS-ID) = {
+		{
+			n = <zero>;
+		||	hash;        n = <one>;
+		||	colon;       n = <two>;
+		||	hash; colon; n = <three>;
+		};
+		c = identifier;
+		{
+			a = <default-name>(c);
+			||	open-round; a = identifier; close-round;
+		};
+		i = <make-class-id>(c, a, n);
+	};
+
+	/*
+	 * TYPES
+	 *
+	 * The basic types are the named types defined in the algebra, plus
+	 * those formed by the vector, pointer, list and vector-pointer type
+	 * constructors.
+	 */
+	type: () -> (t :TYPE) = {
+		i = identifier; t = <find-type>(i);
+	||	list;       s = type; t = <list-type>(s);
+	||	ptr;        s = type; t = <ptr-type>(s);
+	||	stack;      s = type; t = <stack-type>(s);
+	||	vec;        s = type; t = <vec-type>(s);
+	||	vec-ptr;    s = type; t = <vec-ptr-type>(s);
+	##
+		t = <error-type>;
+	};
+
+	/*
+	 * EXTENDED TYPES
+	 *
+	 * In some circumstances types may also be given by means of a quoted
+	 * C type.
+	 */
+	extended-type: () -> (t :TYPE) = {
+		t = type;
+	||	s = string; t = <quoted-type>(s);
+	##
+		t = <error-type>;
+	};
+
+	/*
+	 * PRIMITIVE DEFINITIONS
+	 *
+	 * Each primitive consists of a class identifier plus a string giving
+	 * the C type corresponding to the primitive.
+	 */
+
+	primitive-defn: (i :CLASS-ID) -> (p :PRIMITIVE) = {
+		s = string; semicolon;
+		p = <make-primitive>(i, s);
+	};
+
+	primitive-single: () -> (p :PRIMITIVE-LIST) = {
+		i = class-id; equal; q = primitive-defn(i);
+		r = <null-primitive>;
+		p = <join-primitive>(q, r);
+	};
+
+	/*
+	 * IDENTITY DEFINITIONS
+	 *
+	 * Each identity consists of a class identifier plus a type which forms
+	 * the definition of the identity.
+	 */
+
+	identity-defn: (i :CLASS-ID) -> (p :IDENTITY) = {
+		t = type; semicolon;
+		p = <make-identity>(i, t);
+	};
+
+	identity-single: () -> (p :IDENTITY-LIST) = {
+		i = class-id; equal; q = identity-defn(i);
+		r = <null-identity>;
+		p = <join-identity>(q, r);
+	};
+
+	/*
+	 * ENUMERATOR VALUE
+	 *
+	 * These rules describe the ways of calculating the value of an enumerator.
+	 */
+
+	expression: () -> (:NUMBER);
+
+	primary-exp: () -> (n :NUMBER) = {
+		n = number;
+	||	e = identifier; n = <exp-id>(e);
+	||	question;       n = <exp-crt>;
+	||	open-round;     n = expression; close-round;
+	};
+
+	unary-exp: () -> (n :NUMBER) = {
+		n = primary-exp;
+	||	plus;  n = number;
+	||	minus; m = number; n = <exp-neg>(m);
+	||	compl; m = number; n = <exp-compl>(m);
+	};
+
+	mult-exp: () -> (n :NUMBER) = {
+		n = unary-exp;
+	||	m = mult-exp; star; p = unary-exp; n = <exp-mult>(m, p);
+	||	m = mult-exp; div;  p = unary-exp; n = <exp-div>(m, p);
+	||	m = mult-exp; rem;  p = unary-exp; n = <exp-rem>(m, p);
+	};
+
+	add-exp: () -> (n :NUMBER) = {
+		n = mult-exp;
+	||	m = add-exp; plus;  p = mult-exp; n = <exp-plus>(m, p);
+	||	m = add-exp; minus; p = mult-exp; n = <exp-minus>(m, p);
+	};
+
+	shift-exp: () -> (n :NUMBER) = {
+		n = add-exp;
+	||	m = shift-exp; lshift; p = add-exp; n = <exp-lshift>(m, p);
+	||	m = shift-exp; rshift; p = add-exp; n = <exp-rshift>(m, p);
+	};
+
+	and-exp: () -> (n :NUMBER) = {
+		n = shift-exp;
+	||	m = and-exp; and; p = shift-exp; n = <exp-and>(m, p);
+	};
+
+	xor-exp: () -> (n :NUMBER) = {
+		n = and-exp;
+	||	m = xor-exp; xor; p = and-exp; n = <exp-xor>(m, p);
+	};
+
+	or-exp: () -> (n :NUMBER) = {
+		n = xor-exp;
+	||	m = or-exp; or; p = xor-exp; n = <exp-or>(m, p);
+	};
+
+	expression: () -> (n :NUMBER) = {
+		n = or-exp;
+	};
+
+	/*
+	 * ENUMERATOR LIST
+	 *
+	 * An enumerator is just an identifier.  A comma separated list of
+	 * enumerators is used to define an enumeration.
+	 */
+	enumerator-list: () -> (p :ECONST-LIST) = {
+		p = <null-econst>;
+	||
+		s = identifier;
+		{
+			equal; n = expression; <set-econst>(n);
+		||	$;
+		};
+		q = <make-econst>(s);
+		{
+			r = <null-econst>;
+		||	comma; r = enumerator-list;
+		};
+		p = <join-econst>(q, r);
+	};
+
+	/*
+	 * ENUMERATION DEFINITIONS
+	 *
+	 * Each enumeration consists of a class identifier plus a list of
+	 * enumerators which comprise the enumeration.
+	 */
+	enum-single: () -> (p :ENUM-LIST) = {
+		enum;
+		{
+			l = <one>;
+		||	exclaim; l = <zero>;
+		};
+		i = class-id; equal;
+		{
+			j = identifier; f = <get-enum>(j); plus;
+		||	f = <null-econst>;
+		};
+		open-brace; e = enumerator-list; close-brace; semicolon;
+		q = <make-enum>(i, l, f, e);
+		r = <null-enum>;
+		p = <join-enum>(q, r);
+	};
+
+	/*
+	 * STRUCTURE COMPONENT DECLARATOR
+	 *
+	 * A structure component declarator consists of a comma separated list
+	 * of identifiers, all of which are declared to have the given type t.
+	 */
+	component-decl: (t :TYPE) -> (p :COMPONENT-LIST) = {
+		i = identifier;
+		{
+			v = <null-string>;
+		||	equal; v = string;
+		};
+		q = <make-component>(i, t, v);
+		{
+			r = <null-component>;
+		||	comma; r = component-decl(t);
+		};
+		p = <join-component>(q, r);
+	};
+
+	/*
+	 * STRUCTURE COMPONENTS
+	 *
+	 * Each structure component consists of a component type plus a list
+	 * of component declarators which are declared to be of that type.
+	 */
+	component-list: () -> (p :COMPONENT-LIST) = {
+		p = <null-component>;
+	||
+		t = type; q = component-decl(t); semicolon;
+		r = component-list;
+		p = <link-component>(q, r);
+	};
+
+	/*
+	 * GROUP OF STRUCTURE COMPONENTS
+	 *
+	 * The definition of a structure consists of a list of structure components
+	 * enclosed in braces.
+	 */
+	component-group: () -> (p :COMPONENT-LIST) = {
+		open-brace; p = component-list; close-brace;
+	};
+
+	/*
+	 * STRUCTURE DEFINITIONS
+	 *
+	 * Each structure consists of a class identifier plus a list of the
+	 * components comprising the structure.
+	 */
+
+	structure-defn: (i :CLASS-ID, j :IDENTIFIER) -> (p :STRUCTURE) = {
+		c = component-group; semicolon;
+		p = <make-structure>(i, j, c);
+	};
+
+	structure-single: () -> (p :STRUCTURE-LIST) = {
+		struct; i = class-id; equal;
+		{
+			j = identifier; plus;
+		||	j = <null-identifier>;
+		};
+		q = structure-defn (i, j);
+		r = <null-structure>;
+		p = <join-structure>(q, r);
+	};
+
+	/*
+	 * UNION FIELD DEFINITIONS
+	 *
+	 * Each union field component consists of a list of field identifiers
+	 * (qualified by nought, one or two hash symbols) and a list of
+	 * structure components.
+	 */
+
+	field-id-list: (n :FLAG) -> (p :FIELD-LIST) = {
+		i = identifier;
+		c = <null-component>;
+		q = <make-field>(i, c, n);
+		{
+			r = <null-field>;
+		||	comma; r = field-id-list (n);
+		};
+		p = <join-field>(q, r);
+	};
+
+	field-list: () -> (p :FIELD-LIST) = {
+		{
+			n = <zero>;
+		||	hash; n = <one>;
+		||	hash; hash; n = <two>;
+		};
+		q = field-id-list (n); arrow;
+		{
+			j = identifier; plus;
+		||	j = <null-identifier>;
+		};
+		c = component-group;
+		<set-field-cmp>(q, j, c);
+		{
+			r = <null-field>;
+		||	comma; r = field-list;
+		};
+		p = <link-field>(q, r);
+	};
+
+	/*
+	 * MAP ARGUMENT DECLARATORS
+	 *
+	 * A map argument declarator consists of a list of identifiers, each of
+	 * which is declared as a argument of the given type t.
+	 */
+	argument-decl: (t :TYPE) -> (p :ARGUMENT-LIST) = {
+		i = identifier;
+		q = <make-argument>(i, t);
+		{
+			r = <null-argument>;
+		||	comma; r = argument-decl(t);
+		};
+		p = <join-argument>(q, r);
+	};
+
+	/*
+	 * MAP ARGUMENT LISTS
+	 *
+	 * Each map argument consists of a type (which may be a quoted C type)
+	 * followed by a list of argument declarators which declare arguments
+	 * of that type.
+	 */
+	argument-list: () -> (p :ARGUMENT-LIST) = {
+		t = extended-type;
+		q = argument-decl(t);
+		{
+			r = <null-argument>;
+		||	semicolon; r = argument-list;
+		};
+		p = <link-argument>(q, r);
+	};
+
+	/*
+	 * UNION MAP DEFINITIONS
+	 *
+	 * Each union map consists of a map return type, followed by the map
+	 * identifier (which may be qualified by a hash symbol), and a list
+	 * of map arguments.
+	 */
+	map-list: () -> (p :MAP-LIST) = {
+		p = <null-map>;
+	||
+		t = extended-type;
+		{
+			n = <zero>;
+		||	hash; n = <one>;
+		};
+		i = identifier;
+		open-round;
+		{
+			a = <null-argument>;
+		||	a = argument-list;
+		};
+		close-round;
+		q = <make-map>(i, t, a, n);
+		r = map-list;
+		p = <join-map>(q, r);
+	};
+
+	/*
+	 * UNION DEFINITION BODY
+	 *
+	 * There is an optional list of structure components, which are common
+	 * to all forms of the union.  This is followed by a list of union
+	 * fields, describing the components which are particular to each form.
+	 * Finally there is a list of union maps.
+	 */
+	union-defn-new: (i :CLASS-ID) -> (p :UNION) = {
+		equal;
+		{
+			c = component-group;  j = <null-identifier>;
+		||	c = <null-component>; j = identifier;
+		};
+		plus; open-brace; f = field-list; close-brace;
+		{
+			m = <null-map>;
+		||	colon; open-square; m = map-list; close-square;
+		};
+		semicolon;
+		p = <make-union>(i, j, c, f, m);
+	};
+
+	/*
+	 * UNION DEFINITIONS
+	 *
+	 * Each union consists of a class identifier plus a further section
+	 * of information.
+	 */
+	union-single: () -> (p :UNION-LIST) = {
+		union; i = class-id; q = union-defn-new(i);
+		r = <null-union>;
+		p = <join-union>(q, r);
+	};
+
+	/*
+	 * EXTRA DEFINITIONS
+	 *
+	 * The extra components are just a list of types.
+	 */
+	extra-list: () -> () = {
+		$;
+	||
+		t = type; semicolon;
+		<make-extra>(t);
+		extra-list;
+	};
+
+	/*
+	 * IMPORT ITEM
+	 *
+	 * This rule gives the different type of import rules.
+	 */
+	import-item: () -> () = {
+		a = identifier;
+		<import-all>(a);
+	||
+		a = identifier; colon-colon; i = identifier;
+		<import-one>(a, i);
+	};
+
+	/*
+	 * UNIT DEFINITION
+	 *
+	 * This rule gives the form of the syntax.  After the initial name
+	 * section, the subsequent sections may appear in any order (and more
+	 * than once).
+	 */
+
+	new-item-list: () -> () = {
+		$;
+	||
+		{
+			p = primitive-single; <add-primitive>(p);
+		||	i = identity-single;  <add-identity>(i);
+		||	e = enum-single;      <add-enum>(e);
+		||	s = structure-single; <add-structure>(s);
+		||	u = union-single;     <add-union>(u);
+		||	import; import-item; semicolon;
+		};
+		new-item-list;
+	};
+
+	new-unit: () -> () = {
+		algebra; m = identifier; <set-main>(m);
+		{
+			$;
+		||
+			open-round; a = number; dot; b = number; close-round;
+			<set-version>(a, b);
+		};
+		colon;
+		new-item-list;
+	};
+
+	/*
+	 * UNIT DEFINITION
+	 *
+	 * This rule is the main entry point.
+	 */
+	unit: () -> () = {
+		new-unit;
+		eof;
+	##
+		<syntax-error>;
+	};
+
+	/*
+	 * EXTRA UNIT DEFINITION
+	 *
+	 * This rule is the auxilliary entry point for extra types.
+	 */
+	extra-unit: () -> () = {
+		extra-list;
+		eof;
+	##
+		<syntax-error>;
+	};
+
+%entry%
+
+	unit, extra-unit;
 
-/*
-    ACTION DECLARATIONS
-
-    Only the declarations of the various actions are given here.  They
-    are described in more detail in the actions definition file.
-*/
-
-<zero> : () -> ( :FLAG ) ;
-<one> : () -> ( :FLAG ) ;
-<two> : () -> ( :FLAG ) ;
-<three> : () -> ( :FLAG ) ;
-
-<syntax-error> : () -> () ;
-
-<null-string> : () -> ( :STRING ) ;
-<null-identifier> : () -> ( :IDENTIFIER ) ;
-
-<default-name> : ( :IDENTIFIER ) -> ( :IDENTIFIER ) ;
-<make-class-id> : ( :IDENTIFIER, :IDENTIFIER, :FLAG ) -> ( :CLASS-ID ) ;
-
-<find-type> : ( :IDENTIFIER ) -> ( :TYPE ) ;
-<ptr-type> : ( :TYPE ) -> ( :TYPE ) ;
-<list-type> : ( :TYPE ) -> ( :TYPE ) ;
-<stack-type> : ( :TYPE ) -> ( :TYPE ) ;
-<vec-type> : ( :TYPE ) -> ( :TYPE ) ;
-<vec-ptr-type> : ( :TYPE ) -> ( :TYPE ) ;
-<quoted-type> : ( :STRING ) -> ( :TYPE ) ;
-<error-type> : () -> ( :TYPE ) ;
-
-<null-econst> : () -> ( :ECONST-LIST ) ;
-<make-econst> : ( :IDENTIFIER ) -> ( :ECONST ) ;
-<join-econst> : ( :ECONST, :ECONST-LIST ) -> ( :ECONST-LIST ) ;
-<set-econst> : ( :NUMBER ) -> () ;
-
-<null-primitive> : () -> ( :PRIMITIVE-LIST ) ;
-<make-primitive> : ( :CLASS-ID, :STRING ) -> ( :PRIMITIVE ) ;
-<join-primitive> : ( :PRIMITIVE, :PRIMITIVE-LIST ) -> ( :PRIMITIVE-LIST ) ;
-
-<null-identity> : () -> ( :IDENTITY-LIST ) ;
-<make-identity> : ( :CLASS-ID, :TYPE ) -> ( :IDENTITY ) ;
-<join-identity> : ( :IDENTITY, :IDENTITY-LIST ) -> ( :IDENTITY-LIST ) ;
-
-<exp-crt> : () -> ( :NUMBER ) ;
-<exp-id> : ( :IDENTIFIER ) -> ( :NUMBER ) ;
-<exp-neg> : ( :NUMBER ) -> ( :NUMBER ) ;
-<exp-compl> : ( :NUMBER ) -> ( :NUMBER ) ;
-<exp-mult> : ( :NUMBER, :NUMBER ) -> ( :NUMBER ) ;
-<exp-div> : ( :NUMBER, :NUMBER ) -> ( :NUMBER ) ;
-<exp-rem> : ( :NUMBER, :NUMBER ) -> ( :NUMBER ) ;
-<exp-plus> : ( :NUMBER, :NUMBER ) -> ( :NUMBER ) ;
-<exp-minus> : ( :NUMBER, :NUMBER ) -> ( :NUMBER ) ;
-<exp-lshift> : ( :NUMBER, :NUMBER ) -> ( :NUMBER ) ;
-<exp-rshift> : ( :NUMBER, :NUMBER ) -> ( :NUMBER ) ;
-<exp-and> : ( :NUMBER, :NUMBER ) -> ( :NUMBER ) ;
-<exp-xor> : ( :NUMBER, :NUMBER ) -> ( :NUMBER ) ;
-<exp-or> : ( :NUMBER, :NUMBER ) -> ( :NUMBER ) ;
-
-<null-enum> : () -> ( :ENUM-LIST ) ;
-<get-enum> : ( :IDENTIFIER ) -> ( :ECONST-LIST ) ;
-<make-enum> : ( :CLASS-ID, :FLAG, :ECONST-LIST, :ECONST-LIST ) -> ( :ENUM ) ;
-<join-enum> : ( :ENUM, :ENUM-LIST ) -> ( :ENUM-LIST ) ;
-
-<null-component> : () -> ( :COMPONENT-LIST ) ;
-<make-component> : ( :IDENTIFIER, :TYPE, :STRING ) -> ( :COMPONENT ) ;
-<join-component> : ( :COMPONENT, :COMPONENT-LIST ) -> ( :COMPONENT-LIST ) ;
-<link-component> : ( :COMPONENT-LIST, :COMPONENT-LIST ) -> ( :COMPONENT-LIST ) ;
-
-<null-structure> : () -> ( :STRUCTURE-LIST ) ;
-<make-structure> : ( :CLASS-ID, :IDENTIFIER, :COMPONENT-LIST ) -> ( :STRUCTURE ) ;
-<join-structure> : ( :STRUCTURE, :STRUCTURE-LIST ) -> ( :STRUCTURE-LIST ) ;
-
-<null-field> : () -> ( :FIELD-LIST ) ;
-<make-field> : ( :IDENTIFIER, :COMPONENT-LIST, :FLAG ) -> ( :FIELD ) ;
-<join-field> : ( :FIELD, :FIELD-LIST ) -> ( :FIELD-LIST ) ;
-<link-field> : ( :FIELD-LIST, :FIELD-LIST ) -> ( :FIELD-LIST ) ;
-<set-field-cmp> : ( :FIELD-LIST, :IDENTIFIER, :COMPONENT-LIST ) -> () ;
-
-<null-argument> : () -> ( :ARGUMENT-LIST ) ;
-<make-argument> : ( :IDENTIFIER, :TYPE ) -> ( :ARGUMENT ) ;
-<join-argument> : ( :ARGUMENT, :ARGUMENT-LIST ) -> ( :ARGUMENT-LIST ) ;
-<link-argument> : ( :ARGUMENT-LIST, :ARGUMENT-LIST ) -> ( :ARGUMENT-LIST ) ;
-
-<null-map> : () -> ( :MAP-LIST ) ;
-<make-map> : ( :IDENTIFIER, :TYPE, :ARGUMENT-LIST, :FLAG ) -> ( :MAP ) ;
-<join-map> : ( :MAP, :MAP-LIST ) -> ( :MAP-LIST ) ;
-
-<null-union> : () -> ( :UNION-LIST ) ;
-<make-union> : ( :CLASS-ID, :IDENTIFIER, :COMPONENT-LIST, :FIELD-LIST, :MAP-LIST ) -> ( :UNION ) ;
-<join-union> : ( :UNION, :UNION-LIST ) -> ( :UNION-LIST ) ;
-
-<make-extra> : ( :TYPE ) -> () ;
-
-<import-all> : ( :IDENTIFIER ) -> () ;
-<import-one> : ( :IDENTIFIER, :IDENTIFIER ) -> () ;
-
-<set-main> : ( :IDENTIFIER ) -> () ;
-<set-version> : ( :NUMBER, :NUMBER ) -> () ;
-<add-primitive> : ( :PRIMITIVE-LIST ) -> () ;
-<add-identity> : ( :IDENTITY-LIST ) -> () ;
-<add-enum> : ( :ENUM-LIST ) -> () ;
-<add-structure> : ( :STRUCTURE-LIST ) -> () ;
-<add-union> : ( :UNION-LIST ) -> () ;
-
-
-/*
-    CLASS IDENTIFIERS
-
-    A class identifier consists of a pair of identifiers (the second of
-    which is optional) qualified as above.
-*/
-
-class-id : () -> ( i : CLASS-ID ) = {
-	{
-		n = <zero> ;
-	    ||	hash ; n = <one> ;
-	    ||	colon ; n = <two> ;
-	    ||	hash ; colon ; n = <three> ;
-	} ;
-	c = identifier ;
-	{
-		a = <default-name> ( c ) ;
-	    ||	open-round ; a = identifier ; close-round ;
-	} ;
-	i = <make-class-id> ( c, a, n ) ;
-} ;
-
-
-/*
-    TYPES
-
-    The basic types are the named types defined in the algebra, plus
-    those formed by the vector, pointer, list and vector-pointer type
-    constructors.
-*/
-
-type : () -> ( t : TYPE ) = {
-	i = identifier ; t = <find-type> ( i ) ;
-    ||	list ; s = type ; t = <list-type> ( s ) ;
-    ||	ptr ; s = type ; t = <ptr-type> ( s ) ;
-    ||	stack ; s = type ; t = <stack-type> ( s ) ;
-    ||	vec ; s = type ; t = <vec-type> ( s ) ;
-    ||	vec-ptr ; s = type ; t = <vec-ptr-type> ( s ) ;
-    ##	t = <error-type> ;
-} ;
-
-
-/*
-    EXTENDED TYPES
-
-    In some circumstances types may also be given by means of a quoted
-    C type.
-*/
-
-extended-type : () -> ( t : TYPE ) = {
-	t = type ;
-    ||	s = string ; t = <quoted-type> ( s ) ;
-    ##	t = <error-type> ;
-} ;
-
-
-/*
-    PRIMITIVE DEFINITIONS
-
-    Each primitive consists of a class identifier plus a string giving
-    the C type corresponding to the primitive.
-*/
-
-primitive-defn : ( i : CLASS-ID ) -> ( p : PRIMITIVE ) = {
-	s = string ; semicolon ;
-	p = <make-primitive> ( i, s ) ;
-} ;
-
-primitive-single : () -> ( p : PRIMITIVE-LIST ) = {
-	i = class-id ; equal ; q = primitive-defn ( i ) ;
-	r = <null-primitive> ;
-	p = <join-primitive> ( q, r ) ;
-} ;
-
-
-/*
-    IDENTITY DEFINITIONS
-
-    Each identity consists of a class identifier plus a type which forms
-    the definition of the identity.
-*/
-
-identity-defn : ( i : CLASS-ID ) -> ( p : IDENTITY ) = {
-	t = type ; semicolon ;
-	p = <make-identity> ( i, t ) ;
-} ;
-
-identity-single : () -> ( p : IDENTITY-LIST ) = {
-	i = class-id ; equal ; q = identity-defn ( i ) ;
-	r = <null-identity> ;
-	p = <join-identity> ( q, r ) ;
-} ;
-
-
-/*
-    ENUMERATOR VALUE
-
-    These rules describe the ways of calculating the value of an enumerator.
-*/
-
-expression : () -> ( :NUMBER ) ;
-
-primary-exp : () -> ( n : NUMBER ) = {
-	n = number ;
-    ||	e = identifier ; n = <exp-id> ( e ) ;
-    ||	question ; n = <exp-crt> ;
-    ||	open-round ; n = expression ; close-round ;
-} ;
-
-unary-exp : () -> ( n : NUMBER ) = {
-	n = primary-exp ;
-    ||	plus ; n = number ;
-    ||	minus ; m = number ; n = <exp-neg> ( m ) ;
-    ||	compl ; m = number ; n = <exp-compl> ( m ) ;
-} ;
-
-mult-exp : () -> ( n : NUMBER ) = {
-	n = unary-exp ;
-    ||	m = mult-exp ; star ; p = unary-exp ; n = <exp-mult> ( m, p ) ;
-    ||	m = mult-exp ; div ; p = unary-exp ; n = <exp-div> ( m, p ) ;
-    ||	m = mult-exp ; rem ; p = unary-exp ; n = <exp-rem> ( m, p ) ;
-} ;
-
-add-exp : () -> ( n : NUMBER ) = {
-	n = mult-exp ;
-    ||	m = add-exp ; plus ; p = mult-exp ; n = <exp-plus> ( m, p ) ;
-    ||	m = add-exp ; minus ; p = mult-exp ; n = <exp-minus> ( m, p ) ;
-} ;
-
-shift-exp : () -> ( n : NUMBER ) = {
-	n = add-exp ;
-    ||	m = shift-exp ; lshift ; p = add-exp ; n = <exp-lshift> ( m, p ) ;
-    ||	m = shift-exp ; rshift ; p = add-exp ; n = <exp-rshift> ( m, p ) ;
-} ;
-
-and-exp : () -> ( n : NUMBER ) = {
-	n = shift-exp ;
-    ||	m = and-exp ; and ; p = shift-exp ; n = <exp-and> ( m, p ) ;
-} ;
-
-xor-exp : () -> ( n : NUMBER ) = {
-	n = and-exp ;
-    ||	m = xor-exp ; xor ; p = and-exp ; n = <exp-xor> ( m, p ) ;
-} ;
-
-or-exp : () -> ( n : NUMBER ) = {
-	n = xor-exp ;
-    ||	m = or-exp ; or ; p = xor-exp ; n = <exp-or> ( m, p ) ;
-} ;
-
-expression : () -> ( n : NUMBER ) = {
-	n = or-exp ;
-} ;
-
-
-/*
-    ENUMERATOR LIST
-
-    An enumerator is just an identifier.  A comma separated list of
-    enumerators is used to define an enumeration.
-*/
-
-enumerator-list : () -> ( p : ECONST-LIST ) = {
-	p = <null-econst> ;
-    ||
-	s = identifier ;
-	{
-	    	equal ; n = expression ; <set-econst> ( n ) ;
-	    ||	$ ;
-	} ;
-	q = <make-econst> ( s ) ;
-	{
-		r = <null-econst> ;
-	    ||	comma ; r = enumerator-list ;
-	} ;
-	p = <join-econst> ( q, r ) ;
-} ;
-
-
-/*
-    ENUMERATION DEFINITIONS
-
-    Each enumeration consists of a class identifier plus a list of
-    enumerators which comprise the enumeration.
-*/
-
-enum-single : () -> ( p : ENUM-LIST ) = {
-	enum ;
-	{
-		l = <one> ;
-	    ||	exclaim ; l = <zero> ;
-	} ;
-	i = class-id ; equal ;
-	{
-	    	j = identifier ; f = <get-enum> ( j ) ; plus ;
-	    ||	f = <null-econst> ;
-	} ;
-	open-brace ; e = enumerator-list ; close-brace ; semicolon ;
-	q = <make-enum> ( i, l, f, e ) ;
-	r = <null-enum> ;
-	p = <join-enum> ( q, r ) ;
-} ;
-
-
-/*
-    STRUCTURE COMPONENT DECLARATOR
-
-    A structure component declarator consists of a comma separated list
-    of identifiers, all of which are declared to have the given type t.
-*/
-
-component-decl : ( t : TYPE ) -> ( p : COMPONENT-LIST ) = {
-	i = identifier ;
-	{
-		v = <null-string> ;
-	    ||	equal ; v = string ;
-	} ;
-	q = <make-component> ( i, t, v ) ;
-	{
-		r = <null-component> ;
-	    ||	comma ; r = component-decl ( t ) ;
-	} ;
-	p = <join-component> ( q, r ) ;
-} ;
-
-
-/*
-    STRUCTURE COMPONENTS
-
-    Each structure component consists of a component type plus a list
-    of component declarators which are declared to be of that type.
-*/
-
-component-list : () -> ( p : COMPONENT-LIST ) = {
-	p = <null-component> ;
-    ||
-	t = type ; q = component-decl ( t ) ; semicolon ;
-	r = component-list ;
-	p = <link-component> ( q, r ) ;
-} ;
-
-
-/*
-    GROUP OF STRUCTURE COMPONENTS
-
-    The definition of a structure consists of a list of structure components
-    enclosed in braces.
-*/
-
-component-group : () -> ( p : COMPONENT-LIST ) = {
-	open-brace ; p = component-list ; close-brace ;
-} ;
-
-
-/*
-    STRUCTURE DEFINITIONS
-
-    Each structure consists of a class identifier plus a list of the
-    components comprising the structure.
-*/
-
-structure-defn : ( i : CLASS-ID, j : IDENTIFIER ) -> ( p : STRUCTURE ) = {
-	c = component-group ; semicolon ;
-	p = <make-structure> ( i, j, c ) ;
-} ;
-
-structure-single : () -> ( p : STRUCTURE-LIST ) = {
-	struct ; i = class-id ; equal ;
-	{
-		j = identifier ; plus ;
-	    ||	j = <null-identifier> ;
-	} ;
-	q = structure-defn ( i, j ) ;
-	r = <null-structure> ;
-	p = <join-structure> ( q, r ) ;
-} ;
-
-
-/*
-    UNION FIELD DEFINITIONS
-
-    Each union field component consists of a list of field identifiers
-    (qualified by nought, one or two hash symbols) and a list of
-    structure components.
-*/
-
-field-id-list : ( n : FLAG ) -> ( p : FIELD-LIST ) = {
-	i = identifier ;
-	c = <null-component> ;
-	q = <make-field> ( i, c, n ) ;
-	{
-		r = <null-field> ;
-	    ||	comma ; r = field-id-list ( n ) ;
-	} ;
-	p = <join-field> ( q, r ) ;
-} ;
-
-field-list : () -> ( p : FIELD-LIST ) = {
-	{
-		n = <zero> ;
-	    ||	hash ; n = <one> ;
-	    ||	hash ; hash ; n = <two> ;
-	} ;
-	q = field-id-list ( n ) ; arrow ;
-	{
-		j = identifier ; plus ;
-	    ||	j = <null-identifier> ;
-	} ;
-	c = component-group ;
-	<set-field-cmp> ( q, j, c ) ;
-	{
-		r = <null-field> ;
-	    ||	comma ; r = field-list ;
-	} ;
-	p = <link-field> ( q, r ) ;
-} ;
-
-
-/*
-    MAP ARGUMENT DECLARATORS
-
-    A map argument declarator consists of a list of identifiers, each of
-    which is declared as a argument of the given type t.
-*/
-
-argument-decl : ( t : TYPE ) -> ( p : ARGUMENT-LIST ) = {
-	i = identifier ;
-	q = <make-argument> ( i, t ) ;
-	{
-		r = <null-argument> ;
-	    ||	comma ; r = argument-decl ( t ) ;
-	} ;
-	p = <join-argument> ( q, r ) ;
-} ;
-
-
-/*
-    MAP ARGUMENT LISTS
-
-    Each map argument consists of a type (which may be a quoted C type)
-    followed by a list of argument declarators which declare arguments
-    of that type.
-*/
-
-argument-list : () -> ( p : ARGUMENT-LIST ) = {
-	t = extended-type ;
-	q = argument-decl ( t ) ;
-	{
-		r = <null-argument> ;
-	    ||	semicolon ; r = argument-list ;
-	} ;
-	p = <link-argument> ( q, r ) ;
-} ;
-
-
-/*
-    UNION MAP DEFINITIONS
-
-    Each union map consists of a map return type, followed by the map
-    identifier (which may be qualified by a hash symbol), and a list
-    of map arguments.
-*/
-
-map-list : () -> ( p : MAP-LIST ) = {
-	p = <null-map> ;
-    ||
-	t = extended-type ;
-	{
-		n = <zero> ;
-	    ||	hash ; n = <one> ;
-	} ;
-	i = identifier ;
-	open-round ;
-	{
-		a = <null-argument> ;
-	    ||	a = argument-list ;
-	} ;
-	close-round ;
-	q = <make-map> ( i, t, a, n ) ;
-	r = map-list ;
-	p = <join-map> ( q, r ) ;
-} ;
-
-
-/*
-    UNION DEFINITION BODY
-
-    There is an optional list of structure components, which are common
-    to all forms of the union.  This is followed by a list of union
-    fields, describing the components which are particular to each form.
-    Finally there is a list of union maps.
-*/
-
-union-defn-new : ( i : CLASS-ID ) -> ( p : UNION ) = {
-	equal ;
-	{
-		c = component-group ; j = <null-identifier> ;
-	    ||	c = <null-component> ; j = identifier ;
-	} ;
-	plus ; open-brace ; f = field-list ; close-brace ;
-	{
-		m = <null-map> ;
-	    ||	colon ; open-square ; m = map-list ; close-square ;
-	} ;
-	semicolon ;
-	p = <make-union> ( i, j, c, f, m ) ;
-} ;
-
-
-/*
-    UNION DEFINITIONS
-
-    Each union consists of a class identifier plus a further section
-    of information.
-*/
-
-union-single : () -> ( p : UNION-LIST ) = {
-	union ; i = class-id ; q = union-defn-new ( i ) ;
-	r = <null-union> ;
-	p = <join-union> ( q, r ) ;
-} ;
-
-
-/*
-    EXTRA DEFINITIONS
-
-    The extra components are just a list of types.
-*/
-
-extra-list : () -> () = {
-	$ ;
-    ||
-	t = type ; semicolon ;
-	<make-extra> ( t ) ;
-	extra-list ;
-} ;
-
-
-/*
-    IMPORT ITEM
-
-    This rule gives the different type of import rules.
-*/
-
-import-item : () -> () = {
-	a = identifier ;
-	<import-all> ( a ) ;
-    ||
-	a = identifier ; colon-colon ; i = identifier ;
-	<import-one> ( a, i ) ;
-} ;
-
-
-/*
-    UNIT DEFINITION
-
-    This rule gives the form of the syntax.  After the initial name
-    section, the subsequent sections may appear in any order (and more
-    than once).
-*/
-
-new-item-list : () -> () = {
-	$ ;
-    ||
-	{
-		p = primitive-single ; <add-primitive> ( p ) ;
-	    ||	i = identity-single ; <add-identity> ( i ) ;
-	    ||	e = enum-single ; <add-enum> ( e ) ;
-	    ||	s = structure-single ; <add-structure> ( s ) ;
-	    ||	u = union-single ; <add-union> ( u ) ;
-	    ||	import ; import-item ; semicolon ;
-	} ;
-	new-item-list ;
-} ;
-
-new-unit : () -> () = {
-	algebra ; m = identifier ; <set-main> ( m ) ;
-	{
-		$ ;
-	    ||
-		open-round ; a = number ; dot ; b = number ; close-round ;
-		<set-version> ( a, b ) ;
-	} ;
-	colon ;
-	new-item-list ;
-} ;
-
-
-/*
-    UNIT DEFINITION
-
-    This rule is the main entry point.
-*/
-
-unit : () -> () = {
-	new-unit ;
-	eof ;
-    ##
-	<syntax-error> ;
-} ;
-
-
-/*
-    EXTRA UNIT DEFINITION
-
-    This rule is the auxilliary entry point for extra types.
-*/
-
-extra-unit : () -> () = {
-	extra-list ;
-	eof ;
-    ##
-	<syntax-error> ;
-} ;
-
-%entry% unit, extra-unit ;

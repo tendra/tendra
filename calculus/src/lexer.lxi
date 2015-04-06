@@ -7,67 +7,66 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
 /*
-    LEXICAL ANALYSER FOR CALCULUS
-
-    This file describes the lexical analyser used by calculus.
-*/
+ * LEXICAL ANALYSER FOR CALCULUS
+ *
+ * This file describes the lexical analyser used by calculus.
+ */
 
 /* Character groups */
-GROUP white = " \t\n\r" ;
-GROUP alpha = {A-Z} + {a-z} + "_" ;
-GROUP digit = {0-9} ;
-GROUP alphanum = "[alpha][digit]" ;
-GROUP hexdigit = "[digit]ABCDEFabcdef" ;
+GROUP white    = " \t\n\r";
+GROUP alpha    = {A-Z} + {a-z} + "_";
+GROUP digit    = {0-9};
+GROUP alphanum = "[alpha][digit]";
+GROUP hexdigit = "[digit]ABCDEFabcdef";
 
 /* Simple symbols */
-TOKEN "!" -> $exclaim ;
-TOKEN "#" -> $hash ;
-TOKEN "%" -> $rem ;
-TOKEN "?" -> $question ;
-TOKEN "&" -> $and ;
-TOKEN "*" -> $star ;
-TOKEN "+" -> $plus ;
-TOKEN "," -> $comma ;
-TOKEN "-" -> $minus ;
-TOKEN "->" -> $arrow ;
-TOKEN "." -> $dot ;
-TOKEN "/" -> $div ;
-TOKEN ":" -> $colon ;
-TOKEN "::" -> $colon-colon ;
-TOKEN ";" -> $semicolon ;
-TOKEN "<<" -> $lshift ;
-TOKEN "=" -> $equal ;
-TOKEN ">>" -> $rshift ;
-TOKEN "^" -> $xor ;
-TOKEN "|" -> $or ;
-TOKEN "~" -> $compl ;
-TOKEN "(" -> $open-round ;
-TOKEN ")" -> $close-round ;
-TOKEN "\[" -> $open-square ;
-TOKEN "]" -> $close-square ;
-TOKEN "{" -> $open-brace ;
-TOKEN "}" -> $close-brace ;
-TOKEN "\e" -> $eof ;
+TOKEN "!"  -> $exclaim;
+TOKEN "#"  -> $hash;
+TOKEN "%"  -> $rem;
+TOKEN "?"  -> $question;
+TOKEN "&"  -> $and;
+TOKEN "*"  -> $star;
+TOKEN "+"  -> $plus;
+TOKEN ","  -> $comma;
+TOKEN "-"  -> $minus;
+TOKEN "->" -> $arrow;
+TOKEN "."  -> $dot;
+TOKEN "/"  -> $div;
+TOKEN ":"  -> $colon;
+TOKEN "::" -> $colon-colon;
+TOKEN ";"  -> $semicolon;
+TOKEN "<<" -> $lshift;
+TOKEN "="  -> $equal;
+TOKEN ">>" -> $rshift;
+TOKEN "^"  -> $xor;
+TOKEN "|"  -> $or;
+TOKEN "~"  -> $compl;
+TOKEN "("  -> $open-round;
+TOKEN ")"  -> $close-round;
+TOKEN "\[" -> $open-square;
+TOKEN "]"  -> $close-square;
+TOKEN "{"  -> $open-brace;
+TOKEN "}"  -> $close-brace;
+TOKEN "\e" -> $eof;
 
 /* Comments, strings, identifies and numbers */
-TOKEN "/*" -> get_comment () ;
-TOKEN "\"" -> get_string () ;
-TOKEN "[alpha]" -> get_identifier () ;
-TOKEN "[digit]" -> get_number () ;
-TOKEN "0x[hexdigit]" -> get_hex () ;
-TOKEN "0X[hexdigit]" -> get_hex () ;
+TOKEN "/*" -> get_comment();
+TOKEN "\"" -> get_string();
+TOKEN "[alpha]"      -> get_identifier();
+TOKEN "[digit]"      -> get_number();
+TOKEN "0x[hexdigit]" -> get_hex();
+TOKEN "0X[hexdigit]" -> get_hex();
 
 /* Keywords */
-KEYWORD "ALGEBRA" -> $algebra ;
-KEYWORD "LIST" -> $list ;
-KEYWORD "PTR" -> $ptr ;
-KEYWORD "STACK" -> get_stack () ;
-KEYWORD "VEC" -> get_vec () ;
-KEYWORD "VEC_PTR" -> get_vec_ptr () ;
-KEYWORD "enum" -> $enum ;
-KEYWORD "struct" -> $struct ;
-KEYWORD "union" -> $union ;
-KEYWORD "IMPORT" -> $import ;
+KEYWORD "ALGEBRA" -> $algebra;
+KEYWORD "LIST"    -> $list;
+KEYWORD "PTR"     -> $ptr;
+KEYWORD "STACK"   -> get_stack();
+KEYWORD "VEC"     -> get_vec();
+KEYWORD "VEC_PTR" -> get_vec_ptr();
+KEYWORD "enum"    -> $enum;
+KEYWORD "struct"  -> $struct;
+KEYWORD "union"   -> $union;
+KEYWORD "IMPORT"  -> $import;
 
