@@ -16,5 +16,7 @@
 #include "../literal/c89.h"
 #include "../promotion/c89.h"
 
+#pragma TenDRA anonymous union disallow
+
 #pragma TenDRA declaration block end
 

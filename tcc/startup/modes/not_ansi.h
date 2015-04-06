@@ -39,6 +39,8 @@
 #pragma TenDRA unknown pragma allow
 #pragma TenDRA weak macro equality allow
 
+#pragma TenDRA anonymous union allow
+
 /* The pragmas below replace #pragma not_ansi */
 
 #pragma TenDRA extra ... allow

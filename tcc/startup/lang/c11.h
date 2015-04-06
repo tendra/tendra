@@ -7,16 +7,16 @@
  */
 
 /*
- * ISO C99.
+ * ISO C11.
  */
 
-#pragma TenDRA declaration block Xc99_startup begin
+#pragma TenDRA declaration block Xc11_startup begin
 #pragma TenDRA begin
 
-#include "../literal/c99.h"
-#include "../promotion/c99.h"
+#include "../literal/c11.h"
+#include "../promotion/c11.h"
 
-#pragma TenDRA anonymous union disallow
+#pragma TenDRA anonymous union allow
 
 #pragma TenDRA declaration block end
 
