@@ -45,6 +45,66 @@
 	<!-- very much TODO -->
 
 	<refsection>
+		<title>Format Specifiers</title>
+
+		<table>
+			<col align="left"/>
+			<col align="left"/>
+			<col align="left"/>
+
+			<thead>
+				<tr>
+					<th>Format</th>
+					<th>Context</th>
+					<th>Expansion</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr> <td><code>%b</code></td> <td role="na" align="center">&ndash;</td> <td>Backspaces</td> </tr>
+				<tr> <td><code>%t</code></td> <td role="na" align="center">&ndash;</td> <td>Tabs</td> </tr>
+				<tr> <td><code>%u</code></td> <td role="na" align="center">&ndash;</td> <td>Unique value</td> </tr>
+				<tr> <td><code>%%</code></td> <td role="na" align="center">&ndash;</td> <td>Literal <code>%</code>&rdquo;</td> </tr>
+				<tr> <td><code>%@</code></td> <td role="na" align="center">&ndash;</td> <td>Literal &ldquo;<code>@</code>&rdquo;</td> </tr>
+			</tbody>
+
+			<tbody>
+				<tr> <td><code>%VA</code></td> <td role="na" align="center">&ndash;</td> <td>Major version number</td> </tr>
+				<tr> <td><code>%VB</code></td> <td role="na" align="center">&ndash;</td> <td>Minor version number</td> </tr>
+				<tr> <td><code>%ZV</code></td> <td role="na" align="center">&ndash;</td> <td>Program version</td> </tr>
+				<tr> <td><code>%ZX</code></td> <td role="na" align="center">&ndash;</td> <td>Program name</td> </tr>
+			</tbody>
+
+			<tbody>
+				<tr> <td><code>%CN</code></td> <td>cons</td> <td>Construct name</td> </tr>
+				<tr> <td><code>%CE</code></td> <td>cons</td> <td>Construct encoding</td> </tr>
+				<tr> <td><code>%CS</code></td> <td>cons</td> <td>Construct result sort</td> </tr>
+				<tr> <td><code>%CX</code></td> <td>cons</td> <td>Construct encoding string</td> </tr>
+			</tbody>
+
+			<tbody>
+				<tr> <td><code>%PN</code></td> <td>param</td> <td>Parameter name</td> </tr>
+				<tr> <td><code>%PS</code></td> <td>param</td> <td>Parameter sort</td> </tr>
+				<tr> <td><code>%PE</code></td> <td>param</td> <td>Parameter number</td> </tr>
+			</tbody>
+
+			<tbody>
+				<tr> <td><code>%SN</code></td> <td>sort</td> <td>Sort name</td> </tr>
+				<tr> <td><code>%ST</code></td> <td>sort</td> <td>Sort name in capitals</td> </tr>
+				<tr> <td><code>%SL</code></td> <td>sort</td> <td>Sort unit name</td> </tr>
+				<tr> <td><code>%SU</code></td> <td>sort</td> <td>Sort unit name</td> </tr>
+
+				<tr> <td><code>%SB</code></td> <td>sort</td> <td>Bits in encoding</td> </tr>
+				<tr> <td><code>%SE</code></td> <td>sort</td> <td>Extended encoding</td> </tr>
+				<tr> <td><code>%SM</code></td> <td>sort</td> <td>Maximum encoding</td> </tr>
+				<tr> <td><code>%SC</code></td> <td>sort</td> <td>Sortname information</td> </tr>
+				<tr> <td><code>%SS</code></td> <td>sort</td> <td>Subsort information</td> </tr>
+				<tr> <td><code>%SX</code></td> <td>sort</td> <td>Construct encoding string</td> </tr>
+			</tbody>
+		</table>
+	</refsection>
+
+	<refsection>
 		<title>Syntax</title>
 
 		<programlisting language="bnf"><![CDATA[
