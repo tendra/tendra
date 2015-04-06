@@ -16,13 +16,5 @@
 #include "../literal/c99.h"
 #include "../promotion/c99.h"
 
-#pragma TenDRA weak prototype analysis off
-#pragma TenDRA incompatible interface declaration warning
-
-#pragma TenDRA linkage resolution : (internal) warning
-
-#pragma TenDRA unknown pragma allow
-#pragma TenDRA no external declaration disallow
-
 #pragma TenDRA declaration block end
 
