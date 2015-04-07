@@ -45,6 +45,14 @@
 	<!-- very much TODO -->
 
 	<refsection>
+		<title>Lexical constructs</title>
+
+		<programlisting language="make_tdf">@comment ...
+@<replaceable>command ...</replaceable>
+...</programlisting>
+	</refsection>
+
+	<refsection>
 		<title>Format Specifiers</title>
 
 		<table>
@@ -102,65 +110,8 @@
 				<tr> <td><code>%SX</code></td> <td>sort</td> <td>Construct encoding string</td> </tr>
 			</tbody>
 		</table>
-	</refsection>
-
-	<refsection>
-		<title>Syntax</title>
 
 		<programlisting language="bnf"><![CDATA[
-<sort_cond> :
-	builtin				# built-in sorts
-	simple				# simple sort
-	basic				# simple sort with encoding bits
-	dummy				# simple sort with zero encoding bits
-	list				# list sort
-	slist				# simple list sort
-	option				# optional sort
-	extends				# sort has extended encoding
-	special				# sort is marked as special
-	edge				# sort has edge construct
-	link				# sort is linkage entity
-	unit				# sort is a unit sort
-	name.<construct_cond>		# refers to sortname
-	sub.<sort_cond>			# refers to sub-sort
-	eq.<sort_name>			# sort has given name
-
-<construct_cond> :
-	sort.<sort_cond>		# refers to result sort
-	simple				# simple construct
-	token				# apply_token construct
-	cond				# conditional construct
-	edge				# edge construct
-	foreign				# foreign sortname
-	special				# construct is marked as special
-	extends				# construct uses extended encoding
-	params				# construct has parameters
-	eq.<construct_name>		# construct has given name
-
-<param_cond> :
-	sort.<sort_cond>		# refers to parameter sort
-	align				# parameter is aligned
-	break				# parameter has break
-	intro				# parameter is introduced tag etc.
-	first				# first parameter for construct
-	last				# last parameter for construct
-	eq.<param_name>			# parameter has given name
-
-<condition> :
-	true
-	false
-	uniq
-	!<condition>
-	sort.<sort_cond>
-	cons.<construct_cond>
-	param.<param_cond>
-
-<control> :
-	sort
-	sort.cons
-	cons.param
-	param.prev
-
 <sort_escape> :
 	N
 	T
@@ -203,6 +154,16 @@
 	_
 	<newline>
 
+]]></programlisting>
+	</refsection>
+
+	<refsection>
+		<title>Directives</title>
+
+<programlisting language="make_tdf">@use <replaceable>use_argument</replaceable>
+@special <replaceable>special_argument</replaceable></programlisting>
+
+		<programlisting language="bnf"><![CDATA[
 <use_argument> :
 	all
 	!<use_argument>
@@ -213,17 +174,90 @@
 	!<special_argument>
 	<sort_name>
 	<sort_name> <construct_name>
-
-<command> :
-	@if <condition>
-	@else
-	@endif
-	@loop <control>
-	@end
-	@use <use_argument>
-	@special <special_argument>
-	@comment ....
-	....]]></programlisting>
+]]></programlisting>
 	</refsection>
+
+	<refsection>
+		<title>Conditionals</title>
+
+		<programlisting language="make_tdf">@if <replaceable>condition</replaceable>
+...
+@else
+...
+@endif</programlisting>
+
+<programlisting language="bnf"><![CDATA[
+	!<condition>
+]]></programlisting>
+
+<programlisting language="bnf"><![CDATA[
+<condition> :
+	true
+	false
+	uniq
+	sort.<sort_cond>
+	cons.<construct_cond>
+	param.<param_cond>
+]]></programlisting>
+
+		<programlisting language="bnf"><![CDATA[
+<sort_cond> :
+	builtin				# built-in sorts
+	simple				# simple sort
+	basic				# simple sort with encoding bits
+	dummy				# simple sort with zero encoding bits
+	list				# list sort
+	slist				# simple list sort
+	option				# optional sort
+	extends				# sort has extended encoding
+	special				# sort is marked as special
+	edge				# sort has edge construct
+	link				# sort is linkage entity
+	unit				# sort is a unit sort
+	name.<construct_cond>		# refers to sortname
+	sub.<sort_cond>			# refers to sub-sort
+	eq.<sort_name>			# sort has given name
+
+<construct_cond> :
+	sort.<sort_cond>		# refers to result sort
+	simple				# simple construct
+	token				# apply_token construct
+	cond				# conditional construct
+	edge				# edge construct
+	foreign				# foreign sortname
+	special				# construct is marked as special
+	extends				# construct uses extended encoding
+	params				# construct has parameters
+	eq.<construct_name>		# construct has given name
+
+<param_cond> :
+	sort.<sort_cond>		# refers to parameter sort
+	align				# parameter is aligned
+	break				# parameter has break
+	intro				# parameter is introduced tag etc.
+	first				# first parameter for construct
+	last				# last parameter for construct
+	eq.<param_name>			# parameter has given name
+]]></programlisting>
+
+	</refsection>
+
+	<refsection>
+		<title>Loops</title>
+
+		<programlisting language="make_tdf">@loop <replaceable>control</replaceable>
+...
+@end</programlisting>
+
+		<programlisting language="bnf"><![CDATA[
+<control> :
+	sort
+	sort.cons
+	cons.param
+	param.prev
+]]></programlisting>
+
+	</refsection>
+
 </refentry>
 
