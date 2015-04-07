@@ -9,522 +9,520 @@
 
 %types%
 
-/*
-    TYPES
+	/*
+	 * The types NAME and NUMBER are simple built-in types.  The other types
+	 * correspond directly to the calculus types.
+	 */
 
-    The types NAME and NUMBER are simple built-in types.  The other types
-    correspond directly to the calculus types.
-*/
-
-NAME ;
-NUMBER ;
-CONS ;
-LINK ;
-SORT ;
-PARAM ;
-SPEC ;
-CONS-LIST ;
-LINK-LIST ;
-PARAM-LIST ;
-
+	NAME;
+	NUMBER;
+	CONS;
+	LINK;
+	SORT;
+	PARAM;
+	SPEC;
+	CONS-LIST;
+	LINK-LIST;
+	PARAM-LIST;
 
 %terminals%
 
-/*
-    TERMINALS
+	/*
+	 * TERMINALS
+	 *
+	 * The terminals name and number correspond to identifiers and numbers
+	 * read from the input file.  The only punctuation characters used are
+	 * '[', ']' and ','.  Most of the other terminals are keywords.
+	 */
 
-    The terminals name and number correspond to identifiers and numbers
-    read from the input file.  The only punctuation characters used are
-    '[', ']' and ','.  Most of the other terminals are keywords.
-*/
+	name:   () -> (:NAME);
+	number: () -> (:NUMBER);
 
-name : () -> ( :NAME ) ;
-number : () -> ( :NUMBER ) ;
+	break;
+	boundaries;
+	constructs;
+	construct-name;
+	edge-constructor;
+	edge-sort;
+	encoding;
+	encoding-bits;
+	entity-identifier;
+	entity-sort;
+	graph-edges;
+	has-extension;
+	kinds-of-unit;
+	linkable-entities;
+	lists;
+	major-version;
+	minor-version;
+	options;
+	parameter-sorts;
+	result-sort;
+	slists;
+	sortid;
+	sorts;
+	unit-elements;
+	unit-identifier;
 
-break ;
-boundaries ;
-constructs ;
-construct-name ;
-edge-constructor ;
-edge-sort ;
-encoding ;
-encoding-bits ;
-entity-identifier ;
-entity-sort ;
-graph-edges ;
-has-extension ;
-kinds-of-unit ;
-linkable-entities ;
-lists ;
-major-version ;
-minor-version ;
-options ;
-parameter-sorts ;
-result-sort ;
-slists ;
-sortid ;
-sorts ;
-unit-elements ;
-unit-identifier ;
+	open;
+	close;
+	comma;
 
-open ;
-close ;
-comma ;
-eof ;
-!unknown ;
-
+	eof;
+	!unknown;
 
 %productions%
 
+	/*
+	 * KEYWORD NAMES
+	 *
+	 * In certain positions any identifier, including keywords, are allowed.
+	 * This rule describes these identifiers.
+	 */
+
+	<keyword_name>: () -> (:NAME);
+
+	any-name: () -> (n :NAME) = {
+		n = name;
+	||
+		n = <keyword_name>;
+		{
+			break;
+		||	boundaries;
+		||	constructs;
+		||	construct-name;
+		||	edge-constructor;
+		||	edge-sort;
+		||	encoding;
+		||	encoding-bits;
+		||	entity-identifier;
+		||	entity-sort;
+		||	graph-edges;
+		||	has-extension;
+		||	kinds-of-unit;
+		||	linkable-entities;
+		||	lists;
+		||	major-version;
+		||	minor-version;
+		||	options;
+		||	parameter-sorts;
+		||	result-sort;
+		||	slists;
+		||	sortid;
+		||	sorts;
+		||	unit-elements;
+		||	unit-identifier;
+		};
+	};
+
+
+	/*
+	 * SORT NAME
+	 *
+	 * These rules describe the sort names.  These consist of a simple
+	 * identifier which is looked up in the list of all sorts.  They differ
+	 * in that new-sort-name creates a sort if it has not previously been
+	 * defined, whereas old-sort-name gives an error.
+	 */
+
+	<find_new_sort>: (:NAME) -> (:SORT);
+	<find_old_sort>: (:NAME) -> (:SORT);
+
+	new-sort-name: () -> (s :SORT) = {
+		a = name;
+		s = <find_new_sort>(a);
+	};
+
+	old-sort-name: () -> (s :SORT) = {
+		a = name;
+		s = <find_old_sort>(a);
+	};
+
+
+	/*
+	 * CONSTRUCT PARAMETERS
+	 *
+	 * These rules describe the construct parameters.  Each parameter consists
+	 * of a sort name and a parameter identifier.
+	 */
+
+	<make_param>: (:NAME, :SORT) -> (:PARAM);
+	<null_param>: () -> (:PARAM-LIST);
+	<cons_param>: (:PARAM, :PARAM-LIST) -> (:PARAM-LIST);
+
+	param-item: () -> (a :PARAM) = {
+		open; n = any-name; comma; s = new-sort-name; close;
+		a = <make_param>(n, s);
+	};
+
+	param-list: () -> (p :PARAM-LIST) = {
+		a = param-item;
+		{
+			comma; q = param-list;
+		||	q = <null_param>;
+		};
+		p = <cons_param>(a, q);
+	};
+
+	param-pack: () -> (p :PARAM-LIST) = {
+		open;
+		{
+			q = param-list;
+		||	q = <null_param>;
+		};
+		close;
+		p = q;
+	};
+
 
-/*
-    KEYWORD NAMES
-
-    In certain positions any identifier, including keywords, are allowed.
-    This rule describes these identifiers.
-*/
-
-<keyword_name> : () -> ( :NAME ) ;
-
-any-name : () -> ( n : NAME ) = {
-	n = name ;
-    ||
-	n = <keyword_name> ;
-	{
-		break ;
-	    ||	boundaries ;
-	    ||	constructs ;
-	    ||	construct-name ;
-	    ||	edge-constructor ;
-	    ||	edge-sort ;
-	    ||	encoding ;
-	    ||	encoding-bits ;
-	    ||	entity-identifier ;
-	    ||	entity-sort ;
-	    ||	graph-edges ;
-	    ||	has-extension ;
-	    ||	kinds-of-unit ;
-	    ||	linkable-entities ;
-	    ||	lists ;
-	    ||	major-version ;
-	    ||	minor-version ;
-	    ||	options ;
-	    ||	parameter-sorts ;
-	    ||	result-sort ;
-	    ||	slists ;
-	    ||	sortid ;
-	    ||	sorts ;
-	    ||	unit-elements ;
-	    ||	unit-identifier ;
-	} ;
-} ;
-
-
-/*
-    SORT NAME
-
-    These rules describe the sort names.  These consist of a simple
-    identifier which is looked up in the list of all sorts.  They differ
-    in that new-sort-name creates a sort if it has not previously been
-    defined, whereas old-sort-name gives an error.
-*/
-
-<find_new_sort> : ( :NAME ) -> ( :SORT ) ;
-<find_old_sort> : ( :NAME ) -> ( :SORT ) ;
-
-new-sort-name : () -> ( s : SORT ) = {
-	a = name ;
-	s = <find_new_sort> ( a ) ;
-} ;
-
-old-sort-name : () -> ( s : SORT ) = {
-	a = name ;
-	s = <find_old_sort> ( a ) ;
-} ;
-
-
-/*
-    CONSTRUCT PARAMETERS
-
-    These rules describe the construct parameters.  Each parameter consists
-    of a sort name and a parameter identifier.
-*/
-
-<make_param> : ( :NAME, :SORT ) -> ( :PARAM ) ;
-<null_param> : () -> ( :PARAM-LIST ) ;
-<cons_param> : ( :PARAM, :PARAM-LIST ) -> ( :PARAM-LIST ) ;
-
-param-item : () -> ( a : PARAM ) = {
-	open ; n = any-name ; comma ; s = new-sort-name ; close ;
-	a = <make_param> ( n, s ) ;
-} ;
-
-param-list : () -> ( p : PARAM-LIST ) = {
-	a = param-item ;
-	{
-		comma ; q = param-list ;
-	    ||	q = <null_param> ;
-	} ;
-	p = <cons_param> ( a, q ) ;
-} ;
-
-param-pack : () -> ( p : PARAM-LIST ) = {
-	open ;
-	{
-		q = param-list ;
-	    ||	q = <null_param> ;
-	} ;
-	close ;
-	p = q ;
-} ;
-
-
-/*
-    OPTIONAL CONSTRUCT INFORMATION
-
-    These rules give the optional break and boundary information which
-    may be associated with a construct.
-*/
-
-<set_break> : ( :CONS, :NUMBER ) -> () ;
-<set_boundary> : ( :CONS, :NUMBER ) -> () ;
-
-break-item : ( c : CONS ) -> () = {
-	open ; break ; comma ; a = number ; close ;
-	<set_break> ( c, a ) ;
-} ;
-
-number-list : ( c : CONS ) -> () = {
-	a = number ;
-	<set_boundary> ( c, a ) ;
-	{
-		comma ; number-list ( c ) ;
-	    ||	$ ;
-	} ;
-} ;
-
-boundary-item : ( c : CONS ) -> () = {
-	open ; boundaries ; comma ;
-	open ; number-list ( c ) ; close ;
-	close ;
-} ;
-
-construct-extra : ( c : CONS ) -> () = {
-	comma ; break-item ( c ) ; comma ; boundary-item ( c ) ;
-    ||	comma ; break-item ( c ) ;
-    ||	comma ; boundary-item ( c ) ;
-    ||	$ ;
-} ;
-
-
-/*
-    CONSTRUCTS
-
-    These rules describe the TDF constructs.  Each construct consists of a
-    construct name, an encoding value, plus its result and parameter sorts.
-*/
-
-<make_cons> : ( :NAME, :NUMBER, :SORT, :PARAM-LIST, :SORT ) -> ( :CONS ) ;
-<null_cons> : () -> ( :CONS-LIST ) ;
-<cons_cons> : ( :CONS, :CONS-LIST ) -> ( :CONS-LIST ) ;
-
-construct-item : ( s : SORT ) -> ( c : CONS ) = {
-	open ; construct-name ; comma ; n = name ; close ; comma ;
-	open ; encoding ; comma ; e = number ; close ; comma ;
-	open ; result-sort ; comma ; r = new-sort-name ; close ; comma ;
-	open ; parameter-sorts ; comma ; p = param-pack ; close ;
-	c = <make_cons> ( n, e, r, p, s ) ;
-	construct-extra ( c ) ;
-} ;
-
-construct-list : ( s : SORT ) -> ( p : CONS-LIST ) = {
-	open ; c = construct-item ( s ) ; close ;
-	{
-		comma ; q = construct-list ( s ) ;
-	    ||	q = <null_cons> ;
-	} ;
-	p = <cons_cons> ( c, q ) ;
-} ;
-
-construct-pack : ( s : SORT ) -> ( p : CONS-LIST ) = {
-	open ;
-	{
-		q = construct-list ( s ) ;
-	    ||	q = <null_cons> ;
-	} ;
-	close ;
-	p = q ;
-} ;
-
-
-/*
-    SORTS
-
-    These rules describe the TDF sorts.  Each sort consists of a sort name,
-    the number of bits used to encode this sort, a flag indicating whether
-    extended encoding is used, plus a list of constructs for this sort.
-*/
-
-<make_sort> : ( :SORT, :NUMBER, :NUMBER, :CONS-LIST ) -> () ;
-
-sort-item : () -> () = {
-	open ; sortid ; comma ; s = new-sort-name ; close ; comma ;
-	open ; encoding-bits ; comma ; b = number ; close ; comma ;
-	open ; has-extension ; comma ; e = number ; close ; comma ;
-	open ; constructs ; comma ; p = construct-pack ( s ) ; close ;
-	<make_sort> ( s, b, e, p ) ;
-} ;
-
-sort-list : () -> () = {
-	open ; sort-item ; close ;
-	{
-		comma ; sort-list ;
-	    ||	$ ;
-	} ;
-} ;
-
-sort-pack : () -> () = {
-	open ;
-	{
-		sort-list ;
-	    ||	$ ;
-	} ;
-	close ;
-} ;
-
-
-/*
-    COMPLEX LISTS OF SORTS
-
-    These rules describe the TDF complex list sorts.  This is a simple list
-    of all the complex list sorts used in the specification.
-*/
-
-<make_clist> : ( :SORT ) -> () ;
-
-clist-item : () -> () = {
-	s = new-sort-name ;
-	<make_clist> ( s ) ;
-} ;
-
-clist-list : () -> () = {
-	clist-item ;
-	{
-		comma ; clist-list ;
-	    ||	$ ;
-	} ;
-} ;
-
-clist-pack : () -> () = {
-	open ;
-	{
-		clist-list ;
-	    ||	$ ;
-	} ;
-	close ;
-} ;
-
-
-/*
-    SIMPLE LISTS OF SORTS
-
-    These rules describe the TDF simple list sorts.  This is a simple list
-    of all the simple list sorts used in the specification.
-*/
-
-<make_slist> : ( :SORT ) -> () ;
-
-slist-item : () -> () = {
-	s = new-sort-name ;
-	<make_slist> ( s ) ;
-} ;
-
-slist-list : () -> () = {
-	slist-item ;
-	{
-		comma ; slist-list ;
-	    ||	$ ;
-	} ;
-} ;
-
-slist-pack : () -> () = {
-	open ;
-	{
-		slist-list ;
-	    ||	$ ;
-	} ;
-	close ;
-} ;
-
-
-/*
-    OPTIONAL SORTS
-
-    These rules describe the TDF optional sorts.  This is a simple list of
-    all the optional sorts used in the specification.
-*/
-
-<make_option> : ( :SORT ) -> () ;
-
-option-item : () -> () = {
-	s = new-sort-name ;
-	<make_option> ( s ) ;
-} ;
-
-option-list : () -> () = {
-	option-item ;
-	{
-		comma ; option-list ;
-	    ||	$ ;
-	} ;
-} ;
-
-option-pack : () -> () = {
-	open ;
-	{
-		option-list ;
-	    ||	$ ;
-	} ;
-	close ;
-} ;
-
-
-/*
-    LINKABLE ENTITIES
-
-    These rules describe the linkable TDF entities (tags, tokens, etc.).
-    Each such entity consists of a sort plus an associated linkage name.
-*/
-
-<make_edge_link> : ( :SORT, :NAME ) -> ( :LINK ) ;
-<make_unit_link> : ( :SORT, :NAME ) -> ( :LINK ) ;
-<null_link> : () -> ( :LINK-LIST ) ;
-<cons_link> : ( :LINK, :LINK-LIST ) -> ( :LINK-LIST ) ;
-
-link-item : () -> ( a : LINK ) = {
-	open ; entity-sort ; comma ; s = old-sort-name ; close ; comma ;
-	open ; entity-identifier ; comma ; e = any-name ; close ;
-	a = <make_edge_link> ( s, e ) ;
-} ;
-
-link-list : () -> ( p : LINK-LIST ) = {
-	open ; a = link-item ; close ;
-	{
-		comma ; q = link-list ;
-	    ||	q = <null_link> ;
-	} ;
-	p = <cons_link> ( a, q ) ;
-} ;
-
-link-pack : () -> ( p : LINK-LIST ) = {
-	open ;
-	{
-		q = link-list ;
-	    ||	q = <null_link> ;
-	} ;
-	close ;
-	p = q ;
-} ;
-
-
-/*
-    KINDS OF UNITS
-
-    These rules describe the kinds of TDF unit (tag declarations, token
-    definitions, etc.).  Each such unit consists of a sort plus an
-    associated linkage name.
-*/
-
-kind-item : () -> ( a : LINK ) = {
-	open ; unit-elements ; comma ; s = old-sort-name ; close ; comma ;
-	open ; unit-identifier ; comma ; e = any-name ; close ;
-	a = <make_unit_link> ( s, e ) ;
-} ;
-
-kind-list : () -> ( p : LINK-LIST ) = {
-	open ; a = kind-item ; close ;
-	{
-		comma ; q = kind-list ;
-	    ||	q = <null_link> ;
-	} ;
-	p = <cons_link> ( a, q ) ;
-} ;
-
-kind-pack : () -> ( p : LINK-LIST ) = {
-	open ;
-	{
-		q = kind-list ;
-	    ||	q = <null_link> ;
-	} ;
-	close ;
-	p = q ;
-} ;
-
-
-/*
-    CONSTRUCTS FOR LINKABLE ENTITIES
-
-    These rules describe the basic constructs for the TDF linkable entities.
-    Each construct consists of a sort and a construct for building that
-    sort.
-*/
-
-<set_edge> : ( :SORT, :NAME ) -> () ;
-
-edge-item : () -> () = {
-	open ; edge-sort ; comma ; s = old-sort-name ; close ; comma ;
-	open ; edge-constructor ; comma ; c = name ; close ;
-	<set_edge> ( s, c ) ;
-} ;
-
-edge-list : () -> () = {
-	open ; edge-item ; close ;
-	{
-		comma ; edge-list ;
-	    ||	$ ;
-	} ;
-} ;
-
-edge-pack : () -> () = {
-	open ;
-	{
-		edge-list ;
-	    ||	$ ;
-	} ;
-	close ;
-} ;
-
-
-/*
-    TDF SPECIFICATION
-
-    This rule describes the overall TDF specification database.  This
-    consists of lists of all the sorts etc. defined by the specification,
-    plus a version number.  This is the main entry point into the grammar.
-*/
-
-<make_spec> : ( :NUMBER, :NUMBER, :LINK-LIST, :LINK-LIST ) -> ( :SPEC ) ;
-<null_spec> : () -> ( :SPEC ) ;
-<syntax_error> : () -> () ;
-
-specification : () -> ( spec : SPEC ) = {
-	open ;
-	open ; sorts ; comma ; sort-pack ; close ; comma ;
-	open ; lists ; comma ; clist-pack ; close ; comma ;
-	open ; slists ; comma ; slist-pack ; close ; comma ;
-	open ; options ; comma ; option-pack ; close ; comma ;
-	open ; linkable-entities ; comma ; p = link-pack ; close ; comma ;
-	open ; kinds-of-unit ; comma ; q = kind-pack ; close ; comma ;
-	open ; graph-edges ; comma ; edge-pack ; close ; comma ;
-	open ; major-version ; comma ; v1 = number ; close ; comma ;
-	open ; minor-version ; comma ; v2 = number ; close ;
-	close ;
-	eof ;
-	spec = <make_spec> ( v1, v2, p, q ) ;
-    ##
-	<syntax_error> ;
-	spec = <null_spec> ;
-} ;
-
-
-%entry% specification ;
+	/*
+	 * OPTIONAL CONSTRUCT INFORMATION
+	 *
+	 * These rules give the optional break and boundary information which
+	 * may be associated with a construct.
+	 */
+
+	<set_break>: (:CONS, :NUMBER) -> ();
+	<set_boundary>: (:CONS, :NUMBER) -> ();
+
+	break-item: (c :CONS) -> () = {
+		open; break; comma; a = number; close;
+		<set_break>(c, a);
+	};
+
+	number-list: (c :CONS) -> () = {
+		a = number;
+		<set_boundary>(c, a);
+		{
+			comma; number-list (c);
+		||	$;
+		};
+	};
+
+	boundary-item: (c :CONS) -> () = {
+		open; boundaries; comma;
+		open; number-list (c); close;
+		close;
+	};
+
+	construct-extra: (c :CONS) -> () = {
+		comma; break-item (c); comma; boundary-item ( c);
+	||	comma; break-item (c);
+	||	comma; boundary-item (c);
+	||	$;
+	};
+
+
+	/*
+	 * CONSTRUCTS
+	 *
+	 * These rules describe the TDF constructs.  Each construct consists of a
+	 * construct name, an encoding value, plus its result and parameter sorts.
+	 */
+
+	<make_cons>: (:NAME, :NUMBER, :SORT, :PARAM-LIST, :SORT) -> (:CONS);
+	<null_cons>: () -> (:CONS-LIST);
+	<cons_cons>: (:CONS, :CONS-LIST) -> (:CONS-LIST);
+
+	construct-item: (s :SORT) -> ( c :CONS ) = {
+		open; construct-name; comma; n = name; close; comma;
+		open; encoding; comma; e = number; close; comma;
+		open; result-sort; comma; r = new-sort-name; close; comma;
+		open; parameter-sorts; comma; p = param-pack; close;
+		c = <make_cons>(n, e, r, p, s);
+		construct-extra (c);
+	};
+
+	construct-list: (s :SORT) -> ( p :CONS-LIST ) = {
+		open; c = construct-item (s); close;
+		{
+			comma; q = construct-list (s);
+		||	q = <null_cons>;
+		};
+		p = <cons_cons>(c, q);
+	};
+
+	construct-pack: (s :SORT) -> ( p :CONS-LIST ) = {
+		open;
+		{
+			q = construct-list (s);
+		||	q = <null_cons>;
+		};
+		close;
+		p = q;
+	};
+
+
+	/*
+	 * SORTS
+	 *
+	 * These rules describe the TDF sorts.  Each sort consists of a sort name,
+	 * the number of bits used to encode this sort, a flag indicating whether
+	 * extended encoding is used, plus a list of constructs for this sort.
+	 */
+
+	<make_sort>: (:SORT, :NUMBER, :NUMBER, :CONS-LIST) -> ();
+
+	sort-item: () -> () = {
+		open; sortid; comma; s = new-sort-name; close; comma;
+		open; encoding-bits; comma; b = number; close; comma;
+		open; has-extension; comma; e = number; close; comma;
+		open; constructs; comma; p = construct-pack (s); close;
+		<make_sort>(s, b, e, p);
+	};
+
+	sort-list: () -> () = {
+		open; sort-item; close;
+		{
+			comma; sort-list;
+		||	$;
+		};
+	};
+
+	sort-pack: () -> () = {
+		open;
+		{
+			sort-list;
+		||	$;
+		};
+		close;
+	};
+
+
+	/*
+	 * COMPLEX LISTS OF SORTS
+	 *
+	 * These rules describe the TDF complex list sorts.  This is a simple list
+	 * of all the complex list sorts used in the specification.
+	 */
+
+	<make_clist>: (:SORT) -> ();
+
+	clist-item: () -> () = {
+		s = new-sort-name;
+		<make_clist>(s);
+	};
+
+	clist-list: () -> () = {
+		clist-item;
+		{
+			comma; clist-list;
+		||	$;
+		};
+	};
+
+	clist-pack: () -> () = {
+		open;
+		{
+			clist-list;
+		||	$;
+		};
+		close;
+	};
+
+
+	/*
+	 * SIMPLE LISTS OF SORTS
+	 *
+	 * These rules describe the TDF simple list sorts.  This is a simple list
+	 * of all the simple list sorts used in the specification.
+	 */
+
+	<make_slist>: (:SORT) -> ();
+
+	slist-item: () -> () = {
+		s = new-sort-name;
+		<make_slist>(s);
+	};
+
+	slist-list: () -> () = {
+		slist-item;
+		{
+			comma; slist-list;
+		||	$;
+		};
+	};
+
+	slist-pack: () -> () = {
+		open;
+		{
+			slist-list;
+		||	$;
+		};
+		close;
+	};
+
+
+	/*
+	 * OPTIONAL SORTS
+	 *
+	 * These rules describe the TDF optional sorts.  This is a simple list of
+	 * all the optional sorts used in the specification.
+	 */
+
+	<make_option>: (:SORT) -> ();
+
+	option-item: () -> () = {
+		s = new-sort-name;
+		<make_option>(s);
+	};
+
+	option-list: () -> () = {
+		option-item;
+		{
+			comma; option-list;
+		||	$;
+		};
+	};
+
+	option-pack: () -> () = {
+		open;
+		{
+			option-list;
+		||	$;
+		};
+		close;
+	};
+
+
+	/*
+	 * LINKABLE ENTITIES
+	 *
+	 * These rules describe the linkable TDF entities (tags, tokens, etc.).
+	 * Each such entity consists of a sort plus an associated linkage name.
+	 */
+
+	<make_edge_link>: (:SORT, :NAME) -> (:LINK);
+	<make_unit_link>: (:SORT, :NAME) -> (:LINK);
+	<null_link>: () -> (:LINK-LIST);
+	<cons_link>: (:LINK, :LINK-LIST) -> (:LINK-LIST);
+
+	link-item: () -> (a :LINK) = {
+		open; entity-sort; comma; s = old-sort-name; close; comma;
+		open; entity-identifier; comma; e = any-name; close;
+		a = <make_edge_link>(s, e);
+	};
+
+	link-list: () -> (p :LINK-LIST) = {
+		open; a = link-item; close;
+		{
+			comma; q = link-list;
+		||	q = <null_link>;
+		};
+		p = <cons_link>(a, q);
+	};
+
+	link-pack: () -> (p :LINK-LIST) = {
+		open;
+		{
+			q = link-list;
+		||	q = <null_link>;
+		};
+		close;
+		p = q;
+	};
+
+
+	/*
+	 * KINDS OF UNITS
+	 *
+	 * These rules describe the kinds of TDF unit (tag declarations, token
+	 * definitions, etc.).  Each such unit consists of a sort plus an
+	 * associated linkage name.
+	 */
+
+	kind-item: () -> (a :LINK) = {
+		open; unit-elements; comma; s = old-sort-name; close; comma;
+		open; unit-identifier; comma; e = any-name; close;
+		a = <make_unit_link>(s, e);
+	};
+
+	kind-list: () -> (p :LINK-LIST) = {
+		open; a = kind-item; close;
+		{
+			comma; q = kind-list;
+		||	q = <null_link>;
+		};
+		p = <cons_link>(a, q);
+	};
+
+	kind-pack: () -> (p :LINK-LIST) = {
+		open;
+		{
+			q = kind-list;
+		||	q = <null_link>;
+		};
+		close;
+		p = q;
+	};
+
+
+	/*
+	 * CONSTRUCTS FOR LINKABLE ENTITIES
+	 *
+	 * These rules describe the basic constructs for the TDF linkable entities.
+	 * Each construct consists of a sort and a construct for building that
+	 * sort.
+	 */
+
+	<set_edge>: (:SORT, :NAME) -> ();
+
+	edge-item: () -> () = {
+		open; edge-sort; comma; s = old-sort-name; close; comma;
+		open; edge-constructor; comma; c = name; close;
+		<set_edge>(s, c);
+	};
+
+	edge-list: () -> () = {
+		open; edge-item; close;
+		{
+			comma; edge-list;
+		||	$;
+		};
+	};
+
+	edge-pack: () -> () = {
+		open;
+		{
+			edge-list;
+		||	$;
+		};
+		close;
+	};
+
+
+	/*
+	 * TDF SPECIFICATION
+	 *
+	 * This rule describes the overall TDF specification database.  This
+	 * consists of lists of all the sorts etc. defined by the specification,
+	 * plus a version number.  This is the main entry point into the grammar.
+	 */
+
+	<make_spec>: (:NUMBER, :NUMBER, :LINK-LIST, :LINK-LIST) -> (:SPEC);
+	<null_spec>: () -> (:SPEC);
+	<syntax_error>: () -> ();
+
+	specification: () -> (spec :SPEC) = {
+		open;
+		open; sorts; comma; sort-pack; close; comma;
+		open; lists; comma; clist-pack; close; comma;
+		open; slists; comma; slist-pack; close; comma;
+		open; options; comma; option-pack; close; comma;
+		open; linkable-entities; comma; p = link-pack; close; comma;
+		open; kinds-of-unit; comma; q = kind-pack; close; comma;
+		open; graph-edges; comma; edge-pack; close; comma;
+		open; major-version; comma; v1 = number; close; comma;
+		open; minor-version; comma; v2 = number; close;
+		close;
+		eof;
+		spec = <make_spec>(v1, v2, p, q);
+	##
+		<syntax_error>;
+		spec = <null_spec>;
+	};
+
+%entry%
+
+	specification;
+
