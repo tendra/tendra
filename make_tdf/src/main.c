@@ -50,7 +50,7 @@ main(int argc, char **argv)
 		}
 	}
 
-	for (a = 0; a < argc; a++) {
+	for (a = 1; a < argc; a++) {
 		char *arg;
 
 		arg = argv[a];
