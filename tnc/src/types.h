@@ -73,7 +73,7 @@ typedef struct x_al_tag_info {
 */
 
 typedef struct x_tag_info {
-	bool var;
+	int var;
 	bool vis;
 	node *dec;
 	node *def;
