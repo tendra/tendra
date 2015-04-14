@@ -183,7 +183,7 @@ static loc_s name_to_loc
 	l.key = L_REGOFF;
 	l.reg = -1;
 	l.off = (no(id) /8) + n_off;
-	if (id)->tag
+	if (id->tag)
 	  l.off -= locals_offset;
 	else {			/* env_off modification */
 	  if (locate_param) {
