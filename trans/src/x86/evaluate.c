@@ -248,7 +248,7 @@ static void evalval
 
   if (n == reff_tag && son(e)->tag == name_tag && isglob(son(son(e)))) {
     outopenbr();
-    asm_printf("%s + %d", brog(son(son(e))) -> dec_id, (no(e) + no(son(e))) / 8);
+    asm_printf("%s + %ld", brog(son(son(e))) -> dec_id, (no(e) + no(son(e))) / 8);
     outclosebr();
     return;
   }
@@ -256,7 +256,7 @@ static void evalval
   if (n == name_tag) {
     if (no(e)!= 0) {
       outopenbr();
-      asm_printf("%s + %d", brog(son(e)) -> dec_id, no(e) / 8);
+      asm_printf("%s + %ld", brog(son(e)) -> dec_id, no(e) / 8);
       outclosebr();
     }
     else
