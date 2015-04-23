@@ -7,8 +7,11 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
+#ifdef __TenDRA__
 #define _POSIX_SOURCE
+#else
+#undef _POSIX_SOURCE
+#endif
 
 #include <stdio.h>
 
@@ -174,7 +177,7 @@ find_time(const char *fmt)
 STAT_TYPE *
 stat_func(char *nm, STAT_TYPE *fs)
 {
-#if FS_POSIX
+#if _POSIX_SOURCE
 	int s = stat(nm, fs);
 	if (s != -1) {
 		return fs;
@@ -231,7 +234,7 @@ find_cwd(void)
 {
 	static const char *crt_directory = NULL;
 	if (crt_directory == NULL) {
-#if FS_POSIX
+#if _POSIX_SOURCE
 		char buff[1024];
 		char *nm = getcwd(buff, 1024);
 		if (nm) {

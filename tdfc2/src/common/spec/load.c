@@ -7,13 +7,14 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#ifdef __TenDRA__
 #define _POSIX_SOURCE
+#else
+#undef _POSIX_SOURCE
+#endif
 
 #include <assert.h>
 #include <stdio.h>
-
-#include <sys/types.h>
-#include <sys/stat.h>
 
 #include <shared/check.h>
 #include <shared/xalloc.h>

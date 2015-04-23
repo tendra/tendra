@@ -7,8 +7,11 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
+#ifdef __TenDRA__
 #define _POSIX_SOURCE
+#else
+#undef _POSIX_SOURCE
+#endif
 
 #include <string.h>
 #include <stdio.h>

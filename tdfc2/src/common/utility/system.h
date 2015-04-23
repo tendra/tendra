@@ -22,30 +22,24 @@
     (#import may not work in obscure cases, the file datestamps in
     diagnostics mode may be wrong).
 
-    The default value for FS_POSIX is true under __TenDRA__ and false
+    The default value for _POSIX_SOURCE is true under __TenDRA__ and false
     otherwise. The idea here is to reduce dependencies during bootstrap
     (where the system compiler is used), as the POSIX-related features
     are not relevant there. Then, the full functionality is provided
     (and introduces the dependency on POSIX) when building for real.
 */
 
-#ifdef __TenDRA__
-#define FS_POSIX 1
-#else
-#define FS_POSIX 0
-#endif
+#if _POSIX_SOURCE
 
-
-#if FS_POSIX
-
-#include <time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+
 #include <unistd.h>
+#include <time.h>
 
 typedef struct stat STAT_TYPE;
 
-#else /* FS_POSIX */
+#else
 
 #include <time.h>
 
@@ -55,7 +49,7 @@ typedef struct {
 	unsigned long st_ino;
 } STAT_TYPE;
 
-#endif /* FS_POSIX */
+#endif
 
 
 /*
