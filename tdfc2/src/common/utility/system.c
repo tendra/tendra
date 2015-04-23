@@ -15,8 +15,10 @@
 
 #include <stdio.h>
 
+#if _POSIX_SOURCE
 #include <sys/types.h>
 #include <sys/stat.h>
+#endif
 
 #include <shared/check.h>
 #include <shared/error.h>
