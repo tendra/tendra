@@ -16,9 +16,6 @@
 #include <string.h>
 #include <stdio.h>
 
-#include <sys/types.h>
-#include <sys/stat.h>
-
 #include <shared/check.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
