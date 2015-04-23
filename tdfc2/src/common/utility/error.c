@@ -28,7 +28,6 @@
 #include <parse/preproc.h>
 
 #include <utility/ustring.h>
-#include <utility/system.h>
 #include <utility/version.h>
 #include <utility/error.h>
 #include <utility/catalog.h>
