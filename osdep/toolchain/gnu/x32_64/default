@@ -1,5 +1,4 @@
 /* $Id$ */
 
 >FLAG_AS	"-32"
->FLAG_LD	"-melf_i386"
 
