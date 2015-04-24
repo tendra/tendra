@@ -5,7 +5,3 @@
 
 +LIB_LDSO	"/libexec/ld-elf.so.1"
 
-+LIB_CRT0	""
-+LIB_CRTI	"/usr/lib/crt1.o /usr/lib/crti.o /usr/lib/crtbegin.o"
-+LIB_CRTN	"/usr/lib/crtend.o /usr/lib/crtn.o"
-

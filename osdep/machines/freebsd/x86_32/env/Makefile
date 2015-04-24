@@ -6,6 +6,7 @@
 .include <tendra.makedefs.mk>
 
 
+ENVFILE+=	default
 ENVFILE+=	tcc_prof
 
 ENVCOMMON+=	machines/common/env
