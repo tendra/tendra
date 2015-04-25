@@ -1,0 +1,11 @@
+/* $Id$ */
+
++LIB_CRT0       ""
++LIB_CRTI       "/usr/lib32/crt1.o /usr/lib32/crti.o /usr/lib32/crtbegin.o"
++LIB_CRTN       "/usr/lib32/crtend.o /usr/lib32/crtn.o"
+
+/* for -lc */
+<FLAG_LINK  "-L /usr/lib32"
+
+<FLAG_LINK	"-m elf_i386_fbsd"
+

@@ -21,7 +21,7 @@ typedef __va_list va_list;
  * which matches ours here.
  */
 #ifdef __BUILDING_TDF_C89_STDARG_H_VA_ARGS
-#if defined(_ARCH_x86_32)
+#if defined(_ARCH_x86_32) || defined(_ARCH_x32_64)
 
 #define __va_round(__T) \
 	(((sizeof (__T) + 3) / 4) * 4)
