@@ -1,0 +1,47 @@
+
+\startmode[A4]
+	\setuppapersize[A4]
+\stopmode
+
+% default layout
+\setuplayout[
+	grid=no,
+	margin=3\bodyfontsize,
+	columndistance=1.5\bodyfontsize,
+	columns=8,
+	backspace=25mm,
+	top=0pt,
+	topspace=5\bodyfontsize,
+	headerdistance=2.4\bodyfontsize,
+	header=1.6\bodyfontsize,
+	bottom=0pt,
+	bottomspace=0pt,
+	bottomdistance=0pt,
+	footer=\bodyfontsize,
+	footerdistance=13mm,
+	height=\dimexpr44\lineheight
+		+\headerheight+\headerdistance
+		+\footerheight+\footerdistance\relax,
+	leftedge=0pt,
+	leftmargin=0pt,
+	leftmargindistance=0pt,
+	leftedgedistance=0pt,
+	rightedge=0pt,
+	rightedgedistance=0pt,
+	rightmargin=\dimexpr2.1cm-.5\bodyfontsize\relax,
+	rightmargindistance=.5\bodyfontsize,
+	width=16cm]
+
+\setupinterlinespace[small]
+\setupwhitespace[halfline]
+
+\setupcolumns[
+	distance=1pt,
+	balance=no]
+
+\setupitemgroup[
+	margin=1.5\bodyfontsize]
+
+\setuptyping[
+	margin=3\bodyfontsize]
+

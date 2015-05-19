@@ -1,0 +1,75 @@
+
+\startsetups[doc:classify]
+	\hfill
+	\cap \WORD \getvariable{env}{classify}
+	\hfill
+\stopsetups
+
+\startsetups[doc:reminder]
+	\getmarking[chapternumber]
+	\hskip.25em
+	\getmarking[chapter]
+\stopsetups
+
+\startsetups[doc:revision]
+	\small
+	Rev.~\getvariable{env}{revision}
+\stopsetups
+
+% disabled, as we place this by \setupfootertexts
+\setuppagenumbering[location=]
+
+% grid={line,-25pt},
+
+\setuplabeltext[appendix=Appendix~]
+
+\definestructureconversionset[frontpart:pagenumber][][romannumerals]
+\definestructureconversionset[bodypart:pagenumber][][numbers]
+
+\startsectionblockenvironment[frontpart]
+\stopsectionblockenvironment
+
+\startsectionblockenvironment[bodypart,appendix]
+\stopsectionblockenvironment
+
+\def\TitleRev#1%
+	{#1\hfill \setup{doc:revision}}
+
+\define[2]\HeadVbox%
+	{\vbox to 1.25\lineheight % XXX: fragile
+		{\headtext{chapter} #1 \hskip.75em #2}}
+
+\setuphead[chapter,appendix,section,subsection][
+	align={flushleft, nothyphenated, verytolerant},
+	incrementnumber=yes]
+
+\setuphead[title][
+	page=yes,
+	header=high,
+	textcommand=\TitleRev,
+	after={\blank[2*halfline]}]
+
+% header=high to have the chapter title occupy the space of the header.
+% To keep the geometric layout, the title height must match the header height.
+\setuphead[chapter,appendix][
+	page=yes,
+	header=high,
+	after=\placecontent,
+	placehead=yes,
+	command=\HeadVbox,
+	style=\bfc]
+
+\setuphead[section,subsection][
+	page=no,
+	before={\blank[2em]},
+	style=\rm\tfb]
+
+
+\startmode[manpage]
+
+	\setuphead[section][
+		after=,
+		aftersection=]
+
+\stopmode
+
