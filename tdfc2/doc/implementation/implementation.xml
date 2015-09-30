@@ -119,14 +119,14 @@
 	<xi:include href="overview.xml"/>
 	<xi:include href="structure.xml"/>
 
-	<xi:include href="implementation-scalar.xml"/>
-	<xi:include href="implementation-pointers.xml"/>
-	<xi:include href="implementation-calling.xml"/>
-	<xi:include href="implementation-classes.xml"/>
-	<xi:include href="implementation-exceptions.xml"/>
-	<xi:include href="implementation-runtimetypes.xml"/>
-	<xi:include href="implementation-mangling.xml"/>
-	<xi:include href="implementation-misc.xml"/>
+	<xi:include href="scalar.xml"/>
+	<xi:include href="pointers.xml"/>
+	<xi:include href="calling.xml"/>
+	<xi:include href="classes.xml"/>
+	<xi:include href="exceptions.xml"/>
+	<xi:include href="runtimetypes.xml"/>
+	<xi:include href="mangling.xml"/>
+	<xi:include href="misc.xml"/>
 
 	<xi:include href="bibliography.xml"/>
 
