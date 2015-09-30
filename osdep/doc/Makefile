@@ -3,7 +3,7 @@
 .include "Makefile.inc"
 
 
-SUBDIR+=	devguides
+SUBDIR+=	porting
 
 .include <tendra.subdir.mk>
 

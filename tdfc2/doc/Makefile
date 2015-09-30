@@ -3,8 +3,10 @@
 .include "Makefile.inc"
 
 
-SUBDIR+=	devguides
-SUBDIR+=	userguides
+SUBDIR+=	pragmatoken
+SUBDIR+=	config
+SUBDIR+=	tchk
+SUBDIR+=	implementation
 
 .include <tendra.subdir.mk>
 
