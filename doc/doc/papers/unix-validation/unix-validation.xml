@@ -8,6 +8,7 @@
 	<bookinfo>
 		<title>Validation of TenDRA Capability to Implement a UNIX-like Operating
 			System</title>
+		<productname>TenDRA</productname>
 
 		<authorgroup>
 			<author>
