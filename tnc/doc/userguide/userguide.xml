@@ -5,6 +5,7 @@
 
 	<bookinfo>
 		<title>&tdf; Notation Compiler</title>
+		<productname>tnc</productname>
 
 		<authorgroup>
 			<othercredit class="copyeditor">

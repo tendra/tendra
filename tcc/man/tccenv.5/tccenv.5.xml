@@ -62,6 +62,10 @@
 			it may be put.
 -->
 
+	<refentryinfo>
+		<productname>tcc</productname>
+	</refentryinfo>
+
 	<refmeta>
 		<refentrytitle>tccenv</refentrytitle>
 		<manvolnum>5</manvolnum>

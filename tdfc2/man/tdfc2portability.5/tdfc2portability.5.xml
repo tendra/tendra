@@ -31,6 +31,10 @@
         ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
+	<refentryinfo>
+		<productname>tdfc2</productname>
+	</refentryinfo>
+
 	<refmeta>
 		<refentrytitle>portability</refentrytitle>
 		<manvolnum>5</manvolnum>

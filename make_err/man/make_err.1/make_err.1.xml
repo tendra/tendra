@@ -37,6 +37,10 @@
 	ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
+	<refentryinfo>
+		<productname>make_err</productname>
+	</refentryinfo>
+
 	<refmeta>
 		<refentrytitle>make_err</refentrytitle>
 		<manvolnum>1</manvolnum>

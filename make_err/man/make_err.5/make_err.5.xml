@@ -60,6 +60,10 @@
 			it may be put.
 -->
 
+	<refentryinfo>
+		<productname>make_err</productname>
+	</refentryinfo>
+
 	<refmeta>
 		<refentrytitle>make_err</refentrytitle>
 		<manvolnum>5</manvolnum>

@@ -75,6 +75,10 @@
 			it may be put.
 -->
 
+	<refentryinfo>
+		<productname>disp</productname>
+	</refentryinfo>
+
 	<refmeta>
 		<refentrytitle>disp</refentrytitle>
 		<manvolnum>1</manvolnum>

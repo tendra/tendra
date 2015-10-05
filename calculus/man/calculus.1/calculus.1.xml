@@ -73,6 +73,10 @@
 			it may be put.
 -->
 
+	<refentryinfo>
+		<productname>calculus</productname>
+	</refentryinfo>
+
 	<refmeta>
 		<refentrytitle>calculus</refentrytitle>
 		<manvolnum>1</manvolnum>

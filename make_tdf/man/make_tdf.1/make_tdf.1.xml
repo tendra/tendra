@@ -62,6 +62,10 @@
 			it may be put.
 -->
 
+	<refentryinfo>
+		<productname>make_tdf</productname>
+	</refentryinfo>
+
 	<refmeta>
 		<refentrytitle>make_tdf</refentrytitle>
 		<manvolnum>1</manvolnum>

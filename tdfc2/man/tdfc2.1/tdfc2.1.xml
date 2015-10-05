@@ -108,6 +108,10 @@
 			it may be put.
 -->
 
+	<refentryinfo>
+		<productname>tdfc2</productname>
+	</refentryinfo>
+
 	<refmeta>
 		<refentrytitle>tdfc2</refentrytitle>
 		<manvolnum>1</manvolnum>

@@ -65,6 +65,10 @@
 		it may be put.
 -->
 
+	<refentryinfo>
+		<productname>libtdf</productname>
+	</refentryinfo>
+
 	<refmeta>
 		<refentrytitle>tdftags</refentrytitle>
 		<manvolnum>3</manvolnum>

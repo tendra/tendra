@@ -7,6 +7,7 @@
 
 	<bookinfo>
 		<title>Tspec - An &api; Specification Tool</title>
+		<productname>tspec</productname>
 
 		<authorgroup>
 			<othercredit class="copyeditor">

@@ -6,6 +6,7 @@
 <book xmlns:xi="http://www.w3.org/2001/XInclude">
 	<bookinfo>
 		<title>The SID users' guide</title>
+		<productname>sid</productname>
 
 		<authorgroup>
 			<author>

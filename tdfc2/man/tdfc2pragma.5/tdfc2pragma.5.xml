@@ -65,6 +65,10 @@
 			it may be put.
 -->
 
+	<refentryinfo>
+		<productname>tdfc2</productname>
+	</refentryinfo>
+
 	<refmeta>
 		<refentrytitle>tdfc #pragma syntax</refentrytitle>
 		<manvolnum>5</manvolnum>

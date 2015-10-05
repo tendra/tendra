@@ -87,6 +87,10 @@
 			it may be put.
 -->
 
+	<refentryinfo>
+		<productname>sid</productname>
+	</refentryinfo>
+
 	<refmeta>
 		<refentrytitle>sid</refentrytitle>
 		<manvolnum>1</manvolnum>

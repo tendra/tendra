@@ -9,6 +9,7 @@
 <book>
 	<bookinfo>
 		<title>Adding new APIs with tspec</title>
+		<productname>tspec</productname>
 
 		<corpauthor>The TenDRA Project</corpauthor>
 

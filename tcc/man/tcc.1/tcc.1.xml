@@ -167,6 +167,10 @@
 			it may be put.
 -->
 
+	<refentryinfo>
+		<productname>tcc</productname>
+	</refentryinfo>
+
 	<refmeta>
 		<refentrytitle>tcc</refentrytitle>
 		<manvolnum>1</manvolnum>

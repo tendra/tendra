@@ -60,6 +60,10 @@
 			it may be put.
 -->
 
+	<refentryinfo>
+		<productname>tld</productname>
+	</refentryinfo>
+
 	<refmeta>
 		<refentrytitle>tld</refentrytitle>
 		<manvolnum>5</manvolnum>

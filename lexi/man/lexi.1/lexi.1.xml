@@ -75,6 +75,10 @@
 			it may be put.
 -->
 
+	<refentryinfo>
+		<productname>lexi</productname>
+	</refentryinfo>
+
 	<refmeta>
 		<refentrytitle>lexi</refentrytitle>
 		<manvolnum>1</manvolnum>

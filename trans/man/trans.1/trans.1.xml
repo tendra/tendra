@@ -91,6 +91,10 @@
 		it may be put.
 -->
 
+	<refentryinfo>
+		<productname>trans</productname>
+	</refentryinfo>
+
 	<refmeta>
 		<refentrytitle>trans</refentrytitle>
 		<manvolnum>1</manvolnum>

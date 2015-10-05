@@ -82,6 +82,10 @@
 			it may be put.
 -->
 
+	<refentryinfo>
+		<productname>tspec</productname>
+	</refentryinfo>
+
 	<refmeta>
 		<refentrytitle>tspec</refentrytitle>
 		<manvolnum>1</manvolnum>

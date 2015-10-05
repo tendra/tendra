@@ -32,6 +32,10 @@
         ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
+	<refentryinfo>
+		<productname>make_tdf</productname>
+	</refentryinfo>
+
 	<refmeta>
 		<refentrytitle>make_tdf</refentrytitle>
 		<manvolnum>5</manvolnum>

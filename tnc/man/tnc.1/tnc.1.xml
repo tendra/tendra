@@ -91,6 +91,10 @@
 			it may be put.
 -->
 
+	<refentryinfo>
+		<productname>tnc</productname>
+	</refentryinfo>
+
 	<refmeta>
 		<refentrytitle>tnc</refentrytitle>
 		<manvolnum>1</manvolnum>

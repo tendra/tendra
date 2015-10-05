@@ -2,6 +2,10 @@
 <!DOCTYPE refentry SYSTEM "minidocbook.dtd">
 
 <refentry>
+	<refentryinfo>
+		<productname>tcc</productname>
+	</refentryinfo>
+
 	<refmeta>
 		<refentrytitle>tccmodes</refentrytitle>
 		<manvolnum>5</manvolnum>

@@ -34,6 +34,10 @@
         ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
+	<refentryinfo>
+		<productname>tdfc2</productname>
+	</refentryinfo>
+
 	<refmeta>
 		<refentrytitle>charset</refentrytitle>
 		<manvolnum>5</manvolnum>
