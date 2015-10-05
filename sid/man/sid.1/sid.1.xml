@@ -97,7 +97,7 @@
 	</refmeta>
 
 	<refnamediv id="name">
-		<refname>SID</refname>
+		<refname>sid</refname>
 		<refpurpose>Syntax Improving Device; parser generator</refpurpose>
 	</refnamediv>
 
