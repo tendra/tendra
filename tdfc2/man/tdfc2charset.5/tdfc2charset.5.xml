@@ -39,12 +39,12 @@
 	</refentryinfo>
 
 	<refmeta>
-		<refentrytitle>charset</refentrytitle>
+		<refentrytitle>tdfc2charset</refentrytitle>
 		<manvolnum>5</manvolnum>
 	</refmeta>
 
 	<refnamediv>
-		<refname>charset</refname>
+		<refname>tdfc2charset</refname>
 		<refpurpose>tdfc2 execution character set syntax</refpurpose>
 	</refnamediv>
 

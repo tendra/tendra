@@ -70,13 +70,13 @@
 	</refentryinfo>
 
 	<refmeta>
-		<refentrytitle>tdfc #pragma syntax</refentrytitle>
+		<refentrytitle>tdfc2pragma</refentrytitle>
 		<manvolnum>5</manvolnum>
 	</refmeta>
 
 	<refnamediv>
-		<refname>tdfc #pragma syntax</refname>
-		<refpurpose>TODO</refpurpose>
+		<refname>tdfc2pragma</refname>
+		<refpurpose>tdfc #pragma syntax</refpurpose>
 	</refnamediv>
 
 

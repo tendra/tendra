@@ -36,12 +36,12 @@
 	</refentryinfo>
 
 	<refmeta>
-		<refentrytitle>portability</refentrytitle>
+		<refentrytitle>tdfc2portability</refentrytitle>
 		<manvolnum>5</manvolnum>
 	</refmeta>
 
 	<refnamediv>
-		<refname>portability</refname>
+		<refname>tdfc2portability</refname>
 		<refpurpose>tdfc2 portability table syntax</refpurpose>
 	</refnamediv>
 
