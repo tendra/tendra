@@ -163,9 +163,10 @@
 		<para>The &sid; command is used to turn descriptions of a language into
 			a program for recognising that language.
 			This manual page details the command line syntax; for more
-			information, consult the &sid; user documentation.
-			<!-- TODO: link to sid guide -->
-			The number of files specified on the command line varies depending
+			information, consult the &sid; user documentation.</para>
+		<!-- TODO: link to sid guide -->
+
+		<para>The number of files specified on the command line varies depending
 			upon the output language.
 			The description of the <option>--language</option> option
 			specifies the number of files for each language.</para>
