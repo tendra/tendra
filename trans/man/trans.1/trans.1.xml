@@ -378,7 +378,7 @@
 
 				<listitem>
 					<para>Specify the calling conventions for generated code.
-						The supported &abi;s differ for each platform.</para>
+						The supported calling conventions differ for each platform.</para>
 
 					<para>The available calling conventions are:</para>
 
