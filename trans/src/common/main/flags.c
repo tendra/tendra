@@ -529,7 +529,7 @@ switch_abi(const char *s, unsigned permitted)
 	}
 
 	if (~permitted & o) {
-		error(ERR_FATAL, "Calling convention %s not permitted "
+		error(ERR_FATAL, "ABI %s not permitted "
 			"for this architecture.", s);
 		return -1;
 	}
