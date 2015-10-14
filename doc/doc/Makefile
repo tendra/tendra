@@ -3,7 +3,7 @@
 .include "Makefile.inc"
 
 
-SUBDIR+=	papers
+SUBDIR+=	reports
 
 # The developer documentation is relevant for the website, but not appropriate
 # for installation on a users' system. It may be enabled conditionally, by
