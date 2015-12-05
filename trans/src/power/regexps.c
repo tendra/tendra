@@ -184,7 +184,7 @@ static ans iskept_regrange(exp e, int low_reg, int hi_reg)
 
 	asm_comment("iskept found 1: reg=%d isc=%d e->tag =%d son(e)->tag =%d",
 		     i, isc, e->tag, son(e)->tag);
-	asm_comment("iskept found: no = %d",no(e));
+	asm_comment("iskept found: no = %ld",no(e));
 
 
 	switch (aa.discrim)
@@ -432,7 +432,7 @@ void keepreg(exp e, int reg)
   assert(z >= 0 && z <= LAST_ALL_REGS);
   regexps[z].keptexp = e;
   regexps[z].iscont = 0;
-  asm_comment("keepreg : reg %d kept name is %d no %d",z,e->tag,no(e));
+  asm_comment("keepreg : reg %d kept name is %d no %ld",z,e->tag,no(e));
 }
 
 static bool couldaffect(exp , exp);

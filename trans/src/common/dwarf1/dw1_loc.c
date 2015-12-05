@@ -209,7 +209,7 @@ out_dwarf_loc_attr(exp t, int proc_no)
 			case local_pl: {
 				char expr_buf[100];
 
-				sprintf(expr_buf, "%d - %sdisp%d # local var", 
+				sprintf(expr_buf, "%ld - %sdisp%d # local var", 
 					(no(s) + no(t)) / 8,
 					local_prefix,proc_no);
 #ifndef LOCS_IN_BLKS

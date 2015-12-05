@@ -609,7 +609,7 @@ evalone ( exp e, int bitposn, bool ro ){
       char *nm = globdec->dec_id ;
       asm_printf("\t.word %s", nm ) ;
       if ( no ( e ) ) {
-	asm_printf("+%d",  no ( e ) / 8 ) ;
+	asm_printf("+%ld",  no ( e ) / 8 ) ;
       }
       asm_printf("\n") ;
       return ;

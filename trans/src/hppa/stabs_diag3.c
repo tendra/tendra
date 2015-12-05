@@ -1756,7 +1756,7 @@ static DNTTPOINTER out_dt_shape
 	   }
 	   else
 	   {
- 	      asm_fprintf(dg_file,"%ld=%c%d",non,su,shape_size(s) /8);
+ 	      asm_fprintf(dg_file,"%ld=%c%ld",non,su,shape_size(s) /8);
   	      for (i=fields->lastused-1;i>=0;i--)
 	      {
 		 diag_field sf = (fields->array)[i];
@@ -1921,7 +1921,7 @@ static DNTTPOINTER out_dt_shape
 	      asm_fprintf(dg_file,"e");
 	      for (i=0;i<nvals;i++)
 	      {
-		 asm_fprintf(dg_file,"%s:%d,",CSTRING(enumarr[i] ->nme), EXPINT(enumarr[i] ->val));
+		 asm_fprintf(dg_file,"%s:%ld,",CSTRING(enumarr[i] ->nme), EXPINT(enumarr[i] ->val));
 	      }
 	      asm_fprintf(dg_file,";");
 	   }

@@ -382,7 +382,7 @@ evalone(exp e, long rep)
 	    asm_printop(".word %s : %ld", nm, rep);
 	  }
 	  else {
-	    asm_printop(".word %s + %d :%ld", nm, no(e) / 8, rep);
+	    asm_printop(".word %s + %ld :%ld", nm, no(e) / 8, rep);
 	  }
 	}
 	out_value(symnos[symdef], iword, no(e) / 8, rep);

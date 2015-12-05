@@ -356,7 +356,7 @@ infotag(exp e, int i)
 	printf("-------------------------------------------------------------------------------\n");
 	printf("| %-17s 0x%-8x         | SHAPE information                    |\n", getname(e->tag), (unsigned int)e);
 	printf("-------------------------------------------------------------------------------\n");
-	printf("| no(e)        = %-15d       ", no(e));
+	printf("| no(e)        = %-15ld       ", no(e));
 	if (sh(e) != NULL) {
 		printf("| sh(e)->tag        = %-15s |\n", shape_name(sh(e)->tag));
 	} else {
@@ -381,7 +381,7 @@ infotag(exp e, int i)
 	}
 
 	if (sh(e) != NULL) {
-		printf("  | shape_size(sh(e))  = %-8d        |\n", shape_size(sh(e)));
+		printf("  | shape_size(sh(e))  = %-8ld        |\n", shape_size(sh(e)));
 	} else {
 		printf("  |                                      |\n");
 	}
@@ -471,7 +471,7 @@ infotag(exp e, int i)
 		finished = 0;
 		while (!finished) {
 			finished = point->last;
-			printf("| no          = %-10d   |   ", no(point));
+			printf("| no          = %-10ld   |   ", no(point));
 			point = bro(point);
 		}
 		printf("\n");
@@ -509,7 +509,7 @@ infotag(exp e, int i)
 		while (!finished) {
 			finished = point->last;
 			if (sh(point) != NULL) {
-				printf("| shape_size  = %-4d         |   ", shape_size(sh(point)));
+				printf("| shape_size  = %-4ld         |   ", shape_size(sh(point)));
 			} else {
 				printf("|                            |   ");
 			}
@@ -631,7 +631,7 @@ exp_show(exp e, int depth, int depth_of_recursion, int flag)
 	case name_tag: {
 		int l = ident_no(son(e));
 		if (l) {
-			printf("%s:<%s> no=%d obtain {tag~%04d}\n", tagname, shape_name(sh(e)->tag), no(e), l);
+			printf("%s:<%s> no=%ld obtain {tag~%04d}\n", tagname, shape_name(sh(e)->tag), no(e), l);
 		}
 #if 1
 		else if (sh(e)->tag == prokhd && (son(son(e))->tag == proc_tag || son(son(e)) == NULL || son(son(e))->tag == general_proc_tag) && done_scan == 1) {
@@ -642,13 +642,13 @@ exp_show(exp e, int depth, int depth_of_recursion, int flag)
 		}
 #endif
 		else {
-			printf("%s:<%s> no=%d obtain (0x%x)\n", tagname, shape_name(sh(e)->tag), no(e), (int)son(e));
+			printf("%s:<%s> no=%ld obtain (0x%x)\n", tagname, shape_name(sh(e)->tag), no(e), (int)son(e));
 		}
 		break;
 	}
 
 	case trap_tag:
-		printf("%s:no=%d\n", tagname, no(e));
+		printf("%s:no=%ld\n", tagname, no(e));
 		exp_show(son(e), depth + 1, depth_of_recursion, 0);
 		break;
 
@@ -664,7 +664,7 @@ exp_show(exp e, int depth, int depth_of_recursion, int flag)
 	}
 
 	case caller_name_tag:
-		printf("%s:<%s> for caller NO_%d\n", tagname, shape_name(sh(e)->tag), no(e));
+		printf("%s:<%s> for caller NO_%ld\n", tagname, shape_name(sh(e)->tag), no(e));
 		break;
 
 	case case_tag:
@@ -677,9 +677,9 @@ exp_show(exp e, int depth, int depth_of_recursion, int flag)
 				s = bro(s);
 				printf("(0x%x)", (int)s);
 				print_spaces(depth + 1);
-				printf("(%d", no(s));
+				printf("(%ld", no(s));
 				if (son(s) != NULL) {
-					printf("-%d)", no(son(s)));
+					printf("-%ld)", no(son(s)));
 				} else {
 					printf(")");
 				}
@@ -792,9 +792,9 @@ exp_show(exp e, int depth, int depth_of_recursion, int flag)
 	case bfass_tag:
 	case bfcont_tag:
 		if (sh(e)->tag == bitfhd) {
-			printf("%s:<%s> %s %d bit bitfield , bit_offset=%d\n", tagname, shape_name(sh(e)->tag), is_signed(sh(e)) ? "Signed" : "Unsigned", shape_size(sh(e)), no(e));
+			printf("%s:<%s> %s %ld bit bitfield , bit_offset=%ld\n", tagname, shape_name(sh(e)->tag), is_signed(sh(e)) ? "Signed" : "Unsigned", shape_size(sh(e)), no(e));
 		} else {
-			printf("%s:<%s> bit_offset=%d\n", tagname, shape_name(sh(e)->tag), no(e));
+			printf("%s:<%s> bit_offset=%ld\n", tagname, shape_name(sh(e)->tag), no(e));
 		}
 
 		exp_show(son(e), depth + 1, depth_of_recursion, 0);
@@ -802,7 +802,7 @@ exp_show(exp e, int depth, int depth_of_recursion, int flag)
 
 	case chvar_tag:
 		if (sh(e)->tag == bitfhd) {
-			printf("%s:<%s> %s %d bit bitfield\n", tagname, shape_name(sh(e)->tag), is_signed(sh(e)) == 0 ? "Unsigned" : "Signed", shape_size(sh(e)));
+			printf("%s:<%s> %s %ld bit bitfield\n", tagname, shape_name(sh(e)->tag), is_signed(sh(e)) == 0 ? "Unsigned" : "Signed", shape_size(sh(e)));
 		} else {
 			printf("%s:<%s>\n", tagname, shape_name(sh(e)->tag));
 		}
@@ -811,15 +811,15 @@ exp_show(exp e, int depth, int depth_of_recursion, int flag)
 
 	case make_callee_list_tag:
 		if (call_has_vcallees(e)) {
-			printf("%s:has_vcallees no=%d\n", tagname, no(e));
+			printf("%s:has_vcallees no=%ld\n", tagname, no(e));
 		} else {
-			printf("%s: no=%d\n", tagname, no(e));
+			printf("%s: no=%ld\n", tagname, no(e));
 		}
 		exp_show(son(e), depth + 1, depth_of_recursion, 0);
 		break;
 
 	case clear_tag:
-		printf("%s:<%s> no=%d\n", tagname, shape_name(sh(e)->tag), no(e));
+		printf("%s:<%s> no=%ld\n", tagname, shape_name(sh(e)->tag), no(e));
 		exp_show(son(e), depth + 1, depth_of_recursion, 0);
 		break;
 
@@ -835,9 +835,9 @@ exp_show(exp e, int depth, int depth_of_recursion, int flag)
 
 	case val_tag:
 		if (is_signed(sh(e))) {
-			printf("%s:<%s> no=%d (0x%08x)\n", tagname, shape_name(sh(e)->tag), no(e), no(e));
+			printf("%s:<%s> no=%ld (0x%08lx)\n", tagname, shape_name(sh(e)->tag), no(e), no(e));
 		} else {
-			printf("%s:<%s> no=%u (0x%08x)\n", tagname, shape_name(sh(e)->tag), no(e), no(e));
+			printf("%s:<%s> no=%lu (0x%08lx)\n", tagname, shape_name(sh(e)->tag), no(e), no(e));
 		}
 
 		exp_show(son(e), depth + 1, depth_of_recursion, 0);
@@ -847,7 +847,7 @@ exp_show(exp e, int depth, int depth_of_recursion, int flag)
 	case field_tag:
 	case real_tag:
 	case ncopies_tag:
-		printf("%s:<%s> no=%d\n", tagname, shape_name(sh(e)->tag), no(e));
+		printf("%s:<%s> no=%ld\n", tagname, shape_name(sh(e)->tag), no(e));
 		exp_show(son(e), depth + 1, depth_of_recursion, 0);
 		break;
 

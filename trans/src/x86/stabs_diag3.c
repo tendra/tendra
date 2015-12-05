@@ -542,7 +542,7 @@ out_dt_shape(diag_type dt)
 			s = dt->data.t_union.tdf_shape;
 			su = 'u';
 		}
-		asm_fprintf(dg_file, "%ld=%c%d", non, su, shape_size(s) / 8);
+		asm_fprintf(dg_file, "%ld=%c%ld", non, su, shape_size(s) / 8);
 
 		for (i = fields->lastused - 1; i >= 0; i--) {
 			diag_field sf = (fields->array)[i];
@@ -610,7 +610,7 @@ out_dt_shape(diag_type dt)
 		asm_fprintf(dg_file, "%ld=e", non);
 		for (i = enumvals->lastused - 1; i >= 0; i--) {
 			enum_values ef = (enumvals->array)[i];
-			asm_fprintf(dg_file, "%s:%d,", ef->nme.ints.chars, no(ef->val));
+			asm_fprintf(dg_file, "%s:%ld,", ef->nme.ints.chars, no(ef->val));
 		}
 		asm_fprintf(dg_file, ";");
 		last_type_sz = 32;

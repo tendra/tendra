@@ -2590,7 +2590,7 @@ tailrecurse:
 
 				u = (son(z) == NULL) ? n : no(son(z));
 				for (; n <= u; n++) {
-					sprintf(labl, "L$$%d", no(son(pt(z))));
+					sprintf(labl, "L$$%ld", no(son(pt(z))));
 					out_directive(".WORD", labl);
 				}
 
@@ -3274,7 +3274,7 @@ tailrecurse:
 			d = getreg(sp.fixed);
 		}
 
-		sprintf(label_name, "L$$%d", no(son(pt(e))));
+		sprintf(label_name, "L$$%ld", no(son(pt(e))));
 		if (PIC_code) {
 			int n = next_PIC_pcrel_lab();
 			char s[64];
@@ -4028,7 +4028,7 @@ tailrecurse:
 	}
 
 	case val_tag:
-		asm_comment("make_code val_tag: no(e) = %d", no(e));
+		asm_comment("make_code val_tag: no(e) = %ld", no(e));
 
 		if (shape_size(sh(e)) > 32) {
 			flt64 t;

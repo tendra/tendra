@@ -367,7 +367,7 @@ makeans make_ident_tag_code(exp e, space sp, where dest, int exitlab)
     r = code_here(init_exp, sp, placew);
   }
 
-  asm_comment("make_ident_tag_code end_init: no(e) =%d", no(e));
+  asm_comment("make_ident_tag_code end_init: no(e) =%ld", no(e));
 
   if (remember && r != R_NO_REG && pt(e)!= NULL
       && keep_eq_size(sh(init_exp), sh(pt(e))))
@@ -386,7 +386,7 @@ makeans make_ident_tag_code(exp e, space sp, where dest, int exitlab)
   /* and evaluate the body of the declaration */
   mka = make_code(bro(init_exp), guard(placew, sp), dest, exitlab);
 
-  asm_comment("make_ident_tag_code end_range: no(e) =%d", no(e));
+  asm_comment("make_ident_tag_code end_range: no(e) =%ld", no(e));
 
   return mka;
 }

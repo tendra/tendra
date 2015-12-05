@@ -200,7 +200,7 @@ local_translate_capsule(void)
 
 		id = crt_def->dec_id;		/* might be changed by fixup_name() */
 
-		asm_comment("%s: extnamed=%d no(tg)=%d isvar(tg)=%d", id, extnamed, no(tg), isvar(tg));
+		asm_comment("%s: extnamed=%d no(tg)=%ld isvar(tg)=%d", id, extnamed, no(tg), isvar(tg));
 		asm_comment("\ttg->tag=%d dec_outermost=%d have_def=%d son(tg)!=NULL=%d",
 		            tg->tag, crt_def->dec_outermost, crt_def->have_def, son(tg) != NULL);
 		if (son(tg) != NULL) {
@@ -504,7 +504,7 @@ local_translate_capsule(void)
 		bool extnamed = crt_def->extnamed;
 		diag_def = crt_def; /* just in case find_dd is called */
 
-		asm_comment("no(tg)=%d isvar(tg)=%d extnamed=%d son(tg)==NULL=%d",
+		asm_comment("no(tg)=%ld isvar(tg)=%d extnamed=%d son(tg)==NULL=%d",
 		            no(tg), isvar(tg), extnamed, son(tg) == NULL);
 
 		if (son(tg) == NULL) {

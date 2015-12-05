@@ -161,7 +161,7 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
 	  def = regalloc(s, freefixed, freefloat, stack);
 	}
 	
-	asm_comment("regalloc ident_tag:	props=%#x fixregable=%d no(e)=%d ffix=%d", props(e), fixregable(e), no(e), ffix);
+	asm_comment("regalloc ident_tag:	props=%#x fixregable=%d no(e)=%ld ffix=%d", props(e), fixregable(e), no(e), ffix);
 	
 	if ((props(e) & inreg_bits) == 0 && 
 	    fixregable(e) && no(e) < ffix
@@ -172,7 +172,7 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
 	  no(e) = SREG_TO_REALREG(ffix);	/* will be in s reg */
 	  def.fixdump |= RMASK(no(e));
 	  ffix--;
-	  asm_comment("regalloc suitable for s reg:	no(e)=%d", no(e));
+	  asm_comment("regalloc suitable for s reg:	no(e)=%ld", no(e));
 	  assert(ffix >= 0);
 	  assert(IS_SREG(no(e)));
 	  assert(a.ashsize <= 32);
@@ -186,7 +186,7 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
 	  no(e) = SFREG_TO_REALFREG(ffloat);	/* will be in s reg */
 	  def.fltdump |= RMASK(no(e));
 	  ffloat--;
-	  asm_comment("regalloc suitable for s freg:	no(e)=%d", no(e));
+	  asm_comment("regalloc suitable for s freg:	no(e)=%ld", no(e));
 	  assert(ffloat >= 0);
 	  assert(IS_FLT_SREG(no(e)));
 	  assert(a.ashsize <= 64);
@@ -260,12 +260,12 @@ spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
 	    def.stack = MAX(def.stack, st);
 	    no(e) = (stack<<3) + R_FP;		/* no() decoded by boff() */
 	    assert((stack&7)==0);			/* must be byte aligned */
-	    asm_comment("regalloc allocate on stack:	stack,st=%ld,%ld	no(e)=%d", stack,st,no(e));
+	    asm_comment("regalloc allocate on stack:	stack,st=%ld,%ld	no(e)=%ld", stack,st,no(e));
 	  }
 	}
 	else 
 	{
-	  asm_comment("regalloc no(e)==%d:/* allocation of stack like regs in make_code */", no(e));
+	  asm_comment("regalloc no(e)==%ld:/* allocation of stack like regs in make_code */", no(e));
 	}
       }
       body = regalloc(bro(s), ffix, ffloat, st);

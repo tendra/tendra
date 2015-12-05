@@ -485,7 +485,7 @@ static void evalone(exp e, int bitposn)
 
   asm_comment("evalone: e->tag =%d, bitposn=%d, ash=%ld,%ld", e->tag,
 	   bitposn, a.ashsize, a.ashalign);
-  asm_comment("evalone no(e) =%d",no(e));
+  asm_comment("evalone no(e) =%ld",no(e));
 
   set_align(a.ashalign);
 
@@ -701,7 +701,7 @@ static void evalone(exp e, int bitposn)
       {
 	int gap = no(off) - remainderbits.bitposn;
 
-	asm_comment("evalone compound_tag: gap=%d off=%d ash=%ld,%ld",
+	asm_comment("evalone compound_tag: gap=%d off=%ld ash=%ld,%ld",
 		gap, no(off), tupa.ashsize, tupa.ashalign);
 
 	/* check that component's alignment matches offset in struct */

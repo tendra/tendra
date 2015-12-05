@@ -715,7 +715,7 @@ local_translate_capsule(void)
 				if (sysV_assembler) {
 					asm_printop(".type %s,#object", id);
 					if (!know_size) {
-						asm_printop(".size %s,%d", id, shape_size(sh(stg)) / 8);
+						asm_printop(".size %s,%ld", id, shape_size(sh(stg)) / 8);
 					}
 				}
 			}

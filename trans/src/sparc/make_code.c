@@ -4222,7 +4222,7 @@ null_tag_case :
 
 				u = ( son ( z ) == NULL ) ? n : no ( son ( z ) ) ;
 				for ( ; n != u + 1 ; n++ ) {	/* comparison independent of sign */
-					asm_printf("\t.word %s%d", lab_prefix, no ( son ( pt ( z ) ) ) ) ;
+					asm_printf("\t.word %s%ld", lab_prefix, no ( son ( pt ( z ) ) ) ) ;
 					if ( PIC_code ) {
 						asm_printf("-1b" ) ;
 					}
@@ -4705,7 +4705,7 @@ null_tag_case :
 			if (son(e)->tag == string_tag) {
 				asm_printf("%s", nostr(son(e)));
 			} else if (son(e)->tag == val_tag) {
-				asm_printf("%d", no(son(e)));
+				asm_printf("%ld", no(son(e)));
 			} else if (asm_in(e)) {
 				exp s = son(e);
 				if (s->tag == name_tag && !isvar(son(s))) {

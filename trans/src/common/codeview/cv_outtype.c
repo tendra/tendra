@@ -203,11 +203,11 @@ out_tagged(diag_type d)
 
            if (f.field_type->key == DIAG_TYPE_BITFIELD) {
              asm_printf(
-		     " .def %s; .val %d; .scl 18; .type 04; .size %d; .endef\n",
+		     " .def %s; .val %ld; .scl 18; .type 04; .size %d; .endef\n",
 		     f.field_name.ints.chars, no(f.where),
 		     f.field_type->data.bitfield.no_of_bits.nat_val.small_nat);
            } else {
-             asm_printf( " .def %s; .val %d; .scl 8; ",
+             asm_printf( " .def %s; .val %ld; .scl 8; ",
 		     f.field_name.ints.chars, no(f.where) / 8);
              ty = out_type(f.field_type, 1);
              asm_printf( ".type 0%o; .endef\n", ty.type +
@@ -264,7 +264,7 @@ out_tagged(diag_type d)
         for (i = es.len - 1; i >= 0; --i) {
 	   struct enum_values_t e;
            e = *es.array[i];
-           asm_printf( " .def %s; .val %d; .scl 16; .type 013; .endef\n",
+           asm_printf( " .def %s; .val %ld; .scl 16; .type 013; .endef\n",
 		   e.nme.ints.chars, no(e.val));
 	}
         asm_printf(

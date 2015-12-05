@@ -1716,7 +1716,7 @@ scan(exp *e, exp **at)
 			no(*e) = no(*e) >> 3;
 		}
 
-		asm_comment("val_tag %d no=%d", s->tag, no(*e));
+		asm_comment("val_tag %d no=%ld", s->tag, no(*e));
 		/* ... and continue */
 	}
 

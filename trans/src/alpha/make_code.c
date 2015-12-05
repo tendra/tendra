@@ -3809,7 +3809,7 @@ tailrecurse:
 				u = (son(z) == NULL) ? n : exp_to_INT64(son(z));
 				for (; INT64_leq(n, u) /*n <= u*/; n = INT64_increment(n)/*n++*/) {
 					if (as_file) {
-						asm_printop(".gprel32 $%d", no(son(pt(z))));
+						asm_printop(".gprel32 $%ld", no(son(pt(z))));
 					}
 					out_value(-no(son(pt(z))), igprel32, make_INT64(0, 0), 1);
 				}

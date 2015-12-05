@@ -584,7 +584,7 @@ static void output_diag(diag_info * d, int proc_no, exp e)
 
   id = son(d->data.id_scope.access);
 
-  asm_comment("output_diag: DIAG_INFO_ID %s isglob(id) =%d no(id) =%d",
+  asm_comment("output_diag: DIAG_INFO_ID %s isglob(id) =%d no(id) =%ld",
 	      CSTRING(d->data.id_scope.nme), isglob(id), no(id));
 
   /* can't output global values as local names */
@@ -1154,7 +1154,7 @@ static void out_dt_TypeDef_no_recurse(diag_type dt)
       }
 
       /* NumBytes:	INTEGER */
-      asm_printf( "%c%d", su, shape_size(s) / 8);
+      asm_printf( "%c%ld", su, shape_size(s) / 8);
 
       /* FieldList:	Field | FieldList Field */
       for (i = fields->lastused - 1; i >= 0; i--)

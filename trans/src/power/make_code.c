@@ -195,7 +195,7 @@ static int has_bitfield(exp e)
 	default: {
 		shape s = sh(e);
 
-		asm_comment("has_bitfield: compound field sz=%d als=%lu,%lu,%lu",
+		asm_comment("has_bitfield: compound field sz=%ld als=%lu,%lu,%lu",
 		            shape_size(s), shape_align(s), al1(s), al2(s));
 
 		return shape_size(s) != 0 && (shape_align(s) == 1 || al1(s) == 1 || al2(s) == 1);
@@ -390,7 +390,7 @@ case_tag_code_transform(int caseint_reg, exp e, space sp)
 
 		u = (son(z) == NULL) ? n : no(son(z));
 		for (; u + 1 != n; n++) {	/* comparison independent of sign */
-			asm_printop(".long L.%d-%s", no(son(pt(z))), veclabname);
+			asm_printop(".long L.%ld-%s", no(son(pt(z))), veclabname);
 		}
 
 		if (z->last) {
@@ -539,7 +539,7 @@ case_tag_code_notransform(int caseint_reg, exp e, space sp)
 			}
 			u = (son(z) == NULL) ? n : no(son(z));
 			for (; u + 1 != n; n++) {
-				asm_printop(".long L.%d-%s", no(son(pt(z))), veclabname);
+				asm_printop(".long L.%ld-%s", no(son(pt(z))), veclabname);
 			}
 			if (z->last) {
 				break;
@@ -1491,7 +1491,7 @@ tailrecurse:
 				newis = str;
 				newis.b.offset += no(t);
 
-				asm_comment("make_code compound_tag: t->tag =%d no(t) =%d al2=%lu offset=%ld",
+				asm_comment("make_code compound_tag: t->tag =%d no(t) =%ld al2=%lu offset=%ld",
 				            t->tag, no(t), al2(sh(t)), newis.b.offset);
 				assert(t->tag == val_tag && al2(sh(t)) >= 8);
 

@@ -713,7 +713,7 @@ static int dw_eval_exp(exp e, int line_started)
       }
       else
       if (no(e) >= 0 && no(e) < 32)
-	asm_printf("%d", DW_OP_lit0 + no(e));
+	asm_printf("%ld", DW_OP_lit0 + no(e));
       else
       if (is_signed(sh(e))) {
 	asm_printf("%d, ", DW_OP_consts);
