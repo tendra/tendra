@@ -379,7 +379,7 @@ static void out_glob(loc_s l)
   asm_printf("%d\n", DW_OP_addr);
   out32 (); outlab (l.reg);
   if (l.off) {
-    asm_printf(" + %d", l.off);
+    asm_printf(" + %ld", l.off);
   }
 }
 
@@ -894,21 +894,21 @@ static void fde_advance(long here)
   }
   else
   if (fde_count < 0x40) {
-    out8 (); asm_printf("%d", DW_CFA_advance_loc + fde_count);
+    out8 (); asm_printf("%ld", DW_CFA_advance_loc + fde_count);
   }
   else
   if (fde_count < 0x100) {
     out8 (); asm_printf("%d, ", DW_CFA_advance_loc1);
-    asm_printf("%d", fde_count);
+    asm_printf("%ld", fde_count);
   }
   else
   if (fde_count < 0x10000) {
     out8 (); asm_printf("%d\n", DW_CFA_advance_loc2);
-    out16 (); asm_printf("%d", fde_count);
+    out16 (); asm_printf("%ld", fde_count);
   }
   else {
     out8 (); asm_printf("%d\n", DW_CFA_advance_loc4);
-    out32 (); asm_printf("%d", fde_count);
+    out32 (); asm_printf("%ld", fde_count);
   }
   asm_printf("\n");
   fde_count = 0;
