@@ -76,7 +76,7 @@ f_make_weak_defn(exp e1, exp e2)
 {
 	if (use_link_stuff) {
 #if TRANS_X86 || TRANS_SPARC
-		weak_cell *wc = (weak_cell *)xmalloc(sizeof(weak_cell));
+		weak_cell *wc = xmalloc(sizeof(weak_cell));
 
 		wc->weak_id = brog(son(e1))->dec_id;
 		wc->val_id = brog(son(e2))->dec_id;
@@ -190,8 +190,7 @@ start_make_linkinfo_unit(int no_of_tokens, int no_of_tags, int no_of_als,
 	if (unit_no_of_tokens == 0) {
 		unit_ind_tokens = NULL;
 	} else {
-		unit_ind_tokens = (tok_define **)xcalloc(unit_no_of_tokens,
-							 sizeof(tok_define *));
+		unit_ind_tokens = xcalloc(unit_no_of_tokens, sizeof(tok_define *));
 	}
 	for (i = 0; i < unit_no_of_tokens; ++i) {
 		unit_ind_tokens[i] = NULL;
@@ -201,7 +200,7 @@ start_make_linkinfo_unit(int no_of_tokens, int no_of_tags, int no_of_als,
 	if (unit_no_of_tags == 0) {
 		unit_ind_tags = NULL;
 	} else {
-		unit_ind_tags = (dec **)xcalloc(unit_no_of_tags, sizeof(dec *));
+		unit_ind_tags = xcalloc(unit_no_of_tags, sizeof(dec *));
 	}
 	for (i = 0; i < unit_no_of_tags; ++i) {
 		unit_ind_tags[i] = NULL;
@@ -211,7 +210,7 @@ start_make_linkinfo_unit(int no_of_tokens, int no_of_tags, int no_of_als,
 	if (unit_no_of_als == 0) {
 		unit_ind_als = NULL;
 	} else {
-		unit_ind_als = (aldef **)xcalloc(unit_no_of_als, sizeof(aldef *));
+		unit_ind_als = xcalloc(unit_no_of_als, sizeof(aldef *));
 	}
 	for (i = 0; i < unit_no_of_als; ++i) {
 		unit_ind_als[i] = NULL;
@@ -245,17 +244,17 @@ f_make_linkinfo_unit(void)
 	if (unit_no_of_labels == 0) {
 		unit_labtab = NULL;
 	} else {
-		unit_labtab = (exp *)xcalloc(unit_no_of_labels, sizeof(exp));
+		unit_labtab = xcalloc(unit_no_of_labels, sizeof(exp));
 	}
 	IGNORE d_linkinfo_list();
 	end_bytestream();
 
-	xfree((void *)unit_ind_tokens);
-	xfree((void *)unit_ind_tags);
-	xfree((void *)unit_ind_als);
-	xfree((void *)unit_labtab);
-	xfree((void *)unit_toktab);
-	xfree((void *)unit_tagtab);
+	xfree(unit_ind_tokens);
+	xfree(unit_ind_tags);
+	xfree(unit_ind_als);
+	xfree(unit_labtab);
+	xfree(unit_toktab);
+	xfree(unit_tagtab);
 
 	return 0;
 }

@@ -144,7 +144,7 @@ makesymtab(STRINGS *extstrings, ESYMS *extsymbols, DENSETAB *densenos,
 	tempfileptr = filedescs;
 
 	/* Initialise proc info */
-	pdr_ptr = (PDR *) xcalloc(1, sizeof (PDR));
+	pdr_ptr = xcalloc(1, sizeof (PDR));
 	for (j = 0; j < numfiles; j++) {
 		PROCSYM *procindptr = procinds;
 		for (i = 1; i <= noprocs; i++, procindptr++) {

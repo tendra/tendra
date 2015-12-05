@@ -251,9 +251,9 @@ makeans make_proc_tag_code
    if (optim & OPTIM_PEEPHOLE)
    {
       lines=BLOCK;
-      pCode = (pIn*)xmalloc(BLOCK*sizeof(pIn));
+      pCode = xmalloc(BLOCK*sizeof(pIn));
       nLabels=4096;
-      labIntro = (int*)xmalloc(nLabels*sizeof(int));
+      labIntro = xmalloc(nLabels*sizeof(int));
       for (line=0;line<4096;line++)
 	 labIntro[line] =-1;
       line=0;
@@ -554,7 +554,7 @@ makeans make_proc_tag_code
      char *hit;
      FILE_POSN Pos;
      GET_FILE_POSN(as_file,Pos);
-     hit = (char*)xmalloc((nLabels+8)*sizeof(char));
+     hit = xmalloc((nLabels+8)*sizeof(char));
      for (i=0;i<line;i++)
      {
 	char s[65];

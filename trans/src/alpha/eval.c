@@ -391,7 +391,7 @@ evalone(exp e, int rep)
     out_chars(0,iascii,strs,rep);
     if(char_size == 64){
       /* replace the float indexes used to represent the array */
-      char * newst = (char*)xcalloc(strs,sizeof(char));
+      char * newst = xcalloc(strs,sizeof(char));
       int i;
       for(i=0;i<strsize;++i){
 	((INT64*)newst)[i] = flt64_to_INT64(flt_to_f64(((flpt*)st)[i],

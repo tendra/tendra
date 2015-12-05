@@ -77,16 +77,16 @@ void found_one(char *str)
   {
     if (names_size == 0)
     {
-      names = (char **)malloc(20 * sizeof(char *));
+      names = malloc(20 * sizeof(char *));
       names_size = 20;
     }
     else
     {
       names_size += 20;
-      names = (char **)realloc(names, names_size * sizeof(char *));
+      names = realloc(names, names_size * sizeof(char *));
     }
   }
-  names[names_found] = (char *)malloc(strlen(str) +1);
+  names[names_found] = malloc(strlen(str) +1);
   strcpy(names[names_found] ,str);
   names_found++;
   return;

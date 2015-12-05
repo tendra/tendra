@@ -788,7 +788,7 @@ stab_types(void)
 {
 	total_type_sizes = NO_STABS;
 	typeno = NO_STABS;
-	type_sizes = (long *)xmalloc(NO_STABS * sizeof(long));
+	type_sizes = xmalloc(NO_STABS * sizeof(long));
 
 	asm_fprintop(dg_file, ".stabs \"int:t1=r1;-2147483648;2147483647;\",0x80,0,0,0");
 	asm_fprintop(dg_file, ".stabs \"short int:t2=r1;-32768;32767;\",0x80,0,0,0");

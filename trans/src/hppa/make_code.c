@@ -1562,7 +1562,7 @@ tailrecurse:
 				jr = getexp(f_bottom, NULL, 0, NULL, NULL, 0, 0, 0);
 				ptno(jr) = new_label();
 				sha = sh(son(tst));
-				rec = (outofline*)xmalloc(sizeof(outofline));
+				rec = xmalloc(sizeof(outofline));
 				rec->next = odd_bits;
 				odd_bits = rec;
 				rec->dest = dest;

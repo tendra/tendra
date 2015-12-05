@@ -62,7 +62,7 @@ dw_out_path(dg_filename f, int w)
 		if (w) {
 			n += (strlen(f->file_name) + 1);
 		}
-		com = (char *)xmalloc(n);
+		com = xmalloc(n);
 		IGNORE strcat(strcat(strcpy(com, f->file_host), ":"),
 			      f->file_path);
 		if (w) {
@@ -72,7 +72,7 @@ dw_out_path(dg_filename f, int w)
 			IGNORE strcat(strcat(com, "/"), f->file_name);
 		}
 		dw_at_string(com);
-		xfree((void *)com);
+		xfree(com);
 	}
 }
 

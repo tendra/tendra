@@ -608,7 +608,7 @@ caser(exp arg, long already)
 		long tlab = next_lab();
 		long slab = next_lab();
 		n = highest - lowest + 1;
-		jtab = (long *)xcalloc(n, sizeof(long));
+		jtab = xcalloc(n, sizeof(long));
 
 		for (i = 0; i < n; i++) {
 			jtab[i] = rlab;

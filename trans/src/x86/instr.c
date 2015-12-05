@@ -1063,7 +1063,7 @@ void testah
 exp make_extn
 (char * n, shape s, int v)
 {
-  dec * g = (dec *)(xmalloc(sizeof(dec)));
+  dec * g = xmalloc(sizeof(dec));
   exp id = getexp(s, NULL, 1, NULL, NULL, 0, 0, ident_tag);
   exp nme = getexp(s, NULL, 1, id, NULL, 0, 0, name_tag);
   size_t prefix_length = strlen(name_prefix);
@@ -1081,7 +1081,7 @@ exp make_extn
   if (prefix_length != 0) {
     int nl = (int)strlen(n);
     int j;
-    char * newn = (char *)xcalloc((nl + prefix_length + 1), sizeof(char));
+    char * newn = xcalloc((nl + prefix_length + 1), sizeof(char));
     for (j = 0; j < prefix_length; ++j)
       newn[j] = name_prefix[j];
     for (j = 0; j < nl; ++j)

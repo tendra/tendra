@@ -315,7 +315,7 @@ static rrs *restore_regs_subsribers = 0;
 void restore_regs
 (restore_type_t typ)
 {
-  rrs* p = (rrs*)xmalloc(sizeof(rrs));
+  rrs* p = xmalloc(sizeof(rrs));
   p->ins  = current_ins;
   p->next = restore_regs_subsribers;
   p->restore_type = typ;

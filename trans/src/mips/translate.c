@@ -330,7 +330,7 @@ local_translate_capsule(void)
 	if (noprocs == 0) {
 		procrecs = NULL;
 	} else {
-		procrecs = (procrec *)xcalloc(noprocs, sizeof(procrec));
+		procrecs = xcalloc(noprocs, sizeof(procrec));
 		noprocs = 0;
 	}
 
@@ -344,7 +344,7 @@ local_translate_capsule(void)
 	}
 
 	if (do_extern_adds) {
-		usages = (exp*)xcalloc(noprocs, sizeof(exp));
+		usages = xcalloc(noprocs, sizeof(exp));
 		for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
 			exp crt_exp = my_def->dec_exp;
 			if (son(crt_exp) == NULL && isvar(crt_exp)) {
@@ -426,8 +426,8 @@ local_translate_capsule(void)
 	}
 
 	data_lab = (main_globals_index > 33) ? main_globals_index : 33;
-	main_globals = (dec**)xcalloc(main_globals_index, sizeof(dec*));
-	symnos = (int *)xcalloc(main_globals_index, sizeof(int));
+	main_globals = xcalloc(main_globals_index, sizeof(dec*));
+	symnos = xcalloc(main_globals_index, sizeof(int));
 
 	my_def = top_def;
 	for (i = 0; i < main_globals_index; i++) {

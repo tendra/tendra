@@ -1853,7 +1853,7 @@ void dw2_proc_start
 void dw2_return_pos
     ( long over )
 {
-  retrec * rec = (retrec *) xmalloc (sizeof (retrec));
+  retrec * rec = xmalloc (sizeof (retrec));
   rec->lab = set_dw_text_label ();
   rec->over = over;
   rec->next = NULL;

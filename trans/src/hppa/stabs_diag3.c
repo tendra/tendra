@@ -157,7 +157,7 @@ static long next_typen
 {
     if (typeno >= no_type_info) {
 	int i, n = no_type_info, m = n + 100;
-	type_info = (type_info_t*)xrealloc(type_info, m * sizeof(type_info_t));
+	type_info = xrealloc(type_info, m * sizeof(type_info_t));
 	for (i = n; i < m; i++)type_info[i].sz = 0;
 	no_type_info = m;
     }
@@ -956,10 +956,10 @@ static void stab_collect_files
 {
     if (fds == NULL) {
 	szfds += 10;
-	fds = (filename *)xmalloc(szfds * sizeof(filename));
+	fds = xmalloc(szfds * sizeof(filename));
     } else if (nofds >= szfds) {
 	szfds += 10;
-	fds = (filename *)xrealloc(fds, szfds * sizeof(filename));
+	fds = xrealloc(fds, szfds * sizeof(filename));
     }
     fds[nofds++] = f;
 }
@@ -1530,7 +1530,7 @@ DNTTPOINTER pos_of_dnttpointer
    int s;
    int t = typeno;
    pos = lntt_next;
-   uo = (struct outed_t*)xmalloc(sizeof(struct outed_t));
+   uo = xmalloc(sizeof(struct outed_t));
    uo->prev = NULL;
    f = uo;
    traverse_diag_type(dt);
@@ -2177,7 +2177,7 @@ static void
 stab_types(void)
 {
     no_type_info = NO_STABS;
-    type_info = (type_info_t *)xmalloc(NO_STABS * sizeof(type_info_t));
+    type_info = xmalloc(NO_STABS * sizeof(type_info_t));
     if (diag == DIAG_XDB)
     {
 #ifdef _SYMTAB_INCLUDED

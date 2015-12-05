@@ -185,7 +185,7 @@ outp(ins_p ins, ins_p cc, int *ops, int lab)
       /* Increment number of assembler instructions allowed for by INCR */
       int i;
       pIn *temp=pCode;
-      pCode = (pIn*) xmalloc( (lines+INCR)*sizeof(pIn) );
+      pCode = xmalloc( (lines+INCR)*sizeof(pIn) );
       for(i=0;i<lines;i++)
 	 pCode[i]=temp[i];
       free(temp);
@@ -332,7 +332,7 @@ outp(ins_p ins, ins_p cc, int *ops, int lab)
 	    /* Increment number of labels allowed for by INCR */
 	    int i;
 	    int *temp=labIntro;
-	    labIntro = (int*) xmalloc( (nLabels+INCR)*sizeof(int) );
+	    labIntro = xmalloc( (nLabels+INCR)*sizeof(int) );
 	    for(i=0;i<nLabels;i++)
 	       labIntro[i]=temp[i];
 	    for(i=nLabels;i<nLabels+INCR;i++)
@@ -359,7 +359,7 @@ ext_name(long id)
   {
     /* init sp */
     sizeof_space = 64;		/* generous first guess */
-    sp = (char *) xmalloc(sizeof_space);
+    sp = xmalloc(sizeof_space);
   }
 
   if (id < 0)
@@ -371,7 +371,7 @@ ext_name(long id)
     if (len_needed > sizeof_space)
     {
       sizeof_space = len_needed;
-      sp = (char *) xrealloc(sp, sizeof_space);
+      sp = xrealloc(sp, sizeof_space);
     }
 
     sprintf(sp, "%s", ext);

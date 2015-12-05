@@ -864,7 +864,7 @@ f_dg_entry_name(dg_idname idname, dg_sourcepos whence, dg_type type,
 		extend_dg_name(ans);
 		ans->mor->acc = accessibility;
 		if (family.d_key != DG_DIM_NONE) {
-			ans->mor->en_family = (dg_dim *)xmalloc(sizeof(dg_dim));
+			ans->mor->en_family = xmalloc(sizeof(dg_dim));
 			*(ans->mor->en_family) = family;
 		}
 	}
@@ -2427,7 +2427,7 @@ new_dg_tag_list(int n)
 	dg_tag_list ans;
 
 	ans.len = n;
-	ans.array = (dg_tag *)dg_xcalloc(n, sizeof(dg_tag));
+	ans.array = dg_xcalloc(n, sizeof(dg_tag));
 
 	return ans;
 }
@@ -2952,20 +2952,19 @@ start_make_dg_comp_unit(int toks, int tags, int als, int dgnames)
 	}
 
 	unit_no_of_tags = tags;
-	unit_ind_tags = (dec **)dg_xcalloc(unit_no_of_tags, sizeof(dec *));
+	unit_ind_tags = dg_xcalloc(unit_no_of_tags, sizeof(dec *));
 	for (i = 0; i < unit_no_of_tags; ++i) {
 		unit_ind_tags[i] = NULL;
 	}
 
 	unit_no_of_als = als;
-	unit_ind_als = (aldef **)dg_xcalloc(unit_no_of_als, sizeof(aldef *));
+	unit_ind_als = dg_xcalloc(unit_no_of_als, sizeof(aldef *));
 	for (i = 0; i < unit_no_of_als; ++i) {
 		unit_ind_als[i] = NULL;
 	}
 
 	unit_no_of_dgtags = dgnames;
-	unit_ind_dgtags = (dgtag_struct **)dg_xcalloc(unit_no_of_dgtags,
-	                  sizeof(dgtag_struct *));
+	unit_ind_dgtags = dg_xcalloc(unit_no_of_dgtags, sizeof(dgtag_struct *));
 	for (i = 0; i < unit_no_of_dgtags; ++i) {
 		unit_ind_dgtags[i] = NULL;
 	}

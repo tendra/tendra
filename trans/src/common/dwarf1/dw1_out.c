@@ -97,8 +97,7 @@ next_dwarf_lab(dwarf_label *p)
 dwarf_type_label *
 next_dwarf_type_lab(void)
 {
-	dwarf_type_label *ptr =
-	    (dwarf_type_label *)xcalloc(1, sizeof(dwarf_type_label));
+	dwarf_type_label *ptr = xcalloc(1, sizeof(dwarf_type_label));
 
 	static unsigned long next_dwarf_type_lab_no = 0;
 
@@ -468,7 +467,7 @@ dwarf_inspect_filename(filename f)
 		}
 
 		if (lastdot[1] != 'h') {
-			first_filename = (char *)xcalloc(1, strlen(str) + 1);
+			first_filename = xcalloc(1, strlen(str) + 1);
 			/* +1 for NULL ending */
 			strcpy(first_filename, str);
 

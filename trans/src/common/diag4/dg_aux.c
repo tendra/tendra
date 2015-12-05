@@ -1398,7 +1398,7 @@ gather_detch(exp e, dg_info *dx, int reason, int descend, int reuse,
 			return gather_detch(e, dx, reason, descend, reuse, opt_ref);
 		}
 
-		ans = (detch_info *)xcalloc(1, sizeof(detch_info));
+		ans = xcalloc(1, sizeof(detch_info));
 		ans->next = NULL;
 		if (d->key == DGA_INL_CALL) {
 			ans->sub = NULL;

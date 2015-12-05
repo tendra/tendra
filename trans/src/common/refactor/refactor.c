@@ -5093,7 +5093,7 @@ refactor(exp e, exp scope)
 			if (sz1 + sz2 == 0) {
 				newstr = NULL;
 			} else {
-				newstr = (char *)xcalloc((sz1 + sz2), sizeof(char));
+				newstr = xcalloc((sz1 + sz2), sizeof(char));
 			}
 
 			p2 = &newstr[sz1];

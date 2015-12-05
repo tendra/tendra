@@ -859,7 +859,7 @@ caser(exp arg, int exhaustive, exp case_exp)
 	max = ((son(t) == NULL) ? no(t) : no(son(t)));
 
 	/* Prepare to use jump table */
-	v = (int *)xcalloc(max - min + 1, sizeof(int));
+	v = xcalloc(max - min + 1, sizeof(int));
 	for (i = 0; i < (max - min + 1); ++i) {
 		v[i] = -1;
 	}
@@ -1111,7 +1111,7 @@ make_code1(where dest, ash stack, exp e)
 				fstack_pos_of(jr) = (prop)fstack_pos;
 				sha = sh(son(tst));
 
-				rec = (outofline*)xmalloc(sizeof(outofline));
+				rec = xmalloc(sizeof(outofline));
 				rec->next         = odd_bits;
 				odd_bits          = rec;
 				rec->dest         = dest;

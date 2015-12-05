@@ -211,11 +211,11 @@ static void INSPECT_FILENAME(filename f)
 
   if (fds == NULL)
   {
-    fds = (filename *)xmalloc((szfds += 5)* sizeof(filename));
+    fds = xmalloc((szfds += 5)* sizeof(filename));
   }
   else if (nofds >= szfds)
   {
-    fds = (filename *)xrealloc(fds,(szfds += 5)* sizeof(filename));
+    fds = xrealloc(fds,(szfds += 5)* sizeof(filename));
   }
 
   fds[nofds] = f;
@@ -274,11 +274,11 @@ static void OUTPUT_DIAG_TAGS(void)
 	{
 	  if (su_diags == NULL)
 	  {
-	    su_diags= (diag_tagdef**)xmalloc((leng_sus+=20)*sizeof(diag_tagdef*));
+	    su_diags= xmalloc((leng_sus+=20)*sizeof(diag_tagdef*));
 	  }
 	  else
 	  {
-	    su_diags= (diag_tagdef**)xrealloc(su_diags,(leng_sus+=20)*sizeof(diag_tagdef*));
+	    su_diags= xrealloc(su_diags,(leng_sus+=20)*sizeof(diag_tagdef*));
 	  }
 	}
 	/* Set up the appropriate member of the su_diags array */
@@ -328,11 +328,11 @@ static void OUTPUT_GLOBALS_TAB(void)
 	{
 	  if (typedef_diags == NULL)
 	  {
-	    typedef_diags = (diag_descriptor **)xmalloc((leng_typedefs+=20)*sizeof(diag_descriptor *));
+	    typedef_diags = xmalloc((leng_typedefs+=20)*sizeof(diag_descriptor *));
 	  }
 	  else
 	  {
-	    typedef_diags = (diag_descriptor **)xrealloc(typedef_diags,(leng_typedefs+=20)*sizeof(diag_descriptor *));
+	    typedef_diags = xrealloc(typedef_diags,(leng_typedefs+=20)*sizeof(diag_descriptor *));
 	  }
 	}
 	typedef_diags[no_of_typedefs++] =dd;
@@ -542,7 +542,7 @@ void fixup_name(exp global, dec * top_def, dec * crt_def)
       int len2 = strlen(nm);
       char *newid;
 
-      newid = (char *)xmalloc(len1 + 1 + len2 + 1);
+      newid = xmalloc(len1 + 1 + len2 + 1);
       strcpy(newid, id);
       newid[len1] = '.';
       strcpy(&newid[len1 + 1], nm);

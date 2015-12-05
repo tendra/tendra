@@ -536,7 +536,7 @@ local_translate_capsule(void)
 
 	main_globals_index = i;
 	if (main_globals_index != 0) {
-		main_globals = (dec**)xcalloc(main_globals_index, sizeof(dec*));
+		main_globals = xcalloc(main_globals_index, sizeof(dec*));
 	} else {
 		main_globals = NULL;
 	}

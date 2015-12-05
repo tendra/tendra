@@ -35,7 +35,7 @@ static void
 make_bastype(char *s, dg_type t)
 {
 	dg_name this_name;
-	dg_tag ans = (dgtag_struct *)xmalloc(sizeof(dgtag_struct));
+	dg_tag ans = xmalloc(sizeof(dgtag_struct));
 	init_dgtag(ans);
 	ans->outref.k = LAB_STR;
 	ans->outref.u.s = s;

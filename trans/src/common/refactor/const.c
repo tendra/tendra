@@ -363,7 +363,7 @@ not_assigned_to(exp vardec, exp body)
 			memlist **fpp = &fmem;
 			int i;
 
-			*fpp = (memlist *)xcalloc(MEMINC, sizeof(memlist));
+			*fpp = xcalloc(MEMINC, sizeof(memlist));
 			for (i = 0; i < MEMINC; ++i) {
 				(*fpp) ->next = (*fpp) + 1;
 				fpp = & ((*fpp) ->next);

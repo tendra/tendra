@@ -217,7 +217,7 @@ load_store_label(instruction ins, int reg, int lab)
 void
 integer_branch(instruction ins, int reg, int dest)
 {
-  char *binasm_data = (char*)xcalloc(binasm_record_length+1,sizeof(char));
+  char *binasm_data = xcalloc(binasm_record_length+1,sizeof(char));
   if(as_file){
     asm_printop("%s %s,$%d",ins_symbolic_name(ins),
 		  reg_name[reg],dest);

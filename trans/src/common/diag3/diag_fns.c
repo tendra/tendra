@@ -152,7 +152,7 @@ f_make_diagdef_unit(void)
 	start_bytestream();
 	no_of_labels = small_dtdfint();
 	unit_no_of_labels = no_of_labels;
-	unit_labtab = (exp *)dg_xcalloc(unit_no_of_labels, sizeof(exp));
+	unit_labtab = dg_xcalloc(unit_no_of_labels, sizeof(exp));
 	unit_diagvar_tab = d_diag_descriptor_list();
 	end_bytestream();
 
@@ -449,7 +449,7 @@ new_enum_values_list(int n)
 
 	new->len      = n;
 	new->lastused = 0;
-	new->array    = (enum_values *)dg_xcalloc(n, sizeof(enum_values));
+	new->array    = dg_xcalloc(n, sizeof(enum_values));
 
 	return new;
 }
@@ -683,7 +683,7 @@ f_make_diagtype_unit(void)
 	start_bytestream();
 	no_of_labels = small_dtdfint();
 	unit_no_of_labels = no_of_labels;
-	unit_labtab = (exp *)dg_xcalloc(unit_no_of_labels, sizeof(exp));
+	unit_labtab = dg_xcalloc(unit_no_of_labels, sizeof(exp));
 	IGNORE d_diag_tagdef_list();
 	end_bytestream();
 	diag3_driver->OUTPUT_DIAG_TAGS();

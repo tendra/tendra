@@ -326,7 +326,7 @@ local_translate_capsule(void)
 	if (noprocs == 0) {
 		procrecs = NULL;
 	} else {
-		procrecs = (procrec *) xcalloc(noprocs, sizeof (procrec));
+		procrecs = xcalloc(noprocs, sizeof (procrec));
 	}
 
 	/*
@@ -335,7 +335,7 @@ local_translate_capsule(void)
 	if (noglobals == 0) {
 		main_globals = NULL;
 	} else {
-		main_globals = (dec**)xcalloc(noglobals, sizeof(dec*));
+		main_globals = xcalloc(noglobals, sizeof(dec*));
 	}
 
 	/*

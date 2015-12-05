@@ -231,7 +231,7 @@ containedshape(int a, int s)
 dec *
 make_extra_dec(char *nme, int v, int g, exp init, shape s)
 {
-	dec *extra_dec = (dec *)calloc(1, sizeof(dec));
+	dec *extra_dec = calloc(1, sizeof(dec));
 	exp e = getexp(s, NULL, 0, init, NULL, 0, 0, ident_tag);
 	setglob(e);
 	if (v) {
@@ -705,7 +705,7 @@ get_pal(alignment a, int sh_hd, int al)
 	res = (alignment)xmalloc(sizeof(aldef));
 	*res = *a;
 	res->al.sh_hd = sh_hd;
-	c = (struct CAL *)xmalloc(sizeof(struct CAL));
+	c = xmalloc(sizeof(struct CAL));
 	c->sh_hd = sh_hd;
 	c->al = al;
 	c->res = res;
@@ -2061,7 +2061,7 @@ f_env_offset(alignment fa, alignment y, tag t)
 exp
 f_fail_installer(string message)
 {
-	char *m = (char *)xcalloc(message.number + 1, sizeof(char));
+	char *m = xcalloc(message.number + 1, sizeof(char));
 	int i;
 	for (i=0; i<message.number; ++i) {
 		m[i] = message.ints.chars[i];
@@ -2369,7 +2369,7 @@ f_make_compound(exp arg1, exp_list arg2)
 	setfather(r, arg2.end);
 
 	if (!doing_aldefs && arg2.number > 2) {
-		exp *arr = (exp *)xcalloc(arg2.number, sizeof(exp));
+		exp *arr = xcalloc(arg2.number, sizeof(exp));
 		int i;
 		exp t = son(r);
 
@@ -2409,7 +2409,7 @@ f_make_compound(exp arg1, exp_list arg2)
 		bro(arr[arg2.number - 1]) = r;
 		arr[arg2.number - 1]->last = true;
 
-		xfree((void *)arr);
+		xfree(arr);
 	}
 
 	return r;
@@ -2574,7 +2574,7 @@ f_make_nof_int(variety v, string s)
 		if (s.number == 0) {
 			ss = NULL;
 		} else {
-			ss = (int *)xcalloc(s.number, sizeof(int));
+			ss = xcalloc(s.number, sizeof(int));
 		}
 		for (i = 0; i < s.number; ++i) {
 			flt64 x;
@@ -2613,7 +2613,7 @@ f_make_nof_int(variety v, string s)
 			if (s.number == 0) {
 				ss = NULL;
 			} else {
-				ss = (short *)xcalloc(s.number, sizeof(short));
+				ss = xcalloc(s.number, sizeof(short));
 			}
 			for (i = 0; i < s.number; ++i) {
 				ss[i] = (short)(unsigned char)s.ints.chars[i];
@@ -2626,7 +2626,7 @@ f_make_nof_int(variety v, string s)
 			if (s.number == 0) {
 				ss = NULL;
 			} else {
-				ss = (int *)xcalloc(s.number, sizeof(int));
+				ss = xcalloc(s.number, sizeof(int));
 			}
 			for (i = 0; i < s.number; ++i) {
 				ss[i] = (int)(unsigned char)s.ints.chars[i];
@@ -2642,7 +2642,7 @@ f_make_nof_int(variety v, string s)
 			if (s.number == 0) {
 				ss = NULL;
 			} else {
-				ss = (char *)xcalloc(s.number, sizeof(char));
+				ss = xcalloc(s.number, sizeof(char));
 			}
 			for (i = 0; i < s.number; ++i) {
 				ss[i] = (char)(unsigned short)s.ints.shorts[i];
@@ -2658,7 +2658,7 @@ f_make_nof_int(variety v, string s)
 			if (s.number == 0) {
 				ss = NULL;
 			} else {
-				ss = (int *)xcalloc(s.number, sizeof(int));
+				ss = xcalloc(s.number, sizeof(int));
 			}
 			for (i = 0; i < s.number; ++i) {
 				ss[i] = (int)(unsigned short)s.ints.shorts[i];
@@ -2674,7 +2674,7 @@ f_make_nof_int(variety v, string s)
 			if (s.number == 0) {
 				ss = NULL;
 			} else {
-				ss = (char *)xcalloc(s.number, sizeof(char));
+				ss = xcalloc(s.number, sizeof(char));
 			}
 			for (i = 0; i < s.number; ++i) {
 				ss[i] = (char)(unsigned long)s.ints.longs[i];
@@ -2687,7 +2687,7 @@ f_make_nof_int(variety v, string s)
 			if (s.number == 0) {
 				ss = NULL;
 			} else {
-				ss = (short *)xcalloc(s.number, sizeof(short));
+				ss = xcalloc(s.number, sizeof(short));
 			}
 			for (i = 0; i < s.number; ++i) {
 				ss[i] = (short)(unsigned long)s.ints.longs[i];
@@ -2784,7 +2784,7 @@ static int in_initial_value;
 static void
 push_proc_props(void)
 {
-	proc_props *temp = (proc_props *)xcalloc(1, sizeof(proc_props));
+	proc_props *temp = xcalloc(1, sizeof(proc_props));
 	temp->proc_struct_result = proc_struct_result;
 	temp->has_alloca = has_alloca;
 	temp->proc_is_recursive = proc_is_recursive;
@@ -2824,7 +2824,7 @@ pop_proc_props(void)
 	frame_alignment = temp->frame_alignment;
 	in_initial_value = temp->in_initial_value;
 	if (temp != &initial_value_pp) {
-		xfree((void *)temp);
+		xfree(temp);
 	}
 }
 
@@ -5277,7 +5277,7 @@ f_pointer(alignment arg)
 			c = c->rest;
 		}
 		res = getshape(0, arg, const_al1, PTR_ALIGN, PTR_SZ, ptrhd);
-		c = (struct SAL*)xmalloc(sizeof(struct SAL));
+		c = xmalloc(sizeof(struct SAL));
 		c->al = arg; c->ptr_sh = res; c->rest = cache_pashs;
 		cache_pashs = c;
 		return res;
@@ -5499,7 +5499,7 @@ f_concat_string(string a1, string a2)
 	res.number = a1.number + a2.number;
 	res.size = a1.size;
 	if (res.size <= 8) {
-		res.ints.chars = (char *)xcalloc(res.number + 1, sizeof(char));
+		res.ints.chars = xcalloc(res.number + 1, sizeof(char));
 		for (i = 0; i < a1.number; i++) {
 			res.ints.chars[i] = a1.ints.chars[i];
 		}
@@ -5508,8 +5508,7 @@ f_concat_string(string a1, string a2)
 		}
 		res.ints.chars[res.number] = 0;
 	} else if (res.size <= 16) {
-		res.ints.shorts = (short *)xcalloc(res.number + 1,
-						   sizeof(short));
+		res.ints.shorts = xcalloc(res.number + 1, sizeof(short));
 		for (i = 0; i < a1.number; i++) {
 			res.ints.shorts[i] = a1.ints.shorts[i];
 		}
@@ -5518,7 +5517,7 @@ f_concat_string(string a1, string a2)
 		}
 		res.ints.shorts[res.number] =0;
 	} else {
-		res.ints.longs = (int *)xcalloc(res.number + 1, sizeof(int));
+		res.ints.longs = xcalloc(res.number + 1, sizeof(int));
 		for (i = 0; i < a1.number; i++) {
 			res.ints.longs[i] = a1.ints.longs[i];
 		}
@@ -5833,7 +5832,7 @@ label_list
 new_label_list(int n)
 {
 	label_list res;
-	res.elems = (label *)xcalloc(n, sizeof(label));
+	res.elems = xcalloc(n, sizeof(label));
 	res.number = n;
 	return res;
 }
@@ -6055,7 +6054,7 @@ init_NAME(char *good_name)
 	sc = (int)strlen(c);
 	sp = (int)strlen(prefix);
 	sg = (int)strlen(good_name);
-	res = (char*)xcalloc(sc + sp + sg, sizeof(char));
+	res = xcalloc(sc + sp + sg, sizeof(char));
 	for (i = 0; i < sp; i++) {
 		res[i] = prefix[i];
 	}

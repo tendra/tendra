@@ -83,10 +83,10 @@ case_optimisation(exp body, exp id, shape shape_of_case, exp control_expression)
 		no_of_cases = no_of_cases + 1;
 	}
 
-	ELEMENTS = (exp *)xcalloc(no_of_cases, sizeof(exp));
-	node_start = (exp *)xcalloc(no_of_cases, sizeof(exp));
-	node_end = (exp *)xcalloc(no_of_cases, sizeof(exp));
-	node_weight = (double *)xcalloc(no_of_cases, sizeof(double));
+	ELEMENTS = xcalloc(no_of_cases, sizeof(exp));
+	node_start = xcalloc(no_of_cases, sizeof(exp));
+	node_end = xcalloc(no_of_cases, sizeof(exp));
+	node_weight = xcalloc(no_of_cases, sizeof(double));
 
 	/*
 	 * Set up the values of these arrays

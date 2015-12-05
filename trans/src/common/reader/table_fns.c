@@ -85,7 +85,7 @@ set_lab(label l, exp e)
 	if (crt_context == NULL || crt_context->recursive == 0) {
 		*l = e;
 	} else {
-		lab_con *lc = (lab_con *)xmalloc(sizeof(lab_con));
+		lab_con *lc = xmalloc(sizeof(lab_con));
 		lc->namel = l; lc->e = e; lc->rest = crt_context->labs;
 		crt_context->labs = lc;
 	}
@@ -163,7 +163,7 @@ set_tag(tag tg, exp e)
 	if (crt_context == NULL || crt_context->recursive == 0) {
 		tg->dec_exp = e;
 	} else {
-		tag_con *tc = (tag_con *)xmalloc(sizeof(tag_con));
+		tag_con *tc = xmalloc(sizeof(tag_con));
 		tc->namet = tg; tc->e = e; tc->rest = crt_context->tags;
 		crt_context->tags = tc;
 	}
@@ -287,8 +287,7 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 		/* now set up the new parameter bindings */
 		if (npars > LOCAL_TOKS) {
 			new_context.othertoks =
-				(tok_define *)xcalloc(npars - LOCAL_TOKS,
-						      sizeof(tok_define));
+				xcalloc(npars - LOCAL_TOKS, sizeof(tok_define));
 		}
 
 		new_bindings = &new_context.loctoks[0];
@@ -422,7 +421,7 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 			}
 		} else {
 			if (npars > LOCAL_TOKS) {
-				xfree((void *)new_context.othertoks);
+				xfree(new_context.othertoks);
 				/* free the space used for parameter
 				 * binding */
 			}
@@ -431,13 +430,13 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 			tag_con *r = new_context.tags;
 			new_context.tags =
 				new_context.tags->rest;
-			xfree((void *)r);
+			xfree(r);
 		}
 		while (new_context.labs != NULL) {
 			lab_con *r = new_context.labs;
 			new_context.labs =
 				new_context.labs->rest;
-			xfree((void *)r);
+			xfree(r);
 		}
 		return val;
 	}

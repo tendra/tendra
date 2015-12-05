@@ -816,7 +816,7 @@ f_dg_entry_family_name(dg_name proc, dg_dim family)
 		extend_dg_name(proc);
 	}
 
-	proc->mor->en_family = (dg_dim *)xmalloc(sizeof(dg_dim));
+	proc->mor->en_family = xmalloc(sizeof(dg_dim));
 	*(proc->mor->en_family) = family;
 
 	return proc;
@@ -837,7 +837,7 @@ f_dg_entry_name(dg_idname idname, dg_sourcepos whence, dg_type type,
 
 		ans->mor->acc = accessibility;
 		if (family.d_key != DG_DIM_NONE) {
-			ans->mor->en_family = (dg_dim *)xmalloc(sizeof(dg_dim));
+			ans->mor->en_family = xmalloc(sizeof(dg_dim));
 			*(ans->mor->en_family) = family;
 		}
 	}
@@ -1246,7 +1246,7 @@ f_dg_class_type(dg_class_base_list inheritance, dg_classmem_list members,
 		ans->data.t_struct.sha = (shape)0;
 	}
 
-	ans->data.t_struct.u.cd = (class_data *)xmalloc(sizeof(class_data));
+	ans->data.t_struct.u.cd = xmalloc(sizeof(class_data));
 	if (new_type || (ada_derived.present && ada_derived.val)) {
 		extend_dg_type(ans);
 		ans->mor->isnew = new_type;
@@ -1315,7 +1315,7 @@ f_dg_task_type(dg_idname idname, dg_sourcepos whence, dg_name_list entries,
 		ans->data.t_struct.sha = (shape)0;
 	}
 
-	ans->data.t_struct.u.td = (task_data *)xmalloc(sizeof(task_data));
+	ans->data.t_struct.u.td = xmalloc(sizeof(task_data));
 
 	if (new_type || elaboration) {
 		extend_dg_type(ans);

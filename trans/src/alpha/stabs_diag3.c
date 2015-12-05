@@ -77,7 +77,7 @@ static void
 collect_files(filename f)
 {
   if (nofds>=szfds) {
-    fds = (filename*)xrealloc(fds,(size_t)(szfds+=5)*sizeof(filename));
+    fds = xrealloc(fds,(size_t)(szfds+=5)*sizeof(filename));
   }
   fds[nofds++] = f;
 }
@@ -99,7 +99,7 @@ void
 symnosforfiles(void)
 {
   int   i;
-  file_dnos = (int *)xcalloc(nofds, sizeof(int));
+  file_dnos = xcalloc(nofds, sizeof(int));
   for (i = 0; i < nofds; i++) {
     file_dnos[i] = new_lsym_d(fds[i] ->file.ints.chars, 0, stFile, scText,
 			      (diag_type)0, i);
@@ -326,7 +326,7 @@ addtsym(char *n, int v, int st, int sc, diag_type s)
 {
   tsym * a;
   if (nexttsym >= notsyms) {
-    ats = (tsym *)xrealloc((void *)ats,(size_t)(nexttsym + 100)* sizeof(tsym));
+    ats = xrealloc((void *)ats,(size_t)(nexttsym + 100)* sizeof(tsym));
     notsyms = nexttsym + 100;
   }
   a = &ats[nexttsym++];
@@ -399,8 +399,7 @@ static void addaux
 
   shauxt * x;
   if (nextshaux >= noshaux) {
-    shaux = (shauxt *)xrealloc((void *)shaux,
-				(size_t)(nextshaux + 10)* sizeof(shauxt));
+    shaux = xrealloc((void *)shaux, (size_t)(nextshaux + 10)* sizeof(shauxt));
   }
   x = &shaux[nextshaux++];
   x -> sutype = s;
@@ -431,8 +430,7 @@ OUTPUT_DIAG_TAGS(void)
 	}
 	if (j!=il)break;
 	if (no_of_sus >= leng_sus) {
-	  su_diags = (diag_tagdef**)xrealloc(su_diags,
-				(size_t)(leng_sus+=20)*sizeof(diag_tagdef*));
+	  su_diags = xrealloc(su_diags, (size_t)(leng_sus+=20)*sizeof(diag_tagdef*));
 	}
 	su_diags[no_of_sus++] = di[i];
 	break;

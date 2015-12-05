@@ -243,7 +243,7 @@ f_make_diagdef_unit(void)
 		start_bytestream();
 		no_of_labels = small_dtdfint();
 		unit_no_of_labels = no_of_labels;
-		unit_labtab = (exp*)dg_xcalloc(unit_no_of_labels, sizeof(exp));
+		unit_labtab = dg_xcalloc(unit_no_of_labels, sizeof(exp));
 		desc_list = d_diag_descriptor_list();
 		end_bytestream();
 
@@ -771,7 +771,7 @@ f_make_diagtype_unit(void)
 	start_bytestream();
 	no_of_labels = small_dtdfint();
 	unit_no_of_labels = no_of_labels;
-	unit_labtab = (exp*)dg_xcalloc(unit_no_of_labels, sizeof(exp));
+	unit_labtab = dg_xcalloc(unit_no_of_labels, sizeof(exp));
 	IGNORE d_diag_tagdef_list();
 	end_bytestream();
 

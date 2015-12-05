@@ -161,7 +161,7 @@ static void
 fixup(char **n)
 {
   if (*n == (char *)0 || (*n)[0] == 0) {
-      char * k = (char*)xcalloc(10, sizeof(char));
+      char * k = xcalloc(10, sizeof(char));
       k[0] = '.';
       sprintf(&k[1], "%d", fixup_no++);
       strcpy(k + strlen(k), "fake");
