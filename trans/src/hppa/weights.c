@@ -61,6 +61,9 @@
 #include "special.h"
 #include "weights.h"
 
+static weights
+weightsv(double scale, exp e);
+
 static weights zeroweights;
 
 /*

@@ -55,6 +55,9 @@ typedef struct elt {
 	struct elt *next;
 } explist ;
 
+static weights
+weightsv(exp e, explist *el);
+
 /* Basic weights */
 static weights zeros;
 
