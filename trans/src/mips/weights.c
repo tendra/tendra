@@ -61,6 +61,8 @@
  * calls and proc body inconsistently !!
  */
 
+static weights zeroweights;
+
 /* sum of weights*/
 static weights
 add_weights(weights * w1, weights * w2)
