@@ -7,16 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/* weightsdecs.h
-   externals for weights.c
-*/
-
-
 #include <reader/exp.h>
 
 #include "procrecs.h"
 
 extern  weights weightsv(double scale, exp e);
-
-
 

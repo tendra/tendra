@@ -56,36 +56,27 @@
 #include "special.h"
 #include "weights.h"
 
-
-static weights zeroweights =
-{{
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-},
-{
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-}
-};
-
 /*
  * NB scale, throughout, should be a float but mips cc V2.10 compiles
  * calls and proc body inconsistently !!
  */
 
-weights weightsv(double scale, exp e);
-
+/* sum of weights*/
 static weights
 add_weights(weights * w1, weights * w2)
 {
-				/* sum of weights*/
-  weights r;
-  long  i;
-  for (i = 0; i < wfixno; ++i) {
-     (r.fix)[i] = (w1->fix)[i] + (w2->fix)[i];
-  }
-  for (i = 0; i < wfloatno; ++i) {
-     (r.floating)[i] = (w1->floating)[i] + (w2->floating)[i];
-  }
-  return r;
+	weights r;
+	long  i;
+
+	for (i = 0; i < wfixno; ++i) {
+		r.fix[i] = w1->fix[i] + w2->fix[i];
+	}
+
+	for (i = 0; i < wfloatno; ++i) {
+		r.floating[i] = w1->floating[i] + w2->floating[i];
+	}
+
+	return r;
 }
 
 /*
@@ -100,105 +91,105 @@ add_weights(weights * w1, weights * w2)
 static wp
 max_weights(double loc, weights * ws, bool fix)
 {
-  long  bk = wfixno + 1;
+	long  bk = wfixno + 1;
+	long  i;
 
-  long  i;
-  float *w = (ws -> fix);
-  /* w[i] = greatest usage of (i+1) inner fixed tags  */
-  wp res;
-  float *pw = & (((res.wp_weights).fix)[0]);
-  if (fix) {
-    for (i = 0; i < wfixno; ++i) {
-      if (i == 0) {
-	if (loc > w[i]) {
-	  /* this tag has higher usage than any inner one ... */
-	  pw[i] = loc;
-	  bk = i;		/* ... so it's regged in pref to others */
+	float *w = ws->fix;
+	/* w[i] = greatest usage of (i+1) inner fixed tags  */
+
+	wp res;
+	float *pw = &res.wp_weights.fix[0];
+	if (fix) {
+		for (i = 0; i < wfixno; ++i) {
+			if (i == 0) {
+				if (loc > w[i]) {
+					/* this tag has higher usage than any inner one ... */
+					pw[i] = loc;
+					bk = i;		/* ... so it's regged in pref to others */
+				} else {
+					pw[i] = w[i];
+				}
+			} else {
+				if ((loc + w[i - 1]) > w[i]) {
+					/* this tag and i inner ones have higher usage than any other (i+1) inner ones ... */
+					pw[i] = loc + w[i - 1];
+					if (i < bk) {
+						bk = i;
+					}
+					/* ... so it and i inner ones are regged in preference to any
+					   other (i+1) inner ones */
+				} else {
+					pw[i] = w[i];
+				}
+			}
+		}
+
+		res.fix_break = bk;
+	} else {
+		for (i = 0; i < wfixno; ++i) {
+			pw[i] = w[i];
+		}
 	}
-	else
-	  pw[i] = w[i];
-      }
-      else {
-	if ((loc + w[i - 1]) > w[i]) {
-	  /* this tag and i inner ones have higher usage than any other (i+1) inner ones ... */
-	  pw[i] = loc + w[i - 1];
-	  if (i < bk)
-	    bk = i;
-	  /* ... so it and i inner ones are regged in preference to any
-	     other (i+1) inner ones */
+
+	res.fix_break = bk;
+
+	bk = wfloatno + 1;
+	w = ws->floating;
+	pw = &res.wp_weights.floating[0];
+	if (!fix) {
+		/* same algorithm for float regs as fixed regs */
+		for (i = 0; i < wfloatno; ++i) {
+			if (i == 0) {
+				if (loc > w[i]) {
+					pw[i] = loc;
+					bk = i;
+				} else {
+					pw[i] = w[i];
+				}
+			} else {
+				if ((loc + w[i - 1]) > w[i]) {
+					pw[i] = loc + w[i - 1];
+					if (i < bk) {
+						bk = i;
+					}
+				} else {
+					pw[i] = w[i];
+				}
+			}
+		}
+	} else {
+		for (i = 0; i < wfloatno; ++i) {
+			pw[i] = w[i];
+		}
 	}
-	else
-	  pw[i] = w[i];
-      }
-    }
 
-    res.fix_break = bk;
-  }
-  else {
-    for (i = 0; i < wfixno; ++i) {
-      pw[i] = w[i];
-    }
-  }
-
-  res.fix_break = bk;
-
-  bk = wfloatno + 1;
-  w = (ws -> floating);
-  pw = & (((res.wp_weights).floating)[0]);
-  if (!fix) {			/* same algorithm for float regs as fixed
-				   regs */
-    for (i = 0; i < wfloatno; ++i) {
-      if (i == 0) {
-	if (loc > w[i]) {
-	  pw[i] = loc;
-	  bk = i;
-	}
-	else
-	  pw[i] = w[i];
-      }
-      else {
-	if ((loc + w[i - 1]) > w[i]) {
-	  pw[i] = loc + w[i - 1];
-	  if (i < bk)
-	    bk = i;
-	}
-	else
-	  pw[i] = w[i];
-      }
-    }
-  }
-  else {
-    for (i = 0; i < wfloatno; ++i) {
-      pw[i] = w[i];
-    }
-  }
-
-  res.float_break = bk;
-  return res;
+	res.float_break = bk;
+	return res;
 }
 
+/* sum of  weights of list re */
 static weights
 add_wlist(double scale, exp re)
 {
-	/* sum of  weights of list re */
-  weights w, w1;
-  exp r = re;
-  if (r == NULL) {
-    return zeroweights;
-  }
-  else
-    if (r->last) {
-      return weightsv(scale, r);
-    }
-    else {
-      w = weightsv(scale, r);
-      do {
-	r = bro(r);
-	w1 = weightsv(scale, r);
-	w = add_weights(&w, &w1);
-      } while (!r->last);
-      return w;
-    }
+	weights w, w1;
+	exp r = re;
+
+	if (r == NULL) {
+		return zeroweights;
+	}
+
+	if (r->last) {
+		return weightsv(scale, r);
+	}
+
+	w = weightsv(scale, r);
+	do {
+		r = bro(r);
+		w1 = weightsv(scale, r);
+		w = add_weights(&w, &w1);
+	} while (!r->last);
+
+	return w;
 }
 
 /*
@@ -210,145 +201,150 @@ add_wlist(double scale, exp re)
  * finally determines the actual choice of s reg and recodes the number
  * field of an ident.
  */
-weights weightsv
-(double scale, exp e)
+weights
+weightsv(double scale, exp e)
 {
- unsigned char  n;
+	unsigned char n;
+
 tailrecurse:
-  n = e->tag;
-  switch (n) {
-    case name_tag:
-      {
-	exp s = son(e);
 
-	if (s->tag == ident_tag && !isglob(s)) {
-	  if (is_floating(sh(e)->tag) && sh(e)->tag != shrealhd) {
-	  	fno(s) += scale*2.0;
-	  } else fno(s) += scale;
+	switch (e->tag) {
+	case name_tag: {
+		exp s = son(e);
+
+		if (s->tag == ident_tag && !isglob(s)) {
+			if (is_floating(sh(e)->tag) && sh(e)->tag != shrealhd) {
+				fno(s) += scale * 2.0;
+			} else {
+				fno(s) += scale;
+			}
+		}
+
+		/* usage of tag stored in number of son of load_name (decl) */
+		return zeroweights;
 	}
-	/* usage of tag stored in number of son of load_name (decl) */
-	return zeroweights;
-      }
 
-    case ident_tag:
-      {
-	if (son(e)!= NULL) {
-	  weights wdef;
-	  weights wbody;
-	  long  noe = no (e) /* set by scan */ ;
+	case ident_tag: {
+		weights wdef;
+		weights wbody;
+		long noe;
 
-	  if (son(e)->tag == clear_tag || props(e) & defer_bit) {
-	    wdef = zeroweights;
-	    fno(e) = 0.0;
-	  }
-	  else {
-	    /* maybe needs a store to initialise */
-	    if (is_floating(sh(son(e))->tag) && sh(son(e))->tag!= shrealhd) {
-	  		fno(e) = scale*2.0;
-	    } else fno(e) = scale;
-	    wdef = weightsv(scale, son(e));
-	  }
-	  /* weights for initialisation of dec */
+		if (son(e) == NULL) {
+			return zeroweights;
+		}
 
-	  wbody = weightsv(scale, bro(son(e)));
-	  /* weights of body of scan */
+		noe = no(e); /* set by scan */
 
-	  if (props (e) & defer_bit) {
-		/* declaration will be treated transparently in code production */
-	    exp t = son(e);
-	    exp s;
-	    if (t->tag == val_tag || t->tag == real_tag) {
-	      return wbody;
-	    }
-	    while (t->tag!= name_tag) {
-	      t = son(t);
-	    }
+		if (son(e)->tag == clear_tag || props(e) & defer_bit) {
+			wdef = zeroweights;
+			fno(e) = 0.0;
+		} else {
+			/* maybe needs a store to initialise */
+			if (is_floating(sh(son(e))->tag) && sh(son(e))->tag != shrealhd) {
+				fno(e) = scale * 2.0;
+			} else {
+				fno(e) = scale;
+			}
+			wdef = weightsv(scale, son(e));
+		}
+		/* weights for initialisation of dec */
 
-	    s = son(t);
-	    if (s->tag == ident_tag && !isglob(t)) {
-	      fno(s) += fno(e);
-	    }
-	    /* usage of tag stored in number of son of load_name (decl) */
+		wbody = weightsv(scale, bro(son(e)));
+		/* weights of body of scan */
 
-	    return wbody;
-	  }			/* end deferred */
+		if (props (e) & defer_bit) {
+			/* declaration will be treated transparently in code production */
+			exp t = son(e);
+			exp s;
 
-	  if ((props(e) & inreg_bits) == 0 && fixregable(e)) {
-	    wp p;
-	    p = max_weights(fno(e) - 2.0*scale , &wbody, 1);
-	    /* usage decreased by 2 because of dump and restore of s-reg */
-	    no(e) = p.fix_break;
-	    return add_weights(&wdef, &p.wp_weights);
-	  }
-	  else
-	    if ((props(e) & infreg_bits) == 0 && floatregable(e)) {
-	      wp p;
-	      p = max_weights(fno(e) - 4 * scale, &wbody, 0);
-	      /* usage decreased by 4 because of dump and restore of double s-reg */
-	      no(e) = p.float_break;
-	      return add_weights(&wdef, &p.wp_weights);
-	    }
-	    else {
-	      no (e) = noe /* restore to value given by scan */ ;
-	      return add_weights(&wdef, &wbody);
-	    }
+			if (t->tag == val_tag || t->tag == real_tag) {
+				return wbody;
+			}
+
+			while (t->tag != name_tag) {
+				t = son(t);
+			}
+
+			s = son(t);
+			if (s->tag == ident_tag && !isglob(t)) {
+				fno(s) += fno(e);
+			}
+			/* usage of tag stored in number of son of load_name (decl) */
+
+			return wbody;
+		}	/* end deferred */
+
+		if ((props(e) & inreg_bits) == 0 && fixregable(e)) {
+			wp p;
+			p = max_weights(fno(e) - 2.0 * scale , &wbody, 1);
+			/* usage decreased by 2 because of dump and restore of s-reg */
+			no(e) = p.fix_break;
+			return add_weights(&wdef, &p.wp_weights);
+		} else if ((props(e) & infreg_bits) == 0 && floatregable(e)) {
+			wp p;
+			p = max_weights(fno(e) - 4 * scale, &wbody, 0);
+			/* usage decreased by 4 because of dump and restore of double s-reg */
+			no(e) = p.float_break;
+			return add_weights(&wdef, &p.wp_weights);
+		} else {
+			no(e) = noe /* restore to value given by scan */ ;
+			return add_weights(&wdef, &wbody);
+		}
 	}
-	else
-	  return zeroweights;
-      }
-    case rep_tag: {
-	e = bro(son(e));
-	goto tailrecurse;
-      }
 
-    case case_tag: {
-	e = son(e);
-	goto tailrecurse;
-      }
+	case rep_tag:
+		e = bro(son(e));
+		goto tailrecurse;
 
-    case labst_tag:
-      { scale = fno(e);
-	e = bro(son(e));
-	goto tailrecurse;
-      }
+	case case_tag:
+		e = son(e);
+		goto tailrecurse;
 
+	case labst_tag:
+		scale = fno(e);
+		e = bro(son(e));
+		goto tailrecurse;
 
-    case val_tag:{
-	return zeroweights;
-      }
+	case val_tag:
+		return zeroweights;
 
-    case ncopies_tag: {
-    	scale = no(e)*scale;
-    	e = son(e);
-    	goto tailrecurse;
-    }
+	case ncopies_tag:
+		scale = no(e) * scale;
+		e = son(e);
+		goto tailrecurse;
 
-    case seq_tag:  {
-	exp l = son(son(e));
-	exp r = bro(son(e));
-	weights w, w1;
-        w = weightsv(scale, l);
-	while (!l->last) {
-		l = bro(l);
-		w1 = weightsv(scale, l);
+	case seq_tag:  {
+		exp l = son(son(e));
+		exp r = bro(son(e));
+		weights w, w1;
+
+		w = weightsv(scale, l);
+		while (!l->last) {
+			l = bro(l);
+			w1 = weightsv(scale, l);
+			w = add_weights(&w, &w1);
+		}
+
+		w1 = weightsv(scale, r);
 		w = add_weights(&w, &w1);
+		return w;
 	}
-	w1 = weightsv(scale, r);
-	w = add_weights(&w, &w1);
-        return w;
-   }
 
+	case env_offset_tag:
+	case general_env_offset_tag:
+		return zeroweights;
 
-    default: {
-	if (son(e) == NULL || n == env_offset_tag
-		|| n == general_env_offset_tag) {
-	  return zeroweights;
+	default:
+		if (son(e) == NULL) {
+			return zeroweights;
+		}
+
+		if (son(e)->last) {
+			e = son(e);
+			goto tailrecurse;
+		}
+
+		return add_wlist(scale, son(e));
 	}
-	if (son(e)->last) {
-	  e = son(e);
-	  goto tailrecurse;
-	}
-	return add_wlist(scale, son(e));
-      }
-  }
 }
+

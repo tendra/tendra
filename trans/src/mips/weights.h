@@ -7,10 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/* weightsdecs.h
-   externals for weights.c
-*/
-
 #include <reader/exp.h>
 
 #include "procrectypes.h"
