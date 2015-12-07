@@ -76,11 +76,11 @@ add_weights(weights *w1, weights *w2)
 	long i;
 
 	for (i = 0; i < wfixno; ++i) {
-		(r.fix)[i] = (w1->fix)[i] + (w2->fix)[i];
+		r.fix[i] = w1->fix[i] + w2->fix[i];
 	}
 
 	for (i = 0; i < wfloatno; ++i) {
-		(r.floating)[i] = (w1->floating)[i] + (w2->floating)[i];
+		r.floating[i] = w1->floating[i] + w2->floating[i];
 	}
 
 	return r;

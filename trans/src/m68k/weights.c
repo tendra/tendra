@@ -72,12 +72,13 @@ add_weights(weights w1, weights w2)
 	float wa, wb;
 
 	for (i = 0; i < wno; i++) {
-		wa = (w1.wts)[i];
-		wb = (w2.wts)[i];
+		wa = w1.wts[i];
+		wb = w2.wts[i];
+
 		if (wa == cant_use || wb == cant_use) {
-			(r.wts)[i] = cant_use;
+			r.wts[i] = cant_use;
 		} else {
-			(r.wts)[i] = wa + wb;
+			r.wts[i] = wa + wb;
 		}
 	}
 
