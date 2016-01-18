@@ -1,0 +1,894 @@
+<!DOCTYPE HTML PUBLIC "-//SQ//DTD HTML 2.0 + all extensions//EN" "hmpro3.dtd">
+<!-- Published by Quadralay WebWorks HTML Lite 1.5 -->
+<HTML>
+<HEAD>
+
+
+<script type="text/javascript" src="/static/js/analytics.js"></script>
+<script type="text/javascript">archive_analytics.values.server_name="wwwb-app17.us.archive.org";archive_analytics.values.server_ms=304;</script>
+<link type="text/css" rel="stylesheet" href="/static/css/banner-styles.css"/>
+
+
+<TITLE>>Java-ANDF Feasibility Study - Final Report</TITLE></HEAD>
+<BODY>
+
+
+<!-- BEGIN WAYBACK TOOLBAR INSERT -->
+<script type="text/javascript" src="/static/js/disclaim-element.js" ></script>
+<script type="text/javascript" src="/static/js/graph-calc.js" ></script>
+<script type="text/javascript">//<![CDATA[
+var __wm = (function(imgWidth,imgHeight,yearImgWidth,monthImgWidth){
+var wbPrefix = "/web/";
+var wbCurrentUrl = "http://www.enlight.ru/docs/arch/java/Java-ANDF%20Feasibility%20Study%20-%20Final%20Report.htm";
+
+var firstYear = 1996;
+var displayDay = "6";
+var displayMonth = "Jan";
+var displayYear = "2004";
+var prettyMonths = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+var $D=document,$=function(n){return document.getElementById(n)};
+var trackerVal,curYear = -1,curMonth = -1;
+var yearTracker,monthTracker;
+function showTrackers(val) {
+  if (val===trackerVal) return;
+  var $ipp=$("wm-ipp");
+  var $y=$("displayYearEl"),$m=$("displayMonthEl"),$d=$("displayDayEl");
+  if (val) {
+    $ipp.className="hi";
+  } else {
+    $ipp.className="";
+    $y.innerHTML=displayYear;$m.innerHTML=displayMonth;$d.innerHTML=displayDay;
+  }
+  yearTracker.style.display=val?"inline":"none";
+  monthTracker.style.display=val?"inline":"none";
+  trackerVal = val;
+}
+function trackMouseMove(event,element) {
+  var eventX = getEventX(event);
+  var elementX = getElementX(element);
+  var xOff = Math.min(Math.max(0, eventX - elementX),imgWidth);
+  var monthOff = xOff % yearImgWidth;
+
+  var year = Math.floor(xOff / yearImgWidth);
+  var monthOfYear = Math.min(11,Math.floor(monthOff / monthImgWidth));
+  // 1 extra border pixel at the left edge of the year:
+  var month = (year * 12) + monthOfYear;
+  var day = monthOff % 2==1?15:1;
+  var dateString = zeroPad(year + firstYear) + zeroPad(monthOfYear+1,2) +
+    zeroPad(day,2) + "000000";
+
+  $("displayYearEl").innerHTML=year+firstYear;
+  $("displayMonthEl").innerHTML=prettyMonths[monthOfYear];
+  // looks too jarring when it changes..
+  //$("displayDayEl").innerHTML=zeroPad(day,2);
+  var url = wbPrefix + dateString + '/' +  wbCurrentUrl;
+  $("wm-graph-anchor").href=url;
+
+  if(curYear != year) {
+    var yrOff = year * yearImgWidth;
+    yearTracker.style.left = yrOff + "px";
+    curYear = year;
+  }
+  if(curMonth != month) {
+    var mtOff = year + (month * monthImgWidth) + 1;
+    monthTracker.style.left = mtOff + "px";
+    curMonth = month;
+  }
+}
+function hideToolbar() {
+  $("wm-ipp").style.display="none";
+}
+function bootstrap() {
+  var $spk=$("wm-ipp-sparkline");
+  yearTracker=$D.createElement('div');
+  yearTracker.className='yt';
+  with(yearTracker.style){
+    display='none';width=yearImgWidth+"px";height=imgHeight+"px";
+  }
+  monthTracker=$D.createElement('div');
+  monthTracker.className='mt';
+  with(monthTracker.style){
+    display='none';width=monthImgWidth+"px";height=imgHeight+"px";
+  }
+  $spk.appendChild(yearTracker);
+  $spk.appendChild(monthTracker);
+
+  var $ipp=$("wm-ipp");
+  $ipp&&disclaimElement($ipp);
+}
+return{st:showTrackers,mv:trackMouseMove,h:hideToolbar,bt:bootstrap};
+})(500, 27, 25, 2);//]]>
+</script>
+<style type="text/css">
+body {
+  margin-top:0 !important;
+  padding-top:0 !important;
+  min-width:800px !important;
+}
+</style>
+<div id="wm-ipp" lang="en" style="display:none;">
+
+<div style="position:fixed;left:0;top:0;width:100%!important">
+<div id="wm-ipp-inside">
+   <table style="width:100%;"><tbody><tr>
+   <td id="wm-logo">
+       <a href="/web/" title="Wayback Machine home page"><img src="/static/images/toolbar/wayback-toolbar-logo.png" alt="Wayback Machine" width="110" height="39" border="0" /></a>
+   </td>
+   <td class="c">
+       <table style="margin:0 auto;"><tbody><tr>
+       <td class="u" colspan="2">
+       <form target="_top" method="get" action="/web/form-submit.jsp" name="wmtb" id="wmtb"><input type="text" name="url" id="wmtbURL" value="http://www.enlight.ru/docs/arch/java/Java-ANDF%20Feasibility%20Study%20-%20Final%20Report.htm" style="width:400px;" onfocus="this.focus();this.select();" /><input type="hidden" name="type" value="replay" /><input type="hidden" name="date" value="20040106193819" /><input type="submit" value="Go" /><span id="wm_tb_options" style="display:block;"></span></form>
+       </td>
+       <td class="n" rowspan="2">
+           <table><tbody>
+           <!-- NEXT/PREV MONTH NAV AND MONTH INDICATOR -->
+           <tr class="m">
+           	<td class="b" nowrap="nowrap">
+		
+		    Dec
+		
+		</td>
+		<td class="c" id="displayMonthEl" title="You are here: 19:38:19 Jan 6, 2004">JAN</td>
+		<td class="f" nowrap="nowrap">
+		
+		    Feb
+		
+                </td>
+	    </tr>
+           <!-- NEXT/PREV CAPTURE NAV AND DAY OF MONTH INDICATOR -->
+           <tr class="d">
+               <td class="b" nowrap="nowrap">
+               
+                       <img src="/static/images/toolbar/wm_tb_prv_off.png" alt="Previous capture" width="14" height="16" border="0" />
+               
+               </td>
+               <td class="c" id="displayDayEl" style="width:34px;font-size:24px;" title="You are here: 19:38:19 Jan 6, 2004">6</td>
+	       <td class="f" nowrap="nowrap">
+               
+                   <img src="/static/images/toolbar/wm_tb_nxt_off.png" alt="Next capture" width="14" height="16" border="0"/>
+               
+	       </td>
+           </tr>
+           <!-- NEXT/PREV YEAR NAV AND YEAR INDICATOR -->
+           <tr class="y">
+	       <td class="b" nowrap="nowrap">
+               
+                   2003
+               
+               </td>
+               <td class="c" id="displayYearEl" title="You are here: 19:38:19 Jan 6, 2004">2004</td>
+	       <td class="f" nowrap="nowrap">
+               
+                   2005
+               
+	       </td>
+           </tr>
+           </tbody></table>
+       </td>
+       </tr>
+       <tr>
+       <td class="s">
+           <a class="t" href="/web/20040106193819*/http://www.enlight.ru/docs/arch/java/Java-ANDF%20Feasibility%20Study%20-%20Final%20Report.htm" title="See a list of every capture for this URL">1 captures</a>
+           <div class="r" title="Timespan for captures of this URL">6 Jan 04 - 6 Jan 04</div>
+       </td>
+       <td class="k">
+       <a href="" id="wm-graph-anchor">
+       <div id="wm-ipp-sparkline" title="Explore captures for this URL">
+	 <img id="sparklineImgId" alt="sparklines"
+		 onmouseover="__wm.st(1)" onmouseout="__wm.st(0)"
+		 onmousemove="__wm.mv(event,this)"
+		 width="500"
+		 height="27"
+		 border="0"
+		 src="/web/jsp/graph.jsp?graphdata=500_27_1996:-1:000000000000_1997:-1:000000000000_1998:-1:000000000000_1999:-1:000000000000_2000:-1:000000000000_2001:-1:000000000000_2002:-1:000000000000_2003:-1:000000000000_2004:0:100000000000_2005:-1:000000000000_2006:-1:000000000000_2007:-1:000000000000_2008:-1:000000000000_2009:-1:000000000000_2010:-1:000000000000_2011:-1:000000000000_2012:-1:000000000000_2013:-1:000000000000_2014:-1:000000000000_2015:-1:000000000000" />
+       </div>
+       </a>
+       </td>
+       </tr></tbody></table>
+   </td>
+   <td class="r">
+       <a href="#close" onclick="__wm.h();return false;" style="background-image:url(/static/images/toolbar/wm_tb_close.png);top:5px;" title="Close the toolbar">Close</a>
+       <a href="http://faq.web.archive.org/" style="background-image:url(/static/images/toolbar/wm_tb_help.png);bottom:5px;" title="Get some help using the Wayback Machine">Help</a>
+   </td>
+   </tr></tbody></table>
+</div>
+</div>
+</div>
+<script type="text/javascript">__wm.bt();</script>
+<!-- END WAYBACK TOOLBAR INSERT -->
+
+<H1></H1>
+<HR>
+<P><A NAME="59"></A></P>
+<H1 ALIGN="CENTER">Java-ANDF Feasibility Study</H1>
+<P><A NAME="3162"></A></P>
+<H1 ALIGN="CENTER">Final Report</H1>
+<P><A NAME="3163"></A></P>
+<P ALIGN="CENTER">Christian Fabre, Fran&ccedil;ois de Ferri&egrave;re, Fred Roy<BR>Open
+Software Foundation<BR>Research Institute</P>
+<HR>
+<H2>1. Objectives and Description</H2>
+<P><A NAME="1947">This project was carried out under the CSM/165 contract with
+DRA. Reference </A><A HREF="jta-final.htm#354">[1]</A> provides a complete
+description of the project.</P>
+<P>The objective was to perform a study of the relationship between the DRA
+TenDRA technology and the recently announced Java technology from Sun
+Microsystems. In an
+<A NAME="17055" HREF="/web/20040106193819/http://www.gr.osf.org/projects/andf/java-and.htm">earlier
+report </A>we described the possible uses of ANDF with Java, which we classified
+into two different approaches.</P>
+<P><A NAME="17057">First, ANDF can be used as a portability tool for Java. The
+analysis of the Sun implementation shows that the Java runtime and Java native
+library code have strong dependencies on the underlying hardware. This will
+require a careful design and implementation of tokens to provide a common API on
+every platform. In addition,there are large differences between platforms, such
+as Unix and Windows NT, for which ANDF offers no solution.</A></P>
+<P><A NAME="17063">Second, ANDF can be used as a compiler, in order to produce
+executable code from Java bytecode. Java bytecode and ANDF are very similar, and
+a precise mapping of most of Java bytecode to ANDF is given in this study. We
+also analyzed the difficulties of running compiled code with interpreted
+bytecode. This will require that an API to access some Java runtime services be
+defined, and ensuring that generated code does not break rules imposed by the
+interpreter. Designing a Java to ANDF producer should also be possible, based on
+the fact that Java and C++ are closely related. On the other hand, an ANDF to
+ANDF optimiser based on profiling information does not seem a priority now for
+the Java technology.</A></P>
+<P><A NAME="17072">As a result of this study, it seemed that a Java bytecode
+to ANDF translator is the most interesting use of ANDF with Java. The mapping
+between Java bytecode and ANDF is in most cases straightforward. However, the
+issues relative to integration of compiled code with interpreted bytecode are
+more complicated. This possibility has been pursued, and this report describes
+the work which has been done to develop the translator, and presents some
+results obtained with it.</A></P>
+<P><A NAME="233"></A></P>
+<H2 ALIGN="LEFT">2. Detailed status</H2>
+<P><A NAME="11535">In this report, we will describe the architecture of the
+Java/ANDF translator, explain where some better choices or optimizations could
+have been made, and present some performance results for the translator.</A></P>
+<P><A NAME="6720"></A></P>
+<H3>Architecture of the Java/ANDF translator</H3>
+<P><A NAME="16287">The Java To ANDF translator (JTA), has been written in C.
+The main reason for this choice was that a translator written in Java would have
+been efficient only if bootstrapped, but the project was too short to achieve
+this objective.</A></P>
+<P><A NAME="16288"><B>1</B>. Class reader</A></P>
+<P><A NAME="11580">The first phase of the translation consists in reading the
+Java class file we want to process. The class reader reads the internal
+structure of a class file, as described in the `Java Virtual Machine
+Specification' document (</A><A HREF="jta-final.htm#354">[5]</A>) from Sun, and
+puts it into a C structure, with some additional information where needed. We do
+not perform any additional task in this phase.</P>
+<P><A NAME="11597">The main information we use from the class file is the
+ConstantPool, which defines all the constants used in the code, and the
+methodtable which contains the information on each method of the class.</A></P>
+<P><A NAME="11599"><B>2</B>. Which method to compile</A></P>
+<P><A NAME="11589">Then, the method table is scanned to decide which methods
+can be compiled. Methods which cannot be compiled are:</A></P>
+<P></P>
+<P><A NAME="11606"></A></P>
+<UL>
+<LI>NATIVE or ABSTRACT methods, since they do not have bytecode. 
+<A NAME="11630"></A></LI>
+<LI>The &lt;clinit&gt; method, which, if it exists, is the static class
+initializer. This method is executed right after the class has been loaded. So,
+when a class is compiled, this is the appropriate place for any code to load the
+shared library where the compiled code for this class will be stored. 
+</LI></UL>
+<P><A NAME="11573">Then we can compile the code for each of the other methods.</A></P>
+<P><A NAME="11647"><B>3</B>. Bytecode instructions and labels</A></P>
+<P><A NAME="11645">We make a first pass through the bytecode of the method, in
+order to:</A></P>
+<P></P>
+<P><A NAME="11656"></A></P>
+<UL>
+<LI>	count the number of bytecode instructions in the code. By a bytecode
+instruction we mean a sequence of bytes from the array of bytecodes where the
+first byte is a bytecode opcode and the other bytes are the arguments that
+follow the bytecode opcode. Most of the bytecode opcodes have a fixed number of
+byte arguments, which may be zero. 
+<A NAME="11658"></A></LI>
+<LI>	decode bytecode instructions which have a variable number of byte
+arguments, such as tableswitch and lookupswitch. 
+<A NAME="11659"></A></LI>
+<LI>compute the destination of each branch instructions. 
+<A NAME="11662"></A></LI>
+<LI>For each point in the code which is the destination of a branch, create a
+block, and chain these blocks in a sequential order. 
+</LI></UL>
+<P><A NAME="11661">At the end of this pass, the code of the method is
+represented as a sequence of blocks. An entry block is added, which is at the
+first bytecode instruction of the method. This block, which may be empty if
+there is a branch to the first instruction of the method, corresponds to the
+starter part of the labelled construct used to generate the blocks of the
+method.</A></P>
+<P><A NAME="11697"><B>4</B>. Exception table</A></P>
+<P><A NAME="11702">Then, we read the exception table and create a tree
+structure which represents the way the exception handlers are nested. A default
+handler is also created, which is a pseudo handler, valid throughout the method.
+The purpose of this default handler is just to return from the method, with the
+indication that an exception has been raised, if an exception has not been
+caught in the method.</A></P>
+<P><A NAME="11706"><B>5</B>. Bytecode instructions analysis</A></P>
+<P><A NAME="11682">We make a second pass over the bytecode in order to make
+some static checks on the bytecode and to create an array of bytecode
+instructions that we will use to produce the ANDF code.</A></P>
+<P><A NAME="11728">When a class is loaded into the runtime, the Java runtime
+performs many checks on the bytecode, in order to reject illegal code. When we
+compile a class with JTA, we cannot assume that the bytecode is valid, unless a
+bytecode verifier is automatically run before compiling a class. So we perform
+most of the checks a bytecode checker does. A few more checks would be needed to
+complete this task.</A></P>
+<P><A NAME="12410">Although the bytecode produced by the Java compiler follows
+some implicit rules, we did not want to make any assumptions about the bytecode.
+For example, bytecode produced by javac always has an empty stack on a backward
+branch, but this is not a property of the Java bytecode. So, we have to
+carefully analyze the bytecode in order to be able to produce correct code for
+any valid sequence of bytecodes.</A></P>
+<P><A NAME="11775">We start the bytecode analysis on the first byte of the
+bytecode for the method, with the stack being empty. Then we sequentially
+analyse the bytecodes, maintaining on a stack the shape of the values on the
+stack. We build for each bytecode opcode a bytecode instruction, which contains
+information on the shape of the arguments and the shape of the result. On a
+branch instruction, a description of the stack is copied into the destination
+block, or checked against a description previously stored. When we reach the end
+of a block, we continue with another block not yet processed and for which a
+stack description has already been computed. The analysis stops when there is no
+more blocks with a stack description to process.</A></P>
+<P><A NAME="11777">Then we repeat this process for the exception handlers,
+starting with the first block of each exception handlers. In this case, the
+stack at the entry of the first block is initialized with the shape of an object
+which describes an exception.</A></P>
+<P><A NAME="11781">At the end of this process, all the bytecode for a method
+must have been analyzed, otherwise there is some unreachable code, which is an
+error.</A></P>
+<P><A NAME="11717"><B>6</B>. Bytecode instructions generation</A></P>
+<P><A NAME="11798">At this point we make the last pass on the method code to
+produce the ANDF code. This pass, however, will not be executed on the bytecode
+itself, but on the array of bytecode instructions created in step 5..</A></P>
+<P><A NAME="11807">We will first describe the general process of generating
+ANDF code from bytecode instructions, and then go into more detail for each
+instruction of the Java bytecode. However, we will not go into details for the
+generation of bytecode instructions which have dependencies on the Java runtime,
+since this would require references to some details of Sun's Java runtime
+internal implementation.</A></P>
+<P><A NAME="11808"></A></P>
+<P><EM>- General process of generating ANDF</EM></P>
+<P><A NAME="11812">A labelled construct is used to generate the labels for the
+blocks of a Java method. We do not use more specialized constructs, such as
+conditional or repeat, to introduce labels, since this would have required a
+graph analysis to rebuild if and for or while instructions.</A></P>
+<P><A NAME="12455">The Java virtual machine is stack based, which means that
+temporary results of an instruction are pushed onto a stack, and popped later on
+for the arguments of another instruction. A particularity of the Java language
+is that the evaluation order of the expressions is very strict, and this needs
+to be reflected in ANDF.</A></P>
+<P><A NAME="12459">In order to produce the ANDF code, we use a stack for the
+compilation, where we store the ANDF code for intermediate expressions, and we
+use the identify construct to enforce the evaluation order. Below is an
+explanation, on a small example, of how we produce ANDF code:</A></P>
+<P><A NAME="11823"></A></P>
+<PRE>	aload_0		// load this and push it onto the stack
+	getfield i	// pop this and push this.i
+	iconst_1	// push integer constant 1
+	iadd		// pops this.i and 1, adds them and push the result.</PRE>
+<P><A NAME="11827">The translation to ANDF is the following:</A></P>
+<P><A NAME="11828"></A></P>
+<P><I>This code is just pseudo ANDF code, some information has been omitted
+for readability.</I></P>
+<P><A NAME="11829"></A></P>
+<PRE><TT>PUSH ``identify t1 ( ~aload 0 )''
+POP -&gt; ``( obtain_tag t1 )''
+PUSH ``identify t2 identify t1 ( ~aload 0 ) ( getfield ( 
+	obtain_tag t1 ) i )''
+PUSH ``identify t3 ( make_int 1 )''
+POP -&gt; ``( obtain_tag t2 ), ( obtain_tag t3 )''
+PUSH ``identify t4 identify t2 identify t1 ( ~aload 0 ) ( 
+	getfield ( obtain_tag t1 ) i ) identify t3 ( make_int 
+	1 ) plus ( obtain_tag t2 ) ( obtain_tag t3 )''</TT>
+</PRE>
+<P><A NAME="11870">This algorithm for ANDF code generation is valid for almost
+every bytecode instruction, and ensures a correct evaluation order with no need
+for extra assignments to local variables. However, there are two places where we
+cannot do without assignment to local variables:</A></P>
+<P></P>
+<P><A NAME="11871"></A></P>
+<UL>
+<LI>When a branch instruction is executed and the stack is not empty. For
+example, consider the following Java code:<BR>	<TT>	h = (h==0) ? 1 : h*2;</TT><BR>This
+will require that a local variable is used to hold either<TT> 1 </TT>or <TT>h*2</TT>,
+and then that its value is used for the assignment into <TT>h</TT>. 
+<A NAME="11874"></A></LI>
+<LI>For bytecode which operates directly on the stack, namely the <TT>opc_swap</TT>
+and <TT>opc_dup*_x*</TT> bytecode instructions. To produce these instructions,
+the value copied down into the stack is assigned into a local variable, since
+otherwise it would create an out of scope reference to the identify tag used to
+refer to the value. 
+</LI></UL>
+<P><A NAME="12528">The ANDF code generation for the first block of each
+exception handler requires some special treatment. We have to generate some code
+to compare the exception on the stack against the exception caught by the
+handler. For the case where they do not match, we have to generate a jump to the
+next handler in which the current handler is contained. We use the tree
+structure built in <B>4</B>. from the exception table to produce the jumps from
+inner to outer handlers. For the case where the exceptions match, we produce
+code to reset the exception, and then we produce the code for the handler, the
+stack being initialized with an expression giving the exception.</A></P>
+<P><EM>- Generation of bytecode instructions to ANDF</EM></P>
+<P><A NAME="11872">Now we can go into the details of the ANDF code generation
+for each of the bytecode instructions.</A></P>
+<P><A NAME="12559">Some of the instructions below require that checks are
+performed, and that exceptions are thrown if the checks failed. For example,
+when accessing data in an array, we must check that the array reference is not a
+null pointer, and that the index is inside the bounds of the array. However,
+this has not been implemented in JTA.</A></P>
+<P><A NAME="11911"><B>bipush, sipush, iconst_m1, iconst_&lt;n&gt;, lconst_&lt;l&gt;</B></A></P>
+<PRE><A NAME="12000">	( make_int &lt;shape&gt; &lt;value&gt; )</A></PRE>
+<P><A NAME="12003"><B>fconst_&lt;f&gt;, dconst_&lt;d&gt;</B></A></P>
+<PRE><A NAME="12004">	( make_floating &lt;flt_var&gt; to_nearest false &lt;mantisse&gt; 2 1 )</A></PRE>
+<P><A NAME="11962"><B>aconst_null</B></A></P>
+<PRE><A NAME="11963">	( make_null_ptr ( alignment top ) )</A></PRE>
+<P><A NAME="11899"><B>ldc, ldc2, ldc2w</B></A></P>
+<PRE><A NAME="11970">	Create a global constant, with the type and value found in the 
+	constant pool.</A></PRE>
+<P><A NAME="11977"><B>iload, iload_&lt;n&gt;, lload, lload_&lt;n&gt;, fload,
+fload_&lt;n&gt;, dload, dload_&lt;n&gt;, aload, aload_&lt;n&gt;</B></A></P>
+<PRE><A NAME="12010">	( contents &lt;shape&gt; ( obtain_tag &lt;var&gt; ) )</A></PRE>
+<P><A NAME="12007"><B>istore, istore_&lt;n&gt;, lstore, lstore_&lt;n&gt;,
+fstore, fstore_&lt;n&gt;, dstore, dstore_&lt;n&gt;, astore, astore_&lt;n&gt;</B></A></P>
+<PRE><A NAME="12021">	( assign ( obtain_tag &lt;var&gt; ) &lt;exp&gt; )</A></PRE>
+<P><A NAME="12025"><B>iinc</B></A></P>
+<PRE>	( assign ( obtain_tag &lt;var&gt; )
+		( plus impossible
+			( contents ~J_int_t
+				( obtain_tag &lt;var&gt;) )
+			( make_int ~J_int &lt;value&gt; ) ) )
+</PRE>
+<P><A NAME="12047"><B>newarray, anewarray, multianewarray, opc_arraylength</B></A></P>
+<P><A NAME="12049">	Requires access to Sun's Java runtime internal structures.
+Note also that <TT>multianewarray</TT> has not been implemented.</A></P>
+<P><A NAME="12090"><B>iaload, laload, faload, daload, aaload, baload, caload,
+saload</B></A></P>
+<PRE><A NAME="12096">	( contents &lt;shape&gt;
+		( add_to_ptr
+			&lt;exp_array_ref&gt;
+			( offset_mult
+				( offset_pad
+					( alignment &lt;shape&gt;)
+					( shape_offset &lt;shape&gt;) )
+				&lt;exp_index&gt; ) ) )</A></PRE>
+<P><A NAME="12108"><B>iastore, lastore, fastore, dastore, aastore, bastore,
+castore, sastore</B></A></P>
+<PRE><A NAME="12110">	( assign
+		( add_to_ptr
+			&lt;exp_array_ref&gt;
+			( offset_mult
+				( offset_pad
+					( alignment &lt;shape&gt;)
+					( shape_offset &lt;shape&gt;) )
+				&lt;exp_index&gt; ) )
+		&lt;exp&gt; )</A></PRE>
+<P><A NAME="12120"><B>nop</B></A></P>
+<P><A NAME="12122">	No ANDF code.</A></P>
+<P><A NAME="12499"><B>pop, pop2</B></A></P>
+<PRE><A NAME="12500">	sequence (&lt;exp&gt; make_top )</A></PRE>
+<P><A NAME="12501">	pop2 will produce different code depending on whether
+there are two 32 bit values on top of the stack, or a single 64 bit value.</A></P>
+<P><A NAME="12126"><B>dup, dup2</B></A></P>
+<P><A NAME="12130">	Just duplicate the value on top of the stack and push it.
+References to either value will use the same <TT>identify</TT> tag.</A></P>
+<P><A NAME="12169">	dup2 will produce different code depending whether there
+are two 32 bit values on top of the stack, or a single 64 bit value.</A></P>
+<P><A NAME="12155"><B>dup_x1, dup2_x1, dup_x2, dup2_x2, swap</B></A></P>
+<P><A NAME="12149">	Assign the top of stack value(s) into variable(s).
+References to the element(s) copied down into the stack will use the <TT>variable</TT>
+tag instead of the <TT>identify</TT> tag.</A></P>
+<P><A NAME="12173">	<TT>dup2_x1, dup_x2</TT> and <TT>dup2_x2</TT> will
+produce different code depending on the size of the values on the stack.</A></P>
+<P><A NAME="12184"><B>iadd, ladd, fadd, dadd, isub, lsub, fsub, dsub, imul,
+lmul, fmul, dmul, idiv, ldiv, fdiv, ddiv, irem, lrem, , ineg, lneg, fneg, dneg,
+ishl, ishr, iushr, lshl, lshr, lushr, iand, land, ior, lor, ixor, lxor</B></A></P>
+<P><A NAME="12199">	The generation of these bytecode instructions is
+straightforward, using the corresponding ANDF constructs.</A></P>
+<P><A NAME="12147"><B>frem, drem</B></A></P>
+<P><A NAME="12205">	These two constructs have not been implemented.</A></P>
+<P><A NAME="12209"><B>i2l, i2f, i2d, l2i, l2f, l2d, f2i, f2l, f2d, d2i, d2l,
+d2f</B></A></P>
+<P><A NAME="12213">	The generation of these bytecode instructions is
+straightforward, using the <TT>change_variety, change_floating_variety,
+round_with_mode</TT> and <TT>float_int </TT>ANDF constructs.</A></P>
+<P><A NAME="12219"><B>int2byte, int2char, int2short</B></A></P>
+<PRE><A NAME="12227">	( change_variety impossible ~J_int
+		( change_variety wrap &lt;shape&gt;
+			&lt;exp&gt; ) )</A></PRE>
+<P><A NAME="12235"><B>ifeq, ifne, iflt, ifle, ifgt, ifge</B></A></P>
+<PRE><A NAME="12252">	( integer_test ? &lt;nt&gt; &lt;label&gt;
+		( make_int ~J_int 0 )
+		&lt;exp&gt; )</A></PRE>
+<PRE><A NAME="12257">	opc_ifeq: nt is <TT>not_equal</TT>
+	opc_ifne : nt is <TT>equal</TT>
+	opc_iflt: nt is <TT>less_than_or_equal</TT>
+	opc_ifle: nt is <TT>less_than</TT>
+	opc_ifgt: nt is <TT>greater_than_or_equal</TT>
+	opc_ifge: nt is <TT>greater_than</TT></A></PRE>
+<P><A NAME="12245"><B>if_icmpeq, if_icmpne, if_icmplt, if_icmpgt, if_icmple,
+if_icmpge</B></A></P>
+<PRE><A NAME="12263">	( integer_test ? &lt;nt&gt; &lt;label&gt;
+		&lt;exp1&gt;
+		&lt;exp2&gt; )</A></PRE>
+<PRE><A NAME="12264">	opc_ifcmpeq: nt is <TT>not_equal</TT>
+	opc_ifcmpne : nt <TT>isequal</TT>
+	opc_ifcmpgt: nt is <TT>less_than_or_equal</TT>
+	opc_ifcmpge: nt is <TT>less_than</TT>
+	opc_ifcmplt: nt is <TT>greater_than_or_equal</TT>
+	opc_ifcmple: nt is <TT>greater_than</TT></A></PRE>
+<P><A NAME="12260"><B>ifnull, ifnonnull</B></A></P>
+<PRE><A NAME="12272">	( pointer_test ? &lt;nt&gt; &lt;label&gt;
+		( make_null_ptr ( alignment top ) )
+		&lt;exp&gt; )</A></PRE>
+<PRE><A NAME="12270">	opc_ifnull: nt is <TT>not_equal</TT>
+	opc_ifnonnull : nt is <TT>equal</TT></A></PRE>
+<P><A NAME="12280"><B>if_acmpeg, if_acmpne</B></A></P>
+<PRE><A NAME="12282">	( pointer_test ? &lt;nt&gt; &lt;label&gt;
+		&lt;exp1&gt;
+		&lt;exp2&gt; )</A></PRE>
+<PRE><A NAME="12283">	opc_if_acmpeq: nt is <TT>not_equal</TT>
+	opc_if_acmpne : nt is <TT>equal</TT></A></PRE>
+<P><A NAME="12267"><B>lcmp, fcmpl, fcmpg, dcmpl, dcmpg</B></A></P>
+<PRE><A NAME="12294">	Use two nested <TT>conditional</TT> ANDF constructs to produce the
+value -1, 0 or 1.</A></PRE>
+<P><A NAME="12298"><B>goto, goto_w</B></A></P>
+<PRE><A NAME="12300">	( goto &lt;label&gt; )</A></PRE>
+<P><A NAME="12304"><B>jsr, jsr_w</B></A></P>
+<PRE><A NAME="12307">	make_local_lv &lt;label_next_insn&gt;
+	( goto &lt;label&gt; )</A></PRE>
+<P><A NAME="12305"><B>ret, ret_w</B></A></P>
+<PRE><A NAME="12312">	( goto_local_lv ( contents ~J_code_t &lt;var&gt; ) )</A></PRE>
+<P><A NAME="12518"><B>return</B></A></P>
+<P><A NAME="12519">	Leaves the current procedure.</A></P>
+<P><A NAME="12326"><B>ireturn, lreturn, freturn, dreturn, areturn</B></A></P>
+<P><A NAME="12328">	Leaves the current procedure, returning the top of the
+stack.</A></P>
+<P><A NAME="12510"><B>breakpoint</B></A></P>
+<P><A NAME="12334">	Cannot appear in legal bytecode.</A></P>
+<P><A NAME="12338"><B>tableswitch, lookupswitch</B></A></P>
+<P><A NAME="12340">	Use the <TT>case</TT> ANDF construct.</A></P>
+<P><A NAME="12344"><B>putfield, getfield, putstatic, getstatic</B></A></P>
+<P><A NAME="12346">	Interface with the Java runtime.</A></P>
+<P><A NAME="12352"><B>invokevirtual, invokenonvirtual, invokestatic,
+invokeinterface</B></A></P>
+<P><A NAME="12568">	Interface with the Java runtime.</A></P>
+<P><A NAME="12358"><B>athrow</B></A></P>
+<P><A NAME="12360">	Uses an entry point in the Sun's Java runtime to create an
+exception, and push it on top of the stack.<BR>	Then go to the handler valid at
+this point.</A></P>
+<P><A NAME="12364"><B>new, checkcast, instanceof</B></A></P>
+<P><A NAME="12366">	Uses Sun's Java runtime internal function entry points.</A></P>
+<P><A NAME="12370"><B>monitorenter, monitorexit</B></A></P>
+<P><A NAME="12372">	These two constructs have not been implemented.</A></P>
+<P><A NAME="12387"><B>7</B>. Output an ANDF file and a modified java class
+file</A></P>
+<P><A NAME="12223">Now that all the bytecode instructions for a method have
+been translated into ANDF, we have to write the ANDF file and a modified java
+class file.</A></P>
+<P><A NAME="12377">We chose to generated ANDF ASCII code for the ANC tool
+developed at the OSF, instead of producing binary ANDF code. This was easier to
+output and also facilitated debugging the generated code. However, producing
+ANDF binary code would not be very difficult.</A></P>
+<P><A NAME="12580">We have also to produce a modified Java class file, where
+all the compiled methods are declared as NATIVE. In this class file, the class
+initializer method &lt;<TT>clinit</TT>&gt;, which is executed when the class is
+loaded, is modified in order to automatically load the shared library where the
+compiled code will be stored.</A></P>
+<P><A NAME="12584"><B>Implementation improvements and optimizations</B></A></P>
+<P><A NAME="12629">The architecture of the JTA translator has proven to be
+easy to extend and maintain. We started with a first version of JTA capable of
+translating only a limited subset of the Java bytecodes, and extended it to now
+support almost all of the Java bytecodes, with no major difficulties.</A></P>
+<P><A NAME="12599">However, we chose to produce ANDF ASCII code, and thus we
+decided to directly translate instructions into ASCII strings, which are
+concatenated together to produce the ANC file (see </A><A HREF="#11717">&#167;6</A>).
+A better choice, although it would have required more time to implement, would
+have been to use a tree structure to represent the code to generate. The
+advantages of this solution would be that optimizations on expressions would
+then be possible, and the generation of ANDF binary code would be much easier.</P>
+<P><A NAME="12601">The ANDF installers contain an optimiser, and we do not
+know exactly which optimizations must be performed in JTA, and which ones can be
+left to the ANDF optimiser. However, there are some places where it is clear
+that, knowing the semantics of the Java language, optimizations must be
+performed in JTA:</A></P>
+<P></P>
+<P><A NAME="12604"></A></P>
+<UL>
+<LI>The Java language does not have `unsigned' types, except for `char' which
+is an unsigned 16 bit type. When an application needs to work with unsigned
+values, unsigned bytes for example, the code will look like:
+<PRE>	(b &amp; 255)</PRE>in order to remove the implicit sign extension. This
+code can be optimized by performing an unsigned load instead of a signed one. 
+<A NAME="12620"></A></LI>
+<LI>Another possible modification in the code generation is to use the ANDF
+constructs <TT>repeat</TT> and <TT>conditional</TT>, instead of using a single
+labelled construct with <TT>gotos</TT>. However, we do not know if this would
+make a difference for the ANDF optimiser. 
+</LI></UL>
+<P><A NAME="12659">Another area where the code can be optimized is in the
+interface with the runtime. We greatly benefited from the work the OSF is doing
+on a Java bytecode to C translator, and currently, the Java bytecode to C
+translator and JTA share the same optimized interface with Sun's Java runtime.</A></P>
+<P><A NAME="12626"><B>Validation and performance results</B></A></P>
+<P><A NAME="12648">The OSF-RI is developing, as part of another project, a
+Java to C translator which is written in Java. In order to validate JTA, we
+already successfully compiled with JTA all of the code for this Java to C
+translator. Currently, the execution aborts and some more time would be required
+to debug the problem.</A></P>
+<P><A NAME="16315">However, we already managed to compile and execute two
+standard Java benchmarks: the caffeinemark and the UCSD benchmarks. We used them
+to compare the performance of the code produced with JTA against the performance
+of the JDK.</A></P>
+<P>The CaffeineMark2.5 benchmark is available at: <BR></P>
+<P><A NAME="12649" HREF="/web/20040106193819/http://www.webfayre.com/pendragon/cm2/index.html">	http://www.webfayre.com/pendragon/cm2/index.html.</A></P>
+<P><A NAME="12663">This benchmark gives the performance of the Java runtime
+for various operations. We give below the results obtained on a Sparc/Solaris
+2.4 platform with the OSF port of the Java Development Kit (JDK) and with JTA.
+The last column also gives the results we obtained so far with the Java to C
+translator developed at the OSF as part of another project (TurboJ).</A></P>
+<TABLE BORDER="BORDER">
+<TR>
+<TD></TD>
+<TD ALIGN="CENTER"><B>JDK</B></TD>
+<TD ALIGN="CENTER"><B>JTA</B></TD>
+<TD ALIGN="CENTER"><B>JTA/JDK</B></TD>
+<TD ALIGN="CENTER"><B>TurboJ/JDK</B></TD></TR>
+<TR>
+<TD>Sieve</TD>
+<TD>79</TD>
+<TD>933</TD>
+<TD>11.8</TD>
+<TD>6.63</TD></TR>
+<TR>
+<TD>Loop</TD>
+<TD>120</TD>
+<TD>1714</TD>
+<TD>22.6</TD>
+<TD>54.0</TD></TR>
+<TR>
+<TD>Logic</TD>
+<TD>133</TD>
+<TD>1414</TD>
+<TD>10.6</TD>
+<TD>16.2</TD></TR>
+<TR>
+<TD>String</TD>
+<TD>102</TD>
+<TD>83</TD>
+<TD>0.81</TD>
+<TD>0.98</TD></TR>
+<TR>
+<TD>Float</TD>
+<TD>98</TD>
+<TD>104</TD>
+<TD>1.06</TD>
+<TD>6.32</TD></TR>
+<TR>
+<TD>Method</TD>
+<TD>99</TD>
+<TD>99</TD>
+<TD>1.00</TD>
+<TD>1.17</TD></TR>
+<TR>
+<TD>Image</TD>
+<TD>44</TD>
+<TD>43</TD>
+<TD>0.98</TD>
+<TD>1.00</TD></TR>
+<TR>
+<TD>Graphics</TD>
+<TD>12</TD>
+<TD>12</TD>
+<TD>1.00</TD>
+<TD>1.04</TD></TR>
+<TR>
+<TD>Dialog</TD>
+<TD>11</TD>
+<TD>11</TD>
+<TD>1.00</TD>
+<TD>1.00</TD></TR>
+<TR>
+<TD>CaffeineMark</TD>
+<TD>68</TD>
+<TD>404</TD>
+<TD>5.94</TD>
+<TD>9.47</TD></TR></TABLE>
+<P><A NAME="12780">The tests String, Image, Graphics and Dialog depend very
+much on the Java runtime library, which is still interpreted code. This explains
+why compiled code does no better than interpreted code.</A></P>
+<P><A NAME="12786">For the Float and Method tests, compiled code should do
+much better than the interpreter code, but the results are currently very
+similar. We spent a lot of time optimizing the method call protocol, but the
+Java interpreter is in fact very good on this point. For the Float test, we
+would have to analyse the java source code and the ANDF generated code to
+understand why compiled code brings no improvement compared to interpreted code.
+However, we already know that the <TT>fcmpl</TT> and <TT>fcmpg</TT> bytecode
+instructions should be combined with the test which usually follows them, in
+order to produce more efficient code.</A></P>
+<P><A NAME="12805">On the tests Sieve, Loop and Logic, we have the full
+advantage of compiled code, and the results are already comparable to the
+performance of the TurboJ compiler developed at the OSF.</A></P>
+<P>The second benchmark is the UCSD benchmark, available at:<BR></P>
+<P><A
+NAME="12814" HREF="/web/20040106193819/http://www-cse.ucsd.edu/users/wgg/JavaProf/javaprof.html">http://www-cse.ucsd.edu/users/wgg/JavaProf/javaprof.html</A></P>
+<P><A NAME="12817">This benchmark measures the performance of basic
+operations. We give below the results obtained on a Sparc/Solaris 2.4 platform
+with the OSF port of the Java Development Kit (JDK) and with JTA. The last
+column also gives the results we obtained so far with the Java to C translator
+developed at the OSF as part of another project (TurboJ). </A></P>
+<TABLE BORDER="BORDER">
+<TR>
+<TD></TD>
+<TD ALIGN="CENTER"><B>JDK</B></TD>
+<TD ALIGN="CENTER"><B>JTA</B></TD>
+<TD ALIGN="CENTER"><B>JDK/JTA</B></TD>
+<TD ALIGN="CENTER"><B>TurboJ/JDK</B></TD></TR>
+<TR>
+<TD>Empty loop iterated 1000000 times
+</TD>
+<TD>1.001</TD>
+<TD>0.072</TD>
+<TD>13.9</TD>
+<TD>13.01</TD></TR>
+<TR>
+<TD>Added 1000000 ints in loop
+</TD>
+<TD>2.307</TD>
+<TD>0.180</TD>
+<TD>12.82</TD>
+<TD>11.17</TD></TR>
+<TR>
+<TD>Multipled 1000000 ints in loop
+</TD>
+<TD>3.601</TD>
+<TD>0.535</TD>
+<TD>6.73</TD>
+<TD>8.08</TD></TR>
+<TR>
+<TD>Added 1000000 doubles in loop
+</TD>
+<TD>3.051</TD>
+<TD>0.582</TD>
+<TD>5.24</TD>
+<TD>4.25</TD></TR>
+<TR>
+<TD>Multipled 1000000 doubles in loop
+</TD>
+<TD>3.129</TD>
+<TD>0.640</TD>
+<TD>4.89</TD>
+<TD>4.31</TD></TR>
+<TR>
+<TD>Assigned to 1000000 array ints
+</TD>
+<TD>2.189</TD>
+<TD>0.218</TD>
+<TD>10.04</TD>
+<TD>7.76</TD></TR>
+<TR>
+<TD>1000000 object int field accesses
+</TD>
+<TD>2.201</TD>
+<TD>0.226</TD>
+<TD>9.74</TD>
+<TD>9.01</TD></TR>
+<TR>
+<TD>1000000 method calls in same object
+</TD>
+<TD>3.401</TD>
+<TD>0.606</TD>
+<TD>5.61</TD>
+<TD>4.31</TD></TR>
+<TR>
+<TD>1000000 method calls in other object
+</TD>
+<TD>4.172</TD>
+<TD>0.676</TD>
+<TD>6.12</TD>
+<TD>4.12</TD></TR>
+<TR>
+<TD>Threw and caught 1000000 exceptions</TD>
+<TD>5.323</TD>
+<TD>1.203</TD>
+<TD>6.17</TD>
+<TD>2.31</TD></TR>
+<TR>
+<TD>3 threads, switched 10000 times each
+</TD>
+<TD>5.193</TD>
+<TD>4.427</TD>
+<TD>1.17</TD>
+<TD>1.03</TD></TR>
+<TR>
+<TD>System.gc() w/ 999456B memory avail of 5050360B total. GC'd 4035752B,
+leaving 5035208B of 5050360B total
+</TD>
+<TD>0.025</TD>
+<TD>0.032</TD>
+<TD>0.78</TD>
+<TD>0.96</TD></TR>
+<TR>
+<TD>2000 obj rand. new'd/assigned (avg 1207B), 0 GC'd
+</TD>
+<TD>0.805</TD>
+<TD>1.095</TD>
+<TD>0.74</TD>
+<TD>1.04</TD></TR>
+<TR>
+<TD>100000 writes of 1 byte
+</TD>
+<TD>171.563</TD>
+<TD>132.985</TD>
+<TD>1.29</TD>
+<TD>1.03</TD></TR>
+<TR>
+<TD>1 write of 100000 bytes
+</TD>
+<TD>0.067</TD>
+<TD>0.050</TD>
+<TD>1.34</TD>
+<TD>0.45</TD></TR>
+<TR>
+<TD>Cumulative runtime
+</TD>
+<TD>208.882</TD>
+<TD>144.675</TD>
+<TD>1.44</TD>
+<TD>1.28</TD></TR></TABLE>
+<P><A NAME="13449">The last five tests make significant use of the Java
+runtime, so the performance of the compiled code is similar to the performance
+of the interpreted code.</A></P>
+<P><A NAME="13450">The other tests are very interesting since they measure
+single operations. Their results are very helpful in detecting where
+optimizations should be performed.</A></P>
+<P><A NAME="16654">This series of tests shows that for most of the tests JTA
+performs a little better than the TurboJ compiler.</A></P>
+<H2>3. Conclusion</H2>
+<P><A NAME="6502">Almost all of the Java bytecodes have been implemented in
+the Java to ANDF compiler (JTA), but more validation would be required to obtain
+a robust product. However, we already managed to compile and execute realistic
+and large applications. During these two months, we also shared some work with
+another OSF project to produce a Java to C compiler, and this collaboration
+resulted in more optimization being implemented in JTA. We measured the
+performance of the JTA translator with two benchmarks, and the results are good
+compared to other Java compilers.</A></P>
+<P><A NAME="362"></A></P>
+<H2>4. Bibliography</H2>
+<P><A NAME="354"></A></P>
+<DL COMPACT="COMPACT">
+<DT>[1]</DT>
+<DD>James Loveluck, Christian Fabre, <I>Proposal for an Extension to DRA
+Contract MAL1a/0541: Distribution  and Support Service for the DRA TDF/ANDF
+Technology</I>, December 1995</DD>
+<DT>[2]</DT>
+<DD>Christian Fabre, Fran&ccedil;ois de Ferri&egrave;re,
+<A HREF="/web/20040106193819/http://www.gr.osf.org/projects/andf/java-and.htm">Java-ANDF 
+Feasibility Study,</A> June 1996</DD>
+<DT>[3]</DT>
+<DD>SunSoft, <A HREF="/web/20040106193819/http://java.sun.com/">Java URL</A></DD>
+<DT>[4]</DT>
+<DD>SunSoft, <I>The Java Language Specification</I>, Version  1.0 Beta.</DD>
+<DT>[5]</DT>
+<DD>SunSoft, <I>The Java Virtual Machine Specification</I>, Release 1.0 Beta.
+</DD></DL>
+<P></P>
+<HR>
+<H5>Last Modified: 06:38pm , March 26, 1997</H5></BODY></HTML>
+
+
+
+
+
+<!--
+     FILE ARCHIVED ON 19:38:19 Jan 6, 2004 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 11:40:12 Nov 9, 2015.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->
