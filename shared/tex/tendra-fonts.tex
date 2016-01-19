@@ -1,23 +1,22 @@
 
-\definefontfeature[default][default][protrusion=quality,expansion=quality,script=latn]
+\usetypescriptfile[xlibertine]
+\usetypescript[libertine]
 
-\setupalign[hz,hanging]
-
-%\usetypescriptfile[sourcepro]
-%\usetypescript[sourcepro]
+\usetypescriptfile[heros]
+\usetypescript[heros]
 
 % XXX: slanted
 %\definebodyfontenvironment[default][em=bold]
 
-\usetypescriptfile[type-ghz]
-
 % TODO: find appropriate rscale values
 % TODO: pick suitable monospace font
 \definetypeface[mainface][ss][sans] [heros]        [default][encoding=ec]
-\definetypeface[mainface][rm][serif][palatino]     [default][encoding=texnansi,rscale=1.05]
+\definetypeface[mainface][rm][serif][libertine]    [default][encoding=default] % ,rscale=1.05]
 %\definetypeface[mainface][tt][mono] [latin-modern] [default][encoding=texnansi,rscale=1.1]
 %\definetypeface[mainface][mm][math] [times]        [default][encoding=default, rscale=1.05]
 
-\setupbodyfont[mainface,ss,10pt]
+\setupbodyfont[mainface,rm,10pt]
 
+\definebodyfontenvironment[10pt][interlinespace=13pt]
+%\setupbodyfont[libertine,ss,10pt]
 
