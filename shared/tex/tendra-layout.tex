@@ -18,3 +18,24 @@
 \setuptyping[
 	margin=3\bodyfontsize]
 
+\definelayer
+	[Banner]
+	[location={left,bottom},
+		x=\paperwidth,y=0mm,
+		hoffset=-5mm,voffset=5mm]
+
+\setlayer[Banner]
+	{\framed[width=8cm,height=2cm,frame=off]{
+		% background=color,backgroundcolor=lightgray
+		\feature[+][f:c2sc,f:smcp,f:cpsp]%
+		\rm The%
+		{%
+			\tfb%
+			\feature[-][f:c2sc,f:smcp]%
+			Ten{\tfc\feature[+][f:c2sc]DRA}%
+		}%
+		Project}}
+
+\setupbackgrounds[page][background=Banner]
+
+
