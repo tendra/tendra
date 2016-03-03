@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef REGALLOC_INCLUDED
-#define REGALLOC_INCLUDED
+#ifndef REGALLOC_H
+#define REGALLOC_H
 
 #include <reader/exp.h>
 
@@ -16,7 +16,8 @@
 
 #include "proctypes.h"
 
-extern bool avoid_L7;
-extern spacereq regalloc(exp, int, int, long);
+bool avoid_L7;
+spacereq regalloc(exp, int, int, long);
 
-#endif /* REGALLOC_INCLUDED */
+#endif
+

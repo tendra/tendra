@@ -8,13 +8,14 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef REGALLOCDECS_H
-#define REGALLOCDECS_H
+#ifndef REGALLOC_H
+#define REGALLOC_H
 
 #include <reader/exp.h>
 
 #include "procrectypes.h"
 
-extern spacereq regalloc(exp, int, int, long);
+spacereq regalloc(exp, int, int, long);
 
-#endif /* regallocdecs.h */
+#endif
+

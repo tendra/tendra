@@ -7,15 +7,14 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/* regmacs.h
-    defines good numbers for registers
-*/
+#ifndef REGMACS_H
+#define REGMACS_H
 
-#define maxfix 10
-#define maxfloat 6
+#define maxfix   10
+#define maxfloat  6
 
-#define tempfix 0x300ff00	/* corresponds to t0-t9 regs , maxfix regs 
-				*/
+#define tempfix   0x300ff00 /* corresponds to t0-t9 regs , maxfix regs */
+#define tempfloat 0x33c     /* corresponds to temp float regs, maxfloat regs */
 
-#define tempfloat 0x33c		/* corresponds to temp float regs,
-				   maxfloat regs */
+#endif
+

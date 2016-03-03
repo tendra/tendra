@@ -7,6 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#ifndef REGEXPS_H
+#define REGEXPS_H
+
 #include <reader/exp.h>
 
 #include <construct/installtypes.h>
@@ -14,19 +17,22 @@
 #include "addrtypes.h"
 
 struct regpeept {
-  ans inans;
-  exp keptexp;
-  bool iscont;
+	ans inans;
+	exp keptexp;
+	bool iscont;
 };
 
 typedef struct regpeept regpeep;
 
-extern void clear_all(void);
-extern void clear_reg(int i);
-extern ans iskept(exp e);
-extern void keepexp(exp e, ans loc);
-extern void clear_dep_reg(exp lhs);
-extern void keepcont(exp e, int reg);
-extern void keepreg(exp e, int reg);
-extern bool eq_sze(shape, shape);
-extern bool dependson(exp, bool, exp);
+void clear_all(void);
+void clear_reg(int i);
+ans iskept(exp e);
+void keepexp(exp e, ans loc);
+void clear_dep_reg(exp lhs);
+void keepcont(exp e, int reg);
+void keepreg(exp e, int reg);
+bool eq_sze(shape, shape);
+bool dependson(exp, bool, exp);
+
+#endif
+

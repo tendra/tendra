@@ -8,13 +8,14 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef REGABLEDECS_H
-#define REGABLEDECS_H
+#ifndef REGABLE_H
+#define REGABLE_H
 
 #include <construct/installtypes.h>
 
-extern bool fixregable(exp);
-extern bool floatregable(exp);
-extern bool valregable(shape);
+bool fixregable(exp);
+bool floatregable(exp);
+bool valregable(shape);
 
-#endif /* regabledecs.h */
+#endif
+

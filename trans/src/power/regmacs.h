@@ -207,18 +207,16 @@
 #define MAXFLT_SREGS	(FR_LAST-FR_14+1)
 #define MAXFLT_TREGS	(FR_13-FR_0+1)
 
-
-
 /* map fixreg s number 1..n onto real s-reg R_13..R_31 */
 #define SREG_TO_REALREG(n)	((n) - 1 + R_13)
 
 /* map floatreg s number 1..n onto real s-reg FR_14..FR_31 */
 #define SFREG_TO_REALFREG(n)	((n) - 1 + FR_14)
 
-
-
 /* Needed to restore s-regs in tail_call */
-
 #define R_TEMP_FP    R_11
 #define R_TEMP_TP    R_12
-#endif /* regmacs.h */
+
+
+#endif
+

@@ -7,15 +7,16 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef REGABLE_INCLUDED
-#define REGABLE_INCLUDED
+#ifndef REGABLE_H
+#define REGABLE_H
 
 #include <reader/exp.h>
 
 #include <construct/installtypes.h>
 
-extern bool fixregable(exp);
-extern bool floatregable(exp);
-extern bool valregable(shape);
+bool fixregable(exp);
+bool floatregable(exp);
+bool valregable(shape);
 
-#endif /* REGABLE_INCLUDED */
+#endif
+

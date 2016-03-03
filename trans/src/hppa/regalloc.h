@@ -7,18 +7,15 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef REGALLOC_INCLUDED
-#define REGALLOC_INCLUDED
+#ifndef REGALLOC_H
+#define REGALLOC_H
 
 #include <reader/exp.h>
 
 #include "proctypes.h"
 
-extern spacereq regalloc(exp, int, int, long);
-extern int real_reg[16];
+spacereq regalloc(exp, int, int, long);
+int real_reg[16];
 
-#endif /* REGALLOC_INCLUDED */
-
-
-
+#endif
 

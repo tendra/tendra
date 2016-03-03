@@ -21,4 +21,5 @@ void move_reg(where from, where to, shape sha);
 where equiv_reg(where w, int sz);
 int invalidates(exp d, exp r);
 
-#endif /* REG_RECORD_H */
+#endif
+

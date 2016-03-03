@@ -8,29 +8,31 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef	REGEXPSDECS_H
-#define	REGEXPSDECS_H	1
+#ifndef	REGEXPS_H
+#define	REGEXPS_H
 
 /* number to add to floating point reg number for these functions */
-#define	KEPT_FREG_OFFSET	32
+#define	KEPT_FREG_OFFSET 32
 
-extern void clear_all(void);
-extern void clear_reg(int);
-#define clear_freg(reg)		clear_reg((reg) +KEPT_FREG_OFFSET)
+void clear_all(void);
+void clear_reg(int);
 
-extern bool keep_eq_size(shape, shape);
+#define clear_freg(r) clear_reg((r) + KEPT_FREG_OFFSET)
 
-extern ans iskept(exp);
-extern ans iskept_reg(exp);
-extern ans iskept_inreg(exp, int);
+bool keep_eq_size(shape, shape);
 
-extern int ans_reg(ans);
+ans iskept(exp);
+ans iskept_reg(exp);
+ans iskept_inreg(exp, int);
 
-extern void keepexp(exp, ans);
-extern void keepcont(exp, int);
-extern void keepreg(exp, int);
+int ans_reg(ans);
 
-extern bool dependson(exp, bool, exp);
-extern void clear_dep_reg(exp);
+void keepexp(exp, ans);
+void keepcont(exp, int);
+void keepreg(exp, int);
+
+bool dependson(exp, bool, exp);
+void clear_dep_reg(exp);
 
 #endif
+

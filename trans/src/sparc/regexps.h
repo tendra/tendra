@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef REGEXPS_INCLUDED
-#define REGEXPS_INCLUDED
+#ifndef REGEXPS_H
+#define REGEXPS_H
 
 #include <reader/exp.h>
 
@@ -17,22 +17,23 @@
 #include "addrtypes.h"
 
 typedef struct {
-    ans inans;
-    exp keptexp;
-    bool iscont;
+	ans inans;
+	exp keptexp;
+	bool iscont;
 } regpeep;
 
-extern regpeep regexps[];
+regpeep regexps[];
 
-extern ans iskept(exp);
-extern bool sim_exp(exp, exp);
-extern void clear_all(void);
-extern void clear_dep_reg(exp);
-extern void clear_reg(int);
-extern void keepcont(exp, int);
-extern void keepexp(exp, ans);
-extern void keepreg(exp, int);
+ans iskept(exp);
+bool sim_exp(exp, exp);
+void clear_all(void);
+void clear_dep_reg(exp);
+void clear_reg(int);
+void keepcont(exp, int);
+void keepexp(exp, ans);
+void keepreg(exp, int);
 
-#define clear_freg(R)clear_reg(((R) >> 1) + 32)
+#define clear_freg(r) clear_reg(((r) >> 1) + 32)
 
-#endif /* REGEXPS_INCLUDED */
+#endif
+

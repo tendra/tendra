@@ -7,9 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef REGMACS_INCLUDED
-#define REGMACS_INCLUDED
-
+#ifndef REGMACS_H
+#define REGMACS_H
 
 /*
  * HP_PA fixed registers
@@ -90,10 +89,9 @@
  */
 int EP;
 
-
 /* Range of all fixed registers */
-#define R_FIRST		0
-#define R_LAST		31
+#define R_FIRST  0
+#define R_LAST   31
 
 
 /*
@@ -107,8 +105,8 @@ int EP;
  */
 
 /* Floating point registers */
-#define R_FR0		0	/* floating point zero */
-#define R_FR4		4	/* procedure float result register */
+#define R_FR0  0 /* floating point zero */
+#define R_FR4  4 /* procedure float result register */
 
 /* Range of all floating point registers */
 #define R_FLT_FIRST	0
@@ -117,9 +115,9 @@ int EP;
 /*
  * Pseudo-register codes
  */
-#define R_NO_REG	100	/* code for no register allocated */
-#define R_USE_RES_REG	101	/* code to indicate result register */
-#define R_DEFER_FR4	16	/* code to indicate %fr4 to be used */
+#define R_NO_REG      100 /* code for no register allocated   */
+#define R_USE_RES_REG 101 /* code to indicate result register */
+#define R_DEFER_FR4    16 /* code to indicate %fr4 to be used */
 
 /*
  * Register masks
@@ -128,7 +126,7 @@ int EP;
  * A set bit indicates that the register is not available for allocation.
  */
 
-#define	RMASK( r )	( ( ( long ) 1 ) << ( r ) )
+#define	RMASK(r) (((long) 1) << (r))
 
 
 /*
@@ -140,19 +138,19 @@ int EP;
  * registers (ARG0-ARG3)
  */
 
-#define IS_FIXREG(r)  ( (r)>=R_FIRST && (r)<=R_LAST)
-#define IS_SREG(r)    ( (r)>=GR3 && (r)<=GR18 )
-#define IS_TREG(r)    ( ( (r)>GR0 && (r)<=GR2 ) || ( (r)>=GR19 && (r)<= GR31 ) )
+#define IS_FIXREG(r)  ((r) >= R_FIRST && (r) <= R_LAST)
+#define IS_SREG(r)    ((r) >= GR3 && (r) <= GR18)
+#define IS_TREG(r)    (((r) > GR0 && (r) <= GR2) || ((r) >= GR19 && (r) <= GR31))
 
-#define PARAM_TREGS   RMASK(ARG0)|RMASK(ARG1)|RMASK(ARG2)|RMASK(ARG3)
+#define PARAM_TREGS   RMASK(ARG0) | RMASK(ARG1) | RMASK(ARG2) | RMASK(ARG3)
 #define PROC_TREGS    -65536 /*  i.e. 11111111111111110000000000000000  */
 
-#define IS_FLT_SREG( r )	0
-/*#define IS_FLT_TREG( r )	( ( r ) >= 0 && ( r ) <= 15 )  */
-#define IS_FLT_TREG( r )	( ((r)>7 && (r)<12) || ((r)>21 && (r)<32 ) )
-#define PARAM_FLT_TREGS		0x0000
-#define PROC_FLT_TREGS		0x0000
-#define MAXFLOAT_TREGS		14
+#define IS_FLT_SREG(r)   0
+/*#define IS_FLT_TREG(r) ((r)  >= 0 && (r) <= 15) */
+#define IS_FLT_TREG(r)   (((r) >  7 && (r) <  12) || ((r) > 21 && (r) < 32))
+#define PARAM_FLT_TREGS  0x0000
+#define PROC_FLT_TREGS   0x0000
+#define MAXFLOAT_TREGS   14
 
 #endif
 

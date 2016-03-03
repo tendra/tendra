@@ -7,12 +7,14 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/* regallocdecs.h
-    external for regalloc.c
-*/
+#ifndef REGALLOC_H
+#define REGALLOC_H
 
 #include <reader/exp.h>
 
 #include "procrectypes.h"
 
-extern  spacereq regalloc(exp e, int freefixed, int freefloat, long stack);
+spacereq regalloc(exp e, int freefixed, int freefloat, long stack);
+
+#endif
+

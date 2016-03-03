@@ -7,13 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
-/*
-  reg_defs.h
-
-  Contains register definitions
-*/
 #ifndef REG_DEFS_H
 #define REG_DEFS_H
+
 #define REG_SIZE 32
+
 #endif
+
