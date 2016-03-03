@@ -35,48 +35,69 @@
  * delivers 1 if this use cannot be inlined
  * delivers 2 if this use can be inlined.
  */
-int inlinechoice(exp t, exp def, int total)
+int
+inlinechoice(exp t, exp def, int total)
 {
-  exp apars;
-  exp fpars;
-  int newdecs = 0;
-  shape shdef = pt(def);
-  UNUSED(total);
+	exp apars;
+	exp fpars;
+	int newdecs = 0;
+	shape shdef = pt(def);
 
-  if (!eq_shape(sh(father(t)), shdef))
-  {
-    /* shape required by application is different from definition */
-    return 1;
-  }
-  apars = t; /* only uses are applications */
-  fpars = son(def);
+	UNUSED(total);
 
-  for (;;) {
-     if (fpars->tag!=ident_tag || !isparam(fpars)) {
-	if (!apars->last) return 1;
-      	break;
-     }
+	if (!eq_shape(sh(father(t)), shdef)) {
+		/* shape required by application is different from definition */
+		return 1;
+	}
 
-     if (apars->last) return 1;
-     apars = bro(apars);
+	apars = t; /* only uses are applications */
+	fpars = son(def);
 
-     switch (apars->tag) {
-      case val_tag: case real_tag: case string_tag: case name_tag:
-      	   break;
-      case cont_tag: {
-      	   if (son(apars)->tag ==name_tag && isvar(son(son(apars))) &&
-      	        		!isvar(fpars))break;
-      	   } /* ... else continue */
-      default: newdecs++;
-     }
-     fpars = bro(son(fpars));
-  }
-        /* newdecs is now the number of declarations (which will not be
-      	     optimised out) arising from actual parameters */
+	for (;;) {
+		if (fpars->tag != ident_tag || !isparam(fpars)) {
+			if (!apars->last) {
+				return 1;
+			}
+			break;
+		}
 
-  if (complexity(fpars, crit_inline, newdecs, decs_allowed, decs_with_apply, apply_cost) >= 0)
-    return 2;
-  else if (newdecs == 0)
-    return 0;
-  return 1;
+		if (apars->last) {
+			return 1;
+		}
+		apars = bro(apars);
+
+		switch (apars->tag) {
+		case val_tag:
+		case real_tag:
+		case string_tag:
+		case name_tag:
+			break;
+
+		case cont_tag:
+			if (son(apars)->tag == name_tag && isvar(son(son(apars))) &&
+			    !isvar(fpars)) {
+				break;
+			}
+
+			FALL_THROUGH;
+
+		default:
+			newdecs++;
+		}
+
+		fpars = bro(son(fpars));
+	}
+
+	/*
+	 * newdecs is now the number of declarations (which will not be
+	 * optimised out) arising from actual parameters.
+	 */
+	if (complexity(fpars, crit_inline, newdecs, decs_allowed, decs_with_apply, apply_cost) >= 0) {
+		return 2;
+	} else if (newdecs == 0) {
+		return 0;
+	}
+
+	return 1;
 }
+
