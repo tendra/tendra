@@ -21,18 +21,17 @@
 bool
 valregable(shape s)
 {
-  int n = s->tag;
-  if (is_floating (n)) {	/* check shape to see if floating point */
-    return 0;
-  }
-  else {
-    ash a;
-    a = ashof (s);		/* get ash corresponding to shape of e */
+	ash a;
+	int n;
 
-/* ALTERATION #1 */
-    return a.ashsize <=32  && n!=cpdhd && n!= nofhd && n!=tophd;
+	n = s->tag;
+	if (is_floating (n)) {	/* check shape to see if floating point */
+		return 0;
+	}
 
-  }
+	a = ashof (s); /* get ash corresponding to shape of e */
+
+	return a.ashsize <= 32  && n != cpdhd && n != nofhd && n != tophd;
 }
 
 /*
@@ -47,14 +46,13 @@ valregable(shape s)
 bool
 fixregable(exp e)
 {
-  if (!isvis (e) && !isoutpar(e) && !isglob (e)
-		&& son(e)->tag != caller_name_tag) {
-    shape s = sh (son (e));	/* son of ident exp is def */
-    return valregable (s);
-  }
-  else {
-    return 0;
-  }
+	if (!isvis(e) && !isoutpar(e) && !isglob(e)
+	    && son(e)->tag != caller_name_tag) {
+		shape s = sh (son (e));	/* son of ident exp is def */
+		return valregable(s);
+	}
+
+	return 0;
 }
 
 /*
@@ -64,17 +62,14 @@ fixregable(exp e)
 bool
 floatregable(exp e)
 {
-  if (!isvis (e) && !isoutpar(e) && !isglob (e)
-	&& son(e)->tag != caller_name_tag) {
-    shape s = sh (son (e));
-    if (is_floating(s->tag)) {
-      return 1;
-      }
-    else {
-      return 0;
-    }
-  }
-  else {
-    return 0;
-  }
+	if (!isvis (e) && !isoutpar(e) && !isglob (e)
+	    && son(e)->tag != caller_name_tag)
+	{
+		shape s = sh(son(e));
+
+		return is_floating(s->tag);
+	}
+
+	return 0;
 }
+

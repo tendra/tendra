@@ -18,8 +18,6 @@
 bool
 reg_result(shape sha)
 {
-  /* is the result of a procedure delivering
-     this shape produced in registers. */
-  return sha->tag != cpdhd && sha->tag != nofhd;
+	return sha->tag != cpdhd && sha->tag != nofhd;
 }
 

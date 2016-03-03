@@ -19,6 +19,7 @@
 bool
 reg_result(shape sha)
 {
-  return is_floating(sha->tag ||
-    (shape_size(sha) <= 32 && !IS_AGGREGATE(sha)));
+	return is_floating(sha->tag ||
+	                   (shape_size(sha) <= 32 && !IS_AGGREGATE(sha)));
 }
+

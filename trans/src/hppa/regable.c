@@ -22,75 +22,74 @@
 #include "regable.h"
 
 /*
-    DOES A VALUE OF SHAPE s FIT INTO A FIXED REGISTER?
-*/
-
+ * Does a value of a shape s fit into a fixed register?
+ */
 bool
 valregable(shape s)
 {
-    int n = s->tag;
-    if ( is_floating(n) )
-    {
-	return 0; /* floats don't go in fixed point registers */
-    } 
-    else
-    {
-	ash a ;
+	int n;
+	ash a;
+
+	n = s->tag;
+	if (is_floating(n)) {
+		return 0; /* floats don't go in fixed point registers */
+	}
+
 	a = ashof(s) ;
-	if ( a.ashsize > 32 )
-	{
-	    return 0; /* too big for a 32 bit register */
-	} 
-	else if ( n==cpdhd || n==nofhd )
-	{
-	    return 0; /* Compound shapes are not put in registers */
+	if (a.ashsize > 32) {
+		/* too big for a 32 bit register */
+		return 0;
 	}
-	else if ( n==tophd )
-	{
-	    return 0;
+
+	if (n == cpdhd || n == nofhd) {
+		/* Compound shapes are not put in registers */
+		return 0;
 	}
-	else
-	{
-	    return 1;
+
+	if (n == tophd) {
+		return 0;
 	}
-    }
+
+	return 1;
 }
 
 /*
-    DOES THE EXPRESSION e FIT INTO A FIXED REGISTER?
-*/
-
+ * Does the expression e fit into a fixed register?
+ */
 bool
 fixregable(exp e)
 {
-    if ( !isvis ( e ) && !isoutpar( e ) && !isglob ( e ) && !isenvoff(e)
-		      && (son(e)->tag!=caller_name_tag) ) {
-	shape s = sh ( son ( e ) ) ;
-	return valregable ( s );
-    }
-    return 0;
+	if (!isvis(e) && !isoutpar(e) && !isglob(e) && !isenvoff(e)
+	     && (son(e)->tag != caller_name_tag))
+	{
+		shape s = sh(son(e));
+		return valregable(s);
+	}
+
+	return 0;
 }
 
-
 /*
-    DOES THE EXPRESSION e FIT INTO A FLOATING POINT REGISTER?
-*/
-
+ * Does the expression e fit into a floating point register?
+ */
 bool
 floatregable(exp e)
 {
-    if ( !isvis ( e ) && !isoutpar( e ) && !isglob ( e ) && !isenvoff(e)
-		      && (son(e)->tag!=caller_name_tag) ) {
-	shape s = sh ( son ( e ) ) ;
-	if ( is_floating ( s->tag ) ) {
-	   if ( (has & HAS_LONG_DOUBLE) && shape_size ( s ) > 64 )
-	   {
-	      return 0;
-	   }
-	   return 1;
-	} else {
-	    return 0;
+	if (!isvis(e) && !isoutpar(e) && !isglob(e) && !isenvoff(e)
+	     && (son(e)->tag != caller_name_tag))
+	{
+		shape s = sh(son(e));
+		if (!is_floating(s->tag)) {
+			return 0;
+		}
+
+		if ((has & HAS_LONG_DOUBLE) && shape_size(s) > 64) {
+			return 0;
+		}
+
+		return 1;
 	}
-    }
-    return 0;
+
+	return 0;
 }
+

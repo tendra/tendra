@@ -20,19 +20,17 @@
 #include "regable.h"
 #include "localexpmacs.h"
 
-bool valregable(shape s)
+bool
+valregable(shape s)
 {
-  int n = s->tag;
+	int n = s->tag;
 
-  if (is_floating(n) || IS_AGGREGATE(s))
-  {
-    /* floats, compound and arreay not generally in fixed reg */
-    return 0;
-  }
-  else
-  {
-    return shape_size(s)<=32 && n!=tophd;
-  }
+	if (is_floating(n) || IS_AGGREGATE(s)) {
+		/* floats, compound and arreay not generally in fixed reg */
+		return 0;
+	}
+
+	return shape_size(s) <= 32 && n != tophd;
 }
 
 /*
@@ -44,34 +42,31 @@ bool valregable(shape s)
  * The procedure also uses the macro is_floating from shapemacs.h which checks
  * the shape number is in the range for floating point shapes.
  */
-bool fixregable(exp e)
+bool
+fixregable(exp e)
 {
-  if (!isvis(e) && !isoutpar(e) && !isglob(e) )
-  {
-    shape s = sh(son(e));	/* son of ident exp is def */
+	if (!isvis(e) && !isoutpar(e) && !isglob(e) ) {
+		shape s = sh(son(e)); /* son of ident exp is def */
 
-    return valregable(s);
-  }
-  else
-  {
-    return 0;
-  }
+		return valregable(s);
+	}
+
+	return 0;
 }
 
 /*
  * Determines whether the exp e can fit in a floating point register, single
  * or double.
  */
-bool floatregable(exp e)
+bool
+floatregable(exp e)
 {
-  if (!isvis(e) && !isoutpar(e) && !isglob(e) )
-  {
-    shape s = sh(son(e));
+	if (!isvis(e) && !isoutpar(e) && !isglob(e)) {
+		shape s = sh(son(e));
 
-    return is_floating(s->tag);
-  }
-  else
-  {
-    return 0;
-  }
+		return is_floating(s->tag);
+	}
+
+	return 0;
 }
+

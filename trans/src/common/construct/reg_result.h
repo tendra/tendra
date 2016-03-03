@@ -15,7 +15,7 @@
 #include <construct/installtypes.h>
 
 /*
- * DOES A PROCEDURE RETURN THE GIVEN SHAPE IN A REGISTER?
+ * Does a procedure return the given shape in a register?
  */
 bool reg_result(shape sha);
 

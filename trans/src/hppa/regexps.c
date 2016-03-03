@@ -7,11 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/* regexps.c
-
-For trivial 'peephole' optimisations
-
-*/
+/*
+ * Trivial 'peephole' optimisations
+ */
 
 #include <assert.h>
 #include <stddef.h>
@@ -39,38 +37,49 @@ For trivial 'peephole' optimisations
 #include "regexps.h"
 #include "localexpmacs.h"
 
-/* 22.11.94. Corrected bug found by Ian Currie, i.e. isglob(s) assertion
-   added to line 351 */
-
-static regpeep regexps[64];		/* [0:31] fix pt - [32:47] floating pt */
+static regpeep regexps[64]; /* [0:31] fix pt - [32:47] floating pt */
 
 static bool sim_exp(exp, exp);
 
 /* Same size and alignment and "both float or both fixed". */
-bool eq_sze
-(shape as, shape bs)
+bool
+eq_sze(shape as, shape bs)
 {
-  if (is_floating(as->tag))
-    return as->tag == bs->tag;
-  if (is_floating(bs->tag))
-    return 0;
-  return shape_size(as) == shape_size(bs) && shape_align(as) == shape_align(bs);
+	if (is_floating(as->tag)) {
+		return as->tag == bs->tag;
+	}
+
+	if (is_floating(bs->tag)) {
+		return 0;
+	}
+
+	return shape_size(as) == shape_size(bs) && shape_align(as) == shape_align(bs);
 }
 
 static bool
 sim_explist(exp al, exp bl)
 {
-  if (al == NULL && bl == NULL)
-    return 1;
-  if (al == NULL || bl == NULL)
-    return 0;
-  if (!sim_exp(al, bl))
-    return 0;
-  if (al->last && bl->last)
-    return 1;
-  if (al->last || bl->last)
-    return 0;
-  return sim_explist(bro(al), bro(bl));
+	if (al == NULL && bl == NULL) {
+		return 1;
+	}
+
+	if (al == NULL || bl == NULL) {
+		return 0;
+	}
+
+	if (!sim_exp(al, bl)) {
+		return 0;
+	}
+
+	if (al->last && bl->last) {
+		return 1;
+	}
+
+	if (al->last || bl->last) {
+		return 0;
+	}
+
+	return sim_explist(bro(al), bro(bl));
 }
 
 /*
@@ -80,273 +89,243 @@ sim_explist(exp al, exp bl)
 static bool
 sim_exp (exp a, exp b)
 {
-   if (a->tag == b->tag)
-   {
-      if (a->tag == name_tag)
-      {
-	 return son(a) == son(b) && no(a) == no(b) &&
-	      eq_sze(sh(a), sh(b));
-      }
-      if (!is_a(a->tag) || !eq_sze(sh(a), sh(b)))
-	 return 0;
-      if(a->tag==float_tag)/* NEW bit */
-      {
-	return eq_exp(son(a),son(b));
-      }
-      return no(a) == no(b) && sim_explist(son(a), son(b));
-  }
-  return 0;
+	if (a->tag != b->tag) {
+		return 0;
+	}
+
+	if (a->tag == name_tag) {
+		return son(a) == son(b) && no(a) == no(b) && eq_sze(sh(a), sh(b));
+	}
+
+	if (!is_a(a->tag) || !eq_sze(sh(a), sh(b))) {
+		return 0;
+	}
+
+	if (a->tag == float_tag) { /* NEW bit */
+		return eq_exp(son(a), son(b));
+	}
+
+	return no(a) == no(b) && sim_explist(son(a), son(b));
 }
 
 /* forget all register - exp associations */
-void clear_all
-(void)
+void
+clear_all(void)
 {
-  int i;
+	int i;
 
-  for (i = 0; i < 48; i++)
-  {
-    regexps[i].keptexp = NULL;
-    setregalt(regexps[i].inans, 0);
-  }
+	for (i = 0; i < 48; i++) {
+		regexps[i].keptexp = NULL;
+		setregalt(regexps[i].inans, 0);
+	}
 }
-
-
 
 /* forget reg i - exp association */
-void clear_reg
-(int i)
+void
+clear_reg(int i)
 {
-  i = ABS(i);
-  if (i >= 0 && i < 48)
-  {
-    regexps[i].keptexp = NULL;
-    setregalt(regexps[i].inans, 0);
-  }
+	i = ABS(i);
+
+	if (i >= 0 && i < 48) {
+		regexps[i].keptexp = NULL;
+		setregalt(regexps[i].inans, 0);
+	}
 }
 
-
 /* find if e has already been evaluated into a register */
-ans iskept
-(exp e)
+ans
+iskept(exp e)
 {
-  int i;
-  ans nilans;
+	int i;
+	ans nilans;
 
-  setregalt(nilans, 0);		/* init nilans */
+	setregalt(nilans, 0);		/* init nilans */
 
 #ifdef NO_KEPT_OPTS
-  /* no reg tracking */
-  return nilans;
+	/* no reg tracking */
+	return nilans;
 #endif
 
-  /* reg tracking of unions unsafe, as views of location can differ */
-  /* +++ track on fields */
-  /* +++ safe to allow structs but not unions */
-  if (sh(e)->tag == cpdhd)
-  {
-    return nilans;
-  }
+	/* reg tracking of unions unsafe, as views of location can differ */
+	/* +++ track on fields */
+	/* +++ safe to allow structs but not unions */
+	if (sh(e)->tag == cpdhd) {
+		return nilans;
+	}
 
-  for (i = 0; i < 48; i++)
-  {
-    exp ke = regexps[i].keptexp;
-    bool isc = regexps[i].iscont;
+	for (i = 0; i < 48; i++) {
+		exp ke = regexps[i].keptexp;
+		bool isc = regexps[i].iscont;
 
-    if (ke != NULL)
-    {
-      /* there is an accociation with reg i */
-      if (
-	 ((!isc && sim_exp(ke, e)) ||
-	  (e->tag == cont_tag && isc && eq_sze(sh(ke), sh(e))
-	    && sim_exp(ke, son(e)))
-	  )
-	)
-      {
-	ans aa;
-	aa = (regexps[i].inans);
+		if (ke == NULL) {
+			/* there isn't an accociation with reg i */
+			continue;
+		}
+
+		if (((!isc && sim_exp(ke, e)) ||
+		     (e->tag == cont_tag && isc && eq_sze(sh(ke), sh(e))
+		      && sim_exp(ke, son(e))))
+		) {
+			ans aa;
+			aa = (regexps[i].inans);
 
 #if 0
-	asm_comment("iskept found: reg=%d isc=%d e->tag =%d son(e)->tag =%d", i, isc, e->tag, son(e)->tag);
-	asm_comment("	hd(e) =%d hd(son(e)) =%d hd(ke) =%d", sh(e)->tag, sh(son(e))->tag, sh(ke)->tag);
-	asm_comment("	sim_exp(ke, e) =%d sim_exp(ke, son(e)) =%d eq_size(sh(ke), sh(e)) =%d",
-		sim_exp(ke, e), sim_exp(ke, son(e)), eq_size(sh(ke), sh(e)));
+			asm_comment("iskept found: reg=%d isc=%d e->tag =%d son(e)->tag =%d", i, isc, e->tag, son(e)->tag);
+			asm_comment("	hd(e) =%d hd(son(e)) =%d hd(ke) =%d", sh(e)->tag, sh(son(e))->tag, sh(ke)->tag);
+			asm_comment("	sim_exp(ke, e) =%d sim_exp(ke, son(e)) =%d eq_size(sh(ke), sh(e)) =%d",
+			            sim_exp(ke, e), sim_exp(ke, son(e)), eq_size(sh(ke), sh(e)));
 #endif
 
-	switch (discrim(aa))
-	{
-	case notinreg:
-	  {
-	    if (!aa.val.instoreans.adval)
-	    {
+			switch (discrim(aa)) {
+			case notinreg:
+				if (!aa.val.instoreans.adval) {
+					/*
+					 * the expression is given indirectly - it may have also been
+					 * loaded into a register
+					 */
+					continue;
+				}
+				/* FALLTHROUGH */
 
-	      /*
-	       * the expression is given indirectly - it may have also been
-	       * loaded into a register
-	       */
-	      continue;
-	    }
-	  }
-	  /* FALLTHROUGH */
+			default:
+				return aa;
+			}
+		} else if (ke->tag == cont_tag && !isc) {
+			ans aq;
 
-	default:
-	  return aa;
+			aq = regexps[i].inans;
+			if (discrim(aq) == notinreg) {
+				instore is;
+
+				is = insalt(aq);
+				if (!is.adval && is.b.offset == 0 && IS_FIXREG(is.b.base)
+				    && sim_exp(son(ke), e)) {
+					/* the contents of req expression is here as a reg-offset */
+					is.adval = 1;
+					setinsalt(aq, is);
+					return aq;
+				}
+			}
+		} else if (ke->tag == reff_tag && !isc) {
+			ans aq;
+
+			aq = regexps[i].inans;
+			if (discrim(aq) == notinreg) {
+				instore is;
+
+				is = insalt(aq);
+				if (is.adval && is.b.offset == (no(ke) / 8)
+				    && IS_FIXREG(is.b.base)
+				    && sim_exp(son(ke), e)) {
+					/* a ref select of req expression is here as a reg-offset */
+					is.adval = 1;
+					is.b.offset = 0;
+					setinsalt(aq, is);
+					return aq;
+				}
+			}
+		}
 	}
-      }
-      else if (ke->tag == cont_tag && !isc)
-      {
-	ans aq;
 
-	aq = regexps[i].inans;
-	if (discrim(aq) == notinreg)
-	{
-	  instore is;
-
-	  is = insalt(aq);
-	  if (!is.adval && is.b.offset == 0 && IS_FIXREG(is.b.base)
-	      && sim_exp(son(ke), e))
-	  {
-	    /* the contents of req expression is here as a reg-offset */
-	    is.adval = 1;
-	    setinsalt(aq, is);
-	    return aq;
-	  }
-	}
-      }
-      else if (ke->tag == reff_tag && !isc)
-      {
-	ans aq;
-
-	aq = regexps[i].inans;
-	if (discrim(aq) == notinreg)
-	{
-	  instore is;
-
-	  is = insalt(aq);
-	  if (is.adval && is.b.offset == (no(ke) / 8)
-	      && IS_FIXREG(is.b.base)
-	      && sim_exp(son(ke), e))
-	  {
-	    /* a ref select of req expression is here as a reg-offset */
-	    is.adval = 1;
-	    is.b.offset = 0;
-	    setinsalt(aq, is);
-	    return aq;
-	  }
-	}
-      }
-    }
-  }
-  return nilans;
+	return nilans;
 }
 
 /* set up exp - address association */
-void keepexp
-(exp e, ans loc)
+void
+keepexp(exp e, ans loc)
 {
-  int reg=0;
+	int reg = 0;
 
-  switch (discrim(loc))
-  {
-  case insomereg:
-  case insomefreg:
-    {
-      error(ERR_SERIOUS, "keep ? reg");
-    }
+	switch (discrim(loc)) {
+	case insomereg:
+	case insomefreg:
+		error(ERR_SERIOUS, "keep ? reg");
+
 #if USE_BITAD
-  case bitad:
-    {
-      return;
-    }
+	case bitad:
+		return;
 #endif
-  case inreg:
-    {
-      reg = regalt(loc);
-      break;
-    }
-  case infreg:
-    {
-      reg = fregalt(loc).fr + 32;
-      break;
-    }
-  case notinreg:
-    {
-      reg = insalt(loc).b.base;
-      if (!IS_FIXREG(reg))
-	return;
-      break;
-    }
-  default:{}
-  }
 
-  assert(reg >= 0 && reg < 48);
-  assert(reg != GR1);
+	case inreg:
+		reg = regalt(loc);
+		break;
 
-  regexps[reg].keptexp = e;
-  regexps[reg].inans = loc;
-  regexps[reg].iscont = 0;
+	case infreg:
+		reg = fregalt(loc).fr + 32;
+		break;
+
+	case notinreg:
+		reg = insalt(loc).b.base;
+		if (!IS_FIXREG(reg)) {
+			return;
+		}
+		break;
+
+	default:
+		;
+	}
+
+	assert(reg >= 0 && reg < 48);
+	assert(reg != GR1);
+
+	regexps[reg].keptexp = e;
+	regexps[reg].inans = loc;
+	regexps[reg].iscont = 0;
 }
 
 /* set up cont(e)-reg association */
-void keepcont
-(exp e, int regcode)
+void
+keepcont(exp e, int regcode)
 {
-  freg fr;
-  int reg = ABS(regcode);
+	freg fr;
+	int reg = ABS(regcode);
 
-  assert(reg >= 0 && reg < 48);
-  assert(reg != GR1);
+	assert(reg >= 0 && reg < 48);
+	assert(reg != GR1);
 
-  if (reg > 31)
-  {
-    fr.dble = ((regcode < 0)? 1 : 0);
-    fr.fr = reg - 32;
-    setfregalt(regexps[reg].inans, fr);
-  }
-  else
-  {
-    instore is;
+	if (reg > 31) {
+		fr.dble = ((regcode < 0) ? 1 : 0);
+		fr.fr = reg - 32;
+		setfregalt(regexps[reg].inans, fr);
+	} else {
+		instore is;
 
-    is.b.base = regcode;
-    is.b.offset = 0;
-    is.adval = 1;
-    setinsalt(regexps[reg].inans, is);
-  }
+		is.b.base   = regcode;
+		is.b.offset = 0;
+		is.adval = 1;
+		setinsalt(regexps[reg].inans, is);
+	}
 
-  regexps[reg].keptexp = e;
-  regexps[reg].iscont = 1;
+	regexps[reg].keptexp = e;
+	regexps[reg].iscont  = 1;
 }
 
 /* set up e-reg association */
-void keepreg
-(exp e, int regcode)
+void
+keepreg(exp e, int regcode)
 {
-  freg fr;
-  int reg = ABS(regcode);
+	freg fr;
+	int reg = ABS(regcode);
 
-  assert(reg >= 0 && reg < 48);
-  assert(reg != GR1);
+	assert(reg >= 0 && reg < 48);
+	assert(reg != GR1);
 
-  if (reg > 31)
-  {
-    fr.dble = ((regcode < 0)? 1 : 0);
-    fr.fr = reg - 32;
-    setfregalt(regexps[reg].inans, fr);
-  }
-  else
-  {
-    instore is;
+	if (reg > 31) {
+		fr.dble = regcode < 0 ? 1 : 0;
+		fr.fr = reg - 32;
+		setfregalt(regexps[reg].inans, fr);
+	} else {
+		instore is;
 
-    is.b.base = regcode;
-    is.b.offset = 0;
-    is.adval = 1;
-    setinsalt(regexps[reg].inans, is);
-  }
+		is.b.base = regcode;
+		is.b.offset = 0;
+		is.adval = 1;
+		setinsalt(regexps[reg].inans, is);
+	}
 
-  regexps[reg].keptexp = e;
-  regexps[reg].iscont = 0;
+	regexps[reg].keptexp = e;
+	regexps[reg].iscont  = 0;
 }
-
 
 static bool couldaffect(exp, exp);
 
@@ -354,138 +333,150 @@ static bool couldaffect(exp, exp);
 static bool
 couldbe(exp e, exp lhs)
 {
-  int ne = e->tag;
-  exp s = son(e);
+	int ne = e->tag;
+	exp s = son(e);
 
-  if (ne == name_tag)
-  {
-    if (lhs != 0 && s == son(lhs))
-    {
-      return 1;
-    }
-    if (isvar(s))
-    {
-      return lhs == 0 && (isvis(s) || isglob(s));
-    }
-    if (IS_A_PROC(s))
-      return lhs == 0;
-    if (son(s) == NULL)
-      return 1;
-    return couldbe(son(s), lhs);
-  }
-  if (ne == cont_tag)
-  {
-    if (lhs != 0 && s->tag == name_tag && son(s)!= NULL)
-    {
-      return son(s) == son(lhs) || isvis(son(lhs)) || isvis(son(s));
-    }
-    return 1;
-  }
-  if (ne == reff_tag || ne == field_tag)
-  {
-    return couldbe(s, lhs);
-  }
-  if (ne == addptr_tag || ne == subptr_tag)
-  {
-    return couldbe(s, lhs) || couldaffect(bro(s), lhs);
-  }
+	if (ne == name_tag) {
+		if (lhs != 0 && s == son(lhs)) {
+			return 1;
+		}
 
-  return 1;
+		if (isvar(s)) {
+			return lhs == 0 && (isvis(s) || isglob(s));
+		}
 
+		if (IS_A_PROC(s)) {
+			return lhs == 0;
+		}
+
+		if (son(s) == NULL) {
+			return 1;
+		}
+
+		return couldbe(son(s), lhs);
+	}
+
+	if (ne == cont_tag) {
+		if (lhs != 0 && s->tag == name_tag && son(s) != NULL) {
+			return son(s) == son(lhs) || isvis(son(lhs)) || isvis(son(s));
+		}
+
+		return 1;
+	}
+
+	if (ne == reff_tag || ne == field_tag) {
+		return couldbe(s, lhs);
+	}
+
+	if (ne == addptr_tag || ne == subptr_tag) {
+		return couldbe(s, lhs) || couldaffect(bro(s), lhs);
+	}
+
+	return 1;
 }
 
 /* could alteration to z effect e? */
 static bool
 couldaffect(exp e, exp z /* a name or zero */)
 {
-  int ne = e->tag;
-  if (ne == cont_tag)
-  {
-    return couldbe(son(e), z);
-  }
-  if (ne == name_tag)
-  {
-    if (isvar(son(e)))
-      return z == 0 && isvis(son(e));
-    if (IS_A_PROC(son(e)))
-      return 0;
-    if (son(son(e)) == NULL)
-      return 1 /* could it happen? */ ;
+	int ne;
 
-    return couldaffect(son(son(e)), z);
+	ne = e->tag;
+	if (ne == cont_tag) {
+		return couldbe(son(e), z);
+	}
 
-  }
-  if (ne < plus_tag || ne == contvol_tag)
-    return 1;
+	if (ne == name_tag) {
+		if (isvar(son(e))) {
+			return z == 0 && isvis(son(e));
+		}
 
-  e = son(e);
+		if (IS_A_PROC(son(e))) {
+			return 0;
+		}
 
-  while (e != NULL)
-  {
-    if (couldaffect(e, z))
-      return 1;
-    if (e->last)
-      return 0;
-    e = bro(e);
-  }
-  return 0;
+		if (son(son(e)) == NULL) {
+			return 1 /* could it happen? */ ;
+		}
+
+		return couldaffect(son(son(e)), z);
+	}
+
+	if (ne < plus_tag || ne == contvol_tag) {
+		return 1;
+	}
+
+	e = son(e);
+
+	while (e != NULL) {
+		if (couldaffect(e, z)) {
+			return 1;
+		}
+
+		if (e->last) {
+			return 0;
+		}
+
+		e = bro(e);
+	}
+
+	return 0;
 }
 
-bool dependson
-(exp e, bool isc, exp z)
-{				/* does e depend on z */
-  if (e == NULL)
-  {
-    return 0;
-  }
-  for (;;)
-  {
-    if (z->tag == reff_tag || z->tag == addptr_tag ||
-	z->tag == subptr_tag)
-    {
-      z = son(z);
-    }
+/* does e depend on z */
+bool
+dependson(exp e, bool isc, exp z)
+{
+	if (e == NULL) {
+		return 0;
+	}
 
-    if (z->tag!= name_tag)
-    {
-      if (z->tag!= cont_tag)
-	return 1;
-      z = 0;
-      break;
-    }
+	for (;;) {
+		if (z->tag == reff_tag || z->tag == addptr_tag ||
+		    z->tag == subptr_tag) {
+			z = son(z);
+		}
 
-    if (isvar(son(z)))
-      break;
-    if (IS_A_PROC(son(z)))
-    {
-      z = 0;
-      break;
-    }
-    if (son(son(z)) == NULL)
-      return 1;			/* can it happen? */
-    z = son(son(z));
-  }
+		if (z->tag != name_tag) {
+			if (z->tag != cont_tag) {
+				return 1;
+			}
+			z = 0;
+			break;
+		}
 
-  /* z is now unambiguous variable name or 0 meaning some contents */
+		if (isvar(son(z))) {
+			break;
+		}
 
-  return isc ? couldbe(e, z) : couldaffect(e, z);
+		if (IS_A_PROC(son(z))) {
+			z = 0;
+			break;
+		}
+
+		if (son(son(z)) == NULL) {
+			return 1; /* can it happen? */
+		}
+
+		z = son(son(z));
+	}
+
+	/* z is now unambiguous variable name or 0 meaning some contents */
+
+	return isc ? couldbe(e, z) : couldaffect(e, z);
 }
-
 
 /* remove association of any register which depends on lhs */
-void clear_dep_reg
-(exp lhs)
+void
+clear_dep_reg(exp lhs)
 {
-  int i;
+	int i;
 
-  for (i = 0; i < 48; i++)
-  {
-    if (dependson(regexps[i].keptexp, regexps[i].iscont, lhs))
-    {
-      regexps[i].keptexp = NULL;
-      setregalt(regexps[i].inans, 0);
-    }
-  }
+	for (i = 0; i < 48; i++) {
+		if (dependson(regexps[i].keptexp, regexps[i].iscont, lhs)) {
+			regexps[i].keptexp = NULL;
+			setregalt(regexps[i].inans, 0);
+		}
+	}
 }
-
 

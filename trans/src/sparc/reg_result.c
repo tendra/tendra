@@ -18,12 +18,20 @@
 #include "regable.h"
 
 bool
-reg_result ( shape sha )
+reg_result(shape sha)
 {
-    if ( valregable ( sha ) ) return 1;
-    if ( is_floating ( sha->tag ) ) {
-	if ( (has & HAS_LONG_DOUBLE) && shape_size ( sha ) > 64 ) return 0;
-	return 1;
-    }
-    return 0;
+	if (valregable(sha)) {
+		return 1;
+	}
+
+	if (is_floating(sha->tag)) {
+		if ((has & HAS_LONG_DOUBLE) && shape_size(sha) > 64) {
+			return 0;
+		}
+
+		return 1;
+	}
+
+	return 0;
 }
+
