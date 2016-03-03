@@ -43,7 +43,7 @@
 #include "instr386.h"
 #include "assembler.h"
 #include "messages_8.h"
-#include "evaluate.h"
+#include "eval.h"
 #include "localexpmacs.h"
 
 /* PROCEDURES */

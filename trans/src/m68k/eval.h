@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef EVALUATE_INCLUDED
-#define EVALUATE_INCLUDED
+#ifndef EVAL_H
+#define EVAL_H
 
 #include "mach.h"
 

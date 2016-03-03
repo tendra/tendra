@@ -34,7 +34,7 @@
 #include "make_code.h"
 #include "utility.h"
 #include "translate.h"
-#include "evaluate.h"
+#include "eval.h"
 
 #define REGISTER_SIZES
 #include "instr_aux.h"

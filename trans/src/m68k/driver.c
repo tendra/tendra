@@ -43,7 +43,7 @@
 #include "tests.h"
 #include "utility.h"
 #include "where.h"
-#include "evaluate.h"
+#include "eval.h"
 #include "68k_globals.h"
 
 #include "xdb_basics.h"

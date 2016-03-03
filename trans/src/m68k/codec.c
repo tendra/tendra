@@ -42,7 +42,7 @@
 #include "instr.h"
 #include "codex.h"
 #include "instrs.h"
-#include "evaluate.h"
+#include "eval.h"
 #include "ops_shared.h"
 #include "mach_ins.h"
 #include "localexpmacs.h"

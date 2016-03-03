@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef EVALUATE_H
-#define EVALUATE_H
+#ifndef EVAL_H
+#define EVAL_H
 
 #ifdef TDF_DIAG4
 extern  void evaluate(exp c, int cname, char *s, int isconst, int global, struct dg_name_t *d);

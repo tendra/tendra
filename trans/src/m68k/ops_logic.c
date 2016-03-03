@@ -36,7 +36,7 @@
 #include "make_code.h"
 #include "tests.h"
 #include "operations.h"
-#include "evaluate.h"
+#include "eval.h"
 #include "utility.h"
 #include "translate.h"
 #include "ops_shared.h"

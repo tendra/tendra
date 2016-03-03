@@ -56,7 +56,7 @@
 #include "operand.h"
 #include "assembler.h"
 #include "cproc.h"
-#include "evaluate.h"
+#include "eval.h"
 #include "tv_callees.h"
 
 #ifdef DWARF2

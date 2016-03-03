@@ -31,7 +31,7 @@
 #include "mach_ins.h"
 #include "mach_op.h"
 #include "codex.h"
-#include "evaluate.h"
+#include "eval.h"
 #include "utility.h"
 #include "where.h"
 #include "make_code.h"

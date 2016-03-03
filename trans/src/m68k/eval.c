@@ -29,7 +29,7 @@
 
 #include "assembler.h"
 #include "instrs.h"
-#include "evaluate.h"
+#include "eval.h"
 #include "mach.h"
 #include "mach_ins.h"
 #include "mach_op.h"
