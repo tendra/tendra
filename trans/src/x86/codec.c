@@ -894,7 +894,7 @@ codec(where dest, ash stack, exp e)
 			return;
 		}
 
-		/* deliberate fall through into default */
+		FALL_THROUGH;
 
 	default:
 		if (!is_o(e->tag)) {

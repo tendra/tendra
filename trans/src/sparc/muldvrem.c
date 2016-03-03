@@ -824,7 +824,7 @@ bool is_muldivrem_call
      if ((has & HAS_LONG_DOUBLE)) {
       exp s = son(e);
       if (sh(s)->tag == doublehd) return 1;
-      /* FALL THROUGH */
+	  FALL_THROUGH;
      }
     case fplus_tag:
     case fminus_tag:

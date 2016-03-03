@@ -10,6 +10,7 @@
 #include <stddef.h>
 
 #include <shared/bool.h>
+#include <shared/check.h>
 
 #include <tdf/shape.h>
 #include <tdf/tag.h>
@@ -113,11 +114,11 @@ is_worth(exp c)
 				return false;
 			}
 
-			/* FALL THROUGH */
 			if (((n + 1)&n) == 0) {
 				return false;
 			}
 
+			FALL_THROUGH;
 		}
 
 		case or_tag :

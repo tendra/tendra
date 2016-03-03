@@ -582,7 +582,7 @@ clear_dep_reg(exp lhs)
 				continue;
 			}
 
-			/*FALLTHROUGH*/
+			FALL_THROUGH;
 
 		default:
 			if (dependson(regexps[i].keptexp, regexps[i].iscont, lhs)) {

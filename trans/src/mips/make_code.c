@@ -3765,7 +3765,9 @@ alreadythere:
 					}
 
 					return mka;
-				} /* else drop through to load short case */
+				}
+
+				/* else drop through to load short case */
 			}
 
 			if (endian == ENDIAN_LITTLE) {

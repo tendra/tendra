@@ -902,13 +902,13 @@ static int TypeNo_of_shape(shape s)
 
   switch (s->tag)
   {
-   case bothd:		/*FALLTHROUGH*/
+   case bothd:		FALL_THROUGH;
    case tophd:		return TYPEID_VOID;
    case scharhd:	return TYPEID_SCHAR;
    case ucharhd:       	return TYPEID_UCHAR;
    case swordhd:       	return TYPEID_SWORD;
    case uwordhd:       	return TYPEID_UWORD;
-   case sizehd:		/*FALLTHROUGH*/
+   case sizehd:		FALL_THROUGH;
    case slonghd:       	return TYPEID_SLONG;
    case ulonghd:	return TYPEID_ULONG;
    case shrealhd:	return TYPEID_SHREAL;

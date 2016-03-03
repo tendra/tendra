@@ -115,8 +115,10 @@ trace_uses ( exp e, exp id ){
     } else if ( APPLYLIKE ( bro ( son ( e ) ) ) ) {
       return trace_uses ( bro ( son ( e ) ), id ) ;
     }
-    /* FALL THROUGH */
+
+	FALL_THROUGH;
   }
+
   default : {
     exp s = son ( e ) ;
     int nu = nouses ;	 /* s list can be done in any order ... */

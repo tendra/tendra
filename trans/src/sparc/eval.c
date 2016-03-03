@@ -663,7 +663,8 @@ evalone(exp e, int bitposn, bool ro)
 	case null_tag:
 		/* Zero */
 		no(e) = 0;
-		/* Fall through */
+
+		FALL_THROUGH;
 
 	case val_tag:
 		if (sh(e)->tag == s64hd || sh(e)->tag == u64hd) {
@@ -916,7 +917,7 @@ evalone(exp e, int bitposn, bool ro)
 			return;
 		}
 
-		/* FALL THROUGH */
+		FALL_THROUGH;
 	}
 
 	default:

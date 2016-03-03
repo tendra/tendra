@@ -18,6 +18,7 @@
 */
 
 #include <shared/bool.h>
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include <refactor/optimise.h>
@@ -98,7 +99,7 @@ guard ( where w, space sp ){
       return sp;
     }
     default: {
-      /* fall through to fail */
+		FALL_THROUGH;
     }	
   }
   error(ERR_SERIOUS,  "Bad guard register" ) ;

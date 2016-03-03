@@ -1651,7 +1651,8 @@ void sub
 	sub(sha, a1, reg0, reg0);
 	invalidate_dest(dest);
 	return;
-      }		/* else drop through */
+      }
+	  FALL_THROUGH;
     case 1:
     case 3:
     case 5:
@@ -6068,7 +6069,9 @@ void fl_binop
 
 	return;
       }
-      /* fall through to case 5 */
+
+		FALL_THROUGH;
+
     case 5:
 
       if (use_pop(last_arg, arg2.where_exp) == 2) {
@@ -6096,7 +6099,9 @@ void fl_binop
 
 	return;
       }
-      /* fall through to case 3 */
+
+		FALL_THROUGH;
+
     case 3:
       if (use_pop(last_arg, arg1.where_exp) == 2) {
 	fopm(sha, op, 1, arg2);

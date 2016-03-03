@@ -495,7 +495,7 @@ output_all(void)
 			    asm_printf("\n");
 			    break;
 			}
-			/* FALLTHROUGH */
+			FALL_THROUGH;
 		default:
 			if (is_jump(n)) {
 				/* Jumps */

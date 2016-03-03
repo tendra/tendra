@@ -172,7 +172,7 @@ int inlinechoice
 	    !isvar(fpars)) {
 	  break;
 	}
-	/* FALL THROUGH */
+	FALL_THROUGH;
 
       default : {
 	newdecs++;

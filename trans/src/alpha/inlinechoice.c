@@ -99,7 +99,7 @@ int inlinechoice
 	if (son(apars)->tag ==name_tag && isvar(son(son(apars))) &&
 	    !isvar(fpars))break;
       } /* ... else continue */
-       FALL_THROUGH
+       FALL_THROUGH;
 	default: newdecs++;
      }
      switch (apars->tag)
@@ -144,7 +144,7 @@ int inlinechoice
 	    !isvar(fpars)) {
 	  break;
 	}
-       FALL_THROUGH
+       FALL_THROUGH;
       default : {
 	newdecs++;
 	break;

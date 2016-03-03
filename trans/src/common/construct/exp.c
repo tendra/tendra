@@ -1145,7 +1145,7 @@ copy_res(exp e, exp var, exp lab)
 			}
 		}
 
-		/* FALL THROUGH if lab == NULL */
+		FALL_THROUGH;
 	}
 
 	{

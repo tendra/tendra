@@ -178,7 +178,7 @@ iskept(exp e)
 					continue;
 				}
 				/* else ... */
-				FALL_THROUGH
+				FALL_THROUGH;
 
 			default:
 				return aa;

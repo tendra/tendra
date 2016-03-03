@@ -21,6 +21,7 @@
 #include <assert.h>
 
 #include <shared/bool.h>
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include <utility/max.h>
@@ -648,7 +649,7 @@ scan(exp *e, exp **at)
 			return scan(e, at);
 		}                   /* Else goto next case */
 
-		/* FALLTHROUGH */
+		FALL_THROUGH;
 
 	case rep_tag:
 	case solve_tag: {

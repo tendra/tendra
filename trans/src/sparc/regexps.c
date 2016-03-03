@@ -206,7 +206,7 @@ iskept(exp e)
 					continue;
 				}
 
-				/* FALL THROUGH */
+				FALL_THROUGH;
 
 			default:
 #ifdef DWARF2

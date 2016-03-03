@@ -3768,6 +3768,7 @@ tailrecurse:
 					}
 					return mka;
 				}
+
 				/* else drop through to load short case */
 			}
 
@@ -3975,8 +3976,8 @@ tailrecurse:
 			}
 		}
 #endif
+		FALL_THROUGH;
 	}
-		/* FALLTHROUGH */
 
 	case name_tag:
 	case field_tag:

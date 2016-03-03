@@ -1239,7 +1239,8 @@ static void euclid
                     if (type != DIV)move(sha, zero, rem);
                     return;
                 }
-                /* fall through */
+
+				FALL_THROUGH;
 	    }
 
 	    default : {

@@ -1533,7 +1533,7 @@ f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r, exp a
 			return id;
 		}
 	}
-	/* FALL THROUGH */
+	FALL_THROUGH;
 #endif
 
 	res = getexp(f_integer(r), NULL, 0, arg1, NULL, 0, 0, round_tag);

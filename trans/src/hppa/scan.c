@@ -1010,8 +1010,9 @@ scan(exp *e, exp **at)
 		/* else goto next case */
 		asm_comment("scan() cond_tag: case 4");
 #endif
+
+		FALL_THROUGH;
 	}
-		/* FALLTHOUGH */
 
 	case labst_tag:
 	case rep_tag:
@@ -2156,9 +2157,9 @@ scan(exp *e, exp **at)
 			return scan(e, at);
 		}
 		/* end someneg - else continue to next case */
-	}
 
-		/* FALLTHROUGH */
+		FALL_THROUGH;
+	}
 
 	case and_tag:
 	case or_tag:
@@ -2259,7 +2260,7 @@ mult_tag_case:
 			goto mult_tag_case;
 		}
 
-		/* FALL THROUGH */
+		FALL_THROUGH;
 	}
 
 #if 0
@@ -2409,8 +2410,9 @@ mult_tag_case:
 				z->tag = fmult_tag;
 			}
 		}
+
+		FALL_THROUGH;
 	}
-		/* FALLTHROUGH */
 #endif
 
 	case fplus_tag:

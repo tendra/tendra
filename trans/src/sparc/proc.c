@@ -610,7 +610,8 @@ make_res_tag_code(exp e, space sp, where dest, int exitlab)
 			stret_restore_ins();
 			break;
 		}
-		/* FALL THROUGH */
+
+		FALL_THROUGH;
 	}
 
 	default:

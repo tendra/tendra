@@ -144,7 +144,8 @@ static loc_s find_param
         return name_to_loc(e);
       return find_param(son(son(e)));
     case cont_tag:
-      extra_deref++;	/* drop through */
+      extra_deref++;
+	  FALL_THROUGH;
     case chvar_tag:
     case chfl_tag:
       return find_param(son(e));

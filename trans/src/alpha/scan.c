@@ -1956,7 +1956,7 @@ scan(exp *e, exp **at)
 		/* end someneg - else continue to next case */
 	}
 
-		FALL_THROUGH
+		FALL_THROUGH;
 
 	case and_tag:
 	case mult_tag:

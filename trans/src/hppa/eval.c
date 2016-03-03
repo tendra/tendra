@@ -742,7 +742,7 @@ evalone(exp e, int bitposn)
 	case null_tag:
 	case top_tag:
 		no(e) = 0;
-		/* FALLTHROUGH */
+		FALL_THROUGH;
 	case val_tag: {
 		if (shape_size(sh(e)) > 32) {
 			flt64 t;

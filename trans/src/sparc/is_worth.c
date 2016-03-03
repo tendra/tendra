@@ -10,6 +10,7 @@
 #include <stdlib.h>
 
 #include <shared/bool.h>
+#include <shared/check.h>
 
 #include <tdf/shape.h>
 #include <tdf/tag.h>
@@ -95,7 +96,8 @@ is_worth ( exp c )
 				/* a & 2^n == 0 is transformed into a shift */
 				return false;
 			}
-			/* FALL THROUGH */
+
+			FALL_THROUGH;
 		}
 
 		case or_tag :

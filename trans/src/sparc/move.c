@@ -376,7 +376,7 @@ int move
       *sr = getreg ( regs ) ;
       regs |= RMASK ( *sr ) ;
       setregalt ( dest.answhere, *sr ) ;
-      /* FALL THROUGH */
+	  FALL_THROUGH;
     }
     case inreg : {
       /* Move store to register */

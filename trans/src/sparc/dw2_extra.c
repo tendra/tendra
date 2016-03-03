@@ -406,7 +406,8 @@ static int indirect_length(exp e)
     case name_tag: {
       if (props(son(e)) & defer_bit) {
 	return indirect_length (son(son(e)));
-      }	/* else drop through to failure */
+      }
+	  FALL_THROUGH;
     }
     default: {
       error(ERR_INTERNAL, "unimplemented dwarf locate");

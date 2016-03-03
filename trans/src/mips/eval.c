@@ -17,6 +17,7 @@
 #include <stdio.h>
 
 #include <shared/bool.h>
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include <utility/max.h>
@@ -620,7 +621,7 @@ evalone(exp e, long rep)
 			return;
 		}
 
-		/* otherwise drop through to failure */
+		FALL_THROUGH;
 
 	default:
 		error(ERR_INTERNAL, "tag not in evaluated");

@@ -777,7 +777,7 @@ chase ( exp sel, exp * e )
 			return chase ( sel, e ) ;
 		}
 
-		/* FALL THROUGH */
+		FALL_THROUGH;
 
 	default:
 		if ( son ( sel ) != *e && sh(*e)->tag != bothd) {
@@ -826,7 +826,7 @@ need_result_space ( exp e )
 			return dad;
 		}
 
-		/* else fall through */
+		FALL_THROUGH;
 
 	case cond_tag:
 	case solve_tag:
@@ -1072,9 +1072,9 @@ scan ( exp * e, exp ** at )
 		if (scan_cond(e, NULL) != 0) {
 			return scan(e, at);
 		}			/* else goto next case */
-	}
 
-		/* FALL THROUGH */
+		FALL_THROUGH;
+	}
 
 	case labst_tag:
 	case rep_tag:
@@ -1804,8 +1804,10 @@ scan ( exp * e, exp ** at )
 			/* express disps in bytes */
 			no ( *e ) = no ( *e ) >> 3 ;
 		}
-		/* FALL THROUGH */
+
+		FALL_THROUGH;
 	}
+
 	case env_size_tag:
 	case caller_name_tag:
 	case null_tag:
@@ -2270,7 +2272,7 @@ scan ( exp * e, exp ** at )
 			return scan ( e, at ) ;
 		}
 
-		/* FALL THROUGH */
+		FALL_THROUGH;
 	}
 
 	case and_tag:
@@ -2397,7 +2399,7 @@ mult_tag_case:
 			goto mult_tag_case ;
 		}
 
-		/* FALL THROUGH */
+		FALL_THROUGH;
 	}
 
 	case div0_tag:
@@ -2420,7 +2422,7 @@ mult_tag_case:
 			make_bitfield_offset(son(*e), *e, 1, sh(*e));
 		}
 
-		/* FALL_THROUGH */
+		FALL_THROUGH;
 
 	case component_tag:
 		return likediv ( e, at ) ;

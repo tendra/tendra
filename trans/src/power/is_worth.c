@@ -40,7 +40,8 @@ static bool is_worth_cont_aux(exp c)
 			return 0;    /* dont optimise non-zero offset */
 		}
 
-	/*FALLTHROUGH*/
+		FALL_THROUGH;
+
 	case cont_tag:
 		return is_worth_cont_aux(son(c));
 

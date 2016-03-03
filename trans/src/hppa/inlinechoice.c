@@ -10,6 +10,7 @@
 #include <stdlib.h>
 
 #include <shared/bool.h>
+#include <shared/check.h>
 
 #include <tdf/shape.h>
 #include <tdf/tag.h>
@@ -152,7 +153,7 @@ int inlinechoice
 	    !isvar(fpars)) {
 	  break;
 	}
-	/* FALL THROUGH */
+	  FALL_THROUGH;
 
       default : {
 	newdecs++;

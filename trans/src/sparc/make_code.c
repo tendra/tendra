@@ -1613,7 +1613,8 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				break ;
 			}
 
-			/* FALL THROUGH */
+			FALL_THROUGH;
+
 		default :
 			if ( sreg != dreg ) {
 				rr_ins ( i_mov, sreg, dreg ) ;
@@ -3200,7 +3201,7 @@ null_tag_case :
 			*sr = getreg ( sp.fixed ) ;
 			setregalt ( dest.answhere, *sr ) ;
 
-			/* FALL THROUGH */
+			FALL_THROUGH;
 		}
 
 		case inreg : {
@@ -3327,7 +3328,7 @@ null_tag_case :
 			*sr = getreg ( sp.fixed ) ;
 			setregalt ( dest.answhere, *sr ) ;
 
-			/* FALL THROUGH */
+			FALL_THROUGH;
 		}
 
 		case inreg : {
@@ -3404,7 +3405,7 @@ null_tag_case :
 			*sr = getreg ( sp.fixed ) ;
 			setregalt ( dest.answhere, *sr ) ;
 
-			/* FALL THROUGH */
+			FALL_THROUGH;
 		}
 
 		case inreg : {
@@ -4531,7 +4532,7 @@ null_tag_case :
 		}
 #endif /* NO_REGREG_LOADS */
 #endif
-		/* FALL THROUGH */
+		FALL_THROUGH;
 	}
 
 	case name_tag :

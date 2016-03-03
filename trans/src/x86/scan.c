@@ -1100,7 +1100,7 @@ scan(int sto, exp to, exp e, int usereg0)
 			return 0;
 		}
 
-		/* FALL THROUGH */
+		FALL_THROUGH;
 
 	default:
 		return usereg0;

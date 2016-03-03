@@ -256,7 +256,7 @@ start:
 
     }				/* end bitad source */
 
-    /* FALLTHROUGH */
+	FALL_THROUGH;
 #endif
 
   case inreg:
@@ -659,7 +659,7 @@ start:
 	  /* and continue to next case */
 	}
 
-	/* FALLTHROUGH */
+	FALL_THROUGH;
 
       case inreg:
 	/* source and dest in fixpnt reg */

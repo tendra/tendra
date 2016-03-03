@@ -531,7 +531,7 @@ evalone(exp e, int bitposn)
 	case top_tag:
 		no(e) = 0;
 
-		/* FALLTHROUGH */
+		FALL_THROUGH;
 
 	case val_tag: {
 		char *asdata;

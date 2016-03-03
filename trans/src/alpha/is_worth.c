@@ -67,7 +67,7 @@ is_worth(exp c)
 			}
 			/* else next case */
 		}
-		FALL_THROUGH
+		FALL_THROUGH;
 
 		case or_tag:
 		case xor_tag:

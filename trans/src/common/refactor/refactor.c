@@ -3190,7 +3190,7 @@ refactor(exp e, exp scope)
 							                        x, me_shint(sh(arg1),
 							                                    q - p), shl_tag));
 							replace(son(e), temp, temp);
-							/* DELIBERATE FALL THROUGH*/
+							FALL_THROUGH;
 						}
 					}
 				} else {

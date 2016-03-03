@@ -417,7 +417,7 @@ evalone(exp e, int rep)
 
 	case null_tag:
 		no (e) = 0;
-		FALL_THROUGH
+		FALL_THROUGH;
 	case val_tag:
 		if (isbigval(e)) {
 			oneval(flt64_to_INT64(exp_to_f64(e)), a.ashalign, rep);

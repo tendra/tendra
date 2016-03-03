@@ -790,7 +790,7 @@ scan(bool sto, exp to, exp e)
 	case apply_tag:
 		scanargs(1, e);
 
-		/* Fall through */
+		FALL_THROUGH;
 
 	case goto_lv_tag:
 		if (!is_indable(son(e))) {

@@ -1517,7 +1517,8 @@ tailrecurse:
 			}
 			*sr = getreg(sp.fixed);
 			setregalt(dest.answhere, *sr);
-			/* FALLTHROUGH */
+
+			FALL_THROUGH;
 		}
 
 		case inreg: {
@@ -1677,7 +1678,7 @@ tailrecurse:
 			*sr = getreg(sp.fixed);
 			setregalt(dest.answhere, *sr);
 
-			/*FALLTHROUGH*/
+			FALL_THROUGH;
 		}
 
 		case inreg:
@@ -1846,8 +1847,9 @@ tailrecurse:
 					reg_operand_here(arg, sp, sreg);
 					break;
 				}
-			/* result being voided, treat as default */
-			/*FALLTHROUGH*/
+
+				/* result being voided, treat as default */
+				FALL_THROUGH;
 
 			default:
 				sreg = reg_operand(arg, sp);
@@ -2396,8 +2398,10 @@ tailrecurse:
 				return mka;
 			}
 		}
+
+		FALL_THROUGH;
 	}
-		/* FALLTHROUGH */
+
 	case name_tag:
 	case field_tag:
 	case reff_tag:

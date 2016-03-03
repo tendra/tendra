@@ -15,6 +15,7 @@
 #include <stddef.h>
 
 #include <shared/bool.h>
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include <utility/max.h>
@@ -185,7 +186,8 @@ iskept(exp e)
 					 */
 					continue;
 				}
-				/* FALLTHROUGH */
+
+				FALL_THROUGH;
 
 			default:
 				return aa;

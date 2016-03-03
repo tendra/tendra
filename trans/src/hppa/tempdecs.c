@@ -135,7 +135,8 @@ trace_uses(exp e, exp id)
 	    } else if ( APPLYLIKE ( bro ( son ( e ) ) ) ) {
 		return trace_uses ( bro ( son ( e ) ), id ) ;
 	    }
-	    /* Fall through */
+
+		FALL_THROUGH;
 	}
 
 	default : {

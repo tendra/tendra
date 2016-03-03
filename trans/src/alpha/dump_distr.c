@@ -137,7 +137,7 @@ suses(exp e, space *pars, int incpars)
       }
     } else 	maxsp (&ans, *pars);
   }				/* else cont to default */
-  FALL_THROUGH
+  FALL_THROUGH;
   default: def1:{
     exp t = son (e);
     maxsp (&ans, suses (t, pars,incpars));
@@ -249,7 +249,7 @@ alljumps(exp e, exp slv, int *nol)
     if (e->tag== goto_tag) return 0;
     /* and continue */
   }
-  FALL_THROUGH
+  FALL_THROUGH;
   case name_tag: case val_tag: case float_tag: case string_tag:
     return 0;
   default: {
@@ -455,7 +455,7 @@ pushdumps(exp *pe, space *dmpd, space *tobd, space *pars)
       }
     } /* else continue ... */		
   }
-    FALL_THROUGH
+    FALL_THROUGH;
   default: {
       nds = suses(e, pars, 0);
       if (!sameregs(&nds, dmpd)) {
