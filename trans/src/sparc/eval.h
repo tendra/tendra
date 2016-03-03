@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef EVALDECS_INCLUDED
-#define EVALDECS_INCLUDED
+#ifndef EVAL_H
+#define EVAL_H
 
 #include <construct/installtypes.h>
 
@@ -16,11 +16,12 @@
 
 #include "addrtypes.h"
 
-extern bool is_zero(exp);
-extern instore evaluated(exp, long, bool);
-extern int next_data_lab(void);
-extern long *realrep(exp);
-extern mm maxmin(shape);
-extern void outlab(int);
+bool is_zero(exp);
+instore evaluated(exp, long, bool);
+int next_data_lab(void);
+long *realrep(exp);
+mm maxmin(shape);
+void outlab(int);
 
-#endif /* EVALDECS_INCLUDED */
+#endif
+

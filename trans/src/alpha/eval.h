@@ -7,6 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#ifndef EVAL_H
+#define EVAL_H
+
 #include <local/ash.h>
 
 #include <flpt/flpt.h>
@@ -14,12 +17,12 @@
 #include "addrtypes.h"
 #include "cross.h"
 
-extern int  next_dlab_sym(void);
-extern int data_lab;
+int next_dlab_sym(void);
+int data_lab;
 
-extern mm maxmin(shape);
+mm maxmin(shape);
 
+instore evaluated(exp, int);
 
-extern instore evaluated(exp,int);
-
+#endif
 

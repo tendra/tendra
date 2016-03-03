@@ -8,18 +8,19 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef EVALDECS_H
-#define EVALDECS_H
+#ifndef EVAL_H
+#define EVAL_H
 
 #include "addrtypes.h"
 
 #include <flpt/flpt.h>
 
-extern int next_data_lab(void);
+int next_data_lab(void);
 
-extern mm maxmin(shape);
+mm maxmin(shape);
 
-extern instore evaluated(exp , int);
-extern instore evaluated_const(exp);
+instore evaluated(exp , int);
+instore evaluated_const(exp);
 
 #endif
+

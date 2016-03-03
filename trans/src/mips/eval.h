@@ -7,13 +7,19 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#ifndef EVAL_H
+#define EVAL_H
+
 #include "addrtypes.h"
 
 #include <flpt/flpt.h>
 
-extern int next_dlab_sym(void);
-extern mm maxmin(shape s);
-extern instore evaluated(exp e, long l, dec * dc);
-extern int  outfloat(flpt f);
-extern char *fltrepr;
-extern int data_lab;
+int next_dlab_sym(void);
+mm maxmin(shape s);
+instore evaluated(exp e, long l, dec * dc);
+int outfloat(flpt f);
+char *fltrepr;
+int data_lab;
+
+#endif
+

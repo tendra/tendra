@@ -12,13 +12,14 @@
 
 #include "mach.h"
 
-extern int convert_floats;
+int convert_floats;
 
-extern exp const_list;
-extern long * realrep(exp);
-extern void evaluate(exp, long, char *, int, int, diag_descriptor *);
+exp const_list;
+long *realrep(exp);
+void evaluate(exp, long, char *, int, int, diag_descriptor *);
 
-#define  make_constant(X, Y)\
-    const_list = getexp(botsh, const_list, 0,(Y), NULL, 0,(X), 0)
+#define make_constant(X, Y) \
+    const_list = getexp(botsh, const_list, 0, (Y), NULL, 0, (X), 0)
 
 #endif
+
