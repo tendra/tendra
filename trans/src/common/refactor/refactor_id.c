@@ -672,7 +672,7 @@ refactor_id(exp e, exp scope)
 			char *str = nostr(def);
 
 			t = pt(e);
-			while (1) {
+			for (;;) {
 				/* Surely this is wrong ??? */
 				int l = (int)t->last;
 
@@ -1144,7 +1144,7 @@ refactor_id(exp e, exp scope)
 			 */
 			tc = pt(e);
 
-			while (1) {
+			for (;;) {
 				if (!tc->last && bro(bro(tc))->tag == ass_tag) {
 #ifdef TDF_DIAG4
 					if (diag != DIAG_NONE) {

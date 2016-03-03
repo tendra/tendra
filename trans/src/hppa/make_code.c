@@ -338,7 +338,7 @@ has_bitfield(exp e)
 
 		/* look at alignment of initialisers */
 		e = bro(son(e));
-		while (1) {
+		for (;;) {
 			if (has_bitfield(e)) {
 				return 1;    /* found bitfield */
 			}
@@ -372,7 +372,7 @@ fix_nonbitfield(exp e)
 	}
 
 	e = son(e);
-	while (1) {
+	for (;;) {
 		if (e->tag == val_tag && sh(e)->tag == offsethd && al2(sh(e)) >= 8) {
 			no(e) = no(e) << 3;    /* fix it */
 		}

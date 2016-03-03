@@ -491,7 +491,7 @@ clear_exp_list(exp_list el)
 	if (t == NULL) {
 		return;
 	}
-	while (1) {
+	for (;;) {
 		parked(t) = 0;
 		if (t == el.end) {
 			return;
@@ -2350,7 +2350,7 @@ f_make_compound(exp arg1, exp_list arg2)
 
 	if (check & CHECK_SHAPE) {
 		exp t = first;
-		while (1) {
+		for (;;) {
 			if (t != arg2.end && sh(bro(t))->tag == bothd) {
 				return bro(t);
 			}
@@ -2509,7 +2509,7 @@ f_make_nof(exp_list arg1)
 
 	if (check & CHECK_SHAPE) {
 		exp temp = first;
-		while (1) {
+		for (;;) {
 			if (!eq_shape(sh(temp), sh(first))) {
 				error(ERR_INTERNAL, CHSH_MAKENOF);
 			}

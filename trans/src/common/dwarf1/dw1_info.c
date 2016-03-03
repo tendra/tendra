@@ -121,7 +121,7 @@ code_diag_info(diag_info *d, int proc_no, void(*mcode)(void *), void *args)
 		dwarf_label tlab;
 		next_dwarf_lab(&tlab);
 		OUT_DWARF_BEG(&tlab);	/* always needed for start_scope */
-		while (1) {
+		for (;;) {
 			if (x->tag != hold_tag) {
 				error(ERR_INTERNAL, "access should be in hold");
 				break;

@@ -729,7 +729,7 @@ evalaux(exp e, bool isconst, long al)
 			return;
 		}
 
-		while (1) {
+		for (;;) {
 			evalaux(t, isconst, al);
 			if (t->last) {
 				return;

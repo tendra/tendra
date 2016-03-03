@@ -27,7 +27,7 @@ invariant_to_apply(exp e);
 static int
 invar_list(exp e)
 {
-	while (1) {
+	for (;;) {
 		if (e==NULL) {
 			return 1;
 		}

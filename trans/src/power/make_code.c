@@ -180,7 +180,7 @@ static int has_bitfield(exp e)
 		 */
 		/* look at alignment of initialisers */
 		e = bro(son(e));
-		while (1) {
+		for (;;) {
 			if (has_bitfield(e)) {
 				return 1;    /* found bitfield */
 			}

@@ -1757,7 +1757,7 @@ make_code1(where dest, ash stack, exp e)
 		sha = sh(v);
 		off = rounder(shape_size(sha), shape_align(sha));
 
-		while (1) {
+		for (;;) {
 			make_code(mw(dest.where_exp, dest.where_off + crt),
 			          stack_room(stack, dest, dest.where_off + crt), v);
 			if (v->last) {
@@ -1777,7 +1777,7 @@ make_code1(where dest, ash stack, exp e)
 			return;
 		}
 
-		while (1) {
+		for (;;) {
 			make_code(mw(dest.where_exp, dest.where_off + no(v)),
 			          stack_room(stack, dest, dest.where_off + no(v)), bro(v));
 			if (bro(v)->last) {

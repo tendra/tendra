@@ -1382,7 +1382,7 @@ make_code(where dest, ash stack, exp e)
 		crt = dest.wh_off;
 		off = rounder(shape_size(sha), shape_align(sha));
 
-		while (1) {
+		for (;;) {
 			where wh;
 			ash stack2;
 			wh = mw(dest.wh_exp, crt);

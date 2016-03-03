@@ -2001,7 +2001,7 @@ refactor(exp e, exp scope)
 		    n != general_env_offset_tag && n != proc_tag &&
 		    n != general_proc_tag) {
 			exp temp = son(e);
-			while (1) {
+			for (;;) {
 				if (sh(temp)->tag == bothd) {
 					/* unordered; temp can be first, iwc all siblings unreachable */
 #ifdef TDF_DIAG4
@@ -4159,7 +4159,7 @@ refactor(exp e, exp scope)
 		setfather(cont, obt);
 		el = new_exp_list(0);
 
-		while (1) {
+		for (;;) {
 			exp q = bro(t);	/* expression being assigned */
 			exp n = bro(q);
 			int end = (int)q->last;

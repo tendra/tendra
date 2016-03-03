@@ -231,7 +231,7 @@ logop(void(*op)(shape, where, where, where), exp e, where dest, ash stack)
 	 * or NULL if all the arguments are operands.  There should be
 	 * at most one non-operand.
 	 */
-	while (1) {
+	for (;;) {
 		if (!is_o(t->tag)) {
 			break;
 		}
@@ -285,7 +285,7 @@ logop(void(*op)(shape, where, where, where), exp e, where dest, ash stack)
 	 */
 	make_code(w, stack, t);
 	u = arg1;
-	while (1) {
+	for (;;) {
 		if (t != u) {
 			if (u->last || (bro(u) == t && bro(u)->last)) {
 				(*op)(sh(e), zw(u), w, dest);
@@ -403,7 +403,7 @@ codec(where dest, ash stack, exp e)
 		w = zw(s);
 
 		/* Look for the non-operand if there is one */
-		while (1) {
+		for (;;) {
 			if (!is_o(t->tag) &&
 			    (t->tag != neg_tag || !is_o(son(t)->tag))) {
 				break;
@@ -453,7 +453,7 @@ codec(where dest, ash stack, exp e)
 		/* Deal with the case where one argument is a non-operand */
 		make_code(w, stack, t);
 		u = arg1;
-		while (1) {
+		for (;;) {
 			v = bro(u);
 			if (t != u) {
 				if (u->last || (v == t && v->last)) {
