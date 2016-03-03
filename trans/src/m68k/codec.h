@@ -7,15 +7,15 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef CODEC_INCLUDED
-#define CODEC_INCLUDED
+#ifndef CODEC_H
+#define CODEC_H
 
 #include <local/ash.h>
 
 #include <reader/exp.h>
 
-extern void codec(where, ash, exp);
-extern exp sim_exp(shape, where);
+void codec(where, ash, exp);
+exp sim_exp(shape, where);
 
 #endif
 
