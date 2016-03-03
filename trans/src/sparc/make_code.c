@@ -3022,7 +3022,7 @@ null_tag_case :
 		int size_op = shape_size ( sh ( son ( e ) ) ) ;
 		int r = reg_operand ( son ( e ), sp ) ;
 
-		assert(0);
+		UNREACHED;
 
 		if ( size_res != size_op && size_res != 32 ) {
 			int destr = GETREG ( dest, sp ) ;

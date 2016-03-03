@@ -917,7 +917,7 @@ static int TypeNo_of_shape(shape s)
 
    default:
     {
-      assert(0);		/* fail if debugging */
+      UNREACHED; /* fail if debugging */
       return TYPEID_VOID;	/* return something that will work */
     }
     UNREACHED;
@@ -1064,7 +1064,7 @@ static int size_dt(diag_type dt)
     }
    default:
     {
-      assert(0);		/* fail if in debug mode */
+      UNREACHED; /* fail if in debug mode */
       return -1;
     }
   }
@@ -1367,7 +1367,7 @@ static void out_dt_TypeDef_no_recurse(diag_type dt)
   default:
     {
       /* nothing expected now, but maybe there will be extensions */
-      assert(0);		/* fail if in debug mode */
+      UNREACHED; /* fail if in debug mode */
       /* We must output something here to satisfy the syntax */
 
       /*

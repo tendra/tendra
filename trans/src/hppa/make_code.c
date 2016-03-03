@@ -4686,7 +4686,7 @@ null_tag_case: {
 	}
 	}
 
-	assert(0);			/* should have return/goto from switch */
+	UNREACHED; /* should have return/goto from switch */
 
 moveconst: {
 		int r;

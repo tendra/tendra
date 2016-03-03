@@ -2284,7 +2284,7 @@ static void stab_tagdefs
 	    }
 	    case DIAG_TYPE_UNINIT:
 	    case DIAG_TYPE_INITED:
-		assert(0);
+			UNREACHED;
 	    default:
 		break;
 	}
