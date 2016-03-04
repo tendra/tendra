@@ -33,6 +33,7 @@
 #include <diag3/diag_reform.h>
 
 #include "diag_fns.h"
+#include "diagglob.h"
 
 /*
  * This is a workaround for shared/xcalloc asserting count is non-zero, but the
@@ -50,10 +51,13 @@ dg_xcalloc(size_t count, size_t size)
 	return xcalloc(count, size);
 }
 
-/* allocate space in this file */
-#define EXTERN_DIAG
+diag_descriptor_list unit_diagvar_tab;
 
-#include "diagglob.h"
+int unit_no_of_diagtags;
+
+diag_tagdef **unit_ind_diagtags;
+diag_tagdef *unit_diag_tagdeftab;
+
 
 /* All variables initialised */
 

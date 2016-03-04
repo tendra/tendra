@@ -30,14 +30,15 @@
 #include <construct/aldefs.h>
 
 #include "diag_fns.h"
-
-/* allocate space in this file */
-#define EXTERN_DIAG
-
 #include "diagglob.h"
 #include "dg_globs.h"
 #include "dg_aux.h"
 #include <reader/externs.h>
+
+int unit_no_of_diagtags;
+
+diag_tagdef **unit_ind_diagtags;
+diag_tagdef *unit_diag_tagdeftab;
 
 diag_descriptor f_dummy_diag_descriptor;
 diag_tag f_dummy_diag_tag;

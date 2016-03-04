@@ -10,12 +10,9 @@
 #ifndef diagglob_key
 #define diagglob_key
 
-#ifndef EXTERN_DIAG
-#define EXTERN_DIAG extern
-#endif
+extern int unit_no_of_diagtags;
 
-EXTERN_DIAG int 	unit_no_of_diagtags;
+extern diag_tagdef **unit_ind_diagtags;
+extern diag_tagdef *unit_diag_tagdeftab;
 
-EXTERN_DIAG diag_tagdef **unit_ind_diagtags;
-EXTERN_DIAG diag_tagdef *unit_diag_tagdeftab;
 #endif
