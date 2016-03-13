@@ -7,9 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef cv_types_key
-#define cv_types_key 1
-
+#ifndef CV_TYPES_H
+#define CV_TYPES_H
 
 typedef struct ot_t {
 	int size;
@@ -17,5 +16,5 @@ typedef struct ot_t {
 	int modifier;
 } ot;
 
-
 #endif
+

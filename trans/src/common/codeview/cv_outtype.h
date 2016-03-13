@@ -7,11 +7,11 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef cv_outtype_key
-#define cv_outtype_key 1
+#ifndef CV_OUTTYPE_H
+#define CV_OUTTYPE_H
 
-
-extern ot out_type(diag_type d, int in_struct);
-extern void out_tagged(diag_type d);
+ot out_type(diag_type d, int in_struct);
+void out_tagged(diag_type d);
 
 #endif
+
