@@ -576,7 +576,7 @@ f_obtain_al_tag(al_tag a1)
 	j = (alignment)calloc(1, sizeof(aldef));
 	j->al.al_n = 3;
 	j->al.al_val.al_join.a = a1;
-	j->next_aldef = top_aldef;
+	j->next = top_aldef;
 	top_aldef = j;
 	return j;
 }
@@ -607,7 +607,7 @@ f_unite_alignments(alignment a1, alignment a2)
 	j->al.al_n = 2;
 	j->al.al_val.al_join.a = a1;
 	j->al.al_val.al_join.b = a2;
-	j->next_aldef = top_aldef;
+	j->next = top_aldef;
 	top_aldef = j;
 	return j;
 }
@@ -4133,7 +4133,7 @@ f_offset_max(exp arg1, exp arg2)
 		ares->al.al_n = 2;
 		ares->al.al_val.al_join.a = a1;
 		ares->al.al_val.al_join.b = a2;
-		ares->next_aldef = top_aldef;
+		ares->next = top_aldef;
 		top_aldef = ares;
 		sha = f_offset(ares, a3);
 	} else {
@@ -4223,7 +4223,7 @@ f_offset_pad(alignment a, exp arg1)
 		ares->al.al_n = 2;
 		ares->al.al_val.al_join.a = a;
 		ares->al.al_val.al_join.b = al1_of(sh(arg1));
-		ares->next_aldef = top_aldef;
+		ares->next = top_aldef;
 		top_aldef = ares;
 		sha = f_offset(ares, a);
 	} else if (al1_of(sh(arg1))->al.al_val.al_frame != 0) {

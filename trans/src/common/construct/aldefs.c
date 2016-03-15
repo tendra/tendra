@@ -46,7 +46,7 @@ process_aldefs(void)
 		changed  = false;
 		complete = true;
 
-		for (p = top_aldef; p != NULL; p = p->next_aldef) {
+		for (p = top_aldef; p != NULL; p = p->next) {
 			switch (p->al.al_n) {
 			case 1: break;
 

@@ -30,7 +30,7 @@ typedef struct alignment_t {
 } alignment_cell;
 
 typedef struct aldef_t {
-	struct aldef_t *next_aldef; /* keeps a list of all aldefs */
+	struct aldef_t *next; /* keeps a list of all aldefs */
 	alignment_cell al;
 } aldef;
 

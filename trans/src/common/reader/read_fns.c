@@ -2276,7 +2276,7 @@ al_tagdef
 f_make_al_tagdef(tdfint t, alignment a)
 {
   aldef *ap = get_aldef(natint(t));
-  ap->next_aldef = top_aldef;
+  ap->next = top_aldef;
   top_aldef = ap;
   ap->al = a->al;
   return 0;
