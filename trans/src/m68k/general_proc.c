@@ -1780,7 +1780,6 @@ make_transformations(void)
 		if (e) {
 			transform(e);
 		}
-		d = d->def_next;
 	}
 }
 
