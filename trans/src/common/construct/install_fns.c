@@ -228,7 +228,7 @@ containedshape(int a, int s)
 
 
 dec *
-make_extra_dec(char *nme, int v, int g, exp init, shape s)
+make_extra_dec(char *name, int v, int g, exp init, shape s)
 {
 	dec *extra_dec = calloc(1, sizeof(dec));
 	exp e = getexp(s, NULL, 0, init, NULL, 0, 0, ident_tag);
@@ -240,7 +240,7 @@ make_extra_dec(char *nme, int v, int g, exp init, shape s)
 	extra_dec->next = NULL;
 	*deflist_end = extra_dec;
 	deflist_end = &((*deflist_end)->next);
-	extra_dec->dec_id = nme;
+	extra_dec->name = name;
 	extra_dec->dec_shape = s;
 	extra_dec->dec_exp = e;
 	extra_dec->unit_number = crt_tagdef_unit_no;
@@ -6138,7 +6138,7 @@ tidy_initial_values(void)
 	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
 		exp crt_exp = my_def->dec_exp;
 		if (son(crt_exp) != NULL && my_def->extnamed) {
-			good_name = my_def->dec_id;
+			good_name = my_def->name;
 		}
 		if (son(crt_exp) != NULL &&
 		    son(crt_exp)->tag == initial_value_tag) {
@@ -6161,8 +6161,7 @@ tidy_initial_values(void)
 				exp init = son(son(crt_exp));
 				exp new_init = f_make_value(sh(init));
 				if (good_name == NULL) {
-					good_name =
-					    my_def->dec_id;
+					good_name = my_def->name;
 				}
 				retcell(son(crt_exp));
 				son(crt_exp) = new_init;
@@ -6179,7 +6178,7 @@ tidy_initial_values(void)
 			exp init = son(crt_exp);
 			exp new_init = f_make_value(sh(init));
 			if (good_name == NULL) {
-				good_name = my_def->dec_id;
+				good_name = my_def->name;
 			}
 			if (init->tag == compound_tag ||
 			    init->tag == nof_tag ||

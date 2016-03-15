@@ -1509,8 +1509,7 @@ make_code(where dest, ash stack, exp e)
 		 */
 		if ((brog(son(proc)) ->processed) &&
 		    (brog(son(proc)) ->extnamed) &&
-		    (streq(brog(son(proc))->dec_id,
-		             "_TESTPOINT"))) {
+		    (streq(brog(son(proc))->name, "_TESTPOINT"))) {
 			TESTPOINT();
 			return;
 		}

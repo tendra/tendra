@@ -263,8 +263,8 @@ normalised_inlining(void)
 
 						if (print_inlines) {
 							IGNORE fprintf(stderr, "%s inlined in %s\n",
-							               my_def->dec_id,
-							               brog(bro(k))->dec_id);
+							               my_def->name,
+							               brog(bro(k))->name);
 						}
 
 						this_changed = 1;
@@ -288,8 +288,8 @@ normalised_inlining(void)
 
 							if (print_inlines) {
 								IGNORE fprintf(stderr, "%s inlined in %s\n",
-								               my_def->dec_id,
-								               brog(bro(k))->dec_id);
+								               my_def->name,
+								               brog(bro(k))->name);
 							}
 
 							this_changed = 1;

@@ -332,8 +332,8 @@ find_tag(char *tag_name)
 
 	for (i = 0; i < main_globals_index; ++i) {
 		exp newtag = main_globals[i]->dec_exp;
-		char * id = main_globals[i]->dec_id;
-		if(streq(id, tag_name)) {
+		char *name = main_globals[i]->name;
+		if(streq(name, tag_name)) {
 			return boff(newtag);
 		}
 	}
@@ -447,7 +447,7 @@ local_translate_capsule(void)
 
 	/* output weak symbols */
 	while (weak_list) {
-		asm_printop("%s=%s", weak_list->weak_id, weak_list->val_id);
+		asm_printop("%s=%s", weak_list->weak_name, weak_list->val_name);
 		weak_list = weak_list->next;
 	}
 
@@ -509,7 +509,7 @@ local_translate_capsule(void)
 			exp *st = &s;
 			procrec *pr = &procrecs[no(s)];
 
-			if (dyn_init && d->extnamed && isINITproc(d->dec_id)) {
+			if (dyn_init && d->extnamed && isINITproc(d->name)) {
 				set_proc_uses_external(s); /* for PIC_code, should be done in install_fns? */
 			}
 
@@ -651,16 +651,16 @@ local_translate_capsule(void)
 	for (d = top_def; d != NULL; d = d->next) {
 		exp tg = d->dec_exp;
 		exp stg = son(tg);
-		char *id = d->dec_id;
+		char *name = d->name;
 		bool extnamed = d->extnamed;
 
 		if (stg == NULL) {
 			continue;
 		}
 
-		if (extnamed || no(tg) != 0 || streq(id, TDF_HANDLER) || streq(id, TDF_STACKLIM)) {
+		if (extnamed || no(tg) != 0 || streq(name, TDF_HANDLER) || streq(name, TDF_STACKLIM)) {
 			if (extnamed) {
-				assert(id[0] != '$');
+				assert(name[0] != '$');
 
 				if (stg->tag != proc_tag && stg->tag != general_proc_tag) {
 					if (!isvar(tg) || (d->acc & f_constant) || do_prom) {
@@ -668,19 +668,19 @@ local_translate_capsule(void)
 					} else {
 						insection(data_section);
 					}
-				} else if (dyn_init && isINITproc(id) && sysV_assembler) {
+				} else if (dyn_init && isINITproc(name) && sysV_assembler) {
 					/*
 					 * On solaris, this is easy.
 					 * Insert a call to the procedure into the init segment
 					 */
 					insection(init_section);
-					asm_printop("call %s", id);
+					asm_printop("call %s", name);
 					asm_printop("nop");
 					insection(text_section);
 				} else {
 					insection(text_section);
 				}
-				asm_printop(".global %s", id);
+				asm_printop(".global %s", name);
 			}
 
 			/* evaluate all outer level constants */
@@ -699,10 +699,10 @@ local_translate_capsule(void)
 				if (diag_props) {
 					if (diag != DIAG_NONE) {
 #ifdef TDF_DIAG3
-						diag3_driver->stab_global(diag_props, stg, id, extnamed);
+						diag3_driver->stab_global(diag_props, stg, name, extnamed);
 #endif
 #ifdef TDF_DIAG4
-						diag4_driver->stab_global(diag_props, stg, id, extnamed);
+						diag4_driver->stab_global(diag_props, stg, name, extnamed);
 #endif
 					}
 				}
@@ -713,9 +713,9 @@ local_translate_capsule(void)
 				}
 
 				if (sysV_assembler) {
-					asm_printop(".type %s,#object", id);
+					asm_printop(".type %s,#object", name);
 					if (!know_size) {
-						asm_printop(".size %s,%ld", id, shape_size(sh(stg)) / 8);
+						asm_printop(".size %s,%ld", name, shape_size(sh(stg)) / 8);
 					}
 				}
 			}
@@ -726,7 +726,7 @@ local_translate_capsule(void)
 	for (d = top_def; d != NULL; d = d->next) {
 		exp tg = d->dec_exp;
 		exp stg = son(tg);
-		char *id = d->dec_id;
+		char *name = d->name;
 		bool extnamed = d->extnamed;
 
 		if (stg != NULL && shape_size(sh(stg)) == 0 && stg->tag == asm_tag) {
@@ -795,10 +795,10 @@ local_translate_capsule(void)
 				dw2_proc_start(stg, diag_props);
 #endif
 #ifdef DIAG3_STABS
-				diag3_driver->stab_proc(diag_props, stg, id, extnamed);
+				diag3_driver->stab_proc(diag_props, stg, name, extnamed);
 #endif
 #ifdef DIAG4_STABS
-				diag4_driver->stab_proc(diag_props, stg, id, extnamed);
+				diag4_driver->stab_proc(diag_props, stg, name, extnamed);
 #endif
 			}
 
@@ -811,19 +811,19 @@ local_translate_capsule(void)
 				}
 			}
 
-			asm_label("%s", id);
+			asm_label("%s", name);
 			seed_label();		/* reset label sequence */
 			settempregs(stg);	/* reset getreg sequence */
 
 			/* generate code for this proc */
-			proc_name = id;
+			proc_name = name;
 			IGNORE code_here(stg, tempregs, nowhere);
 
 			if (sysV_assembler) {
-				asm_printop(".type %s,#function", id);
-				asm_printop(".size %s,.-%s", id, id);
+				asm_printop(".type %s,#function", name);
+				asm_printop(".size %s,.-%s", name, name);
 			} else {
-				asm_comment(".end %s", id);
+				asm_comment(".end %s", name);
 			}
 
 			if (diag != DIAG_NONE) {

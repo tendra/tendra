@@ -2859,7 +2859,7 @@ void callins
     if (current_dg_info) {
       current_dg_info->data.i_call.brk = set_dw_text_label();
       current_dg_info->data.i_call.p.k = WH_STR;
-      current_dg_info->data.i_call.p.u.s = (brog(son(fn))) ->dec_id;
+      current_dg_info->data.i_call.p.u.s = (brog(son(fn))) ->name;
       current_dg_info->data.i_call.p.o = no(fn) /8;
     }
 #endif

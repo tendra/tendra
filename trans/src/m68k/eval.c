@@ -638,8 +638,8 @@ evalaux(exp e, bool isconst, long al)
 		mach_op *op;
 		long n = no(e);
 		long sz = shape_size(sh(e));
-		char *nm = brog(son(e)) ->dec_id;
-		op = make_extern_data(nm, n / 8);
+		char *name = brog(son(e)) ->name;
+		op = make_extern_data(name, n / 8);
 		eval_op(sz, op);
 		return;
 	}
@@ -817,8 +817,8 @@ evalaux(exp e, bool isconst, long al)
 		if (p1->tag == name_tag && p2->tag == name_tag) {
 			long n = no(p1) - no(p2);
 			long sz = shape_size(sh(e));
-			char *n1 = brog(son(p1)) ->dec_id;
-			char *n2 = brog(son(p2)) ->dec_id;
+			char *n1 = brog(son(p1)) ->name;
+			char *n2 = brog(son(p2)) ->name;
 
 			mach_op *op1 = new_mach_op();
 			mach_op *op2 = new_mach_op();

@@ -43,7 +43,7 @@ special_strcpy(dec *dp)
 	exp i = dp->dec_exp;
 	exp t;
 
-	assert(!(strcmp)(dp->dec_id, "strcpy"));
+	assert(!(strcmp)(dp->name, "strcpy"));
 
 	if (writable_strings) {
 		return false;
@@ -127,7 +127,7 @@ special_strlen(dec *dp)
 	exp i = dp->dec_exp;
 	exp t;
 
-	assert(!(strcmp)(dp->dec_id, "strlen"));
+	assert(!(strcmp)(dp->name, "strlen"));
 
 	if (writable_strings) {
 		return false;

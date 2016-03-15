@@ -332,7 +332,7 @@ local_translate_capsule(void)
 		if (scexp->tag == proc_tag || scexp->tag == general_proc_tag) {
 			noprocs++;
 
-			if (dyn_init && !strncmp("__I.TDF", crt_def->dec_id, 7)) {
+			if (dyn_init && !strncmp("__I.TDF", crt_def->name, 7)) {
 				char *s;
 				static char dyn = 0;
 
@@ -345,8 +345,8 @@ local_translate_capsule(void)
 
 				s = xcalloc(64, sizeof(char));
 				sprintf(s, "_GLOBAL_$I%d", capn);
-				strcat(s, crt_def->dec_id + 7);
-				crt_def->dec_id = s;
+				strcat(s, crt_def->name + 7);
+				crt_def->name = s;
 
 				if (assembler == ASM_HP) {
 					asm_printop(".WORD %s", s);
@@ -469,7 +469,7 @@ local_translate_capsule(void)
 			bool leaf = (pprops & anyproccall) == 0;
 			spacereq forrest;
 			int freefixed, freefloat;
-			proc_name = crt_def->dec_id;
+			proc_name = crt_def->name;
 
 			setframe_flags(son(crt_exp), leaf);
 
@@ -550,12 +550,12 @@ local_translate_capsule(void)
 
 	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
 		exp tg = crt_def->dec_exp;
-		char *id = crt_def->dec_id;
+		char *name = crt_def->name;
 		bool extnamed = (bool)crt_def->extnamed;
 
 		if (son(tg) == NULL && no(tg) != 0 && extnamed) {
 			outs("\t.IMPORT\t");
-			outs(id);
+			outs(name);
 			outs(sh(tg)->tag == prokhd ? (isvar(tg) ? ",DATA\n" : ",CODE\n") : ",DATA\n");
 		} else if (son(tg) != NULL && (extnamed || no(tg) != 0)) {
 			if (son(tg)->tag != proc_tag && son(tg)->tag != general_proc_tag) {
@@ -569,13 +569,13 @@ local_translate_capsule(void)
 
 				if (extnamed && !(is_zero(son(tg)))) {
 					outs("\t.EXPORT\t");
-					outs(id);
+					outs(name);
 					outs(",DATA\n");
 				}
 
 				is = evaluated(son(tg), symdef);
 				if (diag != DIAG_NONE) {
-					diag3_driver->stab_global(crt_def->diag_info, son(tg), id, extnamed);
+					diag3_driver->stab_global(crt_def->diag_info, son(tg), name, extnamed);
 				}
 
 				if (is.adval) {
@@ -589,7 +589,7 @@ local_translate_capsule(void)
 
 	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
 		exp tg = crt_def->dec_exp;
-		char *id = crt_def->dec_id;
+		char *name = crt_def->name;
 		bool extnamed = (bool)crt_def->extnamed;
 
 		if (son(tg) == NULL && no(tg) != 0 && !extnamed) {
@@ -610,7 +610,7 @@ local_translate_capsule(void)
 
 			outs("\t.ALIGN\t");
 			outn(align);
-			outs(id);
+			outs(name);
 			outs("\t.BLOCKZ\t");
 			outn(size);
 		}
@@ -671,12 +671,12 @@ local_translate_capsule(void)
 
 	for (next_proc_def = 0; next_proc_def < procno; next_proc_def++) {
 		exp tg;
-		char *id;
+		char *name;
 		bool extnamed;
 
 		crt_def = proc_def_trans_order[next_proc_def];
-		tg = crt_def->dec_exp;
-		id = crt_def->dec_id;
+		tg   = crt_def->dec_exp;
+		name = crt_def->name;
 		extnamed = crt_def->extnamed;
 
 		if (no(tg) != 0 || extnamed) {
@@ -685,7 +685,7 @@ local_translate_capsule(void)
 			outnl();
 
 			if (diag != DIAG_NONE) {
-				diag3_driver->stab_proc(crt_def->diag_info, son(tg), id, extnamed);
+				diag3_driver->stab_proc(crt_def->diag_info, son(tg), name, extnamed);
 			}
 
 			seed_label(); /* reset label sequence */
@@ -696,18 +696,18 @@ local_translate_capsule(void)
 			first->next = NULL;
 			current = first;
 
-			proc_name = id;
+			proc_name = name;
 			code_here(son(tg), tempregs, nowhere);
 
 			outs("\t.PROCEND\n\t;");
-			outs(id);
+			outs(name);
 
 			if (diag == DIAG_XDB) {
 #if _SYMTAB_INCLUDED
 				close_function_scope(res_label);
 				outnl();
 				outs("_");
-				outs(id);
+				outs(name);
 				outs("_end_");
 #endif
 			}
@@ -716,7 +716,7 @@ local_translate_capsule(void)
 
 			if (extnamed) {
 				outs("\t.EXPORT ");
-				outs(id);
+				outs(name);
 				outs(",ENTRY");
 				outs(export);
 				outnl();

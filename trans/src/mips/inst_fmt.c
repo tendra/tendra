@@ -82,7 +82,7 @@ ls_ins(char *ins, int reg, baseoff a)
     }
     else
       if (a.base < 0) {		/* global named */
-	char *extname = main_globals[-a.base - 1] -> dec_id;
+	char *extname = main_globals[-a.base - 1] -> name;
 
 	if (as_file) {
 	  if (a.offset == 0) {
@@ -289,7 +289,7 @@ lsfp_ins(char *ins, int reg, baseoff a)
     }
     else
       if (a.base < 0) {		/* global named */
-	char *extname = main_globals[-a.base - 1] -> dec_id;
+	char *extname = main_globals[-a.base - 1] -> name;
 	if (as_file) {
 	  if (a.offset == 0) {
 	    asm_printop("%s $f%d, %s", ins + 1, reg, extname);
@@ -378,7 +378,7 @@ br_ins(char *ins, int dest)
 void
 extj_ins(char *ins, baseoff b)
 {
-  char *extname = main_globals[-b.base - 1] -> dec_id;
+  char *extname = main_globals[-b.base - 1] -> name;
   clear_all ();
   andpeep = 0;
   if (as_file)

@@ -175,7 +175,7 @@ static loc_s name_to_loc
   }
   if (isglob(id)) {
     l.key = L_GLOB;
-    l.s = brog(id) -> dec_id;
+    l.s = brog(id) -> name;
     l.off = n_off;
   }
   else {

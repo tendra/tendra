@@ -26,7 +26,7 @@ struct dec_t {
 	 */
 	struct dec_t *next;
 
-	char *dec_id;    /* identifier to be used */
+	char *name;      /* identifier to be used */
 	shape dec_shape; /* shape of the value */
 	exp dec_exp;     /* definition or NULL */
 

@@ -29,7 +29,7 @@
  * name n of shape s and variable if v.
  */
 static exp
-make_extn(char* n, shape s, int v)
+make_extn(char *name, shape s, int v)
 {
 	dec * g = xmalloc(sizeof *g);
 	exp id = getexp(s, 0, 1, 0, 0, 0, 0, ident_tag);
@@ -40,7 +40,7 @@ make_extn(char* n, shape s, int v)
 	}
 	brog(id) = g;
 	g -> dec_exp = id;
-	g -> dec_id = n;
+	g -> name = name;
 	g -> extnamed = 1;
 	return nme;
 }

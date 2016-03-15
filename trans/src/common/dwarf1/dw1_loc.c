@@ -201,7 +201,7 @@ out_dwarf_loc_attr(exp t, int proc_no)
 			OUT_DWARF_LOC_BLK(5);
 #endif
 			dwarf1(OP_ADDR);
-			dwarf4(brog(s) -> dec_id);
+			dwarf4(brog(s) -> name);
 		} else {
 #if TRANS_X86
 			int p = ptno(s);

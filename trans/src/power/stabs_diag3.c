@@ -504,7 +504,7 @@ void fixup_name(exp global, dec * top_def, dec * crt_def)
 {
   diag_descriptor *dd;
   dec *d;
-  char *id = crt_def->dec_id;	/* assembler label */
+  char *name = crt_def->name;	/* assembler label */
   char *nm;			/* real name, or uniqued real name */
 
   /*
@@ -512,7 +512,7 @@ void fixup_name(exp global, dec * top_def, dec * crt_def)
    * Any name not starting with local_prefix is special, leave it.
    */
   if (crt_def->extnamed ||
-      id[0]!= local_prefix[0] || id[1]!= local_prefix[1])
+      name[0]!= local_prefix[0] || name[1]!= local_prefix[1])
   {
     return;			/* externs have correct name currently */
   }
@@ -531,28 +531,27 @@ void fixup_name(exp global, dec * top_def, dec * crt_def)
   /* search def chain to see if name is already used as assembler label */
   for (d = top_def; d != crt_def && d != NULL; d = d->next)
   {
-    if (streq(nm, d->dec_id))
+    if (streq(nm, d->name))
     {
 
       /*
        * Name already used, create new name to add meaning but stay unique:
        * "S.NNNN.name".
        */
-      int len1 = strlen(id);
+      int len1 = strlen(name);
       int len2 = strlen(nm);
-      char *newid;
+      char *newname;
 
-      newid = xmalloc(len1 + 1 + len2 + 1);
-      strcpy(newid, id);
-      newid[len1] = '.';
-      strcpy(&newid[len1 + 1], nm);
-      nm = newid;
+      newname = xmalloc(len1 + 1 + len2 + 1);
+      strcpy(newname, name);
+      newname[len1] = '.';
+      strcpy(&newname[len1 + 1], nm);
+      nm = newname;
       break;
     }
   }
 
-  crt_def->dec_id = nm;	/* change label to real identifier
-					 * name */
+  crt_def->name = nm;	/* change label to real identifier * name */
 }
 
 

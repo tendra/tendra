@@ -76,8 +76,8 @@ f_make_weak_defn(exp e1, exp e2)
 #if TRANS_X86 || TRANS_SPARC
 		weak_cell *wc = xmalloc(sizeof(weak_cell));
 
-		wc->weak_id = brog(son(e1))->dec_id;
-		wc->val_id = brog(son(e2))->dec_id;
+		wc->weak_name = brog(son(e1))->name;
+		wc->val_name  = brog(son(e2))->name;
 		brog(son(e2))->isweak = 1;
 		wc->next = weak_list;
 		weak_list = wc;
@@ -97,7 +97,7 @@ f_make_weak_symbol(tdfstring id, exp e)
 
 	if (use_link_stuff) {
 #if TRANS_X86 || TRANS_SPARC
-		char **lid = &brog(son(e))->dec_id;
+		char **lid = &brog(son(e))->name;
 		char *nid = add_prefix(name_prefix, id.ints.chars);
 		brog(son(e))->isweak = 1;
 		brog(son(e))->extnamed = 1;
@@ -130,8 +130,8 @@ f_make_comment(tdfstring id)
 linkinfo
 f_static_name_def(exp e, tdfstring id)
 {
-	char **oldid = &brog(son(e))->dec_id;
-	char *newid = add_prefix(name_prefix, id.ints.chars);
+	char **old = &brog(son(e))->name;
+	char *new  = add_prefix(name_prefix, id.ints.chars);
 
 	if (e->tag != name_tag || !isglob(son(e))) {
 		error(ERR_INTERNAL, "illegal static name");
@@ -142,10 +142,10 @@ f_static_name_def(exp e, tdfstring id)
 	if (separate_units) {
 		error(ERR_INTERNAL, "translator separate units is incompatible with named statics");
 	} else {
-		out_rename(*oldid, newid);
+		out_rename(*old, new);
 	}
 
-	*oldid = newid;
+	*old = new;
 	kill_exp(e, e);
 	return 0;
 }

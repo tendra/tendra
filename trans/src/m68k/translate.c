@@ -240,11 +240,11 @@ code_const(dec *d)
 {
 	diag_descriptor *di;
 	exp c, s;
-	char *id;
+	char *name;
 
 	c = d->dec_exp;
 	s = son(c);
-	id = d->dec_id;
+	name = d->name;
 	di = d->diag_info;
 
 	area(isvar(c) ? pdata : ptext);
@@ -252,7 +252,7 @@ code_const(dec *d)
 		make_instr(m_as_align4, NULL, NULL, 0);
 	}
 
-	evaluate(s, -1L , id, !isvar(c), 1, di);
+	evaluate(s, -1L , name, !isvar(c), 1, di);
 }
 
 /*
@@ -386,7 +386,7 @@ output_all_exps(void)
 	/* Scan through the declarations */
 	for (d = top_def; d != NULL; d = d->next) {
 		exp c, s;
-		char *id;
+		char *name;
 
 		if (d->processed) {
 			continue;
@@ -394,13 +394,13 @@ output_all_exps(void)
 
 		c = d->dec_exp;
 		s = son(c);
-		id = d->dec_id;
+		name = d->name;
 
 		init_output();
 
 		if (s != NULL) {
 			if (s->tag == proc_tag || s->tag == general_proc_tag) {
-				code_proc(d, id, c, s);
+				code_proc(d, name, c, s);
 				code_const_list();
 				d->processed = 1;
 			} else {
@@ -412,15 +412,15 @@ output_all_exps(void)
 			long sz = round(shape_size(sha) / 8, 4);
 
 			area(ptext);
-			if (!is_local(id) && isvar(c) && varsize(sha) && !reserved(id)) {
+			if (!is_local(name) && isvar(c) && varsize(sha) && !reserved(name)) {
 				if (sz) {
-					mach_op *op1 = make_extern_data(id, 0);
+					mach_op *op1 = make_extern_data(name, 0);
 					mach_op *op2 = make_int_data(sz);
 					make_instr(m_as_common, op1, op2, 0);
 				}
 			} else {
-				if (is_local(id) && no(c)) {
-					mach_op *op1 = make_extern_data(id, 0);
+				if (is_local(name) && no(c)) {
+					mach_op *op1 = make_extern_data(name, 0);
 					mach_op *op2 = make_int_data(sz);
 					make_instr(m_as_local, op1, op2, 0);
 				}

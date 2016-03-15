@@ -14,8 +14,8 @@ typedef int linkinfo;
 typedef int linkinfo_list;
 
 typedef struct weak_cell_t {
-	char *weak_id;
-	char *val_id;
+	char *weak_name;
+	char *val_name;
 	struct weak_cell_t *next;
 } weak_cell;
 

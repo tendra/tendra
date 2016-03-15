@@ -89,7 +89,7 @@ specialfn(exp fn)
     /* could I treat this function load specially ? */
   if (fn->tag == name_tag && son(fn)->tag == ident_tag &&
       isglob (son (fn)) && son (son (fn)) == NULL) {
-    char *extname = brog(son (fn)) -> dec_id;
+    char *extname = brog(son (fn)) -> name;
     return specno (extname);
   }
   return 0;

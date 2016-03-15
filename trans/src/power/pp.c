@@ -618,7 +618,7 @@ exp_show(exp e, int depth, int depth_of_recursion, int flag)
 		if (done_scan == 1) {
 			baseoff b = boff(father(e));
 			char *ext;
-			ext = main_globals[(-b.base) - 1] ->dec_id;
+			ext = main_globals[(-b.base) - 1]->name;
 			printf("%s:\"%s\"\n", tagname, ext);
 		} else {
 			printf("%s:\n", tagname);
@@ -637,7 +637,7 @@ exp_show(exp e, int depth, int depth_of_recursion, int flag)
 		else if (sh(e)->tag == prokhd && (son(son(e))->tag == proc_tag || son(son(e)) == NULL || son(son(e))->tag == general_proc_tag) && done_scan == 1) {
 			baseoff b = boff(son(e));
 			char *ext;
-			ext = main_globals[(-b.base) - 1] ->dec_id;
+			ext = main_globals[(-b.base) - 1]->name;
 			printf("%s:<%s> function \"%s\"(0x%x)\n", tagname, shape_name(sh(e)->tag), ext, (int)(son(e)));
 		}
 #endif

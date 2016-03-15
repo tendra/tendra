@@ -106,7 +106,7 @@ outlab(int l)
 	if (l >= 0) {
 		asm_printf( "$$%d", l);
 	} else {
-		char *extname = main_globals[-l - 1]->dec_id;
+		char *extname = main_globals[-l - 1]->name;
 		asm_printf( "%s", extname);
 	}
 }
@@ -368,7 +368,7 @@ evalone(exp e, long rep)
 	case name_tag: {
 		exp dc = son(e);
 		dec * globdec = brog(dc); /* must be global name */
-		char *nm = globdec->dec_id;
+		char *name = globdec->name;
 		long symdef = globdec ->sym_number;
 
 		if (!isvar(dc) && son(dc) != NULL
@@ -382,9 +382,9 @@ evalone(exp e, long rep)
 		set_align(32);
 		if (as_file) {
 			if (no(e) == 0) {
-				asm_printop(".word %s : %ld", nm, rep);
+				asm_printop(".word %s : %ld", name, rep);
 			} else {
-				asm_printop(".word %s + %ld :%ld", nm, no(e) / 8, rep);
+				asm_printop(".word %s + %ld :%ld", name, no(e) / 8, rep);
 			}
 		}
 
@@ -656,7 +656,7 @@ evaluated(exp e, long l, dec * dc)
 	if (e->tag == clear_tag) {
 		/* uninitialised global */
 		int size = (ashof(sh(e)).ashsize + 7) >> 3;
-		bool temp = (l == 0 || main_globals[-lab - 1]->dec_id[0] == '$');
+		bool temp = (l == 0 || main_globals[-lab - 1]->name[0] == '$');
 		if (dc != NULL) {
 			globalise_name(dc);
 		}

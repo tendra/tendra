@@ -55,7 +55,7 @@ extname(exp e)
 		return "????";
 	}
 #endif
-	return d->dec_id;
+	return d->name;
 }
 
 

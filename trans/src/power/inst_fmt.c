@@ -51,7 +51,7 @@ char *ext_name(long id)
 {
   if (id < 0)
   {
-    char *ext = main_globals[(-id) - 1] ->dec_id;
+    char *ext = main_globals[(-id) - 1]->name;
 
     return ext;
   }
@@ -593,7 +593,7 @@ void extj_ins(Instruction_P ins, baseoff b)
   asm_comment("extj_ins: global proc no=%d",(-b.base) - 1);
   assert(((-b.base) -1) >=0);
 
-  ext = main_globals[(-b.base) - 1] ->dec_id;
+  ext = main_globals[(-b.base) - 1]->name;
 
   asm_printop("%s .%s", get_instruction(ins), ext);
 

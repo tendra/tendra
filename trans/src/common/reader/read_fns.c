@@ -561,7 +561,7 @@ start_make_capsule
     /* initialise the table of tags */
     dec *dp = &capsule_tagtab[i];
     dp->dec_outermost = 0;
-    dp->dec_id = NULL;
+    dp->name = NULL;
     dp->extnamed = 0;
 #ifdef TDF_DIAG4
     dp->dg_name = NULL;
@@ -1068,18 +1068,18 @@ check_sig(tag tg, string sig)
 	char *sid = sig.ints.chars;
 	int s = (sig.size * sig.number) / 8;
 	if (tg->has_signature) {
-		char *id = tg->dec_id;
+		char *name = tg->name;
 	    	int i;
 		for (i = 0; i < s; i++) {
-			if (id[i] != sid[i]) {
+			if (name[i] != sid[i]) {
 				break;
 			}
 		}
-		if (i != s || id[s] != 0) {
-			   error(ERR_INTERNAL, "Signatures should be equal. %s != %s", id, sid);
+		if (i != s || name[s] != 0) {
+			   error(ERR_INTERNAL, "Signatures should be equal. %s != %s", name, sid);
 		}
 	} else {
-		tg->dec_id = sid;
+		tg->name = sid;
 		tg->has_signature = 1;
 	}
 }
@@ -1238,9 +1238,8 @@ tagextern
 f_make_tagextern(tdfint internal, external ext)
 {
   dec *dp = &capsule_tagtab[natint(internal)];
-  char *nm = external_to_string(ext);
-  char *id = add_prefix(name_prefix, nm);
-  dp->dec_id = id;
+  char *name = external_to_string(ext);
+  dp->name = add_prefix(name_prefix, name);
   dp->dec_outermost = 1;
   dp->extnamed = 1;
 
@@ -2343,8 +2342,8 @@ add_tagdec_list(tagdec_list list, tagdec elem, int index)
     }
     /* the defining exp */
     brog(dp->dec_exp) = dp;
-    if (dp->dec_id == NULL) {
-      dp->dec_id = make_local_name();
+    if (dp->name == NULL) {
+      dp->name = make_local_name();
     }
 
   return 0;
@@ -2532,7 +2531,7 @@ new_link_list(int n)
        for (i = 0; i < unit_no_of_tags - n; ++i) {
          dec *dp = &unit_tagtab[i];
          dp->dec_outermost = 0;
-         dp->dec_id = NULL;
+         dp->name = NULL;
          dp->extnamed = 0;
 #ifdef TDF_DIAG4
          dp->dg_name = NULL;

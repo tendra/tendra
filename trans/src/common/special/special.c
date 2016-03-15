@@ -29,17 +29,14 @@ bool
 special_call(const struct special_call a[], size_t count,
 	dec *dp)
 {
-	char *id;
 	size_t i;
-
-	id = dp->dec_id;
 
 	for (i = 0; i < count; i++) {
 		if (a[i].mask && (builtin & ~a[i].mask)) {
 			continue;
 		}
 
-		if (streq(a[i].name, id)) {
+		if (streq(a[i].name, dp->name)) {
 			return a[i].f(dp);
 		}
 	}
@@ -53,17 +50,17 @@ special_fn(const struct special_fn a[], size_t count,
 	exp a1, exp a2, shape s, exp *e)
 {
 	dec *dp;
-	char *id;
+	char *name;
 	size_t i;
 
 	dp = brog(son(a1));
-	id = dp->dec_id;
+	name = dp->name;
 
-	if (id == NULL) {
+	if (name == NULL) {
 		return false;
 	}
 
-	id += strlen(name_prefix);
+	name += strlen(name_prefix);
 
 	/*
 	 * At present the detection of special cases is done on the identifiers,
@@ -75,7 +72,7 @@ special_fn(const struct special_fn a[], size_t count,
 			continue;
 		}
 
-		if (streq(a[i].name, id)) {
+		if (streq(a[i].name, name)) {
 			return a[i].f(a1, a2, s, e);
 		}
 	}

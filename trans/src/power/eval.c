@@ -575,15 +575,15 @@ evalone(exp e, int bitposn)
 
 	case name_tag: {
 		dec *globdec = brog(son(e));
-		char *nm = globdec->dec_id;
+		char *name = globdec->name;
 
 		assert(isglob(son(e)));
 
 		/* no() is offset */
 		if (no(e) == 0) {
-			asm_printop(".long %s", nm);
+			asm_printop(".long %s", name);
 		} else {
-			asm_printop(".long %s+%ld", nm, (long)(no(e) / 8));
+			asm_printop(".long %s+%ld", name, (long)(no(e) / 8));
 		}
 
 		return;
@@ -782,8 +782,8 @@ evalone(exp e, int bitposn)
 
 		if (p1->tag == name_tag && p2->tag == name_tag) {
 			long n = no(p1) - no(p2);
-			char *n1 = brog(son(p1)) ->dec_id;
-			char *n2 = brog(son(p2)) ->dec_id;
+			char *n1 = brog(son(p1))->name;
+			char *n2 = brog(son(p2))->name;
 			asm_printf("\t.long\t(%s-%s)", n1, n2);
 			if (n < 0) {
 				asm_printf("%ld", n);

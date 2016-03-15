@@ -82,18 +82,18 @@ extern filename * fds;
  * reserved by the alpha assembler
  */
 static bool
-not_reserved(char *id)
+not_reserved(char *name)
 {
-	if (streq(id, "edata"))  return 0;
-	if (streq(id, "etext"))  return 0;
-	if (streq(id, "end"))    return 0;
-	if (streq(id, "_ftext")) return 0;
-	if (streq(id, "_fdata")) return 0;
-	if (streq(id, "_fbss"))  return 0;
-	if (streq(id, "_gp"))    return 0;
+	if (streq(name, "edata"))  return 0;
+	if (streq(name, "etext"))  return 0;
+	if (streq(name, "end"))    return 0;
+	if (streq(name, "_ftext")) return 0;
+	if (streq(name, "_fdata")) return 0;
+	if (streq(name, "_fbss"))  return 0;
+	if (streq(name, "_gp"))    return 0;
 
-	if (streq(id, "_procedure_table"))        return 0;
-	if (streq(id, "_procedure_string_table")) return 0;
+	if (streq(name, "_procedure_table"))        return 0;
+	if (streq(name, "_procedure_string_table")) return 0;
 
 	return 1;
 }
@@ -104,14 +104,14 @@ static void
 code_it(dec *my_def)
 {
 	exp tg;
-	char *id;
+	char *name;
 	int symdef;
 	bool extnamed;
 
 	static space tempspace = { 0, 0 };
 
-	tg = my_def->dec_exp;
-	id = my_def->dec_id;
+	tg   = my_def->dec_exp;
+	name = my_def->name;
 
 	symdef   = my_def->sym_number;
 	extnamed = my_def->extnamed;
@@ -127,19 +127,19 @@ code_it(dec *my_def)
 
 			/* compile code for proc */
 			set_text_section();
-			if (dyn_init && !strncmp("__I.TDF", id, 7)) {
-				char *new_id;
+			if (dyn_init && !strncmp("__I.TDF", name, 7)) {
+				char *new_name;
 
 				/*
 				 * we have an initialisation procedure, just change its name
 				 * and the linker will do the rest
 				 */
-				new_id = xcalloc(strlen(id) + strlen("__init_") + 1, sizeof (char));
-				strcpy(new_id, "__init_");
-				strcat(new_id, id);
-				xfree(id);
-				id = new_id;
-				my_def->dec_id = id;
+				new_name = xcalloc(strlen(name) + strlen("__init_") + 1, sizeof (char));
+				strcpy(new_name, "__init_");
+				strcat(new_name, name);
+				xfree(name);
+				name = new_name;
+				my_def->name = name;
 			}
 
 			if (diag != DIAG_NONE && dd != NULL) {
@@ -165,7 +165,7 @@ code_it(dec *my_def)
 			}
 
 			if (as_file) {
-				asm_printop(".ent %s\n%s:", id, id);
+				asm_printop(".ent %s\n%s:", name, name);
 			}
 
 			out_ent(current_symno = symnos[symdef], ient, 2);
@@ -180,7 +180,7 @@ code_it(dec *my_def)
 			}
 
 			if (as_file) {
-				asm_printop(".end %s", id);
+				asm_printop(".end %s", name);
 			}
 
 			out_common(symnoforend(my_def, currentfile), iend);
@@ -196,23 +196,23 @@ code_it(dec *my_def)
 		bool vs = son(tg) != NULL /* ie is_comm */;
 		size = (shape_size(s) + 7) >> 3;
 
-		if ((isvar(tg) || s->tag != prokhd) && not_reserved(id)) {
+		if ((isvar(tg) || s->tag != prokhd) && not_reserved(name)) {
 			if (vs /* && size != 0 */) {
 				if (as_file) {
-					asm_printop(".comm %s %ld", id, size == 0 ? 4 : size);
+					asm_printop(".comm %s %ld", name, size == 0 ? 4 : size);
 				}
 
 				out_value(symnos[symdef], icomm, size == 0 ? 4 : size, 0);
 			} else {
 				if (as_file) {
-					asm_printop(".extern %s %ld", id, size);
+					asm_printop(".extern %s %ld", name, size);
 				}
 
 				out_value(symnos[symdef], iextern, size, 1);
 			}
 		} else if (son(tg) == NULL && !extnamed) {
 			if (as_file) {
-				asm_printf( "\n\t.lcomm\t%s %ld\n", id, size);
+				asm_printf( "\n\t.lcomm\t%s %ld\n", name, size);
 			}
 
 			out_value(symnos[symdef], ilcomm, size, 1);
@@ -247,25 +247,25 @@ mark_unaliased(exp e)
 }
 
 /*
- * Return the tag with name 'name'
+ * Return the tag with the given name
  */
 baseoff
-find_tag(char *name)
+find_tag(char *s)
 {
 	int i;
 
 	for (i = 0; i < main_globals_index; i++) {
 		exp tag;
-		char *id;
+		char *name;
 
-		tag = main_globals[i]->dec_exp;
-		id  = main_globals[i]->dec_id;
-		if (streq(id, name)) {
+		tag  = main_globals[i]->dec_exp;
+		name = main_globals[i]->name;
+		if (streq(name, s)) {
 			return boff(tag);
 		}
 	}
 
-	printf("%s\n: ", name);
+	printf("%s\n: ", s);
 	error(ERR_FATAL, "tag not declared");
 
 	UNREACHED;
@@ -459,13 +459,13 @@ local_translate_capsule(void)
 	/* ... and set in the position and "addresses" of the externals */
 	for (i = 0; i < main_globals_index; i++) {
 		exp tg = main_globals[i]->dec_exp;
-		char *id = main_globals[i]->dec_id;
+		char *name = main_globals[i]->name;
 		bool extnamed = main_globals[i]->extnamed;
 		main_globals[i]->sym_number = i;
 
 		/* if not NULL */
 		if (no(tg) != 0 || (extnamed && son(tg) != NULL)
-		     || streq(id, "__alpha_errhandler") || streq(id, "__alpha_stack_limit"))
+		     || streq(name, "__alpha_errhandler") || streq(name, "__alpha_stack_limit"))
 		{
 			if (no(tg) == 1 && son(tg) == NULL && (bro(pt(tg)) == NULL ||
 			    bro(pt(tg))->tag == 101 || bro(pt(tg))->tag == 102 )
@@ -512,26 +512,26 @@ local_translate_capsule(void)
 	 */
 	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
 		exp tg = my_def->dec_exp;
-		char *id = my_def->dec_id;
+		char *name = my_def->name;
 		bool extnamed = my_def->extnamed;
 
-		if (son(tg) != NULL && (extnamed || no(tg) != 0 || streq(id, "main"))) {
+		if (son(tg) != NULL && (extnamed || no(tg) != 0 || streq(name, "main"))) {
 			if (!extnamed) {
 				continue;
 			}
 
 			/* globalise all global names  */
-			if (dyn_init && !strncmp("__I.TDF", id, 7)) {
-				char *new_id = xcalloc(strlen(id) + strlen("__init_") + 1, sizeof (char));
-				strcpy(new_id, "__init_");
-				strcat(new_id, id);
-				xfree(id);
-				id = new_id;
-				my_def->dec_id = new_id;
+			if (dyn_init && !strncmp("__I.TDF", name, 7)) {
+				char *new_name = xcalloc(strlen(name) + strlen("__init_") + 1, sizeof (char));
+				strcpy(new_name, "__init_");
+				strcat(new_name, name);
+				xfree(name);
+				name = new_name;
+				my_def->name = new_name;
 			}
 
 			if (as_file) {
-				asm_printop(".globl %s", id);
+				asm_printop(".globl %s", name);
 			}
 
 			out_common(symnos[my_def->sym_number] , iglobal);

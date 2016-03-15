@@ -364,7 +364,7 @@ ext_name(long id)
 
   if (id < 0)
   {
-    char *ext = main_globals[(-id) - 1]->dec_id;
+    char *ext = main_globals[(-id) - 1]->name;
 
     int len_needed = 1 + strlen(ext) + 1;	/* _NAME\0 */
 

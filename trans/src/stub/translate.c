@@ -23,12 +23,12 @@
 static void
 something(dec *d)
 {
-	const char *id;
+	const char *name;
 	exp c, s;
 
 	assert(d != NULL);
 
-	id = d->dec_id;
+	name = d->name;
 
 	c = d->dec_exp;
 	s = son(c);
@@ -38,20 +38,20 @@ something(dec *d)
 
 		sha = d->dec_shape;
 
-		fprintf(stderr, "shape %u: %s\n", sha->tag, id);
+		fprintf(stderr, "shape %u: %s\n", sha->tag, name);
 	} else {
 		switch (s->tag) {
 		case proc_tag:
 		case general_proc_tag:
-			fprintf(stderr, "proc: %s\n", id);
+			fprintf(stderr, "proc: %s\n", name);
 			break;
 
 		case string_tag:
-			fprintf(stderr, "string: %s = \"%s\"\n", id, nostr(s));
+			fprintf(stderr, "string: %s = \"%s\"\n", name, nostr(s));
 			break;
 
 		default:
-			fprintf(stderr, "tag %d: %s\n", s->tag, id);
+			fprintf(stderr, "tag %d: %s\n", s->tag, name);
 			return;
 		}
 	}

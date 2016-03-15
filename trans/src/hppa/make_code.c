@@ -98,7 +98,7 @@ extern exp find_named_tg(char *, shape);
 			  regalt((d).answhere):\
 			  getfreg((s).flt))
 
-#define TARGET(f)(main_globals[(-boff(son(f)).base) -1] ->dec_id)
+#define TARGET(f)(main_globals[(-boff(son(f)).base) -1] ->name)
 
 baseoff
 zero_exception_register(space sp)

@@ -118,7 +118,7 @@ load_store(instruction ins, int reg, baseoff a)
   int insid = ins_binid(ins);
   reg_str=reg_name[reg];
   if(a.base<0){
-    char *extname=main_globals[-a.base-1]->dec_id;
+    char *extname=main_globals[-a.base-1]->name;
     if(as_file){
       if(a.offset==0){
 	asm_printop("%s %s, %s",ins_name,reg_str,extname);
@@ -273,7 +273,7 @@ integer_jump_fn(instruction ins, int ra, exp fn, space sp)
 void
 integer_jump_external(instruction ins, int ra, baseoff b)
 {
-  char *extname = main_globals[-b.base-1]->dec_id;
+  char *extname = main_globals[-b.base-1]->name;
   char *binasm_data;
   clear_all();
   andpeep=0;
@@ -377,7 +377,7 @@ float_load_store(instruction ins, int reg, baseoff a)
   }
   else
     if(a.base<0){
-      char *extname = main_globals[-a.base-1]->dec_id;
+      char *extname = main_globals[-a.base-1]->name;
       if(as_file){
 	if(a.offset==0){
 	  asm_printop("%s $f%d, %s",ins_name,reg,extname);

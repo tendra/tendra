@@ -770,7 +770,7 @@ evalone(exp e, int bitposn)
 
 	case name_tag: {
 		dec *globdec = brog(son(e)) ;	/* must be global name */
-		char *nm = globdec->dec_id;
+		char *name = globdec->name;
 
 		assert(isglob(son(e)));
 
@@ -783,7 +783,7 @@ evalone(exp e, int bitposn)
 			outs("\t.WORD\t");
 		}
 
-		outs(nm);
+		outs(name);
 		if (no(e)) {
 			outc('+');
 			outn(no(e) / 8);

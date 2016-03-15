@@ -57,13 +57,13 @@ symnoforext(dec * ex, int filen)
 	short symtype;
 	short symclass;
 	long v = 0;
-	char *id = ex->dec_id;
+	char *name = ex->name;
 
 	if (diag != DIAG_NONE) {
 		diag_descriptor *t = ex->diag_info;
 		if (t != NULL) {
-			id = t->data.id.nme.ints.chars;
-			dt = t->data.id.new_type;
+			name = t->data.id.nme.ints.chars;
+			dt   = t->data.id.new_type;
 			filen = find_file(t->data.id.whence.file->file.ints.chars);
 		}
 	}
@@ -91,7 +91,7 @@ symnoforext(dec * ex, int filen)
 			v = (a.ashsize + 7) >> 3;
 		}
 
-		return new_esym_d(id, v, symtype, symclass, dt, filen);
+		return new_esym_d(name, v, symtype, symclass, dt, filen);
 	} else {
 		/* statics */
 		if (s->tag == prokhd && !isvar(tg)
@@ -113,7 +113,7 @@ symnoforext(dec * ex, int filen)
 				? scData : scCommon;
 		}
 
-		return new_lsym_d(id, v, symtype, symclass, dt, filen);
+		return new_lsym_d(name, v, symtype, symclass, dt, filen);
 	}
 }
 
@@ -125,19 +125,19 @@ symnoforstart(int i, int filen)
 {
 	dec *ex = main_globals[i];
 	short symtype = (ex->extnamed) ? stProc : stStaticProc;
-	char *id = ex->dec_id;
+	char *name = ex->name;
 	diag_type dt = (diag_type) 0;
 
 	if (diag != DIAG_NONE) {
 		diag_descriptor *t = ex->diag_info;
 		if (t != NULL) {
-			id = t->data.id.nme.ints.chars;
-			dt = t->data.id.new_type;
+			name = t->data.id.nme.ints.chars;
+			dt   = t->data.id.new_type;
 			filen = find_file(t->data.id.whence.file->file.ints.chars);
 		}
 	}
 
-	return new_lsym(id, symnos[i], symtype, scText, dt, filen);
+	return new_lsym(name, symnos[i], symtype, scText, dt, filen);
 }
 
 /*
@@ -146,19 +146,19 @@ symnoforstart(int i, int filen)
 int
 symnoforend(dec * ex, int filen)
 {
-	char *id = ex->dec_id;
+	char *name = ex->name;
 	diag_type dt = (diag_type) 0;
 
 	if (diag != DIAG_NONE) {
 		diag_descriptor *t = ex->diag_info;
 		if (t != NULL) {
-			id = t->data.id.nme.ints.chars;
-			dt = t->data.id.new_type;
+			name = t->data.id.nme.ints.chars;
+			dt   = t->data.id.new_type;
 			filen = find_file(t->data.id.whence.file->file.ints.chars);
 		}
 	}
 
-	return new_lsym_d(id, 0, stEnd, scText, dt, filen);
+	return new_lsym_d(name, 0, stEnd, scText, dt, filen);
 }
 
 /*

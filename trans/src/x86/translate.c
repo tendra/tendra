@@ -127,7 +127,7 @@ eval_if_ready(exp t, int now)
 			asm_printf("\n");
 #ifdef DWARF2
 			if (diag == DIAG_DWARF2) {
-				note_ro(d->dec_id);
+				note_ro(d->name);
 			}
 #endif
 		} else {
@@ -137,12 +137,12 @@ eval_if_ready(exp t, int now)
 			asm_printf(".data\n");
 #ifdef DWARF2
 			if (diag == DIAG_DWARF2) {
-				note_data(d->dec_id);
+				note_data(d->name);
 			}
 #endif
 		}
 
-		evaluate(son(t), -1, d->dec_id, !isvar(t), (int) d->extnamed,
+		evaluate(son(t), -1, d->name, !isvar(t), (int) d->extnamed,
 #ifdef TDF_DIAG4
 			 d->dg_name
 #else
@@ -158,7 +158,7 @@ static void
 code_def(dec *my_def)
 {
 	exp tg = my_def->dec_exp;
-	char *id = my_def->dec_id;
+	char *id = my_def->name;
 
 	if (son(tg) != NULL && shape_size(sh(son(tg))) == 0 && son(tg)->tag == asm_tag) {
 		ash stack;

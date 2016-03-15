@@ -107,8 +107,8 @@ inlinechoice(exp t, exp def, int cnt)
 		assert(proc_in->tag = ident_tag);
 
 		fprintf(stderr, "Considering %s in %s\n",
-		        brog(pr_ident)->dec_id,
-		        brog(proc_in)->dec_id);
+		        brog(pr_ident)->name,
+		        brog(proc_in)->name);
 	}
 
 	apars = bro(t); /* t is name_tag */
@@ -247,7 +247,7 @@ inlinechoice(exp t, exp def, int cnt)
 			fprintf(stderr, "NO WAY\n");
 		}
 
-		fprintf(stderr, "--%s %s\n", brog(pr_ident)->dec_id,
+		fprintf(stderr, "--%s %s\n", brog(pr_ident)->name,
 		        classify[(ptno(def) & MASK)]);
 	}
 

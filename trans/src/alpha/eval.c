@@ -123,7 +123,7 @@ outlab(int l)
 	if (l >= 0) {
 		asm_printf( "$$%d", l);
 	} else {
-		char *extname = main_globals[-l - 1]->dec_id;
+		char *extname = main_globals[-l - 1]->name;
 		asm_printf( "%s", extname);
 	}
 
@@ -435,7 +435,7 @@ evalone(exp e, int rep)
 
 	case name_tag: {
 		dec * globdec = brog(son (e)); /* must be global name */
-		char *nm = globdec->dec_id;
+		char *name = globdec->name;
 		long symdef = globdec->sym_number;
 		char *storage_type;
 		int storage_id;
@@ -450,7 +450,7 @@ evalone(exp e, int rep)
 		set_align(a.ashalign);
 		if (as_file) {
 			if (no (e) == 0) {
-				asm_printop(".%s %s : %d", storage_type, nm, rep);
+				asm_printop(".%s %s : %d", storage_type, name, rep);
 			}
 		}
 		out_value(symnos[symdef], storage_id, make_INT64(0, no(e) / 8), rep);
@@ -704,7 +704,7 @@ evaluated(exp e, int l)
 	if (e->tag == clear_tag) {
 		/* uninitialised global */
 		int size = (ashof (sh (e)).ashsize + 7) >> 3;
-		bool temp = (l == 0 || (main_globals[-lab - 1]->dec_id)[0] == '$');
+		bool temp = (l == 0 || (main_globals[-lab - 1]->name)[0] == '$');
 
 		if (as_file) {
 			asm_printf( (temp) ? "\t.lcomm\t" : "\t.comm\t");

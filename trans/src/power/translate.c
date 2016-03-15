@@ -183,7 +183,7 @@ local_translate_capsule(void)
 		exp tg = crt_def->dec_exp;
 		shape s = crt_def->dec_shape;
 		bool extnamed = crt_def->extnamed;
-		char *id;
+		char *name;
 
 		noglobals++;
 		/* diag_def needed for find_dd in stabs_diag3.c */
@@ -198,9 +198,9 @@ local_translate_capsule(void)
 			fixup_name(son(tg), top_def, crt_def);
 		}
 
-		id = crt_def->dec_id;		/* might be changed by fixup_name() */
+		name = crt_def->name;		/* might be changed by fixup_name() */
 
-		asm_comment("%s: extnamed=%d no(tg)=%ld isvar(tg)=%d", id, extnamed, no(tg), isvar(tg));
+		asm_comment("%s: extnamed=%d no(tg)=%ld isvar(tg)=%d", name, extnamed, no(tg), isvar(tg));
 		asm_comment("\ttg->tag=%d dec_outermost=%d have_def=%d son(tg)!=NULL=%d",
 		            tg->tag, crt_def->dec_outermost, crt_def->have_def, son(tg) != NULL);
 		if (son(tg) != NULL) {
@@ -222,22 +222,22 @@ local_translate_capsule(void)
 				/* no use of this tag, do nothing */
 			} else if (extnamed) {
 				if (s->tag == prokhd) {
-					asm_printop(".extern %s", id);	/* proc descriptor */
-					asm_printop(".extern .%s", id);	/* proc entry point */
+					asm_printop(".extern %s", name);	/* proc descriptor */
+					asm_printop(".extern .%s", name);	/* proc entry point */
 				} else {
 #if 1
-					if (streq(id, "environ")) {
+					if (streq(name, "environ")) {
 						/*
 						 * Kludge for environ, .extern for .csect, AIX 3.1.5 ld/library bug maybe?
 						 * /lib/syscalls.exp states that environ & errno are specially handled,
 						 * located on the stack at fixed addresses.
 						 */
-						asm_printop(".extern %s[RW]", id);
+						asm_printop(".extern %s[RW]", name);
 						environ_externed = 1;
 					} else
 #endif
 					{
-						asm_printop(".extern %s", id);
+						asm_printop(".extern %s", name);
 					}
 				}
 			} else {
@@ -245,18 +245,18 @@ local_translate_capsule(void)
 				/* +++ is .lcomm always kept double aligned?  Otherwise how do we do it? */
 
 				assert(extnamed);
-				asm_printop(".lcomm %s,%ld", id, byte_size);
+				asm_printop(".lcomm %s,%ld", name, byte_size);
 			}
 		} else if (IS_A_PROC(son(tg))) {
 			noprocs++;
 
 			if (extnamed) {
-				asm_printop(".globl %s", id);		/* id proc descriptor */
-				asm_printop(".globl .%s", id);	/* .id entry point */
+				asm_printop(".globl %s", name);		/* name proc descriptor */
+				asm_printop(".globl .%s", name);	/* .name entry point */
 			} else if (diag != DIAG_NONE) {
 				/* .lglobl is not documented, but avoids dbx and gdb becoming confused */
 				/* +++ always when .lglobl documented */
-				asm_printop(".lglobl .%s", id);	/* .id entry point */
+				asm_printop(".lglobl .%s", name);	/* .name entry point */
 			}
 		} else if (is_comm(son(tg)) && (diag != DIAG_NONE || extnamed || no(tg) > 0)) {
 			/* zero initialiser needed */
@@ -272,9 +272,9 @@ local_translate_capsule(void)
 			 * so no need to special case unknown size */
 
 			if (extnamed) {
-				asm_printop(".comm %s,%ld,%d", id, byte_size, aligncode);
+				asm_printop(".comm %s,%ld,%d", name, byte_size, aligncode);
 				if (diag != DIAG_NONE) {
-					diag3_driver->stab_global(diag_def->diag_info, son(tg), id, extnamed);
+					diag3_driver->stab_global(diag_def->diag_info, son(tg), name, extnamed);
 				}
 			} else {
 				if (diag != DIAG_NONE) {
@@ -285,12 +285,12 @@ local_translate_capsule(void)
 					 * so keep it happy with a useless .csect:
 					 */
 					asm_printop(".csect [PR]");
-					asm_printop(".lcomm %s,%ld,%s", id, byte_size, csect_name);
+					asm_printop(".lcomm %s,%ld,%s", name, byte_size, csect_name);
 					stab_bs(csect_name);
-					diag3_driver->stab_global(diag_def->diag_info, son(tg), id, extnamed);
+					diag3_driver->stab_global(diag_def->diag_info, son(tg), name, extnamed);
 					stab_es(csect_name);
 				} else if (no(tg) > 0) {		/* used */
-					asm_printop(".lcomm %s,%ld", id, byte_size);
+					asm_printop(".lcomm %s,%ld", name, byte_size);
 				}
 			}
 
@@ -300,9 +300,9 @@ local_translate_capsule(void)
 			crt_def->processed = 1;
 		} else {
 			if (extnamed) {
-				asm_printop(".globl %s", id);
+				asm_printop(".globl %s", name);
 			} else if (diag != DIAG_NONE) {
-				asm_printop(".lglobl %s", id);
+				asm_printop(".lglobl %s", name);
 			}
 			/* to avoid 'warning: global ignored' message from dbx */
 		}
@@ -346,15 +346,15 @@ local_translate_capsule(void)
 
 	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
 		exp tg = crt_def->dec_exp;
-		char *id = crt_def->dec_id;
+		char *name = crt_def->name;
 		/*
 		 * no(tg) is number of uses
 		 * If tg is used in this module,
 		 * generate a .toc entry so it can be addressed
 		 * +++ differentiate proc descriptor/entry point usage
 		 */
-		if (no(tg) > 0 || streq(id, "__TDFhandler")
-		    || streq(id, "__TDFstacklim")) {
+		if (no(tg) > 0 || streq(name, "__TDFhandler")
+		    || streq(name, "__TDFstacklim")) {
 			bool extnamed = crt_def->extnamed;
 			char *storage_class;
 
@@ -369,13 +369,13 @@ local_translate_capsule(void)
 				storage_class = ""; /* this module */
 			}
 #if 1
-			if (streq(id, "environ") && environ_externed ) {
+			if (streq(name, "environ") && environ_externed ) {
 				/* kludge for environ, .extern for .csect, IBM ld/library bug maybe? */
 				storage_class = "[RW]";
 
 			}
 #endif
-			asm_printf( "T.%s:\t.tc\t%s[TC],%s%s\n", id, id, id, storage_class);
+			asm_printf( "T.%s:\t.tc\t%s[TC],%s%s\n", name, name, name, storage_class);
 		}
 	}
 
@@ -500,7 +500,7 @@ local_translate_capsule(void)
 	anydone = 0;
 	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
 		exp tg = crt_def->dec_exp;
-		char *id = crt_def->dec_id;
+		char *name = crt_def->name;
 		bool extnamed = crt_def->extnamed;
 		diag_def = crt_def; /* just in case find_dd is called */
 
@@ -547,10 +547,10 @@ local_translate_capsule(void)
 			evaluated(son(tg), -symdef - 1);
 
 			if (diag != DIAG_NONE) {
-				diag3_driver->stab_global(diag_def->diag_info, son(tg), id, extnamed);
+				diag3_driver->stab_global(diag_def->diag_info, son(tg), name, extnamed);
 			}
 
-			asm_printf( "#\t.enddata\t%s\n\n", id);
+			asm_printf( "#\t.enddata\t%s\n\n", name);
 
 			/* mark the defininition as processed */
 			crt_def->processed = 1;
@@ -568,7 +568,7 @@ local_translate_capsule(void)
 
 	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
 		exp tg = crt_def->dec_exp;
-		char *id = crt_def->dec_id;
+		char *name = crt_def->name;
 		bool extnamed = crt_def->extnamed;
 		diag_def = crt_def; /* just in case find_dd is called */
 
@@ -604,9 +604,9 @@ local_translate_capsule(void)
 			evaluated(son(tg), symdef + 1);
 
 			if (diag != DIAG_NONE) {
-				diag3_driver->stab_global(diag_def->diag_info, son(tg), id, extnamed);
+				diag3_driver->stab_global(diag_def->diag_info, son(tg), name, extnamed);
 			}
-			asm_printf( "#\t.enddata\t%s\n\n", id);
+			asm_printf( "#\t.enddata\t%s\n\n", name);
 
 			/* mark the defininition as processed */
 			crt_def->processed = 1;
@@ -624,7 +624,7 @@ local_translate_capsule(void)
 	 */
 	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
 		exp tg = crt_def->dec_exp;
-		char *id = crt_def->dec_id;
+		char *name = crt_def->name;
 		bool extnamed = crt_def->extnamed;
 
 		if (son(tg) == NULL) {
@@ -648,7 +648,7 @@ local_translate_capsule(void)
 			/* switch to correct file */
 			if (diag != DIAG_NONE && crt_def->diag_info != NULL ) {
 				anydone = 1;
-				diag3_driver->stab_proc_file(crt_def->diag_info, son(tg), id, extnamed);
+				diag3_driver->stab_proc_file(crt_def->diag_info, son(tg), name, extnamed);
 			}
 
 
@@ -656,16 +656,16 @@ local_translate_capsule(void)
 
 			/* generate descriptor */
 			asm_printop(".csect [DS]");
-			asm_label( "%s", id);
-			asm_printop(".long .%s,TOC[tc0],0", id);
+			asm_label( "%s", name);
+			asm_printop(".long .%s,TOC[tc0],0", name);
 
 			/* generate code */
 			asm_printop(".csect [PR]");
-			asm_label( ".%s", id);
+			asm_label( ".%s", name);
 
 			/* stab proc details */
 			if (diag != DIAG_NONE && crt_def->diag_info != NULL) {
-				diag3_driver->stab_proc(crt_def->diag_info, son(tg), id, extnamed);
+				diag3_driver->stab_proc(crt_def->diag_info, son(tg), name, extnamed);
 			}
 
 			seed_label();		/* reset label sequence */
@@ -674,10 +674,10 @@ local_translate_capsule(void)
 			code_here(son(tg), tempregs, nowhere);
 
 			if (diag != DIAG_NONE && diag_def->diag_info != NULL) {
-				stab_endproc(son(tg), id, extnamed);
+				stab_endproc(son(tg), name, extnamed);
 			}
 
-			asm_printf( "#\t.end\t%s\n", id);
+			asm_printf( "#\t.end\t%s\n", name);
 
 			/* mark the defininition as processed */
 			crt_def->processed = 1;
@@ -696,10 +696,10 @@ find_tg(char *n)
 	exp tg;
 
 	for (i = 0; i < total_no_of_globals; i++) {
-		char *id = main_globals[i]->dec_id;
+		char *name = main_globals[i]->name;
 		tg = main_globals[i]->dec_exp;
 
-		if (streq(id, n)) {
+		if (streq(name, n)) {
 			return boff(tg);
 		}
 	}

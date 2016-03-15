@@ -84,7 +84,7 @@ char
 {
     if ( id < 0 ) {
 	/* Negative numbers refer to globals */
-	char *ext = main_globals [ -id - 1 ]->dec_id ;
+	char *ext = main_globals [ -id - 1 ]->name;
 	return ext;
     } else {
 	/* Positive numbers refer to labels */

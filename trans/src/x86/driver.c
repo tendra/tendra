@@ -208,7 +208,7 @@ static void
 cleanup(void)
 {
 		while (weak_list) {
-			asm_printf(".set %s,%s\n", weak_list->weak_id, weak_list->val_id);
+			asm_printf(".set %s,%s\n", weak_list->weak_name, weak_list->val_name);
 			weak_list = weak_list->next;
 		}
 
