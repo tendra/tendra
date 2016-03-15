@@ -21,8 +21,8 @@
  * The alignment definitions form a set of simultaneous equations
  * of the form
  *
- *  a1 = f1(a1,a2 .. an)
- *  a2 = f2(a1,a2 ... an)
+ *  a_1 = f1(a_1, a_2 ... a_n)
+ *  a_2 = f2(a_1, a_2 ... a_n)
  *  ...
  *
  * The functions f1 f2 etc. are formed entirely from f_alignment,
@@ -51,14 +51,14 @@ process_aldefs(void)
 			case ALDEF_VALAL: break;
 
 			case ALDEF_JOINAB: {
-				alignment a1;
-				alignment a2;
+				alignment a;
+				alignment b;
 
-				a2 = p->al.al_val.al_join.b;
-				a1 = p->al.al_val.al_join.a;
-				if (a1->al.state == ALDEF_VALAL && a2->al.state == ALDEF_VALAL) {
+				a = p->al.al_val.al_join.a;
+				b = p->al.al_val.al_join.b;
+				if (a->al.state == ALDEF_VALAL && b->al.state == ALDEF_VALAL) {
 					p->al.state = ALDEF_VALAL;
-					p->al.al_val.al = MAX(a1->al.al_val.al, a2->al.al_val.al);
+					p->al.al_val.al = MAX(a->al.al_val.al, b->al.al_val.al);
 					changed  = true;
 				} else {
 					complete = false;
@@ -67,12 +67,12 @@ process_aldefs(void)
 			}
 
 			case ALDEF_JOINA: {
-				alignment a1;
+				alignment a;
 
-				a1 = p->al.al_val.al_join.a;
-				if (a1->al.state == ALDEF_VALAL) {
+				a = p->al.al_val.al_join.a;
+				if (a->al.state == ALDEF_VALAL) {
 					p->al.state = ALDEF_VALAL;
-					p->al.al_val.al = a1->al.al_val.al;
+					p->al.al_val.al = a->al.al_val.al;
 					changed  = true;
 				} else {
 					complete = false;
