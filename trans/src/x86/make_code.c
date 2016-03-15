@@ -63,7 +63,6 @@
 #include "instrmacs.h"
 #include "codec.h"
 #include "reg_record.h"
-#include "messages_8.h"
 #include "assembler.h"
 #include "cproc.h"
 #include "make_code.h"
@@ -447,7 +446,7 @@ alloc_reg_big(int rs, shape sha, int br, int byteuse)
 	default:
 		SET(mask);
 		SET(i);
-		error(ERR_INTERNAL, WRONG_REGSIZE);
+		error(ERR_INTERNAL, "wrong reg size");
 	}
 
 	while ((rs & mask) != 0 && i > 0) {
@@ -510,7 +509,7 @@ alloc_reg_small(int rs, shape sha, int br, int byteuse)
 	default:
 		SET(mask);
 		SET(i);
-		error(ERR_INTERNAL, WRONG_REGSIZE);
+		error(ERR_INTERNAL, "wrong reg size");
 	}
 
 	while ((rs & mask) != 0 && i > 0) {
@@ -1917,7 +1916,7 @@ make_code1(where dest, ash stack, exp e)
 					move(sh(e), reg0, temp_dest);
 				}
 			} else {
-				error(ERR_INTERNAL, STRUCT_RES);    /* compound result */
+				error(ERR_INTERNAL, "cant get struct result from procedure");    /* compound result */
 			}
 		}
 
@@ -1936,7 +1935,7 @@ make_code1(where dest, ash stack, exp e)
 				}
 
 				if (a->tag != caller_tag) {
-					error(ERR_INTERNAL, BAD_POSTLUDE);
+					error(ERR_INTERNAL, "illegal postlude");
 				}
 
 				no(postlude) = no(a) + stack_dec - post_offset;
@@ -2328,7 +2327,7 @@ make_code1(where dest, ash stack, exp e)
 				return;
 			}
 
-			error(ERR_INTERNAL, STRUCT_RETURN);
+			error(ERR_INTERNAL, "cant apply return to struct");
 			return;
 		}
 	}
@@ -2449,7 +2448,7 @@ make_code1(where dest, ash stack, exp e)
 
 	default:
 		if (!is_a(e->tag)) {
-			error(ERR_INTERNAL, BADOP);
+			error(ERR_INTERNAL, "bad operation");
 			return;
 		}
 

@@ -38,7 +38,6 @@
 #include <construct/exp.h>
 #include <construct/me_fns.h>
 #include <construct/installglob.h>
-#include <construct/messages_c.h>
 #include <construct/install_fns.h>
 
 #include <flpt/flpt.h>
@@ -81,7 +80,7 @@ f_change_floating_variety(error_treatment flpt_err, floating_variety r, exp arg1
 		if (!((is_complex(sh(arg1)) && is_complex(f_floating(r))) ||
 		      (is_float(sh(arg1)) && is_float(f_floating(r)))))
 		{
-			error(ERR_INTERNAL, CHSH_CHFL);
+			error(ERR_INTERNAL, "check_shape: change_floating_variety");
 		}
 	}
 
@@ -135,7 +134,7 @@ f_complex_conjugate(exp arg1)
 
 	if (check & CHECK_SHAPE) {
 		if (!is_complex(sh(arg1))) {
-			error(ERR_INTERNAL, CHSH_CONJUGATE);
+			error(ERR_INTERNAL, "check_shape: complex_conjugate");
 		}
 	}
 
@@ -173,7 +172,7 @@ f_float_int(error_treatment flpt_err, floating_variety f, exp arg1)
 
 	if (check & CHECK_SHAPE) {
 		if (!is_integer(sh(arg1))) {
-			error(ERR_INTERNAL, CHSH_FLINT);
+			error(ERR_INTERNAL, "check_shape: float_int");
 		}
 	}
 
@@ -227,7 +226,7 @@ f_floating_abs(error_treatment ov_err, exp arg1)
 
 	if (check & CHECK_SHAPE) {
 		if (!is_float(sh(arg1))) {
-			error(ERR_INTERNAL, CHSH_FLABS);
+			error(ERR_INTERNAL, "check_shape: floating_abs");
 		}
 	}
 
@@ -264,7 +263,7 @@ f_floating_div(error_treatment ov_err, exp arg1, exp arg2)
 		if (!((is_float(sh(arg1)) || is_complex(sh(arg1))) &&
 		      eq_shape(sh(arg1), sh(arg2))))
 		{
-			error(ERR_INTERNAL, CHSH_FLDIV);
+			error(ERR_INTERNAL, "check_shape: floating_div");
 		}
 	}
 
@@ -371,7 +370,7 @@ f_floating_maximum(error_treatment flpt_err, exp arg1, exp arg2)
 
 	if (check & CHECK_SHAPE) {
 		if (!is_float(sh(arg1)) || !eq_shape(sh(arg1), sh(arg2))) {
-			error(ERR_INTERNAL, CHSH_FLMAX);
+			error(ERR_INTERNAL, "check_shape: floating_maximum");
 		}
 	}
 
@@ -392,7 +391,7 @@ f_floating_minimum(error_treatment flpt_err, exp arg1, exp arg2)
 
 	if (check & CHECK_SHAPE) {
 		if (!is_float(sh(arg1)) || !eq_shape(sh(arg1), sh(arg2))) {
-			error(ERR_INTERNAL, CHSH_FLMIN);
+			error(ERR_INTERNAL, "check_shape: floating_minimum");
 		}
 	}
 
@@ -435,7 +434,7 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 		if (!((is_float(sh(arg1)) || is_complex(sh(arg1))) &&
 		      is_integer(sh(arg2))))
 		{
-			error(ERR_INTERNAL, CHSH_FLPOWER);
+			error(ERR_INTERNAL, "check_shape: floating_power");
 		}
 	}
 
@@ -777,7 +776,7 @@ f_floating_minus(error_treatment ov_err, exp arg1, exp arg2)
 	if (check & CHECK_SHAPE) {
 		if (!((is_float(sh(arg1)) || is_complex(sh(arg1))) &&
 		      eq_shape(sh(arg1), sh(arg2)))) {
-			error(ERR_INTERNAL, CHSH_FLMINUS);
+			error(ERR_INTERNAL, "check_shape: floating_minus");
 		}
 	}
 
@@ -843,7 +842,7 @@ f_floating_mult(error_treatment ov_err, exp_list arg1)
 		for (;;) {
 			if (!((is_float(sh(t)) || is_complex(sh(t))) &&
 			      eq_shape(sh(t), sh(first)))) {
-				error(ERR_INTERNAL, CHSH_FLMULT);
+				error(ERR_INTERNAL, "check_shape: floating_mult");
 			}
 
 			if (t == arg1.end) {
@@ -938,7 +937,7 @@ f_floating_negate(error_treatment ov_err, exp arg1)
 
 	if (check & CHECK_SHAPE) {
 		if (!is_float(sh(arg1)) && !is_complex(sh(arg1))) {
-			error(ERR_INTERNAL, CHSH_FLNEGATE);
+			error(ERR_INTERNAL, "check_shape: floating_negate");
 		}
 	}
 
@@ -1004,7 +1003,7 @@ f_floating_plus(error_treatment ov_err, exp_list arg1)
 		for (;;) {
 			if (!((is_float(sh(t)) || is_complex(sh(t))) &&
 			      eq_shape(sh(t), sh(first)))) {
-				error(ERR_INTERNAL, CHSH_FLPLUS);
+				error(ERR_INTERNAL, "check_shape: floating_plus");
 			}
 
 			if (t == arg1.end) {
@@ -1083,7 +1082,7 @@ f_floating_test(nat_option prob, error_treatment flpt_err, ntest nt,
 	if (check & CHECK_SHAPE) {
 		if (!((is_float(sh(arg1)) || is_complex(sh(arg1))) &&
 		      eq_shape(sh(arg1), sh(arg2)))) {
-			error(ERR_INTERNAL, CHSH_FLTEST);
+			error(ERR_INTERNAL, "check_shape: floating_test");
 		}
 	}
 
@@ -1105,7 +1104,7 @@ f_floating_test(nat_option prob, error_treatment flpt_err, ntest nt,
 
 		if (check & CHECK_SHAPE) {
 			if ((nt != f_equal) && (nt != f_not_equal)) {
-				error(ERR_INTERNAL, CHSH_FLTEST);
+				error(ERR_INTERNAL, "check_shape: floating_test");
 			}
 		}
 
@@ -1156,7 +1155,7 @@ f_imaginary_part(exp arg1)
 
 	if (check & CHECK_SHAPE) {
 		if (!is_complex(sh(arg1))) {
-			error(ERR_INTERNAL, CHSH_IMAG);
+			error(ERR_INTERNAL, "check_shape: imaginary part");
 		}
 	}
 
@@ -1181,7 +1180,7 @@ f_real_part(exp arg1)
 
 	if (check & CHECK_SHAPE) {
 		if (!is_complex(sh(arg1))) {
-			error(ERR_INTERNAL, CHSH_REAL);
+			error(ERR_INTERNAL, "check_shape: real part");
 		}
 	}
 
@@ -1211,7 +1210,7 @@ f_make_complex(floating_variety f, exp arg1, exp arg2)
 	if (check & CHECK_SHAPE) {
 		if (!is_float(sh(arg1)) || !is_float(sh(arg2)) ||
 		    !eq_shape(sh(arg1), sh(arg2)) || f != f_complex_of_float(sh(arg1))) {
-			error(ERR_INTERNAL, CHSH_MAKE_COMPLEX);
+			error(ERR_INTERNAL, "check_shape: make_complex");
 		}
 	}
 
@@ -1299,7 +1298,7 @@ f_make_floating(floating_variety fv, rounding_mode rm, bool sign,
 	}
 
 	if (base != 10 && base != 16 && base != 8 && base != 2 && base != 4) {
-		error(ERR_INTERNAL, BAD_BASE);
+		error(ERR_INTERNAL, "flpt base not 2,4,8,10,16");
 	}
 
 	if (snatneg(expo)) {
@@ -1364,7 +1363,7 @@ f_power(error_treatment ov_err, exp arg1, exp arg2)
 
 	if (check & CHECK_SHAPE) {
 		if (!is_integer(sh(arg1)) || !is_integer(sh(arg2))) {
-			error(ERR_INTERNAL, CHSH_POWER);
+			error(ERR_INTERNAL, "check_shape: power");
 		}
 	}
 
@@ -1386,7 +1385,7 @@ f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r, exp a
 
 	if (check & CHECK_SHAPE) {
 		if (!is_float(sh(arg1))) {
-			error(ERR_INTERNAL, CHSH_ROUND);
+			error(ERR_INTERNAL, "check_shape: round_with_mode");
 		}
 	}
 

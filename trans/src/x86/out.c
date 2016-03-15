@@ -32,7 +32,6 @@
 #include "localtypes.h"
 #include "cproc.h"
 #include "instr.h"
-#include "messages_8.h"
 
 #ifdef DWARF2
 long instr_count = -1;

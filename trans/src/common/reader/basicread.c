@@ -18,7 +18,6 @@
 #include <tdf/magic.h>
 #include <tdf/nat.h>
 
-#include <reader/messages_r.h>
 #include <reader/readglob.h>
 #include <reader/basicread.h>
 #include <reader/reader.h>
@@ -110,7 +109,7 @@ read_line(int complain)
 
 	test = fread((char *) buff, sizeof (char), cppkt, fpin);
 	if (test == 0 && complain) {
-		error(ERR_INTERNAL, READ_PAST_END);
+		error(ERR_INTERNAL, "read past end of encoding");
 		exit(EXIT_FAILURE);
 	}
 
@@ -528,7 +527,7 @@ d_tdfstring(void)
 		return tdb;
 	}
 
-	error(ERR_INTERNAL, NO_BIG_STRINGS);
+	error(ERR_INTERNAL, "no strings of more than 64 bits");
 	return tdb;
 }
 

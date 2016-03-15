@@ -55,7 +55,6 @@
 #include "make_code.h"
 #include "cproc.h"
 #include "reg_record.h"
-#include "messages_8.h"
 #include "instrmacs.h"
 #include "instr.h"
 
@@ -256,7 +255,7 @@ void regn
       return;
     }
     if (fstack_pos > 16) {
-      error(ERR_INTERNAL, BAD_FSTACK);
+      error(ERR_INTERNAL, "bad floating point stack");
       exit(EXIT_FAILURE);
     }
     asm_printf("%s", fl_reg_name[fstack_pos - z]);
@@ -578,7 +577,7 @@ void jump
   int  good_fs = fstack_pos;
   int  good_sd = stack_dec;
   if (fs_dest < first_fl_reg)
-    error(ERR_INTERNAL, FSTACK_UNSET);
+    error(ERR_INTERNAL, "floating point stack level not set");
   if (with_fl_reg) {		/* jumping with a floating value */
     /* clear off any unwanted stack registers */
     while (fstack_pos > (fs_dest + 1))
@@ -661,7 +660,7 @@ static char *out_branch
 	return je;
 
       default:
-	error(ERR_INTERNAL, BAD_TESTNO);
+	error(ERR_INTERNAL, "bad test number");
     }
   }
 
@@ -685,7 +684,7 @@ static char *out_branch
 	return je;
 
       default:
-	error(ERR_INTERNAL, BAD_TESTNO);
+	error(ERR_INTERNAL, "bad test number");
     }
   }
   else {
@@ -709,7 +708,7 @@ static char *out_branch
 	return je;
 
       default:
-	error(ERR_INTERNAL, BAD_TESTNO);
+	error(ERR_INTERNAL, "bad test number");
     }
   }
   return NULL;
@@ -734,7 +733,7 @@ void branch
   int  good_fs = fstack_pos;
   int  good_fpucon = fpucon;
   if (fs_dest < first_fl_reg)
-    error(ERR_INTERNAL, FSTACK_UNSET);
+    error(ERR_INTERNAL, "floating point stack level not set");
   if (fstack_pos > fs_dest || sonno(jr)!= stack_dec || fpucon != normal_fpucon
 	|| cmp_64hilab >= 0) {
 	/* floating point stack or call stack need attention */
@@ -820,7 +819,7 @@ void setcc
 
   b = out_branch(sg, test_no, shnm);
   if (*b != 'j')
-    error(ERR_INTERNAL, NO_SETCC);
+    error(ERR_INTERNAL, "no setcc");
   asm_printf("\tset%s %s\n", &b[1], reg_name_byte[0]);
 }
 
@@ -835,7 +834,7 @@ void jmp_overflow
   int  good_fs = fstack_pos;
   int  good_fpucon = fpucon;
   if (fs_dest < first_fl_reg)
-    error(ERR_INTERNAL, FSTACK_UNSET);
+    error(ERR_INTERNAL, "floating point stack level not set");
   if (fstack_pos > fs_dest || sonno(jr)!= stack_dec || fpucon != normal_fpucon) {
 	/* floating point stack or call stack need attention */
     int  nl = next_lab();

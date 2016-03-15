@@ -23,7 +23,6 @@
 #include <reader/basicread.h>
 #include <reader/main_reads.h>
 #include <reader/externs.h>
-#include <reader/messages_r.h>
 #include <reader/read_sort.h>
 
 #include <construct/exp.h>
@@ -65,7 +64,7 @@ read_sort(int sn)
 
 	default:
 		SET(v);
-		error(ERR_INTERNAL, SORT_NAME);
+		error(ERR_INTERNAL, "illegal sort name");
 	}
 
 	return v;

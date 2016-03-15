@@ -41,7 +41,6 @@
 #include "weights.h"
 #include "instr.h"
 #include "instr386.h"
-#include "messages_8.h"
 #include "operand.h"
 
 #ifdef TDF_DIAG4

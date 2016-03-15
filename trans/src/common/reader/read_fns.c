@@ -37,7 +37,6 @@
 #include <reader/table_fns.h>
 #include <reader/reader.h>
 #include <reader/externs.h>
-#include <reader/messages_r.h>
 
 #include <construct/exp.h>
 #include <construct/me_fns.h>
@@ -258,7 +257,7 @@ f_procprops_cond(exp control, bitstream e1, bitstream e2)
 
   /* the control must evaluate to a constant */
   if (control->tag != val_tag) {
-    error(ERR_INTERNAL, CONTROL_EXP);
+    error(ERR_INTERNAL, "illegal control expression");
   }
   n = no(control);
   retcell(control);
@@ -294,7 +293,7 @@ f_string_cond(exp control, bitstream e1, bitstream e2)
 
   /* the control must evaluate to a constant */
   if (control->tag != val_tag) {
-    error(ERR_INTERNAL, CONTROL_EXP);
+    error(ERR_INTERNAL, "illegal control expression");
   }
   n = no(control);
   retcell(control);
@@ -331,7 +330,7 @@ f_alignment_cond(exp control, bitstream e1, bitstream e2)
 
   /* the control must evaluate to a constant */
   if (control->tag != val_tag) {
-    error(ERR_INTERNAL, CONTROL_EXP);
+    error(ERR_INTERNAL, "illegal control expression");
   }
   n = no(control);
   retcell(control);
@@ -367,7 +366,7 @@ f_access_cond(exp control, bitstream e1, bitstream e2)
 
   /* the control must evaluate to a constant */
   if (control->tag != val_tag) {
-    error(ERR_INTERNAL, CONTROL_EXP);
+    error(ERR_INTERNAL, "illegal control expression");
   }
   n = no(control);
   retcell(control);
@@ -403,7 +402,7 @@ f_transfer_mode_cond(exp control, bitstream e1, bitstream e2)
 
   /* the control must evaluate to a constant */
   if (control->tag != val_tag) {
-    error(ERR_INTERNAL, CONTROL_EXP);
+    error(ERR_INTERNAL, "illegal control expression");
   }
   n = no(control);
   retcell(control);
@@ -437,7 +436,7 @@ f_bfvar_cond(exp control, bitstream e1, bitstream e2)
   int n;
   bs = keep_place();
   if (control->tag != val_tag) {
-    error(ERR_INTERNAL, CONTROL_EXP);
+    error(ERR_INTERNAL, "illegal control expression");
   }
   n = no(control);
   retcell(control);
@@ -469,7 +468,7 @@ f_bool_cond(exp control, bitstream e1, bitstream e2)
   int n;
   bs = keep_place();
   if (control->tag != val_tag) {
-    error(ERR_INTERNAL, CONTROL_EXP);
+    error(ERR_INTERNAL, "illegal control expression");
   }
   n = no(control);
   retcell(control);
@@ -628,7 +627,7 @@ f_errt_cond(exp control, bitstream e1, bitstream e2)
   int n;
   bs = keep_place();
   if (control->tag != val_tag) {
-    error(ERR_INTERNAL, CONTROL_EXP);
+    error(ERR_INTERNAL, "illegal control expression");
   }
   n = no(control);
   retcell(control);
@@ -660,7 +659,7 @@ f_exp_cond(exp control, bitstream e1, bitstream e2)
   int n;
   bs = keep_place();
   if (control->tag != val_tag) {
-    error(ERR_INTERNAL, CONTROL_EXP);
+    error(ERR_INTERNAL, "illegal control expression");
   }
   n = no(control);
   retcell(control);
@@ -725,7 +724,7 @@ f_flvar_cond(exp control, bitstream e1, bitstream e2)
   int n;
   bs = keep_place();
   if (control->tag != val_tag) {
-    error(ERR_INTERNAL, CONTROL_EXP);
+    error(ERR_INTERNAL, "illegal control expression");
   }
   n = no(control);
   retcell(control);
@@ -778,7 +777,7 @@ f_nat_cond(exp control, bitstream e1, bitstream e2)
   int n;
   bs = keep_place();
   if (control->tag != val_tag) {
-    error(ERR_INTERNAL, CONTROL_EXP);
+    error(ERR_INTERNAL, "illegal control expression");
   }
   n = no(control);
   retcell(control);
@@ -809,7 +808,7 @@ f_ntest_cond(exp control, bitstream e1, bitstream e2)
   int n;
   bs = keep_place();
   if (control->tag != val_tag) {
-    error(ERR_INTERNAL, CONTROL_EXP);
+    error(ERR_INTERNAL, "illegal control expression");
   }
   n = no(control);
   retcell(control);
@@ -840,7 +839,7 @@ f_rounding_mode_cond(exp control, bitstream e1, bitstream e2)
   int n;
   bs = keep_place();
   if (control->tag != val_tag)
-    error(ERR_INTERNAL, CONTROL_EXP);
+    error(ERR_INTERNAL, "illegal control expression");
   n = no(control);
   retcell(control);
   if (n == 0) {
@@ -870,7 +869,7 @@ f_shape_cond(exp control, bitstream e1, bitstream e2)
   int n;
   bs = keep_place();
   if (control->tag != val_tag) {
-    error(ERR_INTERNAL, CONTROL_EXP);
+    error(ERR_INTERNAL, "illegal control expression");
   }
   n = no(control);
   retcell(control);
@@ -901,7 +900,7 @@ f_signed_nat_cond(exp control, bitstream e1, bitstream e2)
   int n;
   bs = keep_place();
   if (control->tag != val_tag) {
-    error(ERR_INTERNAL, CONTROL_EXP);
+    error(ERR_INTERNAL, "illegal control expression");
   }
   n = no(control);
   retcell(control);
@@ -1484,7 +1483,7 @@ f_make_link(tdfint internal, tdfint ext)
      case DGTAG_TYPE:   IGNORE f_make_dglink(internal, ext);      return 0; /* TDF_DIAG4 */
 
      default:
-       error(ERR_INTERNAL, VARIABLE_TYPE);
+       error(ERR_INTERNAL, "illegal variable type");
        return 0;
    }
 }
@@ -1517,7 +1516,7 @@ f_var_cond(exp control, bitstream e1, bitstream e2)
   int n;
   bs = keep_place();
   if (control->tag != val_tag) {
-    error(ERR_INTERNAL, CONTROL_EXP);
+    error(ERR_INTERNAL, "illegal control expression");
   }
   n = no(control);
   retcell(control);
@@ -2123,7 +2122,7 @@ f_make_linkextern(tdfint internal, external ext)
      case DGTAG_TYPE:   return f_make_dgtagextern(internal, ext);   /* TDF_DIAG4 */
 
      default:
-       error(ERR_INTERNAL, VARIABLE_TYPE);
+       error(ERR_INTERNAL, "illegal variable type");
        return 0;
    }
 }
@@ -2561,7 +2560,7 @@ new_link_list(int n)
        init_unit_dgtags(n);
        return 0;
      default:
-       error(ERR_INTERNAL, LINK_TYPE);
+       error(ERR_INTERNAL, "illegal link type");
        return 0;
    }
 }

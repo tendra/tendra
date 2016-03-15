@@ -54,7 +54,6 @@
 #include "cproc.h"
 #include "reg_record.h"
 #include "overlap.h"
-#include "messages_8.h"
 #include "operand.h"
 #include "instr.h"
 #include "instr386.h"
@@ -5167,7 +5166,7 @@ static void divit
 	ins1(idivw, 16, d);
 	break;
       case 64:
-	error(ERR_INTERNAL, BADOP);
+	error(ERR_INTERNAL, "bad operation");
       default:
 	move(slongsh, reg0, reg1);
 	ins2(sarl, 32, 32, mw(zeroe, 31), reg1);
@@ -5428,7 +5427,7 @@ static void remit
 	ins1(idivw, 16, d);
 	break;
       case 64:
-	error(ERR_INTERNAL, BADOP);
+	error(ERR_INTERNAL, "bad operation");
       default:
 	move(slongsh, reg0, reg1);
 	ins2(sarl, 32, 32, mw(zeroe, 31), reg1);
@@ -5671,7 +5670,7 @@ bit_pos_cont(exp e, int nbits)
     return 0;
   }
 
-  error(ERR_INTERNAL, BAD_BIT_OPND);
+  error(ERR_INTERNAL, "illegal bit opnd");
   return 0;
 
 }
@@ -5693,7 +5692,7 @@ bit_pos(exp e, int nbits)
   if (e->tag == ident_tag)
     return 0;
 
-  error(ERR_INTERNAL, BAD_BIT_OPND);
+  error(ERR_INTERNAL, "illegal bit opnd");
   return 0;
 }
 
@@ -5908,7 +5907,7 @@ fopm(shape sha, unsigned char op, int rev, where wh)
 	son(wh.where_exp) = hold;
 	return;
       default:
-	error(ERR_INTERNAL, BAD_FLOP);
+	error(ERR_INTERNAL, "illegal floating point operation");
 	end_contop();
 	son(wh.where_exp) = hold;
 	return;
@@ -5943,7 +5942,7 @@ fopm(shape sha, unsigned char op, int rev, where wh)
       son(wh.where_exp) = hold;
       return;
     default:
-      error(ERR_INTERNAL, BAD_FLOP);
+      error(ERR_INTERNAL, "illegal floating point operation");
       end_contop();
       son(wh.where_exp) = hold;
       return;
@@ -6011,7 +6010,7 @@ fopr(unsigned char op, int rev, where wh, where d, int and_pop)
       }
       break;
     default:
-      error(ERR_INTERNAL, BAD_FLOP);
+      error(ERR_INTERNAL, "illegal floating point operation");
       break;
   }
 }
@@ -6219,7 +6218,7 @@ void fl_multop
 	case fmult_tag:
 	   ins0("fmulp %st,%st(1)"); break;
 	default:
-	   error(ERR_INTERNAL, BAD_FLOP); break;
+	   error(ERR_INTERNAL, "illegal floating point operation"); break;
       }
     pop_fl;
     if (arg2->last)break;
@@ -6756,7 +6755,7 @@ void special_ins
 	return;
     }
   }
-  error(ERR_INTERNAL, BADOP);
+  error(ERR_INTERNAL, "bad operation");
 }
 
 void save_stack

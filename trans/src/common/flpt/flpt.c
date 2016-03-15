@@ -24,7 +24,6 @@
 #include <reader/basicread.h>
 
 #include <construct/exp.h>
-#include <construct/messages_c.h>
 #include <construct/installglob.h>
 
 #include <flpt/flpt.h>
@@ -1141,7 +1140,7 @@ flpt_scale(int expt, flt *res, int base)
 	if (base == 10) {
 		if (expt > 0) {
 			if (expt > MAX_USEFUL_DECEXP) {
-				error(ERR_INTERNAL, BIG_FLPT);
+				error(ERR_INTERNAL, "floating point number too big");
 				exit(EXIT_FAILURE);
 				UNREACHED;
 			}
@@ -1483,7 +1482,7 @@ real2longs_IEEE(flt *fp, int sw)
 
 	if (expt > bias) {
 		if (check & CHECK_FLPT_OVERFLOW) {
-			error(ERR_INTERNAL, BIG_FLPT);
+			error(ERR_INTERNAL, "floating point number too big");
 			exit(EXIT_FAILURE);
 		}
 

@@ -42,7 +42,6 @@
 #include "instr.h"
 #include "instr386.h"
 #include "assembler.h"
-#include "messages_8.h"
 #include "eval.h"
 #include "localexpmacs.h"
 
@@ -148,7 +147,7 @@ evalexp(exp e)
 		break;
 	}
 
-	error(ERR_INTERNAL, BAD_VAL);
+	error(ERR_INTERNAL, "illegal val const");
 	return 0;
 }
 
@@ -291,7 +290,7 @@ evalaux(exp e, int isconst, int al)
 			}
 
 			if (off < crt_off) {
-				error(ERR_INTERNAL, CPD_ORDER);
+				error(ERR_INTERNAL, "compound constants out of order");
 			}
 			if (off >= (crt_off + 8)) {
 				clear_out((off - crt_off) / 8, isconst, al);

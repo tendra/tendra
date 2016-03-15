@@ -48,7 +48,6 @@
 #include <construct/install_fns.h>
 #include <construct/me_fns.h>
 #include <construct/installglob.h>
-#include <construct/messages_c.h>
 #include <construct/misc_c.h>
 
 #include <flpt/flpt.h>
@@ -1053,7 +1052,7 @@ fplus_fn(exp ap, exp b, int et)
 
 	status = flt_add(flptnos[a], flptnos[nob], &resval);
 	if (status != OKAY) {
-		error(ERR_INTERNAL, ILLEGAL_FLADD);
+		error(ERR_INTERNAL, "illegal floating add constants");
 	}
 
 	flpt_round((int)f_to_nearest,
@@ -1078,7 +1077,7 @@ fmult_fn(exp ap, exp b, int et)
 
 	status = flt_mul(flptnos[a], flptnos[nob], &resval);
 	if (status != OKAY) {
-		error(ERR_INTERNAL, ILLEGAL_FLMULT);
+		error(ERR_INTERNAL, "illegal floating mult constants");
 	}
 
 	flpt_round((int)f_to_nearest,
@@ -1116,7 +1115,7 @@ plus_fn(exp ap, exp b, int et)
 	if (check & CHECK_EXTRA) {
 		 if (sg && !in_proc_def &&
 		    (ov || (shape_size(sh(ap)) <= 32 && check_size(x, sg, 32)))) {
-		    error(ERR_INTERNAL, ADD_OUT_OF_BOUNDS);
+		    error(ERR_INTERNAL, "constant addition out of bounds, consider using -nepc");
 		    exit(EXIT_FAILURE);
 	    }
 	*/
@@ -1155,7 +1154,7 @@ minus_fn(exp ap, exp b, int et)
 	if (check & CHECK_EXTRA) {
 		if (sg && !in_proc_def &&
 		    (ov || (shape_size(sh(ap)) <= 32 && check_size(x, sg, 32)))) {
-		    error(ERR_INTERNAL, ADD_OUT_OF_BOUNDS);
+		    error(ERR_INTERNAL, "constant addition out of bounds, consider using -nepc");
 		    exit(EXIT_FAILURE);
 	    }
 	}
@@ -1228,7 +1227,7 @@ mult_fn(exp ap, exp b, int et)
 
 	if (check & CHECK_EXTRA) {
 		if (sg && (ov || (shape_size(sh(ap)) <= 32 && check_size(x, sg, 32)))) {
-			error(ERR_INTERNAL, MULT_OUT_OF_BOUNDS);
+			error(ERR_INTERNAL, "constant mult out of bounds, consider using -nepc");
 			exit(EXIT_FAILURE);
 		}
 	}

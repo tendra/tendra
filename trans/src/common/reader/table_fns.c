@@ -24,7 +24,6 @@
 #include <reader/main_reads.h>
 #include <reader/externs.h>
 #include <reader/read_sort.h>
-#include <reader/messages_r.h>
 #include <reader/table_fns.h>
 
 #include <construct/exp.h>
@@ -197,7 +196,7 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 	if (td->defined == 0) {
 		/* detect various errors and give helpful information */
 		if (td->defined == 0) {
-			error(ERR_INTERNAL, UNDEFINED_TOK);
+			error(ERR_INTERNAL, "use of undefined token - fatal error");
 		}
 
 		if (td->is_capsule_token &&

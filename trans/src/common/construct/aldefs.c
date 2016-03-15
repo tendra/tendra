@@ -15,7 +15,6 @@
 #include <reader/basicread.h>
 
 #include <construct/installglob.h>
-#include <construct/messages_c.h>
 #include <construct/aldefs.h>
 
 
@@ -80,13 +79,13 @@ process_aldefs(void)
 				break;
 			}
 			default:
-				error(ERR_INTERNAL, ILLEGAL_ALIGNMENT);
+				error(ERR_INTERNAL, "illegal alignment");
 			}
 			my_aldef = my_aldef->next_aldef;
 		}
 	} while (changed);
 
 	if (!complete) {
-		error(ERR_INTERNAL, INCOMPLETE_ALIGNMENT_EQS);
+		error(ERR_INTERNAL, "incomplete alignment equations");
 	}
 }

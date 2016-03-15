@@ -44,7 +44,6 @@
 #include "instr.h"
 #include "instr386.h"
 #include "assembler.h"
-#include "messages_8.h"
 #include "operand.h"
 
 /* All variables initialised */
@@ -308,7 +307,7 @@ first_reg(int r)
 	t.fr_no = 0;
 
 	if (r == 0) {
-		error(ERR_INTERNAL, BAD_REGISTER);
+		error(ERR_INTERNAL, "illegal register");
 		return t;
 	}
 
@@ -361,7 +360,7 @@ operand(int le, where wh, int b, int addr)
 			return;
 
 		default:
-			error(ERR_INTERNAL, BAD_OPND);
+			error(ERR_INTERNAL, "illegal operand");
 			return;
 		}
 	}
@@ -408,7 +407,7 @@ operand(int le, where wh, int b, int addr)
 			return;
 
 		default: /* doesnt happen */
-			error(ERR_INTERNAL, BAD_OPND);
+			error(ERR_INTERNAL, "illegal operand");
 			return;
 		}
 	}
@@ -427,12 +426,12 @@ operand(int le, where wh, int b, int addr)
 				exp ident = son(ref);
 
 				if (ptno(ident) != reg_pl && off != 0) {
-					error(ERR_INTERNAL, BAD_OPND);
+					error(ERR_INTERNAL, "illegal operand");
 				}
 
 				if (isglob(ident)) {
 					if (sh(w)->tag != prokhd) {
-						error(ERR_INTERNAL, BAD_OPND);
+						error(ERR_INTERNAL, "illegal operand");
 					} else {
 						if (PIC_code) {
 							proc_extn(ident, no(ref));
@@ -449,7 +448,7 @@ operand(int le, where wh, int b, int addr)
 					return;
 
 				default:
-					error(ERR_INTERNAL, BAD_OPND);
+					error(ERR_INTERNAL, "illegal operand");
 					return;
 				}
 			} else { /* variable */
@@ -482,7 +481,7 @@ operand(int le, where wh, int b, int addr)
 					return;
 
 				default: /* doesnt happen */
-					error(ERR_INTERNAL, BAD_OPND);
+					error(ERR_INTERNAL, "illegal operand");
 					return;
 				}
 			}
@@ -493,12 +492,12 @@ operand(int le, where wh, int b, int addr)
 			exp ident = son(son(ref));
 
 			if (ptno(ident) != reg_pl && off != 0) {
-				error(ERR_INTERNAL, BAD_OPND);
+				error(ERR_INTERNAL, "illegal operand");
 			}
 
 			if (isglob(ident)) {
 				if (sh(w)->tag != prokhd) {
-					error(ERR_INTERNAL, BAD_OPND);
+					error(ERR_INTERNAL, "illegal operand");
 				} else {
 					extn(ident, no(son(ref)), b);
 				}
@@ -511,7 +510,7 @@ operand(int le, where wh, int b, int addr)
 				return;
 
 			default:
-				error(ERR_INTERNAL, BAD_OPND);
+				error(ERR_INTERNAL, "illegal operand");
 				return;
 			}
 		} /* end of cont(cont(var)) */
@@ -532,7 +531,7 @@ operand(int le, where wh, int b, int addr)
 					return;
 
 				default:
-					error(ERR_INTERNAL, BAD_OPND);
+					error(ERR_INTERNAL, "illegal operand");
 					return;
 				}
 			}			/* end of cont(reff(name)) */
@@ -545,7 +544,7 @@ operand(int le, where wh, int b, int addr)
 					return;
 
 				default:
-					error(ERR_INTERNAL, BAD_OPND);
+					error(ERR_INTERNAL, "illegal operand");
 					return;
 				}
 			} /* end of cont(ref(cont())) */
@@ -558,7 +557,7 @@ operand(int le, where wh, int b, int addr)
 				return;
 			} /* end of cont(reff(addptr())) */
 
-			error(ERR_INTERNAL, BAD_OPND);
+			error(ERR_INTERNAL, "illegal operand");
 		} /* end of cont(reff()) */
 
 		if (s == addptr_tag) {
@@ -601,7 +600,7 @@ operand(int le, where wh, int b, int addr)
 				return;
 
 			default:
-				error(ERR_INTERNAL, BAD_OPND);
+				error(ERR_INTERNAL, "illegal operand");
 				return;
 			}
 		} /* end of reff(name)  */
@@ -618,7 +617,7 @@ operand(int le, where wh, int b, int addr)
 				return;
 
 			default:
-				error(ERR_INTERNAL, BAD_OPND);
+				error(ERR_INTERNAL, "illegal operand");
 				return;
 			}
 		} /* end of reff(cont()) */
@@ -732,6 +731,6 @@ operand(int le, where wh, int b, int addr)
 		}
 	}
 
-	error(ERR_INTERNAL, BAD_OPND);
+	error(ERR_INTERNAL, "illegal operand");
 }
 

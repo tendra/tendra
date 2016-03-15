@@ -44,7 +44,6 @@
 #include "operand.h"
 #include "make_code.h"
 #include "instr.h"
-#include "messages_8.h"
 #include "reg_record.h"
 #include "instrmacs.h"
 #include "codec.h"
@@ -865,7 +864,7 @@ codec(where dest, ash stack, exp e)
 		return;
 
 	case absbool_tag:
-		error(ERR_INTERNAL, NO_SETCC);
+		error(ERR_INTERNAL, "no setcc");
 		return;
 
 	case int_to_bitf_tag: {

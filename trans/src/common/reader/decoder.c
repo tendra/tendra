@@ -22,7 +22,6 @@
 
 #include <reader/basicread.h>
 #include <reader/externs.h>
-#include <reader/messages_r.h>
 #include <reader/main_reads.h>
 
 #include <construct/tagdata.h>
@@ -97,7 +96,7 @@ d_access(void)
 	    return f_visible;
 	}
     }
-    decode_error(ILLEGAL_CODE_access);
+    decode_error("illegal code for access");
     return f_dummy_access;
 }
 
@@ -132,7 +131,7 @@ d_al_tag(void)
 	    return f_make_al_tag( p0);
 	}
     }
-    decode_error(ILLEGAL_CODE_al_tag);
+    decode_error("illegal code for al_tag");
     return f_dummy_al_tag;
 }
 
@@ -150,7 +149,7 @@ d_al_tagdef(void)
 	    return f_make_al_tagdef( p0, p1);
 	}
     }
-    decode_error(ILLEGAL_CODE_al_tagdef);
+    decode_error("illegal code for al_tagdef");
     return f_dummy_al_tagdef;
 }
 
@@ -248,7 +247,7 @@ d_alignment(void)
 	    return f_var_param_alignment;
 	}
     }
-    decode_error(ILLEGAL_CODE_alignment);
+    decode_error("illegal code for alignment");
     return f_dummy_alignment;
 }
 
@@ -282,7 +281,7 @@ d_bitfield_variety(void)
 	    return f_bfvar_bits( p0, p1);
 	}
     }
-    decode_error(ILLEGAL_CODE_bitfield_variety);
+    decode_error("illegal code for bitfield variety");
     return f_dummy_bitfield_variety;
 }
 
@@ -315,7 +314,7 @@ d_bool(void)
 	    return f_true;
 	}
     }
-    decode_error(ILLEGAL_CODE_bool);
+    decode_error("illegal_code for bool");
     return f_dummy_bool;
 }
 
@@ -353,7 +352,7 @@ d_callees(void)
 	    return f_same_callees;
 	}
     }
-    decode_error(ILLEGAL_CODE_callees);
+    decode_error("illegal code for callees");
     return f_dummy_callees;
 }
 
@@ -677,7 +676,7 @@ d_dg(void)
 	    return f_with_dg( p0, p1);
 	}
     }
-    decode_error(ILLEGAL_CODE_dg);
+    decode_error("illegal code for dg");
     return f_dummy_dg;
 }
 
@@ -700,7 +699,7 @@ d_dg_accessibility(void)
 	    return f_dg_public_accessibility;
 	}
     }
-    decode_error(ILLEGAL_CODE_dg_accessibility);
+    decode_error("illegal code for dg_accessibility");
     return f_dummy_dg_accessibility;
 }
 
@@ -730,7 +729,7 @@ d_dg_append(void)
 	    return f_dg_name_append( p0, p1);
 	}
     }
-    decode_error(ILLEGAL_CODE_dg_append);
+    decode_error("illegal code for dg_append");
     return f_dummy_dg_append;
 }
 
@@ -774,7 +773,7 @@ d_dg_bound(void)
 	    return f_dg_unknown_bound( p0);
 	}
     }
-    decode_error(ILLEGAL_CODE_dg_bound);
+    decode_error("illegal code for dg_bound");
     return f_dummy_dg_bound;
 }
 
@@ -798,7 +797,7 @@ d_dg_class_base(void)
 	    return f_make_dg_class_base( p0, p1, p2, p3, p4);
 	}
     }
-    decode_error(ILLEGAL_CODE_dg_class_base);
+    decode_error("illegal code for dg_class_base");
     return f_dummy_dg_class_base;
 }
 
@@ -873,7 +872,7 @@ d_dg_classmem(void)
 	    return f_dg_name_classmem( p0);
 	}
     }
-    decode_error(ILLEGAL_CODE_dg_classmem);
+    decode_error("illegal code for dg_classmem");
     return f_dummy_dg_classmem;
 }
 
@@ -944,7 +943,7 @@ d_dg_compilation(void)
 	    return f_make_dg_compilation( p0, p1, p2, p3, p4, p5, p6, p7, p8, p9);
 	}
     }
-    decode_error(ILLEGAL_CODE_dg_compilation);
+    decode_error("illegal code for dg_compilation");
     return f_dummy_dg_compilation;
 }
 
@@ -969,7 +968,7 @@ d_dg_constraint(void)
 	    return f_dg_value_constraint( p0, p1);
 	}
     }
-    decode_error(ILLEGAL_CODE_dg_constraint);
+    decode_error("illegal code for dg_constraint");
     return f_dummy_dg_constraint;
 }
 
@@ -1016,7 +1015,7 @@ d_dg_default(void)
 	    return f_make_dg_default( p0, p1);
 	}
     }
-    decode_error(ILLEGAL_CODE_dg_default);
+    decode_error("illegal code for dg_default");
     return f_dummy_dg_default;
 }
 
@@ -1081,7 +1080,7 @@ d_dg_dim(void)
 	    return f_dg_unspecified_dim;
 	}
     }
-    decode_error(ILLEGAL_CODE_dg_dim);
+    decode_error("illegal code for dg_dim");
     return f_dummy_dg_dim;
 }
 
@@ -1128,7 +1127,7 @@ d_dg_discrim(void)
 	    return f_make_dg_discrim( p0, p1);
 	}
     }
-    decode_error(ILLEGAL_CODE_dg_discrim);
+    decode_error("illegal code for dg_discrim");
     return f_dummy_dg_discrim;
 }
 
@@ -1181,7 +1180,7 @@ d_dg_enum(void)
 	    return f_dg_char_enum( p0, p1, p2);
 	}
     }
-    decode_error(ILLEGAL_CODE_dg_enum);
+    decode_error("illegal code for dg_enum");
     return f_dummy_dg_enum;
 }
 
@@ -1227,7 +1226,7 @@ d_dg_filename(void)
 	    return f_make_dg_filename( p0, p1, p2, p3);
 	}
     }
-    decode_error(ILLEGAL_CODE_dg_filename);
+    decode_error("illegal code for dg_filename");
     return f_dummy_dg_filename;
 }
 
@@ -1288,7 +1287,7 @@ d_dg_idname(void)
 	    return f_dg_sourcestring_idname( p0);
 	}
     }
-    decode_error(ILLEGAL_CODE_dg_idname);
+    decode_error("illegal code for dg_idname");
     return f_dummy_dg_idname;
 }
 
@@ -1381,7 +1380,7 @@ d_dg_macro(void)
 	    return f_dg_undef_macro( p0, p1);
 	}
     }
-    decode_error(ILLEGAL_CODE_dg_macro);
+    decode_error("illegal code for dg_macro");
     return f_dummy_dg_macro;
 }
 
@@ -1584,7 +1583,7 @@ d_dg_name(void)
 	    return f_dg_visibility_name( p0, p1, p2, p3, p4, p5);
 	}
     }
-    decode_error(ILLEGAL_CODE_dg_name);
+    decode_error("illegal code for dg_name");
     return f_dummy_dg_name;
 }
 
@@ -1636,7 +1635,7 @@ d_dg_namelist(void)
 	    return f_make_dg_namelist( p0);
 	}
     }
-    decode_error(ILLEGAL_CODE_dg_namelist);
+    decode_error("illegal code for dg_namelist");
     return f_dummy_dg_namelist;
 }
 
@@ -1669,7 +1668,7 @@ d_dg_param(void)
 	    return f_dg_type_param( p0, p1, p2);
 	}
     }
-    decode_error(ILLEGAL_CODE_dg_param);
+    decode_error("illegal code for dg_param");
     return f_dummy_dg_param;
 }
 
@@ -1706,7 +1705,7 @@ d_dg_param_mode(void)
 	    return f_dg_out_mode;
 	}
     }
-    decode_error(ILLEGAL_CODE_dg_param_mode);
+    decode_error("illegal code for dg_param_mode");
     return f_dummy_dg_param_mode;
 }
 
@@ -1744,7 +1743,7 @@ d_dg_qualifier(void)
 	    return f_dg_volatile_qualifier;
 	}
     }
-    decode_error(ILLEGAL_CODE_dg_qualifier);
+    decode_error("illegal code for dg_qualifier");
     return f_dummy_dg_qualifier;
 }
 
@@ -1790,7 +1789,7 @@ d_dg_sourcepos(void)
 	    return f_dg_span_sourcepos( p0, p1, p2, p3, p4, p5);
 	}
     }
-    decode_error(ILLEGAL_CODE_dg_sourcepos);
+    decode_error("illegal code for dg_sourcepos");
     return f_dummy_dg_sourcepos;
 }
 
@@ -1818,7 +1817,7 @@ d_dg_tag(void)
 	    return f_make_dg_tag( p0);
 	}
     }
-    decode_error(ILLEGAL_CODE_dg_tag);
+    decode_error("illegal code for dg_tag");
     return f_dummy_dg_tag;
 }
 
@@ -2191,7 +2190,7 @@ d_dg_type(void)
 	    return f_dg_void_type;
 	}
     }
-    decode_error(ILLEGAL_CODE_dg_type);
+    decode_error("illegal code for dg_type");
     return f_dummy_dg_type;
 }
 
@@ -2250,7 +2249,7 @@ d_dg_variant(void)
 	    return f_make_dg_variant( p0, p1);
 	}
     }
-    decode_error(ILLEGAL_CODE_dg_variant);
+    decode_error("illegal code for dg_variant");
     return f_dummy_dg_variant;
 }
 
@@ -2299,7 +2298,7 @@ d_dg_varpart(void)
 	    return f_dg_undiscrim_varpart( p0, p1);
 	}
     }
-    decode_error(ILLEGAL_CODE_dg_varpart);
+    decode_error("illegal code for dg_varpart");
     return f_dummy_dg_varpart;
 }
 
@@ -2328,7 +2327,7 @@ d_dg_virtuality(void)
 	    return f_dg_virtual_virtuality;
 	}
     }
-    decode_error(ILLEGAL_CODE_dg_virtuality);
+    decode_error("illegal code for dg_virtuality");
     return f_dummy_dg_virtuality;
 }
 
@@ -2380,7 +2379,7 @@ d_diag_descriptor(void)
 	    return f_diag_desc_typedef( p0, p1, p2);
 	}
     }
-    decode_error(ILLEGAL_CODE_diag_descriptor);
+    decode_error("illegal code for diag_descriptor");
     return f_dummy_diag_descriptor;
 }
 
@@ -2442,7 +2441,7 @@ d_diag_tag(void)
 	    return f_make_diag_tag( p0);
 	}
     }
-    decode_error(ILLEGAL_CODE_diag_tag);
+    decode_error("illegal code for diag_tag");
     return f_dummy_diag_tag;
 }
 
@@ -2460,7 +2459,7 @@ d_diag_tagdef(void)
 	    return f_make_diag_tagdef( p0, p1);
 	}
     }
-    decode_error(ILLEGAL_CODE_diag_tagdef);
+    decode_error("illegal code for diag_tagdef");
     return f_dummy_diag_tagdef;
 }
 
@@ -2500,7 +2499,7 @@ d_diag_tq(void)
 	    return f_diag_tq_null;
 	}
     }
-    decode_error(ILLEGAL_CODE_diag_tq);
+    decode_error("illegal code for diag_tq");
     return f_dummy_diag_tq;
 }
 
@@ -2606,7 +2605,7 @@ d_diag_type(void)
 	    return f_use_diag_tag( p0);
 	}
     }
-    decode_error(ILLEGAL_CODE_diag_type);
+    decode_error("illegal code for diag_type");
     return f_dummy_diag_type;
 }
 
@@ -2693,7 +2692,7 @@ d_error_code(void)
 	    return f_stack_overflow;
 	}
     }
-    decode_error(ILLEGAL_CODE_error_code);
+    decode_error("illegal code for error_code");
     return f_dummy_error_code;
 }
 
@@ -2756,7 +2755,7 @@ d_error_treatment(void)
 	    return f_impossible;
 	}
     }
-    decode_error(ILLEGAL_CODE_error_treatment);
+    decode_error("illegal code for error treatment");
     return f_dummy_error_treatment;
 }
 
@@ -3682,7 +3681,7 @@ d_exp(void)
 	    return f_xor( p0, p1);
 	}
     }
-    decode_error(ILLEGAL_CODE_exp);
+    decode_error("illegal code for exp");
     return f_dummy_exp;
 }
 
@@ -3767,7 +3766,7 @@ d_external(void)
 	    return f_chain_extern( p0, p1);
 	}
     }
-    decode_error(ILLEGAL_CODE_external);
+    decode_error("illegal code for external");
     return f_dummy_external;
 }
 
@@ -3794,7 +3793,7 @@ d_filename(void)
 	    return f_make_filename( p0, p1, p2);
 	}
     }
-    decode_error(ILLEGAL_CODE_filename);
+    decode_error("illegal code for filename");
     return f_dummy_filename;
 }
 
@@ -3853,7 +3852,7 @@ d_floating_variety(void)
 	    return f_complex_of_float( p0);
 	}
     }
-    decode_error(ILLEGAL_CODE_floating_variety);
+    decode_error("illegal code for floating variety");
     return f_dummy_floating_variety;
 }
 
@@ -3901,7 +3900,7 @@ d_label(void)
 	    return f_make_label( p0);
 	}
     }
-    decode_error(ILLEGAL_CODE_label);
+    decode_error("illegal code for label");
     return f_dummy_label;
 }
 
@@ -4009,7 +4008,7 @@ d_linkinfo(void)
 	    return f_make_weak_symbol( p0, p1);
 	}
     }
-    decode_error(ILLEGAL_CODE_linkinfo);
+    decode_error("illegal code for linkinfo");
     return f_dummy_linkinfo;
 }
 
@@ -4103,7 +4102,7 @@ d_nat(void)
 	    return f_make_nat( p0);
 	}
     }
-    decode_error(ILLEGAL_CODE_nat);
+    decode_error("illegal code for nat");
     return f_dummy_nat;
 }
 
@@ -4184,7 +4183,7 @@ d_ntest(void)
 	    return f_not_comparable;
 	}
     }
-    decode_error(ILLEGAL_CODE_ntest);
+    decode_error("illegal code for ntest");
     return f_dummy_ntest;
 }
 
@@ -4264,7 +4263,7 @@ d_procprops(void)
 	    return f_var_callers;
 	}
     }
-    decode_error(ILLEGAL_CODE_procprops);
+    decode_error("illegal code for procprops");
     return f_dummy_procprops;
 }
 
@@ -4318,7 +4317,7 @@ d_rounding_mode(void)
 	    return f_toward_zero;
 	}
     }
-    decode_error(ILLEGAL_CODE_rounding_mode);
+    decode_error("illegal code for rounding mode");
     return f_dummy_rounding_mode;
 }
 
@@ -4393,7 +4392,7 @@ d_shape(void)
 	    return f_top;
 	}
     }
-    decode_error(ILLEGAL_CODE_shape);
+    decode_error("illegal code for shape");
     return f_dummy_shape;
 }
 
@@ -4451,7 +4450,7 @@ d_signed_nat(void)
 	    return f_snat_from_nat( p0, p1);
 	}
     }
-    decode_error(ILLEGAL_CODE_signed_nat);
+    decode_error("illegal code for signed nat");
     return f_dummy_signed_nat;
 }
 
@@ -4531,7 +4530,7 @@ d_sortname(void)
 	    return f_variety;
 	}
     }
-    decode_error(ILLEGAL_CODE_sortname);
+    decode_error("illegal code for sortname");
     return f_dummy_sortname;
 }
 
@@ -4568,7 +4567,7 @@ d_sourcemark(void)
 	    return f_make_sourcemark( p0, p1, p2);
 	}
     }
-    decode_error(ILLEGAL_CODE_sourcemark);
+    decode_error("illegal code for sourcemark");
     return f_dummy_sourcemark;
 }
 
@@ -4607,7 +4606,7 @@ d_string(void)
 	    return f_make_string( p0);
 	}
     }
-    decode_error(ILLEGAL_CODE_string);
+    decode_error("illegal code for string");
     return f_dummy_string;
 }
 
@@ -4659,7 +4658,7 @@ d_tag(void)
 	    return f_make_tag( p0);
 	}
     }
-    decode_error(ILLEGAL_CODE_tag);
+    decode_error("illegal code for tag");
     return f_dummy_tag;
 }
 
@@ -4738,7 +4737,7 @@ d_tagdec(void)
 	    return f_common_tagdec( p0, p1, p2, p3);
 	}
     }
-    decode_error(ILLEGAL_CODE_tagdec);
+    decode_error("illegal code for tagdec");
     return f_dummy_tagdec;
 }
 
@@ -4810,7 +4809,7 @@ d_tagdef(void)
 	    return f_common_tagdef( p0, p1, p2, p3);
 	}
     }
-    decode_error(ILLEGAL_CODE_tagdef);
+    decode_error("illegal code for tagdef");
     return f_dummy_tagdef;
 }
 
@@ -4919,7 +4918,7 @@ d_tokdec(void)
 	    return f_make_tokdec( p0, p1, p2);
 	}
     }
-    decode_error(ILLEGAL_CODE_tokdec);
+    decode_error("illegal code for tokdec");
     return f_dummy_tokdec;
 }
 
@@ -4964,7 +4963,7 @@ d_tokdef(void)
 	    return f_make_tokdef( p0, p1, p2);
 	}
     }
-    decode_error(ILLEGAL_CODE_tokdef);
+    decode_error("illegal code for tokdef");
     return f_dummy_tokdef;
 }
 
@@ -5019,7 +5018,7 @@ d_token(void)
 	    return f_use_tokdef( p0);
 	}
     }
-    decode_error(ILLEGAL_CODE_token);
+    decode_error("illegal code for token");
     return f_dummy_token;
 }
 
@@ -5037,7 +5036,7 @@ d_token_defn(void)
 	    return f_token_definition( p0, p1);
 	}
     }
-    decode_error(ILLEGAL_CODE_token_defn);
+    decode_error("illegal code for token_defn");
     return f_dummy_token_defn;
 }
 
@@ -5126,7 +5125,7 @@ d_transfer_mode(void)
 	    return f_complete;
 	}
     }
-    decode_error(ILLEGAL_CODE_transfer_mode);
+    decode_error("illegal code for transfer_mode");
     return f_dummy_transfer_mode;
 }
 
@@ -5206,7 +5205,7 @@ d_variety(void)
 	    return f_var_width( p0, p1);
 	}
     }
-    decode_error(ILLEGAL_CODE_variety);
+    decode_error("illegal code for variety");
     return f_dummy_variety;
 }
 
@@ -5229,7 +5228,7 @@ d_version(void)
 	    return f_user_info( p0);
 	}
     }
-    decode_error(ILLEGAL_CODE_version);
+    decode_error("illegal code for version");
     return f_dummy_version;
 }
 

@@ -23,7 +23,6 @@
 #include <reader/table_fns.h>
 
 #include <construct/installglob.h>
-#include <construct/messages_c.h>
 #include <construct/install_fns.h>
 #include <construct/exp.h>
 
@@ -525,11 +524,11 @@ case_item(exp i)
 	}
 
 	if (t != l && docmp_f((int)f_less_than_or_equal, i, thigh)) {
-		error(ERR_INTERNAL, CASE_OVERLAP);
+		error(ERR_INTERNAL, "case tags overlap");
 	}
 	if (bro(t) != NULL &&
 	    docmp_f((int)f_greater_than_or_equal, newhigh, nlow)) {
-		error(ERR_INTERNAL, CASE_OVERLAP);
+		error(ERR_INTERNAL, "case tags overlap");
 	}
 
 	if (isbigval(i) || isbigval(newhigh)) {

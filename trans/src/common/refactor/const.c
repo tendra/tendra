@@ -43,7 +43,6 @@
 #include <construct/install_fns.h>
 #include <construct/installglob.h>
 #include <construct/is_worth.h>
-#include <construct/messages_c.h>
 #include <construct/me_fns.h>
 
 #include <flpt/flpt.h>
@@ -951,7 +950,7 @@ safe_arg(exp e, exp esc)
 
 	default:
 		SET(konst);
-		error(ERR_INTERNAL, BAD_SHAPE);
+		error(ERR_INTERNAL, "impossible shape found");
 	}
 
 	v1 = getexp(sh(e), NULL, 0, decl, pt(decl), 0,  0, name_tag);
@@ -1025,7 +1024,7 @@ safe_eval(exp e, exp escape_route)
 	case rep_tag:
 	case solve_tag:
 	case case_tag:
-		error(ERR_INTERNAL, CONSTC_ERROR);
+		error(ERR_INTERNAL, "unanticipated component");
 		return NULL;
 
 	case name_tag:

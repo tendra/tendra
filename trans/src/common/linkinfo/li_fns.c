@@ -29,8 +29,6 @@
 #include <construct/dec.h>
 #include <construct/aldefs.h>
 
-#include <linkinfo/messages_li.h>
-
 #include <utility/prefix.h>
 
 #include <main/driver.h>
@@ -136,13 +134,13 @@ f_static_name_def(exp e, tdfstring id)
 	char *newid = add_prefix(name_prefix, id.ints.chars);
 
 	if (e->tag != name_tag || !isglob(son(e))) {
-		error(ERR_INTERNAL, ILLEGAL_STATIC);
+		error(ERR_INTERNAL, "illegal static name");
 		kill_exp(e, e);
 		return 0;
 	}
 
 	if (separate_units) {
-		error(ERR_INTERNAL, INCOMPATIBLE_U);
+		error(ERR_INTERNAL, "translator separate units is incompatible with named statics");
 	} else {
 		out_rename(*oldid, newid);
 	}

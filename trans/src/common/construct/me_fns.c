@@ -25,7 +25,6 @@
 #include <construct/exp.h>
 #include <construct/installglob.h>
 #include <construct/install_fns.h>
-#include <construct/messages_c.h>
 #include <construct/me_fns.h>
 
 #include <main/flags.h>
@@ -295,7 +294,7 @@ long_to_al(int n)
 	case 512: return const_al512;
 
 	default:
-		error(ERR_INTERNAL, BAD_LONG_AL);
+		error(ERR_INTERNAL, "illegal value for alignment");
 		return const_al32;
 	}
 }
