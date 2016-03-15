@@ -316,7 +316,7 @@ local_translate_capsule(void)
 
 	/* mark static unaliased; count procs */
 	noprocs = 0;
-	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next) {
+	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
 		exp crt_exp = crt_def->dec_exp;
 		exp scexp = son(crt_exp);
 
@@ -373,7 +373,7 @@ local_translate_capsule(void)
 
 	/* number proc defs */
 	procno = 0;
-	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next) {
+	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
 		exp crt_exp = crt_def->dec_exp;
 
 		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag ||
@@ -441,7 +441,7 @@ local_translate_capsule(void)
 
 	/* scan all the procs, to put everything in HP_PA form */
 	nexps = 0;
-	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next) {
+	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
 		exp crt_exp = crt_def->dec_exp;
 		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag ||
 		                             son(crt_exp)->tag == general_proc_tag)) {
@@ -458,7 +458,7 @@ local_translate_capsule(void)
 	}
 
 	/* calculate the break points for register allocation */
-	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next) {
+	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
 		exp crt_exp = crt_def->dec_exp;
 
 		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag ||
@@ -530,7 +530,7 @@ local_translate_capsule(void)
 
 	/*  Set up main_globals and output global definitions. */
 	i = 0;
-	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next) {
+	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
 		i++;
 	}
 
@@ -542,13 +542,13 @@ local_translate_capsule(void)
 	}
 
 	i = 0;
-	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next) {
+	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
 		main_globals[i] = crt_def;
 		main_globals[i] ->sym_number = i;
 		i++;
 	}
 
-	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next) {
+	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
 		exp tg = crt_def->dec_exp;
 		char *id = crt_def->dec_id;
 		bool extnamed = (bool)crt_def->extnamed;
@@ -587,7 +587,7 @@ local_translate_capsule(void)
 
 	/* Uninitialized data local to module. */
 
-	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next) {
+	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
 		exp tg = crt_def->dec_exp;
 		char *id = crt_def->dec_id;
 		bool extnamed = (bool)crt_def->extnamed;

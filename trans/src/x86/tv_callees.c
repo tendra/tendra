@@ -36,7 +36,7 @@ transform_var_callees(void)
 {
 	dec *my_def;
 
-	for (my_def = top_def; my_def != NULL; my_def = my_def -> def_next) {
+	for (my_def = top_def; my_def != NULL; my_def = my_def -> next) {
 		exp tg = my_def -> dec_exp;
 
 		if (son(tg) != NULL && son(tg)->tag == general_proc_tag

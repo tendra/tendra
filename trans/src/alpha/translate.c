@@ -286,7 +286,7 @@ local_translate_capsule(void)
 	opt_all_exps();
 
 	/* mark static unaliased */
-	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
 		exp crt_exp;
 
 		crt_exp = my_def->dec_exp;
@@ -309,19 +309,19 @@ local_translate_capsule(void)
 				    son(crt_exp)->tag == proc_tag) &&
 				   (no(crt_exp) == 0 && diag != DIAG_NONE && !(*ptr_def)->extnamed)) {
 					dec *old_ptr = *ptr_def;
-					*ptr_def = (*ptr_def)->def_next;
+					*ptr_def = (*ptr_def)->next;
 					free(old_ptr);
 				} else {
-					ptr_def = &((*ptr_def)->def_next);
+					ptr_def = &((*ptr_def)->next);
 				}
 			} else {
-				ptr_def = &((*ptr_def)->def_next);
+				ptr_def = &((*ptr_def)->next);
 			}
 		}
 	}
 
 	noprocs = 0;
-	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
 		exp crt_exp = my_def->dec_exp;
 		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag ||
 		                             son(crt_exp)->tag == general_proc_tag)) {
@@ -333,7 +333,7 @@ local_translate_capsule(void)
 	procrecs = xcalloc(noprocs, sizeof (procrec));
 	noprocs = 0;
 
-	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
 		exp crt_exp = my_def->dec_exp;
 		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag
 		                              || son(crt_exp)->tag == general_proc_tag)) {
@@ -344,7 +344,7 @@ local_translate_capsule(void)
 
 	if (do_extern_adds) {
 		usages = xcalloc(noprocs, sizeof(exp));
-		for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+		for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
 			exp crt_exp = my_def->dec_exp;
 			if (son(crt_exp) == NULL && isvar(crt_exp) ) {
 				/* try to identify globals ptrs in procs */
@@ -382,7 +382,7 @@ local_translate_capsule(void)
 		IGNORE new_lsym_d("NOFILE.c", 0, stFile, scText, 0, 0);
 	}
 
-	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
 		exp crt_exp = my_def->dec_exp;
 		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag
 		                              || son(crt_exp)->tag == general_proc_tag)) {
@@ -408,7 +408,7 @@ local_translate_capsule(void)
 
 
 	/* calculate the break points for register allocation and do it */
-	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
 		exp crt_exp = my_def->dec_exp;
 		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag
 		                              || son(crt_exp)->tag == general_proc_tag)) {
@@ -442,7 +442,7 @@ local_translate_capsule(void)
 
 	/* put defs in main globals and set up symnos*/
 	main_globals_index = 0;
-	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
 		main_globals_index++;
 	}
 
@@ -453,7 +453,7 @@ local_translate_capsule(void)
 	my_def = top_def;
 	for (i = 0; i < main_globals_index; i++) {
 		main_globals[i] = my_def;
-		my_def = my_def->def_next;
+		my_def = my_def->next;
 	}
 
 	/* ... and set in the position and "addresses" of the externals */
@@ -510,7 +510,7 @@ local_translate_capsule(void)
 	 * compile procedures, evaluate constants, put in the
 	 * .comm entries for undefined objects
 	 */
-	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
 		exp tg = my_def->dec_exp;
 		char *id = my_def->dec_id;
 		bool extnamed = my_def->extnamed;
@@ -538,7 +538,7 @@ local_translate_capsule(void)
 		}
 	}
 
-	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
 		if (!my_def->processed) {
 			code_it(my_def);
 		}

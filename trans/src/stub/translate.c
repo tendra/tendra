@@ -68,7 +68,7 @@ local_translate_capsule(void)
 		opt_all_exps();
 	}
 
-	for (d = top_def; d != NULL; d = d->def_next) {
+	for (d = top_def; d != NULL; d = d->next) {
 		if (d->processed) {
 			continue;
 		}

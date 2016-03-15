@@ -316,20 +316,20 @@ sort_decs(dec *p)
 	dec *res = NULL;
 	dec *x = p, *y;
 	while (x != NULL) {
-		dec *nextx = x->def_next;
+		dec *nextx = x->next;
 		dec *before = NULL;
-		for (y = res; y != NULL; y = y->def_next) {
+		for (y = res; y != NULL; y = y->next) {
 			if (!cmp_dec(x, y)) {
 				break;
 			}
 			before = y;
 		}
 		if (before == NULL) {
-			x->def_next = res;
+			x->next = res;
 			res = x;
 		} else {
-			x->def_next = before->def_next;
-			before->def_next = x;
+			x->next = before->next;
+			before->next = x;
 		}
 		x = nextx;
 	}

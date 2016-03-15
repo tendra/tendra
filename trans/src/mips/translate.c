@@ -259,9 +259,9 @@ remove_unused(void)
 		bool extnamed = (*sdef)->extnamed;
 
 		if (no(crt_exp) == 0 && !extnamed) {
-			*sdef = (*sdef)->def_next;
+			*sdef = (*sdef)->next;
 		} else {
-			sdef = &((*sdef)->def_next);
+			sdef = &((*sdef)->next);
 		}
 	}
 }
@@ -277,7 +277,7 @@ local_translate_capsule(void)
 	remove_unused();
 
 	if (dyn_init) {
-		for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+		for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
 			exp crt_exp = my_def->dec_exp;
 			char * id = my_def->dec_id;
 			if (streq(id, "main") && son(crt_exp) != NULL &&
@@ -307,7 +307,7 @@ local_translate_capsule(void)
 	}
 
 	/* mark static unaliased */
-	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
 		exp crt_exp = my_def->dec_exp;
 		if (son(crt_exp) != NULL &&
 		    !my_def->extnamed &&
@@ -317,7 +317,7 @@ local_translate_capsule(void)
 	}
 
 	noprocs = 0;
-	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
 		exp crt_exp = my_def->dec_exp;
 		if (son(crt_exp) != NULL
 		    && (son(crt_exp)->tag == proc_tag ||
@@ -334,7 +334,7 @@ local_translate_capsule(void)
 		noprocs = 0;
 	}
 
-	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
 		exp crt_exp = my_def->dec_exp;
 		if (son(crt_exp) != NULL &&
 		    (son(crt_exp)->tag == proc_tag || son(crt_exp)->tag == general_proc_tag)) {
@@ -345,7 +345,7 @@ local_translate_capsule(void)
 
 	if (do_extern_adds) {
 		usages = xcalloc(noprocs, sizeof(exp));
-		for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+		for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
 			exp crt_exp = my_def->dec_exp;
 			if (son(crt_exp) == NULL && isvar(crt_exp)) {
 				global_usages(crt_exp, noprocs);
@@ -368,7 +368,7 @@ local_translate_capsule(void)
 	}
 
 	/* scan to put everything in MIPS form */
-	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
 		exp crt_exp = my_def->dec_exp;
 		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag ||
 	        son(crt_exp)->tag == general_proc_tag))
@@ -381,7 +381,7 @@ local_translate_capsule(void)
 	}
 
 	/* calculate the break points for register allocation and do it */
-	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
 		exp crt_exp = my_def->dec_exp;
 		if (son(crt_exp) != NULL
 		    && (son(crt_exp)->tag == proc_tag ||
@@ -421,7 +421,7 @@ local_translate_capsule(void)
 
 	/* put defs in main globals and set up symnos*/
 	main_globals_index = 0;
-	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
 		main_globals_index++;
 	}
 
@@ -432,7 +432,7 @@ local_translate_capsule(void)
 	my_def = top_def;
 	for (i = 0; i < main_globals_index; i++) {
 		main_globals[i] = my_def;
-		my_def = my_def->def_next;
+		my_def = my_def->next;
 	}
 
 	/* ... and set in the position and "addresses" of the externals */
@@ -492,7 +492,7 @@ local_translate_capsule(void)
 	 */
 
 	/*
-	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
 		exp tg = my_def->dec_exp;
 		char *id = my_def->dec_id;
 		bool extnamed = my_def->extnamed;
@@ -509,7 +509,7 @@ local_translate_capsule(void)
 	}
 	*/
 
-	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
 		if (!my_def->processed) {
 			code_it(my_def);
 		}

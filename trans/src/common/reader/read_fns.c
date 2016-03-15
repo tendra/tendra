@@ -2332,9 +2332,9 @@ add_tagdec_list(tagdec_list list, tagdec elem, int index)
 
     if (dp->dec_shape == NULL) {
       dp->dec_shape = s;
-      dp->def_next = NULL;
+      dp->next = NULL;
       *deflist_end = dp;
-      deflist_end = & ((*deflist_end)->def_next);
+      deflist_end = & ((*deflist_end)->next);
     }
 
     dp->dec_var = (unsigned int)(isvar(e) || elem.is_variable);

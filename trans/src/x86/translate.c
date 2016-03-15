@@ -327,7 +327,7 @@ local_translate_capsule(void)
 	}
 #endif
 
-	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
 		exp crt_exp = my_def->dec_exp;
 
 		if (PIC_code) {
@@ -401,7 +401,7 @@ local_translate_capsule(void)
 	transform_var_callees();
 
 	/* mark static unaliased */
-	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
 		exp crt_exp;
 
 		crt_exp = my_def->dec_exp;
@@ -442,7 +442,7 @@ local_translate_capsule(void)
 	 * for undefined objects
 	 */
 
-	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
 		if (!my_def->processed) {
 			code_def(my_def);
 		}

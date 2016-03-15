@@ -38,7 +38,7 @@ find_named_dec(char *n)
 	/* find a global with name n */
 	dec *my_def;
 
-	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
 		char *id = my_def->dec_id;
 		if (streq(id + strlen(name_prefix), n)) {
 			return my_def;

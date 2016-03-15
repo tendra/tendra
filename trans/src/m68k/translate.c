@@ -98,7 +98,7 @@ local_translate_capsule(void)
 
 #if 0
 	/* Fix procedure handling (copied from trans386) */
-	for (d = top_def; d != NULL; d = d->def_next) {
+	for (d = top_def; d != NULL; d = d->next) {
 		exp crt_exp = d->dec_exp;
 		exp idval;
 
@@ -151,7 +151,7 @@ local_translate_capsule(void)
 
 	/* Mark static unaliases declarations */
 	if (!separate_units) {
-		for (d = top_def; d != NULL; d = d->def_next) {
+		for (d = top_def; d != NULL; d = d->next) {
 			exp c = d->dec_exp;
 			if (son(c) != NULL && !d->extnamed && isvar(c)) {
 				mark_unaliased(c);
@@ -160,7 +160,7 @@ local_translate_capsule(void)
 	}
 
 	/* Mark locations for all globals */
-	for (d = top_def; d != NULL; d = d->def_next) {
+	for (d = top_def; d != NULL; d = d->next) {
 		if (d->processed) {
 			exp c = d->dec_exp;
 			ptno(c) = crt_ext_pt++;
@@ -384,7 +384,7 @@ output_all_exps(void)
 	free_all_ins();
 
 	/* Scan through the declarations */
-	for (d = top_def; d != NULL; d = d->def_next) {
+	for (d = top_def; d != NULL; d = d->next) {
 		exp c, s;
 		char *id;
 

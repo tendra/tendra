@@ -24,7 +24,7 @@ struct dec_t {
 	 * If this is a global declaration this field holds next global
 	 * declaration which needs processing. If there is none, it is NULL.
 	 */
-	struct dec_t *def_next;
+	struct dec_t *next;
 
 	char *dec_id;    /* identifier to be used */
 	shape dec_shape; /* shape of the value */

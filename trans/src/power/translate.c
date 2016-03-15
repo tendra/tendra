@@ -179,7 +179,7 @@ local_translate_capsule(void)
 	noprocs = 0;
 	noglobals = 0;
 
-	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next) {
+	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
 		exp tg = crt_def->dec_exp;
 		shape s = crt_def->dec_shape;
 		bool extnamed = crt_def->extnamed;
@@ -344,7 +344,7 @@ local_translate_capsule(void)
 	 */
 	asm_printf( "\n\t.toc\n");
 
-	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next) {
+	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
 		exp tg = crt_def->dec_exp;
 		char *id = crt_def->dec_id;
 		/*
@@ -382,7 +382,7 @@ local_translate_capsule(void)
 	/* number proc defs and setup main_globals */
 	procno = 0;
 	globalno = 0;
-	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next) {
+	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
 		exp tg = crt_def->dec_exp;
 
 		main_globals[globalno] = crt_def;
@@ -436,7 +436,7 @@ local_translate_capsule(void)
 	 * Scan all the procs, to put the TDF in POWER form,
 	 * and do register allocation.
 	 */
-	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next) {
+	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
 		exp tg = crt_def->dec_exp;
 
 		if (son(tg) == NULL) {
@@ -498,7 +498,7 @@ local_translate_capsule(void)
 	 * Evaluate outer level data initialisers in [RW] section.
 	 */
 	anydone = 0;
-	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next) {
+	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
 		exp tg = crt_def->dec_exp;
 		char *id = crt_def->dec_id;
 		bool extnamed = crt_def->extnamed;
@@ -566,7 +566,7 @@ local_translate_capsule(void)
 	 */
 	anydone = 0; /* set to 1 after first tag output */
 
-	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next) {
+	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
 		exp tg = crt_def->dec_exp;
 		char *id = crt_def->dec_id;
 		bool extnamed = crt_def->extnamed;
@@ -622,7 +622,7 @@ local_translate_capsule(void)
 	/*
 	 * Translate procedures.
 	 */
-	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->def_next) {
+	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
 		exp tg = crt_def->dec_exp;
 		char *id = crt_def->dec_id;
 		bool extnamed = crt_def->extnamed;

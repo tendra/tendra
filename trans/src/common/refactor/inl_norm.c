@@ -82,7 +82,7 @@ normalised_inlining(void)
 	}
 
 	/* count the defined procedures */
-	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
 		exp crt_exp = my_def -> dec_exp;
 
 		def = son(crt_exp);
@@ -119,7 +119,7 @@ normalised_inlining(void)
 	 */
 
 	i = 0;
-	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
 		exp crt_exp = my_def->dec_exp;
 
 		def = son(crt_exp);

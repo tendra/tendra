@@ -237,9 +237,9 @@ make_extra_dec(char *nme, int v, int g, exp init, shape s)
 		setvar(e);
 	}
 	brog(e) = extra_dec;
-	extra_dec->def_next = NULL;
+	extra_dec->next = NULL;
 	*deflist_end = extra_dec;
-	deflist_end = &((*deflist_end)->def_next);
+	deflist_end = &((*deflist_end)->next);
 	extra_dec->dec_id = nme;
 	extra_dec->dec_shape = s;
 	extra_dec->dec_exp = e;
@@ -6135,7 +6135,7 @@ tidy_initial_values(void)
 	prom_as = new_exp_list(0);
 	dynamic_init_proc = NULL;
 
-	for (my_def = top_def; my_def != NULL; my_def = my_def->def_next) {
+	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
 		exp crt_exp = my_def->dec_exp;
 		if (son(crt_exp) != NULL && my_def->extnamed) {
 			good_name = my_def->dec_id;

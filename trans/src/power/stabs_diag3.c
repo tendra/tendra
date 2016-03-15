@@ -529,7 +529,7 @@ void fixup_name(exp global, dec * top_def, dec * crt_def)
   nm = CSTRING(dd->data.id.nme);
 
   /* search def chain to see if name is already used as assembler label */
-  for (d = top_def; d != crt_def && d != NULL; d = d->def_next)
+  for (d = top_def; d != crt_def && d != NULL; d = d->next)
   {
     if (streq(nm, d->dec_id))
     {

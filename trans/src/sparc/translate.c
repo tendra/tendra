@@ -405,7 +405,7 @@ local_translate_capsule(void)
 
 	/* mark all statics as unaliased and count procedures */
 	noprocs = 0;
-	for (d = top_def; d != NULL; d = d->def_next) {
+	for (d = top_def; d != NULL; d = d->next) {
 		exp c;
 
 		c = d->dec_exp;
@@ -460,7 +460,7 @@ local_translate_capsule(void)
 
 	/* number procedure definitions */
 	procno = 0;
-	for (d = top_def; d != NULL; d = d->def_next) {
+	for (d = top_def; d != NULL; d = d->next) {
 		exp c, s;
 
 		c = d->dec_exp;
@@ -499,7 +499,7 @@ local_translate_capsule(void)
 	/* ensure R_TMP not allocatable */
 
 	/* scan all the procedures, to put everything in SPARC operand form */
-	for (d = top_def; d != NULL; d = d->def_next) {
+	for (d = top_def; d != NULL; d = d->next) {
 		exp c, s;
 
 		c = d->dec_exp;
@@ -561,7 +561,7 @@ local_translate_capsule(void)
 		init_dead();
 		dead_flag = 0;
 
-		for (d = top_def; d != NULL; d = d->def_next) {
+		for (d = top_def; d != NULL; d = d->next) {
 			exp c, s;
 
 			c = d->dec_exp;
@@ -579,7 +579,7 @@ local_translate_capsule(void)
 #endif
 
 	/* calculate the break points for register allocation */
-	for (d = top_def; d != NULL; d = d->def_next) {
+	for (d = top_def; d != NULL; d = d->next) {
 		exp c = d->dec_exp;
 		exp s = son(c);
 
@@ -630,7 +630,7 @@ local_translate_capsule(void)
 
 	/* set up main_globals */
 	i = 0;
-	for (d = top_def; d != NULL; d = d->def_next) {
+	for (d = top_def; d != NULL; d = d->next) {
 		i++;
 	}
 
@@ -641,14 +641,14 @@ local_translate_capsule(void)
 	}
 
 	i = 0;
-	for (d = top_def; d != NULL; d = d->def_next) {
+	for (d = top_def; d != NULL; d = d->next) {
 		main_globals [i] = d;
 		main_globals [i]->sym_number = i;
 		i++;
 	}
 
 	/* output global definitions */
-	for (d = top_def; d != NULL; d = d->def_next) {
+	for (d = top_def; d != NULL; d = d->next) {
 		exp tg = d->dec_exp;
 		exp stg = son(tg);
 		char *id = d->dec_id;
@@ -723,7 +723,7 @@ local_translate_capsule(void)
 	}
 
 	/* translate procedures */
-	for (d = top_def; d != NULL; d = d->def_next) {
+	for (d = top_def; d != NULL; d = d->next) {
 		exp tg = d->dec_exp;
 		exp stg = son(tg);
 		char *id = d->dec_id;
