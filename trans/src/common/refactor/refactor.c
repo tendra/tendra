@@ -2121,7 +2121,7 @@ refactor(exp e, exp scope)
 					al = shape_align(f_pointer(al2_of(sh(e))));
 				}
 #if TRANS_HPPA
-				if ((al1_of(sh(e))->al.al_val.al_frame & 4) != 0) {
+				if ((al1_of(sh(e))->al.frame & 4) != 0) {
 					no(son(e)) = -rounder(-no(son(e)), al);
 				} else
 
@@ -2472,7 +2472,7 @@ refactor(exp e, exp scope)
 			{
 				exp ptr = son(e);
 				exp off = bro(ptr);
-				if ((al1_of(sh(off))->al.al_val.al_frame & 4) != 0 &&
+				if ((al1_of(sh(off))->al.frame & 4) != 0 &&
 				    !is_floating(al2_of(sh(off))->al.sh_hd)) {
 					exp r = getexp(sh(ptr), off, 0,
 					               ptr, NULL, 0,

@@ -365,7 +365,7 @@ init_frame_als(void)
 		frame_als[i].al.sh_hd = 0;
 		frame_als[i].al.state = ALDEF_VALAL;
 		frame_als[i].al.al_val.al = 64;
-		frame_als[i].al.al_val.al_frame = i + 1;
+		frame_als[i].al.frame = i + 1;
 	}
 }
 
@@ -587,19 +587,18 @@ f_unite_alignments(alignment a1, alignment a2)
 {
 	alignment j;
 	if (a1->al.state == ALDEF_VALAL && a2->al.state == ALDEF_VALAL) {
-		if (a1->al.al_val.al_frame == a2->al.al_val.al_frame) {
+		if (a1->al.frame == a2->al.frame) {
 			if (a1->al.al_val.al > a2->al.al_val.al) {
 				return a1;
 			} else {
 				return a2;
 			}
-		} else if (a1->al.al_val.al_frame ==0) {
+		} else if (a1->al.frame == 0) {
 			return a2;
-		} else if (a2->al.al_val.al_frame == 0) {
+		} else if (a2->al.frame == 0) {
 			return a1;
 		} else {
-			return &frame_als[(a1->al.al_val.al_frame |
-					    a2->al.al_val.al_frame) -1];
+			return &frame_als[(a1->al.frame | a2->al.frame) - 1];
 		}
 	}
 
@@ -655,32 +654,32 @@ init_alignment(void)
 {
 	const_al1->al.state = ALDEF_VALAL;
 	const_al1->al.al_val.al = 1;
-	const_al1->al.al_val.al_frame = 0;
+	const_al1->al.frame = 0;
 	const_al1->al.sh_hd = 0;
 
 	const_al8->al.state = ALDEF_VALAL;
 	const_al8->al.al_val.al = 8;
-	const_al8->al.al_val.al_frame = 0;
+	const_al8->al.frame = 0;
 	const_al8->al.sh_hd = 0;
 
 	const_al16->al.state = ALDEF_VALAL;
 	const_al16->al.al_val.al = 16;
-	const_al16->al.al_val.al_frame = 0;
+	const_al16->al.frame = 0;
 	const_al16->al.sh_hd = 0;
 
 	const_al32->al.state = ALDEF_VALAL;
 	const_al32->al.al_val.al = 32;
-	const_al32->al.al_val.al_frame = 0;
+	const_al32->al.frame = 0;
 	const_al32->al.sh_hd = 0;
 
 	const_al64->al.state = ALDEF_VALAL;
 	const_al64->al.al_val.al = 64;
-	const_al64->al.al_val.al_frame = 0;
+	const_al64->al.frame = 0;
 	const_al64->al.sh_hd = 0;
 
 	const_al512->al.state = ALDEF_VALAL;
 	const_al512->al.al_val.al = 512;
-	const_al512->al.al_val.al_frame = 0;
+	const_al512->al.frame = 0;
 	const_al512->al.sh_hd = 0;
 
 	cache_pals = NULL;
@@ -888,9 +887,9 @@ f_add_to_ptr(exp arg1, exp arg2)
 	}
 
 #if TRANS_SPARC || TRANS_HPPA
-	if ((al1_of(sh(arg2))->al.al_val.al_frame & 6) != 0 &&
+	if ((al1_of(sh(arg2))->al.frame & 6) != 0 &&
 #else
-	if ((al1_of(sh(arg2))->al.al_val.al_frame & 4) != 0 &&
+	if ((al1_of(sh(arg2))->al.frame & 4) != 0 &&
 #endif
 	    al2_of(sh(arg2))->al.sh_hd > nofhd) {
 		/* indirect varargs param */
@@ -4044,7 +4043,7 @@ f_offset_add(exp arg1, exp arg2)
 
 	sres = f_offset(al1_of(sh(arg1)), al2_of(sh(arg2)));
 #if 0
-	if ((al1_of(sh(arg1))->al.al_val.al_frame & 4) != 0 &&
+	if ((al1_of(sh(arg1))->al.frame & 4) != 0 &&
 	    al2_of(sh(arg2))->al.sh_hd != 0) {
 		exp ne;
 		if (al2_of(sh(arg2))->al.sh_hd > nofhd) {
@@ -4231,7 +4230,7 @@ f_offset_pad(alignment a, exp arg1)
 		ares->next = top_aldef;
 		top_aldef = ares;
 		sha = f_offset(ares, a);
-	} else if (al1_of(sh(arg1))->al.al_val.al_frame != 0) {
+	} else if (al1_of(sh(arg1))->al.frame != 0) {
 		sha = f_offset(al1_of(sh(arg1)), a);
 	} else {
 		sha = f_offset(long_to_al(MAX(a->al.al_val.al, al1(sh(arg1)))), a);
@@ -5172,8 +5171,7 @@ f_offset(alignment arg1, alignment arg2)
 {
 	/* use values pre-computed by init since we never alter shapes */
 	if (arg1->al.state != ALDEF_VALAL || arg2->al.state != ALDEF_VALAL || arg1->al.sh_hd != 0 ||
-	    arg2->al.sh_hd != 0 || arg1->al.al_val.al_frame != 0 ||
-	    arg2->al.al_val.al_frame != 0) {
+	    arg2->al.sh_hd != 0 || arg1->al.frame != 0 || arg2->al.frame != 0) {
 		return getshape(0, arg1, arg2, OFFSET_ALIGN, OFFSET_SZ,
 				offsethd);
 	}
@@ -5262,7 +5260,7 @@ shape
 f_pointer(alignment arg)
 {
 	/* use values pre-computed by init since we never alter shapes */
-	int af = arg->al.al_val.al_frame;
+	int af = arg->al.frame;
 	if (arg->al.state != ALDEF_VALAL && af == 0) {
 		return getshape(0, arg, const_al1, PTR_ALIGN, PTR_SZ, ptrhd);
 	}

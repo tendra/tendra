@@ -2746,12 +2746,12 @@ tailrecurse:
 		ans aa;
 		space nsp;
 
-		if ((al2(sh(son(e))) < al2(sh(e))) || (al1_of(sh(e)) ->al.al_val.al_frame & 4) != 0) {
+		if ((al2(sh(son(e))) < al2(sh(e))) || (al1_of(sh(e))->al.frame & 4) != 0) {
 			int al = (al2(sh(son(e))) == 1) ? al2(sh(e)) : (al2(sh(e)) / 8);
 			r = GETREG(dest, sp);
 			o = reg_operand(son(e), sp);
 
-			if ((al1_of(sh(e)) ->al.al_val.al_frame & 4) == 0) {
+			if ((al1_of(sh(e))->al.frame & 4) == 0) {
 				irr_ins(i_addi, c_, fs_, al - 1, o, r);
 				logical_op(i_and, -al, r, r);
 			} else {

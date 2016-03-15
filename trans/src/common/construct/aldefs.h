@@ -22,9 +22,9 @@ enum aldef_state {
 typedef struct alignment_t {
 	enum aldef_state state;
 	int sh_hd;
+	int frame;
 	struct alignment_u {
 		int al;
-		int al_frame;
 		struct join_t {
 			struct aldef_t *a;
 			struct aldef_t *b;
