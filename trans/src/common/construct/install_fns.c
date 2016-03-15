@@ -363,8 +363,8 @@ init_frame_als(void)
 	int i;
 	for (i = 0; i < 32; i++) {
 		frame_als[i].al.sh_hd = 0;
-		frame_als[i].al.state = ALDEF_VALAL;
-		frame_als[i].al.u.al = 64;
+		frame_als[i].al.state = ALDEF_VAL;
+		frame_als[i].al.u.val = 64;
 		frame_als[i].al.frame = i + 1;
 	}
 }
@@ -567,15 +567,15 @@ f_alignment(shape sha)
      So we have to set up equations which are solved at the end of aldefs
   */
 alignment
-f_obtain_al_tag(al_tag a1)
+f_obtain_al_tag(al_tag a)
 {
 	alignment j;
-	if (a1->al.state == ALDEF_VALAL) {
-		return long_to_al(a1->al.u.al);
+	if (a->al.state == ALDEF_VAL) {
+		return long_to_al(a->al.u.val);
 	}
 	j = (alignment)calloc(1, sizeof(aldef));
 	j->al.state = ALDEF_JOINA;
-	j->al.u.al_join.a = a1;
+	j->al.u.join.a = a;
 	j->next = top_aldef;
 	top_aldef = j;
 	return j;
@@ -583,29 +583,29 @@ f_obtain_al_tag(al_tag a1)
 
 
 alignment
-f_unite_alignments(alignment a1, alignment a2)
+f_unite_alignments(alignment a, alignment b)
 {
 	alignment j;
-	if (a1->al.state == ALDEF_VALAL && a2->al.state == ALDEF_VALAL) {
-		if (a1->al.frame == a2->al.frame) {
-			if (a1->al.u.al > a2->al.u.al) {
-				return a1;
+	if (a->al.state == ALDEF_VAL && b->al.state == ALDEF_VAL) {
+		if (a->al.frame == b->al.frame) {
+			if (a->al.u.val > b->al.u.val) {
+				return a;
 			} else {
-				return a2;
+				return b;
 			}
-		} else if (a1->al.frame == 0) {
-			return a2;
-		} else if (a2->al.frame == 0) {
-			return a1;
+		} else if (a->al.frame == 0) {
+			return b;
+		} else if (b->al.frame == 0) {
+			return a;
 		} else {
-			return &frame_als[(a1->al.frame | a2->al.frame) - 1];
+			return &frame_als[(a->al.frame | b->al.frame) - 1];
 		}
 	}
 
 	j = (alignment)calloc(1, sizeof(aldef));
 	j->al.state = ALDEF_JOINAB;
-	j->al.u.al_join.a = a1;
-	j->al.u.al_join.b = a2;
+	j->al.u.join.a = a;
+	j->al.u.join.b = b;
 	j->next = top_aldef;
 	top_aldef = j;
 	return j;
@@ -632,9 +632,9 @@ access f_used_as_volatile = 128;
 access f_preserve = 256;
 
 access
-f_add_accesses(access a1, access a2)
+f_add_accesses(access a, access b)
 {
-	return a1 | a2;
+	return a | b;
 }
 
 
@@ -652,33 +652,33 @@ static struct CAL {
 void
 init_alignment(void)
 {
-	const_al1->al.state = ALDEF_VALAL;
-	const_al1->al.u.al  = 1;
+	const_al1->al.state = ALDEF_VAL;
+	const_al1->al.u.val = 1;
 	const_al1->al.frame = 0;
 	const_al1->al.sh_hd = 0;
 
-	const_al8->al.state = ALDEF_VALAL;
-	const_al8->al.u.al  = 8;
+	const_al8->al.state = ALDEF_VAL;
+	const_al8->al.u.val = 8;
 	const_al8->al.frame = 0;
 	const_al8->al.sh_hd = 0;
 
-	const_al16->al.state = ALDEF_VALAL;
-	const_al16->al.u.al  = 16;
+	const_al16->al.state = ALDEF_VAL;
+	const_al16->al.u.val = 16;
 	const_al16->al.frame = 0;
 	const_al16->al.sh_hd = 0;
 
-	const_al32->al.state = ALDEF_VALAL;
-	const_al32->al.u.al  = 32;
+	const_al32->al.state = ALDEF_VAL;
+	const_al32->al.u.val = 32;
 	const_al32->al.frame = 0;
 	const_al32->al.sh_hd = 0;
 
-	const_al64->al.state = ALDEF_VALAL;
-	const_al64->al.u.al  = 64;
+	const_al64->al.state = ALDEF_VAL;
+	const_al64->al.u.val = 64;
 	const_al64->al.frame = 0;
 	const_al64->al.sh_hd = 0;
 
-	const_al512->al.state = ALDEF_VALAL;
-	const_al512->al.u.al  = 512;
+	const_al512->al.state = ALDEF_VAL;
+	const_al512->al.u.val = 512;
 	const_al512->al.frame = 0;
 	const_al512->al.sh_hd = 0;
 
@@ -4109,9 +4109,9 @@ f_offset_div_by_int(exp arg1, exp arg2)
 exp
 f_offset_max(exp arg1, exp arg2)
 {
-	alignment a1 = al1_of(sh(arg1));
-	alignment a2 = al1_of(sh(arg2));
-	alignment a3 = al2_of(sh(arg1));
+	alignment a = al1_of(sh(arg1));
+	alignment b = al1_of(sh(arg2));
+	alignment c = al2_of(sh(arg1));
 	shape sha;
 	if (sh(arg1)->tag == bothd) {
 		kill_exp(arg2, arg2);
@@ -4129,19 +4129,19 @@ f_offset_max(exp arg1, exp arg2)
 		}
 	}
 
-	if (a1->al.state != ALDEF_VALAL || a2->al.state != ALDEF_VALAL) {
+	if (a->al.state != ALDEF_VAL || b->al.state != ALDEF_VAL) {
 		alignment ares = (alignment)calloc(1, sizeof(aldef));
 		if (!doing_aldefs) {
 			error(ERR_INTERNAL, "check_shape: offset_max");
 		}
 		ares->al.state = ALDEF_JOINAB;
-		ares->al.u.al_join.a = a1;
-		ares->al.u.al_join.b = a2;
+		ares->al.u.join.a = a;
+		ares->al.u.join.b = b;
 		ares->next = top_aldef;
 		top_aldef = ares;
-		sha = f_offset(ares, a3);
+		sha = f_offset(ares, c);
 	} else {
-		sha = f_offset(long_to_al(MAX(a1->al.u.al, a2->al.u.al)), a3);
+		sha = f_offset(long_to_al(MAX(a->al.u.val, b->al.u.val)), c);
 	}
 
 	return me_b3(sha, arg1, arg2, offset_max_tag);
@@ -4219,21 +4219,21 @@ f_offset_pad(alignment a, exp arg1)
 		}
 	}
 
-	if (a->al.state != ALDEF_VALAL || al1_of(sh(arg1))->al.state != ALDEF_VALAL) {
+	if (a->al.state != ALDEF_VAL || al1_of(sh(arg1))->al.state != ALDEF_VAL) {
 		alignment ares = (alignment)calloc(1, sizeof(aldef));
 		if (!doing_aldefs) {
 			error(ERR_INTERNAL, "unknown alignment in offset_pad");
 		}
 		ares->al.state = ALDEF_JOINAB;
-		ares->al.u.al_join.a = a;
-		ares->al.u.al_join.b = al1_of(sh(arg1));
+		ares->al.u.join.a = a;
+		ares->al.u.join.b = al1_of(sh(arg1));
 		ares->next = top_aldef;
 		top_aldef = ares;
 		sha = f_offset(ares, a);
 	} else if (al1_of(sh(arg1))->al.frame != 0) {
 		sha = f_offset(al1_of(sh(arg1)), a);
 	} else {
-		sha = f_offset(long_to_al(MAX(a->al.u.al, al1(sh(arg1)))), a);
+		sha = f_offset(long_to_al(MAX(a->al.u.val, al1(sh(arg1)))), a);
 	}
 
 	return me_u3(sha, arg1, offset_pad_tag);
@@ -5170,16 +5170,16 @@ shape
 f_offset(alignment arg1, alignment arg2)
 {
 	/* use values pre-computed by init since we never alter shapes */
-	if (arg1->al.state != ALDEF_VALAL || arg2->al.state != ALDEF_VALAL || arg1->al.sh_hd != 0 ||
+	if (arg1->al.state != ALDEF_VAL || arg2->al.state != ALDEF_VAL || arg1->al.sh_hd != 0 ||
 	    arg2->al.sh_hd != 0 || arg1->al.frame != 0 || arg2->al.frame != 0) {
 		return getshape(0, arg1, arg2, OFFSET_ALIGN, OFFSET_SZ,
 				offsethd);
 	}
 
 	/* use values pre-computed by init since we never alter shapes */
-	switch (arg1->al.u.al) {
+	switch (arg1->al.u.val) {
 	case 512:
-		switch (arg2->al.u.al) {
+		switch (arg2->al.u.val) {
 		case 512: return f_off512_512;
 		case  64: return f_off512_64;
 		case  32: return f_off512_32;
@@ -5192,7 +5192,7 @@ f_offset(alignment arg1, alignment arg2)
 			return f_off64_8;
 		}
 	case 64:
-		switch (arg2->al.u.al) {
+		switch (arg2->al.u.val) {
 		case 64: return f_off64_64;
 		case 32: return f_off64_32;
 		case 16: return f_off64_16;
@@ -5204,7 +5204,7 @@ f_offset(alignment arg1, alignment arg2)
 			return f_off64_8;
 		}
 	case 32:
-		switch (arg2->al.u.al) {
+		switch (arg2->al.u.val) {
 		case 32: return f_off32_32;
 		case 16: return f_off32_16;
 		case  8: return f_off32_8;
@@ -5215,7 +5215,7 @@ f_offset(alignment arg1, alignment arg2)
 			return f_off32_8;
 		}
 	case 16:
-		switch (arg2->al.u.al) {
+		switch (arg2->al.u.val) {
 		case 16: return f_off16_16;
 		case  8: return f_off16_8;
 		case  1: return f_off16_1;
@@ -5225,7 +5225,7 @@ f_offset(alignment arg1, alignment arg2)
 			return f_off16_8;
 		}
 	case 8:
-		switch (arg2->al.u.al) {
+		switch (arg2->al.u.val) {
 		case 8: return f_off8_8;
 		case 1: return f_off8_1;
 
@@ -5234,7 +5234,7 @@ f_offset(alignment arg1, alignment arg2)
 			return f_off8_8;
 		}
 	case 1:
-		switch (arg2->al.u.al) {
+		switch (arg2->al.u.val) {
 		case 1: return f_off1_1;
 
 		default:
@@ -5261,7 +5261,7 @@ f_pointer(alignment arg)
 {
 	/* use values pre-computed by init since we never alter shapes */
 	int af = arg->al.frame;
-	if (arg->al.state != ALDEF_VALAL && af == 0) {
+	if (arg->al.state != ALDEF_VAL && af == 0) {
 		return getshape(0, arg, const_al1, PTR_ALIGN, PTR_SZ, ptrhd);
 	}
 	if (af != 0) {
@@ -5285,7 +5285,7 @@ f_pointer(alignment arg)
 		return res;
 	}
 
-	switch (arg->al.u.al) {
+	switch (arg->al.u.val) {
 	case  1: return f_ptr1;
 	case  8: return f_ptr8;
 	case 16: return f_ptr16;
@@ -5491,40 +5491,40 @@ init_string(void)
 
 
 string
-f_concat_string(string a1, string a2)
+f_concat_string(string a, string b)
 {
 	int i;
 	string res;
-	if (a1.size != a2.size) {
+	if (a.size != b.size) {
 		error(ERR_INTERNAL, "Concatenated strings have different unit size");
 	}
-	res.number = a1.number + a2.number;
-	res.size = a1.size;
+	res.number = a.number + b.number;
+	res.size = a.size;
 	if (res.size <= 8) {
 		res.ints.chars = xcalloc(res.number + 1, sizeof(char));
-		for (i = 0; i < a1.number; i++) {
-			res.ints.chars[i] = a1.ints.chars[i];
+		for (i = 0; i < a.number; i++) {
+			res.ints.chars[i] = a.ints.chars[i];
 		}
-		for (i = 0; i < a2.number; i++) {
-			res.ints.chars[i + a1.number] = a2.ints.chars[i];
+		for (i = 0; i < b.number; i++) {
+			res.ints.chars[i + a.number] = b.ints.chars[i];
 		}
 		res.ints.chars[res.number] = 0;
 	} else if (res.size <= 16) {
 		res.ints.shorts = xcalloc(res.number + 1, sizeof(short));
-		for (i = 0; i < a1.number; i++) {
-			res.ints.shorts[i] = a1.ints.shorts[i];
+		for (i = 0; i < a.number; i++) {
+			res.ints.shorts[i] = a.ints.shorts[i];
 		}
-		for (i = 0; i < a2.number; i++) {
-			res.ints.shorts[i + a1.number] = a2.ints.shorts[i];
+		for (i = 0; i < b.number; i++) {
+			res.ints.shorts[i + a.number] = b.ints.shorts[i];
 		}
 		res.ints.shorts[res.number] =0;
 	} else {
 		res.ints.longs = xcalloc(res.number + 1, sizeof(int));
-		for (i = 0; i < a1.number; i++) {
-			res.ints.longs[i] = a1.ints.longs[i];
+		for (i = 0; i < a.number; i++) {
+			res.ints.longs[i] = a.ints.longs[i];
 		}
-		for (i = 0; i < a2.number; i++) {
-			res.ints.longs[i + a1.number] = a2.ints.longs[i];
+		for (i = 0; i < b.number; i++) {
+			res.ints.longs[i + a.number] = b.ints.longs[i];
 		}
 		res.ints.longs[res.number] =0;
 	}

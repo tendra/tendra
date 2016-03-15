@@ -14,21 +14,21 @@
 /* that is, which fields of the union constitute the value */
 enum aldef_state {
 	ALDEF_NONE,
-	ALDEF_VALAL,  /* defined in u.al */
-	ALDEF_JOINAB, /* the join of u.al_join.a and b */
-	ALDEF_JOINA   /* in u.al_join.a */
+	ALDEF_VAL,    /* defined in u.val */
+	ALDEF_JOINAB, /* the join of u.join.a and .b */
+	ALDEF_JOINA   /* in u.join.a */
 };
 
-typedef struct alignment_t {
+typedef struct {
 	enum aldef_state state;
 	int sh_hd;
 	int frame;
 	union {
-		int al;
-		struct join_t {
+		int val;
+		struct {
 			struct aldef_t *a;
 			struct aldef_t *b;
-		} al_join;
+		} join;
 	} u;
 } alignment_cell;
 
