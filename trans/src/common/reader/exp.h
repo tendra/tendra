@@ -173,7 +173,7 @@ typedef struct exp_t *exp;
  */
 
 #define shape_size(x)     ((x)->num.l)
-#define al2ul(x)          ((unsigned long) ((x)->al.al_val.al))
+#define al2ul(x)          ((unsigned long) ((x)->al.u.al))
 #define align_of(x)       ((x)->bro.ald)
 #define shape_align(x)    al2ul(align_of (x))
 #define al1_of(x)         ((x)->son.ald)

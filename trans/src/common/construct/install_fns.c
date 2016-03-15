@@ -364,7 +364,7 @@ init_frame_als(void)
 	for (i = 0; i < 32; i++) {
 		frame_als[i].al.sh_hd = 0;
 		frame_als[i].al.state = ALDEF_VALAL;
-		frame_als[i].al.al_val.al = 64;
+		frame_als[i].al.u.al = 64;
 		frame_als[i].al.frame = i + 1;
 	}
 }
@@ -571,11 +571,11 @@ f_obtain_al_tag(al_tag a1)
 {
 	alignment j;
 	if (a1->al.state == ALDEF_VALAL) {
-		return long_to_al(a1->al.al_val.al);
+		return long_to_al(a1->al.u.al);
 	}
 	j = (alignment)calloc(1, sizeof(aldef));
 	j->al.state = ALDEF_JOINA;
-	j->al.al_val.al_join.a = a1;
+	j->al.u.al_join.a = a1;
 	j->next = top_aldef;
 	top_aldef = j;
 	return j;
@@ -588,7 +588,7 @@ f_unite_alignments(alignment a1, alignment a2)
 	alignment j;
 	if (a1->al.state == ALDEF_VALAL && a2->al.state == ALDEF_VALAL) {
 		if (a1->al.frame == a2->al.frame) {
-			if (a1->al.al_val.al > a2->al.al_val.al) {
+			if (a1->al.u.al > a2->al.u.al) {
 				return a1;
 			} else {
 				return a2;
@@ -604,8 +604,8 @@ f_unite_alignments(alignment a1, alignment a2)
 
 	j = (alignment)calloc(1, sizeof(aldef));
 	j->al.state = ALDEF_JOINAB;
-	j->al.al_val.al_join.a = a1;
-	j->al.al_val.al_join.b = a2;
+	j->al.u.al_join.a = a1;
+	j->al.u.al_join.b = a2;
 	j->next = top_aldef;
 	top_aldef = j;
 	return j;
@@ -653,32 +653,32 @@ void
 init_alignment(void)
 {
 	const_al1->al.state = ALDEF_VALAL;
-	const_al1->al.al_val.al = 1;
+	const_al1->al.u.al  = 1;
 	const_al1->al.frame = 0;
 	const_al1->al.sh_hd = 0;
 
 	const_al8->al.state = ALDEF_VALAL;
-	const_al8->al.al_val.al = 8;
+	const_al8->al.u.al  = 8;
 	const_al8->al.frame = 0;
 	const_al8->al.sh_hd = 0;
 
 	const_al16->al.state = ALDEF_VALAL;
-	const_al16->al.al_val.al = 16;
+	const_al16->al.u.al  = 16;
 	const_al16->al.frame = 0;
 	const_al16->al.sh_hd = 0;
 
 	const_al32->al.state = ALDEF_VALAL;
-	const_al32->al.al_val.al = 32;
+	const_al32->al.u.al  = 32;
 	const_al32->al.frame = 0;
 	const_al32->al.sh_hd = 0;
 
 	const_al64->al.state = ALDEF_VALAL;
-	const_al64->al.al_val.al = 64;
+	const_al64->al.u.al  = 64;
 	const_al64->al.frame = 0;
 	const_al64->al.sh_hd = 0;
 
 	const_al512->al.state = ALDEF_VALAL;
-	const_al512->al.al_val.al = 512;
+	const_al512->al.u.al  = 512;
 	const_al512->al.frame = 0;
 	const_al512->al.sh_hd = 0;
 
@@ -4135,13 +4135,13 @@ f_offset_max(exp arg1, exp arg2)
 			error(ERR_INTERNAL, "check_shape: offset_max");
 		}
 		ares->al.state = ALDEF_JOINAB;
-		ares->al.al_val.al_join.a = a1;
-		ares->al.al_val.al_join.b = a2;
+		ares->al.u.al_join.a = a1;
+		ares->al.u.al_join.b = a2;
 		ares->next = top_aldef;
 		top_aldef = ares;
 		sha = f_offset(ares, a3);
 	} else {
-		sha = f_offset(long_to_al(MAX(a1->al.al_val.al, a2->al.al_val.al)), a3);
+		sha = f_offset(long_to_al(MAX(a1->al.u.al, a2->al.u.al)), a3);
 	}
 
 	return me_b3(sha, arg1, arg2, offset_max_tag);
@@ -4225,15 +4225,15 @@ f_offset_pad(alignment a, exp arg1)
 			error(ERR_INTERNAL, "unknown alignment in offset_pad");
 		}
 		ares->al.state = ALDEF_JOINAB;
-		ares->al.al_val.al_join.a = a;
-		ares->al.al_val.al_join.b = al1_of(sh(arg1));
+		ares->al.u.al_join.a = a;
+		ares->al.u.al_join.b = al1_of(sh(arg1));
 		ares->next = top_aldef;
 		top_aldef = ares;
 		sha = f_offset(ares, a);
 	} else if (al1_of(sh(arg1))->al.frame != 0) {
 		sha = f_offset(al1_of(sh(arg1)), a);
 	} else {
-		sha = f_offset(long_to_al(MAX(a->al.al_val.al, al1(sh(arg1)))), a);
+		sha = f_offset(long_to_al(MAX(a->al.u.al, al1(sh(arg1)))), a);
 	}
 
 	return me_u3(sha, arg1, offset_pad_tag);
@@ -5177,9 +5177,9 @@ f_offset(alignment arg1, alignment arg2)
 	}
 
 	/* use values pre-computed by init since we never alter shapes */
-	switch (arg1->al.al_val.al) {
+	switch (arg1->al.u.al) {
 	case 512:
-		switch (arg2->al.al_val.al) {
+		switch (arg2->al.u.al) {
 		case 512: return f_off512_512;
 		case  64: return f_off512_64;
 		case  32: return f_off512_32;
@@ -5192,7 +5192,7 @@ f_offset(alignment arg1, alignment arg2)
 			return f_off64_8;
 		}
 	case 64:
-		switch (arg2->al.al_val.al) {
+		switch (arg2->al.u.al) {
 		case 64: return f_off64_64;
 		case 32: return f_off64_32;
 		case 16: return f_off64_16;
@@ -5204,7 +5204,7 @@ f_offset(alignment arg1, alignment arg2)
 			return f_off64_8;
 		}
 	case 32:
-		switch (arg2->al.al_val.al) {
+		switch (arg2->al.u.al) {
 		case 32: return f_off32_32;
 		case 16: return f_off32_16;
 		case  8: return f_off32_8;
@@ -5215,7 +5215,7 @@ f_offset(alignment arg1, alignment arg2)
 			return f_off32_8;
 		}
 	case 16:
-		switch (arg2->al.al_val.al) {
+		switch (arg2->al.u.al) {
 		case 16: return f_off16_16;
 		case  8: return f_off16_8;
 		case  1: return f_off16_1;
@@ -5225,7 +5225,7 @@ f_offset(alignment arg1, alignment arg2)
 			return f_off16_8;
 		}
 	case 8:
-		switch (arg2->al.al_val.al) {
+		switch (arg2->al.u.al) {
 		case 8: return f_off8_8;
 		case 1: return f_off8_1;
 
@@ -5234,7 +5234,7 @@ f_offset(alignment arg1, alignment arg2)
 			return f_off8_8;
 		}
 	case 1:
-		switch (arg2->al.al_val.al) {
+		switch (arg2->al.u.al) {
 		case 1: return f_off1_1;
 
 		default:
@@ -5285,7 +5285,7 @@ f_pointer(alignment arg)
 		return res;
 	}
 
-	switch (arg->al.al_val.al) {
+	switch (arg->al.u.al) {
 	case  1: return f_ptr1;
 	case  8: return f_ptr8;
 	case 16: return f_ptr16;

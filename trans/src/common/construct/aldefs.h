@@ -11,25 +11,25 @@
 #define CONSTRUCT_ALDEFS_H
 
 /* code describing the state */
-/* that is, which fields of al_val constitute the value */
+/* that is, which fields of the union constitute the value */
 enum aldef_state {
 	ALDEF_NONE,
-	ALDEF_VALAL,  /* defined in al_val.al */
-	ALDEF_JOINAB, /* the join of al_val.al_join.a and b */
-	ALDEF_JOINA   /* in al_val.al_join.a */
+	ALDEF_VALAL,  /* defined in u.al */
+	ALDEF_JOINAB, /* the join of u.al_join.a and b */
+	ALDEF_JOINA   /* in u.al_join.a */
 };
 
 typedef struct alignment_t {
 	enum aldef_state state;
 	int sh_hd;
 	int frame;
-	struct alignment_u {
+	union {
 		int al;
 		struct join_t {
 			struct aldef_t *a;
 			struct aldef_t *b;
 		} al_join;
-	} al_val;
+	} u;
 } alignment_cell;
 
 typedef struct aldef_t {
