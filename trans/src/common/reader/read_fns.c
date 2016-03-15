@@ -577,7 +577,7 @@ start_make_capsule
   for (i = 0; i < capsule_no_of_als; ++i) {
     /* initialise the table of alignment tags */
     aldef *ap = &capsule_altab[i];
-    ap->al.al_n = 0;
+    ap->al.state = ALDEF_NONE;
   }
 
   init_capsule_diagtags();	/* TDF_DIAG3 */
@@ -2550,7 +2550,7 @@ new_link_list(int n)
        unit_altab = rf_xcalloc(unit_no_of_als - n, sizeof(aldef));
        for (i = 0; i < unit_no_of_als - n; ++i) {
          aldef *ap = &unit_altab[i];
-         ap->al.al_n = 0;
+         ap->al.state = ALDEF_NONE;
        }
        return 0;
      case DIAGTAG_TYPE:		/* TDF_DIAG3 */

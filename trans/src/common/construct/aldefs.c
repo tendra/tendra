@@ -47,17 +47,17 @@ process_aldefs(void)
 		complete = true;
 
 		for (p = top_aldef; p != NULL; p = p->next) {
-			switch (p->al.al_n) {
-			case 1: break;
+			switch (p->al.state) {
+			case ALDEF_VALAL: break;
 
-			case 2: {
+			case ALDEF_JOINAB: {
 				alignment a1;
 				alignment a2;
 
 				a2 = p->al.al_val.al_join.b;
 				a1 = p->al.al_val.al_join.a;
-				if (a1->al.al_n == 1 && a2->al.al_n == 1) {
-					p->al.al_n = 1;
+				if (a1->al.state == ALDEF_VALAL && a2->al.state == ALDEF_VALAL) {
+					p->al.state = ALDEF_VALAL;
 					p->al.al_val.al = MAX(a1->al.al_val.al, a2->al.al_val.al);
 					changed  = true;
 				} else {
@@ -66,12 +66,12 @@ process_aldefs(void)
 				break;
 			}
 
-			case 3: {
+			case ALDEF_JOINA: {
 				alignment a1;
 
 				a1 = p->al.al_val.al_join.a;
-				if (a1->al.al_n == 1) {
-					p->al.al_n = 1;
+				if (a1->al.state == ALDEF_VALAL) {
+					p->al.state = ALDEF_VALAL;
 					p->al.al_val.al = a1->al.al_val.al;
 					changed  = true;
 				} else {

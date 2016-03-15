@@ -10,14 +10,17 @@
 #ifndef CONSTRUCT_ALDEFS_H
 #define CONSTRUCT_ALDEFS_H
 
+/* code describing the state */
+/* that is, which fields of al_val constitute the value */
+enum aldef_state {
+	ALDEF_NONE,
+	ALDEF_VALAL,  /* defined in al_val.al */
+	ALDEF_JOINAB, /* the join of al_val.al_join.a and b */
+	ALDEF_JOINA   /* in al_val.al_join.a */
+};
+
 typedef struct alignment_t {
-   /*
-	* code describing the state
-	* 1 - defined in al_val.al
-	* 2 - the join of al_val.al_join.a and b
-	* 3 - in al_val.al_join.a
-	*/
-	int al_n;
+	enum aldef_state state;
 	int sh_hd;
 	struct alignment_u {
 		int al;

@@ -363,7 +363,7 @@ init_frame_als(void)
 	int i;
 	for (i = 0; i < 32; i++) {
 		frame_als[i].al.sh_hd = 0;
-		frame_als[i].al.al_n = 1;
+		frame_als[i].al.state = ALDEF_VALAL;
 		frame_als[i].al.al_val.al = 64;
 		frame_als[i].al.al_val.al_frame = i + 1;
 	}
@@ -570,11 +570,11 @@ alignment
 f_obtain_al_tag(al_tag a1)
 {
 	alignment j;
-	if (a1->al.al_n == 1) {
+	if (a1->al.state == ALDEF_VALAL) {
 		return long_to_al(a1->al.al_val.al);
 	}
 	j = (alignment)calloc(1, sizeof(aldef));
-	j->al.al_n = 3;
+	j->al.state = ALDEF_JOINA;
 	j->al.al_val.al_join.a = a1;
 	j->next = top_aldef;
 	top_aldef = j;
@@ -586,7 +586,7 @@ alignment
 f_unite_alignments(alignment a1, alignment a2)
 {
 	alignment j;
-	if (a1->al.al_n == 1 && a2->al.al_n == 1) {
+	if (a1->al.state == ALDEF_VALAL && a2->al.state == ALDEF_VALAL) {
 		if (a1->al.al_val.al_frame == a2->al.al_val.al_frame) {
 			if (a1->al.al_val.al > a2->al.al_val.al) {
 				return a1;
@@ -604,7 +604,7 @@ f_unite_alignments(alignment a1, alignment a2)
 	}
 
 	j = (alignment)calloc(1, sizeof(aldef));
-	j->al.al_n = 2;
+	j->al.state = ALDEF_JOINAB;
 	j->al.al_val.al_join.a = a1;
 	j->al.al_val.al_join.b = a2;
 	j->next = top_aldef;
@@ -653,27 +653,32 @@ static struct CAL {
 void
 init_alignment(void)
 {
-	const_al1->al.al_n = 1;
+	const_al1->al.state = ALDEF_VALAL;
 	const_al1->al.al_val.al = 1;
 	const_al1->al.al_val.al_frame = 0;
 	const_al1->al.sh_hd = 0;
-	const_al8->al.al_n = 1;
+
+	const_al8->al.state = ALDEF_VALAL;
 	const_al8->al.al_val.al = 8;
 	const_al8->al.al_val.al_frame = 0;
 	const_al8->al.sh_hd = 0;
-	const_al16->al.al_n = 1;
+
+	const_al16->al.state = ALDEF_VALAL;
 	const_al16->al.al_val.al = 16;
 	const_al16->al.al_val.al_frame = 0;
 	const_al16->al.sh_hd = 0;
-	const_al32->al.al_n = 1;
+
+	const_al32->al.state = ALDEF_VALAL;
 	const_al32->al.al_val.al = 32;
 	const_al32->al.al_val.al_frame = 0;
 	const_al32->al.sh_hd = 0;
-	const_al64->al.al_n = 1;
+
+	const_al64->al.state = ALDEF_VALAL;
 	const_al64->al.al_val.al = 64;
 	const_al64->al.al_val.al_frame = 0;
 	const_al64->al.sh_hd = 0;
-	const_al512->al.al_n = 1;
+
+	const_al512->al.state = ALDEF_VALAL;
 	const_al512->al.al_val.al = 512;
 	const_al512->al.al_val.al_frame = 0;
 	const_al512->al.sh_hd = 0;
@@ -4125,12 +4130,12 @@ f_offset_max(exp arg1, exp arg2)
 		}
 	}
 
-	if (a1->al.al_n != 1 || a2->al.al_n != 1) {
+	if (a1->al.state != ALDEF_VALAL || a2->al.state != ALDEF_VALAL) {
 		alignment ares = (alignment)calloc(1, sizeof(aldef));
 		if (!doing_aldefs) {
 			error(ERR_INTERNAL, "check_shape: offset_max");
 		}
-		ares->al.al_n = 2;
+		ares->al.state = ALDEF_JOINAB;
 		ares->al.al_val.al_join.a = a1;
 		ares->al.al_val.al_join.b = a2;
 		ares->next = top_aldef;
@@ -4215,12 +4220,12 @@ f_offset_pad(alignment a, exp arg1)
 		}
 	}
 
-	if (a->al.al_n != 1 || al1_of(sh(arg1))->al.al_n != 1) {
+	if (a->al.state != ALDEF_VALAL || al1_of(sh(arg1))->al.state != ALDEF_VALAL) {
 		alignment ares = (alignment)calloc(1, sizeof(aldef));
 		if (!doing_aldefs) {
 			error(ERR_INTERNAL, "unknown alignment in offset_pad");
 		}
-		ares->al.al_n = 2;
+		ares->al.state = ALDEF_JOINAB;
 		ares->al.al_val.al_join.a = a;
 		ares->al.al_val.al_join.b = al1_of(sh(arg1));
 		ares->next = top_aldef;
@@ -5166,7 +5171,7 @@ shape
 f_offset(alignment arg1, alignment arg2)
 {
 	/* use values pre-computed by init since we never alter shapes */
-	if (arg1->al.al_n != 1 || arg2->al.al_n != 1 || arg1->al.sh_hd != 0 ||
+	if (arg1->al.state != ALDEF_VALAL || arg2->al.state != ALDEF_VALAL || arg1->al.sh_hd != 0 ||
 	    arg2->al.sh_hd != 0 || arg1->al.al_val.al_frame != 0 ||
 	    arg2->al.al_val.al_frame != 0) {
 		return getshape(0, arg1, arg2, OFFSET_ALIGN, OFFSET_SZ,
@@ -5258,7 +5263,7 @@ f_pointer(alignment arg)
 {
 	/* use values pre-computed by init since we never alter shapes */
 	int af = arg->al.al_val.al_frame;
-	if (arg->al.al_n != 1 && af == 0) {
+	if (arg->al.state != ALDEF_VALAL && af == 0) {
 		return getshape(0, arg, const_al1, PTR_ALIGN, PTR_SZ, ptrhd);
 	}
 	if (af != 0) {
