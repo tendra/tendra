@@ -11,11 +11,13 @@
 #define CONSTRUCT_ALDEFS_H
 
 typedef struct alignment_t {
-	int al_n;   /* code describing the state
-			   1 - defined in al_val.al
-			   2 - the join of al_val.al_join.a and b
-			   3 - in al_val.al_join.a
-			 */
+   /*
+	* code describing the state
+	* 1 - defined in al_val.al
+	* 2 - the join of al_val.al_join.a and b
+	* 3 - in al_val.al_join.a
+	*/
+	int al_n;
 	int sh_hd;
 	struct alignment_u {
 		int al;
