@@ -149,7 +149,7 @@ static void
 check_taggable(dg_name nm)
 {
 	if (!nm->mor || !nm->mor->this_tag) {
-		IGNORE f_dg_tag_name(gen_tg_tag(), nm);
+		IGNORE f_dg_tag_name(gen_dg_tag(), nm);
 	}
 }
 

@@ -23,7 +23,7 @@ extern dg_info new_dg_info(dg_info_key k);
 extern void extend_dg_name(dg_name nm);
 extern void extend_dg_type(dg_type nm);
 extern void init_dgtag(dg_tag tg);
-extern dg_tag gen_tg_tag(void);
+extern dg_tag gen_dg_tag(void);
 extern dg_type get_qual_dg_type(dg_qual_type_key qual, dg_type typ);
 extern dg_type get_dg_bitfield_type(dg_type typ, shape sha,
 				    bitfield_variety bv);

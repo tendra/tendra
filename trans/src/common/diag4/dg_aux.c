@@ -194,7 +194,7 @@ init_dgtag(dg_tag tg)
 }
 
 dg_tag
-gen_tg_tag(void)
+gen_dg_tag(void)
 {
 	dg_tag tg = xcalloc(1, sizeof(dgtag_struct));
 	init_dgtag(tg);
@@ -480,7 +480,7 @@ matched_obj(exp e, dg_name nm, dg_tag *refans)
 		if ((no(x) <= no(e)) &&
 		    (no(x) + shape_size(sh(x)) >= no(e) + shape_size(sh(e)))) {
 			if (!nm->mor || !nm->mor->this_tag) {
-				IGNORE f_dg_tag_name(gen_tg_tag(), nm);
+				IGNORE f_dg_tag_name(gen_dg_tag(), nm);
 			}
 
 			*refans = nm->mor->this_tag;
@@ -650,7 +650,7 @@ new_copy_name(dg_name d)
 {
 	dg_name new = new_dg_name(d->key);
 	if (d->mor && d->mor->this_tag) {
-		IGNORE f_dg_tag_name(gen_tg_tag(), new);
+		IGNORE f_dg_tag_name(gen_dg_tag(), new);
 
 		if (d->mor->this_tag->copy) {
 			error(ERR_INTERNAL, "bad copy_diagname");
@@ -663,7 +663,7 @@ new_copy_name(dg_name d)
 
 	if (doing_inlining) {
 		if (!d->mor || (!d->mor->this_tag && !d->mor->inline_ref)) {
-			IGNORE f_dg_tag_name(gen_tg_tag(), d);
+			IGNORE f_dg_tag_name(gen_dg_tag(), d);
 		}
 
 		if (!d->mor->inline_ref) {
@@ -924,7 +924,7 @@ copy_dg_info(dg_info d, exp var, exp lab, int doing_exp_copy)
 	dg_info new = new_dg_info(d->key);
 
 	if (d->this_tag) {
-		IGNORE f_make_tag_dg(gen_tg_tag(), new);
+		IGNORE f_make_tag_dg(gen_dg_tag(), new);
 		if (d->this_tag->copy) {
 			error(ERR_INTERNAL, "bad copy_dg_info");
 		}
@@ -1217,14 +1217,14 @@ start_diag_inlining(exp e, dg_name dn)
 	}
 
 	if (!dn->mor || !dn->mor->this_tag) {
-		IGNORE f_dg_tag_name(gen_tg_tag(), dn);
+		IGNORE f_dg_tag_name(gen_dg_tag(), dn);
 	}
 
 	any_inl = dn->mor->this_tag->any_inl;
 	/* for copying only */
 	di = f_inline_call_dg(dn->mor->this_tag, args, no_nat_option);
 	dn->mor->this_tag->any_inl = any_inl;
-	current_inliner = gen_tg_tag();
+	current_inliner = gen_dg_tag();
 	di = f_make_tag_dg(current_inliner, di);
 	di->more = dgf(body);
 	dgf(body) = di;
@@ -1420,7 +1420,7 @@ gather_detch(exp e, dg_info *dx, int reason, int descend, int reuse,
 				error(ERR_INTERNAL, "lost movd?");
 			}
 
-			IGNORE f_make_tag_dg(gen_tg_tag(), d);
+			IGNORE f_make_tag_dg(gen_dg_tag(), d);
 			ans->info = NULL;
 			ans->tg = d->this_tag;
 		} else {
@@ -1711,7 +1711,7 @@ make_optim_dg(int reason, exp e)
 		ans->data.i_optim.reason = reason;
 		ans->data.i_optim.objs = NULL;
 		ans->data.i_optim.lo_pc = ans->data.i_optim.hi_pc = 0;
-		IGNORE f_make_tag_dg(gen_tg_tag(), ans);
+		IGNORE f_make_tag_dg(gen_dg_tag(), ans);
 		ans->more = *dx;
 		*dx = ans;
 	}
