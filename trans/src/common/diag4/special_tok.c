@@ -18,8 +18,6 @@
 #include <reader/main_reads.h>
 #include <reader/externs.h>
 
-#include <construct/exp.h>
-
 #include <refactor/refactor.h>
 
 #include "dg_aux.h"
