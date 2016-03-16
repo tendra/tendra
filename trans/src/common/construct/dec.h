@@ -11,13 +11,10 @@
 #define CONSTRUCT_DEC_H
 
 #ifdef TDF_DIAG3
-#include <diag3/dg_first.h>
-#include <diag3/diaginfo.h>
 #include <diag3/diagtypes1.h>
 #endif
 #ifdef TDF_DIAG4
 #include <diag4/dg_first.h>
-#include <diag4/diaginfo.h>
 #endif
 
 
@@ -39,7 +36,7 @@ struct dec_t {
 	diag_descriptor *diag_info;
 #endif
 #ifdef TDF_DIAG4
-	struct dg_name_t *dg_name;
+	dg_name *dg_name;
 #endif
 
 	access acc;
