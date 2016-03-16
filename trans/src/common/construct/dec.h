@@ -32,10 +32,11 @@ struct dec_t {
 
 	int unit_number;
 
+#ifdef TDF_DIAG3
+	diag_descriptor *diag_info;
+#endif
 #ifdef TDF_DIAG4
 	struct dg_name_t *dg_name;
-#else
-	diag_descriptor *diag_info;
 #endif
 
 	access acc;

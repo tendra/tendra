@@ -511,10 +511,10 @@ evaluate(exp c, int cname, char *s, int isconst, int global,
 
 	if (diag_props) {
 		if (diag != DIAG_NONE) {
-#if defined(TDF_DIAG4)
+#ifdef TDF_DIAG4
 			diag4_driver->out_diag_global(diag_props, global, cname, s);
 #endif
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG3
 			diag3_driver->diag_val_begin(diag_props, global, cname, s);
 #endif
 		}
@@ -535,10 +535,8 @@ evaluate(exp c, int cname, char *s, int isconst, int global,
 	asm_printf("\n");
 
 	if (diag_props) {
-#ifndef DWARF2
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG3
 		diag3_driver->diag_val_end(diag_props);
-#endif
 #endif
 	}
 }

@@ -8,7 +8,7 @@
 #include <construct/installglob.h>
 #include <construct/version.h>
 #include <reader/version.h>
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG3
 #include <diag3/version.h>
 #endif
 #ifdef TDF_DIAG4
@@ -40,7 +40,7 @@ trans_version(void)
 #ifdef DWARF2
 		{ "DWARF2",    DWARF2_MAJOR,      DWARF2_MINOR,       NULL,         DIAG_DWARF2 },
 #endif
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG3
 		{ "diag3",     diag_version,      diag_revision,      DG_VERSION,   0           },
 #endif
 #ifdef TDF_DIAG4

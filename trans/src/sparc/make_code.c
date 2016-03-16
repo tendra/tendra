@@ -576,7 +576,7 @@ last_param ( exp e )
 
 	e = bro ( son ( e ) ) ;
 
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG3
 aa:
 #endif
 
@@ -586,7 +586,7 @@ aa:
 			return 0;
 		}
 
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG3
 		if ( e->tag == diagnose_tag ) {
 			e = son ( e ) ;
 			goto aa ;
@@ -1248,16 +1248,13 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		UNREACHED;
 	}
 
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG3
 	case diagnose_tag : {
 		/* Diagnostics */
 		diag_info *d = dno ( e ) ;
-#ifdef TDF_DIAG3
 		diag3_driver->output_diag ( d, 0, e ) ;
 		mka = make_code ( son ( e ), sp, dest, exitlab ) ;
 		diag3_driver->output_end_scope ( d, e ) ;
-#endif
-
 		return mka;
 	}
 #endif

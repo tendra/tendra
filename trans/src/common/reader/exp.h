@@ -50,7 +50,7 @@ typedef union {
 	float f;
 	struct dec_t *glob;
 
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG3
 	diag_info *d;
 #endif
 
@@ -134,7 +134,7 @@ typedef struct exp_t *exp;
 #define fno(x)            ((x)->num.f)
 #define uno(x)            ((x)->num.ui)
 
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG3
 #define dno(x)            ((x)->num.d)
 #endif
 

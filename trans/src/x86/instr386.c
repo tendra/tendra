@@ -787,7 +787,7 @@ flinmem(where w)
     }
   }
 
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG3
   if (n == diagnose_tag)
     return flinmem(mw(son(e), w.where_off));
 #endif

@@ -1851,7 +1851,7 @@ make_tail_call_tag(exp e, space sp, where dest, int exitlab)
 		code_here(cllees, sp, nowhere);
 	}
 
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG3
 	for (; bdy->tag == diagnose_tag; bdy = son(bdy))
 		;
 #endif

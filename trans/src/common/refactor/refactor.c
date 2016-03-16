@@ -1530,7 +1530,7 @@ absbool(exp id)
 		    son(son(bro(son(bdy)))) == id) {
 			/* one use is result of sequence body */
 			exp c = son(son(bdy));
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG3
 			if (c->tag == diagnose_tag) {
 				c = son(c);
 			}
@@ -3709,7 +3709,7 @@ refactor(exp e, exp scope)
 				}
 			}
 
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG3
 			if (son(e)->tag == diagnose_tag) {
 				exp diag = son(e);
 				exp p = son(diag);
@@ -4192,7 +4192,7 @@ refactor(exp e, exp scope)
 	}
 
 	return 0;
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG3
 	case diagnose_tag:
 #endif
 	case prof_tag:
@@ -4317,7 +4317,7 @@ refactor(exp e, exp scope)
 			while (!t->last) {
 				t = bro(t);
 			}
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG3
 			if (t->tag == diagnose_tag) {
 				t = son(t);
 			}

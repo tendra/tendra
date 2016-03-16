@@ -714,7 +714,7 @@ scan(int sto, exp to, exp e, int usereg0)
 	case nof_tag:
 	case concatnof_tag:
 	case ncopies_tag:
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG3
 	case diagnose_tag:
 #endif
 	case caller_tag:

@@ -362,7 +362,7 @@ switch_format(const char *s, unsigned permitted)
 	return o;
 }
 
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG3
 extern const struct diag3_driver diag3_driver_stabs;
 extern const struct diag3_driver diag3_driver_dw1;
 extern const struct diag3_driver diag3_driver_cv;

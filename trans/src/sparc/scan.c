@@ -126,7 +126,7 @@ static void
 cca ( exp ** to, exp * x )
 {
 
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG3
 	if ((**to)->tag == diagnose_tag) {
 		*to = &(son((**to)));
 	}
@@ -832,7 +832,7 @@ need_result_space ( exp e )
 	case solve_tag:
 	case labst_tag:
 	case seq_tag:
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG3
 	case diagnose_tag:
 #endif
 		return need_result_space (dad);
@@ -1892,7 +1892,7 @@ scan ( exp * e, exp ** at )
 #ifdef return_to_label_tag
 	case return_to_label_tag:
 #endif
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG3
 	case diagnose_tag:
 #endif
 	case goto_lv_tag:

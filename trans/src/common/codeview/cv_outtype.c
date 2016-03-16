@@ -18,10 +18,10 @@
 #include <construct/installtypes.h>
 #include <construct/dec.h>
 
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG3
 #include <diag3/dg_first.h>
-#include <diag3/dg_types.h>  /* TDF_DIAG4 */
-#include <diag3/diagtypes.h> /* TDF_DIAG3 */
+#include <diag3/dg_types.h>
+#include <diag3/diagtypes.h>
 #endif
 
 #include <main/driver.h>

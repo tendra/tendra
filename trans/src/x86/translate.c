@@ -269,10 +269,8 @@ code_def(dec *my_def)
 					}
 
 					if (diag_props) {
-#ifndef DWARF2
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG3
 						diag3_driver->diag_val_end(diag_props);
-#endif
 #endif
 					}
 				} else {

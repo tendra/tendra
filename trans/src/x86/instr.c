@@ -72,7 +72,7 @@ typedef union eu_u {int i; exp e;} punner;
 int  extra_stack = 0;	/* init by init_all */
 int max_extra_stack = 0;	/* init by cproc */
 int no_frame;		/* init by cproc */
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG3
 static long  last_jump_pos;	/* set locally */
 #endif
 int avoid_intov; /* No software interrupts */
@@ -599,7 +599,7 @@ void jump
   reset_fpucon();
   stack_dec = good_sd;
 
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG3
   last_jump_pos = out_tell_pos();
 #endif
   asm_printf("\t%s %s%ld\n", jmp, local_prefix, (long) ptno(jr));

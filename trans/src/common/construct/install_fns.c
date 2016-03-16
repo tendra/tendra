@@ -293,7 +293,7 @@ static void
 promote_formals(exp bdy)
 {
 	while ((bdy->tag == ident_tag && isparam(bdy))
-#ifndef TDF_DIAG4
+#ifdef TDF_DIAG3
 	       || bdy->tag == diagnose_tag
 #endif
 	      ) {
