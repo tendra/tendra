@@ -110,7 +110,7 @@ code_it(dec *my_def)
 
 	static space tempspace = { 0, 0 };
 
-	tag  = my_def->dec_exp;
+	tag  = my_def->exp;
 	name = my_def->name;
 
 	symdef   = my_def->sym_number;
@@ -192,7 +192,7 @@ code_it(dec *my_def)
 	} else {
 		/* global declarations but no definitions or is_comm */
 		long size;
-		shape s = my_def->dec_shape;
+		shape s = my_def->shape;
 		bool vs = son(tag) != NULL /* ie is_comm */;
 		size = (shape_size(s) + 7) >> 3;
 
@@ -258,7 +258,7 @@ find_tag(char *s)
 		exp tag;
 		char *name;
 
-		tag  = main_globals[i]->dec_exp;
+		tag  = main_globals[i]->exp;
 		name = main_globals[i]->name;
 		if (streq(name, s)) {
 			return boff(tag);
@@ -289,7 +289,7 @@ local_translate_capsule(void)
 	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
 		exp crt_exp;
 
-		crt_exp = my_def->dec_exp;
+		crt_exp = my_def->exp;
 		if (son(crt_exp) != NULL && !my_def->extnamed && isvar(crt_exp)) {
 			mark_unaliased(crt_exp);
 		}
@@ -303,7 +303,7 @@ local_translate_capsule(void)
 		while (*ptr_def) {
 			exp crt_exp;
 
-			crt_exp = (*ptr_def)->dec_exp;
+			crt_exp = (*ptr_def)->exp;
 			if (son(crt_exp) != NULL) {
 				if ((son(crt_exp)->tag == general_proc_tag ||
 				    son(crt_exp)->tag == proc_tag) &&
@@ -322,7 +322,7 @@ local_translate_capsule(void)
 
 	noprocs = 0;
 	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
-		exp crt_exp = my_def->dec_exp;
+		exp crt_exp = my_def->exp;
 		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag ||
 		                             son(crt_exp)->tag == general_proc_tag)) {
 			noprocs++;
@@ -334,7 +334,7 @@ local_translate_capsule(void)
 	noprocs = 0;
 
 	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
-		exp crt_exp = my_def->dec_exp;
+		exp crt_exp = my_def->exp;
 		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag
 		                              || son(crt_exp)->tag == general_proc_tag)) {
 			no(son(crt_exp)) = noprocs++;
@@ -345,7 +345,7 @@ local_translate_capsule(void)
 	if (do_extern_adds) {
 		usages = xcalloc(noprocs, sizeof(exp));
 		for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
-			exp crt_exp = my_def->dec_exp;
+			exp crt_exp = my_def->exp;
 			if (son(crt_exp) == NULL && isvar(crt_exp) ) {
 				/* try to identify globals ptrs in procs */
 				global_usages(crt_exp, noprocs);
@@ -383,7 +383,7 @@ local_translate_capsule(void)
 	}
 
 	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
-		exp crt_exp = my_def->dec_exp;
+		exp crt_exp = my_def->exp;
 		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag
 		                              || son(crt_exp)->tag == general_proc_tag)) {
 			procrec *pr;
@@ -409,7 +409,7 @@ local_translate_capsule(void)
 
 	/* calculate the break points for register allocation and do it */
 	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
-		exp crt_exp = my_def->dec_exp;
+		exp crt_exp = my_def->exp;
 		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag
 		                              || son(crt_exp)->tag == general_proc_tag)) {
 			procrec *pr = &procrecs[no(son(crt_exp))];
@@ -458,7 +458,7 @@ local_translate_capsule(void)
 
 	/* ... and set in the position and "addresses" of the externals */
 	for (i = 0; i < main_globals_index; i++) {
-		exp tag = main_globals[i]->dec_exp;
+		exp tag = main_globals[i]->exp;
 		char *name = main_globals[i]->name;
 		bool extnamed = main_globals[i]->extnamed;
 		main_globals[i]->sym_number = i;
@@ -511,7 +511,7 @@ local_translate_capsule(void)
 	 * .comm entries for undefined objects
 	 */
 	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
-		exp tag = my_def->dec_exp;
+		exp tag = my_def->exp;
 		char *name = my_def->name;
 		bool extnamed = my_def->extnamed;
 

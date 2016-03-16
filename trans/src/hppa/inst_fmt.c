@@ -51,13 +51,13 @@
 #define prokhd 24
 
 #define plabel( X ) ( (X)<0 ?\
-    ( son(main_globals[((-X))-1]->dec_exp)==NULL ?\
-    sh(main_globals[((-X))-1]->dec_exp)->tag==prokhd :\
-    ( IS_A_PROC(son(main_globals[((-X))-1]->dec_exp)) ) ) : 0 )
+    ( son(main_globals[((-X))-1]->exp)==NULL ?\
+    sh(main_globals[((-X))-1]->exp)->tag==prokhd :\
+    ( IS_A_PROC(son(main_globals[((-X))-1]->exp)) ) ) : 0 )
 
 #define globaldata(X) ( (X)<0 ?\
-    ( (sh(main_globals[((-X))-1]->dec_exp)->tag==proc_tag ||\
-    sh(main_globals[((-X))-1]->dec_exp)->tag==general_proc_tag)\
+    ( (sh(main_globals[((-X))-1]->exp)->tag==proc_tag ||\
+    sh(main_globals[((-X))-1]->exp)->tag==general_proc_tag)\
     ? 0 : 1 ) : 0 )
 
 

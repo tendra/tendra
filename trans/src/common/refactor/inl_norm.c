@@ -83,7 +83,7 @@ normalised_inlining(void)
 
 	/* count the defined procedures */
 	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
-		exp crt_exp = my_def -> dec_exp;
+		exp crt_exp = my_def -> exp;
 
 		def = son(crt_exp);
 		if (def != NULL && !isvar(crt_exp) && def->tag == proc_tag &&
@@ -120,7 +120,7 @@ normalised_inlining(void)
 
 	i = 0;
 	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
-		exp crt_exp = my_def->dec_exp;
+		exp crt_exp = my_def->exp;
 
 		def = son(crt_exp);
 		if (def != NULL && !isvar(crt_exp) && def->tag == proc_tag &&
@@ -136,7 +136,7 @@ normalised_inlining(void)
 	/* Form uses matrix: uses[i, j] implies i calls j */
 
 	for (i = 0; i < proc_count; i++) {
-		exp crt_exp = to_dec[i]->dec_exp;
+		exp crt_exp = to_dec[i]->exp;
 
 		if (no(crt_exp) == 0 || son(crt_exp) == NULL) {
 			consider[i] = 0;
@@ -228,7 +228,7 @@ normalised_inlining(void)
 			int this_changed = 1;
 
 			my_def = to_dec[order[i] - 1];
-			crt_exp = my_def->dec_exp;
+			crt_exp = my_def->exp;
 			def = son(crt_exp);
 			total_uses = no(crt_exp);
 

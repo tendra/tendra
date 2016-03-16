@@ -624,8 +624,8 @@ dwarf_out_descriptor(diag_descriptor *x)
 		t = son(acc);
 #endif
 
-		if (!isvar(brog(t)->dec_exp) &&
-		    brog(t)->dec_shape->tag == prokhd) {
+		if (!isvar(brog(t)->exp) &&
+		    brog(t)->shape->tag == prokhd) {
 			/*	fprintf(stderr, "%s was a proc\n",
 			 *	TDFSTRING2CHAR(x->data.id.name));*/
 			break;

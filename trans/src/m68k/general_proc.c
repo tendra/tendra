@@ -1776,7 +1776,7 @@ make_transformations(void)
 	dec *d;
 
 	for (d = top_def; d != NULL; d = d->next) {
-		exp e = son(d->dec_exp);
+		exp e = son(d->exp);
 		if (e) {
 			transform(e);
 		}

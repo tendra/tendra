@@ -180,8 +180,8 @@ local_translate_capsule(void)
 	noglobals = 0;
 
 	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
-		exp tag = crt_def->dec_exp;
-		shape s = crt_def->dec_shape;
+		exp tag = crt_def->exp;
+		shape s = crt_def->shape;
 		bool extnamed = crt_def->extnamed;
 		char *name;
 
@@ -201,10 +201,10 @@ local_translate_capsule(void)
 		name = crt_def->name;		/* might be changed by fixup_name() */
 
 		asm_comment("%s: extnamed=%d no(tag)=%ld isvar(tag)=%d", name, extnamed, no(tag), isvar(tag));
-		asm_comment("\ttag->tag=%d dec_outermost=%d have_def=%d son(tag)!=NULL=%d",
-		            tag->tag, crt_def->dec_outermost, crt_def->have_def, son(tag) != NULL);
+		asm_comment("\ttag->tag=%d outermost=%d have_def=%d son(tag)!=NULL=%d",
+		            tag->tag, crt_def->outermost, crt_def->have_def, son(tag) != NULL);
 		if (son(tag) != NULL) {
-			asm_comment("\tdec_shape, sh(tag), sh(son(tag))=%d,%d,%d", s->tag, sh(tag)->tag, sh(son(tag))->tag);
+			asm_comment("\tshape, sh(tag), sh(son(tag))=%d,%d,%d", s->tag, sh(tag)->tag, sh(son(tag))->tag);
 		}
 
 		crt_def->have_def = (son(tag) != NULL);
@@ -345,7 +345,7 @@ local_translate_capsule(void)
 	asm_printf( "\n\t.toc\n");
 
 	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
-		exp tag = crt_def->dec_exp;
+		exp tag = crt_def->exp;
 		char *name = crt_def->name;
 		/*
 		 * no(tag) is number of uses
@@ -360,7 +360,7 @@ local_translate_capsule(void)
 
 			if (extnamed && son(tag) == NULL) {
 				/* extern from another module */
-				if (crt_def->dec_shape->tag == prokhd) {
+				if (crt_def->shape->tag == prokhd) {
 					storage_class = ""; /* proc descriptor */
 				} else {
 					storage_class = ""; /* unknown data */
@@ -383,7 +383,7 @@ local_translate_capsule(void)
 	procno = 0;
 	globalno = 0;
 	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
-		exp tag = crt_def->dec_exp;
+		exp tag = crt_def->exp;
 
 		main_globals[globalno] = crt_def;
 		crt_def->sym_number = globalno;
@@ -437,7 +437,7 @@ local_translate_capsule(void)
 	 * and do register allocation.
 	 */
 	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
-		exp tag = crt_def->dec_exp;
+		exp tag = crt_def->exp;
 
 		if (son(tag) == NULL) {
 			continue;
@@ -499,7 +499,7 @@ local_translate_capsule(void)
 	 */
 	anydone = 0;
 	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
-		exp tag = crt_def->dec_exp;
+		exp tag = crt_def->exp;
 		char *name = crt_def->name;
 		bool extnamed = crt_def->extnamed;
 		diag_def = crt_def; /* just in case find_dd is called */
@@ -567,7 +567,7 @@ local_translate_capsule(void)
 	anydone = 0; /* set to 1 after first tag output */
 
 	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
-		exp tag = crt_def->dec_exp;
+		exp tag = crt_def->exp;
 		char *name = crt_def->name;
 		bool extnamed = crt_def->extnamed;
 		diag_def = crt_def; /* just in case find_dd is called */
@@ -623,7 +623,7 @@ local_translate_capsule(void)
 	 * Translate procedures.
 	 */
 	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
-		exp tag = crt_def->dec_exp;
+		exp tag = crt_def->exp;
 		char *name = crt_def->name;
 		bool extnamed = crt_def->extnamed;
 
@@ -697,7 +697,7 @@ find_tag(char *n)
 
 	for (i = 0; i < total_no_of_globals; i++) {
 		char *name = main_globals[i]->name;
-		tag = main_globals[i]->dec_exp;
+		tag = main_globals[i]->exp;
 
 		if (streq(name, n)) {
 			return boff(tag);
@@ -706,7 +706,7 @@ find_tag(char *n)
 
 	printf("%s\n", n);
 	error(ERR_SERIOUS, "Extension name not declared ");
-	tag = main_globals[0]->dec_exp;
+	tag = main_globals[0]->exp;
 
 	return boff(tag);
 }

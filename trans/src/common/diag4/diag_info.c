@@ -32,8 +32,8 @@ diag_locate(exp e)
 	exp id = son(e);
 
 	if (isglob(id)) {
-		if (brog(id)->dec_var) {
-			e = f_contents(brog(id)->dec_shape, e);
+		if (brog(id)->var) {
+			e = f_contents(brog(id)->shape, e);
 		}
 	} else {
 		if (isvar(id)) {

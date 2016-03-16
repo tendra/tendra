@@ -99,10 +99,10 @@ local_translate_capsule(void)
 #if 0
 	/* Fix procedure handling (copied from trans386) */
 	for (d = top_def; d != NULL; d = d->next) {
-		exp crt_exp = d->dec_exp;
+		exp crt_exp = d->exp;
 		exp idval;
 
-		if (d->dec_var) {
+		if (d->var) {
 			continue;
 		}
 
@@ -152,7 +152,7 @@ local_translate_capsule(void)
 	/* Mark static unaliases declarations */
 	if (!separate_units) {
 		for (d = top_def; d != NULL; d = d->next) {
-			exp c = d->dec_exp;
+			exp c = d->exp;
 			if (son(c) != NULL && !d->extnamed && isvar(c)) {
 				mark_unaliased(c);
 			}
@@ -162,10 +162,10 @@ local_translate_capsule(void)
 	/* Mark locations for all globals */
 	for (d = top_def; d != NULL; d = d->next) {
 		if (d->processed) {
-			exp c = d->dec_exp;
+			exp c = d->exp;
 			ptno(c) = crt_ext_pt++;
 			no(c) = crt_ext_off;
-			crt_ext_off += shape_size(d->dec_shape);
+			crt_ext_off += shape_size(d->shape);
 		}
 	}
 
@@ -242,7 +242,7 @@ code_const(dec *d)
 	exp c, s;
 	char *name;
 
-	c = d->dec_exp;
+	c = d->exp;
 	s = son(c);
 	name = d->name;
 	di = d->diag_info;
@@ -325,7 +325,7 @@ static delayed_const *delayed_const_list = 0;
 static void
 eval_if_ready(dec *d)
 {
-	exp c = d->dec_exp;
+	exp c = d->exp;
 
 	if (const_ready(c)) {
 		code_const(d);
@@ -354,7 +354,7 @@ eval_delayed_const_list(void)
 			}
 
 
-			c = d->dec_exp;
+			c = d->exp;
 			if (const_ready(c)) {
 				code_const(d);
 				d->processed = 1;
@@ -392,7 +392,7 @@ output_all_exps(void)
 			continue;
 		}
 
-		c = d->dec_exp;
+		c = d->exp;
 		s = son(c);
 		name = d->name;
 
@@ -408,7 +408,7 @@ output_all_exps(void)
 				code_const_list();
 			}
 		} else {
-			shape sha = d->dec_shape;
+			shape sha = d->shape;
 			long sz = round(shape_size(sha) / 8, 4);
 
 			area(ptext);

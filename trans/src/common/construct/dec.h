@@ -26,9 +26,9 @@ struct dec_t {
 	 */
 	struct dec_t *next;
 
-	char *name;      /* identifier to be used */
-	shape dec_shape; /* shape of the value */
-	exp dec_exp;     /* definition or NULL */
+	char *name;  /* identifier to be used */
+	shape shape; /* shape of the value */
+	exp exp;     /* definition or NULL */
 
 	int unit_number;
 
@@ -50,8 +50,8 @@ struct dec_t {
 	/* bitfields only after this */
 
 	bool extnamed      :1; /* external */
-	bool dec_var       :1; /* this is a variable */
-	bool dec_outermost :1; /* this is global */
+	bool var           :1; /* this is a variable */
+	bool outermost     :1; /* this is global */
 	bool have_def      :1; /* we have a definition */
 	bool processed     :1; /* this exp has been output */
 	bool isweak        :1; /* definition is weak */

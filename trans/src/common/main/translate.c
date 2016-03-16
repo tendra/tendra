@@ -49,7 +49,7 @@ translate_unit(void)
 	translate_capsule();
 
 	for (d = top_def; d != NULL; d = d->next) {
-		exp c = d->dec_exp;
+		exp c = d->exp;
 		no(c) = 0;
 		pt(c) = NULL;
 	}

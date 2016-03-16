@@ -30,13 +30,13 @@ something(dec *d)
 
 	name = d->name;
 
-	c = d->dec_exp;
+	c = d->exp;
 	s = son(c);
 
 	if (s == NULL) {
 		shape sha;
 
-		sha = d->dec_shape;
+		sha = d->shape;
 
 		fprintf(stderr, "shape %u: %s\n", sha->tag, name);
 	} else {

@@ -48,7 +48,7 @@ opt_all_exps(void)
 	}
 
 	for (d = top_def; d != NULL; d = d->next) {
-		exp crt_exp = d->dec_exp;
+		exp crt_exp = d->exp;
 		refactor_ext(crt_exp);
 		(void) special_call(special_calls, special_calls_count, d);
 	}

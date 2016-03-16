@@ -152,7 +152,7 @@ get_tag(tag tag)
 		}
 		con = con->outer;
 	}
-	return tag->dec_exp;
+	return tag->exp;
 }
 
 
@@ -161,7 +161,7 @@ set_tag(tag tag, exp e)
 {
 	/* set the exp known as tag */
 	if (crt_context == NULL || crt_context->recursive == 0) {
-		tag->dec_exp = e;
+		tag->exp = e;
 	} else {
 		tag_con *tc = xmalloc(sizeof(tag_con));
 		tc->namet = tag; tc->e = e; tc->rest = crt_context->tags;

@@ -141,7 +141,7 @@ evalexp(exp e)
 	case cont_tag:
 		if (PIC_code && son(e)->tag == name_tag && isglob(son(son(e)))
 		    && son(son(son(e))) != NULL
-		    && !(brog(son(son(e))) -> dec_var))
+		    && !(brog(son(son(e))) -> var))
 		{
 			return evalexp(son(son(son(e))));
 		}

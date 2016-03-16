@@ -331,7 +331,7 @@ find_tag(char *tag_name)
 	int i;
 
 	for (i = 0; i < main_globals_index; ++i) {
-		exp newtag = main_globals[i]->dec_exp;
+		exp newtag = main_globals[i]->exp;
 		char *name = main_globals[i]->name;
 		if(streq(name, tag_name)) {
 			return boff(newtag);
@@ -400,7 +400,7 @@ local_translate_capsule(void)
 	for (d = top_def; d != NULL; d = d->next) {
 		exp c;
 
-		c = d->dec_exp;
+		c = d->exp;
 		if (son(c) == NULL) {
 			continue;
 		}
@@ -449,7 +449,7 @@ local_translate_capsule(void)
 	for (d = top_def; d != NULL; d = d->next) {
 		exp c, s;
 
-		c = d->dec_exp;
+		c = d->exp;
 		s = son(c);
 
 		if (s == NULL) {
@@ -488,7 +488,7 @@ local_translate_capsule(void)
 	for (d = top_def; d != NULL; d = d->next) {
 		exp c, s;
 
-		c = d->dec_exp;
+		c = d->exp;
 		s = son(c);
 
 		if (s != NULL && (s->tag == proc_tag || s->tag == general_proc_tag)) {
@@ -550,7 +550,7 @@ local_translate_capsule(void)
 		for (d = top_def; d != NULL; d = d->next) {
 			exp c, s;
 
-			c = d->dec_exp;
+			c = d->exp;
 			s = son(c);
 
 			if (s == NULL) {
@@ -566,7 +566,7 @@ local_translate_capsule(void)
 
 	/* calculate the break points for register allocation */
 	for (d = top_def; d != NULL; d = d->next) {
-		exp c = d->dec_exp;
+		exp c = d->exp;
 		exp s = son(c);
 
 		if (s == NULL) {
@@ -635,7 +635,7 @@ local_translate_capsule(void)
 
 	/* output global definitions */
 	for (d = top_def; d != NULL; d = d->next) {
-		exp tag = d->dec_exp;
+		exp tag = d->exp;
 		exp stag = son(tag);
 		char *name = d->name;
 		bool extnamed = d->extnamed;
@@ -712,7 +712,7 @@ local_translate_capsule(void)
 
 	/* translate procedures */
 	for (d = top_def; d != NULL; d = d->next) {
-		exp tag  = d->dec_exp;
+		exp tag  = d->exp;
 		exp stag = son(tag);
 		char *name = d->name;
 		bool extnamed = d->extnamed;
@@ -739,7 +739,7 @@ local_translate_capsule(void)
 		if (stag->tag == proc_tag || stag->tag == general_proc_tag) {
 			/* translate code for procedure */
 			int proc_directive;
-			exp c = d->dec_exp;
+			exp c = d->exp;
 			prop p = procrecs[no(son(c))].needsproc.prps;
 #ifdef TDF_DIAG3
 			diag_descriptor *diag_props = d->diag_info;

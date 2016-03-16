@@ -40,7 +40,7 @@
 static bool
 special_strcpy(dec *dp)
 {
-	exp i = dp->dec_exp;
+	exp i = dp->exp;
 	exp t;
 
 	assert(!(strcmp)(dp->name, "strcpy"));
@@ -74,7 +74,7 @@ special_strcpy(dec *dp)
 
 		src_dec = brog(son(src));
 
-		if (src_dec->extnamed || son(src_dec->dec_exp) == NULL) {
+		if (src_dec->extnamed || son(src_dec->exp) == NULL) {
 			continue;
 		}
 
@@ -124,7 +124,7 @@ special_strcpy(dec *dp)
 static bool
 special_strlen(dec *dp)
 {
-	exp i = dp->dec_exp;
+	exp i = dp->exp;
 	exp t;
 
 	assert(!(strcmp)(dp->name, "strlen"));
@@ -157,7 +157,7 @@ special_strlen(dec *dp)
 
 		src_dec = brog(son(st));
 
-		if (src_dec->extnamed || son(src_dec->dec_exp) == NULL)	{
+		if (src_dec->extnamed || son(src_dec->exp) == NULL)	{
 			continue;
 		}
 

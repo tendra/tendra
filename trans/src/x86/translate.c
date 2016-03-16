@@ -159,7 +159,7 @@ eval_if_ready(exp t, int now)
 static void
 code_def(dec *my_def)
 {
-	exp tag = my_def->dec_exp;
+	exp tag = my_def->exp;
 	char *id = my_def->name;
 
 	if (son(tag) != NULL && shape_size(sh(son(tag))) == 0 && son(tag)->tag == asm_tag) {
@@ -330,11 +330,11 @@ local_translate_capsule(void)
 #endif
 
 	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
-		exp crt_exp = my_def->dec_exp;
+		exp crt_exp = my_def->exp;
 
 		if (PIC_code) {
 			exp idval = son(crt_exp);
-			if (!(my_def->dec_var) &&
+			if (!(my_def->var) &&
 			    (idval == NULL || (idval->tag != val_tag && idval->tag != real_tag &&
 			                       idval->tag != null_tag) /* optimised out in opt_all_exps/refactor_ext */
 			    ) &&
@@ -406,7 +406,7 @@ local_translate_capsule(void)
 	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
 		exp crt_exp;
 
-		crt_exp = my_def->dec_exp;
+		crt_exp = my_def->exp;
 		if (son(crt_exp) != NULL && !my_def->extnamed && isvar(crt_exp)) {
 			mark_unaliased(crt_exp);
 		}

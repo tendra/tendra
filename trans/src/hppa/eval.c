@@ -774,9 +774,9 @@ evalone(exp e, int bitposn)
 
 		assert(isglob(son(e)));
 
-		if (son(globdec->dec_exp) != NULL &&
-		     (son(globdec->dec_exp)->tag == proc_tag ||
-		      son(globdec->dec_exp)->tag == general_proc_tag)) {
+		if (son(globdec->exp) != NULL &&
+		     (son(globdec->exp)->tag == proc_tag ||
+		      son(globdec->exp)->tag == general_proc_tag)) {
 			/* It's a plabel */
 			outs("\t.WORD\tP%");
 		} else {

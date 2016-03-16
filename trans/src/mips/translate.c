@@ -127,7 +127,7 @@ code_it(dec *my_def)
 
 	static space tempspace = { 0, 0 };
 
-	tag  = my_def->dec_exp;
+	tag  = my_def->exp;
 	name = my_def->name;
 	symdef = my_def ->sym_number;
 	extnamed =  my_def->extnamed;
@@ -192,7 +192,7 @@ code_it(dec *my_def)
 	} else {
 		/* global declarations but no definitions or is_comm */
 		long  size;
-		shape s = (son(tag) == NULL) ? my_def->dec_shape : sh(son(tag));
+		shape s = (son(tag) == NULL) ? my_def->shape : sh(son(tag));
 		size = (shape_size(s) + 7) >> 3;
 
 		if ((isvar(tag) || s->tag != prokhd) && not_reserved(name)) {
@@ -255,7 +255,7 @@ remove_unused(void)
 {
 	dec **sdef = &top_def;
 	while (*sdef != NULL) {
-		exp crt_exp = (*sdef)->dec_exp;
+		exp crt_exp = (*sdef)->exp;
 		bool extnamed = (*sdef)->extnamed;
 
 		if (no(crt_exp) == 0 && !extnamed) {
@@ -278,7 +278,7 @@ local_translate_capsule(void)
 
 	if (dyn_init) {
 		for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
-			exp crt_exp = my_def->dec_exp;
+			exp crt_exp = my_def->exp;
 			char *name = my_def->name;
 			if (streq(name, "main") && son(crt_exp) != NULL &&
 			    son(crt_exp)->tag == proc_tag) {
@@ -308,7 +308,7 @@ local_translate_capsule(void)
 
 	/* mark static unaliased */
 	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
-		exp crt_exp = my_def->dec_exp;
+		exp crt_exp = my_def->exp;
 		if (son(crt_exp) != NULL &&
 		    !my_def->extnamed &&
 		    isvar(crt_exp)) {
@@ -318,7 +318,7 @@ local_translate_capsule(void)
 
 	noprocs = 0;
 	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
-		exp crt_exp = my_def->dec_exp;
+		exp crt_exp = my_def->exp;
 		if (son(crt_exp) != NULL
 		    && (son(crt_exp)->tag == proc_tag ||
 		        son(crt_exp)->tag == general_proc_tag)) {
@@ -335,7 +335,7 @@ local_translate_capsule(void)
 	}
 
 	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
-		exp crt_exp = my_def->dec_exp;
+		exp crt_exp = my_def->exp;
 		if (son(crt_exp) != NULL &&
 		    (son(crt_exp)->tag == proc_tag || son(crt_exp)->tag == general_proc_tag)) {
 			no(son(crt_exp)) = noprocs++;
@@ -346,7 +346,7 @@ local_translate_capsule(void)
 	if (do_extern_adds) {
 		usages = xcalloc(noprocs, sizeof(exp));
 		for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
-			exp crt_exp = my_def->dec_exp;
+			exp crt_exp = my_def->exp;
 			if (son(crt_exp) == NULL && isvar(crt_exp)) {
 				global_usages(crt_exp, noprocs);
 				/* try to identify globals ptrs in procs */
@@ -369,7 +369,7 @@ local_translate_capsule(void)
 
 	/* scan to put everything in MIPS form */
 	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
-		exp crt_exp = my_def->dec_exp;
+		exp crt_exp = my_def->exp;
 		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag ||
 	        son(crt_exp)->tag == general_proc_tag))
 		{
@@ -382,7 +382,7 @@ local_translate_capsule(void)
 
 	/* calculate the break points for register allocation and do it */
 	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
-		exp crt_exp = my_def->dec_exp;
+		exp crt_exp = my_def->exp;
 		if (son(crt_exp) != NULL
 		    && (son(crt_exp)->tag == proc_tag ||
 		        son(crt_exp)->tag == general_proc_tag))
@@ -437,7 +437,7 @@ local_translate_capsule(void)
 
 	/* ... and set in the position and "addresses" of the externals */
 	for (i = 0; i < main_globals_index; i++) {
-		exp tag = main_globals[i]->dec_exp;
+		exp tag = main_globals[i]->exp;
 		char *name = main_globals[i]->name;
 		bool extnamed = main_globals[i]->extnamed;
 		diag_descriptor * dinf = main_globals[i]->diag_info;
@@ -493,7 +493,7 @@ local_translate_capsule(void)
 
 	/*
 	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
-		exp tag = my_def->dec_exp;
+		exp tag = my_def->exp;
 		char *name = my_def->name;
 		bool extnamed = my_def->extnamed;
 

@@ -54,10 +54,10 @@ find_named_tag(char *n, shape s)
 	/* find a global with name n */
 	dec *my_def = find_named_dec(n);
 	if (my_def != NULL) {
-		return my_def->dec_exp;
+		return my_def->exp;
 	}
 	my_def = make_extra_dec(add_prefix(name_prefix, n), 0, 1, NULL, s);
-	return my_def->dec_exp;
+	return my_def->exp;
 }
 
 
@@ -196,7 +196,7 @@ TDFwithet(error_treatment ov_err, exp e)
 		return e;
 	}
 	Te = find_named_tag("__TDFerror", slongsh);
-	brog(Te)->dec_var = 1;
+	brog(Te)->var = 1;
 	if (keep_PIC_vars) {
 		setvar(Te);
 	} else if (PIC_code) {

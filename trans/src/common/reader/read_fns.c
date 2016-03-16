@@ -561,7 +561,7 @@ start_make_capsule
   for (i = 0; i < capsule_no_of_tags; ++i) {
     /* initialise the table of tags */
     dec *dp = &capsule_tagtab[i];
-    dp->dec_outermost = 0;
+    dp->outermost = 0;
     dp->name = NULL;
     dp->extnamed = 0;
 #ifdef TDF_DIAG3
@@ -571,7 +571,7 @@ start_make_capsule
     dp->dg_name = NULL;
 #endif
     dp->have_def = 0;
-    dp->dec_shape = NULL;
+    dp->shape = NULL;
     dp->processed = 0;
     dp->isweak = 0;
   }
@@ -1160,7 +1160,7 @@ f_make_id_tagdef(tdfint t, string_option sig, exp e)
   tagdef res;
   res.tag = dp;
   if (dp->processed ||
-      son(dp->dec_exp) != NULL) {
+      son(dp->exp) != NULL) {
     res.def = NULL; /* set to NULL if already output */
   } else {
     res.def = e;
@@ -1188,7 +1188,7 @@ f_make_var_tagdef(tdfint t, access_option opt_access, string_option sig, exp e)
   UNUSED(opt_access);
   res.tag = dp;
   if (dp->processed ||
-      son(dp->dec_exp) != NULL) {
+      son(dp->exp) != NULL) {
     res.def = NULL; /* set to NULL if already output */
   } else {
     res.def = e;
@@ -1242,7 +1242,7 @@ f_make_tagextern(tdfint internal, external ext)
   dec *dp = &capsule_tagtab[natint(internal)];
   char *name = external_to_string(ext);
   dp->name = add_prefix(name_prefix, name);
-  dp->dec_outermost = 1;
+  dp->outermost = 1;
   dp->extnamed = 1;
 
   return 0;
@@ -2323,27 +2323,27 @@ add_tagdec_list(tagdec_list list, tagdec elem, int index)
 
     dp->acc = elem.acc;
 
-    dp->dec_exp = e;
+    dp->exp = e;
 
-    if (dp->dec_shape != NULL) {
-      if (shape_size(s) > shape_size(dp->dec_shape)) {
-        dp->dec_shape = s;
+    if (dp->shape != NULL) {
+      if (shape_size(s) > shape_size(dp->shape)) {
+        dp->shape = s;
       }
     }
 
-    if (dp->dec_shape == NULL) {
-      dp->dec_shape = s;
+    if (dp->shape == NULL) {
+      dp->shape = s;
       dp->next = NULL;
       *deflist_end = dp;
       deflist_end = & ((*deflist_end)->next);
     }
 
-    dp->dec_var = (unsigned int)(isvar(e) || elem.is_variable);
+    dp->var = (unsigned int)(isvar(e) || elem.is_variable);
     if (!dp->have_def) {
       setglob(e);
     }
     /* the defining exp */
-    brog(dp->dec_exp) = dp;
+    brog(dp->exp) = dp;
     if (dp->name == NULL) {
       dp->name = make_local_name();
     }
@@ -2362,7 +2362,7 @@ tagdef_list
 add_tagdef_list(tagdef_list list, tagdef elem, int index)
 {
   dec *dp = elem.tag;
-  exp old_def = son(dp->dec_exp);
+  exp old_def = son(dp->exp);
   exp new_def = elem.def;
   UNUSED(list);
   UNUSED(index);
@@ -2373,8 +2373,8 @@ add_tagdef_list(tagdef_list list, tagdef elem, int index)
   if (old_def == NULL ||
       shape_size(sh(new_def)) > shape_size(sh(old_def)) ||
       (new_def->tag != clear_tag && old_def->tag == clear_tag)) {
-    son(dp->dec_exp) = new_def;
-    setfather(dp->dec_exp, elem.def);
+    son(dp->exp) = new_def;
+    setfather(dp->exp, elem.def);
   }
 
   return 0;
@@ -2532,7 +2532,7 @@ new_link_list(int n)
        unit_tagtab = rf_xcalloc(unit_no_of_tags - n, sizeof(dec));
        for (i = 0; i < unit_no_of_tags - n; ++i) {
          dec *dp = &unit_tagtab[i];
-         dp->dec_outermost = 0;
+         dp->outermost = 0;
          dp->name = NULL;
          dp->extnamed = 0;
 #ifdef TDF_DIAG3
@@ -2542,10 +2542,10 @@ new_link_list(int n)
          dp->dg_name = NULL;
 #endif
          dp->have_def = 0;
-         dp->dec_shape = NULL;
+         dp->shape = NULL;
          dp->processed = 0;
          dp->isweak = 0;
-         dp->dec_exp = NULL;
+         dp->exp = NULL;
        }
        return 0;
      case AL_TYPE:

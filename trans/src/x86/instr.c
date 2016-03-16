@@ -1088,7 +1088,7 @@ exp make_extn
     newn[nl+prefix_length] = 0;
     n = newn;
   }
-  g -> dec_exp = id;
+  g -> exp = id;
   g -> name = n;
   g -> extnamed = 1;
   return nme;

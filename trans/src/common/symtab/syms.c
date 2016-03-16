@@ -53,8 +53,8 @@ int no_temps   = 0;
 int
 symnoforext(dec * ex, int filen)
 {
-	exp tag = ex->dec_exp;
-	shape s = ex->dec_shape;
+	exp tag = ex->exp;
+	shape s = ex->shape;
 	diag_type dt = (diag_type) 0;
 	short symtype;
 	short symclass;

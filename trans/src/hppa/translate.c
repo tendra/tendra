@@ -317,7 +317,7 @@ local_translate_capsule(void)
 	/* mark static unaliased; count procs */
 	noprocs = 0;
 	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
-		exp crt_exp = crt_def->dec_exp;
+		exp crt_exp = crt_def->exp;
 		exp scexp = son(crt_exp);
 
 		if (scexp == NULL) {
@@ -374,7 +374,7 @@ local_translate_capsule(void)
 	/* number proc defs */
 	procno = 0;
 	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
-		exp crt_exp = crt_def->dec_exp;
+		exp crt_exp = crt_def->exp;
 
 		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag ||
 		                             son(crt_exp)->tag == general_proc_tag))
@@ -442,7 +442,7 @@ local_translate_capsule(void)
 	/* scan all the procs, to put everything in HP_PA form */
 	nexps = 0;
 	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
-		exp crt_exp = crt_def->dec_exp;
+		exp crt_exp = crt_def->exp;
 		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag ||
 		                             son(crt_exp)->tag == general_proc_tag)) {
 			procrec *pr = &procrecs[no(son(crt_exp))];
@@ -459,7 +459,7 @@ local_translate_capsule(void)
 
 	/* calculate the break points for register allocation */
 	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
-		exp crt_exp = crt_def->dec_exp;
+		exp crt_exp = crt_def->exp;
 
 		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag ||
 		                             son(crt_exp)->tag == general_proc_tag)) {
@@ -549,7 +549,7 @@ local_translate_capsule(void)
 	}
 
 	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
-		exp tag = crt_def->dec_exp;
+		exp tag = crt_def->exp;
 		char *name = crt_def->name;
 		bool extnamed = (bool)crt_def->extnamed;
 
@@ -588,12 +588,12 @@ local_translate_capsule(void)
 	/* Uninitialized data local to module. */
 
 	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
-		exp tag = crt_def->dec_exp;
+		exp tag = crt_def->exp;
 		char *name = crt_def->name;
 		bool extnamed = (bool)crt_def->extnamed;
 
 		if (son(tag) == NULL && no(tag) != 0 && !extnamed) {
-			shape s = crt_def->dec_shape;
+			shape s = crt_def->shape;
 			ash a;
 			long size;
 			int align;
@@ -675,7 +675,7 @@ local_translate_capsule(void)
 		bool extnamed;
 
 		crt_def  = proc_def_trans_order[next_proc_def];
-		tag      = crt_def->dec_exp;
+		tag      = crt_def->exp;
 		name     = crt_def->name;
 		extnamed = crt_def->extnamed;
 
