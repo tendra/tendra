@@ -22,6 +22,7 @@
 #endif
 #ifdef TDF_DIAG4
 #include <diag4/dg_first.h>
+#include <diag4/diaginfo.h>
 #include <diag4/dg_types.h>
 #endif
 

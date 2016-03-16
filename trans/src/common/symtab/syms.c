@@ -19,6 +19,8 @@
 #include <tdf/shape.h>
 #include <tdf/tag.h>
 
+#include <diag3/diagtypes1.h>
+
 #include "cross_config.h"
 
 #include <symtab/symconst.h>

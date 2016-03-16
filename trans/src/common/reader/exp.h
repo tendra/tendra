@@ -13,12 +13,10 @@
 #include <tdf/nat.h>
 
 #ifdef TDF_DIAG3
-#include <diag3/dg_first.h>
 #include <diag3/diaginfo.h>
-#include <diag3/diagtypes1.h>
 #endif
 #ifdef TDF_DIAG4
-#include <diag4/dg_first.h>
+#include <diag4/diaginfo.h>
 #endif
 
 struct dec_t;

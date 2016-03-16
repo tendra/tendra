@@ -11,6 +11,7 @@
 #define SPARCDDECS_INCLUDED
 
 #include <diag4/dg_first.h>
+#include <diag4/diaginfo.h>
 #include <diag4/diag_reform.h>
 
 #include <reader/exp.h>

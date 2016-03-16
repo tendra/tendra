@@ -16,6 +16,7 @@
 #endif
 #ifdef TDF_DIAG4
 #include <diag4/dg_first.h>
+#include <diag4/diaginfo.h>
 #endif
 
 #include <tdf/nat.h>
