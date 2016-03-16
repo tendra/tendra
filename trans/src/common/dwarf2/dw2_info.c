@@ -19,6 +19,7 @@
 #include <tdf/shape.h>
 #include <tdf/tag.h>
 
+#include <reader/exp.h>
 #include <reader/basicread.h>
 #include <reader/externs.h>
 

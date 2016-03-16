@@ -10,13 +10,6 @@
 #ifndef diagglob_key
 #define diagglob_key
 
-#include <construct/installtypes.h>
-
-#include "dg_first.h"
-#include "dg_types.h"		/* TDF_DIAG4 */
-
-#include <reader/exp.h>
-
 extern int unit_no_of_diagtags;
 
 extern diag_tagdef **unit_ind_diagtags;
