@@ -33,7 +33,7 @@
 
 #include "dg_fns.h"
 #include "dg_aux.h"
-#include "dg_globs.h"
+#include "diagglob.h"
 
 dg_filename all_files = NULL;
 dg_compilation all_comp_units = NULL;

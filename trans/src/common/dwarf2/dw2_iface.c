@@ -35,7 +35,6 @@
 #include <dwarf2/dw2_locdata.h>
 
 #ifdef TDF_DIAG3
-#include <diag3/dg_globs.h>
 #include <diag3/diagglob.h>
 #endif
 #ifdef TDF_DIAG4

@@ -33,7 +33,7 @@
 #include <refactor/refactor.h>
 
 #include "dg_aux.h"
-#include "dg_globs.h"
+#include "diagglob.h"
 
 #define isdiaginfo(e)	0
 #define setisdiaginfo(e)

@@ -17,4 +17,8 @@ extern int unit_no_of_diagtags;
 extern diag_tagdef **unit_ind_diagtags;
 extern diag_tagdef *unit_diag_tagdeftab;
 
+extern dg_filename all_files;
+extern dg_compilation all_comp_units;
+extern short_sourcepos no_short_sourcepos;
+
 #endif
