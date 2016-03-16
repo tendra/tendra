@@ -67,7 +67,7 @@ typedef struct rs_s {
 	long		start;
 	long		end;
 	long		share;
-	dg_name		nm;
+	dg_name		name;
 	int		reg;
 	struct rs_s	*next_share;
 	struct rs_s	*next_loc;
@@ -94,9 +94,9 @@ typedef struct ll_s {
 } *ll_item;
 
 static ll_item *
-ll_root(dg_name nm)
+ll_root(dg_name name)
 {
-	exp x = nm->data.n_obj.obtain_val;
+	exp x = name->data.n_obj.obtain_val;
 	exp * ref = & (pt(x));
 	return (ll_item *)((void *)ref);
 }
@@ -116,10 +116,10 @@ new_ll_item(loclist_key k, int o)
 static regshare_list all_regshares = (regshare_list)0;
 
 void *
-dw_new_regshare(dg_name nm, int reg)
+dw_new_regshare(dg_name name, int reg)
 {
 	regshare_list ans = (regshare_list)xmalloc(sizeof(struct rsl_s));
-	ans->alloc = nm;
+	ans->alloc = name;
 	ans->reg = reg;
 	ans->items = (regshare_item)0;
 	ans->next = all_regshares;
@@ -129,14 +129,14 @@ dw_new_regshare(dg_name nm, int reg)
 
 
 void
-dw_add_regshare(void * w, dg_name nm, long start, long end)
+dw_add_regshare(void * w, dg_name name, long start, long end)
 {
 	regshare_list holder = (regshare_list)w;
 	regshare_item item = (regshare_item)xmalloc(sizeof(struct rs_s));
 	item->start = start;
 	item->end = end;
 	item->share = 0;
-	item->nm = nm;
+	item->name = name;
 	item->next_share = holder->items;
 	item->next_loc = (regshare_item)0;
 	holder->items = item;
@@ -146,10 +146,10 @@ dw_add_regshare(void * w, dg_name nm, long start, long end)
 obj_list *local_objects = NULL;
 
 static void
-check_taggable(dg_name nm)
+check_taggable(dg_name name)
 {
-	if (!nm->mor || !nm->mor->this_tag) {
-		IGNORE f_dg_tag_name(gen_dg_tag(), nm);
+	if (!name->more || !name->more->this_tag) {
+		IGNORE f_dg_tag_name(gen_dg_tag(), name);
 	}
 }
 
@@ -157,44 +157,44 @@ check_taggable(dg_name nm)
 void
 set_locdata(obj_list this_obl)
 {
-	dg_name this_nm = this_obl.obj;
-	while (this_nm) {
-		if (this_nm->key == DGN_OBJECT) {
-			exp x = this_nm->data.n_obj.obtain_val;
+	dg_name this_name = this_obl.obj;
+	while (this_name) {
+		if (this_name->key == DGN_OBJECT) {
+			exp x = this_name->data.n_obj.obtain_val;
 			exp id;
 			if (x && (id = dw_has_location(son(x)), id)) {
 				if (isglob(id)) {
 					dg_name master =
 					    brog(id)->dg_name;
 					if (!master) {
-						master = brog(id)->dg_name = this_nm;
+						master = brog(id)->dg_name = this_name;
 					}
-					if (master == this_nm) {
+					if (master == this_name) {
 						x->last = true;
 						no(x) = next_dwarf_label();
 					} else {
 						exp y = master->data.n_obj.obtain_val;
 						setbro(x, bro(y));
 						setbro(y,
-						       (exp)((void *)this_nm));
+						       (exp)((void *)this_name));
 						no(x) = no(y);
 						check_taggable(master);
-						check_taggable(this_nm);
+						check_taggable(this_name);
 					}
 				} else {
 					int found = 0;
 					obj_list * obl = local_objects;
 					while (obl && !found) {
-						dg_name nm = obl->obj;
-						while (nm) {
-							if (nm->key == DGN_OBJECT) {
-								exp y = nm->data.n_obj.obtain_val;
+						dg_name name = obl->obj;
+						while (name) {
+							if (name->key == DGN_OBJECT) {
+								exp y = name->data.n_obj.obtain_val;
 								if (y && y->last && dw_has_location(son(y)) == id) {
 									setbro(x, bro(y));
-									setbro(y, (exp)((void *)this_nm));
+									setbro(y, (exp)((void *)this_name));
 									no(x) = no(y);
-									check_taggable(nm);
-									check_taggable(this_nm);
+									check_taggable(name);
+									check_taggable(this_name);
 									found = 1;
 									break;
 								}
@@ -202,14 +202,14 @@ set_locdata(obj_list this_obl)
 							if (!obl->islist) {
 								break;
 							}
-							nm = nm->next;
+							name = name->next;
 						}
 						obl = obl->next;
 					}
 					if (!found) {
 						x->last = true;
 						no(x) = next_dwarf_label();
-						dw_allocated(this_nm, id);
+						dw_allocated(this_name, id);
 					}
 				}
 			} else {
@@ -219,7 +219,7 @@ set_locdata(obj_list this_obl)
 		if (!this_obl.islist) {
 			break;
 		}
-		this_nm = this_nm->next;
+		this_name = this_name->next;
 	}
 }
 
@@ -227,18 +227,18 @@ set_locdata(obj_list this_obl)
 void
 close_locdata(obj_list this_obl)
 {
-	dg_name this_nm = this_obl.obj;
-	while (this_nm) {
-		if (this_nm->key == DGN_OBJECT) {
-			exp x = this_nm->data.n_obj.obtain_val;
+	dg_name this_name = this_obl.obj;
+	while (this_name) {
+		if (this_name->key == DGN_OBJECT) {
+			exp x = this_name->data.n_obj.obtain_val;
 			if (x && x->last) {
-				dw_deallocated(this_nm);
+				dw_deallocated(this_name);
 			}
 		}
 		if (!this_obl.islist) {
 			break;
 		}
-		this_nm = this_nm->next;
+		this_name = this_name->next;
 	}
 }
 
@@ -248,27 +248,27 @@ find_equiv_object(exp e, int isc)
 {
 	obj_list *obl = local_objects;
 	while (obl) {
-		dg_name nm = obl->obj;
-		while (nm) {
-			if (nm->key == DGN_OBJECT) {
-				exp x = nm->data.n_obj.obtain_val;
+		dg_name name = obl->obj;
+		while (name) {
+			if (name->key == DGN_OBJECT) {
+				exp x = name->data.n_obj.obtain_val;
 				if (isc) {
 					if (x && son(x)->tag == cont_tag &&
 					    dw_loc_equivalence(e,
 							       son(son(x)))) {
-						return nm;
+						return name;
 					}
 				} else {
 					if (x && dw_loc_equivalence(e,
 								    son(x))) {
-						return nm;
+						return name;
 					}
 				}
 			}
 			if (!obl->islist) {
 				break;
 			}
-			nm = nm->next;
+			name = name->next;
 		}
 		obl = obl->next;
 	}
@@ -282,10 +282,10 @@ find_simple_object(exp e)
 	/* e is name_tag for required object */
 	obj_list *obl = local_objects;
 	while (obl) {
-		dg_name nm = obl->obj;
-		while (nm) {
-			if (nm->key == DGN_OBJECT) {
-				exp x = nm->data.n_obj.obtain_val;
+		dg_name name = obl->obj;
+		while (name) {
+			if (name->key == DGN_OBJECT) {
+				exp x = name->data.n_obj.obtain_val;
 				while (x && (x->tag == hold_tag ||
 					     x->tag == cont_tag ||
 					     x->tag == reff_tag)) {
@@ -296,13 +296,13 @@ find_simple_object(exp e)
 				    (no(x) <= no(e)) &&
 				    (no(x) + shape_size(sh(x))) >=
 				    (no(e) + shape_size(sh(e)))) {
-					return nm;
+					return name;
 				}
 			}
 			if (!obl->islist) {
 				break;
 			}
-			nm = nm->next;
+			name = name->next;
 		}
 		obl = obl->next;
 	}
@@ -315,9 +315,9 @@ set_optim_objects(dg_info optim, int start)
 {
 	objset *obj = optim->data.i_optim.objs;
 	while (obj) {
-		dg_name nm = obj->tg->p.nam;
+		dg_name name = obj->tag->p.name;
 		if (start) {
-			ll_item *l = ll_root(nm);
+			ll_item *l = ll_root(name);
 			while (*l) {
 				if ((*l)->open) {
 					l = & ((*l)->inner);
@@ -328,7 +328,7 @@ set_optim_objects(dg_info optim, int start)
 			*l = new_ll_item(LL_OPTLOCK, 1);
 			(*l)->u.d = optim;
 		} else {
-			ll_item l = *ll_root(nm);
+			ll_item l = *ll_root(name);
 			while (l->key != LL_OPTLOCK || l->u.d != optim) {
 				if ((l)->open) {
 					l = l->inner;
@@ -346,9 +346,9 @@ set_optim_objects(dg_info optim, int start)
 void
 set_remval_object(dg_info rmv)
 {
-	dg_name nm = find_simple_object(son(rmv->data.i_remval.var));
-	if (nm) {
-		ll_item *l = ll_root(nm);
+	dg_name name = find_simple_object(son(rmv->data.i_remval.var));
+	if (name) {
+		ll_item *l = ll_root(name);
 		while (*l) {
 			if ((*l)->open) {
 				l = &((*l)->inner);
@@ -367,10 +367,10 @@ set_obj_rets(retrec * rec)
 {
 	obj_list *obl = local_objects;
 	while (obl) {
-		dg_name nm = obl->obj;
-		while (nm) {
-			if (nm->key == DGN_OBJECT) {
-				exp x = nm->data.n_obj.obtain_val;
+		dg_name name = obl->obj;
+		while (name) {
+			if (name->key == DGN_OBJECT) {
+				exp x = name->data.n_obj.obtain_val;
 				while (x && (x->tag == hold_tag ||
 					     x->tag == cont_tag ||
 					     x->tag == reff_tag)) {
@@ -379,7 +379,7 @@ set_obj_rets(retrec * rec)
 				if ((x) && x->tag == name_tag &&
 				    !isdiscarded(x) &&
 				    !isglob(son(x))) {
-					ll_item *l = ll_root(nm);
+					ll_item *l = ll_root(name);
 					while (*l) {
 						if ((*l)->open) {
 							l = &((*l)->inner);
@@ -394,7 +394,7 @@ set_obj_rets(retrec * rec)
 			if (!obl->islist) {
 				break;
 			}
-			nm = nm->next;
+			name = name->next;
 		}
 		obl = obl->next;
 	}
@@ -402,9 +402,9 @@ set_obj_rets(retrec * rec)
 
 
 static ll_item
-find_ll_item(dg_name nm, loclist_key k, int force)
+find_ll_item(dg_name name, loclist_key k, int force)
 {
-	ll_item *ll = ll_root(nm);
+	ll_item *ll = ll_root(name);
 	ll_item l = *ll;
 	while (l && l->key != k) {
 		l = l->next;
@@ -424,15 +424,15 @@ out_regshare_set(regshare_item it)
 {
 	regshare_item this = it;
 	while (this) {
-		dg_name nm = this->nm;
-		if (nm) {
+		dg_name name = this->name;
+		if (name) {
 			regshare_item look = it;
-			while (look->nm != nm) {
+			while (look->name != name) {
 				/* avoid duplicates */
 				look = look->next_share;
 			}
 			if (look == this) {
-				dw_at_ext_address(nm->mor->this_tag);
+				dw_at_ext_address(name->more->this_tag);
 			}
 		}
 		this = this->next_share;
@@ -457,18 +457,18 @@ complete_dw_locdata(void)
 		dg_name master = top_l->alloc;
 		int reg = top_l->reg;
 		regshare_item regitem = top_l->items;
-		dg_name nm;
+		dg_name name;
 		if (master) {
 			while (regitem) {
-				nm = master;
+				name = master;
 				do {
-					if (regitem->nm == nm) {
-						regitem->nm = NULL;
+					if (regitem->name == name) {
+						regitem->name = NULL;
 						break;
 					}
-					nm = (dg_name)((void *)bro(nm->data.n_obj.obtain_val));
-				} while (nm);
-				if (!nm) {
+					name = (dg_name)((void *)bro(name->data.n_obj.obtain_val));
+				} while (name);
+				if (!name) {
 					/* regitem not in allocation shareset */
 					ll_item l =
 					    find_ll_item(master,
@@ -481,26 +481,26 @@ complete_dw_locdata(void)
 					regitem->share =
 					    no(master->data.n_obj.obtain_val);
 					regitem->reg = reg;
-					l = find_ll_item(regitem->nm,
+					l = find_ll_item(regitem->name,
 							 LL_REGSHARE, 1);
 					regitem->next_loc = l->u.l;
 					l->u.l = regitem;
-					check_taggable(regitem->nm);
+					check_taggable(regitem->name);
 					check_taggable(master);
 				}
 				regitem = regitem->next_share;
 			}
 		} else {
 			long share = 0;
-			master = nm = NULL;
+			master = name = NULL;
 			while (regitem) {
 				if (!master) {
-					master = regitem->nm;
+					master = regitem->name;
 				}
-				if (!nm) {
-					nm = regitem->nm;
+				if (!name) {
+					name = regitem->name;
 				}
-				if (nm != master) {
+				if (name != master) {
 					share = next_dwarf_label();
 					break;
 				}
@@ -508,11 +508,11 @@ complete_dw_locdata(void)
 			}
 			regitem = top_l->items;
 			while (regitem) {
-				ll_item l = find_ll_item(regitem->nm,
+				ll_item l = find_ll_item(regitem->name,
 							 LL_REGSHARE, 1);
 				regitem->share = share;
 				if (share) {
-					check_taggable(regitem->nm);
+					check_taggable(regitem->name);
 				}
 				regitem->reg = reg;
 				regitem->next_loc = l->u.l;
@@ -723,11 +723,11 @@ out_obj_shared_set(dg_name dn)
 	ll_item l = find_ll_item(dn, LL_MASTERSHARE, 0);
 	if (x->last && (bro(x) || l)) {
 		out_dwf_label(no(x), 1);
-		dw_at_ext_address(dn->mor->this_tag);
+		dw_at_ext_address(dn->more->this_tag);
 		while (bro(x)) {
-			dg_name nm = (dg_name)((void *)bro(x));
-			dw_at_ext_address(nm->mor->this_tag);
-			x = nm->data.n_obj.obtain_val;
+			dg_name name = (dg_name)((void *)bro(x));
+			dw_at_ext_address(name->more->this_tag);
+			x = name->data.n_obj.obtain_val;
 		}
 		if (l) {
 			out_regshare_set(l->u.l);

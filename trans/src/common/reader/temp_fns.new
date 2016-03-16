@@ -53,9 +53,9 @@ void init_dg_accessibility_option
 }
 
 dg_append f_dg_name_append
-(dg_tag tg, dg_name name)
+(dg_tag tag, dg_name name)
 {
-    UNUSED(tg);
+    UNUSED(tag);
     UNUSED(name);
     return(f_dummy_dg_append);
 }
@@ -157,9 +157,9 @@ void init_dg_class_base_list
 }
 
 dg_classmem f_dg_tag_classmem
-(dg_tag tg, dg_classmem mem)
+(dg_tag tag, dg_classmem mem)
 {
-    UNUSED(tg);
+    UNUSED(tag);
     UNUSED(mem);
     return(f_dummy_dg_classmem);
 }
@@ -247,9 +247,9 @@ void init_dg_comp_props
 }
 
 dg_compilation f_dg_tag_compilation
-(dg_tag tg, dg_compilation comp)
+(dg_tag tag, dg_compilation comp)
 {
-    UNUSED(tg);
+    UNUSED(tag);
     UNUSED(comp);
     return(f_dummy_dg_compilation);
 }
@@ -373,9 +373,9 @@ dg_dim f_dg_dim_apply_token
 }
 
 dg_dim f_dg_tag_dim
-(dg_tag tg, dg_dim d)
+(dg_tag tag, dg_dim d)
 {
-    UNUSED(tg);
+    UNUSED(tag);
     UNUSED(d);
     return(f_dummy_dg_dim);
 }
@@ -487,9 +487,9 @@ void init_dg_discrim_list
 }
 
 dg_enum f_dg_tag_enum
-(dg_tag tg, dg_enum e)
+(dg_tag tag, dg_enum e)
 {
-    UNUSED(tg);
+    UNUSED(tag);
     UNUSED(e);
     return(f_dummy_dg_enum);
 }
@@ -740,9 +740,9 @@ dg_name f_dg_name_apply_token
 }
 
 dg_name f_dg_tag_name
-(dg_tag tg, dg_name name)
+(dg_tag tag, dg_name name)
 {
-    UNUSED(tg);
+    UNUSED(tag);
     UNUSED(name);
     return(f_dummy_dg_name);
 }
@@ -924,9 +924,9 @@ void init_dg_name_list
 }
 
 dg_namelist f_dg_tag_namelist
-(dg_tag tg, dg_namelist nl)
+(dg_tag tag, dg_namelist nl)
 {
-    UNUSED(tg);
+    UNUSED(tag);
     UNUSED(nl);
     return(f_dummy_dg_namelist);
 }
@@ -1148,9 +1148,9 @@ dg_type f_dg_type_apply_token
 }
 
 dg_type f_dg_tag_type
-(dg_tag tg, dg_type type)
+(dg_tag tag, dg_type type)
 {
-    UNUSED(tg);
+    UNUSED(tag);
     UNUSED(type);
     return(f_dummy_dg_type);
 }

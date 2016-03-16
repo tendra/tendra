@@ -103,14 +103,14 @@ static int current_symno;
 static void
 code_it(dec *my_def)
 {
-	exp tg;
+	exp tag;
 	char *name;
 	int symdef;
 	bool extnamed;
 
 	static space tempspace = { 0, 0 };
 
-	tg   = my_def->dec_exp;
+	tag  = my_def->dec_exp;
 	name = my_def->name;
 
 	symdef   = my_def->sym_number;
@@ -121,8 +121,8 @@ code_it(dec *my_def)
 		return;
 	}
 
-	if (son(tg) != NULL && (!extnamed || !is_comm(son(tg)))) {
-		if (son(tg)->tag == proc_tag || son(tg)->tag == general_proc_tag) {
+	if (son(tag) != NULL && (!extnamed || !is_comm(son(tag)))) {
+		if (son(tag)->tag == proc_tag || son(tag)->tag == general_proc_tag) {
 			diag_descriptor *dd =  my_def->diag_info;
 
 			/* compile code for proc */
@@ -172,8 +172,8 @@ code_it(dec *my_def)
 			out_common(symnos[symdef], ilabel);
 			out_option(1, diag != DIAG_NONE ? 1 : 2);
 			symnoforstart(symdef, currentfile);
-			settempregs(son(tg));
-			code_here(son(tg), tempspace, nowhere);
+			settempregs(son(tag));
+			code_here(son(tag), tempspace, nowhere);
 
 			if (diag != DIAG_NONE && dd != NULL) {
 				diag3_driver->stabd(fscopefile, currentlno + 1, 0);
@@ -186,17 +186,17 @@ code_it(dec *my_def)
 			out_common(symnoforend(my_def, currentfile), iend);
 		} else {
 			/* global values */
-			exp c = son(tg);
-			IGNORE evaluated(c, isvar(tg) ? -symdef - 1 : symdef + 1);
+			exp c = son(tag);
+			IGNORE evaluated(c, isvar(tag) ? -symdef - 1 : symdef + 1);
 		}
 	} else {
 		/* global declarations but no definitions or is_comm */
 		long size;
 		shape s = my_def->dec_shape;
-		bool vs = son(tg) != NULL /* ie is_comm */;
+		bool vs = son(tag) != NULL /* ie is_comm */;
 		size = (shape_size(s) + 7) >> 3;
 
-		if ((isvar(tg) || s->tag != prokhd) && not_reserved(name)) {
+		if ((isvar(tag) || s->tag != prokhd) && not_reserved(name)) {
 			if (vs /* && size != 0 */) {
 				if (as_file) {
 					asm_printop(".comm %s %ld", name, size == 0 ? 4 : size);
@@ -210,7 +210,7 @@ code_it(dec *my_def)
 
 				out_value(symnos[symdef], iextern, size, 1);
 			}
-		} else if (son(tg) == NULL && !extnamed) {
+		} else if (son(tag) == NULL && !extnamed) {
 			if (as_file) {
 				asm_printf( "\n\t.lcomm\t%s %ld\n", name, size);
 			}
@@ -220,11 +220,11 @@ code_it(dec *my_def)
 	}
 
 	/*  NO! the pt fields are wrong!
-	    kill_exp(son(tg), son(tg));
+	    kill_exp(son(tag), son(tag));
 	 */
 
 	/*end:*/
-	/*son(tg) = NULL;*/
+	/*son(tag) = NULL;*/
 	my_def->processed = 1;
 }
 
@@ -458,22 +458,22 @@ local_translate_capsule(void)
 
 	/* ... and set in the position and "addresses" of the externals */
 	for (i = 0; i < main_globals_index; i++) {
-		exp tg = main_globals[i]->dec_exp;
+		exp tag = main_globals[i]->dec_exp;
 		char *name = main_globals[i]->name;
 		bool extnamed = main_globals[i]->extnamed;
 		main_globals[i]->sym_number = i;
 
 		/* if not NULL */
-		if (no(tg) != 0 || (extnamed && son(tg) != NULL)
+		if (no(tag) != 0 || (extnamed && son(tag) != NULL)
 		     || streq(name, "__alpha_errhandler") || streq(name, "__alpha_stack_limit"))
 		{
-			if (no(tg) == 1 && son(tg) == NULL && (bro(pt(tg)) == NULL ||
-			    bro(pt(tg))->tag == 101 || bro(pt(tg))->tag == 102 )
+			if (no(tag) == 1 && son(tag) == NULL && (bro(pt(tag)) == NULL ||
+			    bro(pt(tag))->tag == 101 || bro(pt(tag))->tag == 102 )
 			   /* diagnostics only! */ )
 			{
 				symnos[i] = -1;
 			} else {
-				no(tg) = (i + 1) * 64 + 32;
+				no(tag) = (i + 1) * 64 + 32;
 				symnos[i] = symnoforext(main_globals[i], mainfile);
 			}
 		} else {
@@ -511,11 +511,11 @@ local_translate_capsule(void)
 	 * .comm entries for undefined objects
 	 */
 	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
-		exp tg = my_def->dec_exp;
+		exp tag = my_def->dec_exp;
 		char *name = my_def->name;
 		bool extnamed = my_def->extnamed;
 
-		if (son(tg) != NULL && (extnamed || no(tg) != 0 || streq(name, "main"))) {
+		if (son(tag) != NULL && (extnamed || no(tag) != 0 || streq(name, "main"))) {
 			if (!extnamed) {
 				continue;
 			}

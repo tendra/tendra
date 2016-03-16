@@ -184,7 +184,7 @@ static void out_refblock		/* Not certain this is needed! */
     p = objs;
     while (p) {
       if (p->ass == assgn)
-	dw_at_ext_address (p->tg);
+	dw_at_ext_address (p->tag);
       p = p->next;
     }
     if (needs_debug_align) {
@@ -350,8 +350,8 @@ static void output_info
     }
 
     case DGA_NAME: {
-      local_var_place = d->data.i_nam.scope_start;
-      dw2_out_name (d->data.i_nam.dnam, (e ? LOCAL_NAME : DEAD_NAME));
+      local_var_place = d->data.i_name.scope_start;
+      dw2_out_name (d->data.i_name.dname, (e ? LOCAL_NAME : DEAD_NAME));
       output_info (e, d->more);
       break;
     }
@@ -364,7 +364,7 @@ static void output_info
 	  break;
 	}
 	IGNORE dw_entry (dwe_with, 0);
-	dw_at_ext_lab (dw2_find_type_label (d->data.i_with.w_typ));
+	dw_at_ext_lab (dw2_find_type_label (d->data.i_with.w_type));
 	dw2_locate_exp (son(d->data.i_with.w_exp), 0, 0);
 	dw_at_address (d->data.i_with.lo_pc);
 	dw_at_address (d->data.i_with.hi_pc);
@@ -386,7 +386,7 @@ static void output_info
 	  break;
 	}
 	IGNORE dw_entry (dwe_call, 0);
-	dw_at_string (d->data.i_call.clnam);
+	dw_at_string (d->data.i_call.clname);
 	dw_at_decl (d->data.i_call.pos);
 	dw_at_udata ((unsigned long)d->data.i_call.ck);
 	dw_at_address (d->data.i_call.brk);
@@ -405,8 +405,8 @@ static void output_info
       long brk = d->data.i_inl.lo_pc;
       if (doing_abstract)
 	break;	/* no recursion */
-      di = d->data.i_inl.proc->p.nam;
-      p_t = find_proc_type (di->data.n_proc.typ);
+      di = d->data.i_inl.proc->p.name;
+      p_t = find_proc_type (di->data.n_proc.type);
       res_t = p_t->data.t_proc.res_type;
       return_type = res_t;
       if (brk) {			/* sometimes lo = hi */
@@ -438,7 +438,7 @@ static void output_info
 	  if (attr2 & ~(H_XY|H_PC|H_LC))
 	    fail_unimplemented ();
 	  if (attr2 & H_XY)
-	    dw_at_decl (di->mor->end_pos);
+	    dw_at_decl (di->more->end_pos);
 	  if (attr2 & H_PC)
 	    dw_at_address (rets->data.i_res.brk);
 	  if (attr2 & H_LC)
@@ -502,7 +502,7 @@ static void output_info
     case DGA_X_RAISE: {
       if (!doing_abstract) {
 	long attr1 = H_XY, attr2;
-	if (d->data.i_raise.x_typ)
+	if (d->data.i_raise.x_type)
 	  attr1 |= H_TP;
 	if (d->data.i_raise.x_val)
 	  attr1 |= (dw_is_const (son(d->data.i_raise.x_val)) ? H_CV : H_LC);
@@ -512,7 +512,7 @@ static void output_info
 	if (attr2 & H_XY)
 	  dw_at_decl (d->data.i_raise.pos);
 	if (attr2 & H_TP)
-	  dw_at_ext_lab (dw2_find_type_label (d->data.i_raise.x_typ));
+	  dw_at_ext_lab (dw2_find_type_label (d->data.i_raise.x_type));
 	if (attr2 & H_LC)
 	  dw2_locate_exp (son(d->data.i_raise.x_val), 0, 0);
 	if (attr2 & H_CV)
@@ -740,23 +740,23 @@ static void output_info
     case DGA_MOVD:
     case DGA_HOIST: {
       if (!doing_abstract) {
-	dg_tag tg = d->data.i_movd.tg;
+	dg_tag tag = d->data.i_movd.tag;
 	if (d->this_tag)
 	  set_ext_address (d->this_tag);
 	if (d->data.i_movd.lo_pc) {
-	  IGNORE dw_entry ((tg ? dwe_moved_r : dwe_moved), 0);
+	  IGNORE dw_entry ((tag ? dwe_moved_r : dwe_moved), 0);
 	  dw_at_udata ((unsigned long)d->data.i_movd.reason);
-	  if (tg)
-	    dw_at_ext_address (tg);
+	  if (tag)
+	    dw_at_ext_address (tag);
 	  dw_at_address (d->data.i_movd.lo_pc);
 	  dw_at_address (d->data.i_movd.hi_pc);
 	}
 	else {
 	  check_trivial (e);
-	  IGNORE dw_entry ((tg ? dwe_moved_xr : dwe_moved_x), 0);
+	  IGNORE dw_entry ((tag ? dwe_moved_xr : dwe_moved_x), 0);
 	  dw_at_udata ((unsigned long)d->data.i_movd.reason);
-	  if (tg)
-	    dw_at_ext_address (tg);
+	  if (tag)
+	    dw_at_ext_address (tag);
 	}
       }
       output_info (e, d->more);
@@ -812,14 +812,14 @@ static void output_detch
     int reason = dl->why;
     dg_info d_src = dl->info;
     dg_info more_src = NULL;
-    dg_tag tg = dl->tg;
-    while (tg && tg->copy)
-      tg = tg->copy;
-    if (tg && tg->p.info->key == DGA_MOVD) {
-      d_src = tg->p.info;
+    dg_tag tag = dl->tag;
+    while (tag && tag->copy)
+      tag = tag->copy;
+    if (tag && tag->p.info->key == DGA_MOVD) {
+      d_src = tag->p.info;
       reason = d_src->data.i_movd.reason;
       if (d_src->data.i_movd.lost)
-	tg = d_src->data.i_movd.tg;
+	tag = d_src->data.i_movd.tag;
       else
 	has_dest = 1;
       d_src = d_src->more;
@@ -827,7 +827,7 @@ static void output_detch
     if (has_dest) {
       if (d_src->key == DGA_SRC && !doing_abstract) {
 	IGNORE dw_entry (dwe_displ_x, 0);
-	dw_at_ext_address (tg);
+	dw_at_ext_address (tag);
 	dw_at_decl (d_src->data.i_src.startpos);
       }
       else
@@ -837,15 +837,15 @@ static void output_detch
 		d_src->key != DGA_BEG && d_src->key != DGA_BAR)
       {
 	IGNORE dw_entry (dwe_displaced, 0);
-	dw_at_ext_address (tg);
+	dw_at_ext_address (tag);
       }
     }
     else {
       if (d_src->key == DGA_SRC && !doing_abstract) {
-	IGNORE dw_entry ((tg ? dwe_absent_xr : dwe_absent_x), 0);
+	IGNORE dw_entry ((tag ? dwe_absent_xr : dwe_absent_x), 0);
 	dw_at_udata ((unsigned long)reason);
-	if (tg)
-	  dw_at_ext_address (tg);
+	if (tag)
+	  dw_at_ext_address (tag);
 	dw_at_decl (d_src->data.i_src.startpos);
       }
       else
@@ -860,10 +860,10 @@ static void output_detch
 	has_child = 1;
 	more_src = d_src;
 	more_src->more = NULL;
-	IGNORE dw_entry ((tg ? dwe_absent_r : dwe_absent), 0);
+	IGNORE dw_entry ((tag ? dwe_absent_r : dwe_absent), 0);
 	dw_at_udata ((unsigned long)reason);
-	if (tg)
-	  dw_at_ext_address (tg);
+	if (tag)
+	  dw_at_ext_address (tag);
       }
     }
     {
@@ -885,7 +885,7 @@ static void out_param
   /* within debug_info */
   /* used for declarations only */
   long attr1 = (H_TP | H_VP), attr2;
-  if (p.pnam[0])
+  if (p.pname[0])
     attr1 |= H_NM;
   if (p.ppos.file)
     attr1 |= H_XY;
@@ -909,11 +909,11 @@ static void out_param
 #endif
     fail_unimplemented ();
   if (attr2 & H_NM)
-    dw_at_string (p.pnam);
+    dw_at_string (p.pname);
   if (attr2 & H_XY)
     dw_at_decl (p.ppos);
   if (attr2 & H_TP)
-    dw_at_ext_lab (dw2_find_type_label (p.p_typ));
+    dw_at_ext_lab (dw2_find_type_label (p.p_type));
   if (attr2 & H_VP) {
     int vp = 0;
     if (p.pmode == DG_OUT_MODE || p.pmode == DG_INOUT_MODE)
@@ -940,24 +940,24 @@ static void dw2_out_proc
   dg_type p_t, res_t;
   dg_type old_res = return_type;
   long is_callable = DW_CC_normal;
-  char* nam;
-  char* gnam = "";
+  char* name;
+  char* gname = "";
   long attr1, attr2;
   dg_instantn * generic = NULL;
   dg_info old_di = proc_dg_info;
   proc_dg_info = NULL;
-  if (di->idnam.id_key == DG_ID_INST) {
-    generic = di->idnam.idd.instance;
-    if (generic->nam.id_key == DG_ID_ANON)
-      nam = generic->spec.idd.nam;
+  if (di->idname.id_key == DG_ID_INST) {
+    generic = di->idname.idd.instance;
+    if (generic->name.id_key == DG_ID_ANON)
+      name = generic->spec.idd.name;
     else {
-      nam = generic->nam.idd.nam;
-      gnam = generic->spec.idd.nam;
+      name  = generic->name.idd.name;
+      gname = generic->spec.idd.name;
     }
   }
   else
-    nam = di->idnam.idd.nam;
-  p_t = find_proc_type (di->data.n_proc.typ);
+    name = di->idname.idd.name;
+  p_t = find_proc_type (di->data.n_proc.type);
   res_t = p_t->data.t_proc.res_type;
   return_type = res_t;
   id = di->data.n_proc.obtain_val;
@@ -986,7 +986,7 @@ static void dw2_out_proc
 	exit_section ();
 	enter_section ("debug_pubnames");
 	out32 (); out_dwf_labdiff (dw_info_start, infolab); asm_printf("\n");
-	out_string (nam);
+	out_string (name);
 	exit_section ();
 	enter_section ("debug_info");
       }
@@ -995,13 +995,13 @@ static void dw2_out_proc
 
   if (p_t->data.t_proc.prps & (f_untidy | f_var_callees))
     is_callable = DW_CC_nocall;
-  if (di->mor && di->mor->refspec)
+  if (di->more && di->more->refspec)
     attr1 = H_SP | H_XY;
   else {
     attr1 = H_NM | H_XY;
     if (res_t)
       attr1 |= H_TP;
-    switch (di->idnam.id_key) {
+    switch (di->idname.id_key) {
       case DG_ID_EXT:
 	attr1 |= H_EX;
 	break;
@@ -1009,7 +1009,7 @@ static void dw2_out_proc
 	attr1 |= H_AT;
 	break;
       case DG_ID_INST:
-	if (gnam[0])
+	if (gname[0])
 	  attr1 |= H_GN;
 	break;
       default:
@@ -1027,22 +1027,22 @@ static void dw2_out_proc
   }
   if (is_callable | DW_CC_normal)
     attr1 |= H_CC;
-  if (di->mor && di->mor->isspec)
+  if (di->more && di->more->isspec)
     attr1 |= H_DC;
-  if (di->mor && di->mor->issep)
+  if (di->more && di->more->issep)
     attr1 |= H_SE;
-  if (di->mor && di->mor->acc)
+  if (di->more && di->more->acc)
     attr1 |= H_AC;
-  if (di->mor && di->mor->virt)
+  if (di->more && di->more->virt)
     attr1 |= H_VT;
-  if (di->mor && di->mor->vslot)
+  if (di->more && di->more->vslot)
     attr1 |= H_VL;
-  if (di->mor && di->mor->repn)
+  if (di->more && di->more->repn)
     attr1 |= H_RP;
   doing_abstract = 0;
-  if (di->mor && di->mor->this_tag) {
-    set_ext_address (di->mor->this_tag);
-    if (di->mor->this_tag->any_inl) {
+  if (di->more && di->more->this_tag) {
+    set_ext_address (di->more->this_tag);
+    if (di->more->this_tag->any_inl) {
       doing_abstract = 1;
       attr1 |= H_IL;
     }
@@ -1056,7 +1056,7 @@ static void dw2_out_proc
       if (proc_dg_info->data.i_prc.p &&
 		proc_dg_info->data.i_prc.p->data.i_param.o_env)
 	attr1 |= H_SL;
-      if (di->mor && di->mor->elabn)
+      if (di->more && di->more->elabn)
 	attr1 |= H_EL;
     }
 
@@ -1066,21 +1066,21 @@ static void dw2_out_proc
 		  H_TP|H_PT|H_IL|H_VT|H_VL|H_PC|H_SL|H_EXTN))
       fail_unimplemented ();
     if (attr2 & H_AO)
-      dw_at_ext_address (di->mor->this_tag);
+      dw_at_ext_address (di->more->this_tag);
     if (attr2 & H_SP)
-      dw_at_ext_address (di->mor->refspec);
+      dw_at_ext_address (di->more->refspec);
     if (attr2 & H_DC)
-      dw_at_flag ((di->mor && di->mor->isspec ? 1 : 0));
+      dw_at_flag ((di->more && di->more->isspec ? 1 : 0));
     if (attr2 & H_NM)
-      dw_at_string (nam);
+      dw_at_string (name);
     if (attr2 & H_XY)
       dw_at_decl (di->whence);
     if (attr2 & H_EX)
-      dw_at_flag ((di->idnam.id_key == DG_ID_EXT ? 1 : 0));
+      dw_at_flag ((di->idname.id_key == DG_ID_EXT ? 1 : 0));
     if (attr2 & H_AT)
-      dw_at_flag ((di->idnam.id_key == DG_ID_ARTFL ? 1 : 0));
+      dw_at_flag ((di->idname.id_key == DG_ID_ARTFL ? 1 : 0));
     if (attr2 & H_AC)
-      dw_at_data (1, (long)(di->mor ? di->mor->acc : 0));
+      dw_at_data (1, (long)(di->more ? di->more->acc : 0));
     if (attr2 & H_CC)
       dw_at_data (1, is_callable);
     if (attr2 & H_TP)
@@ -1088,12 +1088,12 @@ static void dw2_out_proc
     if (attr2 & H_PT)
       dw_at_flag (p_t->data.t_proc.yespro);
     if (attr2 & H_IL)
-      dw_at_data (1, (long)(di->mor->isinline ? DW_INL_declared_inlined :
+      dw_at_data (1, (long)(di->more->isinline ? DW_INL_declared_inlined :
 					      DW_INL_inlined));
     if (attr2 & H_VT)
-      dw_at_data (1, (long)(di->mor ? di->mor->virt : 0));
+      dw_at_data (1, (long)(di->more ? di->more->virt : 0));
     if (attr2 & H_VL)
-      dw2_locate_exp (son(di->mor->vslot), 0, 0);
+      dw2_locate_exp (son(di->more->vslot), 0, 0);
     if (attr2 & H_PC) {
       dw_at_address (proc_dg_info->data.i_prc.prc_start);
       dw_at_address (proc_dg_info->data.i_prc.prc_end);
@@ -1110,15 +1110,15 @@ static void dw2_out_proc
       out16 (); out_dwf_dist_to_label (block_end); asm_printf("\n");
       if (attr1 & H_EL) {
 	set_attribute (DW_AT_DD_elaboration, DW_FORM_ref_addr);
-	dw_at_ext_address (di->mor->elabn);
+	dw_at_ext_address (di->more->elabn);
       }
       if (attr1 & H_GN) {
 	set_attribute (DW_AT_DD_generic_name, DW_FORM_string);
-	dw_at_string (gnam);
+	dw_at_string (gname);
       }
       if (attr1 & H_RP) {
 	set_attribute (DW_AT_DD_repn, 0);
-	dw_out_const (son (di->mor->repn));
+	dw_out_const (son (di->more->repn));
       }
       if (attr1 & H_LN) {
 	set_attribute (DW_AT_language, DW_FORM_udata);
@@ -1126,7 +1126,7 @@ static void dw2_out_proc
       }
       if (attr1 & H_SE) {
 	set_attribute (DW_AT_DD_separate, DW_FORM_flag);
-	dw_at_flag ((di->mor && di->mor->issep ? 1 : 0));
+	dw_at_flag ((di->more && di->more->issep ? 1 : 0));
       }
       set_attribute (0, 0);
       out_dwf_label (block_end, 1);
@@ -1144,8 +1144,8 @@ static void dw2_out_proc
       if (p_t->data.t_proc.prps & f_var_callers)
 	IGNORE dw_entry (dwe_opt_par, 0);
 
-      if (di->mor && di->mor->en_family)
-	dw_out_dim (*(di->mor->en_family));
+      if (di->more && di->more->en_family)
+	dw_out_dim (*(di->more->en_family));
       dw_sibling_end ();
       break;	/* to return */
     }
@@ -1166,9 +1166,9 @@ static void dw2_out_proc
 	    param->data.n_obj.p = NULL;
 	}
 	if (doing_abstract) {
-	  if (!(param->mor) || !(param->mor->this_tag))
+	  if (!(param->more) || !(param->more->this_tag))
 	    error(ERR_INTERNAL, "param inlining error");
-	  param->mor->inline_ref = param->mor->this_tag;
+	  param->more->inline_ref = param->more->this_tag;
 	}
 	dw2_out_name (param, PARAM_NAME);
 	param = param->next;
@@ -1178,16 +1178,16 @@ static void dw2_out_proc
     if (p_t->data.t_proc.prps & f_var_callers)
       IGNORE dw_entry (dwe_opt_par, 0);
 
-    if (!doing_abstract && di->mor && di->mor->exptns.len) {
-      dg_type * et = di->mor->exptns.array;
+    if (!doing_abstract && di->more && di->more->exptns.len) {
+      dg_type * et = di->more->exptns.array;
       int i;
-      for (i = 0; i < di->mor->exptns.len; i++) {
+      for (i = 0; i < di->more->exptns.len; i++) {
 	IGNORE dw_entry (dwe_thrown_t, 0);
 	dw_at_ext_lab (dw2_find_type_label (et[i]));
       }
     }
-    if (di->mor && di->mor->en_family)
-      dw_out_dim (*(di->mor->en_family));
+    if (di->more && di->more->en_family)
+      dw_out_dim (*(di->more->en_family));
     if (proc_dg_info && proc_dg_info->data.i_prc.barrier) {
       dg_info b = proc_dg_info->data.i_prc.barrier;
       IGNORE dw_entry (dwe_barrier, 0);
@@ -1209,7 +1209,7 @@ static void dw2_out_proc
 	if (atret2 & ~(H_XY|H_PC|H_LC))
 	  fail_unimplemented ();
 	if (atret2 & H_XY)
-	  dw_at_decl (di->mor->end_pos);
+	  dw_at_decl (di->more->end_pos);
 	if (atret2 & H_PC)
 	  dw_at_address (rets->lab);
 	if (atret2 & H_LC)
@@ -1250,31 +1250,31 @@ void dw2_out_generic
     switch (p->key) {
       case DGN_OBJECT: {
 	IGNORE dw_entry (dwe_tmpl_val, 0);
-	dw_at_string (idname_chars (p->idnam));
+	dw_at_string (idname_chars (p->idname));
 	dw_at_decl (p->whence);
-	dw_at_ext_lab (dw2_find_type_label (p->data.n_obj.typ));
+	dw_at_ext_lab (dw2_find_type_label (p->data.n_obj.type));
 	dw_out_const (son (p->data.n_obj.obtain_val));
 	break;
       }
       case DGN_TYPE: {
 	IGNORE dw_entry (dwe_tmpl_type, 0);
-	dw_at_string (idname_chars (p->idnam));
+	dw_at_string (idname_chars (p->idname));
 	dw_at_decl (p->whence);
-	dw_at_ext_lab (dw2_find_type_label (p->data.n_typ.raw));
+	dw_at_ext_lab (dw2_find_type_label (p->data.n_type.raw));
 	break;
       }
       case DGN_PROC: {
 	IGNORE dw_entry (dwe_tmpl_proc, 0);
-	dw_at_string (idname_chars (p->idnam));
+	dw_at_string (idname_chars (p->idname));
 	dw_at_decl (p->whence);
-	dw_at_ext_address (p->mor->refspec);
+	dw_at_ext_address (p->more->refspec);
 	break;
       }
       case DGN_MODULE: {
 	IGNORE dw_entry (dwe_tmpl_mod, 0);
-	dw_at_string (idname_chars (p->idnam));
+	dw_at_string (idname_chars (p->idname));
 	dw_at_decl (p->whence);
-	dw_at_ext_address (p->mor->refspec);
+	dw_at_ext_address (p->more->refspec);
 	break;
       }
       default:
@@ -1289,10 +1289,10 @@ void dw2_out_name
     ( dg_name di , dg_nm_contex contex )
 {
 				/* in debug_info section */
-  dg_tag inl_tag = (di->mor ? di->mor->inline_ref : NULL);
-  if (di->mor && di->mor->this_tag && !di->mor->this_tag->outref.k) {
-    di->mor->this_tag->outref.k = LAB_D;
-    di->mor->this_tag->outref.u.l = next_dwarf_label ();
+  dg_tag inl_tag = (di->more ? di->more->inline_ref : NULL);
+  if (di->more && di->more->this_tag && !di->more->this_tag->outref.k) {
+    di->more->this_tag->outref.k = LAB_D;
+    di->more->this_tag->outref.u.l = next_dwarf_label ();
   }
 
 				/* EXCEPT_NAME, INSTANTN_NAME not done yet */
@@ -1305,22 +1305,22 @@ void dw2_out_name
 
     case DGN_OBJECT: {
       exp x = di->data.n_obj.obtain_val;
-      dg_type typ = di->data.n_obj.typ;
+      dg_type type = di->data.n_obj.type;
       dg_param * ppar = (contex == PARAM_NAME ? di->data.n_obj.p : NULL);
-      char* nam = idname_chars (di->idnam);
+      char* name = idname_chars (di->idname);
       long attr1 = 0, attr2;
       long loclab = 0, loclabext = 0, infolab = 0;
       abbrev_entry dwe;
       if ((inl_tag && !doing_inline && !doing_abstract) || (!inl_tag && doing_inline))
 	error(ERR_INTERNAL, "inline inconsistency");
 
-      if (contex == GLOBAL_NAME && di->idnam.id_key == DG_ID_EXT &&
+      if (contex == GLOBAL_NAME && di->idname.id_key == DG_ID_EXT &&
 		x && find_id (son(x))) {
 	infolab = next_dwarf_label ();
 	exit_section ();
 	enter_section ("debug_pubnames");
 	out32 (); out_dwf_labdiff (dw_info_start, infolab); asm_printf("\n");
-	dw_at_string (nam);
+	dw_at_string (name);
 	exit_section ();
 	enter_section ("debug_info");
       }
@@ -1328,7 +1328,7 @@ void dw2_out_name
       if (contex == PARAM_NAME || contex == INL_PARAM_NAME)
 	dwe = dwe_param;
       else
-      if (di->mor && di->mor->isconst)
+      if (di->more && di->more->isconst)
 	dwe = dwe_constant;
       else
 	dwe = dwe_variable;
@@ -1336,18 +1336,18 @@ void dw2_out_name
       if (doing_inline)
 	attr1 |= H_AO;
       else {
-	if (di->mor && di->mor->refspec)
+	if (di->more && di->more->refspec)
 	  attr1 |= (H_SP | H_XY);
 	else {
 	  attr1 |= (H_NM | H_XY | H_TP);
 	  if (contex == GLOBAL_NAME)
 	    attr1 |= H_EX;
-	  if (di->idnam.id_key == DG_ID_ARTFL)
+	  if (di->idname.id_key == DG_ID_ARTFL)
 	    attr1 |= H_AT;
 	}
-	if (di->mor && di->mor->isspec)
+	if (di->more && di->more->isspec)
 	  attr1 |= H_DC;
-	if (di->mor && di->mor->acc)
+	if (di->more && di->more->acc)
 	  attr1 |= H_AC;
 	if (contex == PARAM_NAME) {
 	  attr1 |= H_VP;
@@ -1364,7 +1364,7 @@ void dw2_out_name
 	    attr1 |= H_DF;
 #endif
 	}
-	if (di->mor && di->mor->repn)
+	if (di->more && di->more->repn)
 	  attr1 |= H_RP;
       }
       if (!doing_abstract && !(attr1 & H_DC)) {
@@ -1384,11 +1384,11 @@ void dw2_out_name
 	}
       }
 
-      if (di->mor && di->mor->this_tag) {
+      if (di->more && di->more->this_tag) {
 	if (doing_abstract)
-	  set_abstract_lab (di->mor->this_tag);
+	  set_abstract_lab (di->more->this_tag);
 	else
-	  set_ext_address (di->mor->this_tag);
+	  set_ext_address (di->more->this_tag);
       }
       if (infolab)
 	out_dwf_label (infolab, 1);
@@ -1404,21 +1404,21 @@ void dw2_out_name
       if (attr2 & H_AO)
 	dw_at_abstract_lab (inl_tag);
       if (attr2 & H_SP)
-	dw_at_ext_address (di->mor->refspec);
+	dw_at_ext_address (di->more->refspec);
       if (attr2 & H_DC)
-	dw_at_flag ((di->mor && di->mor->isspec ? 1 : 0));
+	dw_at_flag ((di->more && di->more->isspec ? 1 : 0));
       if (attr2 & H_NM)
-	dw_at_string (nam);
+	dw_at_string (name);
       if (attr2 & H_XY)
 	dw_at_decl (di->whence);
       if (attr2 & H_EX)
 	dw_at_flag ((infolab ? 1 : 0));
       if (attr2 & H_AT)
-	dw_at_flag ((di->idnam.id_key == DG_ID_ARTFL ? 1 : 0));
+	dw_at_flag ((di->idname.id_key == DG_ID_ARTFL ? 1 : 0));
       if (attr2 & H_AC)
-	dw_at_data (1, (long)(di->mor ? di->mor->acc : 0));
+	dw_at_data (1, (long)(di->more ? di->more->acc : 0));
       if (attr2 & H_TP)
-	dw_at_ext_lab (dw2_find_type_label (typ));
+	dw_at_ext_lab (dw2_find_type_label (type));
       if (attr2 & H_VP) {
 	int vp = 0;
 	if (ppar && (ppar->pmode == DG_OUT_MODE || ppar->pmode == DG_INOUT_MODE))
@@ -1446,7 +1446,7 @@ void dw2_out_name
       if (attr2 & H_LE)
 	dw_at_address (loclabext = next_dwarf_label ());
       if (attr2 & H_RP)
-	dw_out_const (son (di->mor->repn));
+	dw_out_const (son (di->more->repn));
 
       if (loclab) {
 	long lstart, lend;
@@ -1507,8 +1507,8 @@ void dw2_out_name
 
     case DGN_MODULE:
     case DGN_NSP: {
-      char* nam;
-      char* gnam = "";
+      char* name;
+      char* gname = "";
       long attr1 = 0, attr2;
       abbrev_entry dwe;
       int has_init_code = 0;
@@ -1528,53 +1528,53 @@ void dw2_out_name
 	dwe = dwe_module;
       else
 	dwe = dwe_namespace;
-      if (di->idnam.id_key == DG_ID_INST) {
-	generic = di->idnam.idd.instance;
-	if (generic->nam.id_key == DG_ID_ANON)
-	  nam = generic->spec.idd.nam;
+      if (di->idname.id_key == DG_ID_INST) {
+	generic = di->idname.idd.instance;
+	if (generic->name.id_key == DG_ID_ANON)
+	  name = generic->spec.idd.name;
 	else {
-	  nam = generic->nam.idd.nam;
-	  gnam = generic->spec.idd.nam;
+	  name = generic->name.idd.name;
+	  gname = generic->spec.idd.name;
         }
       }
       else
-	nam = di->idnam.idd.nam;
+	name = di->idname.idd.name;
       if (doing_inline)
 	attr1 |= H_AO;
       else {
-	if (di->mor && di->mor->refspec)
+	if (di->more && di->more->refspec)
 	  attr1 = H_SP | H_XY;
 	else {
 	  attr1 = H_NM | H_XY;
-	  switch (di->idnam.id_key) {
+	  switch (di->idname.id_key) {
 	    case DG_ID_ARTFL:
 	      attr1 |= H_AT;
 	      break;
 	    case DG_ID_INST:
-	      if (gnam[0])
+	      if (gname[0])
 	        attr1 |= H_GN;
 	      break;
 	    default:
 	      break;
 	  }
         }
-	if (di->mor && di->mor->isspec)
+	if (di->more && di->more->isspec)
 	  attr1 |= H_DC;
-	if (di->mor && di->mor->issep)
+	if (di->more && di->more->issep)
 	  attr1 |= H_SE;
       }
       if (!doing_abstract) {
 	if (has_init_code)
 	  attr1 |= H_PC;
-	if (di->mor && di->mor->elabn)
+	if (di->more && di->more->elabn)
 	  attr1 |= H_EL;
       }
 
-      if (di->mor && di->mor->this_tag) {
+      if (di->more && di->more->this_tag) {
 	if (doing_abstract)
-	  set_abstract_lab (di->mor->this_tag);
+	  set_abstract_lab (di->more->this_tag);
 	else
-	  set_ext_address (di->mor->this_tag);
+	  set_ext_address (di->more->this_tag);
       }
       attr2 = dw_entry (dwe, attr1);
       if (attr2 & ~(H_AO|H_SP|H_DC|H_NM|H_XY|H_AT|H_AC|H_PC|H_EXTN))
@@ -1583,17 +1583,17 @@ void dw2_out_name
       if (attr2 & H_AO)
 	dw_at_abstract_lab (inl_tag);
       if (attr2 & H_SP)
-	dw_at_ext_address (di->mor->refspec);
+	dw_at_ext_address (di->more->refspec);
       if (attr2 & H_DC)
-	dw_at_flag ((di->mor && di->mor->isspec ? 1 : 0));
+	dw_at_flag ((di->more && di->more->isspec ? 1 : 0));
       if (attr2 & H_NM)
-	dw_at_string (nam);
+	dw_at_string (name);
       if (attr2 & H_XY)
 	dw_at_decl (di->whence);
       if (attr2 & H_AT)
-	dw_at_flag ((di->idnam.id_key == DG_ID_ARTFL ? 1 : 0));
+	dw_at_flag ((di->idname.id_key == DG_ID_ARTFL ? 1 : 0));
       if (attr2 & H_AC)
-	dw_at_data (1, (long)(di->mor ? di->mor->acc : 0));
+	dw_at_data (1, (long)(di->more ? di->more->acc : 0));
       if (attr2 & H_PC) {
 	dg_info pd = dgf(son(id));
 	if (pd->key != DGA_PRC)
@@ -1609,15 +1609,15 @@ void dw2_out_name
 	out16 (); out_dwf_dist_to_label (block_end); asm_printf("\n");
 	if (attr1 & H_EL) {
 	  set_attribute (DW_AT_DD_elaboration, DW_FORM_ref_addr);
-	  dw_at_ext_address (di->mor->elabn);
+	  dw_at_ext_address (di->more->elabn);
 	}
 	if (attr1 & H_GN) {
 	  set_attribute (DW_AT_DD_generic_name, DW_FORM_string);
-	  dw_at_string (gnam);
+	  dw_at_string (gname);
 	}
 	if (attr1 & H_SE) {
 	  set_attribute (DW_AT_DD_separate, DW_FORM_flag);
-	  dw_at_flag ((di->mor && di->mor->issep ? 1 : 0));
+	  dw_at_flag ((di->more && di->more->issep ? 1 : 0));
 	}
 	set_attribute (0, 0);
 	out_dwf_label (block_end, 1);
@@ -1649,14 +1649,14 @@ void dw2_out_name
 
     case DGN_IMPORT: {
       long attr1 = 0, attr2;
-      char * nam = idname_chars (di->idnam);
-      dg_type p_t = di->data.n_imp.i_typ;
+      char * name = idname_chars (di->idname);
+      dg_type p_t = di->data.n_imp.i_type;
       int params = (p_t && p_t->key == DGT_PROC);
-      if (nam[0])
+      if (name[0])
 	attr1 |= H_NM;
       if (di->whence.file)
 	attr1 |= H_XY;
-      if (di->mor && di->mor->acc)
+      if (di->more && di->more->acc)
 	attr1 |= H_AC;
       if (contex == LOCAL_NAME && !doing_abstract)
 	attr1 |= H_SS;
@@ -1664,11 +1664,11 @@ void dw2_out_name
       if (attr2 & ~(H_NM|H_XY|H_AC|H_SS))
 	fail_unimplemented ();
       if (attr2 & H_NM)
-	dw_at_string (nam);
+	dw_at_string (name);
       if (attr2 & H_XY)
 	dw_at_decl (di->whence);
       if (attr2 & H_AC)
-	dw_at_data (1, (long)(di->mor ? di->mor->acc : 0));
+	dw_at_data (1, (long)(di->more ? di->more->acc : 0));
       dw_at_ext_address (di->data.n_imp.import);
       dw_at_udata ((unsigned long)(di->data.n_imp.ik));
       if (attr2 & H_SS)
@@ -1689,53 +1689,53 @@ void dw2_out_name
     case DGN_TYPE: {
       long attr1 = 0, attr2;
       int ada_derived = 0;
-      char * nam = idname_chars (di->idnam);
+      char * name = idname_chars (di->idname);
       if (doing_inline && inl_tag)
 	attr1 |= H_AO;
       else {
-	if (di->mor && di->mor->refspec)
+	if (di->more && di->more->refspec)
 	  attr1 = H_SP;
-	if (di->mor && di->mor->isspec)
+	if (di->more && di->more->isspec)
 	  attr1 |= H_DC;
-	if (nam[0])
+	if (name[0])
 	  attr1 |= H_NM;
 	if (di->whence.file)
 	  attr1 |= H_XY;
-	if (di->idnam.id_key == DG_ID_ARTFL)
+	if (di->idname.id_key == DG_ID_ARTFL)
 	  attr1 |= H_AT;
-	if (di->mor && di->mor->acc)
+	if (di->more && di->more->acc)
 	  attr1 |= H_AC;
-	if (di->data.n_typ.raw)
+	if (di->data.n_type.raw)
 	  attr1 |= H_TP;
-	if (di->mor && di->mor->isnew)
+	if (di->more && di->more->isnew)
 	  attr1 |= H_NW;
-	if (di->mor && di->mor->aderiv) {
+	if (di->more && di->more->aderiv) {
 	  attr1 |= H_AD;
 	  ada_derived = 1;
 	}
       }
-      if ((attr1 == H_TP || (!nam[0] && !(di->mor && di->mor->this_tag))) &&
-		!(di->data.n_typ.raw->outref.u.l) &&
-		!di->data.n_typ.constraints) {
-	if (di->mor && di->mor->this_tag)
-	  di->data.n_typ.raw->outref = di->mor->this_tag->outref;
+      if ((attr1 == H_TP || (!name[0] && !(di->more && di->more->this_tag))) &&
+		!(di->data.n_type.raw->outref.u.l) &&
+		!di->data.n_type.constraints) {
+	if (di->more && di->more->this_tag)
+	  di->data.n_type.raw->outref = di->more->this_tag->outref;
 	else {
-	  di->data.n_typ.raw->outref.u.l = next_dwarf_label();
-	  di->data.n_typ.raw->outref.k = LAB_D;
+	  di->data.n_type.raw->outref.u.l = next_dwarf_label();
+	  di->data.n_type.raw->outref.k = LAB_D;
 	}
-	dw_out_type (di->data.n_typ.raw);
+	dw_out_type (di->data.n_type.raw);
       }
       else {
-	if (di->mor && di->mor->this_tag) {
+	if (di->more && di->more->this_tag) {
 	  if (doing_abstract)
-	    set_abstract_lab (di->mor->this_tag);
+	    set_abstract_lab (di->more->this_tag);
 	  else
-	  if (!(di->mor->this_tag->done)) {
-	    set_ext_address (di->mor->this_tag);
-	    di->mor->this_tag->done = 1;
+	  if (!(di->more->this_tag->done)) {
+	    set_ext_address (di->more->this_tag);
+	    di->more->this_tag->done = 1;
 	  }
 	}
-	attr2 = dw_entry ((di->data.n_typ.constraints ? dwe_typecon :
+	attr2 = dw_entry ((di->data.n_type.constraints ? dwe_typecon :
 			dwe_typedef), attr1);
 	if (attr2 & ~(H_AO|H_SP|H_DC|H_NM|H_XY|H_AT|H_AC|H_TP|H_NW|H_AD))
 	  fail_unimplemented ();
@@ -1743,26 +1743,26 @@ void dw2_out_name
 	if (attr2 & H_AO)
 	  dw_at_abstract_lab (inl_tag);
 	if (attr2 & H_SP)
-	  dw_at_ext_address (di->mor->refspec);
+	  dw_at_ext_address (di->more->refspec);
 	if (attr2 & H_DC)
-	  dw_at_flag ((di->mor && di->mor->isspec ? 1 : 0));
+	  dw_at_flag ((di->more && di->more->isspec ? 1 : 0));
 	if (attr2 & H_NM)
-	  dw_at_string (nam);
+	  dw_at_string (name);
 	if (attr2 & H_XY)
 	  dw_at_decl (di->whence);
 	if (attr2 & H_AT)
-	  dw_at_flag ((di->idnam.id_key == DG_ID_ARTFL ? 1 : 0));
+	  dw_at_flag ((di->idname.id_key == DG_ID_ARTFL ? 1 : 0));
 	if (attr2 & H_AC)
-	  dw_at_data (1, (long)(di->mor ? di->mor->acc : 0));
+	  dw_at_data (1, (long)(di->more ? di->more->acc : 0));
 	if (attr2 & H_TP)
-	  dw_at_ext_lab (dw2_find_type_label (di->data.n_typ.raw));
+	  dw_at_ext_lab (dw2_find_type_label (di->data.n_type.raw));
 	if (attr2 & H_NW)
-	  dw_at_flag ((di->mor && di->mor->isnew ? 1 : ada_derived));
+	  dw_at_flag ((di->more && di->more->isnew ? 1 : ada_derived));
 	if (attr2 & H_AD)
 	  dw_at_flag (ada_derived);
       }
-      if (di->data.n_typ.constraints) {
-	dg_constraint c = di->data.n_typ.constraints;
+      if (di->data.n_type.constraints) {
+	dg_constraint c = di->data.n_type.constraints;
 	while (c) {
 	  attr1 = (c->is_val ? H_CV : H_TP);
 	  if (c->refmem)
@@ -1775,7 +1775,7 @@ void dw2_out_name
 	  if (attr2 & H_CV)
 	    dw_out_const (son(c->u.val));
 	  if (attr2 & H_TP)
-	    dw_at_ext_lab (dw2_find_type_label (c->u.typ));
+	    dw_at_ext_lab (dw2_find_type_label (c->u.type));
 	  c = c->next;
 	}
 	dw_sibling_end ();
@@ -1785,40 +1785,40 @@ void dw2_out_name
 
     case DGN_ENTRY: {
       long attr1 = 0, attr2;
-      char * nam = idname_chars (di->idnam);
-      dg_type p_t = find_proc_type (di->data.n_proc.typ);
+      char * name = idname_chars (di->idname);
+      dg_type p_t = find_proc_type (di->data.n_proc.type);
       dg_type res_t = p_t->data.t_proc.res_type;
       dg_param * el = p_t->data.t_proc.params.array;
       int i;
 
       attr1 = H_NM | H_XY;
-      if (di->mor && di->mor->acc)
+      if (di->more && di->more->acc)
 	attr1 |= H_AC;
       if (res_t)
 	attr1 |= H_TP;
-      if (di->mor && di->mor->repn)
+      if (di->more && di->more->repn)
 	attr1 |= H_RP;
-      if (di->mor && di->mor->this_tag)
-	set_ext_address (di->mor->this_tag);
+      if (di->more && di->more->this_tag)
+	set_ext_address (di->more->this_tag);
       attr2 = dw_entry (dwe_entry, attr1);
       if (attr2 & ~(H_NM|H_XY|H_AC|H_TP|H_RP))
 	fail_unimplemented ();
       if (attr2 & H_NM)
-	dw_at_string (nam);
+	dw_at_string (name);
       if (attr2 & H_XY)
 	dw_at_decl (di->whence);
       if (attr2 & H_AC)
-	dw_at_data (1, (long)(di->mor ? di->mor->acc : 0));
+	dw_at_data (1, (long)(di->more ? di->more->acc : 0));
       if (attr2 & H_TP)
 	dw_at_ext_lab (dw2_find_type_label (res_t));
       if (attr2 & H_RP) {
-	dw_out_const (son (di->mor->repn));
+	dw_out_const (son (di->more->repn));
       }
 
       for (i = 0; i < p_t->data.t_proc.params.len; i++)
 	out_param (el[i]);
-      if (di->mor && di->mor->en_family)
-	dw_out_dim (*(di->mor->en_family));
+      if (di->more && di->more->en_family)
+	dw_out_dim (*(di->more->en_family));
       dw_sibling_end ();
       break;
     }
@@ -1826,8 +1826,8 @@ void dw2_out_name
     default:
       error(ERR_INTERNAL, "unexpected dg_name");
   }
-  if (di->mor && di->mor->this_tag)
-    di->mor->this_tag->done = 1;
+  if (di->more && di->more->this_tag)
+    di->more->this_tag->done = 1;
 }
 
 
@@ -1878,19 +1878,19 @@ static void prepare_detch
   while (dl) {
     int reason = dl->why;
     dg_info d = dl->info;
-    dg_tag found_tg;
+    dg_tag found_tag;
     if (reason >= DGD_MOVD) {
-      found_tg = dl->tg;
-      while (found_tg->copy)
-	found_tg = found_tg->copy;
-      d = found_tg->p.info;
+      found_tag = dl->tag;
+      while (found_tag->copy)
+	found_tag = found_tag->copy;
+      d = found_tag->p.info;
       reason = d->data.i_movd.reason;
       d = d->more;
     }
     if (reason < DGD_MOVD) {
       switch (d->key) {
 	case DGA_NAME: {
-	  d->data.i_nam.scope_start = set_dw_text_label ();
+	  d->data.i_name.scope_start = set_dw_text_label ();
 	  break;
 	}
 	case DGA_SCOPE: {
@@ -1969,12 +1969,12 @@ void dw2_code_info
 
     case DGA_NAME: {
       obj_list hold_obj;
-      hold_obj.obj = d->data.i_nam.dnam;
+      hold_obj.obj = d->data.i_name.dname;
       hold_obj.islist = 0;
       hold_obj.next = local_objects;
       local_objects = &hold_obj;
       set_locdata (hold_obj);
-      d->data.i_nam.scope_start = set_dw_text_label ();
+      d->data.i_name.scope_start = set_dw_text_label ();
       dw2_code_info (d->more, mcode, args);
       close_locdata (hold_obj);
       local_objects = hold_obj.next;
@@ -2081,10 +2081,10 @@ void dw2_code_info
     }
 
     case DGA_BEG: {
-      dg_tag tg = d->data.i_tg;
-      if (tg->key != DGK_INFO || tg->p.info->key != DGA_SCOPE)
+      dg_tag tag = d->data.i_tag;
+      if (tag->key != DGK_INFO || tag->p.info->key != DGA_SCOPE)
 	error(ERR_INTERNAL, "statement_part_dg?");
-      tg->p.info->data.i_scope.begin_st = set_dw_text_label ();
+      tag->p.info->data.i_scope.begin_st = set_dw_text_label ();
       dw2_code_info (d->more, mcode, args);
       break;
     }
@@ -2106,10 +2106,10 @@ void dw2_code_info
       }
       if (d->data.i_rvs.n_code)
 	d->data.i_rvs.lo_pc = set_dw_text_label ();
-      if (d->data.i_rvs.u.tg) {
+      if (d->data.i_rvs.u.tag) {
 	dg_info h;
-	if (d->data.i_rvs.u.tg->key != DGK_INFO || (
-		h = d->data.i_rvs.u.tg->p.info, h->key != DGA_RVS)) {
+	if (d->data.i_rvs.u.tag->key != DGK_INFO || (
+		h = d->data.i_rvs.u.tag->p.info, h->key != DGA_RVS)) {
 	    error(ERR_INTERNAL, "incompatible rendezvous sequence");
 	    break;
 	  }

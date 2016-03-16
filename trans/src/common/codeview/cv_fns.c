@@ -118,14 +118,14 @@ code_diag_info(diag_info *d, int proc_no,
 		if (acc->tag == name_tag && !isdiscarded(acc) && !isglob(son(acc))) {
 			p = (no(acc) + no(son(acc))) / 8;
 			param_dec = isparam(son(acc));
-			asm_printf(" .def %s; .val ", d->data.id_scope.nme.ints.chars);
+			asm_printf(" .def %s; .val ", d->data.id_scope.name.ints.chars);
 			if (param_dec) {
 				asm_printf("%d", p + 8);
 			} else {
 				asm_printf("%d-.Ldisp%d", p, proc_no);
 			}
 			asm_printf("; .scl %d; ", (param_dec) ? 9 : 1);
-			ty = out_type(d->data.id_scope.typ, 0);
+			ty = out_type(d->data.id_scope.type, 0);
 			asm_printf(".type 0%o; .endef\n", ty.type + (ty.modifier << 4));
 		}
 
@@ -171,14 +171,14 @@ output_diag(diag_info *d, int proc_no, exp e)
 			            last_line_no);
 		}
 
-		asm_printf(" .def %s; .val ", d->data.id_scope.nme.ints.chars);
+		asm_printf(" .def %s; .val ", d->data.id_scope.name.ints.chars);
 		if (param_dec) {
 			asm_printf("%d", p + 8);
 		} else {
 			asm_printf("%d-.Ldisp%d", p, proc_no);
 		}
 		asm_printf("; .scl %d; ", (param_dec) ? 9 : 1);
-		ty = out_type(d->data.id_scope.typ, 0);
+		ty = out_type(d->data.id_scope.type, 0);
 		asm_printf(".type 0%o; .endef\n", ty.type + (ty.modifier << 4));
 
 		return;
@@ -199,17 +199,17 @@ output_end_scope(diag_info *d, exp e)
 static void
 diag_val_begin(diag_descriptor *d, int global, int cname, char *pname)
 {
-	ot typ;
+	ot type;
 
-	asm_printf(" .def %s; .val ", d->data.id.nme.ints.chars);
+	asm_printf(" .def %s; .val ", d->data.id.name.ints.chars);
 	if (cname == -1) {
 		asm_printf("%s", pname);
 	} else {
 		asm_printf("%s%d", local_prefix, cname);
 	}
 	asm_printf("; .scl %d; ", global ? 2 : 3);
-	typ = out_type(d->data.id.new_type, 0);
-	asm_printf(".type 0%o; .endef\n", typ.type + (typ.modifier << 4));
+	type = out_type(d->data.id.new_type, 0);
+	asm_printf(".type 0%o; .endef\n", type.type + (type.modifier << 4));
 }
 
 static void
@@ -221,7 +221,7 @@ diag_val_end(diag_descriptor *d)
 static void
 diag_proc_begin(diag_descriptor *d, int global, int cname, char *pname)
 {
-	ot typ;
+	ot type;
 
 	UNUSED(cname);
 
@@ -232,9 +232,9 @@ diag_proc_begin(diag_descriptor *d, int global, int cname, char *pname)
 	check_filename(d->data.id.whence);
 
 	asm_printf(" .def %s; .val %s; .scl %d; ",
-	           d->data.id.nme.ints.chars, pname, global ? 2 : 3);
-	typ = out_type(d->data.id.new_type->data.proc.result_type, 0);
-	asm_printf(".type 0%o; .endef\n", typ.type + (typ.modifier << 6) + 32);
+	           d->data.id.name.ints.chars, pname, global ? 2 : 3);
+	type = out_type(d->data.id.new_type->data.proc.result_type, 0);
+	asm_printf(".type 0%o; .endef\n", type.type + (type.modifier << 6) + 32);
 
 	crt_proc_start = d->data.id.whence.line_no.nat_val.small_nat;
 	last_line_no = 1;
@@ -250,7 +250,7 @@ diag_proc_end(diag_descriptor *d)
 	}
 
 	asm_printf(" .def .ef; .val .; .scl 101; .line %d; .endef\n", last_line_no + 1);
-	asm_printf(" .def %s; .val .; .scl -1; .endef\n", d->data.id.nme.ints.chars);
+	asm_printf(" .def %s; .val .; .scl -1; .endef\n", d->data.id.name.ints.chars);
 }
 
 static void
@@ -259,13 +259,13 @@ OUTPUT_GLOBALS_TAB(void)
 	diag_descriptor *di = unit_diagvar_tab.array;
 	int n = unit_diagvar_tab.lastused;
 	int i;
-	ot typ;
+	ot type;
 
 	for (i = 0; i < n; i++) {
 		if (di[i].key == DIAG_TYPEDEF_KEY) {
-			asm_printf(" .def %s; .scl 13; ", di[i].data.typ.nme.ints.chars);
-			typ = out_type(di[i].data.typ.new_type, 0);
-			asm_printf(".type 0%o; .endef\n", typ.type + (typ.modifier << 4));
+			asm_printf(" .def %s; .scl 13; ", di[i].data.type.name.ints.chars);
+			type = out_type(di[i].data.type.new_type, 0);
+			asm_printf(".type 0%o; .endef\n", type.type + (type.modifier << 4));
 		}
 	}
 }

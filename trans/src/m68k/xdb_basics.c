@@ -98,8 +98,8 @@ diag_variable(diag_info *di, exp e)
 	UNUSED(e);
 
 	s = di->data.id_scope.access;
-	t = di->data.id_scope.typ;
-	nm = di->data.id_scope.nme.ints.chars;
+	t = di->data.id_scope.type;
+	nm = di->data.id_scope.name.ints.chars;
 	p = (no(s) + no(son(s))) / 8;
 
 	if (!isparam(son(s))) {
@@ -169,7 +169,7 @@ xdb_diag_proc_begin(diag_descriptor *di, exp p, char *pname, long cname,
 	UNUSED(cname);
 	UNUSED(is_ext);
 
-	nm = di->data.id.nme.ints.chars;
+	nm = di->data.id.name.ints.chars;
 	t = di->data.id.new_type;
 	sm = & (di->data.id.whence);
 
@@ -226,7 +226,7 @@ xdb_diag_val_begin(diag_descriptor *di, char *pname, long cname, int is_ext)
 	UNUSED(cname);
 	UNUSED(is_ext);
 
-	nm = di->data.id.nme.ints.chars;
+	nm = di->data.id.name.ints.chars;
 	t = di->data.id.new_type;
 	diag_globl_variable(t, nm, !is_local(pname), pname, 1);
 }
@@ -243,9 +243,9 @@ OUTPUT_GLOBALS_TAB(void)
 	unsigned long i, n = unit_diagvar_tab.lastused;
 	for (i = 0; i < n; i++) {
 		if (di[i].key == DIAG_TYPEDEF_KEY) {
-			diag_type d = di[i].data.typ.new_type;
-			char *nm = di[i].data.typ.nme.ints.chars;
-			diag_type_defn(nm, d);
+			diag_type d = di[i].data.type.new_type;
+			char *name = di[i].data.type.name.ints.chars;
+			diag_type_defn(name, d);
 		}
 	}
 }

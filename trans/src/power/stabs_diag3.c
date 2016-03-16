@@ -400,9 +400,9 @@ static void number_typedefs(void)
 
   for (i=0;i<no_of_typedefs; i++)
   {
-    if (!IS_OUTED(typedef_diags[i] ->data.typ.new_type))
+    if (!IS_OUTED(typedef_diags[i] ->data.type.new_type))
     {
-      SET_OUTED_NO(typedef_diags[i] ->data.typ.new_type,next_typen());
+      SET_OUTED_NO(typedef_diags[i] ->data.type.new_type,next_typen());
     }
   }
 }
@@ -417,8 +417,8 @@ static void stab_structs_and_unions(void)
     int non;
     diag_type dt = su_diags[i] ->d_type;
     char *nme = (dt->key == DIAG_TYPE_STRUCT)
-			? CSTRING(dt->data.t_struct.nme)
-			: CSTRING(dt->data.t_union.nme);
+			? CSTRING(dt->data.t_struct.name)
+			: CSTRING(dt->data.t_union.name);
 
     asm_comment("su_diags: is_struct=%d nme='%s'", dt->key == DIAG_TYPE_STRUCT,(int)nme);
 
@@ -457,11 +457,11 @@ static void stab_typedefs(void)
   {
     diag_descriptor * dd = typedef_diags[i];
     int non;
-    diag_type dt = dd->data.typ.new_type;
+    diag_type dt = dd->data.type.new_type;
     stab_internal_types(dt,0);
-    assert(CSTRING(dd->data.typ.nme)[0]!=0);/* Not an empty string */
+    assert(CSTRING(dd->data.type.name)[0]!=0);/* Not an empty string */
 
-    asm_printf( "\t.stabx\t\"%s:t", CSTRING(dd->data.typ.nme));
+    asm_printf( "\t.stabx\t\"%s:t", CSTRING(dd->data.type.name));
 
     non = OUTED_NO(dt);
     CLR_OUTED_NO(dt);			/* avoid identity */
@@ -526,7 +526,7 @@ void fixup_name(exp global, dec * top_def, dec * crt_def)
     return;
   }
 
-  nm = CSTRING(dd->data.id.nme);
+  nm = CSTRING(dd->data.id.name);
 
   /* search def chain to see if name is already used as assembler label */
   for (d = top_def; d != crt_def && d != NULL; d = d->next)
@@ -584,7 +584,7 @@ static void output_diag(diag_info * d, int proc_no, exp e)
   id = son(d->data.id_scope.access);
 
   asm_comment("output_diag: DIAG_INFO_ID %s isglob(id) =%d no(id) =%ld",
-	      CSTRING(d->data.id_scope.nme), isglob(id), no(id));
+	      CSTRING(d->data.id_scope.name), isglob(id), no(id));
 
   /* can't output global values as local names */
   if (isglob(id))
@@ -608,7 +608,7 @@ static void output_diag(diag_info * d, int proc_no, exp e)
   {
     stab_begin_block();
   }
-  stab_local(CSTRING(d->data.id_scope.nme), d->data.id_scope.typ,
+  stab_local(CSTRING(d->data.id_scope.name), d->data.id_scope.type,
 	     id, 0, current_fileno);
 
   if (isparam(id) && last_caller_param(id))
@@ -947,7 +947,7 @@ static bool eq_sutype(diag_type a, diag_type b)
     return 0;
   }
 
-  if (!streq(CSTRING(a->data.t_struct.nme), CSTRING(b->data.t_struct.nme)))
+  if (!streq(CSTRING(a->data.t_struct.name), CSTRING(b->data.t_struct.name)))
   {
     return 0;
   }
@@ -976,7 +976,7 @@ static bool eq_typedef_type(diag_descriptor * a, diag_descriptor * b)
     return 1;
   }
 
-  if (streq(CSTRING(a->data.typ.nme),CSTRING(b->data.typ.nme)))
+  if (streq(CSTRING(a->data.type.name),CSTRING(b->data.type.name)))
   {
     return 1;
   }
@@ -1245,7 +1245,7 @@ static void out_dt_TypeDef_no_recurse(diag_type dt)
       asm_printf( "e");
       for (i = 0; i < nvals; i++)
       {
-	asm_printf( "%s:%d,", CSTRING(enumarr[i].nme), EXPINT(enumarr[i].val));
+	asm_printf( "%s:%d,", CSTRING(enumarr[i].name), EXPINT(enumarr[i].val));
       }
       asm_printf( ";");
 #endif
@@ -1529,9 +1529,9 @@ stab_global(diag_descriptor *dd, exp global, char *id, bool ext)
    * Variable:		G TypeId	"Global (external) variable of type TypeId"
    *		|	S TypeId	"Module variable of type TypeId (C static global)"
    */
-  assert(CSTRING(dd->data.id.nme)[0]!=0);
+  assert(CSTRING(dd->data.id.name)[0]!=0);
   asm_printf( "\t.stabx\t\"%s:%c",
-	  CSTRING(dd->data.id.nme),
+	  CSTRING(dd->data.id.name),
 	 (ext ? 'G' : 'S'));
   out_dt_TypeId(dd->data.id.new_type);
   asm_printf( "\",%s,%d,%d\n",
@@ -1585,7 +1585,7 @@ stab_proc(diag_descriptor *dd, exp proc, char *id, bool ext)
   }
 
   dt = dd->data.id.new_type;
-  nm = CSTRING(dd->data.id.nme);	/* source proc name, id is just the
+  nm = CSTRING(dd->data.id.name);	/* source proc name, id is just the
 					 * assembler label */
   assert(nm[0]!=0);
 
@@ -1682,7 +1682,7 @@ void stab_endproc(exp proc, char *id, bool ext)
 
     }
 
-    nm = CSTRING(dd->data.id.nme);	/* source proc name, id is just the
+    nm = CSTRING(dd->data.id.name);	/* source proc name, id is just the
 					 * assembler label */
     assert(nm[0]!=0);
     tbtable_sht = zero_tbtable_short;

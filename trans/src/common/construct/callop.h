@@ -9,7 +9,7 @@
 #ifndef CONSTRUCT_CALLOP_H
 #define CONSTRUCT_CALLOP_H
 
-exp find_named_tg(char *n, shape s);
+exp find_named_tag(char *n, shape s);
 char *fn_of_op(int nm, int sngd);
 
 exp TDFcallop1(error_treatment ov_err, exp arg1, int n);

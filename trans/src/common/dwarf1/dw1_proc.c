@@ -72,7 +72,7 @@ dw1_diag_proc_begin(diag_descriptor *d_props, int global, int cname, char *pname
 		cont_sib_chain(TAG_subroutine);
 	}
 
-	out_dwarf_name_attr(TDFSTRING2CHAR(d_props->data.id.nme));
+	out_dwarf_name_attr(TDFSTRING2CHAR(d_props->data.id.name));
 	out_dwarf_type_attr(d_props->data.id.new_type->data.proc.result_type);
 	OUT_DWARF_ATTR(AT_low_pc);
 	dwarf4(LAB2CHAR(d_props->lab.beg));

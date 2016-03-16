@@ -74,7 +74,7 @@ make_bitfield_offset(exp e, exp pe, int spe, shape sha)
 static void
 cca(bool sto, exp to, bool sx, exp x)
 {
-	exp d, a, id, tg;
+	exp d, a, id, tag;
 	d = contexp(sx, x);
 
 #ifndef tdf3
@@ -87,10 +87,10 @@ cca(bool sto, exp to, bool sx, exp x)
 	d = contexp(sx, x);
 	a = contexp(sto, to);
 
-	id = getexp(sh(a), bro(a), a->last, d, NULL, 0, 1L, ident_tag);
-	tg = getexp(sh(d), bro(d), d->last, id, NULL, 0, 0L, name_tag);
+	id  = getexp(sh(a), bro(a), a->last, d, NULL, 0, 1L, ident_tag);
+	tag = getexp(sh(d), bro(d), d->last, id, NULL, 0, 0L, name_tag);
 
-	pt(id) = tg;
+	pt(id) = tag;
 	d->last = false;
 
 	if (d != a) {
@@ -98,11 +98,11 @@ cca(bool sto, exp to, bool sx, exp x)
 		bro(a) = id;
 		a->last = true;
 		assexp(sto, to, id);
-		assexp(sx, x, tg);
+		assexp(sx, x, tag);
 	} else {
-		bro(d) = tg;
-		bro(tg) = id;
-		tg->last = true;
+		bro(d) = tag;
+		bro(tag) = id;
+		tag->last = true;
 		d->last = false;
 		assexp(sto, to, id);
 	}

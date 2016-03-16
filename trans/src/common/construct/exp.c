@@ -124,7 +124,7 @@ set_large_alloc(void)
  * Create a new exp
  */
 exp
-getexp(shape s, exp b, int l, exp sn, exp px, prop pr, int n, unsigned char tg)
+getexp(shape s, exp b, int l, exp sn, exp px, prop pr, int n, unsigned char tag)
 {
 	exp res;
 
@@ -142,7 +142,7 @@ getexp(shape s, exp b, int l, exp sn, exp px, prop pr, int n, unsigned char tg)
 	pt(res)     = px;
 	props(res)  = pr;
 	no(res)     = n;
-	res->tag    = tg;
+	res->tag    = tag;
 	parked(res) = 0;
 #ifdef TDF_DIAG4
 	dgf(res)    = NULL;
@@ -167,7 +167,7 @@ copyexp(exp e)
  */
 exp
 getshape(int l, alignment sn, alignment px, alignment pr, int n,
-         unsigned char tg)
+         unsigned char tag)
 {
 	exp res;
 
@@ -183,7 +183,7 @@ getshape(int l, alignment sn, alignment px, alignment pr, int n,
 	res->bro.ald = pr;
 
 	no(res)  = n;
-	res->tag = tg;
+	res->tag = tag;
 
 	return res;
 }

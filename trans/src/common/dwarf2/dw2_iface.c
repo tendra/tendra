@@ -150,7 +150,7 @@ out_macros(dg_macro_list macs)
 			asm_printf("%d, ", DW_MACINFO_define);
 			uleb128((unsigned long)m.pos.line);
 			asm_printf("\n");
-			start_string(m.u.d.nam);
+			start_string(m.u.d.name);
 			asm_printf("(");
 			for (j = 0; j < m.u.d.pms.len; j++) {
 				if (j) {
@@ -167,7 +167,7 @@ out_macros(dg_macro_list macs)
 			asm_printf("%d, ", DW_MACINFO_define);
 			uleb128((unsigned long)m.pos.line);
 			asm_printf("\n");
-			start_string(m.u.d.nam);
+			start_string(m.u.d.name);
 			asm_printf(" %s", m.u.d.defn);
 			end_string();
 			break;
@@ -176,7 +176,7 @@ out_macros(dg_macro_list macs)
 			asm_printf("%d, ", DW_MACINFO_undef);
 			uleb128((unsigned long)m.pos.line);
 			asm_printf("\n");
-			out_string(m.u.d.nam);
+			out_string(m.u.d.name);
 			break;
 		case DGM_INC:
 			out8();

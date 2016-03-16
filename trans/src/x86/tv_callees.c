@@ -37,14 +37,14 @@ transform_var_callees(void)
 	dec *my_def;
 
 	for (my_def = top_def; my_def != NULL; my_def = my_def -> next) {
-		exp tg = my_def -> dec_exp;
+		exp tag = my_def -> dec_exp;
 
-		if (son(tg) != NULL && son(tg)->tag == general_proc_tag
-		    && proc_has_vcallees(son(tg)))
+		if (son(tag) != NULL && son(tag)->tag == general_proc_tag
+		    && proc_has_vcallees(son(tag)))
 		{
 			shape pc_sh = f_pointer(f_callers_alignment(0));
 			int param_offset = 0;
-			exp gp_body = son(son(tg));
+			exp gp_body = son(son(tag));
 			exp newdec = getexp(sh(gp_body), NULL, 1, NULL, NULL, 0, 0, ident_tag);
 			exp newlist = NULL;
 			son(newdec) = getexp(pc_sh, NULL, 0, NULL, NULL, 0, 0, formal_callee_tag);
@@ -98,18 +98,18 @@ transform_var_callees(void)
 				gp_body = newdec;
 			}
 
-			son(son(tg)) = gp_body;
-			setfather(son(tg), gp_body);
+			son(son(tag)) = gp_body;
+			setfather(son(tag), gp_body);
 		}
 
-		if (son(tg) != NULL &&
-		    (son(tg)->tag == proc_tag || son(tg)->tag == general_proc_tag))
+		if (son(tag) != NULL &&
+		    (son(tag)->tag == proc_tag || son(tag)->tag == general_proc_tag))
 		{
-			exp nlist = pt(tg);
+			exp nlist = pt(tag);
 			while (nlist != NULL) {
 				if (nlist->tag == name_tag && nlist->last && bro(nlist) != NULL &&
 				    bro(nlist)->tag == env_size_tag) {
-					set_proc_needs_envsize(son(tg));
+					set_proc_needs_envsize(son(tag));
 				}
 				nlist = pt(nlist);
 			}

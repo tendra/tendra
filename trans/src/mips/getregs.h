@@ -15,4 +15,4 @@
 
 extern int  getreg(long fixed);
 extern int  getfreg(long fl);
-extern  void settempregs(exp tg);
+extern  void settempregs(exp tag);

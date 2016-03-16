@@ -45,10 +45,10 @@
 
 typedef union {
 	/* These have similar size */
-	struct dg_name_t nam;
-	struct dg_type_t typ;
-	struct dg_info_t inf;
-	struct dg_more_t mor;
+	struct dg_name_t name;
+	struct dg_type_t type;
+	struct dg_info_t info;
+	struct dg_more_t more;
 } dg_union;
 
 short_sourcepos no_short_sourcepos;
@@ -74,9 +74,9 @@ new_dg_name(dg_name_key k)
 
 	dg_clump_left--;
 
-	ans = &((next_dg++)->nam);
+	ans = &((next_dg++)->name);
 	ans->key  = k;
-	ans->mor  = (dg_more_name)0;
+	ans->more = (dg_more_name)0;
 	ans->next = NULL;
 
 	return ans;
@@ -93,10 +93,10 @@ new_dg_type(dg_type_key k)
 
 	dg_clump_left--;
 
-	ans = &((next_dg++)->typ);
+	ans = &((next_dg++)->type);
 	ans->key = k;
 	ans->outref.k = NO_LAB;
-	ans->mor = (dg_more_name)0;
+	ans->more = (dg_more_name)0;
 
 	return ans;
 }
@@ -112,7 +112,7 @@ new_dg_info(dg_info_key k)
 
 	dg_clump_left--;
 
-	ans = &((next_dg++)->inf);
+	ans = &((next_dg++)->info);
 	ans->key      = k;
 	ans->this_tag = NULL;
 	ans->more     = NULL;
@@ -121,9 +121,9 @@ new_dg_info(dg_info_key k)
 }
 
 void
-extend_dg_name(dg_name nm)
+extend_dg_name(dg_name name)
 {
-	dg_more_name mor;
+	dg_more_name more;
 
 	if (!dg_clump_left) {
 		make_dg_clump();
@@ -131,32 +131,32 @@ extend_dg_name(dg_name nm)
 
 	dg_clump_left--;
 
-	nm->mor = mor = &((next_dg++)->mor);
+	name->more = more = &((next_dg++)->more);
 
-	mor->this_tag   = NULL;
-	mor->inline_ref = NULL;
-	mor->refspec    = NULL;
-	mor->elabn      = NULL;
-	mor->exptns     = no_dg_type_list_option;
-	mor->end_pos    = no_short_sourcepos;
-	mor->en_family  = NULL;
-	mor->vslot      = NULL;
-	mor->repn       = NULL;
-	mor->acc        = DG_ACC_NONE;
-	mor->virt       = DG_VIRT_NONE;
-	mor->isinline   = 0;
-	mor->prognm     = 0;
-	mor->isconst    = 0;
-	mor->isspec     = 0;
-	mor->issep      = 0;
-	mor->isnew      = 0;
-	mor->aderiv     = 0;
+	more->this_tag   = NULL;
+	more->inline_ref = NULL;
+	more->refspec    = NULL;
+	more->elabn      = NULL;
+	more->exptns     = no_dg_type_list_option;
+	more->end_pos    = no_short_sourcepos;
+	more->en_family  = NULL;
+	more->vslot      = NULL;
+	more->repn       = NULL;
+	more->acc        = DG_ACC_NONE;
+	more->virt       = DG_VIRT_NONE;
+	more->isinline   = 0;
+	more->prognm     = 0;
+	more->isconst    = 0;
+	more->isspec     = 0;
+	more->issep      = 0;
+	more->isnew      = 0;
+	more->aderiv     = 0;
 }
 
 void
-extend_dg_type(dg_type tp)
+extend_dg_type(dg_type type)
 {
-	dg_more_name mor;
+	dg_more_name more;
 
 	if (!dg_clump_left) {
 		make_dg_clump();
@@ -164,50 +164,50 @@ extend_dg_type(dg_type tp)
 
 	dg_clump_left--;
 
-	tp->mor = mor = &((next_dg++)->mor);
+	type->more = more = &((next_dg++)->more);
 
-	mor->this_tag   = NULL;
-	mor->inline_ref = NULL;
-	mor->refspec    = NULL;
-	mor->elabn      = NULL;
-	mor->acc        = DG_ACC_NONE;
-	mor->virt       = DG_VIRT_NONE;
-	mor->isinline   = 0;
-	mor->prognm     = 0;
-	mor->isconst    = 0;
-	mor->isspec     = 0;
-	mor->isnew      = 0;
-	mor->aderiv     = 0;
+	more->this_tag   = NULL;
+	more->inline_ref = NULL;
+	more->refspec    = NULL;
+	more->elabn      = NULL;
+	more->acc        = DG_ACC_NONE;
+	more->virt       = DG_VIRT_NONE;
+	more->isinline   = 0;
+	more->prognm     = 0;
+	more->isconst    = 0;
+	more->isspec     = 0;
+	more->isnew      = 0;
+	more->aderiv     = 0;
 }
 
 void
-init_dgtag(dg_tag tg)
+init_dgtag(dg_tag tag)
 {
-	tg->key          = DGK_NONE;
-	tg->done         = 0;
-	tg->needed       = 0;
-	tg->any_inl      = 0;
-	tg->outref.k     = NO_LAB;
-	tg->abstract_lab = 0;
-	tg->copy         = NULL;
+	tag->key          = DGK_NONE;
+	tag->done         = 0;
+	tag->needed       = 0;
+	tag->any_inl      = 0;
+	tag->outref.k     = NO_LAB;
+	tag->abstract_lab = 0;
+	tag->copy         = NULL;
 }
 
 /* The following avoids repetitions of pointers and other qualified types */
 dg_type
-get_qual_dg_type(dg_qual_type_key qual, dg_type typ)
+get_qual_dg_type(dg_qual_type_key qual, dg_type type)
 {
 	static dg_type qual_type_list[N_DG_QUAL_TYPES] = { NULL };
 	dg_type ans;
 
 	for (ans = qual_type_list[qual]; ans; ans = ans->data.t_qual.another) {
-		if (ans->data.t_qual.typ == typ) {
+		if (ans->data.t_qual.type == type) {
 			return ans;
 		}
 	}
 
 	ans = new_dg_type(DGT_QUAL);
 	ans->data.t_qual.q_key = qual;
-	ans->data.t_qual.typ = typ;
+	ans->data.t_qual.type = type;
 	ans->data.t_qual.another = qual_type_list[qual];
 	qual_type_list[qual] = ans;
 
@@ -216,13 +216,13 @@ get_qual_dg_type(dg_qual_type_key qual, dg_type typ)
 
 /* The following avoids repetitions of bitfield types */
 dg_type
-get_dg_bitfield_type(dg_type typ, shape sha, bitfield_variety bv)
+get_dg_bitfield_type(dg_type type, shape sha, bitfield_variety bv)
 {
 	static dg_type bf_list = NULL;
 	dg_type ans;
 
 	for (ans = bf_list; ans; ans = ans->data.t_bitf.another) {
-		if (ans->data.t_bitf.expanded == typ &&
+		if (ans->data.t_bitf.expanded == type &&
 		    ans->data.t_bitf.bv.bits == bv.bits &&
 		    ans->data.t_bitf.bv.has_sign == bv.has_sign) {
 			return ans;
@@ -230,7 +230,7 @@ get_dg_bitfield_type(dg_type typ, shape sha, bitfield_variety bv)
 	}
 
 	ans = new_dg_type(DGT_BITF);
-	ans->data.t_bitf.expanded = typ;
+	ans->data.t_bitf.expanded = type;
 	ans->data.t_bitf.sha = sha;
 	ans->data.t_bitf.bv = bv;
 	ans->data.t_bitf.another = bf_list;
@@ -244,11 +244,11 @@ get_dg_bitfield_type(dg_type typ, shape sha, bitfield_variety bv)
 
 /* dg_idname is overkill for many purposes - we just want a string */
 char *
-idname_chars(dg_idname nam)
+idname_chars(dg_idname name)
 {
 	static char *empty = "";
 
-	switch (nam.id_key) {
+	switch (name.id_key) {
 	case DG_ID_INST:
 		error(ERR_INTERNAL, "inappropriate dg_instance_idname");
 		return empty;
@@ -257,13 +257,13 @@ idname_chars(dg_idname nam)
 		return empty;
 
 	default:
-		return nam.idd.nam;
+		return name.idd.name;
 	}
 }
 
 /* Avoid repetition of files */
 dg_filename
-get_filename(long dat, char *host, char *path, char *nam)
+get_filename(long dat, char *host, char *path, char *name)
 {
 	static dg_filename next_file = NULL;
 	static int filespace_left = 0;
@@ -273,7 +273,7 @@ get_filename(long dat, char *host, char *path, char *nam)
 		if (ans->file_dat == dat &&
 		    streq(ans->file_host, host) &&
 		    streq(ans->file_path, path) &&
-		    streq(ans->file_name, nam)) {
+		    streq(ans->file_name, name)) {
 			return ans;
 		}
 	}
@@ -288,7 +288,7 @@ get_filename(long dat, char *host, char *path, char *nam)
 	ans->file_dat  = dat;
 	ans->file_host = host;
 	ans->file_path = path;
-	ans->file_name = nam;
+	ans->file_name = name;
 	ans->another   = all_files;
 
 	all_files = ans;
@@ -350,17 +350,17 @@ find_proc_type(dg_type t)
 	}
 
 	if (t && t->key == DGT_TAGGED) {
-		dg_tag tg = t->data.t_tag;
+		dg_tag tag = t->data.t_tag;
 
-		if (tg->key == DGK_TYPE) {
-			return find_proc_type(tg->p.typ);
+		if (tag->key == DGK_TYPE) {
+			return find_proc_type(tag->p.type);
 		}
 
-		if (tg->key == DGK_NAME) {
-			dg_name ref_n = tg->p.nam;
+		if (tag->key == DGK_NAME) {
+			dg_name ref_n = tag->p.name;
 
 			if (ref_n->key == DGN_TYPE) {
-				return find_proc_type(ref_n->data.n_typ.raw);
+				return find_proc_type(ref_n->data.n_type.raw);
 			}
 		}
 	}

@@ -55,7 +55,7 @@ m_id(char *s)
 {
 	dg_idname ans;
 	ans.id_key = DG_ID_SRC;
-	ans.idd.nam = s;
+	ans.idd.name = s;
 	return ans;
 }
 

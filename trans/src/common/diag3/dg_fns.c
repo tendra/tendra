@@ -146,15 +146,15 @@ f_dg_apply_token(token token_value, bitstream token_args)
 dg f_dummy_dg;
 
 dg
-f_make_tag_dg(dg_tag tg, dg diag)
+f_make_tag_dg(dg_tag tag, dg diag)
 {
-	if (tg->key) {
+	if (tag->key) {
 		error(ERR_INTERNAL, "dg_tag defined twice");
 	}
 
-	tg->key = DGK_INFO;
-	tg->p.info = diag;
-	diag->this_tag = tg;
+	tag->key = DGK_INFO;
+	tag->p.info = diag;
+	diag->this_tag = tag;
 
 	return diag;
 }
@@ -221,7 +221,7 @@ f_name_decl_dg(dg_name dname)
 {
 	dg ans = new_dg_info(DGA_NAME);
 
-	ans->data.i_nam.dnam = dname;
+	ans->data.i_name.dname = dname;
 
 	return ans;
 }
@@ -288,8 +288,8 @@ f_with_dg(dg_type type, exp obtain_value)
 {
 	dg ans = new_dg_info(DGA_SRC);
 
-	ans->data.i_with.w_typ = type;
-	ans->data.i_with.w_exp = diaginfo_exp(obtain_value);
+	ans->data.i_with.w_type = type;
+	ans->data.i_with.w_exp  = diaginfo_exp(obtain_value);
 
 	return ans;
 }
@@ -324,7 +324,7 @@ f_abortable_part_dg(dg_sourcepos src_pos, bool no_code)
 	ans->data.i_rvs.has_iv  = 0;
 	ans->data.i_rvs.alt     = 0;
 	ans->data.i_rvs.pos     = shorten_sourcepos(src_pos);
-	ans->data.i_rvs.u.tg    = NULL;
+	ans->data.i_rvs.u.tag   = NULL;
 	ans->data.i_rvs.en      = NULL;
 
 	return ans;
@@ -341,7 +341,7 @@ f_accept_dg(dg_sourcepos src_pos, dg_tag entry, dg_name_list params,
 	ans->data.i_rvs.has_iv  = 0;
 	ans->data.i_rvs.alt     = (alt ? 1 : 0);
 	ans->data.i_rvs.pos     = shorten_sourcepos(src_pos);
-	ans->data.i_rvs.u.tg    = alt;
+	ans->data.i_rvs.u.tag   = alt;
 	ans->data.i_rvs.en      = entry;
 	ans->data.i_rvs.u2.p    = params;
 
@@ -375,8 +375,8 @@ f_call_dg(dg_idname_option idname, dg_sourcepos src_pos, nat_option call_kind,
 {
 	dg ans = new_dg_info(DGA_CALL);
 
-	ans->data.i_call.clnam = idname_chars(idname);
-	ans->data.i_call.pos   = shorten_sourcepos(src_pos);
+	ans->data.i_call.clname = idname_chars(idname);
+	ans->data.i_call.pos    = shorten_sourcepos(src_pos);
 
 	if (call_kind.present) {
 		ans->data.i_call.ck = call_kind.val.nat_val.small_nat;
@@ -453,8 +453,8 @@ f_raise_dg(dg_sourcepos stmt_src_pos, dg_type_option ex, exp_option value)
 {
 	dg ans = new_dg_info(DGA_X_RAISE);
 
-	ans->data.i_raise.pos   = shorten_sourcepos(stmt_src_pos);
-	ans->data.i_raise.x_typ = ex;
+	ans->data.i_raise.pos    = shorten_sourcepos(stmt_src_pos);
+	ans->data.i_raise.x_type = ex;
 
 	if (value.present) {
 		ans->data.i_raise.x_val = diaginfo_exp(value.val);
@@ -476,7 +476,7 @@ f_requeue_dg(dg_sourcepos stmt_src_pos, dg_tag entry, bool with_abort)
 	ans->data.i_rvs.alt     = 0;
 	ans->data.i_rvs.w_abort = with_abort;
 	ans->data.i_rvs.pos     = shorten_sourcepos(stmt_src_pos);
-	ans->data.i_rvs.u.tg    = NULL;
+	ans->data.i_rvs.u.tag   = NULL;
 	ans->data.i_rvs.en      = entry;
 
 	return ans;
@@ -494,7 +494,7 @@ f_rts_call_dg(dg_sourcepos src_pos, nat call_kind, dg_tag_option entry,
 	ans->data.i_rvs.alt     = (alt ? 1 : 0);
 	ans->data.i_rvs.kind    = call_kind.nat_val.small_nat;
 	ans->data.i_rvs.pos     = shorten_sourcepos(src_pos);
-	ans->data.i_rvs.u.tg    = alt;
+	ans->data.i_rvs.u.tag   = alt;
 	ans->data.i_rvs.en      = entry;
 
 	return ans;
@@ -511,7 +511,7 @@ f_select_dg(dg_sourcepos src_pos, bool async)
 	ans->data.i_rvs.alt     = 0;
 	ans->data.i_rvs.async   = async;
 	ans->data.i_rvs.pos     = shorten_sourcepos(src_pos);
-	ans->data.i_rvs.u.tg    = NULL;
+	ans->data.i_rvs.u.tag   = NULL;
 
 	return ans;
 }
@@ -528,7 +528,7 @@ f_select_alternative_dg(dg_sourcepos src_pos, nat alt_kind, bool no_code,
 	ans->data.i_rvs.alt     = 0;
 	ans->data.i_rvs.kind    = alt_kind.nat_val.small_nat;
 	ans->data.i_rvs.pos     = shorten_sourcepos(src_pos);
-	ans->data.i_rvs.u.tg    = NULL;
+	ans->data.i_rvs.u.tag   = NULL;
 	ans->data.i_rvs.u2.e    = diaginfo_exp(alt_value);
 
 	return ans;
@@ -544,7 +544,7 @@ f_select_guard_dg(dg_sourcepos src_pos, dg_tag alt)
 	ans->data.i_rvs.has_iv  = 0;
 	ans->data.i_rvs.alt     = (alt ? 1 : 0);
 	ans->data.i_rvs.pos     = shorten_sourcepos(src_pos);
-	ans->data.i_rvs.u.tg    = alt;
+	ans->data.i_rvs.u.tag   = alt;
 
 	return ans;
 }
@@ -554,7 +554,7 @@ f_statement_part_dg(dg_tag lb)
 {
 	dg ans = new_dg_info(DGA_BEG);
 
-	ans->data.i_tg = lb;
+	ans->data.i_tag = lb;
 
 	return ans;
 }
@@ -581,7 +581,7 @@ f_triggering_alternative_dg(dg_sourcepos src_pos, nat alt_kind, bool no_code)
 	ans->data.i_rvs.alt     = 0;
 	ans->data.i_rvs.kind    = alt_kind.nat_val.small_nat;
 	ans->data.i_rvs.pos     = shorten_sourcepos(src_pos);
-	ans->data.i_rvs.u.tg    = NULL;
+	ans->data.i_rvs.u.tag   = NULL;
 
 	return ans;
 }
@@ -640,22 +640,22 @@ f_dg_name_apply_token(token token_value, bitstream token_args)
 }
 
 dg_name
-f_dg_tag_name(dg_tag tg, dg_name nam)
+f_dg_tag_name(dg_tag tag, dg_name name)
 {
-	if (tg->key) {
+	if (tag->key) {
 		error(ERR_INTERNAL, "dg_tag defined twice");
 	}
 
-	tg->key = DGK_NAME;
-	tg->p.nam = nam;
+	tag->key    = DGK_NAME;
+	tag->p.name = name;
 
-	if (!nam->mor) {
-		extend_dg_name(nam);
+	if (!name->more) {
+		extend_dg_name(name);
 	}
 
-	nam->mor->this_tag = tg;
+	name->more->this_tag = tag;
 
-	return nam;
+	return name;
 }
 
 dg_name
@@ -667,13 +667,13 @@ f_dg_object_name(dg_idname idname, dg_sourcepos whence, dg_type type,
 	UNUSED(obtain_value);
 
 	ans = new_dg_name(DGN_OBJECT);
-	ans->idnam = idname;
+	ans->idname = idname;
 	ans->whence = shorten_sourcepos(whence);
-	ans->data.n_obj.typ = type;
+	ans->data.n_obj.type = type;
 
 	if (accessibility != DG_ACC_NONE) {
 		extend_dg_name(ans);
-		ans->mor->acc = accessibility;
+		ans->more->acc = accessibility;
 	}
 
 	return ans;
@@ -695,35 +695,35 @@ f_dg_proc_name(dg_idname idname, dg_sourcepos whence, dg_type type,
 	UNUSED(elaboration);
 
 	ans = new_dg_name(DGN_PROC);
-	ans->idnam = idname;
+	ans->idname = idname;
 	ans->whence = shorten_sourcepos(whence);
-	ans->data.n_proc.typ = type;
+	ans->data.n_proc.type = type;
 
 	return ans;
 }
 
 dg_name
-f_dg_inlined_name(dg_name nam, dg_tag origin)
+f_dg_inlined_name(dg_name name, dg_tag origin)
 {
-	if (!nam->mor) {
-		extend_dg_name(nam);
+	if (!name->more) {
+		extend_dg_name(name);
 	}
 
-	nam->mor->inline_ref = origin;
+	name->more->inline_ref = origin;
 
-	return nam;
+	return name;
 }
 
 dg_name
-f_dg_constant_name(dg_name nam)
+f_dg_constant_name(dg_name name)
 {
-	if (!nam->mor) {
-		extend_dg_name(nam);
+	if (!name->more) {
+		extend_dg_name(name);
 	}
 
-	nam->mor->isconst = 1;
+	name->more->isconst = 1;
 
-	return nam;
+	return name;
 }
 
 dg_name
@@ -734,39 +734,39 @@ f_dg_type_name(dg_idname_option idname, dg_sourcepos whence,
 {
 	dg_name ans = new_dg_name(DGN_TYPE);
 
-	ans->idnam  = idname;
+	ans->idname = idname;
 	ans->whence = shorten_sourcepos(whence);
-	ans->data.n_typ.raw = type;
+	ans->data.n_type.raw = type;
 
 	if (idname.id_key == DG_ID_NONE) {
-		ans->data.n_typ.named = type;
+		ans->data.n_type.named = type;
 	} else {
-		ans->data.n_typ.named = NULL;
+		ans->data.n_type.named = NULL;
 	}
 
 	if (accessibility != DG_ACC_NONE || new_type ||
 	    (ada_derived.present && ada_derived.val)) {
 		extend_dg_name(ans);
-		ans->mor->acc   = accessibility;
-		ans->mor->isnew = new_type;
+		ans->more->acc   = accessibility;
+		ans->more->isnew = new_type;
 		if (ada_derived.present) {
-			ans->mor->aderiv = ada_derived.val;
+			ans->more->aderiv = ada_derived.val;
 		}
 	}
 
-	ans->data.n_typ.constraints = constraints;
+	ans->data.n_type.constraints = constraints;
 
 	return ans;
 }
 
 dg_name
-f_dg_subunit_name(dg_tag parent, dg_name nam, nat subunit_kind,
+f_dg_subunit_name(dg_tag parent, dg_name name, nat subunit_kind,
                   dg_accessibility_option accessibility)
 {
 	dg_name ans = new_dg_name(DGN_SUBUNIT);
 
 	ans->data.n_sub.parent = parent;
-	ans->data.n_sub.sub    = nam;
+	ans->data.n_sub.sub    = name;
 
 	switch (subunit_kind.nat_val.small_nat) {
 	case 1: /* SUK_child */
@@ -797,14 +797,14 @@ f_dg_program_name(dg_idname idname, dg_sourcepos whence, exp obtain_value)
 {
 	dg_name ans = new_dg_name(DGN_PROC);
 
-	ans->idnam  = idname;
+	ans->idname = idname;
 	ans->whence = shorten_sourcepos(whence);
-	ans->data.n_proc.typ        = NULL;
+	ans->data.n_proc.type       = NULL;
 	ans->data.n_proc.obtain_val = diaginfo_exp(obtain_value);
 	ans->data.n_proc.params     = NULL;
 
 	extend_dg_name(ans);
-	ans->mor->prognm = 1;
+	ans->more->prognm = 1;
 
 	return ans;
 }
@@ -812,12 +812,12 @@ f_dg_program_name(dg_idname idname, dg_sourcepos whence, exp obtain_value)
 dg_name
 f_dg_entry_family_name(dg_name proc, dg_dim family)
 {
-	if (!proc->mor) {
+	if (!proc->more) {
 		extend_dg_name(proc);
 	}
 
-	proc->mor->en_family = xmalloc(sizeof(dg_dim));
-	*(proc->mor->en_family) = family;
+	proc->more->en_family = xmalloc(sizeof(dg_dim));
+	*(proc->more->en_family) = family;
 
 	return proc;
 }
@@ -828,17 +828,17 @@ f_dg_entry_name(dg_idname idname, dg_sourcepos whence, dg_type type,
 {
 	dg_name ans = new_dg_name(DGN_ENTRY);
 
-	ans->idnam  = idname;
+	ans->idname = idname;
 	ans->whence = shorten_sourcepos(whence);
-	ans->data.n_proc.typ = type;
+	ans->data.n_proc.type = type;
 
 	if (accessibility != DG_ACC_NONE || family.d_key != DG_DIM_NONE) {
 		extend_dg_name(ans);
 
-		ans->mor->acc = accessibility;
+		ans->more->acc = accessibility;
 		if (family.d_key != DG_DIM_NONE) {
-			ans->mor->en_family = xmalloc(sizeof(dg_dim));
-			*(ans->mor->en_family) = family;
+			ans->more->en_family = xmalloc(sizeof(dg_dim));
+			*(ans->more->en_family) = family;
 		}
 	}
 
@@ -846,18 +846,18 @@ f_dg_entry_name(dg_idname idname, dg_sourcepos whence, dg_type type,
 }
 
 dg_name
-f_dg_is_spec_name(dg_name nam, bool_option is_separate)
+f_dg_is_spec_name(dg_name name, bool_option is_separate)
 {
-	if (!nam->mor) {
-		extend_dg_name(nam);
+	if (!name->more) {
+		extend_dg_name(name);
 	}
 
-	nam->mor->isspec = 1;
+	name->more->isspec = 1;
 	if (is_separate.present && is_separate.val) {
-		nam->mor->issep = 1;
+		name->more->issep = 1;
 	}
 
-	return nam;
+	return name;
 }
 
 dg_name
@@ -869,13 +869,13 @@ f_dg_module_name(dg_idname idname, dg_sourcepos whence, dg_namelist memlist,
 	UNUSED(init);
 
 	ans = new_dg_name(DGN_MODULE);
-	ans->idnam  = idname;
+	ans->idname = idname;
 	ans->whence = shorten_sourcepos(whence);
 	ans->data.n_mod.members = memlist.list;
 
 	if (elaboration) {
 		extend_dg_name(ans);
-		ans->mor->elabn = elaboration;
+		ans->more->elabn = elaboration;
 	}
 
 	return ans;
@@ -886,12 +886,12 @@ f_dg_namespace_name(dg_idname idname, dg_sourcepos whence, dg_namelist members)
 {
 	dg_name ans = new_dg_name(DGN_NSP);
 
-	ans->idnam  = idname;
+	ans->idname = idname;
 	ans->whence = shorten_sourcepos(whence);
 	ans->data.n_mod.members = members.list;
 
-	if (members.tg) {
-		members.tg->p.nl = &(ans->data.n_mod.members);
+	if (members.tag) {
+		members.tag->p.nl = &(ans->data.n_mod.members);
 	}
 
 	ans->data.n_mod.init = NULL;
@@ -902,25 +902,25 @@ f_dg_namespace_name(dg_idname idname, dg_sourcepos whence, dg_namelist members)
 dg_name
 f_dg_rep_clause_name(dg_name item, exp location)
 {
-	if (!item->mor) {
+	if (!item->more) {
 		extend_dg_name(item);
 	}
 
-	item->mor->repn = diaginfo_exp(location);
+	item->more->repn = diaginfo_exp(location);
 
 	return item;
 }
 
 dg_name
-f_dg_spec_ref_name(dg_tag specification, dg_name nam)
+f_dg_spec_ref_name(dg_tag specification, dg_name name)
 {
-	if (!nam->mor) {
-		extend_dg_name(nam);
+	if (!name->more) {
+		extend_dg_name(name);
 	}
 
-	nam->mor->refspec = specification;
+	name->more->refspec = specification;
 
-	return nam;
+	return name;
 }
 
 dg_name
@@ -930,17 +930,17 @@ f_dg_visibility_name(dg_tag dname, nat import_kind, dg_idname_option idname,
 {
 	dg_name ans = new_dg_name(DGN_IMPORT);
 
-	ans->idnam  = idname;
+	ans->idname = idname;
 	ans->whence = shorten_sourcepos(src_pos);
 	ans->data.n_imp.import = dname;
 	ans->data.n_imp.ik     = import_kind.nat_val.small_nat;
 
 	if (accessibility != DG_ACC_NONE) {
 		extend_dg_name(ans);
-		ans->mor->acc = accessibility;
+		ans->more->acc = accessibility;
 	}
 
-	ans->data.n_imp.i_typ = type;
+	ans->data.n_imp.i_type = type;
 
 	return ans;
 }
@@ -963,14 +963,14 @@ f_dg_type_apply_token(token token_value, bitstream token_args)
 }
 
 dg_type
-f_dg_tag_type(dg_tag tg, dg_type type)
+f_dg_tag_type(dg_tag tag, dg_type type)
 {
-	if (tg->key && tg->key != DGK_TYPE) {
+	if (tag->key && tag->key != DGK_TYPE) {
 		error(ERR_INTERNAL, "dg_tag defined twice");
 	}
 
-	tg->key   = DGK_TYPE;
-	tg->p.typ = type;
+	tag->key    = DGK_TYPE;
+	tag->p.type = type;
 
 	return type;
 }
@@ -981,22 +981,22 @@ f_dg_named_type(dg_tag dname)
 	dg_type ans;
 
 	if (dname->key == DGK_TYPE) {
-		return dname->p.typ;
+		return dname->p.type;
 	}
 
-	if (dname->key == DGK_NAME && dname->p.nam->key == DGN_TYPE &&
-	    dname->p.nam->data.n_typ.named) {
-		return dname->p.nam->data.n_typ.named;
+	if (dname->key == DGK_NAME && dname->p.name->key == DGN_TYPE &&
+	    dname->p.name->data.n_type.named) {
+		return dname->p.name->data.n_type.named;
 	}
 
 	ans = new_dg_type(DGT_TAGGED);
 	ans->data.t_tag = dname;
 	if (dname->key == DGK_NONE && dname->outref.k == LAB_STR) {
 		dname->key = DGK_TYPE;
-		dname->p.typ = ans;
+		dname->p.type = ans;
 		ans->outref = dname->outref;
-	} else if (dname->key == DGK_NAME && dname->p.nam->key == DGN_TYPE) {
-		dname->p.nam->data.n_typ.named = ans;
+	} else if (dname->key == DGK_NAME && dname->p.name->key == DGN_TYPE) {
+		dname->p.name->data.n_type.named = ans;
 	}
 
 	return ans;
@@ -1005,11 +1005,11 @@ f_dg_named_type(dg_tag dname)
 dg_type
 f_dg_is_spec_type(dg_type type)
 {
-	if (!type->mor) {
+	if (!type->more) {
 		extend_dg_type(type);
 	}
 
-	type->mor->isspec = 1;
+	type->more->isspec = 1;
 
 	return type;
 }
@@ -1017,11 +1017,11 @@ f_dg_is_spec_type(dg_type type)
 dg_type
 f_dg_spec_ref_type(dg_tag specification, dg_type type)
 {
-	if (!type->mor) {
+	if (!type->more) {
 		extend_dg_type(type);
 	}
 
-	type->mor->refspec = specification;
+	type->more->refspec = specification;
 
 	return type;
 }
@@ -1093,14 +1093,14 @@ f_dg_enum_type(dg_enum_list values, dg_idname_option tagname,
 {
 	dg_type ans = new_dg_type(DGT_ENUM);
 
-	ans->data.t_enum.tnam   = idname_chars(tagname);
+	ans->data.t_enum.tname  = idname_chars(tagname);
 	ans->data.t_enum.tpos   = shorten_sourcepos(src_pos);
 	ans->data.t_enum.values = values;
 	ans->data.t_enum.sha    = sha;
 
 	if (new_type) {
 		extend_dg_type(ans);
-		ans->mor->isnew = new_type;
+		ans->more->isnew = new_type;
 	}
 
 	return ans;
@@ -1125,7 +1125,7 @@ f_dg_struct_type(dg_classmem_list fields, shape_option sha,
 {
 	dg_type ans = new_dg_type(DGT_STRUCT);
 
-	ans->data.t_struct.idnam    = tagname;
+	ans->data.t_struct.idname   = tagname;
 	ans->data.t_struct.tpos     = shorten_sourcepos(src_pos);
 	ans->data.t_struct.is_union = is_union;
 	ans->data.t_struct.u.fields = fields;
@@ -1138,7 +1138,7 @@ f_dg_struct_type(dg_classmem_list fields, shape_option sha,
 
 	if (new_type) {
 		extend_dg_type(ans);
-		ans->mor->isnew = new_type;
+		ans->more->isnew = new_type;
 	}
 
 	ans->data.t_struct.vpart = varpart;
@@ -1154,7 +1154,7 @@ f_dg_set_type(dg_type element_type, shape sha)
 	dg_type ans = new_dg_type(DGT_CONS);
 
 	ans->data.t_cons.c_key = DG_SET_T;
-	ans->data.t_cons.typ   = element_type;
+	ans->data.t_cons.type  = element_type;
 	ans->data.t_cons.sha   = sha;
 
 	return ans;
@@ -1170,7 +1170,7 @@ f_dg_subrange_type(dg_type rep_type, dg_bound low, dg_bound high)
 	ans->data.t_subr.hi_ref  = high.is_ref;
 	ans->data.t_subr.hi_cnt  = 0;
 	ans->data.t_subr.count   = -1;
-	ans->data.t_subr.d_typ   = rep_type;
+	ans->data.t_subr.d_type  = rep_type;
 	ans->data.t_subr.sha     = low.sha;
 	ans->data.t_subr.lower   = low.u;
 	ans->data.t_subr.upper   = high.u;
@@ -1219,7 +1219,7 @@ f_dg_file_type(dg_type elem_type, shape sha)
 	dg_type ans = new_dg_type(DGT_CONS);
 
 	ans->data.t_cons.c_key = DG_FILE_T;
-	ans->data.t_cons.typ   = elem_type;
+	ans->data.t_cons.type  = elem_type;
 	ans->data.t_cons.sha   = sha;
 
 	return ans;
@@ -1236,7 +1236,7 @@ f_dg_class_type(dg_class_base_list inheritance, dg_classmem_list members,
 {
 	dg_type ans = new_dg_type(DGT_CLASS);
 
-	ans->data.t_struct.idnam    = tagname;
+	ans->data.t_struct.idname   = tagname;
 	ans->data.t_struct.tpos     = shorten_sourcepos(src_pos);
 	ans->data.t_struct.is_union = is_union;
 
@@ -1249,9 +1249,9 @@ f_dg_class_type(dg_class_base_list inheritance, dg_classmem_list members,
 	ans->data.t_struct.u.cd = xmalloc(sizeof(class_data));
 	if (new_type || (ada_derived.present && ada_derived.val)) {
 		extend_dg_type(ans);
-		ans->mor->isnew = new_type;
+		ans->more->isnew = new_type;
 		if (ada_derived.present) {
-			ans->mor->aderiv = ada_derived.val;
+			ans->more->aderiv = ada_derived.val;
 		}
 	}
 
@@ -1268,14 +1268,14 @@ f_dg_class_type(dg_class_base_list inheritance, dg_classmem_list members,
 }
 
 dg_type
-f_dg_ptr_memdata_type(dg_tag cls, dg_type memtype, shape sha,
+f_dg_ptr_memdata_type(dg_tag class, dg_type memtype, shape sha,
                       dg_tag_option pdm_type)
 {
 	dg_type ans = new_dg_type(DGT_PMEM);
 
-	ans->data.t_pmem.pclass = cls;
-	ans->data.t_pmem.memtyp = memtype;
-	ans->data.t_pmem.sha    = sha;
+	ans->data.t_pmem.pclass  = class;
+	ans->data.t_pmem.memtype = memtype;
+	ans->data.t_pmem.sha     = sha;
 
 	UNUSED(pdm_type);
 
@@ -1283,14 +1283,14 @@ f_dg_ptr_memdata_type(dg_tag cls, dg_type memtype, shape sha,
 }
 
 dg_type
-f_dg_ptr_memfn_type(dg_tag cls, dg_type memtype, shape sha,
+f_dg_ptr_memfn_type(dg_tag class, dg_type memtype, shape sha,
                     dg_tag_option pfn_type)
 {
 	dg_type ans = new_dg_type(DGT_PMEM);
 
-	ans->data.t_pmem.pclass = cls;
-	ans->data.t_pmem.memtyp = memtype;
-	ans->data.t_pmem.sha    = sha;
+	ans->data.t_pmem.pclass  = class;
+	ans->data.t_pmem.memtype = memtype;
+	ans->data.t_pmem.sha     = sha;
 
 	UNUSED(pfn_type);
 
@@ -1305,7 +1305,7 @@ f_dg_task_type(dg_idname idname, dg_sourcepos whence, dg_name_list entries,
 {
 	dg_type ans = new_dg_type(DGT_A_TASK);
 
-	ans->data.t_struct.idnam    = idname;
+	ans->data.t_struct.idname   = idname;
 	ans->data.t_struct.tpos     = shorten_sourcepos(whence);
 	ans->data.t_struct.is_union = 0;
 
@@ -1319,8 +1319,8 @@ f_dg_task_type(dg_idname idname, dg_sourcepos whence, dg_name_list entries,
 
 	if (new_type || elaboration) {
 		extend_dg_type(ans);
-		ans->mor->isnew = new_type;
-		ans->mor->elabn = elaboration;
+		ans->more->isnew = new_type;
+		ans->more->elabn = elaboration;
 	}
 
 	ans->data.t_struct.u.td->entries = entries;
@@ -1338,7 +1338,7 @@ f_dg_address_type(dg_idname idname, shape sha)
 	dg_type ans = new_dg_type(DGT_BASIC);
 
 	ans->data.t_bas.b_key = DG_ADR_T;
-	ans->data.t_bas.tnam  = idname_chars(idname);
+	ans->data.t_bas.tname = idname_chars(idname);
 	ans->data.t_bas.b_sh  = sha;
 
 	return ans;
@@ -1350,7 +1350,7 @@ f_dg_boolean_type(dg_idname idname, variety var)
 	dg_type ans = new_dg_type(DGT_BASIC);
 
 	ans->data.t_bas.b_key = DG_BOOL_T;
-	ans->data.t_bas.tnam  = idname_chars(idname);
+	ans->data.t_bas.tname = idname_chars(idname);
 	ans->data.t_bas.b_sh  = f_integer(var);
 
 	return ans;
@@ -1362,7 +1362,7 @@ f_dg_complex_float_type(dg_idname idname, floating_variety var)
 	dg_type ans = new_dg_type(DGT_BASIC);
 
 	ans->data.t_bas.b_key = DG_FLOAT_T;
-	ans->data.t_bas.tnam  = idname_chars(idname);
+	ans->data.t_bas.tname = idname_chars(idname);
 	ans->data.t_bas.b_sh  = f_floating(var);
 
 	return ans;
@@ -1374,7 +1374,7 @@ f_dg_float_type(dg_idname idname, floating_variety var)
 	dg_type ans = new_dg_type(DGT_BASIC);
 
 	ans->data.t_bas.b_key = DG_FLOAT_T;
-	ans->data.t_bas.tnam  = idname_chars(idname);
+	ans->data.t_bas.tname = idname_chars(idname);
 	ans->data.t_bas.b_sh  = f_floating(var);
 
 	return ans;
@@ -1421,7 +1421,7 @@ f_dg_integer_type(dg_idname idname, variety var)
 	dg_type ans = new_dg_type(DGT_BASIC);
 
 	ans->data.t_bas.b_key = DG_INT_T;
-	ans->data.t_bas.tnam  = idname_chars(idname);
+	ans->data.t_bas.tname = idname_chars(idname);
 	ans->data.t_bas.b_sh  = f_integer(var);
 
 	return ans;
@@ -1433,7 +1433,7 @@ f_dg_char_type(dg_idname idname, variety var)
 	dg_type ans = new_dg_type(DGT_BASIC);
 
 	ans->data.t_bas.b_key = DG_CHAR_T;
-	ans->data.t_bas.tnam  = idname_chars(idname);
+	ans->data.t_bas.tname = idname_chars(idname);
 	ans->data.t_bas.b_sh  = f_integer(var);
 
 	return ans;
@@ -1442,11 +1442,11 @@ f_dg_char_type(dg_idname idname, variety var)
 dg_type
 f_dg_inlined_type(dg_type type, dg_tag origin)
 {
-	if (!type->mor) {
+	if (!type->more) {
 		extend_dg_type(type);
 	}
 
-	type->mor->inline_ref = origin;
+	type->more->inline_ref = origin;
 
 	return type;
 }
@@ -1460,7 +1460,7 @@ f_dg_synchronous_type(dg_idname idname, dg_sourcepos whence,
 {
 	dg_type ans = new_dg_type(DGT_A_SYNCH);
 
-	ans->data.t_struct.idnam    = idname;
+	ans->data.t_struct.idname   = idname;
 	ans->data.t_struct.tpos     = shorten_sourcepos(whence);
 	ans->data.t_struct.is_union = 0;
 
@@ -1474,8 +1474,8 @@ f_dg_synchronous_type(dg_idname idname, dg_sourcepos whence,
 
 	if (new_type || elaboration) {
 		extend_dg_type(ans);
-		ans->mor->isnew = new_type;
-		ans->mor->elabn = elaboration;
+		ans->more->isnew = new_type;
+		ans->more->elabn = elaboration;
 	}
 
 	ans->data.t_struct.u.td->entries = entries;
@@ -1536,15 +1536,15 @@ init_dg_class_base(void)
 dg_classmem f_dummy_dg_classmem;
 
 dg_classmem
-f_dg_tag_classmem(dg_tag tg, dg_classmem mem)
+f_dg_tag_classmem(dg_tag tag, dg_classmem mem)
 {
-	if (tg->key) {
+	if (tag->key) {
 		error(ERR_INTERNAL, "dg_tag defined twice");
 	}
 
-	tg->key = DGK_CLASSMEM;
+	tag->key = DGK_CLASSMEM;
 
-	mem.tg = tg;
+	mem.tag = tag;
 
 	return mem;
 }
@@ -1559,9 +1559,9 @@ f_dg_field_classmem(dg_idname idname, dg_sourcepos src_pos, exp offset,
 
 	ans.cm_key = DG_CM_FIELD;
 
-	ans.d.cm_f.fnam     = idname_chars(idname);
+	ans.d.cm_f.fname    = idname_chars(idname);
 	ans.d.cm_f.f_pos    = shorten_sourcepos(src_pos);
-	ans.d.cm_f.f_typ    = field_type;
+	ans.d.cm_f.f_type   = field_type;
 	ans.d.cm_f.f_offset = diaginfo_exp(offset);
 	ans.d.cm_f.acc      = accessibility;
 
@@ -1572,7 +1572,7 @@ f_dg_field_classmem(dg_idname idname, dg_sourcepos src_pos, exp offset,
 	ans.d.cm_f.discr = is_discr;
 	ans.d.cm_f.dflt  = deflt;
 
-	ans.tg = NULL;
+	ans.tag = NULL;
 
 	return ans;
 }
@@ -1591,7 +1591,7 @@ f_dg_function_classmem(dg_name fn, exp_option vtable_slot)
 		ans.d.cm_fn.slot = NULL;
 	}
 
-	ans.tg = NULL;
+	ans.tag = NULL;
 
 	return ans;
 }
@@ -1604,25 +1604,25 @@ f_dg_indirect_classmem(dg_idname idname, dg_sourcepos src_pos, token location,
 
 	ans.cm_key = DG_CM_INDIRECT;
 
-	ans.d.cm_ind.nam     = idname_chars(idname);
+	ans.d.cm_ind.name    = idname_chars(idname);
 	ans.d.cm_ind.pos     = shorten_sourcepos(src_pos);
-	ans.d.cm_ind.typ     = cmem_type;
+	ans.d.cm_ind.type    = cmem_type;
 	ans.d.cm_ind.ind_loc = relative_exp(f_pointer(f_alignment(ulongsh)), location);
 
-	ans.tg = NULL;
+	ans.tag = NULL;
 
 	return ans;
 }
 
 dg_classmem
-f_dg_name_classmem(dg_name nam)
+f_dg_name_classmem(dg_name name)
 {
 	dg_classmem ans;
 
 	ans.cm_key    = DG_CM_STAT;
-	ans.d.cm_stat = nam;
+	ans.d.cm_stat = name;
 
-	ans.tg = NULL;
+	ans.tag = NULL;
 
 	return ans;
 }
@@ -1652,7 +1652,7 @@ f_dg_dynamic_bound(dg_tag bound, shape sha)
 	dg_bound ans;
 
 	ans.is_ref = 1;
-	ans.u.tg   = bound;
+	ans.u.tag  = bound;
 	ans.sha    = sha;
 
 	return ans;
@@ -1668,7 +1668,7 @@ f_dg_static_bound(exp bound)
 	}
 
 	ans.is_ref = 0;
-	ans.u.x    = diaginfo_exp(bound);
+	ans.u.exp  = diaginfo_exp(bound);
 	ans.sha    = sh(bound);
 
 	return ans;
@@ -1680,7 +1680,7 @@ f_dg_unknown_bound(shape sha)
 	dg_bound ans;
 
 	ans.is_ref = 1;
-	ans.u.tg   = NULL;
+	ans.u.tag  = NULL;
 	ans.sha    = sha;
 
 	return ans;
@@ -1704,15 +1704,15 @@ f_dg_dim_apply_token(token token_value, bitstream token_args)
 }
 
 dg_dim
-f_dg_tag_dim(dg_tag tg, dg_dim d)
+f_dg_tag_dim(dg_tag tag, dg_dim d)
 {
-	if (tg->key) {
+	if (tag->key) {
 		error(ERR_INTERNAL, "dg_tag defined twice");
 	}
 
-	tg->key = DGK_DIM;
+	tag->key = DGK_DIM;
 
-	d.tg = tg;
+	d.tag = tag;
 
 	return d;
 }
@@ -1726,7 +1726,7 @@ f_dg_bounds_dim(dg_bound low, dg_bound high, dg_type index_type)
 	ans.low_ref = low.is_ref;
 	ans.hi_ref  = high.is_ref;
 	ans.hi_cnt  = 0;
-	ans.d_typ   = index_type;
+	ans.d_type  = index_type;
 	ans.sha     = low.sha;
 	ans.lower   = low.u;
 	ans.upper   = high.u;
@@ -1734,10 +1734,10 @@ f_dg_bounds_dim(dg_bound low, dg_bound high, dg_type index_type)
 	if (low.is_ref || high.is_ref) {
 		ans.count = -1;
 	} else {
-		ans.count = (long) (no(son(high.u.x)) - no(son(low.u.x)) + 1);
+		ans.count = (long) (no(son(high.u.exp)) - no(son(low.u.exp)) + 1);
 	}
 
-	ans.tg = NULL;
+	ans.tag = NULL;
 
 	return ans;
 }
@@ -1751,7 +1751,7 @@ f_dg_count_dim(dg_bound low, dg_bound count, dg_type index_type)
 	ans.low_ref = low.is_ref;
 	ans.hi_ref  = count.is_ref;
 	ans.hi_cnt  = 1;
-	ans.d_typ   = index_type;
+	ans.d_type  = index_type;
 	ans.sha     = low.sha;
 	ans.lower   = low.u;
 	ans.upper   = count.u;
@@ -1759,10 +1759,10 @@ f_dg_count_dim(dg_bound low, dg_bound count, dg_type index_type)
 	if (count.is_ref) {
 		ans.count = -1;
 	} else {
-		ans.count = (long)(no(son(count.u.x)));
+		ans.count = (long)(no(son(count.u.exp)));
 	}
 
-	ans.tg = NULL;
+	ans.tag = NULL;
 
 	return ans;
 }
@@ -1772,8 +1772,8 @@ f_dg_type_dim(dg_type type, nat_option n)
 {
 	dg_dim ans;
 
-	ans.d_key = DG_DIM_TYPE;
-	ans.d_typ = type;
+	ans.d_key  = DG_DIM_TYPE;
+	ans.d_type = type;
 
 	if (n.present) {
 		ans.count = (long)n.val.nat_val.small_nat;
@@ -1781,7 +1781,7 @@ f_dg_type_dim(dg_type type, nat_option n)
 		ans.count = -1;
 	}
 
-	ans.tg = NULL;
+	ans.tag = NULL;
 
 	return ans;
 }
@@ -1791,14 +1791,14 @@ dg_dim f_dg_unspecified_dim;
 void
 init_dg_dim(void)
 {
-	f_dg_unspecified_dim.d_key    = DG_DIM_NONE;
-	f_dg_unspecified_dim.low_ref  = f_dg_unspecified_dim.hi_ref = 1;
-	f_dg_unspecified_dim.hi_cnt   = 0;
-	f_dg_unspecified_dim.count    = -1;
-	f_dg_unspecified_dim.d_typ    = NULL;
-	f_dg_unspecified_dim.sha      = f_top;
-	f_dg_unspecified_dim.lower.tg = f_dg_unspecified_dim.upper.tg = NULL;
-	f_dg_unspecified_dim.tg       = NULL;
+	f_dg_unspecified_dim.d_key     = DG_DIM_NONE;
+	f_dg_unspecified_dim.low_ref   = f_dg_unspecified_dim.hi_ref = 1;
+	f_dg_unspecified_dim.hi_cnt    = 0;
+	f_dg_unspecified_dim.count     = -1;
+	f_dg_unspecified_dim.d_type    = NULL;
+	f_dg_unspecified_dim.sha       = f_top;
+	f_dg_unspecified_dim.lower.tag = f_dg_unspecified_dim.upper.tag = NULL;
+	f_dg_unspecified_dim.tag       = NULL;
 }
 
 dg_enum f_dummy_dg_enum;
@@ -1812,11 +1812,11 @@ f_make_dg_enum(exp value, dg_idname idname, dg_sourcepos src_pos)
 		error(ERR_INTERNAL, "enum value not const");
 	}
 
-	ans.enam   = idname_chars(idname);
+	ans.ename  = idname_chars(idname);
 	ans.pos    = shorten_sourcepos(src_pos);
 	ans.value  = diaginfo_exp(value);
 	ans.is_chn = 0;
-	ans.tg     = NULL;
+	ans.tag    = NULL;
 
 	return ans;
 }
@@ -1834,21 +1834,21 @@ f_dg_char_enum(exp value, nat idchar, dg_sourcepos src_pos)
 	ans.pos    = shorten_sourcepos(src_pos);
 	ans.value  = diaginfo_exp(value);
 	ans.is_chn = 1;
-	ans.tg     = NULL;
+	ans.tag    = NULL;
 
 	return ans;
 }
 
 dg_enum
-f_dg_tag_enum(dg_tag tg, dg_enum e)
+f_dg_tag_enum(dg_tag tag, dg_enum e)
 {
-	if (tg->key) {
+	if (tag->key) {
 		error(ERR_INTERNAL, "dg_tag defined twice");
 	}
 
-	tg->key = DGK_ENUM;
+	tag->key = DGK_ENUM;
 
-	e.tg = tg;
+	e.tag = tag;
 
 	return e;
 }
@@ -1867,10 +1867,10 @@ f_dg_object_param(dg_idname_option idname, dg_sourcepos_option src_pos,
 {
 	dg_param ans;
 
-	ans.pnam   = idname_chars(idname);
+	ans.pname  = idname_chars(idname);
 	ans.ppos   = shorten_sourcepos(src_pos);
 	ans.pmode  = mode;
-	ans.p_typ  = param_type;
+	ans.p_type = param_type;
 	ans.p_dflt = deflt;
 
 	return ans;
@@ -2008,14 +2008,14 @@ init_dg_sourcepos(void)
 dg_compilation f_dummy_dg_compilation;
 
 dg_compilation
-f_dg_tag_compilation(dg_tag tg, dg_compilation comp)
+f_dg_tag_compilation(dg_tag tag, dg_compilation comp)
 {
-	if (tg->key) {
+	if (tag->key) {
 		error(ERR_INTERNAL, "dg_tag defined twice");
 	}
 
-	tg->key    = DGK_COMP;
-	tg->p.comp = comp;
+	tag->key    = DGK_COMP;
+	tag->p.comp = comp;
 
 	return comp;
 }
@@ -2040,8 +2040,8 @@ f_make_dg_compilation(dg_filename primary_file, string_list comp_unit_deps,
 	ans->another   = NULL;
 	ans->macros    = macros;
 
-	if (dnames.tg) {
-		dnames.tg->p.nl = &ans->dn_list;
+	if (dnames.tag) {
+		dnames.tag->p.nl = &ans->dn_list;
 	}
 
 	return ans;
@@ -2061,7 +2061,7 @@ f_dg_type_constraint(dg_tag_option ref_member, dg_type type)
 
 	ans->refmem = ref_member;
 	ans->is_val = 0;
-	ans->u.typ  = type;
+	ans->u.type = type;
 	ans->next   = NULL;
 
 	return ans;
@@ -2127,7 +2127,7 @@ f_dg_sourcestring_idname(string src_name)
 	dg_idname ans;
 
 	ans.id_key  = DG_ID_SRC;
-	ans.idd.nam = src_name.ints.chars;
+	ans.idd.name = src_name.ints.chars;
 
 	return ans;
 }
@@ -2138,7 +2138,7 @@ f_dg_anonymous_idname(string_option descr)
 	dg_idname ans;
 
 	ans.id_key = DG_ID_ANON;
-	ans.idd.nam = "";
+	ans.idd.name = "";
 
 	UNUSED(descr);
 
@@ -2153,9 +2153,9 @@ f_dg_artificial_idname(string_option aname)
 	ans.id_key = DG_ID_ARTFL;
 
 	if (aname.present) {
-		ans.idd.nam = aname.val.ints.chars;
+		ans.idd.name = aname.val.ints.chars;
 	} else {
-		ans.idd.nam = "";
+		ans.idd.name = "";
 	}
 
 	return ans;
@@ -2169,12 +2169,12 @@ f_dg_instance_idname(dg_idname_option idname, dg_idname spec,
 
 	ans.id_key               = DG_ID_INST;
 	ans.idd.instance         = xcalloc(1, sizeof(dg_instantn));
-	ans.idd.instance->nam    = idname;
+	ans.idd.instance->name   = idname;
 	ans.idd.instance->spec   = spec;
 	ans.idd.instance->whence = shorten_sourcepos(whence);
 	ans.idd.instance->params = aparams;
 
-	if (ans.idd.instance->nam.id_key == DG_ID_INST ||
+	if (ans.idd.instance->name.id_key == DG_ID_INST ||
 	    ans.idd.instance->spec.id_key == DG_ID_INST) {
 		error(ERR_INTERNAL, "multiple instantiation");
 	}
@@ -2188,7 +2188,7 @@ f_dg_external_idname(string src_name)
 	dg_idname ans;
 
 	ans.id_key  = DG_ID_EXT;
-	ans.idd.nam = src_name.ints.chars;
+	ans.idd.name = src_name.ints.chars;
 
 	return ans;
 }
@@ -2292,7 +2292,7 @@ f_dg_function_macro(dg_sourcepos src_pos, dg_idname idname,
 
 	ans.key      = DGM_FN;
 	ans.pos      = shorten_sourcepos(src_pos);
-	ans.u.d.nam  = idname_chars(idname);
+	ans.u.d.name = idname_chars(idname);
 	ans.u.d.defn = def.ints.chars;
 	ans.u.d.pms  = param;
 
@@ -2319,7 +2319,7 @@ f_dg_object_macro(dg_sourcepos src_pos, dg_idname idname, string def)
 
 	ans.key      = DGM_OBJ;
 	ans.pos      = shorten_sourcepos(src_pos);
-	ans.u.d.nam  = idname_chars(idname);
+	ans.u.d.name = idname_chars(idname);
 	ans.u.d.defn = def.ints.chars;
 
 	return ans;
@@ -2330,9 +2330,9 @@ f_dg_undef_macro(dg_sourcepos src_pos, dg_idname idname)
 {
 	dg_macro ans;
 
-	ans.key     = DGM_UNDEF;
-	ans.pos     = shorten_sourcepos(src_pos);
-	ans.u.d.nam = idname_chars(idname);
+	ans.key      = DGM_UNDEF;
+	ans.pos      = shorten_sourcepos(src_pos);
+	ans.u.d.name = idname_chars(idname);
 
 	return ans;
 }
@@ -2607,21 +2607,21 @@ f_make_dg_namelist(dg_name_list items)
 	dg_namelist ans;
 
 	ans.list = items;
-	ans.tg   = NULL;
+	ans.tag  = NULL;
 
 	return ans;
 }
 
 dg_namelist
-f_dg_tag_namelist(dg_tag tg, dg_namelist nl)
+f_dg_tag_namelist(dg_tag tag, dg_namelist nl)
 {
-	if (tg->key) {
+	if (tag->key) {
 		error(ERR_INTERNAL, "dg_tag defined twice");
 	}
 
-	tg->key = DGK_NAMELIST;
+	tag->key = DGK_NAMELIST;
 
-	nl.tg = tg;
+	nl.tag = tag;
 
 	return nl;
 }
@@ -2634,13 +2634,13 @@ init_dg_namelist(void)
 dg_append f_dummy_dg_append;
 
 dg_append
-f_dg_name_append(dg_tag tg, dg_name nam)
+f_dg_name_append(dg_tag tag, dg_name name)
 {
-	if (tg->key != DGK_NAMELIST) {
+	if (tag->key != DGK_NAMELIST) {
 		error(ERR_INTERNAL, "wrong dg_tag");
 	}
 
-	*tg->p.nl = add_dg_name_list(*tg->p.nl, nam, 0);
+	*tag->p.nl = add_dg_name_list(*tag->p.nl, name, 0);
 
 	return f_dummy_dg_append;
 }
@@ -2711,8 +2711,8 @@ yes_dg_idname_option(dg_idname elem)
 void
 init_dg_idname_option(void)
 {
-	no_dg_idname_option.id_key  = DG_ID_NONE;
-	no_dg_idname_option.idd.nam = "";
+	no_dg_idname_option.id_key   = DG_ID_NONE;
+	no_dg_idname_option.idd.name = "";
 }
 
 dg_name_option no_dg_name_option = NULL;
@@ -3012,10 +3012,10 @@ f_make_dglink(tdfint i, tdfint ext)
 linkextern
 f_make_dgtagextern(tdfint internal, external ext)
 {
-	dg_tag tg = &capsule_dgtab[natint(internal)];
+	dg_tag tag = &capsule_dgtab[natint(internal)];
 
-	tg->outref.k   = LAB_STR;
-	tg->outref.u.s = external_to_string(ext);
+	tag->outref.k   = LAB_STR;
+	tag->outref.u.s = external_to_string(ext);
 
 	return 0;
 }

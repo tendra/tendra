@@ -30,8 +30,8 @@ extern void out_obj_loclist(long l1, long l2, exp x);
 extern void out_obj_extloclist(long l1, long l2, exp x);
 extern void out_obj_shared_set(dg_name dn);
 
-extern void *dw_new_regshare(dg_name nm, int reg);
-extern void dw_add_regshare(void *w, dg_name nm, long start, long end);
+extern void *dw_new_regshare(dg_name name, int reg);
+extern void dw_add_regshare(void *w, dg_name name, long start, long end);
 extern dg_name find_equiv_object(exp e, int isc);
 
 extern void init_dw_locdata(void);

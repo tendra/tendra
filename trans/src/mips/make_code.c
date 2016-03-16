@@ -96,7 +96,7 @@ static long aritherr_lab  = 0;
 static long stackerr_lab  = 0;
 static long allocaerr_lab = 0;
 
-extern exp find_named_tg(char *, shape);
+extern exp find_named_tag(char *, shape);
 extern shape f_pointer(alignment);
 extern alignment f_alignment(shape);
 extern shape f_proc;
@@ -117,7 +117,7 @@ do_exception(int e)
 	b.base = 0;
 	b.offset = e;
 	ls_ins(i_li, 4,  b);
-	b = boff(find_named_tg("__TDFhandler", f_pointer(f_alignment(f_proc))));
+	b = boff(find_named_tag("__TDFhandler", f_pointer(f_alignment(f_proc))));
 	ls_ins(i_lw, 25, b);
 	br_ins(i_j, 25);
 }
@@ -4060,8 +4060,8 @@ found:
 	}
 
 	case env_size_tag: {
-		exp tg = son(son(e));
-		procrec * pr = &procrecs[no(son(tg))];
+		exp tag = son(son(e));
+		procrec * pr = &procrecs[no(son(tag))];
 		constval = (pr->frame_size + pr->callee_size) >> 3;
 		goto moveconst;
 	}
@@ -4183,8 +4183,8 @@ found:
 		allocaerr_lab = 0;
 		if (proc_has_checkstack(e)) {
 			baseoff b;
-			exp stl = find_named_tg("__TDFstacklim",
-			                        f_pointer(f_alignment(f_proc)));
+			exp stl = find_named_tag("__TDFstacklim",
+			                         f_pointer(f_alignment(f_proc)));
 			setvar(stl);
 			b = boff(stl);
 			stackerr_lab = new_label();
@@ -4258,8 +4258,8 @@ found:
 
 		if (checkalloc(e)) {
 			int tmp = getreg(guardreg(r, sp).fixed);
-			exp stl = find_named_tg("__TDFstacklim",
-			                        f_pointer(f_alignment(f_proc)));
+			exp stl = find_named_tag("__TDFstacklim",
+			                         f_pointer(f_alignment(f_proc)));
 			baseoff b;
 			setvar(stl);
 
@@ -4533,8 +4533,8 @@ null_tag_case:
 	case set_stack_limit_tag: {
 		baseoff b;
 		int r = reg_operand(son(e), sp);
-		exp stl = find_named_tg("__TDFstacklim",
-		                        f_pointer(f_alignment(f_proc)));
+		exp stl = find_named_tag("__TDFstacklim",
+		                         f_pointer(f_alignment(f_proc)));
 		setvar(stl);
 		b = boff(stl);
 		ls_ins(i_sw, r, b);
@@ -4546,8 +4546,8 @@ null_tag_case:
 		baseoff b;
 		ans aa;
 		int r = regfrmdest(&dest, sp);
-		exp stl = find_named_tg("__TDFstacklim",
-		                        f_pointer(f_alignment(f_proc)));
+		exp stl = find_named_tag("__TDFstacklim",
+		                         f_pointer(f_alignment(f_proc)));
 		setvar(stl);
 		b = boff(stl);
 		ls_ins(i_lw, r, b);

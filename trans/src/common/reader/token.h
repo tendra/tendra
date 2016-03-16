@@ -235,7 +235,7 @@ typedef struct tokformals_list_t tokformals_list;
 typedef int tokdef;
 
 typedef struct tagdec_t {
-	tag tg;            /* identifying tag */
+	tag tag;           /* identifying tag */
 	shape sha;         /* the shape of the tag */
 	access_option acc; /* its access_options */
 	bool is_variable;  /* 1 for variable, 0 for identity */
@@ -243,7 +243,7 @@ typedef struct tagdec_t {
 } tagdec;
 
 typedef struct {
-	tag tg;         /* identifying tag */
+	tag tag;        /* identifying tag */
 	exp def;        /* the associated exp definition */
 	bool var;       /* 1 for variable, 0 for identity */
 	bool is_common; /* 1 for common_tagdef */

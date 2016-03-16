@@ -5874,8 +5874,8 @@ out:
 	}
 
 	case env_size_tag: {
-		exp tg = son(son(e));
-		procrec *pr = &procrecs[no(son(tg))];
+		exp tag = son(son(e));
+		procrec *pr = &procrecs[no(son(tag))];
 		constval = (pr->frame_size + pr->callee_size) >> 3;
 
 		goto moveconst;

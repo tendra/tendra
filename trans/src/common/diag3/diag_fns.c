@@ -180,7 +180,7 @@ f_diag_desc_id(tdfstring n, sourcemark whence, exp acc, diag_type new_type)
 	}
 
 	new.key	= DIAG_ID_KEY;
-	new.data.id.nme      = n;
+	new.data.id.name     = n;
 	new.data.id.whence   = whence;
 	new.data.id.access   = acc;
 	new.data.id.new_type = new_type;
@@ -197,7 +197,7 @@ f_diag_desc_struct(tdfstring n, sourcemark whence, diag_type new_type)
 	diag_descriptor new;
 
 	new.key                 = DIAG_STRUCT_KEY;
-	new.data.struc.nme      = n;
+	new.data.struc.name     = n;
 	new.data.struc.whence   = whence;
 	new.data.struc.new_type = new_type;
 
@@ -209,10 +209,10 @@ f_diag_desc_typedef(tdfstring n, sourcemark whence, diag_type new_type)
 {
 	diag_descriptor new;
 
-	new.key               = DIAG_TYPEDEF_KEY;
-	new.data.typ.nme      = n;
-	new.data.typ.whence   = whence;
-	new.data.typ.new_type = new_type;
+	new.key                = DIAG_TYPEDEF_KEY;
+	new.data.type.name     = n;
+	new.data.type.whence   = whence;
+	new.data.type.new_type = new_type;
 
 	return new;
 }
@@ -320,7 +320,7 @@ f_diag_enum(diag_type base_type, tdfstring enum_name, enum_values_list values)
 	new->been_outed = 0;
 
 	new->data.t_enum.base_type = base_type;
-	new->data.t_enum.nme       = enum_name;
+	new->data.t_enum.name      = enum_name;
 	new->data.t_enum.values    = values;
 
 	return new;
@@ -391,7 +391,7 @@ f_diag_struct(shape tdf_shape, tdfstring n, diag_field_list fields)
 	new->been_outed = 0;
 
 	new->data.t_struct.tdf_shape = tdf_shape;
-	new->data.t_struct.nme       = n;
+	new->data.t_struct.name      = n;
 	new->data.t_struct.fields    = fields;
 
 	return new;
@@ -406,7 +406,7 @@ f_diag_union(shape tdf_shape, tdfstring n, diag_field_list fields)
 	new->been_outed = 0;
 
 	new->data.t_union.tdf_shape = tdf_shape;
-	new->data.t_union.nme       = n;
+	new->data.t_union.name      = n;
 	new->data.t_union.fields    = fields;
 
 	return new;
@@ -435,8 +435,8 @@ f_make_enum_values(exp value, tdfstring n)
 {
 	enum_values new = xcalloc(1, sizeof(struct enum_values_t));
 
-	new->val = value;
-	new->nme = n;
+	new->val  = value;
+	new->name = n;
 
 	return new;
 }

@@ -30,10 +30,10 @@ static int currentfloat;
 static long choosefloat;
 
 
-/* reset getreg() and getfreg() back to start of sequence for proc 'tg' */
-void settempregs(exp tg)
+/* reset getreg() and getfreg() back to start of sequence for proc 'tag' */
+void settempregs(exp tag)
 {
-  UNUSED(tg);
+  UNUSED(tag);
 
   currentfix = R_LAST_PARAM+1;/* R_11 it must be for parameters*/
   choosefix = RMASK(currentfix);

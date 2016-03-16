@@ -275,7 +275,7 @@ static void output_diag
     stabd(currentfile, currentlno+1, 0); /* don't have proper lineno */
     diagbr_open(currentfile);
   }
-  stab_local(d->data.id_scope.nme.ints.chars, d->data.id_scope.typ,
+  stab_local(d->data.id_scope.name.ints.chars, d->data.id_scope.type,
 	     x,0,currentfile);
   if (last_param(son(x))) {
     stabd(currentfile, currentlno+1, 0); /* don't have proper lineno */
@@ -360,7 +360,7 @@ eq_sutype(diag_type a, diag_type b)
   if (a==b) return 1;
   if (a->key != b->key) return 0;
   if (a->key != DIAG_TYPE_STRUCT && a->key != DIAG_TYPE_UNION) return 0;
-   if (!streq(a->data.t_struct.nme.ints.chars, b->data.t_struct.nme.ints.chars))
+   if (!streq(a->data.t_struct.name.ints.chars, b->data.t_struct.name.ints.chars))
      return 0;
   fa = a->data.t_struct.fields;
   fb = b->data.t_struct.fields;
@@ -458,7 +458,7 @@ void stab_types
       case DIAG_TYPE_UNION: {
 	diag_field_list  fields = sc->d_type->data.t_struct.fields;
 	shape s = sc->d_type->data.t_struct.tdf_shape;
-	char * nme = sc->d_type->data.t_struct.nme.ints.chars;
+	char * nme = sc->d_type->data.t_struct.name.ints.chars;
 	addaux(sc->d_type, nexttsym+firsts);
 	addtsym(nme, shape_size(s) >>3, stBlock, scInfo, sc->d_type);
 	for (j=fields->lastused-1; j>=0; j--) {
@@ -482,8 +482,8 @@ void stab_types
   /* associated names of types */
     diag_descriptor * dd = unit_diagvar_tab.array+i;
     if (dd->key == DIAG_TYPEDEF_KEY) {
-     IGNORE new_lsym_d(dd->data.typ.nme.ints.chars, 0, stTypedef, scInfo,
-		       dd->data.typ.new_type, mainfile);
+     IGNORE new_lsym_d(dd->data.type.name.ints.chars, 0, stTypedef, scInfo,
+		       dd->data.type.new_type, mainfile);
     }
   }
   free(ats);

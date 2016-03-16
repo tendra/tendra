@@ -610,7 +610,7 @@ out_dt_shape(diag_type dt)
 		asm_fprintf(dg_file, "%ld=e", non);
 		for (i = enumvals->lastused - 1; i >= 0; i--) {
 			enum_values ef = (enumvals->array)[i];
-			asm_fprintf(dg_file, "%s:%ld,", ef->nme.ints.chars, no(ef->val));
+			asm_fprintf(dg_file, "%s:%ld,", ef->name.ints.chars, no(ef->val));
 		}
 		asm_fprintf(dg_file, ";");
 		last_type_sz = 32;
@@ -634,7 +634,7 @@ diag_val_begin(diag_descriptor *d, int global, int cname, char *pname)
 	stabd(find_file(d->data.id.whence.file->file.ints.chars),
 	(long)d->data.id.whence.line_no.nat_val.small_nat, -N_DSLINE);
 
-	asm_fprintf(dg_file, "\t.stabs\t\"%s:%c", d->data.id.nme.ints.chars,
+	asm_fprintf(dg_file, "\t.stabs\t\"%s:%c", d->data.id.name.ints.chars,
 		 (global ? 'G' : 'S'));
 	OUT_DT_SHAPE(d->data.id.new_type);
 	if (global) {
@@ -673,7 +673,7 @@ diag_proc_begin(diag_descriptor *d, int global, int cname, char *pname)
 	stabd(find_file(d->data.id.whence.file->file.ints.chars),
 	(long)d->data.id.whence.line_no.nat_val.small_nat, 0);
 
-	asm_printf("\t.stabs\t\"%s", d->data.id.nme.ints.chars);
+	asm_printf("\t.stabs\t\"%s", d->data.id.name.ints.chars);
 	if (global) {
 		asm_printf(":F");
 	} else {
@@ -746,8 +746,8 @@ stab_local(diag_info *d, int proc_no, exp acc)
 
 	t = next_del_stab();
 	t->del_t = (isparam(son(acc)) ? D_PARAM : D_LOCAL);
-	t->u.l.nm = d->data.id_scope.nme.ints.chars;
-	t->u.l.dt = d->data.id_scope.typ;
+	t->u.l.nm = d->data.id_scope.name.ints.chars;
+	t->u.l.dt = d->data.id_scope.type;
 	t->u.l.offset = (no(acc) + no(son(acc))) / 8;
 }
 
@@ -814,7 +814,7 @@ stab_tagdefs(void)
 
 		switch (d->key) {
 		case DIAG_TYPE_STRUCT: {
-			char *nme = d->data.t_struct.nme.ints.chars;
+			char *nme = d->data.t_struct.name.ints.chars;
 			if (nme && *nme) {
 				asm_fprintf(dg_file, "\t.stabs\t\"%s:", nme);
 			} else {
@@ -826,7 +826,7 @@ stab_tagdefs(void)
 		}
 
 		case DIAG_TYPE_UNION: {
-			char *nme = d->data.t_union.nme.ints.chars;
+			char *nme = d->data.t_union.name.ints.chars;
 			if (nme && *nme) {
 				asm_fprintf(dg_file, "\t.stabs\t\"%s:", nme);
 			} else {
@@ -837,7 +837,7 @@ stab_tagdefs(void)
 		}
 
 		case DIAG_TYPE_ENUM: {
-			char *nme = d->data.t_enum.nme.ints.chars;
+			char *nme = d->data.t_enum.name.ints.chars;
 			if (nme && *nme) {
 				asm_fprintf(dg_file, "\t.stabs\t\"%s:", nme);
 			} else {
@@ -876,8 +876,8 @@ stab_typedefs(void)
 		if (di[i].key == DIAG_TYPEDEF_KEY) {
 			long non = next_typen();
 			asm_fprintf(dg_file, "\t.stabs\t\"%s:t%ld=",
-					 di[i].data.typ.nme.ints.chars, non);
-			OUT_DT_SHAPE(di[i].data.typ.new_type);
+					 di[i].data.type.name.ints.chars, non);
+			OUT_DT_SHAPE(di[i].data.type.new_type);
 			asm_fprintf(dg_file, "\",0x80,0,0,0\n");
 		}
 	}

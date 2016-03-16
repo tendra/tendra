@@ -381,22 +381,22 @@ f_diag_array(diag_type element_type, exp stride, exp lower_bound, exp
 }
 
 diag_type
-f_diag_bitfield(diag_type typ, nat number_of_bits)
+f_diag_bitfield(diag_type type, nat number_of_bits)
 {
 	shape sha;
 
-	if (typ->key == DGT_BASIC) {
-		sha = typ->data.t_bas.b_sh;
-	} else if (typ->key == DGT_ENUM) {
-		sha = typ->data.t_enum.sha;
-	} else if (typ->key == DGT_TAGGED && typ->data.t_tag->outref.k == LAB_STR) {
-		sha = basic_tag_shape(typ->data.t_tag);
+	if (type->key == DGT_BASIC) {
+		sha = type->data.t_bas.b_sh;
+	} else if (type->key == DGT_ENUM) {
+		sha = type->data.t_enum.sha;
+	} else if (type->key == DGT_TAGGED && type->data.t_tag->outref.k == LAB_STR) {
+		sha = basic_tag_shape(type->data.t_tag);
 	} else {
 		error(ERR_INTERNAL, "unexpected bitfield type");
 		sha = slongsh;
 	}
 
-	return f_dg_bitfield_type(typ, f_bfvar_bits(((sha->tag & 1) ? 1 : 0),
+	return f_dg_bitfield_type(type, f_bfvar_bits(((sha->tag & 1) ? 1 : 0),
 	                          number_of_bits), sha);
 }
 
@@ -653,13 +653,13 @@ init_diag_tagdef(void)
 diag_tagdef
 f_make_diag_tagdef(tdfint t, diag_type dtype)
 {
-	dg_tag tg = f_make_diag_tag(t);
-	IGNORE f_dg_tag_type(tg, dtype);
+	dg_tag tag = f_make_diag_tag(t);
+	IGNORE f_dg_tag_type(tag, dtype);
 
 	if ((dtype->key == DGT_STRUCT &&
-	     dtype->data.t_struct.idnam.id_key == DG_ID_SRC &&
-	     dtype->data.t_struct.idnam.idd.nam[0]) ||
-	    (dtype->key == DGT_ENUM && dtype->data.t_enum.tnam[0]))
+	     dtype->data.t_struct.idname.id_key == DG_ID_SRC &&
+	     dtype->data.t_struct.idname.idd.name[0]) ||
+	    (dtype->key == DGT_ENUM && dtype->data.t_enum.tname[0]))
 	{
 		dg_name *nm;
 
@@ -823,10 +823,10 @@ add_diag_tagdef_list(diag_tagdef_list list, diag_tagdef elem, int index)
 linkextern
 f_make_diagtagextern(tdfint internal, external ext)
 {
-	dg_tag tg = &capsule_diag_tagtab[natint(internal)];
+	dg_tag tag = &capsule_diag_tagtab[natint(internal)];
 
-	tg->outref.k   = NO_LAB;	/* TDF_DIAG3 names are internal ! */
-	tg->outref.u.s = external_to_string(ext);
+	tag->outref.k   = NO_LAB;	/* TDF_DIAG3 names are internal ! */
+	tag->outref.u.s = external_to_string(ext);
 
 	return 0;
 }

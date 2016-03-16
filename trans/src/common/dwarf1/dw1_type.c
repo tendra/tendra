@@ -333,7 +333,7 @@ out_dwarf_user_type(diag_type t)
 		break;
 	case DIAG_TYPE_ENUM:
 		cont_sib_chain(TAG_enumeration_type);
-		out_dwarf_name_attr(TDFSTRING2CHAR(t->data.t_enum.nme));
+		out_dwarf_name_attr(TDFSTRING2CHAR(t->data.t_enum.name));
 		if (t->data.t_enum.base_type->key != DIAG_TYPE_VARIETY) {
 			error(ERR_INTERNAL, "non integral enum type");
 		}
@@ -346,7 +346,7 @@ out_dwarf_user_type(diag_type t)
 
 			for (i=0; i<t->data.t_enum.values->lastused; i++) {
 				out_dwarf_const4(a[i]->val);
-				out_dwarf_string(TDFSTRING2CHAR(a[i]->nme));
+				out_dwarf_string(TDFSTRING2CHAR(a[i]->name));
 			}
 		}
 		leave_dwarf_blk4();
@@ -357,12 +357,12 @@ out_dwarf_user_type(diag_type t)
 		break;
 	case DIAG_TYPE_STRUCT:
 		cont_sib_chain(TAG_structure_type);
-		out_dwarf_name_attr(TDFSTRING2CHAR(t->data.t_struct.nme));
+		out_dwarf_name_attr(TDFSTRING2CHAR(t->data.t_struct.name));
 		out_dwarf_bytesize_attr(t->data.t_struct.tdf_shape);
 		break;
 	case DIAG_TYPE_UNION:
 		cont_sib_chain(TAG_union_type);
-		out_dwarf_name_attr(TDFSTRING2CHAR(t->data.t_union.nme));
+		out_dwarf_name_attr(TDFSTRING2CHAR(t->data.t_union.name));
 		out_dwarf_bytesize_attr(t->data.t_union.tdf_shape);
 		break;
 	default:

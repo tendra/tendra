@@ -24,7 +24,7 @@ typedef struct string_option_t {
 typedef struct tagsh_t {
 	shape sha;
 	access visible;
-	tag tg;
+	tag tag;
 } tagshacc;
 
 typedef struct tagsh_list_t {
@@ -37,7 +37,7 @@ typedef struct tagsh_list_t {
 } tagshacc_list;
 
 typedef struct tagacc_t {
-	tag tg;
+	tag tag;
 	access visible;
 } tagacc;
 

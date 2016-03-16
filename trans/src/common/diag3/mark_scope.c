@@ -80,16 +80,16 @@ needs_hiding(exp a, exp b)
 
 	switch (da->key) {
 	case DIAG_INFO_ID:
-		return streq(da->data.id_scope.nme.ints.chars,
-		               db->data.id_scope.nme.ints.chars);
+		return streq(da->data.id_scope.name.ints.chars,
+		               db->data.id_scope.name.ints.chars);
 
 	case DIAG_INFO_TYPE:
-		return streq(da->data.type_scope.nme.ints.chars,
-		               db->data.type_scope.nme.ints.chars);
+		return streq(da->data.type_scope.name.ints.chars,
+		               db->data.type_scope.name.ints.chars);
 
 	case DIAG_INFO_TAG:
-		return streq(da->data.tag_scope.nme.ints.chars,
-		               db->data.tag_scope.nme.ints.chars);
+		return streq(da->data.tag_scope.name.ints.chars,
+		               db->data.tag_scope.name.ints.chars);
 
 	default:
 		return 0;

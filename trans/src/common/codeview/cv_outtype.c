@@ -114,7 +114,7 @@ out_type(diag_type t, int in_struct)
 		res.size     = shape_size(t->data.t_struct.tdf_shape) / 8;
 
 		if (t->been_outed == 1) {
-			asm_printf(".tag %s; .size %d; ", t->data.t_struct.nme.ints.chars, res.size);
+			asm_printf(".tag %s; .size %d; ", t->data.t_struct.name.ints.chars, res.size);
 		}
 		break;
 	}
@@ -125,7 +125,7 @@ out_type(diag_type t, int in_struct)
 		res.size     = shape_size(t->data.t_union.tdf_shape) / 8;
 
 		if (t->been_outed == 1) {
-			asm_printf(".tag %s; .size %d; ", t->data.t_union.nme.ints.chars, res.size);
+			asm_printf(".tag %s; .size %d; ", t->data.t_union.name.ints.chars, res.size);
 		}
 		break;
 	}
@@ -140,7 +140,7 @@ out_type(diag_type t, int in_struct)
 		res.size     = arg.size;
 
 		if (!in_struct) {
-			asm_printf(".tag %s; ", t->data.t_struct.nme.ints.chars);
+			asm_printf(".tag %s; ", t->data.t_struct.name.ints.chars);
 		}
 		asm_printf(".size %d; ", res.size);
 		break;
@@ -197,7 +197,7 @@ out_tagged(diag_type d)
 		int sz_in_bits = shape_size(d->data.t_struct.tdf_shape);
 		int sz = sz_in_bits / 8;
 		fs = *d->data.t_struct.fields;
-		fixup(&d->data.t_struct.nme.ints.chars);
+		fixup(&d->data.t_struct.name.ints.chars);
 
 		d->been_outed = -1;
 		for (i = fs.len - 1; i >= 0; --i) {
@@ -207,7 +207,7 @@ out_tagged(diag_type d)
 		}
 
 		asm_printf(" .def %s; .scl 10; .type 010; .size %d; .endef\n",
-		            d->data.t_struct.nme.ints.chars, sz);
+		            d->data.t_struct.name.ints.chars, sz);
 		d->been_outed = 1;
 		for (i = fs.len - 1; i >= 0; --i) {
 			struct diag_field_t f;
@@ -227,7 +227,7 @@ out_tagged(diag_type d)
 		}
 		asm_printf(
 		    " .def .eos; .val %d; .scl 102; .tag %s; .size %d; .endef\n",
-		    sz, d->data.t_struct.nme.ints.chars, sz);
+		    sz, d->data.t_struct.name.ints.chars, sz);
 		return;
 	}
 
@@ -236,7 +236,7 @@ out_tagged(diag_type d)
 		int sz_in_bits = shape_size(d->data.t_union.tdf_shape);
 		int sz = sz_in_bits / 8;
 		fs = *d->data.t_union.fields;
-		fixup(&d->data.t_union.nme.ints.chars);
+		fixup(&d->data.t_union.name.ints.chars);
 
 		d->been_outed = -1;
 		for (i = fs.len - 1; i >= 0; --i) {
@@ -246,7 +246,7 @@ out_tagged(diag_type d)
 		}
 
 		asm_printf(" .def %s; .scl 12; .type 011; .size %d; .endef\n",
-		            d->data.t_union.nme.ints.chars, sz);
+		            d->data.t_union.name.ints.chars, sz);
 		d->been_outed = 1;
 		for (i = fs.len - 1; i >= 0; --i) {
 			struct diag_field_t f;
@@ -260,7 +260,7 @@ out_tagged(diag_type d)
 		}
 		asm_printf(
 		    " .def .eos; .val %d; .scl 102; .tag %s; .size %d; .endef\n",
-		    sz, d->data.t_union.nme.ints.chars, sz);
+		    sz, d->data.t_union.name.ints.chars, sz);
 		return;
 	}
 
@@ -268,19 +268,19 @@ out_tagged(diag_type d)
 		struct enum_values_list_t es;
 		int sz = 4;
 		es = *d->data.t_enum.values;
-		fixup(&d->data.t_enum.nme.ints.chars);
+		fixup(&d->data.t_enum.name.ints.chars);
 
 		asm_printf(" .def %s; .scl 15; .type 012; .size %d; .endef\n",
-		            d->data.t_enum.nme.ints.chars, sz);
+		            d->data.t_enum.name.ints.chars, sz);
 		for (i = es.len - 1; i >= 0; --i) {
 			struct enum_values_t e;
 			e = *es.array[i];
 			asm_printf(" .def %s; .val %ld; .scl 16; .type 013; .endef\n",
-			            e.nme.ints.chars, no(e.val));
+			            e.name.ints.chars, no(e.val));
 		}
 		asm_printf(
 		    " .def .eos; .val %d; .scl 102; .tag %s; .size %d; .endef\n",
-		    sz, d->data.t_enum.nme.ints.chars, sz);
+		    sz, d->data.t_enum.name.ints.chars, sz);
 		return;
 	}
 

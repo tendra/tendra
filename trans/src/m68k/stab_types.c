@@ -313,12 +313,12 @@ build_stab_type(diag_type dt, page *ptr)
 		break;
 	}
 	case DIAG_TYPE_STRUCT: {
-		char *nm = dt->data.t_struct.nme.ints.chars;
+		char *nm = dt->data.t_struct.name.ints.chars;
 		if (*nm) {
 			char *res;
-			dt->data.t_struct.nme.ints.chars = "";
+			dt->data.t_struct.name.ints.chars = "";
 			res = analyse_stab_type(dt, nm, "T");
-			dt->data.t_struct.nme.ints.chars = nm;
+			dt->data.t_struct.name.ints.chars = nm;
 			make_stabs(res, 128, 0L, NULL);
 			res = (char *)dt->been_outed;
 			ptr = sprint_string(ptr, res);
@@ -357,12 +357,12 @@ build_stab_type(diag_type dt, page *ptr)
 		break;
 	}
 	case DIAG_TYPE_UNION: {
-		char *nm = dt->data.t_union.nme.ints.chars;
+		char *nm = dt->data.t_union.name.ints.chars;
 		if (*nm) {
 			char *res;
-			dt->data.t_struct.nme.ints.chars = "";
+			dt->data.t_struct.name.ints.chars = "";
 			res = analyse_stab_type(dt, nm, "T");
-			dt->data.t_struct.nme.ints.chars = nm;
+			dt->data.t_struct.name.ints.chars = nm;
 			make_stabs(res, 128, 0L, NULL);
 			res = (char *)dt->been_outed;
 			ptr = sprint_string(ptr, res);

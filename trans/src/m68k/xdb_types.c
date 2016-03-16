@@ -227,7 +227,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 		break;
 	}
 	case DIAG_TYPE_ENUM: {
-		char *nm = dt->data.t_enum.nme.ints.chars;
+		char *nm = dt->data.t_enum.name.ints.chars;
 		enum_values *fld = dt->data.t_enum.values->array;
 		long i, n = (long)dt->data.t_enum.values->lastused;
 
@@ -241,7 +241,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 
 		/* Deal with enumeration members */
 		for (i = n - 1; i >= 0; i--) {
-			char *fnm = fld[i] ->nme.ints.chars;
+			char *fnm = fld[i] ->name.ints.chars;
 			long v = no(fld[i] ->val);
 			posn_t s = out_dd(file, xdb_memenum, loc);
 			fill_gap(file, fp, s);
@@ -309,7 +309,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 	case DIAG_TYPE_STRUCT: {
 		shape sha = dt->data.t_struct.tdf_shape;
 		long sz = shape_size(sha);
-		char *nm = dt->data.t_struct.nme.ints.chars;
+		char *nm = dt->data.t_struct.name.ints.chars;
 #if 0
 		struct_fields *fld = dt->data.t_struct.fields->array;
 #else
@@ -396,7 +396,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 	case DIAG_TYPE_UNION: {
 		shape sha = dt->data.t_union.tdf_shape;
 		long sz = shape_size(sha);
-		char *nm = dt->data.t_union.nme.ints.chars;
+		char *nm = dt->data.t_union.name.ints.chars;
 #if 0
 		union_fields *fld = dt->data.t_union.fields->array;
 #else

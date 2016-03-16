@@ -54,23 +54,23 @@ static int maxfloat     = 31; /* dubious */
 static int maxfixed;
 
 /* 
-   tg is a proc. settempregs sets up useable_fixed etc depending 
+   tag is a proc. settempregs sets up useable_fixed etc depending 
    on how the proc treats its parameters; if they are destined for
    store or s-registers we can use some of the parameter registers 
 */
 void
-settempregs(exp tg)
+settempregs(exp tag)
 {
-  procrec * pr = &procrecs[no(tg)];
+  procrec * pr = &procrecs[no(tag)];
   bool leaf = ((pr->needsproc).propsneeds & anyproccall)==0;
-  exp stg = son(tg);
+  exp stag = son(tag);
   currentfix = 1;
   currentfloat = 1;
   choosefix = for1;
   choosefloat = for1;
   useable_fixed = 0x03ff01ff;	/* leaves out parameter registers */
   useable_float = 0x7fc0fc00;
-  if(has_machine_division(tg)){
+  if(has_machine_division(tag)){
     useable_fixed &= ~regs_corrupted_by_div;
   }
   if (leaf) {
@@ -78,15 +78,15 @@ settempregs(exp tg)
   }
   else maxfixed = 31;
   
-  while (stg->tag==ident_tag && isparam(stg)) {
-    if ((props(stg) & inreg_bits) !=0 ) {
-      useable_fixed &= ~ (1<<no(stg));
+  while (stag->tag==ident_tag && isparam(stag)) {
+    if ((props(stag) & inreg_bits) !=0 ) {
+      useable_fixed &= ~ (1<<no(stag));
     }
     else
-      if ((props(stg) & infreg_bits) != 0) {
-	useable_float &= ~(1<<no(stg));
+      if ((props(stag) & infreg_bits) != 0) {
+	useable_float &= ~(1<<no(stag));
       }
-    stg = bro(son(stg));
+    stag = bro(son(stag));
   }
 }
 

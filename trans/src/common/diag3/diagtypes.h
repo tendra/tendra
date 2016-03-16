@@ -28,7 +28,7 @@ typedef	struct sourcemark_t {
 
 struct enum_values_t {
 	exp		val;
-	tdfstring	nme;
+	tdfstring	name;
 };
 
 typedef struct enum_values_t *enum_values;
@@ -119,7 +119,7 @@ struct diag_type_t {
 		} bitfield;
 		struct {
 			diag_type		base_type;
-			tdfstring		nme;
+			tdfstring		name;
 			enum_values_list	values;
 		} t_enum;
 		floating_variety		f_var;
@@ -138,12 +138,12 @@ struct diag_type_t {
 		} ptr;
 		struct {
 			shape			tdf_shape;
-			tdfstring		nme;
+			tdfstring		name;
 			diag_field_list 	fields;
 		} t_struct;
 		struct {
 			shape			tdf_shape;
-			tdfstring		nme;
+			tdfstring		name;
 			diag_field_list 	fields;
 		} t_union;
 		variety		var;
@@ -163,21 +163,21 @@ typedef struct diagdef_t {
 	dwarf_label lab; /* only used for DWARF1 */
 	union {
 		struct {
-			tdfstring 	nme;
+			tdfstring 	name;
 			diag_type 	new_type;
 			sourcemark 	whence;
 			exp		access;
 		} id;
 		struct {
-			tdfstring 	nme;
+			tdfstring 	name;
 			diag_type	new_type;
 			sourcemark 	whence;
 		} struc;
 		struct {
-			tdfstring	nme;
+			tdfstring	name;
 			diag_type	new_type;
 			sourcemark 	whence;
-		} typ;
+		} type;
 	} data;
 } diagdef;
 				/* diag_descriptor is in diagtypes1.h */

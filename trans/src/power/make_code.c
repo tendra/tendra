@@ -2948,7 +2948,7 @@ tailrecurse:
 			baseoff b;
 			int cr;
 			int slab;
-			b = find_tg("__TDFstacklim");
+			b = find_tag("__TDFstacklim");
 			cr = next_creg();
 
 			slab = get_stack_overflow_lab();
@@ -3109,16 +3109,16 @@ tailrecurse:
 		baseoff b;
 
 		int r = reg_operand(son(e), sp);
-		b = find_tg("__TDFstacklim");
+		b = find_tag("__TDFstacklim");
 		st_ins(i_st, r, b);
 
 		return mka;
 	}
 
 	case env_size_tag: {
-		exp tg = son(son(e));
+		exp tag = son(son(e));
 
-		procrec * pr = &procrecs[no(son(tg))];
+		procrec * pr = &procrecs[no(son(tag))];
 		constval = ((pr->frame_size) >> 3) + pr->max_callee_bytes;
 
 		goto moveconst;

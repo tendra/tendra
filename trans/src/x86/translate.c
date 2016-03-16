@@ -157,32 +157,32 @@ eval_if_ready(exp t, int now)
 static void
 code_def(dec *my_def)
 {
-	exp tg = my_def->dec_exp;
+	exp tag = my_def->dec_exp;
 	char *id = my_def->name;
 
-	if (son(tg) != NULL && shape_size(sh(son(tg))) == 0 && son(tg)->tag == asm_tag) {
+	if (son(tag) != NULL && shape_size(sh(son(tag))) == 0 && son(tag)->tag == asm_tag) {
 		ash stack;
 		stack.ashsize = stack.ashalign = 0;
 
-		if (props(son(tg)) != 0) {
+		if (props(son(tag)) != 0) {
 			error(ERR_INTERNAL, "~asm not in ~asm_sequence");
 		}
 
-		check_asm_seq(son(son(tg)), 1);
+		check_asm_seq(son(son(tag)), 1);
 		asm_printf(".text\n");
-		make_code(zero, stack, son(tg));
+		make_code(zero, stack, son(tag));
 		asm_printf("\n");
 	}
 
-	if (son(tg) != NULL && (my_def->extnamed || no(tg) != 0)) {
-		if (son(tg)->tag == proc_tag || son(tg)->tag == general_proc_tag) {
+	if (son(tag) != NULL && (my_def->extnamed || no(tag) != 0)) {
+		if (son(tag)->tag == proc_tag || son(tag)->tag == general_proc_tag) {
 			if (dyn_init && strncmp("__I.TDF", id + strlen(name_prefix), 7) == 0) {
 				out_initialiser(id);
-				set_proc_uses_external (son (tg));	/* for PIC_code, should be done in install_fns? */
+				set_proc_uses_external (son (tag));	/* for PIC_code, should be done in install_fns? */
 			}
 
 			asm_printf(".text\n");
-			if (isvar(tg)) {
+			if (isvar(tag)) {
 				char *newid = make_local_name();
 				if (my_def->extnamed) {
 					my_def->extnamed = 0;
@@ -197,7 +197,7 @@ code_def(dec *my_def)
 			}
 
 			/* for use in constant evaluation */
-			my_def->index = cproc(son(tg), id, -1, (int) my_def->extnamed,
+			my_def->index = cproc(son(tag), id, -1, (int) my_def->extnamed,
 #ifdef TDF_DIAG4
 			          my_def->dg_name
 #else
@@ -219,7 +219,7 @@ code_def(dec *my_def)
 			diag_descriptor * diag_props = my_def->diag_info;
 #endif
 
-			if (shape_size(sh(son(tg))) == 0) {
+			if (shape_size(sh(son(tag))) == 0) {
 				if (my_def->extnamed) {
 					asm_printf(".globl %s\n", id);
 				} else if (assembler == ASM_SUN) {
@@ -230,16 +230,16 @@ code_def(dec *my_def)
 				} else {
 					asm_printf(".set %s, 0\n", id);
 				}
-			} else if (!PIC_code && !isvar(tg) && son(tg)->tag == null_tag &&
-			           sh(son(tg))->tag == prokhd) {
+			} else if (!PIC_code && !isvar(tag) && son(tag)->tag == null_tag &&
+			           sh(son(tag))->tag == prokhd) {
 				if (my_def->extnamed) {
 					asm_printf(".globl %s\n", id);
 				} else if (assembler == ASM_SUN) {
 					asm_printf(".local %s\n", id);
 				}
-				asm_printf(".set %s, %ld\n", id, (long) no(son(tg)));
+				asm_printf(".set %s, %ld\n", id, (long) no(son(tag)));
 			} else {
-				if (!my_def->isweak && is_comm(son(tg))) {
+				if (!my_def->isweak && is_comm(son(tag))) {
 					int is_ext = my_def->extnamed;
 					if (diag_props && diag != DIAG_NONE) {
 #ifdef TDF_DIAG3
@@ -250,22 +250,22 @@ code_def(dec *my_def)
 #endif
 					}
 
-					if (son(tg)->tag == clear_tag && no(son(tg)) == -1) {
+					if (son(tag)->tag == clear_tag && no(son(tag)) == -1) {
 						/* prom global data */
 						if (is_ext) {
 							asm_printf(".globl %s\n", id);
 						}
 
-						out_bss(id, sh(son(tg)));
+						out_bss(id, sh(son(tag)));
 #ifdef DWARF2
 						if (diag == DIAG_DWARF2) {
 							note_data(id);
 						}
 #endif
 					} else if (is_ext) {
-						out_dot_comm(id, sh(son(tg)));
+						out_dot_comm(id, sh(son(tag)));
 					} else {
-						out_dot_lcomm(id, sh(son(tg)));
+						out_dot_lcomm(id, sh(son(tag)));
 					}
 
 					if (diag_props) {
@@ -277,7 +277,7 @@ code_def(dec *my_def)
 					}
 				} else {
 					/* global values */
-					exp t = getexp(f_bottom, NULL, 0, son(tg), NULL, props(tg), -1, 0);
+					exp t = getexp(f_bottom, NULL, 0, son(tag), NULL, props(tag), -1, 0);
 					ptg(t) = my_def;
 					eval_if_ready(t, 0);
 				}
@@ -285,7 +285,7 @@ code_def(dec *my_def)
 		}
 	}
 
-	if (son(tg) != NULL) {
+	if (son(tag) != NULL) {
 		my_def->processed = 1;
 	}
 }
@@ -370,12 +370,12 @@ local_translate_capsule(void)
 			}
 		} else {
 			/* !PIC_code; make indirect global idents direct */
-			exp tg = crt_exp;
-			while (!isvar(tg) && son(tg) != NULL && son(tg)->tag == name_tag && no(son(tg)) == 0) {
-				tg = son(son(tg));
+			exp tag = crt_exp;
+			while (!isvar(tag) && son(tag) != NULL && son(tag)->tag == name_tag && no(son(tag)) == 0) {
+				tag = son(son(tag));
 			}
 
-			if (tg != crt_exp) {
+			if (tag != crt_exp) {
 				exp p, np;
 
 				for (p = pt(crt_exp); p != NULL; p = np) {
@@ -384,10 +384,10 @@ local_translate_capsule(void)
 						error(ERR_INTERNAL, "not simple name");
 					}
 
-					son(p) = tg;
-					pt(p) = pt(tg);
-					pt(tg) = p;
-					++no(tg);
+					son(p) = tag;
+					pt(p) = pt(tag);
+					pt(tag) = p;
+					++no(tag);
 				}
 
 				pt(crt_exp) = NULL;

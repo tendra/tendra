@@ -88,7 +88,7 @@ extern char export[128];
 extern int leaf;
 extern labexp current, first;
 extern int RSCOPE_LEVEL, RSCOPE_LABEL;
-extern exp find_named_tg(char *, shape);
+extern exp find_named_tag(char *, shape);
 
 #define GETREG(d, s)(discrim((d).answhere) == inreg ?\
 			  regalt((d).answhere):\
@@ -446,7 +446,7 @@ do_exception(int e)
 	baseoff b;
 
 	ir_ins(i_ldi, fs_, "", e, ARG0);
-	b = boff(find_named_tg("__hppahandler", f_pointer(f_alignment(f_proc))));
+	b = boff(find_named_tag("__hppahandler", f_pointer(f_alignment(f_proc))));
 	ld_ins(i_lw, 1, b, GR22);
 
 	call_millicode(MILLI_DYNCALL, RP, "", 1);
@@ -671,8 +671,8 @@ tailrecurse:
 
 	switch (e->tag) {
 	case env_size_tag: {
-		exp tg = son(son(e));
-		procrec * pr = &procrecs[no(son(tg))];
+		exp tag = son(son(e));
+		procrec * pr = &procrecs[no(son(tag))];
 		constval = (pr->frame_sz + 0) >> 3;
 		goto moveconst;
 	}
@@ -4171,7 +4171,7 @@ null_tag_case: {
 	case set_stack_limit_tag: {
 		baseoff b;
 		int r = reg_operand(son(e), sp);
-		exp stl = find_named_tg("__TDFstacklim", f_pointer(f_alignment(f_proc)));
+		exp stl = find_named_tag("__TDFstacklim", f_pointer(f_alignment(f_proc)));
 
 		setvar(stl);
 		b = boff(stl);
@@ -4184,7 +4184,7 @@ null_tag_case: {
 		baseoff b;
 		ans aa;
 		int r = GETREG(dest, sp);
-		exp stl = find_named_tg("__TDFstacklim", f_pointer(f_alignment(f_proc)));
+		exp stl = find_named_tag("__TDFstacklim", f_pointer(f_alignment(f_proc)));
 
 		setvar(stl);
 		b = boff(stl);
@@ -4554,8 +4554,8 @@ null_tag_case: {
 		}
 
 		if (checkalloc(e)) {
-			exp stl = find_named_tg("__TDFstacklim",
-			                        f_pointer(f_alignment(f_proc)));
+			exp stl = find_named_tag("__TDFstacklim",
+			                         f_pointer(f_alignment(f_proc)));
 			setvar(stl);
 			b = boff(stl);
 			ld_ins(i_lw, 1, b, GR1);

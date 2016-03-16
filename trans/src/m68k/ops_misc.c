@@ -140,7 +140,7 @@ test_overflow2(int br_ins)
  * This function finds the right test condition based on overflow_type
  */
 void
-test_overflow(overflow_type typ)
+test_overflow(overflow_type type)
 {
 	int instr;
 
@@ -148,7 +148,7 @@ test_overflow(overflow_type typ)
 		return;
 	}
 
-	switch (typ) {
+	switch (type) {
 	case UNCONDITIONAL:
 		instr = m_bra;
 		break;

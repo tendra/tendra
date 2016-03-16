@@ -58,31 +58,31 @@ ext_lab dw2_find_type_label
 {
   if (!(t->outref.u.l)) {
     if (t->key == DGT_TAGGED) {
-      dg_tag tg = t->data.t_tag;
-      if (tg->done || tg->needed || tg->key == DGK_NONE) {
-	t->outref = tg->outref;
+      dg_tag tag = t->data.t_tag;
+      if (tag->done || tag->needed || tag->key == DGK_NONE) {
+	t->outref = tag->outref;
 	return t->outref;
       }
-      if (tg->key == DGK_TYPE) {
-	dg_type ref_t = tg->p.typ;
+      if (tag->key == DGK_TYPE) {
+	dg_type ref_t = tag->p.type;
 	t->outref = dw2_find_type_label (ref_t);
-	tg->outref = t->outref;
-	tg->done = 1;
+	tag->outref = t->outref;
+	tag->done = 1;
 	return t->outref;
       }
-      if (tg->key == DGK_NAME) {
-	dg_name ref_n = tg->p.nam;
-	if (ref_n->key == DGN_TYPE && ref_n->idnam.id_key == DG_ID_NONE) {
-	  dg_type ref_t = tg->p.nam->data.n_typ.raw;
+      if (tag->key == DGK_NAME) {
+	dg_name ref_n = tag->p.name;
+	if (ref_n->key == DGN_TYPE && ref_n->idname.id_key == DG_ID_NONE) {
+	  dg_type ref_t = tag->p.name->data.n_type.raw;
 	  t->outref = dw2_find_type_label (ref_t);
-	  tg->outref = t->outref;
-	  tg->done = 1;
+	  tag->outref = t->outref;
+	  tag->done   = 1;
 	  return t->outref;
 	}
       }
-      tg->needed = 1;
-      t->outref.u.l = tg->outref.u.l = next_dwarf_label();
-      t->outref.k = tg->outref.k = LAB_D;
+      tag->needed = 1;
+      t->outref.u.l = tag->outref.u.l = next_dwarf_label();
+      t->outref.k   = tag->outref.k = LAB_D;
     }
     else {
       t->outref.u.l = next_dwarf_label();
@@ -99,16 +99,16 @@ static void out_classmem
     ( dg_classmem m )
 {
   /* within info section */
-  if (m.tg)
-    set_ext_address (m.tg);
+  if (m.tag)
+    set_ext_address (m.tag);
   switch (m.cm_key) {
     case DG_CM_FIELD: {
-      dg_type f = m.d.cm_f.f_typ;
+      dg_type f = m.d.cm_f.f_type;
       exp off = son (m.d.cm_f.f_offset);
       dg_type base = f;
       int base_sz = 1;
       long attr1 = H_TP, attr2;
-      if (m.d.cm_f.fnam[0])
+      if (m.d.cm_f.fname[0])
 	attr1 |= H_NM;
       if (m.d.cm_f.f_pos.file)
 	attr1 |= H_XY;
@@ -144,7 +144,7 @@ static void out_classmem
 #endif
 	fail_unimplemented (attr1, attr2);
       if (attr2 & H_NM)
-	dw_at_string (m.d.cm_f.fnam);
+	dw_at_string (m.d.cm_f.fname);
       if (attr2 & H_XY)
 	dw_at_decl (m.d.cm_f.f_pos);
       if (attr2 & H_AC)
@@ -181,7 +181,7 @@ static void out_classmem
     }
     case DG_CM_INDIRECT: {
       long attr1 = (H_TP | H_LC), attr2;
-      if (m.d.cm_ind.nam[0])
+      if (m.d.cm_ind.name[0])
 	attr1 |= H_NM;
       if (m.d.cm_ind.pos.file)
 	attr1 |= H_XY;
@@ -189,11 +189,11 @@ static void out_classmem
       if (attr2 & ~(H_NM|H_XY|H_TP|H_LC))
 	fail_unimplemented (attr1, attr2);
       if (attr2 & H_NM)
-	dw_at_string (m.d.cm_ind.nam);
+	dw_at_string (m.d.cm_ind.name);
       if (attr2 & H_XY)
 	dw_at_decl (m.d.cm_ind.pos);
       if (attr2 & H_TP)
-	dw_at_ext_lab (dw2_find_type_label (m.d.cm_ind.typ));
+	dw_at_ext_lab (dw2_find_type_label (m.d.cm_ind.type));
       if (attr2 & H_LC)
 	dw_locate_reloffset (son(m.d.cm_ind.ind_loc));
       break;
@@ -250,14 +250,14 @@ static void out_class_data
     for (i = 0; i < cd->members.len; i++) {
       dg_classmem * cm = &(cd->members.array[i]);
       if (cm->cm_key == DG_CM_STAT && cm->d.cm_stat->key == DGN_OBJECT &&
-	    ((cm->d.cm_stat->mor && cm->d.cm_stat->mor->this_tag == cd->vt_s)
-		|| cm->tg == cd->vt_s))
+	    ((cm->d.cm_stat->more && cm->d.cm_stat->more->this_tag == cd->vt_s)
+		|| cm->tag == cd->vt_s))
 	vtable_exp = cm->d.cm_stat->data.n_obj.obtain_val;
     }
     for (i = 0; i < cd->members.len; i++) {
       dg_classmem * cm = &(cd->members.array[i]);
       if (cm->cm_key == DG_CM_FN && cm->d.cm_fn.fn->key == DGN_PROC &&
-		cm->d.cm_fn.fn->mor && cm->d.cm_fn.fn->mor->virt) {
+		cm->d.cm_fn.fn->more && cm->d.cm_fn.fn->more->virt) {
 	exp a, b, c;
 	if (!vtable_exp || !cm->d.cm_fn.slot ||
 		sh(son(cm->d.cm_fn.slot))->tag != offsethd)
@@ -265,7 +265,7 @@ static void out_class_data
 	a = copy (son(vtable_exp));
 	b = copy (son(cm->d.cm_fn.slot));
 	c = f_add_to_ptr (a, b);
-	cm->d.cm_fn.fn->mor->vslot = hold (hold_refactor(c));
+	cm->d.cm_fn.fn->more->vslot = hold (hold_refactor(c));
       }
     }
   }
@@ -369,10 +369,10 @@ static void out_variant_part
 
 
 static void out_ref_bound
-    ( dg_tag tg )
+    ( dg_tag tag )
 {
   dw_at_form (DW_FORM_ref_addr); asm_printf("\n");
-  dw_at_ext_address (tg);
+  dw_at_ext_address (tag);
 }
 
 
@@ -382,45 +382,45 @@ void dw_out_dim
   /* within info section */
   long attr1 = 0, attr2;
   if (d.d_key == DG_DIM_TYPE) {		/* must be array dimension */
-    if ((d.d_typ->key == DGT_SUBR || d.d_typ->key == DGT_ENUM) &&
-		!(d.d_typ->outref.u.l)) {
-      d.d_typ->outref.u.l = next_dwarf_label();
-      d.d_typ->outref.k = LAB_D;
-      dw_out_type (d.d_typ);
+    if ((d.d_type->key == DGT_SUBR || d.d_type->key == DGT_ENUM) &&
+		!(d.d_type->outref.u.l)) {
+      d.d_type->outref.u.l = next_dwarf_label();
+      d.d_type->outref.k = LAB_D;
+      dw_out_type (d.d_type);
     }
     else {
       attr1 = H_TP;
       attr2 = dw_entry (dwe_typedef, attr1);
       if (attr2 != attr1)
 	fail_unimplemented (attr1, attr2);
-      dw_at_ext_lab (dw2_find_type_label (d.d_typ));
+      dw_at_ext_lab (dw2_find_type_label (d.d_type));
     }
     return;
   }
-  if (d.d_typ)
+  if (d.d_type)
     attr1 |= (H_TP | H_SZ);
-  if (!d.low_ref || d.lower.tg)
+  if (!d.low_ref || d.lower.tag)
     attr1 |= H_LB;
-  if (!d.hi_ref || d.upper.tg)
+  if (!d.hi_ref || d.upper.tag)
     attr1 |= (d.hi_cnt ? H_CN : H_UB);
   attr2 = dw_entry (dwe_subr_type, attr1);
   if (attr2 & ~(H_TP|H_SZ|H_LB|H_UB|H_CN))
     fail_unimplemented (attr1, attr2);
   if (attr2 & H_TP)
-    dw_at_ext_lab (dw2_find_type_label (d.d_typ));
+    dw_at_ext_lab (dw2_find_type_label (d.d_type));
   if (attr2 & H_SZ)
     dw_at_udata ((unsigned long)(shape_size (d.sha) >> 3));
   if (attr2 & H_LB) {
     if (d.low_ref)
-      out_ref_bound (d.lower.tg);
+      out_ref_bound (d.lower.tag);
     else
-      dw_out_const (son(d.lower.x));
+      dw_out_const (son(d.lower.exp));
   }
   if (attr2 & (H_UB | H_CN)) {
     if (d.hi_ref)
-      out_ref_bound (d.upper.tg);
+      out_ref_bound (d.upper.tag);
     else
-      dw_out_const (son(d.upper.x));
+      dw_out_const (son(d.upper.exp));
   }
 }
 
@@ -433,14 +433,14 @@ void dw_out_type
   switch (t->key) {
 
     case DGT_TAGGED: {
-      dg_tag tg = t->data.t_tag;
-      if (tg->done || tg->key != DGK_NAME || tg->p.nam->key != DGN_TYPE) {
+      dg_tag tag = t->data.t_tag;
+      if (tag->done || tag->key != DGK_NAME || tag->p.name->key != DGN_TYPE) {
 	error(ERR_INTERNAL, "unexpected out_type");
 	asm_error();
 	break;
       }
-      tg->done = 1;
-      dw2_out_name (tg->p.nam, GLOBAL_NAME);
+      tag->done = 1;
+      dw2_out_name (tag->p.name, GLOBAL_NAME);
       break;
     }
 
@@ -465,7 +465,7 @@ void dw_out_type
 	  break;
       }
       IGNORE dw_entry (dwe_base_type, 0);
-      dw_at_string (t->data.t_bas.tnam);
+      dw_at_string (t->data.t_bas.tname);
       dw_at_data (1, encoding);
       dw_at_udata ((unsigned long)(shape_size (sha) >> 3));
       break;
@@ -516,7 +516,7 @@ void dw_out_type
 	  break;	/* dummy */
       }
       IGNORE dw_entry (dwe, 0);
-      dw_at_ext_lab (dw2_find_type_label (t->data.t_qual.typ));
+      dw_at_ext_lab (dw2_find_type_label (t->data.t_qual.type));
       if (flg)
 	dw_at_flag (flg);
       break;
@@ -561,42 +561,42 @@ void dw_out_type
       long attr1 = H_SZ, attr2;
       int i;
       dg_enum * el = t->data.t_enum.values.array;
-      if (t->mor && t->mor->refspec)
+      if (t->more && t->more->refspec)
 	attr1 |= H_SP;
-      if (t->mor && t->mor->isspec)
+      if (t->more && t->more->isspec)
 	attr1 |= H_DC;
-      if (t->data.t_enum.tnam[0])
+      if (t->data.t_enum.tname[0])
 	attr1 |= H_NM;
       if (t->data.t_enum.tpos.file)
 	attr1 |= H_XY;
-      if (t->mor && t->mor->isnew)
+      if (t->more && t->more->isnew)
 	attr1 |= H_NW;
       attr2 = dw_entry (dwe_enum_type, attr1);
       if (attr2 & ~(H_SP|H_DC|H_NM|H_XY|H_SZ|H_NW))
 	fail_unimplemented (attr1, attr2);
       if (attr2 & H_SP)
-	dw_at_ext_lab (dw2_find_type_label (t->mor->refspec->p.typ));
+	dw_at_ext_lab (dw2_find_type_label (t->more->refspec->p.type));
       if (attr2 & H_DC)
-	dw_at_flag ((t->mor && t->mor->isspec ? 1 : 0));
+	dw_at_flag ((t->more && t->more->isspec ? 1 : 0));
       if (attr2 & H_NM)
-	dw_at_string (t->data.t_enum.tnam);
+	dw_at_string (t->data.t_enum.tname);
       if (attr2 & H_XY)
 	dw_at_decl (t->data.t_enum.tpos);
       if (attr2 & H_SZ)
 	dw_at_udata ((unsigned long)(shape_size (sh (son(el[0].value))) >> 3));
       if (attr2 & H_NW)
-	dw_at_flag ((t->mor && t->mor->isnew ? 1 : 0));
+	dw_at_flag ((t->more && t->more->isnew ? 1 : 0));
 
       for (i = 0; i < t->data.t_enum.values.len; i++) {
-	if (el[i].tg)
-	  set_ext_address (el[i].tg);
+	if (el[i].tag)
+	  set_ext_address (el[i].tag);
 	if (el[i].is_chn) {
 	  IGNORE dw_entry (dwe_enum_char, 0);
 	  out8(); uleb128 ((unsigned long)el[i].chn); asm_printf("\n");
 	}
 	else {
 	  IGNORE dw_entry (dwe_enum_tor, 0);
-	  dw_at_string (el[i].enam);
+	  dw_at_string (el[i].ename);
 	}
 	dw_out_const (son(el[i].value));
       }
@@ -610,8 +610,8 @@ void dw_out_type
     case DGT_A_SYNCH: {
       abbrev_entry dwe;
       int ada_derived = 0;
-      char* nam;
-      char* gnam = "";
+      char* name;
+      char* gname = "";
       long attr1 = 0, attr2;
       dg_instantn * generic = NULL;
       if (t->data.t_struct.is_union)
@@ -631,40 +631,40 @@ void dw_out_type
 	  dwe = dwe_synch_t;
 	  break;
       }
-      if (t->data.t_struct.idnam.id_key == DG_ID_INST) {
-	generic = t->data.t_struct.idnam.idd.instance;
-	if (generic->nam.id_key == DG_ID_NONE ||
-		generic->nam.id_key == DG_ID_ANON)
-	  nam = generic->spec.idd.nam;
+      if (t->data.t_struct.idname.id_key == DG_ID_INST) {
+	generic = t->data.t_struct.idname.idd.instance;
+	if (generic->name.id_key == DG_ID_NONE ||
+		generic->name.id_key == DG_ID_ANON)
+	  name = generic->spec.idd.name;
         else {
-	  nam = generic->nam.idd.nam;
-	  gnam = generic->spec.idd.nam;
+	  name  = generic->name.idd.name;
+	  gname = generic->spec.idd.name;
 	}
       }
       else
-	nam = t->data.t_struct.idnam.idd.nam;
+	name = t->data.t_struct.idname.idd.name;
 
       if (t->data.t_struct.tpos.file)
 	attr1 |= H_XY;
-      if (t->mor && t->mor->refspec)
+      if (t->more && t->more->refspec)
 	attr1 |= H_SP;
       else {
-	if (nam[0])
+	if (name[0])
 	  attr1 |= H_NM;
-	if (gnam[0])
+	if (gname[0])
 	  attr1 |= H_GN;
       }
-      if (t->mor && t->mor->isspec)
+      if (t->more && t->more->isspec)
 	attr1 |= H_DC;
-      if (t->mor && t->mor->issep)
+      if (t->more && t->more->issep)
 	attr1 |= H_SE;
       if (t->data.t_struct.sha)
 	attr1 |= H_SZ;
-      if (t->mor && t->mor->elabn)
+      if (t->more && t->more->elabn)
 	attr1 |= H_EL;
-      if (t->mor && t->mor->isnew)
+      if (t->more && t->more->isnew)
 	attr1 |= H_NW;
-      if (t->mor && t->mor->aderiv) {
+      if (t->more && t->more->aderiv) {
 	attr1 |= H_AD;
 	ada_derived = 1;
       }
@@ -691,17 +691,17 @@ void dw_out_type
       if (attr2 & ~(H_SP|H_DC|H_NM|H_XY|H_SZ|H_NW|H_EXTN))
 	fail_unimplemented (attr1, attr2);
       if (attr2 & H_SP)
-	dw_at_ext_lab (dw2_find_type_label (t->mor->refspec->p.typ));
+	dw_at_ext_lab (dw2_find_type_label (t->more->refspec->p.type));
       if (attr2 & H_DC)
-	dw_at_flag ((t->mor && t->mor->isspec ? 1 : 0));
+	dw_at_flag ((t->more && t->more->isspec ? 1 : 0));
       if (attr2 & H_NM)
-	dw_at_string (nam);
+	dw_at_string (name);
       if (attr2 & H_XY)
 	dw_at_decl (t->data.t_struct.tpos);
       if (attr2 & H_SZ)
 	dw_at_udata ((unsigned long)(shape_size (t->data.t_struct.sha) >> 3));
       if (attr2 & H_NW)
-	dw_at_flag ((t->mor && t->mor->isnew ? 1 : 0));
+	dw_at_flag ((t->more && t->more->isnew ? 1 : 0));
 
       if (attr2 & H_EXTN) {
 	long block_end = next_dwarf_label ();
@@ -709,7 +709,7 @@ void dw_out_type
 	attr1 &= ~attr2;
 	if (attr1 & H_NW) {
 	  set_attribute (DW_AT_DD_newtype, DW_FORM_flag);
-	  dw_at_flag ((t->mor && t->mor->isnew ? 1 : ada_derived));
+	  dw_at_flag ((t->more && t->more->isnew ? 1 : ada_derived));
 	}
 	if (attr1 & H_AD) {
 	  set_attribute (DW_AT_DD_ada_derived, DW_FORM_flag);
@@ -717,7 +717,7 @@ void dw_out_type
 	}
 	if (attr1 & H_SE) {
 	  set_attribute (DW_AT_DD_ada_derived, DW_FORM_flag);
-	  dw_at_flag ((t->mor && t->mor->issep ? 1 : 0));
+	  dw_at_flag ((t->more && t->more->issep ? 1 : 0));
 	}
 	switch (t->key) {
 	  case DGT_STRUCT: {
@@ -770,11 +770,11 @@ void dw_out_type
 	}
 	if (attr1 & H_EL) {
 	  set_attribute (DW_AT_DD_elaboration, DW_FORM_ref_addr);
-	  dw_at_ext_address (t->mor->elabn);
+	  dw_at_ext_address (t->more->elabn);
 	}
 	if (attr1 & H_GN) {
 	  set_attribute (DW_AT_DD_generic_name, DW_FORM_string);
-	  dw_at_string (gnam);
+	  dw_at_string (gname);
 	}
       }
 
@@ -806,7 +806,7 @@ void dw_out_type
     case DGT_PMEM: {
       IGNORE dw_entry (dwe_ptrmem_t, 0);
       dw_at_ext_address (t->data.t_pmem.pclass);
-      dw_at_ext_lab (dw2_find_type_label (t->data.t_pmem.memtyp));
+      dw_at_ext_lab (dw2_find_type_label (t->data.t_pmem.memtype));
       dw_at_udata ((unsigned long)(shape_size (t->data.t_pmem.sha) >> 3));
       break;
     }
@@ -818,20 +818,20 @@ void dw_out_type
 	dwe = dwe_set_t;
       else
 	dwe = dwe_file_t;
-      if (t->mor && t->mor->refspec)
+      if (t->more && t->more->refspec)
 	attr1 |= H_SP;
-      if (t->mor && t->mor->isspec)
+      if (t->more && t->more->isspec)
 	attr1 |= H_DC;
-      if (t->data.t_enum.tnam[0])
+      if (t->data.t_enum.tname[0])
       attr2 = dw_entry (dwe, attr1);
       if (attr2 & ~(H_SP|H_DC|H_TP|H_SZ))
 	fail_unimplemented (attr1, attr2);
       if (attr2 & H_SP)
-	dw_at_ext_lab (dw2_find_type_label (t->mor->refspec->p.typ));
+	dw_at_ext_lab (dw2_find_type_label (t->more->refspec->p.type));
       if (attr2 & H_DC)
-	dw_at_flag ((t->mor && t->mor->isspec ? 1 : 0));
+	dw_at_flag ((t->more && t->more->isspec ? 1 : 0));
       if (attr2 & H_TP)
-	dw_at_ext_lab (dw2_find_type_label (t->data.t_cons.typ));
+	dw_at_ext_lab (dw2_find_type_label (t->data.t_cons.type));
       if (attr2 & H_SZ)
 	dw_at_udata ((unsigned long)(shape_size (t->data.t_cons.sha) >> 3));
       break;
@@ -849,7 +849,7 @@ void dw_out_type
 	IGNORE dw_entry (dwe_procv_t, 0);
       for (i = 0; i < t->data.t_proc.params.len; i++) {
 	IGNORE dw_entry (dwe_formal, 0);
-	dw_at_ext_lab (dw2_find_type_label (el[i].p_typ));
+	dw_at_ext_lab (dw2_find_type_label (el[i].p_type));
       }
       if (t->data.t_proc.prps & f_var_callers)
 	IGNORE dw_entry (dwe_opt_par, 0);

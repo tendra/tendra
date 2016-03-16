@@ -63,7 +63,7 @@ extern long aritherr_lab;
 extern long stackerr_lab;
 
 
-extern exp find_named_tg(char*, shape);
+extern exp find_named_tag(char*, shape);
 extern shape f_top;
 extern shape f_proc;
 
@@ -120,14 +120,14 @@ globalise_name(dec * my_def)
 static void
 code_it(dec *my_def)
 {
-	exp tg;
+	exp tag;
 	char *name;
 	long symdef;
 	bool extnamed;
 
 	static space tempspace = { 0, 0 };
 
-	tg   = my_def->dec_exp;
+	tag  = my_def->dec_exp;
 	name = my_def->name;
 	symdef = my_def ->sym_number;
 	extnamed =  my_def->extnamed;
@@ -136,8 +136,8 @@ code_it(dec *my_def)
 		goto end; /* ? unused symbols */
 	}
 
-	if (son(tg) != NULL && (!extnamed || !is_comm(son(tg)))) {
-		if (son(tg)->tag == proc_tag || son(tg)->tag == general_proc_tag) {
+	if (son(tag) != NULL && (!extnamed || !is_comm(son(tag)))) {
+		if (son(tag)->tag == proc_tag || son(tag)->tag == general_proc_tag) {
 			diag_descriptor * dd =  my_def->diag_info;
 
 			/* compile code for proc */
@@ -174,8 +174,8 @@ code_it(dec *my_def)
 			out_option(1, (diag != DIAG_NONE) ? 1 : 2);
 
 			symnoforstart(symdef, currentfile);
-			settempregs(son(tg));
-			code_here(son(tg), tempspace, nowhere);
+			settempregs(son(tag));
+			code_here(son(tag), tempspace, nowhere);
 
 			if (diag != DIAG_NONE && dd != NULL) {
 				diag3_driver->stabd(fscopefile, currentlno + 1, 0);
@@ -186,18 +186,18 @@ code_it(dec *my_def)
 			}
 			out_common(symnoforend(my_def, currentfile), iend);
 		} else {			/* global values */
-			exp c = son(tg);
-			IGNORE evaluated(c, (isvar(tg)) ? (-symdef - 1) : symdef + 1, my_def);
+			exp c = son(tag);
+			IGNORE evaluated(c, (isvar(tag)) ? (-symdef - 1) : symdef + 1, my_def);
 		}
 	} else {
 		/* global declarations but no definitions or is_comm */
 		long  size;
-		shape s = (son(tg) == NULL) ? my_def->dec_shape : sh(son(tg));
+		shape s = (son(tag) == NULL) ? my_def->dec_shape : sh(son(tag));
 		size = (shape_size(s) + 7) >> 3;
 
-		if ((isvar(tg) || s->tag != prokhd) && not_reserved(name)) {
-			if ((son(tg) != NULL && is_comm(son(tg)))
-			    || (son(tg) == NULL && varsize(sh(tg))))
+		if ((isvar(tag) || s->tag != prokhd) && not_reserved(name)) {
+			if ((son(tag) != NULL && is_comm(son(tag)))
+			    || (son(tag) == NULL && varsize(sh(tag))))
 			{
 				if (size != 0) { /* ? ? ! ? */
 					globalise_name(my_def);
@@ -214,7 +214,7 @@ code_it(dec *my_def)
 
 				out_value(symnos[symdef], iextern, size, 1);
 			}
-		} else if (son(tg) == NULL && !extnamed) {
+		} else if (son(tag) == NULL && !extnamed) {
 			if (size != 0) { /* ? ? ! ? */
 				if (as_file) {
 					asm_printop(".lcomm %s %ld", name, size);
@@ -282,7 +282,7 @@ local_translate_capsule(void)
 			char *name = my_def->name;
 			if (streq(name, "main") && son(crt_exp) != NULL &&
 			    son(crt_exp)->tag == proc_tag) {
-				exp fn = me_obtain(find_named_tg("__DO_I_TDF", f_proc));
+				exp fn = me_obtain(find_named_tag("__DO_I_TDF", f_proc));
 				exp cll = getexp(f_top, NULL, 0, fn, NULL, 0, 0, apply_tag);
 				exp * dm = &son(son(crt_exp));
 				exp hld, seq;
@@ -437,19 +437,19 @@ local_translate_capsule(void)
 
 	/* ... and set in the position and "addresses" of the externals */
 	for (i = 0; i < main_globals_index; i++) {
-		exp tg = main_globals[i]->dec_exp;
+		exp tag = main_globals[i]->dec_exp;
 		char *name = main_globals[i]->name;
 		bool extnamed = main_globals[i]->extnamed;
 		diag_descriptor * dinf = main_globals[i]->diag_info;
 		main_globals[i] ->sym_number = i;
-		if (no(tg) != 0 || (extnamed && son(tg) != NULL)
+		if (no(tag) != 0 || (extnamed && son(tag) != NULL)
 		    || streq(name, "__TDFhandler")
 		    || streq(name, "__TDFstacklim"))
 		{
-			if (no(tg) == 1 && son(tg) == NULL && dinf != NULL /* diagnostics only! */ ) {
+			if (no(tag) == 1 && son(tag) == NULL && dinf != NULL /* diagnostics only! */ ) {
 				symnos[i] = -1;
 			} else {
-				no(tg) = (i + 1) * 64 + 32;
+				no(tag) = (i + 1) * 64 + 32;
 				symnos[i] = symnoforext(main_globals[i], mainfile);
 			}
 		} else {
@@ -493,11 +493,11 @@ local_translate_capsule(void)
 
 	/*
 	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
-		exp tg = my_def->dec_exp;
+		exp tag = my_def->dec_exp;
 		char *name = my_def->name;
 		bool extnamed = my_def->extnamed;
 
-		if (son (tg) != NULL && (extnamed || no (tg) != 0 || streq (name, "main"))) {
+		if (son (tag) != NULL && (extnamed || no (tag) != 0 || streq (name, "main"))) {
 			if (extnamed) {
 				if (as_file) {
 					asm_printop(".globl %s", name);

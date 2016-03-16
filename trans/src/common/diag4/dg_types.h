@@ -30,7 +30,7 @@ typedef dg_filename dg_filename_option;
 
 typedef struct {
 	dg_name_list	list;
-	dg_tag		tg;
+	dg_tag		tag;
 } dg_namelist;
 
 typedef struct {
@@ -100,7 +100,7 @@ typedef struct dg_con {
 	dg_tag		refmem;
 	int		is_val;
 	union {
-		dg_type	typ;
+		dg_type	type;
 		exp	val;
 	} u;
 	struct dg_con *next;
@@ -139,27 +139,27 @@ typedef enum {
 typedef struct {
 	dg_idname_key	id_key;
 	union {
-		char			*nam;
+		char			*name;
 		struct dg_inst_t	*instance;
 	} idd;
 } dg_idname;
 typedef dg_idname dg_idname_option;
 
 typedef struct dg_inst_t {
-	dg_idname	nam;
+	dg_idname	name;
 	dg_idname	spec;
 	short_sourcepos	whence;
 	dg_name_list	params;
 } dg_instantn;
 
 typedef union {
-	dg_tag	tg;
-	exp	x;
-} tg_or_exp;
+	dg_tag	tag;
+	exp	exp;
+} tag_or_exp;
 
 typedef struct {
 	int		is_ref;
-	tg_or_exp	u;
+	tag_or_exp	u;
 	shape		sha;
 } dg_bound;
 
@@ -175,11 +175,11 @@ typedef struct {
 	bool	hi_ref:1;
 	bool	hi_cnt:1;
 	long		count;
-	dg_type		d_typ;
+	dg_type		d_type;
 	shape		sha;
-	tg_or_exp	lower;
-	tg_or_exp	upper;
-	dg_tag		tg;
+	tag_or_exp	lower;
+	tag_or_exp	upper;
+	dg_tag		tag;
 } dg_dim;
 
 typedef dg_dim dg_dim_option;
@@ -190,12 +190,12 @@ typedef struct {
 } dg_dim_list;
 
 typedef struct {
-	char		*enam;
+	char		*ename;
 	short_sourcepos	pos;
 	exp		value;
 	bool	is_chn:1;
 	unsigned int	chn:8;
-	dg_tag		tg;
+	dg_tag		tag;
 } dg_enum;
 
 typedef struct {
@@ -214,9 +214,9 @@ typedef struct {
 	dg_cm_key	cm_key;
 	union {
 		struct {
-			char		*fnam;
+			char		*fname;
 			short_sourcepos	f_pos;
-			dg_type		f_typ;
+			dg_type		f_type;
 			exp		f_offset;
 			struct dg_dflt	*dflt;
 			unsigned int	acc:4;
@@ -227,14 +227,14 @@ typedef struct {
 			exp		slot;
 		} cm_fn;
 		struct {
-			char		*nam;
+			char		*name;
 			short_sourcepos	pos;
-			dg_type		typ;
+			dg_type		type;
 			exp		ind_loc;
 		} cm_ind;
 		dg_name		cm_stat;
 	} d;
-	dg_tag	tg;
+	dg_tag	tag;
 } dg_classmem;
 
 typedef struct {
@@ -290,10 +290,10 @@ typedef enum {
 typedef dg_param_mode dg_param_mode_option;
 
 typedef struct {
-	char		*pnam;
+	char		*pname;
 	short_sourcepos	ppos;
 	dg_param_mode	pmode;
-	dg_type		p_typ;
+	dg_type		p_type;
 	dg_default	*p_dflt;
 } dg_param;
 
@@ -422,12 +422,12 @@ struct dg_type_t {
 		dg_tag	t_tag;
 		struct {
 			dg_basic_type_key	b_key;
-			char			*tnam;
+			char			*tname;
 			shape			b_sh;
 		} t_bas;
 		struct {
 			dg_qual_type_key	q_key;
-			dg_type			typ;
+			dg_type			type;
 			dg_type			another;
 			/* list q_keys to avoid repeat */
 		} t_qual;
@@ -439,13 +439,13 @@ struct dg_type_t {
 		} t_arr;
 		dg_dim	t_subr;
 		struct {
-			char			*tnam;
+			char			*tname;
 			short_sourcepos		tpos;
 			dg_enum_list		values;
 			shape			sha;
 		} t_enum;
 		struct {
-			dg_idname		idnam;
+			dg_idname		idname;
 			short_sourcepos		tpos;
 			bool			is_union;
 			shape			sha;
@@ -458,12 +458,12 @@ struct dg_type_t {
 		} t_struct;
 		struct {
 			dg_tag			pclass;
-			dg_type			memtyp;
+			dg_type			memtype;
 			shape			sha;
 		} t_pmem;
 		struct {
 			dg_cons_type_key	c_key;
-			dg_type			typ;
+			dg_type			type;
 			shape			sha;
 		} t_cons;
 		struct {
@@ -495,7 +495,7 @@ struct dg_type_t {
 			exp			length;
 		} t_string;
 	} data;
-	struct dg_more_t	*mor;
+	struct dg_more_t	*more;
 	dg_type			type_queue;
 };
 
@@ -513,16 +513,16 @@ typedef enum {
 
 struct dg_name_t {
 	dg_name_key	key;
-	dg_idname	idnam;
+	dg_idname	idname;
 	short_sourcepos	whence;
 	union {
 		struct {
-			dg_type		typ;
+			dg_type		type;
 			exp		obtain_val;
 			dg_param	*p;
 		} n_obj;
 		struct {
-			dg_type		typ;
+			dg_type		type;
 			exp		obtain_val;
 			dg_info		params;		/* DGA_PARAMS */
 		} n_proc;
@@ -540,15 +540,15 @@ struct dg_name_t {
 		struct {
 			dg_tag		import;
 			int		ik;
-			dg_type		i_typ;
+			dg_type		i_type;
 		} n_imp;
 		struct {
 			dg_type		raw;
 			dg_type		named;
 			dg_constraint	constraints;
-		} n_typ;
+		} n_type;
 	} data;
-	struct dg_more_t *mor;
+	struct dg_more_t *more;
 	dg_name		next;
 };
 
@@ -581,7 +581,7 @@ typedef struct ret_t {
 } retrec;
 
 typedef struct ob_s {
-	dg_tag		tg;
+	dg_tag		tag;
 	int		ass;
 	struct ob_s	*next;
 } objset;
@@ -603,7 +603,7 @@ typedef enum {
 typedef struct dgt_s {
 	dg_detch_key	why;
 	dg_info		info;
-	dg_tag		tg;
+	dg_tag		tag;
 	struct dgt_s	*next;
 	struct dgt_s	*sub;
 } detch_info;
@@ -688,17 +688,17 @@ struct dg_info_t {
 			long		end;
 		} i_scope;
 		struct {
-			dg_name		dnam;
+			dg_name		dname;
 			long		scope_start;
-		} i_nam;
+		} i_name;
 		struct {
-			dg_type		w_typ;
+			dg_type		w_type;
 			exp		w_exp;
 			long		lo_pc;
 			long		hi_pc;
 		} i_with;
 		struct {
-			char		*clnam;
+			char		*clname;
 			short_sourcepos	pos;
 			int		ck;
 			long		brk;
@@ -730,7 +730,7 @@ struct dg_info_t {
 		} i_catch;
 		struct {
 			short_sourcepos	pos;
-			dg_type		x_typ;
+			dg_type		x_type;
 			exp		x_val;
 		} i_raise;
 		struct {
@@ -781,7 +781,7 @@ struct dg_info_t {
 			long		lo_pc;
 			long		hi_pc;
 			union {
-				dg_tag	tg;
+				dg_tag	tag;
 				dg_info	iv;
 			} u;
 			exp		info_e;
@@ -791,7 +791,7 @@ struct dg_info_t {
 				exp		e;
 			} u2;
 		} i_rvs;
-		dg_tag	i_tg;
+		dg_tag	i_tag;
 		struct {
 			int		posn;	/* pre <0, post >0 */
 			detch_info	*dl;
@@ -799,7 +799,7 @@ struct dg_info_t {
 		struct {
 			int		reason;
 			int		lost;
-			dg_tag		tg;
+			dg_tag		tag;
 			long		lo_pc;
 			long		hi_pc;
 		} i_movd;
@@ -835,8 +835,8 @@ typedef enum {
 typedef struct dg_tag_t {
 	union
 	{
-		dg_type		typ;
-		dg_name		nam;
+		dg_type		type;
+		dg_name		name;
 		dg_info		info;
 		dg_compilation	comp;
 		dg_name_list	*nl;
@@ -873,7 +873,7 @@ typedef struct dg_mac_t {
 	short_sourcepos			pos;
 	union {
 		struct {
-			char		*nam;
+			char		*name;
 			char		*defn;
 			string_list	pms;
 		} d;

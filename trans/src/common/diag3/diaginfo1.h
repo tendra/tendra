@@ -26,17 +26,17 @@ struct diag_info_t {
 			sourcemark end;
 		} source;
 		struct {
-			tdfstring nme;
+			tdfstring name;
 			exp access;
-			diag_type typ;
+			diag_type type;
 		} id_scope;
 		struct {
-			tdfstring nme;
-			diag_type typ;
+			tdfstring name;
+			diag_type type;
 		} type_scope;
 		struct {
-			tdfstring nme;
-			diag_type typ;
+			tdfstring name;
+			diag_type type;
 		} tag_scope;
 	} data;
 };

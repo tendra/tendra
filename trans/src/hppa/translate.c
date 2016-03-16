@@ -549,37 +549,37 @@ local_translate_capsule(void)
 	}
 
 	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
-		exp tg = crt_def->dec_exp;
+		exp tag = crt_def->dec_exp;
 		char *name = crt_def->name;
 		bool extnamed = (bool)crt_def->extnamed;
 
-		if (son(tg) == NULL && no(tg) != 0 && extnamed) {
+		if (son(tag) == NULL && no(tag) != 0 && extnamed) {
 			outs("\t.IMPORT\t");
 			outs(name);
-			outs(sh(tg)->tag == prokhd ? (isvar(tg) ? ",DATA\n" : ",CODE\n") : ",DATA\n");
-		} else if (son(tg) != NULL && (extnamed || no(tg) != 0)) {
-			if (son(tg)->tag != proc_tag && son(tg)->tag != general_proc_tag) {
+			outs(sh(tag)->tag == prokhd ? (isvar(tag) ? ",DATA\n" : ",CODE\n") : ",DATA\n");
+		} else if (son(tag) != NULL && (extnamed || no(tag) != 0)) {
+			if (son(tag)->tag != proc_tag && son(tag)->tag != general_proc_tag) {
 				/* evaluate all outer level constants */
 				instore is;
 				long symdef = crt_def->sym_number + 1;
 
-				if (isvar(tg)) {
+				if (isvar(tag)) {
 					symdef = -symdef;
 				}
 
-				if (extnamed && !(is_zero(son(tg)))) {
+				if (extnamed && !(is_zero(son(tag)))) {
 					outs("\t.EXPORT\t");
 					outs(name);
 					outs(",DATA\n");
 				}
 
-				is = evaluated(son(tg), symdef);
+				is = evaluated(son(tag), symdef);
 				if (diag != DIAG_NONE) {
-					diag3_driver->stab_global(crt_def->diag_info, son(tg), name, extnamed);
+					diag3_driver->stab_global(crt_def->diag_info, son(tag), name, extnamed);
 				}
 
 				if (is.adval) {
-					setvar(tg);
+					setvar(tag);
 				}
 			}
 		}
@@ -588,11 +588,11 @@ local_translate_capsule(void)
 	/* Uninitialized data local to module. */
 
 	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
-		exp tg = crt_def->dec_exp;
+		exp tag = crt_def->dec_exp;
 		char *name = crt_def->name;
 		bool extnamed = (bool)crt_def->extnamed;
 
-		if (son(tg) == NULL && no(tg) != 0 && !extnamed) {
+		if (son(tag) == NULL && no(tag) != 0 && !extnamed) {
 			shape s = crt_def->dec_shape;
 			ash a;
 			long size;
@@ -670,26 +670,26 @@ local_translate_capsule(void)
 	}
 
 	for (next_proc_def = 0; next_proc_def < procno; next_proc_def++) {
-		exp tg;
+		exp tag;
 		char *name;
 		bool extnamed;
 
-		crt_def = proc_def_trans_order[next_proc_def];
-		tg   = crt_def->dec_exp;
-		name = crt_def->name;
+		crt_def  = proc_def_trans_order[next_proc_def];
+		tag      = crt_def->dec_exp;
+		name     = crt_def->name;
 		extnamed = crt_def->extnamed;
 
-		if (no(tg) != 0 || extnamed) {
+		if (no(tag) != 0 || extnamed) {
 			insection(text_section);
 			outnl();
 			outnl();
 
 			if (diag != DIAG_NONE) {
-				diag3_driver->stab_proc(crt_def->diag_info, son(tg), name, extnamed);
+				diag3_driver->stab_proc(crt_def->diag_info, son(tag), name, extnamed);
 			}
 
 			seed_label(); /* reset label sequence */
-			settempregs(son(tg)); /* reset getreg sequence */
+			settempregs(son(tag)); /* reset getreg sequence */
 
 			first = xmalloc(sizeof (struct labexp_t));
 			first->e    = NULL;
@@ -697,7 +697,7 @@ local_translate_capsule(void)
 			current = first;
 
 			proc_name = name;
-			code_here(son(tg), tempregs, nowhere);
+			code_here(son(tag), tempregs, nowhere);
 
 			outs("\t.PROCEND\n\t;");
 			outs(name);

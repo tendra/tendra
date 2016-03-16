@@ -31,11 +31,11 @@ mark_scope(exp e)
 	exp id;
 
 	if (!d || d->key != DGA_NAME ||
-	    d->data.i_nam.dnam->key != DGN_OBJECT) {
+	    d->data.i_name.dname->key != DGN_OBJECT) {
 		return;
 	}
 
-	id = son(d->data.i_nam.dnam->data.n_obj.obtain_val);
+	id = son(d->data.i_name.dname->data.n_obj.obtain_val);
 	if (id->tag == cont_tag) {
 		id = son(id);
 	}
@@ -81,8 +81,7 @@ mark_scope(exp e)
 	else {
 		exp def = son(id);
 		if (dgf(def) && dgf(def)->key == DGA_SRC)
-			dgf(e)->data.i_nam.dnam->whence =
-			    dgf(def)->data.i_src.startpos;
+			dgf(e)->data.i_name.dname->whence = dgf(def)->data.i_src.startpos;
 		d->more = dgf(id);
 		dgf(id) = d;
 	}
@@ -96,7 +95,7 @@ mark_scope2(exp e)
 	dg_info d = dgf(e);
 	dg_info *ptr;
 
-	if (!d || d->key != DGA_NAME || d->data.i_nam.dnam->key != DGN_TYPE) {
+	if (!d || d->key != DGA_NAME || d->data.i_name.dname->key != DGN_TYPE) {
 		return;
 	}
 

@@ -57,7 +57,7 @@ static exp_list reorder_list(exp_list, int);
 static exp me_contents(exp);
 extern int eq_et(error_treatment, error_treatment);
 extern exp TDFcallaux(error_treatment, exp, char *, shape);
-extern exp find_named_tg(char *, shape);
+extern exp find_named_tag(char *, shape);
 
 static exp me_complete_chain(exp, exp, exp);
 static exp push(exp, exp);
@@ -1497,7 +1497,7 @@ f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r, exp a
 				pars2 = add_exp_list(pars2, me_obtain(id), 0);
 				pars2 = add_exp_list(pars2, me_shint(uwordsh, power_mode), 1);
 				apply2 = f_apply_proc(sgned ? slongsh : ulongsh,
-					me_obtain(find_named_tg(nm, f_proc)), pars2, no_var);
+					me_obtain(find_named_tag(nm, f_proc)), pars2, no_var);
 			}
 
 			if (err) {
@@ -1511,11 +1511,11 @@ f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r, exp a
 				pars1 = new_exp_list(2);
 				pars1 = add_exp_list(pars1, me_obtain(id), 0);
 				pars1 = add_exp_list(pars1, me_shint(uwordsh, power_mode), 1);
-				apply1 = f_apply_proc(f_top, me_obtain(find_named_tg(nm_err, f_proc)),
+				apply1 = f_apply_proc(f_top, me_obtain(find_named_tag(nm_err, f_proc)),
 				                      pars1, no_var);
 
 				pl = f_plus(flpt_err, me_shint(slongsh, INT_MAX),
-				            me_obtain(find_named_tg("__TDFrnd_error", slongsh)));
+				            me_obtain(find_named_tag("__TDFrnd_error", slongsh)));
 				st = new_exp_list(2);
 				st = add_exp_list(st, apply1, 0);
 				st = add_exp_list(st, pl, 1);

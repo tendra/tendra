@@ -315,8 +315,8 @@ evalexp(exp e)
 		return frame_offset(son(e));
 
 	case env_size_tag: {
-		exp tg = son(son(e));
-		procrec * pr = &procrecs[no(son(tg))];
+		exp tag = son(son(e));
+		procrec * pr = &procrecs[no(son(tag))];
 		return (pr->frame_sz + 0) >> 3;
 	}
 
@@ -960,8 +960,8 @@ evalone(exp e, int bitposn)
 		return;
 
 	case env_size_tag: {
-		exp tg = son(son(e));
-		procrec *pr = &procrecs[no(son(tg))];
+		exp tag = son(son(e));
+		procrec *pr = &procrecs[no(son(tag))];
 		outs("\t.WORD\t");
 		outn((pr->frame_sz + 0) >> 3);
 		outnl();

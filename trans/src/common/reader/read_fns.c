@@ -1063,12 +1063,12 @@ tag f_dummy_tag;
 al_tag f_dummy_al_tag;
 
 static void
-check_sig(tag tg, string sig)
+check_sig(tag tag, string sig)
 {
 	char *sid = sig.ints.chars;
 	int s = (sig.size * sig.number) / 8;
-	if (tg->has_signature) {
-		char *name = tg->name;
+	if (tag->has_signature) {
+		char *name = tag->name;
 	    	int i;
 		for (i = 0; i < s; i++) {
 			if (name[i] != sid[i]) {
@@ -1079,8 +1079,8 @@ check_sig(tag tg, string sig)
 			   error(ERR_INTERNAL, "Signatures should be equal. %s != %s", name, sid);
 		}
 	} else {
-		tg->name = sid;
-		tg->has_signature = 1;
+		tag->name = sid;
+		tag->has_signature = 1;
 	}
 }
 
@@ -1092,14 +1092,14 @@ tagdec
 f_make_id_tagdec(tdfint t_intro, access_option acc, string_option sig, shape x)
 {
   tagdec res;
-  res.tg = get_dec(natint(t_intro));
+  res.tag = get_dec(natint(t_intro));
   res.sha = x;
   res.acc = acc;
   res.is_variable = 0;
   res.is_common = 0;
-  res.tg->is_common = 0;
+  res.tag->is_common = 0;
   if (sig.present) {
-    check_sig(res.tg, sig.val);
+    check_sig(res.tag, sig.val);
   }
   return res;
 }
@@ -1108,14 +1108,14 @@ tagdec
 f_make_var_tagdec(tdfint t_intro, access_option acc, string_option sig, shape x)
 {
   tagdec res;
-  res.tg = get_dec(natint(t_intro));
+  res.tag = get_dec(natint(t_intro));
   res.sha = x;
   res.acc = acc;
   res.is_variable = 1;
   res.is_common = 0;
-  res.tg->is_common = 0;
+  res.tag->is_common = 0;
   if (sig.present) {
-    check_sig(res.tg, sig.val);
+    check_sig(res.tag, sig.val);
   }
   return res;
 }
@@ -1124,14 +1124,14 @@ tagdec
 f_common_tagdec(tdfint t_intro, access_option acc, string_option sig, shape x)
 {
   tagdec res;
-  res.tg = get_dec(natint(t_intro));
+  res.tag = get_dec(natint(t_intro));
   res.sha = x;
   res.acc = acc;
   res.is_variable = 1;
   res.is_common = 1;
-  res.tg->is_common = 0;
+  res.tag->is_common = 0;
   if (sig.present) {
-    check_sig(res.tg, sig.val);
+    check_sig(res.tag, sig.val);
   }
   return res;
 }
@@ -1156,7 +1156,7 @@ f_make_id_tagdef(tdfint t, string_option sig, exp e)
 {
   dec *dp = get_dec(natint(t));
   tagdef res;
-  res.tg = dp;
+  res.tag = dp;
   if (dp->processed ||
       son(dp->dec_exp) != NULL) {
     res.def = NULL; /* set to NULL if already output */
@@ -1184,7 +1184,7 @@ f_make_var_tagdef(tdfint t, access_option opt_access, string_option sig, exp e)
   dec *dp = get_dec(natint(t));
   tagdef res;
   UNUSED(opt_access);
-  res.tg = dp;
+  res.tag = dp;
   if (dp->processed ||
       son(dp->dec_exp) != NULL) {
     res.def = NULL; /* set to NULL if already output */
@@ -1211,7 +1211,7 @@ f_common_tagdef(tdfint t, access_option opt_access, string_option sig, exp e)
   dec *dp = get_dec(natint(t));
   tagdef res;
   UNUSED(opt_access);
-  res.tg = dp;
+  res.tag = dp;
   res.def = e;
   res.var = 1;
   res.is_common = 1;
@@ -2293,7 +2293,7 @@ new_tagdec_list(int n)
 tagdec_list
 add_tagdec_list(tagdec_list list, tagdec elem, int index)
 {
-    dec *dp = elem.tg;
+    dec *dp = elem.tag;
     shape s;
     exp e;
     UNUSED(list);
@@ -2359,7 +2359,7 @@ new_tagdef_list(int n)
 tagdef_list
 add_tagdef_list(tagdef_list list, tagdef elem, int index)
 {
-  dec *dp = elem.tg;
+  dec *dp = elem.tag;
   exp old_def = son(dp->dec_exp);
   exp new_def = elem.def;
   UNUSED(list);

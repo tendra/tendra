@@ -82,7 +82,7 @@ void init_proc_errors(exp e)
     int cr = next_creg();
     long err_lab = get_stack_overflow_lab();
 
-    b = find_tg("__TDFstacklim");
+    b = find_tag("__TDFstacklim");
     ld_ins(i_l,b,R_TMP0);
     cmp_rr_ins(i_cmp,R_SP,R_TMP0,cr);
     long_bc_ins(i_blt,cr,err_lab,UNLIKELY_TO_JUMP);
@@ -242,7 +242,7 @@ static void do_exception(int ex)
 static void call_TDFhandler(void)
 {
   baseoff b;
-  b = find_tg("__TDFhandler");
+  b = find_tag("__TDFhandler");
   ld_ins(i_l,b,R_TMP0);
 
   b.base = R_TMP0;

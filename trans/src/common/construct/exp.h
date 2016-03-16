@@ -25,9 +25,9 @@ typedef struct exp_list_t {
 } exp_list;
 
 extern exp getexp (shape s, exp b, int l, exp sn, exp p, prop pr, int n,
-		   unsigned char tg);
+		   unsigned char tag);
 extern exp getshape (int l, alignment sn, alignment p, alignment pr, int n,
-		     unsigned char tg);
+		     unsigned char tag);
 extern shape lub_shape(shape a, shape b);
 extern int next_lab(void);
 extern int eq_shape(shape a, shape b);

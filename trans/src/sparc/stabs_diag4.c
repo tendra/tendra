@@ -225,7 +225,7 @@ code_diag_info(dg_info d, void(*mcode)(void *), void *args)
 	}
 
 	case DGA_NAME:
-		stab_local(d->data.i_nam.dnam, 0);
+		stab_local(d->data.i_name.dname, 0);
 		code_diag_info(d->more, mcode, args);
 		break;
 
@@ -470,7 +470,7 @@ type_size(dg_type dt)
 		}
 
 		if (tag->key == DGK_TYPE) {
-			dg_type ref_t = tag->p.typ;
+			dg_type ref_t = tag->p.type;
 			if (ref_t == dt) {
 				return type_sizes[find_basic_type(ref_t->outref.u.s)];
 			}
@@ -479,8 +479,8 @@ type_size(dg_type dt)
 
 		if (tag->key == DGK_NAME) {
 			dg_name ref_n = tag->p.nam;
-			if (ref_n->key == DGN_TYPE /* && ref_n->idnam.id_key == DG_ID_NONE */) {
-				dg_type ref_t = tag->p.nam->data.n_typ.raw;
+			if (ref_n->key == DGN_TYPE /* && ref_n->idname.id_key == DG_ID_NONE */) {
+				dg_type ref_t = tag->p.name->data.n_type.raw;
 				return type_size(ref_t);
 			}
 		}
@@ -497,7 +497,7 @@ type_size(dg_type dt)
 		}
 
 		{
-			dg_type pdt = dt->data.t_qual.typ;
+			dg_type pdt = dt->data.t_qual.type;
 			return type_size(pdt);
 		}
 
@@ -506,8 +506,8 @@ type_size(dg_type dt)
 			dg_dim x;
 			x = dt->data.t_arr.dims.array[0];
 			if (x.d_key == DG_DIM_BOUNDS && !x.low_ref && !x.hi_ref && !x.hi_cnt) {
-				long lwb = no(son(x.lower.x));
-				long upb = no(son(x.upper.x));
+				long lwb = no(son(x.lower.exp));
+				long upb = no(son(x.upper.exp));
 				long stride = no(son(dt->data.t_arr.stride));
 				return stride * (upb - lwb + 1);
 
@@ -569,7 +569,7 @@ out_dt_shape(dg_type dt)
 		}
 
 		if (tag->key == DGK_TYPE) {
-			dg_type ref_t = tag->p.typ;
+			dg_type ref_t = tag->p.type;
 
 			if (ref_t == dt) {
 				if (ref_t->outref.k != LAB_STR) {
@@ -589,8 +589,8 @@ out_dt_shape(dg_type dt)
 		if (tag->key == DGK_NAME) {
 			dg_name ref_n = tag->p.nam;
 
-			if (ref_n->key == DGN_TYPE /* && ref_n->idnam.id_key == DG_ID_NONE */) {
-				dg_type ref_t = tag->p.nam->data.n_typ.raw;
+			if (ref_n->key == DGN_TYPE /* && ref_n->idname.id_key == DG_ID_NONE */) {
+				dg_type ref_t = tag->p.name->data.n_type.raw;
 				out_dt_shape(ref_t);
 				dt->outref = tag->outref = ref_t->outref;
 				tag->done = 1;
@@ -617,7 +617,7 @@ out_dt_shape(dg_type dt)
 		if (dt->data.t_qual.q_key == DG_PTR_T) {
 			long non;
 
-			dg_type pdt = dt->data.t_qual.typ;
+			dg_type pdt = dt->data.t_qual.type;
 			if (pdt->key == DGT_BASIC) {
 				long pn = out_sh_type(pdt->data.t_bas.b_sh, pdt->data.t_bas.tnam);
 				non = stab_ptrs[pn];
@@ -639,7 +639,7 @@ out_dt_shape(dg_type dt)
 			last_type_sz = 32;
 			set_stab_size(non);
 		} else {
-			dg_type pdt = dt->data.t_qual.typ;
+			dg_type pdt = dt->data.t_qual.type;
 			out_dt_shape(pdt);
 			dt->outref = pdt->outref;
 		}
@@ -661,10 +661,10 @@ out_dt_shape(dg_type dt)
 			x = dt->data.t_arr.dims.array[0];
 
 			if (x.d_key == DG_DIM_BOUNDS && !x.low_ref && !x.hi_ref && !x.hi_cnt) {
-				long lwb = no(son(x.lower.x));
-				long upb = no(son(x.upper.x));
+				long lwb = no(son(x.lower.exp));
+				long upb = no(son(x.upper.exp));
 				long stride = no(son(dt->data.t_arr.stride));
-				dg_type index_type = x.d_typ;
+				dg_type index_type = x.d_type;
 				dg_type element_type = dt->data.t_arr.elem_type;
 				asm_fprintf(dg_file, "%ld=", non);
 				asm_fprintf(dg_file, "ar");
@@ -677,7 +677,7 @@ out_dt_shape(dg_type dt)
 			}
 
 			if (x.d_key == DG_DIM_NONE) {
-				dg_type index_type = x.d_typ;
+				dg_type index_type = x.d_type;
 				dg_type element_type = dt->data.t_arr.elem_type;
 				asm_fprintf(dg_file, "%ld=", non);
 				asm_fprintf(dg_file, "ar");
@@ -705,7 +705,7 @@ out_dt_shape(dg_type dt)
 		dt->outref.k = LAB_D;
 		asm_fprintf(dg_file, "%ld=e", dt->outref.u.l);
 		for (i = 0; i < dt->data.t_enum.values.len; i++) {
-			asm_fprintf(dg_file, "%s:%d,", el[i].enam, no(son(el[i].value)));
+			asm_fprintf(dg_file, "%s:%d,", el[i].ename, no(son(el[i].value)));
 		}
 
 		asm_fprintf(dg_file, ";");
@@ -736,8 +736,8 @@ out_dt_shape(dg_type dt)
 			}
 			depth_now++;
 			asm_fprintf(dg_file, "%s:", el[i].d.cm_f.fnam);
-			out_dt_shape(el[i].d.cm_f.f_typ);
-			asm_fprintf(dg_file, ",%ld,%ld;", offset, type_size(el[i].d.cm_f.f_typ));
+			out_dt_shape(el[i].d.cm_f.f_type);
+			asm_fprintf(dg_file, ",%ld,%ld;", offset, type_size(el[i].d.cm_f.f_type));
 		}
 
 		asm_fprintf(dg_file, ";");
@@ -791,7 +791,7 @@ stab_global(dg_name di, exp global, char * id, int ext)
 	}
 
 	nm = idname_chars(di->idnam);
-	dt = di->data.n_obj.typ;
+	dt = di->data.n_obj.type;
 
 	if (di->whence.line) {
 		stabd(di->whence.file, di->whence.line, -N_DSLINE);
@@ -821,7 +821,7 @@ stab_proc(dg_name di, exp proc, char * id, int ext)
 	}
 
 	nm = idname_chars(di->idnam);
-	dt = di->data.n_proc.typ;
+	dt = di->data.n_proc.type;
 
 	if (dt->key == DGT_PROC) {	/* it should be */
 		dt = dt->data.t_proc.res_type;
@@ -918,7 +918,7 @@ stab_local(dg_name di, int param)
 	disp = no(id);
 	id = son(id);
 	nm = idname_chars(di->idnam);
-	dt = di->data.n_obj.typ;
+	dt = di->data.n_obj.type;
 	t = next_del_stab();
 
 	if (id->tag == ident_tag && ((props(id) & defer_bit) == 0)) {
@@ -1048,8 +1048,8 @@ init_stab_aux(void)
 		dg_name item;
 
 		for (item = this_comp->dn_list; item; item = item->next) {
-			if (item->key == DGN_TYPE && item->data.n_typ.raw->key != DGT_UNKNOWN) {
-				dg_type dt = item->data.n_typ.raw;
+			if (item->key == DGN_TYPE && item->data.n_type.raw->key != DGT_UNKNOWN) {
+				dg_type dt = item->data.n_type.raw;
 				char *s = idname_chars(item->idnam);
 				if (s[0]) {
 					asm_fprintf(dg_file, "\t.stabs\t\"%s:", s);
@@ -1066,10 +1066,10 @@ init_stab_aux(void)
 					}
 					asm_fprintf(dg_file, "\",0x80,0,0,0\n");
 				} else if ((dt->key == DGT_STRUCT &&
-				            (dt->data.t_struct.idnam.id_key == DG_ID_SRC ||
-				             dt->data.t_struct.idnam.id_key == DG_ID_EXT)
-				            && (s = dt->data.t_struct.idnam.idd.nam, s[0]))
-				           || (dt->key == DGT_ENUM && (s = dt->data.t_enum.tnam, s[0]))) {
+				            (dt->data.t_struct.idname.id_key == DG_ID_SRC ||
+				             dt->data.t_struct.idname.id_key == DG_ID_EXT)
+				            && (s = dt->data.t_struct.idname.idd.name, s[0]))
+				           || (dt->key == DGT_ENUM && (s = dt->data.t_enum.tname, s[0]))) {
 					asm_fprintf(dg_file, "\t.stabs\t\"%s:", s);
 					if (dt->outref.k == LAB_D) {
 						asm_fprintf(dg_file, "%d", (int)dt->outref.u.l);

@@ -626,7 +626,7 @@ dwarf_out_descriptor(diag_descriptor *x)
 		if (!isvar(brog(t)->dec_exp) &&
 		    brog(t)->dec_shape->tag == prokhd) {
 			/*	fprintf(stderr, "%s was a proc\n",
-			 *	TDFSTRING2CHAR(x->data.id.nme));*/
+			 *	TDFSTRING2CHAR(x->data.id.name));*/
 			break;
 		} else {
 			if (isparam(t)) {
@@ -638,7 +638,7 @@ dwarf_out_descriptor(diag_descriptor *x)
 				cont_sib_chain(TAG_global_variable);
 			}
 
-			out_dwarf_name_attr(TDFSTRING2CHAR(x->data.id.nme));
+			out_dwarf_name_attr(TDFSTRING2CHAR(x->data.id.name));
 			out_dwarf_type_attr(x->data.id.new_type);
 			out_dwarf_loc_attr(acc, -1);
 			/* -1 for proc_no, since outside any proc */
@@ -648,18 +648,17 @@ dwarf_out_descriptor(diag_descriptor *x)
 	}
 	case DIAG_STRUCT_KEY:
 		fprintf(stderr, "Not yet doing desc key %d name %s\n", x->key,
-			TDFSTRING2CHAR(x->data.id.nme));
+			TDFSTRING2CHAR(x->data.id.name));
 		break;
 	case DIAG_TYPEDEF_KEY:
-		if ((base_type(x->data.typ.new_type))->key ==
-		    DIAG_TYPE_INITED) {
+		if ((base_type(x->data.type.new_type))->key == DIAG_TYPE_INITED) {
 			/*      error(ERR_WARN, "No diagtype defn provided for %s... omitting typedef",
-				TDFSTRING2CHAR(x->data.typ.nme)); */
+				TDFSTRING2CHAR(x->data.type.name)); */
 			break;
 		}
 		cont_sib_chain(TAG_typedef);
-		out_dwarf_name_attr(TDFSTRING2CHAR(x->data.typ.nme));
-		out_dwarf_type_attr(x->data.typ.new_type);
+		out_dwarf_name_attr(TDFSTRING2CHAR(x->data.type.name));
+		out_dwarf_type_attr(x->data.type.new_type);
 		leave_dwarf_blk();
 		break;
 	default:

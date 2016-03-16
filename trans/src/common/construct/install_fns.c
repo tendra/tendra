@@ -1799,10 +1799,10 @@ f_conditional(label alt_label_intro, exp first, exp alt)
 void
 start_conditional(label alt_label_intro)
 {
-	exp tg;
+	exp tag;
 	exp labst;
-	tg = getexp(f_top, NULL, 0, NULL, NULL, 0, 0, clear_tag);
-	labst = getexp(f_bottom, NULL, 0, tg, NULL, 0, 0, labst_tag);
+	tag = getexp(f_top, NULL, 0, NULL, NULL, 0, 0, clear_tag);
+	labst = getexp(f_bottom, NULL, 0, tag, NULL, 0, 0, labst_tag);
 	default_freq = (float)(default_freq / 2.0);
 	fno(labst) = default_freq;
 	++proc_label_count;
@@ -2863,7 +2863,7 @@ start_make_proc(shape result_shape, tagshacc_list params_intro,
 		setvis(i);
 		setvar(i);
 		setparam(i);
-		set_tag(vartag.val.tg, i);
+		set_tag(vartag.val.tag, i);
 	}
 
 	/* set this flag to distinguish values created during procedure
@@ -2889,7 +2889,7 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 	}
 
 	if (vartag.present) {
-		exp i = get_tag(vartag.val.tg);
+		exp i = get_tag(vartag.val.tag);
 		if (params_intro.id == NULL) {
 			params_intro.id = i;
 		} else {
@@ -3982,13 +3982,13 @@ f_obtain_tag(tag t)
 {
 	shape s;
 	exp r;
-	exp tg = get_tag(t);
+	exp tag = get_tag(t);
 
-	if (tg == NULL) {
+	if (tag == NULL) {
 		error(ERR_INTERNAL, "using undefined tag");
 	}
 
-	if (isglob(tg)) {
+	if (isglob(tag)) {
 		s = sh(t->dec_exp);
 #ifdef TDF_DIAG4
 		if (!within_diags) {
@@ -3998,20 +3998,20 @@ f_obtain_tag(tag t)
 		proc_externs = 1;
 #endif
 	} else {
-		s = sh(son(tg));
+		s = sh(son(tag));
 	}
 
-	if (isvar(tg)) {
-		if (isparam(tg)) {
+	if (isvar(tag)) {
+		if (isparam(tag)) {
 			s = f_pointer(f_parameter_alignment(s));
 		} else {
 			s = f_pointer(f_alignment(s));
 		}
 	}
 
-	r = getexp(s, NULL, 0, tg, pt(tg), 0, 0, name_tag);
-	pt(tg) = r;
-	no(tg) = no(tg) +1;
+	r = getexp(s, NULL, 0, tag, pt(tag), 0, 0, name_tag);
+	pt(tag) = r;
+	no(tag) = no(tag) +1;
 	return r;
 }
 
@@ -5540,12 +5540,12 @@ f_make_string(tdfstring s)
 
 
 tagshacc
-f_make_tagshacc(shape sha, access_option visible, tag tg_intro)
+f_make_tagshacc(shape sha, access_option visible, tag tag_intro)
 {
 	tagshacc res;
 	res.sha = sha;
 	res.visible = visible;
-	res.tg = tg_intro;
+	res.tag = tag_intro;
 	return res;
 }
 
@@ -5874,7 +5874,7 @@ add_tagshacc_list(tagshacc_list list, tagshacc elem, int index)
 	exp d = getexp(elem.sha, NULL, 0, NULL, NULL, 0, 0, clear_tag);
 	exp i = getexp(f_bottom, list.last_id, 1, d, NULL, 0, 0, ident_tag);
 	UNUSED(index);
-	set_tag(elem.tg, i);
+	set_tag(elem.tag, i);
 	if (list.id == NULL) {
 		list.id = i;
 	} else {
@@ -6003,10 +6003,10 @@ init_tagacc(void)
 
 
 tagacc
-f_make_tagacc(tag tg, access_option acc)
+f_make_tagacc(tag tag, access_option acc)
 {
 	tagacc res;
-	res.tg = tg;
+	res.tag = tag;
 	res.visible = acc;
 	return res;
 }
@@ -6233,7 +6233,7 @@ tidy_initial_values(void)
 						      prc, f_proc);
 			exp prc_exp = prc_dec->dec_exp;
 			exp str_exp = str_dec->dec_exp;
-			exp list_exp = find_named_tg("__PROM_init_list",
+			exp list_exp = find_named_tag("__PROM_init_list",
 						     f_pointer(f_alignment(
 						     str_sh)));
 			brog(list_exp)->dec_var = 1;

@@ -133,16 +133,16 @@ cca ( exp ** to, exp * x )
 #endif
 
 	if ( x == ( *to ) ) {
-		/* replace by Let tg = def In tg Ni */
+		/* replace by Let tag = def In tag Ni */
 		exp def = *x ;
 		exp id = getexp ( sh ( def ), bro ( def ), ( int ) def -> last,
 		                  def, NULL, 0, 1, ident_tag ) ;
-		exp tg = getexp ( sh ( def ), id, 1, id, NULL, 0, 0, name_tag ) ;
+		exp tag = getexp ( sh ( def ), id, 1, id, NULL, 0, 0, name_tag ) ;
 
 		/* use of tag */
-		pt ( id ) = tg ;
-		/* bro ( def ) is body of Let = tg */
-		bro ( def ) = tg ;
+		pt ( id ) = tag ;
+		/* bro ( def ) is body of Let = tag */
+		bro ( def ) = tag ;
 		def -> last = false ;
 		/* replace pointer to x by Let */
 		*x = id ;
@@ -154,17 +154,17 @@ cca ( exp ** to, exp * x )
 		}
 #endif
 	} else {
-		/* replace by Let tg = def In ato/def = tg Ni */
+		/* replace by Let tag = def In ato/def = tag Ni */
 		exp def = *x ;
 		exp ato = *( *to ) ;
 
-		exp id = getexp ( sh ( ato ), bro ( ato ), ( int ) ato -> last,
-		                  def, NULL, 0, 1, ident_tag ) ;
-		exp tg = getexp ( sh ( def ), bro ( def ), ( int ) def -> last,
-		                  id, NULL, 0, 0, name_tag ) ;
+		exp id  = getexp ( sh ( ato ), bro ( ato ), ( int ) ato -> last,
+		                   def, NULL, 0, 1, ident_tag ) ;
+		exp tag = getexp ( sh ( def ), bro ( def ), ( int ) def -> last,
+		                   id, NULL, 0, 0, name_tag ) ;
 
-		/* use of tg */
-		pt ( id ) = tg ;
+		/* use of tag */
+		pt ( id ) = tag ;
 		/* ato is body of Let */
 		bro ( def ) = ato ;
 		def -> last = false ;
@@ -174,8 +174,8 @@ cca ( exp ** to, exp * x )
 
 		/* replace pointer to 'to' by Let */
 		**to = id ;
-		/* replace use of x by tg */
-		*x = tg ;
+		/* replace use of x by tag */
+		*x = tag ;
 		/* later replacement to same 'to' will be at body of Let */
 		*to = &bro ( def ) ;
 
@@ -369,18 +369,18 @@ scan_cond ( exp* e, exp outer_id )
 			/* ....if first operands of tests are same, identify them */
 			exp newid = getexp (sh (ste), bro (ste), ste->last, op11, NULL,
 			                    0, 2, ident_tag);
-			exp tg1 = getexp (sh (op11), op21, 0, newid, NULL, 0, 0, name_tag);
-			exp tg2 = getexp (sh (op12), op22, 0, newid, NULL, 0, 0, name_tag);
+			exp tag1 = getexp (sh (op11), op21, 0, newid, NULL, 0, 0, name_tag);
+			exp tag2 = getexp (sh (op12), op22, 0, newid, NULL, 0, 0, name_tag);
 
-			pt (newid) = tg1;
-			pt (tg1) = tg2;	/* uses of newid */
+			pt (newid) = tag1;
+			pt (tag1)  = tag2;	/* uses of newid */
 			bro (op11) = ste;
 			op11->last = false;/* body of newid */
 			/* forget son test2 = son test1 */
 			bro (ste) = newid;
 			ste->last = true;	/* father body = newid */
-			son (test1) = tg1;
-			son (test2) = tg2;	/* relace 1st operands of test */
+			son (test1) = tag1;
+			son (test2) = tag2;	/* relace 1st operands of test */
 
 			if (!complex(op21) ) {
 				/* if the second operand of 1st test is simple, then
@@ -403,21 +403,21 @@ scan_cond ( exp* e, exp outer_id )
 
 			exp newid = getexp (sh (ste), bro (ste), ste->last, op21,
 			                    NULL, 0, 2, ident_tag);
-			exp tg1 = getexp (sh (op21), test1, 1,
-			                  newid, NULL, 0, 0, name_tag);
-			exp tg2 = getexp (sh (op22), test2, 1, newid, NULL,
-			                  0, 0, name_tag);
+			exp tag1 = getexp (sh (op21), test1, 1,
+			                   newid, NULL, 0, 0, name_tag);
+			exp tag2 = getexp (sh (op22), test2, 1, newid, NULL,
+			                   0, 0, name_tag);
 
-			pt (newid) = tg1;
-			pt (tg1) = tg2;	/* uses of newid */
+			pt (newid) = tag1;
+			pt (tag1)  = tag2;	/* uses of newid */
 			bro (op21) = ste;
 			op21->last = false;
 			/* body of newid */
 			/* forget bro son test2 = bro son test1 */
 			bro (ste) = newid;
 			ste->last = true;	/* father body = newid */
-			bro (op11) = tg1;
-			bro (op12) = tg2;
+			bro (op11) = tag1;
+			bro (op12) = tag2;
 
 			if (!complex(op11) ) {
 				setinlined(newid);
@@ -438,9 +438,9 @@ scan_cond ( exp* e, exp outer_id )
 		{
 			/* 1st param of test1 is already identified with
 			   1st param of  test2 */
-			exp tg = getexp (sh (op12), op22, 0, outer_id,
-			                 pt (outer_id), 0, 0, name_tag);
-			pt (outer_id) = tg;
+			exp tag = getexp (sh (op12), op22, 0, outer_id,
+			                  pt (outer_id), 0, 0, name_tag);
+			pt (outer_id) = tag;
 			no (outer_id) += 1;
 
 			if (complex(op21) ) {
@@ -448,7 +448,7 @@ scan_cond ( exp* e, exp outer_id )
 			}
 
 			/* update usage of ident */
-			son (test2) = tg;
+			son (test2) = tag;
 			kill_exp(op12, op12);
 			if (scan_cond (&bro(son(labst)), outer_id) == 2 && complex(op22)) {
 				clearinlined(outer_id);

@@ -64,16 +64,16 @@ static int minfixed;
 static long formin;
 
 /*
- * tg is a proc; sets up useable_fixed etc depending on how the proc
+ * tag is a proc; sets up useable_fixed etc depending on how the proc
  * treats its parameters; if they are destined for store or s-registers
  * we can use some of regs 4-7
  */
 void
-settempregs(exp tg)
+settempregs(exp tag)
 {
-  procrec * pr = &procrecs[no(tg)];
+  procrec * pr = &procrecs[no(tag)];
   bool leaf = ((pr->needsproc).propsneeds & anyproccall)==0;
-  exp stg = son(tg);
+  exp stag = son(tag);
   currentfix = 8;
   currentfloat = 0;
   choosefix = for8;
@@ -102,15 +102,15 @@ settempregs(exp tg)
 	formin = 0x4;
   }
 
-  while (stg->tag==ident_tag && isparam(stg)) {
-  	if ((props(stg) & inreg_bits) !=0 ) {
-  		useable_fixed &= ~ (1<<no(stg));
+  while (stag->tag==ident_tag && isparam(stag)) {
+  	if ((props(stag) & inreg_bits) !=0 ) {
+  		useable_fixed &= ~ (1<<no(stag));
   	}
   	else
-  	if ((props(stg) & infreg_bits) != 0) {
-  		useable_float &= ~(1<<no(stg));
+  	if ((props(stag) & infreg_bits) != 0) {
+  		useable_float &= ~(1<<no(stag));
   	}
-  	stg = bro(son(stg));
+  	stag = bro(son(stag));
   }
 
 }

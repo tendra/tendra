@@ -136,10 +136,10 @@ code_diag_info(diag_info *d, int proc_no, void(*mcode)(void *), void *args)
 				break;	/* should do better ! */
 			}
 
-			if ((base_type(d->data.id_scope.typ))->key ==
+			if ((base_type(d->data.id_scope.type))->key ==
 			    DIAG_TYPE_INITED) {
 				error(ERR_WARN, "%s has no diagtype... omitting",
-					TDFSTRING2CHAR(d->data.id_scope.nme));
+					TDFSTRING2CHAR(d->data.id_scope.name));
 				break;
 			}
 			if (x->tag == name_tag && isglob(son(x))) {
@@ -159,11 +159,11 @@ code_diag_info(diag_info *d, int proc_no, void(*mcode)(void *), void *args)
 				out_dwarf_start_scope(&tlab);
 			}
 
-			out_dwarf_name_attr(TDFSTRING2CHAR(d->data.id_scope.nme));
-			out_dwarf_type_attr(d->data.id_scope.typ);
+			out_dwarf_name_attr(TDFSTRING2CHAR(d->data.id_scope.name));
+			out_dwarf_type_attr(d->data.id_scope.type);
 			if (!out_dwarf_loc_attr(x, proc_no)) {
 				error(ERR_SERIOUS, "Unable to generate location info for variable '%s'",
-					TDFSTRING2CHAR(d->data.id_scope.nme));
+					TDFSTRING2CHAR(d->data.id_scope.name));
 			}
 			leave_dwarf_blk();
 			dump_type_q();
@@ -179,8 +179,8 @@ code_diag_info(diag_info *d, int proc_no, void(*mcode)(void *), void *args)
 		OUT_DWARF_BEG(&tlab);	/* always needed for start_scope */
 		cont_sib_chain(TAG_typedef);
 		out_dwarf_start_scope(&tlab);
-		out_dwarf_name_attr(TDFSTRING2CHAR(d->data.type_scope.nme));
-		out_dwarf_type_attr(d->data.type_scope.typ);
+		out_dwarf_name_attr(TDFSTRING2CHAR(d->data.type_scope.name));
+		out_dwarf_type_attr(d->data.type_scope.type);
 		leave_dwarf_blk();
 		code_diag_info(d->more, proc_no, mcode, args);
 		comment_end_scope(d);
@@ -229,12 +229,12 @@ dw1_output_diag(diag_info *d, int proc_no, exp e)
 				return;
 			}
 
-			if ((base_type(d->data.id_scope.typ))->key ==
+			if ((base_type(d->data.id_scope.type))->key ==
 			    DIAG_TYPE_INITED) {
 				error(ERR_WARN, "%s %s has no diagtype... omitting",
 					isparam(son(x)) ? "Formal parameter" :
 					"Local variable",
-					TDFSTRING2CHAR(d->data.id_scope.nme));
+					TDFSTRING2CHAR(d->data.id_scope.name));
 				break;
 			}
 			if (isglob(son(x))) {
@@ -254,11 +254,11 @@ dw1_output_diag(diag_info *d, int proc_no, exp e)
 				out_dwarf_start_scope(&tlab);
 			}
 
-			out_dwarf_name_attr(TDFSTRING2CHAR(d->data.id_scope.nme));
-			out_dwarf_type_attr(d->data.id_scope.typ);
+			out_dwarf_name_attr(TDFSTRING2CHAR(d->data.id_scope.name));
+			out_dwarf_type_attr(d->data.id_scope.type);
 			if (!out_dwarf_loc_attr(x, proc_no)) {
 				error(ERR_SERIOUS, "Unable to generate location info for variable '%s'",
-					TDFSTRING2CHAR(d->data.id_scope.nme));
+					TDFSTRING2CHAR(d->data.id_scope.name));
 			}
 			leave_dwarf_blk();
 			dump_type_q();
@@ -267,21 +267,21 @@ dw1_output_diag(diag_info *d, int proc_no, exp e)
 		case DIAG_INFO_TYPE:
 			cont_sib_chain(TAG_typedef);
 			out_dwarf_start_scope(&tlab);
-			out_dwarf_name_attr(TDFSTRING2CHAR(d->data.type_scope.nme));
-			out_dwarf_type_attr(d->data.type_scope.typ);
+			out_dwarf_name_attr(TDFSTRING2CHAR(d->data.type_scope.name));
+			out_dwarf_type_attr(d->data.type_scope.type);
 			leave_dwarf_blk();
 			break;
 		case DIAG_INFO_TAG:
 			fprintf(stderr, "diag_info_tag named %s\n",
-				TDFSTRING2CHAR(d->data.tag_scope.nme));
-			if (streq(TDFSTRING2CHAR(d->data.tag_scope.nme),
-				    TDFSTRING2CHAR(d->data.tag_scope.typ->data.t_struct.nme)))
+				TDFSTRING2CHAR(d->data.tag_scope.name));
+			if (streq(TDFSTRING2CHAR(d->data.tag_scope.name),
+				    TDFSTRING2CHAR(d->data.tag_scope.type->data.t_struct.name)))
 			{
 				fprintf(stderr, "diag type gives name as %s\n",
-					TDFSTRING2CHAR(d->data.tag_scope.typ->data.t_struct.nme));
+					TDFSTRING2CHAR(d->data.tag_scope.type->data.t_struct.name));
 				error(ERR_INTERNAL, "different names in output_diag");
 			}
-			out_dwarf_user_type(d->data.tag_scope.typ);
+			out_dwarf_user_type(d->data.tag_scope.type);
 			break;
 		default:
 			error(ERR_INTERNAL, "Illegal key in output_diag. key was %d", d->key);

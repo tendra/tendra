@@ -56,7 +56,7 @@
 static void
 cca(int sto, exp to, int sx, exp x)
 {
-	exp def, ato, id, tg;
+	exp def, ato, id, tag;
 	def = contexp(sx, x);
 
 	/* position sensitive */
@@ -66,9 +66,9 @@ cca(int sto, exp to, int sx, exp x)
 	}
 
 	ato = contexp(sto, to);
-	id = getexp(sh(ato), bro(ato), (int)(ato->last), def, NULL, 0, 1, ident_tag);
-	tg = getexp(sh(def), bro(def), (int)(def->last), id, NULL, 0, 0, name_tag);
-	pt(id) = tg;
+	id  = getexp(sh(ato), bro(ato), (int)(ato->last), def, NULL, 0, 1, ident_tag);
+	tag = getexp(sh(def), bro(def), (int)(def->last), id, NULL, 0, 0, name_tag);
+	pt(id) = tag;
 	def->last = false;
 
 	if (def != ato) {
@@ -76,11 +76,11 @@ cca(int sto, exp to, int sx, exp x)
 		bro(ato) = id;
 		ato->last = true;
 		assexp(sto, to, id);
-		assexp(sx, x, tg);
+		assexp(sx, x, tag);
 	} else {
-		bro(def) = tg;
-		bro(tg) = id;
-		tg->last = true;
+		bro(def) = tag;
+		bro(tag) = id;
+		tag->last = true;
 		def->last = false;
 		assexp(sto, to, id);
 	}

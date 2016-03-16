@@ -54,8 +54,8 @@ static long choosefloat = RMASK ( R_FLT_FIRST ) ;
 */
 
 void 
-settempregs ( exp tg ){
-  UNUSED(tg);
+settempregs ( exp tag ){
+  UNUSED(tag);
   currentfix = R_O0 ;
   choosefix = RMASK ( currentfix ) ;
   currentfloat = 1 ;

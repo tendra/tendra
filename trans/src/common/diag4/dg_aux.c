@@ -50,10 +50,10 @@ short_sourcepos no_short_sourcepos;
 
 /* These have similar size */
 typedef union {
-	struct dg_name_t nam;
-	struct dg_type_t typ;
+	struct dg_name_t name;
+	struct dg_type_t type;
 	struct dg_info_t inf;
-	struct dg_more_t mor;
+	struct dg_more_t more;
 } dg_union;
 
 static int dg_clump_left = 0;
@@ -76,9 +76,9 @@ new_dg_name(dg_name_key k)
 	}
 
 	dg_clump_left--;
-	ans = &(next_dg++)->nam;
+	ans = &(next_dg++)->name;
 	ans->key  = k;
-	ans->mor  = (dg_more_name)0;
+	ans->more = (dg_more_name)0;
 	ans->next = NULL;
 
 	return ans;
@@ -96,10 +96,10 @@ new_dg_type(dg_type_key k)
 
 	dg_clump_left--;
 
-	ans = &(next_dg++)->typ;
+	ans = &(next_dg++)->type;
 	ans->key      = k;
 	ans->outref.k = NO_LAB;
-	ans->mor      = (dg_more_name)0;
+	ans->more     = (dg_more_name)0;
 
 	return ans;
 }
@@ -124,9 +124,9 @@ new_dg_info(dg_info_key k)
 }
 
 void
-extend_dg_name(dg_name nm)
+extend_dg_name(dg_name name)
 {
-	dg_more_name mor;
+	dg_more_name more;
 
 	if (!dg_clump_left) {
 		make_dg_clump();
@@ -134,31 +134,31 @@ extend_dg_name(dg_name nm)
 
 	dg_clump_left--;
 
-	nm->mor         = mor = &(next_dg++)->mor;
-	mor->this_tag   = NULL;
-	mor->inline_ref = NULL;
-	mor->refspec    = NULL;
-	mor->elabn      = NULL;
-	mor->exptns     = no_dg_type_list_option;
-	mor->end_pos    = no_short_sourcepos;
-	mor->en_family  = NULL;
-	mor->vslot      = NULL;
-	mor->repn       = NULL;
-	mor->acc        = DG_ACC_NONE;
-	mor->virt       = DG_VIRT_NONE;
-	mor->isinline   = 0;
-	mor->prognm     = 0;
-	mor->isconst    = 0;
-	mor->isspec     = 0;
-	mor->issep      = 0;
-	mor->isnew      = 0;
-	mor->aderiv     = 0;
+	name->more       = more = &(next_dg++)->more;
+	more->this_tag   = NULL;
+	more->inline_ref = NULL;
+	more->refspec    = NULL;
+	more->elabn      = NULL;
+	more->exptns     = no_dg_type_list_option;
+	more->end_pos    = no_short_sourcepos;
+	more->en_family  = NULL;
+	more->vslot      = NULL;
+	more->repn       = NULL;
+	more->acc        = DG_ACC_NONE;
+	more->virt       = DG_VIRT_NONE;
+	more->isinline   = 0;
+	more->prognm     = 0;
+	more->isconst    = 0;
+	more->isspec     = 0;
+	more->issep      = 0;
+	more->isnew      = 0;
+	more->aderiv     = 0;
 }
 
 void
 extend_dg_type(dg_type tp)
 {
-	dg_more_name mor;
+	dg_more_name more;
 
 	if (!dg_clump_left) {
 		make_dg_clump();
@@ -166,57 +166,57 @@ extend_dg_type(dg_type tp)
 
 	dg_clump_left--;
 
-	tp->mor         = mor = &(next_dg++)->mor;
-	mor->this_tag   = NULL;
-	mor->inline_ref = NULL;
-	mor->refspec    = NULL;
-	mor->elabn      = NULL;
-	mor->acc        = DG_ACC_NONE;
-	mor->virt       = DG_VIRT_NONE;
-	mor->isinline   = 0;
-	mor->prognm     = 0;
-	mor->isconst    = 0;
-	mor->isspec     = 0;
-	mor->isnew      = 0;
-	mor->aderiv     = 0;
+	tp->more         = more = &(next_dg++)->more;
+	more->this_tag   = NULL;
+	more->inline_ref = NULL;
+	more->refspec    = NULL;
+	more->elabn      = NULL;
+	more->acc        = DG_ACC_NONE;
+	more->virt       = DG_VIRT_NONE;
+	more->isinline   = 0;
+	more->prognm     = 0;
+	more->isconst    = 0;
+	more->isspec     = 0;
+	more->isnew      = 0;
+	more->aderiv     = 0;
 }
 
 void
-init_dgtag(dg_tag tg)
+init_dgtag(dg_tag tag)
 {
-	tg->key          = DGK_NONE;
-	tg->done         = 0;
-	tg->needed       = 0;
-	tg->any_inl      = 0;
-	tg->outref.k     = NO_LAB;
-	tg->abstract_lab = 0;
-	tg->copy         = NULL;
+	tag->key          = DGK_NONE;
+	tag->done         = 0;
+	tag->needed       = 0;
+	tag->any_inl      = 0;
+	tag->outref.k     = NO_LAB;
+	tag->abstract_lab = 0;
+	tag->copy         = NULL;
 }
 
 dg_tag
 gen_dg_tag(void)
 {
-	dg_tag tg = xcalloc(1, sizeof(dgtag_struct));
-	init_dgtag(tg);
-	return tg;
+	dg_tag tag = xcalloc(1, sizeof(dgtag_struct));
+	init_dgtag(tag);
+	return tag;
 }
 
 /* The following avoids repetitions of pointers and other qualified types */
 dg_type
-get_qual_dg_type(dg_qual_type_key qual, dg_type typ)
+get_qual_dg_type(dg_qual_type_key qual, dg_type type)
 {
 	static dg_type qual_type_list[N_DG_QUAL_TYPES] = { NULL };
 	dg_type ans;
 
 	for (ans = qual_type_list[qual]; ans; ans = ans->data.t_qual.another) {
-		if (ans->data.t_qual.typ == typ) {
+		if (ans->data.t_qual.type == type) {
 			return ans;
 		}
 	}
 
 	ans = new_dg_type(DGT_QUAL);
 	ans->data.t_qual.q_key   = qual;
-	ans->data.t_qual.typ     = typ;
+	ans->data.t_qual.type    = type;
 	ans->data.t_qual.another = qual_type_list[qual];
 
 	qual_type_list[qual] = ans;
@@ -226,13 +226,13 @@ get_qual_dg_type(dg_qual_type_key qual, dg_type typ)
 
 /* The following avoids repetitions of bitfield types */
 dg_type
-get_dg_bitfield_type(dg_type typ, shape sha, bitfield_variety bv)
+get_dg_bitfield_type(dg_type type, shape sha, bitfield_variety bv)
 {
 	static dg_type bf_list = NULL;
 	dg_type ans;
 
 	for (ans = bf_list; ans; ans = ans->data.t_bitf.another) {
-		if (ans->data.t_bitf.expanded == typ &&
+		if (ans->data.t_bitf.expanded == type &&
 		    ans->data.t_bitf.bv.bits == bv.bits &&
 		    ans->data.t_bitf.bv.has_sign == bv.has_sign) {
 			return ans;
@@ -240,7 +240,7 @@ get_dg_bitfield_type(dg_type typ, shape sha, bitfield_variety bv)
 	}
 
 	ans = new_dg_type(DGT_BITF);
-	ans->data.t_bitf.expanded = typ;
+	ans->data.t_bitf.expanded = type;
 	ans->data.t_bitf.sha      = sha;
 	ans->data.t_bitf.bv       = bv;
 	ans->data.t_bitf.another  = bf_list;
@@ -254,10 +254,10 @@ get_dg_bitfield_type(dg_type typ, shape sha, bitfield_variety bv)
 
 /* dg_idname is overkill for many purposes - we just want a string */
 char *
-idname_chars(dg_idname nam)
+idname_chars(dg_idname name)
 {
 	static char *empty = "";
-	switch (nam.id_key) {
+	switch (name.id_key) {
 	case DG_ID_INST:
 		error(ERR_INTERNAL, "inappropriate dg_instance_idname");
 		return empty;
@@ -266,13 +266,13 @@ idname_chars(dg_idname nam)
 		return empty;
 
 	default:
-		return nam.idd.nam;
+		return name.idd.name;
 	}
 }
 
 /* Avoid repetition of files */
 dg_filename
-get_filename(long dat, char *host, char *path, char *nam)
+get_filename(long dat, char *host, char *path, char *name)
 {
 	static dg_filename next_file = NULL;
 	static int filespace_left = 0;
@@ -282,7 +282,7 @@ get_filename(long dat, char *host, char *path, char *nam)
 		if (ans->file_dat == dat &&
 		    streq(ans->file_host, host) &&
 		    streq(ans->file_path, path) &&
-		    streq(ans->file_name, nam)) {
+		    streq(ans->file_name, name)) {
 			return ans;
 		}
 	}
@@ -297,7 +297,7 @@ get_filename(long dat, char *host, char *path, char *nam)
 	ans->file_dat = dat;
 	ans->file_host = host;
 	ans->file_path = path;
-	ans->file_name = nam;
+	ans->file_name = name;
 	ans->another = all_files;
 	all_files = ans;
 
@@ -357,16 +357,16 @@ find_proc_type(dg_type t)
 	}
 
 	if (t && t->key == DGT_TAGGED) {
-		dg_tag tg = t->data.t_tag;
+		dg_tag tag = t->data.t_tag;
 
-		if (tg->key == DGK_TYPE) {
-			return find_proc_type(tg->p.typ);
+		if (tag->key == DGK_TYPE) {
+			return find_proc_type(tag->p.type);
 		}
 
-		if (tg->key == DGK_NAME) {
-			dg_name ref_n = tg->p.nam;
+		if (tag->key == DGK_NAME) {
+			dg_name ref_n = tag->p.name;
 			if (ref_n->key == DGN_TYPE) {
-				return find_proc_type(ref_n->data.n_typ.raw);
+				return find_proc_type(ref_n->data.n_type.raw);
 			}
 		}
 	}
@@ -479,11 +479,11 @@ matched_obj(exp e, dg_name nm, dg_tag *refans)
 	if ((x) && x->tag == name_tag && son(x) == son(e)) {
 		if ((no(x) <= no(e)) &&
 		    (no(x) + shape_size(sh(x)) >= no(e) + shape_size(sh(e)))) {
-			if (!nm->mor || !nm->mor->this_tag) {
+			if (!nm->more || !nm->more->this_tag) {
 				IGNORE f_dg_tag_name(gen_dg_tag(), nm);
 			}
 
-			*refans = nm->mor->this_tag;
+			*refans = nm->more->this_tag;
 			return 1;
 		}
 	}
@@ -510,7 +510,7 @@ end_ref_search(exp e, dg_info d, dg_tag *refans)
 	}
 
 	if (d->key == DGA_NAME) {
-		return matched_obj(e, d->data.i_nam.dnam, refans);
+		return matched_obj(e, d->data.i_name.dname, refans);
 	}
 
 	/* otherwise inlined call or outermost proc */
@@ -575,11 +575,11 @@ check_const_type(dg_type t)
 
 	switch (t->key) {
 	case DGT_QUAL:
-		check_const_type(t->data.t_qual.typ);
+		check_const_type(t->data.t_qual.type);
 		break;
 
 	case DGT_CONS:
-		check_const_type(t->data.t_cons.typ);
+		check_const_type(t->data.t_cons.type);
 		break;
 
 	case DGT_ARRAY:
@@ -590,29 +590,29 @@ check_const_type(dg_type t)
 			dg_dim *dim = &(t->data.t_arr.dims.array[i]);
 			if (dim->d_key != DG_DIM_TYPE) {
 				if (!dim->low_ref) {
-					check_const_exp(dim->lower.x);
+					check_const_exp(dim->lower.exp);
 				}
 				if (!dim->hi_ref) {
-					check_const_exp(dim->upper.x);
+					check_const_exp(dim->upper.exp);
 				}
 			}
 		}
 		break;
 
 	case DGT_SUBR:
-		check_const_type(t->data.t_subr.d_typ);
+		check_const_type(t->data.t_subr.d_type);
 		if (!t->data.t_subr.low_ref) {
-			check_const_exp(t->data.t_subr.lower.x);
+			check_const_exp(t->data.t_subr.lower.exp);
 		}
 		if (!t->data.t_subr.hi_ref) {
-			check_const_exp(t->data.t_subr.upper.x);
+			check_const_exp(t->data.t_subr.upper.exp);
 		}
 		break;
 
 	case DGT_STRUCT:
 		for (i = 0; i < t->data.t_struct.u.fields.len; i++) {
 			dg_classmem *f = &(t->data.t_struct.u.fields.array[i]);
-			check_const_type(f->d.cm_f.f_typ);
+			check_const_type(f->d.cm_f.f_type);
 			check_const_exp(f->d.cm_f.f_offset);
 		}
 		break;
@@ -624,7 +624,7 @@ check_const_type(dg_type t)
 
 		for (i = 0; i < t->data.t_proc.params.len; i++) {
 			dg_param *p = &(t->data.t_proc.params.array[i]);
-			check_const_type(p->p_typ);
+			check_const_type(p->p_type);
 		}
 		break;
 
@@ -649,38 +649,38 @@ static dg_name
 new_copy_name(dg_name d)
 {
 	dg_name new = new_dg_name(d->key);
-	if (d->mor && d->mor->this_tag) {
+	if (d->more && d->more->this_tag) {
 		IGNORE f_dg_tag_name(gen_dg_tag(), new);
 
-		if (d->mor->this_tag->copy) {
+		if (d->more->this_tag->copy) {
 			error(ERR_INTERNAL, "bad copy_diagname");
 		}
 
 		if (inner_copy) {
-			d->mor->this_tag->copy = new->mor->this_tag;
+			d->more->this_tag->copy = new->more->this_tag;
 		}
 	}
 
 	if (doing_inlining) {
-		if (!d->mor || (!d->mor->this_tag && !d->mor->inline_ref)) {
+		if (!d->more || (!d->more->this_tag && !d->more->inline_ref)) {
 			IGNORE f_dg_tag_name(gen_dg_tag(), d);
 		}
 
-		if (!d->mor->inline_ref) {
-			d->mor->inline_ref = d->mor->this_tag;
+		if (!d->more->inline_ref) {
+			d->more->inline_ref = d->more->this_tag;
 		}
 	}
 
-	new->idnam  = d->idnam;
+	new->idname = d->idname;
 	new->whence = d->whence;
 
-	if (d->mor && (d->mor->inline_ref || d->mor->refspec || d->mor->acc ||
-	               d->mor->isconst)) {
+	if (d->more && (d->more->inline_ref || d->more->refspec || d->more->acc ||
+	                d->more->isconst)) {
 		extend_dg_name(new);
-		new->mor->inline_ref = d->mor->inline_ref;
-		new->mor->refspec    = d->mor->refspec;
-		new->mor->acc        = d->mor->acc;
-		new->mor->isconst    = d->mor->isconst;
+		new->more->inline_ref = d->more->inline_ref;
+		new->more->refspec    = d->more->refspec;
+		new->more->acc        = d->more->acc;
+		new->more->isconst    = d->more->isconst;
 	}
 
 	return new;
@@ -727,7 +727,7 @@ copy_diagname(dg_name d, exp var, exp lab, int need)
 	switch (d->key) {
 	case DGN_OBJECT: {
 		int moved = is_copied(d->data.n_obj.obtain_val);
-		check_const_type(d->data.n_obj.typ);
+		check_const_type(d->data.n_obj.type);
 		if (need || moved) {
 			new = new_copy_name(d);
 			new->data.n_obj = d->data.n_obj;
@@ -742,12 +742,12 @@ copy_diagname(dg_name d, exp var, exp lab, int need)
 	}
 
 	case DGN_TYPE:
-		check_const_type(d->data.n_typ.raw);
+		check_const_type(d->data.n_type.raw);
 		break;
 
 	case DGN_IMPORT:
-		if (d->data.n_imp.i_typ) {
-			check_const_type(d->data.n_imp.i_typ);
+		if (d->data.n_imp.i_type) {
+			check_const_type(d->data.n_imp.i_type);
 		}
 		break;
 
@@ -801,17 +801,17 @@ update_diag_copy(exp e, dg_info d, int update)
 		}
 
 		case DGA_BEG: {
-			dg_tag tg = d->data.i_tg;
-			if (tg->copy) {
-				d->data.i_tg = tg->copy;
+			dg_tag tag = d->data.i_tag;
+			if (tag->copy) {
+				d->data.i_tag = tag->copy;
 			}
 			break;
 		}
 
 		case DGA_RVS: {
-			dg_tag tg = d->data.i_rvs.u.tg;
-			if (tg && tg->copy) {
-				d->data.i_rvs.u.tg = tg->copy;
+			dg_tag tag = d->data.i_rvs.u.tag;
+			if (tag && tag->copy) {
+				d->data.i_rvs.u.tag = tag->copy;
 			}
 			break;
 		}
@@ -822,10 +822,10 @@ update_diag_copy(exp e, dg_info d, int update)
 
 		case DGA_MOVD:
 		case DGA_HOIST: {
-			dg_tag tg = d->data.i_movd.tg;
+			dg_tag tag = d->data.i_movd.tag;
 
-			if (tg && tg->copy) {
-				d->data.i_movd.tg = tg->copy;
+			if (tag && tag->copy) {
+				d->data.i_movd.tag = tag->copy;
 			}
 
 #if 1
@@ -848,9 +848,9 @@ update_diag_copy(exp e, dg_info d, int update)
 		/* otherwise keep record for code movement */
 		switch (d->key) {
 		case DGA_NAME: {
-			dg_name a = d->data.i_nam.dnam;
-			if (a->mor && a->mor->this_tag) {
-				a->mor->this_tag->copy = NULL;
+			dg_name a = d->data.i_name.dname;
+			if (a->more && a->more->this_tag) {
+				a->more->this_tag->copy = NULL;
 			}
 			break;
 		}
@@ -859,8 +859,8 @@ update_diag_copy(exp e, dg_info d, int update)
 			dg_name a;
 
 			for (a = d->data.i_inl.args; a; a = a->next) {
-				if (a->mor && a->mor->this_tag) {
-					a->mor->this_tag->copy = NULL;
+				if (a->more && a->more->this_tag) {
+					a->more->this_tag->copy = NULL;
 				}
 			}
 			break;
@@ -868,8 +868,8 @@ update_diag_copy(exp e, dg_info d, int update)
 
 		case DGA_X_CATCH: {
 			dg_name a = d->data.i_catch.ex;
-			if (a->mor && a->mor->this_tag) {
-				a->mor->this_tag->copy = NULL;
+			if (a->more && a->more->this_tag) {
+				a->more->this_tag->copy = NULL;
 			}
 			break;
 		}
@@ -904,8 +904,8 @@ update_detch_copy(detch_info *dl, int update)
 			update_diag_copy(NULL, dl->info, update);
 		}
 
-		if (update && dl->tg && dl->tg->copy) {
-			dl->tg = dl->tg->copy;
+		if (update && dl->tag && dl->tag->copy) {
+			dl->tag = dl->tag->copy;
 		}
 
 		if (dl->sub) {
@@ -954,18 +954,18 @@ copy_dg_info(dg_info d, exp var, exp lab, int doing_exp_copy)
 		break;
 
 	case DGA_NAME:
-		new->data.i_nam = d->data.i_nam;
+		new->data.i_name = d->data.i_name;
 		if (doing_exp_copy) {
 			/* a named item might be copied */
-			new->data.i_nam.dnam =
-			    copy_diagname(d->data.i_nam.dnam, var, lab,
+			new->data.i_name.dname =
+			    copy_diagname(d->data.i_name.dname, var, lab,
 			                  doing_inlining);
 		}
 		break;
 
 	case DGA_WITH:
 		new->data.i_with = d->data.i_with;
-		check_const_type(d->data.i_with.w_typ);
+		check_const_type(d->data.i_with.w_type);
 		if (doing_exp_copy) {
 			new->data.i_with.w_exp = copy_res(d->data.i_with.w_exp,
 			                                  var, lab);
@@ -1015,8 +1015,8 @@ copy_dg_info(dg_info d, exp var, exp lab, int doing_exp_copy)
 	case DGA_X_RAISE:
 		new->data.i_raise = d->data.i_raise;
 
-		if (d->data.i_raise.x_typ) {
-			check_const_type(d->data.i_raise.x_typ);
+		if (d->data.i_raise.x_type) {
+			check_const_type(d->data.i_raise.x_type);
 		}
 
 		if (d->data.i_raise.x_val && doing_exp_copy) {
@@ -1039,7 +1039,7 @@ copy_dg_info(dg_info d, exp var, exp lab, int doing_exp_copy)
 		break;
 
 	case DGA_BEG:
-		new->data.i_tg = d->data.i_tg;
+		new->data.i_tag = d->data.i_tag;
 		break;
 
 	case DGA_DEST:
@@ -1216,14 +1216,14 @@ start_diag_inlining(exp e, dg_name dn)
 		args = di->data.i_param.args;
 	}
 
-	if (!dn->mor || !dn->mor->this_tag) {
+	if (!dn->more || !dn->more->this_tag) {
 		IGNORE f_dg_tag_name(gen_dg_tag(), dn);
 	}
 
-	any_inl = dn->mor->this_tag->any_inl;
+	any_inl = dn->more->this_tag->any_inl;
 	/* for copying only */
-	di = f_inline_call_dg(dn->mor->this_tag, args, no_nat_option);
-	dn->mor->this_tag->any_inl = any_inl;
+	di = f_inline_call_dg(dn->more->this_tag, args, no_nat_option);
+	dn->more->this_tag->any_inl = any_inl;
 	current_inliner = gen_dg_tag();
 	di = f_make_tag_dg(current_inliner, di);
 	di->more = dgf(body);
@@ -1380,7 +1380,7 @@ gather_detch(exp e, dg_info *dx, int reason, int descend, int reuse,
 
 			if (reason < d->data.i_movd.reason) {
 				d->data.i_movd.reason = reason;
-				d->data.i_movd.tg = opt_ref;
+				d->data.i_movd.tag = opt_ref;
 			}
 
 			if (reuse) {
@@ -1411,7 +1411,7 @@ gather_detch(exp e, dg_info *dx, int reason, int descend, int reuse,
 			d = new_dg_info(DGA_MOVD);
 			d->data.i_movd.reason = reason;
 			d->data.i_movd.lost   = 0;
-			d->data.i_movd.tg     = opt_ref;
+			d->data.i_movd.tag    = opt_ref;
 			d->data.i_movd.lo_pc  = 0;
 			d->more = *dx;
 			*dx = d;
@@ -1422,12 +1422,12 @@ gather_detch(exp e, dg_info *dx, int reason, int descend, int reuse,
 
 			IGNORE f_make_tag_dg(gen_dg_tag(), d);
 			ans->info = NULL;
-			ans->tg = d->this_tag;
+			ans->tag = d->this_tag;
 		} else {
 			/* original about to be discarded */
 			ans->info = d;
 			d->more = NULL;
-			ans->tg = opt_ref;
+			ans->tag = opt_ref;
 		}
 
 		return ans;
@@ -1444,7 +1444,7 @@ gather_detch(exp e, dg_info *dx, int reason, int descend, int reuse,
 
 		if (!x) {
 			*dx = d = new_dg_info(DGA_CALL);
-			d->data.i_call.clnam = NULL;
+			d->data.i_call.clname = NULL;
 			d->data.i_call.pos = no_short_sourcepos;
 			d->data.i_call.ck = 0;
 			return gather_detch(e, dx, reason, descend, reuse, opt_ref);
@@ -1614,16 +1614,16 @@ gather_objects(exp e, exp whole, objset **obs, int ass)
 	switch (e->tag) {
 	case name_tag:
 		if (!intnl_to(whole, son(e))) {
-			dg_tag tg = find_obj_ref(whole, e);
-			if (tg) {
+			dg_tag tag = find_obj_ref(whole, e);
+			if (tag) {
 				objset *x;
 
-				for (x = *obs; x && x->tg != tg; x = x->next)
+				for (x = *obs; x && x->tag != tag; x = x->next)
 					;
 
 				if (!x) {
 					x = xcalloc(1, sizeof(objset));
-					x->tg   = tg;
+					x->tag  = tag;
 					x->ass  = ass;
 					x->next = *obs;
 					*obs = x;
@@ -1718,7 +1718,7 @@ make_optim_dg(int reason, exp e)
 
 	sub->data.i_movd.reason = reason;
 	sub->data.i_movd.lost   = 0;
-	sub->data.i_movd.tg     = (*dx)->this_tag;
+	sub->data.i_movd.tag    = (*dx)->this_tag;
 	sub->data.i_movd.lo_pc  = sub->data.i_movd.hi_pc = 0;
 	sub->more = dgf(konst);
 

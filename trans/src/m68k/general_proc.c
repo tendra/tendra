@@ -315,12 +315,12 @@ static rrs *restore_regs_subsribers = 0;
  * Restore_type is one of: ALL, NOT_SP, NOT_A6_OR_SP
  */
 void restore_regs
-(restore_type_t typ)
+(restore_type_t type)
 {
 	rrs* p = xmalloc(sizeof(rrs));
 	p->ins  = current_ins;
 	p->next = restore_regs_subsribers;
-	p->restore_type = typ;
+	p->restore_type = type;
 	restore_regs_subsribers = p;
 }
 

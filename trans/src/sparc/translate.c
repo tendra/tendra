@@ -649,21 +649,21 @@ local_translate_capsule(void)
 
 	/* output global definitions */
 	for (d = top_def; d != NULL; d = d->next) {
-		exp tg = d->dec_exp;
-		exp stg = son(tg);
+		exp tag = d->dec_exp;
+		exp stag = son(tag);
 		char *name = d->name;
 		bool extnamed = d->extnamed;
 
-		if (stg == NULL) {
+		if (stag == NULL) {
 			continue;
 		}
 
-		if (extnamed || no(tg) != 0 || streq(name, TDF_HANDLER) || streq(name, TDF_STACKLIM)) {
+		if (extnamed || no(tag) != 0 || streq(name, TDF_HANDLER) || streq(name, TDF_STACKLIM)) {
 			if (extnamed) {
 				assert(name[0] != '$');
 
-				if (stg->tag != proc_tag && stg->tag != general_proc_tag) {
-					if (!isvar(tg) || (d->acc & f_constant) || do_prom) {
+				if (stag->tag != proc_tag && stag->tag != general_proc_tag) {
+					if (!isvar(tag) || (d->acc & f_constant) || do_prom) {
 						insection(rodata_section);
 					} else {
 						insection(data_section);
@@ -684,7 +684,7 @@ local_translate_capsule(void)
 			}
 
 			/* evaluate all outer level constants */
-			if (stg->tag != proc_tag && stg->tag != general_proc_tag) {
+			if (stag->tag != proc_tag && stag->tag != general_proc_tag) {
 				instore is;
 				long symdef = d->sym_number + 1;
 #ifdef TDF_DIAG4
@@ -692,30 +692,30 @@ local_translate_capsule(void)
 #else
 				diag_descriptor *diag_props = d->diag_info;
 #endif
-				if (isvar(tg)) {
+				if (isvar(tag)) {
 					symdef = -symdef;
 				}
 
 				if (diag_props) {
 					if (diag != DIAG_NONE) {
 #ifdef TDF_DIAG3
-						diag3_driver->stab_global(diag_props, stg, name, extnamed);
+						diag3_driver->stab_global(diag_props, stag, name, extnamed);
 #endif
 #ifdef TDF_DIAG4
-						diag4_driver->stab_global(diag_props, stg, name, extnamed);
+						diag4_driver->stab_global(diag_props, stag, name, extnamed);
 #endif
 					}
 				}
 
-				is = evaluated(stg, symdef, (!isvar(tg) || (d->acc & f_constant)));
+				is = evaluated(stag, symdef, (!isvar(tag) || (d->acc & f_constant)));
 				if (is.adval) {
-					setvar(tg);
+					setvar(tag);
 				}
 
 				if (sysV_assembler) {
 					asm_printop(".type %s,#object", name);
 					if (!know_size) {
-						asm_printop(".size %s,%ld", name, shape_size(sh(stg)) / 8);
+						asm_printop(".size %s,%ld", name, shape_size(sh(stag)) / 8);
 					}
 				}
 			}
@@ -724,31 +724,31 @@ local_translate_capsule(void)
 
 	/* translate procedures */
 	for (d = top_def; d != NULL; d = d->next) {
-		exp tg = d->dec_exp;
-		exp stg = son(tg);
+		exp tag  = d->dec_exp;
+		exp stag = son(tag);
 		char *name = d->name;
 		bool extnamed = d->extnamed;
 
-		if (stg != NULL && shape_size(sh(stg)) == 0 && stg->tag == asm_tag) {
-			if (props(stg) != 0) {
+		if (stag != NULL && shape_size(sh(stag)) == 0 && stag->tag == asm_tag) {
+			if (props(stag) != 0) {
 				error(ERR_INTERNAL, "~asm not in ~asm_sequence");
 			}
 
-			check_asm_seq(son(stg), 1);
+			check_asm_seq(son(stag), 1);
 			insection(text_section);
-			IGNORE code_here(stg, tempregs, nowhere);
+			IGNORE code_here(stag, tempregs, nowhere);
 			asm_printf("\n");
 		}
 
-		if (no(tg) == 0 && !extnamed) {
+		if (no(tag) == 0 && !extnamed) {
 			continue;
 		}
 
-		if (stg == NULL) {
+		if (stag == NULL) {
 			continue;
 		}
 
-		if (stg->tag == proc_tag || stg->tag == general_proc_tag) {
+		if (stag->tag == proc_tag || stag->tag == general_proc_tag) {
 			/* translate code for procedure */
 			int proc_directive;
 			exp c = d->dec_exp;
@@ -762,9 +762,9 @@ local_translate_capsule(void)
 
 			if (!sysV_assembler) {
 				if (gencompat) {
-					optim_level = (proc_may_have_callees(stg)) ? 0 : 2;
+					optim_level = (proc_may_have_callees(stag)) ? 0 : 2;
 				} else {
-					optim_level = (stg->tag == general_proc_tag) ? 0 : 2;
+					optim_level = (stag->tag == general_proc_tag) ? 0 : 2;
 				}
 			}
 
@@ -792,13 +792,13 @@ local_translate_capsule(void)
 
 			if (diag != DIAG_NONE) {
 #if DWARF2
-				dw2_proc_start(stg, diag_props);
+				dw2_proc_start(stag, diag_props);
 #endif
 #ifdef DIAG3_STABS
-				diag3_driver->stab_proc(diag_props, stg, name, extnamed);
+				diag3_driver->stab_proc(diag_props, stag, name, extnamed);
 #endif
 #ifdef DIAG4_STABS
-				diag4_driver->stab_proc(diag_props, stg, name, extnamed);
+				diag4_driver->stab_proc(diag_props, stag, name, extnamed);
 #endif
 			}
 
@@ -813,11 +813,11 @@ local_translate_capsule(void)
 
 			asm_label("%s", name);
 			seed_label();		/* reset label sequence */
-			settempregs(stg);	/* reset getreg sequence */
+			settempregs(stag);	/* reset getreg sequence */
 
 			/* generate code for this proc */
 			proc_name = name;
-			IGNORE code_here(stg, tempregs, nowhere);
+			IGNORE code_here(stag, tempregs, nowhere);
 
 			if (sysV_assembler) {
 				asm_printop(".type %s,#function", name);
@@ -828,7 +828,7 @@ local_translate_capsule(void)
 
 			if (diag != DIAG_NONE) {
 #ifdef DWARF2
-				dw2_proc_end(stg);
+				dw2_proc_end(stag);
 #endif
 #ifdef DIAG3_STABS
 				diag3_driver->stab_proc_end();

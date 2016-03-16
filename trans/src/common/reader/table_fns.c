@@ -92,27 +92,27 @@ set_lab(label l, exp e)
 
 
 dec *
-get_dec(int tg)
+get_dec(int tag)
 {
-	/* find the tag declaration indexed by tg */
-	dec *res = unit_ind_tags[tg];
-	res->index = tg;
+	/* find the tag declaration indexed by tag */
+	dec *res = unit_ind_tags[tag];
+	res->index = tag;
 	return res;
 }
 
 
 aldef *
-get_aldef(int tg)
+get_aldef(int tag)
 {
-	/* find the alignment tag value indexed by tg */
-	return unit_ind_als[tg];
+	/* find the alignment tag value indexed by tag */
+	return unit_ind_als[tag];
 }
 
 
 tok_define *
 get_tok(int tk)
 {
-	/* find the token declaration indexed by tg */
+	/* find the token declaration indexed by tag */
 	context *con = crt_context;
 	while (con != NULL) {
 		int n = con->no_toks;
@@ -137,33 +137,33 @@ get_tok(int tk)
 
 
 exp
-get_tag(tag tg)
+get_tag(tag tag)
 {
-	/* find the exp known as tg */
+	/* find the exp known as tag */
 	context *con = crt_context;
 	while (con != NULL) {
 		tag_con *tc = con->tags;
 		while (tc != NULL) {
-			if (tc->namet == tg) {
+			if (tc->namet == tag) {
 				return tc->e;
 			}
 			tc = tc->rest;
 		}
 		con = con->outer;
 	}
-	return tg->dec_exp;
+	return tag->dec_exp;
 }
 
 
 void
-set_tag(tag tg, exp e)
+set_tag(tag tag, exp e)
 {
-	/* set the exp known as tg */
+	/* set the exp known as tag */
 	if (crt_context == NULL || crt_context->recursive == 0) {
-		tg->dec_exp = e;
+		tag->dec_exp = e;
 	} else {
 		tag_con *tc = xmalloc(sizeof(tag_con));
-		tc->namet = tg; tc->e = e; tc->rest = crt_context->tags;
+		tc->namet = tag; tc->e = e; tc->rest = crt_context->tags;
 		crt_context->tags = tc;
 	}
 }

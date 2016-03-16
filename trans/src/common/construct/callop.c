@@ -49,7 +49,7 @@ find_named_dec(char *n)
 
 
 exp
-find_named_tg(char *n, shape s)
+find_named_tag(char *n, shape s)
 {
 	/* find a global with name n */
 	dec *my_def = find_named_dec(n);
@@ -111,7 +111,7 @@ TDFcallop3(exp arg1, exp arg2, int n)
 	exp_option novar;
 	exp res;
 	novar.present = 0;
-	dc = find_named_tg(nm, f_proc);
+	dc = find_named_tag(nm, f_proc);
 	ob = me_obtain(dc);
 	pars.number = 2;
 	pars.start = arg1;
@@ -137,7 +137,7 @@ TDFcallop2(error_treatment ov_err, exp arg1, exp arg2, int n)
 	exp_option novar;
 	exp res;
 	novar.present = 0;
-	dc = find_named_tg(nm, f_proc);
+	dc = find_named_tag(nm, f_proc);
 	ob = me_obtain(dc);
 	pars.number = 2;
 	pars.start = arg1;
@@ -173,7 +173,7 @@ TDFcallop4(exp arg1, int n)
 	exp_option novar;
 	exp res;
 	novar.present = 0;
-	dc = find_named_tg(nm, f_proc);
+	dc = find_named_tag(nm, f_proc);
 	ob = me_obtain(dc);
 	pars.number = 1;
 	pars.start = arg1;
@@ -195,7 +195,7 @@ TDFwithet(error_treatment ov_err, exp e)
 	if (ov_err.err_code <= 2) {
 		return e;
 	}
-	Te = find_named_tg("__TDFerror", slongsh);
+	Te = find_named_tag("__TDFerror", slongsh);
 	brog(Te)->dec_var = 1;
 	if (keep_PIC_vars) {
 		setvar(Te);
@@ -222,7 +222,7 @@ TDFcallaux(error_treatment ov_err, exp arg1, char *nm, shape s)
 	exp_option novar;
 	exp res;
 	novar.present = 0;
-	dc = find_named_tg(nm, f_proc);
+	dc = find_named_tag(nm, f_proc);
 	ob = me_obtain(dc);
 	pars.number = 1;
 	pars.start = arg1;

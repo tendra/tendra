@@ -62,19 +62,19 @@ read_exp_to_source(exp body)
 exp
 read_diag_id_scope(exp body)
 {
-	dg_idname nam;
+	dg_idname name;
 	exp acc;
-	dg_type typ;
+	dg_type type;
 	dg_name dgn;
 	int was_within_diags = within_diags;
 
 	within_diags = 1;
-	nam = f_dg_sourcestring_idname(d_tdfstring());
-	acc = hold_refactor(d_exp());
-	typ = d_diag_type();
+	name = f_dg_sourcestring_idname(d_tdfstring());
+	acc  = hold_refactor(d_exp());
+	type = d_diag_type();
 	within_diags = was_within_diags;
 
-	dgn = f_dg_object_name(nam, f_dg_null_sourcepos, typ,
+	dgn = f_dg_object_name(name, f_dg_null_sourcepos, type,
 	                       yes_exp_option(diag_locate(acc)),
 	                       no_dg_accessibility_option);
 
@@ -102,18 +102,18 @@ read_diag_id_scope(exp body)
 exp
 read_diag_type_scope(exp body)
 {
-	dg_idname nam;
-	dg_type typ;
+	dg_idname name;
+	dg_type type;
 	dg_name dgn;
 	int was_within_diags = within_diags;
 
 	within_diags = 1;
-	nam = f_dg_sourcestring_idname(d_tdfstring());
-	typ = d_diag_type();
+	name = f_dg_sourcestring_idname(d_tdfstring());
+	type = d_diag_type();
 	within_diags = was_within_diags;
 
-	dgn = f_dg_type_name(nam, f_dg_null_sourcepos,
-	                     no_dg_accessibility_option, typ, f_false,
+	dgn = f_dg_type_name(name, f_dg_null_sourcepos,
+	                     no_dg_accessibility_option, type, f_false,
 	                     no_bool_option, no_dg_constraint_list_option);
 
 	body = f_dg_exp(body, f_name_decl_dg(dgn));

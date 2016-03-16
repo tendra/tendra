@@ -519,8 +519,8 @@ void diag_proc_main
 	if (di->key == DIAG_INFO_ID) {
 	    exp ps = di->data.id_scope.access;
 	    if (isparam(son(ps))) {
-		diag_type pdt = di->data.id_scope.typ;
-		char *pnm = di->data.id_scope.nme.ints.chars;
+		diag_type pdt = di->data.id_scope.type;
+		char *pnm = di->data.id_scope.name.ints.chars;
 		long off = 8 + (no(ps) + no(son(ps))) / 8;
 		if (diag == DIAG_STABS) {
 		    mach_op *op = make_int_data(off);

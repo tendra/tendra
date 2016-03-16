@@ -742,11 +742,11 @@ make_reg_index(int r1, int r2, long d, int sf)
 */
 
 static mach_op *
-_make_ind_rel_ap(long d, long e, int typ)
+_make_ind_rel_ap(long d, long e, int type)
 {
 	mach_op *p1, *p2;
 
-	switch (typ) {
+	switch (type) {
 	case par2_pl:
 		p2 = make_rel_ap2(d);
 		break;

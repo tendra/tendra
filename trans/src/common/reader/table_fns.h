@@ -20,19 +20,19 @@ exp get_lab(label l);
 /* set the exp which is labelled by l */
 void set_lab(label l, exp e);
 
-/* find the exp known as tg */
-exp get_tag(tag tg);
+/* find the exp known as tag */
+exp get_tag(tag tag);
 
-/* set the exp known as tg */
-void set_tag(tag tg, exp e);
+/* set the exp known as tag */
+void set_tag(tag tag, exp e);
 
-/* find the tag declaration indexed by tg */
-dec *get_dec(int tg);
+/* find the tag declaration indexed by tag */
+dec *get_dec(int tag);
 
-/* find the alignment tag value indexed by tg */
-aldef *get_aldef(int tg);
+/* find the alignment tag value indexed by tag */
+aldef *get_aldef(int tag);
 
-/* find the token declaration indexed by tg */
+/* find the token declaration indexed by tag */
 tok_define *get_tok(int tk);
 
 /* apply tk to its parameters in pars, and return the result */

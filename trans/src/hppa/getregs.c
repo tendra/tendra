@@ -48,12 +48,12 @@ static int currentfloat = R_FLT_FIRST;
 static long choosefloat = RMASK(R_FLT_FIRST);
 
 
-/* reset getreg() and getfreg() back to start of sequence for proc 'tg' */
+/* reset getreg() and getfreg() back to start of sequence for proc 'tag' */
 /* (help register numbers be backward compatible). */
 void
-settempregs(exp tg)
+settempregs(exp tag)
 {
-  UNUSED(tg);
+  UNUSED(tag);
 
   /*ARGSUSED*/
   currentfix = GR2;

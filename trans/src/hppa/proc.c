@@ -75,7 +75,7 @@ extern char *proc_name;
 extern int line;
 extern char export[128];
 extern int firstlab, labno;
-extern exp find_named_tg(char *, shape);
+extern exp find_named_tag(char *, shape);
 extern shape f_pointer(alignment);
 extern alignment f_alignment(shape);
 extern shape f_proc;
@@ -403,7 +403,7 @@ make_proc_tag_code(exp e, space sp, where dest, int exitlab)
 
 	if (proc_has_checkstack(e)) {
 		baseoff b;
-		exp stl = find_named_tg("__TDFstacklim", f_pointer(f_alignment(f_proc)));
+		exp stl = find_named_tag("__TDFstacklim", f_pointer(f_alignment(f_proc)));
 		setvar(stl);
 		b = boff(stl);
 		stackerr_lab = new_label();

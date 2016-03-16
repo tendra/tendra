@@ -51,7 +51,7 @@ int no_temps   = 0;
 int
 symnoforext(dec * ex, int filen)
 {
-	exp tg = ex->dec_exp;
+	exp tag = ex->dec_exp;
 	shape s = ex->dec_shape;
 	diag_type dt = (diag_type) 0;
 	short symtype;
@@ -62,7 +62,7 @@ symnoforext(dec * ex, int filen)
 	if (diag != DIAG_NONE) {
 		diag_descriptor *t = ex->diag_info;
 		if (t != NULL) {
-			name = t->data.id.nme.ints.chars;
+			name = t->data.id.name.ints.chars;
 			dt   = t->data.id.new_type;
 			filen = find_file(t->data.id.whence.file->file.ints.chars);
 		}
@@ -70,10 +70,10 @@ symnoforext(dec * ex, int filen)
 
 	if (ex->extnamed) {
 		/* it is global */
-		if (s->tag == prokhd && !isvar(tg)
-			&& (son(tg) == NULL || son(tg)->tag == proc_tag || son(tg)->tag == general_proc_tag)) {
+		if (s->tag == prokhd && !isvar(tag)
+			&& (son(tag) == NULL || son(tag)->tag == proc_tag || son(tag)->tag == general_proc_tag)) {
 			/* a declared procedure */
-			if (son(tg) != NULL) {
+			if (son(tag) != NULL) {
 				/* a defined procedure will be output later with this symbolno */
 				return add_dense_no(0, 0);
 			} else {
@@ -84,8 +84,8 @@ symnoforext(dec * ex, int filen)
 			/* some other global */
 			ash a;
 			symtype  = stGlobal;
-			symclass = (son(tg) != NULL)
-				? ((son(tg))->tag != clear_tag ? scData : scCommon)
+			symclass = (son(tag) != NULL)
+				? ((son(tag))->tag != clear_tag ? scData : scCommon)
 				: scNil;
 			a = ashof(s);
 			v = (a.ashsize + 7) >> 3;
@@ -94,12 +94,12 @@ symnoforext(dec * ex, int filen)
 		return new_esym_d(name, v, symtype, symclass, dt, filen);
 	} else {
 		/* statics */
-		if (s->tag == prokhd && !isvar(tg)
-			&& (son(tg) == NULL || son(tg)->tag == proc_tag || son(tg)->tag == general_proc_tag)) {
+		if (s->tag == prokhd && !isvar(tag)
+			&& (son(tag) == NULL || son(tag)->tag == proc_tag || son(tag)->tag == general_proc_tag)) {
 			/* a procedure */
 			symtype = stStaticProc;
 
-			if (son(tg) != NULL) {
+			if (son(tag) != NULL) {
 				return add_dense_no(0, 0);
 			}
 
@@ -109,7 +109,7 @@ symnoforext(dec * ex, int filen)
 		} else {
 			/* other statics */
 			symtype  = stStatic;
-			symclass = (son(tg) == NULL || son(tg)->tag != clear_tag)
+			symclass = (son(tag) == NULL || son(tag)->tag != clear_tag)
 				? scData : scCommon;
 		}
 
@@ -131,7 +131,7 @@ symnoforstart(int i, int filen)
 	if (diag != DIAG_NONE) {
 		diag_descriptor *t = ex->diag_info;
 		if (t != NULL) {
-			name = t->data.id.nme.ints.chars;
+			name = t->data.id.name.ints.chars;
 			dt   = t->data.id.new_type;
 			filen = find_file(t->data.id.whence.file->file.ints.chars);
 		}
@@ -152,7 +152,7 @@ symnoforend(dec * ex, int filen)
 	if (diag != DIAG_NONE) {
 		diag_descriptor *t = ex->diag_info;
 		if (t != NULL) {
-			name = t->data.id.nme.ints.chars;
+			name = t->data.id.name.ints.chars;
 			dt   = t->data.id.new_type;
 			filen = find_file(t->data.id.whence.file->file.ints.chars);
 		}
