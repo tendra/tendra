@@ -28,6 +28,7 @@
 #include <local/dw2_config.h>
 #endif
 
+#include <construct/installtypes.h>
 #include <construct/dec.h>
 
 #include <main/driver.h>
