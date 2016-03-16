@@ -15,7 +15,7 @@ int cproc (exp p, char *pname, int cname, int global
 	, diag_descriptor *diag_props
 #endif
 #ifdef TDF_DIAG4
-	, struct dg_name_t *diag_props);
+	, struct dg_name_t *diag_props
 #endif
 );
 void restore_callregs(int untidy);
