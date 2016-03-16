@@ -17,4 +17,8 @@ typedef struct dg_type_t *dg_type;
 typedef struct dg_info_t *dg_info;
 typedef struct file_t *dg_filename;
 
+typedef struct diagdef_t 	diag_descriptor;
+typedef struct diag_type_t	*diag_type;
+typedef struct filename_t	*filename;
+
 #endif

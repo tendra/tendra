@@ -10,8 +10,6 @@
 #ifndef diagtypes_key
 #define diagtypes_key 1
 
-#include "diagtypes1.h"
-
 #ifdef DIAG3_DWARF1
 #include <dwarf1/dw1_types.h>
 #endif
@@ -186,7 +184,6 @@ typedef struct diagdef_t {
 		} type;
 	} data;
 } diagdef;
-				/* diag_descriptor is in diagtypes1.h */
 
 typedef struct diag_unit_t {
 	int		len;

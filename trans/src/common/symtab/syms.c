@@ -19,7 +19,7 @@
 #include <tdf/shape.h>
 #include <tdf/tag.h>
 
-#include <diag3/diagtypes1.h>
+#include <diag3/dg_first.h>
 
 #include "cross_config.h"
 

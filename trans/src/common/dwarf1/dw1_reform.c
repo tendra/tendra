@@ -8,6 +8,7 @@
 
 #include <reader/exp.h>
 
+#include <diag3/dg_first.h>
 #include <diag3/diaginfo.h>
 #include <diag3/diag_reform.h>
 

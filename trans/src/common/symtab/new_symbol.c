@@ -23,9 +23,9 @@
 #include <construct/installtypes.h>
 #include <construct/dec.h>
 
-#include <main/flags.h>
-
 #include <diag3/diagtypes.h>
+
+#include <main/flags.h>
 
 /*
  * Type definitions for translator produced debugging information

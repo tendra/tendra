@@ -16,7 +16,6 @@
  */
 
 #include <diag3/diaginfo.h>
-#include <diag3/diagtypes1.h>
 
 struct diag3_driver {
 	void (*out_diagnose_prelude )(void);
