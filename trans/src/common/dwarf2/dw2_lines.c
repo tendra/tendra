@@ -26,7 +26,8 @@
 #include <diag3/diagglob.h>
 #endif
 #ifdef TDF_DIAG4
-#include <diag4/dg_globs.h>
+#include <diag4/dg_aux.h>
+#include <diag4/diagglob.h>
 #endif
 
 #include <dwarf2/dw2_lines.h>

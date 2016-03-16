@@ -27,8 +27,8 @@
 #include <refactor/optimise.h>
 
 #ifdef TDF_DIAG4
-#include <diag4/dg_globs.h>
 #include <diag4/dg_aux.h>
+#include <diag4/diagglob.h>
 #endif
 
 static exp

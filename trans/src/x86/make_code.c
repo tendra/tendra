@@ -76,7 +76,7 @@
 #ifdef TDF_DIAG4
 #include <diag4/diag_fns.h>
 #include <diag4/dg_aux.h>
-#include <diag4/dg_globs.h>
+#include <diag4/diagglob.h>
 #include <diag4/diag_reform.h>
 #endif
 

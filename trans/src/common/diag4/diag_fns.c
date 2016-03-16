@@ -31,7 +31,6 @@
 
 #include "diag_fns.h"
 #include "diagglob.h"
-#include "dg_globs.h"
 #include "dg_aux.h"
 #include <reader/externs.h>
 

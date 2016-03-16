@@ -33,7 +33,7 @@
 #include <refactor/refactor.h>
 
 #include "dg_aux.h"
-#include "dg_globs.h"
+#include "diagglob.h"
 
 static int clean_copy = 0; /* set by copy_dg_separate */
 

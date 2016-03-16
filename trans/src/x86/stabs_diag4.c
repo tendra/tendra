@@ -45,7 +45,7 @@
 
 #include <diag4/dg_types.h>
 #include <diag4/dg_aux.h>
-#include <diag4/dg_globs.h>
+#include <diag4/diagglob.h>
 #include <diag4/diag_reform.h>
 
 #include "localtypes.h"
