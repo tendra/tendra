@@ -271,9 +271,6 @@ main(int argc, char *argv[])
 		if (diag != DIAG_NONE) {
 			optim = 0;
 			all_variables_visible = 1;
-#ifdef TDF_DIAG4
-			diag_visible = 1;
-#endif
 		}
 
 		/*

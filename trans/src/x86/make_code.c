@@ -575,12 +575,7 @@ static regu
 alloc_reg(int rs, shape sha, int br, int big_reg, exp e)
 {
 	if (sha->tag >= shrealhd && sha->tag <= doublehd) {
-#ifdef TDF_DIAG4
-		if (big_reg || diag_visible || round_after_flop ||
-#else
-		if (big_reg || diag != DIAG_NONE || round_after_flop ||
-#endif
-		    (cpu & CPU_80586 && isvar(e))) {
+		if (big_reg || diag != DIAG_NONE || round_after_flop || (cpu & CPU_80586 && isvar(e))) {
 			regu ru;
 			ru.can_do = 0;
 

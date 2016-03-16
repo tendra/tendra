@@ -616,13 +616,7 @@ make_res_tag_code(exp e, space sp, where dest, int exitlab)
 
 	default:
 		/* not struct or union result */
-		if (proc_state.leaf_proc && e->tag == res_tag && !sysV_assembler
-#ifdef TDF_DIAG4
-		    && !diag_visible)
-#else
-		    && diag == DIAG_NONE)
-#endif
-		{
+		if (proc_state.leaf_proc && e->tag == res_tag && !sysV_assembler && diag == DIAG_NONE) {
 			/*
 			 * Use only one return per proc, as this is necessary
 			 * for the peep-hole assembler 'as -O' to recognise

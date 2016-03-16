@@ -391,15 +391,9 @@ local_translate_capsule(void)
 	}
 
 	/* apply all optimisations */
-#ifdef TDF_DIAG4
-	if (!diag_visible) {
-		opt_all_exps();
-	}
-#else
 	if (diag == DIAG_NONE) {
 		opt_all_exps();
 	}
-#endif
 
 	/* mark all statics as unaliased and count procedures */
 	noprocs = 0;
@@ -411,13 +405,7 @@ local_translate_capsule(void)
 			continue;
 		}
 
-#ifdef TDF_DIAG4
-		if (!diag_visible && !separate_units && !d->extnamed
-#else
-		if (diag == DIAG_NONE && !separate_units && !d->extnamed
-#endif
-		     && isvar(c))
-		{
+		if (diag == DIAG_NONE && !separate_units && !d->extnamed && isvar(c)) {
 			mark_unaliased(c);
 		}
 

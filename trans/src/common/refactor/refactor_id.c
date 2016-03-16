@@ -752,11 +752,7 @@ refactor_id(exp e, exp scope)
 			/* scan the uses of the variable */
 			if (tc->last && (bro(tc)->tag == hold_tag ||
 			                 bro(tc)->tag == hold2_tag)) {
-#ifdef TDF_DIAG4
-				if (diag_visible) {
-#else
 				if (diag != DIAG_NONE) {
-#endif
 					setvis(e);
 					return 0;
 				}
@@ -1132,11 +1128,7 @@ refactor_id(exp e, exp scope)
 			}
 		}
 
-#ifdef TDF_DIAG4
-		if (all_a && !isparam(e) && !diag_visible) {
-#else
 		if (all_a && !isparam(e) && diag == DIAG_NONE) {
-#endif
 			/*
 			 * If only assignments replace them by evaluating the value assigned
 			 * and discarding it. Replace the declaration by a sequence of
