@@ -505,7 +505,7 @@ type_size(dg_type dt)
 		}
 
 		if (tag->key == DGK_NAME) {
-			dg_name ref_n = tag->p.nam;
+			dg_name ref_n = tag->p.name;
 			if (ref_n->key == DGN_TYPE /* && ref_n->idname.id_key == DG_ID_NONE */) {
 				dg_type ref_t = tag->p.name->data.n_type.raw;
 				return type_size(ref_t);
@@ -611,7 +611,7 @@ out_dt_shape(dg_type dt)
 		}
 
 		if (tag->key == DGK_NAME) {
-			dg_name ref_n = tag->p.nam;
+			dg_name ref_n = tag->p.name;
 			if (ref_n->key == DGN_TYPE /* && ref_n->idname.id_key == DG_ID_NONE */) {
 				dg_type ref_t = tag->p.name->data.n_type.raw;
 				out_dt_shape(ref_t);

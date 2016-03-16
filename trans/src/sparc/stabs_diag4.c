@@ -478,7 +478,7 @@ type_size(dg_type dt)
 		}
 
 		if (tag->key == DGK_NAME) {
-			dg_name ref_n = tag->p.nam;
+			dg_name ref_n = tag->p.name;
 			if (ref_n->key == DGN_TYPE /* && ref_n->idname.id_key == DG_ID_NONE */) {
 				dg_type ref_t = tag->p.name->data.n_type.raw;
 				return type_size(ref_t);
@@ -587,7 +587,7 @@ out_dt_shape(dg_type dt)
 		}
 
 		if (tag->key == DGK_NAME) {
-			dg_name ref_n = tag->p.nam;
+			dg_name ref_n = tag->p.name;
 
 			if (ref_n->key == DGN_TYPE /* && ref_n->idname.id_key == DG_ID_NONE */) {
 				dg_type ref_t = tag->p.name->data.n_type.raw;
@@ -608,7 +608,7 @@ out_dt_shape(dg_type dt)
 	}
 
 	case DGT_BASIC:
-		dt->outref.u.l = out_sh_type(dt->data.t_bas.b_sh, dt->data.t_bas.tnam);
+		dt->outref.u.l = out_sh_type(dt->data.t_bas.b_sh, dt->data.t_bas.tname);
 		dt->outref.k = LAB_D;
 		out_dt_shape(dt);
 		break;
@@ -619,7 +619,7 @@ out_dt_shape(dg_type dt)
 
 			dg_type pdt = dt->data.t_qual.type;
 			if (pdt->key == DGT_BASIC) {
-				long pn = out_sh_type(pdt->data.t_bas.b_sh, pdt->data.t_bas.tnam);
+				long pn = out_sh_type(pdt->data.t_bas.b_sh, pdt->data.t_bas.tname);
 				non = stab_ptrs[pn];
 				if (non == 0) {
 					non = (dt->outref.k < 0 ? dt->outref.u.l : next_typen());
@@ -735,7 +735,7 @@ out_dt_shape(dg_type dt)
 				asm_fprintf(dg_file, "\t.stabs\t\"");
 			}
 			depth_now++;
-			asm_fprintf(dg_file, "%s:", el[i].d.cm_f.fnam);
+			asm_fprintf(dg_file, "%s:", el[i].d.cm_f.fname);
 			out_dt_shape(el[i].d.cm_f.f_type);
 			asm_fprintf(dg_file, ",%ld,%ld;", offset, type_size(el[i].d.cm_f.f_type));
 		}
@@ -790,7 +790,7 @@ stab_global(dg_name di, exp global, char * id, int ext)
 		return;
 	}
 
-	nm = idname_chars(di->idnam);
+	nm = idname_chars(di->idname);
 	dt = di->data.n_obj.type;
 
 	if (di->whence.line) {
@@ -820,7 +820,7 @@ stab_proc(dg_name di, exp proc, char * id, int ext)
 		return;
 	}
 
-	nm = idname_chars(di->idnam);
+	nm = idname_chars(di->idname);
 	dt = di->data.n_proc.type;
 
 	if (dt->key == DGT_PROC) {	/* it should be */
@@ -917,7 +917,7 @@ stab_local(dg_name di, int param)
 
 	disp = no(id);
 	id = son(id);
-	nm = idname_chars(di->idnam);
+	nm = idname_chars(di->idname);
 	dt = di->data.n_obj.type;
 	t = next_del_stab();
 
@@ -1050,7 +1050,7 @@ init_stab_aux(void)
 		for (item = this_comp->dn_list; item; item = item->next) {
 			if (item->key == DGN_TYPE && item->data.n_type.raw->key != DGT_UNKNOWN) {
 				dg_type dt = item->data.n_type.raw;
-				char *s = idname_chars(item->idnam);
+				char *s = idname_chars(item->idname);
 				if (s[0]) {
 					asm_fprintf(dg_file, "\t.stabs\t\"%s:", s);
 					if (dt->outref.k == LAB_STR) {
