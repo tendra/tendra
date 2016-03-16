@@ -22,7 +22,7 @@ typedef struct {
 	bool iscont;
 } regpeep;
 
-regpeep regexps[];
+regpeep regexps[48];
 
 ans iskept(exp);
 bool sim_exp(exp, exp);
