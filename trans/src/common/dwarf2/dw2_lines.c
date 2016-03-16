@@ -26,7 +26,7 @@
 #include <diag3/diagglob.h>
 #endif
 #ifdef TDF_DIAG4
-#include <diag3/diagtypes.h>
+#include <diag4/diagtypes.h>
 #include <diag4/diagglob.h>
 #endif
 
