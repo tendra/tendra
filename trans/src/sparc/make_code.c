@@ -69,18 +69,18 @@
 #include "make_code.h"
 #include "localexpmacs.h"
 
+#ifdef TDF_DIAG3
+#include <diag3/diag_reform.h>
+#endif
 #ifdef TDF_DIAG4
 #include <diag4/diag_reform.h>
 #endif
 
 #ifdef TDF_DIAG3
-#include <diag3/diag_reform.h>
+#include "stabs_diag3.h"
 #endif
-
 #ifdef TDF_DIAG4
 #include "stabs_diag4.h"
-#else
-#include "stabs_diag3.h"
 #endif
 
 #ifdef TDF_DIAG4

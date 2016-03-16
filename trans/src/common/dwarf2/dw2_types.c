@@ -29,10 +29,11 @@
 #include <main/flags.h>
 #include <main/print.h>
 
+#ifdef TDF_DIAG3
+#include <diag3/diag_fns.h>
+#endif
 #ifdef TDF_DIAG4
 #include <diag4/diag_fns.h>
-#else
-#include <diag3/diag_fns.h>
 #endif
 
 #include <dwarf2/dw2_types.h>

@@ -65,6 +65,59 @@ out_diagnose_postlude(void)
 {
 }
 
+#ifdef TDF_DIAG3
+
+static void
+output_diag(diag_info *d, int proc_no, exp e)
+{
+	if (d->key == DIAG_INFO_SOURCE) {
+		int l = (int) d->data.source.beg.line_no.nat_val.small_nat -
+		        crt_proc_start + 1;
+		if (!check_filename(d->data.source.beg)) {
+			return;
+		}
+
+		if (l == last_line_no) {
+			return;
+		}
+
+		last_line_no = l;
+
+		if (l > 0) {
+			asm_printf(" .ln %d\n", l);
+		}
+		return;
+	}
+
+	if (d->key == DIAG_INFO_ID) {
+		ot ty;
+		exp acc = d->data.id_scope.access;
+		int p = (no(acc) + no(son(acc))) / 8;
+		int param_dec = isparam(son(acc));
+
+		mark_scope(e);
+
+		if (props(e) & 0x80) {
+			asm_printf(" .def .bb; .val .; .scl 100;  .line %d; .endef\n",
+			            last_line_no);
+		}
+
+		asm_printf(" .def %s; .val ", d->data.id_scope.name.ints.chars);
+		if (param_dec) {
+			asm_printf("%d", p + 8);
+		} else {
+			asm_printf("%d-.Ldisp%d", p, proc_no);
+		}
+		asm_printf("; .scl %d; ", (param_dec) ? 9 : 1);
+		ty = out_type(d->data.id_scope.type, 0);
+		asm_printf(".type 0%o; .endef\n", ty.type + (ty.modifier << 4));
+
+		return;
+	}
+}
+
+#endif
+
 #ifdef TDF_DIAG4
 
 void
@@ -131,57 +184,6 @@ code_diag_info(diag_info *d, int proc_no,
 
 		code_diag_info(d->more, proc_no, mcode, args);
 	}
-	}
-}
-
-#else
-
-static void
-output_diag(diag_info *d, int proc_no, exp e)
-{
-	if (d->key == DIAG_INFO_SOURCE) {
-		int l = (int) d->data.source.beg.line_no.nat_val.small_nat -
-		        crt_proc_start + 1;
-		if (!check_filename(d->data.source.beg)) {
-			return;
-		}
-
-		if (l == last_line_no) {
-			return;
-		}
-
-		last_line_no = l;
-
-		if (l > 0) {
-			asm_printf(" .ln %d\n", l);
-		}
-		return;
-	}
-
-	if (d->key == DIAG_INFO_ID) {
-		ot ty;
-		exp acc = d->data.id_scope.access;
-		int p = (no(acc) + no(son(acc))) / 8;
-		int param_dec = isparam(son(acc));
-
-		mark_scope(e);
-
-		if (props(e) & 0x80) {
-			asm_printf(" .def .bb; .val .; .scl 100;  .line %d; .endef\n",
-			            last_line_no);
-		}
-
-		asm_printf(" .def %s; .val ", d->data.id_scope.name.ints.chars);
-		if (param_dec) {
-			asm_printf("%d", p + 8);
-		} else {
-			asm_printf("%d-.Ldisp%d", p, proc_no);
-		}
-		asm_printf("; .scl %d; ", (param_dec) ? 9 : 1);
-		ty = out_type(d->data.id_scope.type, 0);
-		asm_printf(".type 0%o; .endef\n", ty.type + (ty.modifier << 4));
-
-		return;
 	}
 }
 

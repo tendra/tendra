@@ -33,12 +33,13 @@
 
 #include <special/special_tok.h>
 
+#ifdef TDF_DIAG3
+#include <diag3/diagglob.h>
+#include <diag3/dg_fns.h>
+#endif
 #ifdef TDF_DIAG4
 #include <diag4/diagglob.h>
 #include <diag4/dg_fns.h>
-#else
-#include <diag3/diagglob.h>
-#include <diag3/dg_fns.h>
 #endif
 
 #include <refactor/refactor.h>

@@ -142,15 +142,15 @@
 #ifdef TDF_DIAG3
 #include <diag3/diag_reform.h>
 #endif
-
 #ifdef TDF_DIAG4
 #include <diag4/diag_reform.h>
 #endif
 
+#ifdef TDF_DIAG3
+#include "stabs_diag3.h"
+#endif
 #ifdef TDF_DIAG4
 #include "stabs_diag4.h"
-#else
-#include "stabs_diag3.h"
 #endif
 
 #ifdef DWARF2
@@ -357,8 +357,6 @@ exit_translator(void)
 		if (diag != DIAG_NONE) {
 #ifdef TDF_DIAG3
 			diag3_driver->out_diagnose_postlude();
-#else
-			/* do nothing */
 #endif
 		}
 }
@@ -687,11 +685,13 @@ local_translate_capsule(void)
 			if (stag->tag != proc_tag && stag->tag != general_proc_tag) {
 				instore is;
 				long symdef = d->sym_number + 1;
-#ifdef TDF_DIAG4
-				struct dg_name_t *diag_props = d->dg_name;
-#else
+#ifdef TDF_DIAG3
 				diag_descriptor *diag_props = d->diag_info;
 #endif
+#ifdef TDF_DIAG4
+				struct dg_name_t *diag_props = d->dg_name;
+#endif
+
 				if (isvar(tag)) {
 					symdef = -symdef;
 				}
@@ -753,10 +753,11 @@ local_translate_capsule(void)
 			int proc_directive;
 			exp c = d->dec_exp;
 			prop p = procrecs[no(son(c))].needsproc.prps;
+#ifdef TDF_DIAG3
+			diag_descriptor *diag_props = d->diag_info;
+#endif
 #ifdef TDF_DIAG4
 			struct dg_name_t *diag_props = d->dg_name;
-#else
-			diag_descriptor *diag_props = d->diag_info;
 #endif
 			insection(text_section);
 

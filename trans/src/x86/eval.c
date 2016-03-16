@@ -30,12 +30,13 @@
 #include <main/flags.h>
 #include <main/print.h>
 
+#ifdef TDF_DIAG3
+#include <diag3/diag_fns.h>
+#include <diag3/diag_reform.h>
+#endif
 #ifdef TDF_DIAG4
 #include <diag4/diag_fns.h>
 #include <diag4/diag_reform.h>
-#else
-#include <diag3/diag_fns.h>
-#include <diag3/diag_reform.h>
 #endif
 
 #include "localtypes.h"
@@ -483,11 +484,12 @@ evalaux(exp e, int isconst, int al)
  * or identifier s cname==-1 means use s
  */
 void
-evaluate(exp c, int cname, char *s, int isconst, int global,
+evaluate(exp c, int cname, char *s, int isconst, int global
+#ifdef TDF_DIAG3
+	, diag_descriptor *diag_props
+#endif
 #ifdef TDF_DIAG4
-	struct dg_name_t *diag_props
-#else
-	diag_descriptor *diag_props
+	, struct dg_name_t *diag_props
 #endif
 	)
 {

@@ -43,11 +43,12 @@
 #include "instr386.h"
 #include "operand.h"
 
-#ifdef TDF_DIAG4
-#include <diag4/diag_fns.h>
-#else
+#ifdef TDF_DIAG3
 #include <diag3/diag_fns.h>
 #include <diag3/diag_reform.h>
+#endif
+#ifdef TDF_DIAG4
+#include <diag4/diag_fns.h>
 #endif
 
 #ifdef DWARF2

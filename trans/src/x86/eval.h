@@ -10,11 +10,12 @@
 #ifndef EVAL_H
 #define EVAL_H
 
-void evaluate(exp c, int cname, char *s, int isconst, int global,
+void evaluate(exp c, int cname, char *s, int isconst, int global
+#ifdef TDF_DIAG3
+	, diag_descriptor *d
+#endif
 #ifdef TDF_DIAG4
-	struct dg_name_t *d
-#else
-	diag_descriptor *d
+	, struct dg_name_t *d
 #endif
 	);
 

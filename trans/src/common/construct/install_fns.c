@@ -244,10 +244,11 @@ make_extra_dec(char *name, int v, int g, exp init, shape s)
 	extra_dec->dec_shape = s;
 	extra_dec->dec_exp = e;
 	extra_dec->unit_number = crt_tagdef_unit_no;
+#ifdef TDF_DIAG3
+	extra_dec->diag_info = NULL;
+#endif
 #ifdef TDF_DIAG4
 	extra_dec->dg_name = NULL;
-#else
-	extra_dec->diag_info = NULL;
 #endif
 	extra_dec->extnamed = (unsigned int)g;
 	extra_dec->dec_var = (unsigned int)v;

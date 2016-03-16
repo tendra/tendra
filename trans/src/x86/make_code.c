@@ -68,15 +68,16 @@
 #include "make_code.h"
 #include "localexpmacs.h"
 
+#ifdef TDF_DIAG3
+#include <diag3/diag_fns.h>
+#include <diag3/diaginfo1.h>
+#include <diag3/diag_reform.h>
+#endif
 #ifdef TDF_DIAG4
 #include <diag4/diag_fns.h>
 #include <diag4/dg_aux.h>
 #include <diag4/dg_globs.h>
 #include <diag4/diag_reform.h>
-#else
-#include <diag3/diag_fns.h>
-#include <diag3/diaginfo1.h>
-#include <diag3/diag_reform.h>
 #endif
 
 #ifdef DWARF2

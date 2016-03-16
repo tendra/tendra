@@ -37,12 +37,13 @@
 #include <main/flags.h>
 #include <main/print.h>
 
+#ifdef TDF_DIAG3
+#include <diag3/diag_fns.h>
+#include <diag3/diag_reform.h>
+#endif
 #ifdef TDF_DIAG4
 #include <diag4/diag_fns.h>
 #include <diag4/diag_reform.h>
-#else
-#include <diag3/diag_fns.h>
-#include <diag3/diag_reform.h>
 #endif
 
 #include <refactor/optimise.h>
@@ -142,11 +143,12 @@ eval_if_ready(exp t, int now)
 #endif
 		}
 
-		evaluate(son(t), -1, d->name, !isvar(t), (int) d->extnamed,
+		evaluate(son(t), -1, d->name, !isvar(t), (int) d->extnamed
+#ifdef TDF_DIAG3
+			 , d->diag_info
+#endif
 #ifdef TDF_DIAG4
-			 d->dg_name
-#else
-			 d->diag_info
+			 , d->dg_name
 #endif
 			);
 	}
@@ -197,11 +199,12 @@ code_def(dec *my_def)
 			}
 
 			/* for use in constant evaluation */
-			my_def->index = cproc(son(tag), id, -1, (int) my_def->extnamed,
+			my_def->index = cproc(son(tag), id, -1, (int) my_def->extnamed
+#ifdef TDF_DIAG3
+			          , my_def->diag_info
+#endif
 #ifdef TDF_DIAG4
-			          my_def->dg_name
-#else
-			          my_def->diag_info
+			          , my_def->dg_name
 #endif
 			         );
 
@@ -213,10 +216,11 @@ code_def(dec *my_def)
 			}
 		} else {
 			/* global values */
+#ifdef TDF_DIAG3
+			diag_descriptor * diag_props = my_def->diag_info;
+#endif
 #ifdef TDF_DIAG4
 			struct dg_name_t * diag_props = my_def->dg_name;
-#else
-			diag_descriptor * diag_props = my_def->diag_info;
 #endif
 
 			if (shape_size(sh(son(tag))) == 0) {

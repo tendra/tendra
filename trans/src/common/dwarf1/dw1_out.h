@@ -9,10 +9,11 @@
 
 #include <construct/installtypes.h>
 
+#ifdef TDF_DIAG3
+#include <diag3/diagtypes.h>
+#endif
 #ifdef TDF_DIAG4
 #include <diag4/diagtypes.h>
-#else
-#include <diag3/diagtypes.h>
 #endif
 
 extern void dwarf4(const char *t);

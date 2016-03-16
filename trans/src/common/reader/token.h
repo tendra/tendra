@@ -10,11 +10,12 @@
 #ifndef READER_TOKEN_H
 #define READER_TOKEN_H
 
-#ifdef TDF_DIAG4
-#include <diag4/dg_first.h>
-#else
+#ifdef TDF_DIAG3
 #include <diag3/dg_first.h>
 #include <diag3/diaginfo.h>
+#endif
+#ifdef TDF_DIAG4
+#include <diag4/dg_first.h>
 #endif
 
 #include <tdf/nat.h>
@@ -25,12 +26,13 @@
 #include <construct/aldefs.h>
 #include <construct/dec.h>
 
+#ifdef TDF_DIAG3
+#include <diag3/dg_types.h>
+#include <diag3/diagtypes.h>
+#endif
 #ifdef TDF_DIAG4
-#include <diag4/dg_types.h>  /* TDF_DIAG4 */
-#include <diag4/diagtypes.h> /* TDF_DIAG3 */
-#else
-#include <diag3/dg_types.h>  /* TDF_DIAG4 */
-#include <diag3/diagtypes.h> /* TDF_DIAG3 */
+#include <diag4/dg_types.h>
+#include <diag4/diagtypes.h>
 #endif
 
 

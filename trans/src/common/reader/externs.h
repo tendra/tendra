@@ -16,16 +16,17 @@
 #include <tdf/nat.h>
 #include <tdf/tdfbool.h>
 
+#ifdef TDF_DIAG3
+#include <diag3/dg_first.h>
+#include <construct/installtypes.h>
+#include <diag3/dg_types.h>
+#include <diag3/diagtypes.h>
+#endif
 #ifdef TDF_DIAG4
 #include <diag4/dg_first.h>
 #include <construct/installtypes.h>
 #include <diag4/dg_types.h>
 #include <diag4/diagtypes.h>
-#else
-#include <diag3/dg_first.h>
-#include <construct/installtypes.h>
-#include <diag3/dg_types.h>
-#include <diag3/diagtypes.h>
 #endif
 
 #include <construct/tagdata.h>

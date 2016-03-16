@@ -10,11 +10,14 @@
 #ifndef CPROC_H
 #define CPROC_H
 
-#ifdef TDF_DIAG4
-int cproc (exp p, char *pname, int cname, int global, struct dg_name_t *diag_props);
-#else
-int cproc (exp p, char *pname, int cname, int global, diag_descriptor *diag_props);
+int cproc (exp p, char *pname, int cname, int global
+#ifdef TDF_DIAG3
+	, diag_descriptor *diag_props
 #endif
+#ifdef TDF_DIAG4
+	, struct dg_name_t *diag_props);
+#endif
+);
 void restore_callregs(int untidy);
 
 extern  unsigned normal_fpucon;

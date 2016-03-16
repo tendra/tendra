@@ -32,12 +32,13 @@
 #include <main/driver.h>
 #include <main/print.h>
 
+#ifdef TDF_DIAG3
+#include <diag3/diagglob.h>
+#include <diag3/diagtypes.h>
+#endif
 #ifdef TDF_DIAG4
 #include <diag4/diagglob.h>
 #include <diag4/diagtypes.h>
-#else
-#include <diag3/diagglob.h>
-#include <diag3/diagtypes.h>
 #endif
 
 #include <dwarf1/dw1_consts.h>

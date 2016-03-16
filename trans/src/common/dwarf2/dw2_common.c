@@ -17,12 +17,13 @@
 
 #include <construct/install_fns.h>
 
+#ifdef TDF_DIAG3
+#include <diag3/dg_aux.h>
+#include <diag3/dg_globs.h>
+#endif
 #ifdef TDF_DIAG4
 #include <diag4/dg_aux.h>
 #include <diag4/dg_globs.h>
-#else
-#include <diag3/dg_aux.h>
-#include <diag3/dg_globs.h>
 #endif
 
 #include <dwarf2/dw2_common.h>

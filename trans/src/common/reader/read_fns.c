@@ -48,12 +48,13 @@
 
 #include <utility/prefix.h>
 
+#ifdef TDF_DIAG3
+#include <diag3/diag_fns.h>
+#include <diag3/dg_fns.h>
+#endif
 #ifdef TDF_DIAG4
-#include <diag4/diag_fns.h>	/* TDF_DIAG3 */
-#include <diag4/dg_fns.h>	/* TDF_DIAG4 */
-#else
-#include <diag3/diag_fns.h>	/* TDF_DIAG3 */
-#include <diag3/dg_fns.h>	/* TDF_DIAG4 */
+#include <diag4/diag_fns.h>
+#include <diag4/dg_fns.h>
 #endif
 
 
@@ -563,10 +564,11 @@ start_make_capsule
     dp->dec_outermost = 0;
     dp->name = NULL;
     dp->extnamed = 0;
+#ifdef TDF_DIAG3
+    dp->diag_info = NULL;
+#endif
 #ifdef TDF_DIAG4
     dp->dg_name = NULL;
-#else
-    dp->diag_info = NULL;
 #endif
     dp->have_def = 0;
     dp->dec_shape = NULL;
@@ -2533,10 +2535,11 @@ new_link_list(int n)
          dp->dec_outermost = 0;
          dp->name = NULL;
          dp->extnamed = 0;
+#ifdef TDF_DIAG3
+         dp->diag_info = NULL;
+#endif
 #ifdef TDF_DIAG4
          dp->dg_name = NULL;
-#else
-         dp->diag_info = NULL;
 #endif
          dp->have_def = 0;
          dp->dec_shape = NULL;

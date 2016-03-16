@@ -10,17 +10,18 @@
 #ifndef dw2_basic_key
 #define dw2_basic_key
 
-#ifdef TDF_DIAG4
-#include <diag4/dg_first.h>
-#include <reader/exp.h>
-#include <construct/installtypes.h>
-#include <diag4/dg_types.h>		/* TDF_DIAG4 */
-#else
+#ifdef TDF_DIAG3
 #include <diag3/dg_first.h>
 #include <diag3/diaginfo.h>
 #include <reader/exp.h>
 #include <construct/installtypes.h>
-#include <diag3/dg_types.h>		/* TDF_DIAG4 */
+#include <diag3/dg_types.h>
+#endif
+#ifdef TDF_DIAG4
+#include <diag4/dg_first.h>
+#include <reader/exp.h>
+#include <construct/installtypes.h>
+#include <diag4/dg_types.h>
 #endif
 
 extern void uleb128(unsigned long value);

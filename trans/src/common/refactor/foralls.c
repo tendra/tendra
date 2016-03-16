@@ -1533,16 +1533,15 @@ do_one_rep(exp loop)
 				                   !isvar(son(son(dc)))));
 
 				for (p = pt(son(a)); p != NULL; p = pt(p)) {
-#ifdef TDF_DIAG4
 					int inb;
+
+#ifdef TDF_DIAG4
 					if (isdiaginfo(p)) {
 						continue;
 					}
+#endif
 
 					inb = intnl_to(body, p);
-#else
-					int inb = intnl_to(body, p);
-#endif
 					if (!inb) {
 						const_init = 0;
 						continue;

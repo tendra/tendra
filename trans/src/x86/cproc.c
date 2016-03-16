@@ -43,12 +43,13 @@
 #include <main/flags.h>
 #include <main/print.h>
 
+#ifdef TDF_DIAG3
+#include <diag3/diag_fns.h>
+#include <diag3/diag_reform.h>
+#endif
 #ifdef TDF_DIAG4
 #include <diag4/diag_fns.h>
 #include <diag4/diag_reform.h>
-#else
-#include <diag3/diag_fns.h>
-#include <diag3/diag_reform.h>
 #endif
 
 #include "localtypes.h"
@@ -264,13 +265,15 @@ out_untidy_pops(int tot_sp, int push_space)
 	}
 }
 
-#ifdef TDF_DIAG4
 int
-cproc(exp p, char *pname, int cname, int global, struct dg_name_t * diag_props)
-#else
-int
-cproc(exp p, char *pname, int cname, int global, diag_descriptor * diag_props)
+cproc(exp p, char *pname, int cname, int global
+#ifdef TDF_DIAG3
+	, diag_descriptor * diag_props
 #endif
+#ifdef TDF_DIAG4
+	, struct dg_name_t * diag_props
+#endif
+	)
 {
 	exp jr, t, body;
 	ash stack;
