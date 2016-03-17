@@ -101,7 +101,7 @@ not_reserved(char *name)
 static int current_symno;
 
 static void
-code_it(dec *my_def)
+code_it(dec *d)
 {
 	exp tag;
 	char *name;
@@ -110,20 +110,20 @@ code_it(dec *my_def)
 
 	static space tempspace = { 0, 0 };
 
-	tag  = my_def->exp;
-	name = my_def->name;
+	tag  = d->exp;
+	name = d->name;
 
-	symdef   = my_def->sym_number;
-	extnamed = my_def->extnamed;
+	symdef   = d->sym_number;
+	extnamed = d->extnamed;
 
 	if (symnos[symdef] < 0) {
-		my_def->processed = 1;
+		d->processed = 1;
 		return;
 	}
 
 	if (son(tag) != NULL && (!extnamed || !is_comm(son(tag)))) {
 		if (son(tag)->tag == proc_tag || son(tag)->tag == general_proc_tag) {
-			diag_descriptor *dd =  my_def->diag_info;
+			diag_descriptor *dd = d->diag_info;
 
 			/* compile code for proc */
 			set_text_section();
@@ -139,7 +139,7 @@ code_it(dec *my_def)
 				strcat(new_name, name);
 				xfree(name);
 				name = new_name;
-				my_def->name = name;
+				d->name = name;
 			}
 
 			if (diag != DIAG_NONE && dd != NULL) {
@@ -183,7 +183,7 @@ code_it(dec *my_def)
 				asm_printop(".end %s", name);
 			}
 
-			out_common(symnoforend(my_def, currentfile), iend);
+			out_common(symnoforend(d, currentfile), iend);
 		} else {
 			/* global values */
 			exp c = son(tag);
@@ -192,7 +192,7 @@ code_it(dec *my_def)
 	} else {
 		/* global declarations but no definitions or is_comm */
 		long size;
-		shape s = my_def->shape;
+		shape s = d->shape;
 		bool vs = son(tag) != NULL /* ie is_comm */;
 		size = (shape_size(s) + 7) >> 3;
 
@@ -225,7 +225,7 @@ code_it(dec *my_def)
 
 	/*end:*/
 	/*son(tag) = NULL;*/
-	my_def->processed = 1;
+	d->processed = 1;
 }
 
 static void
@@ -275,7 +275,7 @@ void
 local_translate_capsule(void)
 {
 	extern exp *usages;
-	dec *my_def;
+	dec *d;
 	int noprocs;
 	int i;
 
@@ -286,11 +286,11 @@ local_translate_capsule(void)
 	opt_all_exps();
 
 	/* mark static unaliased */
-	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
+	for (d = top_def; d != NULL; d = d->next) {
 		exp crt_exp;
 
-		crt_exp = my_def->exp;
-		if (son(crt_exp) != NULL && !my_def->extnamed && isvar(crt_exp)) {
+		crt_exp = d->exp;
+		if (son(crt_exp) != NULL && !d->extnamed && isvar(crt_exp)) {
 			mark_unaliased(crt_exp);
 		}
 	}
@@ -321,8 +321,9 @@ local_translate_capsule(void)
 	}
 
 	noprocs = 0;
-	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
-		exp crt_exp = my_def->exp;
+	for (d = top_def; d != NULL; d = d->next) {
+		exp crt_exp = d->exp;
+
 		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag ||
 		                             son(crt_exp)->tag == general_proc_tag)) {
 			noprocs++;
@@ -333,8 +334,9 @@ local_translate_capsule(void)
 	procrecs = xcalloc(noprocs, sizeof (procrec));
 	noprocs = 0;
 
-	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
-		exp crt_exp = my_def->exp;
+	for (d = top_def; d != NULL; d = d->next) {
+		exp crt_exp = d->exp;
+
 		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag
 		                              || son(crt_exp)->tag == general_proc_tag)) {
 			no(son(crt_exp)) = noprocs++;
@@ -344,8 +346,9 @@ local_translate_capsule(void)
 
 	if (do_extern_adds) {
 		usages = xcalloc(noprocs, sizeof(exp));
-		for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
-			exp crt_exp = my_def->exp;
+		for (d = top_def; d != NULL; d = d->next) {
+			exp crt_exp = d->exp;
+
 			if (son(crt_exp) == NULL && isvar(crt_exp) ) {
 				/* try to identify globals ptrs in procs */
 				global_usages(crt_exp, noprocs);
@@ -382,8 +385,9 @@ local_translate_capsule(void)
 		IGNORE new_lsym_d("NOFILE.c", 0, stFile, scText, 0, 0);
 	}
 
-	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
-		exp crt_exp = my_def->exp;
+	for (d = top_def; d != NULL; d = d->next) {
+		exp crt_exp = d->exp;
+
 		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag
 		                              || son(crt_exp)->tag == general_proc_tag)) {
 			procrec *pr;
@@ -408,8 +412,9 @@ local_translate_capsule(void)
 
 
 	/* calculate the break points for register allocation and do it */
-	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
-		exp crt_exp = my_def->exp;
+	for (d = top_def; d != NULL; d = d->next) {
+		exp crt_exp = d->exp;
+
 		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag
 		                              || son(crt_exp)->tag == general_proc_tag)) {
 			procrec *pr = &procrecs[no(son(crt_exp))];
@@ -442,7 +447,7 @@ local_translate_capsule(void)
 
 	/* put defs in main globals and set up symnos*/
 	main_globals_index = 0;
-	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
+	for (d = top_def; d != NULL; d = d->next) {
 		main_globals_index++;
 	}
 
@@ -450,10 +455,10 @@ local_translate_capsule(void)
 	main_globals = xcalloc(main_globals_index, sizeof (dec *));
 	symnos = xcalloc(main_globals_index, sizeof (int));
 
-	my_def = top_def;
+	d = top_def;
 	for (i = 0; i < main_globals_index; i++) {
-		main_globals[i] = my_def;
-		my_def = my_def->next;
+		main_globals[i] = d;
+		d = d->next;
 	}
 
 	/* ... and set in the position and "addresses" of the externals */
@@ -510,10 +515,10 @@ local_translate_capsule(void)
 	 * compile procedures, evaluate constants, put in the
 	 * .comm entries for undefined objects
 	 */
-	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
-		exp tag = my_def->exp;
-		char *name = my_def->name;
-		bool extnamed = my_def->extnamed;
+	for (d = top_def; d != NULL; d = d->next) {
+		exp tag       = d->exp;
+		char *name    = d->name;
+		bool extnamed = d->extnamed;
 
 		if (son(tag) != NULL && (extnamed || no(tag) != 0 || streq(name, "main"))) {
 			if (!extnamed) {
@@ -527,20 +532,20 @@ local_translate_capsule(void)
 				strcat(new_name, name);
 				xfree(name);
 				name = new_name;
-				my_def->name = new_name;
+				d->name = new_name;
 			}
 
 			if (as_file) {
 				asm_printop(".globl %s", name);
 			}
 
-			out_common(symnos[my_def->sym_number] , iglobal);
+			out_common(symnos[d->sym_number] , iglobal);
 		}
 	}
 
-	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
-		if (!my_def->processed) {
-			code_it(my_def);
+	for (d = top_def; d != NULL; d = d->next) {
+		if (!d->processed) {
+			code_it(d);
 		}
 	}
 }

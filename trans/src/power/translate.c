@@ -143,7 +143,7 @@ local_translate_capsule(void)
 {
 	int noprocs, noglobals;
 	int procno, globalno;
-	dec *crt_def;
+	dec *d;
 	space tempregs;
 	int r;
 	bool anydone;
@@ -179,15 +179,15 @@ local_translate_capsule(void)
 	noprocs = 0;
 	noglobals = 0;
 
-	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
-		exp tag = crt_def->exp;
-		shape s = crt_def->shape;
-		bool extnamed = crt_def->extnamed;
+	for (d = top_def; d != NULL; d = d->next) {
+		exp tag = d->exp;
+		shape s = d->shape;
+		bool extnamed = d->extnamed;
 		char *name;
 
 		noglobals++;
 		/* diag_def needed for find_dd in stabs_diag3.c */
-		diag_def = crt_def;
+		diag_def = d;
 
 		if (diag != DIAG_NONE) {
 			/*
@@ -195,19 +195,19 @@ local_translate_capsule(void)
 			 * do not get a diag_descriptor so fixup_name does not change
 			 * their names.
 			 */
-			fixup_name(son(tag), top_def, crt_def);
+			fixup_name(son(tag), top_def, d);
 		}
 
-		name = crt_def->name;		/* might be changed by fixup_name() */
+		name = d->name;		/* might be changed by fixup_name() */
 
 		asm_comment("%s: extnamed=%d no(tag)=%ld isvar(tag)=%d", name, extnamed, no(tag), isvar(tag));
 		asm_comment("\ttag->tag=%d outermost=%d have_def=%d son(tag)!=NULL=%d",
-		            tag->tag, crt_def->outermost, crt_def->have_def, son(tag) != NULL);
+		            tag->tag, d->outermost, d->have_def, son(tag) != NULL);
 		if (son(tag) != NULL) {
 			asm_comment("\tshape, sh(tag), sh(son(tag))=%d,%d,%d", s->tag, sh(tag)->tag, sh(son(tag))->tag);
 		}
 
-		crt_def->have_def = (son(tag) != NULL);
+		d->have_def = (son(tag) != NULL);
 
 		assert(tag->tag == ident_tag);
 		assert(son(tag) == NULL || sh(tag)->tag == s->tag);
@@ -297,7 +297,7 @@ local_translate_capsule(void)
 			assert((align & 63) == 0 || align < 64);
 
 			/* mark the defininition as processed */
-			crt_def->processed = 1;
+			d->processed = 1;
 		} else {
 			if (extnamed) {
 				asm_printop(".globl %s", name);
@@ -344,9 +344,9 @@ local_translate_capsule(void)
 	 */
 	asm_printf( "\n\t.toc\n");
 
-	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
-		exp tag = crt_def->exp;
-		char *name = crt_def->name;
+	for (d = top_def; d != NULL; d = d->next) {
+		exp tag    = d->exp;
+		char *name = d->name;
 		/*
 		 * no(tag) is number of uses
 		 * If tag is used in this module,
@@ -355,12 +355,12 @@ local_translate_capsule(void)
 		 */
 		if (no(tag) > 0 || streq(name, "__TDFhandler")
 		    || streq(name, "__TDFstacklim")) {
-			bool extnamed = crt_def->extnamed;
+			bool extnamed = d->extnamed;
 			char *storage_class;
 
 			if (extnamed && son(tag) == NULL) {
 				/* extern from another module */
-				if (crt_def->shape->tag == prokhd) {
+				if (d->shape->tag == prokhd) {
 					storage_class = ""; /* proc descriptor */
 				} else {
 					storage_class = ""; /* unknown data */
@@ -382,11 +382,11 @@ local_translate_capsule(void)
 	/* number proc defs and setup main_globals */
 	procno = 0;
 	globalno = 0;
-	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
-		exp tag = crt_def->exp;
+	for (d = top_def; d != NULL; d = d->next) {
+		exp tag = d->exp;
 
-		main_globals[globalno] = crt_def;
-		crt_def->sym_number = globalno;
+		main_globals[globalno] = d;
+		d->sym_number = globalno;
 		globalno++;
 
 		if (son(tag) != NULL && IS_A_PROC(son(tag))) {
@@ -436,8 +436,8 @@ local_translate_capsule(void)
 	 * Scan all the procs, to put the TDF in POWER form,
 	 * and do register allocation.
 	 */
-	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
-		exp tag = crt_def->exp;
+	for (d = top_def; d != NULL; d = d->next) {
+		exp tag = d->exp;
 
 		if (son(tag) == NULL) {
 			continue;
@@ -498,11 +498,11 @@ local_translate_capsule(void)
 	 * Evaluate outer level data initialisers in [RW] section.
 	 */
 	anydone = 0;
-	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
-		exp tag = crt_def->exp;
-		char *name = crt_def->name;
-		bool extnamed = crt_def->extnamed;
-		diag_def = crt_def; /* just in case find_dd is called */
+	for (d = top_def; d != NULL; d = d->next) {
+		exp tag       = d->exp;
+		char *name    = d->name;
+		bool extnamed = d->extnamed;
+		diag_def      = d; /* just in case find_dd is called */
 
 		asm_comment("no(tag)=%ld isvar(tag)=%d extnamed=%d son(tag)==NULL=%d",
 		            no(tag), isvar(tag), extnamed, son(tag) == NULL);
@@ -514,7 +514,7 @@ local_translate_capsule(void)
 		/*
 		 * Skip if already processed, eg identified as is_comm()
 		 */
-		if (crt_def->processed) {
+		if (d->processed) {
 			continue;
 		}
 
@@ -533,7 +533,7 @@ local_translate_capsule(void)
 			/*
 			 * Non proc, which is isvar() [variable] for [RW] section
 			 */
-			long symdef = crt_def->sym_number;
+			long symdef = d->sym_number;
 
 			/* Check to see if we have made any entries yet */
 			if (!anydone) {
@@ -553,7 +553,7 @@ local_translate_capsule(void)
 			asm_printf( "#\t.enddata\t%s\n\n", name);
 
 			/* mark the defininition as processed */
-			crt_def->processed = 1;
+			d->processed = 1;
 		}
 	}
 
@@ -566,18 +566,18 @@ local_translate_capsule(void)
 	 */
 	anydone = 0; /* set to 1 after first tag output */
 
-	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
-		exp tag = crt_def->exp;
-		char *name = crt_def->name;
-		bool extnamed = crt_def->extnamed;
-		diag_def = crt_def; /* just in case find_dd is called */
+	for (d = top_def; d != NULL; d = d->next) {
+		exp tag       = d->exp;
+		char *name    = d->name;
+		bool extnamed = d->extnamed;
+		diag_def      = d; /* just in case find_dd is called */
 
 		if (son(tag) == NULL) {
 			continue;
 		}
 
 		/* skip if already processed, eg identified as is_comm() */
-		if (crt_def->processed) {
+		if (d->processed) {
 			continue;
 		}
 
@@ -591,7 +591,7 @@ local_translate_capsule(void)
 
 		if (!IS_A_PROC(son(tag))) {
 			/* non proc, which is not isvar() [variable] for [RO] section */
-			long symdef = crt_def->sym_number;
+			long symdef = d->sym_number;
 
 			if (!anydone) {
 				anydone = 1;
@@ -609,7 +609,7 @@ local_translate_capsule(void)
 			asm_printf( "#\t.enddata\t%s\n\n", name);
 
 			/* mark the defininition as processed */
-			crt_def->processed = 1;
+			d->processed = 1;
 		}
 	}
 
@@ -622,17 +622,17 @@ local_translate_capsule(void)
 	/*
 	 * Translate procedures.
 	 */
-	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
-		exp tag = crt_def->exp;
-		char *name = crt_def->name;
-		bool extnamed = crt_def->extnamed;
+	for (d = top_def; d != NULL; d = d->next) {
+		exp tag       = d->exp;
+		char *name    = d->name;
+		bool extnamed = d->extnamed;
 
 		if (son(tag) == NULL) {
 			continue;
 		}
 
 		/* skip if already processed */
-		if (crt_def->processed) {
+		if (d->processed) {
 			continue;
 		}
 
@@ -644,11 +644,11 @@ local_translate_capsule(void)
 		if (IS_A_PROC(son(tag))) {
 			/* translate code for proc */
 			asm_printf( "\n");		/* make proc more visable to reader */
-			diag_def = crt_def;
+			diag_def = d;
 			/* switch to correct file */
-			if (diag != DIAG_NONE && crt_def->diag_info != NULL ) {
+			if (diag != DIAG_NONE && d->diag_info != NULL ) {
 				anydone = 1;
-				diag3_driver->stab_proc_file(crt_def->diag_info, son(tag), name, extnamed);
+				diag3_driver->stab_proc_file(d->diag_info, son(tag), name, extnamed);
 			}
 
 
@@ -664,8 +664,8 @@ local_translate_capsule(void)
 			asm_label( ".%s", name);
 
 			/* stab proc details */
-			if (diag != DIAG_NONE && crt_def->diag_info != NULL) {
-				diag3_driver->stab_proc(crt_def->diag_info, son(tag), name, extnamed);
+			if (diag != DIAG_NONE && d->diag_info != NULL) {
+				diag3_driver->stab_proc(d->diag_info, son(tag), name, extnamed);
 			}
 
 			seed_label();		/* reset label sequence */
@@ -680,7 +680,7 @@ local_translate_capsule(void)
 			asm_printf( "#\t.end\t%s\n", name);
 
 			/* mark the defininition as processed */
-			crt_def->processed = 1;
+			d->processed = 1;
 		}
 	}
 

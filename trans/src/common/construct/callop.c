@@ -36,14 +36,15 @@ static dec *
 find_named_dec(char *n)
 {
 	/* find a global with name n */
-	dec *my_def;
+	dec *d;
 
-	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
-		char *name = my_def->name;
+	for (d = top_def; d != NULL; d = d->next) {
+		char *name = d->name;
 		if (streq(name + strlen(name_prefix), n)) {
-			return my_def;
+			return d;
 		}
 	}
+
 	return NULL;
 }
 
@@ -52,12 +53,12 @@ exp
 find_named_tag(char *n, shape s)
 {
 	/* find a global with name n */
-	dec *my_def = find_named_dec(n);
-	if (my_def != NULL) {
-		return my_def->exp;
+	dec *d = find_named_dec(n);
+	if (d != NULL) {
+		return d->exp;
 	}
-	my_def = make_extra_dec(add_prefix(name_prefix, n), 0, 1, NULL, s);
-	return my_def->exp;
+	d = make_extra_dec(add_prefix(name_prefix, n), 0, 1, NULL, s);
+	return d->exp;
 }
 
 

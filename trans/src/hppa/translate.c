@@ -244,7 +244,7 @@ mark_unaliased(exp e)
 void
 local_translate_capsule(void)
 {
-	dec *crt_def, **proc_def_trans_order;
+	dec *d, **proc_def_trans_order;
 	int *src_line = 0, next_proc_def;
 	space tempregs;
 	int noprocs;
@@ -316,8 +316,8 @@ local_translate_capsule(void)
 
 	/* mark static unaliased; count procs */
 	noprocs = 0;
-	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
-		exp crt_exp = crt_def->exp;
+	for (d = top_def; d != NULL; d = d->next) {
+		exp crt_exp = d->exp;
 		exp scexp = son(crt_exp);
 
 		if (scexp == NULL) {
@@ -325,14 +325,14 @@ local_translate_capsule(void)
 		}
 
 		if (diag == DIAG_NONE && !separate_units &&
-			!crt_def->extnamed && isvar(crt_exp)) {
+			!d->extnamed && isvar(crt_exp)) {
 			mark_unaliased(crt_exp);
 		}
 
 		if (scexp->tag == proc_tag || scexp->tag == general_proc_tag) {
 			noprocs++;
 
-			if (dyn_init && !strncmp("__I.TDF", crt_def->name, 7)) {
+			if (dyn_init && !strncmp("__I.TDF", d->name, 7)) {
 				char *s;
 				static char dyn = 0;
 
@@ -345,8 +345,8 @@ local_translate_capsule(void)
 
 				s = xcalloc(64, sizeof(char));
 				sprintf(s, "_GLOBAL_$I%d", capn);
-				strcat(s, crt_def->name + 7);
-				crt_def->name = s;
+				strcat(s, d->name + 7);
+				d->name = s;
 
 				if (assembler == ASM_HP) {
 					asm_printop(".WORD %s", s);
@@ -373,21 +373,21 @@ local_translate_capsule(void)
 
 	/* number proc defs */
 	procno = 0;
-	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
-		exp crt_exp = crt_def->exp;
+	for (d = top_def; d != NULL; d = d->next) {
+		exp crt_exp = d->exp;
 
 		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag ||
 		                             son(crt_exp)->tag == general_proc_tag))
 		{
 			procrec *pr = &procrecs[procno];
-			proc_def_trans_order[procno] = crt_def;
+			proc_def_trans_order[procno] = d;
 
 			/*
 			 * Retrieve diagnostic info neccessary to comply with xdb's
 			 * requirement that procedures be compiled in source file order.
 			 */
 			if (diag == DIAG_XDB) {
-				diag_descriptor * dd =  crt_def -> diag_info;
+				diag_descriptor *dd = d->diag_info;
 
 				if (dd != NULL) {
 					sourcemark *sm = &dd -> data.id.whence;
@@ -441,8 +441,9 @@ local_translate_capsule(void)
 
 	/* scan all the procs, to put everything in HP_PA form */
 	nexps = 0;
-	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
-		exp crt_exp = crt_def->exp;
+	for (d = top_def; d != NULL; d = d->next) {
+		exp crt_exp = d->exp;
+
 		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag ||
 		                             son(crt_exp)->tag == general_proc_tag)) {
 			procrec *pr = &procrecs[no(son(crt_exp))];
@@ -458,8 +459,8 @@ local_translate_capsule(void)
 	}
 
 	/* calculate the break points for register allocation */
-	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
-		exp crt_exp = crt_def->exp;
+	for (d = top_def; d != NULL; d = d->next) {
+		exp crt_exp = d->exp;
 
 		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag ||
 		                             son(crt_exp)->tag == general_proc_tag)) {
@@ -469,7 +470,7 @@ local_translate_capsule(void)
 			bool leaf = (pprops & anyproccall) == 0;
 			spacereq forrest;
 			int freefixed, freefloat;
-			proc_name = crt_def->name;
+			proc_name = d->name;
 
 			setframe_flags(son(crt_exp), leaf);
 
@@ -527,10 +528,9 @@ local_translate_capsule(void)
 		}
 	}
 
-
 	/*  Set up main_globals and output global definitions. */
 	i = 0;
-	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
+	for (d = top_def; d != NULL; d = d->next) {
 		i++;
 	}
 
@@ -542,16 +542,16 @@ local_translate_capsule(void)
 	}
 
 	i = 0;
-	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
-		main_globals[i] = crt_def;
-		main_globals[i] ->sym_number = i;
+	for (d = top_def; d != NULL; d = d->next) {
+		main_globals[i] = d;
+		main_globals[i]->sym_number = i;
 		i++;
 	}
 
-	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
-		exp tag = crt_def->exp;
-		char *name = crt_def->name;
-		bool extnamed = (bool)crt_def->extnamed;
+	for (d = top_def; d != NULL; d = d->next) {
+		exp tag       = d->exp;
+		char *name    = d->name;
+		bool extnamed = d->extnamed;
 
 		if (son(tag) == NULL && no(tag) != 0 && extnamed) {
 			outs("\t.IMPORT\t");
@@ -561,7 +561,7 @@ local_translate_capsule(void)
 			if (son(tag)->tag != proc_tag && son(tag)->tag != general_proc_tag) {
 				/* evaluate all outer level constants */
 				instore is;
-				long symdef = crt_def->sym_number + 1;
+				long symdef = d->sym_number + 1;
 
 				if (isvar(tag)) {
 					symdef = -symdef;
@@ -575,7 +575,7 @@ local_translate_capsule(void)
 
 				is = evaluated(son(tag), symdef);
 				if (diag != DIAG_NONE) {
-					diag3_driver->stab_global(crt_def->diag_info, son(tag), name, extnamed);
+					diag3_driver->stab_global(d->diag_info, son(tag), name, extnamed);
 				}
 
 				if (is.adval) {
@@ -587,13 +587,13 @@ local_translate_capsule(void)
 
 	/* Uninitialized data local to module. */
 
-	for (crt_def = top_def; crt_def != NULL; crt_def = crt_def->next) {
-		exp tag = crt_def->exp;
-		char *name = crt_def->name;
-		bool extnamed = (bool)crt_def->extnamed;
+	for (d = top_def; d != NULL; d = d->next) {
+		exp tag       = d->exp;
+		char *name    = d->name;
+		bool extnamed = d->extnamed;
 
 		if (son(tag) == NULL && no(tag) != 0 && !extnamed) {
-			shape s = crt_def->shape;
+			shape s = d->shape;
 			ash a;
 			long size;
 			int align;
@@ -674,10 +674,10 @@ local_translate_capsule(void)
 		char *name;
 		bool extnamed;
 
-		crt_def  = proc_def_trans_order[next_proc_def];
-		tag      = crt_def->exp;
-		name     = crt_def->name;
-		extnamed = crt_def->extnamed;
+		d        = proc_def_trans_order[next_proc_def];
+		tag      = d->exp;
+		name     = d->name;
+		extnamed = d->extnamed;
 
 		if (no(tag) != 0 || extnamed) {
 			insection(text_section);
@@ -685,7 +685,7 @@ local_translate_capsule(void)
 			outnl();
 
 			if (diag != DIAG_NONE) {
-				diag3_driver->stab_proc(crt_def->diag_info, son(tag), name, extnamed);
+				diag3_driver->stab_proc(d->diag_info, son(tag), name, extnamed);
 			}
 
 			seed_label(); /* reset label sequence */

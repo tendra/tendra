@@ -64,7 +64,7 @@ void
 normalised_inlining(void)
 {
 	int proc_count = 0;
-	dec *my_def;
+	dec *d;
 	dec **to_dec;
 	exp def;
 	int i;
@@ -82,8 +82,8 @@ normalised_inlining(void)
 	}
 
 	/* count the defined procedures */
-	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
-		exp crt_exp = my_def -> exp;
+	for (d = top_def; d != NULL; d = d->next) {
+		exp crt_exp = d->exp;
 
 		def = son(crt_exp);
 		if (def != NULL && !isvar(crt_exp) && def->tag == proc_tag &&
@@ -119,15 +119,15 @@ normalised_inlining(void)
 	 */
 
 	i = 0;
-	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
-		exp crt_exp = my_def->exp;
+	for (d = top_def; d != NULL; d = d->next) {
+		exp crt_exp = d->exp;
 
 		def = son(crt_exp);
 		if (def != NULL && !isvar(crt_exp) && def->tag == proc_tag &&
 		    !isrecursive(def) && apply_only(crt_exp) && !proc_has_setjmp(def) &&
 		    !proc_uses_crt_env(def) && !proc_has_alloca(def) && !proc_has_lv(def)) {
-			to_dec[i] = my_def;
-			my_def -> index = i;
+			to_dec[i] = d;
+			d->index = i;
 			consider[i] = 1;
 			i++;
 		}
@@ -227,14 +227,14 @@ normalised_inlining(void)
 			int crt_uses;
 			int this_changed = 1;
 
-			my_def = to_dec[order[i] - 1];
-			crt_exp = my_def->exp;
+			d = to_dec[order[i] - 1];
+			crt_exp = d->exp;
 			def = son(crt_exp);
 			total_uses = no(crt_exp);
 
 #ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
-				start_diag_inlining(def, my_def->dg_name);
+				start_diag_inlining(def, d->dg_name);
 			}
 #endif
 
@@ -263,8 +263,7 @@ normalised_inlining(void)
 
 						if (print_inlines) {
 							IGNORE fprintf(stderr, "%s inlined in %s\n",
-							               my_def->name,
-							               brog(bro(k))->name);
+							               d->name, brog(bro(k))->name);
 						}
 
 						this_changed = 1;
@@ -288,8 +287,7 @@ normalised_inlining(void)
 
 							if (print_inlines) {
 								IGNORE fprintf(stderr, "%s inlined in %s\n",
-								               my_def->name,
-								               brog(bro(k))->name);
+								               d->name, brog(bro(k))->name);
 							}
 
 							this_changed = 1;
@@ -305,7 +303,7 @@ normalised_inlining(void)
 
 #ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
-				end_diag_inlining(def, my_def->dg_name);
+				end_diag_inlining(def, d->dg_name);
 			}
 #endif
 		}

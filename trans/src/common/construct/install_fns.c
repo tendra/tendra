@@ -6114,9 +6114,8 @@ f_initial_value(exp e)
 	initial_value_pp.rep_make_proc = rep_make_proc;
 	if (old_proc_props != NULL) {
 		/* init was in a proc - must make new variable */
-		dec *my_def = make_extra_dec(make_local_name(), 1, 0, me_u2(e,
-					     initial_value_tag), sh(e));
-		exp crt_exp = my_def->exp;
+		dec *d = make_extra_dec(make_local_name(), 1, 0, me_u2(e, initial_value_tag), sh(e));
+		exp crt_exp = d->exp;
 		pop_proc_props();
 		return f_contents(sh(e), me_obtain(crt_exp));
 	}
@@ -6127,7 +6126,7 @@ f_initial_value(exp e)
 void
 tidy_initial_values(void)
 {
-	dec *my_def;
+	dec *d;
 
 	exp_list initial_as;
 	exp_list prom_as;
@@ -6136,20 +6135,21 @@ tidy_initial_values(void)
 	prom_as = new_exp_list(0);
 	dynamic_init_proc = NULL;
 
-	for (my_def = top_def; my_def != NULL; my_def = my_def->next) {
-		exp crt_exp = my_def->exp;
-		if (son(crt_exp) != NULL && my_def->extnamed) {
-			good_name = my_def->name;
+	for (d = top_def; d != NULL; d = d->next) {
+		exp crt_exp = d->exp;
+
+		if (son(crt_exp) != NULL && d->extnamed) {
+			good_name = d->name;
 		}
 		if (son(crt_exp) != NULL &&
 		    son(crt_exp)->tag == initial_value_tag) {
 			/* accumulate assignments of initial values in one
 			   explist */
-			if (!(my_def->var)) {
+			if (!d->var) {
 				/* make sure its a variable */
 				exp p = pt(crt_exp);
 				setvar(crt_exp);
-				my_def->var = 1;
+				d->var = true;
 				while (p != NULL) {
 					exp np = pt(p);
 					exp c = hold_refactor(f_contents(sh(p),
@@ -6162,7 +6162,7 @@ tidy_initial_values(void)
 				exp init = son(son(crt_exp));
 				exp new_init = f_make_value(sh(init));
 				if (good_name == NULL) {
-					good_name = my_def->name;
+					good_name = d->name;
 				}
 				retcell(son(crt_exp));
 				son(crt_exp) = new_init;
@@ -6172,14 +6172,13 @@ tidy_initial_values(void)
 							init)), 0);
 			}
 		}
-		if (do_prom && son(crt_exp) != NULL &&
-		    my_def->var && !is_comm(son(crt_exp))) {
+		if (do_prom && son(crt_exp) != NULL && d->var && !is_comm(son(crt_exp))) {
 			/* accumulate assignments of non-zero initialisations
 			   in one explist */
 			exp init = son(crt_exp);
 			exp new_init = f_make_value(sh(init));
 			if (good_name == NULL) {
-				good_name = my_def->name;
+				good_name = d->name;
 			}
 			if (init->tag == compound_tag ||
 			    init->tag == nof_tag ||

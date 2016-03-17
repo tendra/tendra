@@ -34,10 +34,10 @@
 void
 transform_var_callees(void)
 {
-	dec *my_def;
+	dec *d;
 
-	for (my_def = top_def; my_def != NULL; my_def = my_def -> next) {
-		exp tag = my_def -> exp;
+	for (d = top_def; d != NULL; d = d->next) {
+		exp tag = d->exp;
 
 		if (son(tag) != NULL && son(tag)->tag == general_proc_tag
 		    && proc_has_vcallees(son(tag)))
