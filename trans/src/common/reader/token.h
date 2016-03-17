@@ -135,19 +135,6 @@ typedef union {
 } tokval;
 
 
-typedef struct tag_con_t {
-	dec *namet;
-	exp e;
-	struct tag_con_t *rest;
-} tag_con;
-
-typedef struct lab_con_t {
-	label namel;
-	exp e;
-	struct lab_con_t *rest;
-} lab_con;
-
-
 /* struct holding a token definition */
 struct tok_define_t {
 	dec                 **my_tagtab;  /* the tagtab current at the definition */
@@ -187,25 +174,10 @@ typedef struct tok_define_t tok_define;
 
 typedef tok_define *token;
 
-struct context_t {
-	tok_define *toks;
-
-	short no_toks;
-	bool recursive :1;
-
-	/*
-	 * don't know how many tag & labs defined in token
-	 * so have to keep list; NB used only if recursive
-	 */
-	tag_con *tags;
-	lab_con *labs;
-
-	struct context_t *outer;
-};
-
 typedef struct context_t context;
 
 extern context *crt_context;
+
 
 /* dummy definitions */
 typedef int taglink;
