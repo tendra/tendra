@@ -191,7 +191,7 @@ struct context_t {
 	tok_define *othertoks;
 
 	short no_toks;
-	short recursive;
+	bool recursive :1;
 
 	/*
 	 * don't know how many tag & labs defined in token

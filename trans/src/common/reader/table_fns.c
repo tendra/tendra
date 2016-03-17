@@ -44,128 +44,119 @@
 
 #include <refactor/refactor.h>
 
-
-/* VARIABLES */
-/* The initial values are only to give something to push, jmf */
-
+/* The initial values are only to give something to push */
 context *crt_context = NULL;
-
-
-/* IDENTITY */
 
 static tokformals_list nil_params;
 
-
-/* PROCEDURES */
-
-
+/* find the exp which is labelled by l */
 exp
 get_lab(label l)
 {
-	/* find the exp which is labelled by l */
-	context *con = crt_context;
-	while (con != NULL) {
-	   lab_con *lc = con->labs;
-	   while (lc != NULL) {
-	   	if (lc->namel == l) {
-			return lc->e;
+	context *con;
+	lab_con *lc;
+
+	for (con = crt_context; con != NULL; con = con->outer) {
+		for (lc = con->labs; lc != NULL; lc = lc->rest) {
+			if (lc->namel == l) {
+				return lc->e;
+			}
 		}
-		lc = lc->rest;
-	   }
-	   con = con->outer;
 	}
+
 	return *l;
 }
 
-
+/* set the exp which is labelled by l */
 void
 set_lab(label l, exp e)
 {
-	/* set the exp which is labelled by l */
-	if (crt_context == NULL || crt_context->recursive == 0) {
+	if (crt_context == NULL || !crt_context->recursive) {
 		*l = e;
 	} else {
 		lab_con *lc = xmalloc(sizeof(lab_con));
-		lc->namel = l; lc->e = e; lc->rest = crt_context->labs;
+		lc->namel = l;
+		lc->e = e;
+		lc->rest = crt_context->labs;
 		crt_context->labs = lc;
 	}
 }
 
-
+/* find the tag declaration indexed by tag */
 dec *
 get_dec(int tag)
 {
-	/* find the tag declaration indexed by tag */
-	dec *res = unit_ind_tags[tag];
+	dec *res;
+
+	res = unit_ind_tags[tag];
 	res->index = tag;
+
 	return res;
 }
 
-
+/* find the alignment tag value indexed by tag */
 aldef *
 get_aldef(int tag)
 {
-	/* find the alignment tag value indexed by tag */
 	return unit_ind_als[tag];
 }
 
-
+/* find the token declaration indexed by tag */
 tok_define *
 get_tok(int tk)
 {
-	/* find the token declaration indexed by tag */
-	context *con = crt_context;
-	while (con != NULL) {
-		int i;
+	context *con;
+	int i;
+
+	for (con = crt_context; con != NULL; con = con->outer) {
 		for (i = 0; i < con->no_toks; i++) {
 			if (tk == con->othertoks[i].tdtoken) {
 				return &con->othertoks[i];
 			}
 		}
-		con = con->outer;
 	}
+
 	return unit_ind_tokens[tk];
 }
 
-
+/* find the exp known as tag */
 exp
 get_tag(tag tag)
 {
-	/* find the exp known as tag */
-	context *con = crt_context;
-	while (con != NULL) {
-		tag_con *tc = con->tags;
-		while (tc != NULL) {
+	context *con;
+	tag_con *tc;
+
+	for (con = crt_context; con != NULL; con = con->outer) {
+		for (tc = con->tags; tc != NULL; tc = tc->rest) {
 			if (tc->namet == tag) {
 				return tc->e;
 			}
-			tc = tc->rest;
 		}
-		con = con->outer;
 	}
+
 	return tag->exp;
 }
 
-
+/* set the exp known as tag */
 void
 set_tag(tag tag, exp e)
 {
-	/* set the exp known as tag */
-	if (crt_context == NULL || crt_context->recursive == 0) {
+	if (crt_context == NULL || !crt_context->recursive) {
 		tag->exp = e;
 	} else {
 		tag_con *tc = xmalloc(sizeof(tag_con));
-		tc->namet = tag; tc->e = e; tc->rest = crt_context->tags;
+		tc->namet = tag;
+		tc->e = e;
+		tc->rest = crt_context->tags;
 		crt_context->tags = tc;
 	}
 }
-
 
 /* apply tk to its parameters in pars, and return the result */
 tokval
 apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 {
-	if (td->tok_special || td -> defined == 0) {
+	if (td->tok_special || !td->defined) {
 		tokval tkv;
 
 		if (special_token(special_toks, special_toks_count, &tkv, td, pars, sortcode)) {
@@ -185,33 +176,26 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 		}
 	}
 
-	if (td->defined == 0) {
+	if (!td->defined) {
 		/* detect various errors and give helpful information */
-		if (td->defined == 0) {
-			error(ERR_INTERNAL, "use of undefined token - fatal error");
-		}
+		error(ERR_INTERNAL, "use of undefined token - fatal error");
 
 		if (td->is_capsule_token &&
 		    td->tok_index < capsule_no_of_tokens &&
 		    td->tok_index >= 0 &&
 		    td->tok_name != NULL) {
-			IGNORE fprintf(stderr, "token is: %s\n", td -> tok_name);
+			IGNORE fprintf(stderr, "token is: %s\n", td->tok_name);
 		} else {
 			if (td->is_capsule_token &&
 			    td->tok_index < capsule_no_of_tokens &&
 			    td->tok_index >= 0) {
-				IGNORE fprintf(stderr,
-					       "capsule token number: %d\n",
-					       td -> tok_index);
+				IGNORE fprintf(stderr, "capsule token number: %d\n", td->tok_index);
 			} else {
 				if (td->tok_index >= 0 &&
 				    td->tok_index < unit_no_of_tokens) {
-					IGNORE fprintf(stderr,
-					    "local unit token number: %d\n",
-					    td->tok_index);
+					IGNORE fprintf(stderr, "local unit token number: %d\n", td->tok_index);
 				} else {
-					IGNORE fprintf(stderr,
-					    "token number out of bounds\n");
+					IGNORE fprintf(stderr, "token number out of bounds\n");
 				}
 			}
 			exit(EXIT_FAILURE);
@@ -219,54 +203,50 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 	}
 
 	{
-		/* number of parameters */
-		int npars = td->params.number;
+		int npars = td->params.number; /* number of parameters */
+
 		/* to construct the bindings for this expansion */
 		context new_context;
 		context *old_context = crt_context;
 
 		tokval val;
+
 		/* to record the current place in the input stream */
 		place old_place;
 
 		tok_define *new_bindings;
 		int i, j;
-		dec **old_tagtab;
-		/* to remember the current tag table */
-		exp *old_labtab;
-		/* to remember the current label table */
-		tok_define **old_toktab;
-		/* to remember the current token table */
-		aldef **old_altab;
-		/* to remember the current alignment tag table */
+
+		dec **old_tagtab;        /* to remember the current tag table */
+		exp *old_labtab;         /* to remember the current label table */
+		tok_define **old_toktab; /* to remember the current token table */
+		aldef **old_altab;       /* to remember the current alignment tag table */
+
 		diag_tagdef **old_diagtab;		/* TDF_DIAG3 */
 		dgtag_struct **old_dgtab;		/* TDF_DIAG4 */
 
-		/* now remember them */
-		old_tagtab = unit_ind_tags;
-		old_labtab = unit_labtab;
-		old_toktab = unit_ind_tokens;
-		old_altab = unit_ind_als;
+		old_tagtab  = unit_ind_tags;
+		old_labtab  = unit_labtab;
+		old_toktab  = unit_ind_tokens;
+		old_altab   = unit_ind_als;
 		old_diagtab = unit_ind_diagtags;	/* TDF_DIAG3 */
-		old_dgtab = unit_ind_dgtags;		/* TDF_DIAG4 */
+		old_dgtab   = unit_ind_dgtags;		/* TDF_DIAG4 */
 
 		new_context.no_toks = (short)npars;
 		nil_params.number = 0;
 
-		if (td -> valpresent &&
-				(td -> unit_number == crt_tagdef_unit_no)) {
-			/* if a value has already been computed (there
-			 * will be no parameters) */
-
+		/* if a value has already been computed (there will be no parameters) */
+		if (td->valpresent && (td->unit_number == crt_tagdef_unit_no)) {
 			if (sortcode == f_exp.code) {
 				tokval v;
+
+				/* copy it if the result is an expression,
+				 * since we may be going to alter it */
 				v.tk_exp = copy(td->tdvalue.tk_exp);
-				/* copy it if the result is an
-				 * expression since we may be going to
-				 * alter it */
+
 				return v;
 			} else  {
-				return td -> tdvalue;
+				return td->tdvalue;
 			}
 		}
 
@@ -279,84 +259,74 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 		if (npars > 0) {
 			new_context.othertoks = xcalloc(npars, sizeof(tok_define));
 
-		new_bindings = &new_context.othertoks[0];
+			new_bindings = &new_context.othertoks[0];
 
-		for (j = 0; j < npars; ++j) {
-			/* read in the parameter values and bind them
-			 * to the formals */
-			sortname sn;
-			exp old_crt_repeat;  /* XX008 */
-			new_bindings = new_context.othertoks;
-			i = j;
-			sn = (td->params.par_sorts)[j];
-			new_bindings[i].tdsort = sn;
-			/* parameter sort */
-			new_bindings[i].tdtoken =
-				(td->params.par_names)[j];
-			/* formal */
-			new_bindings[i].valpresent = 1;
-			/* the value is known */
-			new_bindings[i].unit_number =
-				crt_tagdef_unit_no;
-			new_bindings[i].re_evaluate = 0;
-			/* and does not need re-evaluating */
-			new_bindings[i].params = nil_params;
-			/* it has no parameters itself */
+			/* read in the parameter values and bind them to the formals */
+			for (j = 0; j < npars; ++j) {
+				sortname sn;
+				exp old_crt_repeat;  /* XX008 */
 
-			/* XX008 */
-			if (sn.code == f_exp.code) {
-				old_crt_repeat = crt_repeat;
-				crt_repeat = NULL;
-			} else {
-				SET(old_crt_repeat);
-			}
-			if (actual_pars != NULL) {
-				/* this is not used at present*/
-				new_bindings[i].tdvalue =
-					actual_pars[j];
-			} else {
-				new_bindings[i].tdvalue =
-					read_sort(sn.code);
-			}
-			/* read a parameter */
-			/* XX008 */
-			if (sn.code == f_exp.code) {
-				crt_repeat = old_crt_repeat;
-			}
+				new_bindings = new_context.othertoks;
+				i = j;
 
-			new_bindings[i].defined = 1;
-			/* and say it is defined */
-			new_bindings[i].tok_special = 0;
-			/* and say it is not special */
-			new_bindings[i].recursive = (sn.code == SORT_TOKEN);
-			/* and say it is not recursive for simple
-			 * sorts */
-			new_bindings[i].tok_context = crt_context;
-		}
+				sn = (td->params.par_sorts)[j];
+				new_bindings[i].tdsort      = sn; /* parameter sort */
+				new_bindings[i].tdtoken     = (td->params.par_names)[j]; /* formal */
+				new_bindings[i].valpresent  = true; /* the value is known */
+				new_bindings[i].unit_number = crt_tagdef_unit_no;
+				new_bindings[i].re_evaluate = 0; /* and does not need re-evaluating */
+				new_bindings[i].params      = nil_params; /* it has no parameters itself */
+
+				/* XX008 */
+				if (sn.code == f_exp.code) {
+					old_crt_repeat = crt_repeat;
+					crt_repeat = NULL;
+				} else {
+					SET(old_crt_repeat);
+				}
+
+				/* read a parameter */
+				if (actual_pars != NULL) {
+					/* this is not used at present*/
+					new_bindings[i].tdvalue = actual_pars[j];
+				} else {
+					new_bindings[i].tdvalue = read_sort(sn.code);
+				}
+
+				/* XX008 */
+				if (sn.code == f_exp.code) {
+					crt_repeat = old_crt_repeat;
+				}
+
+				new_bindings[i].defined     = 1; /* and say it is defined */
+				new_bindings[i].tok_special = 0; /* and say it is not special */
+				new_bindings[i].recursive   = (sn.code == SORT_TOKEN); /* and say it is not recursive for simple sorts */
+				new_bindings[i].tok_context = crt_context;
+			}
 		}
 
 		/* set up the place to read the definition */
 		set_place(td->tdplace);
 
 		new_context.recursive = td->recursive;
-		new_context.outer = td->tok_context;
-		new_context.tags = NULL;
-		new_context.labs = NULL;
+		new_context.outer     = td->tok_context;
+		new_context.tags      = NULL;
+		new_context.labs      = NULL;
 
 		crt_context = &new_context;
 
 		/* now set up the tables which belong to the place
 		 * where the token was defined */
-		unit_ind_tags = td->my_tagtab;
-		unit_labtab = td->my_labtab;
-		unit_ind_tokens = td->my_toktab;
-		unit_ind_als = td->my_altab;
+		unit_ind_tags     = td->my_tagtab;
+		unit_labtab       = td->my_labtab;
+		unit_ind_tokens   = td->my_toktab;
+		unit_ind_als      = td->my_altab;
 		unit_ind_diagtags = td->my_diagtab;	/* TDF_DIAG3 */
-		unit_ind_dgtags = td->my_dgtab;		/* TDF_DIAG4 */
+		unit_ind_dgtags   = td->my_dgtab;	/* TDF_DIAG4 */
 
 		/* read the body of the definition */
-		td->recursive = 1;  /* set up to detect recursion */
-		val = read_sort(sortcode);
+		td->recursive = true;  /* set up to detect recursion */
+		val           = read_sort(sortcode);
 		td->recursive = new_context.recursive;
 
 		/* restore the place in the input stream */
@@ -367,8 +337,10 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 		/* kill off exps (they were copied) */
 		for (j = 0; j < npars; ++j) {
 			tok_define *q;
+
 			i = j;
 			new_bindings = new_context.othertoks;
+
 			q = &new_bindings[i];
 			if (q->tdsort.code == f_exp.code) {
 				exp ek = q->tdvalue.tk_exp;
@@ -377,46 +349,48 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 		}
 
 		/* restore the old environment of tables */
-		crt_context = old_context;
-		unit_ind_tags = old_tagtab;
-		unit_labtab = old_labtab;
-		unit_ind_tokens = old_toktab;
-		unit_ind_als = old_altab;
+		crt_context       = old_context;
+		unit_ind_tags     = old_tagtab;
+		unit_labtab       = old_labtab;
+		unit_ind_tokens   = old_toktab;
+		unit_ind_als      = old_altab;
 		unit_ind_diagtags = old_diagtab;	/* TDF_DIAG3 */
-		unit_ind_dgtags = old_dgtab;		/* TDF_DIAG4 */
+		unit_ind_dgtags   = old_dgtab;		/* TDF_DIAG4 */
 
-		if (!doing_aldefs && npars == 0 &&
-				new_context.recursive == 0) {
+		if (!doing_aldefs && npars == 0 && !new_context.recursive) {
 			/* if there were no parameters, record the
-			 * value for the next application of the
-			 * token */
-			td->valpresent = 1;
-			td->tdvalue = val;
+			 * value for the next application of the token */
+			td->valpresent = true;
+			td->tdvalue    = val;
+
 			if (sortcode == f_exp.code) {
 				tokval v;
+
+				/* if we are remembering it we must copy,
+				 * because the returned value might be altered */
 				v.tk_exp = copy(val.tk_exp);
-				/* if we are remembering it we must
-				 * copy, because the returned value
-				 * might be altered */
 				IGNORE hold(val.tk_exp);
+
 				return v;
 			}
 		} else {
 			/* free the space used for parameter binding */
 			xfree(new_context.othertoks);
 		}
+
 		while (new_context.tags != NULL) {
 			tag_con *r = new_context.tags;
-			new_context.tags =
-				new_context.tags->rest;
+			new_context.tags = new_context.tags->rest;
 			xfree(r);
 		}
+
 		while (new_context.labs != NULL) {
 			lab_con *r = new_context.labs;
-			new_context.labs =
-				new_context.labs->rest;
+			new_context.labs = new_context.labs->rest;
 			xfree(r);
 		}
+
 		return val;
 	}
 }
+
