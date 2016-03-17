@@ -110,8 +110,8 @@ get_tok(int tk)
 
 	for (con = crt_context; con != NULL; con = con->outer) {
 		for (i = 0; i < con->no_toks; i++) {
-			if (tk == con->othertoks[i].tdtoken) {
-				return &con->othertoks[i];
+			if (tk == con->toks[i].tdtoken) {
+				return &con->toks[i];
 			}
 		}
 	}
@@ -214,8 +214,7 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 		/* to record the current place in the input stream */
 		place old_place;
 
-		tok_define *new_bindings;
-		int i, j;
+		int j;
 
 		dec **old_tagtab;        /* to remember the current tag table */
 		exp *old_labtab;         /* to remember the current label table */
@@ -257,25 +256,20 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 
 		/* now set up the new parameter bindings */
 		if (npars > 0) {
-			new_context.othertoks = xcalloc(npars, sizeof(tok_define));
-
-			new_bindings = &new_context.othertoks[0];
+			new_context.toks = xcalloc(npars, sizeof(tok_define));
 
 			/* read in the parameter values and bind them to the formals */
 			for (j = 0; j < npars; ++j) {
 				sortname sn;
 				exp old_crt_repeat;  /* XX008 */
 
-				new_bindings = new_context.othertoks;
-				i = j;
-
 				sn = (td->params.par_sorts)[j];
-				new_bindings[i].tdsort      = sn; /* parameter sort */
-				new_bindings[i].tdtoken     = (td->params.par_names)[j]; /* formal */
-				new_bindings[i].valpresent  = true; /* the value is known */
-				new_bindings[i].unit_number = crt_tagdef_unit_no;
-				new_bindings[i].re_evaluate = 0; /* and does not need re-evaluating */
-				new_bindings[i].params      = nil_params; /* it has no parameters itself */
+				new_context.toks[j].tdsort      = sn; /* parameter sort */
+				new_context.toks[j].tdtoken     = (td->params.par_names)[j]; /* formal */
+				new_context.toks[j].valpresent  = true; /* the value is known */
+				new_context.toks[j].unit_number = crt_tagdef_unit_no;
+				new_context.toks[j].re_evaluate = 0; /* and does not need re-evaluating */
+				new_context.toks[j].params      = nil_params; /* it has no parameters itself */
 
 				/* XX008 */
 				if (sn.code == f_exp.code) {
@@ -288,9 +282,9 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 				/* read a parameter */
 				if (actual_pars != NULL) {
 					/* this is not used at present*/
-					new_bindings[i].tdvalue = actual_pars[j];
+					new_context.toks[j].tdvalue = actual_pars[j];
 				} else {
-					new_bindings[i].tdvalue = read_sort(sn.code);
+					new_context.toks[j].tdvalue = read_sort(sn.code);
 				}
 
 				/* XX008 */
@@ -298,10 +292,10 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 					crt_repeat = old_crt_repeat;
 				}
 
-				new_bindings[i].defined     = 1; /* and say it is defined */
-				new_bindings[i].tok_special = 0; /* and say it is not special */
-				new_bindings[i].recursive   = (sn.code == SORT_TOKEN); /* and say it is not recursive for simple sorts */
-				new_bindings[i].tok_context = crt_context;
+				new_context.toks[j].defined     = 1; /* and say it is defined */
+				new_context.toks[j].tok_special = 0; /* and say it is not special */
+				new_context.toks[j].recursive   = (sn.code == SORT_TOKEN); /* and say it is not recursive for simple sorts */
+				new_context.toks[j].tok_context = crt_context;
 			}
 		}
 
@@ -332,18 +326,10 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 		/* restore the place in the input stream */
 		set_place(old_place);
 
-		new_bindings = &new_context.othertoks[0];
-
 		/* kill off exps (they were copied) */
 		for (j = 0; j < npars; ++j) {
-			tok_define *q;
-
-			i = j;
-			new_bindings = new_context.othertoks;
-
-			q = &new_bindings[i];
-			if (q->tdsort.code == f_exp.code) {
-				exp ek = q->tdvalue.tk_exp;
+			if (new_context.toks[j].tdsort.code == f_exp.code) {
+				exp ek = new_context.toks[j].tdvalue.tk_exp;
 				kill_exp(ek, ek);
 			}
 		}
@@ -375,7 +361,7 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 			}
 		} else {
 			/* free the space used for parameter binding */
-			xfree(new_context.othertoks);
+			xfree(new_context.toks);
 		}
 
 		while (new_context.tags != NULL) {

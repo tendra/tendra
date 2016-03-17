@@ -188,7 +188,7 @@ typedef struct tok_define_t tok_define;
 typedef tok_define *token;
 
 struct context_t {
-	tok_define *othertoks;
+	tok_define *toks;
 
 	short no_toks;
 	bool recursive :1;
