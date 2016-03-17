@@ -135,8 +135,6 @@ typedef union {
 } tokval;
 
 
-#define LOCAL_TOKS 4
-
 typedef struct tag_con_t {
 	dec *namet;
 	exp e;
@@ -190,13 +188,6 @@ typedef struct tok_define_t tok_define;
 typedef tok_define *token;
 
 struct context_t {
-	/*
-	 * most tokens have <= LOCAL_TOKS parameters and
-	 * are not recursive so use of local space in
-	 * apply_tok for 'tok_context' to avoid lots of
-	 * mallocs ....
-	 */
-	tok_define loctoks[LOCAL_TOKS];
 	tok_define *othertoks;
 
 	short no_toks;

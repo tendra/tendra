@@ -116,19 +116,10 @@ get_tok(int tk)
 	/* find the token declaration indexed by tag */
 	context *con = crt_context;
 	while (con != NULL) {
-		int n = con->no_toks;
-		int nl = (n > LOCAL_TOKS) ? LOCAL_TOKS : n;
-		tok_define *cbind = &con->loctoks[0];
 		int i;
-		for (i = 0; i < nl; i++) {
-			if (tk == cbind[i].tdtoken) {
-				return &cbind[i];
-			}
-		}
-		cbind = con->othertoks;
-		for (i = LOCAL_TOKS; i < n; i++) {
-			if (tk == cbind[i - LOCAL_TOKS].tdtoken) {
-				return &cbind[i-LOCAL_TOKS];
+		for (i = 0; i < con->no_toks; i++) {
+			if (tk == con->othertoks[i].tdtoken) {
+				return &con->othertoks[i];
 			}
 		}
 		con = con->outer;
@@ -285,24 +276,18 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 		set_place(pars);
 
 		/* now set up the new parameter bindings */
-		if (npars > LOCAL_TOKS) {
-			new_context.othertoks =
-				xcalloc(npars - LOCAL_TOKS, sizeof(tok_define));
-		}
+		if (npars > 0) {
+			new_context.othertoks = xcalloc(npars, sizeof(tok_define));
 
-		new_bindings = &new_context.loctoks[0];
+		new_bindings = &new_context.othertoks[0];
 
 		for (j = 0; j < npars; ++j) {
 			/* read in the parameter values and bind them
 			 * to the formals */
 			sortname sn;
 			exp old_crt_repeat;  /* XX008 */
-			if (j >= LOCAL_TOKS) {
-				i = j - LOCAL_TOKS;
-				new_bindings = new_context.othertoks;
-			} else {
-				i = j;
-			}
+			new_bindings = new_context.othertoks;
+			i = j;
 			sn = (td->params.par_sorts)[j];
 			new_bindings[i].tdsort = sn;
 			/* parameter sort */
@@ -348,6 +333,7 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 			 * sorts */
 			new_bindings[i].tok_context = crt_context;
 		}
+		}
 
 		/* set up the place to read the definition */
 		set_place(td->tdplace);
@@ -376,17 +362,13 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 		/* restore the place in the input stream */
 		set_place(old_place);
 
-		new_bindings = &new_context.loctoks[0];
+		new_bindings = &new_context.othertoks[0];
 
 		/* kill off exps (they were copied) */
 		for (j = 0; j < npars; ++j) {
 			tok_define *q;
-			if (j >= LOCAL_TOKS) {
-				i = j - LOCAL_TOKS;
-				new_bindings = new_context.othertoks;
-			} else {
-				i = j;
-			}
+			i = j;
+			new_bindings = new_context.othertoks;
 			q = &new_bindings[i];
 			if (q->tdsort.code == f_exp.code) {
 				exp ek = q->tdvalue.tk_exp;
@@ -420,11 +402,8 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 				return v;
 			}
 		} else {
-			if (npars > LOCAL_TOKS) {
-				xfree(new_context.othertoks);
-				/* free the space used for parameter
-				 * binding */
-			}
+			/* free the space used for parameter binding */
+			xfree(new_context.othertoks);
 		}
 		while (new_context.tags != NULL) {
 			tag_con *r = new_context.tags;
