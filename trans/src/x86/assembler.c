@@ -152,24 +152,24 @@ out_readonly_section(void)
 }
 
 void
-out_dot_comm(char *id, shape sha)
+out_dot_comm(char *name, shape sha)
 {
 	asm_printf(".comm %s, %ld\n",
-		id, (long) (((shape_size(sha) / 8) + 3) / 4) * 4);
+		name, (long) (((shape_size(sha) / 8) + 3) / 4) * 4);
 }
 
 void
-out_dot_lcomm(char *id, shape sha)
+out_dot_lcomm(char *name, shape sha)
 {
 	asm_printf(".lcomm %s, %ld\n",
-		id, (long) (((shape_size(sha) / 8) + 3) / 4) * 4);
+		name, (long) (((shape_size(sha) / 8) + 3) / 4) * 4);
 }
 
 void
-out_bss(char *id, shape sha)
+out_bss(char *name, shape sha)
 {
 	asm_printf(".bss %s, %ld\n",
-		id, (long) (((shape_size(sha) / 8) + 3) / 4) * 4);
+		name, (long) (((shape_size(sha) / 8) + 3) / 4) * 4);
 }
 
 void
@@ -321,12 +321,12 @@ outclosebr(void)
 }
 
 void
-out_initialiser(char *id)
+out_initialiser(char *name)
 {
 	if (format == FORMAT_ELF) {
 		asm_printf(".section .init\n");
 
-		asm_printf("\tcall %s", id);
+		asm_printf("\tcall %s", name);
 
 		if (PIC_code) {
 			asm_printf("@PLT");
@@ -334,7 +334,7 @@ out_initialiser(char *id)
 
 		asm_printf("\n");
 	} else {
-		asm_printf(".stabs \"___TDFI_LIST__\",22,0,0,%s\n", id);
+		asm_printf(".stabs \"___TDFI_LIST__\",22,0,0,%s\n", name);
 	}
 
 	asm_printf("\n");

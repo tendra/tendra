@@ -1802,8 +1802,8 @@ make_code1(where dest, ash stack, exp e)
 
 		if (builtinproc(e)) {
 			dec* dp = brog(son(proc));
-			char *id = dp -> name;
-			special_ins(id + strlen(name_prefix), arg, dest);
+			char *name = dp -> name;
+			special_ins(name + strlen(name_prefix), arg, dest);
 			return;
 		}
 

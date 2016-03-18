@@ -114,7 +114,7 @@ void test_fl_ovfl(exp e, where dest);
 void reset_fpucon(void);
 exp find_stlim_var(void);
 void checkalloc_stack(where sz, int b);	/* uses reg1 */
-void special_ins(char * id, exp args, where dest);
+void special_ins(char *name, exp args, where dest);
 
 extern exp ferrmem;
 extern int ferrsize;

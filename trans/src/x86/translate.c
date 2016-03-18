@@ -160,7 +160,7 @@ static void
 code_def(dec *d)
 {
 	exp tag  = d->exp;
-	char *id = d->name;
+	char *name = d->name;
 
 	if (son(tag) != NULL && shape_size(sh(son(tag))) == 0 && son(tag)->tag == asm_tag) {
 		ash stack;
@@ -178,28 +178,28 @@ code_def(dec *d)
 
 	if (son(tag) != NULL && (d->extnamed || no(tag) != 0)) {
 		if (son(tag)->tag == proc_tag || son(tag)->tag == general_proc_tag) {
-			if (dyn_init && strncmp("__I.TDF", id + strlen(name_prefix), 7) == 0) {
-				out_initialiser(id);
+			if (dyn_init && strncmp("__I.TDF", name + strlen(name_prefix), 7) == 0) {
+				out_initialiser(name);
 				set_proc_uses_external (son (tag));	/* for PIC_code, should be done in install_fns? */
 			}
 
 			asm_printf(".text\n");
 			if (isvar(tag)) {
-				char *newid = make_local_name();
+				char *new = make_local_name();
 				if (d->extnamed) {
 					d->extnamed = 0;
-					asm_printf(".globl %s\n", id);
+					asm_printf(".globl %s\n", name);
 				}
 
 				dot_align(4);
-				asm_label("%s", id);
-				asm_printf(".long %s\n", newid);
-				id = newid;
+				asm_label("%s", name);
+				asm_printf(".long %s\n", new);
+				name = new;
 				d->extnamed = 0;
 			}
 
 			/* for use in constant evaluation */
-			d->index = cproc(son(tag), id, -1, (int) d->extnamed
+			d->index = cproc(son(tag), name, -1, (int) d->extnamed
 #ifdef TDF_DIAG3
 		          , d->diag_info
 #endif
@@ -225,52 +225,52 @@ code_def(dec *d)
 
 			if (shape_size(sh(son(tag))) == 0) {
 				if (d->extnamed) {
-					asm_printf(".globl %s\n", id);
+					asm_printf(".globl %s\n", name);
 				} else if (assembler == ASM_SUN) {
-					asm_printf(".local %s\n", id);
+					asm_printf(".local %s\n", name);
 				} else if (assembler == ASM_GAS) {
 					asm_printf(".data\n");
-					asm_printf("%s:\n", id);
+					asm_printf("%s:\n", name);
 				} else {
-					asm_printf(".set %s, 0\n", id);
+					asm_printf(".set %s, 0\n", name);
 				}
 			} else if (!PIC_code && !isvar(tag) && son(tag)->tag == null_tag &&
 			           sh(son(tag))->tag == prokhd) {
 				if (d->extnamed) {
-					asm_printf(".globl %s\n", id);
+					asm_printf(".globl %s\n", name);
 				} else if (assembler == ASM_SUN) {
-					asm_printf(".local %s\n", id);
+					asm_printf(".local %s\n", name);
 				}
-				asm_printf(".set %s, %ld\n", id, (long) no(son(tag)));
+				asm_printf(".set %s, %ld\n", name, (long) no(son(tag)));
 			} else {
 				if (!d->isweak && is_comm(son(tag))) {
 					int is_ext = d->extnamed;
 
 					if (diag_props && diag != DIAG_NONE) {
 #ifdef TDF_DIAG3
-						diag3_driver->diag_val_begin(diag_props, is_ext, -1, id);
+						diag3_driver->diag_val_begin(diag_props, is_ext, -1, name);
 #endif
 #ifdef TDF_DIAG4
-						diag4_driver->out_diag_global(diag_props, is_ext, -1, id);
+						diag4_driver->out_diag_global(diag_props, is_ext, -1, name);
 #endif
 					}
 
 					if (son(tag)->tag == clear_tag && no(son(tag)) == -1) {
 						/* prom global data */
 						if (is_ext) {
-							asm_printf(".globl %s\n", id);
+							asm_printf(".globl %s\n", name);
 						}
 
-						out_bss(id, sh(son(tag)));
+						out_bss(name, sh(son(tag)));
 #ifdef DWARF2
 						if (diag == DIAG_DWARF2) {
-							note_data(id);
+							note_data(name);
 						}
 #endif
 					} else if (is_ext) {
-						out_dot_comm(id, sh(son(tag)));
+						out_dot_comm(name, sh(son(tag)));
 					} else {
-						out_dot_lcomm(id, sh(son(tag)));
+						out_dot_lcomm(name, sh(son(tag)));
 					}
 
 					if (diag_props) {

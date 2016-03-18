@@ -6736,11 +6736,11 @@ void checkalloc_stack
  * Builtin functions. All args are operands
  */
 void special_ins
-(char * id, exp arg, where dest)
+(char *name, exp arg, where dest)
 {
   UNUSED(dest);
 
-  if (streq(id, "__trans386_special") && arg->tag == val_tag) {
+  if (streq(name, "__trans386_special") && arg->tag == val_tag) {
     switch (no(arg)) {
       case 0:
 	ins0(fwait);

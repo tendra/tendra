@@ -861,7 +861,7 @@ evaluated_const(exp e)
 {
 	instore isa;
 	int lab;
-	char *id;
+	char *name;
 
 	/* +++ to share consts */
 
@@ -872,12 +872,12 @@ evaluated_const(exp e)
 
 	lab = isa.b.base;
 
-	id = ext_name(lab);
+	name = ext_name(lab);
 
 	/* generate .toc entry */
 	asm_printop(".toc");
-	asm_label( "T.%s", id);
-	asm_printop( ".tc\t%s[TC],%s", id, id);
+	asm_label( "T.%s", name);
+	asm_printop( ".tc\t%s[TC],%s", name, name);
 
 	/* reset to default text segment */
 	asm_printop(".csect [PR]");

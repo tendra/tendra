@@ -27,9 +27,9 @@ struct diag3_driver {
 	void (*OUTPUT_DIAG_TAGS)(void);
 	void (*INSPECT_FILENAME)(filename);
 	void (*stab_file)(long i, bool internal);
-	void (*stab_global)(diag_descriptor *dd, exp global, char *id, bool ext);
-	void (*stab_proc_file)(diag_descriptor *dd, exp proc, char *id, bool ext);
-	void (*stab_proc)(diag_descriptor *dd, exp proc, char *id, bool public);
+	void (*stab_global)(diag_descriptor *dd, exp global, char *name, bool ext);
+	void (*stab_proc_file)(diag_descriptor *dd, exp proc, char *name, bool ext);
+	void (*stab_proc)(diag_descriptor *dd, exp proc, char *name, bool public);
 	void (*stab_proc_end)(void);
 
 	void (*output_diag     )(diag_info *d, int proc_no, exp e);

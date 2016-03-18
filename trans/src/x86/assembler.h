@@ -23,9 +23,9 @@ void outlong(void);
 void align_label(int f, exp jr);
 void eval_postlude(char *s, exp c);
 void out_readonly_section(void);
-void out_dot_comm(char *id, shape sha);
-void out_dot_lcomm(char *id, shape sha);
-void out_bss(char *id, shape sha);
+void out_dot_comm(char *name, shape sha);
+void out_dot_lcomm(char *name, shape sha);
+void out_bss(char *name, shape sha);
 
 void pic_prelude(void);
 
@@ -40,7 +40,7 @@ void outend(void);
 void outopenbr(void);
 void outclosebr(void);
 
-void out_initialiser(char *id);
+void out_initialiser(char *name);
 void out_main_prelude(void);
 void out_main_postlude(void);
 

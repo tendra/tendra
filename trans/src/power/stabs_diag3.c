@@ -416,15 +416,15 @@ static void stab_structs_and_unions(void)
   {
     int non;
     diag_type dt = su_diags[i] ->d_type;
-    char *nme = (dt->key == DIAG_TYPE_STRUCT)
+    char *name = (dt->key == DIAG_TYPE_STRUCT)
 			? CSTRING(dt->data.t_struct.name)
 			: CSTRING(dt->data.t_union.name);
 
-    asm_comment("su_diags: is_struct=%d nme='%s'", dt->key == DIAG_TYPE_STRUCT,(int)nme);
+    asm_comment("su_diags: is_struct=%d name='%s'", dt->key == DIAG_TYPE_STRUCT,(int)name);
 
     stab_internal_types(dt, 0);
 
-    if (nme == NULL || *nme == (char)0)
+    if (name == NULL || *name == (char)0)
     {
       /*
        * Output unnamed object here for 2 reasons:
@@ -438,7 +438,7 @@ static void stab_structs_and_unions(void)
     }
     else
     {
-      asm_printf( "\t.stabx\t\"%s:T", nme);
+      asm_printf( "\t.stabx\t\"%s:T", name);
     }
 
     non = OUTED_NO(dt);
@@ -1506,14 +1506,14 @@ void stab_es(char *sectname)
 
 
 /*
- * Produce diagnostic for ident_tag variable "id" defined by "global";
- * called from translat().  "ext" tells whether "id" is "static".
+ * Produce diagnostic for ident_tag variable "name" defined by "global";
+ * called from translat().  "ext" tells whether "name" is "static".
  */
 static void
-stab_global(diag_descriptor *dd, exp global, char *id, bool ext)
+stab_global(diag_descriptor *dd, exp global, char *name, bool ext)
 {
   UNUSED(global);
-  UNUSED(id);
+  UNUSED(name);
   UNUSED(ext);
 
 #if defined(__AIX) || defined(CROSS_INCLUDE)
@@ -1535,7 +1535,7 @@ stab_global(diag_descriptor *dd, exp global, char *id, bool ext)
 	 (ext ? 'G' : 'S'));
   out_dt_TypeId(dd->data.id.new_type);
   asm_printf( "\",%s,%d,%d\n",
-	  id,
+	  name,
 	 (ext ? C_GSYM : C_STSYM),
 	  0);
 #endif
@@ -1546,9 +1546,9 @@ stab_global(diag_descriptor *dd, exp global, char *id, bool ext)
  * switch to correct file prior to proc prelude
  */
 static void
-stab_proc_file(diag_descriptor *dd, exp proc, char *id, bool ext)
+stab_proc_file(diag_descriptor *dd, exp proc, char *name, bool ext)
 {
-  UNUSED(id);
+  UNUSED(name);
   UNUSED(ext);
 
   block_depth = 0;
@@ -1573,7 +1573,7 @@ stab_proc_file(diag_descriptor *dd, exp proc, char *id, bool ext)
  * stap proc, after label defined
  */
 static void
-stab_proc(diag_descriptor *dd, exp proc, char *id, bool ext)
+stab_proc(diag_descriptor *dd, exp proc, char *name, bool ext)
 {
   char *nm;
   diag_type dt;
@@ -1585,7 +1585,7 @@ stab_proc(diag_descriptor *dd, exp proc, char *id, bool ext)
   }
 
   dt = dd->data.id.new_type;
-  nm = CSTRING(dd->data.id.name);	/* source proc name, id is just the
+  nm = CSTRING(dd->data.id.name);	/* source proc name, name is just the
 					 * assembler label */
   assert(nm[0]!=0);
 
@@ -1626,7 +1626,7 @@ stab_proc(diag_descriptor *dd, exp proc, char *id, bool ext)
   }
 
 #if defined(__AIX) || defined(CROSS_INCLUDE)
-  asm_printf( "\",.%s,%d,%d\n", id, C_FUN, 0);
+  asm_printf( "\",.%s,%d,%d\n", name, C_FUN, 0);
 #endif
 
 #if 1
@@ -1636,9 +1636,9 @@ stab_proc(diag_descriptor *dd, exp proc, char *id, bool ext)
    * documented in assembler manual, but gcc generates it and it enable gdb to
    * trace down stack properly.
    */
-  asm_printop(".function .%s,.%s,16,044,E.%s-.%s", id, id, id, id);
+  asm_printop(".function .%s,.%s,16,044,E.%s-.%s", name, name, name, name);
 #else
-  asm_printop(".function .%s,.%s,16,044", id, id);
+  asm_printop(".function .%s,.%s,16,044", name, name);
 #endif
 
   /* the proc start line number  */
@@ -1652,7 +1652,7 @@ stab_proc(diag_descriptor *dd, exp proc, char *id, bool ext)
 /*
  * diagnostics for proc end
  */
-void stab_endproc(exp proc, char *id, bool ext)
+void stab_endproc(exp proc, char *name, bool ext)
 {
   UNUSED(proc);
   UNUSED(ext);
@@ -1662,7 +1662,7 @@ void stab_endproc(exp proc, char *id, bool ext)
     stab_end_block();
 
   stab_relativeline(ef_stab);
-  asm_label( "E.%s", id);	/* proc end label */
+  asm_label( "E.%s", name);	/* proc end label */
 
   current_procstart_lineno = NOT_IN_PROC;
 
@@ -1682,7 +1682,7 @@ void stab_endproc(exp proc, char *id, bool ext)
 
     }
 
-    nm = CSTRING(dd->data.id.name);	/* source proc name, id is just the
+    nm = CSTRING(dd->data.id.name);	/* source proc name, name is just the
 					 * assembler label */
     assert(nm[0]!=0);
     tbtable_sht = zero_tbtable_short;
@@ -1728,7 +1728,7 @@ void stab_endproc(exp proc, char *id, bool ext)
       asm_printop(".long 0");	/* +++ */
 
     /* tb_offset */
-    asm_printop(".long E.%s-.%s", id, id);
+    asm_printop(".long E.%s-.%s", name, name);
 
     /* we never use hand_mask, ctl_info and ctl_info_disp optional components */
     assert(!tbtable_sht.int_hndl);
@@ -1758,33 +1758,33 @@ void stab_endproc(exp proc, char *id, bool ext)
  * whether dbx can actually use them.
  */
 static void
-stab_local(char *nm, diag_type dt, exp id, int disp, long findex)
+stab_local(char *name, diag_type dt, exp id, int disp, long findex)
 {
-  UNUSED(nm);
+  UNUSED(name);
   UNUSED(dt);
   UNUSED(id);
   UNUSED(disp);
   UNUSED(findex);
 
 #if defined(__AIX) || defined(CROSS_INCLUDE)
-  asm_comment("stab_local: %s disp=%d boff(id).offset=%d",(long)nm, disp, boff(id).offset);
+  asm_comment("stab_local: %s disp=%d boff(id).offset=%d",(long)name, disp, boff(id).offset);
   disp += boff(id).offset;
 again:
   if (id->tag == ident_tag)
   {
-    asm_comment("stab_local ident_tag: %s disp=%d",(long)nm, disp);
+    asm_comment("stab_local ident_tag: %s disp=%d",(long)name, disp);
     if ((props(id) & defer_bit) == 0)
     {
       if (isparam(id))
       {
-	asm_printf( "\t.stabx\t\"%s:p", nm);
+	asm_printf( "\t.stabx\t\"%s:p", name);
 	out_dt_TypeId(dt);
 	asm_printf( "\",%d,%d,%d\n", disp, C_PSYM, 0);
 	return;
       }
       else
       {
-	asm_printf( "\t.stabx\t\"%s:", nm);
+	asm_printf( "\t.stabx\t\"%s:", name);
 	out_dt_TypeId(dt);
 	asm_printf( "\",%d,%d,%d\n", disp, C_LSYM, 0);
 	return;

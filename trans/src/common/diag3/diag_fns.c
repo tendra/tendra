@@ -722,20 +722,19 @@ linkextern
 f_make_diagtagextern(tdfint internal, external ext)
 {
 	diag_tagdef *dp = &capsule_diag_tagtab[natint(internal)];
-	char *nm = ext.ex.id.ints.chars;
-	char *id;
-	int idl = (int)strlen(nm);
+	char *name;
+	int namel = (int)strlen(ext.ex.id.ints.chars);
 	int j;
 
 	/* copy it  in case we need to vandalize it sometime */
-	id = xcalloc((idl + 1), sizeof(char));
-	id[idl] = 0;
+	name = xcalloc((namel + 1), sizeof(char));
+	name[namel] = 0;
 
-	for (j = 0; j < idl; ++j) {
-		id[j] = nm[j];
+	for (j = 0; j < namel; ++j) {
+		name[j] = ext.ex.id.ints.chars[j];
 	}
 
-	dp->ext_name = id;
+	dp->ext_name = name;
 
 	return 1;
 }

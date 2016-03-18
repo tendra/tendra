@@ -196,11 +196,11 @@ local_translate_capsule(void)
 }
 
 /*
- * The procedure with declaration d, name id, definition c and body s
+ * The procedure with declaration d, name, definition c and body s
  * is encoded.
  */
 static void
-code_proc(dec *d, char *id, exp c, exp s)
+code_proc(dec *d, char *name, exp c, exp s)
 {
 	diag_descriptor *di;
 	int reg_res;
@@ -221,10 +221,10 @@ code_proc(dec *d, char *id, exp c, exp s)
 	/* Code procedure body */
 #if 0
 	if (s->tag == proc_tag) {
-		cproc(s, id, -1, is_ext, reg_res, di);
+		cproc(s, name, -1, is_ext, reg_res, di);
 	} else
 #endif
-		gcproc(s, id, -1, is_ext, reg_res, di);
+		gcproc(s, name, -1, is_ext, reg_res, di);
 
 	d->index = cur_proc_env_size; /* for use in constant evaluation */
 
@@ -232,7 +232,7 @@ code_proc(dec *d, char *id, exp c, exp s)
 }
 
 /*
- * The constant with declaration d, name id, definition c and body s
+ * The constant with declaration d, definition c and body s
  * is encoded.
  */
 static void
@@ -274,8 +274,8 @@ code_const_list(void)
 		const_list = bro(const_list);
 
 		if (s->tag == proc_tag || s->tag == general_proc_tag) {
-			char *id = xmalloc(30);
-			sprintf(id, "%s%ld", local_prefix, no(t));
+			char *name = xmalloc(30);
+			sprintf(name, "%s%ld", local_prefix, no(t));
 			gcproc(s, NULL, no(t), 0, 1, NULL);
 		} else {
 			area(b ? pdata : ptext);

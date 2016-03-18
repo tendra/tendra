@@ -1954,7 +1954,7 @@ static DNTTPOINTER out_dt_shape
  * Output diagnostics for a global variable
  */
 static void
-stab_global(diag_descriptor *dd, exp global, char * id, bool ext)
+stab_global(diag_descriptor *dd, exp global, char *name, bool ext)
 {
   char *nm;
 
@@ -1970,7 +1970,7 @@ stab_global(diag_descriptor *dd, exp global, char * id, bool ext)
      if (ext)
 	make_dnttentry(K_SVAR, 1, 0, 0, vt_next,(STATTYPE)nm, OUT_DT_SHAPE(dd->data.id.new_type), 0, 0, GNTT);
       else
-	 make_dnttentry(K_SVAR, 0, 0, 0, vt_next,(STATTYPE)id, OUT_DT_SHAPE(dd->data.id.new_type), 0, 0, LNTT);
+	 make_dnttentry(K_SVAR, 0, 0, 0, vt_next,(STATTYPE)name, OUT_DT_SHAPE(dd->data.id.new_type), 0, 0, LNTT);
       make_vtentry(nm,0,0);
 #endif
   }
@@ -1980,8 +1980,7 @@ stab_global(diag_descriptor *dd, exp global, char * id, bool ext)
      OUT_DT_SHAPE(dd->data.id.new_type);
      asm_fprintf(dg_file,"\",%#x,0,%d,%s\n",(ext ? 0x24 :((no(global)!=0)?0x26:0x28)),
 	   dd->data.id.whence.line_no.nat_val.small_nat /*0*/,
-	   id
-	  );
+	   name);
   }
 }
 
@@ -1989,7 +1988,7 @@ stab_global(diag_descriptor *dd, exp global, char * id, bool ext)
  * Output diagnostics for a procedure
  */
 static void
-stab_proc(diag_descriptor *dd, exp proc, char * id, bool public)
+stab_proc(diag_descriptor *dd, exp proc, char *name, bool public)
 {
    char *nm;
    if (dd == NULL)
@@ -1997,15 +1996,15 @@ stab_proc(diag_descriptor *dd, exp proc, char * id, bool public)
    stabd(find_file(dd->data.id.whence.file->file.ints.chars)	,
 	(long)dd->data.id.whence.line_no.nat_val.small_nat
 	 ,0);
-   nm = id;
+   nm = name;
    if (diag == DIAG_GDB)
       asm_fprintf(dg_file, "\t.stabs\t\"%s:%c",nm,(public ? 'F' : 'f'));
    OUT_DT_SHAPE(dd->data.id.new_type->data.proc.result_type);
 
    if (diag == DIAG_GDB)
-      asm_fprintf(dg_file,"\",0x24,0,%ld,%s\n",currentlno,id);
+      asm_fprintf(dg_file,"\",0x24,0,%ld,%s\n",currentlno,name);
 
-   last_proc_lab = id;		/* id is passed from translate_capsule,
+   last_proc_lab = name;		/* name is passed from translate_capsule,
 				 so stays in scope while needed */
    if (diag == DIAG_XDB)
    {

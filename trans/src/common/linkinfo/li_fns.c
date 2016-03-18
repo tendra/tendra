@@ -48,10 +48,10 @@ weak_cell *weak_list;
  * so no need to do anything.
  */
 static void
-out_rename(char *oldid, char *newid)
+out_rename(char *old, char *new)
 {
-	UNUSED(oldid);
-	UNUSED(newid);
+	UNUSED(old);
+	UNUSED(new);
 
 #if defined(TRANS_M68K)
 #if 0
@@ -61,10 +61,10 @@ out_rename(char *oldid, char *newid)
 #endif
 #elif defined(TRANS_SPARC)
 #if 0
-	asm_printop("%s=%s", oldid, newid);
+	asm_printop("%s=%s", old, new);
 #endif
 #elif defined(TRANS_HPPA)
-	asm_comment("renamed %s as %s", oldid, newid);
+	asm_comment("renamed %s as %s", old, new);
 #endif
 }
 

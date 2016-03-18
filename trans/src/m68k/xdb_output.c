@@ -458,7 +458,7 @@ long crt_diag_proc_lab;
 */
 
 void diag_proc_main
-(diag_type dt, exp e, char *id, int is_glob, char *val)
+(diag_type dt, exp e, char *name, int is_glob, char *val)
 {
     exp a;
     posn_t t;
@@ -475,7 +475,7 @@ void diag_proc_main
 
     if (diag == DIAG_STABS) {
 	mach_op *op = make_extern_data(val, 0);
-	char *st = analyse_stab_type(dtl, id,(is_glob ? "F" : "f"));
+	char *st = analyse_stab_type(dtl, name,(is_glob ? "F" : "f"));
 	make_stabs(st, 36, crt_line_num, op);
 	dnt_begin();
     } else {
@@ -488,8 +488,8 @@ void diag_proc_main
 	t = out_dd(diagfp2, xdb_function, 1);
 	asm_fprintf(diagfp2, "%d,1,", is_glob);
 	if (diag == DIAG_XDB_NEW)asm_fprintf(diagfp2, "0,0,0,0,0,");
-	diag_string(diagfp2, id);
-	if (streq(id, "main")) {
+	diag_string(diagfp2, name);
+	if (streq(name, "main")) {
 	    asm_fprintf(diagfp2, ",");
 	    diag_string(diagfp2, "_MAIN_");
 	    asm_fprintf(diagfp2, ",");
@@ -561,15 +561,15 @@ void diag_proc_main
 */
 
 void diag_globl_variable
-(diag_type dt, char *id, int is_glob, char *val, int has_def)
+(diag_type dt, char *name, int is_glob, char *val, int has_def)
 {
     if (diag == DIAG_STABS) {
 	if (is_glob) {
-	    char *st = analyse_stab_type(dt, id, "G");
+	    char *st = analyse_stab_type(dt, name, "G");
 	    make_stabs(st, 32, crt_line_num, NULL);
 	} else {
 	    mach_op *op = make_extern_data(val, 0);
-	    char *st = analyse_stab_type(dt, id, "S");
+	    char *st = analyse_stab_type(dt, name, "S");
 	    make_stabs(st, 38, crt_line_num, op);
 	}
     } else {
@@ -590,7 +590,7 @@ void diag_globl_variable
 	} else {
 	    asm_fprintf(file, "%d,0,", is_glob);
 	}
-	diag_string(file, id);
+	diag_string(file, name);
 	if (has_def) {
 	    asm_fprintf(file, ",%s,", val);
 	} else {
@@ -607,11 +607,11 @@ void diag_globl_variable
 */
 
 void diag_local_variable
-(diag_type dt, char *id, long fp)
+(diag_type dt, char *name, long fp)
 {
     if (diag == DIAG_STABS) {
 	mach_op *op = make_int_data(-fp);
-	char *st = analyse_stab_type(dt, id, "l");
+	char *st = analyse_stab_type(dt, name, "l");
 	make_stabs(st, 128, crt_line_num, op);
     } else {
 	table_posn *x = analyse_diag_type(diagfp2, dt, 1);
@@ -621,7 +621,7 @@ void diag_local_variable
 	} else {
 	    asm_fprintf(diagfp2, "0,0,0,");
 	}
-	diag_string(diagfp2, id);
+	diag_string(diagfp2, name);
 	asm_fprintf(diagfp2, ",%ld,", -fp);
 	if (diag == DIAG_XDB_NEW) {
 	    out_posn(diagfp2, x, 1);

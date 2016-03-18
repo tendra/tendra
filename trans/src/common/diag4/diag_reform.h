@@ -20,8 +20,8 @@ struct diag4_driver {
 	void (*stabd)(dg_filename f, long lno, int seg);
 	void (*code_diag_info)(dg_info d, void(*mcode)(void *), void *args);
 #ifdef TRANS_SPARC
-	void (*stab_global)(dg_name di, exp global, char * id, int ext);
-	void (*stab_proc)(dg_name di, exp proc, char * id, int ext);
+	void (*stab_global)(dg_name di, exp global, char *name, int ext);
+	void (*stab_proc)(dg_name di, exp proc, char *name, int ext);
 #endif
 #ifdef TRANS_X86
 	void (*out_diag_global)(dg_name di, int global, int cname, char *pname);

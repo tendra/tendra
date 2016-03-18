@@ -58,7 +58,7 @@ extern bool last_param(exp);
 static void stab_file(long findex, bool internal);
 static void stab_scope_open(long);
 static void stab_scope_close(long);
-static void stab_local(char *nm, diag_type dt, exp ldid, long disp, long findex);
+static void stab_local(char *name, diag_type dt, exp ldid, long disp, long findex);
 
 static FILE *dg_file;
 
@@ -623,7 +623,7 @@ out_dt_shape(diag_type dt)
  * Output diagnostics for a global variable
  */
 static void
-stab_global(diag_descriptor * dd, exp global, char * id, bool ext)
+stab_global(diag_descriptor * dd, exp global, char *name, bool ext)
 {
 	if (dd == NULL) {
 		return;
@@ -640,17 +640,17 @@ stab_global(diag_descriptor * dd, exp global, char * id, bool ext)
 		(ext ? 0x24 : ((no(global) != 0)?0x26:0x28)),
 	/* solaris puts line no,0 rather than 0, varname,
 	 * so suppress the stabd above, and do here. */
-		 dd->data.id.whence.line_no.nat_val.small_nat, id);
+		 dd->data.id.whence.line_no.nat_val.small_nat, name);
 }
 
 /*
  * Output diagnostics for a procedure
  */
 static void
-stab_proc(diag_descriptor * dd, exp proc, char * id, bool ext)
+stab_proc(diag_descriptor * dd, exp proc, char *name, bool ext)
 {
-	/* id is passed from translate_capsule, so stays in scope while needed */
-	last_proc_lab = id;
+	/* name is passed from translate_capsule, so stays in scope while needed */
+	last_proc_lab = name;
 
 	UNUSED(proc);
 
@@ -665,7 +665,7 @@ stab_proc(diag_descriptor * dd, exp proc, char * id, bool ext)
 			 dd->data.id.name.ints.chars,(ext ? 'F' : 'f'));
 	OUT_DT_SHAPE(dd->data.id.new_type->data.proc.result_type);
 	asm_fprintf(dg_file, "\",0x24,0,%d,%s\n",
-			 dd->data.id.whence.line_no.nat_val.small_nat, id);
+			 dd->data.id.whence.line_no.nat_val.small_nat, name);
 }
 
 static void
@@ -721,7 +721,7 @@ stab_proc_end(void)
  * Output diagnostics for a local variable
  */
 static void
-stab_local(char *nm, diag_type dt, exp ldid, long disp, long findex)
+stab_local(char *name, diag_type dt, exp ldid, long disp, long findex)
 {
 	exp id = son(ldid);
 	struct delay_stab *t = next_del_stab();
@@ -738,13 +738,13 @@ again:
 			/* +++ add assembler comment to say which reg is being used */
 			if (isparam(id)) {
 				t->del_t = D_PARAM;
-				t->u.l.nm = nm;
+				t->u.l.nm = name;
 				t->u.l.dt = dt;
 				t->u.l.offset = disp;
 				return;
 			} else {
 				t->del_t = D_LOCAL;
-				t->u.l.nm = nm;
+				t->u.l.nm = name;
 				t->u.l.dt = dt;
 				t->u.l.offset = disp;
 				return;
@@ -843,9 +843,9 @@ stab_tagdefs(void)
 
 		switch (d->key) {
 		case DIAG_TYPE_STRUCT: {
-			char *nme = d->data.t_struct.name.ints.chars;
-			if (nme && *nme) {
-				asm_fprintop(dg_file, "\t.stabs \"%s:", nme);
+			char *name = d->data.t_struct.name.ints.chars;
+			if (name && *name) {
+				asm_fprintop(dg_file, "\t.stabs \"%s:", name);
 			} else {
 				static int s_count = 0;
 				asm_fprintf(dg_file, "\t.stabs \"_struct%d:", s_count++);
@@ -854,9 +854,9 @@ stab_tagdefs(void)
 		}
 
 		case DIAG_TYPE_UNION: {
-			char *nme = d->data.t_union.name.ints.chars;
-			if (nme && *nme) {
-				asm_fprintf(dg_file, "\t.stabs \"%s:", nme);
+			char *name = d->data.t_union.name.ints.chars;
+			if (name && *name) {
+				asm_fprintf(dg_file, "\t.stabs \"%s:", name);
 			} else {
 				static int u_count = 0;
 				asm_fprintf(dg_file, "\t.stabs \"_union%d:", u_count++);
@@ -865,9 +865,9 @@ stab_tagdefs(void)
 		}
 
 		case DIAG_TYPE_ENUM: {
-			char *nme = d->data.t_enum.name.ints.chars;
-			if (nme && *nme) {
-				asm_fprintf(dg_file, "\t.stabs \"%s:", nme);
+			char *name = d->data.t_enum.name.ints.chars;
+			if (name && *name) {
+				asm_fprintf(dg_file, "\t.stabs \"%s:", name);
 			} else {
 				static int e_count = 0;
 				asm_fprintf(dg_file, "\t.stabs \"_enum%d:", e_count++);

@@ -781,7 +781,7 @@ out_dt_shape(dg_type dt)
  * OUTPUT DIAGNOSTICS FOR A GLOBAL VARIABLE
  */
 static void
-stab_global(dg_name di, exp global, char * id, int ext)
+stab_global(dg_name di, exp global, char *name, int ext)
 {
 	char *nm;
 	dg_type dt;
@@ -804,14 +804,14 @@ stab_global(dg_name di, exp global, char * id, int ext)
 	   above, and do here. */
 	asm_fprintf(dg_file, "\",%#x,0,%ld,%s\n",
 		(ext ? 0x24 : ((no(global) != 0) ? 0x26 : 0x28)),
-		di->whence.line, id);
+		di->whence.line, name);
 }
 
 /*
  * OUTPUT DIAGNOSTICS FOR A PROCEDURE
  */
 static void
-stab_proc(dg_name di, exp proc, char * id, int ext)
+stab_proc(dg_name di, exp proc, char *name, int ext)
 {
 	char *nm;
 	dg_type dt;
@@ -827,14 +827,14 @@ stab_proc(dg_name di, exp proc, char * id, int ext)
 		dt = dt->data.t_proc.res_type;
 	}
 
-	last_proc_lab = id;
+	last_proc_lab = name;
 	if (di->whence.line) {
 		stabd(di->whence.file, di->whence.line, 0);
 	}
 
 	asm_fprintf(dg_file, "\t.stabs\t\"%s:%c", nm, (ext ? 'F' : 'f'));
 	OUT_DT_SHAPE(dt);
-	asm_fprintf(dg_file, "\",0x24,0,%ld,%s\n", di->whence.line, id);
+	asm_fprintf(dg_file, "\",0x24,0,%ld,%s\n", di->whence.line, name);
 }
 
 static void
