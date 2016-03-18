@@ -50,19 +50,13 @@
 #include "make_code.h"
 
 /*
-    A value of 0 indicates that the procedure name n is not special.  A
-    value > 0 indicates a special procedure handled by specialmake.  A
-    value < 0 indicates a special procedure handled bu specialneeds.
+    A value of 0 indicates that the procedure name n is not special.
+    A value > 0 indicates a special procedure handled by specialmake.
 */
 
 static int 
 specno ( char * n )
 {
-    if ( streq( n, "___builtin_strcpy" ) ||
-	 streq( n, "___TDF_builtin_strcpy" ) ) {
-	return -1;
-    }
-
     if ( streq( n, "___builtin_asm" ) ||
 	 streq( n, "___TDF_builtin_asm" ) ) {
 	return 4;
@@ -91,7 +85,6 @@ char *
 special_call_name ( int i )
 {
     switch ( i ) {
-	case -1:
 	case 1: return sysV_assembler ? "strcpy" : "_strcpy";
 	case 5: return sysV_assembler ? "alloca" : "_alloca";
 
@@ -120,16 +113,12 @@ static const needs twofixneeds = { 2, 0, 0, 0 } ;
 */
 
 /* ARGSUSED */ 
-static needs 
-specialneeds ( int i, exp application, exp pars )
+needs 
+specialneeds ( int i )
 {
-	UNUSED(application);
-	UNUSED(pars);
-
     switch ( i ) {
 
 #if 0
-	case -1 :
 	case 1 : {
 	    /* The library strcpy contains a number of tricks, so this
 	       isn't really worthwhile */

@@ -933,7 +933,7 @@ tailrecurse:
 		mka.regmove = NOREG;
 
 		/* first see if it is a special to be handled inline */
-		if ( (special = specialfn(fn)) > 0 ) { /* eg function is strlen */
+		if ( (special = specialfn(fn)) > 0 ) {
 			mka.lab = specialmake(special, par, sp, dest, exitlab);
 			return mka;
 		}

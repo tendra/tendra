@@ -14,6 +14,7 @@
 #include "proctypes.h"
 #include "addrtypes.h"
 
+extern needs specialneeds(int i);
 extern char *special_call_name(int);
 extern int specialfn(exp);
 extern int specialmake(int, exp, space, where, int);

@@ -14,6 +14,7 @@
 #include <string.h>
 
 #include <shared/bool.h>
+#include <shared/check.h>
 #include <shared/error.h>
 #include <shared/string.h>
 
@@ -47,23 +48,13 @@ static int
 specno(char *n)
 {	/* these are the procs I could do
 				   something about */
-  if    (streq(n, "strcpy"))
-          return - 1;
   if (streq(n, "strlen"))
     return 2;
-  if (streq(n, "strcmp"))
-    return - 3;
   return 0;
 }
 
-static  needs strcpyneeds = {
-  0, 0, 0, 0
-};
 static  needs strlenneeds = {
   3, 0, uses2_bit, 0
-};
-static  needs strcmpneeds = {
-  2, 0, 0, 0
 };
 
 needs
@@ -71,16 +62,12 @@ specialneeds(int i)
 {	/* these are the needs for their expansion
 				   */
   switch (i) {
-    case 1:
-      return strcpyneeds;
     case 2:
       return strlenneeds;
-    case 3:
-      return strcmpneeds;
     default:
       error(ERR_INTERNAL, "not special fn");
   }
-  return strcpyneeds;
+  UNREACHED;
 }
 
 int

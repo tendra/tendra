@@ -2180,7 +2180,7 @@ tailrecurse:
 		int hda = sh(e)->tag;
 		int disp;
 
-		if ((disp = specialfn (fn)) > 0) {/* eg function is strlen */
+		if ((disp = specialfn (fn)) > 0) {
 			mka.lab = specialmake(disp, list, sp, dest, exitlab);
 			return mka;
 		}

@@ -1845,25 +1845,9 @@ scan(exp *e, exp **at)
 			par = &bro(*par);
 		}
 
-		if ((i = specialfn (fn)) > 0) {/* eg strlen */
+		if ((i = specialfn (fn)) > 0) {
 			nds = maxneeds (specialneeds (i), nds);
 			return nds;
-		} else if (i == -1) {
-			/* call of strcpy .... */
-			/* TEST for constant string?????????????????
-			exp par2 = *par;
-			if (par2->tag == eval_tag && son(par2)->tag == pack_tag
-			&& son(son(par2))->tag == string_tag) {
-
-			  *e->tag = ass_tag;
-			  son(*e) = *parlist;
-			  son(par2) = son(son(par2));
-			  sh(par2)  = sh(son(par2));
-			  bro(par2) = *e;
-			  bro(son(par2)) = par2;
-			  return maxneeds(nds, twofix);
-			}
-			*/
 		}
 
 		if (tlrecpos) {

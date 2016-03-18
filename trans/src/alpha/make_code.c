@@ -1331,13 +1331,6 @@ do_callers(exp list, space sp, int *sizecallers)
 	is.b.offset = 0;
 	is.adval = 1;
 
-#ifdef DO_SPECIAL
-	if ((disp = specialfn (fn)) > 0) { /* eg function is strlen */
-		mka.lab = specialmake(disp, list, sp, dest, exitlab);
-		return mka;
-	}
-#endif
-
 	disp = 0;
 	spar = FIRST_INT_ARG; /* register holding 1st integer parameter */
 
@@ -2825,12 +2818,10 @@ tailrecurse:
 		is.b.offset = 0;
 		is.adval = 1;
 
-#ifdef DO_SPECIAL
-		if ((disp = specialfn (fn)) > 0) { /* eg function is strlen */
+		if ((disp = specialfn (fn)) > 0) {
 			mka.lab = specialmake(disp, list, sp, dest, exitlab);
 			return mka;
 		}
-#endif
 
 		disp = 0;
 		spar = FIRST_INT_ARG; /* register holding 1st integer parameter */

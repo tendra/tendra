@@ -1703,12 +1703,8 @@ scan ( exp * e, exp ** at )
 
 		if ( ( i = specialfn ( fn ) ) > 0 ) {
 			/* eg strlen */
-#if 0
 			nds = maxneeds ( specialneeds ( i ), nds ) ;
-#endif
 			return nds;
-		} else if ( i == -1 ) {
-			/* call of strcpy ... (removed) */
 		}
 
 		if ( tlrecpos ) {

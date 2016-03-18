@@ -55,14 +55,12 @@ specno(char * n)
 {
 
   /*
-   * specno: >0 special, handle inline in specialmake 0 not special <0
-   * special, rewrite TDF in specialneeds, no call to specialmake
+   * specno:
+   * >0 special, handle inline in specialmake
+   * 0 not special
    */
 
   asm_comment("specno(%s)", n);
-
-  if (streq(n, "___builtin_strcpy") || streq(n, "___TDF_builtin_strcpy"))
-    return -1;
 
   if (streq(n, "___builtin_asm") || streq(n, "___TDF_builtin_asm"))
     return 4;
@@ -87,7 +85,6 @@ special_call_name(int i)
 {
   switch (i)
   {
-    case -1:
     case 1:
     return "_strcpy";
 
@@ -112,12 +109,9 @@ static const needs twofixneeds = {2, 0, 0, 0};	/* two fix reg needs */
 
 
 /* these are the needs for their expansion */
-static needs
-specialneeds(int i, exp application, exp pars)
+needs
+specialneeds(int i)
 {
-  UNUSED(application);
-  UNUSED(pars);
-
   asm_comment("specialneeds(%d,...)", i);
 
   switch (i)

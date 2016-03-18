@@ -1663,25 +1663,9 @@ scan(exp *e, exp **at)
 
 		if ((i = specialfn(fn)) > 0) {
 			/* eg strlen */
-#if 0
 			nds = maxneeds(specialneeds(i), nds);
-#endif
 			assert("specialfn - specialneeds");
 			return nds;
-		} else if (i == -1) {
-			/* call of strcpy .... */
-#if 0
-			exp par2 = *(par);
-
-			/*
-			 * TEST for constant string????????????????? if (par2->tag ==
-			 * eval_tag && son(par2)->tag == pack_tag && son(son(par2))->tag == string_tag) {
-			 *
-			 * setname (* (e), ass_tag); son (* (e)) = * (parlist); son (par2) = son
-			 * (son (par2)); sh (par2) = sh (son (par2)); bro (par2) = * (e) ;
-			 * bro(son(par2)) = par2;	return maxneeds (nds, twofix); }
-			 */
-#endif
 		}
 
 		if (tlrecpos) {

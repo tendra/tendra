@@ -50,37 +50,25 @@ specno( char *n)
 {
 	/* these are the procs I could do
 				   something about */
-  if    (streq(n, "strcpy"))
-          return - 1;
   if (streq(n, "strlen"))
     return 2;
-  if (streq(n, "strcmp"))
-    return - 3;
   return 0;
 }
 
-static  needs strcpyneeds = {
-  0, 0, 0, 0
-};
 static  needs strlenneeds = {
   2, 0, uses2_bit, 0
 };
-static  needs strcmpneeds = {
-  2, 0, 0, 0
-};
 
-static needs
+needs
 specialneeds(int i)
 {
     /* these are the needs for their expansion */
   switch (i) {
-    case 1: return strcpyneeds;
     case 2: return strlenneeds;
-    case 3: return strcmpneeds;
     default: 
 	error(ERR_INTERNAL, "not special fn");
   }
-  return strcpyneeds;
+  UNREACHED;
 }
 
 int
@@ -96,7 +84,7 @@ specialfn(exp fn)
 }
 
 
-static int
+int
 specialmake(int n, exp par, space sp, where dest, int exitlab)
 {
   switch (n) {
