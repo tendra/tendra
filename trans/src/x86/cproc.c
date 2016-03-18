@@ -76,11 +76,11 @@
 static exp returns_list;
 
 unsigned normal_fpucon;
-int stack_aligned_8byte = 0;
-int permit_8byte_align  = 1;
-int useful_double = 0;
-int keep_short = 0;
-int always_use_frame;
+bool stack_aligned_8byte = false;
+bool permit_8byte_align  = true;
+bool useful_double       = false;
+bool keep_short          = false;
+bool always_use_frame;
 int locals_offset;	/* global, needed for solaris stabs */
 exp hasenvoff_list = NULL;	/* global, used by make_code */
 
@@ -295,30 +295,30 @@ cproc(exp p, char *pname, int cname, int global
 		 old_pos5, old_pos8, old_pos9,
 		 this_pos;
 
-	int request_align_8byte;
+	bool request_align_8byte;
 
 	returns_list = NULL;
 	crt_proc_exp = p;
 	crt_proc_id = next_lab();
 	crt_ret_lab = next_lab(); /* set up the return label for the procedure */
-	crt_ret_lab_used = 0;
+	crt_ret_lab_used = false;
 	odd_bits = NULL;
 	scale = (float)1.0;
-	not_in_params = 1;
-	not_in_postlude = 1;
-	keep_short = 0;
+	not_in_params   = true;
+	not_in_postlude = true;
+	keep_short = false;
 	repeat_level = 0;
-	callee_size = (proc_has_vcallees(p) ? -1 : 0);
+	callee_size = proc_has_vcallees(p) ? -1 : 0;
 	ferrsize = 0;
 	fpucon = normal_fpucon;
 
-	has_dy_callees   = 0; /* set by scan when stack_dec indeterminable */
-	has_tail_call    = 0; /* set by scan, used in make_code */
-	has_same_callees = 0; /* set by scan, used in make_code */
-	proc_has_asm     = 0; /* set by scan if any asm operands */
+	has_dy_callees   = false; /* set by scan when stack_dec indeterminable */
+	has_tail_call    = false; /* set by scan, used in make_code */
+	has_same_callees = false; /* set by scan, used in make_code */
+	proc_has_asm     = false; /* set by scan if any asm operands */
 
 	IGNORE scan(1, p, p, 0);
-	useful_double = 0;
+	useful_double = false;
 	comp_weights(p);
 
 	/* 8byte align */
@@ -343,9 +343,9 @@ cproc(exp p, char *pname, int cname, int global
 
 	if (request_align_8byte && no_frame) {
 		no_frame = 0;
-		stack_aligned_8byte = 1;
+		stack_aligned_8byte = true;
 	} else {
-		stack_aligned_8byte = 0;
+		stack_aligned_8byte = false;
 	}
 
 	if (!no_frame) {
@@ -358,8 +358,8 @@ cproc(exp p, char *pname, int cname, int global
 	max_extra_stack = 0; /* maximum stack value attained */
 	min_rfree       = 0; /* total registers used */
 	stack_dec       = 0; /* current stack decrement */
-	cond1_set       = 0;
-	cond2_set       = 0; /* state of condition flags is not known */
+	cond1_set       = false;
+	cond2_set       = false; /* state of condition flags is not known */
 
 	clear_reg_record(crt_reg_record);
 	stack.ashsize  = 0;
@@ -547,9 +547,9 @@ cproc(exp p, char *pname, int cname, int global
 		pic_prelude();
 	}
 
-	need_preserve_stack = 0;
+	need_preserve_stack = false;
 	if (proc_uses_crt_env(p) && proc_has_lv(p) && has_alloca) {
-		need_preserve_stack = 1;
+		need_preserve_stack = true;
 		stack.ashsize += 32;
 		max_stack = stack.ashsize;
 		save_stack();
@@ -557,11 +557,11 @@ cproc(exp p, char *pname, int cname, int global
 
 	scale = (float)1.0;
 	last_odd_bit = 0;
-	doing_odd_bits = 0;
+	doing_odd_bits = false;
 	make_code(zero, stack, body); /* code body of procedure */
 
 	stack_dec = 0;
-	doing_odd_bits = 1;
+	doing_odd_bits = true;
 	while (odd_bits != NULL) {
 		outofline * ol = odd_bits;
 		odd_bits = NULL;

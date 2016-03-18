@@ -27,7 +27,7 @@ extern bool have_cond;
     effectively switches off all peephole optimizations.
 */
 
-int output_immediately = 0;
+bool output_immediately = false;
 
 /*
     A list of all instructions in maintained.  The current instruction is

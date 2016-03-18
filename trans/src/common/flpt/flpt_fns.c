@@ -1294,7 +1294,7 @@ f_make_floating(floating_variety fv, rounding_mode rm, bool sign,
 	flt_zero(&fr);
 
 	if (PIC_code) {
-		proc_externs = 1;
+		proc_externs = true;
 	}
 
 	if (base != 10 && base != 16 && base != 8 && base != 2 && base != 4) {
@@ -1493,7 +1493,7 @@ f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r, exp a
 				exp_list pars2;
 				exp_option no_var;
 				pars2 = new_exp_list(2);
-				no_var.present = 0;
+				no_var.present = false;
 				pars2 = add_exp_list(pars2, me_obtain(id), 0);
 				pars2 = add_exp_list(pars2, me_shint(uwordsh, power_mode), 1);
 				apply2 = f_apply_proc(sgned ? slongsh : ulongsh,
@@ -1506,7 +1506,7 @@ f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r, exp a
 				exp pl;
 				exp_list pars1;
 				exp_option no_var;
-				no_var.present = 0;
+				no_var.present = false;
 
 				pars1 = new_exp_list(2);
 				pars1 = add_exp_list(pars1, me_obtain(id), 0);

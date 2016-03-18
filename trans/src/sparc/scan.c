@@ -70,7 +70,7 @@ static int stparam ;	/* Size of parameter list in bits */
 static int fixparam ;	/* Next available place for param */
 
 static int rscope_level = 0 ;
-static bool nonevis = 1 ;
+static bool nonevis     = true ;
 static bool specialext ;	/* for PIC_code, special globals require proc_uses_external */
 static int callerfortr ;
 
@@ -1186,7 +1186,7 @@ scan ( exp * e, exp ** at )
 			props(def2) = 0;
 		}
 
-		nonevis = ( bool ) ( nonevis & !isvis ( stare ) ) ;
+		nonevis = nonevis & !isvis ( stare ) ;
 
 		bdy = scan ( arg, &arg ) ;
 #if NO_TREG
@@ -1647,8 +1647,7 @@ scan ( exp * e, exp ** at )
 		exp fn = son ( appl ) ;
 		exp *par = &bro ( fn ) ;
 		exp *fnexp = &son ( appl ) ;
-		bool tlrecpos = ( bool ) ( nonevis && callerfortr &&
-		                           ( rscope_level == 0 ) ) ;
+		bool tlrecpos = nonevis && callerfortr && ( rscope_level == 0 ) ;
 
 		nds = scan ( fnexp, at ) ;
 		/* scan the function exp ... */
@@ -1750,8 +1749,7 @@ scan ( exp * e, exp ** at )
 		int parsize = 0 ;
 		exp mv = *e ;
 		exp *par = &son ( mv ) ;
-		bool tlrecpos = ( bool ) ( nonevis && callerfortr &&
-		                           ( rscope_level == 0 ) ) ;
+		bool tlrecpos = ( nonevis && callerfortr && ( rscope_level == 0 ) ) ;
 		nds = zeroneeds;
 
 		for ( i = 1 ; i <= 3 ; ++i ) {
@@ -2527,7 +2525,7 @@ mult_tag_case:
 		              !proc_uses_crt_env ( stare ) ;
 		stparam = 0 ;
 		fixparam = R_I0 ;
-		nonevis = 1 ;
+		nonevis = true ;
 		specialext = proc_has_checkstack(*e);
 		rscope_level = 0 ;
 		gen_call = (stare->tag == general_proc_tag);

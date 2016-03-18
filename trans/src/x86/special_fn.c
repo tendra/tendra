@@ -58,7 +58,7 @@ special_setjmp(exp a1, exp a2, shape s, exp *e)
 	UNUSED(s);
 	UNUSED(e);
 
-	has_setjmp = 1;
+	has_setjmp = true;
 
 	return false;
 }
@@ -73,7 +73,7 @@ special_longjmp(exp a1, exp a2, shape s, exp *e)
 	}
 
 	r = getexp(f_bottom, NULL, 0, a1, NULL, 0, 0, apply_tag);
-	has_setjmp = 1;
+	has_setjmp = true;
 
 	bro(a1) = a2;
 	a1->last = false;
@@ -101,7 +101,7 @@ special_alloca(exp a1, exp a2, shape s, exp *e)
 
 	r = getexp(s, NULL, 0, a2, NULL, 0, 0, alloca_tag);
 	setfather(r, son(r));
-	has_alloca = 1;
+	has_alloca = true;
 	kill_exp(a1, a1);
 
 	*e = r;

@@ -30,7 +30,7 @@
 
 #include <flpt/flpt.h>
 
-extern int report_versions; /* XXX */
+extern bool report_versions; /* XXX */
 
 FILE *tc_file; /* .t or .j: TDF capsule input */
 FILE *as_file; /* .s: assembly text output    */
@@ -149,7 +149,7 @@ translate(FILE *f, const char *name)
 int
 main(int argc, char *argv[])
 {
-	int quit = 0;
+	bool quit = false;
 
 	set_progname(argv[0], driver.version);
 	argv[0] = (char *) progname;
@@ -176,19 +176,19 @@ main(int argc, char *argv[])
 			case 'H': has       = flags_has    (has,     optarg); break;
 			case 'X': check     = flags_check  (check,   optarg); break;
 
-			case 'D': PIC_code         = 1; break;
-			case 'M': strict_fl_div    = 1; break;
-			case 'N': do_prom          = 1; break;
-			case 'P': do_profile       = 1; break;
-			case 'Q': quit             = 1; break;
-			case 'R': round_after_flop = 1; break;
-			case 'I': do_comment       = 1; break;
-			case 'W': writable_strings = 1; break;
-			case 'Y': dyn_init         = 1; break;
-			case 'Z': report_versions  = 1; break;
+			case 'D': PIC_code         = true;  break;
+			case 'M': strict_fl_div    = true;  break;
+			case 'N': do_prom          = true;  break;
+			case 'P': do_profile       = true;  break;
+			case 'Q': quit             = true;  break;
+			case 'R': round_after_flop = true;  break;
+			case 'I': do_comment       = true;  break;
+			case 'W': writable_strings = true;  break;
+			case 'Y': dyn_init         = true;  break;
+			case 'Z': report_versions  = true;  break;
 #ifdef DWARF2
-			case 'T': dump_abbrev      = 0; break;
-			case 'J': extra_diags      = 0; break;
+			case 'T': dump_abbrev      = false; break;
+			case 'J': extra_diags      = false; break;
 #endif
 
 			/* TODO: global options as lower case instead */
@@ -270,7 +270,7 @@ main(int argc, char *argv[])
 
 		if (diag != DIAG_NONE) {
 			optim = 0;
-			all_variables_visible = 1;
+			all_variables_visible = true;
 		}
 
 		/*

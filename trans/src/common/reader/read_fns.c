@@ -515,7 +515,7 @@ start_make_capsule
   crt_tagdef_unit_no = -1;
   unit_index = 0;
   top_aldef = NULL;
-  doing_aldefs = 0;
+  doing_aldefs = false;
 
   crt_capsule_groups = prop_names.elems;
   crt_capsule_group_no = prop_names.number;
@@ -549,13 +549,13 @@ start_make_capsule
   for (i = 0; i < capsule_no_of_tokens; ++i) {
      /* initialise the table of tokens */
     tok_define *tp = &capsule_toktab[i];
-    tp->tok_special = 0;
-    tp->valpresent = 0;
+    tp->tok_special = false;
+    tp->valpresent = false;
     tp->unit_number = crt_tagdef_unit_no;
-    tp->defined = 0;
+    tp->defined = false;
     tp->tok_index = i;
-    tp->is_capsule_token = 1;
-    tp->recursive = 0;
+    tp->is_capsule_token = true;
+    tp->recursive = false;
   }
 
   for (i = 0; i < capsule_no_of_tags; ++i) {
@@ -1097,9 +1097,9 @@ f_make_id_tagdec(tdfint t_intro, access_option acc, string_option sig, shape x)
   res.tag = get_dec(natint(t_intro));
   res.sha = x;
   res.acc = acc;
-  res.is_variable = 0;
-  res.is_common = 0;
-  res.tag->is_common = 0;
+  res.is_variable = false;
+  res.is_common   = false;
+  res.tag->is_common = false;
   if (sig.present) {
     check_sig(res.tag, sig.val);
   }
@@ -1113,9 +1113,9 @@ f_make_var_tagdec(tdfint t_intro, access_option acc, string_option sig, shape x)
   res.tag = get_dec(natint(t_intro));
   res.sha = x;
   res.acc = acc;
-  res.is_variable = 1;
-  res.is_common = 0;
-  res.tag->is_common = 0;
+  res.is_variable = true;
+  res.is_common   = false;
+  res.tag->is_common = false;
   if (sig.present) {
     check_sig(res.tag, sig.val);
   }
@@ -1129,9 +1129,9 @@ f_common_tagdec(tdfint t_intro, access_option acc, string_option sig, shape x)
   res.tag = get_dec(natint(t_intro));
   res.sha = x;
   res.acc = acc;
-  res.is_variable = 1;
-  res.is_common = 1;
-  res.tag->is_common = 0;
+  res.is_variable = true;
+  res.is_common   = true;
+  res.tag->is_common = false;
   if (sig.present) {
     check_sig(res.tag, sig.val);
   }
@@ -1150,7 +1150,7 @@ void
 start_make_id_tagdef(tdfint t)
 {
   UNUSED(t);
-  rep_make_proc = 0;
+  rep_make_proc = false;
 }
 
 tagdef
@@ -1165,12 +1165,12 @@ f_make_id_tagdef(tdfint t, string_option sig, exp e)
   } else {
     res.def = e;
   }
-  res.var = 0;
-  res.is_common = 0;
+  res.is_variable = false;
+  res.is_common   = false;
   if (sig.present) {
     check_sig(dp, sig.val);
   }
-  rep_make_proc = 1;
+  rep_make_proc = true;
   return res;
 }
 
@@ -1193,8 +1193,8 @@ f_make_var_tagdef(tdfint t, access_option opt_access, string_option sig, exp e)
   } else {
     res.def = e;
   }
-  res.var = 1;
-  res.is_common = 0;
+  res.is_variable = true;
+  res.is_common   = false;
   if (sig.present) {
     check_sig(dp, sig.val);
   }
@@ -1215,8 +1215,8 @@ f_common_tagdef(tdfint t, access_option opt_access, string_option sig, exp e)
   UNUSED(opt_access);
   res.tag = dp;
   res.def = e;
-  res.var = 1;
-  res.is_common = 1;
+  res.is_variable = true;
+  res.is_common   = true;
   if (sig.present) {
     check_sig(dp, sig.val);
   }
@@ -1300,7 +1300,7 @@ f_make_tokdef(tdfint tokn, string_option sig, bitstream def)
   tok->tdsort = result_sort;
   tok->params = params;
   tok->tdplace = keep_place();
-  tok->defined = 1;
+  tok->defined = true;
   tok->tok_context = NULL;
 
     /* record the tables which are current so that they can be
@@ -1312,9 +1312,9 @@ f_make_tokdef(tdfint tokn, string_option sig, bitstream def)
   tok->my_diagtab = unit_ind_diagtags;	/* TDF_DIAG3 */
   tok->my_dgtab = unit_ind_dgtags;	/* TDF_DIAG4 */
   if (params.number == 0) {
-    tok -> re_evaluate = 0;
+    tok -> re_evaluate = false;
   } else {
-    tok -> re_evaluate = 1;
+    tok -> re_evaluate = true;
   }
 
   set_place(old_place);
@@ -1334,16 +1334,16 @@ f_use_tokdef(bitstream def)
   IGNORE getcode(1);
   result_sort = d_sortname();
   params = d_tokformals_list();
-  tok->tok_special = 0;
-  tok->valpresent = 0;
+  tok->tok_special = false;
+  tok->valpresent = false;
   tok->unit_number = crt_tagdef_unit_no;
-  tok->defined = 0;
-  tok->is_capsule_token = 0;
-  tok->recursive = 0;
+  tok->defined = false;
+  tok->is_capsule_token = false;
+  tok->recursive = false;
   tok->tdsort = result_sort;
   tok->params = params;
   tok->tdplace = keep_place();
-  tok->defined = 1;
+  tok->defined = true;
   tok->tok_context = crt_context;
 
   /* record the tables which are current so that they can be used when
@@ -1356,9 +1356,9 @@ f_use_tokdef(bitstream def)
   tok->my_dgtab = unit_ind_dgtags;	/* TDF_DIAG4 */
 
   if (params.number == 0) {
-    tok->re_evaluate = 0;
+    tok->re_evaluate = false;
   } else {
-    tok->re_evaluate = 1;
+    tok->re_evaluate = true;
   }
 
   set_place(old_place);
@@ -1419,25 +1419,25 @@ f_make_tokextern(tdfint internal, external ext)
 
   /* determines special tokens specific to each machine */
   if (machine_toks(s)) {
-    t->tok_special = 1;
+    t->tok_special = true;
   }
 
   if (replace_arith_type) {
     if (streq(s, "~arith_type")) {
-      t->tok_special = 1;
+      t->tok_special = true;
     }
     if (streq(s, "~promote")) {
-      t->tok_special = 1;
+      t->tok_special = true;
     }
     if (streq(s, "~sign_promote")) {
-      t->tok_special = 1;
+      t->tok_special = true;
     }
     if (streq(s, "~convert")) {
-      t->tok_special = 1;
+      t->tok_special = true;
     }
   }
   if (do_alloca && streq(s, "~alloca")) {
-    t->tok_special = 1;
+    t->tok_special = true;
   }
   return 0;
 }
@@ -2025,13 +2025,13 @@ start_make_unit(tdfint_list lvl)
               start_make_tokdef_unit(ntok, ntag, nal, ndiagtype, ndgtag);
               return;
      case AL_UNIT:
-	      doing_aldefs = 1;
+	      doing_aldefs = true;
               start_make_aldef_unit(ntok, ntag, nal, ndiagtype, ndgtag);
               return;
      case TAGDEC_UNIT:
 	      if (doing_aldefs) {
                 process_aldefs();
-	        doing_aldefs = 0;
+	        doing_aldefs = false;
 	      }
               start_make_tagdec_unit(ntok, ntag, nal, ndiagtype, ndgtag);
               return;
@@ -2044,7 +2044,7 @@ start_make_unit(tdfint_list lvl)
      case DIAGTYPE_UNIT:	/* TDF_DIAG3 */
 	      if (doing_aldefs) {
                 process_aldefs();
-	        doing_aldefs = 0;
+	        doing_aldefs = false;
 	      }
               start_make_diagtype_unit(ntok, ntag, nal, ndiagtype);
               return;
@@ -2057,7 +2057,7 @@ start_make_unit(tdfint_list lvl)
      case DGCOMP_UNIT:	/* TDF_DIAG4 */
 	      if (doing_aldefs) {
                 process_aldefs();
-	        doing_aldefs = 0;
+	        doing_aldefs = false;
 	      }
               start_make_dg_comp_unit(ntok, ntag, nal, ndgtag);
               return;
@@ -2519,13 +2519,13 @@ new_link_list(int n)
 					   sizeof(tok_define));
        for (i = 0; i < no_of_local_tokens; ++i) {
          tok_define *tp = &unit_toktab[i];
-         tp->tok_special = 0;
-         tp->valpresent = 0;
+         tp->tok_special = false;
+         tp->valpresent = false;
          tp->unit_number = crt_tagdef_unit_no;
-         tp->defined = 0;
+         tp->defined = false;
          tp->tok_index = i;
-         tp->is_capsule_token = 0;
-         tp->recursive = 0;
+         tp->is_capsule_token = false;
+         tp->recursive = false;
        }
        return 0;
      case TAG_TYPE:
@@ -2598,7 +2598,7 @@ exp_option
 yes_exp_option(exp elem)
 {
   exp_option res;
-  res.present = 1;
+  res.present = true;
   res.val = elem;
   return res;
 }
@@ -2606,7 +2606,7 @@ yes_exp_option(exp elem)
 void
 init_exp_option(void)
 {
-   no_exp_option.present = 0;
+   no_exp_option.present = false;
 }
 
 tag_option no_tag_option;
@@ -2615,7 +2615,7 @@ tag_option
 yes_tag_option(tag elem)
 {
   tag_option res;
-  res.present = 1;
+  res.present = true;
   res.val = elem;
   return res;
 }
@@ -2623,7 +2623,7 @@ yes_tag_option(tag elem)
 void
 init_tag_option(void)
 {
-   no_tag_option.present = 0;
+   no_tag_option.present = false;
 }
 
 void

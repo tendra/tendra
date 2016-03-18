@@ -23,6 +23,7 @@
  * second operand.
  */
 
+#include <shared/bool.h>
 #include <shared/error.h>
 
 #include <main/flags.h>

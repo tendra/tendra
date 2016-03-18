@@ -155,13 +155,13 @@ inline_exp(exp e)
 	}
 
 #ifdef TDF_DIAG4
-	doing_inlining = 1;
+	doing_inlining = true;
 #endif
 
 	/* copy the body, making res_tag into assignment to var and jump to lab */
 	bc = copy_res(body, var, lab);
 #ifdef TDF_DIAG4
-	doing_inlining = 0;
+	doing_inlining = false;
 #endif
 	bc = hold(bc);
 

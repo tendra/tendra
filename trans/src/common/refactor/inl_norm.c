@@ -32,7 +32,7 @@
 #include <diag4/dg_aux.h>
 #endif
 
-int print_inlines = 0;
+bool print_inlines = false;
 
 /*
  * test a declaration to see that the identifier is only used as an

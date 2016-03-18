@@ -70,8 +70,8 @@ extern alignment long_to_al(int);
 
 extern long notbranch[6];
 
-static bool rscope_level = 0;
-static bool nonevis = 1;
+static int rscope_level = 0;
+static bool nonevis     = true;
 static int callerfortr;
 
 needs scan(exp *, exp **);
@@ -1304,7 +1304,7 @@ scan(exp *e, exp **at)
 		int stpar = 0;
 		needs nds, pstldnds;
 		int i;
-		gen_call = 1;
+		gen_call = true;
 		nds = scan(fn, at);
 
 		/* Identify it */
@@ -1448,7 +1448,7 @@ scan(exp *e, exp **at)
 			nds = ndsp;
 		}
 
-		gen_call = 1;
+		gen_call = true;
 		ndsp = scan(&bro(son(*e)), at);
 		nds = maxneeds(nds, ndsp);
 		return nds;
@@ -2192,7 +2192,7 @@ scan(exp *e, exp **at)
 		stparam = 0;
 		fixparam = 16;
 		floatparam = 16;
-		nonevis = 1;
+		nonevis = true;
 		rscope_level = 0;
 		numparams = 0;
 		callee_size = 0;

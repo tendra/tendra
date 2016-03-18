@@ -124,10 +124,6 @@ static int stackerr_lab = 0;
 static int testrev[] = {
 	4, 3, 2, 1, 6, 5
 };
-/*
-outofline *odd_bits;
-int doing_odd_bits;
-*/
 
 /* put register number 'Reg' back into the current space. */
 #define replace_reg(Reg, Space) ((Space) & ~(1 << (Reg)))
@@ -1321,7 +1317,7 @@ divide_using_div(exp div, exp dividend, exp divisor, where dest, space sp, instr
 	return r_result;
 }
 
-static int proc_has_vararg;
+static bool proc_has_vararg;
 
 /*
  * Process a parameter list
@@ -5981,8 +5977,8 @@ out:
 		 * starting from gpdumpstart
 		 */
 
-		gpdumpstart = (has_va) ? paramsdumpstart + 384 : paramsdumpstart;
-		proc_has_vararg = (has_va) ? 1 : 0;
+		gpdumpstart = has_va ? paramsdumpstart + 384 : paramsdumpstart;
+		proc_has_vararg = has_va ? 1 : 0;
 		fixdump = pr->fixdump;
 		floatdump = pr->floatdump;
 		dumpstart = pr->dumpstart;

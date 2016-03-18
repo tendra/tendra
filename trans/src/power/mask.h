@@ -13,6 +13,6 @@
 
 extern int left_of_mask(unsigned int);
 extern int right_of_mask(unsigned int);
-extern int is_a_mask(unsigned int);
+extern bool is_a_mask(unsigned int);
 
 #endif

@@ -435,8 +435,8 @@ change_cont(exp vardec, exp val, int force)
 int
 refactor_id(exp e, exp scope)
 {
-	int is_var = isvar(e);
-	int is_vis = (all_variables_visible || isvis(e));
+	bool is_var = isvar(e);
+	bool is_vis = all_variables_visible || isvis(e);
 	exp def = son(e);
 	exp body = bro(def);
 	int looping;
@@ -869,7 +869,7 @@ refactor_id(exp e, exp scope)
 									not_aliased = 0;
 								} else {
 									setvis(e);
-									uses_loc_address = 1;
+									uses_loc_address = true;
 								}
 							}
 						}
@@ -885,7 +885,7 @@ refactor_id(exp e, exp scope)
 		} else {
 			/* set visible flag if there is an alias */
 			setvis (e);
-			uses_loc_address = 1;
+			uses_loc_address = true;
 		}
 
 		if (all_c) {

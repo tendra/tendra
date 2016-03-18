@@ -125,36 +125,36 @@ enum abi {
 	ABI_POWER    = 1 << 11
 };
 
-extern int redo_structfns;
-extern int redo_structparams;
-extern int diagnose_registers;
-extern int do_profile;
-extern int do_alloca;
+extern bool redo_structfns;
+extern bool redo_structparams;
+extern bool diagnose_registers;
+extern bool do_profile;
+extern bool do_alloca;
 extern int double_align;
 extern int stack_align;
 extern int param_align;
-extern int needs_debug_align;
-extern int separate_units;
-extern int writable_strings;
-extern int PIC_code;
-extern int keep_PIC_vars;
-extern int all_variables_visible;
-extern int promote_pars;
-extern int load_ptr_pars;
-extern int trap_on_nil_contents;
+extern bool needs_debug_align;
+extern bool separate_units;
+extern bool writable_strings;
+extern bool PIC_code;
+extern bool keep_PIC_vars;
+extern bool all_variables_visible;
+extern bool promote_pars;
+extern bool load_ptr_pars;
+extern bool trap_on_nil_contents;
 extern int target_dbl_maxexp;
-extern int round_after_flop;
-extern int strict_fl_div;
-extern int do_prom;
-extern int dyn_init;
-extern int do_comment;
+extern bool round_after_flop;
+extern bool strict_fl_div;
+extern bool do_prom;
+extern bool dyn_init;
+extern bool do_comment;
 
 #ifdef TDF_DIAG4
-extern int extra_diags;
+extern bool extra_diags;
 #endif
 
 #ifdef DWARF2
-extern int dump_abbrev;
+extern bool dump_abbrev;
 #endif
 
 extern enum has     has;

@@ -98,18 +98,18 @@ extern int crt_tagdef_unit_no;
 
 extern int unit_index;
 
-extern int rep_make_proc;
+extern bool rep_make_proc;
 
-extern int replace_arith_type;
+extern bool replace_arith_type;
 
 extern char *crt_filename;
 
 extern capsule_frees *capsule_freelist;
 
-extern int newcode;
+extern bool newcode;
 
 #ifdef TDF_DIAG4
-extern int within_diags;
+extern bool within_diags;
 #endif
 
 char *make_local_name(void);

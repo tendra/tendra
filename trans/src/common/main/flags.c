@@ -17,45 +17,38 @@
 
 #include <main/flags.h>
 
-int redo_structfns = 0;		/* reorganise proc calls delivering
-				   structures */
-int redo_structparams = 0;	/* reorganise proc calls with struct
-				   parameters */
-int diagnose_registers = 1;	/* I have absolutely no idea what this does, but it was disabled for SCO */
-int do_profile = 0;		/* put in profiling code */
-int do_alloca = 1;		/* inline alloca */
-int all_variables_visible = 0;	/* set vis flag for all declarations */
-int promote_pars = 1;
-int load_ptr_pars = 0;		/* Inline pointer parameters */
-int trap_on_nil_contents = 1;	/* Let common code detect nil access */
+bool redo_structfns        = false; /* reorganise proc calls delivering structures */
+bool redo_structparams     = false; /* reorganise proc calls with struct parameters */
+bool diagnose_registers    = true;  /* I have absolutely no idea what this does, but it was disabled for SCO */
+bool do_profile            = false; /* put in profiling code */
+bool do_alloca             = true;  /* inline alloca */
+bool all_variables_visible = false;	/* set vis flag for all declarations */
+bool promote_pars          = true;
+bool load_ptr_pars         = false; /* Inline pointer parameters */
+bool trap_on_nil_contents  = true;  /* Let common code detect nil access */
+bool separate_units        = false; /* translate units separately */
+bool writable_strings      = false; /* string are writable */
+bool PIC_code              = false; /* produce PIC code */
+bool keep_PIC_vars         = false;
+bool do_prom               = false; /* produce PROM code (avoiding .data) */
+bool dyn_init              = false; /* produce calls for dynamic initialisation */
+bool do_comment            = false; /* produce comments in generated assembly */
 
 int double_align = 32;		/* alignment for 64 bit flpt */
-int stack_align = 32;		/* minimum alignment for stack */
-int param_align = 32;		/* minimum alignment for parameters */
-int needs_debug_align = 0;	/* alignment for dwarf2 */
+int stack_align  = 32;		/* minimum alignment for stack */
+int param_align  = 32;		/* minimum alignment for parameters */
+bool needs_debug_align = false;	/* alignment for dwarf2 */
 
-int separate_units = 0;		/* translate units separately */
-
-int writable_strings = 0;	/* string are writable */
-
-int target_dbl_maxexp = 16384;	/* maximum double exponent allowed */
-int round_after_flop = 0;	/* round after each floating point
-				   operation */
-int strict_fl_div = 1;		/* do not replace divisions by
-				   multiplication by the inverse */
-
-int PIC_code = 0;		/* produce PIC code */
-int keep_PIC_vars = 0;
-int do_prom = 0;		/* produce PROM code (avoiding .data) */
-int dyn_init = 0;		/* produce calls for dynamic initialisation */
-int do_comment = 0;		/* produce comments in generated assembly */
+int target_dbl_maxexp = 16384; /* maximum double exponent allowed */
+bool round_after_flop = false; /* round after each floating point operation */
+bool strict_fl_div    = true;  /* do not replace divisions by multiplication by the inverse */
 
 #ifdef TDF_DIAG4
-int extra_diags = 1;		/* option for extended diagnostics */
+bool extra_diags = true; /* option for extended diagnostics */
 #endif
 
 #ifdef DWARF2
-int dump_abbrev = 1;
+bool dump_abbrev = true;
 #endif
 
 /* TODO: merge with diag */

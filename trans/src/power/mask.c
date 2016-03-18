@@ -8,6 +8,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/bool.h>
+
 #include "mask.h"
 
 int right_of_mask(unsigned int m)
@@ -40,14 +42,15 @@ int left_of_mask(unsigned int m)
   return 0;
 }
 
-int is_a_mask(unsigned int m)
+bool
+is_a_mask(unsigned int m)
 {
   unsigned int j,k;
-  /* If m is a mask then one is returned */
+  /* If m is a mask then true is returned */
   /* The definition of a mask is an unbroken series of 1's */
   if(m==0)
   {
-    return 0;
+    return false;
   }
   j=( (m-1) ^ m )>>1 ;
   k=j+m;

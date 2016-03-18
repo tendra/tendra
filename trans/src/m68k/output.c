@@ -92,8 +92,8 @@ static void
 out_data(mach_op *ptr)
 {
 	mach_op *p;
-	bool neg_next = 0;
-	bool need_plus = 0;
+	bool neg_next  = false;
+	bool need_plus = false;
 	for (p = ptr; p; p = p->plus) {
 		switch (p->type) {
 		case MACH_EXT:
@@ -102,8 +102,8 @@ out_data(mach_op *ptr)
 				asm_printf("%c", neg_next ? '-' : '+');
 			}
 			asm_printf("%s", p->def.str);
-			need_plus = 1;
-			neg_next = 0;
+			need_plus = true;
+			neg_next  = false;
 			break;
 		case MACH_LAB:
 		case MACH_LABQ:
@@ -111,8 +111,8 @@ out_data(mach_op *ptr)
 				asm_printf("%c", neg_next ? '-' : '+');
 			}
 			asm_printf( "%c%ld", LPREFIX, p->def.num);
-			need_plus = 1;
-			neg_next = 0;
+			need_plus = true;
+			neg_next  = false;
 			break;
 		case MACH_SPEC:
 		case MACH_SPECQ:
@@ -120,7 +120,7 @@ out_data(mach_op *ptr)
 				/* The value of LSx is known, so use it */
 				long n = ldisp;
 				if (neg_next) {
-					n = (-n);
+					n = -n;
 				}
 				if (p->plus && p->plus->type == MACH_VAL) {
 					p->plus->def.num += n;
@@ -129,29 +129,29 @@ out_data(mach_op *ptr)
 						asm_printf("+");
 					}
 					asm_printf( "%ld", n);
-					need_plus = 1;
+					need_plus = true;
 				}
 			} else {
 				if (need_plus || neg_next) {
 					asm_printf("%c", neg_next ? '-' : '+');
 				}
 				asm_printf( "%c%s%ld", LPREFIX, p->def.str, (long) special_no);
-				need_plus = 1;
+				need_plus = true;
 			}
-			neg_next = 0;
+			neg_next = false;
 			break;
 		case MACH_VAL:
 		case MACH_VALQ: {
 			long n = p->def.num;
 			if (neg_next) {
-				n = (-n);
+				n = -n;
 			}
 			if (need_plus && n >= 0) {
 				asm_printf("+");
 			}
 			asm_printf( "%ld", n);
-			need_plus = 1;
-			neg_next = 0;
+			need_plus = true;
+			neg_next  = false;
 			break;
 		}
 		case MACH_HEX:
@@ -164,12 +164,12 @@ out_data(mach_op *ptr)
 				asm_printf("+");
 			}
 			asm_printf("0x%lx", (unsigned long) n);
-			need_plus = 1;
-			neg_next = 0;
+			need_plus = true;
+			neg_next  = false;
 			break;
 		}
 		case MACH_NEG:
-			neg_next = 1;
+			neg_next = true;
 			break;
 		default:
 			return;

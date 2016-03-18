@@ -80,7 +80,7 @@ yes_bool_option(bool elem)
 	bool_option res;
 
 	res.val = elem;
-	res.present = 1;
+	res.present = true;
 
 	return res;
 }
@@ -88,7 +88,7 @@ yes_bool_option(bool elem)
 void
 init_bool_option(void)
 {
-	no_bool_option.present = 0;
+	no_bool_option.present = false;
 }
 
 shape_option no_shape_option;
@@ -99,7 +99,7 @@ yes_shape_option(shape elem)
 	shape_option res;
 
 	res.val = elem;
-	res.present = 1;
+	res.present = true;
 
 	return res;
 }
@@ -107,7 +107,7 @@ yes_shape_option(shape elem)
 void
 init_shape_option(void)
 {
-	no_shape_option.present = 0;
+	no_shape_option.present = false;
 }
 
 token_option no_token_option;
@@ -118,7 +118,7 @@ yes_token_option(token elem)
 	token_option res;
 
 	res.val = elem;
-	res.present = 1;
+	res.present = true;
 
 	return res;
 }
@@ -126,7 +126,7 @@ yes_token_option(token elem)
 void
 init_token_option(void)
 {
-	no_token_option.present = 0;
+	no_token_option.present = false;
 }
 
 int unit_no_of_dgtags;
@@ -1075,7 +1075,7 @@ f_dg_array_type(dg_type element_type, exp stride, bool_option row_major,
 
 	ans->data.t_arr.elem_type = element_type;
 	ans->data.t_arr.stride    = diaginfo_exp(stride);
-	ans->data.t_arr.rowm      = (row_major.present ? row_major.val : 1);
+	ans->data.t_arr.rowm      = row_major.present ? row_major.val : 1;
 	ans->data.t_arr.dims      = dimensions;
 
 	return ans;

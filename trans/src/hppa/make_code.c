@@ -79,7 +79,7 @@
 int repeat_level;                 /* init by proc */
 outofline *odd_bits;             /* init by proc */
 int last_odd_bit;
-int doing_odd_bits;
+bool doing_odd_bits;
 static exp crt_proc;
 where nowhere;
 int do_indexed_loads = 1;

@@ -108,30 +108,30 @@ extern exp hasenvoff_list;
 
 /* All variables initialised */
 
-float scale = (float)1.0;    /* init by cproc */
+float scale = (float)1.0;         /* init by cproc */
 
-int  remove_struct_ref;
-int  crt_ret_lab;            /* init by cproc */
-int  crt_ret_lab_used;       /* init by cproc */
-int  min_rfree;              /* init by cproc */
-int  max_stack;              /* init by cproc */
-int  regsinuse;              /* init by cproc */
-outofline * odd_bits;        /* init by cproc */
-int last_odd_bit;            /* init by cproc */
-int doing_odd_bits;          /* init by cproc */
-outofline * current_odd_bit; /* init by cproc */
-exp crt_proc_exp;            /* init by cproc */
+bool remove_struct_ref;
+int  crt_ret_lab;                 /* init by cproc */
+bool crt_ret_lab_used;            /* init by cproc */
+int  min_rfree;                   /* init by cproc */
+int  max_stack;                   /* init by cproc */
+int  regsinuse;                   /* init by cproc */
+outofline * odd_bits;             /* init by cproc */
+int last_odd_bit;                 /* init by cproc */
+bool doing_odd_bits;              /* init by cproc */
+outofline * current_odd_bit;      /* init by cproc */
+exp crt_proc_exp;                 /* init by cproc */
 
-int not_in_params = 1;       /* init by cproc */
-int not_in_postlude = 1;     /* init by cproc */
-int repeat_level = 0;        /* init by cproc */
-int callee_size = 0;         /* init by cproc */
-exp vc_pointer;              /* init by cproc */
-int has_dy_callees = 0;      /* init by cproc */
-int has_tail_call = 0;       /* init by cproc */
-int has_same_callees = 0;    /* init by cproc */
-int need_preserve_stack = 0; /* init by cproc */
-int proc_has_asm = 0;        /* init by cproc */
+bool not_in_params       = true;  /* init by cproc */
+bool not_in_postlude     = true;  /* init by cproc */
+int repeat_level         = 0;     /* init by cproc */
+int callee_size          = 0;     /* init by cproc */
+exp vc_pointer;                   /* init by cproc */
+bool has_dy_callees      = false; /* init by cproc */
+bool has_tail_call       = false; /* init by cproc */
+bool has_same_callees    = false; /* init by cproc */
+bool need_preserve_stack = false; /* init by cproc */
+bool proc_has_asm        = false; /* init by cproc */
 
 void
 clean_stack(void)
@@ -260,8 +260,8 @@ procargs(ash stack, exp arg, int has_checkstack)
 			decstack(longs);
 		}
 
-		cond1_set = 0;
-		cond2_set = 0;
+		cond1_set = false;
+		cond2_set = false;
 		stack_dec -= longs;
 
 #ifdef DWARF2
@@ -312,7 +312,7 @@ push_cees(exp src, exp siz, int vc, ash stack)
 	}
 
 	if (longs < 0) {
-		must_use_bp = 1;	/* scan() must ensure !no_frame */
+		must_use_bp = true;	/* scan() must ensure !no_frame */
 
 		if (siz == NULL) {
 			/* calculate size from calling proc callees */
@@ -1262,8 +1262,8 @@ make_code1(where dest, ash stack, exp e)
 			}
 		}
 
-		cond1_set = 0;
-		cond2_set = 0;		/* we don't know what condition flags are set */
+		cond1_set = false;
+		cond2_set = false; /* we don't know what condition flags are set */
 		scale = old_scale;
 
 		return;
@@ -1272,8 +1272,8 @@ make_code1(where dest, ash stack, exp e)
 	/* code a labelled statement */
 	case labst_tag: {
 		clear_reg_record(crt_reg_record);
-		cond1_set = 0;
-		cond2_set = 0;
+		cond1_set = false;
+		cond2_set = false;
 		fpucon = normal_fpucon;
 
 		if (is_loaded_lv(e)) {
@@ -1316,8 +1316,8 @@ make_code1(where dest, ash stack, exp e)
 		sonno(record) = stack_dec;
 		ptno(record) = next_lab();
 		fstack_pos_of(record) = (prop)fstack_pos;
-		cond1_set = 0;
-		cond2_set = 0;
+		cond1_set = false;
+		cond2_set = false;
 		align_label(1, record);
 		set_label (record);	/* set the label at the start of body */
 		pt(son(body)) = record;
@@ -1387,7 +1387,7 @@ make_code1(where dest, ash stack, exp e)
 		exp lab = pt(e);
 		exp temp;
 		ntest testno = test_number(e);
-		int isret = 0;
+		bool isret = false;
 
 		if (lab->tag == labst_tag) {
 			exp q = short_next_jump(e);
@@ -1408,10 +1408,10 @@ make_code1(where dest, ash stack, exp e)
 					              0, 0, 0);
 					temp = getexp(f_top, lab, 0, temp, NULL,
 					              0, 0, labst_tag);
-					crt_ret_lab_used = 1;
+					crt_ret_lab_used = true;
 					pt(q) = lab;
 					q->tag = goto_tag;
-					isret = 1;
+					isret = true;
 				}
 				lab = temp;
 				pt(e) = lab;
@@ -1502,7 +1502,7 @@ make_code1(where dest, ash stack, exp e)
 		exp lab = pt(e);
 		exp temp;
 		ntest testno = test_number(e);
-		int isret = 0;
+		bool isret = false;
 		exp original_lab = lab; /* preserve for extra_diags */
 
 		if (e->tag == test_tag) {
@@ -1526,10 +1526,10 @@ make_code1(where dest, ash stack, exp e)
 						              0, 0, 0);
 						temp = getexp(f_top, lab, 0, temp, NULL,
 						              0, 0, labst_tag);
-						crt_ret_lab_used = 1;
+						crt_ret_lab_used = true;
 						pt(q) = lab;
 						q->tag = goto_tag;
-						isret = 1;
+						isret = true;
 					}
 
 					lab = temp;
@@ -1651,7 +1651,7 @@ make_code1(where dest, ash stack, exp e)
 
 				if (e->tag == absbool_tag && sg &&
 				    (test_n == f_greater_than || test_n == f_less_than_or_equal)) {
-					cond1_set = 0;	/* avoid cmp(0) optimisation to clear overflow */
+					cond1_set = false; /* avoid cmp(0) optimisation to clear overflow */
 				}
 
 				if (cmp(sh(arg1), mw(arg1, 0), mw(arg2, 0), (int)test_n, e)) {
@@ -1791,10 +1791,11 @@ make_code1(where dest, ash stack, exp e)
 		exp postlude = NULL;
 		int untidy_call = 0;
 		int has_checkstack = 0;
-		int  longs, more_longs, old_regsinuse, prev_use_bp;
+		int  longs, more_longs, old_regsinuse;
+		bool prev_use_bp;
 		int multi_reg = (shape_size(sh(e)) > 32 && reg_result(sh(e))
 		                 && !is_floating(sh(e)->tag));
-		int old_nip = not_in_params;
+		bool old_nip = not_in_params;
 		int push_result = 0;
 		int post_offset = 0;
 		int ret_stack_dec;
@@ -1816,7 +1817,7 @@ make_code1(where dest, ash stack, exp e)
 			has_checkstack = call_has_checkstack(e);
 		}
 
-		not_in_params = 0;
+		not_in_params = false;
 		longs = procargs(stack, arg, has_checkstack);
 		ret_stack_dec = stack_dec;
 
@@ -1883,8 +1884,8 @@ make_code1(where dest, ash stack, exp e)
 		invalidate_dest(mw(NULL, 0));
 
 		clear_low_reg_record(crt_reg_record);
-		cond1_set = 0;
-		cond2_set = 0;		/* we don't know the state of the conditions */
+		cond1_set = false;
+		cond2_set = false; /* we don't know the state of the conditions */
 
 		if (eq_where(dest, zero)) {
 			if (reg_result (sh (e))) {/* answer in register */
@@ -1920,7 +1921,7 @@ make_code1(where dest, ash stack, exp e)
 			int sz = rounder(shape_size(sh(e)), param_align);
 			old_nip = not_in_postlude;
 
-			not_in_postlude = 0;
+			not_in_postlude = false;
 			while (postlude->tag == ident_tag && son(postlude)->tag == caller_name_tag) {
 				int n = no(son(postlude));
 				exp a = arg;
@@ -1969,14 +1970,14 @@ make_code1(where dest, ash stack, exp e)
 		exp proc = son(e);
 		exp cees = bro(proc);
 		int longs;
-		int prev_use_bp = must_use_bp;	/* may be altered by push_cees */
-		int old_nip = not_in_params;
+		bool prev_use_bp = must_use_bp;	/* may be altered by push_cees */
+		bool old_nip = not_in_params;
 		int old_stack_dec = stack_dec;
 
-		not_in_params = 0;
+		not_in_params = false;
 		switch (cees->tag) {
 		case make_callee_list_tag:
-			not_in_params = 0;
+			not_in_params = false;
 			longs = procargs(stack, son(cees), call_has_checkstack(e));
 			not_in_params = old_nip;
 			break;
@@ -2128,8 +2129,8 @@ make_code1(where dest, ash stack, exp e)
 			asm_printop("ret");
 		}
 
-		cond1_set = 0;
-		cond2_set = 0;
+		cond1_set = false;
+		cond2_set = false;
 		stack_dec = old_stack_dec;
 		must_use_bp = prev_use_bp;
 		return;
@@ -2231,8 +2232,8 @@ make_code1(where dest, ash stack, exp e)
 #ifdef DWARF2
 		long over_lab;
 #endif
-		cond1_set = 0;
-		cond2_set = 0;
+		cond1_set = false;
+		cond2_set = false;
 
 		{
 			/* procedure call not inlined, this res is for a procedure */
@@ -2375,8 +2376,8 @@ make_code1(where dest, ash stack, exp e)
 		}
 
 		fpucon = normal_fpucon;
-		cond1_set = 0;
-		cond2_set = 0;
+		cond1_set = false;
+		cond2_set = false;
 
 		return;
 	}

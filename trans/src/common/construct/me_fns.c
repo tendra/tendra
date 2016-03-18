@@ -204,7 +204,7 @@ me_q1_aux(nat_option prob, ntest nt, exp lab, exp arg1, exp arg2,
 {
 	exp r;
 	r = getexp(f_top, NULL, 0, arg1, lab, 0, 0, nm);
-	no(r) = (prob.present) ? natint(prob.val) : 1000;
+	no(r) = prob.present ? natint(prob.val) : 1000;
 	settest_number(r, nt);
 	setbro(arg1, arg2);
 	arg1->last = false;
@@ -229,7 +229,7 @@ me_q2_aux(nat_option prob, error_treatment err, ntest nt, exp lab, exp arg1,
 	exp r;
 	UNUSED(err);
 	r = getexp(f_top, NULL, 0, arg1, lab, 0, 0, nm);
-	no(r) = (prob.present) ? natint(prob.val) : 1000;
+	no(r) = prob.present ? natint(prob.val) : 1000;
 	settest_number(r, nt);
 	setbro(arg1, arg2);
 	arg1->last = false;
@@ -301,7 +301,7 @@ long_to_al(int n)
 
 
 /* the shape describes an integer */
-int
+bool
 is_integer(shape s)
 {
 	return s->tag >= scharhd && s->tag <= u64hd;
@@ -309,14 +309,14 @@ is_integer(shape s)
 
 
 /* the shape describes a floating point number */
-int
+bool
 is_float(shape s)
 {
 	return s->tag >= shrealhd && s->tag <= doublehd;
 }
 
 
-int
+bool
 is_complex(shape s)
 {
 	if (~has & HAS_COMPLEX) {

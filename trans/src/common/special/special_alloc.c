@@ -68,7 +68,7 @@ special_alloca(tokval *tkv, token t, bitstream pars)
 	arg1 = hold_refactor(d_exp());
 	set_place(old_place);
 	tkv->tk_exp = hold_refactor(me_u3(f_pointer(long_to_al(8)), arg1, alloca_tag));
-	has_alloca = 1;
+	has_alloca = true;
 
 	return true;
 }

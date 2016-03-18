@@ -26,6 +26,8 @@
 
 #include <stddef.h>
 
+#include <shared/bool.h>
+
 #include <local/ash.h>
 
 #include <utility/max.h>

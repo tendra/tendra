@@ -32,6 +32,6 @@ extern void dw2_code_info(dg_info d, void(*mcode)(void *), void *args);
 extern dg_where find_diag_res(void *args);
 
 extern long dw2_scope_start;
-extern int dw_doing_branch_tests;
+extern bool dw_doing_branch_tests;
 
 #endif

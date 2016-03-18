@@ -499,8 +499,7 @@ local_translate_capsule(void)
 				set_proc_uses_external(s); /* for PIC_code, should be done in install_fns? */
 			}
 
-			Has_vcallees = (s->tag == general_proc_tag) &&
-			               proc_has_vcallees(s);
+			Has_vcallees = (s->tag == general_proc_tag) && proc_has_vcallees(s);
 			for (r = R_G1; r <= R_G0 + g_reg_max; r++) {
 				tempregs.fixed &= ~RMASK(r);
 			}

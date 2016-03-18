@@ -94,7 +94,7 @@ new_table_posn(posn_t n, long sz)
 	}
 	p = tp_free++;
 	no_tp_free--;
-	p->is_lab = 0;
+	p->is_lab = false;
 	p->posn = n;
 	p->size = sz;
 	return p;
@@ -361,7 +361,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 		}
 
 		/* Set up structure label */
-		res->is_lab = 1;
+		res->is_lab = true;
 		res->posn = (posn_t)dlab;
 		dt->been_outed = res;
 
@@ -389,7 +389,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 		}
 
 		/* Round off structure definition */
-		res->is_lab = 0;
+		res->is_lab = false;
 		res->posn = t;
 		break;
 	}
@@ -446,7 +446,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 		}
 
 		/* Set up union label */
-		res->is_lab = 1;
+		res->is_lab = true;
 		res->posn = (posn_t)dlab;
 		dt->been_outed = res;
 
@@ -474,7 +474,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 		}
 
 		/* Round off union definition */
-		res->is_lab = 0;
+		res->is_lab = false;
 		res->posn = t;
 		break;
 	}

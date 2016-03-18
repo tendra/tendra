@@ -58,9 +58,9 @@ init(void)
 	abi       = ABI_OSF1;
 
 	target_dbl_maxexp = 308;
-	redo_structfns    = 1;
-	promote_pars      = 0;
-	do_alloca         = 0;
+	redo_structfns    = true;
+	promote_pars      = false;
+	do_alloca         = false;
 #if DO_NEW_DIVISION
 	use_umulh_for_div = 1;
 #else

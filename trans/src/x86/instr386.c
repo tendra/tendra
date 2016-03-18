@@ -84,8 +84,8 @@ static int SPILLMASK;	/* no init needed */
 int cmp_64hilab = -1;	/* >=0 iff label required by cmp */
 
 where cond1, cond2a, cond2b;	/* no init needed */
-int cond1_set = 0;		/* init by cproc */
-int cond2_set = 0;		/* init by cproc */
+bool cond1_set = false; /* init by cproc */
+bool cond2_set = false; /* init by cproc */
 int fstack_pos;			/* init by cproc */
 int  top_regsinuse;		/* no init needed */
 exp overflow_e = NULL;	/* no init needed */
@@ -862,8 +862,8 @@ void absop
       error(ERR_INTERNAL, "unexpected size");
   }
 
-  cond1_set = 0;
-  cond2_set = 0;
+  cond1_set = false;
+  cond2_set = false;
 
   if (inmem(dest)) {
     move(sha, a1, reg0);
@@ -918,8 +918,8 @@ static void maxmin
     op21 = (ismax)? ja : jb;
   }
 
-  cond1_set = 0;
-  cond2_set = 0;
+  cond1_set = false;
+  cond2_set = false;
 
   switch (sz) {
     case 8:
@@ -1123,8 +1123,8 @@ add_plus(shape sha, where a1, where a2, where dest, int plus1)
     sh(b) = slongsh;
   }
 
-  cond1_set = 1;
-  cond2_set = 0;
+  cond1_set = true;
+  cond2_set = false;
 
   /* we know the conditions are set according to the which will be in dest */
   cond1 = dest;
@@ -1136,7 +1136,7 @@ add_plus(shape sha, where a1, where a2, where dest, int plus1)
 	   (overflow_e == NULL || is_signed(sha))))) {
       exp hold = son(a);
       if (no (b) + boff == 0) {	/* adding zero */
-	cond1_set = 0;		/* we didn't know conditions after all */
+	cond1_set = false;		/* we didn't know conditions after all */
 	return;
       }
       contop (a, 0, a1);	/* get the address of a if necessary */
@@ -1241,7 +1241,7 @@ add_plus(shape sha, where a1, where a2, where dest, int plus1)
 	   (overflow_e == NULL || is_signed(sha))))) {
       exp hold = son(a);
       if (no (a) + aoff == 0) {	/* adding zero */
-	cond1_set = 0;		/* we didn't know conditions after all */
+	cond1_set = false; /* we didn't know conditions after all */
 	return;
       }
       contop(b, 0, a2);
@@ -1341,14 +1341,14 @@ add_plus(shape sha, where a1, where a2, where dest, int plus1)
 
   if (a->tag == val_tag && !plus1 && !isbigval(a) && no(a) + aoff == 0) {
     /* adding zero and moving */
-    cond1_set = 0;
+    cond1_set = false;
     move(sha, a2, dest);
     return;
   }
 
   if (b->tag == val_tag && !plus1 && !isbigval(b) && no(b) + boff == 0) {
     /* adding zero and moving */
-    cond1_set = 0;
+    cond1_set = false;
     move(sha, a1, dest);
     return;
   }
@@ -1368,7 +1368,7 @@ add_plus(shape sha, where a1, where a2, where dest, int plus1)
 	/* otherwise cannot be plus1 */
 	if (a->tag == val_tag) {
 	  if (b->tag == val_tag) {/* we know the answer */
-	    cond1_set = 0;
+	    cond1_set = false;
 	    move(sha, mw(zeroe,
 		    no(a) + no(b) + a1.where_off + a2.where_off),
 		    dest);
@@ -1382,7 +1382,7 @@ add_plus(shape sha, where a1, where a2, where dest, int plus1)
 	    ap = getexp(f_bottom, NULL, 0, b, NULL, 0,
 	       (no(a) + a1.where_off)* n,
 	        reff_tag);
-	    cond1_set = 0;
+	    cond1_set = false;
 	    ins2(leal, 32, 32, mw(ap, 0), dest);
 	    retcell(ap);
 	    invalidate_dest(dest);
@@ -1403,7 +1403,7 @@ add_plus(shape sha, where a1, where a2, where dest, int plus1)
 	    ap = getexp(f_bottom, NULL, 0, a, NULL, 0,
 	       (no(b) + a2.where_off)* n,
 	        reff_tag);
-	    cond1_set = 0;
+	    cond1_set = false;
 	    ins2(leal, 32, 32, mw(ap, 0), dest);
 	    retcell(ap);
 	    invalidate_dest(dest);
@@ -1420,7 +1420,7 @@ add_plus(shape sha, where a1, where a2, where dest, int plus1)
 	{
 	  exp temp = bro(a);
 	  bro(a) = b;
-	  cond1_set = 0;
+	  cond1_set = false;
 	  ins2(leal, 32, 32, mw(ap, 0), dest);
 	  retcell(ap);
           invalidate_dest(dest);
@@ -1507,14 +1507,14 @@ void sub
   }
 
   if (sha->tag & 1) {
-    cond1_set = 1;
-    cond2_set = 0;
+    cond1_set = true;
+    cond2_set = false;
     cond1 = dest;
   }
   else {			/* the conditions are not set correctly if
 				   unsigned */
-    cond1_set = 0;
-    cond2_set = 0;
+    cond1_set = false;
+    cond2_set = false;
   }
 
 
@@ -1525,7 +1525,7 @@ void sub
 	   (overflow_e == NULL || is_signed(sha))))) {
       exp hold = son(b);
       if (no (a) + aoff == 0) {	/* we didn't know the conditions */
-	cond1_set = 0;
+	cond1_set = false;
 	return;
       }
       contop(b, 0, a2);
@@ -1621,7 +1621,7 @@ void sub
   }
 
   if (a->tag == val_tag && !isbigval(a) && no(a) + aoff == 0) {
-    cond1_set = 0;
+    cond1_set = false;
     move(sha, a2, dest);
     return;
   }
@@ -1677,8 +1677,8 @@ void negate
   int  sz;
   sz = shape_size(sha);
 
-  cond1_set = 1;
-  cond2_set = 0;
+  cond1_set = true;
+  cond2_set = false;
   cond1 = dest;
 
   if (!inmem (a) && eq_where (a, dest)) {
@@ -1738,8 +1738,8 @@ void not
   int  sz;
   sz = shape_size(sha);
 
-  cond1_set = 0;
-  cond2_set = 0;
+  cond1_set = false;
+  cond2_set = false;
 
   if (!inmem (a) && eq_where (a, dest)) {
     /* inverting in situ */
@@ -1927,8 +1927,8 @@ void move
 	(eq_where(to, cond2a) || eq_where(to, cond2b) ||
 	  invalidates(to.where_exp, cond2a.where_exp) ||
 	  invalidates(to.where_exp, cond2b.where_exp)))) {
-    cond1_set = 0;
-    cond2_set = 0;
+    cond1_set = false;
+    cond2_set = false;
   }
 
   if (fe->tag == reff_tag ||
@@ -2218,8 +2218,8 @@ void move
     SET(c);
 
     if (c == 0 && !inmem (to) && sz <= 32) {/* constant is zero, so clear */
-      cond1_set = 0;
-      cond2_set = 0;
+      cond1_set = false;
+      cond2_set = false;
       ins2(xorl, 32, 32, to, to);
       invalidate_dest(to);
       end_contop();
@@ -2851,8 +2851,8 @@ void stack_return
 void callins
 (int longs, exp fn, int ret_stack_dec)
 {
-  cond1_set = 0;
-  cond2_set = 0;
+  cond1_set = false;
+  cond2_set = false;
   if (fn->tag == name_tag && !isvar(son(fn)) && isglob(son(fn))) {
     exp ind = getexp(f_proc, NULL, 0, fn, NULL, 0,
 	0, cont_tag);
@@ -2902,7 +2902,7 @@ void callins
 	!no_frame || !not_in_params || !not_in_postlude)
     stack_return(longs);
   else
-    keep_short = 1;
+    keep_short = true;
 }
 
 void jumpins
@@ -2989,9 +2989,9 @@ int cmp
 	!inmem(from)) {
 				/* min is zero */
 
-      cond1_set = 1;
-      cond2_set = 0;
-      cond1 = from;
+      cond1_set = true;
+      cond2_set = false;
+      cond1     = from;
 
 
       if (sz == 8) {
@@ -3010,21 +3010,21 @@ int cmp
 	if (nt >= 5) {
 	  ins2(orl, 32, 32, reg1, reg0);
 	  invalidate_dest(reg0);
-	  cond1_set = 0;
+	  cond1_set = false;
 	  return 0;
 	}
 	else
 	if (nt == f_less_than || nt == f_greater_than_or_equal) {
 	  ins2(testl, 32, 32, reg1, reg1);
-	  cond1_set = 0;
+	  cond1_set = false;
 	  return 0;
 	}
       }
     }
 
 
-    cond1_set = 0;
-    cond2_set = 1;
+    cond1_set = false;
+    cond2_set = true;
     cond2a = from;
     cond2b = min;
 
@@ -3050,7 +3050,7 @@ int cmp
       if (sz == 64) {	/* !inmem, so min must be reg0/reg1 */
 	ins2(orl, 32, 32, reg1, reg0);
 	invalidate_dest(reg0);
-	cond2_set = 0;
+	cond2_set = false;
 	return 0;
       }
     }
@@ -3061,8 +3061,8 @@ int cmp
         inmem(from) && has_equiv_from.where_exp == NULL) {
       {
         move(sha, from, reg0);
-	cond1_set = 0;
-	cond2_set = 0;
+	cond1_set = false;
+	cond2_set = false;
         IGNORE cmp(sha, reg0, min, nt, e);
       }
       return 0;
@@ -3204,7 +3204,7 @@ int cmp
       }
       {		/* compare 64bit */
 	where fromlo, fromhi, minlo, minhi;
-	cond2_set = 0;
+	cond2_set = false;
 	if (eq_where(from, reg0)) {
 	  fromlo = reg0;
 	  fromhi = reg1;
@@ -3275,10 +3275,10 @@ int cmp
     }
   }
   else {
-    cond1_set = 0;
-    cond2_set = 1;
-    cond2a = from;
-    cond2b = min;
+    cond1_set = false;
+    cond2_set = true;
+    cond2a    = from;
+    cond2b    = min;
 
     fl_comp (sha, from, min, e);	/* do a floating point comparison */
     son(from.where_exp) = hold_from;
@@ -3307,8 +3307,8 @@ void change_var_sh
   int sgf,			/* from is signed */
     sgt;			/* to is signed */
 
-  cond1_set = 0;
-  cond2_set = 0;		/* see note on move */
+  cond1_set = false;
+  cond2_set = false; /* see note on move */
 
   szf = shape_size(fsh);
   sgf = is_signed(fsh);
@@ -3737,9 +3737,9 @@ andetc(char *opb, char *opw, char *opl, int one, shape sha, where a1, where a2, 
     return;
   }
 
-  cond1_set = 1;
-  cond2_set = 0;
-  cond1 = dest;			/* conditions will be set from dest */
+  cond1_set = true;
+  cond2_set = false;
+  cond1     = dest; /* conditions will be set from dest */
 
   if (eq_where(a1, dest) &&
 	(!keep_short || !flinmem(dest))) {
@@ -4218,8 +4218,8 @@ void multiply
   exp hold_a2 = son(a2.where_exp);
   sz = shape_size(sha);
 
-  cond1_set = 0;
-  cond2_set = 0;
+  cond1_set = false;
+  cond2_set = false;
 
   if (sz == 64) {
     mult64(sha, sh(a1.where_exp), sh(a2.where_exp), a1, a2);
@@ -4432,8 +4432,8 @@ longc_mult(where a1, where a2, where dest, int inc)
   if (sh(a2.where_exp)->tag == offsethd && al2(sh(a2.where_exp))!= 1)
      n = n / 8;
 
-  cond1_set = 0;
-  cond2_set = 0;
+  cond1_set = false;
+  cond2_set = false;
 
   if (n == 0) {
     move(sha, zero, dest);
@@ -4628,8 +4628,8 @@ void mult
 {
   int  inc = 0;
   int sha_size = shape_size(sha);
-  cond1_set = 0;
-  cond2_set = 0;
+  cond1_set = false;
+  cond2_set = false;
 
   if (a1.where_exp->tag == val_tag && sha_size == 32) {
     longc_mult(a2, a1, dest, inc);
@@ -4658,8 +4658,8 @@ void shiftl
   exp holdto = son(to.where_exp);
   sz = shape_size(sha);
 
-  cond1_set = 0;
-  cond2_set = 0;
+  cond1_set = false;
+  cond2_set = false;
 
   if (sz == 64) {
     int riu = regsinuse;
@@ -4811,8 +4811,8 @@ static void rotshiftr
   exp holdto = son(to.where_exp);
   sz = shape_size(sha);
 
-  cond1_set = 0;
-  cond2_set = 0;
+  cond1_set = false;
+  cond2_set = false;
 
   if (sz == 64) {
     int riu = regsinuse;
@@ -5012,8 +5012,8 @@ static void divit
 
   sz = shape_size(sha);
 
-  cond1_set = 0;
-  cond2_set = 0;
+  cond1_set = false;
+  cond2_set = false;
 
   if ((use_shift || !sg) &&
       bottom.where_exp->tag == val_tag && !isbigval(bottom.where_exp) &&
@@ -5303,8 +5303,8 @@ static void remit
       test_ov = 1;
   }
 
-  cond1_set = 0;
-  cond2_set = 0;
+  cond1_set = false;
+  cond2_set = false;
 
   if ((use_mask || !sg) &&
       bottom.where_exp->tag == val_tag && !isbigval(bottom.where_exp) &&
@@ -5562,8 +5562,8 @@ void mova
   exp fe = from.where_exp;
   exp holdfe = son(fe);
 
-  cond1_set = 0;
-  cond2_set = 0;
+  cond1_set = false;
+  cond2_set = false;
 
   if (fe->tag == reff_tag && son (fe)->tag != ident_tag) {/* add on offset from reff */
     mova(mw(son(fe), from.where_off + no(fe)), to);
@@ -5706,9 +5706,8 @@ void mem_to_bits
   char *rs;
   shape move_sh;
 
-  cond1_set = 0;
-  cond2_set = 0;
-
+  cond1_set = false;
+  cond2_set = false;
 
   dsh = (is_signed(sha))? slongsh : ulongsh;
 
@@ -5782,8 +5781,8 @@ void bits_to_mem
   shape move_sh;
   dest = mw(d, 0);
 
-  cond1_set = 0;
-  cond2_set = 0;
+  cond1_set = false;
+  cond2_set = false;
 
   pos = bit_pos(d, nbits);
 
@@ -5851,7 +5850,7 @@ void bits_to_mem
       ins2(shll,  32,  32, mw(zeroe, pos), reg0);
     invalidate_dest(reg0);
     /* shift it into position */
-    keep_short = 0;	/* stop use of reg0 by and */
+    keep_short = false;	/* stop use of reg0 by and */
     and(move_sh, mw(zeroe, mask), dest, dest);
     add (move_sh, reg0, dest, dest);/* and add it into the dest */
     return;
@@ -5863,7 +5862,7 @@ void bits_to_mem
       return;			/* if we are assigning zero we don't need anything more */
     move(slongsh, mw(zeroe, k), reg0);
     /* we don't need this move to reg0 since add looks after this better */
-    keep_short = 0;
+    keep_short = false;
     and(move_sh, mw(zeroe, mask), dest, dest);
     add (move_sh, reg0, dest, dest);/* add into dest */
     return;
@@ -6302,8 +6301,8 @@ static  void roundit
   int ul = (sha->tag == ulonghd || sha->tag == u64hd);
   int sz = (shape_size(sha) == 64)? 64 : 32;
 
-  cond1_set = 0;
-  cond2_set = 0;
+  cond1_set = false;
+  cond2_set = false;
 
   move(shfrom, from, flstack);
 
@@ -6509,8 +6508,8 @@ static void
 fl_comp(shape sha, where pos, where neg, exp e)
 {
 	/* can improve this to use other comparison instructions */
-  cond1_set = 0;
-  cond2_set = 0;
+  cond1_set = false;
+  cond2_set = false;
   move(sha, neg, flstack);
   move(sha, pos, flstack);
   ins0(fcompp);
@@ -6545,8 +6544,8 @@ void test
       t = testl;
   }
 
-  cond1_set = 0;
-  cond2_set = 0;
+  cond1_set = false;
+  cond2_set = false;
 
   if (inmem(a) && inmem(b)) {
     hold = son(b.where_exp);
@@ -6795,8 +6794,8 @@ void asm_ins
   if (son(e)->tag == string_tag)
     asm_printf("%s", nostr(son(e)));
   else {
-    int prev_use_bp = must_use_bp;
-    must_use_bp = 1;	/* scan must ensure !no_frame */
+    bool prev_use_bp = must_use_bp;
+    must_use_bp = true;	/* scan must ensure !no_frame */
     operand(shape_size(son(e)), mw(son(e), 0), 1, 0);
     must_use_bp = prev_use_bp;
   }

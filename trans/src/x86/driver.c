@@ -57,9 +57,9 @@
 #include <dwarf2/dw2_common.h>
 #endif
 
-extern int print_inlines;
-extern int use_link_stuff;
-extern int gcc_compatible; /* produce gcc compatible code */
+extern bool print_inlines;
+extern bool use_link_stuff;
+extern bool gcc_compatible; /* produce gcc compatible code */
 
 #define VERSION_STR "5.12"
 
@@ -76,25 +76,25 @@ init(void)
 	diag      = DIAG_NONE;
 	abi       = ABI_IBCS;
 
-	redo_structfns         = 1; /* replace fns delivering structs */
-	redo_structparams      = 0; /* no change to struct params */
-	separate_units         = 0; /* combine units */
-	always_use_frame       = 0; /* avoid using frame pointer */
-	do_profile             = 0; /* no profiling code */
-	writable_strings       = 0; /* strings are read only */
-	PIC_code               = 0; /* do not produce PIC code */
-	all_variables_visible  = 0; /* use registers */
-	do_alloca              = 1; /* inline calls of alloca */
-	round_after_flop       = 0; /* do not round after each floating point operation */
-	strict_fl_div          = 1; /* do not replace divisions by multiplication by the inverse */
-	flpt_always_comparable = 0; /* this is the default for SVR4.2 */
-	report_versions        = 0; /* do not print version numbers */
-	permit_8byte_align     = 1; /* allow 8byte alignment for local doubles */
-	replace_arith_type     = 1; /* use the C definitions of promote etc. */
-	no_bss                 = 0; /* use .comm */
-	trap_on_nil_contents   = 0;
-	load_ptr_pars          = 1;
-	use_link_stuff         = 1;
+	redo_structfns         = true;  /* replace fns delivering structs */
+	redo_structparams      = false; /* no change to struct params */
+	separate_units         = false; /* combine units */
+	always_use_frame       = false; /* avoid using frame pointer */
+	do_profile             = false; /* no profiling code */
+	writable_strings       = false; /* strings are read only */
+	PIC_code               = false; /* do not produce PIC code */
+	all_variables_visible  = false; /* use registers */
+	do_alloca              = true;  /* inline calls of alloca */
+	round_after_flop       = false; /* do not round after each floating point operation */
+	strict_fl_div          = true;  /* do not replace divisions by multiplication by the inverse */
+	flpt_always_comparable = false; /* this is the default for SVR4.2 */
+	report_versions        = false; /* do not print version numbers */
+	permit_8byte_align     = true;  /* allow 8byte alignment for local doubles */
+	replace_arith_type     = true;  /* use the C definitions of promote etc. */
+	no_bss                 = false; /* use .comm */
+	trap_on_nil_contents   = false;
+	load_ptr_pars          = true;
+	use_link_stuff         = true;
 
 	target_dbl_maxexp   = 4932; /* this is .~rep_fv_max_10_exp[.~abi_longdouble_rep] for ieee754-ext80.tpl */
 
@@ -103,8 +103,7 @@ init(void)
 	lv_null   = 0x0; /* NULL value for label_value*/
 
 	capsule_freelist = NULL;
-	promote_pars     = 0;
-	load_ptr_pars    = 1;
+	promote_pars     = false;
 }
 
 static int
@@ -113,14 +112,14 @@ option(char c, const char *optarg)
 	/* TODO: default various lowercase flags, depending on abi */
 
 	switch (c) {
-	case 'a': always_use_frame       = 1; break;
-	case 'b': all_variables_visible  = 1; break;
-	case 'c': replace_arith_type     = 0; break;
-	case 'd': redo_structfns         = 0; break;
-	case 'g': flpt_always_comparable = 1; break;
-	case 'h': no_bss                 = 1; break;
-	case 'i': print_inlines          = 1; break;
-	case 'v': avoid_intov = atoi(optarg); break;
+	case 'a': always_use_frame       = true;  break;
+	case 'b': all_variables_visible  = true;  break;
+	case 'c': replace_arith_type     = false; break;
+	case 'd': redo_structfns         = false; break;
+	case 'g': flpt_always_comparable = true;  break;
+	case 'h': no_bss                 = true;  break;
+	case 'i': print_inlines          = true;  break;
+	case 'v': avoid_intov = atoi(optarg);     break;
 
 	case 'f':
 		/* XXX: undocumented */
@@ -176,7 +175,7 @@ unhas(void)
 	optim |= OPTIM_CASE;
 
 	if (diag != DIAG_NONE) {
-		always_use_frame = 1;
+		always_use_frame = true;
 	}
 
 	/*

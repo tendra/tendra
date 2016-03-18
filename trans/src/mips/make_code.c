@@ -2550,7 +2550,7 @@ tailrecurse:
 				for (; no (z) > n; n++) {/* o/p jump vector */
 					if (as_file)
 						asm_printf(PIC_code ? "\t.gpword\t$%d\n" : "\t.word\t$%d\n", endlab);
-					out_value(-endlab, (PIC_code) ? igpword : iword, 0, 1);
+					out_value(-endlab, PIC_code ? igpword : iword, 0, 1);
 				}
 
 				u = (son(z) == NULL) ? n : no(son(z));
@@ -2558,8 +2558,8 @@ tailrecurse:
 					props(son(pt(z))) = 1; /* as bug - see labst_tag */
 					if (as_file)
 						asm_printf(
-						    (PIC_code) ? "\t.gpword\t$%ld\n" : "\t.word\t$%ld\n", no(son(pt(z))));
-					out_value(-no(son(pt(z))), (PIC_code) ? igpword : iword, 0, 1);
+						    PIC_code ? "\t.gpword\t$%ld\n" : "\t.word\t$%ld\n", no(son(pt(z))));
+					out_value(-no(son(pt(z))), PIC_code ? igpword : iword, 0, 1);
 				}
 
 				if (z->last) {

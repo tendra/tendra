@@ -45,11 +45,11 @@
 #include <dwarf2/dw2_common.h>
 #endif
 
-extern int use_link_stuff;
+extern bool use_link_stuff;
 
 #define VERSION_STR "3.11"
 
-extern int redo_structparams;
+extern bool redo_structparams;
 extern int crit_inline;
 extern int crit_decs;
 extern int crit_decsatapp;
@@ -66,12 +66,12 @@ init(void)
 	abi       = ABI_SYSV;
 
 	/* set defaults for options */
-	redo_structfns    = 0; /* structure results are normal */
-	redo_structparams = 1; /* structure parameters are odd */
-	do_profile        = 0; /* not in profiling mode */
-	PIC_code          = 0; /* don't do PIC */
-	keep_PIC_vars     = 1;
-	do_alloca         = 0; /* inline alloca */
+	redo_structfns    = false; /* structure results are normal */
+	redo_structparams = true;  /* structure parameters are odd */
+	do_profile        = false; /* not in profiling mode */
+	PIC_code          = false; /* don't do PIC */
+	keep_PIC_vars     = true;
+	do_alloca         = false; /* inline alloca */
 	g_reg_max         = (abi == ABI_SYSV ? 4 : 7); /* number of G registers */
 
 	/*
@@ -102,8 +102,8 @@ init(void)
 	 */
 	optim_level      = 2; /* default, equivalent to -O2 */
 
-	strict_fl_div    = 0; /* don't mult by 1/constant */
-	round_after_flop = 0; /* don't round every time */
+	strict_fl_div    = false; /* don't mult by 1/constant */
+	round_after_flop = false; /* don't round every time */
 	do_dynamic_init  = 0;
 	gencompat        = 1;
 }
@@ -150,7 +150,7 @@ option(char c, const char *optarg)
 		break ;
 
 	case 'u' :
-		separate_units = 1;
+		separate_units = true;
 #if 0
 		current_alloc_size = first_alloc_size;
 #endif
@@ -197,7 +197,7 @@ unhas(void)
 	}
 
 	if (sysV_assembler) {
-		use_link_stuff = 1;
+		use_link_stuff = true;
 	}
 
 	switch (abi) {

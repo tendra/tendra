@@ -62,8 +62,8 @@ int normal_version = 1;
     EXTRA COMPILATION FLAGS
 */
 
-static int do_pic       = 0;
-static int do_sep_units = 0;
+static bool do_pic       = false;
+static bool do_sep_units = false;
 
 
 /*
@@ -91,8 +91,8 @@ init(void)
 	abi   = ABI_SUNOS;
 	cconv = CCONV_SUN;
 
-	load_ptr_pars        = 1;
-	trap_on_nil_contents = 0;
+	load_ptr_pars        = true;
+	trap_on_nil_contents = false;
 	target_dbl_maxexp    = 1024;
 }
 
@@ -102,10 +102,10 @@ option(char c, const char *optarg)
 	UNUSED(optarg);
 
 	switch (c) {
-	case 'a': no_align_directives = 1; break;
-	case 'f': convert_floats      = 0; break;
-	case 'i': output_immediately  = 1; break;
-	case 'u': do_sep_units        = 1; break;
+	case 'a': no_align_directives = true;  break;
+	case 'f': convert_floats      = false; break;
+	case 'i': output_immediately  = true;  break;
+	case 'u': do_sep_units        = true;  break;
 
 	default:
 		return -1;
@@ -157,22 +157,22 @@ unhas(void)
 	}
 
 	if (abi == ABI_SUNOS) {
-		promote_pars = 0;
+		promote_pars = false;
 	}
 
 	/* Check on separate units */
 	if (do_sep_units) {
-		separate_units = 1;
+		separate_units = true;
 #if 0
 		current_alloc_size = first_alloc_size;
 #endif
 	}
 
-	do_pic = 0 ; /* TODO */
+	do_pic = false ; /* TODO */
 
 	/* Other options */
 	if (do_pic) {
-		PIC_code = 1;
+		PIC_code = true;
 	}
 
 	if (~check & CHECK_EXTRA) {

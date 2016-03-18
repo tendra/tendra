@@ -201,7 +201,7 @@ f_make_diagdef_unit(void)
 	int i;
 	int j;
 	int no_of_labels;
-	int was_within_diags;
+	bool was_within_diags;
 
 	for (i = 0, j = 0; i < unit_no_of_tokens; i++) {
 		if (unit_ind_tokens[i] == NULL) {
@@ -228,7 +228,7 @@ f_make_diagdef_unit(void)
 	}
 
 	was_within_diags = within_diags;
-	within_diags = 1;
+	within_diags = true;
 
 	{
 		dg_compilation *comp_unit_ptr = &all_comp_units;
@@ -740,7 +740,7 @@ f_make_diagtype_unit(void)
 	int i;
 	int j;
 	int no_of_labels;
-	int was_within_diags;
+	bool was_within_diags;
 
 	for (i = 0, j = 0; i < unit_no_of_tokens; ++i) {
 		if (unit_ind_tokens[i] == NULL) {
@@ -767,7 +767,7 @@ f_make_diagtype_unit(void)
 	}
 
 	was_within_diags = within_diags;
-	within_diags = 1;
+	within_diags = true;
 	start_bytestream();
 	no_of_labels = small_dtdfint();
 	unit_no_of_labels = no_of_labels;

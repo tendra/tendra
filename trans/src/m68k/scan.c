@@ -742,7 +742,7 @@ scan(bool sto, exp to, exp e)
 #ifndef tdf3
 	case tail_call_tag: {
 		exp cees = bro(son(e));
-		cur_proc_has_tail_call = 1;
+		cur_proc_has_tail_call    = true;
 		cur_proc_use_same_callees = (cees->tag == same_callees_tag);
 
 		if (son(cees) != NULL) {

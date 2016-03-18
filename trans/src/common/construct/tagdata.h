@@ -10,9 +10,10 @@
 #ifndef CONSTRUCT_TAGDATA_H
 #define CONSTRUCT_TAGDATA_H
 
+/* .present is true if val is present, false otherwise */
+
 typedef struct tag_option_t {
 	bool present;
-	/* 1 if val is present, 0 otherwise */
 	tag val;
 } tag_option;
 
@@ -42,7 +43,7 @@ typedef struct tagacc_t {
 } tagacc;
 
 typedef struct tagacc_option_t {
-	bool present;	/* 1 if val is present, 0 otherwise */
+	bool present;
 	tagacc val;
 } tagacc_option;
 
@@ -57,7 +58,7 @@ struct labtag_list_t {
 typedef struct labtag_list_t label_list;
 
 typedef struct tagshacc_option_t {
-	int present;	/* 1 if val is present, 0 otherwise */
+	bool present;
 	tagshacc val;
 } tagshacc_option;
 

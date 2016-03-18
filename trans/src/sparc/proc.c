@@ -188,8 +188,8 @@ make_proc_tag_code(exp e, space sp, where dest, int exitlab)
 	exp par;
 	old_postludes = (postlude_chain*)NULL;
 	current_proc = e;
-	Has_vcallees = (e->tag == general_proc_tag) && (proc_has_vcallees(e));
-	Has_no_vcallers = (e->tag == proc_tag) || (!proc_has_vcallers(e));
+	Has_vcallees = (e->tag == general_proc_tag) && proc_has_vcallees(e);
+	Has_no_vcallers = (e->tag == proc_tag) || !proc_has_vcallers(e);
 	in_general_proc = (e->tag == general_proc_tag);
 
 	UNUSED(dest);
@@ -731,8 +731,7 @@ make_apply_tag_code(exp e, space sp, where dest, int exitlab)
 	makeans mka;
 
 	exp dad = father(e);
-	bool tlrecurse = (bool) (proc_state.rscope_level == 0 &&
-	                        dad->tag == res_tag && props(dad));
+	bool tlrecurse = proc_state.rscope_level == 0 && dad->tag == res_tag && props(dad);
 
 	nsp = sp;
 
@@ -1224,8 +1223,7 @@ make_apply_general_tag_code(exp e, space sp, where dest, int exitlab)
 	int guarded_dest_reg = R_NO_REG; /* reg used to address tuple result */
 	makeans mka;
 	exp dad = father(e);
-	bool tlrecurse = (bool)(proc_state.rscope_level == 0 &&
-	                        dad->tag == res_tag && props(dad));
+	bool tlrecurse = proc_state.rscope_level == 0 && dad->tag == res_tag && props(dad);
 	bool trad_call = 0;
 	ansash = ashof(sh(e));
 	nsp = sp;

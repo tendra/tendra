@@ -53,7 +53,7 @@ static void output_all_exps(void);
 #ifndef tdf3
 #include "general_proc.h"
 #include "68k_globals.h"
-int need_dummy_double = 0;
+bool need_dummy_double = false;
 #endif
 
 /*
@@ -171,10 +171,10 @@ local_translate_capsule(void)
 
 	/* Set up alignment rules */
 	double_align = DBL_ALIGN;
-	param_align = PARAM_ALIGN;
-	stack_align = STACK_ALIGN;
+	param_align  = PARAM_ALIGN;
+	stack_align  = STACK_ALIGN;
 
-	diagnose_registers = 0;
+	diagnose_registers = false;
 
 	MAX_BF_SIZE = (cconv != CCONV_HP ? MAX_BF_SIZE_CC : MAX_BF_SIZE_GCC);
 
@@ -216,7 +216,7 @@ code_proc(dec *d, char *id, exp c, exp s)
 
 	cur_proc_dec = d;
 	cur_proc_callees_size = 0;
-	cur_proc_has_vcallees = 0;
+	cur_proc_has_vcallees = false;
 
 	/* Code procedure body */
 #if 0

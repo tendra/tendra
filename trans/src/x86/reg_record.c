@@ -249,8 +249,8 @@ invalidate_dest(where dest)
 	      invalidates(dest.where_exp, cond2a.where_exp) ||
 	      invalidates(dest.where_exp, cond2b.where_exp))))
 	{
-		cond1_set = 0;
-		cond2_set = 0;
+		cond1_set = false;
+		cond2_set = false;
 	}
 
 	if (is_aliased(dest.where_exp)) {

@@ -34,7 +34,7 @@
 
 static int clean_copy = 0; /* set by copy_dg_separate */
 
-int doing_inlining = 0;
+bool doing_inlining = false;
 
 dg_info current_dg_info = NULL; /* needed when coding extra_diags */
 exp current_dg_exp      = NULL; /* needed when coding extra_diags */
@@ -916,7 +916,7 @@ update_detch_copy(detch_info *dl, int update)
 static detch_info *copy_detch_tree(detch_info *dl);
 
 static dg_info
-copy_dg_info(dg_info d, exp var, exp lab, int doing_exp_copy)
+copy_dg_info(dg_info d, exp var, exp lab, bool doing_exp_copy)
 {
 	dg_info new = new_dg_info(d->key);
 
@@ -955,8 +955,7 @@ copy_dg_info(dg_info d, exp var, exp lab, int doing_exp_copy)
 		if (doing_exp_copy) {
 			/* a named item might be copied */
 			new->data.i_name.dname =
-			    copy_diagname(d->data.i_name.dname, var, lab,
-			                  doing_inlining);
+			    copy_diagname(d->data.i_name.dname, var, lab, doing_inlining);
 		}
 		break;
 
@@ -1004,8 +1003,7 @@ copy_dg_info(dg_info d, exp var, exp lab, int doing_exp_copy)
 
 		if (doing_exp_copy) {
 			new->data.i_catch.ex =
-			    copy_diagname(d->data.i_catch.ex, var, lab,
-			                  doing_inlining);
+			    copy_diagname(d->data.i_catch.ex, var, lab, doing_inlining);
 		}
 		break;
 
@@ -1153,10 +1151,10 @@ copy_res_diag(exp e, dg_info d, exp var, exp lab)
 exp
 diag_hold_refactor(exp e)
 {
-	int was_inlining = doing_inlining;
+	bool was_inlining = doing_inlining;
 	exp hc;
 
-	doing_inlining = 0;
+	doing_inlining = false;
 	hc = hold_refactor(e);
 	doing_inlining = was_inlining;
 

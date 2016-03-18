@@ -71,8 +71,8 @@ static int stparam, fixparam, floatparam;
 
 extern long notbranch[6];
 
-static bool rscope_level = 0;
-static bool nonevis = 1;
+static int rscope_level = 0;
+static bool nonevis     = true;
 static int callerfortr;
 
 static bool gen_call;
@@ -1587,7 +1587,7 @@ scan(exp *e, exp **at)
 		needs plnds;
 		int i;
 
-		gen_call = 1;
+		gen_call = true;
 
 		nds = scan(fn, at);
 		if ((nds.propsneeds & hasproccall) != 0) {
@@ -1745,7 +1745,7 @@ scan(exp *e, exp **at)
 			nds = ndsp;
 		}
 
-		gen_call = 1;
+		gen_call = true;
 
 		ndsp = scan(&bro(son(*e)), at);
 		nds = maxneeds(nds, ndsp);
@@ -2675,7 +2675,7 @@ scan(exp *e, exp **at)
 		stparam = 0;
 		fixparam = 4;
 		floatparam = 6;
-		nonevis = 1;
+		nonevis = true;
 		rscope_level = 0;
 
 		bexp = & son(*e);

@@ -562,7 +562,7 @@ void dw2_prepare_locate(exp id)
   long maxargs = ndpr->maxargs ;/* maxargs of proc body in bits */
   long st = sppr->stack ;		/* space for locals in bits */
 
-  Has_vcallees = (e->tag == general_proc_tag) && (proc_has_vcallees(e));
+  Has_vcallees = (e->tag == general_proc_tag) && proc_has_vcallees(e);
 	/* callee_start_reg as initialisation */
   call_base_reg = R_NO_REG;	/* needs reset at apply_general */
   proc_state.params_offset = PARAMS_OFFSET;

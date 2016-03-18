@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include <main/driver.h>

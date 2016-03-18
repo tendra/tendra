@@ -30,8 +30,9 @@ exp
 read_exp_to_source(exp body)
 {
 	dg_sourcepos s1, s2;
-	int was_within_diags = within_diags;
-	within_diags = 1;
+	bool was_within_diags = within_diags;
+
+	within_diags = true;
 
 	s1 = d_sourcemark();
 	s2 = d_sourcemark();
@@ -64,12 +65,14 @@ read_diag_id_scope(exp body)
 	exp acc;
 	dg_type type;
 	dg_name dgn;
-	int was_within_diags = within_diags;
+	bool was_within_diags = within_diags;
 
-	within_diags = 1;
+	within_diags = true;
+
 	name = f_dg_sourcestring_idname(d_tdfstring());
 	acc  = hold_refactor(d_exp());
 	type = d_diag_type();
+
 	within_diags = was_within_diags;
 
 	dgn = f_dg_object_name(name, f_dg_null_sourcepos, type,
@@ -103,11 +106,13 @@ read_diag_type_scope(exp body)
 	dg_idname name;
 	dg_type type;
 	dg_name dgn;
-	int was_within_diags = within_diags;
+	bool was_within_diags = within_diags;
 
-	within_diags = 1;
+	within_diags = true;
+
 	name = f_dg_sourcestring_idname(d_tdfstring());
 	type = d_diag_type();
+
 	within_diags = was_within_diags;
 
 	dgn = f_dg_type_name(name, f_dg_null_sourcepos,
@@ -124,10 +129,12 @@ exp
 read_dg_exp(exp body)
 {
 	dg diag;
+	bool was_within_diags = within_diags;
 
-	int was_within_diags = within_diags;
-	within_diags = 1;
+	within_diags = true;
+
 	diag = d_dg();
+
 	within_diags = was_within_diags;
 
 	return f_dg_exp(body, diag);

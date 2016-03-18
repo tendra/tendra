@@ -35,7 +35,7 @@
 #include <main/flags.h>
 #include <main/print.h>
 
-int use_link_stuff;
+bool use_link_stuff;
 weak_cell *weak_list;
 
 /* PROCEDURES */

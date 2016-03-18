@@ -20,7 +20,7 @@
 #include "dg_aux.h"
 #include "mark_scope.h"
 
-int doing_mark_scope = 0;
+bool doing_mark_scope = false;
 
 /* called by read_diag_id_scope; dgf(e) holds DIAG_INFO_ID */
 void
@@ -70,7 +70,7 @@ mark_scope(exp e)
 	} else {
 		d = f_lexical_block_dg(no_dg_idname_option, no_dg_sourcepos_option);
 		d->data.i_scope.begin_st = (long)(-1);
-		doing_mark_scope = 1;
+		doing_mark_scope = true;
 	}
 
 	/* if (isglob(id)) */ {
@@ -112,7 +112,7 @@ mark_scope2(exp e)
 		d = f_lexical_block_dg(no_dg_idname_option,
 		                       no_dg_sourcepos_option);
 		d->data.i_scope.begin_st = (long)(-1);
-		doing_mark_scope = 1;
+		doing_mark_scope = true;
 	}
 
 	d->more = dgf(e);

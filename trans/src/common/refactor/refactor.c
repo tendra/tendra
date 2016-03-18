@@ -119,7 +119,7 @@ hold_const_refactor(exp r)
 {
 	exp ans;
 
-	int old = all_variables_visible;
+	bool old = all_variables_visible;
 	all_variables_visible = 0;
 	ans = hold_refactor(r);
 	all_variables_visible = old;
@@ -3423,7 +3423,7 @@ refactor(exp e, exp scope)
 				int sg = is_signed(sha);
 
 				if (PIC_code) {
-					proc_externs = 1;
+					proc_externs = true;
 				}
 
 				if (sz == 8) {

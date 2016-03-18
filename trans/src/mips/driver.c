@@ -61,13 +61,13 @@ init(void)
 	cconv     = CCONV_O32; /* TODO: confirm this is what we generate */
 	abi       = ABI_MIPS;
 
-	PIC_code            = 0;
-	keep_PIC_vars       = 1;
-	diagnose_registers  = 0;
+	PIC_code            = false;
+	keep_PIC_vars       = true;
+	diagnose_registers  = false;
 	target_dbl_maxexp   = 308;
-	redo_structfns      = 0;
+	redo_structfns      = false;
 	do_extern_adds      = 0;
-	do_alloca           = 0;
+	do_alloca           = false;
 
 	as_file = NULL;
 
@@ -106,7 +106,7 @@ unhas(void)
 
 	if (diag != DIAG_NONE) {
 		/* dbx does not understand variable frame sizes */
-		do_alloca = 0;
+		do_alloca = false;
 	}
 
 	if (do_alloca && PIC_code) {

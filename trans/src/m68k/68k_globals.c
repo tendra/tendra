@@ -11,13 +11,13 @@
 
 #include "68k_globals.h"
 
-int need_preserve_stack = 0;
-dec* cur_proc_dec = 0;
-int cur_proc_has_tail_call = 0;
-int cur_proc_use_same_callees = 0;
-int cur_proc_has_vcallees = 0;
-long cur_proc_callees_size = 0;
-long cur_proc_callers_size = 0;
-long cur_proc_env_size = 0;
-int apply_tag_flag = 0;
+bool need_preserve_stack       = false;
+dec* cur_proc_dec              = 0;
+bool cur_proc_has_tail_call    = false;
+bool cur_proc_use_same_callees = false;
+bool cur_proc_has_vcallees     = false;
+long cur_proc_callees_size     = 0;
+long cur_proc_callers_size     = 0;
+long cur_proc_env_size         = 0;
+int apply_tag_flag             = 0;
 

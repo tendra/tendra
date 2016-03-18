@@ -635,7 +635,7 @@ make_rel_ap(long d)
 		p3->def.num = d;
 		p2->plus = p3;
 	}
-	used_stack = 1;
+	used_stack = true;
 	return p1;
 }
 
@@ -662,7 +662,7 @@ make_rel_ap2(long d)
 	p3->def.num = d;
 	p2->plus = p3;
 
-	used_stack = 1;
+	used_stack = true;
 	return p1;
 }
 /*

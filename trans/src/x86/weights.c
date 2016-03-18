@@ -430,7 +430,7 @@ weightsv(exp e, explist * el)
 
 			if (sh(def)->tag == nofhd && ptno(sh(def)) == realhd &&
 			    shape_size(sh(def)) >= 640) {
-				useful_double = 1;
+				useful_double = true;
 			}
 
 			if (def->tag == clear_tag) {

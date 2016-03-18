@@ -29,8 +29,8 @@ typedef struct outofline_t {
   exp jr;
   int fstack_pos;
   int labno;
-  int cond1_set;
-  int cond2_set;
+  bool cond1_set;
+  bool cond2_set;
   where cond1;
   where cond2a;
   where cond2b;

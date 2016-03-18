@@ -21,21 +21,21 @@
 #include <construct/complex_eq.h>
 #include <construct/misc_c.h>
 
-static int
+static bool
 invariant_to_apply(exp e);
 
-static int
+static bool
 invar_list(exp e)
 {
 	for (;;) {
 		if (e==NULL) {
-			return 1;
+			return true;
 		}
 		if (!invariant_to_apply(e)) {
-			return 0;
+			return false;
 		}
 		if (e->last) {
-			return 1;
+			return true;
 		}
 		e = bro(e);
 	}
@@ -48,7 +48,7 @@ invar_list(exp e)
    procedure arguments is assumed to to affect the value of e.
    e will not be NULL.
 */
-static int
+static bool
 invariant_to_apply(exp e)
 {
 	if (e->tag == cont_tag) {
@@ -63,29 +63,29 @@ invariant_to_apply(exp e)
 	}
 
 	if (e->tag == contvol_tag) {
-		return 0;
+		return false;
 	}
 
-	return 1;
+	return true;
 }
 
 
-int
+bool
 is_tester(exp e, int eq)
 {
 	if (e->tag == test_tag || e->tag == testbit_tag) {
 		if (!eq || test_number(e) == f_equal) {
-			return 1;
+			return true;
 		}
 	}
-	return 0;
+	return false;
 }
 
 
-int
+bool
 take_out_of_line(exp first, exp alt, int in_repeat, double scale)
 {
-	int extract;
+	bool extract;
 	extract = in_repeat && first->tag == seq_tag &&
 	    sh(first)->tag == bothd && no(son(alt)) == 1 &&
 	    ((is_tester(son(son(first)), 0) && pt(son(son(first))) == alt) ||
@@ -98,7 +98,7 @@ take_out_of_line(exp first, exp alt, int in_repeat, double scale)
 	     (son(son(first))->tag == ident_tag &&
 	      is_tester(bro(son(son(son(first)))), 0) &&
 	      pt(bro(son(son(son(first))))) == alt))) {
-		extract = 1;
+		extract = true;
 	}
 
 	if (!extract && first->tag == seq_tag && no(son(alt)) == 1 &&
@@ -108,14 +108,14 @@ take_out_of_line(exp first, exp alt, int in_repeat, double scale)
 	      is_tester(bro(son(son(son(first)))), 1) &&
 	      pt(bro(son(son(son(first))))) == alt &&
 	      bro(son(bro(son(son(son(first))))))->tag == null_tag))) {
-		extract = 1;
+		extract = true;
 	}
 	if (!extract && first->tag == seq_tag && no(son(alt)) == 1 &&
 	    son(son(first))->tag == ident_tag &&
 	    is_tester(bro(son(son(son(first)))), 0) &&
 	    pt(bro(son(son(son(first))))) == alt &&
 	    no(bro(son(son(son(first))))) < 29) {
-		extract = 1;
+		extract = true;
 	}
 	if (!extract && first->tag == seq_tag && no(son(alt)) == 1 &&
 	    (is_tester(son(son(first)), 0) && pt(son(son(first))) == alt)) {
@@ -130,28 +130,28 @@ take_out_of_line(exp first, exp alt, int in_repeat, double scale)
 		}
 
 		if (p != NULL && (double)(no(p)) < (0.29 * scale)) {
-			extract = 1;
+			extract = true;
 		}
 	}
 	return extract;
 }
 
 
-int
+bool
 take_out_by_prob(exp first, exp alt)
 {
-	int extract = 0;
+	bool extract = false;
 	if (!extract && first->tag == seq_tag && no(son(alt)) == 1 &&
 	    (is_tester(son(son(first)), 0) && pt(son(son(first))) == alt &&
 	     no(son(son(first))) < 29)) {
-		extract = 1;
+		extract = true;
 	}
 	if (!extract && first->tag == seq_tag && no(son(alt)) == 1 &&
 	    son(son(first))->tag == ident_tag &&
 	    is_tester(bro(son(son(son(first)))), 0) &&
 	    pt(bro(son(son(son(first))))) == alt &&
 	    no(bro(son(son(son(first))))) < 29) {
-		extract = 1;
+		extract = true;
 	}
 	return extract;
 }
@@ -161,7 +161,7 @@ take_out_by_prob(exp first, exp alt)
 	(a ~ b) ? a : b
 	puts test in t - can make use of delay-slot
 */
-int
+bool
 is_maxop(exp x, exp *t)
 {
 	exp op1, op2, z, l, w;
@@ -242,9 +242,9 @@ is_maxop(exp x, exp *t)
 			goto flab0;
 		}
 	}
-	return 1;
+	return true;
 flab0:
-	return 0;
+	return false;
 }
 
 
@@ -252,7 +252,7 @@ flab0:
 	(a ~ b) ? b : a
 	puts test in t - can make use of delay-slot
 */
-int
+bool
 is_minop(exp x, exp *t)
 {
 	exp op1, op2, z, l, w;
@@ -333,13 +333,13 @@ is_minop(exp x, exp *t)
 			goto flab0;
 		}
 	}
-	return 1;
+	return true;
 flab0:
-	return 0;
+	return false;
 }
 
 
-int
+bool
 is_condassign(exp e, exp *to_test, exp *to_ass)
 {
 	exp arg1 = son(e);
@@ -349,7 +349,7 @@ is_condassign(exp e, exp *to_test, exp *to_ass)
 	exp ass;
 	exp val;
 	if (arg1->tag != seq_tag) {
-		return 0;
+		return false;
 	}
 
 	z = son(arg1);
@@ -357,28 +357,28 @@ is_condassign(exp e, exp *to_test, exp *to_ass)
 	ass = bro(z);
 
 	if (no(son(arg2)) != 1 || bro(son(arg2))->tag != top_tag) {
-		return 0;
+		return false;
 	}
 	if (st->tag != test_tag && st->tag != testbit_tag) {
-		return 0;
+		return false;
 	}
 	if (!st->last) {
-		return 0;
+		return false;
 	}
 	if (ass->tag != ass_tag) {
-		return 0;
+		return false;
 	}
 	if (son(ass)->tag != name_tag || !isvar(son(son(ass)))) {
-		return 0;
+		return false;
 	}
 
 	val = bro(son(ass));
 	*to_test = st;
 	*to_ass = ass;
 	if (val->tag == val_tag) {
-		return 1;
+		return true;
 	}
 
-	return 0;
+	return false;
 }
 

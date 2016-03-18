@@ -51,7 +51,7 @@
 /*
  * returns true if is_o(e) but not a possible 80386 operand
  */
-int
+bool
 is_crc(exp e)
 {
 	/* make sure (is_o && is_crc -> !is_opnd) */
@@ -67,15 +67,15 @@ is_crc(exp e)
 	}
 
 	if (e->tag == reff_tag || e->tag == field_tag) {
-		return 1;
+		return true;
 	}
 
 	if (e->tag != cont_tag) {
-		return 0;
+		return false;
 	}
 
 	if (son(e)->tag == cont_tag) {
-		return 1;
+		return true;
 	}
 
 	return son(e)->tag == reff_tag &&
@@ -115,7 +115,7 @@ void uop(void(*op)(shape, where, where),
 	make_code(qw, stack, a);
 	(*op)(sha, qw, dest);
 	retcell(qw.where_exp);
-	cond1_set = 0;
+	cond1_set = false;
 }
 
 static int
@@ -172,7 +172,7 @@ bop(void(*op)(shape, where, where, where),
 		make_code(qw, stack, a);
 		(*op)(sha, qw, mw(b, 0), dest);
 		retcell(qw.where_exp);
-		cond1_set = 0;
+		cond1_set = false;
 		return;
 	}
 
@@ -187,7 +187,7 @@ bop(void(*op)(shape, where, where, where),
 		make_code(qw, stack, b);
 		(*op)(sha, mw(a, 0), qw, dest);
 		retcell(qw.where_exp);
-		cond1_set = 0;
+		cond1_set = false;
 		return;
 	}
 
@@ -259,7 +259,7 @@ logop(void(*op)(shape, where, where, where),
 		}
 		(*op) (sha, mw (t, 0), qw, dest);/* encode final operation */
 		retcell(qw.where_exp);
-		cond1_set = 0;
+		cond1_set = false;
 		return;
 	}
 
@@ -285,7 +285,7 @@ logop(void(*op)(shape, where, where, where),
 	}
 
 	retcell(qw.where_exp);
-	cond1_set = 0;
+	cond1_set = false;
 }
 
 /*
@@ -354,7 +354,7 @@ multop(void(*op)(shape, where, where, where),
 
 		(*op) (sh (e), mw (t, 0), qw, dest);/* encode final operation */
 		retcell(qw.where_exp);
-		cond1_set = 0;
+		cond1_set = false;
 		return;
 	}
 
@@ -380,7 +380,7 @@ multop(void(*op)(shape, where, where, where),
 	}
 
 	retcell(qw.where_exp);
-	cond1_set = 0;
+	cond1_set = false;
 }
 
 /*
@@ -516,7 +516,7 @@ codec(where dest, ash stack, exp e)
 		}
 
 		retcell(qw.where_exp);
-		cond1_set = 0;
+		cond1_set = false;
 		overflow_e = old_overflow_e;
 		return;
 	}
@@ -548,7 +548,7 @@ codec(where dest, ash stack, exp e)
 				change_var_refactor(sh(e), qw, dest);
 				overflow_e = old_overflow_e;
 				retcell(qw.where_exp);
-				cond1_set = 0;
+				cond1_set = false;
 				return;
 			}
 
@@ -908,7 +908,7 @@ codec(where dest, ash stack, exp e)
 			make_code(qw, stack, e);
 			move(sh(e), qw, dest);
 			retcell(qw.where_exp);
-			cond1_set = 0;
+			cond1_set = false;
 			return;
 		}
 

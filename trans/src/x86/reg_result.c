@@ -19,7 +19,7 @@
 #include <construct/exp.h>
 #include <construct/reg_result.h>
 
-int gcc_compatible = 0;
+bool gcc_compatible = false;
 
 /*
  * is the result of a procedure delivering

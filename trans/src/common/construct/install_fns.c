@@ -89,16 +89,16 @@ typedef struct proc_props_t {
 	int proc_label_count;
 	float default_freq;
 	alignment frame_alignment;
-	int has_alloca;
-	int proc_is_recursive;
-	int uses_crt_env;
-	int has_setjmp;
-	int uses_loc_address;
-	int proc_struct_res;
-	int proc_externs;
-	int in_proc_def;
-	int rep_make_proc;
 	int in_initial_value;
+	bool has_alloca       :1;
+	bool proc_is_recursive:1;
+	bool uses_crt_env     :1;
+	bool has_setjmp       :1;
+	bool uses_loc_address :1;
+	bool proc_struct_res  :1;
+	bool proc_externs     :1;
+	bool in_proc_def      :1;
+	bool rep_make_proc    :1;
 } proc_props;
 
 proc_props *old_proc_props = NULL;  /* initial value for pushing */
@@ -256,7 +256,7 @@ make_extra_dec(char *name, int v, int g, exp init, shape s)
 	extra_dec->have_def = init != NULL;
 	extra_dec->processed = 0;
 	extra_dec->isweak = 0;
-	extra_dec->is_common = 0;
+	extra_dec->is_common = false;
 	if (init != NULL) {
 		setfather(e, init);
 	}
@@ -1511,7 +1511,7 @@ f_case_transform(bool exhaustive, exp control, caselim_list branches)
 	case_shape = (exhaustive)? f_bottom : f_top;
 
 	if (PIC_code) {
-		proc_externs = 1;
+		proc_externs = true;
 	}
 
 	if (check & CHECK_SHAPE) {
@@ -1591,7 +1591,7 @@ f_case_notransform(bool exhaustive, exp control, caselim_list branches)
 	case_shape = (exhaustive) ? f_bottom : f_top;
 
 	if (PIC_code) {
-		proc_externs = 1;
+		proc_externs = true;
 	}
 
 	if (check & CHECK_SHAPE) {
@@ -1881,8 +1881,8 @@ f_current_env(void)
 	if (!in_proc_def) {
 		error(ERR_INTERNAL, "current_env must be in proc definition");
 	}
-	uses_crt_env = 1;
-	uses_loc_address = 1;
+	uses_crt_env = true;
+	uses_loc_address = true;
 	return getexp(f_pointer(frame_alignment), NULL, 0, NULL, NULL, 0,
 		      0, current_env_tag);
 }
@@ -2256,7 +2256,7 @@ f_local_alloc(exp arg1)
 		arg1 = hold_refactor(f_offset_pad(f_alignment(ucharsh), arg1));
 	}
 	a = long_to_al(al1(sh(arg1)));
-	has_alloca = 1;
+	has_alloca = true;
 	return me_u3(f_pointer(a), arg1, alloca_tag);
 }
 
@@ -2301,8 +2301,7 @@ f_local_free(exp a, exp p)
 exp
 f_local_free_all(void)
 {
-	has_setjmp = 1; /* this really means dont inline
-			   and use a stack frame */
+	has_setjmp = true; /* this really means dont inline and use a stack frame */
 	return getexp(f_top, NULL, 0, NULL, NULL, 0, 0,
 		      local_free_all_tag);
 }
@@ -2326,8 +2325,7 @@ f_long_jump(exp arg1, exp arg2)
 		}
 	}
 
-	has_setjmp = 1; /* this really means dont inline
-			   and use a stack frame */
+	has_setjmp = true; /* this really means dont inline and use a stack frame */
 	return me_b3(f_bottom, arg1, arg2, long_jump_tag);
 }
 
@@ -2490,7 +2488,7 @@ f_make_local_lv(label lab)
 			 make_lv_tag);
 	++no(son(l));
 	set_loaded_lv(l);
-	has_lv = 1;
+	has_lv = true;
 	return res;
 }
 
@@ -2563,7 +2561,7 @@ f_make_nof_int(variety v, string s)
 	int elem_sz = shape_size(elem_sh);
 
 	if (PIC_code) {
-		proc_externs = 1;
+		proc_externs = true;
 	}
 
 	nat_issmall(t) = 1;
@@ -2814,7 +2812,7 @@ pop_proc_props(void)
 	proc_props *temp = old_proc_props;
 	proc_struct_result = temp->proc_struct_result;
 	has_alloca = temp->has_alloca;
-	proc_is_recursive =temp->proc_is_recursive;
+	proc_is_recursive = temp->proc_is_recursive;
 	uses_crt_env = temp->uses_crt_env;
 	has_setjmp = temp->has_setjmp;
 	uses_loc_address = temp->uses_loc_address;
@@ -2843,15 +2841,15 @@ start_make_proc(shape result_shape, tagshacc_list params_intro,
 	push_proc_props();
 
 	proc_struct_result = NULL;
-	has_alloca = 0;
-	proc_is_recursive = 0;
-	uses_crt_env = 0;
-	has_setjmp = 0;
-	uses_loc_address = 0;
+	has_alloca = false;
+	proc_is_recursive = false;
+	uses_crt_env = false;
+	has_setjmp = false;
+	uses_loc_address = false;
 	proc_label_count = 0;
-	proc_struct_res = 0;
+	proc_struct_res = false;
 	default_freq = 1.0;
-	proc_externs = 0;
+	proc_externs = false;
 	in_initial_value = 0;
 	frame_alignment = f_unite_alignments(f_locals_alignment,
 					     var_callers_alignment);
@@ -2869,7 +2867,7 @@ start_make_proc(shape result_shape, tagshacc_list params_intro,
 
 	/* set this flag to distinguish values created during procedure
 	   reading. */
-	in_proc_def = 1;
+	in_proc_def = true;
 }
 
 
@@ -3127,7 +3125,7 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 
 	/* clear this flag to distinguish values created during procedure
 	   reading. */
-	in_proc_def = 0;
+	in_proc_def = false;
 
 	pop_proc_props();
 
@@ -3160,13 +3158,13 @@ start_make_general_proc(shape result_shape, procprops prcprops,
 	push_proc_props();
 
 	proc_struct_result = NULL;
-	has_alloca = 0;
-	proc_is_recursive = 0;
-	uses_crt_env = 0;
-	has_setjmp = 0;
-	uses_loc_address = 0;
+	has_alloca = false;
+	proc_is_recursive = false;
+	uses_crt_env = false;
+	has_setjmp = false;
+	uses_loc_address = false;
 	proc_label_count = 0;
-	proc_struct_res = 0;
+	proc_struct_res = false;
 	default_freq = 1.0;
 	frame_alignment = f_unite_alignments(f_locals_alignment,
 					     f_callers_alignment((prcprops &
@@ -3175,10 +3173,10 @@ start_make_general_proc(shape result_shape, procprops prcprops,
 					      f_callees_alignment((prcprops &
 					      f_var_callees) != 0));
 
-	proc_externs = 0;
+	proc_externs = false;
 	/* set this flag to distinguish values created during procedure
 	   reading. */
-	in_proc_def = 1;
+	in_proc_def = true;
 	crt_procprops = prcprops;
 }
 
@@ -3381,7 +3379,7 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 
 	/* clear this flag to distinguish values created during procedure
 	   reading. */
-	in_proc_def = 0;
+	in_proc_def = false;
 
 	set_make_procprops(res, prcprops);
 
@@ -3435,7 +3433,7 @@ f_apply_general_proc(shape result_shape, procprops prcprops, exp p,
 	exp r_p;
 	exp redos = NULL;
 	exp last_redo;
-	has_alloca = 1;
+	has_alloca = true;
 
 	if (callee_pars->tag == same_callees_tag) {
 		/* it's a constant */
@@ -3652,8 +3650,8 @@ f_tail_call(procprops prcprops, exp p, callees callee_params)
 		/* it's a constant */
 		callee_params = copy(callee_params);
 	}
-	has_setjmp = 1; /* stop inlining! */
-	has_alloca = 1; /* make sure has fp */
+	has_setjmp = true; /* stop inlining! */
+	has_alloca = true; /* make sure has fp */
 	props(callee_params) = prcprops;
 	bro(p) = callee_params;
 	p->last = false;
@@ -3668,7 +3666,7 @@ f_untidy_return(exp arg)
 	exp res = getexp(f_bottom, NULL, 0, arg, NULL, 0, 0,
 			 untidy_return_tag);
 	setfather(res, arg);
-	has_setjmp = 1;
+	has_setjmp = true;
 	return res;
 }
 
@@ -3993,10 +3991,10 @@ f_obtain_tag(tag t)
 		s = sh(t->exp);
 #ifdef TDF_DIAG4
 		if (!within_diags) {
-			proc_externs = 1;
+			proc_externs = true;
 		}
 #else
-		proc_externs = 1;
+		proc_externs = true;
 #endif
 	} else {
 		s = sh(son(tag));
@@ -4590,7 +4588,7 @@ f_return(exp arg1)
 		return arg1;
 	}
 	if (!reg_result(sh(arg1))) {
-		proc_struct_res = 1;
+		proc_struct_res = true;
 	}
 
 	/* transformation if we are giving procedures which deliver a struct
@@ -4968,18 +4966,18 @@ init_exp(void)
 	global_case = getexp(f_bottom, NULL, 0, NULL, NULL, 0, 0, 0);
 	in_initial_value = 0;
 	initial_value_pp.proc_struct_result = NULL;
-	initial_value_pp.has_alloca = 0;
-	initial_value_pp.proc_is_recursive = 0;
-	initial_value_pp.uses_crt_env = 0;
-	initial_value_pp.has_setjmp = 0;
-	initial_value_pp.uses_loc_address = 0;
+	initial_value_pp.has_alloca = false;
+	initial_value_pp.proc_is_recursive = false;
+	initial_value_pp.uses_crt_env = false;
+	initial_value_pp.has_setjmp = false;
+	initial_value_pp.uses_loc_address = false;
 	initial_value_pp.proc_label_count = 0;
-	initial_value_pp.proc_struct_res = 0;
+	initial_value_pp.proc_struct_res = false;
 	initial_value_pp.default_freq = default_freq;
-	initial_value_pp.proc_externs = 0;
-	initial_value_pp.in_proc_def = 0;
+	initial_value_pp.proc_externs = false;
+	initial_value_pp.in_proc_def = false;
 	initial_value_pp.pushed = NULL;
-	initial_value_pp.rep_make_proc = 0;
+	initial_value_pp.rep_make_proc = false;
 }
 
 
@@ -5684,9 +5682,9 @@ f_make_version(tdfint major_version, tdfint minor_version)
 	res.major_version = natint(major_version);
 	res.minor_version = natint(minor_version);
 	if (res.major_version >= 3) {
-		newcode = 1;
+		newcode = true;
 	} else {
-		newcode = 0;
+		newcode = false;
 	}
 	return res;
 }
@@ -5903,7 +5901,7 @@ new_version_list(int n)
 }
 
 
-static int version_printed = 0;
+static bool version_printed = false;
 
 version_list
 add_version_list(version_list list, version elem, int index)
@@ -5921,7 +5919,7 @@ add_version_list(version_list list, version elem, int index)
 
 	if (report_versions) {
 		if (!version_printed) {
-			version_printed = 1;
+			version_printed = true;
 			IGNORE fprintf(stderr, "This TDF is composed from Capsules of the following versions:\n");
 		}
 		IGNORE fprintf(stderr, "TDF Version %d.%d\n",
@@ -5949,7 +5947,7 @@ yes_string_option(string s)
 {
 	string_option res;
 	res.val = s;
-	res.present = 1;
+	res.present = true;
 	return res;
 }
 
@@ -5957,7 +5955,7 @@ yes_string_option(string s)
 void
 init_string_option(void)
 {
-	no_string_option.present = 0;
+	no_string_option.present = false;
 }
 
 
@@ -5967,7 +5965,7 @@ yes_tagacc_option(tagacc elem)
 {
 	tagacc_option res;
 	res.val = elem;
-	res.present = 1;
+	res.present = true;
 	return res;
 }
 
@@ -5975,7 +5973,7 @@ yes_tagacc_option(tagacc elem)
 void
 init_tagacc_option(void)
 {
-	no_tagacc_option.present = 0;
+	no_tagacc_option.present = false;
 }
 
 
@@ -5985,7 +5983,7 @@ yes_nat_option(nat n)
 {
 	nat_option res;
 	res.val = n;
-	res.present = 1;
+	res.present = true;
 	return res;
 }
 
@@ -5993,7 +5991,7 @@ yes_nat_option(nat n)
 void
 init_nat_option(void)
 {
-	no_nat_option.present = 0;
+	no_nat_option.present = false;
 }
 
 
@@ -6211,7 +6209,7 @@ tidy_initial_values(void)
 
 		old_proc_props = &initial_value_pp;  pop_proc_props();
 		old_proc_props = NULL;
-		rep_make_proc = 0;
+		rep_make_proc  = false;
 		push_proc_props();
 		prc = f_make_proc(f_top, tsl, no_tagacc_option, seq);
 		/* prc has one visible param - hence looks like varargs */
@@ -6261,7 +6259,7 @@ tidy_initial_values(void)
 		exp seq = f_sequence(prom_as, ret);
 		tsl = new_tagshacc_list(0);
 
-		rep_make_proc = 0;
+		rep_make_proc = false;
 		start_make_proc(f_top, tsl, no_tagacc_option);
 		prc = f_make_proc(f_top, tsl, no_tagacc_option, seq);
 	}

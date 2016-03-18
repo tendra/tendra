@@ -9,6 +9,8 @@
 #include <assert.h>
 #include <stdio.h>
 
+#include <shared/bool.h>
+
 #include <tdf/tag.h>
 
 #include <construct/installtypes.h>

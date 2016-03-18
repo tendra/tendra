@@ -77,8 +77,8 @@ static int stparam;  /* Size of parameter list in bits */
 static int fixparam; /* Next available place for param */
 static int fltparam;
 
-static bool rscope_level = 0;
-static bool nonevis = 1;
+static int rscope_level = 0;
+static bool nonevis     = true;
 static int callerfortr;
 
 static bool gen_call;
@@ -1419,7 +1419,7 @@ scan(exp *e, exp **at)
 		needs plnds;
 		int i;
 
-		gen_call = 1;
+		gen_call = true;
 
 		nds = scan(fn, at);
 		if ((nds.propsneeds & hasproccall) != 0) {
@@ -1573,8 +1573,8 @@ scan(exp *e, exp **at)
 			nds = ndsp;
 		}
 
-		gen_call = 1;
-		has_tail_call = 1;
+		gen_call      = true;
+		has_tail_call = true;
 
 		ndsp = scan(&bro(son(*e)), at);
 		nds = maxneeds(nds, ndsp);
@@ -2491,13 +2491,13 @@ mult_tag_case:
 		              !proc_has_alloca(stare) && !proc_has_lv(stare) &&
 		              !proc_uses_crt_env(stare);
 
-		gen_call = (stare->tag == general_proc_tag);
-		has_tail_call = 0;
+		gen_call      = (stare->tag == general_proc_tag);
+		has_tail_call = false;
 
 		callee_sz = 0;
 		stparam = 0;
 		fixparam = ARG0;
-		nonevis = 1;
+		nonevis = true;
 		rscope_level = 0;
 
 		bexp = &son(*e);

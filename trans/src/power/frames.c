@@ -148,7 +148,7 @@ void set_up_frame_pointer(procrec * pr, exp e)
     /* If has_no_vcallers==1 => Not a varargs
        however has_no_vcallers==0 does not imply varargs it tells us nothing*/
   }
-  if (gen_call!=0)
+  if (gen_call)
   {
     /* It could be a normal proc with a tail call */
     pr->has_fp = 1;

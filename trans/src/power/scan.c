@@ -98,7 +98,7 @@ static int freefloat;
 
 static int stparam, fixparam, floatparam;
 
-static bool nonevis = 1;
+static bool nonevis = true;
 static bool rep_tag_scanned;
 
 static int scan_cond(exp *, exp);
@@ -1143,7 +1143,7 @@ scan(exp *e, exp **at)
 				}
 			} else {
 				if (!valregable(s)) {
-					assert(redo_structfns == 0);
+					assert(!redo_structfns);
 					x.propsneeds |= long_result_bit;
 				}
 			}
@@ -1946,9 +1946,9 @@ scan(exp *e, exp **at)
 			end_param = PROC_PARAM_REGS + R_FIRST_PARAM - 1;
 		}
 
-		nonevis = 1;
-		gen_call = 0;
-		tail_call = 0;
+		nonevis   = true;
+		gen_call  = false;
+		tail_call = false;
 		bexp = &son(*e);
 		bat = bexp;
 		body = scan(bexp, &bat);
@@ -1971,7 +1971,7 @@ scan(exp *e, exp **at)
 		needs plnds;
 		int i;
 
-		gen_call = 1;
+		gen_call = true;
 
 		/* scan the function */
 		nds = scan(fn, at);
@@ -2121,7 +2121,7 @@ scan(exp *e, exp **at)
 		needs nds;
 		exp *fn = &son(*e);
 		ndsp = scan(fn, at);
-		tail_call = 1;
+		tail_call = true;
 
 		if (((ndsp.propsneeds & hasproccall) != 0) || ndsp.fixneeds + 1 > maxfix) {
 			cca(at, fn);
@@ -2132,9 +2132,9 @@ scan(exp *e, exp **at)
 			nds = ndsp;
 		}
 
-		gen_call = 1;
-		ndsp = scan(&bro(son(*e)), at);
-		nds = maxneeds(nds, ndsp);
+		gen_call = true;
+		ndsp     = scan(&bro(son(*e)), at);
+		nds      = maxneeds(nds, ndsp);
 		return nds;
 	}
 

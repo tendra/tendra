@@ -10,8 +10,8 @@
 #ifndef ODDTEST_H
 #define ODDTEST_H
 
-extern int oddtest(exp,exp *,exp *,exp *);
-extern int is_fabs(exp,exp *);
-extern int is_abslike(exp,exp *);
+extern bool oddtest(exp,exp *,exp *,exp *);
+extern bool is_fabs(exp,exp *);
+extern bool is_abslike(exp,exp *);
 
 #endif

@@ -26,12 +26,12 @@ reg_result(shape sha)
 
 	if (is_floating(sha->tag)) {
 		if ((has & HAS_LONG_DOUBLE) && shape_size(sha) > 64) {
-			return 0;
+			return false;
 		}
 
-		return 1;
+		return true;
 	}
 
-	return 0;
+	return false;
 }
 

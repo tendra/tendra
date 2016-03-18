@@ -18,7 +18,7 @@
 
 #include "output.h"
 
-int no_align_directives;
+bool no_align_directives;
 
 /*
  * 0 - instructions are movl etc

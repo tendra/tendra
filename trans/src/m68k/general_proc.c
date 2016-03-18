@@ -76,7 +76,7 @@ static void general_epilogue(bool uses_callers_pointer, bool has_checkstack);
 extern ast add_shape_to_stack(ash stack, shape s);
 extern void prologue(void);
 extern void out_profile(bool save_a1);
-extern int do_pic;
+extern bool do_pic;
 
 /*
  * This routine encodes a procedure call. The procedure is named pname
@@ -99,8 +99,8 @@ gcproc(exp p, char *pname, long cname, int is_ext, int reg_res, diag_descriptor 
 	cur_proc_callees_size = 0;
 
 	/* find out if the call has tail_call or same_callees constructs */
-	cur_proc_has_tail_call = 0;
-	cur_proc_use_same_callees = 0;
+	cur_proc_has_tail_call    = false;
+	cur_proc_use_same_callees = false;
 	scan(1, p, p);
 	comp_weights(p);
 
@@ -141,7 +141,7 @@ gcproc(exp p, char *pname, long cname, int is_ext, int reg_res, diag_descriptor 
 	}
 
 	cur_proc_has_vcallees = proc_has_vcallees(p);
-	uses_callers_pointer = cur_proc_has_vcallees && has_callers;
+	uses_callers_pointer  = cur_proc_has_vcallees && has_callers;
 
 	if (uses_callers_pointer) {
 		/* ok callers are accessed by use of a5 */
@@ -226,7 +226,7 @@ gcproc(exp p, char *pname, long cname, int is_ext, int reg_res, diag_descriptor 
 	/* Output profiling information if required */
 	if (do_profile) {
 		out_profile(!reg_res);
-		used_stack = 1;
+		used_stack = true;
 	}
 
 	if (proc_has_checkstack(p)) {
@@ -257,15 +257,15 @@ gcproc(exp p, char *pname, long cname, int is_ext, int reg_res, diag_descriptor 
 		newstack = add_shape_to_stack(stack, slongsh);
 		stack = newstack.astash;
 		max_stack = 32;
-		used_stack = 1;
+		used_stack = true;
 		op1 = make_register(REG_A1);
 		op2 = make_indirect(REG_AP, -4);
 		make_instr(m_movl, op1, op2, 0);
 	}
-	need_preserve_stack = 0;
+	need_preserve_stack = false;
 
 	if (proc_uses_crt_env(p) && proc_has_lv(p) && has_alloca) {
-		need_preserve_stack = 1;
+		need_preserve_stack = true;
 		stack += 32;
 		max_stack += 32;
 		save_stack();
@@ -1212,7 +1212,7 @@ tail_call(exp e, where dest, ash stack)
 	if (pcallees->tag == same_callees_tag) {
 		restore_regs(ALL);
 
-		if (! cur_proc_has_vcallees  && call_has_vcallees(pcallees)) {
+		if (!cur_proc_has_vcallees  && call_has_vcallees(pcallees)) {
 			asm_comment("push size of same static callees and ret.addr. on the stack");
 			op1 = make_indirect(REG_SP, 0);
 			op2 = make_register(REG_D0);
@@ -1355,7 +1355,7 @@ general_epilogue(bool uses_callers_pointer, bool has_checkstack)
 	bitpattern fmsk  = 0;
 	bitpattern fsmsk = fregs(regsinproc & save_msk);
 	bool d1_free;
-	bool uses_link = 0;
+	bool uses_link = false;
 
 	UNUSED(has_checkstack);
 
@@ -1484,7 +1484,7 @@ general_epilogue(bool uses_callers_pointer, bool has_checkstack)
 	st = st1 + 4 * bits_in(rmsk);
 
 	if (st1 || st || used_stack || must_use_bp || cur_proc_has_vcallees) {
-		uses_link = 1;
+		uses_link = true;
 	}
 
 	cleanup();
@@ -1500,7 +1500,7 @@ general_epilogue(bool uses_callers_pointer, bool has_checkstack)
 	current_ins = prologue_ins;
 
 	/* Calculate the offset between procedure args and sp */
-	ldisp = (uses_link ? st + 4 : st);
+	ldisp = uses_link ? st + 4 : st;
 
 	/* Calculate env_size(ldisp + sizeof(return address) + sizeof(params))*/
 	cur_proc_env_size = ldisp + 4 + (cur_proc_callers_size + cur_proc_callees_size) / 8;

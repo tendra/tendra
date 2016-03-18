@@ -19,7 +19,7 @@ extern void make_instr_aux(int, mach_op *, mach_op *, bitpattern, int);
 #define  make_instr(A, B, C, D)\
     make_instr_aux((A), (B), (C), (D), 0)
 
-extern int output_immediately;
+extern bool output_immediately;
 extern mach_ins *all_mach_ins;
 extern mach_ins *current_ins;
 extern void free_all_ins(void);

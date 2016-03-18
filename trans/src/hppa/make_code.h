@@ -19,7 +19,7 @@ extern makeans make_code(exp, space, where, int);
 extern int repeat_level;
 extern outofline * current_odd_bit;
 extern int last_odd_bit;
-extern int doing_odd_bits;
+extern bool doing_odd_bits;
 extern int do_indexed_loads;
 
 #endif /* MAKECODE_INCLUDED */

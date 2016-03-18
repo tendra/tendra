@@ -35,7 +35,7 @@ static bool Has_callees = 0;
 bool Has_vcallees = 0;
 bool Has_no_vcallers = 0;
 bool Uses_crt_env = 0;
-bool is_PIC_and_calls = 0;
+bool is_PIC_and_calls = false;
 bool plusZ;
 int fixdump = 0;
 long callee_sz;

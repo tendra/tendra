@@ -58,13 +58,13 @@ init(void)
 	cconv     = CCONV_HPPA;
 	abi       = ABI_HPUX;
 
-	redo_structfns     = 0; /* procs delivering structs recast to extra param */
-	redo_structparams  = 1; /* struct and union value parameters indirected   */
-	do_profile         = 0; /* -P option for profiling info */
-	do_alloca          = 0; /* inline alloca */
-	PIC_code           = 0;
-	keep_PIC_vars      = 1;
-	diagnose_registers = 0;
+	redo_structfns     = false; /* procs delivering structs recast to extra param */
+	redo_structparams  = true;  /* struct and union value parameters indirected   */
+	do_profile         = false; /* -P option for profiling info */
+	do_alloca          = false; /* inline alloca */
+	PIC_code           = false;
+	keep_PIC_vars      = true;
+	diagnose_registers = false;
 
 	local_prefix = "$";
 	name_prefix  = "";
@@ -118,7 +118,7 @@ unhas(void)
 
 	if (do_profile && PIC_code) {
 		error(ERR_WARN, "\"-P\" and \"-D\" are mutually exclusive; \"-P\" ignored.");
-		do_profile = 0;
+		do_profile = false;
 	}
 
 	if (has & HAS_LONG_DOUBLE) {

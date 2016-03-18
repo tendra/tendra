@@ -977,7 +977,7 @@ copy_res(exp e, exp var, exp lab)
 		{
 			++no(tp);		/* increment the correct usage count */
 			if (isglob(tp)) {
-				proc_externs = 1;
+				proc_externs = true;
 			}
 		}
 
@@ -1058,7 +1058,7 @@ copy_res(exp e, exp var, exp lab)
 
 		bro(p) = z;
 		if (PIC_code) {
-			proc_externs = 1;
+			proc_externs = true;
 		}
 
 		return z;
@@ -1071,7 +1071,7 @@ copy_res(exp e, exp var, exp lab)
 		no(z) = f;
 
 		if (PIC_code) {
-			proc_externs = 1;
+			proc_externs = true;
 		}
 
 		return z;
@@ -1081,7 +1081,7 @@ copy_res(exp e, exp var, exp lab)
 		exp r = copyexp(e);
 
 		if (PIC_code) {
-			proc_externs = 1;
+			proc_externs = true;
 		}
 
 		return r;
@@ -1155,17 +1155,17 @@ copy_res(exp e, exp var, exp lab)
 		switch (e->tag) {
 		case alloca_tag:
 		case apply_general_tag:
-			has_alloca = 1;
+			has_alloca = true;
 			break;
 
 		case tail_call_tag:
-			has_alloca = 1;
-			has_setjmp = 1;
+			has_alloca = true;
+			has_setjmp = true;
 			break;
 
 		case current_env_tag:
-			uses_crt_env = 1;
-			uses_loc_address = 1;
+			uses_crt_env = true;
+			uses_loc_address = true;
 			if (in_proc_def) {
 				sh(z) = f_pointer(frame_alignment);
 			}
@@ -1174,7 +1174,7 @@ copy_res(exp e, exp var, exp lab)
 		case untidy_return_tag:
 		case local_free_all_tag:
 		case long_jump_tag:
-			has_setjmp = 1;
+			has_setjmp = true;
 			break;
 		}
 
@@ -1222,17 +1222,17 @@ copy(exp e)
 	return copy_res(e, NULL, NULL);
 }
 
-int
+bool
 is_comm(exp e)
 {
 	if (no_bss) {
-		return 0;
+		return false;
 	}
 
 	switch (e->tag) {
 
 	case val_tag:
-		return no(e) ? 0 : 1;
+		return no(e) ? false : true;
 
 	case int_to_bitf_tag:
 	case chvar_tag:
@@ -1240,14 +1240,14 @@ is_comm(exp e)
 
 	case real_tag: {
 		flpt f = no(e);
-		return flptnos[f].sign ? 0 : 1;
+		return flptnos[f].sign ? false : true;
 	}
 
 	case compound_tag: {
 		exp t = son(e);
 
 		if (t == NULL) {
-			return 1;
+			return true;
 		}
 
 		for (;;) {
@@ -1255,22 +1255,22 @@ is_comm(exp e)
 
 			if (sh(t)->tag != bitfhd) {
 				if (!is_comm(t)) {
-					return 0;
+					return false;
 				}
 			} else {
 				if (t->tag == val_tag) {
 					if (no(t)) {
-						return 0;
+						return false;
 					}
 				} else {
 					if (no(son(t))) {
-						return 0;
+						return false;
 					}
 				}
 			}
 
 			if (t->last) {
-				return 1;
+				return true;
 			}
 
 			t = bro(t);
@@ -1285,16 +1285,16 @@ is_comm(exp e)
 		exp t = son(e);
 
 		if (t == NULL) {
-			return 1;
+			return true;
 		}
 
 		for (;;) {
 			if (!is_comm(t)) {
-				return 0;
+				return false;
 			}
 
 			if (t->last) {
-				return 1;
+				return true;
 			}
 
 			t = bro(t);
@@ -1310,11 +1310,11 @@ is_comm(exp e)
 
 	case clear_tag:
 	case res_tag:
-		return 1;
+		return true;
 
 	case null_tag:
 		return no(e) == 0;
 	}
 
-	return 0;
+	return false;
 }

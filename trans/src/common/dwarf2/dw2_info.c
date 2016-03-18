@@ -51,11 +51,11 @@
 
 long dw2_scope_start = 0;
 long dw2_scope_end = 0;
-int dw_doing_branch_tests = 0;
+bool dw_doing_branch_tests = false;
 
 static long local_var_place;
-static int doing_abstract = 0;
-static int doing_inline = 0;	/* consistency check only */
+static bool doing_abstract = false;
+static bool doing_inline   = false; /* consistency check only */
 static dg_info proc_dg_info = NULL;
 static dg_type return_type = NULL;
 
@@ -399,7 +399,7 @@ static void output_info
     }
 
     case DGA_INL_CALL: {
-      int old_il = doing_inline;
+      bool old_il = doing_inline;
       dg_type old_res = return_type;
       dg_name_list args = d->data.i_inl.args;
       dg_name di;
@@ -422,7 +422,7 @@ static void output_info
 	IGNORE dw_entry (dwe_inl_opnd, 0);
 	dw_at_ext_address (d->data.i_inl.proc);
       }
-      doing_inline = 1;
+      doing_inline = true;
       while (args) {
 	dw2_out_name (args, INL_PARAM_NAME);
 	args = args->next;
@@ -935,8 +935,8 @@ static void dw2_out_proc
     ( dg_name di )
 {
 				/* within debug_info section */
-  int old_il = doing_inline;
-  int old_ab = doing_abstract;
+  bool old_il = doing_inline;
+  bool old_ab = doing_abstract;
   long infolab = 0;
   exp id;
   dg_type p_t, res_t;
@@ -1041,11 +1041,11 @@ static void dw2_out_proc
     attr1 |= H_VL;
   if (di->more && di->more->repn)
     attr1 |= H_RP;
-  doing_abstract = 0;
+  doing_abstract = false;
   if (di->more && di->more->this_tag) {
     set_ext_address (di->more->this_tag);
     if (di->more->this_tag->any_inl) {
-      doing_abstract = 1;
+      doing_abstract = true;
       attr1 |= H_IL;
     }
   }
@@ -1229,8 +1229,8 @@ static void dw2_out_proc
 
     dw_sibling_end ();
     if (doing_abstract) {
-      doing_abstract = 0;
-      doing_inline = 1;
+      doing_abstract = false;
+      doing_inline   = true;
       attr1 = H_AO;
     }
     else
@@ -1239,7 +1239,7 @@ static void dw2_out_proc
   while (proc_dg_info);
 
   doing_abstract = old_ab;
-  doing_inline = old_il;
+  doing_inline   = old_il;
   proc_dg_info = old_di;
   return_type = old_res;
 }
@@ -2063,8 +2063,8 @@ void dw2_code_info
     }
 
     case DGA_BRANCH: {
-      int old_db = dw_doing_branch_tests;
-      dw_doing_branch_tests = 1;
+      bool old_db = dw_doing_branch_tests;
+      dw_doing_branch_tests = true;
       d->data.i_brn.brk = set_dw_text_label ();
       dw2_code_info (d->more, mcode, args);
       d->data.i_brn.cont = set_dw_text_label ();

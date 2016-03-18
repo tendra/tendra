@@ -204,15 +204,15 @@ typedef struct tagdec_t {
 	tag tag;           /* identifying tag */
 	shape sha;         /* the shape of the tag */
 	access_option acc; /* its access_options */
-	bool is_variable;  /* 1 for variable, 0 for identity */
-	bool is_common;    /* 1 for common_tagdec */
+	bool is_variable;  /* true for variable, false for identity */
+	bool is_common;    /* true for common_tagdec */
 } tagdec;
 
 typedef struct {
-	tag tag;        /* identifying tag */
-	exp def;        /* the associated exp definition */
-	bool var;       /* 1 for variable, 0 for identity */
-	bool is_common; /* 1 for common_tagdef */
+	tag tag;          /* identifying tag */
+	exp def;          /* the associated exp definition */
+	bool is_variable; /* true for variable, false for identity */
+	bool is_common;   /* true for common_tagdef */
 } tagdef;
 
 typedef int al_tagdef;

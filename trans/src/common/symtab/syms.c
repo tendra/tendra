@@ -11,6 +11,7 @@
  * Produce symbol numbers for binasm (dense numbers)
  */
 
+#include <shared/bool.h>
 #include <shared/error.h>
 #include <shared/xalloc.h>
 

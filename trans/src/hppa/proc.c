@@ -496,7 +496,7 @@ make_proc_tag_code(exp e, space sp, where dest, int exitlab)
 	untidy_return_label = 0;
 	return_to_label_label = 0;
 	last_odd_bit = 0;
-	doing_odd_bits = 0;
+	doing_odd_bits = false;
 
 	code_here(son(e), sp, nowhere);	/* Code body of procedure. */
 
@@ -510,7 +510,7 @@ make_proc_tag_code(exp e, space sp, where dest, int exitlab)
 		do_exception(SIGFPE);
 	}
 
-	doing_odd_bits = 1;
+	doing_odd_bits = true;
 	while (odd_bits != NULL) {
 		outofline *ol = odd_bits;
 		odd_bits = NULL;

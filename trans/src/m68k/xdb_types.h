@@ -19,7 +19,7 @@
 typedef unsigned long posn_t;
 
 typedef struct {
-    int is_lab;
+    bool is_lab;
     posn_t posn;
     long size;
 } table_posn;

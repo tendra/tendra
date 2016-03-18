@@ -44,7 +44,7 @@ extern exp copyexp(exp e);
 extern exp father(exp e);
 extern exp *refto(exp f, exp e);
 extern void retcell(exp e);
-extern int is_comm(exp e);
+extern bool is_comm(exp e);
 extern void set_large_alloc(void);
 
 extern int first_alloc_size;

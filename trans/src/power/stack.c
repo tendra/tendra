@@ -31,21 +31,21 @@ long p_frame_size=0;		/* total size of frame */
 long p_locals_offset=0;	/* where the locals live  */
 static long p_maxargbytes=0;	/* the largest size of the param area */
 long p_args_and_link_size=0;	/* used by alloca */
-bool p_has_fp=0;
+bool p_has_fp=false;
 
-bool p_leaf=0;
-bool p_has_back_chain=0;
-bool p_save_all_sregs=0;
-bool p_has_alloca=0;
-bool p_has_vcallees=0;
-bool p_has_no_vcallers=0;
+bool p_leaf=false;
+bool p_has_back_chain=false;
+bool p_save_all_sregs=false;
+bool p_has_alloca=false;
+bool p_has_vcallees=false;
+bool p_has_no_vcallers=false;
 
 long p_fixed_params=0;
 long p_float_params=0;
 long p_sreg_first_save=0;
 long p_sfreg_first_save=0;
 
-bool p_has_saved_sp=0;
+bool p_has_saved_sp=false;
 static long p_saved_sp_offset=0;
 int p_return_label=0; /* the number of the label which contains the return */
 ans p_result;

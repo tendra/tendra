@@ -9,6 +9,8 @@
 
 #include <assert.h>
 
+#include <shared/bool.h>
+
 #include <local/ash.h>
 
 #include <tdf/shape.h>

@@ -12,12 +12,12 @@
 
 #include <reader/exp.h>
 
-extern int take_out_of_line(exp first, exp alt, int in_repeat, double scale);
-extern int take_out_by_prob(exp first, exp alt);
+extern bool take_out_of_line(exp first, exp alt, int in_repeat, double scale);
+extern bool take_out_by_prob(exp first, exp alt);
 
-extern int is_maxop(exp x, exp *t);
-extern int is_minop(exp x, exp *t);
-extern int is_tester(exp e, int eq);
-extern int is_condassign(exp e, exp *to_test, exp *to_ass);
+extern bool is_maxop(exp x, exp *t);
+extern bool is_minop(exp x, exp *t);
+extern bool is_tester(exp e, int eq);
+extern bool is_condassign(exp e, exp *to_test, exp *to_ass);
 
 #endif

@@ -63,7 +63,7 @@
 #endif
 
 extern bool have_cond;
-extern int do_pic;
+extern bool do_pic;
 extern ast add_shape_to_stack(ash, shape);
 
 
@@ -166,7 +166,7 @@ bool reserved
     true to indicate that this special label has been used.
 */
 
-bool used_stack = 0;
+bool used_stack = false;
 long max_stack = 0;
 long stack_dec = 0;
 long stack_size = 0;

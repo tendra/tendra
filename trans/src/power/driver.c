@@ -56,14 +56,14 @@ init(void)
 	 * procs delivering structs recast to extra param
 	 * for call struct/union return convention
 	 */
-	redo_structfns = 1;
+	redo_structfns = true;
 
-	do_profile            = 0; /* Produce profiling info */
-	separate_units        = 0; /* Translate units separately */
-	all_variables_visible = 0; /* Set vis flag for all declarations */
-	strict_fl_div         = 1; /* Don't mult by 1/constant */
-	round_after_flop      = 1; /* Round every time */
-	trap_on_nil_contents  = 0;
+	do_profile            = false; /* Produce profiling info */
+	separate_units        = false; /* Translate units separately */
+	all_variables_visible = false; /* Set vis flag for all declarations */
+	strict_fl_div         = true;  /* Don't mult by 1/constant */
+	round_after_flop      = true; /* Round every time */
+	trap_on_nil_contents  = false;
 	target_dbl_maxexp     = 308;
 
 	/* set assembler id prefixes */

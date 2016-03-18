@@ -40,7 +40,7 @@
 #include "68k_globals.h"
 #include "localexpmacs.h"
 
-extern int is_comm(exp);
+extern bool is_comm(exp);
 extern char *get_pointer_name(void *);
 extern double atof(const char *);
 extern double frexp(double, int *);
@@ -54,7 +54,7 @@ extern double frexp(double, int *);
 #define  par3_pl 5 /* Caller arguments accessed by use of SP */
 #endif
 
-int convert_floats = 1;
+bool convert_floats = true;
 
 /*
  * Name of the constant being evaluated
@@ -111,9 +111,8 @@ eval_op(long sz, mach_op *op)
 
 /*
  * The expression e, is evaluated and the integer result is returned.
- * (from trans386)
  */
-extern int PIC_code;
+extern bool PIC_code;
 
 static long
 evalexp(exp e)

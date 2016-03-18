@@ -530,11 +530,11 @@ void simplest_set_lab
 void simple_set_label
 (int labno)
 {
-  cond1_set = 0;
-  cond2_set = 0;
+  cond1_set = false;
+  cond2_set = false;
   asm_label("%s%d", local_prefix, labno); /* the label no is held in the ptr field */
 /* Removed for experiments: improves compress?
-  keep_short = 1;
+  keep_short = true;
 */
 }
 
@@ -972,7 +972,7 @@ void caseins
   int tab;
   int absent;
   where a;
-  int need_label_flag=0;
+  bool need_label_flag = false;
   exp next= short_next_jump(case_exp);
   if (next != NULL && next->tag ==goto_tag)
   {
@@ -982,7 +982,7 @@ void caseins
   else
   {
     absent = (exhaustive)? -1 : next_lab();
-    need_label_flag=1;
+    need_label_flag = true;
   }
 
   tab = next_lab();
@@ -1000,7 +1000,7 @@ void caseins
   /* table of offsets */
   out_switch_table(tab, min, max, v, absent);
 
-  if (!exhaustive && need_label_flag==1) {
+  if (!exhaustive && need_label_flag) {
     /*  label for default of switch; continue here */
     asm_label("%s%d", local_prefix, absent);
 #ifdef DWARF2

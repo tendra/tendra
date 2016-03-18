@@ -296,7 +296,7 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 				new_context.toks[j].tdtoken     = (td->params.par_names)[j]; /* formal */
 				new_context.toks[j].valpresent  = true; /* the value is known */
 				new_context.toks[j].unit_number = crt_tagdef_unit_no;
-				new_context.toks[j].re_evaluate = 0; /* and does not need re-evaluating */
+				new_context.toks[j].re_evaluate = false; /* and does not need re-evaluating */
 				new_context.toks[j].params      = nil_params; /* it has no parameters itself */
 
 				/* XX008 */
@@ -320,8 +320,8 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 					crt_repeat = old_crt_repeat;
 				}
 
-				new_context.toks[j].defined     = 1; /* and say it is defined */
-				new_context.toks[j].tok_special = 0; /* and say it is not special */
+				new_context.toks[j].defined     = true;  /* and say it is defined */
+				new_context.toks[j].tok_special = false; /* and say it is not special */
 				new_context.toks[j].recursive   = (sn.code == SORT_TOKEN); /* and say it is not recursive for simple sorts */
 				new_context.toks[j].tok_context = crt_context;
 			}

@@ -925,11 +925,11 @@ scan(int sto, exp to, exp e, int usereg0)
 		indable_son(sto, to, e);
 		if ((cees->tag == make_dynamic_callee_tag && bro(son(cees))->tag != val_tag)
 		    || (cees->tag == same_callees_tag && callee_size < 0)) {
-			has_dy_callees = 1;
+			has_dy_callees = true;
 		}
 
 		if (cees->tag == same_callees_tag) {
-			has_same_callees = 1;
+			has_same_callees = true;
 		}
 
 		if (cees->tag == make_dynamic_callee_tag || cees->tag == same_callees_tag) {
@@ -941,7 +941,7 @@ scan(int sto, exp to, exp e, int usereg0)
 
 	case tail_call_tag: {
 		exp cees = bro(son(e));
-		has_tail_call = 1;
+		has_tail_call = true;
 
 		if (son(cees) != NULL) {
 			IGNORE cc(sto, to, 1, cees, no_alloca, 1, 0);
@@ -949,11 +949,11 @@ scan(int sto, exp to, exp e, int usereg0)
 
 		indable_son(sto, to, e);
 		if (cees->tag == make_dynamic_callee_tag && bro(son(cees))->tag != val_tag) {
-			has_dy_callees = 1;
+			has_dy_callees = true;
 		}
 
 		if (cees->tag == same_callees_tag) {
-			has_same_callees = 1;
+			has_same_callees = true;
 		}
 
 		if (cees->tag == make_dynamic_callee_tag) {
@@ -1091,7 +1091,7 @@ scan(int sto, exp to, exp e, int usereg0)
 		}
 
 		check_asm_seq(son(e), 0);
-		proc_has_asm = 1;
+		proc_has_asm = true;
 
 		return 0;
 

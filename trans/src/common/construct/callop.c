@@ -111,7 +111,7 @@ TDFcallop3(exp arg1, exp arg2, int n)
 	exp_list pars;
 	exp_option novar;
 	exp res;
-	novar.present = 0;
+	novar.present = false;
 	dc = find_named_tag(nm, f_proc);
 	ob = me_obtain(dc);
 	pars.number = 2;
@@ -137,7 +137,7 @@ TDFcallop2(error_treatment ov_err, exp arg1, exp arg2, int n)
 	exp_list pars;
 	exp_option novar;
 	exp res;
-	novar.present = 0;
+	novar.present = false;
 	dc = find_named_tag(nm, f_proc);
 	ob = me_obtain(dc);
 	pars.number = 2;
@@ -173,7 +173,7 @@ TDFcallop4(exp arg1, int n)
 	exp_list pars;
 	exp_option novar;
 	exp res;
-	novar.present = 0;
+	novar.present = false;
 	dc = find_named_tag(nm, f_proc);
 	ob = me_obtain(dc);
 	pars.number = 1;
@@ -222,7 +222,7 @@ TDFcallaux(error_treatment ov_err, exp arg1, char *nm, shape s)
 	exp_list pars;
 	exp_option novar;
 	exp res;
-	novar.present = 0;
+	novar.present = false;
 	dc = find_named_tag(nm, f_proc);
 	ob = me_obtain(dc);
 	pars.number = 1;

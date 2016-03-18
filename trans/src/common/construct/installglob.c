@@ -22,19 +22,20 @@ dec *top_def;
 dec **deflist_end = &top_def;
 aldef *top_aldef;	/* init in start_make_capsule */
 
-int has_alloca;
-int has_lv;
-int proc_is_recursive;
-int uses_crt_env;
-int must_use_bp;
-int has_setjmp;
-int uses_loc_address;
-int proc_struct_res;
+/* TODO: share with guts of proc_props perhaps */
+bool has_alloca;
+bool has_lv;
+bool proc_is_recursive;
+bool uses_crt_env;
+bool must_use_bp;
+bool has_setjmp;
+bool uses_loc_address;
+bool proc_struct_res;
 int proc_label_count;
 float default_freq;
-int proc_externs;
-int flpt_always_comparable = 1;
-int report_versions = 0;
+bool proc_externs;
+bool flpt_always_comparable = true;
+bool report_versions        = false;
 
 exp proc_struct_result;
 
@@ -42,10 +43,10 @@ version global_version;
 
 char *dynamic_init_proc = NULL;
 
-int in_proc_def = 0;				/* initial value for pushing */
+bool in_proc_def = false;				/* initial value for pushing */
 
 static aldef const_aldefs[6];
-int doing_aldefs;	/* cleared in start_make_capsule */
+bool doing_aldefs;	/* cleared in start_make_capsule */
 
 alignment const_al1 = &const_aldefs[0];
 alignment const_al8 = &const_aldefs[1];
@@ -59,4 +60,4 @@ int ptr_null = 0;
 int proc_null = 0;
 int lv_null = 0;
 
-int no_bss = 0;
+bool no_bss = false;

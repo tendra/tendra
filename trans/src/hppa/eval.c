@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <ctype.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 

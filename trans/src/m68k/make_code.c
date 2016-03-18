@@ -853,7 +853,7 @@ make_code(where dest, ash stack, exp e)
 #endif
 
 		if (dc.place == var_pl) {
-			used_stack = 1;
+			used_stack = true;
 		}
 
 		sz = dc.new_stack;
@@ -1717,7 +1717,7 @@ make_code(where dest, ash stack, exp e)
 		exp s = son(e);
 		where size_w;
 		bool allocation_done = 0;
-		used_stack = 1;
+		used_stack = true;
 
 		asm_comment("Allocate ...");
 
@@ -1812,7 +1812,7 @@ make_code(where dest, ash stack, exp e)
 	}
 
 	case local_free_all_tag:
-		must_use_bp = 1;
+		must_use_bp = true;
 		asm_comment("local_free_all ...");
 		reset_stack_pointer();
 

@@ -21,28 +21,28 @@ void clean_stack(void);
 void diag_arg(where dest, ash stack, exp e);
 #endif
 
-extern int remove_struct_ref;
+extern bool remove_struct_ref;
 extern int regsinuse;
 extern int min_rfree;
 extern int max_stack;
 extern int crt_ret_lab;
-extern int crt_ret_lab_used;
+extern bool crt_ret_lab_used;
 extern outofline *odd_bits;
 extern int last_odd_bit;
-extern int doing_odd_bits;
+extern bool doing_odd_bits;
 extern outofline *current_odd_bit;
 extern int repeat_level;
-extern int not_in_params;
-extern int not_in_postlude;
+extern bool not_in_params;
+extern bool not_in_postlude;
 extern int retjmp_count;
 extern float scale;
 extern exp crt_proc_exp;
 extern exp vc_pointer;
 extern int callee_size;
-extern int has_dy_callees;
-extern int has_tail_call;
-extern int has_same_callees;
-extern int need_preserve_stack;
-extern int proc_has_asm;
+extern bool has_dy_callees;
+extern bool has_tail_call;
+extern bool has_same_callees;
+extern bool need_preserve_stack;
+extern bool proc_has_asm;
 
 #endif /* CODER_H */

@@ -76,8 +76,8 @@ extern where pushdest;
 extern where cond1;
 extern where cond2a;
 extern where cond2b;
-extern int cond1_set;
-extern int cond2_set;
+extern bool cond1_set;
+extern bool cond2_set;
 
 void decstack(int longs);
 void callins(int longs, exp ind, int ret_stack_dec);

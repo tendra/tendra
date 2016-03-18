@@ -35,9 +35,9 @@ extern exp me_start_clearvar(shape idsh, shape initsh);
 extern exp me_complete_id(exp id, exp body);
 extern void note_repeat(exp r);
 extern alignment long_to_al(int n);
-extern int is_integer(shape s);
-extern int is_float(shape s);
-extern int is_complex(shape s);
+extern bool is_integer(shape s);
+extern bool is_float(shape s);
+extern bool is_complex(shape s);
 extern exp me_null(shape sha, int i, unsigned char nm);
 
 extern floating_variety float_to_complex_var(floating_variety f);

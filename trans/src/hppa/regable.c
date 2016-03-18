@@ -7,6 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/bool.h>
+
 #include <local/ash.h>
 
 #include <tdf/shape.h>
@@ -32,25 +34,25 @@ valregable(shape s)
 
 	n = s->tag;
 	if (is_floating(n)) {
-		return 0; /* floats don't go in fixed point registers */
+		return false; /* floats don't go in fixed point registers */
 	}
 
 	a = ashof(s) ;
 	if (a.ashsize > 32) {
 		/* too big for a 32 bit register */
-		return 0;
+		return false;
 	}
 
 	if (n == cpdhd || n == nofhd) {
 		/* Compound shapes are not put in registers */
-		return 0;
+		return false;
 	}
 
 	if (n == tophd) {
-		return 0;
+		return false;
 	}
 
-	return 1;
+	return true;
 }
 
 /*
@@ -66,7 +68,7 @@ fixregable(exp e)
 		return valregable(s);
 	}
 
-	return 0;
+	return false;
 }
 
 /*
@@ -80,16 +82,16 @@ floatregable(exp e)
 	{
 		shape s = sh(son(e));
 		if (!is_floating(s->tag)) {
-			return 0;
+			return false;
 		}
 
 		if ((has & HAS_LONG_DOUBLE) && shape_size(s) > 64) {
-			return 0;
+			return false;
 		}
 
-		return 1;
+		return true;
 	}
 
-	return 0;
+	return false;
 }
 

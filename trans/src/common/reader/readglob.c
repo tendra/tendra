@@ -88,17 +88,16 @@ int crt_tagdef_unit_no;
 int unit_index;
 /* number of current unit */
 
-int rep_make_proc = 1;  /* identify any make_procs not in make_id_tagdef*/
+bool rep_make_proc = true;  /* identify any make_procs not in make_id_tagdef*/
 
-int replace_arith_type = 0;	/* do not use C definitions of promote
-				   etc. */
+bool replace_arith_type = false;	/* do not use C definitions of promote etc. */
 
 char *crt_filename;
 
 capsule_frees *capsule_freelist = NULL;
 
-int newcode = 1;
+bool newcode = true;
 
 #ifdef TDF_DIAG4
-int within_diags = 0;	/* mark name_tag if it's not used for producing code */
+bool within_diags = false; /* mark name_tag if it's not used for producing code */
 #endif

@@ -30,7 +30,7 @@
 #include "comp_eq_exp.h"
 #include "oddtest.h"
 
-static int
+static bool
 oddunary(exp x, exp y, exp *v)
 {
   exp z;
@@ -46,11 +46,11 @@ oddunary(exp x, exp y, exp *v)
     if(!xC->last) goto flab0;
   }
  tlab1:
-  return 1; 
- flab0: return 0; 
+  return true; 
+ flab0: return false; 
 }	 
 
-int
+bool
 oddtest(exp x, exp *t, exp *f, exp *v)
 {
   exp l, z, g;
@@ -83,11 +83,11 @@ oddtest(exp x, exp *t, exp *f, exp *v)
     }
     if(!xC->last) goto flab0;
   }
-  return 1; 
-  flab0: return 0; 
+  return true; 
+  flab0: return false; 
 } 
 
-static int
+static bool
 is_maxlike(exp x, exp *t)
 {
   exp op1, op2, z, l, w;
@@ -129,12 +129,12 @@ is_maxlike(exp x, exp *t)
     }
     if(!xC->last) goto flab0;
   }
-  return 1; 
-  flab0: return 0; 
+  return true; 
+  flab0: return false; 
 } 
 
 
-static int
+static bool
 is_minlike(exp x, exp *t)
 {
   exp op1, op2, z, l, w;
@@ -176,14 +176,14 @@ is_minlike(exp x, exp *t)
     }
     if(!xC->last) goto flab0;
   }
-  return 1; 
-  flab0: return 0; 
+  return true; 
+  flab0: return false; 
 } 
 
 /* looks for things like
 	(a~0) ? a:-a
 */
-int
+bool
 is_abslike(exp x, exp *t)
 {
   exp op, l, z, w;
@@ -228,13 +228,13 @@ is_abslike(exp x, exp *t)
     }
     if(!xC->last) goto flab0;
   }
-  return 1; 
-  flab0: return 0; 
+  return true; 
+  flab0: return false; 
 } 
 
 
 
-int
+bool
 is_fabs(exp x, exp *t)
 {
   exp op, l, z, w;
@@ -279,7 +279,7 @@ is_fabs(exp x, exp *t)
     }
     if(!xC->last) goto flab0;
   }
-  return 1; 
-  flab0: return 0; 
+  return true; 
+  flab0: return false; 
 } 
 

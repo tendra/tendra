@@ -10,8 +10,8 @@
 
 #include <reader/exp.h>
 
-extern int oddtest(exp, exp *, exp *, exp *);
-extern int is_maxlike(exp, exp *);
-extern int is_minlike(exp, exp *);
-extern int is_abslike(exp, exp *);
-extern int is_fabs(exp, exp *);
+extern bool oddtest(exp, exp *, exp *, exp *);
+extern bool is_maxlike(exp, exp *);
+extern bool is_minlike(exp, exp *);
+extern bool is_abslike(exp, exp *);
+extern bool is_fabs(exp, exp *);

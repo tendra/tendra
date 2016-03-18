@@ -53,7 +53,7 @@
 
 extern where mfw(int, long *, int);
 
-extern int need_dummy_double;
+extern bool need_dummy_double;
 
 /*
  * Test for overflow.
@@ -67,7 +67,7 @@ test_float_overflow_reg(where freg, long sz)
    if (have_overflow()) {
       ins2(insf(sz, ml_fmove), sz, sz, freg, dummy_double_dest, 1);
       test_overflow(ON_FP_OVERFLOW);
-      need_dummy_double = 1;
+      need_dummy_double = true;
    }
 }
 
@@ -83,7 +83,7 @@ test_float_overflow(where freg, where dest, long sz)
    if (have_overflow()) {
       if (eq_where(dest, zero)) {
          ins2(insf(sz, ml_fmove), sz, sz, freg, dummy_double_dest, 1);
-         need_dummy_double = 1;
+         need_dummy_double = true;
       }
       test_overflow(ON_FP_OVERFLOW);
    }

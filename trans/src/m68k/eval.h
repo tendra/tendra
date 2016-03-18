@@ -12,7 +12,7 @@
 
 #include "mach.h"
 
-int convert_floats;
+bool convert_floats;
 
 exp const_list;
 long *realrep(exp);

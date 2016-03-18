@@ -10,7 +10,7 @@
 #ifndef ASSEMBLER_H
 #define ASSEMBLER_H
 
-extern int no_align_directives;
+extern bool no_align_directives;
 
 extern int asm_dotty_instrs;
 extern int asm_percent_regs;
