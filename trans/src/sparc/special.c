@@ -67,12 +67,6 @@ specno ( char * n )
 	return 5;
     }
 
-#if 0
-    /* Could be made special */
-    if ( streq( n, "strlen" ) ) return 2;
-    if ( streq( n, "strcmp" ) ) return -3;
-#endif
-
     return 0;
 }
 
@@ -117,43 +111,6 @@ needs
 specialneeds ( int i )
 {
     switch ( i ) {
-
-#if 0
-	case 1 : {
-	    /* The library strcpy contains a number of tricks, so this
-	       isn't really worthwhile */
-	    exp par1 = pars ;
-	    exp par2 = bro ( pars ) ;
-
-	    if ( par2->tag == eval_tag &&
-		 son ( par2 ) -> tag == pack_tag &&
-		 son ( son ( par2 ) ) -> tag == string_tag ) {
-		/* strcpy of constant string */
-		if ( no ( sh ( son ( son ( par2 ) ) ) ) > 7 ) {
-		    break ;
-		}
-
-		/* apply_tag into ass_tag */
-		 application->tag = ass_tag  ;
-
-		/* params of ass_tag as params of application */
-		son ( application ) = pars ;
-		bro ( bro ( pars ) ) = application ;	/* set father */
-
-		/* loose pack_tag */
-		son ( par2 ) = son ( son ( par2 ) ) ;
-		bro ( son ( par2 ) ) = par2 ;		/* set father */
-
-		/* shape of eval_tag from ptrhd to nofhd */
-		sh ( par2 ) = sh ( son ( par2 ) ) ;
-
-		return twofixneeds;
-	    }
-
-	    /* otherwise leave TDF so strcpy is called */
-	    return zeroneeds;
-	}
-#endif
 
 	case 4: return zeroneeds;	 /* asm */
 	case 5: return zeroneeds;	 /* alloca */

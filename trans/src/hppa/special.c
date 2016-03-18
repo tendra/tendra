@@ -68,14 +68,6 @@ specno(char * n)
   if (streq(n, "___builtin_alloca") || streq(n, "___TDF_builtin_alloca"))
     return 5;
 
-#if 0
-  /* +++ use special maybe */
-  if (streq(n, "strlen"))
-    return 2;
-  if (streq(n, "strcmp"))
-    return -3;
-#endif
-
   return 0;
 }
 
@@ -85,9 +77,6 @@ special_call_name(int i)
 {
   switch (i)
   {
-    case 1:
-    return "_strcpy";
-
   case 5:
     return "_alloca";
 
