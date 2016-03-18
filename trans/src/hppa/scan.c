@@ -77,7 +77,6 @@ static int stparam;  /* Size of parameter list in bits */
 static int fixparam; /* Next available place for param */
 static int fltparam;
 
-static int rscope_level = 0;
 static bool nonevis     = true;
 static int callerfortr;
 
@@ -1594,7 +1593,7 @@ scan(exp *e, exp **at)
 		exp *fnexp = &son(*e);
 		int parsize = 0;
 		needs nds;
-		bool tlrecpos = nonevis && callerfortr && (rscope_level == 0);
+		bool tlrecpos = nonevis && callerfortr;
 		int i;
 		bool notinreg = !((has & HAS_LONG_DOUBLE) ? (sh(application)->tag == shrealhd ||
 		                        sh(application)->tag == realhd)
@@ -1745,40 +1744,6 @@ scan(exp *e, exp **at)
 	case prof_tag:
 	case formal_callee_tag:
 		return zeroneeds;
-
-#if 0
-	case rscope_tag: {
-		needs sn;
-		exp *s = &son(*e);
-		exp lst;
-
-		rscope_level++;
-#if 0 /* only needed when OPTIM_TAIL is set */
-		IGNORE last_statement(son(*e), &lst);	/* always true */
-
-		if (lst->tag == res_tag) {
-			/* can remove res */
-			exp *pos = ptr_position(lst);
-			exp t;
-
-			bro(son(lst)) = bro(lst);
-			if (lst->last) {
-				son(lst)->last = true;
-			} else {
-				son(lst)->last = false;
-			}
-			*pos = son(lst);
-			for (t = father(*pos); sh(t)->tag == bothd; t = father(t)) {
-				sh(t) = sh(*pos);	/* adjust ancestors to correct shape */
-			}
-		}
-#endif
-
-		sn = scan(s, &s);
-		rscope_level--;
-		return sn;
-	}
-#endif
 
 	case set_stack_limit_tag:
 	case abs_tag:
@@ -2498,7 +2463,6 @@ mult_tag_case:
 		stparam = 0;
 		fixparam = ARG0;
 		nonevis = true;
-		rscope_level = 0;
 
 		bexp = &son(*e);
 		bat = bexp;

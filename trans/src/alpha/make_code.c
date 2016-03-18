@@ -93,8 +93,6 @@ bool fail_with_denormal_constant;
 bool treat_denorm_specially;
 
 static ans procans;
-static int rscope_level;
-static int rscope_label;
 static int result_label = 0;
 static long max_args;
 
@@ -3564,74 +3562,62 @@ tailrecurse:
 		}
 
 		clear_all ();		/* clear all register memories */
-		if (rscope_level == 0) {/* normal proc body */
-			if (son(e)->tag == apply_tag && props(e)) {
-				return mka;
+		if (son(e)->tag == apply_tag && props(e)) {
+			return mka;
+		}
+
+		/* was a tail recursion */
+		if (frame_size == 0 && !Has_fp) {
+			integer_jump(i_ret, 31, RA, 1);
+		}
+
+		if (result_label != 0) {
+			integer_branch(i_br, 31, result_label);
+			asm_comment("Return");
+		} else {
+			if ((fixdone | fltdone) == 0) {
+				result_label = new_label();
+				set_label(result_label);
 			}
 
-			/* was a tail recursion */
-			if (frame_size == 0 && !Has_fp) {
-				integer_jump(i_ret, 31, RA, 1);
-			}
+			if (Has_fp) {
+				baseoff b;
+				b.base = FP;
+				restore_sregs(fixdone, fltdone);
 
-			if (result_label != 0) {
-				integer_branch(i_br, 31, result_label);
-				asm_comment("Return");
-			} else {
-				if ((fixdone | fltdone) == 0) {
-					result_label = new_label();
-					set_label(result_label);
+				if (Has_vcallees) {
+					b.offset = -4 * (PTR_SZ >> 3) - arg_stack_space;
+					load_store(i_ldq, local_reg, b);
 				}
 
-				if (Has_fp) {
-					baseoff b;
-					b.base = FP;
-					restore_sregs(fixdone, fltdone);
-
-					if (Has_vcallees) {
-						b.offset = -4 * (PTR_SZ >> 3) - arg_stack_space;
-						load_store(i_ldq, local_reg, b);
-					}
-
-					b.offset = (in_general_proc) ? (-PTR_SZ >> 3) : (-arg_stack_space - (PTR_SZ >> 3));;
-					b.offset = (-arg_stack_space - (PTR_SZ >> 3));;
+				b.offset = (in_general_proc) ? (-PTR_SZ >> 3) : (-arg_stack_space - (PTR_SZ >> 3));;
+				b.offset = (-arg_stack_space - (PTR_SZ >> 3));;
 #if 0
-					if (arg_stack_space && in_general_proc && e->tag == res_tag) {
-						operate_fmt_immediate(i_addq, FP, arg_stack_space, SP);
-					}
-
-					else
-#endif
-					if (e->tag == res_tag) {
-						operate_fmt(i_bis, FP, FP, SP);
-					}
-					load_store(i_ldq, FP, b);
-				} else {
-					baseoff a;
-					restore_sregs(fixdone, fltdone);
-					/* restore dumped value of s-regs on entry */
-					a.base = SP;
-					a.offset = (callee_size + frame_size) >> 3;
-
-					if (a.offset != 0 && e->tag == res_tag) {
-						load_store(i_lda, SP, a);
-					}
-
-					/* reset stack ptr */
+				if (arg_stack_space && in_general_proc && e->tag == res_tag) {
+					operate_fmt_immediate(i_addq, FP, arg_stack_space, SP);
 				}
 
-				integer_jump(i_ret, 31, RA, 1);
-			}
-		} else {			/* inlined result */
-			if (rscope_label == 0) {
-				rscope_label = new_label();
+				else
+#endif
+				if (e->tag == res_tag) {
+					operate_fmt(i_bis, FP, FP, SP);
+				}
+				load_store(i_ldq, FP, b);
+			} else {
+				baseoff a;
+				restore_sregs(fixdone, fltdone);
+				/* restore dumped value of s-regs on entry */
+				a.base = SP;
+				a.offset = (callee_size + frame_size) >> 3;
+
+				if (a.offset != 0 && e->tag == res_tag) {
+					load_store(i_lda, SP, a);
+				}
+
+				/* reset stack ptr */
 			}
 
-			if (rscope_label != exitlab) {
-				integer_branch(i_br, 31, rscope_label);
-				/*
-				  uncond_ins (i_b, rscope_label);*/
-			}
+			integer_jump(i_ret, 31, RA, 1);
 		}
 
 		sizecallers = 0;

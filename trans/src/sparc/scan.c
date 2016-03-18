@@ -69,7 +69,6 @@ extern prop notbranch[];
 static int stparam ;	/* Size of parameter list in bits */
 static int fixparam ;	/* Next available place for param */
 
-static int rscope_level = 0 ;
 static bool nonevis     = true ;
 static bool specialext ;	/* for PIC_code, special globals require proc_uses_external */
 static int callerfortr ;
@@ -1647,7 +1646,7 @@ scan ( exp * e, exp ** at )
 		exp fn = son ( appl ) ;
 		exp *par = &bro ( fn ) ;
 		exp *fnexp = &son ( appl ) ;
-		bool tlrecpos = nonevis && callerfortr && ( rscope_level == 0 ) ;
+		bool tlrecpos = nonevis && callerfortr ;
 
 		nds = scan ( fnexp, at ) ;
 		/* scan the function exp ... */
@@ -1749,7 +1748,7 @@ scan ( exp * e, exp ** at )
 		int parsize = 0 ;
 		exp mv = *e ;
 		exp *par = &son ( mv ) ;
-		bool tlrecpos = ( nonevis && callerfortr && ( rscope_level == 0 ) ) ;
+		bool tlrecpos = nonevis && callerfortr ;
 		nds = zeroneeds;
 
 		for ( i = 1 ; i <= 3 ; ++i ) {
@@ -1847,41 +1846,6 @@ scan ( exp * e, exp ** at )
 		}
 	}
 
-#if 0
-	case rscope_tag: {
-		needs sn ;
-		exp *s = &son ( *e ) ;
-#if 0
-		exp lst ;
-#endif
-		rscope_level++ ;
-#if 0
-		/* only needed when OPTIM_TAIL is set */
-		( void ) last_statement ( son ( *e ), &lst ) ; /* always true */
-		if ( lst->tag == res_tag ) {
-			/* can remove res */
-			exp *pos = ptr_position ( lst ) ;
-			exp t ;
-
-			bro ( son ( lst ) ) = bro ( lst ) ;
-			if ( lst -> last ) {
-				son ( lst ) ->last = true ;
-			} else {
-				son ( lst ) ->last = false ;
-			}
-			*pos = son ( lst ) ;
-			for ( t = father ( *pos ) ; sh ( t ) -> tag == bothd ;
-			      t = father ( t ) ) {
-				/* adjust ancestors to correct shape */
-				sh ( t ) = sh ( *pos ) ;
-			}
-		}
-#endif
-		sn = scan ( s, &s ) ;
-		rscope_level-- ;
-		return sn;
-	}
-#endif
 	case set_stack_limit_tag: {
 		exp *arg = &son ( *e ) ;
 		specialext = 1;
@@ -2527,7 +2491,6 @@ mult_tag_case:
 		fixparam = R_I0 ;
 		nonevis = true ;
 		specialext = proc_has_checkstack(*e);
-		rscope_level = 0 ;
 		gen_call = (stare->tag == general_proc_tag);
 		v_proc = proc_has_vcallees(*e);
 		callee_size = 0;

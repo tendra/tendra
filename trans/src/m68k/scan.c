@@ -596,9 +596,6 @@ scan(bool sto, exp to, exp e)
 	case cond_tag:
 	case rep_tag:
 	case compound_tag:
-#ifdef rscope_tag
-	case rscope_tag:
-#endif
 	case solve_tag:
 	case concatnof_tag:
 	case nof_tag:

@@ -71,7 +71,6 @@ static int stparam, fixparam, floatparam;
 
 extern long notbranch[6];
 
-static int rscope_level = 0;
 static bool nonevis     = true;
 static int callerfortr;
 
@@ -1764,7 +1763,7 @@ scan(exp *e, exp **at)
 		exp *fnexp = &son(*e);
 		int parsize = 0;
 		needs nds;
-		bool tlrecpos = nonevis && callerfortr && (rscope_level == 0);
+		bool tlrecpos = nonevis && callerfortr;
 		int i;
 
 		if (endian == ENDIAN_BIG && !fn->last) {
@@ -2676,7 +2675,6 @@ scan(exp *e, exp **at)
 		fixparam = 4;
 		floatparam = 6;
 		nonevis = true;
-		rscope_level = 0;
 
 		bexp = & son(*e);
 		bat = bexp;

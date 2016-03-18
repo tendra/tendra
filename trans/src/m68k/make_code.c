@@ -454,13 +454,6 @@ alloc_variable(exp e, exp def, ash stack)
 }
 
 /*
- * These variables are used for the scope and destination of inlined
- * procedures.
- */
-static exp crt_rscope;
-static where rscope_dest;
-
-/*
  * The solve statement with starter s, labelled statements l, destination
  * dest and default jump jr is processed.
  */
@@ -1826,122 +1819,73 @@ make_code(where dest, ash stack, exp e)
 #ifndef tdf3
 	case untidy_return_tag:
 #endif
-	case res_tag:
+	case res_tag: {
+		shape rsha;
+
 		/* Procedure results */
 		have_cond = 0;
 
-		/* Has the procedure been inlined? */
-		if (crt_rscope == 0) {
+		rsha = sh(son(e));
 
-			/* Non-inlined procedures */
-			shape rsha = sh(son(e));
-
-			/* Does the result go into a register? */
-			if (reg_result(rsha)) {
-				if (shape_size(rsha) <= 32) {
-					/* Small register results go into D0 */
-					make_code(D0, stack, son(e));
-				} else {
-#ifdef SYSV_ABI
-					make_code(FP0, stack, son(e));
-#else
-					/*
-					 * Larger register results go into D0
-					 * and D1.
-					 */
-					make_code(D0_D1, stack, son(e));
-					regsinproc |= regmsk(REG_D1);
-#endif
-				}
-
-				/* Jump to the return label */
-				if (rsha->tag != bothd) {
-#ifndef tdf3
-					if (e->tag == untidy_return_tag) {
-						untidy_return();
-					} else
-#endif
-						make_jump(m_bra, crt_ret_lab);
-				}
-
-				return;
-			}
-
-			/*
-			 * Otherwise the result has to be encoded into the
-			 * position pointed to by A1 at the start of the
-			 * procedure. This value was stored in A6_4. The value
-			 * of this pointer is returned in D0.
-			 */
-			if (son(e)->tag == apply_tag ||
-			    son(e)->tag == apply_general_tag) {
-				make_code(A6_4_p, stack, son(e));
+		/* Does the result go into a register? */
+		if (reg_result(rsha)) {
+			if (shape_size(rsha) <= 32) {
+				/* Small register results go into D0 */
+				make_code(D0, stack, son(e));
 			} else {
-				codec(A6_4_p, stack, son(e));
+#ifdef SYSV_ABI
+				make_code(FP0, stack, son(e));
+#else
+				/*
+				 * Larger register results go into D0
+				 * and D1.
+				 */
+				make_code(D0_D1, stack, son(e));
+				regsinproc |= regmsk(REG_D1);
+#endif
 			}
 
+			/* Jump to the return label */
+			if (rsha->tag != bothd) {
+#ifndef tdf3
+				if (e->tag == untidy_return_tag) {
+					untidy_return();
+				} else
+#endif
+					make_jump(m_bra, crt_ret_lab);
+			}
+
+			return;
+		}
+
+		/*
+		 * Otherwise the result has to be encoded into the
+		 * position pointed to by A1 at the start of the
+		 * procedure. This value was stored in A6_4. The value
+		 * of this pointer is returned in D0.
+		 */
+		if (son(e)->tag == apply_tag ||
+			son(e)->tag == apply_general_tag) {
+			make_code(A6_4_p, stack, son(e));
+		} else {
+			codec(A6_4_p, stack, son(e));
+		}
+
 #ifdef SYSV_ABI
-			move(slongsh, A6_4, A1);
+		move(slongsh, A6_4, A1);
 #else
-			move(slongsh, A6_4, D0);
+		move(slongsh, A6_4, D0);
 #endif
 
-			regsinproc |= regmsk(REG_A1);
+		regsinproc |= regmsk(REG_A1);
 #ifndef tdf3
-			if (e->tag == untidy_return_tag) {
-				untidy_return();
-			} else
+		if (e->tag == untidy_return_tag) {
+			untidy_return();
+		} else
 #endif
-				make_jump(m_bra, crt_ret_lab);
-			return;
-		} else {
-			/*
-			 * For inlined procedures, the result goes into
-			 * rscope_dest and a jump is made to crt_rscope.
-			 */
-			make_code(rscope_dest, stack, son(e));
-#ifndef tdf3
-			if (e->tag == untidy_return_tag) {
-				untidy_return();
-			} else
-#endif
-				make_jump(m_bra, ptno(crt_rscope));
-			return;
-		}
-
-#ifdef rscope_tag
-	case rscope_tag: {
-		/* Procedure scopes */
-		exp record;
-		where old_rscope_dest;
-		exp old_rscope = crt_rscope;
-		old_rscope_dest = rscope_dest;
-
-		/* Check for inlined procedures */
-		if (e->last &&
-		    (bro(e)->tag == proc_tag ||
-		     bro(e)->tag == general_proc_tag)) {
-			/* Non-inlined procedures are simple */
-			crt_rscope = 0;
-			make_code(zero, stack, son(e));
-		} else {
-			/* This is an inlined procedure */
-			long lb = next_lab();
-			record = simple_exp(0);
-			ptno(record) = lb;
-			crt_rscope = record;
-			rscope_dest = dest;
-			make_code(zero, stack, son(e));
-			make_label(lb);
-			retcell(record);
-		}
-
-		/* Restore the previous scopes */
-		rscope_dest = old_rscope_dest;
-		crt_rscope = old_rscope;
+			make_jump(m_bra, crt_ret_lab);
 		return;
 	}
-#endif
 
 	case solve_tag: {
 		/* Solve statements */

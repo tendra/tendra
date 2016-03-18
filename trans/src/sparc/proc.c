@@ -525,7 +525,6 @@ make_proc_tag_code(exp e, space sp, where dest, int exitlab)
 		setregalt(proc_state.procans, R_G0);
 	}
 
-	proc_state.rscope_level = 0;
 	proc_state.result_label = 0;
 
 	/* code for body of proc */
@@ -591,7 +590,6 @@ make_res_tag_code(exp e, space sp, where dest, int exitlab)
 	w.answhere = proc_state.procans;
 	w.ashwhere = ashof(sh(son(e)));
 	IGNORE code_here(son(e), sp, w);
-	assert(proc_state.rscope_level == 0);
 	/* procedure return */
 
 	switch (discrim(w.answhere)) {
@@ -731,7 +729,7 @@ make_apply_tag_code(exp e, space sp, where dest, int exitlab)
 	makeans mka;
 
 	exp dad = father(e);
-	bool tlrecurse = proc_state.rscope_level == 0 && dad->tag == res_tag && props(dad);
+	bool tlrecurse = dad->tag == res_tag && props(dad);
 
 	nsp = sp;
 
@@ -1223,7 +1221,7 @@ make_apply_general_tag_code(exp e, space sp, where dest, int exitlab)
 	int guarded_dest_reg = R_NO_REG; /* reg used to address tuple result */
 	makeans mka;
 	exp dad = father(e);
-	bool tlrecurse = proc_state.rscope_level == 0 && dad->tag == res_tag && props(dad);
+	bool tlrecurse = dad->tag == res_tag && props(dad);
 	bool trad_call = 0;
 	ansash = ashof(sh(e));
 	nsp = sp;

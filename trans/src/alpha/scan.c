@@ -70,7 +70,6 @@ extern alignment long_to_al(int);
 
 extern long notbranch[6];
 
-static int rscope_level = 0;
 static bool nonevis     = true;
 static int callerfortr;
 
@@ -1461,7 +1460,7 @@ scan(exp *e, exp **at)
 		exp *fnexp  = &son(*e);
 		int parsize = 0;
 		needs nds;
-		bool tlrecpos = nonevis && callerfortr && (rscope_level == 0);
+		bool tlrecpos = nonevis && callerfortr;
 		int i;
 
 		nds = scan(fnexp, at);
@@ -2193,7 +2192,6 @@ scan(exp *e, exp **at)
 		fixparam = 16;
 		floatparam = 16;
 		nonevis = true;
-		rscope_level = 0;
 		numparams = 0;
 		callee_size = 0;
 		gen_call = (stare->tag == general_proc_tag);

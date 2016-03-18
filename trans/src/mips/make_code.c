@@ -81,8 +81,6 @@ extern  procrec * procrecs;
 long  fscopefile;
 
 static ans procans;
-static int rscope_level;
-static int rscope_label;
 static int result_label = 0;
 static long max_args;
 
@@ -1006,7 +1004,7 @@ tailrecurse:
 				int l = (fl != 0) ? fl : ((exitlab != 0) ? exitlab : new_label());
 
 				/* Alteration 4 */
-				if (sh(first)->tag != bothd || l == rscope_label) {
+				if (sh(first)->tag != bothd) {
 					uncond_ins(i_b, l);
 				}
 
@@ -2178,7 +2176,7 @@ tailrecurse:
 		exp par = bro(fn);
 		exp list = par;
 		exp dad = father(e);
-		bool tlrecurse = rscope_level == 0 && (dad->tag == res_tag) && props(dad);
+		bool tlrecurse = dad->tag == res_tag && props(dad);
 		int hda = sh(e)->tag;
 		int disp;
 
@@ -2301,65 +2299,54 @@ tailrecurse:
 
 		clear_all(); /* clear all register memories */
 
-		if (rscope_level == 0) {/* normal proc body */
-			if (son(e)->tag == apply_tag && props(e)) {
-				return mka;
-			}
+		if (son(e)->tag == apply_tag && props(e)) {
+			return mka;
+		}
 
-			/* was a tail recursion */
-			if (frame_size == 0
-			    && !Has_fp) {
-				uncond_ins(i_j, 31);
-			} else if (result_label != 0 && e->tag == res_tag) {
-				uncond_ins(i_b, result_label);
-				if (as_file) {
-					asm_printf( " # Return\n");
-				}
-			} else {
-				if ((fixdone | fltdone) == 0) {
-					result_label = new_label();
-					set_label(result_label);
-				}
-
-				if (Has_fp) {
-					baseoff b;
-					b.base = 30;
-					restore_sregs(fixdone, fltdone);
-					if (Has_vcallees) {
-						b.offset = -16;
-						ls_ins(i_lw, local_reg, b);
-					}
-
-					b.offset = -4;
-					if (e->tag == res_tag) {
-						mon_ins(i_move, 29, 30);
-					}
-
-					ls_ins(i_lw, 30, b);
-				} else {
-					restore_sregs(fixdone, fltdone);
-					/* restore dumped value of s-regs on entry */
-					if (frame_size != 0 && e->tag == res_tag) {
-						rri_ins(i_addu, 29, 29, frame_size >> 3);
-					}
-
-					/* reset stack ptr */
-				}
-
-				if (diagPIClab != 0) {
-					uncond_ins(i_b, diagPIClab);
-				} else {
-					uncond_ins(i_j, 31);
-				}
+		/* was a tail recursion */
+		if (frame_size == 0
+		    && !Has_fp) {
+			uncond_ins(i_j, 31);
+		} else if (result_label != 0 && e->tag == res_tag) {
+			uncond_ins(i_b, result_label);
+			if (as_file) {
+				asm_printf( " # Return\n");
 			}
 		} else {
-			/* inlined result */
-			if (rscope_label == 0) {
-				rscope_label = new_label();
+			if ((fixdone | fltdone) == 0) {
+				result_label = new_label();
+				set_label(result_label);
 			}
 
-			if (rscope_label != exitlab) {
-				uncond_ins(i_b, rscope_label);
+			if (Has_fp) {
+				baseoff b;
+				b.base = 30;
+				restore_sregs(fixdone, fltdone);
+				if (Has_vcallees) {
+					b.offset = -16;
+					ls_ins(i_lw, local_reg, b);
+				}
+
+				b.offset = -4;
+				if (e->tag == res_tag) {
+					mon_ins(i_move, 29, 30);
+				}
+
+				ls_ins(i_lw, 30, b);
+			} else {
+				restore_sregs(fixdone, fltdone);
+				/* restore dumped value of s-regs on entry */
+				if (frame_size != 0 && e->tag == res_tag) {
+					rri_ins(i_addu, 29, 29, frame_size >> 3);
+				}
+
+				/* reset stack ptr */
+			}
+
+			if (diagPIClab != 0) {
+				uncond_ins(i_b, diagPIClab);
+			} else {
+				uncond_ins(i_j, 31);
 			}
 		}
 
@@ -2372,53 +2359,6 @@ tailrecurse:
 		diag3_driver->output_end_scope(dno(e), e);
 
 		return mka;
-
-	/*
-	removed in version 3.0
-	case rscope_tag: {
-
-	  ans old_procans;
-	  int   old_rscope_label = rscope_label;
-	  if (dest.answhere.discrim == insomereg) {
-
-	    int  *sr = someregalt (dest.answhere);
-	    if (*sr != -1) {
-	      error(ERR_INTERNAL, "Somereg *2");
-	    }
-	    *sr = getreg (sp.fixed);
-	    setregalt (dest.answhere, *sr);
-	  } else if (dest.answhere.discrim == insomefreg) {
-	       somefreg sfr;
-	       freg fr;
-	       sfr = somefregalt(dest.answhere);
-	       if (*sfr.fr != -1) { error(ERR_INTERNAL, "Somefreg *2"); }
-	       *sfr.fr = getfreg(sp.flt);
-	       fr.fr = *sfr.fr;
-	       fr.dble = sfr.dble;
-	       setfregalt(dest.answhere, fr);
-	  }
-
-	  rscope_level++;
-	  old_procans = procans;
-	  procans = dest.answhere;
-	  rscope_label =  exitlab;
-
-	  if (as_file) asm_printf( " # start inlined proc\n");
-	  mka = make_code (son (e), sp, dest, rscope_label);
-	  if (as_file) asm_printf( " # end inlined proc\n");
-
-	  if (mka.lab != 0 && mka.lab != rscope_label) {
-	  	set_label(mka.lab);
-	  }
-
-	  mka.lab = rscope_label;
-	  mka.regmove = NOREG;
-	  rscope_level--;
-	  procans = old_procans;
-	  rscope_label = old_rscope_label;
-	  return mka;
-	}
-	*/
 
 	case solve_tag: {
 		exp m = bro(son(e));
@@ -4218,7 +4158,6 @@ found:
 			setregalt(procans, 0);
 		}
 
-		rscope_level = 0;
 		result_label = 0;
 		aritherr_lab = 0;
 

@@ -21,8 +21,6 @@ struct proc_state {
     ans procans;
     bool leaf;
     baseoff mem_temp0;
-    int rscope_level;
-    int rscope_label;
     int result_label;
     long callees_offset;
     long params_offset;
@@ -37,7 +35,6 @@ struct proc_state {
 extern struct proc_state proc_state;
 extern baseoff mem_temp(int);
 extern makeans make_proc_tag_code(exp, space, where, int);
-extern makeans make_rscope_tag_code(exp, space, where, int);
 extern makeans make_res_tag_code(exp, space, where, int);
 extern makeans make_apply_tag_code(exp, space, where, int);
 extern void restore_sregs(void);
