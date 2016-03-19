@@ -4344,7 +4344,7 @@ refactor(exp e, exp scope)
 
 		if (has & HAS_MAXMIN) {
 			exp t;
-			int bl = is_maxop(e, &t);
+			int bl = is_maxlike(e, &t);
 			int ismax = 0;
 			int ismin = 0;
 			ntest nt;
@@ -4360,7 +4360,7 @@ refactor(exp e, exp scope)
 					ismin = 1;
 				}
 			} else {
-				bl = is_minop(e, &t);
+				bl = is_minlike(e, &t);
 				if (bl) {
 					nt = test_number(t);
 					if (nt == f_greater_than ||

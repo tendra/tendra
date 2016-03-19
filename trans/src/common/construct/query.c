@@ -40,7 +40,7 @@ is_tester(exp e, int eq)
 	puts test in t - can make use of delay-slot
 */
 bool
-is_maxop(exp x, exp *t)
+is_maxlike(exp x, exp *t)
 {
 	exp op1, op2, z, l, w;
 	if (x->tag != cond_tag) {
@@ -131,7 +131,7 @@ flab0:
 	puts test in t - can make use of delay-slot
 */
 bool
-is_minop(exp x, exp *t)
+is_minlike(exp x, exp *t)
 {
 	exp op1, op2, z, l, w;
 	if (x->tag != cond_tag) {
@@ -216,6 +216,106 @@ flab0:
 	return false;
 }
 
+/* looks for things like
+	(a~0) ? a:-a
+*/
+bool
+is_abslike(exp x, exp *t)
+{
+  exp op, l, z, w;
+  if (x->tag != cond_tag) goto flab0;
+  { exp xC = son(x);
+    if (xC->tag != seq_tag) goto flab0;
+    { exp xCC = son(xC);
+      { exp xCCC = son(xCC);
+        *t = xCCC;
+        if (xCCC->tag != test_tag) goto flab0;
+        l=pt(*t);
+        { exp xCCCC = son(xCCC);
+          op = xCCCC;
+          if (xCCCC->last) goto flab0;
+          xCCCC = bro(xCCCC);
+          if (xCCCC->tag != val_tag || no(xCCCC) != 0) goto flab0;
+          if(!xCCCC->last) goto flab0;
+        }
+        if(!xCCC->last) goto flab0;
+      }
+      if (xCC->last) goto flab0;
+      xCC = bro(xCC);
+      z = xCC;
+      if (!(comp_eq_exp(z, op,NULL,NULL))) goto flab0;
+      if(!xCC->last) goto flab0;
+    }
+    if (xC->last) goto flab0;
+    xC = bro(xC);
+    if (l != xC) goto flab0;
+    { exp xCC = son(xC);
+      z = xCC;
+      if (!(no(z)==1)) goto flab0;
+      if (xCC->last) goto flab0;
+      xCC = bro(xCC);
+      if (xCC->tag != neg_tag) goto flab0;
+      { exp xCCC = son(xCC);
+        w = xCCC;
+        if (!(comp_eq_exp(op, w,NULL,NULL))) goto flab0;
+        if(!xCCC->last) goto flab0;
+      }
+      if(!xCC->last) goto flab0;
+    }
+    if(!xC->last) goto flab0;
+  }
+  return true;
+  flab0: return false;
+}
+
+bool
+is_fabslike(exp x, exp *t)
+{
+  exp op, l, z, w;
+  if (x->tag != cond_tag) goto flab0;
+  { exp xC = son(x);
+    if (xC->tag != seq_tag) goto flab0;
+    { exp xCC = son(xC);
+      { exp xCCC = son(xCC);
+        *t = xCCC;
+        if (xCCC->tag != test_tag) goto flab0;
+        l=pt(*t);
+        { exp xCCCC = son(xCCC);
+          op = xCCCC;
+          if (xCCCC->last) goto flab0;
+          xCCCC = bro(xCCCC);
+          if (xCCCC->tag != val_tag || no(xCCCC) != 0) goto flab0;
+          if(!xCCCC->last) goto flab0;
+        }
+        if(!xCCC->last) goto flab0;
+      }
+      if (xCC->last) goto flab0;
+      xCC = bro(xCC);
+      z = xCC;
+      if (!(eq_exp(z, op))) goto flab0;
+      if(!xCC->last) goto flab0;
+    }
+    if (xC->last) goto flab0;
+    xC = bro(xC);
+    if (l != xC) goto flab0;
+    { exp xCC = son(xC);
+      z = xCC;
+      if (!(no(z)==1)) goto flab0;
+      if (xCC->last) goto flab0;
+      xCC = bro(xCC);
+      if (xCC->tag != fneg_tag) goto flab0;
+      { exp xCCC = son(xCC);
+        w = xCCC;
+        if (!(eq_exp(op, w))) goto flab0;
+        if(!xCCC->last) goto flab0;
+      }
+      if(!xCC->last) goto flab0;
+    }
+    if(!xC->last) goto flab0;
+  }
+  return true;
+  flab0: return false;
+}
 
 bool
 is_condassign(exp e, exp *to_test, exp *to_ass)
@@ -372,203 +472,3 @@ oddtest(exp x, exp *t, exp *f, exp *v)
   flab0: return false;
 }
 
-/* looks for things like
-	(a ~ b) ? a: b
-	puts test in t - can make use of delay-slot
-*/
-bool
-is_maxlike(exp x, exp *t)
-{
-  exp op1, op2, z, l, w;
-  if (x->tag != cond_tag) goto flab0;
-  { exp xC = son(x);
-    if (xC->tag != seq_tag) goto flab0;
-    { exp xCC = son(xC);
-      { exp xCCC = son(xCC);
-        *t = xCCC;
-        if (xCCC->tag != test_tag) goto flab0;
-        l=pt(*t);
-        { exp xCCCC = son(xCCC);
-          op1 = xCCCC;
-          if (!(!is_floating(sh(op1)->tag))) goto flab0;
-          if (xCCCC->last) goto flab0;
-          xCCCC = bro(xCCCC);
-          op2 = xCCCC;
-          if(!xCCCC->last) goto flab0;
-        }
-        if(!xCCC->last) goto flab0;
-      }
-      if (xCC->last) goto flab0;
-      xCC = bro(xCC);
-      z = xCC;
-      if (!(comp_eq_exp(z, op1, NULL,NULL))) goto flab0;
-      if(!xCC->last) goto flab0;
-    }
-    if (xC->last) goto flab0;
-    xC = bro(xC);
-    if (l != xC) goto flab0;
-    { exp xCC = son(xC);
-      z = xCC;
-      if (!(no(z)==1)) goto flab0;
-      if (xCC->last) goto flab0;
-      xCC = bro(xCC);
-      w = xCC;
-      if (!(comp_eq_exp(w, op2,NULL,NULL))) goto flab0;
-      if(!xCC->last) goto flab0;
-    }
-    if(!xC->last) goto flab0;
-  }
-  return true;
-  flab0: return false;
-}
-
-/* looks for things like
-	(a ~ b) ? b: a
-	puts test in t - can make use of delay-slot
-*/
-bool
-is_minlike(exp x, exp *t)
-{
-  exp op1, op2, z, l, w;
-  if (x->tag != cond_tag) goto flab0;
-  { exp xC = son(x);
-    if (xC->tag != seq_tag) goto flab0;
-    { exp xCC = son(xC);
-      { exp xCCC = son(xCC);
-        *t = xCCC;
-        if (xCCC->tag != test_tag) goto flab0;
-        l=pt(*t);
-        { exp xCCCC = son(xCCC);
-          op1 = xCCCC;
-          if (!(!is_floating(sh(op1)->tag))) goto flab0;
-          if (xCCCC->last) goto flab0;
-          xCCCC = bro(xCCCC);
-          op2 = xCCCC;
-          if(!xCCCC->last) goto flab0;
-        }
-        if(!xCCC->last) goto flab0;
-      }
-      if (xCC->last) goto flab0;
-      xCC = bro(xCC);
-      z = xCC;
-      if (!(comp_eq_exp(z, op2,NULL,NULL))) goto flab0;
-      if(!xCC->last) goto flab0;
-    }
-    if (xC->last) goto flab0;
-    xC = bro(xC);
-    if (l != xC) goto flab0;
-    { exp xCC = son(xC);
-      z = xCC;
-      if (!(no(z)==1)) goto flab0;
-      if (xCC->last) goto flab0;
-      xCC = bro(xCC);
-      w = xCC;
-      if (!(comp_eq_exp(w, op1,NULL,NULL))) goto flab0;
-      if(!xCC->last) goto flab0;
-    }
-    if(!xC->last) goto flab0;
-  }
-  return true;
-  flab0: return false;
-}
-
-/* looks for things like
-	(a~0) ? a:-a
-*/
-bool
-is_abslike(exp x, exp *t)
-{
-  exp op, l, z, w;
-  if (x->tag != cond_tag) goto flab0;
-  { exp xC = son(x);
-    if (xC->tag != seq_tag) goto flab0;
-    { exp xCC = son(xC);
-      { exp xCCC = son(xCC);
-        *t = xCCC;
-        if (xCCC->tag != test_tag) goto flab0;
-        l=pt(*t);
-        { exp xCCCC = son(xCCC);
-          op = xCCCC;
-          if (xCCCC->last) goto flab0;
-          xCCCC = bro(xCCCC);
-          if (xCCCC->tag != val_tag || no(xCCCC) != 0) goto flab0;
-          if(!xCCCC->last) goto flab0;
-        }
-        if(!xCCC->last) goto flab0;
-      }
-      if (xCC->last) goto flab0;
-      xCC = bro(xCC);
-      z = xCC;
-      if (!(comp_eq_exp(z, op,NULL,NULL))) goto flab0;
-      if(!xCC->last) goto flab0;
-    }
-    if (xC->last) goto flab0;
-    xC = bro(xC);
-    if (l != xC) goto flab0;
-    { exp xCC = son(xC);
-      z = xCC;
-      if (!(no(z)==1)) goto flab0;
-      if (xCC->last) goto flab0;
-      xCC = bro(xCC);
-      if (xCC->tag != neg_tag) goto flab0;
-      { exp xCCC = son(xCC);
-        w = xCCC;
-        if (!(comp_eq_exp(op, w,NULL,NULL))) goto flab0;
-        if(!xCCC->last) goto flab0;
-      }
-      if(!xCC->last) goto flab0;
-    }
-    if(!xC->last) goto flab0;
-  }
-  return true;
-  flab0: return false;
-}
-
-bool
-is_fabs(exp x, exp *t)
-{
-  exp op, l, z, w;
-  if (x->tag != cond_tag) goto flab0;
-  { exp xC = son(x);
-    if (xC->tag != seq_tag) goto flab0;
-    { exp xCC = son(xC);
-      { exp xCCC = son(xCC);
-        *t = xCCC;
-        if (xCCC->tag != test_tag) goto flab0;
-        l=pt(*t);
-        { exp xCCCC = son(xCCC);
-          op = xCCCC;
-          if (xCCCC->last) goto flab0;
-          xCCCC = bro(xCCCC);
-          if (xCCCC->tag != val_tag || no(xCCCC) != 0) goto flab0;
-          if(!xCCCC->last) goto flab0;
-        }
-        if(!xCCC->last) goto flab0;
-      }
-      if (xCC->last) goto flab0;
-      xCC = bro(xCC);
-      z = xCC;
-      if (!(eq_exp(z, op))) goto flab0;
-      if(!xCC->last) goto flab0;
-    }
-    if (xC->last) goto flab0;
-    xC = bro(xC);
-    if (l != xC) goto flab0;
-    { exp xCC = son(xC);
-      z = xCC;
-      if (!(no(z)==1)) goto flab0;
-      if (xCC->last) goto flab0;
-      xCC = bro(xCC);
-      if (xCC->tag != fneg_tag) goto flab0;
-      { exp xCCC = son(xCC);
-        w = xCCC;
-        if (!(eq_exp(op, w))) goto flab0;
-        if(!xCCC->last) goto flab0;
-      }
-      if(!xCC->last) goto flab0;
-    }
-    if(!xC->last) goto flab0;
-  }
-  return true;
-  flab0: return false;
-}

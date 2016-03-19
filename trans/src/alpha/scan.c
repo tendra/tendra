@@ -896,7 +896,7 @@ scan(exp *e, exp **at)
 			return scan(&son(ste), at);
 		}
 
-		if (is_fabs(ste, &t)) {
+		if (is_fabslike(ste, &t)) {
 			son(ste) = son(t);
 			bro(son(t)) = ste;
 			son(t)->last = true;
