@@ -23,14 +23,6 @@ typedef struct {
       long sz;
 } needs ;
 
-/*
-    MACROS FOR MANIPULATING PROPERTIES OF NEEDS
-*/
-
-#define pnset( x, m )	( x ).propsneeds = ( prop ) ( ( x ).propsneeds | ( m ) )
-#define pnclr( x, m )	( x ).propsneeds = ( prop ) ( ( x ).propsneeds & ~( m ) )
-#define pntst( x, m )	( ( x ).propsneeds & ( m ) )
-
 
 #define wfixno		25
 #define wfloatno	16

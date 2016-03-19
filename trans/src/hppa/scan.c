@@ -633,7 +633,7 @@ fpop(exp *e, exp **at)
 
 		l.floatneeds = MAX(l.floatneeds, r.floatneeds);
 		l.maxargs = MAX(l.maxargs, r.maxargs);
-		pnset(l, hasproccall);
+		l.propsneeds |= hasproccall;
 
 		return l;
 	}
@@ -1762,11 +1762,10 @@ scan(exp *e, exp **at)
 			exp op = *pste;
 			if (sh(op)->tag == doublehd ||
 			    sh(son(op))->tag == doublehd) {
-				if (!is_o(son(op)->tag) ||
-				    pntst(nds, hasproccall)) {
+				if (!is_o(son(op)->tag) || (nds.propsneeds & hasproccall)) {
 					cca(at, &son(op));
 				}
-				pnset(nds, hasproccall);
+				nds.propsneeds |= hasproccall;
 			}
 		}
 
@@ -1842,12 +1841,11 @@ scan(exp *e, exp **at)
 			exp op = *pste;
 
 			if (sh(son(op))->tag == doublehd) {
-				if (!is_o(son(op)->tag) ||
-				    pntst(s, hasproccall)) {
+				if (!is_o(son(op)->tag) || (s.propsneeds & hasproccall)) {
 					cca(at, &son(op));
 				}
 
-				pnset(s, hasproccall);
+				s.propsneeds |= hasproccall;
 			}
 		}
 
@@ -2163,7 +2161,7 @@ scan(exp *e, exp **at)
 		if ((has & HAS_LONG_DOUBLE)) {
 			exp op = *pste;
 			if (sh(op)->tag == doublehd) {
-				pnset(nds, hasproccall);
+				nds.propsneeds |= hasproccall;
 			}
 		}
 

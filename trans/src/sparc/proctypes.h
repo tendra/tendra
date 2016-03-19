@@ -27,14 +27,6 @@ typedef struct {
 
 int callee_size;
 
-/*
-  MACROS FOR MANIPULATING PROPERTIES OF NEEDS
-*/
-
-#define pnset( x, m )	( x ).prps = ( prop ) ( ( x ).prps | ( m ) )
-#define pnclr( x, m )	( x ).prps = ( prop ) ( ( x ).prps & ~( m ) )
-#define pntst( x, m )	( ( x ).prps & ( m ) )
-
 
 /*
   TYPE REPRESENTING REGISTER WEIGHTS
