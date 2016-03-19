@@ -8,7 +8,7 @@ CCOPTS+=	-I .
 
 SRCS+=	callop.c
 SRCS+=	aldefs.c
-SRCS+=	complex_eq.c
+SRCS+=	query.c
 SRCS+=	exp.c
 SRCS+=	install_fns.c
 SRCS+=	installglob.c

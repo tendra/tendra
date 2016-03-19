@@ -57,7 +57,6 @@ CCOPTS+=	${TRANS_CFLAGS}
 
 SRCS+=	ashof.c
 SRCS+=	code_here.c
-SRCS+=	comp_eq_exp.c
 SRCS+=	dump_distr.c
 SRCS+=	eval.c
 SRCS+=	extern_adds.c
@@ -77,7 +76,6 @@ SRCS+=	mips_ins.c
 SRCS+=	move.c
 SRCS+=	scan.c
 SRCS+=	make_code.c
-SRCS+=	oddtest.c
 SRCS+=	operators.c
 SRCS+=	out_ba.c
 SRCS+=	pseudo.c

@@ -42,6 +42,7 @@
 #include <construct/exp.h>
 #include <construct/install_fns.h>
 #include <construct/me_fns.h>
+#include <construct/query.h>
 
 #include <flpt/flpt.h>
 
@@ -59,7 +60,6 @@
 #include "frames.h"
 #include "main.h"
 #include "scan.h"
-#include "oddtest.h"
 #include "localexpmacs.h"
 
 static void

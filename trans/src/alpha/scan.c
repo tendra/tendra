@@ -40,6 +40,7 @@
 #include <construct/ash.h>
 #include <construct/exp.h>
 #include <construct/install_fns.h>
+#include <construct/query.h>
 
 #include <flpt/flpt.h>
 
@@ -56,7 +57,6 @@
 #include "frames.h"
 #include "regexps.h"
 #include "reg_defs.h"
-#include "oddtest.h"
 #include "make_code.h"
 #include "scan.h"
 #include "localexpmacs.h"
