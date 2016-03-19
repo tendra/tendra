@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef SPECIAL_INCLUDED
-#define SPECIAL_INCLUDED
+#ifndef SPECIAL_H
+#define SPECIAL_H
 
 #include <construct/installtypes.h>
 #include <construct/exp.h>
@@ -16,11 +16,12 @@
 #include "proctypes.h"
 #include "addrtypes.h"
 
-extern int specialfn(exp);
-extern char *special_call_name(int);
-extern needs specialneeds(int i);
-extern int specialmake(int, exp, space, where, int);
-extern void call_millicode(int, int, char*, bool);
-extern void import_millicode(void);
+int specialfn(exp);
+char *special_call_name(int);
+needs specialneeds(int i);
+int specialmake(int, exp, space, where, int);
+void call_millicode(int, int, char*, bool);
+void import_millicode(void);
 
-#endif /* SPECIAL_INCLUDED */
+#endif
+

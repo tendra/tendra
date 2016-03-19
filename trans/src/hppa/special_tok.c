@@ -54,11 +54,11 @@ special_va_start(tokval *tkv, token t, bitstream pars)
 	id = son(arg1);
 
 	env_o = getexp(f_offset(frame_alignment, f_alignment(sh(arg1))),
-				   NULL, 0, id, NULL, 0, 0, env_offset_tag);
+	               NULL, 0, id, NULL, 0, 0, env_offset_tag);
 	setvis(id);
 	setenvoff(id);
-	tkv->tk_exp = hold_refactor(f_add_to_ptr(f_add_to_ptr(f_current_env(), env_o),f_shape_offset(sh(arg1))));
-	kill_exp(arg1,arg1);
+	tkv->tk_exp = hold_refactor(f_add_to_ptr(f_add_to_ptr(f_current_env(), env_o), f_shape_offset(sh(arg1))));
+	kill_exp(arg1, arg1);
 
 	return true;
 }
@@ -80,18 +80,18 @@ special_next_caller_offset(tokval *tkv, token t, bitstream pars)
 	sha3 = (shape_size(sha2) > 64 ? f_pointer(f_alignment(sha2)) :
 	       (shape_size(sha2) < 32 ? swordsh : sha2));
 	arg2 = hold_refactor(f_offset_pad(f_parameter_alignment(sha3),
-									  f_shape_offset(sha3)));
+	                                  f_shape_offset(sha3)));
 
 	if ((shape_size(sha1) <= 32 || shape_size(sha1) > 64) && shape_size(sha3) == 64) {
 		arg1 = hold_refactor(f_offset_pad(f_parameter_alignment(realsh), arg1));
 	}
 
 	tkv->tk_exp = hold_refactor(me_b3(f_offset(al1_of(sh(arg1)),
-		al2_of(sh(arg2))),
-		arg1, arg2, offset_subtract_tag));
+	                                  al2_of(sh(arg2))),
+	                                  arg1, arg2, offset_subtract_tag));
 
-	if (shape_size(sha2)>64) {
-		al2_of(sh(tkv->tk_exp))->al.sh_hd = nofhd+1;
+	if (shape_size(sha2) > 64) {
+		al2_of(sh(tkv->tk_exp))->al.sh_hd = nofhd + 1;
 	}
 
 	return 1;
@@ -113,10 +113,10 @@ special_next_callee_offset(tokval *tkv, token t, bitstream pars)
 
 	arg2 = hold_refactor(f_offset_pad(f_parameter_alignment(sha1), f_shape_offset(sha1)));
 	off  = hold_refactor(me_b3(f_offset(al1_of(sh(arg1)),
-				al2_of(sh(arg2))), arg1, arg2, offset_add_tag));
+	                                    al2_of(sh(arg2))), arg1, arg2, offset_add_tag));
 
 	if (shape_align(sha1) < shape_align(sha2)) {
-		tkv->tk_exp = hold_refactor(f_offset_pad(f_parameter_alignment(sha2),off));
+		tkv->tk_exp = hold_refactor(f_offset_pad(f_parameter_alignment(sha2), off));
 	} else {
 		tkv->tk_exp = off;
 	}
@@ -132,5 +132,5 @@ const struct special_tok special_toks[] = {
 	{ "__trans_next_callee_offset", 0, special_next_callee_offset }
 };
 
-size_t special_toks_count = sizeof special_toks / sizeof *special_toks;
+size_t special_toks_count = sizeof special_toks / sizeof * special_toks;
 

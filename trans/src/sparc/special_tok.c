@@ -57,12 +57,12 @@ special_va_start(tokval *tkv, token t, bitstream pars)
 
 	id = son(arg1);
 	env_o = getexp(f_offset(f_callers_alignment(1), f_alignment(sh(arg1))),
-				   NULL, 0, id, NULL, 0, 0, env_offset_tag);
+	               NULL, 0, id, NULL, 0, 0, env_offset_tag);
 	setvis(id);
 	setenvoff(id);
 
 	tkv->tk_exp = hold_refactor(f_add_to_ptr(f_current_env(), env_o));
-	kill_exp(arg1,arg1);
+	kill_exp(arg1, arg1);
 
 	return true;
 }
@@ -89,11 +89,11 @@ special_va_arg(tokval *tkv, token t, bitstream pars)
 
 	id = me_startid(f_pointer(f_var_param_alignment), arg1, 0);
 	ass = f_assign(me_obtain(id),
-				   f_add_to_ptr(f_contents(f_pointer(f_var_param_alignment), me_obtain(id)),
-								f_offset_pad(f_var_param_alignment, f_shape_offset (s1))));
+	               f_add_to_ptr(f_contents(f_pointer(f_var_param_alignment), me_obtain(id)),
+	                            f_offset_pad(f_var_param_alignment, f_shape_offset (s1))));
 	con = f_contents(s1,
-					 f_add_to_ptr(f_contents(f_pointer(f_var_param_alignment), me_obtain(id)),
-								  f_offset_negate(f_offset_pad(f_var_param_alignment, f_shape_offset(s1)))));
+	                 f_add_to_ptr(f_contents(f_pointer(f_var_param_alignment), me_obtain(id)),
+	                              f_offset_negate(f_offset_pad(f_var_param_alignment, f_shape_offset(s1)))));
 	if (sparccpd(s)) {
 		con = f_contents (s, con);
 	}
@@ -126,7 +126,7 @@ special_next_caller_offset(tokval *tkv, token t, bitstream pars)
 	}
 
 	tkv->tk_exp = hold_refactor(f_offset_pad(f_parameter_alignment(s2),
-								f_offset_add(arg1, f_shape_offset(s1))));
+	                            f_offset_add(arg1, f_shape_offset(s1))));
 	return true;
 }
 
@@ -146,8 +146,8 @@ special_next_callee_offset(tokval *tkv, token t, bitstream pars)
 	set_place(old_place);
 
 	tkv->tk_exp = hold_refactor(f_offset_pad(f_parameter_alignment(s2),
-								f_offset_pad(f_alignment(s2),
-											 f_offset_add(arg1, f_shape_offset(s1)))));
+	                            f_offset_pad(f_alignment(s2),
+	                                    f_offset_add(arg1, f_shape_offset(s1)))));
 	return true;
 }
 
@@ -299,5 +299,5 @@ const struct special_tok special_toks[] = {
 	{ "~asm_exp_address", BUILTIN_ASM,     special_asm_exp_address }
 };
 
-size_t special_toks_count = sizeof special_toks / sizeof *special_toks;
+size_t special_toks_count = sizeof special_toks / sizeof * special_toks;
 

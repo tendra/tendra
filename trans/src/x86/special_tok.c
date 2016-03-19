@@ -62,9 +62,8 @@ special_inline(tokval *tkv, token t, bitstream pars)
 	}
 
 	if (s->tag == ident_tag && son(s)->tag == clear_tag &&
-		bro(son(s))->tag == seq_tag &&
-		son(son(bro(son(s))))->tag == apply_tag)
-	{
+	    bro(son(s))->tag == seq_tag &&
+	    son(son(bro(son(s))))->tag == apply_tag) {
 		settoinline(son(son(bro(son(s)))));
 	}
 
@@ -226,5 +225,5 @@ const struct special_tok special_toks[] = {
 	{ "~asm_exp_address", BUILTIN_ASM,     special_asm_exp_address }
 };
 
-size_t special_toks_count = sizeof special_toks / sizeof *special_toks;
+size_t special_toks_count = sizeof special_toks / sizeof * special_toks;
 

@@ -110,9 +110,9 @@ special_isfloat(tokval *tkv, token t, bitstream pars)
 {
 	place old_place;
 	shape arg;
-	signed_nat lower,upper,resval;
+	signed_nat lower, upper, resval;
 
-	old_place=keep_place();
+	old_place = keep_place();
 	set_place(pars);
 	arg = d_shape();
 
@@ -122,12 +122,12 @@ special_isfloat(tokval *tkv, token t, bitstream pars)
 	upper.signed_nat_val.small_s_nat = MAX_INT;
 
 	if (is_floating(arg->tag)) {
-		resval.signed_nat_val.small_s_nat=1;
+		resval.signed_nat_val.small_s_nat = 1;
 	} else {
-		resval.signed_nat_val.small_s_nat=0;
+		resval.signed_nat_val.small_s_nat = 0;
 	}
 
-	tkv->tk_exp = f_make_int(slongsh,resval);
+	tkv->tk_exp = f_make_int(slongsh, resval);
 	set_place(old_place);
 
 	return true;
@@ -177,16 +177,16 @@ special_va_start(tokval *tkv, token t, bitstream pars)
 
 	set_vararg(arg1);
 	copy_of_compound = copyexp(arg1);
-	component1 = get_component(arg1, const_al64, PTR_ALIGN, PTR_SZ, ptrhd, f_off64_64, 0);
-	component2 = get_component(copy_of_compound, const_al32, SLONG_ALIGN, SLONG_SZ, slonghd, f_off32_32, 64);
+	component1  = get_component(arg1, const_al64, PTR_ALIGN, PTR_SZ, ptrhd, f_off64_64, 0);
+	component2  = get_component(copy_of_compound, const_al32, SLONG_ALIGN, SLONG_SZ, slonghd, f_off32_32, 64);
 	assignment1 = f_assign(component1, arg2);
 	assignment2 = f_assign(component2, getexp(f_off32_32, NULL, 0, NULL, NULL, 0, 0, val_tag));
 	bro(assignment1) = assignment2;
-	list.start = assignment1;
-	list.end = assignment2;
+	list.start  = assignment1;
+	list.end    = assignment2;
 	list.number = 2;
-	tkv->tk_exp = f_sequence(list,res);
-	kill_exp(arg3,arg3);
+	tkv->tk_exp = f_sequence(list, res);
+	kill_exp(arg3, arg3);
 	set_place(old_place);
 
 	return true;
@@ -202,5 +202,5 @@ const struct special_tok special_toks[] = {
 	{ "__builtin_va_start", BUILTIN_VARARG, special_va_start     }
 };
 
-size_t special_toks_count = sizeof special_toks / sizeof *special_toks;
+size_t special_toks_count = sizeof special_toks / sizeof * special_toks;
 

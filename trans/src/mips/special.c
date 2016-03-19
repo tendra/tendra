@@ -7,9 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*special.c
-    inlines some of the simpler standard library functions
-*/
+/*
+ * inlines some of the simpler standard library functions
+ */
 
 #include <string.h>
 
@@ -43,47 +43,46 @@
 #include "bitsmacs.h"
 #include "special.h"
 
-
+/* these are the procs I could do something about */
 static int
 specno(char *n)
-{	/* these are the procs I could do
-				   something about */
-  return 0;
+{
+	return 0;
 }
 
+/* these are the needs for their expansion */
 needs
 specialneeds(int i)
-{	/* these are the needs for their expansion
-				   */
-  switch (i) {
-    default:
-      error(ERR_INTERNAL, "not special fn");
-  }
-  UNREACHED;
+{
+	switch (i) {
+	default:
+		error(ERR_INTERNAL, "not special fn");
+	}
+
+	UNREACHED;
 }
 
+/* could I treat this function load specially ? */
 int
 specialfn(exp fn)
-{	/* could I treat this function load
-				   specially ? */
-  if (fn->tag == name_tag && son(fn)->tag == ident_tag &&
-      isglob (son (fn)) && son (son (fn)) == NULL) {
-    char *extname = brog(son (fn)) -> name;
-    return specno (extname);
-  }
-  return 0;
+{
+	if (fn->tag == name_tag && son(fn)->tag == ident_tag &&
+	    isglob (son (fn)) && son (son (fn)) == NULL) {
+		char *extname = brog(son (fn)) -> name;
+		return specno (extname);
+	}
+
+	return 0;
 }
-
-
-
-
 
 int
 specialmake(int n, exp par, space sp, where dest, int exitlab)
 {
-  switch (n) {
-    default:
-      error(ERR_INTERNAL, "not special");
-  }
-  return exitlab;
+	switch (n) {
+	default:
+		error(ERR_INTERNAL, "not special");
+	}
+
+	return exitlab;
 }
+

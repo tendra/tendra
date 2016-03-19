@@ -66,5 +66,5 @@ const struct special_fn special_fns[] = {
 	{ "__builtin_alloca", BUILTIN_ALLOCA,  special_alloca }
 };
 
-size_t special_fns_count = sizeof special_fns / sizeof *special_fns;
+size_t special_fns_count = sizeof special_fns / sizeof * special_fns;
 

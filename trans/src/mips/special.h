@@ -7,6 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#ifndef SPECIAL_H
+#define SPECIAL_H
+
 #include <reader/exp.h>
 
 #include <construct/exp.h>
@@ -14,6 +17,9 @@
 #include "procrectypes.h"
 #include "addrtypes.h"
 
-extern needs specialneeds(int i);
-extern int specialfn(exp fn);
-extern int specialmake(int n, exp par, space sp, where dest, int exitlab);
+needs specialneeds(int i);
+int specialfn(exp fn);
+int specialmake(int n, exp par, space sp, where dest, int exitlab);
+
+#endif
+

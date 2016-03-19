@@ -31,17 +31,21 @@
 static exp
 make_extn(char *name, shape s, int v)
 {
-	dec * g = xmalloc(sizeof *g);
-	exp id = getexp(s, 0, 1, 0, 0, 0, 0, ident_tag);
+	dec *g = xmalloc(sizeof *g);
+	exp id  = getexp(s, 0, 1, 0, 0, 0, 0, ident_tag);
 	exp nme = getexp(s, 0, 1, id, 0, 0, 0, name_tag);
+
 	setglob(id);
 	if (v) {
 		setvar(id);
 	}
+
 	brog(id) = g;
-	g -> exp = id;
-	g -> name = name;
-	g -> extnamed = 1;
+
+	g->exp      = id;
+	g->name     = name;
+	g->extnamed = 1;
+
 	return nme;
 }
 
@@ -81,7 +85,7 @@ get_env_size(dec *decl)
 {
 	/* allocate space for 10 digits 2 prefix characters and a NULL */
 	char* lab_name = xmalloc(13);
-	sprintf(lab_name, "#%c%lu", LPREFIX,(unsigned long)decl);
+	sprintf(lab_name, "#%c%lu", LPREFIX, (unsigned long)decl);
 	return make_extn(lab_name, ulongsh, 1);
 }
 
