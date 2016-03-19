@@ -30,7 +30,7 @@
 #include "inst_fmt.h"
 #include "alpha_ins.h"
 #include "bitsmacs.h"
-#include "procrecs.h"
+#include "procrec.h"
 #include "guard.h"
 #include "eval.h"
 #include "regexps.h"

@@ -49,7 +49,7 @@
 #include <main/print.h>
 
 #include "addrtypes.h"
-#include "proctypes.h"
+#include "procrec.h"
 #include "eval.h"
 #include "move.h"
 #include "getregs.h"

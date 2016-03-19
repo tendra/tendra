@@ -14,8 +14,6 @@
 
 #include <construct/installtypes.h>
 
-#include "proctypes.h"
-
 /* condition for shape to be treated as a struct */
 #define sparccpd(s) (s->tag == cpdhd || s->tag == nofhd || \
                      s->tag == shcomplexhd || shape_size(s) >64 || \

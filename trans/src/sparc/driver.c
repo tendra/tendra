@@ -32,6 +32,7 @@
 #include <main/driver.h>
 #include <main/flags.h>
 
+#include "procrec.h"
 #include "translate.h"
 #include "addrtypes.h"
 #include "make_code.h"

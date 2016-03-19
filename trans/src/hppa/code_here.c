@@ -41,8 +41,8 @@
 #include <construct/ash.h>
 #include <construct/exp.h>
 
+#include "procrec.h"
 #include "addrtypes.h"
-#include "proctypes.h"
 #include "labels.h"
 #include "make_code.h"
 #include "bitsmacs.h"

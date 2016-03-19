@@ -70,6 +70,7 @@
 #endif
 
 #ifdef TRANS_SPARC
+#include "procrec.h"
 #include "scan.h"
 #endif
 

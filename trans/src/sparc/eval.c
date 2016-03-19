@@ -46,12 +46,12 @@
 #include <main/flags.h>
 #include <main/print.h>
 
+#include "procrec.h"
 #include "addrtypes.h"
 #include "translate.h"
 #include "inst_fmt.h"
 #include "locate.h"
 #include "regmacs.h"
-#include "procrec.h"
 #include "bitsmacs.h"
 #include "eval.h"
 

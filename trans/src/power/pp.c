@@ -27,6 +27,7 @@
 #include <construct/dec.h>
 #include <construct/exp.h>
 
+#include "procrec.h"
 #include "localexpmacs.h"
 #include "addrtypes.h"
 #include "locate.h"

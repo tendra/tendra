@@ -13,8 +13,6 @@
 
 #include <reader/exp.h>
 
-#include "procrectypes.h"
-
 spacereq regalloc(exp, int, int, long);
 
 #endif

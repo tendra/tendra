@@ -12,8 +12,6 @@
 
 #include <reader/exp.h>
 
-#include "procrectypes.h"
-
 spacereq regalloc(exp e, int freefixed, int freefloat, long stack);
 
 #endif

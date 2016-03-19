@@ -27,9 +27,9 @@
 #include <reader/exp.h>
 #include <local/out.h>
 
+#include "procrec.h"
 #include "scan.h"
 #include "addrtypes.h"
-#include "proctypes.h"
 #include "eval.h"
 #include "move.h"
 #include "oprators.h"

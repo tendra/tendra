@@ -32,6 +32,7 @@
 
 #include <refactor/const.h>
 
+#include "procrec.h"
 #include "translate.h"
 #include "addrtypes.h"
 #include "move.h"
@@ -42,7 +43,6 @@
 #include "inst_fmt.h"
 #include "hppains.h"
 #include "labels.h"
-#include "proctypes.h"
 #include "bitsmacs.h"
 #include "proc.h"
 #include "frames.h"

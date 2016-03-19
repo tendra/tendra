@@ -11,7 +11,7 @@
     defines extenals given in guard.c
 */
 
-#include "procrecs.h"
+#include "procrec.h"
 #include "addrtypes.h"
 
 extern  space guardreg(int r, space sp);

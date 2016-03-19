@@ -21,7 +21,7 @@
 #include <construct/exp.h>
 
 #include "extern_adds.h"
-#include "procrectypes.h"
+#include "procrec.h"
 #include "scan.h"
 #include "localexpmacs.h"
 

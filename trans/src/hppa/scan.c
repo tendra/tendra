@@ -51,7 +51,7 @@
 #include <refactor/optimise.h>
 #include <refactor/refactor.h>
 
-#include "proctypes.h"
+#include "procrec.h"
 #include "bitsmacs.h"
 #include "regable.h"
 #include "tempdecs.h"
@@ -90,7 +90,7 @@ int maxfix, maxfloat; /* the maximum number of t-regs */
 needs scan(exp *, exp **);
 
 /*
- * needs defined in proctypes.h.
+ * needs defined in procrec.h.
  *
  * This is a structure which has two integers giving the number of
  * fixed and floating point registers required to contain live values in
@@ -99,7 +99,7 @@ needs scan(exp *, exp **);
  *
  * The maxargs field gives the maximum size in bits for the parameters of
  * all the procs called in the exp. The needs of a proc body are preserved
- * in the needs field of the procrec (see proctypes.h).
+ * in the needs field of the procrec (see procrec.h).
  */
 
 /* return ptrexp pointing to e */

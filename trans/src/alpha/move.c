@@ -31,7 +31,7 @@
 #include "alpha_ins.h"
 #include "inst_fmt.h"
 #include "addrtypes.h"
-#include "procrectypes.h"
+#include "procrec.h"
 #include "bitsmacs.h"
 #include "main.h"
 #include "reg_defs.h"

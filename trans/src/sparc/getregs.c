@@ -26,7 +26,6 @@
 
 #include "regexps.h"
 #include "regmacs.h"
-#include "proctypes.h"
 #include "procrec.h"
 #include "addrtypes.h"
 #include "bitsmacs.h"

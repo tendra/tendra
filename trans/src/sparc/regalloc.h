@@ -14,8 +14,6 @@
 
 #include <construct/installtypes.h>
 
-#include "proctypes.h"
-
 bool avoid_L7;
 spacereq regalloc(exp, int, int, long);
 

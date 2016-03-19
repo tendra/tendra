@@ -12,8 +12,6 @@
 
 #include <reader/exp.h>
 
-#include "proctypes.h"
-
 extern parpair *getparpair(exp);
 extern baseoff boff(exp);
 extern where locate(exp, space, shape, int);

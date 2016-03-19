@@ -13,8 +13,6 @@
 
 #include <reader/exp.h>
 
-#include "procrecs.h"
-
 #define UNITWEIGHT	((double)1.0)
 
 extern  weights weightsv(double, exp);

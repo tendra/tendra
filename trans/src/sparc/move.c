@@ -34,7 +34,7 @@
 #include "sparcins.h"
 #include "inst_fmt.h"
 #include "addrtypes.h"
-#include "proctypes.h"
+#include "procrec.h"
 #include "proc.h"
 #include "getregs.h"
 #include "labels.h"

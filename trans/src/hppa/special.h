@@ -13,7 +13,6 @@
 #include <construct/installtypes.h>
 #include <construct/exp.h>
 
-#include "proctypes.h"
 #include "addrtypes.h"
 
 int specialfn(exp);

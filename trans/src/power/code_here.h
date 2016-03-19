@@ -11,7 +11,7 @@
 #ifndef CODEHEREDECS_H
 #define CODEHEREDECS_H
 
-#include "procrectypes.h"
+#include "procrec.h"
 #include "addrtypes.h"
 
 extern int regofval(exp);

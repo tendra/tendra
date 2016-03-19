@@ -31,6 +31,7 @@
 
 #include <main/print.h>
 
+#include "procrec.h"
 #include "addrtypes.h"
 #include "move.h"
 #include "bitsmacs.h"

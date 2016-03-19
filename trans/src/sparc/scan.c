@@ -50,8 +50,8 @@
 
 #include <main/flags.h>
 
+#include "procrec.h"
 #include "proc.h"
-#include "proctypes.h"
 #include "bitsmacs.h"
 #include "regable.h"
 #include "tempdecs.h"
@@ -82,14 +82,14 @@ int maxfix, maxfloat ;		/* The maximum numbers of t-regs */
 /*
  * THE TYPE DESCRIBING REGISTER NEEDS
  *
- * The type needs is defined in proctypes.h.  This is a structure
+ * The type needs is defined in procrec.h.  This is a structure
  * which has two integers giving the number of fixed and floating
  * point registers required to contain live values in the expression
  * parameters.  A further field prop is used for various flags about
  * certain forms of exp (mainly idents and procs).  The maxargs
  * field gives the maximum size in bits for the parameters of all
  * the procs called in the exp.  The needs of a proc body are
- * preserved in the needs field of the procrec (see proctypes.h).
+ * preserved in the needs field of the procrec (see procrec.h).
  */
 
 /*

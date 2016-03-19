@@ -32,6 +32,7 @@
 #include <main/driver.h>
 #include <main/flags.h>
 
+#include "procrec.h"
 #include "addrtypes.h"		/* for where */
 #include "make_code.h"		/* for nowhere */
 #include "stabs_diag3.h"

@@ -26,6 +26,7 @@
 
 #include <refactor/const.h>
 
+#include "procrec.h"
 #include "bitsmacs.h"
 #include "muldvrem.h"
 #include "tempdecs.h"

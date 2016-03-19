@@ -14,7 +14,6 @@
 #include <construct/installtypes.h>
 
 #include "addrtypes.h"
-#include "procrectypes.h"
 
 #define ALIGNNEXT(bitposn, bitalign)	(((bitposn) + (bitalign) -1) & ~((bitalign) -1))
 #define ALLOCA_ALIGNMENT(n)((n+7) & ~7)

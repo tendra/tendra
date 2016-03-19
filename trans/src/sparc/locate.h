@@ -12,8 +12,6 @@
 
 #include <reader/exp.h>
 
-#include "proctypes.h"
-
 extern baseoff boff(exp);
 extern int boff_env_offset(exp);
 extern where locate(exp, space, shape, int);

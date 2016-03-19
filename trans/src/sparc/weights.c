@@ -56,7 +56,6 @@
 
 #include <refactor/const.h>
 
-#include "proctypes.h"
 #include "procrec.h"
 #include "bitsmacs.h"
 #include "regable.h"

@@ -46,8 +46,8 @@
 #include <refactor/optimise.h>
 #include <refactor/refactor.h>
 
+#include "procrec.h"
 #include "addrtypes.h"
-#include "proctypes.h"
 #include "eval.h"
 #include "move.h"
 #include "oprators.h"

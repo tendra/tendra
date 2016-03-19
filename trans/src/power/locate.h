@@ -13,8 +13,6 @@
 
 #include <reader/exp.h>
 
-#include "procrectypes.h"
-
 extern baseoff boff(exp);
 extern baseoff boff_location(int);
 extern where locate(exp , space , shape , int);

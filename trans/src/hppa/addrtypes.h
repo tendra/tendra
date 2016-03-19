@@ -14,8 +14,6 @@
 
 #include <construct/installtypes.h>
 
-#include "proctypes.h"
-
 #define NOREG 100
 
 typedef struct {

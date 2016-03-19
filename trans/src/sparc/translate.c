@@ -122,7 +122,6 @@
 
 #include "tempdecs.h"
 #include "weights.h"
-#include "proctypes.h"
 #include "procrec.h"
 #include "regalloc.h"
 #include "code_here.h"

@@ -27,7 +27,7 @@
 
 #include <reader/basicread.h>
 
-#include "procrectypes.h"
+#include "procrec.h"
 #include "addrtypes.h"
 #include "guard.h"
 

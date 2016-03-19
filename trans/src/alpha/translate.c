@@ -41,10 +41,9 @@
 #include <diag3/diag_reform.h>
 
 #include "tempdecs.h"
+#include "procrec.h"
 #include "weights.h"
-#include "procrectypes.h"
 #include "regalloc.h"
-#include "procrecs.h"
 #include "make_code.h"
 #include "code_here.h"
 #include "eval.h"

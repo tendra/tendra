@@ -48,7 +48,7 @@
 #include "main.h"
 #include "ibinasm.h"
 #include "frames.h"
-#include "procrectypes.h"
+#include "procrec.h"
 #include "eval.h"
 #include "localexpmacs.h"
 

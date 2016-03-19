@@ -11,7 +11,7 @@
 #ifndef GUARDDECS_H
 #define GUARDDECS_H
 
-#include "procrecs.h"
+#include "procrec.h"
 #include "addrtypes.h"
 
 extern space guardreg(int , space);

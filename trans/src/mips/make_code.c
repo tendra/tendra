@@ -49,7 +49,7 @@
 
 #include "addrtypes.h"
 #include "loc_signal.h"
-#include "procrectypes.h"
+#include "procrec.h"
 #include "eval.h"
 #include "move.h"
 #include "operators.h"

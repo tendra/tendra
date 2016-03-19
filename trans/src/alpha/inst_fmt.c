@@ -44,7 +44,7 @@
 #include "ibinasm.h"
 #include "out_ba.h"
 #include "instypes.h"
-#include "procrectypes.h"
+#include "procrec.h"
 #include "locate.h"
 #include "getregs.h"
 #include "code_here.h"

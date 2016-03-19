@@ -7,8 +7,11 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/bool.h>
+
 #include <local/out.h>
 
+#include "procrec.h"
 #include "addrtypes.h"
 #include "regexps.h"
 #include "labels.h"

@@ -55,7 +55,7 @@
 #include "shape_range.h"
 #include "inst_fmt.h"
 #include "eval.h"
-#include "procrecs.h"
+#include "procrec.h"
 #include "localexpmacs.h"
 
 /*

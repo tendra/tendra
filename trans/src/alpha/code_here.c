@@ -22,7 +22,7 @@
 #include <construct/exp.h>
 
 #include "addrtypes.h"
-#include "procrectypes.h"
+#include "procrec.h"
 #include "labels.h"
 #include "make_code.h"
 #include "bitsmacs.h"

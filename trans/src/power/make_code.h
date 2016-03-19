@@ -15,8 +15,6 @@
 
 #include <construct/installtypes.h>
 
-#include "procrectypes.h"
-
 extern int no_error_jump;
 
 extern where nowhere;

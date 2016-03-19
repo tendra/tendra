@@ -42,7 +42,7 @@
 #include "inst_fmt.h"
 #include "sparcins.h"
 #include "labels.h"
-#include "proctypes.h"
+#include "procrec.h"
 #include "bitsmacs.h"
 #include "proc.h"
 #include "regexps.h"

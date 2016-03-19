@@ -11,7 +11,7 @@
 #define SPECIAL_H
 
 #include <construct/exp.h>
-#include "proctypes.h"
+
 #include "addrtypes.h"
 
 needs specialneeds(int i);

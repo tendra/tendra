@@ -22,7 +22,7 @@
 #include "locate.h"
 #include "move.h"
 #include "oprators.h"
-#include "procrectypes.h"
+#include "procrec.h"
 #include "regable.h"
 #include "regexps.h"
 

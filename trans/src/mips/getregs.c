@@ -33,7 +33,7 @@
 
 #include <main/flags.h>
 
-#include "procrectypes.h"
+#include "procrec.h"
 #include "regexps.h"
 #include "bitsmacs.h"
 #include "getregs.h"

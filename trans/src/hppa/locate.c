@@ -29,12 +29,12 @@
 
 #include <main/print.h>
 
+#include "procrec.h"
 #include "addrtypes.h"
 #include "inst_fmt.h"
 #include "regmacs.h"
 #include "hppains.h"
 #include "bitsmacs.h"
-#include "procrec.h"
 #include "guard.h"
 #include "eval.h"
 #include "regexps.h"

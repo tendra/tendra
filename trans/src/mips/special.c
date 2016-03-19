@@ -39,7 +39,7 @@
 #include "inst_fmt.h"
 #include "mips_ins.h"
 #include "labels.h"
-#include "procrectypes.h"
+#include "procrec.h"
 #include "bitsmacs.h"
 #include "special.h"
 

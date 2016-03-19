@@ -39,6 +39,7 @@
 
 #include <main/driver.h>
 
+#include "procrec.h"
 #include "dump_distr.h"
 
 #define VERSION_STR "4.49"

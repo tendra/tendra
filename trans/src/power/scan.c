@@ -54,7 +54,7 @@
 #include <refactor/refactor.h>
 
 #include "codegen.h"
-#include "procrectypes.h"
+#include "procrec.h"
 #include "bitsmacs.h"
 #include "regable.h"
 #include "tempdecs.h"

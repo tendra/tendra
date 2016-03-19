@@ -17,7 +17,7 @@
 #include <construct/installtypes.h>
 
 #include "addrtypes.h"
-#include "procrectypes.h"
+#include "procrec.h"
 
 extern int use_umulh_for_div;
 extern bool fail_with_denormal_constant;

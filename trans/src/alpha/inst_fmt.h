@@ -22,7 +22,7 @@
 #include "cross.h"
 #include "instypes.h"
 #include "ins_data.h"
-#include "procrectypes.h"
+#include "procrec.h"
 
 #define IMMEDIATE_MAX	255
 #define IMMEDIATE_MIN	-128

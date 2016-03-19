@@ -39,7 +39,6 @@
 
 #include <main/print.h>
 
-#include "proctypes.h"
 #include "procrec.h"
 #include "bitsmacs.h"
 #include "regable.h"

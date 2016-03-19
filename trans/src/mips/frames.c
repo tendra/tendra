@@ -18,7 +18,7 @@
 
 #include <utility/bits.h>
 
-#include "procrectypes.h"
+#include "procrec.h"
 #include "bitsmacs.h"
 #include "frames.h"
 #include "localexpmacs.h"

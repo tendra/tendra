@@ -34,7 +34,6 @@
 #include <main/driver.h>
 #include <main/flags.h>
 
-#include "dump_distr.h"
 #include "make_code.h"
 #include "inst_fmt.h"
 

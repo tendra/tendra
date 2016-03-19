@@ -28,8 +28,8 @@
 #include <dwarf2/dw2_lines.h>
 #endif
 
+#include "procrec.h"
 #include "addrtypes.h"
-#include "proctypes.h"
 #include "labels.h"
 #include "make_code.h"
 #include "bitsmacs.h"

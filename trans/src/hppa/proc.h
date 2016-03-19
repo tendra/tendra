@@ -15,7 +15,6 @@
 #include <construct/installtypes.h>
 
 #include "addrtypes.h"
-#include "proctypes.h"
 
 struct proc_state {
     ans procans;

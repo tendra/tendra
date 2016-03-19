@@ -50,7 +50,7 @@
 
 #include <construct/exp.h>
 
-#include "procrectypes.h"
+#include "procrec.h"
 #include "bitsmacs.h"
 #include "regable.h"
 #include "special.h"

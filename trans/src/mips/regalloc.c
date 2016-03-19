@@ -40,7 +40,7 @@
 
 #include <main/flags.h>
 
-#include "procrectypes.h"
+#include "procrec.h"
 #include "bitsmacs.h"
 #include "regable.h"
 #include "regmacs.h"

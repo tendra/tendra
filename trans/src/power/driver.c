@@ -26,6 +26,7 @@
 #include <main/flags.h>
 #include <main/driver.h>
 
+#include "procrec.h"
 #include "macro.h"
 #include "addrtypes.h"
 #include "make_code.h"

@@ -12,8 +12,6 @@
 
 #include <reader/exp.h>
 
-#include "proctypes.h"
-
 extern where nowhere;
 extern makeans make_code(exp, space, where, int);
 extern int repeat_level;

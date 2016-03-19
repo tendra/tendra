@@ -39,7 +39,6 @@
 #include <reader/basicread.h>
 
 #include "addrtypes.h"
-#include "proctypes.h"
 #include "procrec.h"
 #include "bitsmacs.h"
 #include "locate.h"

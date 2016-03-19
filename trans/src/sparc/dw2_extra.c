@@ -43,6 +43,7 @@
 
 #include <refactor/const.h>
 
+#include "procrec.h"
 #include "addrtypes.h"
 #include "bitsmacs.h"
 #include "regmacs.h"
@@ -51,7 +52,6 @@
 #include "code_here.h"
 #include "eval.h"
 #include "proc.h"
-#include "procrec.h"
 #include "regable.h"
 #include "regexps.h"
 #include "dw2_extra.h"

@@ -16,8 +16,7 @@
 
 #include <construct/exp.h>
 
-#include "procrectypes.h"
-#include "procrecs.h"
+#include "procrec.h"
 #include "regexps.h"
 #include "bitsmacs.h"
 #include "getregs.h"

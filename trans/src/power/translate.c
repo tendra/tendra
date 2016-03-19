@@ -113,7 +113,7 @@
 #include "codegen.h"
 #include "tempdecs.h"
 #include "weights.h"
-#include "procrecs.h"
+#include "procrec.h"
 #include "regalloc.h"
 #include "make_code.h"
 #include "eval.h"

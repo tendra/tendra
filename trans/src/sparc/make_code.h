@@ -14,8 +14,6 @@
 
 #include <construct/installtypes.h>
 
-#include "proctypes.h"
-
 extern where nowhere;
 extern bool last_param(exp);
 extern int use_subvar(exp);

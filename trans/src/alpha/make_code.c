@@ -55,7 +55,7 @@
 
 #include "addrtypes.h"
 #include "make_code.h"
-#include "procrectypes.h"
+#include "procrec.h"
 #include "eval.h"
 #include "move.h"
 #include "operators.h"

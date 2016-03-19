@@ -16,7 +16,7 @@
 #include <construct/installtypes.h>
 
 #include "addrtypes.h"
-#include "procrectypes.h"
+#include "procrec.h"
 
 extern long locals_offset;
 extern long frame_size;

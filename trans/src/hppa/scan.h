@@ -12,8 +12,6 @@
 
 #include <reader/exp.h>
 
-#include "proctypes.h"
-
 extern needs scan(exp *, exp **);
 extern needs likeplus(exp *, exp **);
 extern needs likediv(exp *, exp **);

@@ -35,6 +35,7 @@
 
 #include <refactor/refactor.h>
 
+#include "procrec.h"
 #include "translate.h"
 #include "scan.h"
 

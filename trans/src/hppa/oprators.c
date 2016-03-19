@@ -28,6 +28,7 @@
 #include <main/flags.h>
 #include <main/print.h>
 
+#include "procrec.h"
 #include "code_here.h"
 #include "addrtypes.h"
 #include "inst_fmt.h"

@@ -18,7 +18,7 @@
 #include <utility/max.h>
 
 #include "frames.h"
-#include "procrecs.h"
+#include "procrec.h"
 #include "bitsmacs.h"
 #include "reg_defs.h"
 #include "cross.h"

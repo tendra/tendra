@@ -126,11 +126,10 @@
 
 #include <diag3/diag_reform.h>
 
+#include "procrec.h"
 #include "frames.h"
 #include "tempdecs.h"
 #include "weights.h"
-#include "proctypes.h"
-#include "procrec.h"
 #include "regalloc.h"
 #include "code_here.h"
 #include "make_code.h"

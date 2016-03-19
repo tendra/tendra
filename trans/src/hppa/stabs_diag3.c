@@ -46,10 +46,9 @@
 #include <diag3/diaginfo1.h>
 #include <diag3/diag_reform.h>
 
+#include "procrec.h"
 #include "addrtypes.h"
 #include "frames.h"
-#include "proctypes.h"
-#include "procrec.h"
 #include "bitsmacs.h"
 #include "locate.h"
 #include "translate.h"

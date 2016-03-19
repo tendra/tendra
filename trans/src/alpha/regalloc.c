@@ -29,8 +29,7 @@
 #include <construct/dec.h>
 #include <construct/ash.h>
 
-#include "procrectypes.h"
-#include "procrecs.h"
+#include "procrec.h"
 #include "bitsmacs.h"
 #include "regable.h"
 #include "regmacs.h"

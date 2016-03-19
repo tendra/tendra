@@ -32,6 +32,7 @@
 #include <main/flags.h>
 #include <main/print.h>
 
+#include "procrec.h"
 #include "geninst.h"
 #include "proc.h"
 #include "translate.h"

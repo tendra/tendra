@@ -36,7 +36,7 @@
 #include <main/flags.h>
 
 #include "bitsmacs.h"
-#include "procrectypes.h"
+#include "procrec.h"
 #include "frames.h"
 #include "regable.h"
 #include "dump_distr.h"

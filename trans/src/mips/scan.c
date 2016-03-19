@@ -51,7 +51,7 @@
 #include <refactor/optimise.h>
 #include <refactor/refactor.h>
 
-#include "procrectypes.h"
+#include "procrec.h"
 #include "bitsmacs.h"
 #include "regable.h"
 #include "tempdecs.h"

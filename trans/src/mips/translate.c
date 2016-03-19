@@ -40,9 +40,9 @@
 
 #include <refactor/optimise.h>
 
+#include "procrec.h"
 #include "tempdecs.h"
 #include "weights.h"
-#include "procrectypes.h"
 #include "regalloc.h"
 #include "make_code.h"
 #include "code_here.h"

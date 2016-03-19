@@ -21,7 +21,7 @@
 
 #include <main/flags.h>
 
-#include "procrectypes.h"
+#include "procrec.h"
 #include "bitsmacs.h"
 #include "frames.h"
 #include "regable.h"

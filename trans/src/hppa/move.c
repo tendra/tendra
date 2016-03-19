@@ -20,6 +20,7 @@
 
 #include <assert.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 
@@ -29,10 +30,10 @@
 
 #include <main/print.h>
 
+#include "procrec.h"
 #include "hppains.h"
 #include "inst_fmt.h"
 #include "addrtypes.h"
-#include "proctypes.h"
 #include "proc.h"
 #include "getregs.h"
 #include "labels.h"

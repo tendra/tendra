@@ -25,9 +25,9 @@
 
 #include <main/flags.h>
 
+#include "procrec.h"
 #include "scan.h"
 #include "addrtypes.h"
-#include "proctypes.h"
 #include "eval.h"
 #include "move.h"
 #include "oprators.h"

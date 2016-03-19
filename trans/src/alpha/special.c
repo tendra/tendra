@@ -34,7 +34,7 @@
 #include "inst_fmt.h"
 #include "alpha_ins.h"
 #include "labels.h"
-#include "procrectypes.h"
+#include "procrec.h"
 #include "bitsmacs.h"
 #include "reg_defs.h"
 #include "special.h"

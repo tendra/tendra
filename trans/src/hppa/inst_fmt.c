@@ -37,6 +37,7 @@
 
 #include <refactor/optimise.h>
 
+#include "procrec.h"
 #include "addrtypes.h"
 #include "regexps.h"
 #include "regmacs.h"

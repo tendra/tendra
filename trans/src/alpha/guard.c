@@ -16,7 +16,7 @@
 #include <shared/bool.h>
 #include <shared/error.h>
 
-#include "procrecs.h"
+#include "procrec.h"
 #include "addrtypes.h"
 #include "guard.h"
 

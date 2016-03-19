@@ -15,9 +15,6 @@
 
 #include <construct/installtypes.h>
 
-#include "procrectypes.h"
-
-
 extern needs multneeds(exp *, exp **);
 extern needs divneeds(exp *, exp **);
 extern needs remneeds(exp *, exp **);

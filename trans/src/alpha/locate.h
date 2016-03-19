@@ -17,7 +17,7 @@
 #include <construct/installtypes.h>
 
 #include "addrtypes.h"
-#include "procrectypes.h"
+#include "procrec.h"
 
 
 extern int locals_offset;

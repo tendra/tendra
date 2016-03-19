@@ -31,6 +31,7 @@
 
 #include <refactor/const.h>
 
+#include "procrec.h"
 #include "bitsmacs.h"
 #include "regable.h"
 #include "tempdecs.h"

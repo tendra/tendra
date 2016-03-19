@@ -11,7 +11,5 @@
 
 #include <construct/installtypes.h>
 
-#include "procrectypes.h"
-
 extern  void dump_opt(exp rscope, space * tobd, space * pars);
 

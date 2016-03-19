@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "procrectypes.h"
+#include "procrec.h"
 #include "addrtypes.h"
 
 extern int  regofval(exp e);
