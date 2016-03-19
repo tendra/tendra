@@ -40,7 +40,6 @@
 #include <construct/ash.h>
 #include <construct/exp.h>
 #include <construct/install_fns.h>
-#include <construct/query.h>
 
 #include <flpt/flpt.h>
 
@@ -48,6 +47,7 @@
 
 #include <refactor/const.h>
 #include <refactor/refactor.h>
+#include <refactor/query.h>
 
 #include "procrec.h"
 #include "bitsmacs.h"

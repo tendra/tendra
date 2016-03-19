@@ -16,6 +16,8 @@ SRCS+=	foralls.c
 SRCS+=	inline.c
 SRCS+=	inl_norm.c
 SRCS+=	unroll.c
+SRCS+=	query.c
+SRCS+=	misc_c.c
 
 .include <tendra.obj.mk>
 

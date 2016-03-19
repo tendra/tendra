@@ -7,10 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef misc_c_key
-#define misc_c_key 1
-
-#include <reader/exp.h>
+#ifndef REFACTOR_MISC_C_H
+#define REFACTOR_MISC_C_H
 
 extern bool take_out_of_line(exp first, exp alt, int in_repeat, double scale);
 extern bool take_out_by_prob(exp first, exp alt);

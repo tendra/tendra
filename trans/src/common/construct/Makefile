@@ -8,13 +8,11 @@ CCOPTS+=	-I .
 
 SRCS+=	callop.c
 SRCS+=	aldefs.c
-SRCS+=	query.c
 SRCS+=	exp.c
 SRCS+=	install_fns.c
 SRCS+=	installglob.c
 SRCS+=	label_ops.c
 SRCS+=	me_fns.c
-SRCS+=	misc_c.c
 SRCS+=	machine.c
 
 .include <tendra.obj.mk>

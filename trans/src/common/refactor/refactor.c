@@ -48,8 +48,6 @@
 #include <construct/install_fns.h>
 #include <construct/me_fns.h>
 #include <construct/installglob.h>
-#include <construct/misc_c.h>
-#include <construct/query.h>
 
 #include <flpt/flpt.h>
 
@@ -57,6 +55,8 @@
 
 #include <refactor/refactor_id.h>
 #include <refactor/refactor.h>
+#include <refactor/misc_c.h>
+#include <refactor/query.h>
 
 #ifdef TDF_DIAG4
 #include <diag4/dg_aux.h>

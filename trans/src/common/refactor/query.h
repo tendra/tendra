@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef misc_c_key
-#define misc_c_key 1
+#ifndef REFACTOR_QUERY_H
+#define REFACTOR_QUERY_H
 
 bool is_maxlike(exp x, exp *t);
 bool is_minlike(exp x, exp *t);

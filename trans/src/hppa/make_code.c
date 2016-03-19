@@ -34,7 +34,6 @@
 #include <construct/ash.h>
 #include <construct/exp.h>
 #include <construct/install_fns.h>
-#include <construct/misc_c.h>
 #include <construct/reg_result.h>
 
 #include <flpt/flpt.h>
@@ -45,6 +44,7 @@
 
 #include <refactor/optimise.h>
 #include <refactor/refactor.h>
+#include <refactor/misc_c.h>
 
 #include "procrec.h"
 #include "addrtypes.h"

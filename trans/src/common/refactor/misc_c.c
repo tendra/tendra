@@ -17,8 +17,7 @@
 #include <reader/exp.h>
 #include <reader/externs.h>
 
-#include <construct/exp.h>
-#include <construct/misc_c.h>
+#include <refactor/misc_c.h>
 
 static bool
 invariant_to_apply(exp e);
