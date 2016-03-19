@@ -49,6 +49,7 @@
 #include <construct/me_fns.h>
 #include <construct/installglob.h>
 #include <construct/misc_c.h>
+#include <construct/query.h>
 
 #include <flpt/flpt.h>
 
