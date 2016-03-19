@@ -179,7 +179,7 @@ make_proc_tag_code(exp e, space sp, where dest, int exitlab)
 	procrec *pr = &procrecs[no(e)];
 	needs *ndpr = &pr->needsproc;
 	spacereq *sppr = &pr->spacereqproc;
-	long pprops = (long)(ndpr->prps);
+	long pprops = (long)(ndpr->propneeds);
 	bool leaf = (bool) ((pprops & anyproccall) == 0 );	/* LINT */
 	long maxargs = ndpr->maxargs ;/* maxargs of proc body in bits */
 	long st = sppr->stack ;		/* space for locals in bits */

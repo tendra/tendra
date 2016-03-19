@@ -193,7 +193,7 @@ void set_up_frame
     procrec * pr = & procrecs[no(e)];
     needs * ndpr = & pr->needsproc;
     spacereq *sppr = & pr->spacereqproc;
-    long pprops = (ndpr->propsneeds);
+    long pprops = (ndpr->propneeds);
     bool leaf = (pprops & anyproccall) == 0;
     long ma = ndpr->maxargs;   /* maxargs of proc body in bits  */
     long st = sppr->stack;    /*  space for locals in bits     */

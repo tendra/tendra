@@ -61,7 +61,7 @@ void
 settempregs(exp tag)
 {
   procrec * pr = &procrecs[no(tag)];
-  bool leaf = ((pr->needsproc).propsneeds & anyproccall)==0;
+  bool leaf = ((pr->needsproc).propneeds & anyproccall)==0;
   exp stag = son(tag);
   currentfix = 1;
   currentfloat = 1;

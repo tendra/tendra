@@ -72,7 +72,7 @@ void
 settempregs(exp tag)
 {
   procrec * pr = &procrecs[no(tag)];
-  bool leaf = ((pr->needsproc).propsneeds & anyproccall)==0;
+  bool leaf = ((pr->needsproc).propneeds & anyproccall)==0;
   exp stag = son(tag);
   currentfix = 8;
   currentfloat = 0;
@@ -92,7 +92,7 @@ settempregs(exp tag)
 	if (maxfixed==25) maxfixed = 24;
   }
 
-  if (((pr->needsproc).propsneeds & uses2_bit) != 0) {
+  if (((pr->needsproc).propneeds & uses2_bit) != 0) {
 	useable_fixed &= ~0x4;
 	minfixed = 3;
 	formin = 0x8;

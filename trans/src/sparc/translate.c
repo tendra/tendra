@@ -738,7 +738,7 @@ local_translate_capsule(void)
 			/* translate code for procedure */
 			int proc_directive;
 			exp c = d->exp;
-			prop p = procrecs[no(son(c))].needsproc.prps;
+			prop p = procrecs[no(son(c))].needsproc.propneeds;
 #ifdef TDF_DIAG3
 			diag_descriptor *diag_props = d->diag_info;
 #endif

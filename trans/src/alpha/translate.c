@@ -418,7 +418,7 @@ local_translate_capsule(void)
 		                              || son(crt_exp)->tag == general_proc_tag)) {
 			procrec *pr = &procrecs[no(son(crt_exp))];
 			needs *ndpr = & pr->needsproc;
-			long pprops = ndpr->propsneeds;
+			long pprops = ndpr->propneeds;
 			bool leaf = (pprops & anyproccall) == 0;
 			spacereq forrest;
 			int freefixed = 6;

@@ -492,12 +492,12 @@ likeplus ( exp * e, exp ** at )
 		/* scan the next operand ... */
 		if ( ( *br )->tag != val_tag ) {
 			a1.floatneeds = MAX ( a1.floatneeds, a2.floatneeds ) ;
-			pc = ( prop ) ( a2.prps & hasproccall ) ;
+			pc = ( prop ) ( a2.propneeds & hasproccall ) ;
 			if ( a2.fixneeds < maxfix && pc == 0 ) {
 				/*... its evaluation will not disturb the accumulated result */
 				a1.fixneeds = MAX ( a1.fixneeds, a2.fixneeds + 1 ) ;
-				a1.prps = ( prop ) ( a1.prps | a2.prps ) ;
-			} else if ( a1.fixneeds < maxfix && ( a1.prps & hasproccall ) == 0 &&
+				a1.propneeds = ( prop ) ( a1.propneeds | a2.propneeds ) ;
+			} else if ( a1.fixneeds < maxfix && ( a1.propneeds & hasproccall ) == 0 &&
 			            !commuted ) {
 				/* ...its evaluation will call a proc, so put it first */
 				exp op1 = son ( dad ) ;
@@ -515,14 +515,14 @@ likeplus ( exp * e, exp ** at )
 				br = ( prev == op1 ) ? &bro ( cop ): prevbr ;
 				commuted = 1 ;
 				a1.fixneeds = MAX ( a2.fixneeds, a1.fixneeds + 1 ) ;
-				a1.prps |= a2.prps ;
+				a1.propneeds |= a2.propneeds ;
 				a1.maxargs = MAX ( a1.maxargs, a2.maxargs ) ;
 			} else {
 				/* evaluation would disturb accumulated result, so replace
 				   it by a newly declared tag */
 				cca ( at, br ) ;
 				a1.fixneeds = MAX ( a1.fixneeds, 2 ) ;
-				a1.prps |= ( morefix | ( pc << 1 ) ) ;
+				a1.propneeds |= ( morefix | ( pc << 1 ) ) ;
 				a1.maxargs = MAX ( a1.maxargs, a2.maxargs ) ;
 			}
 		} else {
@@ -562,16 +562,16 @@ likediv ( exp * e, exp ** at )
 	/* scan second operand ... */
 	l.floatneeds = MAX ( l.floatneeds, r.floatneeds ) ;
 
-	pc = ( prop ) ( r.prps & hasproccall ) ;
+	pc = ( prop ) ( r.propneeds & hasproccall ) ;
 	if ( r.fixneeds < maxfix && pc == 0 ) {
 		/* fits into registers */
 		l.fixneeds = MAX ( l.fixneeds, r.fixneeds + 1 ) ;
-		l.prps |= r.prps ;
+		l.propneeds |= r.propneeds ;
 	} else {
 		/* requires new declaration of second operand */
 		cca ( at, arg ) ;
 		l.fixneeds = MAX ( l.fixneeds, 1 ) ;
-		l.prps |= ( morefix | ( pc << 1 ) ) ;
+		l.propneeds |= ( morefix | ( pc << 1 ) ) ;
 		l.maxargs = MAX ( l.maxargs, r.maxargs ) ;
 	}
 
@@ -605,8 +605,8 @@ fpop ( exp * e, exp ** at )
 	arg = &bro ( *arg ) ;
 	r = scan ( arg, at ) ;
 	l.fixneeds = MAX ( l.fixneeds, r.fixneeds ) ;
-	pcr = ( prop ) ( r.prps & hasproccall ) ;
-	pcl = ( prop ) ( l.prps & hasproccall ) ;
+	pcr = ( prop ) ( r.propneeds & hasproccall ) ;
+	pcl = ( prop ) ( l.propneeds & hasproccall ) ;
 
 	if ( (has & HAS_LONG_DOUBLE) && sh ( son ( op ) ) -> tag == doublehd ) {
 		ClearRev ( op ) ;
@@ -622,7 +622,7 @@ fpop ( exp * e, exp ** at )
 
 		l.floatneeds = MAX ( l.floatneeds, r.floatneeds ) ;
 		l.maxargs = MAX ( l.maxargs, r.maxargs ) ;
-		l.prps |= hasproccall ;
+		l.propneeds |= hasproccall ;
 		return l;
 	}
 
@@ -630,24 +630,24 @@ fpop ( exp * e, exp ** at )
 	     r.floatneeds < maxfloat && pcr == 0 ) {
 		l.floatneeds = MAX ( l.floatneeds, r.floatneeds + 1 ) ;
 		l.floatneeds = MAX ( 2, l.floatneeds ) ;
-		l.prps |= r.prps ;
+		l.propneeds |= r.propneeds ;
 		ClearRev ( op ) ;
 	} else if ( pcl == 0 && l.floatneeds <= r.floatneeds &&
 	            l.floatneeds < maxfloat ) {
 		l.floatneeds = MAX ( r.floatneeds, l.floatneeds + 1 ) ;
 		l.floatneeds = MAX ( 2, l.floatneeds ) ;
-		l.prps |= r.prps ;
+		l.propneeds |= r.propneeds ;
 		SetRev ( op ) ;
 	} else if ( r.floatneeds < maxfloat && pcr == 0 ) {
 		l.floatneeds = MAX ( l.floatneeds, r.floatneeds + 1 ) ;
 		l.floatneeds = MAX ( 2, l.floatneeds ) ;
-		l.prps |= r.prps ;
+		l.propneeds |= r.propneeds ;
 		ClearRev ( op ) ;
 	} else {
 		cca ( at, arg ) ;
 		ClearRev ( op ) ;
 		l.floatneeds = MAX ( l.floatneeds, 2 ) ;
-		l.prps |= ( morefloat | ( pcr << 1 ) ) ;
+		l.propneeds |= ( morefloat | ( pcr << 1 ) ) ;
 		l.maxargs = MAX ( l.maxargs, r.maxargs ) ;
 	}
 
@@ -666,7 +666,7 @@ maxneeds ( needs a, needs b )
 	an.floatneeds = MAX ( a.floatneeds, b.floatneeds ) ;
 	an.maxargs = MAX ( a.maxargs, b.maxargs ) ;
 	an.callee_size = MAX(a.callee_size, b.callee_size);
-	an.prps = ( prop ) ( a.prps | b.prps ) ;
+	an.propneeds = ( prop ) ( a.propneeds | b.propneeds ) ;
 
 	return an;
 }
@@ -1047,11 +1047,11 @@ scan ( exp * e, exp ** at )
 
 		if ( cantdo ) {
 			/* can only deal with tuples in simple assignment or id */
-			int prpsx = ( int ) ( ( nl.prps & hasproccall ) << 1 ) ;
+			int prpsx = ( int ) ( ( nl.propneeds & hasproccall ) << 1 ) ;
 			cca ( at, ptr_position ( ste ) ) ;
 			nl = shapeneeds ( sh ( *e ) ) ;
-			nl.prps |= morefix ;
-			nl.prps |= prpsx ;
+			nl.propneeds |= morefix ;
+			nl.propneeds |= prpsx ;
 		}
 
 		if ( nl.fixneeds < 2 ) {
@@ -1090,8 +1090,8 @@ scan ( exp * e, exp ** at )
 			statat = stat ;
 		}
 
-		if ( ( an.prps & usesproccall ) != 0 ) {
-			an.prps |= hasproccall ;
+		if ( ( an.propneeds & usesproccall ) != 0 ) {
+			an.propneeds |= hasproccall ;
 		}
 
 		return an;
@@ -1233,7 +1233,7 @@ scan ( exp * e, exp ** at )
 			}
 		} else {
 			if ( !isvis ( *e ) && isparam ( *e ) && !isoutpar(stare) &&
-			     ( bdy.prps & ( anyproccall | uses_res_reg_bit ) ) == 0 &&
+			     ( bdy.propneeds & ( anyproccall | uses_res_reg_bit ) ) == 0 &&
 			     ( fxregble || flregble ) &&
 			     ( ((t->tag == apply_tag) || (t->tag == apply_general_tag)) ||
 			       ( s->tag == seq_tag &&
@@ -1250,7 +1250,7 @@ scan ( exp * e, exp ** at )
 				   or body ends with return tag, provided result is not
 				   used otherwise */
 				pset ( stare, ( fxregble ? inreg_bits: infreg_bits ) ) ;
-				bdy.prps |= uses_res_reg_bit ;
+				bdy.propneeds |= uses_res_reg_bit ;
 				/* identification uses result reg in body */
 				no ( stare ) = R_USE_RES_REG ;
 			} else if (isenvoff(stare)) { /* MUST go on stack */
@@ -1282,13 +1282,13 @@ scan ( exp * e, exp ** at )
 				/* don't take space for this dec */
 				pset ( stare, defer_bit ) ;
 			} else if ( fxregble &&
-			            (bdy.prps & morefix) == 0 &&
+			            (bdy.propneeds & morefix) == 0 &&
 			            (bdy.fixneeds < maxfix &&
 			             ( /*isinlined(stare) ||*/
-			                 ( bdy.prps & morefix ) == 0 &&
-			                 ( ( bdy.prps & anyproccall ) == 0 ||
+			                 ( bdy.propneeds & morefix ) == 0 &&
+			                 ( ( bdy.propneeds & anyproccall ) == 0 ||
 			                   tempdec ( stare, ( bool )
-			                             ( ( bdy.prps & morefix ) == 0 &&
+			                             ( ( bdy.propneeds & morefix ) == 0 &&
 			                               bdy.fixneeds < maxfix_tregs - 2 )))))) {
 				/* put this tag in some fixpt t-reg - which will be
 				   decided in make_code */
@@ -1296,11 +1296,11 @@ scan ( exp * e, exp ** at )
 				no ( stare ) = 0 ;
 				bdy.fixneeds += 1 ;
 			} else if ( bdy.floatneeds < maxfloat &&
-			            ( bdy.prps & morefloat ) == 0 &&
+			            ( bdy.propneeds & morefloat ) == 0 &&
 			            flregble &&
-			            ( ( bdy.prps & anyproccall ) == 0 ||
+			            ( ( bdy.propneeds & anyproccall ) == 0 ||
 			              tempdec ( stare, ( bool )
-			                        ( ( bdy.prps & morefloat ) == 0 &&
+			                        ( ( bdy.propneeds & morefloat ) == 0 &&
 			                          bdy.floatneeds < MAXFLOAT_TREGS - 1 ) ) ) ) {
 				/* put this tag in some float t-reg - which will be
 				   decided in make_code */
@@ -1316,8 +1316,8 @@ scan ( exp * e, exp ** at )
 		}
 
 		bdy = maxneeds ( bdy, def ) ;
-		if ( ( bdy.prps & usesproccall ) != 0 ) {
-			bdy.prps |= hasproccall ;
+		if ( ( bdy.propneeds & usesproccall ) != 0 ) {
+			bdy.propneeds |= hasproccall ;
 		}
 
 		return bdy;
@@ -1337,8 +1337,8 @@ scan ( exp * e, exp ** at )
 			/* initial statements voided */
 			an = maxneeds ( an, stneeds ) ;
 			if ( ( *stat ) -> last ) {
-				if ( ( an.prps & usesproccall ) != 0 ) {
-					an.prps |= hasproccall ;
+				if ( ( an.propneeds & usesproccall ) != 0 ) {
+					an.propneeds |= hasproccall ;
 				}
 				return an;
 			}
@@ -1355,7 +1355,7 @@ scan ( exp * e, exp ** at )
 
 		nr = zeroneeds ;
 		if (!sysV_assembler && spin_lab (pt(*e))) {
-			nr.prps |= dont_optimise ; /* otherwise the SunOS assembler spins */
+			nr.propneeds |= dont_optimise ; /* otherwise the SunOS assembler spins */
 		}
 
 		return nr;
@@ -1383,26 +1383,26 @@ scan ( exp * e, exp ** at )
 
 		if ( ( *lhs ) -> tag == name_tag &&
 		     ( isvar ( son ( *lhs ) ) ||
-		       ( ( nr.prps & ( hasproccall | morefix ) ) == 0 &&
+		       ( ( nr.propneeds & ( hasproccall | morefix ) ) == 0 &&
 		         nr.fixneeds < maxfix ) ) ) {
 			/* simple destination */
 			return nr;
 		} else {
 			needs nl ;
-			prop prpx = ( prop ) ( ( nr.prps & hasproccall ) << 1 ) ;
+			prop prpx = ( prop ) ( ( nr.propneeds & hasproccall ) << 1 ) ;
 
 			nl = scan ( lhs, at ) ;
 			if ( ((*rhs)->tag == apply_tag || (*rhs)->tag == apply_general_tag) &&
-			     nstare == ass_tag && (nl.prps & ( uses_res_reg_bit | anyproccall )) == 0) {
+			     nstare == ass_tag && (nl.propneeds & ( uses_res_reg_bit | anyproccall )) == 0) {
 				/* source is proc call, so assign result reg directly */
 				/* SKIP */ ;
 			} else if ( nr.fixneeds >= maxfix || prpx != 0 ) {
 				/* source and dest regs overlap, so identify source */
 				cca ( at, rhs ) ;
 				nl = shapeneeds ( sh ( *rhs ) ) ;
-				nl.prps |= morefix ;
-				nl.prps |= ( prpx >> 1 ) ;
-				nl.prps |= prpx ;
+				nl.propneeds |= morefix ;
+				nl.propneeds |= ( prpx >> 1 ) ;
+				nl.propneeds |= prpx ;
 			}
 
 			nr.fixneeds += 1 ;
@@ -1426,20 +1426,20 @@ scan ( exp * e, exp ** at )
 
 		if ( is_floating ( s->tag ) && a.ashsize <= 64 ) {
 			/* ... floating pt result */
-			x.prps |= realresult_bit ;
+			x.propneeds |= realresult_bit ;
 			if ( s->tag != shrealhd ) {
-				x.prps |= longrealresult_bit ;
+				x.propneeds |= longrealresult_bit ;
 			}
 		} else {
 			if ( !valregable ( s ) && s->tag != tophd ) {
 				/* ... result does not fit into reg */
-				x.prps |= long_result_bit ;
+				x.propneeds |= long_result_bit ;
 			}
 		}
 
 		if ( a.ashsize != 0 && ( *arg ) -> tag != clear_tag ) {
 			/* ...not a void result */
-			x.prps |= has_result_bit ;
+			x.propneeds |= has_result_bit ;
 		}
 
 #if 0
@@ -1465,7 +1465,7 @@ scan ( exp * e, exp ** at )
 					               infreg_bits: inreg_bits ;
 				}
 
-				x.prps |= uses_res_reg_bit ;
+				x.propneeds |= uses_res_reg_bit ;
 				/* identification uses result reg in body */
 				no ( r ) = R_USE_RES_REG ;
 			}
@@ -1486,10 +1486,10 @@ scan ( exp * e, exp ** at )
 		nds = scan(fn, at);
 
 		/* Identify it */
-		if (nds.prps & hasproccall) {
+		if (nds.propneeds & hasproccall) {
 			cca(at, fn);
-			nds.prps &= ~hasproccall;
-			nds.prps |= usesproccall;
+			nds.propneeds &= ~hasproccall;
+			nds.propneeds |= usesproccall;
 			fn = &son(application);
 		}
 
@@ -1500,12 +1500,12 @@ scan ( exp * e, exp ** at )
 			int n = rounder(stpar + shape_size(shonepar), 32);
 			onepar = scan(par, at);
 
-			if ((/*(i != 0) && */ (onepar.prps & hasproccall)) ||
+			if ((/*(i != 0) && */ (onepar.propneeds & hasproccall)) ||
 			   (onepar.fixneeds + (stpar >> 5) > maxfix)) {
 				/* not the first parameter, and calls a proc */
 				/* or the first if we need to preserve callee_start_reg */
 				cca(at, par);
-				nds.prps |= usesproccall;
+				nds.propneeds |= usesproccall;
 				nds = maxneeds(shapeneeds(sh(*(par))), nds);
 				nds.maxargs = MAX(nds.maxargs, onepar.maxargs);
 			} else {
@@ -1524,7 +1524,7 @@ scan ( exp * e, exp ** at )
 		nds = maxneeds(scan(&bro(bro(son(application))), at), nds);
 		maxfix += 6;
 		pstldnds = scan(&bro(bro(bro(son(application)))), at);
-		if (pstldnds.prps & anyproccall) {
+		if (pstldnds.propneeds & anyproccall) {
 			set_postlude_has_call(application);
 		} else {
 			clear_postlude_has_call(application);
@@ -1541,16 +1541,16 @@ scan ( exp * e, exp ** at )
 					setvar (bro(bro(application)));
 					sh(pt(bro(bro(application)))) = f_pointer(f_alignment(sh(application)));
 				}
-				nds.prps |= usesproccall ;
+				nds.propneeds |= usesproccall ;
 			} else {
-				nds.prps |= hasproccall ;
+				nds.propneeds |= hasproccall ;
 			}
 		} else if ( bro(bro(bro(son(application))))->tag != top_tag && valregable(sh(application))
 		            && sh(application)->tag != tophd && sh(application)->tag != bothd ) {
 			cca ( at, ptr_position ( application ) ) ;
-			nds.prps |= usesproccall ;
+			nds.propneeds |= usesproccall ;
 		} else {
-			nds.prps |= hasproccall ;
+			nds.propneeds |= hasproccall ;
 		}
 		return nds;
 	}
@@ -1565,10 +1565,10 @@ scan ( exp * e, exp ** at )
 			shape shonepar = sh(*par);
 			int n = rounder(stpar, shape_align(shonepar));
 			onepar = scan(par, at);
-			if ((onepar.prps & hasproccall) || (onepar.fixneeds + 1 > maxfix)) {
+			if ((onepar.propneeds & hasproccall) || (onepar.fixneeds + 1 > maxfix)) {
 				/* identify it */
 				cca(at, par);
-				nds.prps |= usesproccall;
+				nds.propneeds |= usesproccall;
 				nds = maxneeds(shapeneeds(sh(*par)), nds);
 				nds.maxargs = MAX(nds.maxargs, onepar.maxargs);
 			} else {
@@ -1587,18 +1587,18 @@ scan ( exp * e, exp ** at )
 		needs ndsp, nds;
 		nds = zeroneeds;
 		ndsp = scan(ptr, at);
-		if ((ndsp.prps & hasproccall) || (ndsp.fixneeds + 1 > maxfix)) {
+		if ((ndsp.propneeds & hasproccall) || (ndsp.fixneeds + 1 > maxfix)) {
 			cca(at, ptr);
-			nds.prps |= usesproccall;
+			nds.propneeds |= usesproccall;
 			nds = maxneeds(shapeneeds(sh(*ptr)), nds);
 			nds.maxargs = MAX(nds.maxargs, ndsp.maxargs);
 		} else {
 			nds = ndsp;
 		}
 		ndsp = scan(&bro(son(cllees)), at);
-		if ((ndsp.prps & hasproccall) || (ndsp.fixneeds + 2 > maxfix)) {
+		if ((ndsp.propneeds & hasproccall) || (ndsp.fixneeds + 2 > maxfix)) {
 			cca(at, &bro(son(cllees)));
-			nds.prps |= usesproccall;
+			nds.propneeds |= usesproccall;
 			nds = maxneeds(shapeneeds(sh(bro(son(cllees)))), nds);
 			nds.maxargs = MAX(nds.maxargs, ndsp.maxargs);
 		} else {
@@ -1620,9 +1620,9 @@ scan ( exp * e, exp ** at )
 		needs ndsp, nds;
 		exp *fn = &son(tlcl);
 		ndsp = scan(fn, at);
-		if ((ndsp.prps & hasproccall) || (ndsp.fixneeds + 1 > maxfix)) {
+		if ((ndsp.propneeds & hasproccall) || (ndsp.fixneeds + 1 > maxfix)) {
 			cca(at, fn);
-			nds.prps |= usesproccall;
+			nds.propneeds |= usesproccall;
 			nds = maxneeds(shapeneeds(sh(*fn)), nds);
 			nds.maxargs = MAX(nds.maxargs, ndsp.maxargs);
 		} else {
@@ -1648,11 +1648,11 @@ scan ( exp * e, exp ** at )
 
 		nds = scan ( fnexp, at ) ;
 		/* scan the function exp ... */
-		if ( nds.prps & hasproccall ) {
+		if ( nds.propneeds & hasproccall ) {
 			/* ... it must be identified */
 			cca ( at, fnexp ) ;
-			nds.prps &= ~hasproccall ;
-			nds.prps |= usesproccall ;
+			nds.propneeds &= ~hasproccall ;
+			nds.propneeds |= usesproccall ;
 			fn = son ( appl ) ;
 			par = &bro ( fn ) ;
 		}
@@ -1670,12 +1670,12 @@ scan ( exp * e, exp ** at )
 			shape shpar = sh ( *par ) ;
 			onepar = scan ( par, at ) ;
 
-			if ( ( i != 1 && ( onepar.prps & hasproccall ) ) ||
+			if ( ( i != 1 && ( onepar.propneeds & hasproccall ) ) ||
 			     onepar.fixneeds + ( parsize >> 5 ) > maxfix ) {
 				/* if it isn't the first parameter, and it calls
 				   a proc, identify it */
 				cca ( at, par ) ;
-				nds.prps |= usesproccall ;
+				nds.propneeds |= usesproccall ;
 				nds = maxneeds ( shapeneeds ( sh ( *par ) ), nds ) ;
 				nds.maxargs = MAX ( nds.maxargs, onepar.maxargs ) ;
 			} else {
@@ -1696,7 +1696,7 @@ scan ( exp * e, exp ** at )
 
 		if ( specialopt ( fn ) ) {
 			/* eg vfork */
-			nds.prps |= dont_optimise ;
+			nds.propneeds |= dont_optimise ;
 		}
 
 		if ( ( i = specialfn ( fn ) ) > 0 ) {
@@ -1723,12 +1723,12 @@ scan ( exp * e, exp ** at )
 					setvar (bro(bro(appl)));
 					sh(pt(bro(bro(appl)))) = f_pointer(f_alignment(sh(appl)));
 				}
-				nds.prps |= usesproccall ;
+				nds.propneeds |= usesproccall ;
 			} else {
-				nds.prps |= hasproccall ;
+				nds.propneeds |= hasproccall ;
 			}
 		} else {
-			nds.prps |= hasproccall ;
+			nds.propneeds |= hasproccall ;
 		}
 		nds.maxargs = MAX ( nds.maxargs, parsize ) ;
 		/* clobber %o0..%o5,%o7 */
@@ -1751,12 +1751,12 @@ scan ( exp * e, exp ** at )
 			shape shpar = sh ( *par ) ;
 			onepar = scan ( par, at ) ;
 
-			if ( ( i != 1 && ( onepar.prps & hasproccall ) ) ||
+			if ( ( i != 1 && ( onepar.propneeds & hasproccall ) ) ||
 			     onepar.fixneeds + ( parsize >> 5 ) > maxfix ) {
 				/* if it isn't the first parameter, and it calls
 				   a proc, identify it */
 				cca ( at, par ) ;
-				nds.prps |= usesproccall ;
+				nds.propneeds |= usesproccall ;
 				nds = maxneeds ( shapeneeds ( sh ( *par ) ), nds ) ;
 				nds.maxargs = MAX ( nds.maxargs, onepar.maxargs ) ;
 			} else {
@@ -1781,7 +1781,7 @@ scan ( exp * e, exp ** at )
 			}
 		}
 
-		nds.prps |= hasproccall ;
+		nds.propneeds |= hasproccall ;
 
 		nds.maxargs = MAX ( nds.maxargs, parsize ) ;
 		/* clobber %o0..%o5,%o7 */
@@ -1893,10 +1893,10 @@ scan ( exp * e, exp ** at )
 					replace_fabs(ste);
 				}
 #endif
-				if ( !is_o ( son ( op ) -> tag ) || ( nds.prps & hasproccall ) ) {
+				if ( !is_o ( son ( op ) -> tag ) || ( nds.propneeds & hasproccall ) ) {
 					cca ( at, &son ( op ) ) ;
 				}
-				nds.prps |= hasproccall ;
+				nds.propneeds |= hasproccall ;
 			}
 		}
 		return nds;
@@ -1972,10 +1972,10 @@ scan ( exp * e, exp ** at )
 			exp op = *pste ;
 
 			if ( sh ( son ( op ) ) -> tag == doublehd ) {
-				if ( !is_o ( son ( op ) -> tag ) || ( s.prps & hasproccall ) ) {
+				if ( !is_o ( son ( op ) -> tag ) || ( s.propneeds & hasproccall ) ) {
 					cca ( at, &son ( op ) ) ;
 				}
-				s.prps |= hasproccall ;
+				s.propneeds |= hasproccall ;
 			}
 		}
 		return s;
@@ -1992,15 +1992,15 @@ scan ( exp * e, exp ** at )
 		nr = scan ( rhs, at ) ;
 		nl = scan ( lhs, at ) ;
 		rhs = &bro(*lhs);
-		prpx = ( int ) ( ( nr.prps & hasproccall ) << 1 ) ;
+		prpx = ( int ) ( ( nr.propneeds & hasproccall ) << 1 ) ;
 
 		if ( nr.fixneeds >= maxfix || prpx != 0 ) {
 			/* if reg requirements overlap, identify second operand */
 			cca ( at, rhs ) ;
 			nl = shapeneeds ( sh ( *rhs ) ) ;
-			nl.prps |= morefix ;
-			nl.prps &= ~(prpx >> 1) ;
-			nl.prps |= prpx ;
+			nl.propneeds |= morefix ;
+			nl.propneeds &= ~(prpx >> 1) ;
+			nl.propneeds |= prpx ;
 		}
 		nr.fixneeds += 1 ;
 		nr.fixneeds += 1 ;	/* why? */
@@ -2299,7 +2299,7 @@ scan ( exp * e, exp ** at )
 			exp op = *pste ;
 
 			if ( sh ( op ) -> tag == doublehd ) {
-				nds.prps |= hasproccall ;
+				nds.propneeds |= hasproccall ;
 			}
 		}
 
@@ -2543,7 +2543,7 @@ mult_tag_case:
 		check_asm_seq (son(*e), 0);
 		/* clobber %o0..%o5,%o7 */
 		nds.fixneeds = MAX ( nds.fixneeds, 8 ) ;
-		nds.prps |= hasproccall ;
+		nds.propneeds |= hasproccall ;
 
 		return nds;
 	}

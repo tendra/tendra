@@ -66,7 +66,7 @@ void setframe_info
   procrec * pr = & procrecs[no(e)];
   needs * ndpr = & pr->needsproc;
   spacereq *sppr = & pr->spacereqproc;
-  long pprops = (ndpr->propsneeds);
+  long pprops = (ndpr->propneeds);
   bool leaf = (pprops & anyproccall) == 0;
   int ma = ndpr->maxargs;	/* maxargs of proc body in bits */
   int pa = ndpr->numparams;

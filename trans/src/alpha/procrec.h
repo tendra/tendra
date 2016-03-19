@@ -24,7 +24,7 @@
 struct needst {
   int   fixneeds;		/* no of fixed t-regs required */
   int   floatneeds;		/* no of float t-regs required */
-        prop propsneeds;	/* various binary properties of exp */
+        prop propneeds;	/* various binary properties of exp */
   int   maxargs;		/* size in bits for actual parameters in
 				   exp */
   int 	numparams;	/* size in bits of parameters to function */

@@ -4015,7 +4015,7 @@ found:
 		 */
 		procrec * pr = & procrecs[no(e)];
 		needs * ndpr = & pr->needsproc;
-		long pprops = (ndpr->propsneeds);
+		long pprops = (ndpr->propneeds);
 		bool leaf = (pprops & anyproccall) == 0;
 		space tbd;
 		space pars;

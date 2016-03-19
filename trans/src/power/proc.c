@@ -164,7 +164,7 @@ bool last_caller_param(exp e)
 void make_proc_tag_code(exp e, space sp)
 {
 	procrec *pr = &procrecs[no(e)];
-	long pprops = pr->needsproc.propsneeds;
+	long pprops = pr->needsproc.propneeds;
 
 	clear_all();
 

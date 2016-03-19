@@ -20,7 +20,7 @@
 typedef struct {
     int fixneeds  ;
     int floatneeds ;
-    prop prps ;
+    prop propneeds ;
     int maxargs ;
   int callee_size;
 } needs ;

@@ -17,7 +17,7 @@
 typedef struct {
       int fixneeds  ;
       int floatneeds ;
-      prop propsneeds ;
+      prop propneeds ;
       int maxargs ;
       int builtin;
       long sz;

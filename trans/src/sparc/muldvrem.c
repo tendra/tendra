@@ -894,7 +894,7 @@ needs multneeds
   }
   /* default, call .mul */
   n.fixneeds = maxfix;
-  n.prps |= hasproccall;
+  n.propneeds |= hasproccall;
   return n;
 }
 
@@ -920,7 +920,7 @@ needs divneeds
   }
   /* default, call .div */
   n.fixneeds = maxfix;
-  n.prps |= hasproccall;
+  n.propneeds |= hasproccall;
   return n;
 }
 
@@ -944,6 +944,6 @@ needs remneeds
   }
   /* default, call .rem */
   n.fixneeds = maxfix;
-  n.prps |= hasproccall;
+  n.propneeds |= hasproccall;
   return n;
 }

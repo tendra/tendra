@@ -134,7 +134,7 @@ evalexp(exp e)
 	case env_size_tag: {
 		exp tag = son(son(e));
 		procrec *pr = &procrecs[no(son(tag))];
-		bool leaf = (long) ((pr->needsproc.prps & anyproccall) == 0);
+		bool leaf = (long) ((pr->needsproc.propneeds & anyproccall) == 0);
 		int arg_space;
 
 		if (leaf) {

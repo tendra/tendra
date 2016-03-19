@@ -396,7 +396,7 @@ local_translate_capsule(void)
 		{
 			procrec * pr = &procrecs[no(son(crt_exp))];
 			needs * ndpr = & pr->needsproc;
-			long pprops = (ndpr->propsneeds);
+			long pprops = (ndpr->propneeds);
 			bool leaf = (pprops & anyproccall) == 0;
 			spacereq forrest;
 			int   freefixed = 8;	/* NO OF S_REGISTERS */

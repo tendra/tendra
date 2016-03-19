@@ -91,7 +91,7 @@ long frame_offset(exp id)
 
 void set_up_frame_pointer(procrec * pr, exp e)
 {
-  long pprops = pr->needsproc.propsneeds;
+  long pprops = pr->needsproc.propneeds;
   /* Initialize a few of the fields */
   pr->alloca_proc = proc_has_alloca(e);
   pr->leaf_proc = ( ( pprops & anyproccall ) == 0);

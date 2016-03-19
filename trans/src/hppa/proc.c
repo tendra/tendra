@@ -229,7 +229,7 @@ make_proc_tag_code(exp e, space sp, where dest, int exitlab)
 	p_lab = 0;
 	pr = &procrecs[no(e)];
 	ndpr = &pr->needsproc;
-	pprops = (long)(ndpr->propsneeds);
+	pprops = (long)(ndpr->propneeds);
 	is_main = streq(proc_name, "main");
 
 	set_up_frame(e);

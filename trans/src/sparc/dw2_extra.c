@@ -557,7 +557,7 @@ void dw2_prepare_locate(exp id)
   procrec *pr = &procrecs [ no ( e ) ] ;
   needs *ndpr = &pr->needsproc ;
   spacereq *sppr = &pr->spacereqproc ;
-  long pprops = ( long ) ( ndpr->prps ) ;
+  long pprops = ( long ) ( ndpr->propneeds ) ;
   /* bool leaf = ( bool ) ( ( pprops & anyproccall ) == 0 ) ;	*/
   long maxargs = ndpr->maxargs ;/* maxargs of proc body in bits */
   long st = sppr->stack ;		/* space for locals in bits */
