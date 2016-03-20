@@ -36,7 +36,7 @@ struct dec_t {
 	diag_descriptor *diag_info;
 #endif
 #ifdef TDF_DIAG4
-	dg_name *dg_name;
+	dg_name dg_name;
 #endif
 
 	access acc;
