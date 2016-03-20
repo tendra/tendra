@@ -38,7 +38,6 @@ ENVFILE+=	16bit
 ENVFILE+=	32bit
 
 ENVFILE+=	compact
-ENVFILE+=	longlong
 ENVFILE+=	tcc_pp
 ENVFILE+=	tcc_prof
 ENVFILE+=	tcc_time
