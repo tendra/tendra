@@ -39,7 +39,7 @@
 #include "bitsmacs.h"
 #include "labels.h"
 #include "frames.h"
-#include "oprators.h"
+#include "ops.h"
 #include "labexp.h"
 
 #define isdbl(e)((bool)(e->tag!= shrealhd))

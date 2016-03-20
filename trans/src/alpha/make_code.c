@@ -59,7 +59,7 @@
 #include "procrec.h"
 #include "eval.h"
 #include "move.h"
-#include "operators.h"
+#include "ops.h"
 #include "pseudo.h"
 #include "getregs.h"
 #include "guard.h"

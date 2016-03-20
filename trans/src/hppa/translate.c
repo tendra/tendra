@@ -144,7 +144,7 @@
 #include "inst_fmt.h"
 #include "getregs.h"
 #include "special.h"
-#include "oprators.h"
+#include "ops.h"
 #include "time.h"
 #include "labexp.h"
 

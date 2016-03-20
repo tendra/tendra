@@ -29,7 +29,7 @@
 #include "guard.h"
 #include "bitsmacs.h"
 #include "mips_ins.h"
-#include "operators.h"
+#include "ops.h"
 #include "pseudo.h"
 
 static void

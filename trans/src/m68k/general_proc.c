@@ -45,7 +45,7 @@
 #include "where.h"
 #include "codec.h"
 #include "make_code.h"
-#include "operations.h"
+#include "ops.h"
 #include "ops_shared.h"
 #include "mach_ins.h"
 #include "mach_op.h"

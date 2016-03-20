@@ -50,7 +50,7 @@
 #include "procrec.h"
 #include "eval.h"
 #include "move.h"
-#include "oprators.h"
+#include "ops.h"
 #include "getregs.h"
 #include "guard.h"
 #include "locate.h"

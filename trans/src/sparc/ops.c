@@ -49,7 +49,7 @@
 #include "muldvrem.h"
 #include "proc.h"
 #include "labels.h"
-#include "oprators.h"
+#include "ops.h"
 
 /*
     CORRECT POSSIBLE OVERFLOWS IN REGISTER r

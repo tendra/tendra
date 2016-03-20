@@ -32,7 +32,7 @@
 #include "stack.h"
 #include "instruct.h"
 #include "tempdecs.h"
-#include "oprators.h"
+#include "ops.h"
 #include "record_bit.h"
 #include "localexpmacs.h"
 

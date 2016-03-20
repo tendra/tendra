@@ -45,7 +45,7 @@
 #include "codex.h"
 #include "instrs.h"
 #include "tests.h"
-#include "operations.h"
+#include "ops.h"
 #include "eval.h"
 #include "translate.h"
 #include "ops_shared.h"

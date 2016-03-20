@@ -50,7 +50,7 @@
 #include "tests.h"
 #include "where.h"
 #include "make_code.h"
-#include "operations.h"
+#include "ops.h"
 #include "ops_shared.h"
 #include "translate.h"
 #include "codec.h"

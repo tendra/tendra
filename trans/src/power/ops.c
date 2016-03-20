@@ -30,7 +30,7 @@
 #include "geninst.h"
 #include "instruct.h"
 #include "proc.h"
-#include "oprators.h"
+#include "ops.h"
 #include "make_code.h"
 #include "error.h"
 

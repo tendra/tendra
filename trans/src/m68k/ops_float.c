@@ -42,7 +42,7 @@
 #include "instrs.h"
 #include "make_code.h"
 #include "tests.h"
-#include "operations.h"
+#include "ops.h"
 #include "eval.h"
 #include "translate.h"
 #include "ops_shared.h"

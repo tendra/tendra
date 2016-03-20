@@ -37,7 +37,7 @@
 #include "bitsmacs.h"
 #include "alpha_ins.h"
 #include "reg_defs.h"
-#include "operators.h"
+#include "ops.h"
 
 void
 tidyshort(int r, shape s)
