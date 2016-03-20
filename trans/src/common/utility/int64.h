@@ -40,32 +40,32 @@ typedef long INT64;
 #define low_INT64(x)   (x)
 #define isquad(x)      ((unsigned long) (x) > UINT_MAX)
 
-#define INT64_assign(x, y)     ((x) = (y))
+#define INT64_assign(a, b)     ((a) = (b))
 #define out_INT64(x)           (void) asm_printf("%ld", (x))
-#define INT64_mult(x, y, z)    ((z) ? ((x) * (y)) : ((unsigned long) ((x) * (y))))
+#define INT64_mult(a, b, z)    ((z) ? ((a) * (b)) : ((unsigned long) ((a) * (b))))
 #if 0
-# define INT64_divide(x, y, z) ((z) ? ((x) / (y)) : ((unsigned long) ((x) / (y))))
+# define INT64_divide(a, b, z) ((z) ? ((a) / (b)) : ((unsigned long) ((a) / (b))))
 #else
-# define INT64_divide(x, y, z) ((x) / (y))
+# define INT64_divide(a, b, z) ((a) / (b))
 #endif
-#define INT64_mod(x, y, z)     ((x) % (y))
-#define INT64_add(x, y, z)     ((z) ? ((x) + (y)) : (unsigned long) ((x) + (y)))
+#define INT64_mod(a, b, z)     ((a) % (b))
+#define INT64_add(a, b, z)     ((z) ? ((a) + (b)) : (unsigned long) ((a) + (b)))
 #if 0
-# define INT64_subtract(x, y, z) ((z) ? ((x) - (y)) : (unsigned long) ((x) - (y)))
+# define INT64_subtract(a, b, z) ((z) ? ((a) - (b)) : (unsigned long) ((a) - (b)))
 #else
-# define INT64_subtract(x, y, z) ((x) - (y))
+# define INT64_subtract(a, b, z) ((a) - (b))
 #endif
 #define INT64_increment(x) ((x) + 1)
 #define INT64_decrement(x) ((x) - 1)
-#define INT64_or(x, y)     ((x) | (y))
-#define INT64_and(x, y)    ((x) & (y))
+#define INT64_or(a, b)     ((a) | (b))
+#define INT64_and(a, b)    ((a) & (b))
 #define INT64_not(x)       (~(x))
-#define INT64_xor(x, y)    ((x) ^ (y))
-#define INT64_shift_left(x, y, z) ((x) << (y))
-#define INT64_shift_right(x, y, z) ((x) >> (y))
-#define INT64_eq(x, y)     ((x) == (y))
-#define INT64_leq(x, y)    ((x) <= (y))
-#define INT64_lt(x, y)     ((x) < (y))
+#define INT64_xor(a, b)    ((a) ^ (b))
+#define INT64_shift_left(a, b, z)  ((a) << (b))
+#define INT64_shift_right(a, b, z) ((a) >> (b))
+#define INT64_eq(a, b)     ((a) == (b))
+#define INT64_leq(a, b)    ((a) <= (b))
+#define INT64_lt(a, b)     ((a) <  (b))
 #define INT64_abs(x)       (((x) > 0) ? (x) : -(x))
 #define make_INT64(big, small) ((small) + (((long) (big)) << 32))
 #define umax 0xffffffffffffffffUL
@@ -84,7 +84,7 @@ typedef flt64 INT64;
 #define isquad(x)          ((x).big != 0)
 #define flt64_to_INT64(x)  (x) /* the types are identical */
 
-#define INT64_assign(x, y) ((x) = (y))
+#define INT64_assign(a, b) ((a) = (b))
 void out_INT64(INT64);
 INT64 INT64_mult(INT64, INT64, bool);
 INT64 INT64_divide(INT64, INT64, bool);
