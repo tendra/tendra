@@ -11,13 +11,14 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
+#include <utility/bits.h>
+
 #include "instrs.h"
 #include "mach.h"
 #include "mach_ins.h"
 #include "mach_op.h"
 #include "codex.h"
 #include "output.h"
-#include "utility.h"
 
 #ifndef tdf3
 #define  par2_pl        4       /* procedure argument accessed by use of A5 */

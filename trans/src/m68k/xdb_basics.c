@@ -26,6 +26,8 @@
 #include <diag3/diaginfo1.h>
 #include <diag3/diag_reform.h>
 
+#include <utility/bits.h>
+
 #include "codex.h"
 #include "instrs.h"
 #include "mach.h"

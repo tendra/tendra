@@ -37,7 +37,6 @@
 #include "codec.h"
 #include "make_code.h"
 #include "operations.h"
-#include "utility.h"
 #include "mach.h"
 #include "instr.h"
 #include "codex.h"

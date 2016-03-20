@@ -14,8 +14,6 @@
 
 #include <flpt/flpt.h>
 
-#include "utility.h"
-
 
 /*
     STRUCTURE REPRESENTING MACHINE OPERANDS

@@ -10,8 +10,6 @@
 #ifndef CODEX_INCLUDED
 #define CODEX_INCLUDED
 
-#include "utility.h"
-
 #include <construct/installtypes.h>
 
 extern int ins(long, int, int, int);

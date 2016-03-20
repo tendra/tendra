@@ -22,7 +22,6 @@
 
 #include "instrs.h"
 #include "special_exps.h"
-#include "utility.h"
 
 /*
  * Make an exp representing the contents of an external tag with

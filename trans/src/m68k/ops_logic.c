@@ -11,6 +11,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <utility/bits.h>
+
 #include <local/ash.h>
 
 #include <tdf/shape.h>
@@ -22,8 +24,6 @@
 
 #include <construct/exp.h>
 #include <construct/install_fns.h>
-
-#include <utility/bits.h>
 
 #include "assembler.h"
 #include "mach.h"

@@ -14,6 +14,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <utility/bits.h>
+
 #include <local/fbase.h>
 
 #include <tdf/shape.h>
@@ -25,8 +27,6 @@
 
 #include <main/flags.h>
 
-#include <utility/bits.h>
-
 #include "assembler.h"
 #include "instrs.h"
 #include "eval.h"
@@ -35,7 +35,6 @@
 #include "mach_op.h"
 #include "codex.h"
 #include "translate.h"
-#include "utility.h"
 #include "xdb_basics.h"
 #include "68k_globals.h"
 #include "localexpmacs.h"

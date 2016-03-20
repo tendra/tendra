@@ -10,13 +10,6 @@
 #ifndef UTILITY_INCLUDED
 #define UTILITY_INCLUDED
 
-#include <string.h>
-
-#include <shared/string.h>
-#include <shared/xalloc.h>
-
-#include <utility/bits.h> /* XXX */
-
 #define  round(X, Y)		((Y)*(((X) + (Y) - 1) / (Y)))
 #define  log2(X)		bit_one(X)
 #define  pow2(X)		(1 << (X))

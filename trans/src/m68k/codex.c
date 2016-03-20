@@ -14,6 +14,8 @@
 #include <shared/error.h>
 #include <shared/string.h>
 
+#include <utility/bits.h>
+
 #include <local/ash.h>
 
 #include <tdf/shape.h>

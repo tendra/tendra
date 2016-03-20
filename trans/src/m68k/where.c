@@ -13,6 +13,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <utility/bits.h>
+
 #include <local/tag.h>
 
 #include <tdf/shape.h>
@@ -32,7 +34,6 @@
 #include "tests.h"
 #include "where.h"
 #include "make_code.h"
-#include "utility.h"
 #include "translate.h"
 #include "eval.h"
 

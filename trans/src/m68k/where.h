@@ -14,8 +14,6 @@
 
 #include <construct/installtypes.h>
 
-#include "utility.h"
-
 /*
     STRUCTURE REPRESENTING ALLOCATED EXPRESSIONS
 

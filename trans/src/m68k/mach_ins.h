@@ -10,8 +10,6 @@
 #ifndef MACH_INS_INCLUDED
 #define MACH_INS_INCLUDED
 
-#include "utility.h"
-
 #include <construct/installtypes.h>
 
 extern void make_instr_aux(int, mach_op *, mach_op *, bitpattern, int);

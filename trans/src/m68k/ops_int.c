@@ -13,6 +13,7 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <utility/bits.h>
 #include <utility/max.h>
 
 #include <local/tag.h>

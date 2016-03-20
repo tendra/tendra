@@ -11,6 +11,7 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <utility/bits.h>
 #include <utility/max.h>
 
 #include <tdf/shape.h>
@@ -21,7 +22,6 @@
 #include <construct/exp.h>
 
 #include "tests.h"
-#include "utility.h"
 #include "mach.h"
 #include "where.h"
 #include "translate.h"

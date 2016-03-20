@@ -16,6 +16,8 @@
 #include <shared/string.h>
 #include <shared/xalloc.h>
 
+#include <utility/bits.h>
+
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
@@ -41,7 +43,6 @@
 #include "mach_ins.h"
 #include "mach_op.h"
 #include "output.h"
-#include "utility.h"
 #include "xdb_types.h"
 #include "xdb_output.h"
 #include "stab_types.h"

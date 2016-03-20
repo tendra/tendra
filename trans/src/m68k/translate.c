@@ -13,6 +13,8 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
+#include <utility/bits.h>
+
 #include <local/szs_als.h>
 
 #include <tdf/shape.h>

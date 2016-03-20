@@ -12,8 +12,6 @@
 
 #include <construct/installtypes.h>
 
-#include "utility.h"
-
 extern bitpattern callmsk;
 extern void peephole(void);
 extern bool post_inc_refactor(mach_ins *, bitpattern);

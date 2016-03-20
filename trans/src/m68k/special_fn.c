@@ -26,8 +26,6 @@
 
 #include <main/flags.h>
 
-#include "utility.h"
-
 static bool
 special_setjmp(exp a1, exp a2, shape s, exp *e)
 {

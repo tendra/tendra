@@ -14,6 +14,8 @@
 #include <shared/error.h>
 #include <shared/getopt.h>
 
+#include <utility/bits.h>
+
 #include <local/szs_als.h>
 
 #include <reader/basicread.h>
@@ -41,7 +43,6 @@
 #include "output.h"
 #include "peephole.h"
 #include "tests.h"
-#include "utility.h"
 #include "where.h"
 #include "eval.h"
 #include "68k_globals.h"

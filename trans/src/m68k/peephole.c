@@ -11,6 +11,8 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
+#include <utility/bits.h>
+
 #include <construct/exp.h>
 
 #include "assembler.h"
@@ -19,7 +21,6 @@
 #include "mach_ins.h"
 #include "mach_op.h"
 #include "peephole.h"
-#include "utility.h"
 #include "output.h"
 
 extern bool have_cond;

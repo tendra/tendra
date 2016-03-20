@@ -10,8 +10,6 @@
 #ifndef INSTR_INCLUDED
 #define INSTR_INCLUDED
 
-#include "utility.h"
-
 extern mach_op * operand(long, where);
 extern bitpattern regs_changed(mach_op *, int);
 extern void ins0(int);

@@ -12,6 +12,8 @@
 #include <shared/bool.h>
 #include <shared/error.h>
 
+#include <utility/bits.h>
+
 #include <local/tag.h>
 
 #include <tdf/shape.h>
@@ -32,7 +34,6 @@
 #include "mach_op.h"
 #include "codex.h"
 #include "eval.h"
-#include "utility.h"
 #include "where.h"
 #include "make_code.h"
 #include "instr.h"
