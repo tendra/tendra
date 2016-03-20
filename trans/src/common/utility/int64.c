@@ -268,8 +268,8 @@ INT64_shift_right(INT64 arg, int shift, int sgned)
 bool
 INT64_eq(INT64 arg1, INT64 arg2)
 {
-  return low_INT64(arg1)==low_INT64(arg2))&&
-    (high_INT64(arg1)==high_INT64(arg2);
+  return (low_INT64(arg1)==low_INT64(arg2))&&
+    (high_INT64(arg1)==high_INT64(arg2));
 }
 
 bool
