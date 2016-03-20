@@ -597,6 +597,7 @@ static bool
 oddunary(exp x, exp y, exp *v)
 {
 	exp z;
+	exp xC;
 
 	*v = x;
 	if (x->tag != val_tag) {
@@ -615,7 +616,7 @@ flab1:
 		return false;
 	}
 
-	exp xC = son(x);
+	xC = son(x);
 	z = xC;
 
 	if (!(z != NULL && z->last && son(y) != NULL && oddunary(z, son(y), v))) {
