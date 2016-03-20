@@ -868,7 +868,7 @@ static void mult_const
 
     if (is_pow2(n)) {
 	/* Powers of two are easy */
-	p = log2(n);
+	p = ilog2(n);
 	if (wh1 == Dreg && last_use(a1)) {
 	    reg1 = a1;
 	    D1_used = 0;
@@ -886,7 +886,7 @@ static void mult_const
 	p = 0;
 	q = 0;
 	/* Scan through the 31 bits of n (the sign bit is zero), MSB first */
-	for (m = pow2(30); m; m >>= 1) {
+	for (m = ipow2(30); m; m >>= 1) {
 	    if (m & n) {
 		/* Set bit - record this */
 		started = 1;
@@ -1015,7 +1015,7 @@ void mult
 static void div_power2
 (shape sha, long v, where top, where dest)
 {
-    long n = log2(v);
+    long n = ilog2(v);
     if (is_signed(sha)) {
 	bool sw;
 	where w;
@@ -1146,7 +1146,7 @@ static bool rem_power2_1
     sw = cmp(ulongsh, d1, d0, tst_le);
     branch(tst_le, jend, s, sw, 0);
     and(ulongsh, d1, d0, d0);
-    rshift(ulongsh, mnw(log2(v + 1)), d1, d1);
+    rshift(ulongsh, mnw(ilog2(v + 1)), d1, d1);
     add(ulongsh, d0, d1, d1);
     make_jump(m_bra, loop);
     make_label(end);

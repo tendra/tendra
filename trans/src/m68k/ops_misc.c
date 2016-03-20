@@ -1071,7 +1071,7 @@ move(shape sha, where from, where to)
 	if (sz == 0 || eq_where(from, to) || eq_where(to,zero)) {
 		return;
 	}
-	sz = round(sz, shape_align(sha));
+	sz = iround(sz, shape_align(sha));
 
 	if (sha->tag == bitfhd && sz != 8 && sz != 16) {
 		sz = 32;

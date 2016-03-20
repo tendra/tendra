@@ -411,7 +411,7 @@ output_all_exps(void)
 			}
 		} else {
 			shape sha = d->shape;
-			long sz = round(shape_size(sha) / 8, 4);
+			long sz = iround(shape_size(sha) / 8, 4);
 
 			area(ptext);
 			if (!is_local(name) && isvar(c) && varsize(sha) && !reserved(name)) {

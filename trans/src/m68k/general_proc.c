@@ -877,7 +877,7 @@ apply_general_proc(exp e, where dest, ash stack)
 	if (!reg_res) {
 		if (eq_where(dest, zero)) {
 			/* Calculate size of ignored compound result */
-			comp_size = round(shape_size(sh(e)), param_align);
+			comp_size = iround(shape_size(sh(e)), param_align);
 		}
 	}
 
@@ -1483,7 +1483,7 @@ general_epilogue(bool uses_callers_pointer, bool has_checkstack)
 	}
 
 	/* Calculate stack displacements */
-	st1 = round(max_stack, 32) / 8 + 16 * bits_in(fmsk);
+	st1 = iround(max_stack, 32) / 8 + 16 * bits_in(fmsk);
 	st = st1 + 4 * bits_in(rmsk);
 
 	if (st1 || st || used_stack || must_use_bp || cur_proc_has_vcallees) {

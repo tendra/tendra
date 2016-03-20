@@ -90,9 +90,9 @@ add_shape_to_stack(ash p, shape s)
 		sz = SLONG_SZ;
 	}
 
-	res.astoff = round(p, param_align);
+	res.astoff = iround(p, param_align);
 	res.astadj = adj;
-	res.astash = round(res.astoff + sz, param_align);
+	res.astash = iround(res.astoff + sz, param_align);
 
 	return res;
 }
@@ -1541,7 +1541,7 @@ make_code(where dest, ash stack, exp e)
 			if (eq_where(dest, zero)) {
 				/* Calculate room for ignored compound result */
 				/* todo: use symbol instead of 32 */
-				comp_room = round(shape_size(sh(e)), 32);
+				comp_room = iround(shape_size(sh(e)), 32);
 			}
 		}
 

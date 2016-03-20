@@ -98,7 +98,7 @@ andetc_const(int instr, shape sha, long sz, long c, where a, where dest,
 				return;
 			}
 			if (is_pow2(cc)) {
-				long p = log2(cc);
+				long p = ilog2(cc);
 				if (whereis(dest) == Dreg) {
 					change_var(sha, a, dest);
 					ins2n(m_bclr, p, sz, dest, 1);
@@ -115,7 +115,7 @@ andetc_const(int instr, shape sha, long sz, long c, where a, where dest,
 			return;
 		}
 		if (is_pow2(c)) {
-			long p = log2(c);
+			long p = ilog2(c);
 			if (whereis(dest) == Dreg) {
 				change_var(sha, a, dest);
 				ins2n(m_bset, p, sz, dest, 1);
@@ -789,7 +789,7 @@ bit_test(shape sha, where a1, where a2)
 			long v = nw(a2);
 			if (is_pow2(v)) {
 				where w;
-				long n = log2(v);
+				long n = ilog2(v);
 				long off = sz - 8 *(1 + (n / 8));
 				w = mw(a1.wh_exp, a1.wh_off + off);
 				ins2n(m_btstb, n % 8, 8, w, 1);
@@ -804,7 +804,7 @@ bit_test(shape sha, where a1, where a2)
 				return;
 			}
 			if (is_pow2(v) && sz == 32) {
-				long n = log2(v);
+				long n = ilog2(v);
 				ins2n(m_btstl, n, sz, a1, 1);
 				have_cond = 0;
 				return;

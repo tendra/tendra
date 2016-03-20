@@ -495,7 +495,7 @@ epilogue(int restore_only)
 
     /* Calculate stack displacements */
 /* todo use symbol instead of number */
-    st1 = round(max_stack, 32) / 8 + 16 * bits_in(fmsk);
+    st1 = iround(max_stack, 32) / 8 + 16 * bits_in(fmsk);
     st = st1 + 4 * bits_in(rmsk);
     if (st1 || used_stack || !push_all || output_immediately)use_link = 1;
 
