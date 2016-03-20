@@ -1144,7 +1144,7 @@ copy_res(exp e, exp var, exp lab)
 			}
 		}
 
-		FALL_THROUGH;
+		/* FALL_THROUGH */
 	}
 
 	{
