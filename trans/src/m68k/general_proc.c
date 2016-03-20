@@ -18,6 +18,7 @@
 #include <shared/xalloc.h>
 
 #include <utility/bits.h>
+#include <utility/imath.h>
 
 #include <local/szs_als.h>
 #include <local/ash.h>
@@ -54,7 +55,6 @@
 #include "instrs.h"
 #include "peephole.h"
 #include "tests.h"
-#include "utility.h"
 #include "weights.h"
 #include "translate.h"
 #include "general_proc.h"

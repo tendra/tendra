@@ -15,6 +15,7 @@
 
 #include <utility/bits.h>
 #include <utility/max.h>
+#include <utility/imath.h>
 
 #include <local/tag.h>
 
@@ -46,7 +47,6 @@
 #include "tests.h"
 #include "operations.h"
 #include "eval.h"
-#include "utility.h"
 #include "translate.h"
 #include "ops_shared.h"
 #include "special_exps.h"

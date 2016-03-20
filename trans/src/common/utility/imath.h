@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef UTILITY_INCLUDED
-#define UTILITY_INCLUDED
+#ifndef UTILITY_IMATH_H
+#define UTILITY_IMATH_H
 
 #define  iround(X, Y)		((Y)*(((X) + (Y) - 1) / (Y)))
 #define  ilog2(X)		bit_one(X)

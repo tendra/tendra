@@ -15,6 +15,7 @@
 #include <shared/string.h>
 
 #include <utility/bits.h>
+#include <utility/imath.h>
 
 #include <local/ash.h>
 
@@ -47,7 +48,6 @@
 #include "codex.h"
 #include "output.h"
 #include "tests.h"
-#include "utility.h"
 #include "where.h"
 #include "make_code.h"
 #include "operations.h"

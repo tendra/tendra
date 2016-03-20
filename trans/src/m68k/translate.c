@@ -14,6 +14,7 @@
 #include <shared/xalloc.h>
 
 #include <utility/bits.h>
+#include <utility/imath.h>
 
 #include <local/szs_als.h>
 
@@ -44,7 +45,6 @@
 #include "codex.h"
 #include "output.h"
 #include "tests.h"
-#include "utility.h"
 #include "xdb_basics.h"
 #include "localexpmacs.h"
 #include "assembler.h"
