@@ -14,6 +14,7 @@
 #include <stdio.h>
 
 #include <shared/bool.h>
+#include <shared/error.h>
 
 #include <utility/int64.h>
 
