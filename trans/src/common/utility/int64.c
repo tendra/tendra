@@ -15,15 +15,14 @@
 
 #include <shared/bool.h>
 
+#include <utility/int64.h>
+
 #include <construct/exp.h>
 #include <construct/dec.h>
 
 #include <flpt/flpt.h>
 
 #include <main/print.h>
-
-#include "cross.h"
-#include "main.h"
 
 #if BLDARCHBITS == 64
 

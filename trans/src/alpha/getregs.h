@@ -13,8 +13,6 @@
 
 #include <reader/exp.h>
 
-#include "cross.h"
-
 extern int  getreg(int32);
 
 

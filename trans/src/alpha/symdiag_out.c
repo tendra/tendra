@@ -21,6 +21,8 @@
 #include <shared/string.h>
 #include <shared/xalloc.h>
 
+#include <utility/int64.h>
+
 #include <tdf/nat.h>
 #include <tdf/shape.h>
 #include <tdf/tag.h>

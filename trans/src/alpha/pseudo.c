@@ -18,10 +18,11 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
+#include <utility/int64.h>
+
 #include <main/driver.h>
 #include <main/print.h>
 
-#include "cross.h"
 #include "frames.h"
 #include "pseudo.h"
 #include "ibinasm.h"

@@ -24,6 +24,8 @@
 #include <shared/string.h>
 #include <shared/xalloc.h>
 
+#include <utility/int64.h>
+
 #include <tdf/nat.h>
 #include <tdf/shape.h>
 #include <tdf/tag.h>
@@ -56,7 +58,6 @@
 #include "ibinasm.h"
 #include "out_ba.h"
 #include "make_code.h"
-#include "cross.h"
 
 extern bool last_param(exp e);
 extern long currentfile;

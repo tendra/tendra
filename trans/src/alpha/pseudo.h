@@ -10,8 +10,6 @@
 #ifndef PSEUDO_H
 #define PSEUDO_H
 
-#include "cross.h"
-
 extern void setnoreorder(void);
 extern void setreorder(void);
 extern void setvolatile(void);

@@ -21,7 +21,6 @@
 #include "procrec.h"
 #include "bitsmacs.h"
 #include "reg_defs.h"
-#include "cross.h"
 #include "localexpmacs.h"
 
 extern exp father(exp);

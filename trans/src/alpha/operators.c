@@ -19,6 +19,8 @@
 #include <shared/bool.h>
 #include <shared/xalloc.h>
 
+#include <utility/int64.h>
+
 #include <local/ash.h>
 
 #include <tdf/shape.h>
@@ -35,7 +37,6 @@
 #include "bitsmacs.h"
 #include "alpha_ins.h"
 #include "reg_defs.h"
-#include "cross.h"
 #include "operators.h"
 
 void

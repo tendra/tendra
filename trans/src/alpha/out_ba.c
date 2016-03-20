@@ -17,7 +17,10 @@
 
 #include <stdio.h>
 
+#include <shared/bool.h>
 #include <shared/xalloc.h>
+
+#include <utility/int64.h>
 
 #include <construct/installtypes.h>
 #include <construct/dec.h>

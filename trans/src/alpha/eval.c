@@ -21,6 +21,7 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
+#include <utility/int64.h>
 #include <utility/max.h>
 
 #include <local/ash.h>
@@ -48,7 +49,6 @@
 #include "main.h"
 #include "frames.h"
 #include "reg_defs.h"
-#include "cross.h"
 #include "pseudo.h"
 #include "ibinasm.h"
 #include "out_ba.h"

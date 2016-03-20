@@ -10,7 +10,6 @@
 #include <stdio.h>
 
 #include "ibinasm.h"
-#include "cross.h"
 
 extern char *out_common(asmsym,unsigned);
 extern char *out_ent(asmsym,unsigned,unsigned);

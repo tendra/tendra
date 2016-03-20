@@ -19,7 +19,6 @@
 #include <construct/installtypes.h>
 
 #include "addrtypes.h"
-#include "cross.h"
 #include "instypes.h"
 #include "ins_data.h"
 #include "procrec.h"

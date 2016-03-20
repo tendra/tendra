@@ -24,6 +24,8 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
+#include <utility/int64.h>
+
 #include <reader/exp.h>
 
 #include <construct/installtypes.h>
@@ -38,7 +40,6 @@
 #include "inst_fmt.h"
 #include "main.h"
 #include "reg_defs.h"
-#include "cross.h"
 #include "regexps.h"
 #include "alpha_ins.h"
 #include "ibinasm.h"

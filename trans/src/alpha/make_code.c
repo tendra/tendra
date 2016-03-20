@@ -22,6 +22,7 @@
 #include <shared/string.h>
 #include <shared/xalloc.h>
 
+#include <utility/int64.h>
 #include <utility/max.h>
 
 #include <local/szs_als.h>
@@ -75,7 +76,6 @@
 #include "dump_distr.h"
 #include "frames.h"
 #include "reg_defs.h"
-#include "cross.h"
 #include "regable.h"
 #include "stabs_diag3.h"
 #include "outofline.h"

@@ -8,8 +8,6 @@
  */
 
 /*
-  cross.h
-
   This file contains a set of macros & function declarations
   to process the 64 bit integer type INT64.  If compiling on a
   platform with 64 bit longs, INT64 can be represented as a
@@ -20,8 +18,8 @@
   represented by a set of functions, defined in cross.c
 */
 
-#ifndef CROSS_H
-#define CROSS_H
+#ifndef UTILITY_INT64_H
+#define UTILITY_INT64_H
 
 #include <limits.h>
 

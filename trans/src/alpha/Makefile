@@ -66,7 +66,6 @@ SRCS+=	ashof.c
 SRCS+=	alpha_ins.c
 SRCS+=	code_here.c
 SRCS+=	make_code.c
-SRCS+=	cross.c
 SRCS+=	symdiag_out.c
 SRCS+=	dump_distr.c
 SRCS+=	eval.c

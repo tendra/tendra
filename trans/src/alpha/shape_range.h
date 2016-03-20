@@ -10,8 +10,6 @@
 #ifndef SHAPE_RANGE_H
 #define SHAPE_RANGE_H
 
-#include "cross.h"
-
 #if BLDARCHBITS == 64
 
 #define scmm_max 127L
