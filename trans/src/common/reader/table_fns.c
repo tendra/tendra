@@ -387,7 +387,7 @@ apply_tok(token td, bitstream pars, int sortcode, tokval * actual_pars)
 
 				return v;
 			}
-		} else {
+		} else if (npars > 0) {
 			/* free the space used for parameter binding */
 			xfree(new_context.toks);
 		}
