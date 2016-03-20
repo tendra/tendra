@@ -38,6 +38,8 @@ dump_bitstream(BITSTREAM *bs)
 
 	if (bs->bytes < CHUNK_SIZE) {
 		bs->text[0] = bs->text[bs->bytes];
+	} else {
+		assert(bs->bits == 0);
 	}
 
 	bs->bytes   = 0;
@@ -90,9 +92,11 @@ enc_bits(BITSTREAM *bs, unsigned n, unsigned d)
 	bits  = bs->bits;
 
 	if (bits) {
-		/* Add existing bits */
+		/* Move existing odd bits to b */
 		unsigned long c;
 		unsigned r;
+
+		assert(bytes < CHUNK_SIZE);
 
 		r = BYTE_SIZE - bits;
 		c = text[bytes];
