@@ -24,6 +24,8 @@
 #include <reader/externs.h>
 #include <reader/table_fns.h>
 
+#include <construct/me_fns.h>
+
 #include <main/flags.h>
 
 #include <refactor/const.h>

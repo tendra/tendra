@@ -17,6 +17,7 @@
 #include <shared/error.h>
 #include <shared/string.h>
 
+#include <construct/exp.h>
 #include <construct/installglob.h>
 
 #include <main/driver.h>

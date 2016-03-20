@@ -24,6 +24,8 @@ extern needs likediv(exp *, exp **);
 extern needs likeplus(exp *, exp **);
 extern needs scan(exp *, exp **);
 
+extern void check_asm_seq(exp e, int ext);
+
 extern int maxfix, maxfloat;
 
 #endif /* NEEDSCAN_INCLUDED */

@@ -18,6 +18,7 @@
 #include <reader/externs.h>
 
 #include <refactor/misc_c.h>
+#include <refactor/query.h>
 
 static bool
 invariant_to_apply(exp e);

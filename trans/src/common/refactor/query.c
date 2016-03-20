@@ -18,6 +18,7 @@
 #include <reader/externs.h>
 
 #include <refactor/query.h>
+#include <refactor/refactor.h>
 
 bool
 is_tester(exp e, int eq)
