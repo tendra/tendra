@@ -7,6 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 #include <string.h>
 #include <limits.h>
 #include <stdio.h>
@@ -33,7 +34,12 @@ dump_bitstream(BITSTREAM *bs)
 		IGNORE fwrite(bs->text, sizeof *bs->text, bs->bytes, bs->file);
 	}
 
-	bs->text[0] = bs->text[bs->bytes];
+	assert(bs->bytes <= CHUNK_SIZE);
+
+	if (bs->bytes < CHUNK_SIZE) {
+		bs->text[0] = bs->text[bs->bytes];
+	}
+
 	bs->bytes   = 0;
 }
 
@@ -71,6 +77,8 @@ enc_bits(BITSTREAM *bs, unsigned n, unsigned d)
 	unsigned long b;
 	unsigned bits, bytes;
 	bitstream_byte *text;
+
+	assert(n <= 16);
 
 	if (n == 0) {
 		return bs;
