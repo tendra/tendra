@@ -80,6 +80,9 @@ typedef long INT64;
 #define smin 0x8000000000000000L
 #define zero_int64 0L
 
+INT64 flt64_to_INT64(flt64);
+INT64 exp_to_INT64(exp);
+
 #else    /* no 64 bit integral type available, use a struct of 2 32s */
 
 typedef flt64 INT64;
@@ -120,9 +123,6 @@ INT64 make_INT64(INT32, UINT32);
 /* #define zero_int64 { 0, 0 } */
 
 #endif
-
-INT64  flt64_to_INT64(flt64);
-INT64  exp_to_INT64(exp);
 
 #endif
 
