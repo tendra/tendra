@@ -21,6 +21,8 @@
 #include <construct/ash.h>
 #include <construct/exp.h>
 
+#include <flpt/flpt.h>
+
 #include "addrtypes.h"
 #include "procrec.h"
 #include "labels.h"

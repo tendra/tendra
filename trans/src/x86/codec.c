@@ -35,9 +35,9 @@
 
 #include <flpt/flpt.h>
 
-#include <main/flags.h>
-
 #include <utility/bits.h>
+
+#include <main/flags.h>
 
 #include "localtypes.h"
 #include "instr386.h"

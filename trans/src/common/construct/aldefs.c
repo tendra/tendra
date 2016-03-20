@@ -10,12 +10,12 @@
 #include <shared/bool.h>
 #include <shared/error.h>
 
-#include <utility/max.h>
-
 #include <reader/basicread.h>
 
 #include <construct/installglob.h>
 #include <construct/aldefs.h>
+
+#include <utility/max.h>
 
 /*
  * The alignment definitions form a set of simultaneous equations

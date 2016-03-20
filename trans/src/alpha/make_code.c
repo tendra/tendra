@@ -22,9 +22,6 @@
 #include <shared/string.h>
 #include <shared/xalloc.h>
 
-#include <utility/int64.h>
-#include <utility/max.h>
-
 #include <local/szs_als.h>
 #include <local/ash.h>
 #include <local/tag.h>
@@ -44,6 +41,9 @@
 #include <construct/install_fns.h>
 
 #include <flpt/flpt.h>
+
+#include <utility/int64.h>
+#include <utility/max.h>
 
 #include <main/driver.h>
 #include <main/flags.h>

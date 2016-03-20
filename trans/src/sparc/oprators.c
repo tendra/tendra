@@ -15,7 +15,6 @@
 #include <shared/error.h>
 
 #include <local/ash.h>
-#include <utility/max.h>
 
 #include <tdf/shape.h>
 #include <tdf/tag.h>
@@ -28,6 +27,8 @@
 #include <construct/ash.h>
 #include <construct/install_fns.h>
 #include <construct/exp.h>
+
+#include <utility/max.h>
 
 #include <main/driver.h>
 #include <main/flags.h>

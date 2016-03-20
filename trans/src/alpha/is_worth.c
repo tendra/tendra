@@ -16,6 +16,8 @@
 #include <construct/exp.h>
 #include <construct/is_worth.h>
 
+#include <flpt/flpt.h>
+
 #include "make_code.h"
 
 bool

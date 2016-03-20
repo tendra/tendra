@@ -13,13 +13,13 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include <utility/bits.h>
-#include <utility/max.h>
-
 #include <local/fbase.h>
 
 #include <tdf/shape.h>
 #include <tdf/tag.h>
+
+#include <utility/bits.h>
+#include <utility/max.h>
 
 #include <main/driver.h>
 #include <main/print.h>

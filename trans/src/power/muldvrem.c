@@ -21,6 +21,8 @@
 #include <construct/exp.h>
 #include <construct/dec.h>
 
+#include <utility/imath.h>
+
 #include <main/print.h>
 
 #include "codegen.h"
@@ -38,8 +40,6 @@
 #define NOT_MUL_CONST_SIMPLE	(MAX_MUL_POW2_OFFSET+1)
  /* any constant larger than permissable X offset in 2**n +- X */
 
-#define IS_POW2(c)		((c)!= 0 && ((c) & ((c) -1)) == 0)
-
 
 
 
@@ -53,7 +53,7 @@ static int bit_no(unsigned long c)
   int shift_const;
   unsigned long mask;
 
-  assert(IS_POW2(c));
+  assert(is_pow2(c));
 
   for (mask = 1, shift_const = 0; mask != c; mask = mask << 1)
   {
@@ -92,14 +92,14 @@ static int offset_mul_const_simple(long constval, bool sgned)
 
     /* check for add offsets, avoiding overflow confusion */
     c = constval - i;
-    if (IS_POW2(c) && c+i == constval)
+    if (is_pow2(c) && c+i == constval)
       return i;
 
     /* check for sub offset of 1 only, avoiding overflow confusion */
     if (i == 1)
     {
       c = constval + i;
-      if (IS_POW2(c) && c-i == constval)
+      if (is_pow2(c) && c-i == constval)
 	return -i;
     }
   }
@@ -252,7 +252,7 @@ static int do_div(exp seq, space sp, int final_reg, bool sgned)
 
   assert(rhs->last);
 
-  if (rhs->tag == val_tag && IS_POW2(no(rhs)))
+  if (rhs->tag == val_tag && is_pow2(no(rhs)))
   {
     /*
      * OPTIMISATION: Division by power of 2 can be done as a shift
@@ -264,7 +264,7 @@ static int do_div(exp seq, space sp, int final_reg, bool sgned)
       uncond_ins(i_b,no(son(pt(e))));
       return final_reg;
     }
-    if (constval>0 && IS_POW2(constval))
+    if (constval>0 && is_pow2(constval))
     {
       /* const optim, replace div by 2**n by shift right */
 
@@ -449,11 +449,11 @@ static int do_rem(exp seq, space sp, int final_reg, bool sgned)
     final_reg = getreg(sp.fixed);
   }
 
-  if (rhs->tag == val_tag && IS_POW2(no(rhs)))
+  if (rhs->tag == val_tag && is_pow2(no(rhs)))
   {
     long constval = no(rhs);
 
-    if (constval>0 && IS_POW2(constval))
+    if (constval>0 && is_pow2(constval))
     {
       /* const optim, replace rem by 2**n by and with mask */
 
@@ -728,7 +728,7 @@ needs divneeds(exp *e, exp **at)
   {
     long constval = no(rhs);
 
-    if (constval>0 && IS_POW2(constval))
+    if (constval>0 && is_pow2(constval))
     {
       /* const optim, replace div by positive, non-zero, 2**n by shift right */
 
@@ -757,7 +757,7 @@ needs remneeds(exp *e, exp **at)
   {
     long constval = no(rhs);
 
-    if (constval>0 && IS_POW2(constval))
+    if (constval>0 && is_pow2(constval))
     {
       /* const optim of rem by positive, non-zero, 2**n */
 

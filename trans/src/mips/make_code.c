@@ -19,8 +19,6 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include <utility/max.h>
-
 #include <local/ash.h>
 #include <local/tag.h>
 
@@ -37,6 +35,8 @@
 #include <construct/exp.h>
 
 #include <flpt/flpt.h>
+
+#include <utility/max.h>
 
 #include <main/driver.h>
 #include <main/flags.h>

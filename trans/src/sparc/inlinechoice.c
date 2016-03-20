@@ -24,6 +24,7 @@
 #include <refactor/optimise.h>
 
 #include <utility/complexity.h>
+#include <utility/imath.h>
 
 #include <main/flags.h>
 
@@ -150,18 +151,16 @@ inlinechoice(exp t, exp def, int cnt)
 			 * since a constant may cause further optimisation,
 			 * eg. strength reduction (mul to shift) or dead code savings.
 			 */
-#define IS_POW2(c) ((c)!= 0 && ((c) & ((c) - 1)) == 0)
 			if (!SIMM13_SIZE(n)) {
 				/* needs a register - poor */
 				const_param_bonus += CONST_BONUS_UNIT / 4;
-			} else if (n == 0 || (n > 0 && IS_POW2(n))) {
+			} else if (n == 0 || (n > 0 && is_pow2(n))) {
 				/* very good */
 				const_param_bonus += CONST_BONUS_UNIT;
 			} else {
 				/* less good */
 				const_param_bonus += CONST_BONUS_UNIT / 2;
 			}
-#undef IS_POW2
 
 			break;
 		}

@@ -14,8 +14,6 @@
 #include <shared/error.h>
 #include <shared/getopt.h>
 
-#include <utility/bits.h>
-
 #include <local/szs_als.h>
 
 #include <reader/basicread.h>
@@ -29,6 +27,8 @@
 #include <flpt/flpt.h>
 
 #include <diag3/diag_reform.h>
+
+#include <utility/bits.h>
 
 #include <main/flags.h>
 #include <main/driver.h>

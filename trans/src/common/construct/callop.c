@@ -25,9 +25,9 @@
 #include <construct/install_fns.h>
 #include <construct/callop.h>
 
-#include <main/flags.h>
-
 #include <utility/prefix.h>
+
+#include <main/flags.h>
 
 #include <refactor/refactor.h>
 

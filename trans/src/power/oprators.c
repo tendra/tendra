@@ -13,8 +13,6 @@
 #include <shared/bool.h>
 #include <shared/error.h>
 
-#include <utility/max.h>
-
 #include <local/ash.h>
 
 #include <tdf/shape.h>
@@ -23,6 +21,8 @@
 #include <reader/exp.h>
 
 #include <construct/installtypes.h>
+
+#include <utility/max.h>
 
 #include <main/flags.h>
 

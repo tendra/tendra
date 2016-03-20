@@ -20,6 +20,8 @@
 #include <construct/dec.h>
 #include <construct/exp.h>
 
+#include <utility/imath.h>
+
 #include <main/flags.h>
 #include <main/print.h>
 
@@ -70,7 +72,7 @@ static int bit_no
   int shift_const;
   unsigned long mask;
 
-  assert(IS_POW2(c));
+  assert(is_pow2(c));
 
   for (mask = 1, shift_const = 0; mask != c; mask = mask << 1)
   {
@@ -369,14 +371,14 @@ static int offset_mul_const_simple
 
     /* check for add offsets, avoiding overflow confusion */
     c = constval - i;
-    if (IS_POW2(c) && c + i == constval)
+    if (is_pow2(c) && c + i == constval)
       return i;
 
     /* check for sub offset of 1 only, avoiding overflow confusion */
     if (i == 1)
     {
       c = constval + i;
-      if (IS_POW2(c) && c - i == constval)
+      if (is_pow2(c) && c - i == constval)
 	return -i;
     }
   }
@@ -638,7 +640,7 @@ static int do_div
    {
       /*   nb. div_by_zero_err handled by common code  */
       int n = no(rhs);
-      if (n > 0 && IS_POW2(n))
+      if (n > 0 && is_pow2(n))
       {
 	 int lhs_reg = reg_operand(lhs, sp);
 	 int shift_const = bit_no(n);
@@ -777,7 +779,7 @@ static int do_rem
 	 return GR0;
       }
       else
-      if (IS_POW2(n))
+      if (is_pow2(n))
       {
 	 int lhs_reg = reg_operand(lhs, sp);
 	 sp = guardreg(lhs_reg, sp);
@@ -1028,7 +1030,7 @@ bool is_muldivrem_call
 	if (arg2->last && arg2->tag == val_tag)
 	{
 	  long constval = no(arg2);
-	  if (constval > 0 && IS_POW2(constval))
+	  if (constval > 0 && is_pow2(constval))
 	  {
 	    return 0;
 	  }
@@ -1089,7 +1091,7 @@ needs divneeds
   {
     long constval = no(rhs);
 
-    if (constval > 0 && IS_POW2(constval))
+    if (constval > 0 && is_pow2(constval))
     {
       /* const optim, replace div by positive, non-zero, 2**n by shift right */
 
@@ -1118,7 +1120,7 @@ needs remneeds
   {
     long constval = no(rhs);
 
-    if (constval > 0 && IS_POW2(constval))
+    if (constval > 0 && is_pow2(constval))
     {
       /* const optim of rem by positive, non-zero, 2**n */
 

@@ -18,8 +18,6 @@
 #include <shared/error.h>
 #include <shared/string.h>
 
-#include <utility/max.h>
-
 #include <local/ash.h>
 #include <local/out.h>
 #include <local/cpu.h>
@@ -42,12 +40,13 @@
 
 #include <flpt/flpt.h>
 
+#include <utility/bits.h>
+#include <utility/max.h>
+
 #include <main/flags.h>
 #include <main/print.h>
 
 #include <refactor/refactor.h>
-
-#include <utility/bits.h>
 
 #include "localtypes.h"
 #include "make_code.h"

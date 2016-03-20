@@ -18,8 +18,6 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include <utility/max.h>
-
 #include <tdf/shape.h>
 #include <tdf/tag.h>
 
@@ -28,6 +26,8 @@
 #include <construct/aldefs.h>
 
 #include <refactor/refactor.h>
+
+#include <utility/max.h>
 
 #include <main/print.h>
 

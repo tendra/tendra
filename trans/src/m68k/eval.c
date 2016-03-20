@@ -14,8 +14,6 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include <utility/bits.h>
-
 #include <local/fbase.h>
 
 #include <tdf/shape.h>
@@ -24,6 +22,8 @@
 #include <reader/basicread.h>
 
 #include <flpt/flpt.h>
+
+#include <utility/bits.h>
 
 #include <main/flags.h>
 

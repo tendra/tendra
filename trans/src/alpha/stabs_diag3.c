@@ -24,8 +24,6 @@
 #include <shared/string.h>
 #include <shared/xalloc.h>
 
-#include <utility/int64.h>
-
 #include <tdf/nat.h>
 #include <tdf/shape.h>
 #include <tdf/tag.h>
@@ -45,6 +43,10 @@
 #include <symtab/symconst.h>
 #include <symtab/symtab.h>
 #include <symtab/new_symbol.h>
+
+#include <flpt/flpt.h>
+
+#include <utility/int64.h>
 
 #include <main/driver.h>
 #include <main/print.h>

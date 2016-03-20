@@ -23,11 +23,11 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include <utility/max.h>
-
 #include <local/ash.h>
 
 #include <reader/basicread.h>
+
+#include <utility/max.h>
 
 #include <main/flags.h>
 

@@ -47,13 +47,13 @@
 #include <construct/reg_result.h>
 #include <construct/label_ops.h>
 
+#include <utility/bits.h>
+
 #include <main/flags.h>
 #include <main/print.h>
 
 #include <refactor/refactor.h>
 #include <refactor/misc_c.h>
-
-#include <utility/bits.h>
 
 #include "localtypes.h"
 #include "weights.h"

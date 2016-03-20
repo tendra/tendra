@@ -13,8 +13,6 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
-#include <utility/max.h>
-
 #include <local/ash.h>
 
 #include <tdf/shape.h>
@@ -23,6 +21,9 @@
 #include <construct/installtypes.h>
 #include <construct/dec.h>
 #include <construct/ash.h>
+
+#include <utility/imath.h>
+#include <utility/max.h>
 
 #include <main/driver.h>
 #include <main/flags.h>
@@ -128,7 +129,7 @@ void logical_op
 	 rr_ins(i_copy,r,d);
       return;
    }
-   else if (lop==i_and && IS_POW2((i+1)))
+   else if (lop==i_and && is_pow2((i+1)))
    {
       int p=0;
       while (i & (1<<p))p++;
@@ -138,7 +139,7 @@ void logical_op
 	 riir_ins(i_extru,c_,r,31,p,d);
       return;
    }
-   else if (lop==i_and && IS_POW2((-i)))
+   else if (lop==i_and && is_pow2((-i)))
    {
       int p=0;
       while ((i & (1<<p)) ==0)p++;
@@ -257,7 +258,7 @@ do_comm(exp seq, space sp, int final, ins_p rins)
 	int n,s;
 	n=no(next);
 	s=no(shift);
-	if (IS_POW2((n+1)))
+	if (is_pow2((n+1)))
 	{
 	   int p=0;
 	   a1=reg_operand(son(seq), sp);

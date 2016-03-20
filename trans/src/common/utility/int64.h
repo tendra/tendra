@@ -21,14 +21,6 @@
 #ifndef UTILITY_INT64_H
 #define UTILITY_INT64_H
 
-#include <limits.h>
-
-#include <reader/exp.h>
-
-#include <construct/installtypes.h>
-
-#include <flpt/flpt.h>
-
 extern flt64 exp_to_f64(exp);
 typedef int INT32;
 typedef unsigned int UINT32;

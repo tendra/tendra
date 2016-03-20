@@ -13,8 +13,6 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include <utility/bits.h>
-
 #include <local/tag.h>
 
 #include <tdf/shape.h>
@@ -29,6 +27,8 @@
 #include <construct/install_fns.h>
 
 #include <flpt/flpt.h>
+
+#include <utility/bits.h>
 
 #include "mach.h"
 #include "tests.h"

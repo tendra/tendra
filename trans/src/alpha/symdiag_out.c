@@ -21,8 +21,6 @@
 #include <shared/string.h>
 #include <shared/xalloc.h>
 
-#include <utility/int64.h>
-
 #include <tdf/nat.h>
 #include <tdf/shape.h>
 #include <tdf/tag.h>
@@ -39,6 +37,10 @@
 #include <diag3/diaginfo1.h>
 
 #include <symtab/symconst.h>
+
+#include <flpt/flpt.h>
+
+#include <utility/int64.h>
 
 #include "procrec.h"
 #include "bitsmacs.h"

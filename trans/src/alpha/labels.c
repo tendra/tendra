@@ -20,6 +20,8 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
+#include <flpt/flpt.h>
+
 #include <main/driver.h>
 #include <main/print.h>
 

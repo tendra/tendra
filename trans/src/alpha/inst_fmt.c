@@ -24,14 +24,16 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
-#include <utility/int64.h>
-
 #include <reader/exp.h>
 
 #include <construct/installtypes.h>
 #include <construct/dec.h>
 
 #include <symtab/syms.h>
+
+#include <flpt/flpt.h>
+
+#include <utility/int64.h>
 
 #include <main/driver.h>
 #include <main/print.h>

@@ -25,6 +25,8 @@
 #include <construct/dec.h>
 #include <construct/ash.h>
 
+#include <flpt/flpt.h>
+
 #include "addrtypes.h"
 #include "move.h"
 #include "pseudo.h"

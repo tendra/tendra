@@ -23,6 +23,8 @@
 #include <construct/dec.h>
 #include <construct/exp.h>
 
+#include <utility/imath.h>
+
 #include <main/flags.h>
 
 #include "procrec.h"
@@ -65,13 +67,6 @@
 
 
 /*
-  IS c A POWER OF TWO?
-*/
-
-#define IS_POW2(c)	((c)!= 0 && ((c) & ((c) - 1)) == 0)
-
-
-/*
   GIVEN A POWER OF TWO, c, FIND n WHERE c = 2**n
 */
 
@@ -81,7 +76,7 @@ static int bit_no
 (long c) {
   int n;
   unsigned long m;
-  assert(IS_POW2(c));
+  assert(is_pow2(c));
   for (m = 1, n = 0; m != (unsigned long)c; m = m << 1)n++;
   return n;
 }
@@ -374,11 +369,11 @@ static int offset_mul_const_simple
     long c ;	/* power of two close to constval */
     /* check for add offsets, avoiding overflow confusion */
     c = constval - i;
-    if (IS_POW2(c) && c + i == constval) return i;
+    if (is_pow2(c) && c + i == constval) return i;
     /* check for sub offset of 1 only, avoiding overflow confusion */
     if (i == 1) {
       c = constval + i;
-      if (IS_POW2(c) && c - i == constval) return -i;
+      if (is_pow2(c) && c - i == constval) return -i;
     }
   }
   return NOT_MUL_CONST_SIMPLE;
@@ -577,7 +572,7 @@ static int do_div
   int et;
   assert ( rhs -> last ) ;	/* so bro(rhs) == the div exp  */
   if (!has_error_treatment && rhs->tag == val_tag &&
-       IS_POW2(no(rhs)) && no(rhs) > 0) {
+       is_pow2(no(rhs)) && no(rhs) > 0) {
     long constval = no(rhs);
     /* const optim, replace div by 2**n by shift right */
     int lhs_reg = reg_operand(lhs, sp);
@@ -673,7 +668,7 @@ static int do_rem
 
   assert(rhs->last);
 
-  if (rhs->tag == val_tag && IS_POW2(no(rhs)) && (no(rhs) > 0)) {
+  if (rhs->tag == val_tag && is_pow2(no(rhs)) && (no(rhs) > 0)) {
     long constval = no(rhs);
 
     /* const optim, replace rem by 2**n by and with mask */
@@ -860,7 +855,7 @@ bool is_muldivrem_call
       exp arg2 = bro(son(e));
       if (arg2->last && arg2->tag == val_tag && optop(e)) {
 	long constval = no(arg2);
-	if (constval > 0 && IS_POW2(constval))
+	if (constval > 0 && is_pow2(constval))
 	  return 0;
       }
       return 1;
@@ -913,7 +908,7 @@ needs divneeds
   n = likediv(e, at);
   if (rhs->tag == val_tag && optop(*e)) {
     long constval = no(rhs);
-    if (constval > 0 && IS_POW2(constval)) {
+    if (constval > 0 && is_pow2(constval)) {
       /* const optim, replace div by shift */
       return n;
     }
@@ -937,7 +932,7 @@ needs remneeds
   n = likediv(e, at);
   if (rhs->tag == val_tag && optop(*e)) {
     long constval = no(rhs);
-    if (constval > 0 && IS_POW2(constval)) {
+    if (constval > 0 && is_pow2(constval)) {
       /* const optim of rem by positive, non-zero, 2**n */
       return n;
     }

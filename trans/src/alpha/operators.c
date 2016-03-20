@@ -19,14 +19,14 @@
 #include <shared/bool.h>
 #include <shared/xalloc.h>
 
-#include <utility/int64.h>
-
 #include <local/ash.h>
 
 #include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <flpt/flpt.h>
+
+#include <utility/int64.h>
 
 #include "code_here.h"
 #include "addrtypes.h"

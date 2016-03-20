@@ -23,8 +23,6 @@
 #include <shared/bool.h>
 #include <shared/check.h>
 
-#include <utility/max.h>
-
 #include <local/szs_als.h>
 #include <local/ash.h>
 #include <local/tag.h>
@@ -42,6 +40,8 @@
 #include <construct/install_fns.h>
 
 #include <flpt/flpt.h>
+
+#include <utility/max.h>
 
 #include <main/flags.h>
 

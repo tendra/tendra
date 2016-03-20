@@ -18,11 +18,11 @@
 #include <construct/installglob.h>
 #include <construct/exp.h>
 
+#include <utility/complexity.h>
+
 #include <main/flags.h>
 
 #include <refactor/optimise.h>
-
-#include <utility/complexity.h>
 
 #define crit_inline 50
 #define decs_allowed 4

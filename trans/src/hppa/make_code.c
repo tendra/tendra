@@ -16,8 +16,6 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
-#include <utility/max.h>
-
 #include <local/ash.h>
 #include <local/out.h>
 #include <local/tag.h>
@@ -37,6 +35,9 @@
 #include <construct/reg_result.h>
 
 #include <flpt/flpt.h>
+
+#include <utility/imath.h>
+#include <utility/max.h>
 
 #include <main/driver.h>
 #include <main/flags.h>
@@ -1800,7 +1801,7 @@ tailrecurse:
 				exp bsonl = bro(sonl);
 				if (bsonl->tag == val_tag) {
 					int v = no(bsonl);
-					if (IS_POW2(v)) {
+					if (is_pow2(v)) {
 						/* We can branch on bit */
 
 						/* Which bit, b, to branch on ? */

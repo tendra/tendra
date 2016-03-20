@@ -13,10 +13,6 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include <utility/bits.h>
-#include <utility/max.h>
-#include <utility/imath.h>
-
 #include <local/tag.h>
 
 #include <tdf/shape.h>
@@ -27,6 +23,10 @@
 
 #include <construct/exp.h>
 #include <construct/install_fns.h>
+
+#include <utility/bits.h>
+#include <utility/imath.h>
+#include <utility/max.h>
 
 #include <main/flags.h>
 #include <main/driver.h>

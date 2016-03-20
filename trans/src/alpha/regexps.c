@@ -22,6 +22,8 @@
 
 #include <construct/aldefs.h>
 
+#include <flpt/flpt.h>
+
 #include "addrtypes.h"
 #include "move.h"
 #include "bitsmacs.h"

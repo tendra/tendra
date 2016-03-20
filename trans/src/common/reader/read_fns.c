@@ -44,9 +44,9 @@
 #include <construct/machine.h>
 #include <construct/aldefs.h>
 
-#include <main/flags.h>
-
 #include <utility/prefix.h>
+
+#include <main/flags.h>
 
 #ifdef TDF_DIAG3
 #include <diag3/diag_fns.h>

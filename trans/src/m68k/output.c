@@ -15,9 +15,9 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include <utility/bits.h>
-
 #include <local/fbase.h>
+
+#include <utility/bits.h>
 
 #include <main/driver.h>
 #include <main/print.h>

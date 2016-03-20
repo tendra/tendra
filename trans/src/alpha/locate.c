@@ -26,6 +26,8 @@
 #include <construct/ash.h>
 #include <construct/exp.h>
 
+#include <flpt/flpt.h>
+
 #include "addrtypes.h"
 #include "inst_fmt.h"
 #include "alpha_ins.h"

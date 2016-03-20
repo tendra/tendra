@@ -13,14 +13,14 @@
 #include <shared/bool.h>
 #include <shared/check.h>
 
-#include <utility/max.h>
-
 #include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <reader/basicread.h>
 
 #include <construct/exp.h>
+
+#include <utility/max.h>
 
 #include <main/flags.h>
 

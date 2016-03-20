@@ -21,12 +21,14 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include <utility/max.h>
-
 #include <construct/installtypes.h>
 #include <construct/dec.h>
 
 #include <local/ash.h>
+
+#include <flpt/flpt.h>
+
+#include <utility/max.h>
 
 #include "alpha_ins.h"
 #include "inst_fmt.h"

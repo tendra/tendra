@@ -31,8 +31,6 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include <utility/max.h>
-
 #include <local/ash.h>
 
 #include <tdf/tag.h>
@@ -40,6 +38,8 @@
 #include <construct/installtypes.h>
 #include <construct/dec.h>
 #include <construct/ash.h>
+
+#include <utility/max.h>
 
 #include <main/flags.h>
 

@@ -16,12 +16,12 @@
 #include <shared/bool.h>
 #include <shared/error.h>
 
-#include <utility/int64.h>
-
 #include <construct/exp.h>
 #include <construct/dec.h>
 
 #include <flpt/flpt.h>
+
+#include <utility/int64.h>
 
 #include <main/print.h>
 

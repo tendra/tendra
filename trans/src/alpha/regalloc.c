@@ -19,15 +19,19 @@
 
 #include <stddef.h>
 
+#include <shared/bool.h>
+
 #include <local/ash.h>
 
-#include <utility/max.h>
-
 #include <tdf/tag.h>
+
+#include <flpt/flpt.h>
 
 #include <construct/installtypes.h>
 #include <construct/dec.h>
 #include <construct/ash.h>
+
+#include <utility/max.h>
 
 #include "procrec.h"
 #include "bitsmacs.h"

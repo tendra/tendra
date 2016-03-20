@@ -16,6 +16,10 @@
 
 #include <construct/exp.h>
 
+#include <flpt/flpt.h>
+
+#include <utility/int64.h>
+
 #include "procrec.h"
 #include "regexps.h"
 #include "bitsmacs.h"

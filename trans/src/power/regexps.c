@@ -12,8 +12,6 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include <utility/max.h>
-
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
@@ -21,6 +19,8 @@
 #include <construct/aldefs.h>
 
 #include <refactor/refactor.h>
+
+#include <utility/max.h>
 
 #include <main/flags.h>
 #include <main/print.h>

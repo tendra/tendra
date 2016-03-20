@@ -21,12 +21,12 @@
 #include <shared/bool.h>
 #include <shared/error.h>
 
-#include <utility/max.h>
-
 #include <local/cpu.h>
 
 #include <construct/installtypes.h>
 #include <construct/dec.h>
+
+#include <utility/max.h>
 
 #include <main/driver.h>
 #include <main/flags.h>
@@ -40,8 +40,6 @@
 #include "inst_fmt.h"
 #include "macro.h"
 #include "mask.h"
-
-#define IS_POW2(c)		((c)!= 0 && ((c) & ((c) -1)) == 0)
 
 #define CHECKREG(r)		assert(IS_FIXREG(r) && (!IS_SREG(r) || (r) >= p_sreg_first_save || (r == R_FP)));
 #define CHECKFREG(r)		assert((!IS_FLT_SREG(r) || (r) >= p_sfreg_first_save));

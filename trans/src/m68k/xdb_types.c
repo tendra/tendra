@@ -15,12 +15,12 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
-#include <utility/bits.h>
-
 #include <tdf/nat.h>
 #include <tdf/shape.h>
 
 #include <reader/externs.h>
+
+#include <utility/bits.h>
 
 #include <main/flags.h>
 #include <main/print.h>

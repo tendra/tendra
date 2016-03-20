@@ -34,6 +34,8 @@
 #include <symtab/symtab.h>
 #include <symtab/new_symbol.h>
 
+#include <flpt/flpt.h>
+
 #include <main/driver.h>
 #include <main/flags.h>
 #include <main/print.h>

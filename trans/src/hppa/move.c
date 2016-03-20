@@ -24,9 +24,9 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include <utility/max.h>
-
 #include <local/ash.h>
+
+#include <utility/max.h>
 
 #include <main/print.h>
 

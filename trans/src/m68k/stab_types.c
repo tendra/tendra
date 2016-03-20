@@ -13,12 +13,12 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include <utility/bits.h>
-
 #include <tdf/nat.h>
 #include <tdf/shape.h>
 
 #include <reader/externs.h>
+
+#include <utility/bits.h>
 
 #include "instrs.h"
 #include "mach.h"

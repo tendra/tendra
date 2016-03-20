@@ -51,6 +51,8 @@
 
 #include <construct/exp.h>
 
+#include <flpt/flpt.h>
+
 #include "procrec.h"
 #include "bitsmacs.h"
 #include "regable.h"

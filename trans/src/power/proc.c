@@ -23,6 +23,7 @@
 
 #include <reader/exp.h>
 
+#include <construct/exp.h>
 #include <construct/installtypes.h>
 #include <construct/aldefs.h>
 #include <construct/dec.h>

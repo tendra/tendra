@@ -21,8 +21,6 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include <utility/max.h>
-
 #include <local/szs_als.h>		/* for MAX_BF_SIZE */
 #include <local/ash.h>
 #include <local/fbase.h>
@@ -33,6 +31,8 @@
 
 #include <reader/exp.h>
 #include <reader/basicread.h>
+
+#include <utility/max.h>
 
 #include <main/driver.h>
 #include <main/flags.h>

@@ -24,8 +24,6 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include <utility/max.h>
-
 #include <local/cpu.h>
 #include <local/ash.h>
 #include <local/tag.h>
@@ -46,6 +44,8 @@
 #include <construct/me_fns.h>
 
 #include <flpt/flpt.h>
+
+#include <utility/max.h>
 
 #include <main/flags.h>
 #include <main/print.h>

@@ -15,13 +15,13 @@
 #ifndef ADDRTYPES_H
 #define ADDRTYPES_H
 
-#include <utility/int64.h>
-
 #include <local/ash.h>
 
 #include <reader/exp.h>
 
 #include <construct/installtypes.h>
+
+#include <utility/int64.h>
 
 typedef struct {
 	int lab;

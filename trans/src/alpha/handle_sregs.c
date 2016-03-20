@@ -15,6 +15,8 @@
 #include <shared/bool.h>
 #include <shared/error.h>
 
+#include <flpt/flpt.h>
+
 #include "alpha_ins.h"
 #include "inst_fmt.h"
 #include "addrtypes.h"

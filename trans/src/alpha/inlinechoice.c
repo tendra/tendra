@@ -20,9 +20,10 @@
 
 #include <main/flags.h>
 
-#include <refactor/optimise.h>
-
 #include <utility/complexity.h>
+#include <utility/imath.h>
+
+#include <refactor/optimise.h>
 
 #define crit_inline    120
 #define crit_decs      5
@@ -124,20 +125,16 @@ inlinechoice(exp t, exp def, int total_uses)
 			 * eg. strength reduction (mul to shift) or dead code savings.
 			 */
 
-#define IS_POW2(c)	((c)!= 0 && ((c) & ((c) - 1)) == 0)
-
 			if (0) {
 				/* needs a register - poor */
 				const_param_bonus += CONST_BONUS_UNIT / 4;
-			} else if (n == 0 || (n > 0 && IS_POW2(n))) {
+			} else if (n == 0 || (n > 0 && is_pow2(n))) {
 				/* very good */
 				const_param_bonus += CONST_BONUS_UNIT;
 			} else {
 				/* less good */
 				const_param_bonus += CONST_BONUS_UNIT / 2;
 			}
-
-#undef IS_POW2
 
 			break;
 		}

@@ -19,8 +19,6 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include <utility/max.h>
-
 #ifdef DWARF2
 #include <local/dw2_config.h>
 #endif
@@ -41,6 +39,8 @@
 #include <construct/installglob.h>
 
 #include <flpt/flpt.h>
+
+#include <utility/max.h>
 
 #include <main/driver.h>
 #include <main/flags.h>

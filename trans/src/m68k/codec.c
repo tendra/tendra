@@ -15,9 +15,6 @@
 #include <tdf/shape.h>
 #include <tdf/tag.h>
 
-#include <utility/bits.h>
-#include <utility/max.h>
-
 #include <local/ash.h>
 
 #include <reader/exp.h>
@@ -27,6 +24,9 @@
 #include <construct/me_fns.h>
 
 #include <flpt/flpt.h>
+
+#include <utility/bits.h>
+#include <utility/max.h>
 
 #include <main/driver.h>
 #include <main/flags.h>

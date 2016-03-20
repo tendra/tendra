@@ -21,9 +21,6 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
-#include <utility/int64.h>
-#include <utility/max.h>
-
 #include <local/ash.h>
 #include <local/fbase.h>
 
@@ -38,6 +35,9 @@
 #include <construct/exp.h>
 
 #include <flpt/flpt.h>
+
+#include <utility/int64.h>
+#include <utility/max.h>
 
 #include <main/driver.h>
 #include <main/flags.h>

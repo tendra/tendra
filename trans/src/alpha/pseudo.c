@@ -18,6 +18,8 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
+#include <flpt/flpt.h>
+
 #include <utility/int64.h>
 
 #include <main/driver.h>

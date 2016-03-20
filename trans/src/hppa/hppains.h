@@ -244,7 +244,6 @@ INS (  cmplt_N, ",N" ); /* the nullify completer */
 #define	SIMM13( N )  ( (long)(N)>-4097 && (long)(N)<4096 )
 #define	SIMM14( N )  ( (long)(N)>-8193 && (long)(N)<8192 )
 #define	SIMM19( N )  ( (long)(N)>-262145 && (long)(N)<262144 )
-#define IS_POW2(c)	((c) != 0 && ((c) & ((c)-1)) == 0)
 #define SIGNED 1
 #define UNSIGNED 0
 

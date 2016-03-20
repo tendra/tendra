@@ -13,9 +13,6 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include <utility/bits.h>
-#include <utility/imath.h>
-
 #include <local/szs_als.h>
 
 #include <tdf/shape.h>
@@ -26,6 +23,9 @@
 #include <construct/exp.h>
 #include <construct/installglob.h>
 #include <construct/machine.h>
+
+#include <utility/bits.h>
+#include <utility/imath.h>
 
 #include <main/driver.h>
 #include <main/flags.h>

@@ -11,9 +11,9 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include <utility/bits.h>
-
 #include <construct/exp.h>
+
+#include <utility/bits.h>
 
 #include "assembler.h"
 #include "instrs.h"

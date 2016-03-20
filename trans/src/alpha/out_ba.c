@@ -20,10 +20,12 @@
 #include <shared/bool.h>
 #include <shared/xalloc.h>
 
-#include <utility/int64.h>
-
 #include <construct/installtypes.h>
 #include <construct/dec.h>
+
+#include <flpt/flpt.h>
+
+#include <utility/int64.h>
 
 #include "ibinasm.h"
 #include "main.h"

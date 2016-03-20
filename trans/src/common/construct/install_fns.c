@@ -31,8 +31,6 @@
 #include <shared/string.h>
 #include <shared/xalloc.h>
 
-#include <utility/max.h>
-
 #include <local/szs_als.h>
 
 #include <tdf/nat.h>
@@ -57,6 +55,8 @@
 #include <flpt/flpt.h>
 
 #include <special/special_fn.h>
+
+#include <utility/max.h>
 
 #include <main/flags.h>
 

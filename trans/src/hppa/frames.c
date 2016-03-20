@@ -11,9 +11,9 @@
 
 #include <tdf/tag.h>
 
-#include <main/flags.h>
-
 #include <utility/bits.h>
+
+#include <main/flags.h>
 
 #include "bitsmacs.h"
 #include "procrec.h"

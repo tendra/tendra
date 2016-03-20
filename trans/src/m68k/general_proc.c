@@ -17,9 +17,6 @@
 #include <shared/string.h>
 #include <shared/xalloc.h>
 
-#include <utility/bits.h>
-#include <utility/imath.h>
-
 #include <local/szs_als.h>
 #include <local/ash.h>
 
@@ -33,6 +30,9 @@
 #include <construct/install_fns.h>
 #include <construct/installglob.h>
 #include <construct/reg_result.h>
+
+#include <utility/bits.h>
+#include <utility/imath.h>
 
 #include <main/driver.h>
 #include <main/flags.h>

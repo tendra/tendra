@@ -22,14 +22,15 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
-#include <utility/max.h>
-
 #ifdef DWARF2
 #include <local/dw2_config.h>
 #endif
 
 #include <construct/installtypes.h>
 #include <construct/dec.h>
+
+#include <utility/imath.h>
+#include <utility/max.h>
 
 #include <main/driver.h>
 #include <main/flags.h>
@@ -42,13 +43,6 @@
 #include "translate.h"
 #include "inst_fmt.h"
 #include "labels.h"
-
-
-/*
-     IS c A POWER OF 2?
-*/
-
-#define IS_POW2( c )	( ( c ) != 0 && ( ( c ) & ( ( c ) - 1 ) ) == 0 )
 
 
 /*
@@ -334,7 +328,7 @@ rir_ins ( ins_p ins, int src1, long imm, int dest )
 #ifdef DWARF2
 	count_ins(1);
 #endif
-    } else if ( ins == i_and && IS_POW2 ( imm + 1 ) ) {
+    } else if ( ins == i_and && is_pow2 ( imm + 1 ) ) {
 	/* Can be done by shift left, shift right */
 	int nbits = 0, shift ;
 	unsigned long uimm = ( unsigned long ) imm ;

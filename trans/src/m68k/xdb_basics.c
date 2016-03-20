@@ -18,6 +18,8 @@
 #include <reader/exp.h>
 #include <reader/token.h>
 
+#include <utility/bits.h>
+
 #include <main/flags.h>
 
 #include <diag3/diag_fns.h>
@@ -25,8 +27,6 @@
 #include <diag3/mark_scope.h>
 #include <diag3/diaginfo1.h>
 #include <diag3/diag_reform.h>
-
-#include <utility/bits.h>
 
 #include "codex.h"
 #include "instrs.h"

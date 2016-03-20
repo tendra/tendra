@@ -26,13 +26,13 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include <utility/max.h>
-
 #include <local/ash.h>
 
 #include <tdf/shape.h>
 
 #include <construct/installtypes.h>
+
+#include <utility/max.h>
 
 #include <main/print.h>
 
