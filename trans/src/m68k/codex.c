@@ -137,7 +137,7 @@ bool reserved
     static char *rn[] = {
 	"_edata", "_etext", "_end", "__edata", "__etext", "__end"
     };
-    for (i = 0; i < array_size(rn); i++) {
+    for (i = 0; i < sizeof rn / sizeof *rn; i++) {
 	if (streq(nm, rn[i])) return 1;
     }
     return 0;

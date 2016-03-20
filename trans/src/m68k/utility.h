@@ -17,7 +17,6 @@
 
 #include <utility/bits.h> /* XXX */
 
-#define  array_size(X)	(sizeof(X) / sizeof(X[0]))
 #define  round(X, Y)		((Y)*(((X) + (Y) - 1) / (Y)))
 #define  log2(X)		bit_one(X)
 #define  pow2(X)		(1 << (X))
