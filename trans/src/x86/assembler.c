@@ -27,7 +27,7 @@
 
 #include "localtypes.h"
 #include "instr.h"
-#include "instr386.h"
+#include "ops.h"
 #include "operand.h"
 #include "make_code.h"
 #include "assembler.h"

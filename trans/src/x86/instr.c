@@ -51,7 +51,7 @@
 #include "localtypes.h"
 #include "assembler.h"
 #include "operand.h"
-#include "instr386.h"
+#include "ops.h"
 #include "make_code.h"
 #include "cproc.h"
 #include "reg_record.h"

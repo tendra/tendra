@@ -40,7 +40,7 @@
 #include "make_code.h"
 #include "weights.h"
 #include "instr.h"
-#include "instr386.h"
+#include "ops.h"
 #include "operand.h"
 
 #ifdef TDF_DIAG3

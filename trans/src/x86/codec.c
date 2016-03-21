@@ -40,7 +40,7 @@
 #include <main/flags.h>
 
 #include "localtypes.h"
-#include "instr386.h"
+#include "ops.h"
 #include "operand.h"
 #include "make_code.h"
 #include "instr.h"

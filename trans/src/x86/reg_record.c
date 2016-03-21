@@ -24,7 +24,7 @@
 
 #include "localtypes.h"
 #include "operand.h"
-#include "instr386.h"
+#include "ops.h"
 #include "reg_record.h"
 
 #ifdef DWARF2

@@ -54,7 +54,7 @@
 
 #include "localtypes.h"
 #include "weights.h"
-#include "instr386.h"
+#include "ops.h"
 #include "operand.h"
 #include "instr.h"
 #include "instrmacs.h"

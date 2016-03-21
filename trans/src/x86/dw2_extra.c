@@ -48,7 +48,7 @@
 #include <dwarf2/dw2_locdata.h>
 
 #include "operand.h"
-#include "instr386.h"
+#include "ops.h"
 #include "instr.h"
 #include "dw2_extra.h"
 #include "operand.h"

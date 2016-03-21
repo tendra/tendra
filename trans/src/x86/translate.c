@@ -53,7 +53,7 @@
 #include "instr.h"
 #include "scan.h"
 #include "weights.h"
-#include "instr386.h"
+#include "ops.h"
 #include "operand.h"
 #include "assembler.h"
 #include "cproc.h"

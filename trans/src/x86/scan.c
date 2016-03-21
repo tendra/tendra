@@ -42,7 +42,7 @@
 
 #include "localtypes.h"
 #include "make_code.h"
-#include "instr386.h"
+#include "ops.h"
 #include "scan.h"
 #include "localexpmacs.h"
 
@@ -310,7 +310,7 @@ ap_argsc(int sto, exp to, exp e)
  * close as possible to the instructions that use them, since we are short
  * of registers in the 80386.
  *
- * This is done by contop in instr386, during the code production.
+ * This is done by contop, during the code production.
  */
 static int
 cont_arg(int sto, exp to, exp e, int usereg0)

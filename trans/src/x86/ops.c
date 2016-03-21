@@ -55,7 +55,7 @@
 #include "overlap.h"
 #include "operand.h"
 #include "instr.h"
-#include "instr386.h"
+#include "ops.h"
 #include "instrmacs.h"
 #include "localexpmacs.h"
 

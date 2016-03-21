@@ -41,7 +41,7 @@
 
 #include "localtypes.h"
 #include "instr.h"
-#include "instr386.h"
+#include "ops.h"
 #include "assembler.h"
 #include "eval.h"
 #include "localexpmacs.h"
