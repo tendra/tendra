@@ -7,12 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef OPRATORS_INCLUDED
-#define OPRATORS_INCLUDED
-
-#include <reader/exp.h>
-
-#include "addrtypes.h"
+#ifndef OPS_H
+#define OPS_H
 
 extern int comm_op(exp, space, where, ins_p);
 extern int non_comm_op(exp, space, where, ins_p);
@@ -23,4 +19,6 @@ extern void logical_op(const char*, long, int, int);
 extern void quad_op(exp, space, where);
 extern void tidyshort(int, shape);
 extern void import_long_double_lib(void);
-#endif /* OPRATORS_INCLUDED */
+
+#endif
+

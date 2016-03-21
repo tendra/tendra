@@ -8,12 +8,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef OPRATORSDECS_H
-#define OPRATORSDECS_H
-
-#include <reader/exp.h>
-
-#include "addrtypes.h"
+#ifndef OPS_H
+#define OPS_H
 
 extern int comm_op(exp , space , where , Instruction_P);
 extern int non_comm_op(exp , space , where , Instruction_P);
@@ -21,4 +17,5 @@ extern int non_comm_op(exp , space , where , Instruction_P);
 extern int fop(exp , space , where , Instruction_P);
 extern int fmop(exp , space , where , Instruction_P);
 
-#endif /* opratorsdecs.h */
+#endif
+

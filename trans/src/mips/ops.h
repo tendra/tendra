@@ -7,12 +7,14 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include <reader/exp.h>
-
-#include "addrtypes.h"
+#ifndef OPS_H
+#define OPS_H
 
 extern int comm_op(exp e, space sp, where d, char *rins);
 extern int non_comm_op(exp e, space sp, where dest, char *ins);
 extern int monop(exp e, space sp, where dest, char *ins);
 extern int fop(exp e, space sp, where dest, char *ins);
 extern int fmop(exp e, space sp, where dest, char *ins);
+
+#endif
+

@@ -7,14 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef OPERATIONS_INCLUDED
-#define OPERATIONS_INCLUDED
-
-#include <local/ash.h>
-
-#include <reader/exp.h>
-
-#include <construct/installtypes.h>
+#ifndef OPS_H
+#define OPS_H
 
 extern bool have_cond;
 extern bool D1_is_special;
@@ -69,4 +63,6 @@ extern int err_continue;
 #define set_continue(e) if (errhandle(e) ==CONTINUE_ERR)err_continue = 1
 #define clear_continue(e)(err_continue = 0)
 #define have_continue()(err_continue != 0)
+
 #endif
+

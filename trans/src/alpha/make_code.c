@@ -59,6 +59,7 @@
 #include "procrec.h"
 #include "eval.h"
 #include "move.h"
+#include "instypes.h"
 #include "ops.h"
 #include "pseudo.h"
 #include "getregs.h"

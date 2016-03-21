@@ -7,14 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef OPRATORS_INCLUDED
-#define OPRATORS_INCLUDED
-
-#include <construct/installtypes.h>
-
-#include <reader/exp.h>
-
-#include "addrtypes.h"
+#ifndef OPS_H
+#define OPS_H
 
 extern int comm_op(exp, space, where, ins_p);
 extern int fop(exp, space, where, ins_p);
@@ -23,4 +17,5 @@ extern int absop(exp, space, where);
 extern int non_comm_op(exp, space, where, ins_p);
 extern void quad_op(exp, exp, space, where, int);
 
-#endif /* OPRATORS_INCLUDED */
+#endif
+
