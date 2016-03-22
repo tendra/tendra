@@ -53,7 +53,7 @@
 #include <refactor/const.h>
 #include <refactor/refactor.h>
 
-#include "regmacs.h"
+#include "reg.h"
 #include "addrtypes.h"
 #include "procrec.h"
 #include "bitsmacs.h"

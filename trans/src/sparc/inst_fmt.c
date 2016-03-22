@@ -38,7 +38,7 @@
 
 #include "addrtypes.h"
 #include "regexps.h"
-#include "regmacs.h"
+#include "reg.h"
 #include "sparcins.h"
 #include "translate.h"
 #include "inst_fmt.h"

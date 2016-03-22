@@ -110,7 +110,7 @@
 
 #include <diag3/diag_reform.h>
 
-#include "regmacs.h"
+#include "reg.h"
 #include "addrtypes.h"
 #include "procrec.h"
 #include "tempdecs.h"

@@ -35,7 +35,7 @@
 #include "translate.h"
 #include "addrtypes.h"
 #include "move.h"
-#include "regmacs.h"
+#include "reg.h"
 #include "getregs.h"
 #include "guard.h"
 #include "code_here.h"

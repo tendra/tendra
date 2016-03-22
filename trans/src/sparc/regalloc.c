@@ -46,7 +46,7 @@
 #include "procrec.h"
 #include "bitsmacs.h"
 #include "regable.h"
-#include "regmacs.h"
+#include "reg.h"
 #include "proc.h"
 #include "translate.h"
 #include "regalloc.h"

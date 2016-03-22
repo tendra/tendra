@@ -19,7 +19,7 @@
 #include "procrec.h"
 #include "addrtypes.h"
 #include "hppains.h"
-#include "regmacs.h"
+#include "reg.h"
 #include "frames.h"
 
 extern char *proc_name;

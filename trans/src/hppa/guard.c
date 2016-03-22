@@ -29,7 +29,7 @@
 
 #include <main/print.h>
 
-#include "regmacs.h"
+#include "reg.h"
 #include "procrec.h"
 #include "addrtypes.h"
 #include "tempdecs.h"

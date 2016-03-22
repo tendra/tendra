@@ -46,7 +46,7 @@
 #include "procrec.h"
 #include "addrtypes.h"
 #include "bitsmacs.h"
-#include "regmacs.h"
+#include "reg.h"
 #include "locate.h"
 #include "translate.h"
 #include "code_here.h"

@@ -40,7 +40,7 @@
 #include "procrec.h"
 #include "addrtypes.h"
 #include "regexps.h"
-#include "regmacs.h"
+#include "reg.h"
 #include "hppains.h"
 #include "translate.h"
 #include "inst_fmt.h"

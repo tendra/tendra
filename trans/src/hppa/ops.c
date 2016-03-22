@@ -46,7 +46,7 @@
 
 #include <reader/externs.h>
 #include <construct/install_fns.h>
-#include "regmacs.h"
+#include "reg.h"
 #include <construct/exp.h>
 #include <local/out.h>
 #include "locate.h"

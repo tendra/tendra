@@ -39,7 +39,7 @@
 #include "getregs.h"
 #include "labels.h"
 #include "bitsmacs.h"
-#include "regmacs.h"
+#include "reg.h"
 #include "make_code.h"
 #include "move.h"
 

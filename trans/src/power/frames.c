@@ -34,7 +34,7 @@
 
 #include <refactor/optimise.h>
 
-#include "regmacs.h"
+#include "reg.h"
 #include "code_here.h"
 #include "tempdecs.h"
 #include "weights.h"

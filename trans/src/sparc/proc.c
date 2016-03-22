@@ -61,7 +61,7 @@
 #include "bitsmacs.h"
 #include "labels.h"
 #include "regexps.h"
-#include "regmacs.h"
+#include "reg.h"
 #include "regable.h"
 #include "translate.h"
 #include "make_code.h"

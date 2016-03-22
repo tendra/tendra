@@ -42,7 +42,7 @@
 #include "getregs.h"
 #include "guard.h"
 #include "bitsmacs.h"
-#include "regmacs.h"
+#include "reg.h"
 #include "regexps.h"
 #include "locate.h"
 #include "eval.h"

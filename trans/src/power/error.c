@@ -30,7 +30,7 @@
 #include <main/print.h>
 
 #include "inst_fmt.h"
-#include "regmacs.h"
+#include "reg.h"
 #include "translate.h"
 #include "code_here.h"
 #include "make_code.h"

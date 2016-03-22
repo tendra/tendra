@@ -48,7 +48,7 @@
 #include "bitsmacs.h"
 #include "locate.h"
 #include "regexps.h"
-#include "regmacs.h"
+#include "reg.h"
 #include "inst_fmt.h"
 #include "hppains.h"
 #include "special.h"

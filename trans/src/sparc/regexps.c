@@ -31,7 +31,7 @@
 #include "addrtypes.h"
 #include "move.h"
 #include "bitsmacs.h"
-#include "regmacs.h"
+#include "reg.h"
 #include "regexps.h"
 
 #ifdef DWARF2

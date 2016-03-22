@@ -130,7 +130,7 @@
 #include "bitsmacs.h"
 #include "scan.h"
 #include "getregs.h"
-#include "regmacs.h"
+#include "reg.h"
 #include "labels.h"
 #include "translate.h"
 #include "proc.h"

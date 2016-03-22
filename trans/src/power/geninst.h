@@ -22,6 +22,6 @@
 #include "addrtypes.h"	/* for baseoff */
 #include "inst_fmt.h"
 #include "instruct.h"
-#include "regmacs.h"
+#include "reg.h"
 
 #endif

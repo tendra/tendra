@@ -43,7 +43,7 @@
 #include "labels.h"
 #include "regexps.h"
 #include "special.h"
-#include "regmacs.h"
+#include "reg.h"
 #include "translate.h"
 #include "muldvrem.h"
 #include "make_code.h"

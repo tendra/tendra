@@ -27,7 +27,7 @@
 
 #include "addrtypes.h"
 #include "inst_fmt.h"
-#include "regmacs.h"
+#include "reg.h"
 #include "sparcins.h"
 #include "bitsmacs.h"
 #include "procrec.h"

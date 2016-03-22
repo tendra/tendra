@@ -41,7 +41,7 @@
 
 #include <main/print.h>
 
-#include "regmacs.h"
+#include "reg.h"
 #include "bitsmacs.h"
 #include "procrec.h"
 #include "regalloc.h"

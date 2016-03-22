@@ -32,7 +32,7 @@
 #include "procrec.h"
 #include "addrtypes.h"
 #include "inst_fmt.h"
-#include "regmacs.h"
+#include "reg.h"
 #include "hppains.h"
 #include "bitsmacs.h"
 #include "guard.h"

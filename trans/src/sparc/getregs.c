@@ -25,7 +25,7 @@
 #include <construct/exp.h>
 
 #include "regexps.h"
-#include "regmacs.h"
+#include "reg.h"
 #include "procrec.h"
 #include "addrtypes.h"
 #include "bitsmacs.h"

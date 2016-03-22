@@ -35,7 +35,7 @@
 #include "bitsmacs.h"
 #include "regable.h"
 #include "tempdecs.h"
-#include "regmacs.h"
+#include "reg.h"
 #include "stack.h"
 
 /* to go in a switch as in case CASE_APPLYLIKE: */

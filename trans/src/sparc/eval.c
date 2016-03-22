@@ -51,7 +51,7 @@
 #include "translate.h"
 #include "inst_fmt.h"
 #include "locate.h"
-#include "regmacs.h"
+#include "reg.h"
 #include "bitsmacs.h"
 #include "eval.h"
 

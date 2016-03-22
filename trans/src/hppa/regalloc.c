@@ -42,7 +42,7 @@
 #include "procrec.h"
 #include "bitsmacs.h"
 #include "regable.h"
-#include "regmacs.h"
+#include "reg.h"
 #include "frames.h"
 #include "regalloc.h"
 

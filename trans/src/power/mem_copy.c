@@ -16,7 +16,7 @@
 #include <main/print.h>
 
 #include "inst_fmt.h"
-#include "regmacs.h"
+#include "reg.h"
 #include "mem_copy.h"
 
 

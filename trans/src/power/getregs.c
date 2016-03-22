@@ -16,7 +16,7 @@
 
 #include <main/print.h>
 
-#include "regmacs.h"
+#include "reg.h"
 #include "getregs.h"
 
 

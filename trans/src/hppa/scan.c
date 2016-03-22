@@ -56,7 +56,7 @@
 #include "regable.h"
 #include "tempdecs.h"
 #include "special.h"
-#include "regmacs.h"
+#include "reg.h"
 #include "muldvrem.h"
 #include "translate.h"
 #include "proc.h"
