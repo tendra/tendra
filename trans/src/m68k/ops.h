@@ -15,50 +15,50 @@ extern bool D1_is_special;
 extern int crt_rmode;
 
 /* ops_float.c */
-extern void abs_float(shape, where, where);
-extern void change_flvar(shape, where, where);
-extern void fl_binop(int, shape, where, where, where);
-extern void int_to_float(shape, where, where);
-extern void negate_float(shape, where, where);
-extern void round_float(shape, where, where);
+void abs_float(shape, where, where);
+void change_flvar(shape, where, where);
+void fl_binop(int, shape, where, where, where);
+void int_to_float(shape, where, where);
+void negate_float(shape, where, where);
+void round_float(shape, where, where);
 
 /* ops_int.c */
-extern void add(shape, where, where, where);
-extern void sub(shape, where, where, where);
-extern void negate(shape, where, where);
-extern void mult(shape, where, where, where);
-extern void div1(shape, where, where, where);
-extern void div2(shape, where, where, where);
-extern void rem1(shape, where, where, where);
-extern void rem2(shape, where, where, where);
-extern void maxop(shape, where, where, where);
-extern void minop(shape, where, where, where);
-extern void absop(shape, where, where);
+void add(shape, where, where, where);
+void sub(shape, where, where, where);
+void negate(shape, where, where);
+void mult(shape, where, where, where);
+void div1(shape, where, where, where);
+void div2(shape, where, where, where);
+void rem1(shape, where, where, where);
+void rem2(shape, where, where, where);
+void maxop(shape, where, where, where);
+void minop(shape, where, where, where);
+void absop(shape, where, where);
 
 /* ops_misc.c */
-extern void trap_ins(int);
-extern void callins(long, exp);
-extern void jmpins(exp);
-extern bool cmp(shape, where, where, long);
-extern void move_const(shape, long, long, where);
-extern void move_bytes(long, where, where, int);
-extern void move(shape, where, where);
-extern void mova(where, where);
-extern long range_max(shape);
-extern long range_min(shape);
-extern void change_var_sh(shape, shape, where, where);
-extern void change_var(shape, where, where);
+void trap_ins(int);
+void callins(long, exp);
+void jmpins(exp);
+bool cmp(shape, where, where, long);
+void move_const(shape, long, long, where);
+void move_bytes(long, where, where, int);
+void move(shape, where, where);
+void mova(where, where);
+long range_max(shape);
+long range_min(shape);
+void change_var_sh(shape, shape, where, where);
+void change_var(shape, where, where);
 
 /* ops_logic.c */
-extern void and(shape, where, where, where);
-extern void or(shape, where, where, where);
-extern void xor(shape, where, where, where);
-extern void not(shape, where, where);
-extern void rshift(shape, where, where, where);
-extern void shift(shape, where, where, where);
-extern void bitf_to_int(exp, shape, where, ash);
-extern void int_to_bitf(exp, exp, ash);
-extern void bit_test(shape, where, where);
+void and (shape, where, where, where);
+void or (shape, where, where, where);
+void xor(shape, where, where, where);
+void not(shape, where, where);
+void rshift(shape, where, where, where);
+void shift(shape, where, where, where);
+void bitf_to_int(exp, shape, where, ash);
+void int_to_bitf(exp, exp, ash);
+void bit_test(shape, where, where);
 
 extern int overflow_jump;
 extern int err_continue;

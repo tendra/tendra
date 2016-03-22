@@ -10,11 +10,11 @@
 #ifndef OPS_H
 #define OPS_H
 
-extern int comm_op(exp e, space sp, where d, char *rins);
-extern int non_comm_op(exp e, space sp, where dest, char *ins);
-extern int monop(exp e, space sp, where dest, char *ins);
-extern int fop(exp e, space sp, where dest, char *ins);
-extern int fmop(exp e, space sp, where dest, char *ins);
+int comm_op(exp e, space sp, where d, char *rins);
+int non_comm_op(exp e, space sp, where dest, char *ins);
+int monop(exp e, space sp, where dest, char *ins);
+int fop(exp e, space sp, where dest, char *ins);
+int fmop(exp e, space sp, where dest, char *ins);
 
 #endif
 

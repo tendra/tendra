@@ -11,11 +11,11 @@
 #ifndef OPS_H
 #define OPS_H
 
-extern int comm_op(exp , space , where , Instruction_P);
-extern int non_comm_op(exp , space , where , Instruction_P);
+int comm_op(exp , space , where , Instruction_P);
+int non_comm_op(exp , space , where , Instruction_P);
 
-extern int fop(exp , space , where , Instruction_P);
-extern int fmop(exp , space , where , Instruction_P);
+int fop(exp , space , where , Instruction_P);
+int fmop(exp , space , where , Instruction_P);
 
 #endif
 

@@ -10,12 +10,12 @@
 #ifndef OPS_H
 #define OPS_H
 
-extern int comm_op(exp, space, where, ins_p);
-extern int fop(exp, space, where, ins_p);
-extern int monop(exp, space, where, ins_p);
-extern int absop(exp, space, where);
-extern int non_comm_op(exp, space, where, ins_p);
-extern void quad_op(exp, exp, space, where, int);
+int comm_op(exp, space, where, ins_p);
+int fop(exp, space, where, ins_p);
+int monop(exp, space, where, ins_p);
+int absop(exp, space, where);
+int non_comm_op(exp, space, where, ins_p);
+void quad_op(exp, exp, space, where, int);
 
 #endif
 

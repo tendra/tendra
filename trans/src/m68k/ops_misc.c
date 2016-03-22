@@ -68,7 +68,7 @@ set_overflow(exp e)
 {
 	int prev_overflow_jump = overflow_jump;
 
-	if (! optop(e)) {
+	if (!optop(e)) {
 		if (pt(e)) {
 			/* error jump on overflow */
 			overflow_jump = ptno(pt(son(pt(e))));
@@ -109,14 +109,13 @@ trap_ins(int ec)
 }
 
 /*
- * OVERFLOW JUMP LABEL
+ * Overflow jump label
  *
  * This is 0 to denote that overflows should be ignored.
  * Otherwise it gives the label to be jumped to.
  */
 int overflow_jump = 0;
-
-int err_continue = 0;
+int err_continue  = 0;
 
 /*
  * If an error_treatment is specified and the previous instruction
@@ -145,7 +144,7 @@ test_overflow(overflow_type type)
 {
 	int instr;
 
-	if (! have_overflow()) {
+	if (!have_overflow()) {
 		return;
 	}
 
@@ -153,23 +152,28 @@ test_overflow(overflow_type type)
 	case UNCONDITIONAL:
 		instr = m_bra;
 		break;
+
 	case ON_OVERFLOW:
 		instr = m_bvs;
 		break;
+
 	case ON_CARRY:
 		instr = m_bcs;
 		break;
+
 	case ON_FP_OVERFLOW:
 	case ON_FP_CARRY:
 		ins2(m_fmovel, 32L, 32L, register(REG_FPSR), D0, 1);
 		ins2h(m_andl, 0x00001c00, 32L, D0, 1);
 		instr = m_bne;
 		break;
+
 	case ON_FP_OPERAND_ERROR:
 		ins2(m_fmovel, 32L, 32L, register(REG_FPSR), D0, 1);
 		ins2h(m_andl, 0x00002000, 32L, D0, 1);
 		instr = m_bne;
 		break;
+
 	default:
 		error(ERR_SERIOUS, "invalid overflow test");
 		return;
@@ -188,7 +192,9 @@ checkalloc_stack(where sz, int do_alloc)
 {
 	int erlab = next_lab();
 	int cnlab = next_lab();
+
 	asm_comment("check for stack overflow ...");
+
 	ins2(m_movl, 32, 32, SP, D0, 1);
 	ins2(m_subl, 32, 32, sz, D0, 1);
 	make_jump(m_bcs, erlab);
@@ -200,11 +206,12 @@ checkalloc_stack(where sz, int do_alloc)
 	if (do_alloc) {
 		ins2(m_movl, 32, 32, D0, SP, 1);
 	}
+
 	asm_comment("check for stack overflow done");
 }
 
 /*
- * MARK D1 AS SPECIAL
+ * Mark D1 as special
  *
  * This flag is used to indicate that the D1 regsiter is being used
  * as a special register and should be treated with care.
@@ -212,9 +219,9 @@ checkalloc_stack(where sz, int do_alloc)
 bool D1_is_special = 0;
 
 /*
- * OUTPUT A CALL INSTRUCTION
+ * Output a call instruction
  *
- * The procedure call given by fn is output.  A temporary A-register
+ * The procedure call given by fn is output. A temporary A-register
  * needs to be used when fn is not a simple procedure name.  The
  * stack is then increased by longs to overwrite the procedure arguments.
  */
@@ -236,16 +243,17 @@ callins(long longs, exp fn)
 	}
 
 	/* If this is not a straight call, put the name into an A register */
-	if (! simple_proc) {
+	if (!simple_proc) {
 		where w;
 		w = zw(fn);
-		if (whereis(w)!= Areg) {
+		if (whereis(w) != Areg) {
 			int r = next_tmp_reg();
 			regsinproc |= regmsk(r);
 			move(slongsh, w, register(r));
 			fn_exp = register(r).wh_exp;
 		}
 	}
+
 	/* Now output the call instruction */
 	call_exp = getexp(proksh, NULL, 0, fn_exp, NULL, 0, 0L, cont_tag);
 	op = operand(32L, zw(call_exp));
@@ -257,9 +265,9 @@ callins(long longs, exp fn)
 }
 
 /*
- * OUTPUT A JMP INSTRUCTION
+ * Output a jmp instruction
  *
- * The jump to the procedure given by fn is output.  A temporary A-register
+ * The jump to the procedure given by fn is output. A temporary A-register
  * needs to be used when fn is not a simple procedure name.
  */
 void
@@ -270,10 +278,10 @@ jmpins(exp fn)
 	fn_exp = fn;
 
 	/* If this is not a straight jmp, put the name into an A register */
-	if (fn->tag!= name_tag || isvar(s) || !isglob(s)) {
+	if (fn->tag != name_tag || isvar(s) || !isglob(s)) {
 		where w;
 		w = zw(fn);
-		if (whereis(w)!= Areg) {
+		if (whereis(w) != Areg) {
 			int r = next_tmp_reg();
 			regsinproc |= regmsk(r);
 			move(slongsh, w, register(r));
@@ -326,6 +334,7 @@ cmp_zero(shape sha, long sz, where a)
 			return;
 		}
 	}
+
 	if (have_cond == 3 && last_cond_sz == sz) {
 		if (eq_where(last_cond, a)) {
 			return;
@@ -334,6 +343,7 @@ cmp_zero(shape sha, long sz, where a)
 			return;
 		}
 	}
+
 	w = whereis(a);
 	if (w == Areg) {
 		/* This does work, despite the manual */
@@ -360,14 +370,13 @@ cmp_zero(shape sha, long sz, where a)
 }
 
 /*
- * AUXILIARY COMPARISON ROUTINE
- *
- * The values a and b of size sz are compared.
+ * Compare a and b of the given size.
  */
 static bool
 cmp_aux(long sz, where a, where b)
 {
 	where d;
+
 	if (whereis(a) == Freg) {
 		if (whereis(b) == Freg) {
 			move(slongsh, a, D0);
@@ -375,15 +384,18 @@ cmp_aux(long sz, where a, where b)
 			regsinproc |= regmsk(REG_D1);
 			return cmp_aux(sz, D1, D0);
 		}
+
 		if (eq_where(b, D0)) {
 			d = D1;
 			regsinproc |= regmsk(REG_D1);
 		} else {
 			d = D0;
 		}
+
 		move(slongsh, a, d);
 		return cmp_aux(sz, b, d);
 	}
+
 	if (whereis(b) == Freg) {
 		if (eq_where(a, D0)) {
 			d = D1;
@@ -391,9 +403,11 @@ cmp_aux(long sz, where a, where b)
 		} else {
 			d = D0;
 		}
+
 		move(slongsh, b, d);
 		return cmp_aux(sz, a, d);
 	}
+
 	ins2_cmp(ins(sz, ml_cmp), sz, sz, a, b, 0);
 	have_cond = 2;
 	last_cond = a;
@@ -403,8 +417,6 @@ cmp_aux(long sz, where a, where b)
 }
 
 /*
- * COMPARE WITH A CONSTANT
- *
  * The value a is compared with the constant value c, the type of the
  * comparison being given by ntst.  The value returned by this routine
  * has the same meaning as that returned by cmp.
@@ -414,9 +426,11 @@ cmp_const(shape sha, long sz, where c, where a, long ntst)
 {
 	bool sw;
 	long v = nw(c);
+
 	if (is_offset(c.wh_exp)) {
 		v /= 8;
 	}
+
 	if (v == 0) {
 		if (!is_signed(sha) && ntst != tst_neq && ntst != tst_eq) {
 			/* Force an actual comparison in these cases */
@@ -454,7 +468,7 @@ cmp_const(shape sha, long sz, where c, where a, long ntst)
 }
 
 /*
- * MAIN COMPARISON ROUTINE
+ * Main comparison routine
  *
  * The values var and limit of shape sha are compared for the test
  * indicated by ntst.  Depending on the addressing modes of var and
@@ -479,10 +493,12 @@ cmp(shape sha, where var, where limit, long ntst)
 		sz = 32;
 	}
 #endif
+
 	if (rt == Freg) {
 		/* Floating point comparisons are never swapped */
 		where rv, rl;
 		have_cond = 0;
+
 		if (whv == Freg && last_use(var)) {
 			rv = var;
 		} else {
@@ -493,6 +509,7 @@ cmp(shape sha, where var, where limit, long ntst)
 				rv = FP0;
 			}
 		}
+
 		if (whl == Freg && last_use(limit)) {
 			rl = limit;
 		} else {
@@ -503,18 +520,21 @@ cmp(shape sha, where var, where limit, long ntst)
 				rl = FP0;
 			}
 		}
+
 		if (whv == Freg) {
 			push_float(sz, var);
 			pop_float(sz, rv);
 		} else {
 			move(sha, var, rv);
 		}
+
 		if (whl == Freg) {
 			push_float(sz, limit);
 			pop_float(sz, rl);
 		} else {
 			move(sha, limit, rl);
 		}
+
 		ins2_cmp(m_fcmpx, sz, sz, rl, rv, 0);
 		return 1;
 	}
@@ -551,10 +571,10 @@ cmp(shape sha, where var, where limit, long ntst)
 
 #if 0
 	if (var.wh_exp->tag == name_tag && sha->tag == prokhd &&
-	    ((son(son(var.wh_exp)) ==NULL) ||
+	    ((son(son(var.wh_exp)) == NULL) ||
 	     (son(son(var.wh_exp))->tag == proc_tag))) {
 		exp proc_cont = getexp(sha, NULL, 0, var.wh_exp, NULL, 0,
-				       0, cont_tag);
+		                       0, cont_tag);
 		var.wh_exp = proc_cont;
 	}
 #endif
@@ -577,11 +597,12 @@ cmp(shape sha, where var, where limit, long ntst)
 	sw = cmp_aux(sz, var, D1);
 	regsinproc |= regmsk(REG_D1);
 	last_cond2 = limit;
+
 	return !sw;
 }
 
 /*
- * OUTPUT A PUSH INSTRUCTION
+ * Output a push instruction
  *
  * The value wh of shape sha and size sz is pushed onto the stack.
  */
@@ -591,6 +612,7 @@ push(shape sha, long sz, where wh)
 	long s;
 	mach_op *op1, *op2;
 	bool real_push = 1;
+
 	if (sz != 32) {
 		if (is_signed(sha) && (whereis(wh) == Dreg)) {
 			change_var_sh(slongsh, sha, wh, wh);
@@ -599,26 +621,33 @@ push(shape sha, long sz, where wh)
 			change_var_sh(slongsh, sha, wh, D0);
 			push(slongsh, 32L, D0);
 		}
+
 		have_cond = 0;
 		return;
 	}
+
 	if (stack_change) {
 		stack_change -= 32;
 		real_push = 0;
+
 		if (stack_direction) {
 			update_stack();
 		}
+
 		s = stack_change;
 		stack_change = 0;
 	}
+
 	op1 = operand(sz, wh);
 	if (real_push) {
 		op2 = make_dec_sp();
 	} else {
 		op2 = make_indirect(REG_SP, s / 8);
 	}
+
 	make_instr(m_movl, op1, op2, 0);
 	have_cond = 0;
+
 	if (real_push) {
 		stack_size -= 32;
 	} else {
@@ -627,7 +656,7 @@ push(shape sha, long sz, where wh)
 }
 
 /*
- * PUSH A FLOATING POINT REGISTER
+ * Push a floating point register
  *
  * The floating-point register wh of size sz is pushed onto the stack.
  */
@@ -643,7 +672,7 @@ push_float(long sz, where wh)
 }
 
 /*
- * OUTPUT A POP OPERATION
+ * Output a pop operation
  *
  * A value of shape sha and size sz is popped from the stack into wh.
  */
@@ -651,6 +680,7 @@ void
 pop(shape sha, long sz, where wh)
 {
 	mach_op *op1, *op2;
+
 	if (sz != 32) {
 		if (whereis(wh) == Dreg) {
 			pop(slongsh, 32L, wh);
@@ -659,9 +689,11 @@ pop(shape sha, long sz, where wh)
 			pop(slongsh, 32L, D0);
 			change_var_sh(sha, slongsh, D0, wh);
 		}
+
 		have_cond = 0;
 		return;
 	}
+
 	op1 = make_inc_sp();
 	op2 = operand(sz, wh);
 	make_instr(m_movl, op1, op2, 0);
@@ -670,7 +702,7 @@ pop(shape sha, long sz, where wh)
 }
 
 /*
- * POP A FLOATING POINT REGISTER
+ * Pop a floating point register
  *
  * A value of size sz is popped from the stack into the floating-point
  * register wh.
@@ -687,7 +719,7 @@ pop_float(long sz, where wh)
 }
 
 /*
- * MOVE AN ADDRESS INTO A TEMPORARY REGISTER
+ * Move an address into a temporary register
  *
  * The effective address of wh is loaded into a temporary register and
  * the register number is returned.  By default, register r is used,
@@ -698,18 +730,21 @@ tmp_mova(where wh, int r, bool try)
 {
 	tmp_reg_prefer = r;
 	mova(wh, register(r));
+
 	if (try && !output_immediately && current_ins) {
 		int i = current_ins->ins_no;
 		if (i == m_lea || i == m_movl) {
 			mach_op *op1 = current_ins->op1;
 			mach_op *op2 = current_ins->op2;
+
 			if (op2->type == MACH_REG && op2->def.num == r) {
 				int t = r;
+
 				if (i == m_lea) {
 					if (op1->type == MACH_CONT) {
 						op1 = op1->of;
 						if (op1->type == MACH_REG &&
-						    op1->plus == NULL) {
+							op1->plus == NULL) {
 							t = op1->def.num;
 						}
 					}
@@ -718,6 +753,7 @@ tmp_mova(where wh, int r, bool try)
 						t = op1->def.num;
 					}
 				}
+
 				if (t != r) {
 					current_ins->ins_no = m_ignore_ins;
 					op2->def.num = t;
@@ -726,12 +762,13 @@ tmp_mova(where wh, int r, bool try)
 			}
 		}
 	}
+
 	regsinproc |= regmsk(r);
 	return r;
 }
 
 /*
- * MOVE A CONSTANT VALUE
+ * Move a constant value
  *
  * The constant value c is assigned to the where to (of shape sha and
  * size sz).
@@ -753,11 +790,13 @@ move_const(shape sha, long sz, long c, where to)
 			set_cond(to, sz);
 			return;
 		}
+
 		if (whto == Areg) {
 			ins2(m_subl, 32L, 32L, to, to, 1);
 			have_cond = 0;
 			return;
 		}
+
 		if (sz == 64) {
 			where w;
 			w = to;
@@ -780,6 +819,7 @@ move_const(shape sha, long sz, long c, where to)
 	if (sz == 16) {
 		c &= 0xffff;
 	}
+
 	if (c >= -128 && c <= 127) {
 		/* Look for quick moves */
 		if (whto == Dreg) {
@@ -791,6 +831,7 @@ move_const(shape sha, long sz, long c, where to)
 			if (whto == Areg) {
 				instr = m_movl;
 			}
+
 			ins2(instr, sz, sz, D0, to, 1);
 			if (whto == Areg) {
 				have_cond = 0;
@@ -807,6 +848,7 @@ move_const(shape sha, long sz, long c, where to)
 	} else {
 		ins2n(instr, c, sz, to, 1);
 	}
+
 	if (whto == Areg) {
 		have_cond = 0;
 	} else {
@@ -815,7 +857,7 @@ move_const(shape sha, long sz, long c, where to)
 }
 
 /*
- * MOVE FROM A FLOATING-POINT REGISTER
+ * Move from a floating-point register
  *
  * The value in the floating-point register from (of size sz) is moved
  * into to.
@@ -824,15 +866,18 @@ static void
 move_from_freg(long sz, where from, where to)
 {
 	int instr = insf(sz, ml_fmove);
+
 	switch (whereis(to)) {
 	case Dreg:
 		ins2(m_fmoves, sz, sz, from, to, 1);
 		have_cond = 0;
 		return;
+
 	case Freg:
 		ins2(m_fmovex, sz, sz, from, to, 1);
 		have_cond = 0;
 		return;
+
 	case RegPair: {
 		exp te = to.wh_exp;
 		if (sz != 64) {
@@ -844,6 +889,7 @@ move_from_freg(long sz, where from, where to)
 		have_cond = 0;
 		return;
 	}
+
 	default:
 		ins2(instr, sz, sz, from, to, 1);
 		have_cond = 0;
@@ -852,7 +898,7 @@ move_from_freg(long sz, where from, where to)
 }
 
 /*
- * MOVE TO A FLOATING-POINT REGISTER
+ * Move to a floating-point register
  *
  * The value in from (of size sz) is moved into the floating-point
  * register to.
@@ -866,15 +912,18 @@ move_to_freg(long sz, where from, where to)
 		ins2(m_fmoves, sz, sz, from, to, 1);
 		have_cond = 0;
 		return;
+
 	case Areg:
 		move(slongsh, from, D0);
 		ins2(m_fmoves, sz, sz, D0, to, 1);
 		have_cond = 0;
 		return;
+
 	case Freg:
 		ins2(m_fmovex, sz, sz, from, to, 1);
 		have_cond = 0;
 		return;
+
 	case RegPair: {
 		exp fe = from.wh_exp;
 		if (sz != 64) {
@@ -886,6 +935,7 @@ move_to_freg(long sz, where from, where to)
 		have_cond = 0;
 		return;
 	}
+
 	default:
 		ins2(instr, sz, sz, from, to, 1);
 		have_cond = 0;
@@ -894,7 +944,7 @@ move_to_freg(long sz, where from, where to)
 }
 
 /*
- * TEST AN EXTERNAL FOR SIMPLE CONTENTS/ASSIGN
+ * Test an external for simple contents/assign
  *
  * The expression e of external storage type is checked for simple
  * operand type.
@@ -903,23 +953,27 @@ static bool
 ca_extern(exp e)
 {
 	char n = e->tag;
+
 	if (n != cont_tag && n != ass_tag) {
 		return 0;
 	}
+
 	return son(e)->tag == name_tag ? 1 : 0;
 }
 
 /*
- * MOVE LARGE OBJECTS
+ * Move large objects
  *
  * sz bits are copied from from to to.  down can be 0 (start at the
  * top), 1 (start at the bottom) or 2 (don't care).
+ * TODO: enum for down
  */
 void
 move_bytes(long sz, where from, where to, int down)
 {
 	long off;
 	int instr;
+	long b;
 
 	exp fe = from.wh_exp;
 	exp te = to.wh_exp;
@@ -938,10 +992,12 @@ move_bytes(long sz, where from, where to, int down)
 	if (whfrom == External && ca_extern(fe)) {
 		s1 = 3;
 	}
+
 	if (te->tag == apply_tag || te->tag == apply_general_tag ||
 	    te->tag == tail_call_tag) {
 		s2 = 1;
 	}
+
 	if (whto == External && ca_extern(te)) {
 		s2 = 3;
 	}
@@ -949,12 +1005,15 @@ move_bytes(long sz, where from, where to, int down)
 	if (whfrom == Variable || whfrom == Parameter || whfrom == RegInd) {
 		s1 = 3;
 	}
+
 	if (whto == Variable || whto == Parameter || whto == RegInd) {
 		s2 = 3;
 	}
+
 	if (whfrom == RegPair) {
 		s1 = 4;
 	}
+
 	if (whto == RegPair) {
 		s2 = 4;
 	}
@@ -963,18 +1022,22 @@ move_bytes(long sz, where from, where to, int down)
 		mach_op *op1, *op2;
 		long lab = next_lab();
 		long longs = (sz / 32);
+
 		sz -= 32 * longs;
 		r1 = REG_A0;
 		r2 = REG_A1;
 		s1 = 0;
 		s2 = 0;
+
 		tmp_mova(from, r1, 0);
 		tmp_mova(to, r2, 0);
 		move(slongsh, mnw(longs - 1), D0);
 		make_label(lab);
+
 		op1 = make_postinc(r1);
 		op2 = make_postinc(r2);
 		make_instr(m_movl, op1, op2, regmsk(r1) | regmsk(r2));
+
 		op1 = make_register(REG_D0);
 		op2 = make_lab_data(lab, 0);
 		make_instr(m_dbf, op1, op2, regmsk(REG_D0));
@@ -998,55 +1061,43 @@ move_bytes(long sz, where from, where to, int down)
 		}
 	}
 
-	off = 0;
-	while (sz) {
+	for (off = 0; sz; off += b) {
 		mach_op *op1, *op2;
-		long b = ((sz >= 32)? 32 :((sz >= 16)? 16 : 8));
+
+		b = ((sz >= 32) ? 32 : ((sz >= 16) ? 16 : 8));
 		sz -= b;
+
 		if (down != 0) {
 			off = sz;
 		}
+
 		instr = ins(b, ml_mov);
+
 		switch (s1) {
-		case 0:
-			op1 = make_indirect(r1, off / 8);
-			break;
-		case 2:
-			op1 = make_lab_ind(r1, off / 8);
-			break;
-		case 3:
-			op1 = operand(32L, mw(fe, fof + off));
-			break;
-		case 4:
-			op1 = operand(32L, zw(sz ? bro(fe) : son(fe)));
-			break;
+		case 0: op1 = make_indirect(r1, off / 8);               break;
+		case 2: op1 = make_lab_ind (r1, off / 8);               break;
+		case 3: op1 = operand(32L, mw(fe, fof + off));          break;
+		case 4: op1 = operand(32L, zw(sz ? bro(fe) : son(fe))); break;
 		}
+
 		switch (s2) {
-		case 0:
-			op2 = make_indirect(r2, off / 8);
-			break;
-		case 1:
-			op2 = make_dec_sp();
-			break;
-		case 3:
-			op2 = operand(32L, mw(te, tof + off));
-			break;
-		case 4: {
-			op2 = operand(32L, zw(sz ? bro(te) : son(te)));
-			break;
+		case 0: op2 = make_indirect(r2, off / 8);               break;
+		case 1: op2 = make_dec_sp();                            break;
+		case 3: op2 = operand(32L, mw(te, tof + off));          break;
+		case 4: op2 = operand(32L, zw(sz ? bro(te) : son(te))); break;
 		}
-		}
+
 		make_instr(instr, op1, op2, 0);
 		if (s2 == 1) {
 			stack_size -= b;
 		}
-		off += b;
 	}
+
 	have_cond = 0;
 }
 
 /*
- * MAIN MOVE ROUTINE
+ * Main move routine
  *
  * A value of shape sha is moved from from into to.  There are several
  * main subcases : floating-point values, values of sizes 8, 16 and 32,
@@ -1068,7 +1119,7 @@ move(shape sha, where from, where to)
 	long whfrom = whereis(from);
 	long whto = whereis(to);
 
-	if (sz == 0 || eq_where(from, to) || eq_where(to,zero)) {
+	if (sz == 0 || eq_where(from, to) || eq_where(to, zero)) {
 		return;
 	}
 	sz = iround(sz, shape_align(sha));
@@ -1081,6 +1132,7 @@ move(shape sha, where from, where to)
 		if (fe->tag == real_tag) {
 			whfrom = Value;
 		}
+
 		if (te->tag == apply_tag || te->tag == apply_general_tag ||
 		    te->tag == tail_call_tag) {
 			switch (whfrom) {
@@ -1088,9 +1140,11 @@ move(shape sha, where from, where to)
 			case Areg:
 				from1 = from;
 				break;
+
 			case Freg:
 				push_float(sz, from);
 				return;
+
 			case Value: {
 				long *p = realrep(fe);
 				if (p) {
@@ -1108,26 +1162,34 @@ move(shape sha, where from, where to)
 				}
 				break;
 			}
+
 			case RegPair:
 				from1 = zw(son(fe));
 				from2 = zw(bro(fe));
 				break;
+
 			case Variable:
 				from1 = mw(fe, fof);
 				if (sz > 32) {
 					from2 = mw(fe, fof + 32);
 				}
 				break;
+
 			case External:
 				if (ca_extern(fe)) {
 					from1 = mw(fe, fof);
-					if (sz > 32)from2 = mw(fe, fof + 32);
+					if (sz > 32) {
+						from2 = mw(fe, fof + 32);
+					}
 				} else {
 					tmp_mova(from, REG_A0, 0);
 					from1 = A0_p;
-					if (sz > 32)from2 = mw(A0_p.wh_exp, 32);
+					if (sz > 32) {
+						from2 = mw(A0_p.wh_exp, 32);
+					}
 				}
 				break;
+
 			default:
 				tmp_mova(from, REG_A0, 0);
 				from1 = A0_p;
@@ -1136,21 +1198,26 @@ move(shape sha, where from, where to)
 				}
 				break;
 			}
+
 			if (sz > 32) {
 				move(slongsh, from2, to);
 			}
+
 			move(slongsh, from1, to);
 			have_cond = 0;
 			return;
 		}
+
 		if (whfrom == Freg) {
 			move_from_freg(sz, from, to);
 			return;
 		}
+
 		if (whto == Freg) {
 			move_to_freg(sz, from, to);
 			return;
 		}
+
 		if (whfrom == Value) {
 			if (sz == 32) {
 				long *p = realrep(fe);
@@ -1175,6 +1242,7 @@ move(shape sha, where from, where to)
 					from1 = mw(t, fof);
 					from2 = mw(t, fof + 32);
 				}
+
 				if (whto == RegPair) {
 					ins2(m_movl, 32L, 32L, from1,
 					     zw(son(te)), 1);
@@ -1183,23 +1251,25 @@ move(shape sha, where from, where to)
 					have_cond = 0;
 					return;
 				}
-				ins2(m_movl, 32L, 32L, from2, mw(te, tof + 32),
-				     1);
+
+				ins2(m_movl, 32L, 32L, from2, mw(te, tof + 32), 1);
 				ins2(m_movl, 32L, 32L, from1, to, 1);
 				have_cond = 0;
 				return;
 			}
 		}
+
 		if (whfrom == RegPair) {
 			if (sz != 64) {
 				error(ERR_SERIOUS, "Wrong floating variety");
 			}
-			ins2(m_movl, 32L, 32L, zw(bro(fe)),
-			     mw(te, tof + 32), 1);
+
+			ins2(m_movl, 32L, 32L, zw(bro(fe)), mw(te, tof + 32), 1);
 			ins2(m_movl, 32L, 32L, zw(son(fe)), to, 1);
 			have_cond = 0;
 			return;
 		}
+
 		if (whto == RegPair) {
 			if (sz != 64) {
 				error(ERR_SERIOUS, "Wrong floating variety");
@@ -1210,7 +1280,8 @@ move(shape sha, where from, where to)
 			have_cond = 0;
 			return;
 		}
-		/* Fall through otherwise */
+
+		/* FALL_THROUGH */
 	}
 
 	/* Move things of size 8, 16 or 32 */
@@ -1220,9 +1291,11 @@ move(shape sha, where from, where to)
 			if (whfrom == Value) {
 				mach_op *op1, *op2;
 				long v = nw(from);
+
 				if (is_offset(from.wh_exp)) {
 					v /= 8;
 				}
+
 				if (v == 0 && stack_change == 0) {
 					op1 = make_dec_sp();
 					make_instr(m_clrl, op1, NULL, 0);
@@ -1230,27 +1303,31 @@ move(shape sha, where from, where to)
 					stack_size -= 32;
 					return;
 				}
+
 				if (v >= -128 && v <= 127) {
 					long s = stack_change;
 					stack_change = 0;
 					op1 = make_value(v);
 					op2 = make_register(REG_D0);
 					make_instr(m_moveq, op1, op2,
-						   regmsk(REG_D0));
+					           regmsk(REG_D0));
 					stack_change = s;
 					push(sha, 32L, D0);
 					return;
 				}
+
 				if (stack_change) {
 					push(sha, 32L, from);
 					return;
 				}
+
 				op1 = make_int_data(v);
 				make_instr(m_pea, op1, NULL, 0);
 				have_cond = 0;
 				stack_size -= 32;
 				return;
 			}
+
 			push(sha, sz, from);
 			return;
 		}
@@ -1262,9 +1339,11 @@ move(shape sha, where from, where to)
 
 		if (whfrom == Value) {
 			long v = nw(from);
+
 			if (is_offset(from.wh_exp)) {
 				v /= 8;
 			}
+
 			move_const(sha, sz, v, to);
 			return;
 		}
@@ -1275,6 +1354,7 @@ move(shape sha, where from, where to)
 				move(sha, D0, to);
 				return;
 			}
+
 			if (whto == Areg) {
 				move(sha, from, D0);
 				move(slongsh, D0, to);
@@ -1287,18 +1367,21 @@ move(shape sha, where from, where to)
 			move(sha, D0, to);
 			return;
 		}
+
 # if 0
 		if ((sha->tag == prokhd) && (whfrom == External) &&
 		    (whto == Dreg)) {
 			/* We need the contents of this address */
-			move(sha,from,A0);
-			move(sha,A0_p,D0);
-			move(sha,D0,to);
+			move(sha, from, A0);
+			move(sha, A0_p, D0);
+			move(sha, D0, to);
 			return;
 		}
 #endif
+
 		instr = ins(sz, ml_mov);
 		ins2(instr, sz, sz, from, to, 1);
+
 		if (whto == Areg) {
 			have_cond = 0;
 		} else {
@@ -1307,6 +1390,7 @@ move(shape sha, where from, where to)
 				set_cond_alt(from);
 			}
 		}
+
 		return;
 	}
 
@@ -1320,7 +1404,7 @@ move(shape sha, where from, where to)
 }
 
 /*
- * MOVE ADDRESS ROUTINE
+ * Move address routine
  *
  * The effective address of from is loaded into to.
  */
@@ -1355,6 +1439,7 @@ mova(where from, where to)
 	case val_tag:
 		move(slongsh, from, to);
 		return;
+
 	case cont_tag:
 	case ass_tag: {
 		exp s = son(from.wh_exp);
@@ -1370,12 +1455,12 @@ mova(where from, where to)
 	}
 
 	if (whereis(to) == Areg) {
-		/*
+/*
 		   if (nf == name_tag && isvar (son (fe))) {
 		   	move (slongsh, from, to);
 		   	return;
 		   }
-		 */
+*/
 		if (nf == name_tag && !isvar(son(fe)) &&
 		    ptno(son(fe)) == reg_pl) {
 			add(slongsh, mw(fe, 0), mw(zeroe, from.wh_off / 8),
@@ -1386,7 +1471,6 @@ mova(where from, where to)
 		}
 		return;
 	}
-
 
 	r = next_tmp_reg();
 	regsinproc |= regmsk(r);
@@ -1400,21 +1484,17 @@ long
 range_max(shape shp)
 {
 	switch (shp->tag) {
-	case scharhd:
-		return 0x7f;
-	case swordhd:
-		return 0x7fff;
-	case slonghd:
-		return 0x7fffffff;
-	case ucharhd:
-		return 0xff;
-	case uwordhd:
-		return 0xffff;
-	case ulonghd:
-		return 0xffffffff;
+	case scharhd: return 0x7f;
+	case swordhd: return 0x7fff;
+	case slonghd: return 0x7fffffff;
+	case ucharhd: return 0xff;
+	case uwordhd: return 0xffff;
+	case ulonghd: return 0xffffffff;
+
 	default:
 		error(ERR_INTERNAL, "Illegal shape in comparison");
 	}
+
 	return 0;
 }
 
@@ -1422,25 +1502,21 @@ long
 range_min(shape shp)
 {
 	switch (shp->tag) {
-	case scharhd:
-		return -0x80;
-	case swordhd:
-		return -0x8000;
-	case slonghd:
-		return -0x80000000;
+	case scharhd: return -0x80;
+	case swordhd: return -0x8000;
+	case slonghd: return -0x80000000;
 	case ucharhd:
 	case uwordhd:
-	case ulonghd:
-		return 0;
+	case ulonghd: return 0;
+
 	default:
 		error(ERR_INTERNAL, "Illegal shape in comparison");
 	}
+
 	return 0;
 }
 
 /*
- * AUXILIARY CHANGE VARIETY ROUTINE
- *
  * The value from of shape shf is converted to a value of shape sht and
  * moved into to.
  */
@@ -1461,9 +1537,10 @@ change_var_sh(shape sht, shape shf, where from, where to)
 		if (whf == Value) {
 			if (((nw(from) < 0) && !is_signed(sht)) ||
 			    ((nw(from)) < 0 &&
-			     (is_signed(sht) && shf->tag ==ulonghd))) {
+			     (is_signed(sht) && shf->tag == ulonghd))) {
 				test_overflow(UNCONDITIONAL);
 			}
+
 			if (is_signed(sht)) {
 				if ((nw(from) < range_min(sht)) ||
 				    (nw(from) > range_max(sht))) {
@@ -1486,33 +1563,21 @@ change_var_sh(shape sht, shape shf, where from, where to)
 
 	if (sht->tag == bitfhd) {
 		sgt = is_signed(sht);
+
 		switch (szt) {
-		case 8:
-			sht = (sgt ? scharsh : ucharsh);
-			break;
-		case 16:
-			sht = (sgt ? swordsh : uwordsh);
-			break;
-		default:
-			szt = 32L;
-			sht = (sgt ? slongsh : ulongsh);
-			break;
+		case  8: sht = sgt ? scharsh : ucharsh;            break;
+		case 16: sht = sgt ? swordsh : uwordsh;            break;
+		default: sht = sgt ? slongsh : ulongsh; szt = 32L; break;
 		}
 	}
 
 	if (shf->tag == bitfhd) {
 		sgf = is_signed(shf);
+
 		switch (szf) {
-		case 8:
-			shf = (sgf ? scharsh : ucharsh);
-			break;
-		case 16:
-			shf = (sgf ? swordsh : uwordsh);
-			break;
-		default:
-			szf = 32L;
-			shf = (sgf ? slongsh : ulongsh);
-			break;
+		case 8:  shf = sgf ? scharsh : ucharsh;            break;
+		case 16: shf = sgf ? swordsh : uwordsh;            break;
+		default: shf = sgf ? slongsh : ulongsh; szf = 32L; break;
 		}
 	}
 
@@ -1520,13 +1585,11 @@ change_var_sh(shape sht, shape shf, where from, where to)
 		bool sw;
 		int br_ins;
 
-		/*move(shf,from,D0);*/
-
 		if (is_signed(shf) && !is_signed(sht)) {
-			/* if signed -> unsigned, test lt 0.  */
+			/* if signed -> unsigned, test lt 0. */
 
 			exp zero_exp = getexp(shf, NULL, 0, NULL, NULL,
-					      0, 0, val_tag);
+			                      0, 0, val_tag);
 			sw = cmp(shf, from, zw(zero_exp), tst_ls);
 			br_ins = branch_ins(tst_ls, sw, 1, is_floating(shf->tag));
 			test_overflow2(br_ins);
@@ -1540,20 +1603,19 @@ change_var_sh(shape sht, shape shf, where from, where to)
 			 */
 			int br_ins;
 			exp zero_exp = getexp(slongsh, NULL, 0, NULL,
-					      NULL, 0, 0, val_tag);
+			                      NULL, 0, 0, val_tag);
 			sw = cmp(slongsh, from, zw(zero_exp), tst_ls);
 			br_ins = branch_ins(tst_ls, sw, 1, is_floating(shf->tag));
 			test_overflow2(br_ins);
 			kill_exp(zero_exp, zero_exp);
 		}
 
-		if(sht->tag <= shf->tag) {
+		if (sht->tag <= shf->tag) {
 			/* shortening variety */
 			exp max_val = getexp(sht, NULL, 0, NULL, NULL, 0,
-					     range_max(sht), val_tag);
+			                     range_max(sht), val_tag);
 			exp min_val = getexp(sht, NULL, 0, NULL, NULL, 0,
-					     range_min(sht), val_tag);
-
+			                     range_min(sht), val_tag);
 			int br_ins;
 
 			if (whf != Dreg) {
@@ -1567,16 +1629,15 @@ change_var_sh(shape sht, shape shf, where from, where to)
 			 * as the checks are done using long arithmetic.
 			 */
 			if (is_signed(shf) && (szf < 32)) {
-				ins1((szf == 16) ? m_extl : m_extbl, 32, from,
-				     1);
+				ins1((szf == 16) ? m_extl : m_extbl, 32, from, 1);
 			}
 
-			sw = cmp(is_signed(sht) ?slongsh : ulongsh, from,
-				 zw(max_val), tst_gr);
+			sw = cmp(is_signed(sht) ? slongsh : ulongsh, from,
+			         zw(max_val), tst_gr);
 			br_ins = branch_ins(tst_gr, sw, is_signed(sht), is_floating(sht->tag));
 			test_overflow2(br_ins);
 			sw = cmp(is_signed(sht) ? slongsh : ulongsh, from,
-				 zw(min_val), tst_ls);
+			         zw(min_val), tst_ls);
 			br_ins = branch_ins(tst_ls, sw, is_signed(sht), is_floating(sht->tag));
 			test_overflow2(br_ins);
 
@@ -1592,14 +1653,17 @@ change_var_sh(shape sht, shape shf, where from, where to)
 			move(sht, adj, to);
 			return;
 		}
+
 		if (szt == szf || whf == Dreg) {
 			move(sht, from, to);
 			return;
 		}
+
 		if (wht == Dreg) {
 			move(shf, from, to);
 			return;
 		}
+
 		move(shf, from, D0);
 		move(sht, D0, to);
 		return;
@@ -1614,6 +1678,7 @@ change_var_sh(shape sht, shape shf, where from, where to)
 			move(shf, from, to);
 			return;
 		}
+
 		if (wht != Dreg) {
 			int r = next_tmp_reg();
 			move(shf, from, register(r));
@@ -1641,11 +1706,13 @@ change_var_sh(shape sht, shape shf, where from, where to)
 			}
 			d = 1;
 		}
+
 		if (szf == 8) {
 			instr = (szt == 16 ? m_extw : m_extbl);
 		} else {
 			instr = m_extl;
 		}
+
 		ins1(instr, szt, dest, 1);
 		set_cond(dest, szt);
 		if (d) {
@@ -1656,11 +1723,12 @@ change_var_sh(shape sht, shape shf, where from, where to)
 			if (eq_where(to, from)) {
 				long v = (szf == 8 ? 0xff : 0xffff);
 				if (!eq_where(to, D0)) {
-					and(slongsh, mnw(v), to, to);
+					and (slongsh, mnw(v), to, to);
 				}
 				return;
 			}
 		}
+
 		move(slongsh, zero, D0);
 		move(shf, from, D0);
 		move(sht, D0, to);
@@ -1669,7 +1737,7 @@ change_var_sh(shape sht, shape shf, where from, where to)
 }
 
 /*
- * MAIN CHANGE VARIETY ROUTINE
+ * Change variety
  *
  * The value from is converted to a value of shape sha and moved into to.
  */
@@ -1681,7 +1749,7 @@ change_var(shape sha, where from, where to)
 }
 
 /*
- * FIND APPROPRIATE BRANCH INSTRUCTION TYPE
+ * Find appropriate branch instruction type
  *
  * This routine returns the appropriate branch instruction for test number
  * test_no, which should be switched if sw is 0.  sf indicates whether
@@ -1692,96 +1760,39 @@ int
 branch_ins(long test_no, int sw, int sg, int sf)
 {
 	int r = test_no;
+
 	if (!sw) {
 		switch (r) {
-		case tst_le:
-			r = tst_ge;
-			break;
-		case tst_ls:
-			r = tst_gr;
-			break;
-		case tst_ge:
-			r = tst_le;
-			break;
-		case tst_gr:
-			r = tst_ls;
-			break;
-		case tst_ngr:
-			r = tst_nls;
-			break;
-		case tst_nge:
-			r = tst_nle;
-			break;
-		case tst_nls:
-			r = tst_ngr;
-			break;
-		case tst_nle:
-			r = tst_nge;
-			break;
+		case tst_le:  r = tst_ge;  break;
+		case tst_ls:  r = tst_gr;  break;
+		case tst_ge:  r = tst_le;  break;
+		case tst_gr:  r = tst_ls;  break;
+		case tst_ngr: r = tst_nls; break;
+		case tst_nge: r = tst_nle; break;
+		case tst_nls: r = tst_ngr; break;
+		case tst_nle: r = tst_nge; break;
 		}
 	}
+
 	switch (r) {
-	case tst_eq:
-		/* Equal */
-		return sf ? m_fbeq : m_beq;
-	case tst_neq:
-		/* Not equal */
-		return sf ? m_fbne : m_bne;
-	case tst_le:
-		/* Less than or equals */
-		if (sf) {
-			return m_fble;
-		}
-		return sg ? m_ble : m_bls;
-	case tst_ls:
-		/* Less than */
-		if (sf) {
-			return m_fblt;
-		}
-		return sg ? m_blt : m_bcs;
-	case tst_ge:
-		/* Greater than or equals */
-		if (sf) {
-			return m_fbge;
-		}
-		return sg ? m_bge : m_bcc;
-	case tst_gr:
-		/* Greater than */
-		if (sf) {
-			return m_fbgt;
-		}
-		return sg ? m_bgt : m_bhi;
-	case tst_ngr:
-		/* Not greater than */
-		if (sf) {
-			return m_fbngt;
-		}
-		return sg ? m_ble : m_bls;
-	case tst_nge:
-		/* Not greater than or equals */
-		if (sf) {
-			return m_fbnge;
-		}
-		return sg ? m_blt : m_bcs;
-	case tst_nls:
-		/* Not less than */
-		if (sf) {
-			return m_fbnlt;
-		}
-		return sg ? m_bge : m_bcc;
-	case tst_nle:
-		/* Not less than or equals */
-		if (sf) {
-			return m_fbnle;
-		}
-		return sg ? m_bgt : m_bhi;
+	case tst_eq:  return sf ? m_fbeq  : m_beq;
+	case tst_neq: return sf ? m_fbne  : m_bne;
+	case tst_le:  return sf ? m_fble  : sg ? m_ble : m_bls;
+	case tst_ls:  return sf ? m_fblt  : sg ? m_blt : m_bcs;
+	case tst_ge:  return sf ? m_fbge  : sg ? m_bge : m_bcc;
+	case tst_gr:  return sf ? m_fbgt  : sg ? m_bgt : m_bhi;
+	case tst_ngr: return sf ? m_fbngt : sg ? m_ble : m_bls;
+	case tst_nge: return sf ? m_fbnge : sg ? m_blt : m_bcs;
+	case tst_nls: return sf ? m_fbnlt : sg ? m_bge : m_bcc;
+	case tst_nle: return sf ? m_fbnle : sg ? m_bgt : m_bhi;
 	}
+
 	error(ERR_SERIOUS, "Illegal test");
 	return m_dont_know;
 }
 
 /*
- * OUTPUT CONDITIONAL JUMP
+ * Output conditional jump
  *
  * A jump to the label indicated by jr is output.  test_no, sw, sg and sf
  * have the same meanings as in branch_ins.

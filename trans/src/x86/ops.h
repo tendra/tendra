@@ -11,8 +11,8 @@
  * Declares the higher level routines which output 80x86 instructions.
  */
 
-#ifndef INSTR386_H
-#define INSTR386_H
+#ifndef OPS_H
+#define OPS_H
 
 #include <local/ash.h>
 
@@ -32,8 +32,8 @@ int cmp(shape sha, where from, where min, int nt, exp e);
 void negate(shape sha, where a, where dest);
 void move(shape sha, where from, where to);
 void mova(where from, where to);
-void and(shape sha, where a1, where a2, where dest);
-void or(shape sha, where a1, where a2, where dest);
+void and (shape sha, where a1, where a2, where dest);
+void or (shape sha, where a1, where a2, where dest);
 void xor(shape sha, where a1, where a2, where dest);
 void not(shape sha, where a, where dest);
 void change_var(shape sha, where from, where to);
@@ -128,4 +128,5 @@ void start_asm(void);
 void end_asm(void);
 void asm_ins(exp e);
 
-#endif /* INSTR386_H */
+#endif
+

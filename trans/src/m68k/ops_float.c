@@ -47,10 +47,6 @@
 #include "translate.h"
 #include "ops_shared.h"
 
-/*
-    GIVE PROTOTYPE FOR MFW
-*/
-
 extern where mfw(int, long *, int);
 
 extern bool need_dummy_double;
@@ -64,11 +60,11 @@ extern bool need_dummy_double;
 static void
 test_float_overflow_reg(where freg, long sz)
 {
-   if (have_overflow()) {
-      ins2(insf(sz, ml_fmove), sz, sz, freg, dummy_double_dest, 1);
-      test_overflow(ON_FP_OVERFLOW);
-      need_dummy_double = true;
-   }
+	if (have_overflow()) {
+		ins2(insf(sz, ml_fmove), sz, sz, freg, dummy_double_dest, 1);
+		test_overflow(ON_FP_OVERFLOW);
+		need_dummy_double = true;
+	}
 }
 
 /*
@@ -80,174 +76,195 @@ test_float_overflow_reg(where freg, long sz)
 static void
 test_float_overflow(where freg, where dest, long sz)
 {
-   if (have_overflow()) {
-      if (eq_where(dest, zero)) {
-         ins2(insf(sz, ml_fmove), sz, sz, freg, dummy_double_dest, 1);
-         need_dummy_double = true;
-      }
-      test_overflow(ON_FP_OVERFLOW);
-   }
+	if (have_overflow()) {
+		if (eq_where(dest, zero)) {
+			ins2(insf(sz, ml_fmove), sz, sz, freg, dummy_double_dest, 1);
+			need_dummy_double = true;
+		}
+
+		test_overflow(ON_FP_OVERFLOW);
+	}
 }
 
 /*
- * GENERAL PURPOSE FLOATING POINT ROUTINE
+ * General purpose floating point binary operations
  *
  * The values a1 and a2 of shape sha have the binary floating-point
  * operation indicated by the tag t applied to them and the result is
  * stored in dest.
  */
-void fl_binop
-(int t, shape sha, where a1, where a2, where dest)
+void
+fl_binop(int t, shape sha, where a1, where a2, where dest)
 {
-    int op, op1, op2;
-    bool commutes = 0;
-    long sz = shape_size(sha);
+	int op, op1, op2;
+	bool commutes = 0;
+	long sz = shape_size(sha);
 
-    switch (t) {
-	case fplus_tag: {
-	    commutes = 1;
-	    op1 = insf(sz, ml_fadd);
-	    op2 = m_faddx;
-	    break;
-	}
-	case fminus_tag: {
-	    op1 = insf(sz, ml_fsub);
-	    op2 = m_fsubx;
-	    break;
-	}
-	case fmult_tag: {
-	    commutes = 1;
-	    op1 = insf(sz, ml_fmul);
-	    op2 = m_fmulx;
-	    break;
-	}
-	case fdiv_tag: {
-	    op1 = insf(sz, ml_fdiv);
-	    op2 = m_fdivx;
-	    break;
-	}
-	default : {
-	    error(ERR_SERIOUS, "Illegal floating operation");
-	    return;
-	}
-    }
+	switch (t) {
+	case fplus_tag:
+		commutes = 1;
+		op1 = insf(sz, ml_fadd);
+		op2 = m_faddx;
+		break;
 
-    if (whereis(dest) == Freg) {
-       if (eq_where(a1, dest)) {
-          if (commutes) {
-             op = (whereis(a2) == Freg ? op2 : op1);
-             ins2(op, sz, sz, a2, dest, 1);
-             if (t == fdiv_tag) test_overflow(ON_FP_OVERFLOW) ; /* divided by 0 ? */
-             test_float_overflow_reg(dest, sz);
-          }
-          else {
-             move(sha, a2, FP0);
-             ins2(op2, sz, sz, a1, FP0, 1);
-             if (t == fdiv_tag) test_overflow(ON_FP_OVERFLOW) ; /* divided by 0 ? */
-             move(sha, FP0, dest);
-          }
-       } else {
-          move(sha, a2, dest);
-          op = (whereis(a1) == Freg ? op2 : op1);
-          ins2(op, sz, sz, a1, dest, 1);
-          if (t == fdiv_tag) test_overflow(ON_FP_OVERFLOW) ; /* divided by 0 ? */
-          test_float_overflow_reg(dest, sz);
-       }
-    }
-    else {
-       move(sha, a2, FP0);
-       op = (whereis(a1) == Freg ? op2 : op1);
-       ins2(op, sz, sz, a1, FP0, 1);
-       if (t == fdiv_tag) test_overflow(ON_FP_OVERFLOW) ; /* divided by 0 ? */
-       move(sha, FP0, dest);
-       test_float_overflow(FP0, dest, sz);
-    }
-    have_cond = 0;
+	case fminus_tag:
+		op1 = insf(sz, ml_fsub);
+		op2 = m_fsubx;
+		break;
+
+	case fmult_tag:
+		commutes = 1;
+		op1 = insf(sz, ml_fmul);
+		op2 = m_fmulx;
+		break;
+
+	case fdiv_tag:
+		op1 = insf(sz, ml_fdiv);
+		op2 = m_fdivx;
+		break;
+
+	default:
+		error(ERR_SERIOUS, "Illegal floating operation");
+		return;
+	}
+
+	if (whereis(dest) == Freg) {
+		if (eq_where(a1, dest)) {
+			if (commutes) {
+				op = (whereis(a2) == Freg ? op2 : op1);
+				ins2(op, sz, sz, a2, dest, 1);
+
+				if (t == fdiv_tag) {
+					test_overflow(ON_FP_OVERFLOW); /* divided by 0 ? */
+				}
+
+				test_float_overflow_reg(dest, sz);
+			} else {
+				move(sha, a2, FP0);
+				ins2(op2, sz, sz, a1, FP0, 1);
+
+				if (t == fdiv_tag) {
+					test_overflow(ON_FP_OVERFLOW); /* divided by 0 ? */
+				}
+
+				move(sha, FP0, dest);
+			}
+		} else {
+			move(sha, a2, dest);
+			op = (whereis(a1) == Freg ? op2 : op1);
+			ins2(op, sz, sz, a1, dest, 1);
+
+			if (t == fdiv_tag) {
+				test_overflow(ON_FP_OVERFLOW) ;    /* divided by 0 ? */
+			}
+
+			test_float_overflow_reg(dest, sz);
+		}
+	} else {
+		move(sha, a2, FP0);
+		op = (whereis(a1) == Freg ? op2 : op1);
+		ins2(op, sz, sz, a1, FP0, 1);
+
+		if (t == fdiv_tag) {
+			test_overflow(ON_FP_OVERFLOW) ;    /* divided by 0 ? */
+		}
+
+		move(sha, FP0, dest);
+		test_float_overflow(FP0, dest, sz);
+	}
+
+	have_cond = 0;
 }
 
 /*
- * NEGATE A FLOATING-POINT NUMBER
+ * Negate a floating point number
  *
  * The floating-point value a of shape sha is negated and stored in dest.
  */
-void negate_float
-(shape sha, where a, where dest)
+void
+negate_float(shape sha, where a, where dest)
 {
-   if (whereis(a) == Freg) {
-      if (whereis(dest) == Freg) {
-         ins2(m_fnegx, 64L, 64L, a, dest, 1);
-         test_float_overflow_reg(dest, 64L);
-      } else {
-         negate_float(sha, a, FP0);
-         move(sha, FP0, dest);
-      }
-   }
-   else {
-      move(sha, a, FP0);
-      negate_float(sha, FP0, FP0);
-      move(sha, FP0, dest);
-      test_float_overflow(FP0, dest, shape_size(sha));
-   }
-   have_cond = 0;
+	if (whereis(a) == Freg) {
+		if (whereis(dest) == Freg) {
+			ins2(m_fnegx, 64L, 64L, a, dest, 1);
+			test_float_overflow_reg(dest, 64L);
+		} else {
+			negate_float(sha, a, FP0);
+			move(sha, FP0, dest);
+		}
+	} else {
+		move(sha, a, FP0);
+		negate_float(sha, FP0, FP0);
+		move(sha, FP0, dest);
+		test_float_overflow(FP0, dest, shape_size(sha));
+	}
+
+	have_cond = 0;
 }
 
 /*
- * FIND THE ABSOLUTE VALUE OF A FLOATING-POINT NUMBER
+ * Find the absolute value of a floating point number
  *
  * The floating-point value a of shape sha is has its absolute value
  * stored in dest.
  */
-void abs_float
-(shape sha, where a, where dest)
+void
+abs_float(shape sha, where a, where dest)
 {
-    if (whereis(a) == Freg) {
-	if (whereis(dest) == Freg) {
-	    ins2(m_fabsx, 64L, 64L, a, dest, 1);
-            test_float_overflow_reg(dest, 64L);
+	if (whereis(a) == Freg) {
+		if (whereis(dest) == Freg) {
+			ins2(m_fabsx, 64L, 64L, a, dest, 1);
+			test_float_overflow_reg(dest, 64L);
+		} else {
+			abs_float(sha, a, FP0);
+			move(sha, FP0, dest);
+		}
 	} else {
-	    abs_float(sha, a, FP0);
-	    move(sha, FP0, dest);
+		move(sha, a, FP0);
+		abs_float(sha, FP0, FP0);
+		move(sha, FP0, dest);
 	}
-    } else {
-	move(sha, a, FP0);
-	abs_float(sha, FP0, FP0);
-	move(sha, FP0, dest);
-    }
-    have_cond = 0;
+
+	have_cond = 0;
 }
 
 /*
- * CHANGE FLOATING VARIETY
+ * Change floating variety
  *
  * The floating-point value from is converted to a value of shape sha
  * and stored in to.
  */
-void change_flvar
-(shape sha, where from, where to)
+void
+change_flvar(shape sha, where from, where to)
 {
-    shape shf = sh(from.wh_exp);
-    if (whereis(to) == Freg) {
+	shape shf = sh(from.wh_exp);
+
+	if (whereis(to) == Freg) {
+		if (whereis(from) == Freg) {
+			move(realsh, from, to);
+			return;
+		}
+
+		if (shape_size(shf) > shape_size(sha)) {
+			move(shf, from, to);
+			move(sha, to, D0);
+			move(sha, D0, to);
+			return;
+		}
+
+		move(shf, from, to);
+		return;
+	}
+
 	if (whereis(from) == Freg) {
-	    move(realsh, from, to);
-	    return;
+		move(sha, from, to);
+		test_float_overflow_reg(to, shape_size(sha));
+		return;
 	}
-	if (shape_size(shf) > shape_size(sha)) {
-	    move(shf, from, to);
-	    move(sha, to, D0);
-	    move(sha, D0, to);
-	    return;
-	}
-	move(shf, from, to);
-	return;
-    }
-    if (whereis(from) == Freg) {
-	move(sha, from, to);
-        test_float_overflow_reg(to, shape_size(sha));
-	return;
-    }
-    move(shf, from, FP0);
-    move(sha, FP0, to);
-    test_float_overflow(FP0, to, shape_size(sha));
+
+	move(shf, from, FP0);
+	move(sha, FP0, to);
+	test_float_overflow(FP0, to, shape_size(sha));
 }
 
 /*
@@ -262,72 +279,77 @@ int crt_rmode = R2NEAR;
 static where
 get_min_limit(shape sha, int adj)
 {
-   long fmd[4], min;
+	long fmd[4], min;
 
-   if (sha->tag ==ulonghd) {
-      switch (adj) {
-      case 0:
-         /* res = 0 */
-         fmd[0] = 0;
-         fmd[1] = -1;
-         return mfw(0,fmd,0);
-      case 1:
-         /* res = -1 */
-         fmd[0] = 1;
-         fmd[1] = -1;
-         return mfw(-1,fmd,1);
-      case 2:
-         /* res = - 0.5 */
-         fmd[0] = 0x8000;
-         fmd[1] = -1;
-         return mfw(-1,fmd,-1);
-      }
-   }
-   if (sha->tag ==slonghd) {
-      switch (adj) {
-      case 0:
-         break;
-      case 1:
-         /* res = - 2**31 - 1 */
-         fmd[0] = 0x8000;
-         fmd[1] = 0x0001;
-         fmd[2] = -1;
-         return mfw(-1,fmd,1);
+	if (sha->tag == ulonghd) {
+		switch (adj) {
+		case 0:
+			/* res = 0 */
+			fmd[0] = 0;
+			fmd[1] = -1;
+			return mfw(0, fmd, 0);
 
-      case 2:
-         /* res = - 2**31 - 0.5 */
-         fmd[0] = 0x8000;
-         fmd[1] = 0x0000;
-         fmd[2] = 0x8000;
-         fmd[3] = -1;
-         return mfw(-1,fmd,-1);
-      }
-   }
+		case 1:
+			/* res = -1 */
+			fmd[0] = 1;
+			fmd[1] = -1;
+			return mfw(-1, fmd, 1);
 
-   min = range_min(sha);
-   switch (adj) {
-   case 0:
-   case 1:
-      /* min - (0|1) */
-      min -= adj;
-      fmd[0] = (min>>16) & 0xffff;
-      fmd[1] = min & 0xffff;
-      fmd[2] = -1;
-      return mfw((is_signed(sha) ||adj)? -1 : 0,fmd,1);
-   case 2:
-      /* min - 0.5 */
-      min -= 1;
-      fmd[0] = (min>>16) & 0xffff;
-      fmd[1] = min & 0xffff;
-      fmd[2] = 0x8000;
-      fmd[3] = -1;
-      return mfw(-1,fmd,-1);
-   }
+		case 2:
+			/* res = - 0.5 */
+			fmd[0] = 0x8000;
+			fmd[1] = -1;
+			return mfw(-1, fmd, -1);
+		}
+	}
 
-   /* Shouldn't happen */
-   fmd[0] = 0;
-   fmd[1] = -1;
-   return mfw(0,fmd,0);
+	if (sha->tag == slonghd) {
+		switch (adj) {
+		case 0:
+			break;
+
+		case 1:
+			/* res = - 2**31 - 1 */
+			fmd[0] = 0x8000;
+			fmd[1] = 0x0001;
+			fmd[2] = -1;
+			return mfw(-1, fmd, 1);
+
+		case 2:
+			/* res = - 2**31 - 0.5 */
+			fmd[0] = 0x8000;
+			fmd[1] = 0x0000;
+			fmd[2] = 0x8000;
+			fmd[3] = -1;
+			return mfw(-1, fmd, -1);
+		}
+	}
+
+	min = range_min(sha);
+	switch (adj) {
+	case 0:
+	case 1:
+		/* min - (0|1) */
+		min -= adj;
+		fmd[0] = (min >> 16) & 0xffff;
+		fmd[1] = min & 0xffff;
+		fmd[2] = -1;
+		return mfw((is_signed(sha) || adj) ? -1 : 0, fmd, 1);
+
+	case 2:
+		/* min - 0.5 */
+		min -= 1;
+		fmd[0] = (min >> 16) & 0xffff;
+		fmd[1] = min & 0xffff;
+		fmd[2] = 0x8000;
+		fmd[3] = -1;
+		return mfw(-1, fmd, -1);
+	}
+
+	/* Shouldn't happen */
+	fmd[0] = 0;
+	fmd[1] = -1;
+	return mfw(0, fmd, 0);
 }
 
 /*
@@ -337,70 +359,75 @@ get_min_limit(shape sha, int adj)
 static where
 get_max_limit(shape sha, int adj)
 {
-   long fmd[6];
-   long max = range_max(sha);
-   if (sha->tag ==ulonghd) {
-      switch (adj) {
-      case 0:
-         /* max */
-         fmd[0] = 0xffff;
-         fmd[1] = 0xffff;
-         fmd[2] = -1;
-         return mfw(1,fmd,1);
-      case 1:
-         /* max + 1 */
-         fmd[0] = 1;
-         fmd[1] = 0;
-         fmd[2] = 0;
-         fmd[3] = -1;
-         return mfw(1,fmd,2);
-      case 2:
-         /* max + 0.5 */
-         fmd[0] = 1;
-         fmd[1] = 0;
-         fmd[2] = 0;
-         fmd[3] = 0;
-         fmd[4] = 0x8000;
-         fmd[5] = -1;
-         return mfw(1,fmd,-1);
-      }
-   }
-   else {
-      switch (adj) {
-      case 0:
-      case 1:
-         /* max + (0|1) */
-         max += adj;
-         fmd[0] = (max>>16) & 0xffff;
-         fmd[1] = max & 0xffff;
-         fmd[2] = -1;
-         return mfw(1,fmd,1);
-      case 2:
-         /* max + 0.5 */
-         fmd[0] = (max>>16) & 0xffff;
-         fmd[1] = max & 0xffff;
-         fmd[2] = 0x8000;
-         fmd[3] = -1;
-         return mfw(1,fmd,-1);
-      }
-   }
+	long fmd[6];
+	long max = range_max(sha);
 
-   /* Shouldn't happen */
-   fmd[0] = 0xffff;
-   fmd[1] = 0xffff;
-   fmd[2] = -1;
-   return mfw(1,fmd,1);
+	if (sha->tag == ulonghd) {
+		switch (adj) {
+		case 0:
+			/* max */
+			fmd[0] = 0xffff;
+			fmd[1] = 0xffff;
+			fmd[2] = -1;
+			return mfw(1, fmd, 1);
+
+		case 1:
+			/* max + 1 */
+			fmd[0] = 1;
+			fmd[1] = 0;
+			fmd[2] = 0;
+			fmd[3] = -1;
+			return mfw(1, fmd, 2);
+
+		case 2:
+			/* max + 0.5 */
+			fmd[0] = 1;
+			fmd[1] = 0;
+			fmd[2] = 0;
+			fmd[3] = 0;
+			fmd[4] = 0x8000;
+			fmd[5] = -1;
+			return mfw(1, fmd, -1);
+		}
+	} else {
+		switch (adj) {
+		case 0:
+		case 1:
+			/* max + (0|1) */
+			max += adj;
+			fmd[0] = (max >> 16) & 0xffff;
+			fmd[1] = max & 0xffff;
+			fmd[2] = -1;
+			return mfw(1, fmd, 1);
+
+		case 2:
+			/* max + 0.5 */
+			fmd[0] = (max >> 16) & 0xffff;
+			fmd[1] = max & 0xffff;
+			fmd[2] = 0x8000;
+			fmd[3] = -1;
+			return mfw(1, fmd, -1);
+		}
+	}
+
+	/* Shouldn't happen */
+	fmd[0] = 0xffff;
+	fmd[1] = 0xffff;
+	fmd[2] = -1;
+
+	return mfw(1, fmd, 1);
 }
 
 /* Test number against limit */
 static void
 check_limit(where number, where limit, int tst)
 {
-   int sw, instr;
-   move(realsh,limit,FP1);
-   sw = cmp(realsh,number,FP1,tst);
-   instr = branch_ins(tst,sw,1,1);
-   test_overflow2(instr);
+	int sw, instr;
+
+	move(realsh, limit, FP1);
+	sw = cmp(realsh, number, FP1, tst);
+	instr = branch_ins(tst, sw, 1, 1);
+	test_overflow2(instr);
 }
 
 /*
@@ -410,113 +437,123 @@ check_limit(where number, where limit, int tst)
 static void check_float_round_overflow
 (shape sha, where from, int mode)
 {
-  if (overflow_jump == -1) {
-     asm_comment("error_teatment is trap");
-     return;
-  }
+	if (overflow_jump == -1) {
+		asm_comment("error_teatment is trap");
+		return;
+	}
 
-  asm_comment("check_float_round_overflow ...");
+	asm_comment("check_float_round_overflow ...");
 
-  /* Setup min and max limits & decide tests */
-  switch (mode) {
-  case R2PINF:
-     asm_comment("(toward larger) min-1 < x <= max");
-     /* error if x <= min-1 or x > max */
-     check_limit(from, get_min_limit(sha,1),tst_le);
-     check_limit(from, get_max_limit(sha,0),tst_gr);
-     break;
-  case R2NINF:
-     asm_comment("(toward smaller) min <= x < max+1");
-     /* error if x < min or x >= max+1 */
-     check_limit(from, get_min_limit(sha,0),tst_ls);
-     check_limit(from, get_max_limit(sha,1),tst_ge);
-     break;
-  case R2ZERO:
-     asm_comment("(toward zero) min-1 < x < max+1");
-     /* error if x <= min-1 or x >= max+1 */
-     check_limit(from, get_min_limit(sha,1),tst_le);
-     check_limit(from, get_max_limit(sha,1),tst_ge);
-     break;
-  case R2NEAR:
-     asm_comment("(to nearest) min-0.5 <= x < max+0.5");
-     /* error if x < min-0.5 or x >= max+0.5 */
-     check_limit(from, get_min_limit(sha,2),tst_le);
-     check_limit(from, get_max_limit(sha,2),tst_gr);
-     break;
-  case 4:
-     asm_comment("(internal mode) min <= x <= max");
-     /* error if x < min or x > max */
-     check_limit(from, get_min_limit(sha,0),tst_ls);
-     check_limit(from, get_max_limit(sha,0),tst_gr);
-     break;
-  default:
-     error(ERR_SERIOUS, "check_float_round_overflow: wrong rounding mode");
-  }
+	/* Setup min and max limits & decide tests */
+	switch (mode) {
+	case R2PINF:
+		asm_comment("(toward larger) min-1 < x <= max");
+		/* error if x <= min-1 or x > max */
+		check_limit(from, get_min_limit(sha, 1), tst_le);
+		check_limit(from, get_max_limit(sha, 0), tst_gr);
+		break;
 
-  asm_comment("check_float_round_overflow done");
+	case R2NINF:
+		asm_comment("(toward smaller) min <= x < max+1");
+		/* error if x < min or x >= max+1 */
+		check_limit(from, get_min_limit(sha, 0), tst_ls);
+		check_limit(from, get_max_limit(sha, 1), tst_ge);
+		break;
+
+	case R2ZERO:
+		asm_comment("(toward zero) min-1 < x < max+1");
+		/* error if x <= min-1 or x >= max+1 */
+		check_limit(from, get_min_limit(sha, 1), tst_le);
+		check_limit(from, get_max_limit(sha, 1), tst_ge);
+		break;
+
+	case R2NEAR:
+		asm_comment("(to nearest) min-0.5 <= x < max+0.5");
+		/* error if x < min-0.5 or x >= max+0.5 */
+		check_limit(from, get_min_limit(sha, 2), tst_le);
+		check_limit(from, get_max_limit(sha, 2), tst_gr);
+		break;
+
+	case 4:
+		asm_comment("(internal mode) min <= x <= max");
+		/* error if x < min or x > max */
+		check_limit(from, get_min_limit(sha, 0), tst_ls);
+		check_limit(from, get_max_limit(sha, 0), tst_gr);
+		break;
+
+	default:
+		error(ERR_SERIOUS, "check_float_round_overflow: wrong rounding mode");
+	}
+
+	asm_comment("check_float_round_overflow done");
 }
 
-static bool changed_round_mode = 0;
+static bool changed_round_mode = false;
 
 /*
- * SET_ROUND_MODE
+ * Set round mode
  *
  * Changes the default floating point rounding mode.
  * Set bits 4 & 5 of fpcr (floating point control register)
  * according to rounding mode.
  *
- * The global flag changed_round_mode is set to TRUE.
+ * The global flag changed_round_mode is set to true.
  */
 static void
 set_round_mode(int mode)
 {
-/*
-   if (mode == f_to_nearest && ! changed_round_mode ) return ;
-*/
-   changed_round_mode = 1;
+	/*
+	 * if (mode == f_to_nearest && !changed_round_mode) return;
+	 */
+	changed_round_mode = true;
 
-   ins2(m_fmovel,32,32,RW[REG_FPCR],D0,1);
+	ins2(m_fmovel, 32, 32, RW[REG_FPCR], D0, 1);
 
-   switch (mode) {
-   case R2NEAR:
-      asm_comment("round mode to nearest");
-      /* to nearest => bit 4 = 0, bit 5 = 0 */
-      ins2n(m_bclr,4,32,D0,1);
-      ins2n(m_bclr,5,32,D0,1);
-      break;
-   case R2PINF:
-      asm_comment("round mode to larger");
-      /* to + INF  => bit 4 =1, bit5 = 1 */
-      ins2n(m_bset,4,32,D0,1);
-      ins2n(m_bset,5,32,D0,1);
-      break;
-   case R2NINF:
-      asm_comment("round mode to smaller");
-      /* to - INF => bit 4 = 0, bit 5 = 1 */
-      ins2n(m_bclr,4,32,D0,1);
-      ins2n(m_bset,5,32,D0,1);
-      break;
-   case R2ZERO:
-      asm_comment("round mode to zero");
-      /* to zero => bit 4 = 1, bit 5 = 0
-         This should never occur, as fintrz is always used
-         for round to zero */
-      ins2n(m_bset,4,32,D0,1);
-      ins2n(m_bclr,5,32,D0,1);
-      break;
-   default:
-      error(ERR_SERIOUS, "wrong rounding mode");
-   }
-   ins2(m_fmovel,32,32,D0,RW[REG_FPCR],1);
+	switch (mode) {
+	case R2NEAR:
+		asm_comment("round mode to nearest");
+		/* to nearest => bit 4 = 0, bit 5 = 0 */
+		ins2n(m_bclr, 4, 32, D0, 1);
+		ins2n(m_bclr, 5, 32, D0, 1);
+		break;
+
+	case R2PINF:
+		asm_comment("round mode to larger");
+		/* to + INF  => bit 4 =1, bit5 = 1 */
+		ins2n(m_bset, 4, 32, D0, 1);
+		ins2n(m_bset, 5, 32, D0, 1);
+		break;
+
+	case R2NINF:
+		asm_comment("round mode to smaller");
+		/* to - INF => bit 4 = 0, bit 5 = 1 */
+		ins2n(m_bclr, 4, 32, D0, 1);
+		ins2n(m_bset, 5, 32, D0, 1);
+		break;
+
+	case R2ZERO:
+		asm_comment("round mode to zero");
+		/* to zero => bit 4 = 1, bit 5 = 0
+		   This should never occur, as fintrz is always used
+		   for round to zero */
+		ins2n(m_bset, 4, 32, D0, 1);
+		ins2n(m_bclr, 5, 32, D0, 1);
+		break;
+
+	default:
+		error(ERR_SERIOUS, "wrong rounding mode");
+	}
+
+	ins2(m_fmovel, 32, 32, D0, RW[REG_FPCR], 1);
 }
 
-void reset_round_mode
-(void)
+void
+reset_round_mode(void)
 {
-   if (changed_round_mode) {
-      set_round_mode(f_to_nearest);
-      changed_round_mode = 0;
-   }
+	if (changed_round_mode) {
+		set_round_mode(f_to_nearest);
+		changed_round_mode = false;
+	}
 }
 
 static void
@@ -526,6 +563,7 @@ float_to_unsigned(where from, where to, char *s)
 	push_float(64L, FP0);
 	change_flvar(realsh, from, FP0);
 	push_float(64L, FP0);
+
 #ifdef float_to_unsigned_uses_fp1
 	if (mode == 4 && eq_where(from, FP1) {
 		push_float(64L, FP1);
@@ -533,6 +571,7 @@ float_to_unsigned(where from, where to, char *s)
 		pop_float(64L, FP1);
 	} else
 #endif
+		/* XXX: assuming dangling else for a single statement here */
 		libcall(s);
 	dec_stack(-64);
 	have_cond = 0;
@@ -540,246 +579,253 @@ float_to_unsigned(where from, where to, char *s)
 }
 
 /*
- * ROUND A FLOATING POINT NUMBER TO AN INTEGER
+ * Round a floating point number to an integer
  *
  * The floating-point value from is rounded to an integer value of shape
  * sha and stored in to.  The rounding mode is given by crt_rmode.
  */
-void round_float
-(shape sha, where from, where to)
+void
+round_float(shape sha, where from, where to)
 {
-    where fr;
-    where dest;
-    int mode = crt_rmode;
+	where fr;
+	where dest;
+	int mode = crt_rmode;
 
-    if (sha->tag == ulonghd) {
-        if (have_overflow()) {
-            /*
-             * This must be checked before a round operation is attempted
-             * because out-of-range values can cause an exception
-             */
-            check_float_round_overflow(sha,from,mode);
-        }
+	if (sha->tag == ulonghd) {
+		if (have_overflow()) {
+			/*
+			 * This must be checked before a round operation is attempted
+			 * because out-of-range values can cause an exception
+			 */
+			check_float_round_overflow(sha, from, mode);
+		}
 
-	if (mode == f_toward_zero|| mode == 4) {
-		switch (abi) {
-		case ABI_SUNOS: {
-	   		where fm;
-	    		long lab1 = next_lab();
-	    		long lab2 = next_lab();
-	    		exp jt = simple_exp(0);
-	    		ptno(jt) = lab1;
-	    		regsinproc |= regmsk(REG_FP1);
-	    		{
-				static long fmd[] = { 32768, 0, -1 };
-				fm = mfw(1, fmd, 1);
-	    		}
+		if (mode == f_toward_zero || mode == 4) {
+			switch (abi) {
+			case ABI_SUNOS: {
+				where fm;
+				long lab1 = next_lab();
+				long lab2 = next_lab();
+				exp jt = simple_exp(0);
+				ptno(jt) = lab1;
+				regsinproc |= regmsk(REG_FP1);
+				{
+					static long fmd[] = { 32768, 0, -1 };
+					fm = mfw(1, fmd, 1);
+				}
 
-			change_flvar(realsh, from, FP0);
-			move(realsh, fm, FP1);
-			regsinproc |= regmsk(REG_FP1);
-			ins2_cmp(m_fcmpx, 64L, 64L, FP0, FP1, 0);
-			branch(tst_gr, jt, 1, 1, 1);
-			ins2(m_fsubx, 64L, 64L, FP1, FP0, regmsk(REG_FP0));
+				change_flvar(realsh, from, FP0);
+				move(realsh, fm, FP1);
+				regsinproc |= regmsk(REG_FP1);
+				ins2_cmp(m_fcmpx, 64L, 64L, FP0, FP1, 0);
+				branch(tst_gr, jt, 1, 1, 1);
+				ins2(m_fsubx, 64L, 64L, FP1, FP0, regmsk(REG_FP0));
 
-			if (whereis(to) == Dreg) {
-				ins2(m_fintrzx,32L,32L,FP0,FP0,1);
-				ins2(m_fmovel, 32L, 32L, FP0, to, 1);
-				or(ulongsh, to, mnw((long)2147483648UL), to);
-			} else {
-				ins2(m_fintrzx,32L,32L,FP0,FP0,1);
-				ins2(m_fmovel, 32L, 32L, FP0, D0, 1);
-				or(ulongsh, D0, mnw((long)2147483648UL), D0);
-				move(ulongsh, D0, to);
+				if (whereis(to) == Dreg) {
+					ins2(m_fintrzx, 32L, 32L, FP0, FP0, 1);
+					ins2(m_fmovel, 32L, 32L, FP0, to, 1);
+					or (ulongsh, to, mnw((long)2147483648UL), to);
+				} else {
+					ins2(m_fintrzx, 32L, 32L, FP0, FP0, 1);
+					ins2(m_fmovel, 32L, 32L, FP0, D0, 1);
+					or (ulongsh, D0, mnw((long)2147483648UL), D0);
+					move(ulongsh, D0, to);
+				}
+
+				make_jump(m_bra, lab2);
+				make_label(lab1);
+
+				if (whereis(to) == Dreg) {
+					ins2(m_fintrzx, 32L, 32L, FP0, FP0, 1);
+					ins2(m_fmovel, 32L, 32L, FP0, to, 1);
+				} else {
+					ins2(m_fintrzx, 32L, 32L, FP0, FP0, 1);
+					ins2(m_fmovel, 32L, 32L, FP0, D0, 1);
+					move(ulongsh, D0, to);
+				}
+				make_label(lab2);
+				have_cond = 0;
+				break;
 			}
 
-			make_jump(m_bra, lab2);
-			make_label(lab1);
+			case ABI_HPUX:
+				float_to_unsigned(from, to, "___fixu");
+				break;
 
-			if (whereis(to) == Dreg) {
-				ins2(m_fintrzx,32L,32L,FP0,FP0,1);
-				ins2(m_fmovel, 32L, 32L, FP0, to, 1);
-			} else {
-				ins2(m_fintrzx,32L,32L,FP0,FP0,1);
-				ins2(m_fmovel, 32L, 32L, FP0, D0, 1);
-				move(ulongsh, D0, to);
+			case ABI_NEXT:
+				float_to_unsigned(from, to, "__fixunsdfsi");
+				break;
+
+			default:
+				error(ERR_SERIOUS, "unsupported ABI");
 			}
-			make_label(lab2);
+			return;
+		}
+
+	} else {
+
+		if (mode == 4) {
+			/* Special case - move FP0 into the register to */
+			ins2(m_fmovel, 32L, 32L, FP0, to, 1);
+
+			/* This might generate operand error */
+			test_overflow(ON_FP_OPERAND_ERROR);
+
 			have_cond = 0;
-			break;
+			change_var_sh(sha, slongsh, to, to);
+			return;
 		}
 
-		case ABI_HPUX:
-			float_to_unsigned(from, to, "___fixu");
-			break;
-
-		case ABI_NEXT:
-			float_to_unsigned(from, to, "__fixunsdfsi");
-			break;
-
-		default:
-			error(ERR_SERIOUS, "unsupported ABI");
+		if (have_overflow()) {
+			/*
+			 * This must be checked before a round operation is attempted
+			 * because out-of-range values can cause an exception.
+			 */
+			check_float_round_overflow(sha, from, mode);
 		}
-	    return;
+
+		if (mode == f_toward_zero || mode == f_to_nearest) {
+			/* Rounding to nearest or towards zero are easy */
+			int instr;
+			shape shf = sh(from.wh_exp);
+			long szf = shape_size(shf);
+
+			if (mode == f_toward_zero) {
+				instr = m_fintrzx;
+				if (whereis(from) != Freg) {
+					instr = insf(szf, ml_fint);
+				}
+			} else {
+				set_round_mode(mode);
+				instr = m_fintx;
+				if (whereis(from) != Freg) {
+					instr = insf(szf, ml_fintrz);
+				}
+			}
+
+			ins2(instr, szf, szf, from, FP0, 1);
+			if (whereis(to) == Dreg) {
+				dest = to;
+			} else {
+				dest = D0;
+			}
+
+			ins2(m_fmovel, 32L, 32L, FP0, dest, 1);
+			have_cond = 0;
+			change_var_sh(sha, slongsh, dest, to);
+			return;
+		}
 	}
 
-    } else {
-
-
-	if (mode == 4) {
-	    /* Special case - move FP0 into the register to */
-	    ins2(m_fmovel, 32L, 32L, FP0, to, 1);
-
-            /* This might generate operand error */
-            test_overflow(ON_FP_OPERAND_ERROR);
-
-	    have_cond = 0;
-	    change_var_sh(sha, slongsh, to, to);
-	    return;
-	}
-
-	if (have_overflow()) {
-	  /*
-       * This must be checked before a round operation is attempted
-	   * because out-of-range values can cause an exception.
-       */
-	  check_float_round_overflow(sha,from,mode);
-	}
-
-	if (mode == f_toward_zero || mode == f_to_nearest) {
-	    /* Rounding to nearest or towards zero are easy */
-	    int instr;
-	    shape shf = sh(from.wh_exp);
-	    long szf = shape_size(shf);
-	    if (mode == f_toward_zero) {
-		instr = m_fintrzx;
-		if (whereis(from)!= Freg) {
-		    instr = insf(szf, ml_fint);
-		}
-	    } else {
-                set_round_mode(mode);
-		instr = m_fintx;
-		if (whereis(from)!= Freg) {
-		    instr = insf(szf, ml_fintrz);
-		}
-	    }
-	    ins2(instr, szf, szf, from, FP0, 1);
-	    if (whereis(to) == Dreg) {
+	/* Other modes: firstly find some registers */
+	if (whereis(to) == Dreg) {
 		dest = to;
-	    } else {
+	} else {
 		dest = D0;
-	    }
-	    ins2(m_fmovel, 32L, 32L, FP0, dest, 1);
-	    have_cond = 0;
-	    change_var_sh(sha, slongsh, dest, to);
-	    return;
 	}
-    }
 
-    /* Other modes : firstly find some registers */
-    if (whereis(to) == Dreg) {
-	dest = to;
-    } else {
-	dest = D0;
-    }
-    if (whereis(from) == Freg && !eq_where(from, FP0)) {
-	fr = from;
-    } else {
-	shape shf = sh(from.wh_exp);
-	fr = FP1;
-	regsinproc |= regmsk(REG_FP1);
-	move(shf, from, fr);
-    }
+	if (whereis(from) == Freg && !eq_where(from, FP0)) {
+		fr = from;
+	} else {
+		shape shf = sh(from.wh_exp);
+		fr = FP1;
+		regsinproc |= regmsk(REG_FP1);
+		move(shf, from, fr);
+	}
 
-    /* Round fr into FP0 */
-    if (mode == f_toward_zero) {
-       ins2(m_fintrzx, 64, 64, fr, FP0, 1);
-    }
-    else {
-       set_round_mode(mode);
-       ins2(m_fintx, 64, 64, fr, FP0, 1);
-    }
+	/* Round fr into FP0 */
+	if (mode == f_toward_zero) {
+		ins2(m_fintrzx, 64, 64, fr, FP0, 1);
+	} else {
+		set_round_mode(mode);
+		ins2(m_fintx, 64, 64, fr, FP0, 1);
+	}
 
-    /* Move FP0 into dest */
-    crt_rmode = 4;
-    round_float(sha, FP0, dest);
-    crt_rmode = mode;
+	/* Move FP0 into dest */
+	crt_rmode = 4;
+	round_float(sha, FP0, dest);
+	crt_rmode = mode;
 
-    /* Move result into place */
-    have_cond = 0;
-    move(sha, dest, to);
+	/* Move result into place */
+	have_cond = 0;
+	move(sha, dest, to);
 }
 
 /*
- * CONVERT AN INTEGER TO A FLOATING POINT NUMBER
+ * $onvert an integer to a floating point number
  *
  * The integer value from is converted to a floating-point value of
  * shape sha and stored in to. Unsigned longs are difficult.
  * Error treatments are ignored (they cannot occur at present).
  */
-void int_to_float
-(shape sha, where from, where to)
+void
+int_to_float(shape sha, where from, where to)
 {
-    where fpr;
-    shape shf = sh(from.wh_exp);
+	where fpr;
+	shape shf = sh(from.wh_exp);
+
 #ifdef REJECT
-    fpr = (whereis(to) == Freg ? to : FP0);
+	fpr = whereis(to) == Freg ? to : FP0;
 #else
-    fpr = FP0;
+	fpr = FP0;
 #endif
-    if (shf->tag == ulonghd) {
-	switch (abi) {
-	case ABI_NEXT:
-	case ABI_SUNOS: {
-		where fm;
-		long lab = next_lab();
-		exp jt = simple_exp(0);
-		ptno(jt) = lab;
-		{
-		    static long fmd[] = { 1, 0, 0, -1 };
-		    fm = mfw(1, fmd, 2);
+
+	if (shf->tag == ulonghd) {
+		switch (abi) {
+		case ABI_NEXT:
+		case ABI_SUNOS: {
+			where fm;
+			long lab = next_lab();
+			exp jt = simple_exp(0);
+			ptno(jt) = lab;
+			{
+				static long fmd[] = { 1, 0, 0, -1 };
+				fm = mfw(1, fmd, 2);
+			}
+
+			if (whereis(from) == Dreg) {
+				ins2(m_fmovel, 32L, 64L, from, fpr, 1);
+			} else {
+				move(slongsh, from, D0);
+				ins2(m_fmovel, 32L, 64L, D0, fpr, 1);
+			}
+
+			branch(tst_ge, jt, 1, 1, 1);
+			add(sha, fpr, fm, fpr);
+			make_label(lab);
+			have_cond = 0;
+			move(sha, fpr, to);
+			return;
 		}
 
-		if (whereis(from) == Dreg) {
-			ins2(m_fmovel, 32L, 64L, from, fpr, 1);
-		} else {
-			move(slongsh, from, D0);
-			ins2(m_fmovel, 32L, 64L, D0, fpr, 1);
-		}
+		case ABI_HPUX:
+			if (whereis(from) == Dreg) {
+				push(slongsh, 32L, from);
+			} else {
+				move(shf, from, D0);
+				push(slongsh, 32L, D0);
+			}
 
-		branch(tst_ge, jt, 1, 1, 1);
-		add(sha, fpr, fm, fpr);
-		make_label(lab);
-		have_cond = 0;
-		move(sha, fpr, to);
-		return;
+			libcall("___floatu");
+			dec_stack(-32);
+			have_cond = 0;
+			move(realsh, D0_D1, fpr);
+			move(sha, fpr, to);
+			return;
+
+		default:
+			error(ERR_SERIOUS, "unsupported ABI");
+		}
 	}
 
-	case ABI_HPUX:
-		if (whereis(from) == Dreg) {
-		    push(slongsh, 32L, from);
-		} else {
-		    move(shf, from, D0);
-		    push(slongsh, 32L, D0);
-		}
-		libcall("___floatu");
-		dec_stack(-32);
-		have_cond = 0;
-		move(realsh, D0_D1, fpr);
-		move(sha, fpr, to);
-		return;
-
-	default:
-		error(ERR_SERIOUS, "unsupported ABI");
+	if (shf->tag == slonghd && whereis(from) == Dreg) {
+		ins2(m_fmovel, 32L, 64L, from, fpr, 1);
+	} else {
+		change_var_sh(slongsh, shf, from, D0);
+		ins2(m_fmovel, 32L, 64L, D0, fpr, 1);
 	}
-    }
 
-    if (shf->tag == slonghd && whereis(from) == Dreg) {
-	ins2(m_fmovel, 32L, 64L, from, fpr, 1);
-    } else {
-	change_var_sh(slongsh, shf, from, D0);
-	ins2(m_fmovel, 32L, 64L, D0, fpr, 1);
-    }
-    move(sha, fpr, to);
-    have_cond = 0;
+	move(sha, fpr, to);
+	have_cond = 0;
 }
+
