@@ -18,6 +18,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <local/exp.h>
+
 #include <tdf/shape.h>
 #include <tdf/tag.h>
 
@@ -37,7 +39,6 @@
 #include "bitsmacs.h"
 #include "reg.h"
 #include "regexps.h"
-#include "localexpmacs.h"
 
 static regpeep regexps[64]; /* [0:31] fix pt - [32:47] floating pt */
 

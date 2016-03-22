@@ -13,6 +13,7 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <local/exp.h>
 #include <local/tag.h>
 
 #include <tdf/shape.h>
@@ -50,7 +51,6 @@
 #include "translate.h"
 #include "ops_shared.h"
 #include "special_exps.h"
-#include "localexpmacs.h"
 
 static void
 pop_float(long sz, where wh);

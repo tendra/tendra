@@ -8,8 +8,8 @@
  */
 
 
-#ifndef LOCALEXPMACS_H
-#define LOCALEXPMACS_H
+#ifndef LOCAL_EXP_H
+#define LOCAL_EXP_H
 
 /* properties of IDENT */
 
@@ -27,10 +27,6 @@
 
 /* properties of STRING construction */
 #define string_char_size(e) props(e)
-
-extern shape LISTsh;
-
-#define isLIST(x) ((x) == LISTsh)
 
 #if 0
 #define proc_has_gen_call(e) (props(e) & 0x4000)

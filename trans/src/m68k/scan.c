@@ -17,6 +17,8 @@
 #include <shared/bool.h>
 #include <shared/check.h>
 
+#include <local/exp.h>
+
 #include <tdf/shape.h>
 #include <tdf/tag.h>
 
@@ -29,8 +31,6 @@
 #include "68k_globals.h"
 #include "special_exps.h"
 #endif
-
-#include "localexpmacs.h"
 
 void scan(bool, exp, exp);
 

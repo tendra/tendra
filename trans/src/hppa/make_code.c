@@ -17,6 +17,7 @@
 #include <shared/xalloc.h>
 
 #include <local/ash.h>
+#include <local/exp.h>
 #include <local/out.h>
 #include <local/tag.h>
 
@@ -72,7 +73,6 @@
 #include "special.h"
 #include "loc_signal.h"
 #include "labexp.h"
-#include "localexpmacs.h"
 
 #define outp fprintf
 #define isdbl(e)((bool)(e->tag!= shrealhd))

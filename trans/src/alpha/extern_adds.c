@@ -12,6 +12,8 @@
 
 #include <shared/bool.h>
 
+#include <local/exp.h>
+
 #include <tdf/shape.h>
 #include <tdf/tag.h>
 
@@ -20,7 +22,6 @@
 #include <construct/exp.h>
 
 #include "extern_adds.h"
-#include "localexpmacs.h"
 
 extern exp * ptr_position(exp e);
 

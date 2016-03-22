@@ -11,6 +11,8 @@
 
 #include <shared/bool.h>
 
+#include <local/exp.h>
+
 #include <tdf/tag.h>
 
 #include <reader/externs.h>
@@ -22,7 +24,6 @@
 #include <main/flags.h>
 
 #include "tv_callees.h"
-#include "localexpmacs.h"
 
 /*
  * Transforms caller arguments of general procs with variable callees,

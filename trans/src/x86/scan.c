@@ -26,6 +26,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <local/exp.h>
+
 #include <tdf/shape.h>
 #include <tdf/tag.h>
 
@@ -44,7 +46,6 @@
 #include "make_code.h"
 #include "ops.h"
 #include "scan.h"
-#include "localexpmacs.h"
 
 #define assexp(isson, p, v) if (isson)setson(p, v); else setbro(p, v)
 #define contexp(isson, p)((isson)? son(p): bro(p))

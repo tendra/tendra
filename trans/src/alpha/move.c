@@ -25,6 +25,7 @@
 #include <construct/dec.h>
 
 #include <local/ash.h>
+#include <local/exp.h>
 
 #include <flpt/flpt.h>
 
@@ -46,7 +47,6 @@
 #include "pseudo.h"
 #include "labels.h"
 #include "move.h"
-#include "localexpmacs.h"
 
 /* bit masks */
 #if BLDARCHBITS == 64

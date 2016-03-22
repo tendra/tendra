@@ -22,6 +22,7 @@
 #include <shared/xalloc.h>
 
 #include <local/ash.h>
+#include <local/exp.h>
 #include <local/fbase.h>
 
 #include <tdf/shape.h>
@@ -56,7 +57,6 @@
 #include "inst_fmt.h"
 #include "eval.h"
 #include "procrec.h"
-#include "localexpmacs.h"
 
 /*
  * storage types

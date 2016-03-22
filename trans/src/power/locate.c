@@ -20,6 +20,7 @@
 #include <shared/error.h>
 
 #include <local/ash.h>
+#include <local/exp.h>
 
 #include <tdf/tag.h>
 
@@ -35,7 +36,6 @@
 #include "stack.h"
 #include "locate.h"
 #include "frames.h"
-#include "localexpmacs.h"
 #include "regexps.h"
 #include "guard.h"
 

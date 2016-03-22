@@ -15,6 +15,8 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
+#include <local/exp.h>
+
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
@@ -48,7 +50,6 @@
 #include "stack.h"
 #include "frames.h"
 #include "stack.h"
-#include "localexpmacs.h"
 
 long frame_offset(exp id)
 {

@@ -25,6 +25,7 @@
 
 #include <local/szs_als.h>
 #include <local/ash.h>
+#include <local/exp.h>
 #include <local/tag.h>
 
 #include <tdf/shape.h>
@@ -62,7 +63,6 @@
 #include "special.h"
 #include "reg_defs.h"
 #include "make_code.h"
-#include "localexpmacs.h"
 
 extern prop notbranch[];
 

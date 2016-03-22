@@ -44,6 +44,8 @@
 
 #include <shared/bool.h>
 
+#include <local/exp.h>
+
 #include <tdf/shape.h>
 #include <tdf/tag.h>
 
@@ -58,7 +60,6 @@
 #include "regable.h"
 #include "special.h"
 #include "weights.h"
-#include "localexpmacs.h"
 
 static weights zeroweights;
 

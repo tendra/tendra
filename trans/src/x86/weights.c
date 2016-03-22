@@ -13,6 +13,8 @@
 #include <shared/bool.h>
 #include <shared/check.h>
 
+#include <local/exp.h>
+
 #include <tdf/shape.h>
 #include <tdf/tag.h>
 
@@ -28,7 +30,6 @@
 #include "make_code.h"
 #include "cproc.h"
 #include "weights.h"
-#include "localexpmacs.h"
 
 /* number of available registers */
 #define wno 6

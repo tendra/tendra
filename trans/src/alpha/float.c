@@ -13,13 +13,14 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
+#include <local/exp.h>
+
 #include <tdf/shape.h>
 #include <tdf/tag.h>
 
 #include <flpt/flpt.h>
 
 #include "float.h"
-#include "localexpmacs.h"
 
 #define is_negative(x)	(x.sign<0)
 

@@ -16,6 +16,7 @@
 #include <local/szs_als.h>
 #include <local/codermacs.h>
 #include <local/dw2_config.h>
+#include <local/exp.h>
 
 #include <tdf/shape.h>
 #include <tdf/tag.h>
@@ -53,7 +54,6 @@
 #include "dw2_extra.h"
 #include "operand.h"
 #include "reg_record.h"
-#include "localexpmacs.h"
 #include "make_code.h"
 
 

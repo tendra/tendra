@@ -15,6 +15,7 @@
 #include <shared/error.h>
 
 #include <local/szs_als.h>
+#include <local/exp.h>
 #include <local/tag.h>
 
 #include <tdf/nat.h>
@@ -35,8 +36,6 @@
 #include <main/flags.h>
 
 #include <refactor/refactor.h>
-
-#include "localexpmacs.h"
 
 #define MAX_INT 2147483647
 #define MIN_INT (-MAX_INT-1)

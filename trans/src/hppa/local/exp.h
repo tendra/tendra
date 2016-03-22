@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef EXPMACS_INCLUDED
-#define EXPMACS_INCLUDED
+#ifndef LOCAL_EXP_H
+#define LOCAL_EXP_H
 
 #include "bitsmacs.h"
 
@@ -21,11 +21,6 @@
 #define frame_al1_of_offset(x) (x)->son.ald->al.frame
 #define includes_vcallees(x) ((x & 16) != 0)
 #define l_or_cees(x) ((x &25) !=0)
-
-
-extern shape LISTsh;
-
-#define isLIST(x) (x)==LISTsh
 
 
 /*

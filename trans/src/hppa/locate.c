@@ -18,6 +18,7 @@
 #include <shared/error.h>
 
 #include <local/ash.h>
+#include <local/exp.h>
 
 #include <tdf/shape.h>
 #include <tdf/tag.h>
@@ -45,7 +46,6 @@
 #include "proc.h"
 #include "frames.h"
 #include "locate.h"
-#include "localexpmacs.h"
 
 
 /* decodes x to give a baseoff suitable for xxxx_ins functions */

@@ -18,6 +18,7 @@
 #include <shared/xalloc.h>
 
 #include <local/ash.h>
+#include <local/exp.h>
 
 #include <tdf/tag.h>
 
@@ -46,7 +47,6 @@
 #include "dynamic_init.h"
 #include "stack.h"
 #include "scan.h"
-#include "localexpmacs.h"
 #include "locate.h"
 #include "guard.h"
 

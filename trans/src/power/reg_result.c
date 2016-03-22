@@ -10,11 +10,11 @@
 
 #include <shared/bool.h>
 
+#include <local/exp.h>
+
 #include <construct/installtypes.h>
 #include <construct/dec.h>
 #include <construct/reg_result.h>
-
-#include "localexpmacs.h"
 
 bool
 reg_result(shape sha)

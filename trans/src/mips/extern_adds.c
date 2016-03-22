@@ -12,6 +12,8 @@
 
 #include <shared/bool.h>
 
+#include <local/exp.h>
+
 #include <tdf/shape.h>
 #include <tdf/tag.h>
 
@@ -23,7 +25,6 @@
 #include "extern_adds.h"
 #include "procrec.h"
 #include "scan.h"
-#include "localexpmacs.h"
 
 
 /* replaces uses of extern in procs by local identification of address;

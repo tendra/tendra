@@ -21,6 +21,7 @@
 #include <shared/error.h>
 
 #include <local/ash.h>
+#include <local/exp.h>
 
 #include <tdf/shape.h>
 #include <tdf/tag.h>
@@ -50,7 +51,6 @@
 #include "frames.h"
 #include "procrec.h"
 #include "eval.h"
-#include "localexpmacs.h"
 
 extern void globalise_name(dec*);
 extern procrec *procrecs;

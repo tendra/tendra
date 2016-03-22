@@ -16,6 +16,7 @@
 #include <shared/error.h>
 
 #include <local/cpu.h>
+#include <local/exp.h>
 
 #include <tdf/nat.h>
 #include <tdf/tag.h>
@@ -37,7 +38,6 @@
 #include "stack.h"
 #include "instruct.h"
 #include "error.h"
-#include "localexpmacs.h"
 #include "guard.h"
 
 /* Labels to call the error handler */

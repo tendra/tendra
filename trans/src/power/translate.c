@@ -92,6 +92,8 @@
 #include <shared/string.h>
 #include <shared/xalloc.h>
 
+#include <local/exp.h>
+
 #include <tdf/tag.h>
 
 #include <reader/externs.h>		/* for "inits.h" init_XXX() procs */
@@ -127,7 +129,6 @@
 #include "macro.h"
 #include "dynamic_init.h"
 #include "stack.h"
-#include "localexpmacs.h"
 #include "locate.h"
 
 int maxfix_tregs;		/* The number of t regs allocatable */

@@ -12,6 +12,8 @@
 #include <shared/bool.h>
 #include <shared/error.h>
 
+#include <local/exp.h>
+
 #include <tdf/tag.h>
 
 #include <reader/basicread.h>
@@ -21,7 +23,6 @@
 #include "procrec.h"
 #include "bitsmacs.h"
 #include "frames.h"
-#include "localexpmacs.h"
 
 extern exp father(exp);
 extern  procrec * procrecs;

@@ -22,6 +22,7 @@
 #include <shared/string.h>
 
 #include <local/szs_als.h>
+#include <local/exp.h>
 #include <local/ash.h>
 
 #include <tdf/shape.h>
@@ -66,7 +67,6 @@
 #include "translate.h"
 #include "make_code.h"
 #include "proc.h"
-#include "localexpmacs.h"
 #include "special.h"
 
 #ifdef TDF_DIAG4

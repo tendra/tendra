@@ -96,6 +96,7 @@
 #include <shared/xalloc.h>
 
 #include <local/ash.h>
+#include <local/exp.h>
 
 #include <tdf/shape.h>
 #include <tdf/tag.h>
@@ -136,7 +137,6 @@
 #include "proc.h"
 #include "locate.h"
 #include "special.h"
-#include "localexpmacs.h"
 
 #ifdef TDF_DIAG3
 #include <diag3/diag_reform.h>

@@ -26,6 +26,7 @@
 #include <shared/error.h>
 
 #include <local/ash.h>
+#include <local/exp.h>
 #include <local/tag.h>
 
 #include <tdf/shape.h>
@@ -62,7 +63,6 @@
 #include "proc.h"
 #include "frames.h"
 #include "scan.h"
-#include "localexpmacs.h"
 
 /* used by scan to set initial parameter positions */
 extern alignment long_to_al(unsigned long);

@@ -16,6 +16,7 @@
 #include <shared/check.h>
 
 #include <local/ash.h>
+#include <local/exp.h>
 
 #include <tdf/name.h>
 #include <tdf/shape.h>
@@ -28,7 +29,6 @@
 #include <construct/exp.h>
 
 #include "procrec.h"
-#include "localexpmacs.h"
 #include "addrtypes.h"
 #include "locate.h"
 #include "translate.h"

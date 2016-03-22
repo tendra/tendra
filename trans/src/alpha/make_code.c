@@ -24,6 +24,7 @@
 
 #include <local/szs_als.h>
 #include <local/ash.h>
+#include <local/exp.h>
 #include <local/tag.h>
 
 #include <tdf/shape.h>
@@ -83,7 +84,6 @@
 #include "out_ba.h"
 #include "float.h"
 #include "translate.h"
-#include "localexpmacs.h"
 
 int fscopefile;	/* file of current proc */
 

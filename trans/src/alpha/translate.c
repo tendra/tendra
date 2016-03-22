@@ -18,6 +18,7 @@
 #include <shared/xalloc.h>
 
 #include <local/ash.h>
+#include <local/exp.h>
 
 #include <tdf/nat.h>
 #include <tdf/shape.h>
@@ -68,7 +69,6 @@
 #include "extern_adds.h"
 #include "locate.h"
 #include "translate.h"
-#include "localexpmacs.h"
 
 static bool do_extern_adds;
 static int main_globals_index;

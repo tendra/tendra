@@ -27,6 +27,7 @@
 #include <local/out.h>
 #include <local/cpu.h>
 #include <local/codermacs.h>
+#include <local/exp.h>
 
 #include <tdf/shape.h>
 #include <tdf/tag.h>
@@ -64,7 +65,6 @@
 #include "make_code.h"
 #include "scan.h"
 #include "cproc.h"
-#include "localexpmacs.h"
 
 #ifdef DWARF2
 #include <dwarf2/dw2_info.h>

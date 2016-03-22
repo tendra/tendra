@@ -16,6 +16,7 @@
 #include <tdf/tag.h>
 
 #include <local/ash.h>
+#include <local/exp.h>
 
 #include <reader/exp.h>
 
@@ -44,7 +45,6 @@
 #include "eval.h"
 #include "ops_shared.h"
 #include "mach_ins.h"
-#include "localexpmacs.h"
 
 extern bool have_cond;
 

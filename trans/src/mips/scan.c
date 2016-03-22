@@ -24,6 +24,7 @@
 #include <shared/check.h>
 
 #include <local/ash.h>
+#include <local/exp.h>
 #include <local/tag.h>
 
 #include <tdf/shape.h>
@@ -60,7 +61,6 @@
 #include "frames.h"
 #include "main.h"
 #include "scan.h"
-#include "localexpmacs.h"
 
 static void
 tidy_ident(exp e);

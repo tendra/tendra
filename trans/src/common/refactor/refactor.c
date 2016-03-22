@@ -63,7 +63,7 @@
 #endif
 
 #if defined(TRANS_X86) || defined(TRANS_HPPA)
-#include "localexpmacs.h"
+#include <local/exp.h>
 #endif
 
 #include <refactor/refactor.h>

@@ -12,6 +12,8 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <local/exp.h>
+
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
@@ -28,7 +30,6 @@
 #include "reg.h"
 #include "addrtypes.h"
 #include "regexps.h"
-#include "localexpmacs.h"
 
 struct regpeept {
 	ans inans;

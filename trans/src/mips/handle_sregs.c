@@ -20,6 +20,8 @@
 
 #include <shared/bool.h>
 
+#include <local/exp.h>
+
 #include <reader/basicread.h>
 
 #include "mips_ins.h"
@@ -27,7 +29,6 @@
 #include "addrtypes.h"
 #include "frames.h"
 #include "handle_sregs.h"
-#include "localexpmacs.h"
 
 extern long frame_size;
 long  dumpstart;		/* where to start dumping fixeds */

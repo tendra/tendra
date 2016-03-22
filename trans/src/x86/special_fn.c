@@ -12,6 +12,8 @@
 #include <shared/bool.h>
 #include <shared/check.h>
 
+#include <local/exp.h>
+
 #include <tdf/shape.h>
 #include <tdf/tag.h>
 
@@ -30,8 +32,6 @@
 #include <special/special_fn.h>
 
 #include <main/flags.h>
-
-#include "localexpmacs.h"
 
 static bool
 special_trans386(exp a1, exp a2, shape s, exp *e)

@@ -26,6 +26,7 @@
 #include <local/out.h>
 #include <local/cpu.h>
 #include <local/codermacs.h>
+#include <local/exp.h>
 
 #ifdef DWARF2
 #include <local/dw2_config.h>
@@ -66,7 +67,6 @@
 #include "assembler.h"
 #include "cproc.h"
 #include "make_code.h"
-#include "localexpmacs.h"
 
 #ifdef TDF_DIAG3
 #include <diag3/diag_fns.h>

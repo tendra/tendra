@@ -13,6 +13,7 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
+#include <local/exp.h>
 #include <local/szs_als.h>
 
 #include <tdf/shape.h>
@@ -46,7 +47,6 @@
 #include "output.h"
 #include "tests.h"
 #include "xdb_basics.h"
-#include "localexpmacs.h"
 #include "assembler.h"
 
 extern dec *sort_decs(dec *);

@@ -12,6 +12,7 @@
 #include <shared/check.h>
 
 #include <local/ash.h>
+#include <local/exp.h>
 
 #include <tdf/shape.h>
 #include <tdf/tag.h>
@@ -36,7 +37,6 @@
 #include "regexps.h"
 #include "code_here.h"
 #include "reg_defs.h"
-#include "localexpmacs.h"
 
 
 /*

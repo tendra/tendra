@@ -18,6 +18,7 @@
 
 #include <local/szs_als.h>
 #include <local/ash.h>
+#include <local/exp.h>
 
 #include <tdf/nat.h>
 #include <tdf/tag.h>
@@ -55,7 +56,6 @@
 #include "proc.h"
 #include "stack.h"
 #include "stabs_diag3.h"
-#include "localexpmacs.h"
 
 
 /* configuration options */

@@ -18,6 +18,7 @@
 #include <local/out.h>
 #include <local/cpu.h>
 #include <local/codermacs.h>
+#include <local/exp.h>
 
 #ifdef DWARF2
 #include <local/dw2_config.h>
@@ -54,7 +55,6 @@
 #include "ops.h"
 #include "ops_shared.h"
 #include "instrmacs.h"
-#include "localexpmacs.h"
 
 #ifdef TDF_DIAG4
 #include <diag4/dg_fns.h>

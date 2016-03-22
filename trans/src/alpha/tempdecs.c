@@ -18,6 +18,8 @@
 
 #include <shared/bool.h>
 
+#include <local/exp.h>
+
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
@@ -30,7 +32,6 @@
 
 #include "bitsmacs.h"
 #include "tempdecs.h"
-#include "localexpmacs.h"
 
 static int nouses;
 static bool useinpar;

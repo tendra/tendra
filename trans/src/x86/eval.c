@@ -13,6 +13,7 @@
 
 #include <local/out.h>
 #include <local/codermacs.h>
+#include <local/exp.h>
 
 #include <tdf/shape.h>
 #include <tdf/tag.h>
@@ -44,7 +45,6 @@
 #include "ops.h"
 #include "assembler.h"
 #include "eval.h"
-#include "localexpmacs.h"
 
 static
 void outsize(int n)

@@ -24,6 +24,7 @@
 #include <shared/string.h>
 #include <shared/xalloc.h>
 
+#include <local/exp.h>
 #include <local/out.h>
 
 #include <tdf/tag.h>
@@ -46,7 +47,6 @@
 #include "inst_fmt.h"
 #include "frames.h"
 #include "eval.h"
-#include "localexpmacs.h"
 
 #define GAP "                                                                "
 #define prokhd 24

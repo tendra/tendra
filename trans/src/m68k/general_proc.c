@@ -19,6 +19,7 @@
 
 #include <local/szs_als.h>
 #include <local/ash.h>
+#include <local/exp.h>
 
 #include <tdf/shape.h>
 #include <tdf/tag.h>
@@ -60,7 +61,6 @@
 #include "general_proc.h"
 #include "special_exps.h"
 #include "68k_globals.h"
-#include "localexpmacs.h"
 
 #include "xdb_basics.h"
 #include "xdb_output.h"

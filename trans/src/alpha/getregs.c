@@ -10,6 +10,8 @@
 #include <shared/bool.h>
 #include <shared/error.h>
 
+#include <local/exp.h>
+
 #include <tdf/tag.h>
 
 #include <reader/exp.h>
@@ -24,7 +26,6 @@
 #include "regexps.h"
 #include "bitsmacs.h"
 #include "getregs.h"
-#include "localexpmacs.h"
 
 static int useable_fixed;
 static int useable_float;

@@ -10,6 +10,8 @@
 
 #include <shared/bool.h>
 
+#include <local/exp.h>
+
 #include <tdf/tag.h>
 
 #include <reader/externs.h>
@@ -34,7 +36,6 @@
 #include "tempdecs.h"
 #include "ops.h"
 #include "record_bit.h"
-#include "localexpmacs.h"
 
 #define CASE_RECORD_BIT and_tag:case plus_tag:case shr_tag
 

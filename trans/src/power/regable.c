@@ -16,8 +16,9 @@
 
 #include <shared/bool.h>
 
+#include <local/exp.h>
+
 #include "regable.h"
-#include "localexpmacs.h"
 
 bool
 valregable(shape s)

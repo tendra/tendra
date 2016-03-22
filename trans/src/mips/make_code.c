@@ -20,6 +20,7 @@
 #include <shared/error.h>
 
 #include <local/ash.h>
+#include <local/exp.h>
 #include <local/tag.h>
 
 #include <tdf/shape.h>
@@ -73,7 +74,6 @@
 #include "frames.h"
 #include "regable.h"
 #include "make_code.h"
-#include "localexpmacs.h"
 
 extern int current_symno;
 extern  procrec * procrecs;

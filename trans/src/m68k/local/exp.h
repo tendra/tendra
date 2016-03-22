@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef LOCALEXPMACS_H
-#define LOCALEXPMACS_H
+#ifndef LOCAL_EXP_H
+#define LOCAL_EXP_H
 
 #ifndef tdf3
 #define frame_al_of_ptr(x) (x)->son.ald->al.frame

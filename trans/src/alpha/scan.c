@@ -25,6 +25,7 @@
 
 #include <local/szs_als.h>
 #include <local/ash.h>
+#include <local/exp.h>
 #include <local/tag.h>
 
 #include <tdf/shape.h>
@@ -59,7 +60,6 @@
 #include "reg_defs.h"
 #include "make_code.h"
 #include "scan.h"
-#include "localexpmacs.h"
 
 int maxfix, maxfloat; /* the maximum number of t-regs */
 static int stparam, fixparam, floatparam;

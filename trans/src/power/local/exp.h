@@ -8,8 +8,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef LOCALEXPMACS_H
-#define LOCALEXPMACS_H
+#ifndef LOCAL_EXP_H
+#define LOCAL_EXP_H
 
 #include "bitsmacs.h"
 

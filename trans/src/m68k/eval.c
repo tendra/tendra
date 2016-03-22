@@ -14,6 +14,7 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
+#include <local/exp.h>
 #include <local/fbase.h>
 
 #include <tdf/shape.h>
@@ -37,7 +38,6 @@
 #include "translate.h"
 #include "xdb_basics.h"
 #include "68k_globals.h"
-#include "localexpmacs.h"
 
 extern bool is_comm(exp);
 extern char *get_pointer_name(void *);
