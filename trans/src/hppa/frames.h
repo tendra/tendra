@@ -12,7 +12,7 @@
 
 #include <construct/installtypes.h>
 
-#include "addrtypes.h"
+#include "addr.h"
 
 extern bool Has_fp;
 extern bool Has_vsp;

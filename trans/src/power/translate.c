@@ -113,7 +113,7 @@
 #include <diag3/diag_reform.h>
 
 #include "reg.h"
-#include "addrtypes.h"
+#include "addr.h"
 #include "procrec.h"
 #include "tempdecs.h"
 #include "weights.h"

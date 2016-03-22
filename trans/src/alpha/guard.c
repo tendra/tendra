@@ -19,7 +19,7 @@
 #include <flpt/flpt.h>
 
 #include "procrec.h"
-#include "addrtypes.h"
+#include "addr.h"
 #include "guard.h"
 
 

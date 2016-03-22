@@ -47,7 +47,7 @@
 #include <main/print.h>
 
 #include "procrec.h"
-#include "addrtypes.h"
+#include "addr.h"
 #include "translate.h"
 #include "inst_fmt.h"
 #include "locate.h"

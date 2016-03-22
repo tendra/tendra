@@ -18,7 +18,7 @@
 
 #include <reader/exp.h>
 
-#include "addrtypes.h"
+#include "addr.h"
 
 typedef struct outofline_t {
   struct outofline_t * next;

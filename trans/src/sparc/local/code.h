@@ -8,5 +8,5 @@
  */
 
 #include "bits.h"
-#include "addrtypes.h"
+#include "addr.h"
 #include "locate.h"

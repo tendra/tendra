@@ -38,7 +38,7 @@
 #include <reader/externs.h>
 #include <reader/basicread.h>
 
-#include "addrtypes.h"
+#include "addr.h"
 #include "procrec.h"
 #include "bits.h"
 #include "locate.h"

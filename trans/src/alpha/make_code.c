@@ -55,7 +55,7 @@
 
 #include <symtab/syms.h>
 
-#include "addrtypes.h"
+#include "addr.h"
 #include "make_code.h"
 #include "procrec.h"
 #include "eval.h"

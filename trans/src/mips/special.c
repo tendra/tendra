@@ -30,7 +30,7 @@
 #include <construct/dec.h>
 #include <construct/ash.h>
 
-#include "addrtypes.h"
+#include "addr.h"
 #include "move.h"
 #include "pseudo.h"
 #include "getregs.h"

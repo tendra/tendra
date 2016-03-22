@@ -38,7 +38,7 @@
 #include <refactor/optimise.h>
 
 #include "procrec.h"
-#include "addrtypes.h"
+#include "addr.h"
 #include "frames.h"
 #include "eval.h"
 #include "move.h"

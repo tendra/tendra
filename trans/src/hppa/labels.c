@@ -12,7 +12,7 @@
 #include <local/out.h>
 
 #include "procrec.h"
-#include "addrtypes.h"
+#include "addr.h"
 #include "regexps.h"
 #include "labels.h"
 

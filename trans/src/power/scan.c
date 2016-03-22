@@ -55,7 +55,7 @@
 #include <refactor/refactor.h>
 
 #include "reg.h"
-#include "addrtypes.h"
+#include "addr.h"
 #include "procrec.h"
 #include "bits.h"
 #include "regable.h"

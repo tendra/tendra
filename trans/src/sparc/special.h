@@ -12,7 +12,7 @@
 
 #include <construct/exp.h>
 
-#include "addrtypes.h"
+#include "addr.h"
 
 needs specialneeds(int i);
 char *special_call_name(int);

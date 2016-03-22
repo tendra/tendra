@@ -46,7 +46,7 @@
 #include <flpt/flpt.h>
 
 #include "procrec.h"
-#include "addrtypes.h"
+#include "addr.h"
 #include "translate.h"
 #include "inst_fmt.h"
 #include "frames.h"

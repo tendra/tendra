@@ -49,7 +49,7 @@
 #include <refactor/misc_c.h>
 
 #include "procrec.h"
-#include "addrtypes.h"
+#include "addr.h"
 #include "eval.h"
 #include "move.h"
 #include "ops.h"

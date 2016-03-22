@@ -22,7 +22,7 @@
 #include <tdf/tag.h>
 
 #include "code_here.h"
-#include "addrtypes.h"
+#include "addr.h"
 #include "inst_fmt.h"
 #include "move.h"
 #include "getregs.h"

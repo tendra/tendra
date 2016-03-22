@@ -33,7 +33,7 @@
 #include "procrec.h"
 #include "hppains.h"
 #include "inst_fmt.h"
-#include "addrtypes.h"
+#include "addr.h"
 #include "proc.h"
 #include "getregs.h"
 #include "labels.h"

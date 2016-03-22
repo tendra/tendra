@@ -28,7 +28,7 @@
 
 #include <flpt/flpt.h>
 
-#include "addrtypes.h"
+#include "addr.h"
 #include "inst_fmt.h"
 #include "alpha_ins.h"
 #include "bits.h"

@@ -44,7 +44,7 @@
 
 #include <symtab/syms.h>
 
-#include "addrtypes.h"
+#include "addr.h"
 #include "out_ba.h"
 #include "main.h"
 #include "ibinasm.h"

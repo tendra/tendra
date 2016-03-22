@@ -32,7 +32,7 @@
 #include <construct/ash.h>
 #include <construct/exp.h>
 
-#include "addrtypes.h"
+#include "addr.h"
 #include "procrec.h"
 #include "labels.h"
 #include "bits.h"

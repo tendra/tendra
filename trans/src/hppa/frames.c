@@ -17,7 +17,7 @@
 
 #include "bits.h"
 #include "procrec.h"
-#include "addrtypes.h"
+#include "addr.h"
 #include "hppains.h"
 #include "reg.h"
 #include "frames.h"

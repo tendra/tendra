@@ -28,7 +28,7 @@
 #include <main/print.h>
 
 #include "reg.h"
-#include "addrtypes.h"
+#include "addr.h"
 #include "regexps.h"
 
 struct regpeept {

@@ -24,7 +24,7 @@
 
 #include <flpt/flpt.h>
 
-#include "addrtypes.h"
+#include "addr.h"
 #include "procrec.h"
 #include "labels.h"
 #include "make_code.h"

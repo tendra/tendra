@@ -28,7 +28,7 @@
 
 #include <main/flags.h>
 
-#include "addrtypes.h"
+#include "addr.h"
 #include "move.h"
 #include "bits.h"
 #include "reg.h"

@@ -14,7 +14,7 @@
 
 #include <flpt/flpt.h>
 
-#include "addrtypes.h"
+#include "addr.h"
 
 int next_dlab_sym(void);
 int data_lab;

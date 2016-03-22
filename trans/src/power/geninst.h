@@ -11,7 +11,7 @@
 #ifndef	GENINST_H
 #define GENINST_H	1
 
-/* needed by "addrtypes.h" */
+/* needed by "addr.h" */
 
 #include <tdf/nat.h>
 
@@ -19,7 +19,7 @@
 
 #include <construct/installtypes.h>
 
-#include "addrtypes.h"	/* for baseoff */
+#include "addr.h"	/* for baseoff */
 #include "inst_fmt.h"
 #include "instruct.h"
 #include "reg.h"

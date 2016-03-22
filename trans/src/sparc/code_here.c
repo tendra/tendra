@@ -29,7 +29,7 @@
 #endif
 
 #include "procrec.h"
-#include "addrtypes.h"
+#include "addr.h"
 #include "labels.h"
 #include "make_code.h"
 #include "bits.h"

@@ -34,7 +34,7 @@
 
 #include "procrec.h"
 #include "translate.h"
-#include "addrtypes.h"
+#include "addr.h"
 #include "make_code.h"
 #include "special.h"
 #include "labels.h"

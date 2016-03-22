@@ -12,7 +12,7 @@
 */
 
 #include "procrec.h"
-#include "addrtypes.h"
+#include "addr.h"
 
 extern  space guardreg(int r, space sp);
 extern  space guardfreg(int r, space sp);

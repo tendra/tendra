@@ -12,8 +12,8 @@
  * baseoff, instore, freg, ans, where
  */
 
-#ifndef ADDRTYPES_H
-#define ADDRTYPES_H
+#ifndef ADDR_H
+#define ADDR_H
 
 #include <local/ash.h>
 

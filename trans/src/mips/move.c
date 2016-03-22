@@ -33,7 +33,7 @@
 
 #include "mips_ins.h"
 #include "inst_fmt.h"
-#include "addrtypes.h"
+#include "addr.h"
 #include "procrec.h"
 #include "getregs.h"
 #include "labels.h"

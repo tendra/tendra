@@ -14,7 +14,7 @@
 
 #include <flpt/flpt.h>
 
-#include "addrtypes.h"
+#include "addr.h"
 
 bool is_zero(exp);
 instore evaluated(exp, long, bool);

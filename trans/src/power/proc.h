@@ -15,7 +15,7 @@
 
 #include <construct/installtypes.h>
 
-#include "addrtypes.h"
+#include "addr.h"
 
 /*
  * The following is the global state for compiling a procedure.

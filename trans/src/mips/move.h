@@ -9,7 +9,7 @@
 
 #include <construct/installtypes.h>
 
-#include "addrtypes.h"
+#include "addr.h"
 #include "procrec.h"
 
 extern int  move(ans a, where dest, space freeregs, bool sgned);

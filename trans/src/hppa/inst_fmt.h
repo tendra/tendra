@@ -12,7 +12,7 @@
 
 #include <stdio.h>
 
-#include "addrtypes.h"
+#include "addr.h"
 #include "hppains.h"
 
 extern char *ext_name(long);

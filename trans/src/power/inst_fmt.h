@@ -11,7 +11,7 @@
 #ifndef INST_FMTDECS_H
 #define INST_FMTDECS_H
 
-#include "addrtypes.h"	/* for baseoff */
+#include "addr.h"	/* for baseoff */
 #include "instruct.h"	/* for Instruction_P */
 
 

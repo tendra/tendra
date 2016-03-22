@@ -13,7 +13,7 @@
 #include <construct/installtypes.h>
 #include <construct/exp.h>
 
-#include "addrtypes.h"
+#include "addr.h"
 
 int specialfn(exp);
 char *special_call_name(int);

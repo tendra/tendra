@@ -26,7 +26,7 @@
 
 #include "mips_ins.h"
 #include "inst_fmt.h"
-#include "addrtypes.h"
+#include "addr.h"
 #include "frames.h"
 #include "handle_sregs.h"
 

@@ -15,7 +15,7 @@
 
 #include <construct/installtypes.h>
 
-#include "addrtypes.h"
+#include "addr.h"
 
 extern bool is_muldivrem_call(exp);
 

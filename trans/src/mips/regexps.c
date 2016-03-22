@@ -26,7 +26,7 @@
 
 #include <refactor/refactor.h>
 
-#include "addrtypes.h"
+#include "addr.h"
 #include "move.h"
 #include "bits.h"
 #include "regexps.h"

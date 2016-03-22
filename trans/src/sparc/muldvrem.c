@@ -29,7 +29,7 @@
 
 #include "procrec.h"
 #include "scan.h"
-#include "addrtypes.h"
+#include "addr.h"
 #include "eval.h"
 #include "move.h"
 #include "ops.h"

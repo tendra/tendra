@@ -3,17 +3,13 @@
 /*
  * Copyright 2011, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
+ * Copyright 1993, Open Software Foundation, Inc.
  *
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
- * Types for usable addressing modes are defined here:
- * baseoff, instore, freg, ans, where
- */
-
-#ifndef ADDRTYPES_H
-#define ADDRTYPES_H
+#ifndef ADDR_H
+#define ADDR_H
 
 #include <local/ash.h>
 
@@ -46,17 +42,14 @@ typedef struct {
 	bool dble;
 } somefreg;
 
-/* extra struct is to get over bug in MIPS cc */
 typedef struct {
 	int *r;
 } somereg;
 
-/*
- * This type used as union of a fixpnt reg, a float reg and an instore value
- */
+/* this type used as union of a fixpnt reg, float reg and an instore value */
 typedef struct {
 	/* use to discriminate the .val union type */
-	enum {
+	enum ansdiscrim {
 		inreg,
 		infreg,
 		notinreg,
@@ -64,18 +57,18 @@ typedef struct {
 		insomefreg
 	} discrim;
 
-	union {
+	union anstu {
 		int regans; /* register number */
 		freg fregans;
 		instore instoreans;
-		somefreg somefregans;
+		somefreg somefregans; /* not yet used */
 		somereg someregans;
 	} val;
 } ans;
 
 typedef struct {
 	ans answhere; /* reg or store position */
-	ash ashwhere; /* size and alignment, see ashtypes.h */
+	ash ashwhere; /* size and alignment */
 } where;
 
 typedef struct {

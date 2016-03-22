@@ -24,7 +24,7 @@
 
 #include <flpt/flpt.h>
 
-#include "addrtypes.h"
+#include "addr.h"
 #include "move.h"
 #include "bits.h"
 #include "reg_defs.h"

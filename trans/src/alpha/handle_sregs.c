@@ -19,7 +19,7 @@
 
 #include "alpha_ins.h"
 #include "inst_fmt.h"
-#include "addrtypes.h"
+#include "addr.h"
 #include "frames.h"
 #include "reg_defs.h"
 

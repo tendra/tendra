@@ -25,7 +25,7 @@
 
 #include <main/flags.h>
 
-#include "addrtypes.h"
+#include "addr.h"
 #include "inst_fmt.h"
 #include "reg.h"
 #include "sparcins.h"

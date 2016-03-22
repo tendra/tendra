@@ -10,7 +10,7 @@
 #ifndef CODEHERE_INCLUDED
 #define CODEHERE_INCLUDED
 
-#include "addrtypes.h"
+#include "addr.h"
 
 extern int regofval(exp);
 extern int fregofval(exp);

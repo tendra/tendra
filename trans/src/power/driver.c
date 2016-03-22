@@ -28,7 +28,7 @@
 
 #include "procrec.h"
 #include "macro.h"
-#include "addrtypes.h"
+#include "addr.h"
 #include "make_code.h"
 #include "dynamic_init.h"
 

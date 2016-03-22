@@ -27,7 +27,7 @@
 
 #include <flpt/flpt.h>
 
-#include "addrtypes.h"
+#include "addr.h"
 #include "move.h"
 #include "pseudo.h"
 #include "getregs.h"

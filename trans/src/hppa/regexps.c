@@ -34,7 +34,7 @@
 #include <main/print.h>
 
 #include "procrec.h"
-#include "addrtypes.h"
+#include "addr.h"
 #include "move.h"
 #include "bits.h"
 #include "reg.h"

@@ -29,7 +29,7 @@
 #include <construct/exp.h>
 
 #include "procrec.h"
-#include "addrtypes.h"
+#include "addr.h"
 #include "locate.h"
 #include "translate.h"
 

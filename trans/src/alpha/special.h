@@ -15,7 +15,7 @@
 #include <construct/exp.h>
 
 #include "procrec.h"
-#include "addrtypes.h"
+#include "addr.h"
 
 needs specialneeds(int i);
 int specialfn(exp fn);

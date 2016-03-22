@@ -63,7 +63,7 @@ space guardfreg(int r, space sp)
  * This is a union of a fixpnt reg , a float reg and an instore value.
  * In the latter case the register involved in the addressing can be deduced
  * from the base field of the instore value. These types are defined in
- * addrtypes.h.
+ * addr.h.
  */
 space guard(where w, space sp)
 {

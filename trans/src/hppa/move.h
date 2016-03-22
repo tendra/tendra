@@ -12,7 +12,7 @@
 
 #include <construct/installtypes.h>
 
-#include "addrtypes.h"
+#include "addr.h"
 #include "hppains.h"
 
 extern int move(ans, where, long, bool);

@@ -34,7 +34,7 @@
 
 #include "procrec.h"
 #include "translate.h"
-#include "addrtypes.h"
+#include "addr.h"
 #include "move.h"
 #include "reg.h"
 #include "getregs.h"

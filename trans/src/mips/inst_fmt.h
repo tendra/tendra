@@ -12,7 +12,7 @@
     as_file and ba_file
 */
 
-#include "addrtypes.h"
+#include "addr.h"
 
 extern void ls_ins(char *ins, int reg, baseoff a);
 extern void mon_ins(char *ins, int dest, int src);

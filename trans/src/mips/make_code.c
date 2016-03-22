@@ -48,7 +48,7 @@
 #include <diag3/diag_fns.h>
 #include <diag3/diag_reform.h>
 
-#include "addrtypes.h"
+#include "addr.h"
 #include "loc_signal.h"
 #include "procrec.h"
 #include "eval.h"

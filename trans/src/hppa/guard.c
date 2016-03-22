@@ -31,7 +31,7 @@
 
 #include "reg.h"
 #include "procrec.h"
-#include "addrtypes.h"
+#include "addr.h"
 #include "tempdecs.h"
 #include "guard.h"
 
@@ -84,7 +84,7 @@ needreg(int r, space sp)
  * depending on the value of the parameter of type where. This is a union of
  * a fixpnt reg, a float reg and an instore value. In the latter case the
  * register involved in the addressing can be deduced from the base field
- * of the instore value. These types are defined in addrtypes.h.
+ * of the instore value. These types are defined in addr.h.
  */
 space
 guard(where w, space sp)

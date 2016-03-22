@@ -10,7 +10,7 @@
 #ifndef INST_FMT_INCLUDED
 #define INST_FMT_INCLUDED
 
-#include "addrtypes.h"
+#include "addr.h"
 #include "sparcins.h"
 
 /* special registers */

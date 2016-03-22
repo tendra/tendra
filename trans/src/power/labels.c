@@ -20,7 +20,7 @@
 #include <main/driver.h>
 #include <main/print.h>
 
-#include "addrtypes.h"
+#include "addr.h"
 #include "translate.h"
 #include "labels.h"
 

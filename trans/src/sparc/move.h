@@ -12,7 +12,7 @@
 
 #include <construct/installtypes.h>
 
-#include "addrtypes.h"
+#include "addr.h"
 #include "sparcins.h"
 
 extern ins_p i_ld_sz(int, int);

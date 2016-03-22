@@ -47,7 +47,7 @@
 #include <diag3/diag_reform.h>
 
 #include "procrec.h"
-#include "addrtypes.h"
+#include "addr.h"
 #include "frames.h"
 #include "bits.h"
 #include "locate.h"

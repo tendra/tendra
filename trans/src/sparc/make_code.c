@@ -47,7 +47,7 @@
 #include <main/flags.h>
 #include <main/print.h>
 
-#include "addrtypes.h"
+#include "addr.h"
 #include "procrec.h"
 #include "eval.h"
 #include "move.h"

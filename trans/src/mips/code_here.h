@@ -8,7 +8,7 @@
  */
 
 #include "procrec.h"
-#include "addrtypes.h"
+#include "addr.h"
 
 extern int  regofval(exp e);
 extern int  reg_operand(exp e, space sp);

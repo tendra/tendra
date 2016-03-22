@@ -11,7 +11,7 @@
 #ifndef EVAL_H
 #define EVAL_H
 
-#include "addrtypes.h"
+#include "addr.h"
 
 #include <flpt/flpt.h>
 

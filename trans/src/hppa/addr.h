@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef ADDRTYPES_H
-#define ADDRTYPES_H
+#ifndef ADDR_H
+#define ADDR_H
 
 #include <local/ash.h>
 

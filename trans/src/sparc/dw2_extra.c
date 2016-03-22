@@ -45,7 +45,7 @@
 #include <refactor/const.h>
 
 #include "procrec.h"
-#include "addrtypes.h"
+#include "addr.h"
 #include "bits.h"
 #include "reg.h"
 #include "locate.h"
