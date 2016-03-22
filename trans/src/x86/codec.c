@@ -19,7 +19,7 @@
 #include <shared/error.h>
 
 #include <local/ash.h>
-#include <local/codermacs.h>
+#include <local/code.h>
 
 #include <tdf/shape.h>
 #include <tdf/tag.h>

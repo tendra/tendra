@@ -14,7 +14,7 @@
 
 #include <local/ash.h>
 #include <local/out.h>
-#include <local/codermacs.h>
+#include <local/code.h>
 
 #ifdef DWARF2
 #include <local/dw2_config.h>

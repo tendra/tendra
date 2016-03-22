@@ -25,7 +25,7 @@
 
 #include <local/szs_als.h>
 #include <local/out.h>
-#include <local/codermacs.h>
+#include <local/code.h>
 
 #include <construct/installtypes.h>
 #include <construct/dec.h>

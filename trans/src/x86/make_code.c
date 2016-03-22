@@ -25,7 +25,7 @@
 #include <local/ash.h>
 #include <local/out.h>
 #include <local/cpu.h>
-#include <local/codermacs.h>
+#include <local/code.h>
 #include <local/exp.h>
 
 #ifdef DWARF2
@@ -602,7 +602,7 @@ alloc_reg(int rs, shape sha, int br, int big_reg, exp e)
  * The dcl returned gives:
  *
  *   dcl_pl - code for where value is (eg reg_pl for registers). These
- *            codes are defined in codermacs.h
+ *            codes are defined in <local/code.h>
  *   dcl_n  - the offset (in bits) where the value starts if it is on the
  *            stack.
  *            the bit pattern for the registers if it is in registers.

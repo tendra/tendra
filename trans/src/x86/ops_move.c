@@ -17,7 +17,7 @@
 #include <local/ash.h>
 #include <local/out.h>
 #include <local/cpu.h>
-#include <local/codermacs.h>
+#include <local/code.h>
 #include <local/exp.h>
 
 #ifdef DWARF2

@@ -16,7 +16,7 @@
 #include <main/driver.h>
 #include <main/print.h>
 
-#include <local/codermacs.h>
+#include <local/code.h>
 #include <local/out.h>
 
 #include <tdf/shape.h>

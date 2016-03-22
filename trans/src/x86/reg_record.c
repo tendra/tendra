@@ -16,7 +16,7 @@
 
 #include <reader/exp.h>
 
-#include <local/codermacs.h>
+#include <local/code.h>
 
 #include <construct/exp.h>
 

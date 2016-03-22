@@ -12,7 +12,7 @@
 #include <shared/error.h>
 
 #include <local/out.h>
-#include <local/codermacs.h>
+#include <local/code.h>
 #include <local/exp.h>
 
 #include <tdf/shape.h>
