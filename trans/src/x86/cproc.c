@@ -58,7 +58,7 @@
 #include "ops.h"
 #include "operand.h"
 #include "instr.h"
-#include "instrmacs.h"
+#include "instrs.h"
 #include "codec.h"
 #include "reg_record.h"
 #include "assembler.h"

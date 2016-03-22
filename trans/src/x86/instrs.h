@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef INSTRMACS_H
-#define INSTRMACS_H
+#ifndef INSTRS_H
+#define INSTRS_H
 
 #define push_fl temp_push_fl()
 #define pop_fl temp_pop_fl()
@@ -211,4 +211,4 @@
 #define xorl	"xorl"
 #define xorw	"xorw"
 
-#endif /* INSTRMACS_H */
+#endif

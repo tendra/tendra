@@ -51,7 +51,7 @@
 #include "instr.h"
 #include "ops.h"
 #include "ops_shared.h"
-#include "instrmacs.h"
+#include "instrs.h"
 
 #ifdef TDF_DIAG4
 #include <diag4/dg_fns.h>

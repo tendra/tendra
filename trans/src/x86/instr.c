@@ -55,7 +55,7 @@
 #include "make_code.h"
 #include "cproc.h"
 #include "reg_record.h"
-#include "instrmacs.h"
+#include "instrs.h"
 #include "instr.h"
 
 #ifdef DWARF2

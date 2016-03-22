@@ -45,7 +45,7 @@
 #include "make_code.h"
 #include "instr.h"
 #include "reg_record.h"
-#include "instrmacs.h"
+#include "instrs.h"
 #include "codec.h"
 
 /*
