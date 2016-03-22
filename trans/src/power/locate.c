@@ -29,13 +29,15 @@
 
 #include <main/print.h>
 
-#include "codegen.h"
+#include "code_here.h"
 #include "geninst.h"
 #include "proc.h"
 #include "stack.h"
 #include "locate.h"
 #include "frames.h"
 #include "localexpmacs.h"
+#include "regexps.h"
+#include "guard.h"
 
 /*
  * For non globals, boff encodes things in the following way:

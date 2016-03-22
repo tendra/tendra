@@ -24,7 +24,7 @@
 #include <main/flags.h>
 #include <main/print.h>
 
-#include "codegen.h"
+#include "code_here.h"
 #include "geninst.h"
 #include "translate.h"
 #include "make_code.h"
@@ -32,6 +32,7 @@
 #include "stack.h"
 #include "parameter.h"
 #include "dynamic_init.h"
+#include "locate.h"
 
 int do_dynamic_init;
 

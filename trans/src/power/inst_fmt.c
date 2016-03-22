@@ -40,6 +40,7 @@
 #include "inst_fmt.h"
 #include "macro.h"
 #include "mask.h"
+#include "regexps.h"
 
 #define CHECKREG(r)		assert(IS_FIXREG(r) && (!IS_SREG(r) || (r) >= p_sreg_first_save || (r == R_FP)));
 #define CHECKFREG(r)		assert((!IS_FLT_SREG(r) || (r) >= p_sfreg_first_save));

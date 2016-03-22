@@ -15,7 +15,8 @@
 
 #include <main/print.h>
 
-#include "codegen.h"
+#include "inst_fmt.h"
+#include "regmacs.h"
 #include "mem_copy.h"
 
 

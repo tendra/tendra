@@ -19,7 +19,7 @@
 #include <main/driver.h>
 #include <main/print.h>
 
-#include "codegen.h"
+#include "procrec.h"
 #include "macro.h"
 #include "stack.h"
 #include "stdio.h"

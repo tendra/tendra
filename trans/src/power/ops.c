@@ -26,13 +26,16 @@
 
 #include <main/flags.h>
 
-#include "codegen.h"
+#include "bitsmacs.h"
+#include "procrec.h"
 #include "geninst.h"
 #include "instruct.h"
 #include "proc.h"
 #include "ops.h"
 #include "make_code.h"
 #include "error.h"
+#include "locate.h"
+#include "guard.h"
 
 static void
 tidyshort(int r, exp e)

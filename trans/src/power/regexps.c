@@ -25,7 +25,8 @@
 #include <main/flags.h>
 #include <main/print.h>
 
-#include "codegen.h"
+#include "regmacs.h"
+#include "addrtypes.h"
 #include "regexps.h"
 #include "localexpmacs.h"
 

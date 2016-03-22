@@ -40,11 +40,12 @@
 #include <main/driver.h>
 #include <main/print.h>
 
-#include "codegen.h"
+#include "procrec.h"
 #include "geninst.h"
 #include "translate.h"
 #include "eval.h"
 #include "frames.h"
+#include "code_here.h"
 
 static long correct_shape(long, int);
 

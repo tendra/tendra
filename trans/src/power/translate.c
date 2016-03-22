@@ -110,7 +110,9 @@
 
 #include <diag3/diag_reform.h>
 
-#include "codegen.h"
+#include "regmacs.h"
+#include "addrtypes.h"
+#include "procrec.h"
 #include "tempdecs.h"
 #include "weights.h"
 #include "procrec.h"
@@ -126,6 +128,7 @@
 #include "dynamic_init.h"
 #include "stack.h"
 #include "localexpmacs.h"
+#include "locate.h"
 
 int maxfix_tregs;		/* The number of t regs allocatable */
 dec **main_globals;		/* The globals decs array */

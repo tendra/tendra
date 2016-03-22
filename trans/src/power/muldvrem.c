@@ -25,12 +25,13 @@
 
 #include <main/print.h>
 
-#include "codegen.h"
+#include "procrec.h"
 #include "geninst.h"
 #include "scan.h"
 #include "muldvrem.h"
 #include "translate.h"
 #include "error.h"
+#include "guard.h"
 
 #define BITS_PER_WORD		32
 

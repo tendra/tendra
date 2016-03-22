@@ -34,7 +34,7 @@
 #include <main/flags.h>
 #include <main/print.h>
 
-#include "codegen.h"
+#include "procrec.h"
 #include "geninst.h"
 #include "translate.h"
 #include "make_code.h"
@@ -47,6 +47,8 @@
 #include "stack.h"
 #include "scan.h"
 #include "localexpmacs.h"
+#include "locate.h"
+#include "guard.h"
 
 static space do_callers(int, exp, space);
 static void do_function_call(exp, space);

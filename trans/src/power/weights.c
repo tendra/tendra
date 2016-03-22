@@ -52,8 +52,8 @@
 
 #include <construct/exp.h>
 
-#include "procrec.h"
 #include "bitsmacs.h"
+#include "procrec.h"
 #include "regable.h"
 #include "weights.h"
 

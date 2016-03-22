@@ -34,7 +34,8 @@
 
 #include <refactor/optimise.h>
 
-#include "codegen.h"
+#include "regmacs.h"
+#include "code_here.h"
 #include "tempdecs.h"
 #include "weights.h"
 #include "procrec.h"

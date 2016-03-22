@@ -36,7 +36,7 @@
 
 #include <main/print.h>
 
-#include "codegen.h"
+#include "procrec.h"
 #include "geninst.h"
 #include "proc.h"			/* for mem_temp() */
 #include "make_code.h"

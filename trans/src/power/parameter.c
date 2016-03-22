@@ -28,7 +28,7 @@
 #include <main/flags.h>
 #include <main/print.h>
 
-#include "codegen.h"
+#include "procrec.h"
 #include "geninst.h"
 #include "translate.h"
 #include "make_code.h"
@@ -39,6 +39,7 @@
 #include "stack.h"
 #include "scan.h"
 #include "localexpmacs.h"
+#include "locate.h"
 
 bool suspected_varargs = 0;
 int saved_varargs_register=0;

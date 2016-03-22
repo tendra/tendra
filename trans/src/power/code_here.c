@@ -23,12 +23,15 @@
 
 #include <main/print.h>
 
-#include "codegen.h"
+#include "bitsmacs.h"
+#include "code_here.h"
 #include "geninst.h"
 #include "make_code.h"
 #include "tempdecs.h"
 #include "regable.h"
 #include "code_here.h"
+#include "regexps.h"
+#include "guard.h"
 
 /*
  * regofval returns R_NO_REG unlesss e is a name tag which is obtaining

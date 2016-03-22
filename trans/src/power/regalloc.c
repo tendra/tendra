@@ -41,7 +41,9 @@
 
 #include <main/print.h>
 
-#include "codegen.h"
+#include "regmacs.h"
+#include "bitsmacs.h"
+#include "procrec.h"
 #include "regalloc.h"
 #include "stack.h"
 

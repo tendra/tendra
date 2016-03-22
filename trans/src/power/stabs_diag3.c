@@ -50,6 +50,7 @@
 #include <diag3/diaginfo1.h>
 #include <diag3/diag_reform.h>
 
+#include "code_here.h"
 #include "translate.h"
 #include "proc.h"
 #include "stack.h"

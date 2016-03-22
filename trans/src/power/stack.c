@@ -19,7 +19,7 @@
 #include <main/flags.h>
 #include <main/print.h>
 
-#include "codegen.h"
+#include "procrec.h"
 #include "geninst.h"
 #include "translate.h"
 #include "make_code.h"

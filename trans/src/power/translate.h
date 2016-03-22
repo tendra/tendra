@@ -13,8 +13,6 @@
 
 #include <construct/installtypes.h>
 
-#include "codegen.h"
-
 extern dec * diag_def;
 
 dec **main_globals;

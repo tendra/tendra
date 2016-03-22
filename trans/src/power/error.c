@@ -29,13 +29,16 @@
 
 #include <main/print.h>
 
-#include "codegen.h"
+#include "inst_fmt.h"
+#include "regmacs.h"
 #include "translate.h"
+#include "code_here.h"
 #include "make_code.h"
 #include "stack.h"
 #include "instruct.h"
 #include "error.h"
 #include "localexpmacs.h"
+#include "guard.h"
 
 /* Labels to call the error handler */
 /* NOTE there are three one for each ERROR_CODE */

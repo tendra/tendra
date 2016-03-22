@@ -29,7 +29,7 @@
 #include <main/flags.h>
 #include <main/print.h>
 
-#include "codegen.h"
+#include "regmacs.h"
 #include "guard.h"
 
 /*

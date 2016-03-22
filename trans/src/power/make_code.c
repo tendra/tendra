@@ -43,7 +43,7 @@
 
 #include <refactor/optimise.h>
 
-#include "codegen.h"
+#include "procrec.h"
 #include "geninst.h"
 
 #include "muldvrem.h"
@@ -62,6 +62,8 @@
 #include "mask.h"
 #include "error.h"
 #include "localexpmacs.h"
+#include "locate.h"
+#include "guard.h"
 
 #ifndef NDEBUG
 #include "pp.h"

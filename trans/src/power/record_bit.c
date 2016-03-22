@@ -21,7 +21,7 @@
 
 #include <diag3/diag_fns.h>
 
-#include "codegen.h"
+#include "procrec.h"
 #include "geninst.h"
 #include "muldvrem.h"
 #include "proc.h"
