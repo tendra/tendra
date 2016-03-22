@@ -35,7 +35,7 @@
 #include <tdf/shape.h>
 #include <tdf/tag.h>
 
-#include <local/szs_als.h>
+#include <local/al.h>
 
 #include <reader/exp.h>
 #include <reader/externs.h>

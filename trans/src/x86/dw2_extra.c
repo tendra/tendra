@@ -13,7 +13,7 @@
 
 #include <reader/exp.h>
 
-#include <local/szs_als.h>
+#include <local/al.h>
 #include <local/code.h>
 #include <local/dw2_config.h>
 #include <local/exp.h>

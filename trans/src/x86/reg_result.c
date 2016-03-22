@@ -9,7 +9,7 @@
 
 #include <shared/bool.h>
 
-#include <local/szs_als.h>
+#include <local/al.h>
 #include <local/out.h>
 
 #include <tdf/shape.h>

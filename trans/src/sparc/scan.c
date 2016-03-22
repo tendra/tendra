@@ -23,7 +23,7 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include <local/szs_als.h>
+#include <local/al.h>
 #include <local/ash.h>
 #include <local/exp.h>
 #include <local/tag.h>

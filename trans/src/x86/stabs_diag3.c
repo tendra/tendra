@@ -23,7 +23,7 @@
 
 #include <reader/exp.h>
 
-#include <local/szs_als.h>
+#include <local/al.h>
 #include <local/out.h>
 #include <local/code.h>
 

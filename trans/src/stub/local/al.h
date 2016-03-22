@@ -7,6 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#ifndef LOCAL_AL_H
+#define LOCAL_AL_H
+
 #define TOP_SZ 0
 #define TOP_ALIGN const_al1
 
@@ -75,3 +78,6 @@
 #define FRAME_ALIGN const_al32
 #define VAR_PARAM_ALIGN const_al32
 #define CODE_ALIGN const_al32
+
+#endif
+

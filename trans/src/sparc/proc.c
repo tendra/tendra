@@ -21,7 +21,7 @@
 #include <shared/error.h>
 #include <shared/string.h>
 
-#include <local/szs_als.h>
+#include <local/al.h>
 #include <local/exp.h>
 #include <local/ash.h>
 

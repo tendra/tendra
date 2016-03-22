@@ -19,7 +19,7 @@
 #include <shared/error.h>
 #include <shared/xalloc.h>
 
-#include <local/szs_als.h>
+#include <local/al.h>
 
 #include <reader/basicread.h>
 

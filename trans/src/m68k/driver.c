@@ -14,7 +14,7 @@
 #include <shared/error.h>
 #include <shared/getopt.h>
 
-#include <local/szs_als.h>
+#include <local/al.h>
 
 #include <reader/basicread.h>
 #include <reader/main_reads.h>

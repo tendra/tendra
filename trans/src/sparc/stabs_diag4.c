@@ -25,7 +25,7 @@
 #include <reader/externs.h>
 #include <reader/basicread.h>
 
-#include <local/szs_als.h>
+#include <local/al.h>
 
 #include <construct/installtypes.h>
 #include <construct/dec.h>

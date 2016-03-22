@@ -8,8 +8,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef SZS_ALS_H
-#define SZS_ALS_H
+#ifndef LOCAL_AL_H
+#define LOCAL_AL_H
 
 /*
  * BASIC SIZE AND ALIGNMENTS IN BITS

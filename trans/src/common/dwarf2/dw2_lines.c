@@ -16,7 +16,7 @@
 #include <shared/string.h>
 
 #include <local/dw2_config.h>
-#include <local/szs_als.h>
+#include <local/al.h>
 
 #include <main/driver.h>
 #include <main/flags.h>

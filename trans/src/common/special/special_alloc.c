@@ -27,7 +27,7 @@
 #include <construct/install_fns.h>
 #include <construct/aldefs.h>
 
-#include <local/szs_als.h>
+#include <local/al.h>
 
 #include <special/special_tok.h>
 

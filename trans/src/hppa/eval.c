@@ -21,7 +21,7 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include <local/szs_als.h>		/* for MAX_BF_SIZE */
+#include <local/al.h>		/* for MAX_BF_SIZE */
 #include <local/ash.h>
 #include <local/fbase.h>
 #include <local/out.h>

@@ -31,7 +31,7 @@
 #include <shared/string.h>
 #include <shared/xalloc.h>
 
-#include <local/szs_als.h>
+#include <local/al.h>
 
 #include <tdf/nat.h>
 #include <tdf/shape.h>

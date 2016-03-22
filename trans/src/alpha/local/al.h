@@ -7,9 +7,10 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#ifndef LOCAL_AL_H
+#define LOCAL_AL_H
+
 /*
-** szs_als.h
-**
 ** This file provides the sizes and aligments required for the alpha 
 ** installer.  This information is used in the common part of the installer.
 **
@@ -79,3 +80,6 @@
 #define FRAME_ALIGN const_al64
 #define VAR_PARAM_ALIGN const_al64
 #define CODE_ALIGN const_al32
+
+#endif
+

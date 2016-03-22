@@ -13,7 +13,7 @@
 #include <shared/check.h>
 #include <shared/error.h>
 
-#include <local/szs_als.h>
+#include <local/al.h>
 
 #include <tdf/nat.h>
 #include <tdf/shape.h>

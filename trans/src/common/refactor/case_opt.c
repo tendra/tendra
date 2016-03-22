@@ -17,7 +17,7 @@
 #include <shared/check.h>
 #include <shared/xalloc.h>
 
-#include <local/szs_als.h>
+#include <local/al.h>
 
 #include <tdf/shape.h>
 #include <tdf/tag.h>

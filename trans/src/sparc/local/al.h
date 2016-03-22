@@ -7,8 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifndef SZS_ALS_INCLUDED
-#define SZS_ALS_INCLUDED
+#ifndef LOCAL_AL_H
+#define LOCAL_AL_H
 
 
 /*
@@ -85,4 +85,4 @@
 #define LDOUBLE_BITS		113
 
 
-#endif /* SZS_ALS_INCLUDED */
+#endif
