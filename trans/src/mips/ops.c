@@ -27,7 +27,7 @@
 #include "move.h"
 #include "getregs.h"
 #include "guard.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "mips_ins.h"
 #include "ops.h"
 #include "pseudo.h"

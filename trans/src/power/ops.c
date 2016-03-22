@@ -26,7 +26,7 @@
 
 #include <main/flags.h>
 
-#include "bitsmacs.h"
+#include "bits.h"
 #include "procrec.h"
 #include "geninst.h"
 #include "instruct.h"

@@ -70,7 +70,7 @@
 #include "inst_fmt.h"
 #include "alpha_ins.h"
 #include "handle_sregs.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "labels.h"
 #include "regexps.h"
 #include "special.h"

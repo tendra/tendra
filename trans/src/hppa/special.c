@@ -43,7 +43,7 @@
 #include "inst_fmt.h"
 #include "hppains.h"
 #include "labels.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "proc.h"
 #include "frames.h"
 #include "regexps.h"

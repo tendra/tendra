@@ -43,7 +43,7 @@
 #include "sparcins.h"
 #include "labels.h"
 #include "procrec.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "proc.h"
 #include "regexps.h"
 #include "special.h"

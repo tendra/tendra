@@ -29,7 +29,7 @@
 #include "inst_fmt.h"
 #include "reg.h"
 #include "sparcins.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "procrec.h"
 #include "guard.h"
 #include "eval.h"

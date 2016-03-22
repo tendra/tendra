@@ -50,7 +50,7 @@
 #include "make_code.h"
 #include "code_here.h"
 #include "eval.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "scan.h"
 #include "main.h"
 #include "frames.h"

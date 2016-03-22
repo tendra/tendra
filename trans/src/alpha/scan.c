@@ -51,7 +51,7 @@
 #include <refactor/query.h>
 
 #include "procrec.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "regable.h"
 #include "tempdecs.h"
 #include "special.h"

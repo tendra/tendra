@@ -28,7 +28,7 @@
 #include "reg.h"
 #include "procrec.h"
 #include "addrtypes.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "getregs.h"
 
 

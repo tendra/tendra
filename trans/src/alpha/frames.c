@@ -21,7 +21,7 @@
 
 #include "frames.h"
 #include "procrec.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "reg_defs.h"
 
 extern exp father(exp);

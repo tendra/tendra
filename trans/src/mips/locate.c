@@ -33,7 +33,7 @@
 #include "addrtypes.h"
 #include "inst_fmt.h"
 #include "mips_ins.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "procrec.h"
 #include "guard.h"
 #include "eval.h"

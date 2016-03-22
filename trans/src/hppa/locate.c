@@ -35,7 +35,7 @@
 #include "inst_fmt.h"
 #include "reg.h"
 #include "hppains.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "guard.h"
 #include "eval.h"
 #include "regexps.h"

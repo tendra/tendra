@@ -24,7 +24,7 @@
 
 #include "procrec.h"
 #include "regexps.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "getregs.h"
 
 static int useable_fixed;

@@ -35,7 +35,7 @@
 #include "addrtypes.h"
 #include "procrec.h"
 #include "labels.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "make_code.h"
 #include "locate.h"
 #include "regexps.h"

@@ -41,7 +41,7 @@
 #include "move.h"
 #include "getregs.h"
 #include "guard.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "reg.h"
 #include "regexps.h"
 #include "locate.h"

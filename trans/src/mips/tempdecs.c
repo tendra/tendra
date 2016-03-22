@@ -21,7 +21,7 @@
 
 #include <refactor/const.h>
 
-#include "bitsmacs.h"
+#include "bits.h"
 #include "tempdecs.h"
 
 static int nouses;

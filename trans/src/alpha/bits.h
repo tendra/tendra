@@ -9,7 +9,6 @@
 
 
 /* 
-   bitsmacs.h
    defines various good bits for props of ident and procrec
 */
 

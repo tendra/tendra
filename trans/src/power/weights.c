@@ -52,7 +52,7 @@
 
 #include <construct/exp.h>
 
-#include "bitsmacs.h"
+#include "bits.h"
 #include "procrec.h"
 #include "regable.h"
 #include "weights.h"

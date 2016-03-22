@@ -32,7 +32,7 @@
 #include <refactor/const.h>
 
 #include "procrec.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "regable.h"
 #include "tempdecs.h"
 #include "reg.h"

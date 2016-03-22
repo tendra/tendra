@@ -56,7 +56,7 @@
 #include <flpt/flpt.h>
 
 #include "procrec.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "regable.h"
 #include "special.h"
 #include "weights.h"

@@ -52,7 +52,7 @@
 #include "inst_fmt.h"
 #include "locate.h"
 #include "reg.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "eval.h"
 
 #ifdef DWARF2

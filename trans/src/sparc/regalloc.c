@@ -44,7 +44,7 @@
 #include <main/flags.h>
 
 #include "procrec.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "regable.h"
 #include "reg.h"
 #include "proc.h"

@@ -58,7 +58,7 @@
 #include "code_here.h"
 #include "inst_fmt.h"
 #include "sparcins.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "labels.h"
 #include "regexps.h"
 #include "reg.h"

@@ -47,7 +47,7 @@
 #include "make_code.h"
 #include "code_here.h"
 #include "eval.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "scan.h"
 #include "ibinasm.h"
 #include "out_ba.h"

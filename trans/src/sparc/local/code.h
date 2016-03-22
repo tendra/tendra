@@ -7,6 +7,6 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#include "bitsmacs.h"
+#include "bits.h"
 #include "addrtypes.h"
 #include "locate.h"

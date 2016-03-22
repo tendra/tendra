@@ -45,7 +45,7 @@
 #include "addrtypes.h"
 #include "labels.h"
 #include "make_code.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "locate.h"
 #include "regexps.h"
 #include "reg.h"

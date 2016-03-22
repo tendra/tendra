@@ -27,7 +27,7 @@
 #include "move.h"
 #include "getregs.h"
 #include "guard.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "alpha_ins.h"
 #include "reg_defs.h"
 #include "ops.h"

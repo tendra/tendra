@@ -59,7 +59,7 @@
 #include "code_here.h"
 #include "inst_fmt.h"
 #include "hppains.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "labels.h"
 #include "regexps.h"
 #include "reg.h"

@@ -10,7 +10,7 @@
 #ifndef LOCAL_EXP_H
 #define LOCAL_EXP_H
 
-#include "bitsmacs.h"
+#include "bits.h"
 
 /*
  * PROPERTIES OF IDENT CONSTRUCTS

@@ -40,7 +40,7 @@
 #include "mips_ins.h"
 #include "labels.h"
 #include "procrec.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "special.h"
 
 /* these are the procs I could do something about */

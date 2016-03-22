@@ -38,7 +38,7 @@
 #include "proc.h"
 #include "getregs.h"
 #include "labels.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "reg.h"
 #include "make_code.h"
 #include "move.h"

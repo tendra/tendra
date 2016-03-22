@@ -42,7 +42,7 @@
 #include <main/print.h>
 
 #include "reg.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "procrec.h"
 #include "regalloc.h"
 #include "stack.h"

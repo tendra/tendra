@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/* bitsmacs.h
+/*
     defines various good bits for props of ident and procrec
 */
 

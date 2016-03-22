@@ -23,7 +23,7 @@
 
 #include <main/print.h>
 
-#include "bitsmacs.h"
+#include "bits.h"
 #include "code_here.h"
 #include "geninst.h"
 #include "make_code.h"

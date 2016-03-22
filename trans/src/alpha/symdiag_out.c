@@ -43,7 +43,7 @@
 #include <utility/int64.h>
 
 #include "procrec.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "ibinasm.h"
 #include "out_ba.h"
 #include "locate.h"

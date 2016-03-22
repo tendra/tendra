@@ -40,7 +40,7 @@
 #include <main/print.h>
 
 #include "procrec.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "regable.h"
 #include "reg.h"
 #include "frames.h"

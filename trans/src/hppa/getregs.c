@@ -34,7 +34,7 @@
 #include "procrec.h"
 #include "addrtypes.h"
 #include "regexps.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "getregs.h"
 
 

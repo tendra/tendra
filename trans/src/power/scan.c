@@ -57,7 +57,7 @@
 #include "reg.h"
 #include "addrtypes.h"
 #include "procrec.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "regable.h"
 #include "tempdecs.h"
 #include "translate.h"

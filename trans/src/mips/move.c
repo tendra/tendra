@@ -38,7 +38,7 @@
 #include "getregs.h"
 #include "labels.h"
 #include "pseudo.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "main.h"
 #include "guard.h"
 #include "move.h"

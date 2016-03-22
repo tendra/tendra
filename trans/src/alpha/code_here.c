@@ -28,7 +28,7 @@
 #include "procrec.h"
 #include "labels.h"
 #include "make_code.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "locate.h"
 #include "inst_fmt.h"
 #include "alpha_ins.h"

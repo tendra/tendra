@@ -40,7 +40,7 @@
 
 #include "addrtypes.h"
 #include "procrec.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "locate.h"
 #include "translate.h"
 #include "stabs_diag3.h"

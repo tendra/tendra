@@ -52,7 +52,7 @@
 #include <local/symtab.h>
 
 #include "procrec.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "ibinasm.h"
 #include "out_ba.h"
 #include "locate.h"

@@ -35,7 +35,7 @@
 
 #include "procrec.h"
 #include "regexps.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "getregs.h"
 
 extern  procrec * procrecs;

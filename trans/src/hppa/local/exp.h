@@ -10,7 +10,7 @@
 #ifndef LOCAL_EXP_H
 #define LOCAL_EXP_H
 
-#include "bitsmacs.h"
+#include "bits.h"
 
 #define setse_opt(x) props(x) = (prop)(props(x) | 0x400)
 #define isse_opt(x) (props(x) & 0x400)

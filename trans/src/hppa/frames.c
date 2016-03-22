@@ -15,7 +15,7 @@
 
 #include <main/flags.h>
 
-#include "bitsmacs.h"
+#include "bits.h"
 #include "procrec.h"
 #include "addrtypes.h"
 #include "hppains.h"

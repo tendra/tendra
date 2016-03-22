@@ -35,7 +35,7 @@
 #include "inst_fmt.h"
 #include "addrtypes.h"
 #include "procrec.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "main.h"
 #include "reg_defs.h"
 #include "guard.h"

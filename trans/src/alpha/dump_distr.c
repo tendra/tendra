@@ -22,7 +22,7 @@
 #include <main/flags.h>
 
 #include "procrec.h"
-#include "bitsmacs.h"
+#include "bits.h"
 #include "frames.h"
 #include "regable.h"
 #include "reg_defs.h"
