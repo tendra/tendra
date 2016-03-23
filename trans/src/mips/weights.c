@@ -206,8 +206,6 @@ add_wlist(double scale, exp re)
 weights
 weightsv(double scale, exp e)
 {
-	unsigned char n;
-
 tailrecurse:
 
 	switch (e->tag) {
