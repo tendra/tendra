@@ -169,6 +169,8 @@ static exp testlast(exp e, exp second)
 			return 0;
 		}
 	}
+
+	return 0;
 }
 
 /* Does e, or components of e contain a bitfield? */
