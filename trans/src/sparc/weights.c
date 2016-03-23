@@ -252,8 +252,6 @@ tailrecurse:
 			return zeroweights;
 		}
 
-		wdef;
-		wbody;
 		noe = no(e); /* set by scan */
 
 		/* weights for initialisation of dec */
