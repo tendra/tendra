@@ -634,7 +634,7 @@ bool
 oddtest(exp x, exp *t, exp *f, exp *v)
 {
 	exp l, z, g;
-	exp xC, xCC, xCCC, xCCCC;
+	exp xC, xCC, xCCC;
 	exp yCC;
 
 	if (x->tag != cond_tag) {
