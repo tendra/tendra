@@ -55,6 +55,7 @@
 
 #include <refactor/refactor.h>
 #include <refactor/misc_c.h>
+#include <refactor/query.h>
 
 #include "localtypes.h"
 #include "weights.h"

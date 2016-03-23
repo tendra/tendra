@@ -47,6 +47,7 @@
 #include <refactor/optimise.h>
 #include <refactor/refactor.h>
 #include <refactor/misc_c.h>
+#include <refactor/query.h>
 
 #include "procrec.h"
 #include "addr.h"
