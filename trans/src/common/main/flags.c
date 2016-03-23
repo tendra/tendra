@@ -16,6 +16,7 @@
 #include <shared/string.h>
 
 #include <reader/exp.h>
+#include <reader/token.h>
 
 #include <main/flags.h>
 
