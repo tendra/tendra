@@ -853,12 +853,13 @@ do_callers(int n, exp list, space sp)
 	 */
 	int disp = 0;
 	space nsp;
-	nsp = sp;
 
 	int param_reg      = R_FIRST_PARAM;
 	int last_param_reg = R_FIRST_PARAM;
 	int fr_param_reg   = FR_FIRST_PARAM;
 	int final_param    = n + R_FIRST_PARAM - 1;
+
+	nsp = sp;
 
 	for (;;) {
 		exp par = list->tag == caller_tag ? son(list) : list;
