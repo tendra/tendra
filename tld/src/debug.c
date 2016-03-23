@@ -13,6 +13,8 @@
  * This file implements the tracing routines for use with the TDF linker.
  */
 
+#include <stddef.h>
+
 #include "debug.h"
 #include "tdf.h"
 
@@ -255,11 +257,11 @@ debug_info_r_map(unsigned internal,			  unsigned old_external,
 }
 
 void
-debug_info_r_unit_body(unsigned size)
+debug_info_r_unit_body(size_t size)
 {
     if (debug_file) {
 	write_cstring(debug_file, "        Reading ");
-	write_unsigned(debug_file, size);
+	write_unsigned(debug_file, (unsigned) size);
 	write_cstring(debug_file, " bytes of unit body");
 	write_newline(debug_file);
     }
@@ -527,11 +529,11 @@ debug_info_w_map(unsigned internal,			  unsigned external)
 }
 
 void
-debug_info_w_unit_body(unsigned size)
+debug_info_w_unit_body(size_t size)
 {
     if (debug_file) {
 	write_cstring(debug_file, "        Writing ");
-	write_unsigned(debug_file, size);
+	write_unsigned(debug_file, (unsigned) size);
 	write_cstring(debug_file, " bytes of unit body");
 	write_newline(debug_file);
     }
@@ -627,13 +629,13 @@ debug_info_r_start_capsules(unsigned num_capsules)
 }
 
 void
-debug_info_r_capsule(NStringT *name,			      unsigned length)
+debug_info_r_capsule(NStringT *name,			      size_t length)
 {
     if (debug_file) {
 	write_cstring(debug_file, "      Loaded '");
 	write_nstring(debug_file, name);
 	write_cstring(debug_file, "', ");
-	write_unsigned(debug_file, length);
+	write_unsigned(debug_file, (unsigned) length);
 	write_cstring(debug_file, " bytes");
 	write_newline(debug_file);
     }
@@ -749,13 +751,13 @@ debug_info_w_start_capsules(unsigned num_capsules)
 }
 
 void
-debug_info_w_capsule(char * name,			      unsigned length)
+debug_info_w_capsule(char * name,			      size_t length)
 {
     if (debug_file) {
 	write_cstring(debug_file, "      Saved '");
 	write_cstring(debug_file, name);
 	write_cstring(debug_file, "', ");
-	write_unsigned(debug_file, length);
+	write_unsigned(debug_file, (unsigned) length);
 	write_cstring(debug_file, " bytes");
 	write_newline(debug_file);
     }

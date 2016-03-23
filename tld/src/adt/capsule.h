@@ -54,7 +54,7 @@ extern CapsuleT *		capsule_create_stream_output
 (char *);
 extern char *			capsule_name
 (CapsuleT *);
-extern unsigned			capsule_byte
+extern size_t			capsule_byte
 (CapsuleT *);
 extern void			capsule_read
 (CapsuleT *, UnitTableT *, ShapeTableT *);

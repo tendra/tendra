@@ -64,7 +64,7 @@ extern void			debug_info_r_start_shape_maps
 extern void			debug_info_r_map
 (unsigned, unsigned, unsigned);
 extern void			debug_info_r_unit_body
-(unsigned);
+(size_t);
 extern void			debug_info_r_tld_version
 (unsigned);
 extern void			debug_info_r_start_usages
@@ -111,7 +111,7 @@ extern void			debug_info_w_start_shape_maps
 extern void			debug_info_w_map
 (unsigned, unsigned);
 extern void			debug_info_w_unit_body
-(unsigned);
+(size_t);
 extern void			debug_info_w_tld_version
 (unsigned);
 extern void			debug_info_w_start_usages
@@ -130,7 +130,7 @@ extern void			debug_info_r_library_version
 extern void			debug_info_r_start_capsules
 (unsigned);
 extern void			debug_info_r_capsule
-(NStringT *, unsigned);
+(NStringT *, size_t);
 extern void			debug_info_r_start_index
 (unsigned);
 extern void			debug_info_r_start_shape_index
@@ -151,7 +151,7 @@ extern void			debug_info_w_library_version
 extern void			debug_info_w_start_capsules
 (unsigned);
 extern void			debug_info_w_capsule
-(char *, unsigned);
+(char *, size_t);
 extern void			debug_info_w_start_index
 (unsigned);
 extern void			debug_info_w_start_shape_index

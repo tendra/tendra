@@ -108,10 +108,10 @@ name_key_parse_escaped(char * *name_ref,				char     *c_ref)
 static BoolT
 name_key_parse_cstring_unique(NameKeyT *key,				       char * name)
 {
-    unsigned length   = 1;
+    size_t length   = 1;
     char * tmp_name = name;
     NStringT *components;
-    unsigned i;
+    size_t i;
 
     while (*++tmp_name) {
 	if (*tmp_name == '.') {
@@ -155,9 +155,9 @@ name_key_parse_cstring_unique(NameKeyT *key,				       char * name)
 	DEALLOCATE(components);
 	return FALSE;
     }
-    name_key_init_unique(key, length);
+    name_key_init_unique(key, (unsigned) length);
     for (i = 0; i < length; i++) {
-	name_key_set_component(key, i, & (components[i]));
+	name_key_set_component(key, (unsigned) i, & (components[i]));
     }
     DEALLOCATE(components);
     return TRUE;
@@ -195,7 +195,7 @@ name_key_parse_cstring_string(NameKeyT *key,				       char * name)
 static void
 write_name_key_1(OStreamT *ostream,			  NStringT *nstring)
 {
-    unsigned length = nstring_length(nstring);
+    size_t length = nstring_length(nstring);
     char * bytes  = nstring_contents(nstring);
 
     while (length--) {
@@ -221,7 +221,7 @@ void
 name_key_init_unique(NameKeyT *key,			      unsigned components)
 {
     key->type                = KT_UNIQUE;
-    key->u.unique.length     = components;
+    key->u.unique.length     = (size_t) components;
     key->u.unique.components = ALLOCATE_VECTOR(NStringT, components);
 }
 
@@ -239,7 +239,7 @@ void
 name_key_set_component(NameKeyT *key,				unsigned component, 
 				NStringT *string)
 {
-    assert((key->type == KT_UNIQUE) && (component < key->u.unique.length));
+    assert((key->type == KT_UNIQUE) && (component < (unsigned) key->u.unique.length));
     nstring_assign(& (key->u.unique.components[component]), string);
 }
 
@@ -260,13 +260,13 @@ unsigned
 name_key_components(NameKeyT *key)
 {
     assert(key->type == KT_UNIQUE);
-    return key->u.unique.length;
+    return (unsigned) key->u.unique.length;
 }
 
 NStringT *
 name_key_get_component(NameKeyT *key,				unsigned component)
 {
-    assert((key->type == KT_UNIQUE) && (component < key->u.unique.length));
+    assert((key->type == KT_UNIQUE) && (component < (unsigned) key->u.unique.length));
     return &key->u.unique.components[component];
 }
 
@@ -286,7 +286,7 @@ name_key_hash_value(NameKeyT *key)
 	hash_value = nstring_hash_value(& (key->u.string));
 	break;
       case KT_UNIQUE:
-	components = key->u.unique.length;
+	components = (unsigned) key->u.unique.length;
 	hash_value = components;
 	for (i = 0; i < components; i++) {
 	    hash_value += nstring_hash_value(& (key->u.unique.components[i]));
@@ -309,7 +309,7 @@ name_key_equal(NameKeyT *key1,			NameKeyT *key2)
       case KT_STRING:
 	return nstring_equal(&key1->u.string, &key2->u.string);
       case KT_UNIQUE:
-	if ((components = key1->u.unique.length) != key2->u.unique.length) {
+	if ((components = (unsigned) key1->u.unique.length) != (unsigned) key2->u.unique.length) {
 	    return FALSE;
 	}
 	for (i = 0; i < components; i++) {
@@ -348,7 +348,7 @@ name_key_copy(NameKeyT *to,		       NameKeyT *from)
 	nstring_copy(& (to->u.string), & (from->u.string));
 	break;
       case KT_UNIQUE:
-	components = to->u.unique.length = from->u.unique.length;
+	components = (unsigned) (to->u.unique.length = from->u.unique.length);
 	to->u.unique.components = ALLOCATE_VECTOR(NStringT, components);
 	for (i = 0; i < components; i++) {
 	    nstring_copy(& (to->u.unique.components[i]),
@@ -369,7 +369,7 @@ name_key_destroy(NameKeyT *key)
 	nstring_destroy(& (key->u.string));
 	break;
       case KT_UNIQUE:
-	components = key->u.unique.length;
+	components = (unsigned) (unsigned) (unsigned) (unsigned) (unsigned) (unsigned) (unsigned) (unsigned) (unsigned) key->u.unique.length;
 	for (i = 0; i < components; i++) {
 	    nstring_destroy(& (key->u.unique.components[i]));
 	}
@@ -390,7 +390,7 @@ write_name_key(OStreamT *ostream,			NameKeyT *key)
 	write_name_key_1(ostream, & (key->u.string));
 	break;
       case KT_UNIQUE:
-	components = key->u.unique.length;
+	components = (unsigned) key->u.unique.length;
 	for (i = 0; i < components; i++) {
 	    NStringT *nstring = & (key->u.unique.components[i]);
 

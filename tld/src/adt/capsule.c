@@ -80,8 +80,8 @@ static unsigned   capsule_num_unit_sets;
 static UnitSetT *  capsule_unit_sets     = NULL;
 static unsigned   capsule_tld_index     = 0;
 static unsigned   capsule_tld2_index    = 1;
-static unsigned   capsule_unit_length;
-static unsigned   capsule_unit_offset;
+static size_t     capsule_unit_length;
+static size_t     capsule_unit_offset;
 static ExceptionT *XX_capsule_error      = EXCEPTION("error in TDF capsule");
 static unsigned   capsule_major_version = 0;
 static unsigned   capsule_minor_version = 0;
@@ -651,7 +651,7 @@ static UnitTypeProcP capsule_type_jump_table[] = {
 };
 
 #define CAPSULE_TYPE_JUMP_TABLE_SIZE \
-	((unsigned)(sizeof(capsule_type_jump_table) / \
+	((sizeof(capsule_type_jump_table) / \
 		     sizeof(UnitTypeProcP)))
 
 static void
@@ -684,7 +684,7 @@ capsule_read_tld_unit_header(CapsuleT *capsule,				      NStringT *unit_set)
 	UNREACHED;
     }
     debug_info_r_start_maps((unsigned)0);
-    capsule_unit_length = tdf_read_int(reader);
+    capsule_unit_length = (size_t) tdf_read_int(reader);
     debug_info_r_unit_body(capsule_unit_length);
     tdf_read_align(reader);
     capsule_unit_offset = tdf_reader_byte(reader);
@@ -694,14 +694,15 @@ static void
 capsule_read_tld_unit_trailer(CapsuleT *capsule)
 {
     TDFReaderT *reader  = capsule_reader(capsule);
-    unsigned   offset  = tdf_reader_byte(reader);
-    unsigned   correct = (capsule_unit_offset + capsule_unit_length);
+    size_t offset  = tdf_reader_byte(reader);
+    size_t correct = (capsule_unit_offset + capsule_unit_length);
 
     tdf_read_align(reader);
     if (correct != offset) {
 	error(ERR_SERIOUS, "%s: #%u: linker information unit contents "
 		"is the wrong size (final offset is %u but should be %u)", 
-		capsule_name(capsule), capsule_byte(capsule), correct, offset);
+		capsule_name(capsule), (unsigned) capsule_byte(capsule),
+		(unsigned) correct, (unsigned) offset);
 	THROW(XX_capsule_error);
 	UNREACHED;
     }
@@ -735,7 +736,7 @@ capsule_read_tld_units(CapsuleT *capsule, ShapeTableT *shapes,
 
     capsule_read_tld_unit_header(capsule, key);
     unit_type = tdf_read_int(reader);
-    if (unit_type >= CAPSULE_TYPE_JUMP_TABLE_SIZE) {
+    if (unit_type >= (unsigned) CAPSULE_TYPE_JUMP_TABLE_SIZE) {
 	error(ERR_SERIOUS, "%s: #%u: linker information unit version number "
 		"%u is not supported in this implementation", 
 		capsule_name(capsule), capsule_byte(capsule), unit_type);
@@ -846,7 +847,7 @@ capsule_read_unit(CapsuleT *capsule, unsigned num_shapes, ShapeDataT *shapes_vec
     unsigned   num_counts = tdf_read_int(reader);
     UnitT *     unit       = unit_entry_add_unit(unit_entry, num_counts);
     MapEntryT **entries;
-    unsigned   size;
+    size_t     size;
     NStringT   nstring;
 
     entries = capsule_read_unit_counts(capsule, num_shapes, shapes_vec,
@@ -854,7 +855,7 @@ capsule_read_unit(CapsuleT *capsule, unsigned num_shapes, ShapeDataT *shapes_vec
 					unit_num);
     capsule_read_unit_maps(capsule, num_counts, shapes_vec, unit_entry,
 			    unit_num, entries);
-    size = tdf_read_int(reader);
+    size = (size_t) tdf_read_int(reader);
     debug_info_r_unit_body(size);
     nstring_init_length(&nstring, size);
     tdf_read_bytes(reader, &nstring);
@@ -863,7 +864,7 @@ capsule_read_unit(CapsuleT *capsule, unsigned num_shapes, ShapeDataT *shapes_vec
 }
 
 static void
-capsule_read_units(CapsuleT *  capsule,			    unsigned   num_shapes, 
+capsule_read_units(CapsuleT *  capsule,			    unsigned num_shapes, 
 			    ShapeDataT *shapes_vec, 
 			    UnitEntryT *unit_entry)
 {
@@ -992,7 +993,7 @@ capsule_name(CapsuleT *capsule)
     return capsule->name;
 }
 
-unsigned
+size_t
 capsule_byte(CapsuleT *capsule)
 {
     return tdf_reader_byte(capsule_reader(capsule));
@@ -1047,7 +1048,7 @@ capsule_store_contents(CapsuleT *capsule)
 {
     if (capsule->complete) {
 	TDFReaderT *reader = capsule_reader(capsule);
-	unsigned   length = tdf_reader_byte(reader);
+	size_t length = tdf_reader_byte(reader);
 
 	nstring_init_length(& (capsule->contents), length);
 	tdf_reader_rewind(reader);

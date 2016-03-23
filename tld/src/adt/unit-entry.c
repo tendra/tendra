@@ -26,7 +26,7 @@ unit_write(UnitT *      unit,		    ShapeTableT *shapes ,
 		    unsigned    num_shapes ,
 		    TDFWriterT * writer)
 {
-    unsigned  length = nstring_length(& (unit->contents));
+    size_t length = nstring_length(& (unit->contents));
     MapTableT *table;
 
     if ((table = unit->map_table) != NULL) {
@@ -49,7 +49,7 @@ unit_write(UnitT *      unit,		    ShapeTableT *shapes ,
 	tdf_write_int(writer,(unsigned)0);
     }
     debug_info_w_unit_body(length);
-    tdf_write_int(writer, length);
+    tdf_write_int(writer, (unsigned) length);
     tdf_write_bytes(writer, & (unit->contents));
 }
 
@@ -146,7 +146,7 @@ void
 unit_entry_write_tld_unit(UnitEntryT * entry,				   ShapeTableT *shapes ,
 				   TDFWriterT * writer)
 {
-    unsigned size = (tdf_int_size((unsigned)1) + 1);
+    size_t size = (tdf_int_size((unsigned)1) + 1);
     NStringT *key  = unit_entry_key(entry);
 
     debug_info_w_start_units(key,(unsigned)1);
@@ -159,7 +159,7 @@ unit_entry_write_tld_unit(UnitEntryT * entry,				   ShapeTableT *shapes ,
     shape_table_iter(shapes, shape_entry_compute_tld_size,(void *) &size);
     size /= 2;
     debug_info_w_unit_body(size);
-    tdf_write_int(writer, size);
+    tdf_write_int(writer, (unsigned) size);
     tdf_write_align(writer);
     debug_info_w_tld_version((unsigned)1);
     tdf_write_int(writer,(unsigned)1);

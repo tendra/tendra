@@ -36,7 +36,7 @@ typedef struct TDFReaderT {
 	    char *		current;
 	    char *		limit;
 	    char *            name;
-	    unsigned		byte;
+	    size_t		byte;
 	} string;
     } u;
     ByteT			byte;
@@ -51,7 +51,7 @@ extern void			tdf_reader_open_string
 (TDFReaderT *, char *, NStringT *);
 extern const char *			tdf_reader_name
 (TDFReaderT *);
-extern unsigned			tdf_reader_byte
+extern size_t			tdf_reader_byte
 (TDFReaderT *);
 extern unsigned			tdf_read_int
 (TDFReaderT *);

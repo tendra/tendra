@@ -116,7 +116,7 @@ library_read_version_0_capsules(LibraryT *library)
     for (i = 0; i < num_capsules; i++) {
 	NStringT *contents = & (library->capsules[i].contents);
 	NStringT nstring;
-	unsigned length;
+	size_t length;
 
 	tdf_read_string(reader, &nstring);
 	if (nstring_contains(&nstring, '\0')) {
@@ -130,7 +130,7 @@ library_read_version_0_capsules(LibraryT *library)
 	library->capsules[i].name    = nstring_to_cstring(&nstring);
 	library->capsules[i].library = library;
 	library->capsules[i].loaded  = FALSE;
-	length = tdf_read_int(reader);
+	length = (size_t) tdf_read_int(reader);
 	nstring_init_length(contents, length);
 	tdf_read_bytes(reader, contents);
 	debug_info_r_capsule(&nstring, length);
@@ -310,17 +310,17 @@ char *
 lib_capsule_full_name(LibCapsuleT *capsule)
 {
     const char * lib_name   = library_name(capsule->library);
-    unsigned lib_length = strlen(lib_name);
+    size_t lib_length = strlen(lib_name);
     char * name       = lib_capsule_name(capsule);
-    unsigned length     = strlen(name);
+    size_t length     = strlen(name);
     char * full_name  = ALLOCATE_VECTOR(char, lib_length + length + 3);
     char * tmp        = full_name;
 
-    IGNORE memcpy((void *)tmp,(void *)lib_name,(size_t)lib_length);
+    IGNORE memcpy((void *)tmp,(void *)lib_name, lib_length);
     tmp += lib_length;
     *tmp = '(';
     tmp++;
-    IGNORE memcpy((void *)tmp,(void *)name,(size_t)length);
+    IGNORE memcpy((void *)tmp,(void *)name, length);
     tmp += length;
     *tmp = ')';
     tmp++;
@@ -404,7 +404,7 @@ library_get_capsule(LibraryT *library,			     unsigned capsule_index)
     return &library->capsules[capsule_index];
 }
 
-unsigned
+size_t
 library_byte(LibraryT *library)
 {
     return tdf_reader_byte(library_reader(library));
@@ -437,7 +437,7 @@ library_content(LibraryT *library,			 BoolT    want_index,
 		NStringT *body = lib_capsule_contents(capsule);
 
 		write_cstring(ostream_output, " (");
-		write_unsigned(ostream_output, nstring_length(body));
+		write_unsigned(ostream_output, (unsigned) nstring_length(body));
 		write_char(ostream_output, ')');
 	    }
 	    write_newline(ostream_output);
@@ -558,14 +558,14 @@ library_write(LibraryT *   library,		       ShapeTableT *shapes,
 	CapsuleT *capsule  = capsules[i];
 	char * name     = capsule_name(capsule);
 	NStringT *contents = capsule_contents(capsule);
-	unsigned length   = nstring_length(contents);
+	size_t length   = nstring_length(contents);
 	NStringT nstring;
 
 	debug_info_w_capsule(name, length);
 	nstring_copy_cstring(&nstring, name);
 	tdf_write_string(writer, &nstring);
 	nstring_destroy(&nstring);
-	tdf_write_int(writer, length);
+	tdf_write_int(writer, (unsigned) length);
 	tdf_write_bytes(writer, contents);
     }
     shape_table_iter(shapes, shape_entry_do_lib_count,

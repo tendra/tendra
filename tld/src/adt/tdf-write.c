@@ -82,7 +82,7 @@ tdf_write_align(TDFWriterT *writer)
 void
 tdf_write_bytes(TDFWriterT *writer,			 NStringT *  nstring)
 {
-    unsigned length   = nstring_length(nstring);
+    size_t length   = nstring_length(nstring);
     char * contents = nstring_contents(nstring);
 
     tdf_write_align(writer);
@@ -92,10 +92,10 @@ tdf_write_bytes(TDFWriterT *writer,			 NStringT *  nstring)
 void
 tdf_write_string(TDFWriterT *writer,			  NStringT *  nstring)
 {
-    unsigned length = nstring_length(nstring);
+    size_t length = nstring_length(nstring);
 
-    tdf_write_int(writer,(unsigned)8);
-    tdf_write_int(writer, length);
+    tdf_write_int(writer, 8);
+    tdf_write_int(writer, (unsigned) length);
     tdf_write_bytes(writer, nstring);
 }
 

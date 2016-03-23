@@ -76,7 +76,7 @@ extern unsigned			library_num_capsules
 (LibraryT *);
 extern LibCapsuleT *	library_get_capsule
 (LibraryT *, unsigned);
-extern unsigned			library_byte
+extern size_t			library_byte
 (LibraryT *);
 extern void			library_content
 (LibraryT *, BoolT, BoolT, BoolT);

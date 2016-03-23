@@ -17,10 +17,10 @@
 
 #include "tdf.h"
 
-unsigned
+size_t
 tdf_int_size(unsigned value)
 {
-    unsigned size = 1;
+    size_t size = 1;
 
     while (value >>= 3) {
 	size++;

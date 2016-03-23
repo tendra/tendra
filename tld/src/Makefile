@@ -11,6 +11,8 @@ PARTS+=	src/frontend
 .include <tendra.partial.mk>
 
 
+TCCOPTS=	-Yposix -Xs
+
 CCOPTS+=	-I .
 
 SRCS+=	arg-parse.c

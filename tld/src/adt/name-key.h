@@ -28,7 +28,7 @@ typedef enum {
 } NameKeyTypeT;
 
 typedef struct NameUniqueT {
-    unsigned			length;
+    size_t			length;
     NStringT *		components;
 } NameUniqueT;
 

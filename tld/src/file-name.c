@@ -48,7 +48,7 @@ file_name_dirname(char * path)
     char * last = strrchr(path, '/');
 
     if (last) {
-	return cstring_duplicate_prefix(path,(unsigned)(last - path));
+	return cstring_duplicate_prefix(path, (size_t) (last - path));
     } else {
 	return cstring_duplicate(path);
     }
@@ -58,12 +58,12 @@ char *
 file_name_expand(const char * dir,			  const char * name, 
 			  const char * suffix)
 {
-    unsigned dir_length  = strlen(dir);
-    unsigned name_length = strlen(name);
-    unsigned suf_length  = (suffix ?(strlen(suffix)): 0);
-    unsigned suf_extra   = (unsigned)(suffix ? 1 : 0);
-    unsigned extra;
-    unsigned length;
+    size_t dir_length  = strlen(dir);
+    size_t name_length = strlen(name);
+    size_t suf_length  = (suffix ?(strlen(suffix)): 0);
+    size_t suf_extra   = (size_t) (suffix ? 1 : 0);
+    size_t extra;
+    size_t length;
     char * path;
     char * tmp;
 

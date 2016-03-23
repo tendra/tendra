@@ -26,7 +26,7 @@
 #define U_MULT			((unsigned)(0x08))
 #define U_HIDE			((unsigned)(0x10))
 
-extern unsigned			tdf_int_size
+extern size_t			tdf_int_size
 (unsigned);
 extern void			write_usage
 (OStreamT *, unsigned);
