@@ -67,7 +67,7 @@ handler(int sig)
  */
 
 static const char **command = NULL;
-static int command_size = 0;
+static size_t command_size = 0;
 static int cmd_no = 0;
 
 
@@ -118,7 +118,7 @@ process_delayed_signal(void)
 void
 cmd_string(const char *s)
 {
-	if (cmd_no >= command_size) {
+	if (cmd_no >= (int) command_size) {
 		command_size += 1000;
 		command = xrealloc_nof(command, char *, command_size);
 	}
@@ -348,7 +348,7 @@ execute(filename *input, filename *output)
 		} else if (streq(cmd, "split_archive")) {
 			err = split_archive(command[1], &output);
 		} else if (streq(cmd, "undef")) {
-			int sev;
+			enum error_severity sev;
 			if (dry_run) {
 				sev = ERR_WARN;
 			} else {

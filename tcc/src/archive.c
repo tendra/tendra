@@ -73,7 +73,7 @@ read_file(const char *nm, const char *w, size_t n, FILE *f)
 	m   = n;
 
 	if (dry_run) {
-		if (fseek(f, n, SEEK_CUR)) {
+		if (fseek(f, (long) n, SEEK_CUR)) {
 			error(ERR_SERIOUS, "Error when stepping over '%s'", nm);
 			ret = 1;
 		}
@@ -494,7 +494,7 @@ split_archive(const char *arch, filename **ret)
 		if (streq(p, "*")) {
 		    /* Old form hidden names */
 		    int k = where(INDEP_TDF);
-		    q = make_filename(no_filename, INDEP_TDF, k);
+		    q = make_filename(no_filename, INDEP_TDF, (enum file_storage) k);
 		} else if (strneq(p, "*.", 2)) {
 		    /* New form hidden names */
 		    p = xstrdup(p);
@@ -521,7 +521,7 @@ split_archive(const char *arch, filename **ret)
 		    comment(1, "... extract file %s\n", q->name);
 		}
 	    }
-	    if (read_file(q->name, w, n, f)) {
+	    if (read_file(q->name, w, (size_t) n, f)) {
 		emsg = "Read error in archive '%s'";
 		goto archive_error;
 	    }
