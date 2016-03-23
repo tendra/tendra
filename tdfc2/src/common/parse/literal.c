@@ -1357,7 +1357,7 @@ static string
 get_multibyte(string s, string se, unsigned long *pc)
 {
 	wchar_t c;
-	int n = mbtowc(&c, s, (size_t)(se - s));
+	int n = mbtowc(&c, (const char *) s, (size_t)(se - s));
 	if (n > 0) {
 		/* Valid multibyte character */
 		*pc = (unsigned long)c;
