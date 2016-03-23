@@ -237,7 +237,7 @@ realrep(exp e)
 	return longs;
 }
 
-static long
+long
 evalexp(exp e)
 {
 	switch (e->tag) {

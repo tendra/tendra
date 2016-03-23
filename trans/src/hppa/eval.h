@@ -19,6 +19,7 @@ int next_PIC_pcrel_lab(void);
 mm maxmin(shape);
 instore evaluated(exp, long);
 void set_align(int);
+long evalexp(exp);
 void evalone(exp, int);
 
 #endif
