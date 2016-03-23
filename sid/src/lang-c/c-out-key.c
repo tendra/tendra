@@ -14,6 +14,7 @@
  */
 
 #include <assert.h>
+#include <stddef.h>
 #include <ctype.h>
 
 #include <shared/check.h>

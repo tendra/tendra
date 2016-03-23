@@ -14,6 +14,7 @@
  */
 
 #include <assert.h>
+#include <stddef.h>
 
 #include "c-out-nl.h"
 #include "../adt/action.h"

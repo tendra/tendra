@@ -16,6 +16,7 @@
  */
 
 #include <assert.h>
+#include <stddef.h>
 
 #include "c-out-types.h"
 #include "../adt/action.h"

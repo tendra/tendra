@@ -21,6 +21,7 @@
  */
 
 #include <assert.h>
+#include <stddef.h>
 #include <ctype.h>
 
 #include <exds/cstring.h>
