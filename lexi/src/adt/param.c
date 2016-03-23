@@ -121,7 +121,7 @@ param_unique_names(struct param *params, struct param *results)
 	struct param *p;
 	int i;
 
-	for (p = params;  p != NULL; p = p->next, i++) {
+	for (p = params, i = 0;  p != NULL; p = p->next, i++) {
 		if (param_name_is_in(results, p->local_name)) {
 			return 0;
 		}
