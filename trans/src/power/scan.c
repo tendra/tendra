@@ -2051,8 +2051,9 @@ scan(exp *e, exp **at)
 		exp *par = &son(cees);
 		needs nds;
 		long stpar = 0;
-		nds = zeroneeds;
 		int i;
+
+		nds = zeroneeds;
 
 		for (i = 0; i < no(cees); i++) {
 			/* scan each callee and identify if necessary */
