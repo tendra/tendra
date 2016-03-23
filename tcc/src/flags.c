@@ -8,6 +8,7 @@
  */
 
 #include <shared/bool.h>
+#include <shared/check.h>
 #include <shared/error.h>
 
 #include "filename.h"
@@ -313,7 +314,7 @@ update_options(void)
 
 	/* Print API information */
 	if (show_api) {
-		printf("API is %s", api_info);
+		IGNORE printf("API is %s", api_info);
 		show_api = 0;
 	}
 
