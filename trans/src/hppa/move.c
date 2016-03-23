@@ -54,19 +54,6 @@ extern char reg_name_tab[32][5];
 typedef ins_p ins_sgn_pair[2 /* FALSE..TRUE */ ];
 
 
-static const ins_sgn_pair st_ins_sz[] =
-{
-   /* 0 */ {I_NIL, I_NIL},
-   /* 8 */ {i_stb, i_stb},
-   /* 16 */ {i_sth, i_sth},
-   /* 24 */ {I_NIL, I_NIL},
-   /* 32 */ {i_stw, i_stw},
-   /* 40 */ {I_NIL, I_NIL},
-   /* 48 */ {I_NIL, I_NIL},
-   /* 56 */ {I_NIL, I_NIL},
-   /* 64 */ {I_NIL, I_NIL}
-};
-
 /* load address represented by is into reg */
 static void
 ld_addr(instore is, int reg)
