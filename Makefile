@@ -24,6 +24,7 @@ OBJ_REBUILD?= ${OBJ_DIR}-rebuild
 OBJ_REGEN?=   ${OBJ_DIR}-regen
 OBJ_TEST?=    ${OBJ_BPREFIX}/test
 OBJ_BOOT?=    ${OBJ_BPREFIX}/obj
+OBJ_REBOOT?=  ${OBJ_RPREFIX}/obj
 
 # TODO: this should probably be the actual $PREFIX
 OBJ_RPREFIX?=	${OBJ_REBUILD}
@@ -39,7 +40,7 @@ TARGETFLAGS+= BLDARCH=${TARGETARCH}
 # XXX: assumes GNU ld
 REBUILDFLAGS!=                            \
     case "${TARGETARCH}" in               \
-        x32_64) echo LDFLAGS=-melf_i386;; \
+        x32_64) echo LDFLAGS=-melf_i386_fbsd;; \
         *)      echo '';;                 \
     esac;
 
@@ -153,7 +154,7 @@ bootstrap-rebuild:
 	mkdir -p "${OBJ_RPREFIX}/bin"
 	@echo "===> rebuilding with bootstrap for trans from ${OBJ_BOOT} into ${OBJ_REBUILD}"
 	cd ${.CURDIR}/trans && ${MAKE}      \
-	    OBJ_DIR=${OBJ_REBUILD}/trans    \
+	    OBJ_DIR=${OBJ_REBOOT}/trans     \
 	    TCC=${OBJ_BPREFIX}/bin/tcc      \
 	    PREFIX=${OBJ_RPREFIX}           \
 	    RELEASE=${RELEASE}              \
@@ -163,7 +164,7 @@ bootstrap-rebuild:
 .for project in tld tspec tpl tnc tdfc2 sid lexi make_tdf make_err calculus disp libexds
 	@echo "===> rebuilding with bootstrap for ${project} from ${OBJ_BOOT} into ${OBJ_REBUILD}"
 	cd ${.CURDIR}/${project} && ${MAKE}   \
-	    OBJ_DIR=${OBJ_REBUILD}/${project} \
+	    OBJ_DIR=${OBJ_REBOOT}/${project}  \
 	    PREFIX=${OBJ_RPREFIX}             \
 	    TCC=${OBJ_BPREFIX}/bin/tcc        \
 	    RELEASE=${RELEASE}                \
@@ -178,7 +179,7 @@ bootstrap-rebuild:
 	mkdir -p "${OBJ_RPREFIX}/lib/tcc/map"
 	@echo "===> rebuilding with bootstrap for tcc from ${OBJ_BOOT} into ${OBJ_REBUILD}"
 	cd ${.CURDIR}/tcc && ${MAKE}      \
-	    OBJ_DIR=${OBJ_REBUILD}/tcc    \
+	    OBJ_DIR=${OBJ_REBOOT}/tcc     \
 	    TCC=${OBJ_BPREFIX}/bin/tcc    \
 	    PREFIX_INCLUDE=               \
 	    PREFIX_MAN=                   \
@@ -190,7 +191,7 @@ bootstrap-rebuild:
 	    install
 	@echo "===> rebuilding with bootstrap for osdep from ${OBJ_BOOT} into ${OBJ_REBUILD}"
 	cd ${.CURDIR}/osdep && ${MAKE}    \
-	    OBJ_DIR=${OBJ_REBUILD}/osdep  \
+	    OBJ_DIR=${OBJ_REBOOT}/osdep   \
 	    PREFIX=${OBJ_RPREFIX}         \
 	    TCC=${OBJ_RPREFIX}/bin/tcc    \
 	    TPL=${OBJ_RPREFIX}/bin/tpl    \
@@ -202,7 +203,7 @@ bootstrap-rebuild:
 	    install
 	@echo "===> rebuilding with bootstrap for tdf from ${OBJ_BOOT} into ${OBJ_REBUILD}"
 	cd ${.CURDIR}/tdf && ${MAKE}      \
-	    OBJ_DIR=${OBJ_REBUILD}/tdf    \
+	    OBJ_DIR=${OBJ_REBOOT}/tdf     \
 	    PREFIX=${OBJ_RPREFIX}         \
 	    TCC=${OBJ_RPREFIX}/bin/tcc    \
 	    TPL=${OBJ_RPREFIX}/bin/tpl    \
