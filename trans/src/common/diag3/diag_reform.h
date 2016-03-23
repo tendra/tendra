@@ -42,7 +42,7 @@ struct diag3_driver {
 	void (*diag_val_end  )(diag_descriptor *d);
 };
 
-extern struct diag3_driver *diag3_driver;
+extern const struct diag3_driver *diag3_driver;
 
 #endif
 

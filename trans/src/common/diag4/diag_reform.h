@@ -31,7 +31,7 @@ struct diag4_driver {
 	void (*stab_types)(void);
 };
 
-extern struct diag4_driver *diag4_driver;
+extern const struct diag4_driver *diag4_driver;
 
 #endif
 
