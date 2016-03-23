@@ -29,7 +29,7 @@
     (and introduces the dependency on POSIX) when building for real.
 */
 
-#if _POSIX_SOURCE
+#if defined(_POSIX_SOURCE)
 
 #include <sys/types.h>
 #include <sys/stat.h>

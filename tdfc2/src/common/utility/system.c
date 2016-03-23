@@ -15,7 +15,7 @@
 
 #include <stdio.h>
 
-#if _POSIX_SOURCE
+#if defined(_POSIX_SOURCE)
 #include <sys/types.h>
 #include <sys/stat.h>
 #endif
@@ -183,7 +183,7 @@ find_time(const char *fmt)
 STAT_TYPE *
 stat_func(char *nm, STAT_TYPE *fs)
 {
-#if _POSIX_SOURCE
+#if defined(_POSIX_SOURCE)
 	int s = stat(nm, fs);
 	if (s != -1) {
 		return fs;
@@ -240,7 +240,7 @@ find_cwd(void)
 {
 	static const char *crt_directory = NULL;
 	if (crt_directory == NULL) {
-#if _POSIX_SOURCE
+#if defined(_POSIX_SOURCE)
 		char buff[1024];
 		char *nm = getcwd(buff, 1024);
 		if (nm) {
