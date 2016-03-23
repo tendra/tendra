@@ -58,10 +58,10 @@ bistream_is_open(BIStreamT *bistream)
 	return bistream->name != NULL;
 }
 
-unsigned
+size_t
 bistream_read_chars(BIStreamT *bistream, size_t length, char *chars)
 {
-	unsigned bytes_read = (unsigned) fread(chars, sizeof(char),
+	size_t bytes_read = fread(chars, sizeof(char),
 		length, bistream->file);
 
 	if ((bytes_read == 0) && (ferror(bistream->file))) {
@@ -75,10 +75,10 @@ bistream_read_chars(BIStreamT *bistream, size_t length, char *chars)
 	return bytes_read;
 }
 
-unsigned
+size_t
 bistream_read_bytes(BIStreamT *bistream, size_t length, ByteT *bytes)
 {
-    unsigned bytes_read = (unsigned)fread(bytes, sizeof(ByteT),
+    size_t bytes_read = fread(bytes, sizeof(ByteT),
 					   length, bistream->file);
 
     if ((bytes_read == 0) && (ferror(bistream->file))) {
@@ -112,7 +112,7 @@ bistream_read_byte(BIStreamT *bistream, ByteT *byte_ref)
 	return TRUE;
 }
 
-unsigned
+size_t
 bistream_byte(BIStreamT *bistream)
 {
 	return bistream->bytes;

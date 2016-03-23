@@ -59,7 +59,7 @@ bostream_is_open(BOStreamT *bostream)
 void
 bostream_write_chars(BOStreamT *bostream, size_t length, const char *chars)
 {
-	unsigned bytes_read = (unsigned) fwrite(chars, sizeof(char),
+	size_t bytes_read = fwrite(chars, sizeof(char),
 		length, bostream->file);
 
 	if (bytes_read != length && ferror(bostream->file)) {
@@ -73,7 +73,7 @@ bostream_write_chars(BOStreamT *bostream, size_t length, const char *chars)
 void
 bostream_write_bytes(BOStreamT *bostream, size_t length, const ByteT *bytes)
 {
-	unsigned bytes_read = (unsigned) fwrite(bytes, sizeof(ByteT),
+	size_t bytes_read = fwrite(bytes, sizeof(ByteT),
 		length, bostream->file);
 
 	if (bytes_read != length && ferror(bostream->file)) {
