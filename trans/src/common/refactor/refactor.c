@@ -4575,7 +4575,7 @@ refactor(exp e, exp scope)
 		arg2 = bro(arg1);
 
 		if (flpt_always_comparable ||
-		    (sh(arg1)->tag < shrealhd || sh(arg1)->tag) > doublehd)
+		    (sh(arg1)->tag < shrealhd || sh(arg1)->tag > doublehd))
 		{
 			switch (nt) {
 			case  7: nt = f_greater_than;          break;
