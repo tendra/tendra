@@ -686,8 +686,10 @@ diag_proc_begin(diag_descriptor *d, int global, int cname, char *pname)
 }
 
 static void
-diag_proc_end(void)
+diag_proc_end(diag_descriptor *d)
 {
+	UNUSED(d);
+
 	if (del_stab_start != NULL) {
 		struct del_stab_array *this_a = del_stab_start;
 		int this_i = 0;
