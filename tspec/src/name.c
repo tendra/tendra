@@ -11,6 +11,7 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdio.h>
 
 #include <shared/bool.h>
 #include <shared/check.h>
