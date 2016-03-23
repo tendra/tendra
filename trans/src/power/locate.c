@@ -38,6 +38,7 @@
 #include "frames.h"
 #include "regexps.h"
 #include "guard.h"
+#include "getregs.h"
 
 /*
  * For non globals, boff encodes things in the following way:

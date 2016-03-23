@@ -64,6 +64,12 @@
 #include "error.h"
 #include "locate.h"
 #include "guard.h"
+#include "getregs.h"
+#include "labels.h"
+#include "code_here.h"
+#include "regexps.h"
+#include "move.h"
+#include "regable.h"
 
 #ifndef NDEBUG
 #include "pp.h"

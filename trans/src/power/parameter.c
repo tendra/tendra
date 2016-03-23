@@ -40,6 +40,8 @@
 #include "stack.h"
 #include "scan.h"
 #include "locate.h"
+#include "move.h"
+#include "regexps.h"
 
 bool suspected_varargs = 0;
 int saved_varargs_register=0;

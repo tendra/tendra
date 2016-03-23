@@ -130,6 +130,9 @@
 #include "dynamic_init.h"
 #include "stack.h"
 #include "locate.h"
+#include "labels.h"
+#include "getregs.h"
+#include "code_here.h"
 
 int maxfix_tregs;		/* The number of t regs allocatable */
 dec **main_globals;		/* The globals decs array */

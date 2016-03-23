@@ -18,6 +18,8 @@
 #include "inst_fmt.h"
 #include "reg.h"
 #include "mem_copy.h"
+#include "labels.h"
+#include "getregs.h"
 
 
 #define MAX_BYTE_COPY 80

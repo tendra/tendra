@@ -39,6 +39,10 @@
 #include "instruct.h"
 #include "error.h"
 #include "guard.h"
+#include "getregs.h"
+#include "regexps.h"
+#include "move.h"
+#include "labels.h"
 
 /* Labels to call the error handler */
 /* NOTE there are three one for each ERROR_CODE */

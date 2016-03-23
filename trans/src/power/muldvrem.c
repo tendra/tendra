@@ -32,6 +32,11 @@
 #include "translate.h"
 #include "error.h"
 #include "guard.h"
+#include "code_here.h"
+#include "getregs.h"
+#include "move.h"
+#include "labels.h"
+#include "ops.h"
 
 #define BITS_PER_WORD		32
 

@@ -49,6 +49,12 @@
 #include "scan.h"
 #include "locate.h"
 #include "guard.h"
+#include "getregs.h"
+#include "labels.h"
+#include "regexps.h"
+#include "move.h"
+#include "code_here.h"
+#include "regable.h"
 
 static space do_callers(int, exp, space);
 static void do_function_call(exp, space);

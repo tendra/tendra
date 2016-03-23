@@ -32,6 +32,8 @@
 #include "code_here.h"
 #include "regexps.h"
 #include "guard.h"
+#include "labels.h"
+#include "move.h"
 
 /*
  * regofval returns R_NO_REG unlesss e is a name tag which is obtaining

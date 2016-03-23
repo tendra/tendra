@@ -41,6 +41,9 @@
 #include "proc.h"			/* for mem_temp() */
 #include "make_code.h"
 #include "move.h"
+#include "getregs.h"
+#include "labels.h"
+#include "regexps.h"
 
 
 #define	MAX_STEPS_INLINE_MOVE	12	/* 24 instructions */

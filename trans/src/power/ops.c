@@ -36,6 +36,9 @@
 #include "error.h"
 #include "locate.h"
 #include "guard.h"
+#include "getregs.h"
+#include "move.h"
+#include "code_here.h"
 
 static void
 tidyshort(int r, exp e)

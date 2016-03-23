@@ -45,6 +45,7 @@
 #include "bits.h"
 #include "procrec.h"
 #include "regalloc.h"
+#include "regable.h"
 #include "stack.h"
 
 static spacereq zerospace;
