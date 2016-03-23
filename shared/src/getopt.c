@@ -13,7 +13,7 @@
 #include <shared/getopt.h>
 #include <shared/string.h>
 
-#define ERR(szz, czz) if (opterr) { fprintf(stderr, "%s%s%c\n", argv[0], szz, czz); }
+#define ERR(szz, czz) if (opterr) { (void) fprintf(stderr, "%s%s%c\n", argv[0], szz, czz); }
 
 int opterr = 1;
 int optind = 1;
