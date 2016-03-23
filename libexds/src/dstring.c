@@ -41,7 +41,7 @@ nstring_init(NStringT *nstring)
 }
 
 void
-nstring_init_length(NStringT *nstring, unsigned length)
+nstring_init_length(NStringT *nstring, size_t length)
 {
 	nstring->length   = length;
 	nstring->contents = ALLOCATE_VECTOR(char, length);
@@ -57,7 +57,7 @@ nstring_assign(NStringT *to, NStringT *from)
 void
 nstring_copy_cstring(NStringT *nstring, const char *cstring)
 {
-	unsigned length = strlen(cstring);
+	size_t length = strlen(cstring);
 
 	if (length > 0) {
 		nstring->length   = length;
@@ -72,7 +72,7 @@ nstring_copy_cstring(NStringT *nstring, const char *cstring)
 void
 nstring_insert_cstring(NStringT *nstring, const char *cstring)
 {
-	unsigned length = nstring_length(nstring);
+	size_t length = nstring_length(nstring);
 
 	if (length > 0) {
 		IGNORE memcpy(nstring->contents, cstring, (size_t) length);
@@ -82,7 +82,7 @@ nstring_insert_cstring(NStringT *nstring, const char *cstring)
 void
 nstring_copy(NStringT *to, NStringT *from)
 {
-	unsigned length = nstring_length(from);
+	size_t length = nstring_length(from);
 
 	if (length > 0) {
 		to->length   = length;
@@ -97,7 +97,7 @@ nstring_copy(NStringT *to, NStringT *from)
 char *
 nstring_to_cstring(NStringT *nstring)
 {
-	unsigned length = nstring_length(nstring);
+	size_t length = nstring_length(nstring);
 	char *tmp       = ALLOCATE_VECTOR(char, length + 1);
 
 	if (length > 0) {
@@ -110,9 +110,9 @@ nstring_to_cstring(NStringT *nstring)
 unsigned
 nstring_hash_value(NStringT *nstring)
 {
-	unsigned value        = 0;
-	char *tmp_contents    = (nstring->contents);
-	unsigned tmp_length   = nstring_length(nstring);
+	unsigned value     = 0;
+	char *tmp_contents = (nstring->contents);
+	size_t tmp_length  = nstring_length(nstring);
 
 	while (tmp_length--) {
 		value += (unsigned) *tmp_contents++;
@@ -121,7 +121,7 @@ nstring_hash_value(NStringT *nstring)
 	return value;
 }
 
-unsigned
+size_t
 nstring_length(NStringT *nstring)
 {
 	return nstring->length;
@@ -136,8 +136,8 @@ nstring_contents(NStringT *nstring)
 CmpT
 nstring_compare(NStringT *nstring1, NStringT *nstring2)
 {
-	unsigned length = nstring_length(nstring1);
-	int      status;
+	size_t length = nstring_length(nstring1);
+	int    status;
 
 	if (length > nstring_length(nstring2)) {
 		length = nstring_length(nstring2);
@@ -160,7 +160,7 @@ nstring_compare(NStringT *nstring1, NStringT *nstring2)
 BoolT
 nstring_equal(NStringT *nstring1, NStringT *nstring2)
 {
-	unsigned length = nstring_length(nstring1);
+	size_t length = nstring_length(nstring1);
 
 	return length == nstring_length(nstring2) &&
 		memcmp(nstring1->contents, nstring2->contents, (size_t) length) == 0;
@@ -169,7 +169,7 @@ nstring_equal(NStringT *nstring1, NStringT *nstring2)
 BoolT
 nstring_ci_equal(NStringT *nstring1, NStringT *nstring2)
 {
-	unsigned length = nstring_length(nstring1);
+	size_t length = nstring_length(nstring1);
 
 	if (length == nstring_length(nstring2)) {
 		char *tmp1 = nstring1->contents;
@@ -192,8 +192,8 @@ nstring_ci_equal(NStringT *nstring1, NStringT *nstring2)
 BoolT
 nstring_contains(NStringT *nstring, char c)
 {
-	char *contents    = nstring_contents(nstring);
-	unsigned length   = nstring_length(nstring);
+	char *contents = nstring_contents(nstring);
+	size_t length  = nstring_length(nstring);
 
 	return memchr(contents, c, (size_t) length) != NULL;
 }
@@ -203,7 +203,7 @@ nstring_is_prefix(NStringT *nstring1, NStringT *nstring2)
 {
 	char *contents1 = nstring_contents(nstring1);
 	char *contents2 = nstring_contents(nstring2);
-	unsigned length = nstring_length(nstring2);
+	size_t length   = nstring_length(nstring2);
 
 	return length < nstring_length(nstring1) &&
 		memcmp(contents1, contents2, (size_t) length) == 0;
@@ -218,7 +218,7 @@ nstring_destroy(NStringT *nstring)
 void
 write_nstring(OStreamT *ostream, NStringT *nstring)
 {
-	unsigned length = nstring_length(nstring);
+	size_t length = nstring_length(nstring);
 
 	if (length > 0) {
 		write_chars(ostream, nstring->contents, length);
@@ -238,7 +238,7 @@ dstring_init(DStringT *dstring)
 	dstring->contents   = ALLOCATE_VECTOR(char, dstring->max_length);
 }
 
-unsigned
+size_t
 dstring_length(DStringT *dstring)
 {
 	return dstring->length;
@@ -272,8 +272,8 @@ dstring_append_char(DStringT *dstring, char c)
 void
 dstring_append_cstring(DStringT *dstring, const char *cstring)
 {
-	unsigned clength = strlen(cstring);
-	unsigned length  = clength + dstring->length;
+	size_t clength = strlen(cstring);
+	size_t length  = clength + dstring->length;
 
 	if (length > dstring->max_length) {
 		char *tmp;
@@ -296,8 +296,8 @@ dstring_append_cstring(DStringT *dstring, const char *cstring)
 void
 dstring_append_nstring(DStringT *dstring, NStringT *nstring)
 {
-	unsigned nlength = nstring_length(nstring);
-	unsigned length  = nlength + (dstring->length);
+	size_t nlength = nstring_length(nstring);
+	size_t length  = nlength + (dstring->length);
 
 	if (length > dstring->max_length) {
 		char * tmp;

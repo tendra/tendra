@@ -248,7 +248,7 @@ write_cstring(OStreamT *ostream, const char *cstring)
 }
 
 void
-write_chars(OStreamT *ostream, const char *chars, unsigned length)
+write_chars(OStreamT *ostream, const char *chars, size_t length)
 {
 	while (length--) {
 		write_char(ostream, *chars++);
@@ -256,7 +256,7 @@ write_chars(OStreamT *ostream, const char *chars, unsigned length)
 }
 
 void
-write_escaped_chars(OStreamT *ostream, const char *chars, unsigned length)
+write_escaped_chars(OStreamT *ostream, const char *chars, size_t length)
 {
 	while (length--) {
 		write_escaped_char(ostream, *chars++);

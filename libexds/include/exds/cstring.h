@@ -45,7 +45,7 @@ cstring_duplicate(const char *cstring);
  * length, then only the cstring is used.
  */
 char *
-cstring_duplicate_prefix(const char *cstring, unsigned prefix);
+cstring_duplicate_prefix(const char *cstring, size_t prefix);
 
 /*
  * This function returns the hash value associated with the specified

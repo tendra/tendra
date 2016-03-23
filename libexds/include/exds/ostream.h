@@ -202,7 +202,7 @@ write_cstring(OStreamT *, const char *);
  * length) to the specified ostream.
  */
 void
-write_chars(OStreamT *, const char *, unsigned);
+write_chars(OStreamT *, const char *, size_t);
 
 /*
  * Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
@@ -212,7 +212,7 @@ write_chars(OStreamT *, const char *, unsigned);
  * function, in that it will `pretty-print' non-printing characters.
  */
 void
-write_escaped_chars(OStreamT *, const char *, unsigned);
+write_escaped_chars(OStreamT *, const char *, size_t);
 
 /*
  * Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error

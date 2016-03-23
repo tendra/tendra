@@ -39,7 +39,7 @@ cstring_duplicate(const char *cstring)
 }
 
 char *
-cstring_duplicate_prefix(const char *cstring, unsigned prefix)
+cstring_duplicate_prefix(const char *cstring, size_t prefix)
 {
 	size_t length = strlen(cstring);
 
@@ -51,7 +51,7 @@ cstring_duplicate_prefix(const char *cstring, unsigned prefix)
 	} else {
 		char *tmp = ALLOCATE_VECTOR(char, prefix + 1);
 
-		IGNORE memcpy(tmp, cstring, (size_t) prefix);
+		IGNORE memcpy(tmp, cstring, prefix);
 		tmp[prefix] = '\0';
 		return tmp;
 	}

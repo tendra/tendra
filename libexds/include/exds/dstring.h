@@ -35,7 +35,7 @@
  */
 typedef struct NStringT NStringT;
 struct NStringT {
-	unsigned length;
+	size_t length;
 	char *contents;
 };
 
@@ -46,8 +46,8 @@ struct NStringT {
  */
 typedef struct DStringT DStringT;
 struct DStringT {
-	unsigned length;
-	unsigned max_length;
+	size_t length;
+	size_t max_length;
 	char *contents;
 };
 
@@ -64,7 +64,7 @@ nstring_init(NStringT *);
  * specified length.  The initial contents are unspecified.
  */
 void
-nstring_init_length(NStringT *, unsigned);
+nstring_init_length(NStringT *, size_t);
 
 /*
  * This function assigns the from nstring to the to nstring.  The from nstring
@@ -120,7 +120,7 @@ nstring_hash_value(NStringT *);
 /*
  * This function returns the length of the specified nstring.
  */
-unsigned
+size_t
 nstring_length(NStringT *);
 
 /*
@@ -188,7 +188,7 @@ write_nstring(OStreamT *, NStringT *);
 void
 dstring_init(DStringT *);
 
-unsigned
+size_t
 dstring_length(DStringT *);
 
 /*
