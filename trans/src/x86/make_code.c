@@ -2593,7 +2593,8 @@ void
 make_code(where dest, ash stack, exp e)
 {
 #ifndef TDF_DIAG4
-	return make_code1(dest, stack, e);
+	make_code1(dest, stack, e);
+	return;
 #else
 	dg_info d;
 	dg_info was_current = current_dg_info;
