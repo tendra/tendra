@@ -11,7 +11,7 @@ PARTS+=	src/shared
 .include <tendra.partial.mk>
 
 
-TCCOPTS=	-Yposix -Xs
+TCCOPTS=	-Yposix -Xp
 
 CCOPTS+=                                   \
 	-DPREFIX='"${PREFIX}"'                 \
