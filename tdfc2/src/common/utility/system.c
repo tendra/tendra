@@ -31,6 +31,10 @@
 #include <utility/error.h>
 #include <utility/ustring.h>
 #include <utility/xalloc.h>
+#include <utility/option.h>
+#include <utility/buffer.h>
+
+#include <parse/file.h>
 
 
 int text_mode = 0;
