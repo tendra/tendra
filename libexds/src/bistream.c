@@ -59,10 +59,10 @@ bistream_is_open(BIStreamT *bistream)
 }
 
 unsigned
-bistream_read_chars(BIStreamT *bistream, unsigned length, char *chars)
+bistream_read_chars(BIStreamT *bistream, size_t length, char *chars)
 {
 	unsigned bytes_read = (unsigned) fread(chars, sizeof(char),
-		(size_t) length, bistream->file);
+		length, bistream->file);
 
 	if ((bytes_read == 0) && (ferror(bistream->file))) {
 		char *name = cstring_duplicate(bistream->name);
@@ -76,10 +76,10 @@ bistream_read_chars(BIStreamT *bistream, unsigned length, char *chars)
 }
 
 unsigned
-bistream_read_bytes(BIStreamT *bistream, unsigned  length, ByteT *bytes)
+bistream_read_bytes(BIStreamT *bistream, size_t length, ByteT *bytes)
 {
     unsigned bytes_read = (unsigned)fread(bytes, sizeof(ByteT),
-					   (size_t)length, bistream->file);
+					   length, bistream->file);
 
     if ((bytes_read == 0) && (ferror(bistream->file))) {
 		char * name = cstring_duplicate(bistream->name);

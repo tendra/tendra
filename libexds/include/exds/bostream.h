@@ -81,7 +81,7 @@ bostream_is_open(BOStreamT *);
  * specified bostream.
  */
 void
-bostream_write_chars(BOStreamT *, unsigned, const char *);
+bostream_write_chars(BOStreamT *, size_t, const char *);
 
 /*
  * Exceptions:	XX_bostream_write_error
@@ -90,7 +90,7 @@ bostream_write_chars(BOStreamT *, unsigned, const char *);
  * bostream.
  */
 void
-bostream_write_bytes(BOStreamT *, unsigned, const ByteT *);
+bostream_write_bytes(BOStreamT *, size_t, const ByteT *);
 
 /*
  * Exceptions:	XX_bostream_write_error

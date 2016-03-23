@@ -35,7 +35,7 @@
 typedef struct BIStreamT BIStreamT;
 struct BIStreamT {
 	FILE *file;
-	unsigned bytes;
+	size_t bytes;
 	const char *name;
 };
 
@@ -79,8 +79,8 @@ bistream_is_open(BIStreamT *);
  * enough to hold at least length characters.  The function returns the number
  * of characters actually read.
  */
-unsigned
-bistream_read_chars(BIStreamT *, unsigned, char *);
+size_t
+bistream_read_chars(BIStreamT *, size_t, char *);
 
 /*
  * Exceptions:	XX_bistream_read_error
@@ -90,8 +90,8 @@ bistream_read_chars(BIStreamT *, unsigned, char *);
  * hold at least length bytes.  The function returns the number of bytes
  * actually read.
  */
-unsigned
-bistream_read_bytes(BIStreamT *, unsigned, ByteT *);
+size_t
+bistream_read_bytes(BIStreamT *, size_t, ByteT *);
 
 /*
  * Exceptions:	XX_bistream_read_error
@@ -108,7 +108,7 @@ bistream_read_byte(BIStreamT *, ByteT *);
  * This function returns the number of bytes that have been read from the
  * specified bistream.
  */
-unsigned
+size_t
 bistream_byte(BIStreamT *);
 
 /*

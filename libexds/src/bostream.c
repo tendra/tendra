@@ -57,10 +57,10 @@ bostream_is_open(BOStreamT *bostream)
 }
 
 void
-bostream_write_chars(BOStreamT *bostream, unsigned  length, const char *chars)
+bostream_write_chars(BOStreamT *bostream, size_t length, const char *chars)
 {
 	unsigned bytes_read = (unsigned) fwrite(chars, sizeof(char),
-		(size_t) length, bostream->file);
+		length, bostream->file);
 
 	if (bytes_read != length && ferror(bostream->file)) {
 		char *name = cstring_duplicate(bostream->name);
@@ -71,10 +71,10 @@ bostream_write_chars(BOStreamT *bostream, unsigned  length, const char *chars)
 }
 
 void
-bostream_write_bytes(BOStreamT *bostream, unsigned length, const ByteT *bytes)
+bostream_write_bytes(BOStreamT *bostream, size_t length, const ByteT *bytes)
 {
 	unsigned bytes_read = (unsigned) fwrite(bytes, sizeof(ByteT),
-		(size_t) length, bostream->file);
+		length, bostream->file);
 
 	if (bytes_read != length && ferror(bostream->file)) {
 		char *name = cstring_duplicate(bostream->name);
