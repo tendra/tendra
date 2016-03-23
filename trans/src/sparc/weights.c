@@ -227,8 +227,6 @@ add_wlist (double scale, exp re)
 static weights
 weightsv(double scale, exp e)
 {
-	int n;
-
 tailrecurse:
 
 	switch (e->tag) {
@@ -247,13 +245,16 @@ tailrecurse:
 	}
 
 	case ident_tag: {
+		weights wdef, wbody;
+		int noe;
+
 		if (son(e) == NULL) {
 			return zeroweights;
 		}
 
-		weights wdef;
-		weights wbody;
-		int noe = no(e); /* set by scan */
+		wdef;
+		wbody;
+		noe = no(e); /* set by scan */
 
 		/* weights for initialisation of dec */
 		if (son(e)->tag == clear_tag || props(e) & defer_bit) {
