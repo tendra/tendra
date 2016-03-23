@@ -156,7 +156,7 @@ unit_entry_write_tld_unit(UnitEntryT * entry,				   ShapeTableT *shapes ,
     tdf_write_int(writer,(unsigned)0);
     debug_info_w_start_maps((unsigned)0);
     tdf_write_int(writer,(unsigned)0);
-    shape_table_iter(shapes, shape_entry_compute_tld_size,(void *) &size);
+    shape_table_iter(shapes, shape_entry_compute_tld_size, &size);
     size /= 2;
     debug_info_w_unit_body(size);
     tdf_write_int(writer, (unsigned) size);

@@ -286,7 +286,7 @@ name_entry_write_name(NameEntryT *entry,			       void *   gclosure)
 void
 name_entry_compute_tld_size(NameEntryT *entry,				     void *   gclosure)
 {
-    unsigned *size_ref = (unsigned *)gclosure;
+    size_t *size_ref = gclosure;
 
     if (!name_entry_is_hidden(entry)) {
 	unsigned use = name_entry_get_use(entry);
