@@ -597,7 +597,7 @@ static void print_spaces(int n)
 void
 exp_show(exp e, int depth, int depth_of_recursion, int flag)
 {
-	char *tagname;
+	const char *tagname;
 
 	if (e == NULL || depth == depth_of_recursion) {
 		return;
