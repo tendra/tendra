@@ -15,7 +15,18 @@
 #include <shared/error.h>
 #include <shared/string.h>
 
+#include <reader/exp.h>
+
 #include <main/flags.h>
+
+#ifdef TDF_DIAG3
+#include <diag3/dg_first.h>
+#include <diag3/diag_reform.h>
+#endif
+#ifdef TDF_DIAG4
+#include <diag4/dg_first.h>
+#include <diag4/diag_reform.h>
+#endif
 
 bool redo_structfns        = false; /* reorganise proc calls delivering structures */
 bool redo_structparams     = false; /* reorganise proc calls with struct parameters */
