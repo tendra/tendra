@@ -114,7 +114,7 @@ flags_has(enum has o, const char *s)
 
 		default:
 			error(ERR_WARN, "Unrecognised has flag %c. "
-				"Valid flags are: [orntmcdsiq] and [a] for all.",
+				"Valid flags are: [orntmcdsiql] and [a] for all.",
 				*p);
 			continue;
 		}
@@ -243,7 +243,7 @@ flags_builtin(enum builtin o, const char *s)
 
 		default:
 			error(ERR_WARN, "Unrecognised builtin flag %c. "
-				"Valid flags are: [sjcglmt] and [a] for all.",
+				"Valid flags are: [jpvcglmt] and [a] for all.",
 				*p);
 			continue;
 		}
