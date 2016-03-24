@@ -10,7 +10,7 @@
  * has the typical implementation which gives a non-constant expression.
  */
 
-#if defined(_FREEBSD10_1)
+#if defined(_FREEBSD9_2) || defined(_FREEBSD10_1)
 
 #undef offsetof
 #include <proxy/include/offsetof.h>
