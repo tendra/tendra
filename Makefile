@@ -40,7 +40,7 @@ TARGETFLAGS+= BLDARCH=${TARGETARCH}
 # XXX: assumes GNU ld
 REBUILDFLAGS!=                            \
     case "${TARGETARCH}" in               \
-        x32_64) echo LDFLAGS=-melf_i386_fbsd;; \
+        x32_64) echo LDFLAGS=-melf_i386;; \
         *)      echo '';;                 \
     esac;
 
