@@ -96,8 +96,8 @@ Notes on x86_64
 
 There is currently no code generation for x86_64 assembly. So you can't
 produce native x86_64 executables. However, for systems with multilib
-support, you can build TenDRA such that it will generate x86_32
-executables on an x86_64 system:
+support (FreeBSD, Linux), you can build TenDRA such that it will
+generate x86_32 executables on an x86_64 system:
 
  % make TARGETARCH=x32_64
  % ./obj.iona-bootstrap/bin/tcc hello.c
@@ -113,6 +113,8 @@ which gives you this:
     dynamically linked (uses shared libs), ...
  %
 
+When building for x32_64, you'll need x86_32-compatible libc headers.
+For Debian, that's packaged as libc6-dev-i386.
 
 Good luck,
 
