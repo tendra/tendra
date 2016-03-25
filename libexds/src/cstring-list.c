@@ -23,6 +23,7 @@
 #include <string.h>
 
 #include <shared/bool.h>
+#include <shared/check.h>
 #include <shared/string.h>
 
 #include <exds/common.h>

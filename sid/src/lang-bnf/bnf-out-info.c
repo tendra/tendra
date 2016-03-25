@@ -7,6 +7,7 @@
  */
 
 #include <shared/bool.h>
+#include <shared/check.h>
 
 #include <exds/ostream.h>
 

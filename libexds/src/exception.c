@@ -41,7 +41,7 @@ exception_corrupt_handler(void (*handler)(const char *file, unsigned line))
 	corrupt_handler = handler;
 }
 
-NoReturnT
+NORETURN
 X__exception_throw(void)
 {
 	static bool failing = false;

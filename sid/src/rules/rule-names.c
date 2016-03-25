@@ -15,6 +15,7 @@
  */
 
 #include <shared/bool.h>
+#include <shared/check.h>
 
 #include "../adt/rule.h"
 #include "../adt/action.h"

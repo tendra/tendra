@@ -16,6 +16,7 @@
 #include <assert.h>
 
 #include <shared/bool.h>
+#include <shared/check.h>
 
 #include "name.h"
 

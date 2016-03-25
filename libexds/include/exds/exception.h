@@ -116,7 +116,7 @@ const char *exception_name(ExceptionT *);
 
 extern HandlerT *X__exception_handler_stack;
 extern ThrowDataT X__exception_throw_data;
-NoReturnT X__exception_throw(void);
+NORETURN X__exception_throw(void);
 
 /*
  * This macro is used to initialise an exception, e.g.:

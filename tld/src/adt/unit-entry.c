@@ -15,6 +15,7 @@
  */
 
 #include <shared/bool.h>
+#include <shared/check.h>
 
 #include "unit-entry.h"
 #include "shape-entry.h"

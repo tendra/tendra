@@ -11,6 +11,7 @@
  */
 
 #include <shared/bool.h>
+#include <shared/check.h>
 
 #include "persistent.h"
 

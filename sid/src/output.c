@@ -16,6 +16,7 @@
 #include <stddef.h>
 
 #include <shared/bool.h>
+#include <shared/check.h>
 
 #include <exds/common.h>
 #include <exds/exception.h>

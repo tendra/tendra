@@ -19,6 +19,7 @@
 #include <stddef.h>
 
 #include <shared/bool.h>
+#include <shared/check.h>
 
 #include "c-out-types.h"
 #include "../adt/action.h"

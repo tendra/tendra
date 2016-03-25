@@ -14,8 +14,8 @@
 #include "c-lexi_lexer.h"
 
 
-
 	#include <shared/bool.h>
+	#include <shared/check.h>
 	#include <shared/error.h>
 
 	#include "c-lexer.h"

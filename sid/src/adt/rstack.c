@@ -17,6 +17,7 @@
 #include <assert.h>
 
 #include <shared/bool.h>
+#include <shared/check.h>
 
 #include "rstack.h"
 #include "action.h"

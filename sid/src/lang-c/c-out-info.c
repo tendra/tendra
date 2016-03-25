@@ -14,6 +14,7 @@
  */
 
 #include <shared/bool.h>
+#include <shared/check.h>
 
 #include "c-out-info.h"
 #include "c-code.h"

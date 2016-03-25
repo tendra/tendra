@@ -14,6 +14,7 @@
  */
 
 #include <shared/bool.h>
+#include <shared/check.h>
 
 #include "unit-table.h"
 #include "solve-cycles.h"
