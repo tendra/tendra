@@ -130,7 +130,7 @@ bitvec_is_set(BitVecT *bitvec, unsigned bit)
 {
     assert(bit < bitvec_valid_bits);
 	/* XXX check cast and parenthesis wrt bitvec_set() */
-    return bitvec->bits[bit / NUM_BITS] & ((ByteT) 1 << (bit % NUM_BITS));
+    return (bool) (bitvec->bits[bit / NUM_BITS] & ((ByteT) 1 << (bit % NUM_BITS)));
 }
 
 void
