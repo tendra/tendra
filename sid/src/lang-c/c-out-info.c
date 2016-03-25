@@ -13,6 +13,8 @@
  * This file implements the SID output information routines.
  */
 
+#include <shared/bool.h>
+
 #include "c-out-info.h"
 #include "c-code.h"
 
@@ -32,13 +34,13 @@ c_out_info_init(COutputInfoT *info, OutputInfoT *out_info)
 	nstring_copy_cstring(c_out_info_label_prefix(info), "ZL");
 	nstring_copy_cstring(c_out_info_terminal_prefix(info), "ZB");
 	nstring_copy_cstring(c_out_info_persistents_prefix(info), "ZP");
-	info->prototypes        = FALSE;
-	info->numeric_ids       = FALSE;
-	info->numeric_terminals = TRUE;
-	info->casts             = FALSE;
-	info->unreachable       = FALSE;
-	info->lines             = TRUE;
-	info->terminals         = TRUE;
+	info->prototypes        = false;
+	info->numeric_ids       = false;
+	info->numeric_terminals = true;
+	info->casts             = false;
+	info->unreachable       = false;
+	info->lines             = true;
+	info->terminals         = true;
 	info->split             = 0;
 }
 
@@ -174,86 +176,86 @@ c_out_info_persistents(COutputInfoT *info)
 	return &info->persistents;
 }
 
-BoolT
+bool
 c_out_info_get_prototypes(COutputInfoT *info)
 {
 	return info->prototypes;
 }
 
 void
-c_out_info_set_prototypes(COutputInfoT *info, BoolT prototypes)
+c_out_info_set_prototypes(COutputInfoT *info, bool prototypes)
 {
 	info->prototypes = prototypes;
 }
 
-BoolT
+bool
 c_out_info_get_numeric_ids(COutputInfoT *info)
 {
 	return info->numeric_ids;
 }
 
 void
-c_out_info_set_numeric_ids(COutputInfoT *info, BoolT numeric_ids)
+c_out_info_set_numeric_ids(COutputInfoT *info, bool numeric_ids)
 {
 	info->numeric_ids = numeric_ids;
 }
 
-BoolT
+bool
 c_out_info_get_numeric_terminals(COutputInfoT *info)
 {
 	return info->numeric_terminals;
 }
 
 void
-c_out_info_set_numeric_terminals(COutputInfoT *info, BoolT numeric_terminals)
+c_out_info_set_numeric_terminals(COutputInfoT *info, bool numeric_terminals)
 {
 	info->numeric_terminals = numeric_terminals;
 }
 
-BoolT
+bool
 c_out_info_get_casts(COutputInfoT *info)
 {
 	return info->casts;
 }
 
 void
-c_out_info_set_casts(COutputInfoT *info, BoolT casts)
+c_out_info_set_casts(COutputInfoT *info, bool casts)
 {
 	info->casts = casts;
 }
 
-BoolT
+bool
 c_out_info_get_unreachable(COutputInfoT *info)
 {
 	return info->unreachable;
 }
 
 void
-c_out_info_set_unreachable(COutputInfoT *info, BoolT unreachable)
+c_out_info_set_unreachable(COutputInfoT *info, bool unreachable)
 {
 	info->unreachable = unreachable;
 }
 
-BoolT
+bool
 c_out_info_get_lines(COutputInfoT *info)
 {
 	return info->lines;
 }
 
 void
-c_out_info_set_lines(COutputInfoT *info, BoolT lines)
+c_out_info_set_lines(COutputInfoT *info, bool lines)
 {
 	info->lines = lines;
 }
 
-BoolT
+bool
 c_out_info_get_terminals(COutputInfoT *info)
 {
 	return info->terminals;
 }
 
 void
-c_out_info_set_terminals(COutputInfoT *info, BoolT lines)
+c_out_info_set_terminals(COutputInfoT *info, bool lines)
 {
 	info->terminals = lines;
 }

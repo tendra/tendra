@@ -13,11 +13,12 @@
  * This file implements the action manipulation routines.
  */
 
+#include <shared/bool.h>
+#include <shared/check.h>
+
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/dalloc.h>
-
-#include <shared/check.h>
 
 #include "action.h"
 #include "basic.h"
@@ -26,7 +27,7 @@
 #include "type.h"
 
 ActionT *
-action_create(BoolT ignored)
+action_create(bool ignored)
 {
 	ActionT *action = ALLOCATE(ActionT);
 
@@ -63,14 +64,14 @@ action_set_code(ActionT *action, void *code)
 	action->code = code;
 }
 
-BoolT
+bool
 action_get_ignored(ActionT *action)
 {
 	return action->ignored;
 }
 
 void
-action_iter_for_table(ActionT *action, BoolT full,
+action_iter_for_table(ActionT *action, bool full,
 	void (*proc) WEAK (EntryT *, void *), void *closure)
 {
 	if (!full) {

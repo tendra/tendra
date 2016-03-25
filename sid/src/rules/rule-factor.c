@@ -108,6 +108,7 @@
 
 #include <assert.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 
@@ -167,8 +168,8 @@ static unsigned
 rule_overlaps(ItemT *initial_item, BitVecT *first_set, EntryListT *predicate_first)
 {
 	unsigned  priority    = 0;
-	BoolT     see_through = TRUE;
-	BoolT     no_action   = TRUE;
+	bool     see_through = true;
+	bool     no_action   = true;
 	ItemT    *item;
 
 	for (item = initial_item; see_through && item != NULL;
@@ -177,12 +178,12 @@ rule_overlaps(ItemT *initial_item, BitVecT *first_set, EntryListT *predicate_fir
 		case ET_PREDICATE:
 			assert(item == initial_item);
 			entry_list_add_if_missing(predicate_first, item_entry(item));
-			see_through = FALSE;
+			see_through = false;
 			break;
 
 		case ET_RENAME:
 		case ET_ACTION:
-			no_action = FALSE;
+			no_action = false;
 			break;
 
 		case ET_RULE: {
@@ -203,7 +204,7 @@ rule_overlaps(ItemT *initial_item, BitVecT *first_set, EntryListT *predicate_fir
 		case ET_BASIC: {
 				BasicT *basic = entry_get_basic(item_entry(item));
 
-				see_through = FALSE;
+				see_through = false;
 				bitvec_set(first_set, basic_terminal(basic));
 			}
 			break;
@@ -351,7 +352,7 @@ rule_expand(RuleT *rule, FactorClosureT *closure, AltGroupT *group,
 	}
 }
 
-static BoolT
+static bool
 rule_expand_item_clashes(RuleT *rule, FactorClosureT *closure,
 	AltGroupListT *groups)
 {
@@ -374,7 +375,7 @@ rule_expand_item_clashes(RuleT *rule, FactorClosureT *closure,
 		if (!entry_list_is_empty(rule_predicate_first(item_rule))) {
 			rule_expand(rule, closure, group, groups);
 
-			return TRUE;
+			return true;
 		} else if (rule_is_see_through(item_rule)) {
 			AltT       *alt = first_alt;
 			AltT       *end = NULL;
@@ -396,7 +397,7 @@ rule_expand_item_clashes(RuleT *rule, FactorClosureT *closure,
 					entry_list_destroy(&predicate_first);
 					rule_expand(rule, closure, group, groups);
 
-					return TRUE;
+					return true;
 				}
 
 				entry_list_destroy(&predicate_first);
@@ -412,12 +413,12 @@ rule_expand_item_clashes(RuleT *rule, FactorClosureT *closure,
 					rule_expand(rule, closure, group2, groups);
 				}
 
-				return TRUE;
+				return true;
 			}
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 static ItemT *
@@ -436,7 +437,7 @@ rule_create_factored(TypeTupleT *params, TypeTupleT *result, AltT *alt,
 	}
 
 	factorised_rules++;
-	new_entry = table_add_generated_rule(table, FALSE);
+	new_entry = table_add_generated_rule(table, false);
 	new_rule  = entry_get_rule(new_entry);
 	types_copy(rule_param(new_rule), params);
 	types_copy(rule_result(new_rule), result);
@@ -463,12 +464,12 @@ rule_create_factored(TypeTupleT *params, TypeTupleT *result, AltT *alt,
 	return new_item;
 }
 
-static BoolT
+static bool
 rule_factor_4(RuleT *rule, AltT *old_alt, AltT *new_alt, TableT *table,
-	EntryT *predicate_id, TypeTupleT *params, BoolT *items_equal_ref)
+	EntryT *predicate_id, TypeTupleT *params, bool *items_equal_ref)
 {
 	ItemT *old_item     = alt_item_head(old_alt);
-	BoolT  result_equal = TRUE;
+	bool  result_equal = true;
 	AltT  *alt;
 	TypeBTransT translator;
 
@@ -477,8 +478,8 @@ rule_factor_4(RuleT *rule, AltT *old_alt, AltT *new_alt, TableT *table,
 
 		/* TODO: XOR might read more nicely here! */
 		if ((item == NULL && old_item != NULL) || (item != NULL && old_item == NULL)) {
-			*items_equal_ref = FALSE;
-			return TRUE;
+			*items_equal_ref = false;
+			return true;
 		} else if (item == NULL && old_item == NULL) {
 			/*NOTHING*/
 		} else if ((item_entry(old_item) == item_entry(item)
@@ -495,14 +496,14 @@ rule_factor_4(RuleT *rule, AltT *old_alt, AltT *new_alt, TableT *table,
 					item_result(item));
 			}
 		} else {
-			*items_equal_ref = FALSE;
-			return TRUE;
+			*items_equal_ref = false;
+			return true;
 		}
 	}
 
 	if (old_item == NULL) {
-		*items_equal_ref = FALSE;
-		return FALSE;
+		*items_equal_ref = false;
+		return false;
 	}
 
 	btrans_init(&translator);
@@ -535,15 +536,15 @@ rule_factor_4(RuleT *rule, AltT *old_alt, AltT *new_alt, TableT *table,
 	}
 
 	btrans_destroy(&translator);
-	return TRUE;
+	return true;
 }
 
 static void
 rule_factor_3(RuleT *rule, TableT *table, EntryT *predicate_id, AltT *old_alt,
 	AltT *new_alt)
 {
-	BoolT       items_equal = TRUE;
-	BoolT       found_items;
+	bool       items_equal = true;
+	bool       found_items;
 	TypeTupleT  params;
 	TypeTupleT  result;
 
@@ -625,7 +626,7 @@ rule_factor_1(RuleT *rule, FactorClosureT *closure)
 	rule->alt_tail = &rule->alt_head;
 
 	do {
-		rule_renumber(rule, FALSE, closure->predicate_id);
+		rule_renumber(rule, false, closure->predicate_id);
 		rule_group_by_initial_item(rule, &groups);
 	} while (rule_expand_item_clashes(rule, closure, &groups));
 

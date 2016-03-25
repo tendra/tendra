@@ -42,7 +42,7 @@ struct IStreamT {
 	char *limit;
 	unsigned line;
 	const char *name;
-	BoolT read_last;
+	bool read_last;
 };
 
 /*
@@ -88,7 +88,7 @@ istream_init(IStreamT *);
  * returns false. If the file is opened successfully, the function returns
  * true.
  */
-BoolT
+bool
 istream_open(IStreamT *, const char *);
 
 /*
@@ -102,7 +102,7 @@ istream_assign(IStreamT *, IStreamT *);
  * This function returns true if the specified istream is reading from a file,
  * and false otherwise.
  */
-BoolT
+bool
 istream_is_open(IStreamT *);
 
 /*
@@ -114,7 +114,7 @@ istream_is_open(IStreamT *);
  * the end of file is reached, the function returns false.  If the character
  * read is a newline, then the istream's line count is incremented.
  */
-BoolT
+bool
 istream_read_char(IStreamT *, char *);
 
 /*
@@ -125,7 +125,7 @@ istream_read_char(IStreamT *, char *);
  * character is assigned to the reference argument, and the function returns
  * true.  If the end of file is reached, the function returns false.
  */
-BoolT
+bool
 istream_peek_char(IStreamT *, char *);
 
 /*
@@ -186,7 +186,7 @@ X__istream_fill_buffer(IStreamT *);
  * obvious that the speed increase is worth the extra effort in coding.
  */
 #define ISTREAM_READ_CHAR(istream) \
-	(((istream)->read_last = TRUE), (*((istream)->current)++))
+	(((istream)->read_last = true), (*((istream)->current)++))
 
 /*
  * This macro returns the next character from the specified istream, without
@@ -199,7 +199,7 @@ X__istream_fill_buffer(IStreamT *);
  * that the speed increase is worth the extra effort in coding.
  */
 #define ISTREAM_PEEK_CHAR(istream) \
-	(((istream)->read_last = FALSE), (*((istream)->current)))
+	(((istream)->read_last = false), (*((istream)->current)))
 
 /*
  * Exceptions:	XX_dalloc_no_memory, XX_istream_read_error

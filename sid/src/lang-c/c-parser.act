@@ -20,7 +20,7 @@
 
 	StringT -> NStringT;
 	CCodeP  -> CCodeP;
-	BoolT   -> BoolT;
+	bool   -> bool;
 
 	c-parse-grammar -> c_parse_grammar;
 
@@ -37,6 +37,7 @@
 
 	#include <assert.h>
 
+	#include <shared/bool.h>
 	#include <shared/check.h>
 	#include <shared/error.h>
 
@@ -60,12 +61,12 @@
 	typedef CCodeT *CCodeP;
 
 	static NStringT    c_prefix_names [CPFX_NUM_PREFIXES];
-	static BoolT       c_inited_prefix_names = FALSE;
+	static bool       c_inited_prefix_names = false;
 	static CPrefixT    c_current_prefix;
 	static EntryT     *c_current_entry;
 	static TypeTupleT  c_saved_type;
 	static TypeTupleT  c_current_type;
-	static BoolT       c_propagating_error = FALSE;
+	static bool       c_propagating_error = false;
 
 	CLexerStreamT *c_current_stream;
 	COutputInfoT  *c_current_out_info;
@@ -220,7 +221,7 @@
 			nstring_copy_cstring(&c_prefix_names[CPFX_LABEL], "label");
 			nstring_copy_cstring(&c_prefix_names[CPFX_TERMINAL], "terminal");
 			nstring_copy_cstring(&c_prefix_names[CPFX_PERSISTENTS], "persistents");
-			c_inited_prefix_names = TRUE;
+			c_inited_prefix_names = true;
 		}
 
 		for (prefix = 0; prefix < CPFX_NUM_PREFIXES; prefix++) {
@@ -313,12 +314,12 @@
 	 */
 
 	<set-header1>: (code) -> () = @{
-		c_code_check(@code, FALSE, FALSE, FALSE, NULL, NULL, c_current_table);
+		c_code_check(@code, false, false, false, NULL, NULL, c_current_table);
 		c_out_info_set_header1(c_current_out_info, @code);
 	@};
 
 	<set-header2>: (code) -> () = @{
-		c_code_check(@code, FALSE, FALSE, FALSE, NULL, NULL, c_current_table);
+		c_code_check(@code, false, false, false, NULL, NULL, c_current_table);
 		c_out_info_set_header2(c_current_out_info, @code);
 	@};
 
@@ -342,7 +343,7 @@
 
 	<tuple-type>: (name, type) -> () = @{
 		if (!types_add_typed_name(&c_current_type, c_current_table, &@=name,
-			@&type, FALSE)) {
+			@&type, false)) {
 			error_posn(ERR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
 				"type '%S' hasn't been declared", (void *) @&type);
 		}
@@ -351,7 +352,7 @@
 
 	<tuple-ref-type>: (name, type) -> () = @{
 		if (!types_add_typed_name(&c_current_type, c_current_table, &@=name,
-			@&type, TRUE)) {
+			@&type, true)) {
 			error_posn(ERR_SERIOUS, c_lexer_stream_name(c_current_stream), (int) c_lexer_stream_line(c_current_stream),
 				"type '%S' hasn't been declared", (void *) @&type);
 		}
@@ -359,7 +360,7 @@
 	@};
 
 	<tuple-name>: (string) -> () = @{
-		types_add_name(&c_current_type, c_current_table, &@=string, FALSE);
+		types_add_name(&c_current_type, c_current_table, &@=string, false);
 	@};
 
 
@@ -381,36 +382,36 @@
 
 	<x-assign>: (code) -> () = @{
 		if (c_current_entry) {
-			BoolT  errored = FALSE;
+			bool  errored = false;
 			KeyT  *key     = entry_key (c_current_entry);
 			TypeTupleT tmp;
 
 			types_init(&tmp);
-			types_add_type_entry(&tmp, c_current_entry, FALSE);
+			types_add_type_entry(&tmp, c_current_entry, false);
 
 			if (!types_disjoint_names(&c_saved_type)) {
 				err_clash("assignment", "parameter", "type", key, &c_saved_type);
-				errored = TRUE;
+				errored = true;
 			}
 
 			if (!types_fillin_types (&c_saved_type, &tmp)) {
 				err_mismatch("parameter", "assignment", "type", key, &tmp, &c_saved_type);
-				errored = TRUE;
+				errored = true;
 			}
 
 			if (!types_disjoint_names (&c_current_type)) {
 				err_clash("assignment", "result", "type", key, &c_saved_type);
-				errored = TRUE;
+				errored = true;
 			}
 
 			if (!types_fillin_types (&c_current_type, &tmp)) {
 				err_mismatch("result", "assignment", "type", key, &tmp, &c_saved_type);
-				errored = TRUE;
+				errored = true;
 			}
 
 			if (types_intersect (&c_saved_type, &c_current_type)) {
 				err_formal_clash("assignment", "type", key, &c_saved_type, &c_current_type);
-				errored = TRUE;
+				errored = true;
 			}
 
 			types_destroy(&tmp);
@@ -423,7 +424,7 @@
 			TypeT *type;
 
 				type = entry_get_type (c_current_entry);
-				c_code_check(@code, FALSE, FALSE, FALSE, &c_saved_type, &c_current_type, c_current_table);
+				c_code_check(@code, false, false, false, &c_saved_type, &c_current_type, c_current_table);
 				type_set_assign_code(type,  @code);
 			}
 		} else {
@@ -447,35 +448,35 @@
 
 	<x-passign>: (code) -> () = @{
 		if (c_current_entry) {
-			BoolT  errored = FALSE;
+			bool  errored = false;
 			KeyT  *key     = entry_key(c_current_entry);
 			TypeTupleT tmp;
 
 			types_init(&tmp);
-			types_add_type_entry(&tmp, c_current_entry, FALSE);
+			types_add_type_entry(&tmp, c_current_entry, false);
 			if (!types_disjoint_names(&c_saved_type)) {
 				err_clash("parameter assignment", "parameter", "type", key, &c_saved_type);
-				errored = TRUE;
+				errored = true;
 			}
 
 			if (!types_fillin_types(&c_saved_type, &tmp)) {
 				err_mismatch("parameter", "parameter assignment", "type", key, &c_saved_type, &tmp);
-				errored = TRUE;
+				errored = true;
 			}
 
 			if (!types_disjoint_names(&c_current_type)) {
 				err_clash("parameter assignment", "result", "type", key, &c_saved_type);
-				errored = TRUE;
+				errored = true;
 			}
 
 			if (!types_fillin_types(&c_current_type, &tmp)) {
 				err_mismatch("result type", "parameter assignment", "type", key, &c_saved_type, &tmp);
-				errored = TRUE;
+				errored = true;
 			}
 
 			if (types_intersect(&c_saved_type, &c_current_type)) {
 				err_formal_clash("parameter assignment", "type", key, &c_saved_type, &c_current_type);
-				errored = TRUE;
+				errored = true;
 			}
 
 			types_destroy(&tmp);
@@ -487,7 +488,7 @@
 			} else {
 				TypeT *type = entry_get_type(c_current_entry);
 
-				c_code_check(@code, FALSE, FALSE, FALSE, &c_saved_type,
+				c_code_check(@code, false, false, false, &c_saved_type,
 					&c_current_type, c_current_table);
 				type_set_param_assign_code(type,  @code);
 			}
@@ -512,35 +513,35 @@
 
 	<x-rassign>: (code) -> () = @{
 		if (c_current_entry) {
-			BoolT  errored = FALSE;
+			bool  errored = false;
 			KeyT  *key     = entry_key (c_current_entry);
 			TypeTupleT tmp;
 
 			types_init (&tmp);
-			types_add_type_entry (&tmp, c_current_entry, FALSE);
+			types_add_type_entry (&tmp, c_current_entry, false);
 			if (!types_disjoint_names(&c_saved_type)) {
 				err_clash("result essignment", "parameter", "type", key, &c_saved_type);
-				errored = TRUE;
+				errored = true;
 			}
 
 			if (!types_fillin_types(&c_saved_type, &tmp)) {
 				err_mismatch("parameter", "result assignment", "type", key, &c_saved_type, &tmp);
-				errored = TRUE;
+				errored = true;
 			}
 
 			if (!types_disjoint_names(&c_current_type)) {
 				err_clash("result assignment", "result", "type", key, &c_saved_type);
-				errored = TRUE;
+				errored = true;
 			}
 
 			if (!types_fillin_types(&c_current_type, &tmp)) {
 				err_mismatch("result", "result assignment", "type", key, &c_saved_type, &tmp);
-				errored = TRUE;
+				errored = true;
 			}
 
 			if (types_intersect(&c_saved_type, &c_current_type)) {
 				err_formal_clash("result assignment", "type", key, &c_saved_type, &c_current_type);
-				errored = TRUE;
+				errored = true;
 			}
 
 			types_destroy (&tmp);
@@ -552,7 +553,7 @@
 			} else {
 				TypeT *type = entry_get_type(c_current_entry);
 
-				c_code_check(@code, FALSE, FALSE, FALSE, &c_saved_type,
+				c_code_check(@code, false, false, false, &c_saved_type,
 					&c_current_type, c_current_table);
 				type_set_result_assign_code (type,  @code);
 			}
@@ -593,12 +594,12 @@
 		if (c_current_entry) {
 			BasicT     *basic   = entry_get_basic(c_current_entry);
 			TypeTupleT *result  = basic_result(basic);
-			BoolT       errored = FALSE;
+			bool       errored = false;
 			KeyT       *key     = entry_key(c_current_entry);
 
 			if (!types_disjoint_names(&c_saved_type)) {
 				err_clash("extraction", "parameter", "terminal", key, &c_saved_type);
-				errored = TRUE;
+				errored = true;
 			}
 
 			if (!types_equal_zero_tuple(&c_saved_type)) {
@@ -606,22 +607,22 @@
 					"parameter type mismatch for extraction operation on "
 					"terminal '%K' [%Y should be ()]",
 					(void *) key, (void *) &c_saved_type);
-				errored = TRUE;
+				errored = true;
 			}
 
 			if (!types_disjoint_names(&c_current_type)) {
 				err_clash("extraction", "result", "terminal", key, &c_saved_type);
-				errored = TRUE;
+				errored = true;
 			}
 
 			if (!types_fillin_types(&c_current_type, result)) {
 				err_mismatch("result", "extraction", "terminal", key, &c_current_type, result);
-				errored = TRUE;
+				errored = true;
 			}
 
 			if (types_intersect(&c_saved_type, &c_current_type)) {
 				err_formal_clash("extraction", "terminal", key, &c_saved_type, &c_current_type);
-				errored = TRUE;
+				errored = true;
 			}
 
 			if (errored) {
@@ -631,7 +632,7 @@
 				c_current_entry = NULL;
 			} else {
 				types_destroy(&c_saved_type);
-				c_code_check(@code, FALSE, TRUE, FALSE, NULL, &c_current_type, c_current_table);
+				c_code_check(@code, false, true, false, NULL, &c_current_type, c_current_table);
 				basic_set_result_code(basic,  @code);
 			}
 		} else {
@@ -669,34 +670,34 @@
 			ActionT    *action  = entry_get_action(c_current_entry);
 			TypeTupleT *param   = action_param(action);
 			TypeTupleT *result  = action_result(action);
-			BoolT       errored = FALSE;
+			bool       errored = false;
 			KeyT       *key     = entry_key(c_current_entry);
 
 			if (!types_disjoint_names(&c_saved_type)) {
 				err_field_clash("parameter", "action", key, &c_saved_type);
-				errored = TRUE;
+				errored = true;
 			}
 
 			if (!types_fillin_types(&c_saved_type, param)) {
 				err_field_mismatch("parameter", key, &c_saved_type, param);
-				errored = TRUE;
+				errored = true;
 			}
 
 			if (!types_disjoint_names(&c_current_type)) {
 				err_field_clash("result", "action", key, &c_current_type);
-				errored = TRUE;
+				errored = true;
 			}
 
 			if (!types_fillin_types(&c_current_type, result)) {
 				err_field_mismatch("result", key, &c_saved_type, result);
-				errored = TRUE;
+				errored = true;
 			}
 
 			if (types_intersect(&c_saved_type, &c_current_type)) {
 				error_posn(ERR_SERIOUS, istream_name(&c_lexer_stream->istream), (int) istream_line(&c_lexer_stream->istream),
 					"formal clash for action '%K' [parameter = %Y, result = %Y]",
 					(void *) key, (void *) &c_saved_type, (void *) &c_current_type);
-				errored = TRUE;
+				errored = true;
 			}
 
 			if (errored) {
@@ -705,7 +706,7 @@
 				c_code_deallocate(@code);
 				c_current_entry = NULL;
 			} else {
-				c_code_check(@code, TRUE, TRUE, FALSE, &c_saved_type, &c_current_type, c_current_table);
+				c_code_check(@code, true, true, false, &c_saved_type, &c_current_type, c_current_table);
 				types_propogate_mutations(param, &c_saved_type);
 				action_set_code(action,  @code);
 			}
@@ -717,12 +718,12 @@
 	@};
 
 	<set-trailer1>: (code) -> () = @{
-		c_code_check(@code, FALSE, FALSE, FALSE, NULL, NULL, c_current_table);
+		c_code_check(@code, false, false, false, NULL, NULL, c_current_table);
 		c_out_info_set_trailer1 (c_current_out_info, @code);
 	@};
 
 	<set-trailer2>: (code) -> () = @{
-		c_code_check(@code, FALSE, FALSE, FALSE, NULL, NULL, c_current_table);
+		c_code_check(@code, false, false, false, NULL, NULL, c_current_table);
 		c_out_info_set_trailer2(c_current_out_info, @code);
 	@};
 
@@ -913,7 +914,7 @@
 			@>;
 		}
 
-		c_propagating_error = TRUE;
+		c_propagating_error = true;
 	@};
 
 	<skip-to-end-of-prefix> = @{
@@ -942,7 +943,7 @@
 			@>;
 		}
 
-		c_propagating_error = TRUE;
+		c_propagating_error = true;
 	@};
 
 	<skip-to-end-of-map> = @{
@@ -970,7 +971,7 @@
 			@>;
 		}
 
-		c_propagating_error = TRUE;
+		c_propagating_error = true;
 	@};
 
 	<skip-to-end-of-assignment> = @{
@@ -997,7 +998,7 @@
 			@>;
 		}
 
-		c_propagating_error = TRUE;
+		c_propagating_error = true;
 	@};
 
 	<skip-to-end-of-param-assign> = @{
@@ -1024,7 +1025,7 @@
 			@>;
 		}
 
-		c_propagating_error = TRUE;
+		c_propagating_error = true;
 	@};
 
 	<skip-to-end-of-result-assign> = @{
@@ -1049,7 +1050,7 @@
 			@>;
 		}
 
-		c_propagating_error = TRUE;
+		c_propagating_error = true;
 	@};
 
 	<skip-to-end-of-terminal> = @{
@@ -1073,7 +1074,7 @@
 			@>;
 		}
 
-		c_propagating_error = TRUE;
+		c_propagating_error = true;
 	@};
 
 	<skip-to-end-of-action> = @{
@@ -1097,11 +1098,11 @@
 			@>;
 		}
 
-		c_propagating_error = TRUE;
+		c_propagating_error = true;
 	@};
 
 	<skip-recover> = @{
-		c_propagating_error = FALSE;
+		c_propagating_error = false;
 	@};
 
 	<is-close-tuple-or-skipped-or-eof>: () -> (predicate) = @{

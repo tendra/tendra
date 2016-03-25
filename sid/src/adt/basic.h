@@ -59,7 +59,7 @@ typedef struct BasicT {
 	 * Indicates if the terminal is ignored or not, i.e. declared with a
 	 * preceding ! in the .sid file.
 	 */
-    BoolT			ignored;
+    bool			ignored;
 } BasicT;
 
 typedef struct BasicClosureT {
@@ -67,13 +67,13 @@ typedef struct BasicClosureT {
     GrammarT *			grammar;
 } BasicClosureT;
 
-BasicT *		basic_create(GrammarT *, BoolT);
+BasicT *		basic_create(GrammarT *, bool);
 unsigned		basic_terminal(BasicT *);
 TypeTupleT *	basic_result(BasicT *);
 void *		basic_get_result_code(BasicT *);
 void		basic_set_result_code(BasicT *, void *);
-BoolT		basic_get_ignored(BasicT *);
-void		basic_iter_for_table(BasicT *, BoolT,
+bool		basic_get_ignored(BasicT *);
+void		basic_iter_for_table(BasicT *, bool,
 					     void(*)(EntryT *, void *),
 					     void *);
 

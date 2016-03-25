@@ -16,10 +16,11 @@
 #include <limits.h>
 #include <stddef.h>
 
-#include <exds/common.h>
-
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
+
+#include <exds/common.h>
 
 #include "grammar.h"
 #include "adt/action.h"
@@ -37,7 +38,7 @@ grammar_trace_ignored(EntryT *entry, void *gclosure)
 			BasicT *basic = entry_get_basic(entry);
 
 			if (basic_get_ignored(basic)) {
-				entry_iter(entry, TRUE, NULL, NULL);
+				entry_iter(entry, true, NULL, NULL);
 			}
 		}
 		break;
@@ -46,7 +47,7 @@ grammar_trace_ignored(EntryT *entry, void *gclosure)
 			ActionT *action = entry_get_action(entry);
 
 			if (action_get_ignored(action)) {
-				entry_iter(entry, TRUE, NULL, NULL);
+				entry_iter(entry, true, NULL, NULL);
 			}
 		}
 		break;
@@ -265,7 +266,7 @@ grammar_check_complete(GrammarT *grammar)
 	EntryListT *entry_list = grammar_entry_list(grammar);
 
 	table_untrace(table);
-	entry_list_iter_table(entry_list, TRUE, NULL, NULL);
+	entry_list_iter_table(entry_list, true, NULL, NULL);
 	table_iter(table, grammar_trace_ignored, NULL);
 	table_iter(table, grammar_check_1, NULL);
 }
@@ -296,7 +297,7 @@ grammar_factor(GrammarT *grammar)
 	closure.table = table;
 	closure.predicate_id = grammar_get_predicate_id(grammar);
 	table_untrace(table);
-	entry_list_iter_table(entry_list, FALSE, rule_factor, &closure);
+	entry_list_iter_table(entry_list, false, rule_factor, &closure);
 	table_unlink_untraced_rules(table);
 	bitvec_destroy(&closure.bitvec1);
 	bitvec_destroy(&closure.bitvec2);
@@ -311,7 +312,7 @@ grammar_simplify(GrammarT *grammar)
 
 	rule_remove_duplicates(table, predicate_id);
 	table_untrace(table);
-	entry_list_iter_table(entry_list, FALSE, NULL, NULL);
+	entry_list_iter_table(entry_list, false, NULL, NULL);
 	table_unlink_untraced_rules(table);
 }
 
@@ -381,5 +382,5 @@ write_grammar(OStreamT *ostream, GrammarT *grammar)
 	EntryListT *entry_list = grammar_entry_list(grammar);
 
 	table_untrace(table);
-	entry_list_iter_table(entry_list, FALSE, write_grammar_1, ostream);
+	entry_list_iter_table(entry_list, false, write_grammar_1, ostream);
 }

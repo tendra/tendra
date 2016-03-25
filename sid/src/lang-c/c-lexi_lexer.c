@@ -15,6 +15,7 @@
 
 
 
+	#include <shared/bool.h>
 	#include <shared/error.h>
 
 	#include "c-lexer.h"

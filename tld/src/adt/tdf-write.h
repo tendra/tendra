@@ -25,10 +25,10 @@
 typedef struct TDFWriterT {
     BOStreamT			bostream;
     ByteT			byte;
-    BoolT			new_byte;
+    bool			new_byte;
 } TDFWriterT;
 
-extern BoolT			tdf_writer_open
+extern bool			tdf_writer_open
 (TDFWriterT *, char *);
 extern const char *		tdf_writer_name
 (TDFWriterT *);

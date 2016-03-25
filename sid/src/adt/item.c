@@ -16,6 +16,7 @@
 
 #include <assert.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include "rule.h"
@@ -34,8 +35,8 @@ item_create(EntryT *entry)
 	types_init(item_result(item));
 	item->type         = entry_type(entry);
 	item->entry        = entry;
-	item->inlinable    = FALSE;
-	item->tail_call    = FALSE;
+	item->inlinable    = false;
+	item->tail_call    = false;
 
 	return item;
 }
@@ -124,31 +125,31 @@ item_type(ItemT *item)
 	return item->type;
 }
 
-BoolT
+bool
 item_is_rule(ItemT *item)
 {
 	return item->type == ET_RULE;
 }
 
-BoolT
+bool
 item_is_action(ItemT *item)
 {
 	return item->type == ET_ACTION;
 }
 
-BoolT
+bool
 item_is_predicate(ItemT *item)
 {
 	return item->type == ET_PREDICATE;
 }
 
-BoolT
+bool
 item_is_basic(ItemT *item)
 {
 	return item->type == ET_BASIC;
 }
 
-BoolT
+bool
 item_is_rename(ItemT *item)
 {
 	return item->type == ET_RENAME;
@@ -178,7 +179,7 @@ item_add_result(ItemT *item, TypeTupleT *result)
 	types_assign(item_result(item), result);
 }
 
-BoolT
+bool
 item_is_inlinable(ItemT *item)
 {
 	return item->inlinable;
@@ -187,10 +188,10 @@ item_is_inlinable(ItemT *item)
 void
 item_inlinable(ItemT *item)
 {
-	item->inlinable = TRUE;
+	item->inlinable = true;
 }
 
-BoolT
+bool
 item_is_tail_call(ItemT *item)
 {
 	return item->tail_call;
@@ -199,20 +200,20 @@ item_is_tail_call(ItemT *item)
 void
 item_tail_call(ItemT *item)
 {
-	item->tail_call = TRUE;
+	item->tail_call = true;
 }
 
-BoolT
+bool
 item_names_used_in_list(ItemT *item, TypeTupleT *names)
 {
 	for ( ; item; item = item_next(item)) {
 		if (types_intersect(item_param(item), names)
 			|| types_intersect(item_result(item), names)) {
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 void
@@ -258,7 +259,7 @@ write_item(OStreamT *ostream, ItemT *item)
 {
 	EntryT *entry = item_entry(item);
 
-	write_type_names(ostream, item_result(item), TRUE);
+	write_type_names(ostream, item_result(item), true);
 	if (item_is_predicate(item)) {
 		write_cstring(ostream, " ?");
 	}
@@ -296,6 +297,6 @@ write_item(OStreamT *ostream, ItemT *item)
 		UNREACHED;
 	}
 
-	write_type_names(ostream, item_param(item), TRUE);
+	write_type_names(ostream, item_param(item), true);
 	write_char(ostream, ';');
 }

@@ -78,14 +78,14 @@ ostream_init(OStreamT *);
  * name should not be modified or deallocated until the ostream has been
  * closed.  The initial buffering state of the ostream is fully buffered.
  */
-BoolT
+bool
 ostream_open(OStreamT *, const char *);
 
 /*
  * This function returns true if the specified ostream is writing to a file,
  * and false otherwise.
  */
-BoolT
+bool
 ostream_is_open(OStreamT *);
 
 /*

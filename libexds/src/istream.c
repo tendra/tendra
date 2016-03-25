@@ -17,6 +17,7 @@
 #include <stddef.h>
 #include <stdio.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include <exds/common.h>
@@ -41,7 +42,7 @@ static IStreamT istream_input_1 = {
 	&istream_input_buffer[ISTREAM_BUFSIZE],
 	1,
 	"<stdin>",
-	FALSE
+	false
 };
 
 IStreamT *const istream_input = &istream_input_1;
@@ -112,11 +113,11 @@ istream_init(IStreamT *istream)
 	istream->name = NULL;
 }
 
-BoolT
+bool
 istream_open(IStreamT *istream, const char *name)
 {
     if ((istream->file = fopen(name, "r")) == NULL) {
-		return FALSE;
+		return false;
     }
 
     istream->buffer  = ALLOCATE_VECTOR(char, ISTREAM_BUFSIZE);
@@ -124,7 +125,7 @@ istream_open(IStreamT *istream, const char *name)
     istream->line    = 1;
     istream->name    = name;
     X__istream_fill_buffer(istream);
-    return TRUE;
+    return true;
 }
 
 void
@@ -140,13 +141,13 @@ istream_assign(IStreamT *to, IStreamT *from)
     to->read_last = from->read_last;
 }
 
-BoolT
+bool
 istream_is_open(IStreamT *istream)
 {
 	return istream->name != NULL;
 }
 
-BoolT
+bool
 istream_read_char(IStreamT *istream, char *c_ref)
 {
 	char c;
@@ -166,13 +167,13 @@ redo:
 	}
 
 	*c_ref = c;
-	return TRUE;
+	return true;
 
 eof:
-	return FALSE;
+	return false;
 }
 
-BoolT
+bool
 istream_peek_char(IStreamT *istream, char *c_ref)
 {
 	char c;
@@ -187,10 +188,10 @@ redo:
 	}
 
 	*c_ref = c;
-	return TRUE;
+	return true;
 
 eof:
-	return FALSE;
+	return false;
 }
 
 IStreamStatusT
@@ -286,6 +287,6 @@ X__istream_fill_buffer(IStreamT *istream)
 
     istream->current   = istream->buffer;
     istream->end       = istream->current + bytes;
-    istream->read_last = FALSE;
+    istream->read_last = false;
     *istream->end++  = '\0';
 }

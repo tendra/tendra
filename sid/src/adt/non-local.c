@@ -15,6 +15,8 @@
 
 #include <assert.h>
 
+#include <shared/bool.h>
+
 #include "non-local.h"
 
 void
@@ -39,7 +41,7 @@ non_local_list_add(NonLocalListT *non_locals, EntryT *name, EntryT *type)
 	return entry;
 }
 
-BoolT
+bool
 non_local_list_is_empty(NonLocalListT *non_locals)
 {
 	return non_locals->head == NULL;
@@ -52,9 +54,9 @@ non_local_list_iter_for_table(NonLocalListT *non_locals,
 	NonLocalEntryT *non_local;
 
 	for (non_local = non_locals->head; non_local; non_local = non_local->next) {
-		entry_iter(non_local->type, TRUE, proc, closure);
+		entry_iter(non_local->type, true, proc, closure);
 		if (non_local->initialiser) {
-			entry_iter(non_local->initialiser, TRUE, proc, closure);
+			entry_iter(non_local->initialiser, true, proc, closure);
 		}
 	}
 }

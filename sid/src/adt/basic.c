@@ -13,6 +13,7 @@
  * This file implements the basic manipulation routines.
  */
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include "basic.h"
@@ -24,7 +25,7 @@
 #include "type.h"
 
 BasicT *
-basic_create(GrammarT *grammar, BoolT ignored)
+basic_create(GrammarT *grammar, bool ignored)
 {
 	BasicT *basic = ALLOCATE(BasicT);
 
@@ -60,14 +61,14 @@ basic_set_result_code(BasicT *basic, void *code)
 	basic->result_code = code;
 }
 
-BoolT
+bool
 basic_get_ignored(BasicT *basic)
 {
 	return basic->ignored;
 }
 
 void
-basic_iter_for_table(BasicT *basic, BoolT full,
+basic_iter_for_table(BasicT *basic, bool full,
 	void (*proc) WEAK (EntryT *, void *), void *closure)
 {
 	if (full) {

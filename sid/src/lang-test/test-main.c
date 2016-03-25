@@ -11,11 +11,12 @@
  * test-main.c - Test language entry points.
  */
 
-#include <exds/dalloc.h>
-#include <exds/cstring-list.h>
-
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
+
+#include <exds/dalloc.h>
+#include <exds/cstring-list.h>
 
 #include "test-main.h"
 

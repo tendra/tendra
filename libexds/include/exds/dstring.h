@@ -141,28 +141,28 @@ nstring_compare(NStringT *, NStringT *);
  * This function returns true if the specified nstrings have the same content,
  * and false otherwise.
  */
-BoolT
+bool
 nstring_equal(NStringT *, NStringT *);
 
 /*
  * This function returns true if the specified nstrings have the same content
  * (ignoring differences in case), and false otherwise.
  */
-BoolT
+bool
 nstring_ci_equal(NStringT *, NStringT *);
 
 /*
  * This function returns true if the specified nstring contains the specified
  * character, and false otherwise.
  */
-BoolT
+bool
 nstring_contains(NStringT *, char);
 
 /*
  * This function returns true if the second nstring is a prefix of the first
  * nstring, and false otherwise.
  */
-BoolT
+bool
 nstring_is_prefix(NStringT *, NStringT *);
 
 /*
@@ -229,7 +229,7 @@ dstring_append_nstring(DStringT *, NStringT *);
  * is the same as the specified character, and false otherwise.  If the
  * dstring is empty, then false is always returned.
  */
-BoolT
+bool
 dstring_last_char_equal(DStringT *, char);
 
 /*

@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <stddef.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include <exds/common.h>
@@ -32,15 +33,15 @@ bostream_init(BOStreamT *bostream)
 	bostream->name = NULL;
 }
 
-BoolT
+bool
 bostream_open(BOStreamT *bostream, const char *name)
 {
 	if ((bostream->file = fopen(name, "w")) == NULL) {
-		return FALSE;
+		return false;
 	}
 
 	bostream->name = name;
-	return TRUE;
+	return true;
 }
 
 void
@@ -50,7 +51,7 @@ bostream_assign(BOStreamT *to, BOStreamT *from)
 	to->name = from->name;
 }
 
-BoolT
+bool
 bostream_is_open(BOStreamT *bostream)
 {
 	return bostream->name != NULL;

@@ -15,11 +15,12 @@
 
 #include <assert.h>
 
+#include <shared/bool.h>
+#include <shared/check.h>
+
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/dalloc.h>
-
-#include <shared/check.h>
 
 #include "name-key.h"
 #include "solve-cycles.h"
@@ -44,7 +45,7 @@ syntax_value(char c)
 	return SYNTAX_NO_VALUE;
 }
 
-static BoolT
+static bool
 name_key_parse_hex_char(char * name,				 char    *c_ref)
 {
     char result;
@@ -56,18 +57,18 @@ name_key_parse_hex_char(char * name,				 char    *c_ref)
     if ((c = name[0]), ((value = syntax_value(c)) != SYNTAX_NO_VALUE)) {
 	result = (char)((unsigned)value << 4);
     } else {
-	return FALSE;
+	return false;
     }
     if ((c = name[1]), ((value = syntax_value(c)) != SYNTAX_NO_VALUE)) {
 	result |= (char)value;
     } else {
-	return FALSE;
+	return false;
     }
     *c_ref = result;
-    return TRUE;
+    return true;
 }
 
-static BoolT
+static bool
 name_key_parse_escaped(char * *name_ref,				char     *c_ref)
 {
     char * name = (*name_ref);
@@ -75,7 +76,7 @@ name_key_parse_escaped(char * *name_ref,				char     *c_ref)
     switch ((*++name)) {
       case 'x': case 'X':
 	if (!name_key_parse_hex_char(name, c_ref)) {
-	    return FALSE;
+	    return false;
 	}
 	name += 3;
 	break;
@@ -99,13 +100,13 @@ name_key_parse_escaped(char * *name_ref,				char     *c_ref)
 	*c_ref = *name++;
 	break;
       default:
-	return FALSE;
+	return false;
     }
     *name_ref = name;
-    return TRUE;
+    return true;
 }
 
-static BoolT
+static bool
 name_key_parse_cstring_unique(NameKeyT *key,				       char * name)
 {
     size_t length   = 1;
@@ -153,17 +154,17 @@ name_key_parse_cstring_unique(NameKeyT *key,				       char * name)
 	    nstring_destroy(& (components[i]));
 	}
 	DEALLOCATE(components);
-	return FALSE;
+	return false;
     }
     name_key_init_unique(key, (unsigned) length);
     for (i = 0; i < length; i++) {
 	name_key_set_component(key, (unsigned) i, & (components[i]));
     }
     DEALLOCATE(components);
-    return TRUE;
+    return true;
 }
 
-static BoolT
+static bool
 name_key_parse_cstring_string(NameKeyT *key,				       char * name)
 {
     DStringT dstring;
@@ -173,7 +174,7 @@ name_key_parse_cstring_string(NameKeyT *key,				       char * name)
     while (*name) {
 	if ((*name == '[') || (*name == ']') || (*name == '.')) {
 	    dstring_destroy(&dstring);
-	    return FALSE;
+	    return false;
 	} else if (*name == '\\') {
 	    char c;
 
@@ -181,7 +182,7 @@ name_key_parse_cstring_string(NameKeyT *key,				       char * name)
 		dstring_append_char(&dstring, c);
 	    } else {
 		dstring_destroy(&dstring);
-		return FALSE;
+		return false;
 	    }
 	} else {
 	    dstring_append_char(&dstring, *name++);
@@ -189,7 +190,7 @@ name_key_parse_cstring_string(NameKeyT *key,				       char * name)
     }
     dstring_to_nstring(&dstring, &nstring);
     name_key_init_string(key, &nstring);
-    return TRUE;
+    return true;
 }
 
 static void
@@ -225,7 +226,7 @@ name_key_init_unique(NameKeyT *key,			      unsigned components)
     key->u.unique.components = ALLOCATE_VECTOR(NStringT, components);
 }
 
-BoolT
+bool
 name_key_parse_cstring(NameKeyT *key,				char * name)
 {
     if (*name == '[') {
@@ -296,31 +297,31 @@ name_key_hash_value(NameKeyT *key)
     return hash_value;
 }
 
-BoolT
+bool
 name_key_equal(NameKeyT *key1,			NameKeyT *key2)
 {
     unsigned components;
     unsigned i;
 
     if (key1->type != key2->type) {
-	return FALSE;
+	return false;
     }
     switch (key1->type) {
       case KT_STRING:
 	return nstring_equal(&key1->u.string, &key2->u.string);
       case KT_UNIQUE:
 	if ((components = (unsigned) key1->u.unique.length) != (unsigned) key2->u.unique.length) {
-	    return FALSE;
+	    return false;
 	}
 	for (i = 0; i < components; i++) {
 	    if (!nstring_equal(& (key1->u.unique.components[i]),
 				& (key2->u.unique.components[i]))) {
-		return FALSE;
+		return false;
 	    }
 	}
 	break;
     }
-    return TRUE;
+    return true;
 }
 
 void
@@ -451,7 +452,7 @@ name_key_pair_list_init(NameKeyPairListT *list)
     list->head = NULL;
 }
 
-BoolT
+bool
 name_key_pair_list_add(NameKeyPairListT *list,				NameKeyT *        from, 
 				NameKeyT *        to)
 {
@@ -460,7 +461,7 @@ name_key_pair_list_add(NameKeyPairListT *list,				NameKeyT *        from,
     for (entry = name_key_pair_list_head(list); entry;
 	 entry = name_key_pair_list_entry_next(entry)) {
 	if (name_key_equal(from, & (entry->from))) {
-	    return FALSE;
+	    return false;
 	}
     }
     entry       = ALLOCATE(NameKeyPairListEntryT);
@@ -468,7 +469,7 @@ name_key_pair_list_add(NameKeyPairListT *list,				NameKeyT *        from,
     name_key_assign(& (entry->from), from);
     name_key_assign(& (entry->to), to);
     list->head  = entry;
-    return TRUE;
+    return true;
 }
 
 NameKeyPairListEntryT *

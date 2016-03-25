@@ -36,6 +36,8 @@
  * one of the rules is a required rule, then it becomes the used rule.
  */
 
+#include <shared/bool.h>
+
 #include "../adt/rule.h"
 #include "../adt/action.h"
 #include "../adt/basic.h"
@@ -123,7 +125,7 @@ rule_hash_1(RuleT *rule, EntryT *predicate_id)
 	unsigned  hash_value = rule_has_empty_alt(rule) ? 3 : 0;
 	AltT     *alt;
 
-	rule_renumber(rule, TRUE, predicate_id);
+	rule_renumber(rule, true, predicate_id);
 	rule_reorder(rule);
 
 	for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
@@ -162,7 +164,7 @@ rule_hash_for_comparison(EntryT *entry, void *gclosure)
 	rule_hash_1(rule, predicate_id);
 }
 
-static BoolT
+static bool
 rule_equal(RuleT *rule1, RuleT *rule2)
 {
 	AltT *alt1;
@@ -174,7 +176,7 @@ rule_equal(RuleT *rule1, RuleT *rule2)
 		|| !alt_equal(rule_get_handler(rule1), rule_get_handler(rule2))
 		|| !non_local_list_is_empty(rule_non_locals(rule1))
 		|| !non_local_list_is_empty(rule_non_locals(rule2))) {
-		return FALSE;
+		return false;
 	}
 
 	for (alt1 = rule_alt_head(rule1), alt2 = rule_alt_head(rule2);
@@ -187,32 +189,32 @@ rule_equal(RuleT *rule1, RuleT *rule2)
 			if (item_entry(item1) != item_entry(item2)
 				|| !types_equal_numbers(item_param(item1), item_param(item2))
 				|| !types_equal_numbers(item_result(item1), item_result(item2))) {
-				return FALSE;
+				return false;
 			}
 		}
 
 		if (item1 || item2) {
-			return FALSE;
+			return false;
 		}
 	}
 
 	if (alt1 || alt2) {
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
-static BoolT
+static bool
 rule_do_replacements_1(AltT *alt, ReplaceClosureT *closure)
 {
-	BoolT changed = FALSE;
+	bool changed = false;
 	ItemT *item;
 
 	for (item = alt_item_head(alt); item; item = item_next(item)) {
 		if (item_entry(item) == closure->from) {
 			item_set_entry(item, closure->to);
-			changed = TRUE;
+			changed = true;
 		}
 	}
 
@@ -224,25 +226,25 @@ rule_do_replacements(EntryT *entry, void *gclosure)
 {
 	ReplaceClosureT *closure = gclosure;
 	RuleT *rule;
-	BoolT  changed;
+	bool  changed;
 	AltT  *alt;
 
 	if (!entry_is_rule(entry)) {
 		return;
 	}
 
-	changed = FALSE;
+	changed = false;
 	rule = entry_get_rule(entry);
 	alt = rule_get_handler(rule);
 	if (alt != NULL) {
 		if (rule_do_replacements_1(alt, closure)) {
-			changed = TRUE;
+			changed = true;
 		}
 	}
 
 	for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
 		if (rule_do_replacements_1(alt, closure)) {
-			changed = TRUE;
+			changed = true;
 		}
 	}
 
@@ -251,10 +253,10 @@ rule_do_replacements(EntryT *entry, void *gclosure)
 	}
 }
 
-static BoolT
+static bool
 rule_remove_duplicates_1(RuleT **rule_ref, TableT *table)
 {
-	BoolT  did_remove = FALSE;
+	bool  did_remove = false;
 	RuleT *rule;
 
 	while ((rule = *rule_ref) != NULL) {
@@ -280,7 +282,7 @@ rule_remove_duplicates_1(RuleT **rule_ref, TableT *table)
 			}
 
 			table_iter(table, rule_do_replacements, &closure);
-			did_remove = TRUE;
+			did_remove = true;
 			if (rule != *rule_ref) {
 				goto removed_rule;
 			}
@@ -302,7 +304,7 @@ removed_rule:
 void
 rule_remove_duplicates(TableT *table, EntryT *predicate_id)
 {
-	BoolT    did_remove;
+	bool    did_remove;
 	unsigned i;
 
 	for (i = 0; i < EQUALITY_TABLE_SIZE; i++) {
@@ -311,10 +313,10 @@ rule_remove_duplicates(TableT *table, EntryT *predicate_id)
 
 	table_iter(table, rule_hash_for_comparison, predicate_id);
 	do {
-		did_remove = FALSE;
+		did_remove = false;
 		for (i = 0; i < EQUALITY_TABLE_SIZE; i++) {
 			if (rule_remove_duplicates_1(&equality_table[i], table)) {
-				did_remove = TRUE;
+				did_remove = true;
 			}
 		}
 	} while (did_remove);

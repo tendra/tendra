@@ -18,11 +18,12 @@
 #include <stdlib.h>
 #include <errno.h>
 
-#include <exds/common.h>
-#include <exds/error.h>
-
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
+
+#include <exds/common.h>
+#include <exds/error.h>
 
 #include "adt/capsule.h"
 #include "adt/library.h"
@@ -62,8 +63,8 @@ linker_rename_1(NStringT *        shape,			 NameKeyPairListT *names,
 	name_table_add_rename(table, from, to);
 	name_table_add_rename(lib_table, from, to);
     }
-    name_table_resolve_renames(table, shape, TRUE);
-    name_table_resolve_renames(lib_table, shape, FALSE);
+    name_table_resolve_renames(table, shape, true);
+    name_table_resolve_renames(lib_table, shape, false);
 }
 
 static void
@@ -155,7 +156,7 @@ linker_load_libraries(ArgDataT *   arg_data,			       ShapeTableT *lib_shapes)
 }
 
 static void
-linker_suppress_1(NStringT *    shape,			   BoolT        all, 
+linker_suppress_1(NStringT *    shape,			   bool        all, 
 			   NameKeyListT *names, 
 			   void *     gclosure)
 {
@@ -208,7 +209,7 @@ linker_resolve_undefined(ArgDataT *   arg_data,
     closure.shapes              = shapes;
     closure.missing_definitions = arg_data_get_missing_definitions(arg_data);
     do {
-	closure.did_define = FALSE;
+	closure.did_define = false;
 	shape_table_iter(shapes, shape_entry_resolve_undefined,
 			 (void *) &closure);
     } while (closure.did_define);
@@ -219,7 +220,7 @@ linker_resolve_undefined(ArgDataT *   arg_data,
 }
 
 static void
-linker_hide(NStringT *    shape,		     BoolT        all, 
+linker_hide(NStringT *    shape,		     bool        all, 
 		     NameKeyListT *names, 
 		     void *     gclosure)
 {
@@ -254,7 +255,7 @@ linker_hide(NStringT *    shape,		     BoolT        all,
 }
 
 static void
-linker_keep(NStringT *    shape,		     BoolT        all, 
+linker_keep(NStringT *    shape,		     bool        all, 
 		     NameKeyListT *names, 
 		     void *     gclosure)
 {

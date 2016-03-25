@@ -40,12 +40,12 @@ typedef struct TDFReaderT {
 	} string;
     } u;
     ByteT			byte;
-    BoolT			new_byte;
+    bool			new_byte;
 } TDFReaderT;
 
 extern ExceptionT *	XX_tdf_read_error;
 
-extern BoolT			tdf_reader_open
+extern bool			tdf_reader_open
 (TDFReaderT *, const char *);
 extern void			tdf_reader_open_string
 (TDFReaderT *, char *, NStringT *);

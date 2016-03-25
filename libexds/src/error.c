@@ -19,6 +19,7 @@
 #include <assert.h>
 #include <ctype.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/string.h>
 
@@ -411,19 +412,19 @@ error_set_severity_message(ESeverityT severity, const char *message)
 	severity_data[severity].estring->contents = message;
 }
 
-BoolT
+bool
 error_set_prefix_message(const char *message)
 {
 	ErrorListT *error_list = error_parse_message(message);
 
 	if (error_list == NULL) {
-		return FALSE;
+		return false;
 	}
 
 	error_deallocate_error_list(error_prefix);
 	error_prefix = error_list;
 
-	return TRUE;
+	return true;
 }
 
 EStringT *
@@ -459,7 +460,7 @@ error_intern_strings(EStringDataT *vector)
 	}
 }
 
-BoolT
+bool
 error_redefine_string(const char *name, const char *contents)
 {
 	unsigned hash  = cstring_hash_value(name) % STRING_TABLE_SIZE;
@@ -468,13 +469,13 @@ error_redefine_string(const char *name, const char *contents)
 	while (entry) {
 		if (streq(entry->name, name)) {
 			entry->contents = contents;
-			return TRUE;
+			return true;
 		}
 
 		entry = entry->next;
 	}
 
-	return FALSE;
+	return false;
 }
 
 EStringT *

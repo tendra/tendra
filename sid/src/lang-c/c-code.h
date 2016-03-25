@@ -67,7 +67,7 @@ void		c_code_append_reference(CCodeT *, NStringT *);
 void		c_code_append_exception(CCodeT *);
 void		c_code_append_advance(CCodeT *);
 void		c_code_append_terminal(CCodeT *);
-void		c_code_check(CCodeT *, BoolT, BoolT, BoolT, TypeTupleT *,
+void		c_code_check(CCodeT *, bool, bool, bool, TypeTupleT *,
 				     TypeTupleT *, TableT *);
 const char *	c_code_file(CCodeT *);
 unsigned		c_code_line(CCodeT *);
@@ -81,7 +81,7 @@ void		c_output_c_code_action(COutputInfoT *, CCodeT *,
 void		c_output_c_code_basic(COutputInfoT *, CCodeT *, TypeTupleT *,
 					      SaveRStackT *, RuleT *);
 void		c_output_c_code_assign(COutputInfoT *, CCodeT *, EntryT *,
-					       EntryT *, EntryT *, BoolT, BoolT);
+					       EntryT *, EntryT *, bool, bool);
 void		c_output_c_code_param_assign(COutputInfoT *, CCodeT *,
 						     EntryT *, EntryT *);
 void		c_output_c_code_result_assign(COutputInfoT *, CCodeT *,

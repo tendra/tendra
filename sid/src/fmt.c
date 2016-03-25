@@ -10,10 +10,11 @@
  * fmt.h - Application-specific format specifiers for shared/error.
  */
 
+#include <shared/bool.h>
+#include <shared/error.h>
+
 #include <exds/ostream.h>
 #include <exds/dstring.h>
-
-#include <shared/error.h>
 
 #include "adt/basic.h"
 #include "adt/entry.h"

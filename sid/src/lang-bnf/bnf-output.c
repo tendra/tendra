@@ -9,9 +9,10 @@
 #include <stdio.h>
 #include <assert.h>
 
-#include <exds/dstring.h>
-
+#include <shared/bool.h>
 #include <shared/check.h>
+
+#include <exds/dstring.h>
 
 #include "bnf-output.h"
 #include "bnf-out-info.h"
@@ -116,6 +117,6 @@ bnf_output_parser(BNFOutputInfoT *info, GrammarT *grammar)
 	EntryListT *entry_list = grammar_entry_list(grammar);
 
 	table_untrace(table);
-	entry_list_iter_table(entry_list, FALSE, bnf_output_entry, info);
+	entry_list_iter_table(entry_list, false, bnf_output_entry, info);
 }
 

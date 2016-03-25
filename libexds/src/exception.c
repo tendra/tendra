@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <setjmp.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include <exds/common.h>
@@ -43,14 +44,14 @@ exception_corrupt_handler(void (*handler)(const char *file, unsigned line))
 NoReturnT
 X__exception_throw(void)
 {
-	static BoolT failing = FALSE;
+	static bool failing = false;
 	HandlerT *stack      = X__exception_handler_stack;
 
 	if (failing) {
 		abort();
 		UNREACHED;
 	} else if (stack == NULL) {
-		failing = TRUE;
+		failing = true;
 		if (unhandled) {
 			unhandled(X__exception_throw_data.exception,
 			X__exception_throw_data.file,
@@ -71,7 +72,7 @@ X__exception_throw(void)
 #endif /* PO_EXCEPTION_STACK_DIRECTION < 0 */
 		stack->next == stack) {
 
-		failing = TRUE;
+		failing = true;
 
 		if (corrupt_handler) {
 			corrupt_handler(stack->file, stack->line);

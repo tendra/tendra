@@ -15,6 +15,8 @@
 
 #include <stddef.h>
 
+#include <shared/bool.h>
+
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/dalloc.h>

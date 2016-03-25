@@ -16,6 +16,8 @@
 #include <assert.h>
 #include <stddef.h>
 
+#include <shared/bool.h>
+
 #include "c-out-nl.h"
 #include "../adt/action.h"
 #include "c-code.h"
@@ -36,13 +38,13 @@ c_output_save_non_locals_1(COutputInfoT *info, NonLocalEntryT *non_local,
 	OStreamT   *ostream = c_out_info_ostream(info);
 	EntryT     *entry   = non_local_entry_get_initialiser(non_local);
 	EntryT     *type;
-	BoolT       reference;
+	bool       reference;
 	EntryT     *translation;
 	KeyT       *key;
 	ActionT    *action;
 	TypeTupleT *param;
 	CCodeT     *code;
-	BoolT       copies;
+	bool       copies;
 	TypeTupleT  args;
 	TypeTupleT  result_args;
 	SaveRStackT state;
@@ -69,7 +71,7 @@ c_output_save_non_locals_1(COutputInfoT *info, NonLocalEntryT *non_local,
 		types_add_name_and_type(&args, translation, type, reference);
 	}
 	types_init(&result_args);
-	types_add_name_and_type(&result_args, non_local->name, type, FALSE);
+	types_add_name_and_type(&result_args, non_local->name, type, false);
 
 	copies = c_output_required_copies(info, c_code_param(code),
 		&args, rstack, &state, indent + C_INDENT_STEP, table);
@@ -170,8 +172,8 @@ c_output_save_non_locals(COutputInfoT *info, RuleT *rule, unsigned indent,
 		c_output_key(info, entry_key(entry), in_prefix);
 		write_newline(ostream);
 		rstack_add_translation(non_local_stack, non_local->name, entry,
-		non_local->type, FALSE);
-		rstack_add_translation(rstack, entry, entry, non_local->type, FALSE);
+		non_local->type, false);
+		rstack_add_translation(rstack, entry, entry, non_local->type, false);
 	}
 
 	write_newline(ostream);
@@ -180,7 +182,7 @@ c_output_save_non_locals(COutputInfoT *info, RuleT *rule, unsigned indent,
 
 	for (non_local = non_locals->head; non_local; non_local = non_local->next) {
 		EntryT *type;
-		BoolT   reference;
+		bool   reference;
 		EntryT *entry = rstack_get_translation(&non_local_state,
 			non_local->name, &type, &reference);
 

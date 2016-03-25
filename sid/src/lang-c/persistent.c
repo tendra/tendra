@@ -10,6 +10,8 @@
  * persistent.h - Persistent variables
  */
 
+#include <shared/bool.h>
+
 #include "persistent.h"
 
 PersistentT *

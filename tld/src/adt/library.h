@@ -35,7 +35,7 @@ typedef struct LibCapsuleT {
     struct LibraryT	       *library;
     char *			name;
     NStringT			contents;
-    BoolT			loaded;
+    bool			loaded;
 } LibCapsuleT;
 
 typedef struct LibraryT {
@@ -49,7 +49,7 @@ typedef struct LibraryT {
     LibCapsuleT *		capsules;
     unsigned			major;
     unsigned			minor;
-    BoolT			complete;
+    bool			complete;
 } LibraryT;
 
 extern char *			lib_capsule_name
@@ -58,7 +58,7 @@ extern char *			lib_capsule_full_name
 (LibCapsuleT *);
 extern NStringT *		lib_capsule_contents
 (LibCapsuleT *);
-extern BoolT			lib_capsule_is_loaded
+extern bool			lib_capsule_is_loaded
 (LibCapsuleT *);
 extern void			lib_capsule_loaded
 (LibCapsuleT *);
@@ -79,11 +79,11 @@ extern LibCapsuleT *	library_get_capsule
 extern size_t			library_byte
 (LibraryT *);
 extern void			library_content
-(LibraryT *, BoolT, BoolT, BoolT);
+(LibraryT *, bool, bool, bool);
 extern void			library_extract_all
-(LibraryT *, BoolT);
+(LibraryT *, bool);
 extern void			library_extract
-(LibraryT *, BoolT, BoolT, unsigned, char * *);
+(LibraryT *, bool, bool, unsigned, char * *);
 extern void			library_read
 (LibraryT *, ShapeTableT *);
 extern void			library_write

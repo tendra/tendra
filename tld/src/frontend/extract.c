@@ -19,11 +19,12 @@
 #include <stdlib.h>
 #include <errno.h>
 
-#include <exds/common.h>
-#include <exds/error.h>
-
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
+
+#include <exds/common.h>
+#include <exds/error.h>
 
 #include "adt/library.h"
 #include "adt/solve-cycles.h"
@@ -32,9 +33,9 @@
 void
 extract_main(ArgDataT *arg_data)
 {
-    BoolT     extract_all  = arg_data_get_extract_all(arg_data);
-    BoolT     extract_base = arg_data_get_extract_basename(arg_data);
-    BoolT     match_base   = arg_data_get_extract_match_base(arg_data);
+    bool     extract_all  = arg_data_get_extract_all(arg_data);
+    bool     extract_base = arg_data_get_extract_basename(arg_data);
+    bool     match_base   = arg_data_get_extract_match_base(arg_data);
     unsigned  num_files    = arg_data_get_num_files(arg_data);
     char * *files        = arg_data_get_files(arg_data);
     LibraryT * library;

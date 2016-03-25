@@ -13,6 +13,8 @@
  * This file implements the mapping table routines used by the TDF linker.
  */
 
+#include <shared/bool.h>
+
 #include "map-table.h"
 #include "solve-cycles.h"
 

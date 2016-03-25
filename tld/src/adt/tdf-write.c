@@ -13,6 +13,8 @@
  * This file implements the TDF writer routines used by the TDF linker.
  */
 
+#include <shared/bool.h>
+
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/ostream.h>
@@ -25,23 +27,23 @@ static void
 tdf_write_nibble(TDFWriterT *writer,			  unsigned   nibble)
 {
     if (writer->new_byte) {
-	writer->new_byte = FALSE;
+	writer->new_byte = false;
 	writer->byte     = (ByteT)((nibble & 0x0F) << 4);
     } else {
-	writer->new_byte = TRUE;
+	writer->new_byte = true;
 	writer->byte    |= (ByteT)(nibble & 0x0F);
 	bostream_write_byte(& (writer->bostream), writer->byte);
     }
 }
 
-BoolT
+bool
 tdf_writer_open(TDFWriterT *writer,			 char *   name)
 {
-    writer->new_byte = TRUE;
+    writer->new_byte = true;
     if (!bostream_open(& (writer->bostream), name)) {
-	return FALSE;
+	return false;
     }
-    return TRUE;
+    return true;
 }
 
 const char *
@@ -75,7 +77,7 @@ tdf_write_align(TDFWriterT *writer)
 {
     if (!(writer->new_byte)) {
 	bostream_write_byte(& (writer->bostream), writer->byte);
-	writer->new_byte = TRUE;
+	writer->new_byte = true;
     }
 }
 

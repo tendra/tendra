@@ -73,7 +73,7 @@ typedef struct EntryT {
 	 * section of the .act file. It is only valid for types, terminals and
 	 * rules.
 	 */
-    BoolT			mapped;
+    bool			mapped;
 
 	/*
 	 * The value of the C identifier to which the entry must be mapped in the
@@ -118,7 +118,7 @@ typedef struct EntryT {
 	 * done with the function table_untrace(). To see how traced can be used,
 	 * just grep for that.
 	 */
-    BoolT			traced;
+    bool			traced;
 
 	/*
 	 * A pointer as indicated by the .type field.
@@ -140,7 +140,7 @@ typedef struct EntryT {
 
 EntryT *		entry_create_from_string(NStringT *, unsigned,
 						 EntryTypeT);
-EntryT *		entry_create_from_number(unsigned, EntryTypeT, BoolT,
+EntryT *		entry_create_from_number(unsigned, EntryTypeT, bool,
 						 EntryT *);
 void		entry_set_basic(EntryT *, struct BasicT *);
 void		entry_set_rule(EntryT *, struct RuleT *);
@@ -152,11 +152,11 @@ EntryT *	       *entry_next_ref(EntryT *);
 KeyT *		entry_key(EntryT *);
 EntryTypeT	entry_type(EntryT *);
 void		entry_change_type(EntryT *, EntryTypeT);
-BoolT		entry_is_basic(EntryT *);
-BoolT		entry_is_action(EntryT *);
-BoolT		entry_is_rule(EntryT *);
-BoolT		entry_is_type(EntryT *);
-BoolT		entry_is_non_local(EntryT *);
+bool		entry_is_basic(EntryT *);
+bool		entry_is_action(EntryT *);
+bool		entry_is_rule(EntryT *);
+bool		entry_is_type(EntryT *);
+bool		entry_is_non_local(EntryT *);
 struct BasicT   *entry_get_basic(EntryT *);
 struct ActionT  *entry_get_action(EntryT *);
 struct RuleT    *entry_get_rule(EntryT *);
@@ -165,9 +165,9 @@ struct TypeT    *entry_get_type(EntryT *);
 EntryT *		entry_get_non_local(EntryT *);
 void		entry_set_mapping(EntryT *, NStringT *);
 NStringT *		entry_get_mapping(EntryT *);
-void		entry_iter(EntryT *, BoolT, void(*)(EntryT *, void *),
+void		entry_iter(EntryT *, bool, void(*)(EntryT *, void *),
 				   void *);
 void		entry_not_traced(EntryT *);
-BoolT		entry_is_traced(EntryT *);
+bool		entry_is_traced(EntryT *);
 
 #endif /* !defined (H_ENTRY) */

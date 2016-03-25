@@ -65,6 +65,7 @@
 
 #include <assert.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 
@@ -74,14 +75,14 @@
 
 typedef struct MatrixEntryT {
 	AltT        *alt;
-	BoolT        inited;
+	bool        inited;
 	TypeTupleT   param;
 } MatrixEntryT;
 
 typedef struct VectorEntryT {
-	BoolT       empty_alt;
+	bool       empty_alt;
 	AltT       *alt;
-	BoolT       inited;
+	bool       inited;
 	TypeTupleT  param;
 } VectorEntryT;
 
@@ -100,7 +101,7 @@ rule_left_cycle_matrix(unsigned size)
 
 	for (i = 0; i < size; i++) {
 		array[i].alt    = NULL;
-		array[i].inited = FALSE;
+		array[i].inited = false;
 	}
 
 	return array;
@@ -120,9 +121,9 @@ rule_left_cycle_vector(unsigned size)
 	}
 
 	for (i = 0; i < size; i++) {
-		array[i].empty_alt = FALSE;
+		array[i].empty_alt = false;
 		array[i].alt       = NULL;
-		array[i].inited    = FALSE;
+		array[i].inited    = false;
 	}
 
 	return array;
@@ -221,7 +222,7 @@ rule_renumber_item_list(ItemT *item, TypeNTransT *translator)
 	}
 }
 
-static BoolT
+static bool
 rule_compare_item_lists(ItemT *rec_suffix, ItemT *non_rec_item)
 {
 	for ( ; rec_suffix;
@@ -230,19 +231,19 @@ rule_compare_item_lists(ItemT *rec_suffix, ItemT *non_rec_item)
 		assert(non_rec_item);
 		if (!types_equal_numbers(item_param(rec_suffix), item_param(non_rec_item))
 			|| !types_equal_numbers(item_result(rec_suffix), item_result(non_rec_item))) {
-			return FALSE;
+			return false;
 		}
 	}
 	assert(non_rec_item == NULL);
 
-	return TRUE;
+	return true;
 }
 
 static void
 rule_left_cycle_special_case_2(RuleT *rule, TableT *table, AltT *non_rec_alt,
 	AltT *rec_alt, TypeTupleT *param, ItemT *rec_suffix)
 {
-	EntryT      *entry    = table_add_generated_rule(table, TRUE);
+	EntryT      *entry    = table_add_generated_rule(table, true);
 	RuleT       *new_rule = entry_get_rule(entry);
 	ItemT       *new_item = item_create(entry);
 	ItemT       *rec_item = alt_unlink_item_head(rec_alt);
@@ -305,7 +306,7 @@ rule_left_cycle_special_case_2(RuleT *rule, TableT *table, AltT *non_rec_alt,
 	rule_add_alt(new_rule, new_alt);
 }
 
-static BoolT
+static bool
 rule_left_cycle_special_case_1(RuleT * rule, TableT * table)
 {
 	AltT        *rec_alt = rule_alt_head(rule);
@@ -320,7 +321,7 @@ rule_left_cycle_special_case_1(RuleT * rule, TableT * table)
 
 	non_rec_alt = alt_next(rec_alt);
 	if (non_rec_alt == NULL || alt_next(non_rec_alt)) {
-		return FALSE;
+		return false;
 	}
 
 	if (item_is_rule(non_rec_item = alt_item_head(non_rec_alt))
@@ -333,27 +334,27 @@ rule_left_cycle_special_case_1(RuleT * rule, TableT * table)
 
 	if (item_is_rule(non_rec_item) &&
 		entry_get_rule(item_entry(non_rec_item)) == rule) {
-		return FALSE;
+		return false;
 	}
 
 	rec_item = alt_item_head(rec_alt);
 	if (!types_equal_names(rule_param(rule), item_param(rec_item))
 		|| !types_equal(rule_param(rule), rule_result(rule))) {
-		return FALSE;
+		return false;
 	}
 
 	rec_next = item_next(rec_item);
 	if (item_names_used_in_list(rec_next, rule_param(rule))) {
-		return FALSE;
+		return false;
 	}
 
 	rec_suffix = rule_find_suffix(rec_item, non_rec_item);
 	if (rec_suffix == NULL) {
-		return FALSE;
+		return false;
 	}
 
 	if (rec_suffix != rec_next && item_names_used_in_list(rec_suffix, item_result(rec_item))) {
-		return FALSE;
+		return false;
 	}
 
 	rule_renumber_item_list(non_rec_item, &non_rec_translator);
@@ -361,7 +362,7 @@ rule_left_cycle_special_case_1(RuleT * rule, TableT * table)
 	if (!rule_compare_item_lists(rec_suffix, non_rec_item)) {
 		ntrans_destroy(&non_rec_translator);
 		ntrans_destroy(&rec_translator);
-		return FALSE;
+		return false;
 	}
 
 	if (rec_suffix == rec_next) {
@@ -378,10 +379,10 @@ rule_left_cycle_special_case_1(RuleT * rule, TableT * table)
 			&param, rec_suffix);
 	}
 
-	return TRUE;
+	return true;
 }
 
-static BoolT
+static bool
 rule_left_cycle_special_case(RuleT *rule, TableT *table)
 {
 	AltT  *alt;
@@ -393,16 +394,16 @@ rule_left_cycle_special_case(RuleT *rule, TableT *table)
 
 	alt = rule_alt_head(rule);
 	if (alt == NULL || alt_next(alt) != NULL) {
-		return FALSE;
+		return false;
 	}
 
 	item = alt_unlink_item_head(alt);
 	alt_add_item(alt, item);
 
-	return TRUE;
+	return true;
 }
 
-static BoolT
+static bool
 rule_check_non_locals(RuleT *this_rule, RuleT *rule_list, unsigned real_size)
 {
 	NStringT *scope  = rule_maximum_scope(this_rule);
@@ -427,26 +428,26 @@ rule_check_non_locals(RuleT *this_rule, RuleT *rule_list, unsigned real_size)
 					"involving the following productions:\n%P",
 					(void *) this_rule, (void *) rule, (void *) rule_list);
 
-				return FALSE;
+				return false;
 			}
 		}
 	}
 
 	if (non_local_list_is_empty(rule_non_locals(this_rule)) || real_size == 1) {
-		return TRUE;
+		return true;
 	}
 
 	error(ERR_SERIOUS, "the rule '%N' declares non local names in the left "
 		"recursive cycle with more than one entry point involving the "
 		"following productions:\n%P", (void *) this_rule, (void *) rule_list);
 
-	return FALSE;
+	return false;
 }
 
-static BoolT
+static bool
 rule_check_alt_cycle_types(RuleT *rule, RuleT *rule_list, AltT *alt,
-	BoolT need_check, TypeBTransT *translator1, TypeBTransT *translator2,
-	TableT *table, BoolT *generate_ref)
+	bool need_check, TypeBTransT *translator1, TypeBTransT *translator2,
+	TableT *table, bool *generate_ref)
 {
 	ItemT *item = alt_item_head(alt);
 	RuleT *item_rule;
@@ -454,12 +455,12 @@ rule_check_alt_cycle_types(RuleT *rule, RuleT *rule_list, AltT *alt,
 
 	item_translate_list(item, translator1);
 	if (!item_is_rule(item)) {
-		return TRUE;
+		return true;
 	}
 
 	item_rule = entry_get_rule(item_entry(item));
 	if (rule_get_cycle_index(item_rule) == 0) {
-		return TRUE;
+		return true;
 	}
 
 	if (need_check && !types_equal_names(rule_param(rule), item_param(item))) {
@@ -470,7 +471,7 @@ rule_check_alt_cycle_types(RuleT *rule, RuleT *rule_list, AltT *alt,
 			"in the following productions do not match:\n%P",
 			(void *) rule_list);
 
-		return FALSE;
+		return false;
 	}
 
 	/*
@@ -504,7 +505,7 @@ rule_check_alt_cycle_types(RuleT *rule, RuleT *rule_list, AltT *alt,
 
 	if (*generate_ref) {
 		btrans_generate_names(translator2, item_result(item), table);
-		*generate_ref = FALSE;
+		*generate_ref = false;
 	} else {
 		btrans_regenerate_names(translator2, item_result(item));
 	}
@@ -512,24 +513,24 @@ rule_check_alt_cycle_types(RuleT *rule, RuleT *rule_list, AltT *alt,
 	types_translate(item_result(item), translator2);
 	item_translate_list(item_next(item), translator2);
 
-	return TRUE;
+	return true;
 }
 
-static BoolT
+static bool
 rule_check_cycle_types(RuleT *rule_list, EntryT *predicate_id,
 	unsigned real_size, TableT *table)
 {
 	TypeTupleT  *param    = rule_param(rule_list);
 	TypeTupleT  *result   = rule_result(rule_list);
 	AltT        *handler  = rule_get_handler(rule_list);
-	BoolT        generate = TRUE;
+	bool        generate = true;
 	RuleT       *rule;
 	TypeBTransT  translator1;
 	TypeBTransT  translator2;
 
-	rule_renumber(rule_list, TRUE, predicate_id);
+	rule_renumber(rule_list, true, predicate_id);
 	if (!rule_check_non_locals(rule_list, rule_list, real_size)) {
-		return FALSE;
+		return false;
 	}
 
 	for (rule = rule_get_next_in_reverse_dfs(rule_list); rule;
@@ -539,19 +540,19 @@ rule_check_cycle_types(RuleT *rule_list, EntryT *predicate_id,
 			error(ERR_SERIOUS, "the parameter or result types of the left "
 				"recursive calls in the following productions do not match:\n%P",
 				(void *) rule_list);
-			return FALSE;
+			return false;
 		}
 
-		rule_renumber(rule, TRUE, predicate_id);
+		rule_renumber(rule, true, predicate_id);
 		if (!alt_equal(handler, rule_get_handler(rule))) {
 			error(ERR_SERIOUS, "the exception handlers in the left recursion "
 				"involving the following productions do not match:\n%P",
 				(void *) rule_list);
-			return FALSE;
+			return false;
 		}
 
 		if (!rule_check_non_locals(rule, rule_list, real_size)) {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -569,14 +570,14 @@ rule_check_cycle_types(RuleT *rule_list, EntryT *predicate_id,
 
 		alt = rule_get_handler(rule);
 		if (alt != NULL) {
-			IGNORE rule_check_alt_cycle_types(rule, rule_list, alt, FALSE,
+			IGNORE rule_check_alt_cycle_types(rule, rule_list, alt, false,
 				&translator1, &translator2, table, &generate);
 		}
 
 		for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
-			if (!rule_check_alt_cycle_types(rule, rule_list, alt, TRUE,
+			if (!rule_check_alt_cycle_types(rule, rule_list, alt, true,
 				&translator1, &translator2, table, &generate)) {
-				return FALSE;
+				return false;
 			}
 		}
 	}
@@ -584,7 +585,7 @@ rule_check_cycle_types(RuleT *rule_list, EntryT *predicate_id,
 	btrans_destroy(&translator1);
 	btrans_destroy(&translator2);
 
-	return TRUE;
+	return true;
 }
 
 static void
@@ -624,9 +625,9 @@ rule_left_cycle_general_case_1(RuleT *rule_list, unsigned size,
 	TypeTupleT *gen_param, TypeTupleT *gen_result)
 {
 	unsigned     i               = 0;
-	BoolT        generate        = TRUE;
-	BoolT        generate_param  = TRUE;
-	BoolT        generate_result = TRUE;
+	bool        generate        = true;
+	bool        generate_param  = true;
+	bool        generate_result = true;
 	RuleT       *rule;
 	TypeBTransT  translator;
 	TypeBTransT  tmp_trans;
@@ -650,7 +651,7 @@ rule_left_cycle_general_case_1(RuleT *rule_list, unsigned size,
 		types_copy(&old_result, rule_result(rule));
 		if (generate) {
 			btrans_generate_names(&translator, rule_result(rule), table);
-			generate = FALSE;
+			generate = false;
 		} else {
 			btrans_regenerate_names(&translator, rule_result(rule));
 		}
@@ -663,7 +664,7 @@ rule_left_cycle_general_case_1(RuleT *rule_list, unsigned size,
 		}
 
 		if (rule_has_empty_alt(rule)) {
-			vector[i].empty_alt = TRUE;
+			vector[i].empty_alt = true;
 		}
 
 		while (alt) {
@@ -685,7 +686,7 @@ rule_left_cycle_general_case_1(RuleT *rule_list, unsigned size,
 
 						types_copy(param, &param_subset);
 						types_append_copy(param, &old_result);
-						matrix[matrix_index].inited = TRUE;
+						matrix[matrix_index].inited = true;
 					}
 
 					if (generate_param) {
@@ -693,7 +694,7 @@ rule_left_cycle_general_case_1(RuleT *rule_list, unsigned size,
 
 						types_copy(gen_param, &param_subset);
 						types_append_copy(gen_param, item_result(item_head));
-						generate_param = FALSE;
+						generate_param = false;
 					}
 
 					IGNORE item_deallocate(alt_unlink_item_head(tmp_alt));
@@ -708,13 +709,13 @@ rule_left_cycle_general_case_1(RuleT *rule_list, unsigned size,
 
 				types_copy(param, &param_subset);
 				types_append_copy(param, &old_result);
-				vector[i].inited = TRUE;
+				vector[i].inited = true;
 			}
 
 			if (generate_result) {
 				types_copy(gen_result, &dummy);
 				types_append_copy(gen_result, rule_result(rule));
-				generate_result = FALSE;
+				generate_result = false;
 			}
 
 			alt_set_next(tmp_alt, vector[i].alt);
@@ -729,16 +730,16 @@ rule_left_cycle_general_case_1(RuleT *rule_list, unsigned size,
 	btrans_destroy(&translator);
 }
 
-static BoolT
+static bool
 rule_left_cycle_general_case_2(RuleT *rule_list, unsigned size,
 	VectorEntryT *vector)
 {
-	BoolT    not_found = TRUE;
+	bool    not_found = true;
 	unsigned i;
 
 	for (i = 0; i < size; i++) {
 		if (vector[i].empty_alt || vector[i].alt) {
-			not_found = FALSE;
+			not_found = false;
 		}
 	}
 
@@ -746,10 +747,10 @@ rule_left_cycle_general_case_2(RuleT *rule_list, unsigned size,
 		error(ERR_SERIOUS, "no cycle termination for the left recursive set "
 			"involving the following rules: %W", (void *) rule_list);
 
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 static void
@@ -760,7 +761,7 @@ rule_left_cycle_general_case_3(RuleT *rule, unsigned size, VectorEntryT *vector,
 	unsigned j;
 
 	for (j = 0; j < size; j++) {
-		EntryT *entry    = table_add_generated_rule(table, TRUE);
+		EntryT *entry    = table_add_generated_rule(table, true);
 		RuleT  *new_rule = entry_get_rule(entry);
 		AltT   *alt;
 

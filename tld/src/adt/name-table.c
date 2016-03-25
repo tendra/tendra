@@ -13,6 +13,7 @@
  * This file implements the name table routines used by the TDF linker.
  */
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include "name-table.h"
@@ -64,7 +65,7 @@ name_table_add_rename(NameTableT *table,			       NameKeyT *  from,
 
 void
 name_table_resolve_renames(NameTableT *table,				    NStringT *  shape, 
-				    BoolT      report)
+				    bool      report)
 {
     unsigned i;
 

@@ -19,13 +19,14 @@
 #include <errno.h>
 #include <ctype.h>
 
+#include <shared/bool.h>
+#include <shared/check.h>
+#include <shared/error.h>
+
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/dstring.h>
 #include <exds/istream.h>
-
-#include <shared/check.h>
-#include <shared/error.h>
 
 #include <tdf/magic.h>
 
@@ -104,7 +105,7 @@ capsule_setup_defaults(void)
 static void
 capsule_setup(UnitTableT * units)
 {
-    static BoolT need_setup = TRUE;
+    static bool need_setup = true;
 
     if (need_setup) {
 	unsigned i;
@@ -118,18 +119,18 @@ capsule_setup(UnitTableT * units)
 	    capsule_unit_sets[i].entry = entry;
 	    debug_info_u_name(name);
 	}
-	need_setup = FALSE;
+	need_setup = false;
     }
 }
 
-static BoolT
+static bool
 capsule_read_unit_set_name(IStreamT *istream,				    DStringT *dstring)
 {
     char c;
 
     do {
 	if (!istream_read_char(istream, &c)) {
-	    return FALSE;
+	    return false;
 	}
     } while (isspace(c));
     if (c != '"') {
@@ -139,7 +140,7 @@ capsule_read_unit_set_name(IStreamT *istream,				    DStringT *dstring)
     dstring_init(dstring);
     while (istream_read_char(istream, &c)) {
 	if (c == '"') {
-	    return TRUE;
+	    return true;
 	} else if (c == '\\') {
 	    switch (istream_read_escaped_char(istream, &c)) {
 	      case ISTREAM_STAT_READ_CHAR:
@@ -166,16 +167,16 @@ capsule_read_unit_set_name(IStreamT *istream,				    DStringT *dstring)
 static void
 capsule_check_unit_sets(IStreamT *istream)
 {
-    static BoolT    inited    = FALSE;
+    static bool    inited    = false;
     static NStringT tld;
     static NStringT tld2;
-    BoolT           tld_found = FALSE;
+    bool           tld_found = false;
     unsigned        i;
 
     if (!inited) {
 	nstring_copy_cstring(&tld, "tld");
 	nstring_copy_cstring(&tld2, "tld2");
-	inited = TRUE;
+	inited = true;
     }
     capsule_tld_index  = UINT_MAX;
     capsule_tld2_index = UINT_MAX;
@@ -193,7 +194,7 @@ capsule_check_unit_sets(IStreamT *istream)
 	}
 	if (nstring_equal(name, &tld)) {
 	    capsule_tld_index = i;
-	    tld_found         = TRUE;
+	    tld_found         = true;
 	} else if (nstring_equal(name, &tld2)) {
 	    capsule_tld2_index = i;
 	}
@@ -265,11 +266,11 @@ static NStringT *
 capsule_magic(void)
 {
     static NStringT const_magic;
-    static BoolT    inited = FALSE;
+    static bool    inited = false;
 
     if (!inited) {
 	nstring_copy_cstring(&const_magic, MAGIC_NUMBER);
-	inited = TRUE;
+	inited = true;
     }
     return &const_magic;
 }
@@ -328,7 +329,7 @@ capsule_read_unit_set_names(CapsuleT *  capsule,				     UnitTableT *units,
     UnitEntryT * tld2_entry    = ((capsule_tld2_index == UINT_MAX)?
 				 NULL:
 				 capsule_unit_sets[capsule_tld2_index].entry);
-    BoolT       has_tld_unit  = FALSE;
+    bool       has_tld_unit  = false;
     unsigned    i;
 
     debug_info_r_start_unit_decs(num_unit_sets);
@@ -369,7 +370,7 @@ capsule_read_unit_set_names(CapsuleT *  capsule,				     UnitTableT *units,
 		    THROW(XX_capsule_error);
 		    UNREACHED;
 		}
-		has_tld_unit = TRUE;
+		has_tld_unit = true;
 	    }
 	    units_vec[i] = entry;
 	} else {
@@ -543,8 +544,8 @@ capsule_get_tag_index(ShapeTableT *shapes,			       unsigned    num_shapes,
 
 static void
 capsule_read_usage(CapsuleT * capsule,			    NameDataT *entry, 
-			    BoolT     need_dec, 
-			    BoolT     no_mult, 
+			    bool     need_dec, 
+			    bool     no_mult, 
 			    NStringT * shape_key)
 {
     TDFReaderT * reader    = capsule_reader(capsule);
@@ -615,13 +616,13 @@ capsule_read_tld_type_0_unit(CapsuleT *capsule, ShapeTableT *shapes,
     if (i != UINT_MAX) {
 	NStringT *key = shape_entry_key(shapes_vec[i].entry);
 
-	capsule_read_usage(capsule, & (names_vec_vec[i]), FALSE, TRUE, key);
+	capsule_read_usage(capsule, & (names_vec_vec[i]), false, true, key);
     }
     i = capsule_get_tag_index(shapes, num_shapes, shapes_vec);
     if (i != UINT_MAX) {
 	NStringT *key = shape_entry_key(shapes_vec[i].entry);
 
-	capsule_read_usage(capsule, & (names_vec_vec[i]), TRUE, FALSE, key);
+	capsule_read_usage(capsule, & (names_vec_vec[i]), true, false, key);
     }
 }
 
@@ -957,7 +958,7 @@ capsule_create_stream_input(char * name)
 	return NULL;
     }
     capsule->name     = name;
-    capsule->complete = FALSE;
+    capsule->complete = false;
     return capsule;
 }
 
@@ -969,7 +970,7 @@ capsule_create_string_input(char * name,				     NStringT *contents)
     capsule->type     = CT_INPUT;
     tdf_reader_open_string(capsule_reader(capsule), name, contents);
     capsule->name     = name;
-    capsule->complete = FALSE;
+    capsule->complete = false;
     return capsule;
 }
 
@@ -1031,7 +1032,7 @@ capsule_read(CapsuleT *   capsule,		      UnitTableT * units,
 	}
 	DEALLOCATE(shapes_vec);
 	DEALLOCATE(names_vec_vec);
-	capsule->complete = TRUE;
+	capsule->complete = true;
     } WITH {
 	ExceptionT *exception = EXCEPTION_EXCEPTION();
 

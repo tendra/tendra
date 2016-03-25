@@ -14,6 +14,8 @@
  * linker.
  */
 
+#include <shared/bool.h>
+
 #include "unit-entry.h"
 #include "shape-entry.h"
 #include "solve-cycles.h"

@@ -34,6 +34,11 @@
 #include <string.h>
 #include <errno.h>
 
+#include <shared/bool.h>
+#include <shared/check.h>
+#include <shared/error.h>
+#include <shared/string.h>
+
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/cstring.h>
@@ -42,10 +47,6 @@
 #include <exds/istream.h>
 #include <exds/ostream.h>
 #include <exds/cstring-list.h>
-
-#include <shared/check.h>
-#include <shared/error.h>
-#include <shared/string.h>
 
 #include "adt/rule.h"
 
@@ -71,11 +72,11 @@ where option is one of:\n"
 
 typedef struct PhaseListT {
 	char *phase;
-	void (*proc)(BoolT);
+	void (*proc)(bool);
 } PhaseListT;
 
 static void
-main_handle_phase_all(BoolT enable)
+main_handle_phase_all(bool enable)
 {
 	rule_set_inline_singles(enable);
 	rule_set_inline_tail_calls(enable);
@@ -84,8 +85,8 @@ main_handle_phase_all(BoolT enable)
 	rule_set_multiple_inlining(enable);
 }
 
-static BoolT main_did_one_off = FALSE;
-static BoolT main_did_other   = FALSE;
+static bool main_did_one_off = false;
+static bool main_did_other   = false;
 
 static OutputInfoT *main_info_closure;
 
@@ -121,7 +122,7 @@ main_handle_dump_file(char *option, ArgUsageT *usage, void *gclosure,
 	UNUSED(usage);
 	UNUSED(gclosure);
 
-	main_did_other = TRUE;
+	main_did_other = true;
 	if (ostream_is_open(&dump_stream)) {
 		error(ERR_FATAL, "more than one dump file specified");
 		UNREACHED;
@@ -137,7 +138,7 @@ main_handle_help(char *option, ArgUsageT *usage, void *gclosure)
 	UNUSED(option);
 	UNUSED(gclosure);
 
-	main_did_one_off = TRUE;
+	main_did_one_off = true;
 	write_arg_usage(ostream_error, usage);
 	write_newline(ostream_error);
 	ostream_flush(ostream_error);
@@ -152,7 +153,7 @@ main_handle_factor_limit(char *option, ArgUsageT *usage, void *gclosure,
 	UNUSED(option);
 	UNUSED(usage);
 	UNUSED(gclosure);
-	main_did_other = TRUE;
+	main_did_other = true;
 	if (!cstring_to_unsigned(limit_str, &limit) || limit == 0) {
 		error(ERR_FATAL, "bad factor limit '%s'", limit_str);
 		UNREACHED;
@@ -167,9 +168,9 @@ main_handle_inlining(char *option, ArgUsageT *usage, void *gclosure,
 	UNUSED(option);
 	UNUSED(usage);
 	UNUSED(gclosure);
-	main_did_other = TRUE;
+	main_did_other = true;
 	while (*inline_str) {
-		BoolT       enable = TRUE;
+		bool       enable = true;
 		DStringT    dstring;
 		char       *phase;
 		PhaseListT *entry;
@@ -177,7 +178,7 @@ main_handle_inlining(char *option, ArgUsageT *usage, void *gclosure,
 		if (tolower((unsigned char)inline_str[0]) == 'n' &&
 			(tolower((unsigned char)inline_str[1]) == 'o')) {
 			inline_str += 2;
-			enable = FALSE;
+			enable = false;
 		}
 		dstring_init(&dstring);
 		while (*inline_str && *inline_str != ',') {
@@ -214,7 +215,7 @@ main_handle_language(char *option, ArgUsageT *usage, void *gclosure,
 	UNUSED(option);
 	UNUSED(usage);
 	UNUSED(gclosure);
-	main_did_other = TRUE;
+	main_did_other = true;
 
 	for (i = 0; i < sizeof main_language_list / sizeof *main_language_list; i++) {
 		if (streq(language_str, main_language_list[i]->language)) {
@@ -235,7 +236,7 @@ main_handle_switch(char *option, ArgUsageT *usage, void *gclosure,
 	UNUSED(usage);
 	UNUSED(gclosure);
 
-	main_did_other = TRUE;
+	main_did_other = true;
 	cstring_list_append(&main_language_options, opt);
 }
 
@@ -246,7 +247,7 @@ main_handle_version(char *option, ArgUsageT *usage, void *gclosure)
 	UNUSED(usage);
 	UNUSED(gclosure);
 
-	main_did_one_off = TRUE;
+	main_did_one_off = true;
 	write_cstring(ostream_error, PROGNAME);
 	write_cstring(ostream_error, ": ");
 	write_cstring(ostream_error, VERSION);

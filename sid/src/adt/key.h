@@ -34,7 +34,7 @@ typedef struct KeyT {
 void		key_init_from_string(KeyT *, NStringT *, unsigned);
 void		key_init_from_number(KeyT *, unsigned);
 CmpT		key_compare(KeyT *, KeyT *);
-BoolT		key_is_string(KeyT *);
+bool		key_is_string(KeyT *);
 NStringT *		key_get_string(KeyT *);
 unsigned		key_get_number(KeyT *);
 unsigned		key_hash_value(KeyT *);

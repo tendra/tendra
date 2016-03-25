@@ -22,6 +22,7 @@
 #include <string.h>
 #include <errno.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include <exds/common.h>
@@ -72,7 +73,7 @@ ostream_init(OStreamT *ostream)
 	ostream->name = NULL;
 }
 
-BoolT
+bool
 ostream_open(OStreamT *ostream, const char *name)
 {
 	const char *oname = name;
@@ -85,16 +86,16 @@ ostream_open(OStreamT *ostream, const char *name)
 		oname = s;
 	}
 	if ((ostream->file = fopen(oname, "w")) == NULL) {
-		return FALSE;
+		return false;
 	}
 	ostream->name = oname;
 	ostream->gen_name = name;
 	ostream->line = 1;
 	IGNORE setvbuf(ostream->file, NULL, _IOFBF, (size_t) BUFSIZ);
-	return TRUE;
+	return true;
 }
 
-BoolT
+bool
 ostream_is_open(OStreamT *ostream)
 {
 	return ostream->name != NULL;

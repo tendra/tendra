@@ -15,6 +15,7 @@
 
 #include <assert.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 
@@ -69,7 +70,7 @@ scope_stack_pop(ScopeStackT *stack)
 
 EntryT *
 scope_stack_add_rule(ScopeStackT *stack, TableT *table, NStringT *key,
-	RuleT *rule, BoolT *found_ref)
+	RuleT *rule, bool *found_ref)
 {
 	DStringT        dstring;
 	NStringT        nstring;
@@ -77,10 +78,10 @@ scope_stack_add_rule(ScopeStackT *stack, TableT *table, NStringT *key,
 	EntryT         *from;
 	ScopeMapEntryT *map;
 
-	*found_ref = FALSE;
+	*found_ref = false;
 	if (!stack->head) {
 		if (table_get_rule(table, key)) {
-			*found_ref = TRUE;
+			*found_ref = true;
 		}
 
 		return table_add_rule(table, key);
@@ -94,7 +95,7 @@ scope_stack_add_rule(ScopeStackT *stack, TableT *table, NStringT *key,
 
 	entry = table_get_rule(table, &nstring);
 	if (entry != NULL) {
-		*found_ref = TRUE;
+		*found_ref = true;
 		nstring_destroy(&nstring);
 		return entry;
 	}
@@ -120,7 +121,7 @@ scope_stack_add_rule(ScopeStackT *stack, TableT *table, NStringT *key,
 
 EntryT *
 scope_stack_add_action(ScopeStackT *stack, TableT *table, NStringT *key,
-	RuleT *rule, BoolT *found_ref, BoolT ignored)
+	RuleT *rule, bool *found_ref, bool ignored)
 {
 	DStringT        dstring;
 	NStringT        nstring;
@@ -128,10 +129,10 @@ scope_stack_add_action(ScopeStackT *stack, TableT *table, NStringT *key,
 	EntryT         *from;
 	ScopeMapEntryT *map;
 
-	*found_ref = FALSE;
+	*found_ref = false;
 	if (!stack->head) {
 		if (table_get_action(table, key)) {
-			*found_ref = TRUE;
+			*found_ref = true;
 		}
 
 		return table_add_action(table, key, ignored);
@@ -145,7 +146,7 @@ scope_stack_add_action(ScopeStackT *stack, TableT *table, NStringT *key,
 
 	entry = table_get_action(table, &nstring);
 	if (entry != NULL) {
-		*found_ref = TRUE;
+		*found_ref = true;
 		nstring_destroy(&nstring);
 		return entry;
 	}
@@ -303,7 +304,7 @@ scope_stack_get_non_local(ScopeStackT *stack, TableT *table, NStringT *key,
 	return NULL;
 }
 
-BoolT
+bool
 scope_stack_check_shadowing(ScopeStackT *stack, EntryT *from, RuleT *rule)
 {
 	ScopeStackFrameT *frame;
@@ -315,7 +316,7 @@ scope_stack_check_shadowing(ScopeStackT *stack, EntryT *from, RuleT *rule)
 			if (entry->from == from) {
 				error(ERR_SERIOUS, "the name '%K' shadows the non local name '%K' in rule '%N'",
 					(void *) entry_key(from), (void *) entry_key(entry->to), rule);
-				return TRUE;
+				return true;
 			}
 		}
 	}
@@ -323,8 +324,8 @@ scope_stack_check_shadowing(ScopeStackT *stack, EntryT *from, RuleT *rule)
 	if (entry_is_rule(from) || entry_is_action(from) || entry_is_basic(from)) {
 		error(ERR_SERIOUS, "the name '%K' shadows a global name in rule '%N'",
 			(void *) entry_key(from), (void *) rule);
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }

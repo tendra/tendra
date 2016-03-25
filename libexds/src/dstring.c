@@ -19,6 +19,7 @@
 #include <ctype.h>
 #include <string.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include <exds/common.h>
@@ -157,7 +158,7 @@ nstring_compare(NStringT *nstring1, NStringT *nstring2)
 	}
 }
 
-BoolT
+bool
 nstring_equal(NStringT *nstring1, NStringT *nstring2)
 {
 	size_t length = nstring_length(nstring1);
@@ -166,7 +167,7 @@ nstring_equal(NStringT *nstring1, NStringT *nstring2)
 		memcmp(nstring1->contents, nstring2->contents, (size_t) length) == 0;
 }
 
-BoolT
+bool
 nstring_ci_equal(NStringT *nstring1, NStringT *nstring2)
 {
 	size_t length = nstring_length(nstring1);
@@ -181,15 +182,15 @@ nstring_ci_equal(NStringT *nstring1, NStringT *nstring2)
 			c1 = toupper((unsigned char) *tmp1++);
 			c2 = toupper((unsigned char) *tmp2++);
 			if (length-- == 0) {
-				return TRUE;
+				return true;
 			}
 		} while (c1 == c2);
 	}
 
-	return FALSE;
+	return false;
 }
 
-BoolT
+bool
 nstring_contains(NStringT *nstring, char c)
 {
 	char *contents = nstring_contents(nstring);
@@ -198,7 +199,7 @@ nstring_contains(NStringT *nstring, char c)
 	return memchr(contents, c, (size_t) length) != NULL;
 }
 
-BoolT
+bool
 nstring_is_prefix(NStringT *nstring1, NStringT *nstring2)
 {
 	char *contents1 = nstring_contents(nstring1);
@@ -316,7 +317,7 @@ dstring_append_nstring(DStringT *dstring, NStringT *nstring)
 	dstring->length = length;
 }
 
-BoolT
+bool
 dstring_last_char_equal(DStringT *dstring, char c)
 {
 	return dstring->length && dstring->contents[dstring->length - 1] == c;

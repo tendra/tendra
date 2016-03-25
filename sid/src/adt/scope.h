@@ -46,16 +46,16 @@ void	scope_stack_init(ScopeStackT *);
 void	scope_stack_push(ScopeStackT *, NStringT *);
 void	scope_stack_pop(ScopeStackT *);
 EntryT *	scope_stack_add_rule(ScopeStackT *, TableT *, NStringT *,
-				     struct RuleT *, BoolT *);
+				     struct RuleT *, bool *);
 EntryT *	scope_stack_add_action(ScopeStackT *, TableT *, NStringT *,
-				       struct RuleT *, BoolT *, BoolT);
+				       struct RuleT *, bool *, bool);
 EntryT *	scope_stack_add_non_local(ScopeStackT *, TableT *, NStringT *,
 					  EntryT *, struct RuleT *);
 EntryT *	scope_stack_get_rule(ScopeStackT *, TableT *, NStringT *);
 EntryT *	scope_stack_get_action(ScopeStackT *, TableT *, NStringT *);
 EntryT *	scope_stack_get_non_local(ScopeStackT *, TableT *, NStringT *,
 					  NStringT *);
-BoolT	scope_stack_check_shadowing(ScopeStackT *, EntryT *,
+bool	scope_stack_check_shadowing(ScopeStackT *, EntryT *,
 					    struct RuleT *);
 
 #endif /* !defined (H_SCOPE) */

@@ -28,6 +28,7 @@
 
 #include <assert.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 
@@ -39,8 +40,8 @@
 static void
 rule_check_first_set_1(RuleT *rule, GrammarT *grammar)
 {
-	BoolT         is_empty            = rule_has_empty_alt(rule);
-	BoolT         is_empty_mesg_shown = FALSE;
+	bool         is_empty            = rule_has_empty_alt(rule);
+	bool         is_empty_mesg_shown = false;
 	BitVecT       test;
 	EntryListT    predicate_list;
 	AltT          *alt;
@@ -51,7 +52,7 @@ rule_check_first_set_1(RuleT *rule, GrammarT *grammar)
 	entry_list_init(&predicate_list);
 	for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
 		ItemT *item        = alt_item_head(alt);
-		BoolT see_through = TRUE;
+		bool see_through = true;
 #ifndef NDEBUG
 		ItemT *initial     = item;
 #endif
@@ -68,7 +69,7 @@ rule_check_first_set_1(RuleT *rule, GrammarT *grammar)
 				} else {
 					entry_list_add(&predicate_list, entry);
 				}
-				see_through = FALSE;
+				see_through = false;
 				break;
 
 			case ET_ACTION:
@@ -79,7 +80,7 @@ rule_check_first_set_1(RuleT *rule, GrammarT *grammar)
 					unsigned terminal = basic_terminal(entry_get_basic(entry));
 					BitVecT tmp;
 
-					see_through = FALSE;
+					see_through = false;
 					if (!bitvec_is_set(&test, terminal)) {
 						bitvec_set(&test, terminal);
 						break;
@@ -145,10 +146,10 @@ rule_check_first_set_1(RuleT *rule, GrammarT *grammar)
 			if (!is_empty_mesg_shown) {
 				error(ERR_SERIOUS, "the rule '%N' contains more than one see through alternative",
 					(void *) rule);
-				is_empty_mesg_shown = TRUE;
+				is_empty_mesg_shown = true;
 			}
 		} else {
-			is_empty = TRUE;
+			is_empty = true;
 		}
 	}
 	bitvec_destroy(&test);
@@ -353,7 +354,7 @@ rule_compute_alt_first_sets_1(RuleT *rule)
 	for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
 		BitVecT *alt_firsts  = alt_first_set(alt);
 		ItemT   *item        = alt_item_head(alt);
-		BoolT    see_through = TRUE;
+		bool    see_through = true;
 #ifndef NDEBUG
 		ItemT   *initial     = item;
 #endif
@@ -364,7 +365,7 @@ rule_compute_alt_first_sets_1(RuleT *rule)
 			switch (item_type(item)) EXHAUSTIVE {
 			case ET_PREDICATE:
 				assert(item == initial);
-				see_through = FALSE;
+				see_through = false;
 				break;
 
 			case ET_ACTION:
@@ -372,7 +373,7 @@ rule_compute_alt_first_sets_1(RuleT *rule)
 				break;
 
 			case ET_BASIC:
-				see_through = FALSE;
+				see_through = false;
 				bitvec_set(alt_firsts, basic_terminal(entry_get_basic(entry)));
 				break;
 

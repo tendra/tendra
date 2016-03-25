@@ -29,6 +29,7 @@
  * for rules that start with a predicate.
  */
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 
@@ -52,8 +53,8 @@ rule_compute_first_set_1(RuleT *rule)
 
 	rule_computing_first_set(rule);
 	for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
-		BoolT  see_through = TRUE;
-		BoolT  no_action   = TRUE;
+		bool  see_through = true;
+		bool  no_action   = true;
 		ItemT *item        = alt_item_head(alt);
 		ItemT *initial     = item;
 
@@ -67,12 +68,12 @@ rule_compute_first_set_1(RuleT *rule)
 				}
 				entry_list_add_if_missing(rule_predicate_first(rule),
 					item_entry(item));
-				see_through = FALSE;
+				see_through = false;
 				break;
 
 			case ET_RENAME:
 			case ET_ACTION:
-				no_action = FALSE;
+				no_action = false;
 				break;
 
 			case ET_RULE: {
@@ -103,7 +104,7 @@ rule_compute_first_set_1(RuleT *rule)
 					BasicT *basic = entry_get_basic(item_entry(item));
 
 					bitvec_set(rule_first_set(rule), basic_terminal(basic));
-					see_through = FALSE;
+					see_through = false;
 				}
 				break;
 

@@ -36,7 +36,7 @@ void	c_output_rename(COutputInfoT *, TypeTupleT *, TypeTupleT *,
 				SaveRStackT *, unsigned);
 void	c_output_tail_decls(COutputInfoT *, TypeTupleT *, SaveRStackT *,
 				    TypeTupleT *, SaveRStackT *, unsigned);
-BoolT	c_output_required_copies(COutputInfoT *, TypeTupleT *, TypeTupleT *,
+bool	c_output_required_copies(COutputInfoT *, TypeTupleT *, TypeTupleT *,
 					 RStackT *, SaveRStackT *, unsigned,
 					 TableT *);
 

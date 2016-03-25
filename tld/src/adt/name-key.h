@@ -63,7 +63,7 @@ extern void			name_key_init_string
 (NameKeyT *, NStringT *);
 extern void			name_key_init_unique
 (NameKeyT *, unsigned);
-extern BoolT			name_key_parse_cstring
+extern bool			name_key_parse_cstring
 (NameKeyT *, char *);
 extern void			name_key_set_component
 (NameKeyT *, unsigned, NStringT *);
@@ -77,7 +77,7 @@ extern NStringT *		name_key_get_component
 (NameKeyT *, unsigned);
 extern unsigned			name_key_hash_value
 (NameKeyT *);
-extern BoolT			name_key_equal
+extern bool			name_key_equal
 (NameKeyT *, NameKeyT *);
 extern void			name_key_assign
 (NameKeyT *, NameKeyT *);
@@ -102,7 +102,7 @@ extern NameKeyListEntryT *name_key_list_entry_next
 
 extern void			name_key_pair_list_init
 (NameKeyPairListT *);
-extern BoolT			name_key_pair_list_add
+extern bool			name_key_pair_list_add
 (NameKeyPairListT *, NameKeyT *, NameKeyT *);
 extern NameKeyPairListEntryT *name_key_pair_list_head
 (NameKeyPairListT *);

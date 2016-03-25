@@ -63,18 +63,18 @@ extern void			name_entry_make_direct
 extern void			name_entry_make_indirect
 (NameEntryT *, NameEntryT *);
 extern NameEntryT *	name_entry_resolve_renames
-(NameEntryT *, NStringT *, BoolT);
+(NameEntryT *, NStringT *, bool);
 extern NameKeyT *		name_entry_key
 (NameEntryT *);
 extern NameEntryT *	name_entry_next
 (NameEntryT *);
 extern NameEntryT *       *name_entry_next_ref
 (NameEntryT *);
-extern BoolT			name_entry_is_direct
+extern bool			name_entry_is_direct
 (NameEntryT *);
-extern BoolT			name_entry_is_indirect
+extern bool			name_entry_is_indirect
 (NameEntryT *);
-extern BoolT			name_entry_is_place
+extern bool			name_entry_is_place
 (NameEntryT *);
 extern unsigned			name_entry_id
 (NameEntryT *);
@@ -86,7 +86,7 @@ extern void			name_entry_hide
 (NameEntryT *);
 extern void			name_entry_unhide
 (NameEntryT *);
-extern BoolT			name_entry_is_hidden
+extern bool			name_entry_is_hidden
 (NameEntryT *);
 extern void			name_entry_set_definition
 (NameEntryT *, struct CapsuleT *);
@@ -123,9 +123,9 @@ extern void			name_entry_suppress
 (NameEntryT *, void *);
 extern void			name_entry_builder_suppress
 (NameEntryT *, void *);
-extern BoolT			name_entry_resolve_undefined
+extern bool			name_entry_resolve_undefined
 	(NameEntryT *, struct NameTableT *, struct UnitTableT *,
-	       struct ShapeTableT *, NStringT *, BoolT);
+	       struct ShapeTableT *, NStringT *, bool);
 extern void			name_entry_hide_defd
 (NameEntryT *, void *);
 extern void			name_entry_keep

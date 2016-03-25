@@ -17,6 +17,7 @@
 #include <string.h>
 #include <errno.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 
@@ -202,7 +203,7 @@ c_output_static_vars_2(EntryT *entry, void *gclosure)
 }
 
 static void
-c_output_static_vars(COutputInfoT *info, GrammarT *grammar, BoolT def)
+c_output_static_vars(COutputInfoT *info, GrammarT *grammar, bool def)
 {
 	OStreamT *ostream        = c_out_info_ostream(info);
 	TableT   *table          = grammar_table(grammar);
@@ -414,7 +415,7 @@ c_output_else(COutputInfoT *info, unsigned indent)
 }
 
 static void
-c_output_restore(COutputInfoT *info, RuleT *handler_rule, BoolT outer_level,
+c_output_restore(COutputInfoT *info, RuleT *handler_rule, bool outer_level,
 	unsigned indent)
 {
 	OStreamT *ostream = c_out_info_ostream(info);
@@ -430,7 +431,7 @@ c_output_restore(COutputInfoT *info, RuleT *handler_rule, BoolT outer_level,
 }
 
 static void
-c_output_check(COutputInfoT *info, RuleT *handler_rule, BoolT outer_level,
+c_output_check(COutputInfoT *info, RuleT *handler_rule, bool outer_level,
 	unsigned error_terminal, unsigned indent)
 {
 	c_output_error_if (info, error_terminal, indent);
@@ -480,7 +481,7 @@ c_output_basic_extract(COutputInfoT *info, CCodeT *code, ItemT *item, RuleT *han
 
 static void
 c_output_basic_in_alt(COutputInfoT *info, ItemT *item, RuleT *handler_rule,
-	BoolT need_switch, BoolT need_check, BoolT outer_level,
+	bool need_switch, bool need_check, bool outer_level,
 	unsigned error_terminal, SaveRStackT *state, unsigned indent)
 {
 	EntryT  *entry       = item_entry(item);
@@ -514,7 +515,7 @@ c_output_basic_in_alt(COutputInfoT *info, ItemT *item, RuleT *handler_rule,
 
 static void
 c_output_tail_call(COutputInfoT *info, ItemT *item, RuleT *handler_rule,
-	BoolT need_check, BoolT outer_level, unsigned error_terminal,
+	bool need_check, bool outer_level, unsigned error_terminal,
 	RStackT *rstack, RStackT *non_local_stack, SaveRStackT *state,
 	unsigned indent)
 {
@@ -539,20 +540,20 @@ c_output_tail_call(COutputInfoT *info, ItemT *item, RuleT *handler_rule,
 }
 
 /* TODO: prototypes to the top */
-static BoolT c_output_rule(COutputInfoT *, RuleT *, RuleT *, EntryListT *, BoolT,
+static bool c_output_rule(COutputInfoT *, RuleT *, RuleT *, EntryListT *, bool,
 	EntryT *, unsigned, unsigned, RStackT *, RStackT *, TableT *);
 
-static BoolT
+static bool
 c_output_rule_in_alt(COutputInfoT *info, ItemT *item, RuleT *handler_rule,
-	EntryListT *call_list, BoolT need_check, BoolT outer_level,
+	EntryListT *call_list, bool need_check, bool outer_level,
 	EntryT *predicate_id, unsigned error_terminal, unsigned indent,
-	RStackT *rstack, RStackT *non_local_stack, TableT *table, BoolT *reachable_ref)
+	RStackT *rstack, RStackT *non_local_stack, TableT *table, bool *reachable_ref)
 {
 	OStreamT *ostream   = c_out_info_ostream(info);
 	EntryT   *entry     = item_entry(item);
 	RuleT    *rule      = entry_get_rule(entry);
 	KeyT     *key       = entry_key(entry);
-	BoolT     tail_call = (item_is_tail_call(item) &&
+	bool     tail_call = (item_is_tail_call(item) &&
 	rule_is_being_output(rule));
 	SaveRStackT state;
 
@@ -569,10 +570,10 @@ c_output_rule_in_alt(COutputInfoT *info, ItemT *item, RuleT *handler_rule,
 			c_output_tail_call(info, item, handler_rule, need_check,
 			outer_level, error_terminal, rstack,
 			non_local_stack, &state, indent);
-			*reachable_ref = FALSE;
+			*reachable_ref = false;
 		} else {
 			unsigned code_indent = indent + C_INDENT_STEP;
-			BoolT    copies;
+			bool    copies;
 
 			c_output_open(info, indent);
 			rstack_push_frame(rstack);
@@ -593,7 +594,7 @@ c_output_rule_in_alt(COutputInfoT *info, ItemT *item, RuleT *handler_rule,
 				item_is_tail_call(item) ? call_list : rule_call_list(rule),
 				need_check, predicate_id, error_terminal, code_indent,
 				rstack, non_local_stack, table)) {
-				*reachable_ref = FALSE;
+				*reachable_ref = false;
 			}
 			rstack_pop_frame(rstack);
 			if (copies) {
@@ -603,11 +604,11 @@ c_output_rule_in_alt(COutputInfoT *info, ItemT *item, RuleT *handler_rule,
 			c_output_close(info, indent);
 		}
 		c_output_key_message (info, "/* END OF INLINE: ", key, " */", indent);
-		return FALSE;
+		return false;
 	}
 
 	if (need_check && outer_level) {
-		c_output_check(info, handler_rule, TRUE, error_terminal, indent);
+		c_output_check(info, handler_rule, true, error_terminal, indent);
 	}
 	c_output_indent(info, indent);
 	c_output_mapped_key(info, entry);
@@ -616,12 +617,12 @@ c_output_rule_in_alt(COutputInfoT *info, ItemT *item, RuleT *handler_rule,
 	write_cstring(ostream, ");");
 	write_newline(ostream);
 
-	return TRUE;
+	return true;
 }
 
 static void
 c_output_action_in_alt(COutputInfoT *info, ItemT *item, RuleT *handler_rule,
-	BoolT need_check, BoolT outer_level, unsigned error_terminal,
+	bool need_check, bool outer_level, unsigned error_terminal,
 	RStackT *rstack, unsigned indent, TableT *table)
 {
 	OStreamT   *ostream = c_out_info_ostream(info);
@@ -630,7 +631,7 @@ c_output_action_in_alt(COutputInfoT *info, ItemT *item, RuleT *handler_rule,
 	KeyT       *key     = entry_key(entry);
 	CCodeT     *code    = action_get_code(action);
 	SaveRStackT state;
-	BoolT       copies;
+	bool       copies;
 
 	if (need_check) {
 		c_output_check(info, handler_rule, outer_level, error_terminal,
@@ -664,8 +665,8 @@ c_output_action_in_alt(COutputInfoT *info, ItemT *item, RuleT *handler_rule,
 
 static void
 c_output_predicate_in_alt(COutputInfoT *info, RuleT *rule, ItemT *item,
-	ItemT *initial, RuleT *handler_rule, BoolT needed_switch,
-	BoolT need_check, BoolT outer_level, EntryT *predicate_id,
+	ItemT *initial, RuleT *handler_rule, bool needed_switch,
+	bool need_check, bool outer_level, EntryT *predicate_id,
 	unsigned error_terminal, RStackT *rstack, unsigned indent, TableT *table)
 {
 	OStreamT *ostream = c_out_info_ostream(info);
@@ -689,16 +690,16 @@ c_output_predicate_in_alt(COutputInfoT *info, RuleT *rule, ItemT *item,
 	}
 }
 
-static BoolT
+static bool
 c_output_alt(COutputInfoT *info, AltT *alt, RuleT *rule, RuleT *handler_rule,
-	EntryListT *call_list, BoolT need_switch, BoolT need_check,
-	BoolT outer_level, EntryT *predicate_id, unsigned error_terminal,
+	EntryListT *call_list, bool need_switch, bool need_check,
+	bool outer_level, EntryT *predicate_id, unsigned error_terminal,
 	unsigned indent, RStackT *rstack, RStackT *non_local_stack, TableT *table)
 {
 	ItemT    *initial       = alt_item_head(alt);
-	BoolT     needed_switch = need_switch;
+	bool     needed_switch = need_switch;
 	unsigned  code_indent   = indent + C_INDENT_STEP;
-	BoolT     reachable     = TRUE;
+	bool     reachable     = true;
 	ItemT    *item;
 	SaveRStackT state;
 
@@ -715,29 +716,29 @@ c_output_alt(COutputInfoT *info, AltT *alt, RuleT *rule, RuleT *handler_rule,
 		case ET_BASIC:
 			c_output_basic_in_alt(info, item, handler_rule, need_switch,
 				need_check, outer_level, error_terminal, &state, code_indent);
-			need_switch = TRUE;
-			need_check  = FALSE;
+			need_switch = true;
+			need_check  = false;
 			break;
 
 		case ET_RULE:
 			need_check = c_output_rule_in_alt(info, item, handler_rule, call_list,
 				need_check, outer_level, predicate_id, error_terminal, code_indent,
 				rstack, non_local_stack, table, &reachable);
-			need_switch = TRUE;
+			need_switch = true;
 			break;
 
 		case ET_PREDICATE:
 			c_output_predicate_in_alt(info, rule, item, initial, handler_rule,
 				needed_switch, need_check, outer_level, predicate_id,
 				error_terminal, rstack, code_indent, table);
-			need_switch = TRUE;
-			need_check  = FALSE;
+			need_switch = true;
+			need_check  = false;
 			break;
 
 		case ET_ACTION:
 			c_output_action_in_alt(info, item, handler_rule, need_check,
 				outer_level, error_terminal, rstack, code_indent, table);
-				need_check = FALSE;
+				need_check = false;
 				break;
 
 		case ET_RENAME:
@@ -747,7 +748,7 @@ c_output_alt(COutputInfoT *info, AltT *alt, RuleT *rule, RuleT *handler_rule,
 			}
 			c_output_rename(info, item_param(item), item_result(item),
 				&state, code_indent);
-			need_check = FALSE;
+			need_check = false;
 			break;
 
 		case ET_NON_LOCAL:
@@ -755,7 +756,7 @@ c_output_alt(COutputInfoT *info, AltT *alt, RuleT *rule, RuleT *handler_rule,
 		case ET_TYPE:
 			UNREACHED;
 		}
-		outer_level = FALSE;
+		outer_level = false;
 	}
 
 	if (reachable) {
@@ -765,7 +766,7 @@ c_output_alt(COutputInfoT *info, AltT *alt, RuleT *rule, RuleT *handler_rule,
 		}
 		if (item_is_predicate(initial) && (!needed_switch)) {
 			c_output_jump(info, rule_get_end_label(rule), code_indent);
-			reachable = FALSE;
+			reachable = false;
 		}
 	}
 
@@ -778,25 +779,25 @@ c_output_alt(COutputInfoT *info, AltT *alt, RuleT *rule, RuleT *handler_rule,
 	return reachable;
 }
 
-static BoolT
+static bool
 c_output_rule(COutputInfoT *info, RuleT *rule, RuleT *handler_rule,
-	EntryListT *call_list, BoolT need_check, EntryT *predicate_id,
+	EntryListT *call_list, bool need_check, EntryT *predicate_id,
 	unsigned error_terminal, unsigned indent, RStackT *rstack,
 	RStackT *non_local_stack, TableT *table)
 {
 	EntryT        *entry            = rule_entry(rule);
 	KeyT          *key              = entry_key(entry);
 	EntryListT    *predicate_firsts = rule_predicate_first(rule);
-	BoolT          predicates       = (!entry_list_is_empty(predicate_firsts));
+	bool          predicates       = (!entry_list_is_empty(predicate_firsts));
 	RuleT         *old_handler_rule = handler_rule;
-	BoolT          outer_level      = (old_handler_rule == rule);
-	BoolT          reachable        = TRUE;
+	bool          outer_level      = (old_handler_rule == rule);
+	bool          reachable        = true;
 	unsigned       code_indent      = indent;
 	NonLocalListT *non_locals       = rule_non_locals(rule);
-	BoolT          has_non_locals   = (!non_local_list_is_empty(non_locals));
+	bool          has_non_locals   = (!non_local_list_is_empty(non_locals));
 	AltT          *handler          = rule_get_handler(rule);
-	BoolT          full_first_set   = bitvec_is_full(rule_first_set(rule));
-	BoolT          one_alt          = rule_has_one_alt(rule);
+	bool          full_first_set   = bitvec_is_full(rule_first_set(rule));
+	bool          one_alt          = rule_has_one_alt(rule);
 
 	assert(!rule_is_being_output(rule));
 	rule_being_output(rule);
@@ -804,7 +805,7 @@ c_output_rule(COutputInfoT *info, RuleT *rule, RuleT *handler_rule,
 
 	if (need_check && (predicates || has_non_locals || one_alt)) {
 		c_output_check(info, handler_rule, outer_level, error_terminal, indent);
-		need_check = FALSE;
+		need_check = false;
 	}
 
 	if (outer_level) {
@@ -835,38 +836,38 @@ c_output_rule(COutputInfoT *info, RuleT *rule, RuleT *handler_rule,
 			AltT *alt = rule_alt_head(rule);
 
 			reachable = c_output_alt(info, alt, rule, handler_rule, call_list,
-				TRUE, need_check, outer_level, predicate_id, error_terminal,
+				true, need_check, outer_level, predicate_id, error_terminal,
 				code_indent, rstack, non_local_stack, table);
 		} else {
 			if (need_check) {
 				c_output_check(info, handler_rule, outer_level, error_terminal, code_indent);
 			}
-			reachable  = TRUE;
+			reachable  = true;
 		}
 	} else {
-		BoolT non_predicate_alts = TRUE;
+		bool non_predicate_alts = true;
 		AltT *see_through_alt    = rule_see_through_alt(rule);
 		AltT *alt;
 
 		if (predicates) {
-			non_predicate_alts = FALSE;
+			non_predicate_alts = false;
 			for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
 				ItemT *item = alt_item_head(alt);
 
 				if (!item_is_predicate(item)) {
-					non_predicate_alts = TRUE;
+					non_predicate_alts = true;
 					continue;
 				}
 
 				(void) c_output_alt(info, alt, rule, handler_rule,
-					call_list, FALSE, FALSE, FALSE, predicate_id,
+					call_list, false, false, false, predicate_id,
 					error_terminal, code_indent, rstack, non_local_stack, table);
 				c_output_label(info, rule_get_next_label(rule), code_indent);
 			}
 		}
 
 		if (non_predicate_alts) {
-			reachable = FALSE;
+			reachable = false;
 			c_output_switch (info, code_indent);
 			for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
 				ItemT *item = alt_item_head(alt);
@@ -884,12 +885,12 @@ c_output_rule(COutputInfoT *info, RuleT *rule, RuleT *handler_rule,
 				}
 
 				if (c_output_alt(info, alt, rule, handler_rule, call_list,
-						FALSE, FALSE, FALSE, predicate_id, error_terminal,
+						false, false, false, predicate_id, error_terminal,
 						code_indent + C_INDENT_STEP, rstack, non_local_stack,
 						table)) {
 
 					c_output_break(info, code_indent + C_INDENT_STEP);
-					reachable = TRUE;
+					reachable = true;
 				}
 			}
 
@@ -907,7 +908,7 @@ c_output_rule(COutputInfoT *info, RuleT *rule, RuleT *handler_rule,
 						code_indent + C_INDENT_STEP);
 				} else {
 					c_output_break(info, code_indent + C_INDENT_STEP);
-					reachable = TRUE;
+					reachable = true;
 				}
 			}
 			c_output_close(info, code_indent);
@@ -934,23 +935,23 @@ c_output_rule(COutputInfoT *info, RuleT *rule, RuleT *handler_rule,
 		} else {
 			c_output_unreachable(info, code_indent);
 		}
-		reachable = FALSE;
+		reachable = false;
 
 		if (handler) {
 			RuleT *cleanup_handler_rule = old_handler_rule;
 
 			c_output_label(info, rule_get_handler_label(rule), code_indent);
-			reachable = TRUE;
+			reachable = true;
 			if (outer_level || has_non_locals) {
 				rule_set_handler_label(rule, c_out_next_label());
 				cleanup_handler_rule = rule;
 			}
 
 			if (!c_output_alt(info, handler, rule, cleanup_handler_rule,
-				call_list, TRUE, FALSE, FALSE, predicate_id,
+				call_list, true, false, false, predicate_id,
 				error_terminal, code_indent, rstack,
 				non_local_stack, table)) {
-				reachable = FALSE;
+				reachable = false;
 			}
 		}
 
@@ -980,13 +981,13 @@ c_output_rule(COutputInfoT *info, RuleT *rule, RuleT *handler_rule,
 				c_output_jump(info, rule_get_handler_label(old_handler_rule),
 					code_indent);
 			}
-			reachable = FALSE;
+			reachable = false;
 		}
 	}
 
 	if (rule_used_end_label(rule)) {
 		c_output_label(info, rule_get_end_label(rule), code_indent);
-		reachable = TRUE;
+		reachable = true;
 	}
 
 	if (reachable) {
@@ -1041,13 +1042,13 @@ c_output_definition_1(COutputInfoT *info, RuleT *rule, EntryT *predicate_id,
 	rstack_init(&rstack);
 	rstack_push_frame(&rstack);
 	rstack_add_translation(&rstack, predicate_id, predicate_id, predicate_type,
-		FALSE);
+		false);
 	rstack_compute_formal_renaming(&rstack, rule_param(rule));
 	rstack_compute_formal_renaming(&rstack, rule_result(rule));
 	rstack_save_state(&rstack, rule_rstack_state(rule));
 	rstack_init(&non_local_stack);
 
-	(void) c_output_rule(info, rule, rule, rule_call_list(rule), TRUE,
+	(void) c_output_rule(info, rule, rule, rule_call_list(rule), true,
 		predicate_id, error_terminal, C_INDENT_STEP, &rstack, &non_local_stack,
 		table);
 
@@ -1163,7 +1164,7 @@ c_output_parser(COutputInfoT *info, GrammarT *grammar)
 		write_newline(ostream);
 	}
 
-	c_output_static_vars(info, grammar, TRUE);
+	c_output_static_vars(info, grammar, true);
 	write_cstring (ostream, "/* BEGINNING OF FUNCTION DEFINITIONS */");
 	write_newline(ostream);
 	write_newline(ostream);
@@ -1209,7 +1210,7 @@ c_output_header(COutputInfoT *info, GrammarT *grammar)
 		write_cstring (ostream, "#else /* __SID_SPLIT */");
 		write_newline(ostream);
 		table_iter(table, c_output_declaration, info);
-		c_output_static_vars(info, grammar, FALSE);
+		c_output_static_vars(info, grammar, false);
 		write_cstring (ostream, "#endif /* __SID_SPLIT */");
 		write_newline(ostream);
 	} else {

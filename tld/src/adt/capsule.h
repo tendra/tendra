@@ -41,7 +41,7 @@ typedef struct CapsuleT {
     NStringT			contents;
     unsigned			capsule_index;
     char *			name;
-    BoolT			complete;
+    bool			complete;
 } CapsuleT;
 
 extern void			capsule_read_unit_set_file

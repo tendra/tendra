@@ -15,6 +15,7 @@
 
 #include <assert.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include "key.h"
@@ -60,7 +61,7 @@ key_compare(KeyT *key1, KeyT *key2)
 	UNREACHED;
 }
 
-BoolT
+bool
 key_is_string(KeyT *key)
 {
 	return key->type == KT_STRING;

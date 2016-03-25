@@ -28,15 +28,16 @@
 #include <errno.h>
 #include <ctype.h>
 
+#include <shared/bool.h>
+#include <shared/check.h>
+#include <shared/error.h>
+
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/dstring.h>
 #include <exds/istream.h>
 #include <exds/nstring-list.h>
 #include <exds/error.h>
-
-#include <shared/check.h>
-#include <shared/error.h>
 
 #include "adt/solve-cycles.h"
 
@@ -57,10 +58,10 @@ typedef struct RenameTokenT {
     } u;
 } RenameTokenT;
 
-static BoolT
+static bool
 rename_file_skip_white_space(IStreamT *istream,				      char    *c_ref)
 {
-    BoolT comment = FALSE;
+    bool comment = false;
 
     for (;;) {
 	char c;
@@ -72,21 +73,21 @@ rename_file_skip_white_space(IStreamT *istream,				      char    *c_ref)
 	    break;
 	  case '\n':
 	    istream_inc_line(istream);
-	    comment = FALSE;
+	    comment = false;
 	    break;
 	  case '#':
-	    comment = TRUE;
+	    comment = true;
 	    break;
 	  default:
 	    if ((!comment) && (!isspace(c))) {
 		*c_ref = c;
-		return TRUE;
+		return true;
 	    }
 	    break;
 	}
     }
   eof:
-    return FALSE;
+    return false;
 }
 
 static void
@@ -350,7 +351,7 @@ rename_file_parse_names(IStreamT *    istream,				 NStringT *    shape ,
 static void
 rename_file_parse_1(IStreamT *istream,			     ArgDataT *arg_data)
 {
-    BoolT        need_error = TRUE;
+    bool        need_error = true;
     RenameTokenT token;
     NStringT     shape;
 
@@ -361,7 +362,7 @@ rename_file_parse_1(IStreamT *istream,			     ArgDataT *arg_data)
 	    nstring_assign(&shape, & (token.u.shape));
 	    rename_file_parse_names(istream, &shape, arg_data, &token);
 	    nstring_destroy(&shape);
-	    need_error = TRUE;
+	    need_error = true;
 	    break;
 	  case RTOK_NAME:
 	    name_key_destroy(& (token.u.name));
@@ -370,7 +371,7 @@ rename_file_parse_1(IStreamT *istream,			     ArgDataT *arg_data)
 	    if (need_error) {
 		error_posn(ERR_SERIOUS, istream_name(istream), 
 			(int) istream_line(istream), "expected shape name");
-		need_error = FALSE;
+		need_error = false;
 	    }
 	    rename_file_next_token(istream, &token);
 	    break;

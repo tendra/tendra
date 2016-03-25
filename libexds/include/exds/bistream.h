@@ -54,7 +54,7 @@ bistream_init(BIStreamT *);
  * returns false. If the file is opened successfully, the function returns
  * true.
  */
-BoolT
+bool
 bistream_open(BIStreamT *, const char *);
 
 /*
@@ -68,7 +68,7 @@ bistream_assign(BIStreamT *, BIStreamT *);
  * This function returns true if the specified bistream is reading from a file,
  * and false otherwise.
  */
-BoolT
+bool
 bistream_is_open(BIStreamT *);
 
 /*
@@ -101,7 +101,7 @@ bistream_read_bytes(BIStreamT *, size_t, ByteT *);
  * function returns true.  If the end of file is reached, the function returns
  * false.
  */
-BoolT
+bool
 bistream_read_byte(BIStreamT *, ByteT *);
 
 /*

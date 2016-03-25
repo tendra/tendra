@@ -6,6 +6,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <shared/bool.h>
+
 #include <exds/ostream.h>
 
 #include "bnf-out-info.h"

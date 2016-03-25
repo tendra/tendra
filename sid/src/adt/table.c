@@ -15,6 +15,7 @@
 
 #include <limits.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 
@@ -40,14 +41,14 @@ table_next_generated_key(void)
 }
 
 static EntryT *
-table_add_entry(TableT *table, NStringT *key, EntryTypeT type, BoolT *found_ref)
+table_add_entry(TableT *table, NStringT *key, EntryTypeT type, bool *found_ref)
 {
 	unsigned hash   = nstring_hash_value(key) % TABLE_SIZE;
 	EntryT **entryp = &table->contents[hash];
 	EntryT *entry;
 	unsigned number;
 
-	*found_ref = FALSE;
+	*found_ref = false;
 	while ((entry = *entryp) != NULL) {
 		KeyT *ent_key = entry_key(entry);
 
@@ -61,7 +62,7 @@ table_add_entry(TableT *table, NStringT *key, EntryTypeT type, BoolT *found_ref)
 				return entry;
 			} else if (entry_type(entry) == type
 				&& (type == ET_ACTION || type == ET_RULE)) {
-				*found_ref = TRUE;
+				*found_ref = true;
 				nstring_destroy(key);
 				return entry;
 			} else {
@@ -95,9 +96,9 @@ table_init(TableT *table)
 }
 
 EntryT *
-table_add_type(TableT *table, NStringT *key, BoolT ignored)
+table_add_type(TableT *table, NStringT *key, bool ignored)
 {
-	BoolT  found;
+	bool  found;
 	EntryT *entry = table_add_entry(table, key, ET_TYPE, &found);
 
 	if (entry) {
@@ -108,9 +109,9 @@ table_add_type(TableT *table, NStringT *key, BoolT ignored)
 }
 
 EntryT *
-table_add_basic(TableT *table, NStringT *key, GrammarT *grammar, BoolT ignored)
+table_add_basic(TableT *table, NStringT *key, GrammarT *grammar, bool ignored)
 {
-	BoolT   found;
+	bool   found;
 	EntryT *entry = table_add_entry(table, key, ET_BASIC, &found);
 
 	if (entry) {
@@ -121,9 +122,9 @@ table_add_basic(TableT *table, NStringT *key, GrammarT *grammar, BoolT ignored)
 }
 
 EntryT *
-table_add_action(TableT *table, NStringT *key, BoolT ignored)
+table_add_action(TableT *table, NStringT *key, bool ignored)
 {
-	BoolT   found;
+	bool   found;
 	EntryT *entry = table_add_entry(table, key, ET_ACTION, &found);
 
 	if (entry != NULL && !found) {
@@ -136,7 +137,7 @@ table_add_action(TableT *table, NStringT *key, BoolT ignored)
 EntryT *
 table_add_rule(TableT *table, NStringT *key)
 {
-	BoolT   found;
+	bool   found;
 	EntryT *entry = table_add_entry(table, key, ET_RULE, &found);
 
 	if (entry != NULL && !found) {
@@ -147,7 +148,7 @@ table_add_rule(TableT *table, NStringT *key)
 }
 
 EntryT *
-table_add_generated_rule(TableT *table, BoolT traced)
+table_add_generated_rule(TableT *table, bool traced)
 {
 	unsigned sequence = table_next_generated_key();
 	unsigned hash     = sequence % TABLE_SIZE;
@@ -164,7 +165,7 @@ table_add_generated_rule(TableT *table, BoolT traced)
 EntryT *
 table_add_name(TableT *table, NStringT *key)
 {
-	BoolT found;
+	bool found;
 
 	return table_add_entry(table, key, ET_NAME, &found);
 }
@@ -177,7 +178,7 @@ table_add_generated_name(TableT *table)
 	EntryT **entryp   = &table->contents[hash];
 	EntryT *entry;
 
-	entry = entry_create_from_number(sequence, ET_NAME, FALSE, *entryp);
+	entry = entry_create_from_number(sequence, ET_NAME, false, *entryp);
 	*entryp = entry;
 
 	return entry;
@@ -191,7 +192,7 @@ table_add_rename(TableT *table)
 	EntryT **entryp   = &table->contents[hash];
 	EntryT *entry;
 
-	entry = entry_create_from_number(sequence, ET_RENAME, TRUE, *entryp);
+	entry = entry_create_from_number(sequence, ET_RENAME, true, *entryp);
 	*entryp = entry;
 
 	return entry;
@@ -200,7 +201,7 @@ table_add_rename(TableT *table)
 EntryT *
 table_add_non_local(TableT *table, NStringT *key, EntryT *type)
 {
-	BoolT   found;
+	bool   found;
 	EntryT *entry;
 
 	entry = table_add_entry(table, key, ET_NON_LOCAL, &found);

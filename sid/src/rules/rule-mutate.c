@@ -14,6 +14,7 @@
  * effects from actions that mutate their parameters.
  */
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include "../adt/rule.h"
@@ -25,7 +26,7 @@ static void rule_compute_mutations_3(EntryT *, void *);
 static void
 rule_compute_mutations_4(RuleT *rule, AltT *alt, RuleT *from_rule)
 {
-	BoolT  propogate = FALSE;
+	bool  propogate = false;
 	ItemT *item;
 
 	for (item = alt_item_head(alt); item; item = item_next(item)) {
@@ -37,7 +38,7 @@ rule_compute_mutations_4(RuleT *rule, AltT *alt, RuleT *from_rule)
 
 			if (types_compute_mutations(rule_param(rule), item_param(item),
 				rule_param(from_rule))) {
-				propogate = TRUE;
+				propogate = true;
 			}
 			break;
 
@@ -81,7 +82,7 @@ rule_compute_mutations_3(EntryT *entry, void *gclosure)
 static void
 rule_compute_mutations_2(RuleT *rule, AltT *alt)
 {
-	BoolT    propogate = FALSE;
+	bool    propogate = false;
 	ItemT   *item;
 	ActionT *action;
 
@@ -92,7 +93,7 @@ rule_compute_mutations_2(RuleT *rule, AltT *alt)
 			action = entry_get_action(item_entry(item));
 			if (types_compute_mutations(rule_param(rule), item_param(item),
 				action_param(action))) {
-				propogate = TRUE;
+				propogate = true;
 			}
 			break;
 
@@ -109,7 +110,7 @@ rule_compute_mutations_2(RuleT *rule, AltT *alt)
 
 		if (types_compute_assign_mutations(rule_param(rule),
 			item_param(item))) {
-			propogate = TRUE;
+			propogate = true;
 		}
 	}
 

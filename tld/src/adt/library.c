@@ -18,11 +18,12 @@
 #include <string.h>
 #include <errno.h>
 
-#include <exds/exception.h>
-
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 #include <shared/string.h>
+
+#include <exds/exception.h>
 
 #include <tdf/magic.h>
 
@@ -52,8 +53,8 @@ library_writer(LibraryT *library)
 }
 
 static void
-library_check_index_entry(LibraryT *library, ShapeEntryT *entry, BoolT need_dec,
-			  BoolT no_mult, NStringT *shape_key, NameKeyT *key,
+library_check_index_entry(LibraryT *library, ShapeEntryT *entry, bool need_dec,
+			  bool no_mult, NStringT *shape_key, NameKeyT *key,
 			  unsigned use, LibCapsuleT *lib_capsule,
 			  NameTableT *table)
 {
@@ -129,7 +130,7 @@ library_read_version_0_capsules(LibraryT *library)
 	}
 	library->capsules[i].name    = nstring_to_cstring(&nstring);
 	library->capsules[i].library = library;
-	library->capsules[i].loaded  = FALSE;
+	library->capsules[i].loaded  = false;
 	length = (size_t) tdf_read_int(reader);
 	nstring_init_length(contents, length);
 	tdf_read_bytes(reader, contents);
@@ -153,8 +154,8 @@ library_read_version_0(LibraryT *   library,				ShapeTableT *shapes)
     for (i = 0; i < num_shapes; i++) {
 	NStringT    name;
 	ShapeEntryT *entry;
-	BoolT       need_dec;
-	BoolT       no_mult;
+	bool       need_dec;
+	bool       no_mult;
 	NameTableT * table;
 	unsigned    num_names;
 	unsigned    j;
@@ -196,7 +197,7 @@ library_read_version_0(LibraryT *   library,				ShapeTableT *shapes)
 }
 
 static void
-library_extract_1(LibCapsuleT *capsule,			   BoolT       use_basename)
+library_extract_1(LibCapsuleT *capsule,			   bool       use_basename)
 {
     char *   old_name = lib_capsule_name(capsule);
     char *   name     = old_name;
@@ -236,11 +237,11 @@ static NStringT *
 library_magic(void)
 {
     static NStringT const_magic;
-    static BoolT    inited = FALSE;
+    static bool    inited = false;
 
     if (!inited) {
 	nstring_copy_cstring(&const_magic, MAGIC_LINK_NUMBER);
-	inited = TRUE;
+	inited = true;
     }
     return &const_magic;
 }
@@ -334,7 +335,7 @@ lib_capsule_contents(LibCapsuleT *capsule)
     return &capsule->contents;
 }
 
-BoolT
+bool
 lib_capsule_is_loaded(LibCapsuleT *capsule)
 {
     return capsule->loaded;
@@ -343,7 +344,7 @@ lib_capsule_is_loaded(LibCapsuleT *capsule)
 void
 lib_capsule_loaded(LibCapsuleT *capsule)
 {
-    capsule->loaded = TRUE;
+    capsule->loaded = true;
 }
 
 void
@@ -366,7 +367,7 @@ library_create_stream_input(const char * name)
 	return NULL;
     }
     library->name     = name;
-    library->complete = FALSE;
+    library->complete = false;
     return library;
 }
 
@@ -381,7 +382,7 @@ library_create_stream_output(char * name)
 	return NULL;
     }
     library->name     = name;
-    library->complete = FALSE;
+    library->complete = false;
     return library;
 }
 
@@ -411,9 +412,9 @@ library_byte(LibraryT *library)
 }
 
 void
-library_content(LibraryT *library,			 BoolT    want_index, 
-			 BoolT    want_size, 
-		         BoolT    want_version)
+library_content(LibraryT *library,			 bool    want_index, 
+			 bool    want_size, 
+		         bool    want_version)
 {
     ShapeTableT *shapes = shape_table_create();
 
@@ -450,7 +451,7 @@ library_content(LibraryT *library,			 BoolT    want_index,
 }
 
 void
-library_extract_all(LibraryT *library,			     BoolT    use_basename)
+library_extract_all(LibraryT *library,			     bool    use_basename)
 {
     ShapeTableT *shapes = shape_table_create();
 
@@ -467,7 +468,7 @@ library_extract_all(LibraryT *library,			     BoolT    use_basename)
 }
 
 void
-library_extract(LibraryT *library, BoolT use_basename, BoolT match_basename,
+library_extract(LibraryT *library, bool use_basename, bool match_basename,
 		unsigned num_files, char * *files)
 {
     ShapeTableT *shapes = shape_table_create();
@@ -477,7 +478,7 @@ library_extract(LibraryT *library, BoolT use_basename, BoolT match_basename,
 	unsigned i;
 
 	for (i = 0; i < num_files; i++) {
-	    BoolT    matched = FALSE;
+	    bool    matched = false;
 	    unsigned j;
 
 	    for (j = 0; j < library->num_capsules; j++) {
@@ -492,7 +493,7 @@ library_extract(LibraryT *library, BoolT use_basename, BoolT match_basename,
 		if ((streq(file_name, lib_name)) ||
 		   (match_basename && streq(file_name, base_name))) {
 		    library_extract_1(capsule, use_basename);
-		    matched = TRUE;
+		    matched = true;
 		}
 		if (match_basename) {
 		    DEALLOCATE(base_name);
@@ -527,7 +528,7 @@ library_read(LibraryT *   library,		      ShapeTableT *shapes)
 	debug_info_r_library_version(library_type);
 	(*(library_type_jump_table[library_type]))(library, shapes);
 	debug_info_r_end_library();
-	library->complete = TRUE;
+	library->complete = true;
     } WITH {
 	ExceptionT *exception = EXCEPTION_EXCEPTION();
 

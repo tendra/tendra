@@ -16,6 +16,7 @@
 
 #include <assert.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 
@@ -56,7 +57,7 @@ c_code_reset_labels(CCodeT *code)
 
 static EntryT *
 c_code_get_translation(SaveRStackT *state, TypeBTransT *translator, EntryT *ident,
-	EntryT **type_ref, BoolT *reference_ref, EntryT * *entry_ref)
+	EntryT **type_ref, bool *reference_ref, EntryT * *entry_ref)
 {
 	EntryT *entry;
 	EntryT *stack_entry;
@@ -68,7 +69,7 @@ c_code_get_translation(SaveRStackT *state, TypeBTransT *translator, EntryT *iden
 	if (stack_entry == NULL && entry_is_non_local(entry)) {
 		stack_entry = entry;
 		*type_ref = entry_get_non_local(entry);
-		*reference_ref = FALSE;
+		*reference_ref = false;
 	}
 
 	assert(stack_entry);
@@ -215,8 +216,8 @@ c_code_append_terminal(CCodeT *code)
 }
 
 void
-c_code_check(CCodeT *code, BoolT exceptions, BoolT cct_exceptions,
-	BoolT param_op, TypeTupleT *param,
+c_code_check(CCodeT *code, bool exceptions, bool cct_exceptions,
+	bool param_op, TypeTupleT *param,
 	TypeTupleT *result, TableT *table)
 {
 	CCodeItemT *item;
@@ -407,8 +408,8 @@ c_output_c_code_action(COutputInfoT *info, CCodeT *code, TypeTupleT *param,
 	EntryT     *stack_entry;
 	EntryT     *entry;
 	EntryT     *stack_type;
-	BoolT       stack_reference;
-	BoolT       use_cast;
+	bool       stack_reference;
+	bool       use_cast;
 	TypeBTransT translator;
 
 	char c;
@@ -524,7 +525,7 @@ c_output_c_code_basic(COutputInfoT * info, CCodeT * code, TypeTupleT * result,
 	CCodeItemT *last_item = NULL;
 	EntryT     *stack_entry;
 	EntryT     *stack_type;
-	BoolT       stack_reference;
+	bool       stack_reference;
 	TypeBTransT translator;
 	char c;
 
@@ -585,13 +586,13 @@ c_output_c_code_basic(COutputInfoT * info, CCodeT * code, TypeTupleT * result,
 
 void
 c_output_c_code_assign(COutputInfoT *info, CCodeT *code, EntryT *type,
-	EntryT *from, EntryT *to, BoolT from_reference, BoolT to_reference)
+	EntryT *from, EntryT *to, bool from_reference, bool to_reference)
 {
 	OStreamT   *ostream      = c_out_info_ostream(info);
 	NStringT   *label_prefix = c_out_info_label_prefix(info);
 	NStringT   *in_prefix    = c_out_info_in_prefix(info);
-	BoolT       is_param;
-	BoolT       use_cast;
+	bool       is_param;
+	bool       use_cast;
 	CCodeItemT *item;
 
 	c_code_set_labels(code);
@@ -673,7 +674,7 @@ c_output_c_code_param_assign(COutputInfoT *info, CCodeT *code, EntryT *type,
 
 	c_code_set_labels(code);
 	for (item = code->head; item; item = item->next) {
-		BoolT use_cast;
+		bool use_cast;
 
 		switch (item->type) EXHAUSTIVE {
 		case CCT_STRING:
@@ -733,7 +734,7 @@ c_output_c_code_result_assign(COutputInfoT *info, CCodeT *code, EntryT *type,
 
 	c_code_set_labels(code);
 	for (item = code->head; item; item = item->next) {
-		BoolT use_cast;
+		bool use_cast;
 
 		switch (item->type)EXHAUSTIVE {
 		case CCT_STRING:

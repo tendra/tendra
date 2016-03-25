@@ -13,6 +13,8 @@
  * This file implements the unit set table routines used by the TDF linker.
  */
 
+#include <shared/bool.h>
+
 #include "unit-table.h"
 #include "solve-cycles.h"
 

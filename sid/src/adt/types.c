@@ -17,6 +17,7 @@
 #include <stddef.h>
 #include <limits.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 
@@ -35,7 +36,7 @@
 
 static void
 types_add_name_and_type_1(TypeTupleT *to, EntryT *name, EntryT *type,
-	BoolT reference, BoolT assign)
+	bool reference, bool assign)
 {
 	TypeTupleEntryT *link = ALLOCATE(TypeTupleEntryT);
 
@@ -43,7 +44,7 @@ types_add_name_and_type_1(TypeTupleT *to, EntryT *name, EntryT *type,
 	link->type      = type;
 	link->name      = name;
 	link->reference = reference;
-	link->mutated   = FALSE;
+	link->mutated   = false;
 	link->assign    = assign;
 	*to->tail       = link;
 	to->tail        = &link->next;
@@ -166,7 +167,7 @@ types_assign(TypeTupleT *to, TypeTupleT *from)
 }
 
 EntryT *
-types_find_name_type(TypeTupleT *tuple, EntryT *name, BoolT *reference_ref)
+types_find_name_type(TypeTupleT *tuple, EntryT *name, bool *reference_ref)
 {
 	TypeTupleEntryT *type;
 
@@ -180,25 +181,25 @@ types_find_name_type(TypeTupleT *tuple, EntryT *name, BoolT *reference_ref)
 	return NULL;
 }
 
-BoolT
+bool
 types_mutated(TypeTupleT *tuple, EntryT *name)
 {
 	TypeTupleEntryT *type;
 
 	for (type = tuple->head; type; type = type->next) {
 		if (type->name == name) {
-			type->mutated = TRUE;
-			return TRUE;
+			type->mutated = true;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
-BoolT
+bool
 types_compute_mutations(TypeTupleT *rule, TypeTupleT *item, TypeTupleT *action)
 {
-	BoolT            propogate  = FALSE;
+	bool            propogate  = false;
 	TypeTupleEntryT *item_ptr;
 	TypeTupleEntryT *action_ptr;
 
@@ -213,9 +214,9 @@ types_compute_mutations(TypeTupleT *rule, TypeTupleT *item, TypeTupleT *action)
 
 		for (rule_ptr = rule->head; rule_ptr; rule_ptr = rule_ptr->next) {
 			if (rule_ptr->name == item_ptr->name && !rule_ptr->mutated) {
-				rule_ptr->mutated = TRUE;
+				rule_ptr->mutated = true;
 				if (rule_ptr->reference) {
-					propogate = TRUE;
+					propogate = true;
 				}
 				break;
 			}
@@ -226,10 +227,10 @@ types_compute_mutations(TypeTupleT *rule, TypeTupleT *item, TypeTupleT *action)
 	return propogate;
 }
 
-BoolT
+bool
 types_compute_assign_mutations(TypeTupleT *rule, TypeTupleT *item)
 {
-	BoolT            propogate  = FALSE;
+	bool            propogate  = false;
 	TypeTupleEntryT *item_ptr;
 
 	for (item_ptr = item->head; item_ptr; item_ptr = item_ptr->next) {
@@ -241,9 +242,9 @@ types_compute_assign_mutations(TypeTupleT *rule, TypeTupleT *item)
 
 		for (rule_ptr = rule->head; rule_ptr; rule_ptr = rule_ptr->next) {
 			if (rule_ptr->name == item_ptr->name && !rule_ptr->mutated) {
-				rule_ptr->mutated = TRUE;
+				rule_ptr->mutated = true;
 				if (rule_ptr->reference) {
-					propogate = TRUE;
+					propogate = true;
 				}
 				break;
 			}
@@ -267,46 +268,46 @@ types_propogate_mutations(TypeTupleT *to, TypeTupleT *from)
 	assert(from_ptr == NULL);
 }
 
-BoolT
+bool
 types_contains(TypeTupleT *tuple, EntryT *name)
 {
 	TypeTupleEntryT *type;
 
 	for (type = tuple->head; type; type = type->next) {
 		if (type->name == name) {
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
-BoolT
+bool
 types_contains_names(TypeTupleT *tuple)
 {
 	TypeTupleEntryT *type;
 
 	for (type = tuple->head; type; type = type->next) {
 		if (type->name) {
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
-BoolT
+bool
 types_contains_references(TypeTupleT *tuple)
 {
 	TypeTupleEntryT *type;
 
 	for (type = tuple->head; type; type = type->next) {
 		if (type->reference) {
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 EntryT *
@@ -329,26 +330,26 @@ types_make_references(TypeTupleT *param, TypeTupleT *args)
 	TypeTupleEntryT *ptr;
 
 	for (ptr = param->head; ptr; ptr = ptr->next) {
-		ptr->reference = TRUE;
+		ptr->reference = true;
 	}
 
 	for (ptr = args->head; ptr; ptr = ptr->next) {
-		ptr->reference = TRUE;
+		ptr->reference = true;
 	}
 }
 
-BoolT
+bool
 types_intersect(TypeTupleT *tuple1, TypeTupleT *tuple2)
 {
 	TypeTupleEntryT *type;
 
 	for (type = tuple1->head; type; type = type->next) {
 		if (types_contains(tuple2, type->name)) {
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 void
@@ -425,7 +426,7 @@ types_compare(TypeTupleT *tuple1, TypeTupleT *tuple2)
 	}
 }
 
-BoolT
+bool
 types_equal(TypeTupleT *tuple1, TypeTupleT *tuple2)
 {
 	TypeTupleEntryT *tuple1_ptr;
@@ -438,20 +439,20 @@ types_equal(TypeTupleT *tuple1, TypeTupleT *tuple2)
 		if (tuple1_ptr->type != tuple2_ptr->type
 			|| tuple1_ptr->reference != tuple2_ptr->reference
 			|| tuple1_ptr->assign != tuple2_ptr->assign) {
-			return FALSE;
+			return false;
 		}
 	}
 
 	return tuple1_ptr == NULL && tuple2_ptr == NULL;
 }
 
-BoolT
+bool
 types_equal_zero_tuple(TypeTupleT *tuple)
 {
 	return tuple->head == NULL;
 }
 
-BoolT
+bool
 types_equal_names(TypeTupleT *tuple1, TypeTupleT *tuple2)
 {
 	TypeTupleEntryT *tuple1_ptr;
@@ -465,14 +466,14 @@ types_equal_names(TypeTupleT *tuple1, TypeTupleT *tuple2)
 			|| tuple1_ptr->reference != tuple2_ptr->reference
 			|| tuple1_ptr->assign != tuple2_ptr->assign
 			|| tuple1_ptr->name != tuple2_ptr->name) {
-			return FALSE;
+			return false;
 		}
 	}
 
 	return tuple1_ptr == NULL && tuple2_ptr == NULL;
 }
 
-BoolT
+bool
 types_equal_numbers(TypeTupleT *tuple1, TypeTupleT *tuple2)
 {
 	TypeTupleEntryT *tuple1_ptr;
@@ -485,14 +486,14 @@ types_equal_numbers(TypeTupleT *tuple1, TypeTupleT *tuple2)
 		if (tuple1_ptr->type != tuple2_ptr->type
 		  	|| tuple1_ptr->reference != tuple2_ptr->reference
 			|| tuple1_ptr->assign != tuple2_ptr->assign) {
-			return FALSE;
+			return false;
 		} else if (entry_is_non_local(tuple1_ptr->name)
 			|| entry_is_non_local(tuple2_ptr->name)) {
 			if (tuple1_ptr->name != tuple2_ptr->name) {
-				return FALSE;
+				return false;
 			}
 		} else if (tuple1_ptr->number != tuple2_ptr->number) {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -501,61 +502,61 @@ types_equal_numbers(TypeTupleT *tuple1, TypeTupleT *tuple2)
 
 void
 types_add_name_and_type(TypeTupleT *to, EntryT *name, EntryT *type,
-	BoolT reference)
+	bool reference)
 {
-	types_add_name_and_type_1(to, name, type, reference, FALSE);
+	types_add_name_and_type_1(to, name, type, reference, false);
 }
 
 void
 types_add_name_and_type_var(TypeTupleT *to, EntryT *name, EntryT *type)
 {
-	types_add_name_and_type_1(to, name, type, FALSE, TRUE);
+	types_add_name_and_type_1(to, name, type, false, true);
 }
 
-BoolT
-types_add_type(TypeTupleT *tuple, TableT *table, NStringT *name, BoolT reference)
+bool
+types_add_type(TypeTupleT *tuple, TableT *table, NStringT *name, bool reference)
 {
 	EntryT *entry = table_get_type(table, name);
 
 	if (entry) {
 		types_add_name_and_type(tuple, NULL, entry, reference);
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 void
-types_add_name(TypeTupleT *tuple, TableT *table, NStringT *name, BoolT reference)
+types_add_name(TypeTupleT *tuple, TableT *table, NStringT *name, bool reference)
 {
 	EntryT *entry = table_add_name(table, name);
 
 	types_add_name_and_type(tuple, entry, NULL, reference);
 }
 
-BoolT
+bool
 types_add_typed_name(TypeTupleT *tuple, TableT *table, NStringT *name,
-	NStringT *type, BoolT reference)
+	NStringT *type, bool reference)
 {
 	EntryT *type_entry = table_get_type(table, type);
 	EntryT *name_entry = table_add_name(table, name);
 
 	if (type_entry) {
 		types_add_name_and_type(tuple, name_entry, type_entry, reference);
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 void
 types_add_name_entry(TypeTupleT *tuple, EntryT *entry)
 {
-	types_add_name_and_type(tuple, entry, NULL, FALSE);
+	types_add_name_and_type(tuple, entry, NULL, false);
 }
 
 void
-types_add_type_entry(TypeTupleT *tuple, EntryT *entry, BoolT reference)
+types_add_type_entry(TypeTupleT *tuple, EntryT *entry, bool reference)
 {
 	types_add_name_and_type(tuple, NULL, entry, reference);
 }
@@ -575,20 +576,20 @@ types_add_new_names(TypeTupleT *to, TypeTupleT *from, EntryT *exclude)
 	}
 }
 
-BoolT
+bool
 types_disjoint_names(TypeTupleT * tuple)
 {
-	BoolT            disjoint = TRUE;
+	bool            disjoint = true;
 	TypeTupleEntryT *ptr;
 
 	for (ptr = tuple->head; ptr; ptr = ptr->next) {
 		if (ptr->name) {
 			if (name_test_and_set_clash(entry_get_name(ptr->name))) {
-				disjoint = FALSE;
+				disjoint = false;
 				goto done;	/* XXX why not break? */
 			}
 		} else {
-			disjoint = FALSE;
+			disjoint = false;
 			goto done;
 		}
 	}
@@ -603,16 +604,16 @@ done:
 	return disjoint;
 }
 
-BoolT
+bool
 types_resolve(TypeTupleT * to, TypeTupleT * args, TypeTupleT * locals,
 	void (*unknown_proc)(KeyT *, KeyT *, unsigned), KeyT * rule, unsigned alt)
 {
-	BoolT            ok;
+	bool            ok;
 	TypeTupleEntryT *name;
 
-	ok = TRUE;
+	ok = true;
 	for (name = to->head; name; name = name->next) {
-		BoolT reference;
+		bool reference;
 
 		if (entry_is_non_local(name->name)) {
 			name->type = entry_get_non_local(name->name);
@@ -627,35 +628,35 @@ types_resolve(TypeTupleT * to, TypeTupleT * args, TypeTupleT * locals,
 		name->type = types_find_name_type(locals, name->name, &reference);
 		if (!name->type) {
 			unknown_proc(entry_key(name->name), rule, alt);
-			ok = FALSE;
+			ok = false;
 		}
 	}
 
 	return ok;
 }
 
-BoolT
+bool
 types_check_undefined(TypeTupleT *to, TypeTupleT *args, TypeTupleT *locals,
 	void (*error_proc)(KeyT *, KeyT *, unsigned), KeyT *rule, unsigned alt)
 {
-	BoolT            ok;
+	bool            ok;
 	TypeTupleEntryT *name;
 
-	ok = TRUE;
+	ok = true;
 	for (name = to->head; name; name = name->next) {
 		if (!name->assign
 			&& (entry_is_non_local(name->name)
 				|| types_contains(args, name->name)
 				|| types_contains(locals, name->name))) {
 			error_proc(entry_key(name->name), rule, alt);
-			ok = FALSE;
+			ok = false;
 		}
 	}
 
 	return ok;
 }
 
-BoolT
+bool
 types_fillin_types(TypeTupleT *to, TypeTupleT *from)
 {
 	TypeTupleEntryT *to_ptr;
@@ -669,14 +670,14 @@ types_fillin_types(TypeTupleT *to, TypeTupleT *from)
 			to_ptr->reference = from_ptr->reference;
 		} else if (to_ptr->type != from_ptr->type
 			|| to_ptr->reference != from_ptr->reference) {
-			return FALSE;
+			return false;
 		}
 	}
 
 	return to_ptr == NULL && from_ptr == NULL;
 }
 
-BoolT
+bool
 types_fillin_names(TypeTupleT * to, TypeTupleT * from)
 {
 	TypeTupleEntryT *to_ptr;
@@ -691,28 +692,28 @@ types_fillin_names(TypeTupleT * to, TypeTupleT * from)
 		if (from_ptr->type
 			&& (to_ptr->type != from_ptr->type
 				|| to_ptr->reference != from_ptr->reference)) {
-			return FALSE;
+			return false;
 		}
 	}
 
 	return to_ptr == NULL && from_ptr == NULL;
 }
 
-BoolT
+bool
 types_check_names(TypeTupleT *to, TypeTupleT *from)
 {
 	TypeTupleEntryT *to_ptr;
 
 	for (to_ptr = to->head; to_ptr; to_ptr = to_ptr->next) {
-		BoolT reference;
+		bool reference;
 
 		if (types_find_name_type(from, to_ptr->name, &reference) != to_ptr->type
 			|| reference != to_ptr->reference) {
-			return FALSE;
+			return false;
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 void
@@ -789,7 +790,7 @@ types_compute_formal_inlining(TypeTupleT *names, TypeTupleT *renames,
 
 		EntryT *entry;
 		EntryT *type;
-		BoolT   reference;
+		bool   reference;
 
 		assert(reptr);
 		entry = rstack_get_translation(state, reptr->name, &type, &reference);
@@ -808,7 +809,7 @@ types_compute_local_renaming(TypeTupleT *names, TypeTupleT *exclude,
 
 	for (ptr = names->head; ptr; ptr = ptr->next) {
 		EntryT *type;
-		BoolT   reference;
+		bool   reference;
 
 		if (types_contains(exclude, ptr->name)) {
 			continue;
@@ -845,15 +846,15 @@ types_compute_param_from_trans(TypeTupleT *new_param,
 	}
 }
 
-BoolT
+bool
 types_check_shadowing(TypeTupleT *tuple, ScopeStackT *stack, RuleT *rule)
 {
-	BoolT            errored = FALSE;
+	bool            errored = false;
 	TypeTupleEntryT *ptr;
 
 	for (ptr = tuple->head; ptr; ptr = ptr->next) {
 		if (scope_stack_check_shadowing(stack, ptr->name, rule)) {
-			errored = TRUE;
+			errored = true;
 		}
 	}
 
@@ -868,11 +869,11 @@ types_iter_for_table(TypeTupleT *tuple, void (*proc)(EntryT *, void *),
 
 	for (ptr = tuple->head; ptr; ptr = ptr->next) {
 		if (ptr->type) {
-			entry_iter(ptr->type, TRUE, proc, closure);
+			entry_iter(ptr->type, true, proc, closure);
 		}
 
 		if (ptr->name) {
-			entry_iter(ptr->name, TRUE, proc, closure);
+			entry_iter(ptr->name, true, proc, closure);
 		}
 	}
 }
@@ -914,7 +915,7 @@ write_type_types(OStreamT *ostream, TypeTupleT *tuple)
 }
 
 void
-write_type_names(OStreamT *ostream, TypeTupleT *tuple, BoolT call)
+write_type_names(OStreamT *ostream, TypeTupleT *tuple, bool call)
 {
 	TypeTupleEntryT *type;
 
@@ -1126,7 +1127,7 @@ rtrans_init(TypeRTransT *translator)
 
 void
 rtrans_add_translation(TypeRTransT *translator, EntryT *from, EntryT *to,
-	EntryT *type, BoolT reference)
+	EntryT *type, bool reference)
 {
 	RTransT *link = ALLOCATE(RTransT);
 
@@ -1141,7 +1142,7 @@ rtrans_add_translation(TypeRTransT *translator, EntryT *from, EntryT *to,
 
 EntryT *
 rtrans_get_translation(TypeRTransT *translator, EntryT *entry, EntryT **type_ref,
-	BoolT *reference_ref)
+	bool *reference_ref)
 {
 	RTransT *ptr;
 

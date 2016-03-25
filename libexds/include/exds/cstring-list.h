@@ -53,7 +53,7 @@ cstring_list_init(CStringListT *);
 void
 cstring_list_append(CStringListT *, const char *);
 
-BoolT
+bool
 cstring_list_contains(CStringListT *, const char *);
 
 /*

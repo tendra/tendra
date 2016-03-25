@@ -59,7 +59,7 @@ cstring_hash_value(const char *cstring);
  * This function returns true if the specified cstrings have the same
  * content (ignoring differences in case), and false otherwise.
  */
-BoolT
+bool
 cstring_ci_equal(const char *cstring1, const char *cstring2);
 
 /*
@@ -69,10 +69,10 @@ cstring_ci_equal(const char *cstring1, const char *cstring2);
  * function checks for overflow; it will return false if the number is too
  * big.
  */
-BoolT
+bool
 cstring_to_unsigned(const char *cstring, unsigned *num_ref);
 
-BoolT
+bool
 cstring_starts(const char *cstring, const char *s);
 
 const char *

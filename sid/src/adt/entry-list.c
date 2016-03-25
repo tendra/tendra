@@ -13,6 +13,8 @@
  * This file implements the SID table entry list routines.
  */
 
+#include <shared/bool.h>
+
 #include "entry-list.h"
 #include "action.h"
 #include "basic.h"
@@ -81,24 +83,24 @@ entry_list_add_if_missing(EntryListT *list, EntryT *entry)
 	}
 }
 
-BoolT
+bool
 entry_list_contains(EntryListT *list, EntryT *entry)
 {
 	return entry_list_find(list, entry) != NULL;
 }
 
-BoolT
+bool
 entry_list_includes(EntryListT *list1, EntryListT *list2)
 {
 	EntryListEntryT *ptr;
 
 	for (ptr = list2->head; ptr; ptr = ptr->next) {
 		if (entry_list_find(list1, ptr->entry) == NULL) {
-			return FALSE;
+			return false;
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 void
@@ -140,7 +142,7 @@ entry_list_append(EntryListT *to, EntryListT *from)
 	}
 }
 
-BoolT
+bool
 entry_list_is_empty(EntryListT *list)
 {
 	return list->head == NULL;
@@ -178,7 +180,7 @@ entry_list_iter(EntryListT *list, void (*proc)(EntryT *, void *), void *closure)
 }
 
 void
-entry_list_iter_table(EntryListT *list, BoolT full,
+entry_list_iter_table(EntryListT *list, bool full,
 	void (*proc)(EntryT *, void *), void *closure)
 {
 	EntryListEntryT *ptr;

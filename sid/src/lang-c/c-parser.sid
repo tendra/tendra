@@ -17,7 +17,7 @@
 
 	StringT;
 	CCodeP;
-	BoolT;
+	bool;
 
 %terminals%
 
@@ -134,7 +134,7 @@
 	<skip-to-end-of-action>;
 	<skip-recover>;
 
-	<is-close-tuple-or-skipped-or-eof>: () -> (:BoolT);
+	<is-close-tuple-or-skipped-or-eof>: () -> (:bool);
 
 	c-parse-grammar [
 		/*

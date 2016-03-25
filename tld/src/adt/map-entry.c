@@ -16,6 +16,8 @@
 
 #include <assert.h>
 
+#include <shared/bool.h>
+
 #include "map-entry.h"
 #include "shape-table.h"
 #include "solve-cycles.h"

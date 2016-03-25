@@ -321,7 +321,7 @@ error_set_severity_message(ESeverityT, const char *);
  * All other tags will be ignored.  The function returns true if the message
  * was valid, and false if there was an unterminated tag in the message.
  */
-BoolT
+bool
 error_set_prefix_message(const char *);
 
 /*
@@ -352,7 +352,7 @@ error_intern_strings(EStringDataT *);
  * name.  If the name does not exist, the function returns false, otherwise it
  * returns true.
  */
-BoolT
+bool
 error_redefine_string(const char *, const char *);
 
 /*

@@ -40,16 +40,16 @@ typedef struct TypeT {
 	 * However, an ignored type may be used in places which are themselves
 	 * ignored, such as terminal extraction or production definitions.
 	 */
-	BoolT			ignored;
+	bool			ignored;
 } TypeT;
 
-TypeT *		type_create(BoolT ignored);
+TypeT *		type_create(bool ignored);
 void *		type_get_assign_code(TypeT *);
 void		type_set_assign_code(TypeT *, void *);
 void *		type_get_param_assign_code(TypeT *);
 void		type_set_param_assign_code(TypeT *, void *);
 void *		type_get_result_assign_code(TypeT *);
 void		type_set_result_assign_code(TypeT *, void *);
-BoolT		type_get_ignored(TypeT *);
+bool		type_get_ignored(TypeT *);
 
 #endif /* !defined (H_TYPE) */

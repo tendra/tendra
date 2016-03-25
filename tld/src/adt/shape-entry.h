@@ -33,7 +33,7 @@ typedef struct ShapeEntryT {
     NStringT			key;
     NameTableT *		names;
     unsigned			id_count;
-    BoolT			non_empty;
+    bool			non_empty;
     unsigned			num_lib_names;
     NameEntryT *		head;
     NameEntryT *	       *tail;
@@ -45,11 +45,11 @@ typedef struct ShapeClosureT {
 } ShapeClosureT;
 
 typedef struct ShapeLibClosureT {
-    BoolT			did_define;
+    bool			did_define;
     struct ShapeTableT	       *lib_shapes;
     struct UnitTableT	       *units;
     struct ShapeTableT	       *shapes;
-    BoolT			missing_definitions;
+    bool			missing_definitions;
 } ShapeLibClosureT;
 
 extern ShapeEntryT *	shape_entry_create
@@ -66,7 +66,7 @@ extern unsigned			shape_entry_next_id
 (ShapeEntryT *);
 extern void			shape_entry_set_non_empty
 (ShapeEntryT *);
-extern BoolT			shape_entry_get_non_empty
+extern bool			shape_entry_get_non_empty
 (ShapeEntryT *);
 extern void			shape_entry_add_to_list
 (ShapeEntryT *, NameEntryT *);

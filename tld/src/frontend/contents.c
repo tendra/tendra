@@ -19,11 +19,12 @@
 #include <string.h>
 #include <errno.h>
 
-#include <exds/common.h>
-#include <exds/error.h>
-
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
+
+#include <exds/common.h>
+#include <exds/error.h>
 
 #include "adt/library.h"
 #include "adt/solve-cycles.h"
@@ -33,9 +34,9 @@
 void
 contents_main(ArgDataT *arg_data)
 {
-    BoolT     content_index   = arg_data_get_content_index(arg_data);
-    BoolT     content_size    = arg_data_get_content_size(arg_data);
-    BoolT     content_version = arg_data_get_content_version(arg_data);
+    bool     content_index   = arg_data_get_content_index(arg_data);
+    bool     content_size    = arg_data_get_content_size(arg_data);
+    bool     content_version = arg_data_get_content_version(arg_data);
     unsigned  num_files       = arg_data_get_num_files(arg_data);
     char * *files           = arg_data_get_files(arg_data);
     LibraryT * library;

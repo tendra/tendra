@@ -13,7 +13,7 @@
 #include "lexi_lexer.h"
 
 
-
+	#include <shared/bool.h>
 	#include <shared/error.h>
 
 	#include "lexer.h"

@@ -14,6 +14,7 @@
  * extraction functions are defined.
  */
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 

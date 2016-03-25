@@ -14,6 +14,8 @@
  * alternative of a rule (including the exception handler alternative).
  */
 
+#include <shared/bool.h>
+
 #include "../adt/rule.h"
 #include "../adt/action.h"
 #include "../adt/basic.h"

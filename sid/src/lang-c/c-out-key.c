@@ -17,6 +17,7 @@
 #include <stddef.h>
 #include <ctype.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include "c-out-key.h"
@@ -69,7 +70,7 @@ c_output_mapped_key(COutputInfoT * info, EntryT * entry)
 {
 	OStreamT *ostream = c_out_info_ostream(info);
 	NStringT *mapping = entry_get_mapping(entry);
-	BoolT     strict  = c_out_info_get_numeric_ids(info);
+	bool     strict  = c_out_info_get_numeric_ids(info);
 	KeyT     *key;
 	NStringT *prefix = NULL;
 
@@ -90,7 +91,7 @@ c_output_mapped_key(COutputInfoT * info, EntryT * entry)
 
 	case ET_BASIC:
 		prefix = c_out_info_terminal_prefix(info);
-		strict = FALSE;
+		strict = false;
 		break;
 
 	case ET_NON_LOCAL:
@@ -120,7 +121,7 @@ void
 c_output_key(COutputInfoT *info, KeyT *key, NStringT *prefix)
 {
 	OStreamT *ostream = c_out_info_ostream(info);
-	BoolT     strict  = c_out_info_get_numeric_ids(info);
+	bool     strict  = c_out_info_get_numeric_ids(info);
 
 	write_nstring(ostream, prefix);
 	if (key_is_string(key) && !strict) {
@@ -138,7 +139,7 @@ c_output_label_key(COutputInfoT *info, KeyT *key, unsigned label)
 {
 	OStreamT *ostream = c_out_info_ostream(info);
 	NStringT *prefix  = c_out_info_label_prefix(info);
-	BoolT     strict  = c_out_info_get_numeric_ids(info);
+	bool     strict  = c_out_info_get_numeric_ids(info);
 
 	write_nstring(ostream, prefix);
 	write_unsigned(ostream, label);

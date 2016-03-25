@@ -16,6 +16,7 @@
 
 #include <limits.h>
 
+#include <shared/bool.h>
 #include <shared/error.h>
 #include <shared/check.h>
 
@@ -33,7 +34,7 @@ shape_entry_create(NStringT *key)
     nstring_copy(shape_entry_key(entry), key);
     entry->names     = name_table_create();
     entry->id_count  = 0;
-    entry->non_empty = FALSE;
+    entry->non_empty = false;
     entry->head      = NULL;
     entry->tail      = & (entry->head);
     return entry;
@@ -75,10 +76,10 @@ shape_entry_next_id(ShapeEntryT *entry)
 void
 shape_entry_set_non_empty(ShapeEntryT *entry)
 {
-    entry->non_empty = TRUE;
+    entry->non_empty = true;
 }
 
-BoolT
+bool
 shape_entry_get_non_empty(ShapeEntryT *entry)
 {
     return entry->non_empty;
@@ -282,7 +283,7 @@ shape_entry_resolve_undefined(ShapeEntryT *entry,				       void *    gclosure)
 	   NULL) {
 	if (name_entry_resolve_undefined(name_entry, table, closure->units,
 					  closure->shapes, key, closure->missing_definitions)) {
-	    closure->did_define = TRUE;
+	    closure->did_define = true;
 	}
     }
 }

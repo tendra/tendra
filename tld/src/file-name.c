@@ -23,6 +23,7 @@
 #include <stddef.h>
 #include <string.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include <exds/common.h>
@@ -95,13 +96,13 @@ file_name_expand(const char * dir,			  const char * name,
     return path;
 }
 
-BoolT
+bool
 file_name_is_basename(const char * path)
 {
     return !strchr(path, '/');
 }
 
-BoolT
+bool
 file_name_is_absolute(char * path)
 {
     return path[0] == '/';

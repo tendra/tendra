@@ -18,6 +18,8 @@
 #include <assert.h>
 #include <stddef.h>
 
+#include <shared/bool.h>
+
 #include "c-out-types.h"
 #include "../adt/action.h"
 #include "../adt/basic.h"
@@ -117,7 +119,7 @@ TypeTupleT *outputs)
 	NStringT        *in_prefix  = c_out_info_in_prefix(info);
 	NStringT        *out_prefix = c_out_info_out_prefix(info);
 	PersistentListT *persistents = c_out_info_persistents(info);
-	BoolT            specials   = FALSE;
+	bool            specials   = false;
 	TypeTupleEntryT *ptr;
 	PersistentT     *persptr;
 
@@ -142,7 +144,7 @@ TypeTupleT *outputs)
 		} else if (type_get_assign_code(entry_get_type(ptr->type)) != NULL) {
 			write_char(ostream, '*');
 			c_output_key(info, entry_key(ptr->name), out_prefix);
-			specials = TRUE;
+			specials = true;
 		} else {
 			c_output_key(info, entry_key(ptr->name), in_prefix);
 		}
@@ -212,7 +214,7 @@ c_output_ansi_type_defn(COutputInfoT *info, TypeTupleT *inputs,
 	NStringT        *out_prefix  = c_out_info_out_prefix(info);
 	PersistentListT *persistents = c_out_info_persistents(info);
 	char            *sep         = "";
-	BoolT            specials    = FALSE;
+	bool            specials    = false;
 	TypeTupleEntryT *ptr;
 	PersistentT     *persptr;
 
@@ -240,7 +242,7 @@ c_output_ansi_type_defn(COutputInfoT *info, TypeTupleT *inputs,
 			} else if (type_get_assign_code(entry_get_type(ptr->type)) != NULL) {
 				write_char(ostream, '*');
 				c_output_key(info, entry_key(ptr->name), out_prefix);
-				specials = TRUE;
+				specials = true;
 			} else {
 				c_output_key(info, entry_key(ptr->name), in_prefix);
 			}
@@ -297,7 +299,7 @@ c_output_ansi_type_defn(COutputInfoT *info, TypeTupleT *inputs,
 
 static EntryT *
 types_get_entry(EntryT *entry, SaveRStackT *state, EntryT **type_ref,
-	BoolT *reference_ref)
+	bool *reference_ref)
 {
 	EntryT *trans_entry;
 
@@ -305,7 +307,7 @@ types_get_entry(EntryT *entry, SaveRStackT *state, EntryT **type_ref,
 	if (trans_entry == NULL && entry_is_non_local(entry)) {
 		trans_entry    = entry;
 		*type_ref      = entry_get_non_local(entry);
-		*reference_ref = FALSE;
+		*reference_ref = false;
 	}
 	assert(trans_entry);
 	return trans_entry;
@@ -313,7 +315,7 @@ types_get_entry(EntryT *entry, SaveRStackT *state, EntryT **type_ref,
 
 static KeyT *
 types_get_key(EntryT *entry, SaveRStackT *state, EntryT **type_ref,
-	BoolT *reference_ref)
+	bool *reference_ref)
 {
 	EntryT *trans = types_get_entry(entry, state, type_ref, reference_ref);
 
@@ -332,8 +334,8 @@ SaveRStackT * in_state, SaveRStackT * out_state, unsigned indent)
 	OStreamT *ostream  = c_out_info_ostream(info);
 	EntryT   *in_type;
 	EntryT   *out_type;
-	BoolT     in_reference;
-	BoolT     out_reference;
+	bool     in_reference;
+	bool     out_reference;
 	TypeT    *type;
 	CCodeT   *code;
 	EntryT   *in_name  = types_get_entry(in_entry, in_state, &in_type,
@@ -491,12 +493,12 @@ c_output_alt_names(COutputInfoT *info, TypeTupleT *names, TypeTupleT *exclude,
 {
 	OStreamT        *ostream   = c_out_info_ostream(info);
 	NStringT        *in_prefix = c_out_info_in_prefix(info);
-	BoolT            want_nl   = FALSE;
+	bool            want_nl   = false;
 	TypeTupleEntryT *ptr;
 
 	for (ptr = names->head; ptr; ptr = ptr->next) {
 		EntryT *type;
-		BoolT   reference;
+		bool   reference;
 
 		if (types_contains(exclude, ptr->name)) {
 			continue;
@@ -510,7 +512,7 @@ c_output_alt_names(COutputInfoT *info, TypeTupleT *names, TypeTupleT *exclude,
 		assert((type == ptr->type) && (!reference));
 		write_char(ostream, ';');
 		write_newline(ostream);
-		want_nl = TRUE;
+		want_nl = true;
 	}
 
 	if (want_nl) {
@@ -542,7 +544,7 @@ c_output_rule_params(COutputInfoT *info, TypeTupleT *inputs,
 		TypeT  *type = entry_get_type(ptr->type);
 		CCodeT *code = type_get_param_assign_code(type);
 		EntryT *type_entry;
-		BoolT   reference;
+		bool   reference;
 		KeyT   *key  = types_get_key(ptr->name, state, &type_entry, &reference);
 
 		write_cstring(ostream, sep);
@@ -558,7 +560,7 @@ c_output_rule_params(COutputInfoT *info, TypeTupleT *inputs,
 
 	for (ptr = outputs->head; ptr; ptr = ptr->next) {
 		EntryT *type_entry;
-		BoolT   reference;
+		bool   reference;
 
 		write_cstring(ostream, sep);
 		write_char(ostream, '&');
@@ -601,7 +603,7 @@ c_output_tail_decls(COutputInfoT *info, TypeTupleT *inputs, SaveRStackT *in_stat
 	assert(out_ptr == NULL);
 }
 
-BoolT
+bool
 c_output_required_copies(COutputInfoT *info, TypeTupleT *param, TypeTupleT *args,
 	RStackT *rstack, SaveRStackT *astate, unsigned indent, TableT *table)
 {
@@ -609,7 +611,7 @@ c_output_required_copies(COutputInfoT *info, TypeTupleT *param, TypeTupleT *args
 	NStringT        *in_prefix = c_out_info_in_prefix(info);
 	TypeTupleEntryT *ptr;
 	TypeTupleEntryT *aptr;
-	BoolT            copies    = FALSE;
+	bool            copies    = false;
 	SaveRStackT      state;
 
 	rstack_save_state(rstack, &state);
@@ -630,21 +632,21 @@ c_output_required_copies(COutputInfoT *info, TypeTupleT *param, TypeTupleT *args
 		c_output_key(info, entry_key(entry), in_prefix);
 		write_char(ostream, ';');
 		write_newline(ostream);
-		copies = TRUE;
-		rstack_add_translation(rstack, aptr->name, entry, aptr->type, FALSE);
-		rstack_add_translation(rstack, entry, entry, aptr->type, FALSE);
+		copies = true;
+		rstack_add_translation(rstack, aptr->name, entry, aptr->type, false);
+		rstack_add_translation(rstack, entry, entry, aptr->type, false);
 	}
 
 	assert(aptr == NULL);
 	if (!copies) {
-		return FALSE;
+		return false;
 	}
 
 	write_newline(ostream);
 	for (aptr = args->head, ptr = param->head; ptr;
 		ptr = ptr->next, aptr = aptr->next) {
 		EntryT *type;
-		BoolT   reference;
+		bool   reference;
 		EntryT *entry;
 
 		assert(aptr);

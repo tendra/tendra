@@ -17,8 +17,9 @@
 #include <errno.h>
 #include <string.h>
 
-#include <shared/error.h>
+#include <shared/bool.h>
 #include <shared/check.h>
+#include <shared/error.h>
 
 #include "arg-data.h"
 #include "capsule.h"
@@ -47,7 +48,7 @@ shape_control_find(ShapeControlT *control,			    char *      shape)
     entry             = ALLOCATE(ShapeControlEntryT);
     entry->next       = control->head;
     nstring_assign(& (entry->shape), &nstring);
-    entry->all        = FALSE;
+    entry->all        = false;
     name_key_list_init(& (entry->names));
     control->head     = entry;
     return entry;
@@ -68,7 +69,7 @@ shape_control_entry_add_name(ShapeControlEntryT *entry,				      char *         
 static void
 shape_control_entry_set(ShapeControlEntryT *entry)
 {
-    entry->all = TRUE;
+    entry->all = true;
 }
 
 static void
@@ -123,7 +124,7 @@ rename_control_entry_parse_pair(RenameControlEntryT *entry,					 char *         
 }
 
 void
-shape_control_iter(ShapeControlT *control,			    void       (*proc)(NStringT *, BoolT,
+shape_control_iter(ShapeControlT *control,			    void       (*proc)(NStringT *, bool,
 							  NameKeyListT *,
 							  void *),
 			    void *      closure)
@@ -151,19 +152,19 @@ rename_control_iter(RenameControlT *control,			     void        (*proc)(NStringT
 void
 arg_data_init(ArgDataT *arg_data,		       char * default_output_file)
 {
-    arg_data->all_hide_defined    = FALSE;
-    arg_data->suppress_mult       = FALSE;
+    arg_data->all_hide_defined    = false;
+    arg_data->suppress_mult       = false;
     shape_control_init(& (arg_data->hides));
     shape_control_init(& (arg_data->keeps));
     shape_control_init(& (arg_data->suppresses));
     rename_control_init(& (arg_data->renames));
-    arg_data->extract_all         = FALSE;
-    arg_data->extract_basename    = FALSE;
-    arg_data->extract_match_base  = FALSE;
-    arg_data->content_index       = FALSE;
-    arg_data->content_size        = FALSE;
-    arg_data->content_version     = FALSE;
-    arg_data->missing_definitions = FALSE;
+    arg_data->extract_all         = false;
+    arg_data->extract_basename    = false;
+    arg_data->extract_match_base  = false;
+    arg_data->content_index       = false;
+    arg_data->content_size        = false;
+    arg_data->content_version     = false;
+    arg_data->missing_definitions = false;
     ostream_init(& (arg_data->debug_file));
     arg_data->default_output_file = default_output_file;
     arg_data->output_file         = NULL;
@@ -176,24 +177,24 @@ arg_data_init(ArgDataT *arg_data,		       char * default_output_file)
 }
 
 void
-arg_data_set_all_hide_defd(ArgDataT *arg_data,				    BoolT    enable)
+arg_data_set_all_hide_defd(ArgDataT *arg_data,				    bool    enable)
 {
     arg_data->all_hide_defined = enable;
 }
 
-BoolT
+bool
 arg_data_get_all_hide_defd(ArgDataT *arg_data)
 {
     return arg_data->all_hide_defined;
 }
 
 void
-arg_data_set_suppress_mult(ArgDataT *arg_data,				    BoolT    enable)
+arg_data_set_suppress_mult(ArgDataT *arg_data,				    bool    enable)
 {
     arg_data->suppress_mult = enable;
 }
 
-BoolT
+bool
 arg_data_get_suppress_mult(ArgDataT *arg_data)
 {
     return arg_data->suppress_mult;
@@ -309,84 +310,84 @@ arg_data_get_renames(ArgDataT *arg_data)
 }
 
 void
-arg_data_set_extract_all(ArgDataT *arg_data,				  BoolT    enable)
+arg_data_set_extract_all(ArgDataT *arg_data,				  bool    enable)
 {
     arg_data->extract_all = enable;
 }
 
-BoolT
+bool
 arg_data_get_extract_all(ArgDataT *arg_data)
 {
     return arg_data->extract_all;
 }
 
 void
-arg_data_set_extract_basename(ArgDataT *arg_data,				       BoolT    enable)
+arg_data_set_extract_basename(ArgDataT *arg_data,				       bool    enable)
 {
     arg_data->extract_basename = enable;
 }
 
-BoolT
+bool
 arg_data_get_extract_basename(ArgDataT *arg_data)
 {
     return arg_data->extract_basename;
 }
 
 void
-arg_data_set_extract_match_base(ArgDataT *arg_data,					 BoolT    enable)
+arg_data_set_extract_match_base(ArgDataT *arg_data,					 bool    enable)
 {
     arg_data->extract_match_base = enable;
 }
 
-BoolT
+bool
 arg_data_get_extract_match_base(ArgDataT *arg_data)
 {
     return arg_data->extract_match_base;
 }
 
 void
-arg_data_set_content_index(ArgDataT *arg_data,				    BoolT    enable)
+arg_data_set_content_index(ArgDataT *arg_data,				    bool    enable)
 {
     arg_data->content_index = enable;
 }
 
-BoolT
+bool
 arg_data_get_content_index(ArgDataT *arg_data)
 {
     return arg_data->content_index;
 }
 
 void
-arg_data_set_content_size(ArgDataT *arg_data,				   BoolT    enable)
+arg_data_set_content_size(ArgDataT *arg_data,				   bool    enable)
 {
     arg_data->content_size = enable;
 }
 
-BoolT
+bool
 arg_data_get_content_size(ArgDataT *arg_data)
 {
     return arg_data->content_size;
 }
 
 void
-arg_data_set_content_version(ArgDataT *arg_data,				      BoolT    enable)
+arg_data_set_content_version(ArgDataT *arg_data,				      bool    enable)
 {
     arg_data->content_version = enable;
 }
 
-BoolT
+bool
 arg_data_get_content_version(ArgDataT *arg_data)
 {
     return arg_data->content_version;
 }
 
 void
-arg_data_set_missing_definitions(ArgDataT *arg_data,				  BoolT    enable)
+arg_data_set_missing_definitions(ArgDataT *arg_data,				  bool    enable)
 {
     arg_data->missing_definitions = enable;
 }
 
-BoolT
+bool
 arg_data_get_missing_definitions(ArgDataT *arg_data)
 {
     return arg_data->missing_definitions;

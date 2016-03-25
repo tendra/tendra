@@ -9,7 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 186 "parser.act"
+#line 187 "parser.act"
 
 
 	/* $Id$ */
@@ -40,7 +40,7 @@
 extern void sid_parse_grammar(GrammarP);
 /* BEGINNING OF TRAILER */
 
-#line 2120 "parser.act"
+#line 2121 "parser.act"
 
 
 #line 47 "parser.h"

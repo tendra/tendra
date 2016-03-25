@@ -19,14 +19,15 @@
 #include <stdlib.h>
 #include <errno.h>
 
+#include <shared/bool.h>
+#include <shared/check.h>
+#include <shared/error.h>
+
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/error.h>
 #include <exds/dstring.h>
 #include <exds/istream.h>
-
-#include <shared/check.h>
-#include <shared/error.h>
 
 #include "adt/name-key.h"
 #include "adt/arg-data.h"
@@ -67,8 +68,8 @@ typedef enum {
     MODE_LINKER
 } ModeT;
 
-static BoolT    main_used_one_off = FALSE;
-static BoolT    main_used_other   = FALSE;
+static bool    main_used_one_off = false;
+static bool    main_used_other   = false;
 static ArgDataT main_arg_data;
 
 static void
@@ -86,36 +87,36 @@ main_print_version(void)
 static void
 main_handle_all(char *  option,			 ArgUsageT *usage, 
 			 void *  gclosure, 
-			 BoolT     enable)
+			 bool     enable)
 {
     UNUSED(option);
     UNUSED(usage);
     UNUSED(gclosure);
-    main_used_other = TRUE;
+    main_used_other = true;
     arg_data_set_extract_all(&main_arg_data, enable);
 }
 
 static void
 main_handle_all_hide_defd(char *  option,				   ArgUsageT *usage, 
 				   void *  gclosure, 
-				   BoolT     enable)
+				   bool     enable)
 {
     UNUSED(option);
     UNUSED(usage);
     UNUSED(gclosure);
-    main_used_other = TRUE;
+    main_used_other = true;
     arg_data_set_all_hide_defd(&main_arg_data, enable);
 }
 
 static void
 main_handle_basename(char *  option,			      ArgUsageT *usage, 
 			      void *  gclosure, 
-			      BoolT     enable)
+			      bool     enable)
 {
     UNUSED(option);
     UNUSED(usage);
     UNUSED(gclosure);
-    main_used_other = TRUE;
+    main_used_other = true;
     arg_data_set_extract_basename(&main_arg_data, enable);
 }
 
@@ -127,7 +128,7 @@ main_handle_debug_file(char *  option,				ArgUsageT *usage,
     UNUSED(option);
     UNUSED(usage);
     UNUSED(gclosure);
-    main_used_other = TRUE;
+    main_used_other = true;
     arg_data_set_debug_file(&main_arg_data, debug_file);
 }
 
@@ -137,7 +138,7 @@ main_handle_help(char *  option,			  ArgUsageT *usage,
 {
     UNUSED(option);
     UNUSED(gclosure);
-    main_used_one_off = TRUE;
+    main_used_one_off = true;
     write_arg_usage(ostream_error, usage);
     write_newline(ostream_error);
     ostream_flush(ostream_error);
@@ -152,7 +153,7 @@ main_handle_hide(char *  option,			  ArgUsageT *usage,
     UNUSED(option);
     UNUSED(usage);
     UNUSED(gclosure);
-    main_used_other = TRUE;
+    main_used_other = true;
     arg_data_add_hide(&main_arg_data, shape, name);
 }
 
@@ -164,31 +165,31 @@ main_handle_hide_defined(char *  option,				  ArgUsageT *usage,
     UNUSED(option);
     UNUSED(usage);
     UNUSED(gclosure);
-    main_used_other = TRUE;
+    main_used_other = true;
     arg_data_add_hide_defined(&main_arg_data, shape);
 }
 
 static void
 main_handle_index(char *  option,			   ArgUsageT *usage, 
 			   void *  gclosure, 
-			   BoolT     enable)
+			   bool     enable)
 {
     UNUSED(option);
     UNUSED(usage);
     UNUSED(gclosure);
-    main_used_other = TRUE;
+    main_used_other = true;
     arg_data_set_content_index(&main_arg_data, enable);
 }
 
 static void
 main_handle_info(char *  option,			  ArgUsageT *usage, 
 			  void *  gclosure, 
-			  BoolT     enable)
+			  bool     enable)
 {
     UNUSED(option);
     UNUSED(usage);
     UNUSED(gclosure);
-    main_used_other = TRUE;
+    main_used_other = true;
     if (enable) {
 	error_set_min_report_severity(ERROR_SEVERITY_INFORMATION);
     } else {
@@ -205,7 +206,7 @@ main_handle_keep(char *  option,			  ArgUsageT *usage,
     UNUSED(option);
     UNUSED(usage);
     UNUSED(gclosure);
-    main_used_other = TRUE;
+    main_used_other = true;
     arg_data_add_keep(&main_arg_data, shape, name);
 }
 
@@ -217,7 +218,7 @@ main_handle_keep_all(char *  option,			      ArgUsageT *usage,
     UNUSED(option);
     UNUSED(usage);
     UNUSED(gclosure);
-    main_used_other = TRUE;
+    main_used_other = true;
     arg_data_add_keep_all(&main_arg_data, shape);
 }
 
@@ -229,31 +230,31 @@ main_handle_library_file(char *  option,				  ArgUsageT *usage,
     UNUSED(option);
     UNUSED(usage);
     UNUSED(gclosure);
-    main_used_other = TRUE;
+    main_used_other = true;
     arg_data_add_library_file(&main_arg_data, library_file);
 }
 
 static void
 main_handle_match_base(char *  option,				ArgUsageT *usage, 
 				void *  gclosure, 
-				BoolT     enable)
+				bool     enable)
 {
     UNUSED(option);
     UNUSED(usage);
     UNUSED(gclosure);
-    main_used_other = TRUE;
+    main_used_other = true;
     arg_data_set_extract_match_base(&main_arg_data, enable);
 }
 
 static void
 main_handle_missing_definitions(char *  option,			     ArgUsageT *usage, 
 			     void *  gclosure, 
-			     BoolT     enable)
+			     bool     enable)
 {
     UNUSED(option);
     UNUSED(usage);
     UNUSED(gclosure);
-    main_used_other = TRUE;
+    main_used_other = true;
     arg_data_set_missing_definitions(&main_arg_data, enable);
 }
 
@@ -265,7 +266,7 @@ main_handle_output_file(char *  option,				 ArgUsageT *usage,
     UNUSED(option);
     UNUSED(usage);
     UNUSED(gclosure);
-    main_used_other = TRUE;
+    main_used_other = true;
     arg_data_set_output_file(&main_arg_data, output_file);
 }
 
@@ -277,7 +278,7 @@ main_handle_library_path(char *  option,				  ArgUsageT *usage,
     UNUSED(option);
     UNUSED(usage);
     UNUSED(gclosure);
-    main_used_other = TRUE;
+    main_used_other = true;
     arg_data_add_library_path(&main_arg_data, directory);
 }
 
@@ -291,7 +292,7 @@ main_handle_rename(char *  option,			    ArgUsageT *usage,
     UNUSED(option);
     UNUSED(usage);
     UNUSED(gclosure);
-    main_used_other = TRUE;
+    main_used_other = true;
     arg_data_parse_rename(&main_arg_data, shape, from, to);
 }
 
@@ -303,19 +304,19 @@ main_handle_rename_file(char *  option,				 ArgUsageT *usage,
     UNUSED(option);
     UNUSED(usage);
     UNUSED(gclosure);
-    main_used_other = TRUE;
+    main_used_other = true;
     rename_file_parse(name, &main_arg_data);
 }
 
 static void
 main_handle_size(char *  option,			  ArgUsageT *usage, 
 			  void *  gclosure, 
-			  BoolT     enable)
+			  bool     enable)
 {
     UNUSED(option);
     UNUSED(usage);
     UNUSED(gclosure);
-    main_used_other = TRUE;
+    main_used_other = true;
     arg_data_set_content_size(&main_arg_data, enable);
 }
 
@@ -328,7 +329,7 @@ main_handle_suppress(char *  option,			      ArgUsageT *usage,
     UNUSED(option);
     UNUSED(usage);
     UNUSED(gclosure);
-    main_used_other = TRUE;
+    main_used_other = true;
     arg_data_add_suppress(&main_arg_data, shape, name);
 }
 
@@ -340,31 +341,31 @@ main_handle_suppress_all(char *  option,				  ArgUsageT *usage,
     UNUSED(option);
     UNUSED(usage);
     UNUSED(gclosure);
-    main_used_other = TRUE;
+    main_used_other = true;
     arg_data_add_suppress_all(&main_arg_data, shape);
 }
 
 static void
 main_handle_suppress_mult(char *  option,				   ArgUsageT *usage, 
 				   void *  gclosure, 
-				   BoolT     enable)
+				   bool     enable)
 {
     UNUSED(option);
     UNUSED(usage);
     UNUSED(gclosure);
-    main_used_other = TRUE;
+    main_used_other = true;
     arg_data_set_suppress_mult(&main_arg_data, enable);
 }
 
 static void
 main_handle_tdf_version(char *  option,				 ArgUsageT *usage, 
 				 void *  gclosure, 
-				 BoolT     enable)
+				 bool     enable)
 {
     UNUSED(option);
     UNUSED(usage);
     UNUSED(gclosure);
-    main_used_other = TRUE;
+    main_used_other = true;
     arg_data_set_content_version(&main_arg_data, enable);
 }
 
@@ -376,7 +377,7 @@ main_handle_unit_file(char *  option,			       ArgUsageT *usage,
     UNUSED(option);
     UNUSED(usage);
     UNUSED(gclosure);
-    main_used_other = TRUE;
+    main_used_other = true;
     arg_data_set_unit_file(&main_arg_data, unit_file);
 }
 
@@ -387,19 +388,19 @@ main_handle_version(char *  option,			     ArgUsageT *usage,
     UNUSED(option);
     UNUSED(usage);
     UNUSED(gclosure);
-    main_used_one_off = TRUE;
+    main_used_one_off = true;
     main_print_version();
 }
 
 static void
 main_handle_warning(char *  option,			     ArgUsageT *usage, 
 			     void *  gclosure, 
-			     BoolT     enable)
+			     bool     enable)
 {
     UNUSED(option);
     UNUSED(usage);
     UNUSED(gclosure);
-    main_used_other = TRUE;
+    main_used_other = true;
     if (enable) {
 	error_set_min_report_severity(ERROR_SEVERITY_WARNING);
     } else {
@@ -732,8 +733,8 @@ main_init(int    argc,		   char **argv)
 	  case 'l':
 	    goto linker_case;
 	  case 'v':
-	    main_used_one_off = TRUE;
-	    main_used_other   = FALSE;
+	    main_used_one_off = true;
+	    main_used_other   = false;
 	    main_print_version();
 	    goto retry;
 	  default:

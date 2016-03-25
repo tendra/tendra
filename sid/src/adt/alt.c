@@ -14,6 +14,7 @@
  * specified in the file "rule.h".
  */
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include "rule.h"
@@ -75,7 +76,7 @@ alt_duplicate(AltT *alt)
 	return new_alt;
 }
 
-BoolT
+bool
 alt_less_than(AltT *alt1, AltT *alt2)
 {
 	ItemT      *item1 = alt_item_head(alt1);
@@ -86,18 +87,18 @@ alt_less_than(AltT *alt1, AltT *alt2)
 	TypeTupleT *type2;
 
 	if (item_type(item1) < item_type(item2)) {
-		return TRUE;
+		return true;
 	} else if (item_type(item1) > item_type(item2)) {
-		return FALSE;
+		return false;
 	}
 
 	key1 = entry_key(item_entry(item1));
 	key2 = entry_key(item_entry(item2));
 	switch (key_compare(key1, key2)) EXHAUSTIVE {
 	case CMP_LT:
-		return TRUE;
+		return true;
 	case CMP_GT:
-		return FALSE;
+		return false;
 	case CMP_EQ:
 		break;
 	}
@@ -106,9 +107,9 @@ alt_less_than(AltT *alt1, AltT *alt2)
 	type2 = item_param(item2);
 	switch (types_compare(type1, type2)) EXHAUSTIVE {
 	case CMP_LT:
-		return TRUE;
+		return true;
 	case CMP_GT:
-		return FALSE;
+		return false;
 	case CMP_EQ:
 		break;
 	}
@@ -117,9 +118,9 @@ alt_less_than(AltT *alt1, AltT *alt2)
 	type2 = item_result(item2);
 	switch (types_compare(type1, type2)) EXHAUSTIVE {
 	case CMP_LT:
-		return TRUE;
+		return true;
 	case CMP_GT:
-		return FALSE;
+		return false;
 	case CMP_EQ:
 		break;
 	}
@@ -127,16 +128,16 @@ alt_less_than(AltT *alt1, AltT *alt2)
 	UNREACHED;
 }
 
-BoolT
+bool
 alt_equal(AltT *alt1, AltT *alt2)
 {
 	ItemT *item1;
 	ItemT *item2;
 
 	if (alt1 == NULL && alt2 == NULL) {
-		return TRUE;
+		return true;
 	} else if (alt1 == NULL || alt2 == NULL) {
-		return FALSE;
+		return false;
 	}
 
 	item1 = alt_item_head(alt1);
@@ -148,7 +149,7 @@ alt_equal(AltT *alt1, AltT *alt2)
 			item1 = item_next(item1);
 			item2 = item_next(item2);
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 

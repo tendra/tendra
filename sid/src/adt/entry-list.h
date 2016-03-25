@@ -40,17 +40,17 @@ void	entry_list_init(EntryListT *);
 void	entry_list_copy(EntryListT *, EntryListT *);
 void	entry_list_add(EntryListT *, EntryT *);
 void	entry_list_add_if_missing(EntryListT *, EntryT *);
-BoolT	entry_list_contains(EntryListT *, EntryT *);
-BoolT	entry_list_includes(EntryListT *, EntryListT *);
+bool	entry_list_contains(EntryListT *, EntryT *);
+bool	entry_list_includes(EntryListT *, EntryListT *);
 void	entry_list_intersection(EntryListT *, EntryListT *, EntryListT *);
 void	entry_list_unlink_used(EntryListT *, EntryListT *);
 void	entry_list_append(EntryListT *, EntryListT *);
-BoolT	entry_list_is_empty(EntryListT *);
+bool	entry_list_is_empty(EntryListT *);
 void	entry_list_save_state(EntryListT *, SaveListT *);
 void	entry_list_restore_state(EntryListT *, SaveListT *);
 void	entry_list_iter(EntryListT *, void(*)(EntryT *, void *),
 				void *);
-void	entry_list_iter_table(EntryListT *, BoolT,
+void	entry_list_iter_table(EntryListT *, bool,
 				      void(*)(EntryT *, void *), void *);
 void	entry_list_destroy(EntryListT *);
 

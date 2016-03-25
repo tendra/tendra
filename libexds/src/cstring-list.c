@@ -22,6 +22,7 @@
 #include <stddef.h>
 #include <string.h>
 
+#include <shared/bool.h>
 #include <shared/string.h>
 
 #include <exds/common.h>
@@ -48,19 +49,19 @@ cstring_list_append(CStringListT *list, const char *string)
 	list->tail    = &entry->next;
 }
 
-BoolT
+bool
 cstring_list_contains(CStringListT *list, const char *string)
 {
 	CStringListEntryT *entry = list->head;
 
 	while (entry != NULL) {
 		if (streq(string, entry->string)) {
-			return TRUE;
+			return true;
 		}
 		entry = entry->next;
 	}
 
-	return FALSE;
+	return false;
 }
 
 CStringListEntryT *

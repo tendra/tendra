@@ -19,6 +19,7 @@
 #include <limits.h>
 #include <ctype.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include <exds/common.h>
@@ -69,7 +70,7 @@ cstring_hash_value(const char *cstring)
 	return value;
 }
 
-BoolT
+bool
 cstring_ci_equal(const char *cstring1, const char *cstring2)
 {
 	char c1;
@@ -83,13 +84,13 @@ cstring_ci_equal(const char *cstring1, const char *cstring2)
 	return c1 == c2;
 }
 
-BoolT
+bool
 cstring_to_unsigned(const char *cstring, unsigned *num_ref)
 {
 	unsigned number = 0;
 
 	if (*cstring == '\0') {
-		return FALSE;
+		return false;
 	}
 
 	do {
@@ -98,7 +99,7 @@ cstring_to_unsigned(const char *cstring, unsigned *num_ref)
 
 		if (value == SYNTAX_NO_VALUE || value >= 10 ||
 			((UINT_MAX - (unsigned)value) / (unsigned)10) < number) {
-		return FALSE;
+		return false;
 		}
 
 		number *= (unsigned) 10;
@@ -107,10 +108,10 @@ cstring_to_unsigned(const char *cstring, unsigned *num_ref)
 
 	*num_ref = number;
 
-	return TRUE;
+	return true;
 }
 
-BoolT
+bool
 cstring_starts(const char *cstring, const char *s)
 {
 	return strncmp(cstring, s, strlen(s)) == 0;

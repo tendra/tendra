@@ -28,7 +28,7 @@
 typedef struct ShapeControlEntryT {
     struct ShapeControlEntryT  *next;
     NStringT			shape;
-    BoolT			all;
+    bool			all;
     NameKeyListT		names;
 } ShapeControlEntryT;
 
@@ -47,19 +47,19 @@ typedef struct RenameControlT {
 } RenameControlT;
 
 typedef struct ArgDataT {
-    BoolT			all_hide_defined;
-    BoolT			suppress_mult;
+    bool			all_hide_defined;
+    bool			suppress_mult;
     ShapeControlT		hides;
     ShapeControlT		keeps;
     ShapeControlT		suppresses;
     RenameControlT		renames;
-    BoolT			extract_all;
-    BoolT			extract_basename;
-    BoolT			extract_match_base;
-    BoolT			content_index;
-    BoolT			content_size;
-    BoolT			content_version;
-    BoolT			missing_definitions;
+    bool			extract_all;
+    bool			extract_basename;
+    bool			extract_match_base;
+    bool			content_index;
+    bool			content_size;
+    bool			content_version;
+    bool			missing_definitions;
     OStreamT			debug_file;
     char *			default_output_file;
     char *			output_file;
@@ -81,7 +81,7 @@ typedef struct ArgDataT {
 } ArgDataT;
 
 extern void			shape_control_iter
-	(ShapeControlT *, void(*)(NStringT *, BoolT, NameKeyListT *,
+	(ShapeControlT *, void(*)(NStringT *, bool, NameKeyListT *,
 					   void *), void *);
 extern void			rename_control_iter
 	(RenameControlT *, void(*)(NStringT *, NameKeyPairListT *,
@@ -90,12 +90,12 @@ extern void			rename_control_iter
 extern void			arg_data_init
 (ArgDataT *, char *);
 extern void			arg_data_set_all_hide_defd
-(ArgDataT *, BoolT);
-extern BoolT			arg_data_get_all_hide_defd
+(ArgDataT *, bool);
+extern bool			arg_data_get_all_hide_defd
 (ArgDataT *);
 extern void			arg_data_set_suppress_mult
-(ArgDataT *, BoolT);
-extern BoolT			arg_data_get_suppress_mult
+(ArgDataT *, bool);
+extern bool			arg_data_get_suppress_mult
 (ArgDataT *);
 extern void			arg_data_add_hide
 (ArgDataT *, char *, char *);
@@ -122,32 +122,32 @@ extern void			arg_data_parse_rename
 extern RenameControlT *	arg_data_get_renames
 (ArgDataT *);
 extern void			arg_data_set_extract_all
-(ArgDataT *, BoolT);
-extern BoolT			arg_data_get_extract_all
+(ArgDataT *, bool);
+extern bool			arg_data_get_extract_all
 (ArgDataT *);
 extern void			arg_data_set_extract_basename
-(ArgDataT *, BoolT);
-extern BoolT			arg_data_get_extract_basename
+(ArgDataT *, bool);
+extern bool			arg_data_get_extract_basename
 (ArgDataT *);
 extern void			arg_data_set_extract_match_base
-(ArgDataT *, BoolT);
-extern BoolT			arg_data_get_extract_match_base
+(ArgDataT *, bool);
+extern bool			arg_data_get_extract_match_base
 (ArgDataT *);
 extern void			arg_data_set_content_index
-(ArgDataT *, BoolT);
-extern BoolT			arg_data_get_content_index
+(ArgDataT *, bool);
+extern bool			arg_data_get_content_index
 (ArgDataT *);
 extern void			arg_data_set_content_size
-(ArgDataT *, BoolT);
-extern BoolT			arg_data_get_content_size
+(ArgDataT *, bool);
+extern bool			arg_data_get_content_size
 (ArgDataT *);
 extern void			arg_data_set_content_version
-(ArgDataT *, BoolT);
-extern BoolT			arg_data_get_content_version
+(ArgDataT *, bool);
+extern bool			arg_data_get_content_version
 (ArgDataT *);
 extern void			arg_data_set_missing_definitions
-(ArgDataT *, BoolT);
-extern BoolT			arg_data_get_missing_definitions
+(ArgDataT *, bool);
+extern bool			arg_data_get_missing_definitions
 (ArgDataT *);
 extern void			arg_data_set_debug_file
 (ArgDataT *, char *);

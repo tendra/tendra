@@ -15,6 +15,8 @@
 
 #include <stddef.h>
 
+#include <shared/bool.h>
+
 #include "debug.h"
 #include "tdf.h"
 

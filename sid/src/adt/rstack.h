@@ -41,10 +41,10 @@ void		 rstack_compute_local_renaming(RStackT *, TypeTupleT *,
 						       TypeTupleT *, TableT *);
 void		 rstack_add_translation(RStackT *, struct EntryT *,
 						struct EntryT *,
-						struct EntryT *, BoolT);
+						struct EntryT *, bool);
 void		 rstack_save_state(RStackT *, SaveRStackT *);
 struct EntryT	*rstack_get_translation(SaveRStackT *, struct EntryT *,
-						 struct EntryT **, BoolT *);
+						 struct EntryT **, bool *);
 void		 rstack_apply_for_non_locals(RStackT *, SaveRStackT *,
 						     void(*)(struct EntryT *,
 						     struct EntryT *,

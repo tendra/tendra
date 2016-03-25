@@ -16,7 +16,7 @@
 %types%
 
 	AltP;
-	BoolT;
+	bool;
 	EntryP;
 	ItemP;
 	RuleP;
@@ -89,8 +89,8 @@
 	<x-identity>: (:TypeTupleT &, :TypeTupleT &) -> ();
 	<x-prod-rule>: (:TypeTupleT &, :TypeTupleT &, :StringT &) -> ();
 	<x-prod-rule-or-identity>: (:TypeTupleT &, :StringT &) -> ();
-	<save>: () -> (:EntryP, :RuleP, :AltP, :BoolT, :ItemP);
-	<restore>: (:EntryP, :RuleP, : AltP, :BoolT, :ItemP) -> ();
+	<save>: () -> (:EntryP, :RuleP, :AltP, :bool, :ItemP);
+	<restore>: (:EntryP, :RuleP, : AltP, :bool, :ItemP) -> ();
 	<handler>;
 	<x-handler>;
 	<empty-alt>;
@@ -155,10 +155,10 @@
 	<skip-to-end-of-entry-list>;
 	<skip-recover>;
 
-	<is-blt-entry-or-end-scope-or-eof>: () -> (:BoolT);
-	<is-close-tuple-or-skipped-or-eof>: () -> (:BoolT);
-	<is-terminator>: () -> (:BoolT);
-	<is-not-separator>: () -> (:BoolT);
+	<is-blt-entry-or-end-scope-or-eof>: () -> (:bool);
+	<is-close-tuple-or-skipped-or-eof>: () -> (:bool);
+	<is-terminator>: () -> (:bool);
+	<is-not-separator>: () -> (:bool);
 
 	/*
 	 * Before calling sid-parse-grammar, the sid_current_stream variable should

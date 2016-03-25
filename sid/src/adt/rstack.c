@@ -16,6 +16,8 @@
 
 #include <assert.h>
 
+#include <shared/bool.h>
+
 #include "rstack.h"
 #include "action.h"
 #include "basic.h"
@@ -70,7 +72,7 @@ rstack_compute_local_renaming(RStackT *rstack, TypeTupleT *names,
 
 void
 rstack_add_translation(RStackT *rstack, EntryT *from, EntryT *to, EntryT *type,
-	BoolT reference)
+	bool reference)
 {
 	assert(rstack->head);
 	rtrans_add_translation(&rstack->head->translator, from, to, type, reference);
@@ -84,7 +86,7 @@ rstack_save_state(RStackT *rstack, SaveRStackT *state)
 
 EntryT *
 rstack_get_translation(SaveRStackT *state, EntryT *entry, EntryT **type_ref,
-	BoolT *reference_ref)
+	bool *reference_ref)
 {
 	TransStackEntryT *frame;
 

@@ -18,12 +18,13 @@
 #include <stdlib.h>
 #include <errno.h>
 
-#include <exds/common.h>
-#include <exds/error.h>
-
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 #include <shared/string.h>
+
+#include <exds/common.h>
+#include <exds/error.h>
 
 #include "adt/library.h"
 #include "adt/shape-table.h"
@@ -159,7 +160,7 @@ builder_check_multi_defs(ShapeTableT *shapes)
 }
 
 static void
-builder_suppress_1(NStringT *    shape,			    BoolT        all ,
+builder_suppress_1(NStringT *    shape,			    bool        all ,
 			    NameKeyListT *names ,
 			    void *     gclosure)
 {

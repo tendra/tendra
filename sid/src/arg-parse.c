@@ -16,6 +16,7 @@
 
 #include <assert.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
 
@@ -101,11 +102,11 @@ arg_parse_arguments(ArgListT *arg_list, EStringT *usage, int argc, char **argv)
 			} else {
 				switch (chosen->type)EXHAUSTIVE {
 				case AT_SWITCH:
-					*((BoolT *) (chosen->closure)) = (c == '-');	/* TODO cast? */
+					*((bool *) (chosen->closure)) = (c == '-');	/* TODO cast? */
 					break;
 
 				case AT_NEG_SWITCH:
-					*((BoolT *) (chosen->closure)) = (c == '+');
+					*((bool *) (chosen->closure)) = (c == '+');
 					break;
 
 				case AT_PROC_SWITCH:
@@ -207,11 +208,11 @@ arg_parse_arguments(ArgListT *arg_list, EStringT *usage, int argc, char **argv)
 				if (chosen) {
 					switch (chosen->type)EXHAUSTIVE {
 					case AT_SWITCH:
-						*((BoolT *) chosen->closure) = (c == '-');
+						*((bool *) chosen->closure) = (c == '-');
 						break;
 
 					case AT_NEG_SWITCH:
-						*((BoolT *) chosen->closure) = (c == '+');
+						*((bool *) chosen->closure) = (c == '+');
 						break;
 
 					case AT_PROC_SWITCH:

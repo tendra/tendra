@@ -15,6 +15,7 @@
 
 #include <assert.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include "entry.h"
@@ -27,7 +28,7 @@
 static void
 entry_traced(EntryT * entry)
 {
-    entry->traced = TRUE;
+    entry->traced = true;
 }
 
 /*
@@ -41,23 +42,23 @@ entry_create_from_string(NStringT *key, unsigned number, EntryTypeT type)
 
 	entry->next   = NULL;
 	key_init_from_string(entry_key(entry), key, number);
-	entry->mapped = FALSE;
+	entry->mapped = false;
 	nstring_init(&entry->mapping);
 	entry->type   = type;
 	entry->name   = name_create();
-	entry->traced = FALSE;
+	entry->traced = false;
 
 	return entry;
 }
 
 EntryT *
-entry_create_from_number(unsigned key, EntryTypeT type, BoolT traced, EntryT *next)
+entry_create_from_number(unsigned key, EntryTypeT type, bool traced, EntryT *next)
 {
 	EntryT *entry = ALLOCATE(EntryT);
 
 	entry->next   = next;
 	key_init_from_number(entry_key(entry), key);
-	entry->mapped = FALSE;
+	entry->mapped = false;
 	nstring_init(&entry->mapping);
 	entry->type   = type;
 	entry->name   = name_create();
@@ -131,31 +132,31 @@ entry_change_type(EntryT *entry, EntryTypeT type)
 	entry->type = type;
 }
 
-BoolT
+bool
 entry_is_basic(EntryT *entry)
 {
 	return entry->type == ET_BASIC;
 }
 
-BoolT
+bool
 entry_is_action(EntryT *entry)
 {
 	return entry->type == ET_ACTION;
 }
 
-BoolT
+bool
 entry_is_rule(EntryT *entry)
 {
 	return entry->type == ET_RULE;
 }
 
-BoolT
+bool
 entry_is_type(EntryT *entry)
 {
 	return entry->type == ET_TYPE;
 }
 
-BoolT
+bool
 entry_is_non_local(EntryT *entry)
 {
 	return entry->type == ET_NON_LOCAL;
@@ -210,7 +211,7 @@ entry_set_mapping(EntryT *entry, NStringT *mapping)
 	}
 
 	nstring_assign(&entry->mapping, mapping);
-	entry->mapped = TRUE;
+	entry->mapped = true;
 }
 
 NStringT *
@@ -224,7 +225,7 @@ entry_get_mapping(EntryT *entry)
 }
 
 void
-entry_iter(EntryT *entry, BoolT full, void (*proc)(EntryT *, void *), void *closure)
+entry_iter(EntryT *entry, bool full, void (*proc)(EntryT *, void *), void *closure)
 {
 	if (entry_is_traced(entry)) {
 		return;
@@ -259,7 +260,7 @@ entry_iter(EntryT *entry, BoolT full, void (*proc)(EntryT *, void *), void *clos
 
 	case ET_NON_LOCAL:
 		if (full) {
-			entry_iter(entry_get_non_local(entry), TRUE, proc, closure);
+			entry_iter(entry_get_non_local(entry), true, proc, closure);
 		}
 		break;
 
@@ -277,10 +278,10 @@ entry_iter(EntryT *entry, BoolT full, void (*proc)(EntryT *, void *), void *clos
 void
 entry_not_traced(EntryT *entry)
 {
-	entry->traced = FALSE;
+	entry->traced = false;
 }
 
-BoolT
+bool
 entry_is_traced(EntryT *entry)
 {
 	return entry->traced;

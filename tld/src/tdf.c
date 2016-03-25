@@ -13,6 +13,8 @@
  * This file implements various TDF routines used by the TDF linker.
  */
 
+#include <shared/bool.h>
+
 #include "adt/solve-cycles.h"
 
 #include "tdf.h"

@@ -51,8 +51,8 @@ static size_t dalloc_data_size = ALIGN(sizeof(DallocDataT));
 
 #ifdef __NeXT__
 
-#undef TRUE
-#undef FALSE
+#undef true
+#undef false
 #include <mach/mach.h>
 
 void *
@@ -70,7 +70,7 @@ X__dalloc_allocate(size_t size, size_t length, const char *file, unsigned line)
 
 	real_size = (size * length) + dalloc_data_size;
 
-	if (vm_allocate(task_self(), &address, (vm_size_t) real_size, TRUE)
+	if (vm_allocate(task_self(), &address, (vm_size_t) real_size, true)
 		!= KERN_SUCCESS) {
 
 		THROW(XX_dalloc_no_memory);
@@ -114,7 +114,7 @@ X__dalloc_deallocate(void *ptr, const char *file, unsigned line)
 	}
 
 	data->magic = 0;
-	result = vm_protect (task_self(), address, size, FALSE, VM_PROT_NONE);
+	result = vm_protect (task_self(), address, size, false, VM_PROT_NONE);
 	assert(result == KERN_SUCCESS);
 }
 

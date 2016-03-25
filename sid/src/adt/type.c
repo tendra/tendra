@@ -15,10 +15,12 @@
 
 #include <assert.h>
 
+#include <shared/bool.h>
+
 #include "type.h"
 
 TypeT *
-type_create(BoolT ignored)
+type_create(bool ignored)
 {
 	TypeT *type = ALLOCATE(TypeT);
 
@@ -69,7 +71,7 @@ type_set_result_assign_code(TypeT *type, void *code)
 	type->result_assign_code = code;
 }
 
-BoolT
+bool
 type_get_ignored(TypeT *type)
 {
 	return type->ignored;

@@ -21,21 +21,21 @@
 #include <exds/dalloc.h>
 
 typedef struct NameT {
-    BoolT			clash;
-    BoolT			used;
-    BoolT			labelled;
+    bool			clash;
+    bool			used;
+    bool			labelled;
     unsigned			label;
 } NameT;
 
 NameT *		name_create(void);
-BoolT		name_test_and_set_clash(NameT *);
+bool		name_test_and_set_clash(NameT *);
 void		name_reset_clash(NameT *);
-BoolT		name_is_used(NameT *);
+bool		name_is_used(NameT *);
 void		name_used(NameT *);
 void		name_not_used(NameT *);
 unsigned		name_get_label(NameT *);
 void		name_set_label(NameT *, unsigned);
 void		name_reset_label(NameT *);
-BoolT		name_has_label(NameT *);
+bool		name_has_label(NameT *);
 
 #endif /* !defined (H_NAME) */

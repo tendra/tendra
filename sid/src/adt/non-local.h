@@ -36,7 +36,7 @@ typedef struct NonLocalListT {
 
 void		non_local_list_init(NonLocalListT *);
 NonLocalEntryT *	non_local_list_add(NonLocalListT *, EntryT *, EntryT *);
-BoolT		non_local_list_is_empty(NonLocalListT *);
+bool		non_local_list_is_empty(NonLocalListT *);
 void		non_local_list_iter_for_table(NonLocalListT *,
 						      void(*)(EntryT *, void *),
 						      void *);

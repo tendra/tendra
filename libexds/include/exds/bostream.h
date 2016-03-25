@@ -57,7 +57,7 @@ bostream_init(BOStreamT *);
  *
  * See bostream_init() to initialise not to write to a file.
  */
-BoolT
+bool
 bostream_open(BOStreamT *, const char *);
 
 /*
@@ -71,7 +71,7 @@ bostream_assign(BOStreamT *, BOStreamT *);
  * This function returns true if the specified bostream is writing to a file,
  * and false otherwise.
  */
-BoolT
+bool
 bostream_is_open(BOStreamT *);
 
 /*

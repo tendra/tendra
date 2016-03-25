@@ -13,6 +13,8 @@
  * This file implements the shape table routines used by the TDF linker.
  */
 
+#include <shared/bool.h>
+
 #include "shape-table.h"
 #include "solve-cycles.h"
 

@@ -16,12 +16,13 @@
 
 #include <assert.h>
 
+#include <shared/bool.h>
+#include <shared/error.h>
+#include <shared/check.h>
+
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/ostream.h>
-
-#include <shared/error.h>
-#include <shared/check.h>
 
 #include "name-entry.h"
 #include "capsule.h"
@@ -96,7 +97,7 @@ name_entry_make_indirect(NameEntryT *entry,				  NameEntryT *indirect)
 
 NameEntryT *
 name_entry_resolve_renames(NameEntryT *entry,				    NStringT *  shape, 
-				    BoolT      report)
+				    bool      report)
 {
     switch (entry->type) {
       case NT_PLACEHOLDER:
@@ -138,13 +139,13 @@ name_entry_next_ref(NameEntryT *entry)
     return &entry->next;
 }
 
-BoolT
+bool
 name_entry_is_direct(NameEntryT *entry)
 {
     return entry->type == NT_DIRECT;
 }
 
-BoolT
+bool
 name_entry_is_indirect(NameEntryT *entry)
 {
     return entry->type == NT_INDIRECT ||
@@ -152,7 +153,7 @@ name_entry_is_indirect(NameEntryT *entry)
 	   entry->type == NT_INDIRECT_DONE;
 }
 
-BoolT
+bool
 name_entry_is_place(NameEntryT *entry)
 {
     return entry->type == NT_PLACEHOLDER;
@@ -193,7 +194,7 @@ name_entry_unhide(NameEntryT *entry)
     entry->u.direct.use &= ~U_HIDE;
 }
 
-BoolT
+bool
 name_entry_is_hidden(NameEntryT *entry)
 {
     assert(name_entry_is_direct(entry));
@@ -367,19 +368,19 @@ name_entry_builder_suppress(NameEntryT *entry,				     void *   gclosure)
     name_entry_set_definition(entry, NULL);
 }
 
-BoolT
+bool
 name_entry_resolve_undefined(NameEntryT * entry,				      NameTableT * table, 
 				      UnitTableT * units, 
 				      ShapeTableT *shapes, 
 				      NStringT *   shape_key,
-				      BoolT     missing_definitions)
+				      bool     missing_definitions)
 {
     unsigned use = name_entry_get_use(entry);
     NameKeyT *key = name_entry_key(entry);
 
     if ((use & U_DEFD) || (!(use & U_USED))) {
 	debug_info_l_not_needed(key, shape_key, use);
-	return FALSE;
+	return false;
     } else if (table) {
 	NameEntryT *lib_entry = name_table_get(table, key);
 
@@ -398,7 +399,7 @@ name_entry_resolve_undefined(NameEntryT * entry,				      NameTableT * table,
 		capsule_read(capsule, units, shapes);
 		capsule_close(capsule);
 		lib_capsule_loaded(lib_def);
-		return TRUE;
+		return true;
 	    }
 	}
     }
@@ -407,7 +408,7 @@ name_entry_resolve_undefined(NameEntryT * entry,				      NameTableT * table,
 		(void *) shape_key,(void *) key);
     }
     debug_info_l_not_found(key, shape_key, use);
-    return FALSE;
+    return false;
 }
 
 void

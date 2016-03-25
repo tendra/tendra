@@ -36,7 +36,7 @@ extern NameTableT *	name_table_create
 extern void			name_table_add_rename
 (NameTableT *, NameKeyT *, NameKeyT *);
 extern void			name_table_resolve_renames
-(NameTableT *, NStringT *, BoolT);
+(NameTableT *, NStringT *, bool);
 extern NameEntryT *	name_table_add
 (NameTableT *, NameKeyT *, struct ShapeEntryT *);
 extern NameEntryT *	name_table_get

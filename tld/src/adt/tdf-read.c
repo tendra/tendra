@@ -15,12 +15,13 @@
 
 #include <limits.h>
 
+#include <shared/bool.h>
+#include <shared/check.h>
+#include <shared/error.h>
+
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/ostream.h>
-
-#include <shared/check.h>
-#include <shared/error.h>
 
 #include "tdf-read.h"
 #include "solve-cycles.h"
@@ -35,7 +36,7 @@ tdf_read_nibble(TDFReaderT *reader)
 	switch (reader->type) {
 	  case RT_STREAM:
 	    if (bistream_read_byte(& (reader->u.bistream), & (reader->byte))) {
-		reader->new_byte = FALSE;
+		reader->new_byte = false;
 		return ((unsigned) reader->byte >> 4) & 0xF;
 	    }
 		error(ERR_SERIOUS, "%s: #%u: unexpected end of file", 
@@ -45,7 +46,7 @@ tdf_read_nibble(TDFReaderT *reader)
 	  case RT_STRING:
 	    if (reader->u.string.current < reader->u.string.limit) {
 		reader->byte     = (ByteT)(*(reader->u.string.current++));
-		reader->new_byte = FALSE;
+		reader->new_byte = false;
 		reader->u.string.byte++;
 		return ((unsigned) reader->byte >> 4) & 0xF;
 	    }
@@ -55,19 +56,19 @@ tdf_read_nibble(TDFReaderT *reader)
 	    UNREACHED;
 	}
     }
-    reader->new_byte = TRUE;
+    reader->new_byte = true;
     return reader->byte & 0xF;
 }
 
-BoolT
+bool
 tdf_reader_open(TDFReaderT *reader,			 const char *   name)
 {
     reader->type     = RT_STREAM;
-    reader->new_byte = TRUE;
+    reader->new_byte = true;
     if (!bistream_open(& (reader->u.bistream), name)) {
-	return FALSE;
+	return false;
     }
-    return TRUE;
+    return true;
 }
 
 void
@@ -78,7 +79,7 @@ tdf_reader_open_string(TDFReaderT *reader,				char *   name,
     size_t length   = nstring_length(bytes);
 
     reader->type              = RT_STRING;
-    reader->new_byte          = TRUE;
+    reader->new_byte          = true;
     reader->u.string.contents = contents;
     reader->u.string.current  = contents;
     reader->u.string.limit    = (contents + length);
@@ -137,7 +138,7 @@ tdf_read_int(TDFReaderT *reader)
 void
 tdf_read_align(TDFReaderT *reader)
 {
-    reader->new_byte = TRUE;
+    reader->new_byte = true;
 }
 
 void

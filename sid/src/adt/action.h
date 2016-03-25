@@ -43,16 +43,16 @@ typedef struct ActionT {
 	 * Indicates if the action is ignored or not, i.e. declared with a
 	 * preceding ! in the .sid file.
 	 */
-    BoolT           ignored;
+    bool           ignored;
 } ActionT;
 
-ActionT *		action_create(BoolT);
+ActionT *		action_create(bool);
 TypeTupleT *	action_param(ActionT *);
 TypeTupleT *	action_result(ActionT *);
 void *		action_get_code(ActionT *);
 void		action_set_code(ActionT *, void *);
-BoolT		action_get_ignored(ActionT *);
-void		action_iter_for_table(ActionT *, BoolT,
+bool		action_get_ignored(ActionT *);
+void		action_iter_for_table(ActionT *, bool,
 					      void(*)(EntryT *, void *),
 					      void *);
 

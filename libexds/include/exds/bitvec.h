@@ -76,14 +76,14 @@ bitvec_empty(BitVecT *);
  * This function returns true if all of the bits in the specified bit vector
  * are zero, and false otherwise.
  */
-BoolT
+bool
 bitvec_is_empty(BitVecT *);
 
 /*
  * This function returns true if all of the bits in the specified bit vector
  * are set, and false otherwise.
  */
-BoolT
+bool
 bitvec_is_full(BitVecT *);
 
 /*
@@ -99,7 +99,7 @@ bitvec_set(BitVecT *, unsigned);
  * is set to one, and false otherwise.  Bits are numbered from zero.  If the
  * bit is out of range, the effect of this function is undefined.
  */
-BoolT
+bool
 bitvec_is_set(BitVecT *, unsigned);
 
 /*
@@ -126,14 +126,14 @@ bitvec_not(BitVecT *);
  * This function returns true if both of the specified bit vectors are equal,
  * and false otherwise.
  */
-BoolT
+bool
 bitvec_equal(BitVecT *, BitVecT *);
 
 /*
  * This function returns true if the bitwise and of the specified bit vectors
  * contains at least one bit that is set to one, and false otherwise.
  */
-BoolT
+bool
 bitvec_intersects(BitVecT *, BitVecT *);
 
 /*
@@ -157,7 +157,7 @@ bitvec_first_bit(BitVecT *);
  * back into next_ref, and the function returns true.  If no such bit is
  * found, then the function returns false.
  */
-BoolT
+bool
 bitvec_next_bit(BitVecT *, unsigned *);
 
 /*

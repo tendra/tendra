@@ -15,6 +15,7 @@
 
 #include <assert.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include "rule.h"
@@ -156,30 +157,30 @@ rule_create(EntryT *entry)
 	types_init(rule_result(rule));
 	non_local_list_init(rule_non_locals(rule));
 	nstring_init(rule_maximum_scope(rule));
-	rule->defined               = FALSE;
-	rule->has_empty_alt         = FALSE;
-	rule->required              = FALSE;
+	rule->defined               = false;
+	rule->has_empty_alt         = false;
+	rule->required              = false;
 	entry_list_init(rule_reverse_list(rule));
 	rule->dfs_state             = DFS_UNTRACED;
 	rule->next_in_reverse_dfs   = NULL;
-	rule->no_cycles             = FALSE;
-	rule->computed_first_set    = FALSE;
-	rule->computing_first_set   = FALSE;
+	rule->no_cycles             = false;
+	rule->computed_first_set    = false;
+	rule->computing_first_set   = false;
 	bitvec_init(rule_first_set(rule));
 	entry_list_init(rule_predicate_first(rule));
-	rule->see_through           = FALSE;
+	rule->see_through           = false;
 	rule->priority              = 0;
-	rule->factored              = FALSE;
+	rule->factored              = false;
 	rule->tail_group            = NULL;
-	rule->being_inlined         = FALSE;
-	rule->checked_for_inlining  = FALSE;
+	rule->being_inlined         = false;
+	rule->checked_for_inlining  = false;
 	entry_list_init(rule_call_list(rule));
 	bitvec_init(rule_follow_set(rule));
 	entry_list_init(rule_predicate_follow(rule));
 	rule->see_through_alt       = NULL;
-	rule->needs_function        = FALSE;
-	rule->all_basics            = FALSE;
-	rule->being_output          = FALSE;
+	rule->needs_function        = false;
+	rule->all_basics            = false;
+	rule->being_output          = false;
 	rule->handler               = NULL;
 	rule->alt_head              = NULL;
 	rule->alt_tail              = &rule->alt_head;
@@ -190,7 +191,7 @@ rule_create(EntryT *entry)
 void
 rule_reinit(RuleT *rule)
 {
-	rule->has_empty_alt         = FALSE;
+	rule->has_empty_alt         = false;
 	rule->alt_head              = NULL;
 	rule->alt_tail              = &rule->alt_head;
 }
@@ -225,7 +226,7 @@ rule_maximum_scope(RuleT *rule)
 	return &rule->maximum_scope;
 }
 
-BoolT
+bool
 rule_is_defined(RuleT *rule)
 {
 	return rule->defined;
@@ -234,10 +235,10 @@ rule_is_defined(RuleT *rule)
 void
 rule_defined(RuleT *rule)
 {
-	rule->defined = TRUE;
+	rule->defined = true;
 }
 
-BoolT
+bool
 rule_is_required(RuleT *rule)
 {
 	return rule->required;
@@ -246,7 +247,7 @@ rule_is_required(RuleT *rule)
 void
 rule_required(RuleT *rule)
 {
-	rule->required = TRUE;
+	rule->required = true;
 }
 
 void
@@ -256,7 +257,7 @@ rule_add_alt(RuleT *rule, AltT *alt)
 	rule->alt_tail  = alt_next_ref(alt);
 }
 
-BoolT
+bool
 rule_has_empty_alt(RuleT *rule)
 {
 	return rule->has_empty_alt;
@@ -265,28 +266,28 @@ rule_has_empty_alt(RuleT *rule)
 void
 rule_add_empty_alt(RuleT *rule)
 {
-	rule->has_empty_alt = TRUE;
+	rule->has_empty_alt = true;
 }
 
-BoolT
+bool
 rule_has_one_alt(RuleT *rule)
 {
 	if (rule_has_empty_alt(rule) && rule->alt_head == NULL) {
-		return TRUE;
+		return true;
 	}
 
 	if (!rule_has_empty_alt(rule) && rule->alt_head && alt_next(rule->alt_head) == NULL) {
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 void
 rule_compute_result_intersect(RuleT *rule)
 {
 	TypeTupleT *result = rule_result(rule);
-	BoolT       inited = FALSE;
+	bool       inited = false;
 	AltT       *alt;
 
 	if (rule_has_empty_alt(rule)) {
@@ -297,7 +298,7 @@ rule_compute_result_intersect(RuleT *rule)
 	alt = rule_get_handler(rule);
 	if (alt != NULL) {
 		types_copy(result, alt_names(alt));
-		inited = TRUE;
+		inited = true;
 	}
 
 	for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
@@ -305,7 +306,7 @@ rule_compute_result_intersect(RuleT *rule)
 			types_inplace_intersection(result, alt_names(alt));
 		} else {
 			types_copy(result, alt_names(alt));
-			inited = TRUE;
+			inited = true;
 		}
 	}
 
@@ -355,7 +356,7 @@ rule_reinit_reverse_list(RuleT *rule)
 	entry_list_init(rule_reverse_list(rule));
 	rule_set_dfs_state(rule, DFS_UNTRACED);
 	rule->next_in_reverse_dfs = NULL;
-	rule->no_cycles           = FALSE;
+	rule->no_cycles           = false;
 }
 
 EntryListT *
@@ -466,7 +467,7 @@ rule_compute_reverse_dfs(RuleT *rule, RuleT *root, RuleT **list)
 	}
 }
 
-BoolT
+bool
 rule_has_no_cycles(RuleT *rule)
 {
 	return rule->no_cycles;
@@ -475,7 +476,7 @@ rule_has_no_cycles(RuleT *rule)
 void
 rule_no_cycles(RuleT *rule)
 {
-	rule->no_cycles = TRUE;
+	rule->no_cycles = true;
 }
 
 unsigned
@@ -496,7 +497,7 @@ rule_reset_cycle_index(RuleT *rule)
 	rule->cycle_index = 0;
 }
 
-BoolT
+bool
 rule_has_computed_first_set(RuleT *rule)
 {
 	return rule->computed_first_set;
@@ -505,10 +506,10 @@ rule_has_computed_first_set(RuleT *rule)
 void
 rule_computed_first_set(RuleT *rule)
 {
-	rule->computed_first_set = TRUE;
+	rule->computed_first_set = true;
 }
 
-BoolT
+bool
 rule_is_computing_first_set(RuleT *rule)
 {
 	return rule->computing_first_set;
@@ -517,7 +518,7 @@ rule_is_computing_first_set(RuleT *rule)
 void
 rule_computing_first_set(RuleT *rule)
 {
-	rule->computing_first_set = TRUE;
+	rule->computing_first_set = true;
 }
 
 BitVecT *
@@ -532,7 +533,7 @@ rule_predicate_first(RuleT *rule)
 	return &rule->predicate_first;
 }
 
-BoolT
+bool
 rule_is_see_through(RuleT *rule)
 {
 	return rule->see_through;
@@ -541,7 +542,7 @@ rule_is_see_through(RuleT *rule)
 void
 rule_see_through(RuleT *rule)
 {
-	rule->see_through = TRUE;
+	rule->see_through = true;
 }
 
 unsigned
@@ -557,7 +558,7 @@ rule_set_priority(RuleT *rule, unsigned priority)
 	rule->priority = priority;
 }
 
-BoolT
+bool
 rule_is_factored(RuleT *rule)
 {
 	return rule->factored;
@@ -566,7 +567,7 @@ rule_is_factored(RuleT *rule)
 void
 rule_factored(RuleT *rule)
 {
-	rule->factored = TRUE;
+	rule->factored = true;
 }
 
 RuleT *
@@ -581,7 +582,7 @@ rule_set_tail_group(RuleT *rule1, RuleT *rule2)
 	rule1->tail_group = rule2;
 }
 
-BoolT
+bool
 rule_is_being_inlined(RuleT *rule)
 {
 	return rule->being_inlined;
@@ -590,10 +591,10 @@ rule_is_being_inlined(RuleT *rule)
 void
 rule_being_inlined(RuleT *rule)
 {
-	rule->being_inlined = TRUE;
+	rule->being_inlined = true;
 }
 
-BoolT
+bool
 rule_is_checked_for_inlining(RuleT *rule)
 {
 	return rule->checked_for_inlining;
@@ -602,7 +603,7 @@ rule_is_checked_for_inlining(RuleT *rule)
 void
 rule_checked_for_inlining(RuleT *rule)
 {
-	rule->checked_for_inlining = TRUE;
+	rule->checked_for_inlining = true;
 }
 
 EntryListT *
@@ -641,7 +642,7 @@ rule_predicate_follow(RuleT *rule)
 	return &rule->predicate_follow;
 }
 
-BoolT
+bool
 rule_has_started_follows(RuleT *rule)
 {
 	return rule->started_follows;
@@ -650,7 +651,7 @@ rule_has_started_follows(RuleT *rule)
 void
 rule_started_follows(RuleT *rule)
 {
-	rule->started_follows = TRUE;
+	rule->started_follows = true;
 }
 
 void
@@ -665,7 +666,7 @@ rule_see_through_alt(RuleT *rule)
 	return rule->see_through_alt;
 }
 
-BoolT
+bool
 rule_needs_function(RuleT *rule)
 {
 	return rule->needs_function;
@@ -674,10 +675,10 @@ rule_needs_function(RuleT *rule)
 void
 rule_will_need_function(RuleT *rule)
 {
-	rule->needs_function = TRUE;
+	rule->needs_function = true;
 }
 
-BoolT
+bool
 rule_is_all_basics(RuleT *rule)
 {
 	return rule->all_basics;
@@ -686,7 +687,7 @@ rule_is_all_basics(RuleT *rule)
 void
 rule_all_basics(RuleT *rule)
 {
-	rule->all_basics = TRUE;
+	rule->all_basics = true;
 }
 
 SaveRStackT *
@@ -701,7 +702,7 @@ rule_non_local_state(RuleT *rule)
 	return &rule->non_local_state;
 }
 
-BoolT
+bool
 rule_is_being_output(RuleT *rule)
 {
 	return rule->being_output;
@@ -710,13 +711,13 @@ rule_is_being_output(RuleT *rule)
 void
 rule_being_output(RuleT *rule)
 {
-	rule->being_output = TRUE;
+	rule->being_output = true;
 }
 
 void
 rule_not_being_output(RuleT *rule)
 {
-	rule->being_output = FALSE;
+	rule->being_output = false;
 }
 
 unsigned
@@ -746,18 +747,18 @@ rule_inc_call_count(RuleT *rule)
 unsigned
 rule_get_end_label(RuleT *rule)
 {
-	rule->used_end_label = TRUE;
+	rule->used_end_label = true;
 	return rule->end_label;
 }
 
 void
 rule_set_end_label(RuleT *rule, unsigned label)
 {
-	rule->used_end_label = FALSE;
+	rule->used_end_label = false;
 	rule->end_label      = label;
 }
 
-BoolT
+bool
 rule_used_end_label(RuleT *rule)
 {
 	return rule->used_end_label;
@@ -778,18 +779,18 @@ rule_set_next_label(RuleT *rule, unsigned label)
 unsigned
 rule_get_handler_label(RuleT *rule)
 {
-	rule->used_handler_label = TRUE;
+	rule->used_handler_label = true;
 	return rule->handler_label;
 }
 
 void
 rule_set_handler_label(RuleT *rule, unsigned label)
 {
-	rule->used_handler_label = FALSE;
+	rule->used_handler_label = false;
 	rule->handler_label      = label;
 }
 
-BoolT
+bool
 rule_used_handler_label(RuleT *rule)
 {
 	return rule->used_handler_label;
@@ -814,7 +815,7 @@ rule_alt_head(RuleT *rule)
 }
 
 void
-rule_renumber(RuleT *rule, BoolT do_result, EntryT *predicate_id)
+rule_renumber(RuleT *rule, bool do_result, EntryT *predicate_id)
 {
 	TypeNTransT  translator;
 	SaveNTransT  state;
@@ -840,7 +841,7 @@ rule_renumber(RuleT *rule, BoolT do_result, EntryT *predicate_id)
 }
 
 void
-rule_iter_for_table(RuleT *rule, BoolT full, void (*proc)(EntryT *, void *),
+rule_iter_for_table(RuleT *rule, bool full, void (*proc)(EntryT *, void *),
 	void *closure)
 {
 	AltT * alt;
@@ -910,9 +911,9 @@ write_rule_lhs(OStreamT *ostream, RuleT *rule)
 
 	write_key(ostream, key);
 	write_cstring(ostream, ": ");
-	write_type_names(ostream, rule_param(rule), FALSE);
+	write_type_names(ostream, rule_param(rule), false);
 	write_cstring(ostream, " -> ");
-	write_type_names(ostream, rule_result(rule), FALSE);
+	write_type_names(ostream, rule_result(rule), false);
 
 	if (!non_local_list_is_empty(rule_non_locals(rule))) {
 		write_cstring(ostream, " [");
@@ -928,7 +929,7 @@ write_rule_lhs(OStreamT *ostream, RuleT *rule)
 void
 write_rule(OStreamT *ostream, RuleT *rule)
 {
-	BoolT need_sep = FALSE;
+	bool need_sep = false;
 	AltT *alt;
 
 	write_rule_lhs(ostream, rule);
@@ -936,7 +937,7 @@ write_rule(OStreamT *ostream, RuleT *rule)
 		write_tab(ostream);
 		write_cstring(ostream, "$;");
 		write_newline(ostream);
-		need_sep = TRUE;
+		need_sep = true;
 	}
 
 	for (alt = rule->alt_head; alt; alt = alt_next(alt)) {
@@ -946,7 +947,7 @@ write_rule(OStreamT *ostream, RuleT *rule)
 		}
 
 		write_alt(ostream, alt);
-		need_sep = TRUE;
+		need_sep = true;
 	}
 
 	alt = rule_get_handler(rule);

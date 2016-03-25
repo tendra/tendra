@@ -30,7 +30,6 @@
 #define H_COMMON
 
 #if __STDC_VERSION__ >= 199901L
-# include <stdbool.h>
 # include <stdint.h>
 #endif
 
@@ -51,15 +50,6 @@ typedef void NoReturnT;
 #endif /* defined (__GNUC__) */
 
 /*
- * This is the boolean type.
- */
-#if __STDC_VERSION__ >= 199901L
-typedef bool BoolT;
-#else
-typedef int BoolT;
-#endif
-
-/*
  * An unsigned byte. This may be larger than an octet.
  */
 #if __STDC_VERSION__ >= 199901L
@@ -78,28 +68,5 @@ typedef enum {
 	CMP_EQ,
 	CMP_GT
 } CmpT;
-
-/*
- * These expand to values suitable for the boolean constants true and false.
- *
- * As these are relatively common, they are defined conditionally for
- * convenience of other programs. If they already exist, it is assumed that
- * they have similar values.
- */
-#ifndef TRUE
-# if __STDC_VERSION__ >= 199901L
-#  define TRUE true
-# else
-#  define TRUE 1
-# endif
-#endif
-
-#ifndef FALSE
-# if __STDC_VERSION__ >= 199901L
-#  define FALSE false
-# else
-#  define FALSE 0
-# endif
-#endif
 
 #endif /* !defined (H_COMMON) */

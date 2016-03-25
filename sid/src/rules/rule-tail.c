@@ -48,6 +48,7 @@
  * are marked as needing a function implementation.
  */
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include "../adt/rule.h"
@@ -67,11 +68,11 @@ typedef struct RuleStackT {
 	RuleT *rule;
 } RuleStackT;
 
-static BoolT rule_do_inline_tail_calls     = TRUE;
-static BoolT rule_do_inline_all_basics     = TRUE;
-static BoolT rule_do_inline_singles        = FALSE;
-static BoolT rule_do_inline_non_tail_calls = FALSE;
-static BoolT rule_do_multiple_inlining     = FALSE;
+static bool rule_do_inline_tail_calls     = true;
+static bool rule_do_inline_all_basics     = true;
+static bool rule_do_inline_singles        = false;
+static bool rule_do_inline_non_tail_calls = false;
+static bool rule_do_multiple_inlining     = false;
 
 static void
 rule_inline_tail_calls_1(RuleT *rule, AltT *alt, RuleT *tail_group)
@@ -346,48 +347,48 @@ rule_handle_need_functions(RuleT *rule_list)
 	}
 }
 
-BoolT
+bool
 rule_get_inline_tail_calls(void)
 {
 	return rule_do_inline_tail_calls;
 }
 
 void
-rule_set_inline_tail_calls(BoolT enable)
+rule_set_inline_tail_calls(bool enable)
 {
 	rule_do_inline_tail_calls = enable;
 }
 
 void
-rule_set_inline_all_basics(BoolT enable)
+rule_set_inline_all_basics(bool enable)
 {
 	rule_do_inline_all_basics = enable;
 }
 
 void
-rule_set_inline_singles(BoolT enable)
+rule_set_inline_singles(bool enable)
 {
 	rule_do_inline_singles = enable;
 }
 
 void
-rule_set_inline_non_tail_calls(BoolT enable)
+rule_set_inline_non_tail_calls(bool enable)
 {
 	if (enable) {
-		rule_do_inline_non_tail_calls = TRUE;
+		rule_do_inline_non_tail_calls = true;
 	} else {
-		rule_do_inline_non_tail_calls = FALSE;
-		rule_do_multiple_inlining     = FALSE;
+		rule_do_inline_non_tail_calls = false;
+		rule_do_multiple_inlining     = false;
 	}
 }
 
 void
-rule_set_multiple_inlining(BoolT enable)
+rule_set_multiple_inlining(bool enable)
 {
 	if (enable) {
-		rule_do_inline_non_tail_calls = TRUE;
-		rule_do_multiple_inlining     = TRUE;
+		rule_do_inline_non_tail_calls = true;
+		rule_do_multiple_inlining     = true;
 	} else {
-		rule_do_multiple_inlining     = FALSE;
+		rule_do_multiple_inlining     = false;
 	}
 }

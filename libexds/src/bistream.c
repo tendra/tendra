@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <stddef.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include <exds/common.h>
@@ -32,16 +33,16 @@ bistream_init(BIStreamT *bistream)
     bistream->name = NULL;
 }
 
-BoolT
+bool
 bistream_open(BIStreamT *bistream, const char *name)
 {
 	if ((bistream->file = fopen(name, "r")) == NULL) {
-		return FALSE;
+		return false;
 	}
 
 	bistream->bytes = 0;
 	bistream->name  = name;
-	return TRUE;
+	return true;
 }
 
 void
@@ -52,7 +53,7 @@ bistream_assign(BIStreamT *to, BIStreamT *from)
 	to->name  = from->name;
 }
 
-BoolT
+bool
 bistream_is_open(BIStreamT *bistream)
 {
 	return bistream->name != NULL;
@@ -91,7 +92,7 @@ bistream_read_bytes(BIStreamT *bistream, size_t length, ByteT *bytes)
     return bytes_read;
 }
 
-BoolT
+bool
 bistream_read_byte(BIStreamT *bistream, ByteT *byte_ref)
 {
 	int byte = fgetc(bistream->file);
@@ -103,13 +104,13 @@ bistream_read_byte(BIStreamT *bistream, ByteT *byte_ref)
 			THROW_VALUE(XX_bistream_read_error, name);
 			UNREACHED;
 		} else if (feof(bistream->file)) {
-			return FALSE;
+			return false;
 		}
 	}
 
 	bistream->bytes++;
 	*byte_ref = (ByteT) byte;
-	return TRUE;
+	return true;
 }
 
 size_t

@@ -19,6 +19,7 @@
 #include <string.h>
 #include <assert.h>
 
+#include <shared/bool.h>
 #include <shared/check.h>
 
 #include <exds/common.h>
@@ -81,7 +82,7 @@ bitvec_empty(BitVecT *bitvec)
 	IGNORE memset(bitvec->bits, 0, (size_t) bitvec_size);
 }
 
-BoolT
+bool
 bitvec_is_empty(BitVecT *bitvec)
 {
 	ByteT *bitvec_bits = bitvec->bits;
@@ -89,14 +90,14 @@ bitvec_is_empty(BitVecT *bitvec)
 
 	while (bytes--) {
 		if (*bitvec_bits++) {
-			return FALSE;
+			return false;
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
-BoolT
+bool
 bitvec_is_full(BitVecT *bitvec)
 {
 	ByteT *bitvec_bits = bitvec->bits;
@@ -110,11 +111,11 @@ bitvec_is_full(BitVecT *bitvec)
 		}
 		byte = ~byte;
 		if (byte) {
-			return FALSE;
+			return false;
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 void
@@ -124,7 +125,7 @@ bitvec_set(BitVecT *bitvec, unsigned bit)
 	bitvec->bits[bit / NUM_BITS] |= (ByteT) (1 << (bit % NUM_BITS));
 }
 
-BoolT
+bool
 bitvec_is_set(BitVecT *bitvec, unsigned bit)
 {
     assert(bit < bitvec_valid_bits);
@@ -169,7 +170,7 @@ bitvec_not(BitVecT *to)
 	to->bits[bitvec_size - 1] &= bitvec_mask;
 }
 
-BoolT
+bool
 bitvec_equal(BitVecT *bitvec1, BitVecT *bitvec2)
 {
 	ByteT *bitvec1_bits = bitvec1->bits;
@@ -178,14 +179,14 @@ bitvec_equal(BitVecT *bitvec1, BitVecT *bitvec2)
 
 	while (bytes--) {
 		if (*bitvec1_bits++ != *bitvec2_bits++) {
-			return FALSE;
+			return false;
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
-BoolT
+bool
 bitvec_intersects(BitVecT *bitvec1, BitVecT *bitvec2)
 {
 	ByteT *bitvec1_bits = bitvec1->bits;
@@ -194,11 +195,11 @@ bitvec_intersects(BitVecT *bitvec1, BitVecT *bitvec2)
 
 	while (bytes--) {
 		if (*bitvec1_bits++ & *bitvec2_bits++) {
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 unsigned
@@ -234,7 +235,7 @@ bitvec_first_bit(BitVecT *bitvec)
 	return bitvec_valid_bits;
 }
 
-BoolT
+bool
 bitvec_next_bit(BitVecT *bitvec, unsigned *next_ref)
 {
 	unsigned i;
@@ -242,11 +243,11 @@ bitvec_next_bit(BitVecT *bitvec, unsigned *next_ref)
 	for (i = *next_ref + 1; i < bitvec_valid_bits; i++) {
 		if (bitvec_is_set(bitvec, i)) {
 			*next_ref = i;
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 void

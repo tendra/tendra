@@ -56,13 +56,13 @@ extern char *			file_name_expand
  * This function returns true if the specified path has no directory
  * component.
  */
-extern BoolT			file_name_is_basename
+extern bool			file_name_is_basename
 (const char *);
 
 /*
  * This function returns true if the specified path is an absolute path name.
  */
-extern BoolT			file_name_is_absolute
+extern bool			file_name_is_absolute
 (char *);
 
 /*
