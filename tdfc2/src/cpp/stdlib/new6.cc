@@ -7,7 +7,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#define DELETE  1
+#define NOTHROW 1
 
-#define DELETE		1
-#define NOTHROW		1
 #include "news.h"
+

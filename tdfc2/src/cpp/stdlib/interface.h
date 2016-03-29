@@ -7,27 +7,22 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
 #ifndef INTERFACE_INCLUDED
 #define INTERFACE_INCLUDED
 
+/*
+ * Interface with standard library
+ *
+ * The interface with the standard library is given primarily by the
+ * tokens declared in tok.c, however other information is passed via
+ * the constants defined in this header, which is common to both the
+ * compiler and the library.
+ */
+
 
 /*
-    INTERFACE WITH STANDARD LIBRARY
-
-    The interface with the standard library is given primarily by the
-    tokens declared in tok.c, however other information is passed via
-    the constants defined in this header, which is common to both the
-    compiler and the library.
-*/
-
-
-/*
-    ARITHMETIC TYPE CODES
-
-    These values give the codes used to encode the arithmetic types.
-*/
-
+ * These values give the codes used to encode the arithmetic types.
+ */
 enum {
 	ARITH_char      =   0,
 	ARITH_schar     =   4,
@@ -58,12 +53,12 @@ enum {
 
 
 /*
-    RUN-TIME TYPE INFORMATION CODES
-
-    These values give the codes for the various information used in run-time
-    type information.  The facts that the base class access codes are in
-    ascending order and that zero corresponds to public are used.
-*/
+ * Run-Time Type Information codes
+ *
+ * These values give the codes for the various information used in run-time
+ * type information.  The facts that the base class access codes are in
+ * ascending order and that zero corresponds to public are used.
+ */
 
 enum {
 	RTTI_integer    =   0,
@@ -93,13 +88,13 @@ enum {
 
 
 /*
-    EXTRA VIRTUAL FUNCTION TABLE ENTRIES
-
-    This value gives the base from which virtual function entries are
-    calculated.
-*/
+ * Extra virtual function table entries
+ *
+ * This value gives the base from which virtual function entries are
+ * calculated.
+ */
 
 #define VIRTUAL_EXTRA 1
 
-
 #endif
+

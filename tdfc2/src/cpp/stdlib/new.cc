@@ -7,109 +7,109 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
 #include "implement.h"
 
-
 /*
-    DEFAULT NEW HANDLER
-
-    The default new handler throws a bad_alloc exception.
-*/
-
-static void default_new_handler ()
+ * The default new handler throws a bad_alloc exception.
+ */
+static void
+default_new_handler()
 {
-    throw bad_alloc () ;
+	throw bad_alloc();
 }
 
+/*
+ * This value gives the current new handler function.
+ */
+static new_handler crt_new_handler = default_new_handler;
 
 /*
-    CURRENT NEW HANDLER
-
-    This value gives the current new handler function.
-*/
-
-static new_handler crt_new_handler = default_new_handler ;
-
-
-/*
-    SET CURRENT NEW HANDLER
-
-    This routine sets the current new handler function to fn, returning
-    the previous value.
-*/
-
-new_handler std::set_new_handler ( new_handler fn ) throw ()
+ * Set the current new handler function to fn, returning
+ * the previous value.
+ */
+new_handler
+std::set_new_handler(new_handler f) throw ()
 {
-    new_handler prev = crt_new_handler ;
-    crt_new_handler = fn ;
-    return ( prev ) ;
+	new_handler g = crt_new_handler;
+	crt_new_handler = f;
+	return g;
 }
 
-
 /*
-    STANDARD MEMORY ALLOCATION FUNCTION
-
-    This routine allocates sz bytes of memory, throwing an exception if
-    this is not possible.
-*/
-
-void *__TCPPLUS_new ( size_t sz ) throw ( bad_alloc )
+ * Standard memory allocation function
+ *
+ * Allocate sz bytes of memory, throwing an exception if this is not possible.
+ */
+void *
+__TCPPLUS_new(size_t sz) throw (bad_alloc)
 {
-    void *p ;
-    if ( sz == 0 ) sz = 1 ;
-    while ( p = malloc ( sz ), p == NULL ) {
-	new_handler fn = crt_new_handler ;
-	if ( fn == NULL ) throw bad_alloc () ;
-	fn () ;
-    }
-    return ( p ) ;
-}
+	void *p;
 
-
-/*
-    NO-EXCEPTION MEMORY ALLOCATION FUNCTION
-
-    This routine allocates sz bytes of memory, returning a null pointer if
-    this is not possible.
-*/
-
-void *__TCPPLUS_new_nothrow ( size_t sz ) throw ()
-{
-    void *p ;
-    if ( sz == 0 ) sz = 1 ;
-    while ( p = malloc ( sz ), p == NULL ) {
-	try {
-	    new_handler fn = crt_new_handler ;
-	    if ( fn == NULL ) return ( NULL ) ;
-	    fn () ;
+	if (sz == 0) {
+		sz = 1;
 	}
-	catch ( const bad_alloc & ) {
-	    // Return null if handler throws an exception
-	    return ( NULL ) ;
+
+	while (p = malloc(sz), p == NULL) {
+		new_handler f = crt_new_handler;
+		if (f == NULL) {
+			throw bad_alloc();
+		}
+
+		f();
 	}
-    }
-    return ( p ) ;
+
+	return p;
 }
 
-
 /*
-    STANDARD MEMORY DEALLOCATION FUNCTION
-
-    This routine deallocates the memory given by p.
-*/
-
-void __TCPPLUS_delete ( void *p ) throw ()
+ * No-exception memory allocation function
+ *
+ * This routine allocates sz bytes of memory, returning a null pointer if
+ * this is not possible.
+ */
+void *
+__TCPPLUS_new_nothrow(size_t sz) throw ()
 {
-    if ( p ) free ( p ) ;
-    return ;
+	void *p;
+
+	if (sz == 0) {
+		sz = 1;
+	}
+
+	while (p = malloc(sz), p == NULL) {
+		try {
+			new_handler f = crt_new_handler;
+			if (f == NULL) {
+				return NULL;
+			}
+
+			f();
+		} catch (const bad_alloc &) {
+			// Return null if handler throws an exception
+			return NULL;
+		}
+	}
+
+	return p;
 }
 
+/*
+ * Deallocate the memory given by p.
+ */
+void
+__TCPPLUS_delete(void *p) throw ()
+{
+	if (p) {
+		free(p);
+	}
+
+	return;
+}
 
 /*
-    THE STANDARD NOTHROW OBJECT
+ * The standard nothrow object
+ *
+ * This object is used in the no-exception memory allocation routines.
+ */
+const nothrow_t std::nothrow = { };
 
-    This object is used in the no-exception memory allocation routines.
-*/
-
-const nothrow_t std::nothrow = {} ;

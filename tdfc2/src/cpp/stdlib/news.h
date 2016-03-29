@@ -7,178 +7,176 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
 #include "implement.h"
 
-
 /*
-    FUNCTION SELECTION MACROS
-
-    The eight memory allocation and deallocation routines defined in this
-    file are replaceable.  In order to allow them to be replaced
-    independently they are compiled separately by defining the following
-    four macros.
-*/
+ * Function selection macros
+ *
+ * The eight memory allocation and deallocation routines defined in this
+ * file are replaceable. In order to allow them to be replaced
+ * independently they are compiled separately by defining the following
+ * four macros.
+ * TODO: maybe split these out into separate files instead
+ */
 
 #ifndef NEW
-#define NEW		0
+#define NEW     0
 #endif
 
 #ifndef DELETE
-#define DELETE		0
+#define DELETE  0
 #endif
 
 #ifndef ARRAY
-#define ARRAY		0
+#define ARRAY   0
 #endif
 
 #ifndef NOTHROW
-#define NOTHROW		0
+#define NOTHROW 0
 #endif
 
 
 /*
-    STANDARD MEMORY ALLOCATION FUNCTION
+ * Standard memory allocation function
+ *
+ * This routine allocates sz bytes of memory.
+ */
 
-    This routine allocates sz bytes of memory.  It needs to be in a
-    separate source file to allow it to be replaced in a simple fashion.
-*/
+#if (NEW && !ARRAY && !NOTHROW)
 
-#if ( NEW && !ARRAY && !NOTHROW )
-
-void *operator new ( size_t sz ) throw ( bad_alloc )
+void *
+operator new (size_t sz) throw (bad_alloc)
 {
-    return ( __TCPPLUS_new ( sz ) ) ;
+	return __TCPPLUS_new(sz);
 }
 
 #endif
 
 
 /*
-    STANDARD ARRAY MEMORY ALLOCATION FUNCTION
+ * Standard array memory allocation function
+ *
+ * This routine allocates sz bytes of memory for use as an array.
+ */
 
-    This routine allocates sz bytes of memory for use as an array.  It
-    needs to be in a separate source file to allow it to be replaced
-    in a simple fashion.
-*/
+#if (NEW && ARRAY && !NOTHROW)
 
-#if ( NEW && ARRAY && !NOTHROW )
-
-void *operator new [] ( size_t sz ) throw ( bad_alloc )
+void *
+operator new[] (size_t sz) throw (bad_alloc)
 {
-    return ( operator new ( sz ) ) ;
+	return operator new(sz);
 }
 
 #endif
 
 
 /*
-    STANDARD MEMORY DEALLOCATION FUNCTION
+ * Standard memory deallocation function
+ *
+ * This routine deallocates the memory given by p.
+ */
 
-    This routine deallocates the memory given by p.  It needs to be in
-    a separate source file to allow it to be replaced in a simple fashion.
-*/
+#if (DELETE && !ARRAY && !NOTHROW)
 
-#if ( DELETE && !ARRAY && !NOTHROW )
-
-void operator delete ( void *p ) throw ()
+void
+operator delete (void *p) throw ()
 {
-    __TCPPLUS_delete ( p ) ;
-    return ;
+	__TCPPLUS_delete(p);
+	return;
 }
 
 #endif
 
 
 /*
-    STANDARD ARRAY MEMORY DEALLOCATION FUNCTION
+ * Standard array memory deallocation function
+ *
+ * This routine deallocates the array memory given by p.
+ */
 
-    This routine deallocates the array memory given by p.  It needs to be
-    in a separate source file to allow it to be replaced in a simple fashion.
-*/
+#if (DELETE && ARRAY && !NOTHROW)
 
-#if ( DELETE && ARRAY && !NOTHROW )
-
-void operator delete [] ( void *p ) throw ()
+void
+operator delete [] (void *p) throw ()
 {
-    operator delete ( p ) ;
-    return ;
+	operator delete (p);
+	return;
 }
 
 #endif
 
 
 /*
-    NO-EXCEPTION MEMORY ALLOCATION FUNCTION
+ * No-exception memory allocation function
+ *
+ * This routine allocates sz bytes of memory returning the null pointer
+ * rather than throwing an exception if memory allocation fails.
+ */
 
-    This routine allocates sz bytes of memory returning the null pointer
-    rather than throwing an exception if memory allocation fails.  It
-    needs to be in a separate source file to allow it to be replaced in
-    a simple fashion.
-*/
+#if (NEW && !ARRAY && NOTHROW)
 
-#if ( NEW && !ARRAY && NOTHROW )
-
-void *operator new ( size_t sz, const nothrow_t & ) throw ()
+void *
+operator new (size_t sz, const nothrow_t &) throw ()
 {
-    return ( __TCPPLUS_new_nothrow ( sz ) ) ;
+	return __TCPPLUS_new_nothrow(sz);
 }
 
 #endif
 
 
 /*
-    NO-EXCEPTION ARRAY MEMORY ALLOCATION FUNCTION
+ * NO-EXCEPTION ARRAY MEMORY ALLOCATION FUNCTION
+ *
+ * This routine allocates sz bytes of memory for use as an array
+ * returning the null pointer rather than throwing an exception if
+ * memory allocation fails.
+ */
 
-    This routine allocates sz bytes of memory for use as an array
-    returning the null pointer rather than throwing an exception if
-    memory allocation fails.  It needs to be in a separate source file
-    to allow it to be replaced in a simple fashion.
-*/
+#if (NEW && ARRAY && NOTHROW)
 
-#if ( NEW && ARRAY && NOTHROW )
-
-void *operator new [] ( size_t sz, const nothrow_t & ) throw ()
+void *
+operator new[] (size_t sz, const nothrow_t &) throw ()
 {
-    return ( operator new ( sz, nothrow ) ) ;
+	return operator new (sz, nothrow);
 }
 
 #endif
 
 
 /*
-    NO-EXCEPTION MEMORY DEALLOCATION FUNCTION
+ * No-exception memory deallocation function
+ *
+ * This routine is the placement delete matching the no-exception operator
+ * new which deallocates the memory given by p.
+ */
 
-    This routine is the placement delete matching the no-exception operator
-    new which deallocates the memory given by p.  It needs to be in a
-    separate source file to allow it to be replaced in a simple fashion.
-*/
+#if (DELETE && !ARRAY && NOTHROW)
 
-#if ( DELETE && !ARRAY && NOTHROW )
-
-void operator delete ( void *p, const nothrow_t & ) throw ()
+void
+operator delete (void *p, const nothrow_t &) throw ()
 {
-    __TCPPLUS_delete ( p ) ;
-    return ;
+	__TCPPLUS_delete(p);
+	return;
 }
 
 #endif
 
 
 /*
-    NO-EXCEPTION ARRAY MEMORY DEALLOCATION FUNCTION
+ * No-exception array memory deallocation function
+ *
+ * This routine is the placement delete matching the no-exception operator
+ * new[] which deallocates the array memory given by p.
+ */
 
-    This routine is the placement delete matching the no-exception operator
-    new [] which deallocates the array memory given by p.  It needs to be
-    in a separate source file to allow it to be replaced in a simple fashion.
-*/
+#if (DELETE && ARRAY && NOTHROW)
 
-#if ( DELETE && ARRAY && NOTHROW )
-
-void operator delete [] ( void *p, const nothrow_t & ) throw ()
+void
+operator delete[] (void *p, const nothrow_t &) throw ()
 {
-    operator delete ( p, nothrow ) ;
-    return ;
+	operator delete (p, nothrow);
+	return;
 }
 
 #endif
+

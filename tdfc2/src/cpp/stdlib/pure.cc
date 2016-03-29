@@ -7,17 +7,14 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-
 #include "implement.h"
 
-
 /*
-    PURE VIRTUAL FUNCTION
-
-    This routine is used to stand for a pure virtual function.
-*/
-
-void __TCPPLUS_pure ()
+ * This routine is used to stand for a pure virtual function.
+ */
+void
+__TCPPLUS_pure()
 {
-    abort () ;
+	abort();
 }
+
