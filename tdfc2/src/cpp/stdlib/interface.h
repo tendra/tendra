@@ -80,7 +80,7 @@ enum {
 	RTTI_func       =  11,
 	RTTI_c_func     =  12,
 	RTTI_other      =  13
-}
+};
 
 enum {
 	INFO_const      =   1,
