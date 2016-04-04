@@ -379,7 +379,7 @@
 				<revdescription>
 					<para>Added <code>COPYRIGHT</code> and the <code>-C</code>
 						option for specifying copyright files on the command
-						line. The origional &ldquo;first comment&rdquo; behaviour
+						line. The original &ldquo;first comment&rdquo; behaviour
 						is kept, if neither of these are specified.</para>
 				</revdescription>
 			</revision>
@@ -432,7 +432,7 @@
 				<authorinitials>kate</authorinitials>
 				<revdescription>
 					<para>Merged in support for up to (and including) 31 groups.
-						This is a rework of a patch origionally submitted by
+						This is a rework of a patch originally submitted by
 						Rob Andrews, but not included in our tag for Lexi 1.2.
 						Notably it has been adapted to use stdint.h
 						instead of assuming the size of various C types.</para>
