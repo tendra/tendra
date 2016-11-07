@@ -67,7 +67,7 @@ usage:[option ...] in-file ... out-file ...\n\
 where option is one of:\n"
 #define PROGNAME  "sid"
 #define LANGUAGES "ansi-c, pre-ansi-c, test, bnf"
-#define VERSION   "version 1.11 (" LANGUAGES ")"
+#define VERSION   "version 1.12 (" LANGUAGES ")"
 #define RELEASE   "tendra.org"
 
 typedef struct PhaseListT {
