@@ -875,16 +875,14 @@
 			<abbrev>Spec</abbrev>
 			<corpauthor>The &tendra; Project</corpauthor>
 			<title>&tdf; Specification</title>
-			<bibliosource class="uri"><ulink
-				url="http://docs.tendra.org/reference/specification/"/></bibliosource>
+			<bibliosource class="uri">&tdf-spec.doc;</bibliosource>
 		</biblioentry>
 
 		<biblioentry id="tdfreg">
 			<abbrev>Reg</abbrev>
 			<corpauthor>The &tendra; Project</corpauthor>
 			<title>&tdf; Token Register</title>
-			<bibliosource class="uri"><ulink
-				url="http://docs.tendra.org/reference/register/"/></bibliosource>
+			<bibliosource class="uri">&tdf-register.doc;</bibliosource>
 		</biblioentry>
 
 		<biblioentry id="C99">
