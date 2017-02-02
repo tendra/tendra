@@ -1,6 +1,6 @@
 <!-- $Id$ -->
 
-<!ENTITY % docs "http://docs.tendra.org">
+<!ENTITY % docs "http://www.tendra.org">
 
 <!ENTITY % vol.1 "<manvolnum>1</manvolnum>">
 <!ENTITY % vol.5 "<manvolnum>5</manvolnum>">
