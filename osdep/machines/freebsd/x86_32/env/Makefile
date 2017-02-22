@@ -12,6 +12,7 @@ ENVFILE+=	tcc_prof
 ENVCOMMON+=	machines/common/env
 ENVCOMMON+=	arch/${BLDARCH}
 ENVCOMMON+=	machines/${OSFAM}/common/env
+ENVCOMMON+=	machines/${OSFAM}/${BLDARCH}/env/crt # XXX: hack
 ENVCOMMON+=	toolchain/gnu/common
 ENVCOMMON+=	toolchain/gnu/${BLDARCH}
 
