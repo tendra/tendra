@@ -139,6 +139,7 @@ c_lexer_next_token(CLexerStreamT *stream)
 {
 	stream->token = *c_lexer_token;
 	c_lexer_token->t = c_lexi_read_token(&c_lexer_current_state);
+	c_lexer_token->line = c_lexer_stream_line(stream);
 }
 
 NStringT *

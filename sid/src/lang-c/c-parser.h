@@ -9,7 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 149 "c-parser.act"
+#line 150 "c-parser.act"
 
 
 	/* $Id$ */
@@ -44,7 +44,7 @@
 extern void c_parse_grammar(void);
 /* BEGINNING OF TRAILER */
 
-#line 1118 "c-parser.act"
+#line 1122 "c-parser.act"
 
 
 #line 51 "c-parser.h"

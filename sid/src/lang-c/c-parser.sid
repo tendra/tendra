@@ -18,6 +18,7 @@
 	StringT;
 	CCodeP;
 	bool;
+	pos;
 
 %terminals%
 
@@ -56,7 +57,7 @@
 	ACT-MODIFIABLE: () -> (:StringT); // @=[A-ZA-Z][A-ZA-Z0-9]*
 	ACT-CODESTRING: () -> (:StringT); // [^@]*
 	ACT-EOF;            //
-	ACT-CODESTART;      // @{
+	ACT-CODESTART:  () -> (:pos);     // @{
 	ACT-CODEEND;        // @}
 
 	EOF;
@@ -91,7 +92,7 @@
 	<set-trailer1>: (:CCodeP) -> ();
 	<set-trailer2>: (:CCodeP) -> ();
 
-	<ccode-init>: () -> (:CCodeP) ;
+	<ccode-init>: (:pos) -> (:CCodeP) ;
 	<append-ccode-at>: (:CCodeP) -> () ;
 	<append-ccode-exception>: (:CCodeP) -> () ;
 	<append-ccode-terminal>: (:CCodeP) -> () ;
@@ -190,8 +191,8 @@
 				code-body(c);
 			};
 		] = {
-			ACT-CODESTART ;
-			c = <ccode-init>;
+			p = ACT-CODESTART;
+			c = <ccode-init>(p);
 			code-body(c);
 			ACT-CODEEND ;
 		};

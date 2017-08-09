@@ -21,6 +21,7 @@
 	StringT -> NStringT;
 	CCodeP  -> CCodeP;
 	bool   -> bool;
+	pos    -> unsigned;
 
 	c-parse-grammar -> c_parse_grammar;
 
@@ -202,6 +203,10 @@
 
 	ACT-CODESTRING: () -> (s :StringT) = @{
 		nstring_assign(&@s, c_lexer_string_value(c_current_stream));
+	@};
+
+	ACT-CODESTART: () -> (p :pos) = @{
+		@p = c_lexer_stream_line(c_current_stream);
 	@};
 
 %actions%
@@ -732,9 +737,8 @@
 	 * Code elements into code block
 	 */
 
-	<ccode-init>: () -> (code :CCodeP) = @{
-		@code = c_code_create(istream_name(&c_lexer_stream->istream), 
-			istream_line(&c_lexer_stream->istream));
+	<ccode-init>: (p :pos) -> (code :CCodeP) = @{
+		@code = c_code_create(istream_name(&c_lexer_stream->istream), @p);
 	@};
 
 	<append-ccode-at>: (code :CCodeP) -> () = @{

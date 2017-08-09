@@ -83,6 +83,7 @@ typedef struct CLexT {
 	NStringT		string;
 	CCodeT *			code;
     } u;
+	int line;
 } CLexT;
 
 typedef struct CLexerStreamT {
