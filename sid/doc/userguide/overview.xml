@@ -133,7 +133,7 @@ X1 = {
 		<para>After these two transformations, &sid; performs some
 			optimisations on the grammar, such as reducing multiple copies of
 			identical rules, removing tail recursion, inlining all basic rules,
-			inlining single alternative rules, inling rules used only once, and
+			inlining single alternative rules, inlining rules used only once, and
 			inlining everything that can be inlined. All of the inlining is
 			optional.</para>
 
