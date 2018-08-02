@@ -213,7 +213,7 @@ bootstrap-rebuild:
 	    install
 
 bootstrap-regen:
-	@echo "===> bootstraping into ${OBJ_REGEN} for source regeneration"
+	@echo "===> bootstrapping into ${OBJ_REGEN} for source regeneration"
 .for project in sid calculus make_err
 	@echo "===> bootstrapping ${project} into ${OBJ_BPREFIX}"
 	cd ${.CURDIR}/${project} && ${MAKE}     \
