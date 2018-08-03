@@ -18,7 +18,7 @@ _TENDRA_PARTIAL_MK_=1
 #
 .if !defined(OBJS) && !defined(PARTS)
 .BEGIN:
-	@${ECHO} 'Either $${OBJS} or ${PARTS} must be set'
+	@${ECHO} 'Either $${OBJS} or $${PARTS} must be set'
 	@${EXIT} 1;
 .endif
 
