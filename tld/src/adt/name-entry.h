@@ -37,20 +37,87 @@ typedef enum {
 } NameEntryTypeT;
 
 typedef struct NameEntryT {
-    struct NameEntryT	       *next;
-    NameKeyT			key;
-    NameEntryTypeT		type;
-    union {
-	struct {
-	    unsigned		id;
-	    unsigned		use;
-	    struct CapsuleT    *definition;
-	    struct LibCapsuleT *lib_definition;
-	    struct NameEntryT  *list_next;
-	} direct;
-	struct NameEntryT      *indirect;
-    } u;
+	struct NameEntryT	       *next; 
+	NameKeyT			key; /* name's name */
+	NameEntryTypeT		type; /* see comment below this struct */
+	union {
+		struct {
+		  /* This contains the capsule scope identifier that has been allocated
+			 for this name.  It is only used if the entry is a direct entry (as
+			 is the case for all other "u.direct.X" fields). */
+			unsigned		id;
+
+		  /* This contains the name's usage information (as read from
+			 the linker information unit).  In addition, an otherwise
+			 unused bit is used to indicate that the name is
+			 hidden. */
+			unsigned		use;
+
+		  /* This contains a pointer to the capsule object that
+			 defined the name.  It is used for reporting the original
+			 definition for multiply defined names.  It is also used
+			 to indicate that the name has a definition (it is set to
+			 the nil pointer if the name has no definition, or if the
+			 definition has been suppressed).  It is only used for
+			 names not in a library index. */
+			struct CapsuleT    *definition;
+
+		  /* This contains a pointer to the library capsule object that defined
+			 the name.  It is only used for names in a library index, to indicate
+			 which capsule should be loaded to define the name.  It is set to
+			 the nil pointer if the name has no library definition, or if the
+			 definition has been suppressed. */
+			struct LibCapsuleT *lib_definition;
+
+		  /* This contains a pointer to the next name in the list of names of
+			 this shape (the list that the "head" and "tail" fields in the shape
+			 entry structure represent). */
+			struct NameEntryT  *list_next;
+		} direct;
+
+		/* This contains a pointer to another entry that is to be used
+		   in place of this entry.  It is only used if the entry is an
+		   indirect entry of some form. */
+		struct NameEntryT      *indirect; 
+	} u;
 } NameEntryT;
+
+/* NameEntryT.type:
+
+   This is the type of the name.  There are five types: "NT_INDIRECT",
+   "NT_INDIRECT_CYCLING", "NT_INDIRECT_DONE", "NT_DIRECT" and
+   "NT_PLACEHOLDER".  The first three types are all indirect names
+   (used by the renaming); the last type is also used by the renaming.
+   The direct name type is the real name type.
+
+   When renaming information is read, it is entered into each name
+   table of the appropriate shape.  Initially, a place holder name is
+   created for the new name, and an indirect name is created for the
+   old name.  The indirect name contains a pointer to the place holder
+   name (actually, this may also be an indirect name if it has also
+   been renamed).
+
+   Once all of the renamed names have been added to the table, the
+   renamings are checked for cycles, and the indirect entries are set
+   so that they all point to a place holder entry (so that it will not
+   be necessary to follow chains of indirect entries).  The other two
+   indirect types are used by this process.  After the process has
+   completed, all entries in the table will be of type
+   "NT_INDIRECT_DONE" or "NT_PLACEHOLDER".  At this stage, there will
+   be no direct entries.
+
+   Direct entries are added when capsules and libraries are read.
+   Place holder entries will automatically turn into direct entries
+   when a direct entry of the same name is added.  Attempts to add an
+   entry with the same name as an indirect entry will result in the
+   entry it points to being used instead.
+
+   The name table hides all of the renaming: the functions that get
+   entries from the name table follow indirect entries, and ignore
+   place holder entries; the iteration function only iterates across
+   direct entries.  In this way, nothing outside of the name table
+   structure needs to worry about renaming.
+*/
 
 extern NameEntryT *	name_entry_create_direct
 (NameKeyT *, struct ShapeEntryT *);

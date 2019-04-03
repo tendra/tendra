@@ -29,14 +29,31 @@ struct ShapeTableT;
 struct UnitTableT;
 
 typedef struct ShapeEntryT {
-    struct ShapeEntryT	       *next;
-    NStringT			key;
-    NameTableT *		names;
-    unsigned			id_count;
-    bool			non_empty;
-    unsigned			num_lib_names;
-    NameEntryT *		head;
-    NameEntryT *	       *tail;
+    struct ShapeEntryT  *next;
+    NStringT            key;      /* shape name */
+    NameTableT *        names;    /* external names for the shape. */
+    unsigned            id_count; /* next available capsule scope
+                                     identifier for the shape. */
+
+   /* `non_empty' is set to true during the capsule output routines if
+      the shape is to be output (if it has either unit scope
+      identifiers or capsule scope identifiers). */
+    bool                non_empty; 
+
+    /* `num_lib_names' is used to cache the number of identifiers of
+       the shape that are going to be written out to the library
+       index. */
+    unsigned            num_lib_names;
+
+    /* `head' and `tail' store a list of name entries as they are
+       added to the name table "names".  As new names are added to the
+       the name table, they are also added to this list.  When trying
+       to resolve undefined external names, the names are removed from
+       the front of this list, and definitions are looked up in the
+       libraries.  When all such lists are empty, then all possible
+       name resolution has been done. */  
+    NameEntryT *        head;
+    NameEntryT *        *tail;
 } ShapeEntryT;
 
 typedef struct ShapeClosureT {

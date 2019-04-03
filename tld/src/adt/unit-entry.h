@@ -26,14 +26,25 @@
 
 typedef struct UnitT {
     struct UnitT	       *next;
+
+    /* This is the unit mapping table.  It contains the unit scope
+       identifier limits (counts) and the unit scope to capsule scope
+       identifier mapping tables for each shape in the capsule that
+       the unit came from. */
     MapTableT *		map_table;
-    NStringT			contents;
+    NStringT			contents; /* unit's TDF content */
 } UnitT;
 
 typedef struct UnitEntryT {
     struct UnitEntryT	       *next;
-    NStringT			key;
+    NStringT			key; /* the unit set name */
+
+    /* When reading unit set names from a capsule, each unit set must
+       have a higher order number than the preceding unit sets. */
     unsigned			order;
+
+    /* These are the start and end pointers of the list of units in
+       the unit set that this entry represents. */
     UnitT *		head;
     UnitT *	       *tail;
 } UnitEntryT;

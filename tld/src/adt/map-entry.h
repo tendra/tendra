@@ -28,9 +28,21 @@ typedef struct MapLinkT {
 
 typedef struct MapEntryT {
     struct MapEntryT	       *next;
-    NStringT			key;
+    NStringT			key; /* shape name */
+
+    /* This contains the unit scope identifier limit for the shape in
+       the unit that contains the table that the entry is an entry
+       in. */
     unsigned			count;
+
+    /* This contains the number of unit scope to capsule scope
+       identifier mappings for the shape in the unit that contains the
+       table that the entry is an entry in. */
     unsigned			num_links;
+
+    /* This contains the unit scope to capsule scope identifier
+       mappings for the shape in the unit that contains the table that
+       the entry is an entry in. */
     MapLinkT *		links;
 } MapEntryT;
 
