@@ -14,6 +14,9 @@
  * linker.
  */
 
+/* For extracting capsules from a library, only a single shape table
+   is used to store the library index. */
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

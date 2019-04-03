@@ -13,6 +13,8 @@
  * See the file "map-table.c" for more information.
  */
 
+/* Mapping tables only exist as part of entries in a unit set table. */
+
 #ifndef H_MAP_TABLE
 #define H_MAP_TABLE
 

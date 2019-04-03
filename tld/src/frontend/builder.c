@@ -14,6 +14,12 @@
  * TDF linker.
  */
 
+/* When building libraries, one unit set table and one shape table are
+   used for reading capsules in the same way as for linking, but one
+   shape table is used for each library that is read (they are only
+   used for checking the validity of the index, and are discarded
+   immediately after the library has been read). */
+
 #include <string.h>
 #include <stdlib.h>
 #include <errno.h>

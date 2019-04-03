@@ -14,6 +14,23 @@
  * the "frontends" directory for more details.
  */
 
+/* There are four types of hash table used by the linker.  These data
+   structures are fundamental to the linker, and most of the linker's
+   behaviour involves adding things to the hash tables or writing out
+   information stored in them.
+
+   The four types of hash table are the "unit set table", the "shape table", the
+   "name table", and the "mapping table".  Name tables only exist as part of
+   entries in a shape table, and mapping tables only exist as part of entries
+   in a unit set table.
+
+   frontend/builder.c  uses the unit set table, and shape table.
+   frontend/linker.c   uses the unit set table, and shape table.
+   frontend/contents.c uses the shape table.
+   frontend/extract.c  uses the shape table.
+*/
+
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

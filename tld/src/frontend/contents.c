@@ -14,6 +14,10 @@
  * linker.
  */
 
+/* For showing the library content, only a single shape table is used
+   to store the library index. */
+
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

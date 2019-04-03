@@ -13,6 +13,11 @@
  * This file provides the front end to the linking mode of the TDF linker.
  */
 
+/* When linking, there is one unit set table and one shape table into
+   which the information read from capsules is stored.  There is a
+   second shape table into which the information from the library
+   index is stored. */
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

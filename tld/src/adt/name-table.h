@@ -13,6 +13,8 @@
  * See the file "name-table.c" for more information.
  */
 
+/* Name tables only exist as part of entries in a shape table. */
+
 #ifndef H_NAME_TABLE
 #define H_NAME_TABLE
 
