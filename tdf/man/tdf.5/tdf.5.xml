@@ -61,24 +61,23 @@
 -->
 
 	<refentryinfo>
-		<productname>tld</productname>
+		<productname>tdf</productname>
 	</refentryinfo>
 
 	<refmeta>
-		<refentrytitle>tld</refentrytitle>
+		<refentrytitle>tdf</refentrytitle>
 		<manvolnum>5</manvolnum>
 	</refmeta>
 
 	<refnamediv>
-		<refname>tld</refname>
-		<refpurpose>The TDF Linker - File Formats</refpurpose>
+		<refname>tdf</refname>
+		<refpurpose>File Formats</refpurpose>
 	</refnamediv>
 
 	<refsection id="introduction">
 		<title>Introduction</title>
 
-		<para>This document describes the formats of the files used by the &tdf;
-			linker, &tld;. There are two file formats: the capsule format and
+		<para>This document describes two TDF file formats: the capsule format and
 			the library format. It also describes the format of the linker
 			information units within capsules. The capsule format is described
 			in more detail in the &tdf; specification.</para>
@@ -465,6 +464,7 @@ this_linkable_entity_names:	{
 	</refsection>
 
 	<refsection>
+          <!-- NOTE: This section seems to be tld specific and should perhaps be moved into tld.5. -->
 		<title>Rename File Syntax</title>
 
 		<para>Renaming may be specified either on the command line, or in a file.
@@ -481,6 +481,7 @@ this_linkable_entity_names:	{
 	</refsection>
 
 	<refsection>
+          <!-- NOTE: This section seems to be tld specific and should perhaps be moved into tld.5. -->
 		<title>Unit Set File Syntax</title>
 
 		<para>The file should consist of a sequence of strings enclosed in double quotes.

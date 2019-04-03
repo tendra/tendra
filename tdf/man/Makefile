@@ -3,7 +3,7 @@
 .include "Makefile.inc"
 
 
-SUBDIR+=	tld.1
+SUBDIR+=	tdf.5
 
 .include <tendra.subdir.mk>
 
