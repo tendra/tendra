@@ -5,19 +5,7 @@
 	<title>Introduction</title>
 
 	<para>&sid; turns specifications of languages into
-		programs that recognise those languages. One of the aims of
-		&sid; was to separate the specification of the
-		language to be recognised from the language that the recogniser
-		program is written in. For this reason, input to &sid;
-		is split into two components: output language independent
-		information, and output language dependent information.</para>
-
-	<para>At present, &sid; will only output programs in C
-		(either &iso; or pre-&iso;), but it is designed so that adding new
-		output languages should be fairly simple. Output of the grammar
-		to BNF is also provided. There is one other pseudo-language:
-		the test language. This is used for testing grammars and the
-		transforms, but will not output a parser.</para>
+		programs that recognise those languages.</para>
 
 	<para>This document describes how to use the &sid; parser
 		generator.
@@ -25,6 +13,9 @@
 		suitable for use with SID. The interfaces for the generated code which
 		SID produces are specified. A tour of SID's more interesting features
 		is given, and some guiding advice for general use.</para>
+
+
+
 
 </preface>
 

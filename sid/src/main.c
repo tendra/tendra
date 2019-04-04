@@ -7,7 +7,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/*
+/* <XXX: this comment block is out of date>
  * main.c - SID program main routine.
  *
  * This file implements the main function for SID.  The main function just
@@ -28,6 +28,24 @@
  * grammar.  The output functions are described in the
  * "LANGUAGE-output/LANGUAGE-output.[ch]" files.
  */
+
+/* File scope variables:
+
+   o ``main_language_list'' is an array of available output
+     languages. It is initialized in `main'.
+
+   o ``main_language'' points into ``main_language_list'' to the language
+     that will actually be used in the run of the program.  It can be
+     set by the ``-l'' flag.  ``main'' assigns a default.
+
+     The object ``main_language'' points to is of type ``struct LangListT'',
+     which is an interface to the implementation of a language.  The
+     type name is confusing as it is not a list.  See ``lang.h''.
+
+   Functions:
+   
+   o ``main_handle_*'' relate to command line options.
+*/
 
 #include <stdlib.h>
 #include <ctype.h>
@@ -399,6 +417,18 @@ main_abort_if_errored(void)
 	}
 }
 
+/* Reads the ``.sid'' file and stores it in an internal representation.
+
+   Reads the ``.act'' file and completes the representation of the
+   grammars with the action code. (after this step sid only works on
+   the internal representation.)
+
+   Transforms and optimizes the grammar. Most notably, it removes left
+   recursion and tries to transform the context free grammar provided
+   into an equivalent LL(1) grammar.
+
+   Outputs the parser
+ */
 static void
 main_1(OutputInfoT *out_info, OStreamT *dstream)
 {
@@ -416,37 +446,52 @@ main_1(OutputInfoT *out_info, OStreamT *dstream)
 	grammar_init(&grammar);
 	lexer_init(&lstream, out_info_get_istream(out_info, 0));
 	sid_current_stream  = &lstream;
-	sid_parse_grammar(&grammar);
+
+	sid_parse_grammar(&grammar); /* Parses the .sid file. */
 	lexer_close(&lstream);
 	main_abort_if_errored();
+
 	grammar_check_complete(&grammar);
 	main_abort_if_errored();
 
 	if (main_language->input_proc != NULL) {
-		main_language->input_proc(output_closure, &grammar);
+		main_language->input_proc(output_closure, &grammar); /* parses the .act file. */
 		main_abort_if_errored();
 	}
 
-	main_dump_grammar(dstream, &grammar, "Original grammar:");
-	grammar_remove_left_recursion(&grammar);
-	main_dump_grammar(dstream, &grammar, "After left recursion elimination:");
-	main_abort_if_errored();
-	grammar_compute_first_sets(&grammar);
-	main_abort_if_errored();
-	grammar_factor(&grammar);
-	main_dump_grammar(dstream, &grammar, "After factorisation:");
-	main_abort_if_errored();
-	grammar_simplify(&grammar);
-	main_dump_grammar(dstream, &grammar, "After simplification:");
-	grammar_compute_inlining(&grammar);
+	/* The internal representation (`grammar') is now complete. */
+
+	/* Optimizations (see `grammar.h' for details): */
+	{
+		main_dump_grammar(dstream, &grammar, "Original grammar:");
+
+		grammar_remove_left_recursion(&grammar);
+		main_dump_grammar(dstream, &grammar, "After left recursion elimination:");
+		main_abort_if_errored();
+
+		grammar_compute_first_sets(&grammar);
+		main_abort_if_errored();
+
+		grammar_factor(&grammar);
+		main_dump_grammar(dstream, &grammar, "After factorisation:");
+		main_abort_if_errored();
+
+		grammar_simplify(&grammar);
+		main_dump_grammar(dstream, &grammar, "After simplification:");
+
+		grammar_compute_inlining(&grammar);
+	}
+
 	grammar_check_collisions(&grammar);
 	main_dump_grammar(dstream, &grammar, "After everything:");
 	main_abort_if_errored();
+
 	grammar_recompute_alt_names(&grammar);
 	if (dstream) {
 		ostream_close(dstream);
 	}
 
+	/* Outputs the parser. */
 	if (main_language->output_proc != NULL) {
 		main_language->output_proc(output_closure, &grammar);
 	}
@@ -467,12 +512,14 @@ main(int argc, char **argv)
 	main_language_list[4] = &test_language_list;
 	main_language_list[5] = &bnf_language_list;
 
-	/* Default to ANSI C */
+	/* Default to ANSI C. May be overridden by the `-l' flag. */
 	main_language = main_language_list[0];
 
 	set_progname(PROGNAME, VERSION);
 	fmt_init();
 
+	/* HANDLE and WITH are macros that emulate an exception
+	   mechanism in C. They are defined in libexds. */
 	HANDLE {
 		OutputInfoT out_info;
 

@@ -1,0 +1,144 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<chapter id="transformations">
+	<title>Transformations</title>
+	<para>&sid; takes the input grammar and applies several
+		transformations to it, before it produces the parser. These
+		transformations allow the language descriptions to be written in
+		a slightly more natural form than would otherwise be
+		necessary.</para>
+
+	<section id="left-recursion">
+		<title>Left recursion elimination</title>
+
+		<para>The first transformation is to eliminate any left recursive
+			productions, replacing them with right recursive ones. This
+			transforms a set of rules of the form:</para>
+
+		<literallayout>Ai = Aj Bji, Ci</literallayout>
+
+		<para>into:</para>
+
+		<!-- TODO: mathml? -->
+		<literallayout>Ai = Cj Xji
+Xji = Bjk Xki, Yji</literallayout>
+
+		<para>where <code>Yji</code> is the identity function if <code>i</code>
+			equals <code>j</code>, and an error otherwise. In order for this
+			transformation to work, the following conditions must hold:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>The parameter type for all <code>Ai</code> must be the
+					same.</para>
+			</listitem>
+
+			<listitem>
+				<para>The result type for all <code>Ai</code> must be the
+					same.</para>
+			</listitem>
+
+			<listitem>
+				<para>The exception handlers for all <code>Ai</code> must be the
+					same.</para>
+			</listitem>
+
+			<listitem>
+				<para>The parameters to each left recursive call to some
+					<code>Aj</code> must be exactly the formal parameters to the
+					calling rule <code>Ai</code>.</para>
+			</listitem>
+
+			<listitem>
+				<para>Any non-local name referenced by any rule must be in scope
+					for all rules.</para>
+			</listitem>
+
+			<listitem>
+				<para>A rule may not define non-local variables unless it is the
+					only entry point into the cycle (i.e. there is only one named
+					rule in the cycle).</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>&sid; will report an error if these conditions are not met.</para>
+	</section>
+
+	<section id="factoring">
+		<title>Factoring</title>
+
+		<para>The second major transformation is to factor the grammar. It is
+			possible that this phase could go on for ever, so there is a limit to
+			the number of rules that can be generated. This limit may be changed
+			(see the <link linkend="invoke">invocation section</link>). In
+			practice it is rare for this to happen.</para>
+
+		<para>The factoring phase tries to increase the number of language
+			specifications that &sid; can produce a parser for, by
+			factoring out common initial items in alternatives, e.g.:</para>
+
+		<programlisting language="sid">X = {
+	a ; b ;
+||
+	a ; c ;
+} ;</programlisting>
+
+		<para>would be transformed into something like:</para>
+
+		<programlisting language="sid">X = {
+	a ; X1 ;
+} ;
+
+X1 = {
+	b ;
+||
+	c ;
+} ;</programlisting>
+
+		<para>It will also expand calls to rules at the beginning of
+			alternatives if this is necessary to allow the parser to be produced
+			(this is the phase that the limit is needed for). The expansions are
+			done in the following cases:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>If the rule is see-through (i.e. there is an expansion of
+					the rule that does not contain any terminals or predicates) and
+					its first set contains terminals in the first set of the rest of
+					the alternative.</para>
+			</listitem>
+
+			<listitem>
+				<para>If the rule has a predicate in its first set.</para>
+			</listitem>
+
+			<listitem>
+				<para>If the rule has terminals in its first set that are also in
+					the first set of another alternative that does not begin with
+					the same rule.</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>If the rule being expanded contains an exception handler, and it
+			is not identical to the exception handler in the enclosing rule, then
+			an error will occur. Similarly if the rule being expanded defines any
+			non-local variables then an error will occur.</para>
+	</section>
+
+	<section id="optimise">
+		<title>Optimisations</title>
+
+		<para>After these two transformations, &sid; performs some
+			optimisations on the grammar, such as reducing multiple copies of
+			identical rules, removing tail recursion, inlining all basic rules,
+			inlining single alternative rules, inlining rules used only once, and
+			inlining everything that can be inlined. All of the inlining is
+			optional.</para>
+
+		<para>After these optimisations, &sid; checks the language
+			description to ensure that it is possible to produce a parser for it,
+			and if so it outputs the parser.</para>
+	</section>
+</chapter>
+

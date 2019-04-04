@@ -112,179 +112,18 @@
 	<chapter>
 		<title>&sid;'s Organisation</title>
 
-		<para>When you call &sid;, the main
-			operations it performs are</para>
-
-		<orderedlist>
-			<listitem>
-				<para>Reads the grammar <filename>.sid</filename>
-					file and stores its internal representation.</para>
-			</listitem>
-
-			<listitem>
-				<para>Reads the grammar output language specific .act file and complete the
-					representation of the grammars with the action code.
-					(After this step, &sid;
-					only works on the internal representation.)</para>
-			</listitem>
-
-			<listitem>
-				<para>Transforms and Optimises the Grammar. Most notably, it removes left
-					recursion and tries to transform the context free grammar provided 
-					in an equivalent LL(1) grammar.</para>
-			</listitem>
-
-			<listitem>
-				<para>Outputs the parser.</para>
-			</listitem>
-		</orderedlist>
-
-		<section>
-			<title>The <code>main</code> Function</title>
-
-			<para>Let's look at some parts of the code in main.c.
-				In <code>main</code>, you can see <code>HANDLE</code> and 
-				<code>WITH</code>: these are macros that emulate an exception
-				mechanism in C. These come from <application>libexds</application>.</para>
-
-			<para>The function <code>main</code> itself doesn't do much:
-				it initializes some structures, calls <code>main_init</code>
-				to process the command line options then calls <code>main_1</code>
-				to do all the interesting work.
-				Now look at the function
-				<code>main_1</code>,  it calls in order (forgetting about
-				all the initialisation stuff and the error handling stuff)</para>
-
-			<variablelist>
-				<varlistentry>
-					<term><code>sid_parse_grammar()</code></term>
-
-					<listitem>
-						<para>parses the <filename>.sid</filename>
-							file and converts it into
-							an internal representation.</para>
-					</listitem>
-				</varlistentry>
-
-				<varlistentry>
-					<term><code>grammar_check_complete(&amp;grammar)</code></term>
-
-					<listitem>
-						<para>verifies that all rules are accessible.</para>
-					</listitem>
-				</varlistentry>
-
-				<varlistentry>
-					<term><code>(*(main_language->input_proc))(output_closure, &amp;grammar)</code></term>
-
-					<listitem>
-						<para>parses the action file and completes the internal representation
-							of the grammar.</para>
-					</listitem>
-				</varlistentry>
-
-				<varlistentry>
-					<term><code>grammar_remove_left_recursion(&amp;grammar)</code></term>
-
-					<listitem>
-						<para>TODO</para>
-					</listitem>
-				</varlistentry>
-
-				<varlistentry>
-					<term><code>grammar_compute_first_set(&amp;grammar)</code></term>
-
-					<listitem>
-						<para>computes the first set of each rule in the grammar.</para>
-					</listitem>
-				</varlistentry>
-
-				<varlistentry>
-					<term><code>grammar_factor(&amp;grammar)</code></term>
-
-					<listitem>
-						<para>TODO</para>
-					</listitem>
-				</varlistentry>
-
-				<varlistentry>
-					<term><code>grammar_simplify(&amp;grammar)</code></term>
-
-					<listitem>
-						<para>TODO</para>
-					</listitem>
-				</varlistentry>
-
-				<varlistentry>
-					<term><code>grammar_compute_inlining(&amp;grammar)</code></term>
-
-					<listitem>
-						<para>TODO</para>
-					</listitem>
-				</varlistentry>
-
-				<varlistentry>
-					<term><code>grammar_check_collisions(&amp;grammar)</code></term>
-
-					<listitem>
-						<para>TODO</para>
-					</listitem>
-				</varlistentry>
-
-				<varlistentry>
-					<term><code>grammar_recompute_alt_names(&amp;grammar)</code></term>
-
-					<listitem>
-						<para>TODO</para>
-					</listitem>
-				</varlistentry>
-
-				<varlistentry>
-					<term><code>(*(main_language->output_proc))(output_closure, &amp;grammar)</code></term>
-
-					<listitem>
-						<para>outputs the parser in the chosen language.</para>
-					</listitem>
-				</varlistentry>
-			</variablelist>
-
-			<para>You may wonder what <code>main_language</code> is. We explain it in the
-				next section.</para>
-		</section>
-
 		<section>
 			<title>Adding a New Output Language: <code>main_language_list</code></title>
 
-			<para>The global variable <code>main_language</code>
-				allows us to easily modify the output language.
-				It's a pointer to a structure called <code>LangListT</code>.
-				This pointer will always point to an element in the
-				table <code>main_language_list</code>, which contains callbacks
-				for the various stages of processing.</para>
-
-			<!-- TODO reword by name, not numerically -->
-			<para>The first member indicates the option name. The second one
-				is a pointer to the initialisation function. The third one
-				contains a pointer to the top input routine for the action file.
-				The fourth one is an integer indicating the number of
-				input file (2 for outputting C, 1 for test). Then we have 
-				the top output language specific output function and finally
-				the number of outputted file. Don't remove the last line: it serves as a guard.
-				To add a new output language, add a line to <code>main_language_list</code>
-				and implement the new top level functions.</para>
+			<para>To add a new output language, add a line
+				to <code>main_language_list</code> and
+				implement the new top level functions.</para>
 
 			<!-- TODO explain that languages may have language-specific options -->
 		</section>
 
 		<section>
 			<title>Code Organisation and Conventions</title>
-
-			<para>If you read this guide, it is probably because
-				you want to modify &sid;.
-				In this section, we say
-				how &sid;
-				is organised and how one should modify the
-				code to keep the code readable.</para>
 
 			<para>&sid;
 				defines many types for the internal representation of a grammar.
@@ -309,7 +148,7 @@
 		<para>We present the internal representation in a top down 
 			structure. Many functions are provided that hides 
 			the implementation; all access to these structures is performed through
-			their respective <acronym>API</acronym>s. Those interfaces are not
+			their respective &api;s. Those interfaces are not
 			documented here; rather, a brief functional tour of content is given
 			instead.</para>
 

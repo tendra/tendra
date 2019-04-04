@@ -47,12 +47,12 @@ typedef struct LangListT {
 	void *(*init_proc)(OutputInfoT *, CStringListT *);
 
 	/*
-	 * File input. This is called after the grammar is parsed.
+	 * Routine for reading the .act file. This is called after the grammar is parsed.
 	 */
 	void  (*input_proc)(void *, GrammarT *);
 
 	/*
-	 * File output.
+	 * Routine for outputting the parser in the language represented by this struct.
 	 */
 	void  (*output_proc)(void *, GrammarT *);
 } LangListT;

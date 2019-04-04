@@ -557,8 +557,9 @@
 
 	<xi:include href="preface-intro.xml"/>
 
-	<xi:include href="grammars.xml"/>
 	<xi:include href="overview.xml"/>
+	<xi:include href="grammars.xml"/>
+        <xi:include href="transformations.xml"/>
 <!-- TODO:
 	<xi:include href="languages.xml"/>
 -->
