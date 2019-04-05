@@ -50,7 +50,7 @@ typedef enum {
  * one of the following: a rule, a type, an action, a terminal, a non-local,
  * a local or base name, or a rename instruction.
  *
- * In the two latter case the EntryT contains almost no information in itself.
+ * In the two latter cases the EntryT contains almost no information in itself.
  */
 typedef struct EntryT {
 	/*
@@ -101,6 +101,15 @@ typedef struct EntryT {
 	 * ET_NAME or ET_RENAME contain very few information in themselves:
 	 * nothing for ET_RENAME, only the name of the local variable (or of a
 	 * rule, action, non-local base name) in ET_NAME.
+	 *
+	 * A non-local is an EntryT whose type is ET_NON_LOCAL and whose
+	 * member u is also an EntryT*: the target of this pointer is a
+	 * type giving the type of the non-local. The key member is the
+	 * name of the non-local but also contains its scope. IE,
+	 * non-locals are accessible to all rules contained in the rule
+	 * for which the non-local is defined.  The scope is indicated in
+	 * the key string by
+	 * outer-enclosing-rule::inner-enclosing-rule::name-of-non-local.
 	 */
     EntryTypeT			type;
 

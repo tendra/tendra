@@ -4,18 +4,13 @@
 <preface id="introduction">
 	<title>Introduction</title>
 
-	<para>&sid; turns specifications of languages into
-		programs that recognise those languages.</para>
+	<para>&sid; is a parser generator. It reads a grammar
+		specification then outputs an LL(1) parser.</para>
 
-	<para>This document describes how to use the &sid; parser
-		generator.
+	<para>This document describes how to use &sid;.
 		A little background on grammars is given, and how to write grammars
 		suitable for use with SID. The interfaces for the generated code which
 		SID produces are specified. A tour of SID's more interesting features
 		is given, and some guiding advice for general use.</para>
-
-
-
-
 </preface>
 

@@ -13,6 +13,17 @@
  * See the file "scope.c" for more information.
  */
 
+/*   
+   The scope system is only used when reading the grammar definition
+   file (the .sid file). The only trace of it once the scope system
+   has been deleted are the key members of the scoped rules and the
+   always scope non-locals that begins with
+   outer-enclosing-rule1::inner-enclosing-rule.
+
+   Rules, actions may be scoped, non-locals must be scoped, while
+   types and terminals are never scoped and are always global.
+*/
+
 #ifndef H_SCOPE
 #define H_SCOPE
 

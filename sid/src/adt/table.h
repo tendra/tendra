@@ -28,6 +28,13 @@ struct GrammarT;
 
 #define TABLE_SIZE	(127)
 
+
+/* 
+ * TableT holds most of the information about a grammar, rules,
+ * actions, terminals, non-local names, types and local names along
+ * with their scopes.
+ */
+
 typedef struct TableT {
     EntryT *			contents[TABLE_SIZE];
 } TableT;

@@ -48,6 +48,9 @@ typedef struct CCodeItemT {
     } u;
 } CCodeItemT;
 
+/*
+ * CCodeT represents the C code of an action.
+ */
 typedef struct CCodeT {
     CCodeItemT *			head;
     CCodeItemT *		       *tail;

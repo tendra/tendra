@@ -123,6 +123,27 @@ typedef struct AltT {
     ItemT *		       *item_tail;
 } AltT;
 
+
+/*
+  Example:
+
+  Consider this simple sid rule:
+
+  basic-arithmetic = {
+      number;plus;number;
+      ||  number;minus;number;
+  };
+
+  It has two alternatives, each one holding three items.  Alternatives
+  have their special type: AltT.
+
+  It also contains a list of ItemT. In our previous example, the list
+  of items of the first alternate would be number, plus and number.
+
+  An ItemT is therefore a rule, an action call, a terminal or
+  TODO(rename, name) already declared in table.
+*/
+
 typedef struct RuleT {
 	/*
 	 * The EntryT in the hash table that holds this rule.

@@ -7,45 +7,46 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-/* <XXX: this comment block is out of date>
- * main.c - SID program main routine.
- *
+/*
  * This file implements the main function for SID.  The main function just
  * deals with exception handling.  It calls the ``main_init'' function to
  * initialise the error reporting routines and parse the command line
  * arguments, and the ``main_1'' function to parse the grammar.
  *
- * The initialisation stuff should be trivial.  The ``main_1'' function first
- * parses the grammar and any language specific input files.  The grammar
- * parser is defined in the file "parser/parser.sid".  The language specific
- * file parsers are defined in the files "LANGUAGE-input/LANGUAGE-parser.sid".
+ * The ``main_1'' function first parses the .sid and .act files.  The
+ * grammar parser is defined in the file "parser.sid".  The language
+ * specific file parsers are defined in the files
+ * "lang-LANGUAGE/LANGUAGE-parser.sid".
  *
- * After reading in the grammar, and language specific information, it then
- * calls various functions to manipulate the grammar.  These functions are
- * described in "transforms/grammar.[ch]".
+ * After reading the grammar, and language specific information, it
+ * then calls various functions to manipulate the grammar.  These
+ * functions are described in "grammar.[ch]".
  *
- * Finally, it calls an output function to output a program to recognise the
- * grammar.  The output functions are described in the
- * "LANGUAGE-output/LANGUAGE-output.[ch]" files.
+ * Finally, it calls an output function to output a program to
+ * recognise the grammar.  The output functions are described in the
+ * "lang-LANGUAGE/LANGUAGE-output.[ch]" files.
+ *
+ ***
+ *
+ * sid defines many types for the internal representation of a
+ * grammar.  These types are defined in the header files, begins with
+ * a majuscule and ends with T, e.g. RuleT. If a type, MytypeT is
+ * declared in myfile.h, then any function that directly touches the
+ * members of MytypeT begins with mytype_ and is defined in file.c.
+ *
+ * No other function should touch MytypeT directly. If you want to access
+ * an object of a certain type, do not access its members
+ * directly. Instead, use the interface declared in the header (the same
+ * header where the type is declared).
+ *
+ ***
+ *
+ * Please note that in the code terminals are referred as basics in
+ * the code, probably for historical reasons.
+ *
+ * TODO: rename them!
+ *
  */
-
-/* File scope variables:
-
-   o ``main_language_list'' is an array of available output
-     languages. It is initialized in `main'.
-
-   o ``main_language'' points into ``main_language_list'' to the language
-     that will actually be used in the run of the program.  It can be
-     set by the ``-l'' flag.  ``main'' assigns a default.
-
-     The object ``main_language'' points to is of type ``struct LangListT'',
-     which is an interface to the implementation of a language.  The
-     type name is confusing as it is not a list.  See ``lang.h''.
-
-   Functions:
-   
-   o ``main_handle_*'' relate to command line options.
-*/
 
 #include <stdlib.h>
 #include <ctype.h>
@@ -123,14 +124,36 @@ static PhaseListT  main_phase_list[] = {
 };
 
 /*
- * Note that the size of this array needs to be kept in sync with the list of
- * languages initialised in main().
- *
- * TODO: permit unused functions (e.g. main_input_test) to be NULL
- */
+ ``main_language_list'' is an array of available output languages. It
+ is initialized in ``main''.
+ 
+ To add a new output language, add a line to its initialization in
+ ``main'', and implement the new top level functions.
+
+ TODO: explain that languages may have language-specific options.
+
+ Note that the size of ``main_language_list'' needs to be kept in sync
+ with the list of languages initialised in ``main''.
+
+ TODO: permit unused functions (e.g. main_input_test) to be NULL
+*/
+
 static LangListT *main_language_list[6];
 
+/*
+  main_langauge points into main_language_list to the language that
+  will actually be used in the run of the program.  It can be set by
+  the ``-l'' flag.  ``main'' assigns a default.
+   
+  LangListT is an interface to the implementation of a language.  The
+  name is confusing as it is not a list.  See ``lang.h''.
+ */
+
 static LangListT *main_language;
+
+/*
+  ``main_handle_*'' relate to command line options.
+*/
 
 static void
 main_handle_dump_file(char *option, ArgUsageT *usage, void *gclosure,
