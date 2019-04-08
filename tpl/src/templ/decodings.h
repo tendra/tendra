@@ -7,6 +7,11 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+/*
+   This file contains d_X procedures, where X is a TDF non-primitive
+   SORT; when used with readstreams.c, the d_ procedures will give a
+   diagnostic print of TDF in the above stream format.
+*/
 
 #ifndef DECODINGS_INCLUDED
 #define DECODINGS_INCLUDED

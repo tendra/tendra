@@ -7,11 +7,20 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-    
-    
-    
-    
-    
+/*
+ * For the constructions which have encoding numbers, we output the encoding
+ * number in the number of bits appropriate to the construction's SORT, using:
+ *
+ * void out_basic_int(long num, int bts) // defined in streams.c
+ *
+ * The encoding numbers of each construction may be found in enc_nos.h
+ *
+ * The parameters of a construction are output after the encoding number, so that
+ * many constructions are sequences of encoding numbers and the encodings of
+ * primitive sorts, implicitly bracketed by the signatures of the constructions
+ * involved.
+ */
+
 
 #ifndef ENCODING_INCLUDED
 #define ENCODING_INCLUDED

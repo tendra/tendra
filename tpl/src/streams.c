@@ -18,7 +18,7 @@
 #include <shared/xalloc.h>
 
 
-TDF *current_TDF;
+TDF *current_TDF; /* all output will be written to this */
 
 static Chunk *free_chunks = (Chunk *)0;
 
@@ -50,34 +50,17 @@ free_chunk(Chunk *x)
 }
 
 
-void
-out_basic_int(unsigned long num, unsigned int bts)
-    /* outputs num onto current stream in bts bits */
-{
-	Chunk *t_ch = current_TDF->last;
-	unsigned disp = t_ch->offst;
-	unsigned space = 8 - disp;
-	for (;bts >= space; bts -= space, space = 8, disp = 0) {
-		(t_ch->data)[t_ch->usage] |= UC((num >> (bts-space)) & 255);
-		t_ch->usage += 1;
-		t_ch->offst = 0;
-		if (t_ch->usage == DATA_SIZE) {
-			Chunk *nch = create_chunk();
-			t_ch->next = nch;
-			current_TDF->last = nch;
-			t_ch = nch;
-		} else {
-			(t_ch->data)[t_ch->usage] = 0;
-		}
-	}
-	if (bts) {
-		unsigned garbage=8-bts;
-		(t_ch->data)[t_ch->usage] |=
-		    UC(((num << garbage) & 255) >> disp);
-		t_ch->offst+=UC(bts);
-	}
-}
 
+
+/*
+ * In append_TDF, free_it says whether the Chunks of tdf can be freed and
+ * reused. For example, append_tdf( &new_stream, 1) will append new_stream
+ * onto current_TDF, allowing the Chunks of new_stream to be resused (see
+ * create_chunk and free_chunk above). The variable new_stream can then only
+ * be used as another output stream using NEW_STREAM (streams.h). If one
+ * wished to copy new_stream onto the end of the current stream leaving its
+ * Chunks intact, use free_it = 0.
+ */
 
 void
 append_TDF(TDF *tdf, Bool free_it)
@@ -125,6 +108,26 @@ append_TDF(TDF *tdf, Bool free_it)
 	return;
 }
 
+/*
+ * Similar to append_TDF, but more specialised, is append_bytestream below,
+ * which makes tdf into a BYTESTREAM and appends it onto current_TDF. This
+ * would only be used for encoding a UNIT.
+ */
+
+void
+append_bytestream(TDF *tdf, Bool free_it)
+{
+	unsigned long len = bits_in_TDF(tdf);
+	unsigned long lenb = (len + 7) >> 3;
+	out_tdfint32(lenb);
+	byte_align();
+	append_TDF(tdf, free_it);
+	if ((lenb << 3) != len) {
+		out_basic_int(UL(0), UI((lenb << 3) - len));
+	}
+	SET_RSORT(s_bytestream);
+}
+
 
 unsigned long
 bits_in_TDF(TDF * tdf)
@@ -140,6 +143,41 @@ bits_in_TDF(TDF * tdf)
 }
 
 
+/*
+  num is output to current_TDF in bts bits. This is the most primitive
+  output routine and all the others use it, eg out_tdfint32 does the
+  appropriate number of out_basic_int(oct_digit, 4).
+*/
+void
+out_basic_int(unsigned long num, unsigned int bts)
+    /* outputs num onto current stream in bts bits */
+{
+	Chunk *t_ch = current_TDF->last;
+	unsigned disp = t_ch->offst;
+	unsigned space = 8 - disp;
+	for (;bts >= space; bts -= space, space = 8, disp = 0) {
+		(t_ch->data)[t_ch->usage] |= UC((num >> (bts-space)) & 255);
+		t_ch->usage += 1;
+		t_ch->offst = 0;
+		if (t_ch->usage == DATA_SIZE) {
+			Chunk *nch = create_chunk();
+			t_ch->next = nch;
+			current_TDF->last = nch;
+			t_ch = nch;
+		} else {
+			(t_ch->data)[t_ch->usage] = 0;
+		}
+	}
+	if (bts) {
+		unsigned garbage=8-bts;
+		(t_ch->data)[t_ch->usage] |=
+		    UC(((num << garbage) & 255) >> disp);
+		t_ch->offst+=UC(bts);
+	}
+}
+
+
+/* outputs num as extentable encoding in bts bits (see spec 7.3.3) */
 void
 out_extendable_int(unsigned long num, unsigned int bts)
 {
@@ -178,6 +216,8 @@ out_tdfbool(Bool b)
 }
 
 
+/* outputs s as a TDFSTRING with k elements of size k bits. */
+
 void
 out_tdfstring_bytes(char *s, unsigned int k, unsigned int n)
 {
@@ -208,7 +248,7 @@ byte_align(void)
 	}
 }
 
-
+/* outputs s as a TDFIDENT, putting in the appropriate alignments necessary. */
 void
 out_tdfident_bytes(char *s)
 {
@@ -225,16 +265,3 @@ out_tdfident_bytes(char *s)
 }
 
 
-void
-append_bytestream(TDF *tdf, Bool free_it)
-{
-	unsigned long len = bits_in_TDF(tdf);
-	unsigned long lenb = (len + 7) >> 3;
-	out_tdfint32(lenb);
-	byte_align();
-	append_TDF(tdf, free_it);
-	if ((lenb << 3) != len) {
-		out_basic_int(UL(0), UI((lenb << 3) - len));
-	}
-	SET_RSORT(s_bytestream);
-}

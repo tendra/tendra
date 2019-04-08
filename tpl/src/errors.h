@@ -7,6 +7,9 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+/* this file defines the macros which control the SORT checking; can
+   be modified to eliminate SORT checking. */
+
 #ifndef ERRORS_INCLUDED
 #define ERRORS_INCLUDED
 
