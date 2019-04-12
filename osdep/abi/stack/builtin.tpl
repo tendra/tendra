@@ -16,10 +16,10 @@ Tokdec __trans_next_callee_offset : [EXP, SHAPE, SHAPE] EXP;
  */
 
 Tokdef .~abi_next_caller_offset = [this_offset:EXP, this_sh:SHAPE, next_sh:SHAPE] EXP
-	__trans_next_caller_offset;
+	__trans_next_caller_offset[this_offset, this_sh, next_sh];
 
 Tokdef .~abi_next_callee_offset = [this_offset:EXP, this_sh:SHAPE, next_sh:SHAPE] EXP
-	__trans_next_callee_offset;
+	__trans_next_callee_offset[this_offset, this_sh, next_sh];
 
 Keep (
 	.~abi_next_caller_offset, .~abi_next_callee_offset
