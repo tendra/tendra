@@ -1,0 +1,19 @@
+tabs for indentation, 4 characters wide
+
+return and sizeof are not functions:
+	sizeof (type)
+	sizeof exp
+	return value;
+
+/*
+ * block comments.
+ */
+
+int
+main(int argc, char **argv)
+{
+	/* ... */
+}
+
+don't typedef pointers
+
