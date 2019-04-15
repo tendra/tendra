@@ -21,6 +21,14 @@
 #include "output.h"
 #include "syntax.h"
 
+static void
+report_usage(FILE *f) {
+	fputs("Usage: make_tdf [-vh] [spec-file] [template-file] [output-file]\n"
+		  "\n"
+		  "Missing file arguments or '-' will be interpreted as stdin/stdout\n", f);
+}
+
+
 int
 main(int argc, char **argv)
 {
@@ -35,13 +43,16 @@ main(int argc, char **argv)
 	{
 		int c;
 
-		while (c = getopt(argc, argv, "v"), c != -1) {
+		while (c = getopt(argc, argv, "vh"), c != -1) {
 			switch (c) {
 			case 'v':
 				report_version(stdout);
-				break;
-
+				return 0;
+			case 'h':
+				report_usage(stdout);
+				return 0;
 			default:
+				fprintf(stderr, "Try '%s -h' for more information.\n", argv[0]);
 				return 1;
 			}
 
