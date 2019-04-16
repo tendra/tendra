@@ -11,7 +11,7 @@
  */
 
 #if defined(_FREEBSD9_2) \
-	|| defined(_FREEBSD10_1) || defined(_FREEBSD10_2)
+	|| defined(_FREEBSD10_1) || defined(_FREEBSD10_2) || defined(_FREEBSD10_4)
 
 #undef offsetof
 #include <proxy/include/offsetof.h>

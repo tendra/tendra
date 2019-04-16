@@ -141,6 +141,7 @@ MD_OSVER!=                                \
         FreeBSD.9.2*)  echo FREEBSD9_2;;  \
         FreeBSD.10.1*) echo FREEBSD10_1;; \
         FreeBSD.10.2*) echo FREEBSD10_2;; \
+        FreeBSD.10.4*) echo FREEBSD10_4;; \
         Linux.2.4*)    echo LINUX24;;     \
         Linux.2.6*)    echo LINUX26;;     \
         Linux.3.0*)    echo LINUX30;;     \

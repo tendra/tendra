@@ -4,14 +4,14 @@
 #define __HACKED_MACHINE__TYPES_H
 
 #if defined(_FREEBSD9_0) || defined(_FREEBSD9_1) || defined(_FREEBSD9_2) \
-	|| defined(_FREEBSD10_1) || defined(_FREEBSD10_2)
+	|| defined(_FREEBSD10_1) || defined(_FREEBSD10_2) || defined(_FREEBSD10_4)
 #define __extension__
 #endif
 
 #include_next <machine/_types.h>
 
 #if defined(_FREEBSD9_0) || defined(_FREEBSD9_1) || defined(_FREEBSD9_2) \
-	|| defined(_FREEBSD10_1) || defined(_FREEBSD10_2)
+	|| defined(_FREEBSD10_1) || defined(_FREEBSD10_2) || defined(_FREEBSD10_4)
 #undef __extension__
 #endif
 
