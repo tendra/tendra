@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /*
  * Copyright 2011, The TenDRA Project.
  * Public Domain, 1985, AT&T, Inc.

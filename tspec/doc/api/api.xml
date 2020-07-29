@@ -2,10 +2,6 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
   "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 
-<!--
-  $Id$
--->
-  
 <book>
 	<bookinfo>
 		<title>Adding new APIs with tspec</title>

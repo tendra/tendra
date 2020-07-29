@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- $Id$ -->
 
 <!--
 	Add id="" to sections and chapters for Docbook documents.

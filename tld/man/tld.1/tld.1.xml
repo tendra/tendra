@@ -65,7 +65,6 @@
 	<!ENTITY suppress-mult.opt       "<option>--suppress-mult</option>">
 ]>
 
-<!-- $Id$ -->
 <refentry>
 <!--
         Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.

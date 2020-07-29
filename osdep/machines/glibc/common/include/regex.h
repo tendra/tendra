@@ -1,5 +1,3 @@
-/* $Id$ */
-
 #ifndef __HACKED_LIBC_REGEX_H
 #define __HACKED_LIBC_REGEX_H
 

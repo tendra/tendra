@@ -1,5 +1,3 @@
-/* $Id$ */
-
 #ifndef __PROXY_FLOAT_H
 #define __PROXY_FLOAT_H
 

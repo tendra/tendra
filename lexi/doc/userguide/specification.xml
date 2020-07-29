@@ -3,10 +3,6 @@
 	<!ENTITY lexi.app "<application>Lexi</application>">
 ]>
 
-<!--
-  $Id$
--->
-
 <chapter id="specification">
 	<title>The Lexi Specification</title>	<!-- TODO: term -->
 

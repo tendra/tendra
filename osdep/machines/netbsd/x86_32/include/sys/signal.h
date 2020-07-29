@@ -1,5 +1,3 @@
-/* $Id$ */
-
 #ifndef __HACKED_SIGNAL_H
 #define __HACKED_SIGNAL_H
 

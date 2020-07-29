@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /*
  * Copyright 2011, The TenDRA Project.
  *
@@ -17,8 +15,6 @@
 	Bool -> int;
 
 %header% @{
-
-	/* $Id$ */
 
 	/*
 	 * Copyright 2011, The TenDRA Project.
@@ -42,8 +38,6 @@
 	#define RESTORE_LEXER    ( tok = save_tok )
 
 @}, @{
-
-	/* $Id$ */
 
 	/*
 	 * Copyright 2011, The TenDRA Project.

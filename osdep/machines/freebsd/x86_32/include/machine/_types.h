@@ -1,5 +1,3 @@
-/* $Id$ */
-
 #ifndef __HACKED_MACHINE__TYPES_H
 #define __HACKED_MACHINE__TYPES_H
 

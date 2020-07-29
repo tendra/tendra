@@ -1,5 +1,3 @@
-/* $Id$ */
-
 #ifndef __HACKED_BITS_WORDSIZE_H
 #define __HACKED_BITS_WORDSIZE_H
 

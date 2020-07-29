@@ -1,10 +1,6 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
-<!--
-	$Id$
--->
-		
 <chapter id="overview">
 	<title>Overview of tspec</title>
 

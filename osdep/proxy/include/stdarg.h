@@ -1,5 +1,3 @@
-/* $Id$ */
-
 #ifndef __PROXY_STDARG_H
 #define __PROXY_STDARG_H
 

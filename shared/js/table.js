@@ -1,5 +1,3 @@
-/* $Id: table.js 525 2010-08-21 00:26:46Z kate $ */
-
 /*
  * Automatically-identified sortable tables.
  * See http://elide.org/widgets/sorting/ for details.

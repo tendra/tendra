@@ -1,5 +1,3 @@
-/* $Id$ */
-
 #ifndef __HACKED_SYS_CDEFS_H
 #define __HACKED_SYS_CDEFS_H
 

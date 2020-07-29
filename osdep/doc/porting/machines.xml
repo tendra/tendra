@@ -6,10 +6,6 @@
 	<!ENTITY header-rep "<replaceable>&lt;HEADER&gt;</replaceable>">
 ]>
 
-<!--
-	$Id$
--->
-
 <chapter>
 	<title>Indicating &api; Conformance for a New Machine</title>
 

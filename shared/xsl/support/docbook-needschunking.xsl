@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 
-<!-- $Id$ -->
 
 <!--
 	Find if a document needs chunked output.

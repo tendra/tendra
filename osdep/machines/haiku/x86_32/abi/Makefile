@@ -1,5 +1,3 @@
-# $Id: Makefile 2308 2010-02-11 02:08:11Z kate $
-
 .include "Makefile.inc"
 
 .include <tendra.base.mk>

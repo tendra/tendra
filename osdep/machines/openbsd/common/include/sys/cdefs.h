@@ -1,5 +1,3 @@
-/* $Id$ */
-
 #ifndef __HACKED_LIBC_SYS_CDEFS_H
 #define __HACKED_LIBC_SYS_CDEFS_H
 

@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /* Example with structures */
 
 Struct C (re:Double, im:Double);

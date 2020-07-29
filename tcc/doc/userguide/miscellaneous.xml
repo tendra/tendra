@@ -10,11 +10,6 @@
 	<!ENTITY spec_linker "<application>spec_linker</application>">
 ]>
 
-
-<!--
-	$Id$
--->
-
 <chapter>
 	<title>Miscellaneous Topics</title>
 

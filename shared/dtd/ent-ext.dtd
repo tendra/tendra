@@ -1,5 +1,3 @@
-<!-- $Id$ -->
-
 <!ENTITY alg.ext "<filename>.alg</filename>">
 <!ENTITY act.ext "<filename>.act</filename>">
 <!ENTITY bnf.ext "<filename>.bnf</filename>">

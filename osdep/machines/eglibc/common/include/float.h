@@ -1,5 +1,3 @@
-/* $Id$ */
-
 #ifndef __HACKED_FLOAT_H
 #define __HACKED_FLOAT_H
 

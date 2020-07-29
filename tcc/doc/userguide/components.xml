@@ -23,11 +23,6 @@
 	<!ENTITY nexttrans  "<application>nexttrans</application>">
 ]>
 
-
-<!--
-	$Id$
--->
-
 <chapter>
 	<title>Component of the &tdf; System</title>
 

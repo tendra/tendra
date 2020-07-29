@@ -49,7 +49,6 @@
 	<!ENTITY out-file.j      "<replaceable>output-file</replaceable>&j.ext;">
 ]>
 
-<!-- $Id$ -->
 <refentry>
 <!--
         Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.

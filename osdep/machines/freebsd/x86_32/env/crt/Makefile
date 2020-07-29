@@ -1,5 +1,3 @@
-# $Id: Makefile 4347 2015-04-25 04:12:34Z kate $
-
 .include "Makefile.inc"
 
 

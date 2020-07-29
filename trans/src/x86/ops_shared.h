@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /*
  * Copyright 2016, The TenDRA Project.
  *

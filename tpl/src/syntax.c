@@ -12,7 +12,6 @@
 #line 177 "syntax.act"
 
 
-/* $Id$ */
 
 /*
  * Copyright 2002-2011, The TenDRA Project.

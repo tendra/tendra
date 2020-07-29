@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /* Example of use of high-order TOKENs */
 
 Tokdef IF = [ boolexp:TOKEN[LABEL]EXP, thenpt:EXP, elsept:EXP] EXP

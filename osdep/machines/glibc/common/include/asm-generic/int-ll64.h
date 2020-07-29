@@ -1,5 +1,3 @@
-/* $Id$ */
-
 #ifndef __HACKED_LIBC_ASM_GENERIC_INT_LL64_H
 #define __HACKED_LIBC_ASM_GENERIC_INT_LL64_H
 

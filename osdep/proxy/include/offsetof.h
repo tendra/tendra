@@ -1,5 +1,3 @@
-/* $Id$ */
-
 #ifndef __PROXY_OFFSETOF_H
 #define __PROXY_OFFSETOF_H
 

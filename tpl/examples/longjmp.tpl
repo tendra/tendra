@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /* A test for long jumps */
 
 Iddec printf:proc;

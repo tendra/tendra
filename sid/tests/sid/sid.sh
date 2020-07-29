@@ -1,7 +1,6 @@
 #!/bin/sh
 #
 # Simple acceptance tests for SID input.
-# $Id$
 
 . ../sidact.sh
 

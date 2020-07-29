@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /*
  * Copyright 2011-2014, The TenDRA Project.
  * Copyright 1996, United Kingdom Secretary of State for Defence.

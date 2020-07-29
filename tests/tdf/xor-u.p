@@ -1,5 +1,3 @@
-# $Id$
-
 ( include "c-types.p" )
 
 ( make_id_tagdef main

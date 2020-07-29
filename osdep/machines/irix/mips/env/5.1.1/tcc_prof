@@ -1,4 +1,2 @@
-/* $Id$ */
-
 +CRT0		"/usr/lib/mcrt1.o"
 

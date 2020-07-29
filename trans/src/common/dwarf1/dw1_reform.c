@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /* TODO: interface for diag/ to call common/dwarf */
 
 #include <stddef.h>

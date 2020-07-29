@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /*
  * Copyright 2002-2011, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
@@ -54,8 +52,6 @@ ULONG -> unsigned_long;
 
 
 %header% @{
-
-/* $Id$ */
 
 /*
  * Copyright 2002-2011, The TenDRA Project.
@@ -172,10 +168,7 @@ static int HAS_MAGIC = 1;
 unsigned long MAJOR_NO = major_version;
 unsigned long MINOR_NO = minor_version;
 
-
 @}, @{
-
-/* $Id$ */
 
 /*
  * Copyright 2002-2011, The TenDRA Project.
@@ -191,6 +184,7 @@ extern int do_pp;
 extern int search_for_toks;
 extern unsigned long MAJOR_NO;
 extern unsigned long MINOR_NO;
+
 @};
 
 

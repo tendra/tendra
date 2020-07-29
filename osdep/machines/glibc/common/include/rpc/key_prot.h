@@ -1,5 +1,3 @@
-/* $Id$ */
-
 #ifndef __HACKED_LIBC_RPC_KEY_PROT_H
 #define __HACKED_LIBC_RPC_KEY_PROT_H
 

@@ -1,10 +1,6 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE bibliography SYSTEM "minidocbook.dtd">
 
-<!--
-	$Id$
--->
-
 <!-- TODO: bibliography -->
 <bibliography id="reference">
 	<title>Bibliography</title>

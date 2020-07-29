@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /*
     AUTOMATICALLY GENERATED FROM ALGEBRA calculus (VERSION 1.2)
     BY calculus (VERSION 1.3)

@@ -1,7 +1,6 @@
 #!/bin/sh
 #
 # Simple acceptance tests for SID input.
-# $Id$
 
 # Test a .sid file for validity. This is parsing and semantic analysis only; no
 # verification of the generated code is performed; that can follow in the future.

@@ -9,11 +9,6 @@
 	<!ENTITY tdfc  "<application><acronym>TDFC</acronym></application>">
 ]>
 
-
-<!--
-	$Id$
--->
-
 <chapter>
 	<title>&tcc; Environments</title>
 

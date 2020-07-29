@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /*
  * Copyright 2011, The TenDRA Project.
  * Copyright 1997-1998, United Kingdom Secretary of State for Defence.
@@ -94,8 +92,6 @@ TYPE       -> TYPE ;
 
 %header% @{
 
-/* $Id$ */
-
 /*
  * Copyright 2011, The TenDRA Project.
  * Copyright 1997-1998, United Kingdom Secretary of State for Defence.
@@ -178,8 +174,6 @@ typedef LIST ( TYPE ) SID_LIST_TYPE ;
 
 
 @}, @{
-
-/* $Id$ */
 
 /*
  * Copyright 2011, The TenDRA Project.

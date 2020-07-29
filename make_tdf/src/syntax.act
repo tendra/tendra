@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /*
  * Copyright 2011, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
@@ -41,8 +39,6 @@
 
 %header% @{
 
-	/* $Id$ */
-
 	/*
 	 * Copyright 2011, The TenDRA Project.
 	 * Copyright 1997, United Kingdom Secretary of State for Defence.
@@ -77,8 +73,6 @@
 	typedef LIST(PARAMETER) SID_PARAM_LIST;
 
 @}, @{
-
-	/* $Id$ */
 
 	/*
 	 * Copyright 2011, The TenDRA Project.

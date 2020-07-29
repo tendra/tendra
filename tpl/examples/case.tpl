@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /* Test for case */
 
 Iddec printf:proc;

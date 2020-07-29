@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /*
  * Sieve of Erastothenes
  * Print out the primes less than 10000

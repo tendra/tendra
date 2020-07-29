@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 
-<!-- $Id$ -->
 
 <!--
 	Produce a list of images referenced by the document. This is intended for

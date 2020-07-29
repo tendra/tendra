@@ -1,5 +1,3 @@
-# $Id$
-
 .if !defined(BASE_DIR)
 . if !defined(_BASEDIR_RELATIVE)
 BASE_DIR!=	cd ${.CURDIR} && pwd

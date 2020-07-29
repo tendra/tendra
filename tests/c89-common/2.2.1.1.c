@@ -1,5 +1,3 @@
-/* $Id: 3.2.2.2p1.c 2773 2012-06-06 04:21:57Z kate $ */
-
 #include <assert.h>
 
 int main(void) {

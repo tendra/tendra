@@ -1,5 +1,3 @@
-/* $Id: col.js 522 2010-08-18 09:09:22Z kate $ */
-
 /*
  * A javascript implementation of align and valign for <col/>.
  *

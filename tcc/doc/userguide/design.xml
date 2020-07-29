@@ -12,11 +12,6 @@
 	<!ENTITY tld   "<application><acronym>TLD</acronym></application>">
 ]>
 
-
-<!--
-	$Id$
--->
-
 <chapter>
 	<title>The Overall Design of &tcc;</title>
 

@@ -1,5 +1,3 @@
-# $Id$
-
 ( make_tokdec ~signed_int
   -
   variety )

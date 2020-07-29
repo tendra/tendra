@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /*
  * Copyright 2011, The TenDRA Project.
  * Copyright 1997, United Kingdom Secretary of State for Defence.
@@ -14,7 +12,7 @@
 	 *
 	 * The types are fairly self-explanitory.  There are types for each of
 	 * the concepts in the syntax, plus list types for most of them.
-	*/
+	 */
 
 	CLASS-ID;
 	FLAG;

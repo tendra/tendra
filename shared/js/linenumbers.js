@@ -1,5 +1,3 @@
-/* $Id$ */
-
 var Linenumbers = new (function () {
 
 	this.init = function(root) {

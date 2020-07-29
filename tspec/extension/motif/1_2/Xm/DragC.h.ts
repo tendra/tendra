@@ -1,5 +1,3 @@
-# $Id$
-
 # Copyright 2002-2011, The TenDRA Project.
 # Copyright 1995, Open Software Foundation, Inc.
 # Copyright 1995, IXI Ltd.

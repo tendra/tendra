@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /*
     AUTOMATICALLY GENERATED FROM ALGEBRA disk (VERSION 1.1)
     BY calculus (VERSION 1.3)

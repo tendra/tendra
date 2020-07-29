@@ -1,5 +1,3 @@
-<!-- $Id$ -->
-
 <!ENTITY dot.lit        "<literal>.</literal>">
 <!ENTITY comma.lit      "<literal>,</literal>">
 <!ENTITY colon.lit      "<literal>:</literal>">

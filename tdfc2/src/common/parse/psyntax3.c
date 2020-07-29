@@ -13,7 +13,6 @@
 #line 166 "psyntax.act"
 
 
-/* $Id$ */
 
 /*
  * Copyright 2011, The TenDRA Project.
