@@ -1,12 +1,9 @@
-tspec: API Specification tool
------------------------------
+# tspec: API Specification tool
 
 tspec is a specification tool used in the TenDRA API descriptions.
 See <http://www.tendra.org/> for details.
 
-
-Structure
----------
+## Structure
 
 The source divided into a number of subdirectories:
 
@@ -16,9 +13,7 @@ The source divided into a number of subdirectories:
   extension    containing APIs which provide extensions to APIs
                from the base directory.
 
-
-Historical Changes
-------------------
+## Historical Changes
 
  - .tspec files historically had no extension
 

@@ -1,5 +1,4 @@
-Developer Documentation
-=======================
+# Developer Documentation
 
 See tendra/doc/website - Developer Documentation
 Note that source code browsing is removed, as it is website-specific.
@@ -25,8 +24,7 @@ Note that source code browsing is removed, as it is website-specific.
    See papers
 
 
-Developer Guides
-================
+# Developer Guides
 
 See tendra/doc/website - Developer Documentation - Developer Guides
 

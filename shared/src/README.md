@@ -1,5 +1,4 @@
-Shared Support Functions
-------------------------
+# Shared Support Functions
 
 The /shared directory consists of various support functions shared across
 several TenDRA projects. These are not considered worth releasing as a library

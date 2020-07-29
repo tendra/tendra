@@ -1,5 +1,4 @@
-Papers and research articles
-============================
+# Papers and research articles
 
  - Validation of TenDRA Capability to Implement
    a UNIX-like Operating System

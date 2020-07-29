@@ -1,5 +1,3 @@
-$Id$
-
 XHTML output.
 
 Files here are prefixed with the name of their input language:

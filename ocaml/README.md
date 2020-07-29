@@ -1,5 +1,4 @@
-OCaml binding to TDF
---------------------
+# OCaml binding to TDF
 
 This is an expirimental TDF bindign in OCaml.
 
@@ -13,7 +12,7 @@ them (such as _apply_token, *_cond, make_tokdef, etc) are not very usable.
 
 To compile test, run
 
-make a.out
+    make a.out
 
 To run it in OCaml interpretator. run
 

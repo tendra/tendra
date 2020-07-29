@@ -1,13 +1,10 @@
-DRA TDF Installers
-------------------
+# DRA TDF Installers
 
 trans contains the compiler code generation back-ends, which translate
 the compiler intermediate form, TDF, to the appropriate machine instructions.
 In TDF's terminology this process is known as "installing" TDF.
 
-
-Structure
----------
+## Structure
 
 The src directory is split into a common section, containing code
 which is used by all the back ends, plus a directory for each of the

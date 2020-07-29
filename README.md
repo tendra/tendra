@@ -1,6 +1,5 @@
 
-The TenDRA Project
-==================
+# The TenDRA Project
 
 http://www.tendra.org/
 
@@ -13,8 +12,7 @@ The top-level Makefile provided here is a convenience to build everything.
 If you just want to try TenDRA out, this is what you're looking for.
 
 
-Build Dependencies
-------------------
+## Build Dependencies
 
  - A BSD compatible make(1)
 
@@ -71,8 +69,7 @@ Build Dependencies
      I've started writing a guide on how to do this. [2]
 
 
-I don't care about any of that
-------------------------------
+## I don't care about any of that
 
 I'd suggest using either OpenBSD, FreeBSD or Linux. If you're using Linux,
 install pmake.
@@ -81,49 +78,47 @@ Look at /shared/mk/tendra.makedefs.mk for some idea of supported
 versions, pick one, and try it. Talk to me if it doesn't work. [3]
 
 
-Building
---------
+## Building
 
 Build with:
 
-    % bmake
+    % bmake -r
 
 If all goes well, this should give you a working compiler in ./obj.$host-bootstrap/bin
 
 
-Notes on x86_64
----------------
+## Notes on x86_64
 
 There is currently no code generation for x86_64 assembly. So you can't
 produce native x86_64 executables. However, for systems with multilib
 support (FreeBSD, Linux), you can build TenDRA such that it will
 generate x86_32 executables on an x86_64 system:
 
- % make TARGETARCH=x32_64
- % ./obj.iona-bootstrap/bin/tcc hello.c
+    % make TARGETARCH=x32_64
+    % ./obj.iona-bootstrap/bin/tcc hello.c
 
 which gives you this:
 
- % ./a.out
-    hello, world
- % uname -sm
-    Linux x86_64
- % file a.out
-    a.out: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV),
-    dynamically linked (uses shared libs), ...
- %
+    % ./a.out
+       hello, world
+    % uname -sm
+       Linux x86_64
+    % file a.out
+       a.out: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV),
+       dynamically linked (uses shared libs), ...
+    %
 
 When building for x32_64, you'll need x86_32-compatible libc headers.
 For Debian, that's packaged as libc6-dev-i386.
 
 Good luck,
 
--- 
-Kate
+--  
+Kate  
 kate@tendra.org
 
 
-[1] Orientation Guide: /tendra-doc/doc/developer/guides/orientation
-[2] Porting TenDRA to Different Operating Systems: /osdep/doc/devguides/porting
+[1] Orientation Guide: /tendra-doc/doc/developer/guides/orientation  
+[2] Porting TenDRA to Different Operating Systems: /osdep/doc/devguides/porting  
 [3] IRC: #tendra on irc.freenode.net
 

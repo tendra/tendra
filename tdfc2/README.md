@@ -1,23 +1,17 @@
-DRA TDF Producers
------------------
+# DRA TDF Producers
 
 tdfc2 contains the compiler front-ends, which translate C and C++
 to the compiler intermediate form, TDF.
 In TDF's terminology this process is known as "producing" TDF.
 
-
-
 dependencies for the C++ LPI token building:
 
-	- tnc(1)
-	- tspec (specifically, the C++ API)
-	- tld(1)
-	- tcc(1) (specifically, able to call tnc(1), provide the -Yc++ environment, and include the C++ API)
+ - tnc(1)
+ - tspec (specifically, the C++ API)
+ - tld(1)
+ - tcc(1) (specifically, able to call tnc(1), provide the -Yc++ environment, and include the C++ API)
 
-
-
-Structure
----------
+## Structure
 
 The producers subdirectory is divided into a common directory, containing
 code shared by both the C and C++ producers, plus directories c and cpp,

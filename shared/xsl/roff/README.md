@@ -1,5 +1,3 @@
-$Id$
-
 Roff output for manpages.
 
 Files here are prefixed with the name of their input language:

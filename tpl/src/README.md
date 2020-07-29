@@ -1,4 +1,6 @@
-*** INTRODUCTION ***
+# TPL
+
+## Introduction
 
 The basic idea is to produce the TDF bit encoding using language constructions
 closely mapped to the TDF constructors given in the specification
@@ -27,10 +29,7 @@ The out_ procedures are defined in streams.c
 TDF *current_TDF represents the current output bitstream, which all output
 macros and procedures write to. It is defined in streams.c.
 
-
-
-
-*** AN EXAMPLE ***
+## An example
 
 To give a flavour of the intended use of the tool, in order to
 produce the TDF for an assignment, one does:

@@ -1,5 +1,4 @@
-MACHINE DEPENDENT SOURCE
-========================
+# Machine Dependent Source
 
 This directory contains the source for the machine dependent libraries
 and support programs for the various supported platforms.  It is

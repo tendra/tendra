@@ -1,13 +1,7 @@
-OS-Dependent support
---------------------
+# OS-Dependent support
 
 The osdep directory contains machine-dependent support.
 See <http://www.tendra.org/> for details.
-
-
-
-
-
 
 libtsl - TDF Support Library
 
@@ -18,14 +12,12 @@ Libtdf provides basic arithmetic functions for types that the
 target cpu doesn't have straight-forward assembly instructions for.
 
 
-
 provides software implementations of TDF functions for things which target CPUs do not provide natively
 e.g. 64-bit arithmetic
 
 similar concepts: libgcc, crt0
 
 historically known as libtdf, but renamed
-
 
 depends on:
     tpl
