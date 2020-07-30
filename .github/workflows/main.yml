@@ -1,0 +1,11 @@
+on: [push, pull_request]
+name: Build
+jobs:
+  build:
+    runs-on: ubuntu-16.04
+    name: Build on Ubuntu 16.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: sudo apt-get install -y gcc-multilib bmake
+      - run: bmake TARGETARCH=x32_64 OSVER=LINUX37 LIBCVER=GLIBC2_19
