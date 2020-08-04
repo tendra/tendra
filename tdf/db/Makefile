@@ -6,7 +6,7 @@
 .include <tendra.functions.mk>
 
 
-FILES+=	README
+FILES+=	README.md
 FILES+=	def_4_0.db
 FILES+=	def_4_1.db
 
