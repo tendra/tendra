@@ -1,7 +1,8 @@
 #ifndef __HACKED_LIBC_STDARG_H
 #define __HACKED_LIBC_STDARG_H
 
-#if defined(_FREEBSD10_1) || defined(_FREEBSD10_2) || defined(_FREEBSD10_4)
+#if defined(_FREEBSD10_1) || defined(_FREEBSD10_2) || defined(_FREEBSD10_3) \
+	|| defined(_FREEBSD10_4)
 
 #include <sys/cdefs.h>
 #include <machine/_types.h>
