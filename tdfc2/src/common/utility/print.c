@@ -386,7 +386,7 @@ print_loc(LOCATION *p, LOCATION *q, BUFFER *bf, int sp)
 		ln = p->line;
 	}
 	if (fn) {
-		bfprintf(bf, "\"%s\"", fn);
+		bfprintf(bf, "%s", fn);
 		if (ln) {
 			bfprintf(bf, ", line %lu", ln);
 		}
