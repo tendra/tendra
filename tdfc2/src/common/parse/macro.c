@@ -865,6 +865,7 @@ expand_macro(HASHID macro, TOKEN_LOC *locs, int complete)
 	PPTOKEN *defn;
 	unsigned long sp = 0;
 	unsigned no_pars = 0;
+	int va_macro = 0;
 	int have_unknown = 0;
 	int have_hash_hash = 0;
 	unsigned long ws = crt_spaces;
@@ -1005,6 +1006,7 @@ incomplete_macro:
 		if (no_pars > MAX_MACRO_PARAMS) {
 			arg_array = xmalloc_nof(PPTOKEN *, no_pars + 1);
 		}
+		va_macro = DEREF_int(id_func_macro_va_macro(id));
 
 		/* Scan macro arguments */
 		for (;;) {
@@ -1056,7 +1058,7 @@ incomplete_macro:
 					break;
 				}
 				brackets--;
-			} else if (t == lex_comma) {
+			} else if (t == lex_comma && (!va_macro || no_args < no_pars - 1)) {
 				/* Commas mark the end of an argument */
 				if (brackets == 0) {
 					this_tok->next = NULL;
@@ -1145,10 +1147,14 @@ incomplete_macro:
 		}
 
 		/* Check that argument and parameter lists match */
-		if (no_pars != no_args) {
+		if (no_pars != no_args && (!va_macro || no_pars > no_args)) {
 			ERROR err;
 			n = no_args;
-			err = ERR_cpp_replace_arg_number(macro, n, n, no_pars);
+			if (!va_macro) {
+				err = ERR_cpp_replace_arg_number(macro, n, n, no_pars);
+			} else {
+				err = ERR_cpp_replace_arg_number2(macro, n, n, no_pars);
+			}
 			report(crt_loc, err);
 
 			/* Add extra arguments if there are not enough */

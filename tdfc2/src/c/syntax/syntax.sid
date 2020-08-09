@@ -152,7 +152,7 @@ set ; size-t ; !size-t-2 ; !sort ; !std ; !stmt-cap ; !string ;
 !struct-cap ; !suspend ; !tag ; !tag-cap ; !tendra ; !text ; !this-name ;
 !token ; !type ; !type-cap ; !typeof ; !un-known ; !unassert ; !undef ;
 !unify ; !union-cap ; !unmatched ; !unpostpone ; unreachable ; unused ;
-!use ; !value ; !variable ; !variety-cap ; !volatile-t ; !vtable ;
+!use ; !value ; !variable ; !variety-cap ; !va-args ; !volatile-t ; !vtable ;
 !warning ; weak ; !writeable ; !zzzz ;
 
 /* Miscellaneous symbols */

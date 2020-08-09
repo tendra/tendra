@@ -1,5 +1,6 @@
 /*
  * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 1997-1998, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
  */
@@ -443,10 +444,11 @@
 #define id_func_macro_defn(P)		(CHECK_TAG((P), 6) + 10)
 #define id_func_macro_params(P)		(CHECK_TAG((P), 6) + 11)
 #define id_func_macro_no_params(P)	(CHECK_TAG((P), 6) + 12)
+#define id_func_macro_va_macro(P)	(CHECK_TAG((P), 6) + 13)
 
-#define MAKE_id_func_macro(name_, storage_, parent_, loc_, defn_, params_, no_params_, c_class_id)\
+#define MAKE_id_func_macro(name_, storage_, parent_, loc_, defn_, params_, no_params_, va_macro_, c_class_id)\
     {\
-	c_class *x339_ = GEN_c_class(13, TYPEID_id);\
+	c_class *x339_ = GEN_c_class(14, TYPEID_id);\
 	x339_->ag_tag = 6;\
 	COPY_hashid(x339_ + 1, (name_));\
 	COPY_dspec(x339_ + 2, (storage_));\
@@ -460,10 +462,11 @@
 	COPY_pptok(x339_ + 10, (defn_));\
 	COPY_list(x339_ + 11, (params_));\
 	COPY_unsigned(x339_ + 12, (no_params_));\
+	COPY_int(x339_ + 13, (va_macro_));\
 	(c_class_id) = x339_;\
     }
 
-#define DECONS_id_func_macro(name_, storage_, parent_, loc_, alias_, no_, dump_, defn_, params_, no_params_, c_class_id)\
+#define DECONS_id_func_macro(name_, storage_, parent_, loc_, alias_, no_, dump_, defn_, params_, no_params_, va_macro_, c_class_id)\
     {\
 	c_class *x340_ = CHECK_TAG((c_class_id), 6);\
 	(name_) = DEREF_hashid(x340_ + 1);\
@@ -478,9 +481,10 @@
 	(defn_) = DEREF_pptok(x340_ + 10);\
 	(params_) = DEREF_list(x340_ + 11);\
 	(no_params_) = DEREF_unsigned(x340_ + 12);\
+	(va_macro_) = DEREF_int(x340_ + 13);\
     }
 
-#define DESTROY_id_func_macro(destroyer_, name_, storage_, parent_, loc_, alias_, no_, dump_, defn_, params_, no_params_, c_class_id)\
+#define DESTROY_id_func_macro(destroyer_, name_, storage_, parent_, loc_, alias_, no_, dump_, defn_, params_, no_params_, va_macro_, c_class_id)\
     {\
 	c_class *x341_ = CHECK_TAG((c_class_id), 6);\
 	(name_) = DEREF_hashid(x341_ + 1);\
@@ -495,7 +499,8 @@
 	(defn_) = DEREF_pptok(x341_ + 10);\
 	(params_) = DEREF_list(x341_ + 11);\
 	(no_params_) = DEREF_unsigned(x341_ + 12);\
-	(destroyer_)(x341_, (unsigned)13);\
+	(va_macro_) = DEREF_int(x341_ + 13);\
+	(destroyer_)(x341_, (unsigned)14);\
     }
 
 

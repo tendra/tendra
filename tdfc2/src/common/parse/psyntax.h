@@ -9,8 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 180 "psyntax.act"
-
+#line 173 "psyntax.act"
 
 
 /*
@@ -23,7 +22,7 @@
 #ifndef PSYNTAX_INCLUDED
 #define PSYNTAX_INCLUDED
 
-#line 28 "psyntax.h"
+#line 26 "psyntax.h"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -36,11 +35,10 @@ extern void XRerror_Hstate(unsigned *);
 extern void XRcast_Hstate(unsigned *);
 extern void XRkeyword_Hid(IDENTIFIER *);
 extern void XRtoken_Hrule(void);
-extern void XR781(IDENTIFIER, IDENTIFIER *);
-extern void XR783(int *);
-extern void XR784(void);
+extern void XR782(IDENTIFIER, IDENTIFIER *);
+extern void XR784(int *);
 extern void XR785(void);
-extern void XR786(int *);
+extern void XR786(void);
 extern void XR787(int *);
 extern void XRdirective_Hstate(unsigned *, unsigned *);
 extern void XR788(int *);
@@ -57,7 +55,7 @@ extern void XRdirective_Hspec(int *, int *);
 extern void XR797(int *);
 extern void XRlinkage_Hdescr(unsigned *);
 extern void XR798(int *);
-extern void XR799(void);
+extern void XR799(int *);
 extern void XR800(void);
 extern void XR801(void);
 extern void XR802(void);
@@ -75,9 +73,9 @@ extern void XR810(void);
 extern void XR811(void);
 extern void XR812(void);
 extern void XRcomplete_Hstate(unsigned *);
-extern void XR813(TYPE *);
+extern void XR813(void);
 extern void XRlinkage_Hstate(unsigned *, unsigned *);
-extern void XR814(void);
+extern void XR814(TYPE *);
 extern void XR815(void);
 extern void XR816(void);
 extern void XR817(void);
@@ -89,22 +87,22 @@ extern void XR821(void);
 extern void XRconversion_Hlist(void);
 extern void XRdiscard_Hspec(int *);
 extern void XR822(void);
+extern void XR823(void);
 extern void XRimplicit_Hspec(int *);
 extern void XRliteral_Hbase(int *);
 extern void XRliteral_Hitem_Hlist(void);
 extern void XRcast_Hcommand(unsigned *);
 extern void XRtag_Hopt(int *);
-extern void XR828(int *);
 extern void XR829(int *);
 extern void XR830(int *);
-extern void XR831(TOKEN *);
+extern void XR831(int *);
 extern void XR832(TOKEN *);
-extern void XR833(SID_LIST_ID *);
+extern void XR833(TOKEN *);
 extern void XR834(SID_LIST_ID *);
-extern void XR835(SID_LIST_ID *, SID_LIST_ID *);
-extern void XR836(unsigned *);
-extern void XR839(unsigned *, unsigned *);
-extern void XR840(int *);
+extern void XR835(SID_LIST_ID *);
+extern void XR836(SID_LIST_ID *, SID_LIST_ID *);
+extern void XR837(unsigned *);
+extern void XR840(unsigned *, unsigned *);
 extern void XR841(int *);
 extern void XRsimple_Htok_Hparam(IDENTIFIER *);
 extern void XR842(int *);
@@ -112,36 +110,37 @@ extern void XR843(int *);
 extern void XR844(int *);
 extern void XRliteral_Hitem(void);
 extern void XR845(int *);
-extern void XR847(int *);
+extern void XR846(int *);
 extern void XR848(int *);
 extern void XR849(int *);
 extern void XR850(int *);
 extern void XR851(int *);
 extern void XRoption_Hnumber(int *);
 extern void XR852(int *);
-extern void XR853(void);
-extern void XR854(int *);
+extern void XR853(int *);
+extern void XR854(void);
 extern void XRbound_Htok_Hparam(IDENTIFIER *);
 extern void XR855(int *);
 extern void XRerror_Hseverity(int *);
+extern void XR856(int *);
 extern void XRpreserve_Hlist(void);
-extern void XR860(TYPE *);
-extern void XR479(int *);
 extern void XR861(TYPE *);
+extern void XR480(int *);
+extern void XR862(TYPE *);
 extern void XRpragma_Hrule(void);
 extern void XRkeyword_Hspec(int *);
 extern void XRaccess_Hspecifier_Hopt(DECL_SPEC *);
 extern void XRerror_Hnumber(int *);
 extern void XRtokdef_Hrule(void);
 extern void XRpostpone_Hlist(int);
-extern void XR743(unsigned *);
+extern void XR744(unsigned *);
 extern void XRoption_Hstate(unsigned *);
 extern void XRsimple_Htok_Hpars(SID_LIST_ID *);
 extern void XRkeyword_Hrule(void);
 extern void XRsuspend_Hlist(void);
 extern void XRallow_Hstate(unsigned *);
 extern void XRexp_Hstorage(int *, int *);
-extern void XR755(EXP *);
+extern void XR756(EXP *);
 extern void XRprog_Htok_Hparam(SID_LIST_ID, IDENTIFIER *);
 extern void XRtoken_Hintroduction(TOKEN *);
 extern void XRwarning_Hopt(unsigned *);
@@ -152,18 +151,18 @@ extern int XI0;
 
 #define lex_double (102)
 #define lex_arith_Hcap (177)
-#define lex_macro_Harg (348)
+#define lex_macro_Harg (349)
 #define lex_hash_Helse (28)
 #define lex_private (142)
 #define lex_incompatible (242)
-#define lex_new_Harray_Hfull (351)
+#define lex_new_Harray_Hfull (352)
 #define lex_ifdef (233)
 #define lex_reject (291)
 #define lex_compute (193)
 #define lex_dollar (207)
 #define lex_tendra (309)
 #define lex_unreachable (323)
-#define lex_vtable (330)
+#define lex_vtable (331)
 #define lex_inline (137)
 #define lex_public (144)
 #define lex_namespace_Hname (3)
@@ -173,17 +172,17 @@ extern int XI0;
 #define lex_catch (128)
 #define lex_const_Hcast (130)
 #define lex_pointer (276)
-#define lex_inset_Hstart (346)
+#define lex_inset_Hstart (347)
 #define lex_full_Hname (9)
 #define lex_nested (264)
 #define lex_suspend (306)
 #define lex_break (95)
 #define lex_begin (182)
 #define lex_ignore (235)
-#define lex_volatile_Ht (329)
+#define lex_volatile_Ht (330)
 #define lex_assign (36)
 #define lex_endif (212)
-#define lex_hash_Hhash_Hop (345)
+#define lex_hash_Hhash_Hop (346)
 #define lex_keyword (251)
 #define lex_promote (283)
 #define lex_wstring_Hlit (15)
@@ -194,7 +193,7 @@ extern int XI0;
 #define lex_minus_Hminus (61)
 #define lex_lvalue (257)
 #define lex_struct_Hcap (305)
-#define lex_inset_Hend (347)
+#define lex_inset_Hend (348)
 #define lex_lshift (57)
 #define lex_open_Hround (65)
 #define lex_false (135)
@@ -239,7 +238,7 @@ extern int XI0;
 #define lex_and_Heq_H2 (158)
 #define lex_bottom (185)
 #define lex_nline (265)
-#define lex_open_Hinit (352)
+#define lex_open_Hinit (353)
 #define lex_extern (105)
 #define lex_decl (197)
 #define lex_proc_Hcap (282)
@@ -247,7 +246,7 @@ extern int XI0;
 #define lex_typeof (315)
 #define lex_while (125)
 #define lex_conditional (194)
-#define lex_new_Harray (350)
+#define lex_new_Harray (351)
 #define lex_char_Hexp (17)
 #define lex_code (189)
 #define lex_option (273)
@@ -282,13 +281,13 @@ extern int XI0;
 #define lex_type_Hcap (314)
 #define lex_struct (118)
 #define lex_using (154)
-#define lex_close_Htemplate (338)
+#define lex_close_Htemplate (339)
 #define lex_identifier (1)
 #define lex_const (98)
 #define lex_line (253)
-#define lex_weak (332)
+#define lex_weak (333)
 #define lex_else (103)
-#define lex_delete_Harray_Hfull (342)
+#define lex_delete_Harray_Hfull (343)
 #define lex_union (121)
 #define lex_statement_Hname (4)
 #define lex_cast (186)
@@ -298,10 +297,10 @@ extern int XI0;
 #define lex_stmt_Hcap (303)
 #define lex_unify (319)
 #define lex_minus (59)
-#define lex_new_Hfull (349)
+#define lex_new_Hfull (350)
 #define lex_definition (201)
 #define lex_int_Hcap (250)
-#define lex_array_Hop (335)
+#define lex_array_Hop (336)
 #define lex_not_H1 (62)
 #define lex_quote (288)
 #define lex_backslash (37)
@@ -314,9 +313,10 @@ extern int XI0;
 #define lex_character (187)
 #define lex_minus_Heq (60)
 #define lex_void (123)
-#define lex_cond_Hop (339)
-#define lex_hash_Hop (344)
+#define lex_cond_Hop (340)
+#define lex_hash_Hop (345)
 #define lex_reference (290)
+#define lex_va_Hargs (329)
 #define lex_not_Heq_H1 (63)
 #define lex_abs (85)
 #define lex_enum (104)
@@ -341,7 +341,7 @@ extern int XI0;
 #define lex_into (249)
 #define lex_no_Hdef (267)
 #define lex_off (271)
-#define lex_func_Hop (343)
+#define lex_func_Hop (344)
 #define lex_environment (213)
 #define lex_tag (307)
 #define lex_less_Heq (54)
@@ -361,18 +361,18 @@ extern int XI0;
 #define lex_nested_Hname_Hstar (10)
 #define lex_div (44)
 #define lex_type (313)
-#define lex_open_Htemplate (353)
+#define lex_open_Htemplate (354)
 #define lex_or_Heq_H1 (68)
 #define lex_rem (73)
 #define lex_min (87)
 #define lex_dynamic_Hcast (132)
 #define lex_directive (203)
-#define lex_writeable (333)
+#define lex_writeable (334)
 #define lex_plus (69)
 #define lex_or_Heq_H2 (165)
 #define lex_max (86)
 #define lex_text (310)
-#define lex_delete_Harray (341)
+#define lex_delete_Harray (342)
 #define lex_dot (46)
 #define lex_for (107)
 #define lex_bitfield (183)
@@ -386,7 +386,7 @@ extern int XI0;
 #define lex_variable (327)
 #define lex_int (110)
 #define lex_std (302)
-#define lex_builtin_Hfile (336)
+#define lex_builtin_Hfile (337)
 #define lex_conversion (195)
 #define lex_exhaustive (217)
 #define lex_set (298)
@@ -406,7 +406,7 @@ extern int XI0;
 #define lex_defined (200)
 #define lex_template_Htype (7)
 #define lex_as (179)
-#define lex_builtin_Hline (337)
+#define lex_builtin_Hline (338)
 #define lex_of (270)
 #define lex_floating_Hexp (22)
 #define lex_eq (48)
@@ -416,7 +416,7 @@ extern int XI0;
 #define lex_include_Hnext (241)
 #define lex_hash_Hhash_H1 (52)
 #define lex_hash_Hhash_H2 (91)
-#define lex_delete_Hfull (340)
+#define lex_delete_Hfull (341)
 #define lex_directory (204)
 #define lex_resolution (294)
 #define lex_includes (240)
@@ -432,7 +432,7 @@ extern int XI0;
 #define lex_size_Ht (299)
 #define lex_try (151)
 #define lex_implicit (237)
-#define lex_zzzzzz (354)
+#define lex_zzzzzz (355)
 #define lex_template (147)
 #define lex_overload (275)
 #define lex_unsigned (122)
@@ -456,7 +456,7 @@ extern int XI0;
 #define lex_colon_Hcolon (83)
 #define lex_continue (99)
 #define lex_register (112)
-#define lex_zzzz (334)
+#define lex_zzzz (335)
 #define lex_integer_Hlit (16)
 #define lex_function (228)
 #define lex_variety_Hcap (328)
@@ -491,7 +491,7 @@ extern int XI0;
 #define lex_overflow (274)
 #define lex_object (268)
 #define lex_unassert (317)
-#define lex_warning (331)
+#define lex_warning (332)
 #define lex_friend (136)
 #define lex_member (260)
 #define lex_pragma (278)
@@ -508,7 +508,7 @@ extern int XI0;
 
 /* BEGINNING OF TRAILER */
 
-#line 1233 "psyntax.act"
+#line 1226 "psyntax.act"
 
 
 
@@ -525,6 +525,6 @@ extern int XI0;
 
 
 #endif
-#line 530 "psyntax.h"
+#line 529 "psyntax.h"
 
 /* END OF FILE */

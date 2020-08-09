@@ -199,6 +199,7 @@ USAGE:
     type_redef = none | error,
     type_tag_ignore = error,
     unmatched = error,
+    va_macro = error,
     variable = wall,
     weak = off | wall
 
@@ -6992,6 +6993,19 @@ cpp_replace_arg_eof ( HASHID: nm )
 cpp_replace_arg_number ( HASHID: nm, unsigned: n, plural: s, unsigned: m )
 {
     KEY (STD)	"Macro '"nm"' applied with "n" argument"s", not "m
+}
+
+cpp_replace_arg_number2 ( HASHID: nm, unsigned: n, plural: s, unsigned: m )
+{
+    KEY (STD)	"Variadic macro '"nm"' applied with "n" argument"s", not at
+		 least "m
+}
+
+cpp_replace_va_args_bad ( HASHID: nm )
+{
+    KEY (ISO)	"-" | "-, 6.10.3"
+    KEY (STD)	"'__VA_ARGS__' in replacement list of macro '"nm"' without 
+		 ellipsis notation"
 }
 
 

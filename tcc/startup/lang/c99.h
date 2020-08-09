@@ -18,3 +18,6 @@
 
 #pragma TenDRA declaration block end
 
+/* 6.10.3 */
+#pragma TenDRA option "va_macro" allow
+

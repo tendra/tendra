@@ -1492,7 +1492,7 @@ load_id(BITSTREAM *bs, NAMESPACE ns)
 		PPTOKEN *def = load_pptoks(bs);
 		LIST(HASHID)pars = load_hashid_list(bs, NULL_nspace);
 		unsigned npars = LENGTH_list(pars);
-		MAKE_id_func_macro(nm, ds, ns, crt_loc, def, pars, npars, id);
+		MAKE_id_func_macro(nm, ds, ns, crt_loc, def, pars, npars, 0, id);
 		break;
 	}
 

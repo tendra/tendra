@@ -1,5 +1,6 @@
 /*
  * Copyright 2002-2011, The TenDRA Project.
+ * Copyright 1997-1998, United Kingdom Secretary of State for Defence.
  *
  * See doc/copyright/ for the full copyright terms.
  */
@@ -393,6 +394,10 @@
     EXP : PTR(unsigned) : id_func_macro_no_params #
 #pragma interface id_func_macro_no_params
 
+#pragma token PROC(EXP : IDENTIFIER :)\
+    EXP : PTR(int) : id_func_macro_va_macro #
+#pragma interface id_func_macro_va_macro
+
 #pragma token PROC(\
 	EXP : HASHID :,\
 	EXP : DECL_SPEC :,\
@@ -401,6 +406,7 @@
 	EXP : PPTOKEN_P :,\
 	EXP : LIST(HASHID) :,\
 	EXP : unsigned :,\
+	EXP : int :,\
 	EXP lvalue : IDENTIFIER :\
     ) STATEMENT MAKE_id_func_macro #
 #pragma interface MAKE_id_func_macro
@@ -416,6 +422,7 @@
 	EXP lvalue : PPTOKEN_P :,\
 	EXP lvalue : LIST(HASHID) :,\
 	EXP lvalue : unsigned :,\
+	EXP lvalue : int :,\
 	EXP : IDENTIFIER :\
     ) STATEMENT DECONS_id_func_macro #
 #pragma interface DECONS_id_func_macro
@@ -432,6 +439,7 @@
 	EXP lvalue : PPTOKEN_P :,\
 	EXP lvalue : LIST(HASHID) :,\
 	EXP lvalue : unsigned :,\
+	EXP lvalue : int :,\
 	EXP : IDENTIFIER :\
     ) STATEMENT DESTROY_id_func_macro #
 #pragma interface DESTROY_id_func_macro

@@ -1301,10 +1301,12 @@ read_define(void)
 	unsigned prev_def;
 	unsigned npars = 0;
 	int object_like = 0;
+	int va_macro = 0;
 	int ret = lex_ignore_token;
 	int first_tok = lex_ignore_token;
 	LIST(HASHID)pars = NULL_list(HASHID);
 	OPTION preproc_strings = option(OPT_preproc_old);
+	PPTOKEN *p;
 
 	/* Read the macro identifier */
 	int t = read_token();
@@ -1334,6 +1336,7 @@ read_define(void)
 	if (peek_char(char_open_round, &legal)) {
 		PPTOKEN *p;
 		int err = 0;
+		int last_tok = lex_open_Hround;
 		int par_next = 2;
 		LIST(HASHID)lp;
 		unsigned long par_no = 1;
@@ -1348,10 +1351,19 @@ read_define(void)
 			if (in_preproc_dir) {
 				preproc_loc = crt_loc;
 			}
-			if (t == lex_identifier) {
+			if (t == lex_identifier || t == lex_ellipsis) {
 				/* Identifiers are parameter names */
 				unsigned long mark;
 				HASHID par = token_hashid;
+				if (t == lex_ellipsis) {
+					if (option(OPT_va_macro) == OPTION_DISALLOW) {
+						first_tok = t;
+						err = 1;
+						break;
+					}
+					par = KEYWORD (lex_va_Hargs);
+					va_macro = 1;
+				}
 				IGNORE check_macro(par, 0);
 				CONS_hashid(par, pars, pars);
 
@@ -1366,29 +1378,28 @@ read_define(void)
 				}
 				mark += HASH_SIZE * par_no;
 				COPY_ulong(hashid_hash(par), mark);
-				if (!par_next) {
+				if (last_tok != lex_open_Hround && last_tok != lex_comma) {
 					err = 1;
 				}
-				par_next = 0;
 				par_no++;
 			} else if (t == lex_comma) {
 				/* Commas separate parameters */
-				if (par_next) {
+				if (last_tok != lex_identifier) {
 					err = 1;
 				}
-				par_next = 1;
 			} else {
 				/* Anything else is an error */
 				first_tok = t;
 				err = 1;
 				break;
 			}
+			last_tok = t;
 		}
 		update_column();
 		if (in_preproc_dir) {
 			preproc_loc = crt_loc;
 		}
-		if (err || par_next == 1) {
+		if (err || last_tok == lex_comma) {
 			/* Report any errors */
 			report(preproc_loc, ERR_cpp_replace_par_bad(macro));
 		}
@@ -1469,9 +1480,18 @@ read_define(void)
 		object_like = 1;
 	}
 
+	/* Complain about '__VA_ARGS__' in object-like or non-varargs macros */
+	if (!va_macro && option(OPT_va_macro) == OPTION_ALLOW) {
+		for (p = defn; p != NULL; p = p->next)
+			if (p->tok == lex_identifier &&
+				EQ_KEYWORD(p->pp_data.id.hash, lex_va_Hargs)) {
+				report(preproc_loc, ERR_cpp_replace_va_args_bad(macro));
+				break;
+			}
+	}
+
 	/* Check for '##' operators */
 	if (defn) {
-		PPTOKEN *p;
 		int tk = defn->tok;
 		if (tk == lex_hash_Hhash_H2) {
 			tk = get_digraph(tk);
@@ -1508,7 +1528,7 @@ read_define(void)
 	} else {
 		IGNORE check_value(OPT_VAL_macro_pars, (ulong)npars);
 		MAKE_id_func_macro(macro, dspec_defn, NULL_nspace, preproc_loc,
-				   defn, pars, npars, id);
+				   defn, pars, npars, va_macro, id);
 	}
 	COPY_id(id_alias(id), prev);
 	if (prev_def & PP_TOKEN) {
