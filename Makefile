@@ -12,8 +12,8 @@
 
 HOSTNAME!=	uname -n | cut -f1 -d.
 
-REVISION!=	svn info | grep ^Revision: | cut -f2 -d' '
-RELEASE?=	svn:${REVISION}
+REVISION!=	git rev-parse HEAD
+RELEASE?=	git:${REVISION}
 
 OBJ_DIR?=     ${.CURDIR}/obj.${HOSTNAME}
 OBJ_WWW?=     ${OBJ_DIR}-www
