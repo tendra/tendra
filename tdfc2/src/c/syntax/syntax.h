@@ -9,7 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 185 "syntax.act"
+#line 181 "syntax.act"
 
 
 
@@ -23,7 +23,7 @@
 #ifndef SYNTAX_INCLUDED
 #define SYNTAX_INCLUDED
 
-#line 28 "syntax.h"
+#line 27 "syntax.h"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -44,111 +44,112 @@ extern void parse_mem_type(TYPE *);
 extern void parse_operator(IDENTIFIER *);
 extern void parse_decl(TYPE, DECL_SPEC);
 #else /* __SID_SPLIT */
+extern void ZR889(EXP, EXP *);
 extern void ZRbase_Htype_Hspecifier(BASE_TYPE *);
-extern void ZR892(EXP, EXP *);
 extern void ZRdecl_Hspecifier_Hseq(BASE_TYPE *, TYPE *, CV_SPEC *, DECL_SPEC *);
+extern void ZR893(EXP, EXP *);
 extern void ZRdeclarator_Htail(IDENTIFIER, TYPE *);
 extern void ZRparameter_Hdeclaration(IDENTIFIER *);
-extern void ZR896(EXP, EXP *);
+extern void ZR897(EXP, EXP *);
 extern void ZRtarget_Hcondition(EXP *);
-extern void ZR1025(EXP *, EXP *);
 extern void ZRclass_Hspecifier(TYPE *);
-extern void ZR1026(EXP *, SID_LIST_EXP *);
+extern void ZR1026(EXP *, EXP *);
 extern void ZRfield_Hid_Hexpression(NAMESPACE, IDENTIFIER *);
 extern void ZRdecl_Hspecifier(BASE_TYPE *, TYPE *, CV_SPEC *, DECL_SPEC *);
 extern void parse_init(IDENTIFIER, EXP *);
-extern void ZR1027(EXP *);
-extern void ZR900(EXP, EXP *);
+extern void ZR1027(EXP *, SID_LIST_EXP *);
 extern void ZRdeclaration_Hseq_Hopt(void);
-extern void ZR1028(BASE_TYPE *, IDENTIFIER *, TYPE *);
+extern void ZR1028(EXP *);
+extern void ZR901(EXP, EXP *);
 extern void ZRabstract_Hdeclarator_Htail(TYPE *);
-extern void ZR1029(BASE_TYPE *, TYPE *, CV_SPEC *);
+extern void ZR1029(BASE_TYPE *, IDENTIFIER *, TYPE *);
 extern void ZRscoped_Hstatement(EXP, EXP *);
+extern void ZR1030(BASE_TYPE *, TYPE *, CV_SPEC *);
 extern void ZRinit_Hdeclarator(DECL_SPEC, BASE_TYPE, TYPE);
-extern void ZR904(EXP, EXP *);
 extern void ZRdeclaration(void);
+extern void ZR905(EXP, EXP *);
 extern void ZRprimary_Hexpression(EXP *);
 extern void ZRcontrol_Hstatement(EXP *);
-extern void ZR908(EXP, EXP *);
 extern void ZRclass_Hkey(BASE_TYPE *);
 extern void ZRinitialiser_Hlist(IDENTIFIER, SID_LIST_EXP *);
+extern void ZR909(EXP, EXP *);
 extern void parse_tok_type(TYPE *);
 extern void ZRequality_Hoperator(void);
 extern void ZRmaxmin_Hexpression(EXP *);
 extern void ZRinset_Hflow_Hexpression(EXP *);
-extern void ZR912(EXP, EXP *);
+extern void ZR913(EXP, EXP *);
 extern void parse_type_param(IDENTIFIER *);
-extern void ZR1041(TYPE *, BASE_TYPE *, IDENTIFIER *);
 extern void ZRpostfix_Hexpression(EXP *);
 extern void ZRsimple_Hstatement(EXP *);
 extern void ZRmember_Hspecification_Hopt(void);
-extern void ZR916(EXP, EXP *);
+extern void ZR1042(TYPE *, BASE_TYPE *, IDENTIFIER *);
 extern void ZRsizeof_Hexpression(int, EXP *);
-extern void ZR1044(TYPE *, IDENTIFIER *);
-extern void ZR920(EXP, EXP *);
+extern void ZR917(EXP, EXP *);
+extern void ZR1045(TYPE *, IDENTIFIER *);
 extern void ZRparameter_Hid_Htail(void);
+extern void ZR921(EXP, EXP *);
 extern void ZRparameter_Hdeclarator_Haux_Hopt(TYPE *, IDENTIFIER *);
 extern void ZRasm_Hdefinition(EXP *);
 extern void ZRparameter_Hdeclarator_Hopt(TYPE, TYPE *, IDENTIFIER *);
-extern void ZR924(EXP, EXP *);
 extern void ZRconditional_Hexpression(EXP *);
-extern void ZR1053(IDENTIFIER *, TYPE *);
+extern void ZR925(EXP, EXP *);
 extern void parse_type(TYPE *);
 extern void ZRdesignator_Hlist(OFFSET, TYPE, OFFSET *, TYPE *);
+extern void ZR1054(IDENTIFIER *, TYPE *);
 extern void ZRdeclaration_Hcond_Hhead(EXP *);
 extern void ZRenum_Hspecifier(TYPE *);
 extern void ZRdeclarator_Haux(TYPE *, IDENTIFIER *);
 extern void ZRshift_Hexpression(EXP *);
 extern void ZRfor_Hcond_Hstatement(EXP *);
-extern void ZR1057(TYPE *, TYPE *);
 extern void ZRenumerator_Hdefinition(IDENTIFIER);
 extern void ZRdeclarator(TYPE, TYPE *, IDENTIFIER *);
 extern void ZRinitialiser_Hopt(IDENTIFIER, EXP *);
 extern void parse_file(TYPE, DECL_SPEC);
-extern void ZR1058(TYPE *);
+extern void ZR1058(TYPE *, TYPE *);
 extern void parse_offset(OFFSET, TYPE, OFFSET *, TYPE *);
+extern void ZR1059(TYPE *);
 extern void parse_nat(EXP *);
 extern void ZRinitialiser_Hexpression(EXP *);
 extern void parse_param(TYPE, int, IDENTIFIER *);
 extern void ZRtype_Hspecifier_Hseq(BASE_TYPE *, TYPE *, CV_SPEC *);
-extern void ZR935(EXP, EXP, int, EXP *, EXP *, int *);
+extern void ZR936(EXP, EXP, int, EXP *, EXP *, int *);
 extern void parse_func(EXP *);
 extern void ZRabstract_Hdeclarator_Haux(TYPE *);
 extern void ZRstorage_Hclass_Hspecifier(DECL_SPEC *);
 extern void ZRparameter_Hid_Hlist(void);
-extern void ZR685(IDENTIFIER *);
 extern void parse_id(IDENTIFIER *);
+extern void ZR686(IDENTIFIER *);
 extern void ZRcast_Hexpression(EXP *);
 extern void ZRtype_Hspecifier(BASE_TYPE *, TYPE *);
 extern void ZRabstract_Hdeclarator_Hopt(TYPE, TYPE *);
-extern void ZR1069(int *, int *, int *, EXP *);
-extern void ZR815(BASE_TYPE *, TYPE *, CV_SPEC *, DECL_SPEC *);
 extern void ZRopen_Hround_Hx(void);
+extern void ZR1070(int *, int *, int *, EXP *);
+extern void ZR816(BASE_TYPE *, TYPE *, CV_SPEC *, DECL_SPEC *);
 extern void ZRenumerator_Hlist(IDENTIFIER);
 extern void ZRfor_Hinit_Hstatement(EXP *);
 extern void ZRdesignator(OFFSET, TYPE, OFFSET *, TYPE *);
 extern void ZRunary_Hexpression(EXP *);
 extern void ZRrelational_Hexpression(EXP *);
-extern void ZR1074(IDENTIFIER *, SID_LIST_EXP *);
-extern void ZR947(BASE_TYPE *, TYPE *, CV_SPEC *, DECL_SPEC *, EXP *);
 extern void ZRfor_Hend_Hstatement(EXP *);
-extern void ZR821(BASE_TYPE *, TYPE *, DECL_SPEC *, TYPE *, IDENTIFIER *);
+extern void ZR1075(IDENTIFIER *, SID_LIST_EXP *);
+extern void ZR948(BASE_TYPE *, TYPE *, CV_SPEC *, DECL_SPEC *, EXP *);
 extern void ZRand_Hexpression(EXP *);
+extern void ZR822(BASE_TYPE *, TYPE *, DECL_SPEC *, TYPE *, IDENTIFIER *);
 extern void parse_exp(EXP *);
 extern void ZRtype_Hqualifier(BASE_TYPE *, TYPE *, CV_SPEC *);
-extern void ZR1077(EXP *, EXP *);
-extern void ZR952(EXP *, EXP *);
-extern void ZR1080(EXP *);
+extern void ZR1078(EXP *, EXP *);
+extern void ZR953(EXP *, EXP *);
 extern void parse_stmt(EXP *);
 extern void ZRmember_Hdeclarator_Hlist(TYPE, BASE_TYPE);
 extern void ZR1081(EXP *);
 extern void ZRtype_Hid(TYPE *, int *);
 extern void ZRflow_Hexpression(EXP *);
-extern void ZR701(BASE_TYPE *, TYPE *, CV_SPEC *, BASE_TYPE *, TYPE *, CV_SPEC *);
+extern void ZR1082(EXP *);
 extern void ZRdeclaration_Hcond_Hbody(void);
-extern void ZR1084(IDENTIFIER *, EXP *);
+extern void ZR702(BASE_TYPE *, TYPE *, CV_SPEC *, BASE_TYPE *, TYPE *, CV_SPEC *);
 extern void ZR1085(IDENTIFIER *, EXP *);
 extern void ZRexpression_Hlist(SID_LIST_EXP *);
+extern void ZR1086(IDENTIFIER *, EXP *);
 extern void ZRassignment_Hexpression(EXP *);
 extern void ZRexpression_Hlist_Hopt(SID_LIST_EXP *);
 extern void ZRlogical_Hand_Hexpression(EXP *);
@@ -156,10 +157,10 @@ extern void ZRjump_Hstatement(EXP *);
 extern void ZRtarget_Hcondition_Hhead(EXP *, EXP *, int *);
 extern void ZRcv_Hqualifier_Hseq(CV_SPEC *);
 extern void ZRfunction_Hbody(EXP *);
-extern void ZR965(EXP *);
+extern void ZR966(EXP *);
 extern void ZRcv_Hqualifier_Hseq_Hopt(CV_SPEC *);
-extern void ZR1095(EXP *, EXP *);
-extern void ZR1096(void);
+extern void ZR1096(EXP *, EXP *);
+extern void ZR1097(void);
 extern void ZRfall_Hcheck(void);
 extern void ZRcv_Hqualifier(CV_SPEC *);
 extern void ZRunary_Hoperator(void);
@@ -171,46 +172,45 @@ extern void ZRselection_Hstatement(EXP *);
 extern void ZRexpression(EXP *);
 extern void ZRstatement_Hseq_Hopt(EXP, int, EXP *);
 extern void ZRscoped_Hstmt_Hbody(EXP, EXP *);
-extern void ZR726(BASE_TYPE *, TYPE *, CV_SPEC *, DECL_SPEC *, BASE_TYPE *, TYPE *, CV_SPEC *, DECL_SPEC *);
+extern void ZR727(BASE_TYPE *, TYPE *, CV_SPEC *, DECL_SPEC *, BASE_TYPE *, TYPE *, CV_SPEC *, DECL_SPEC *);
 extern void ZRstatement(EXP *);
 extern void ZRdirect_Habstract_Hdeclarator(TYPE *);
-extern void ZR985(EXP *);
-extern void ZR858(TYPE, IDENTIFIER, TYPE *, IDENTIFIER *);
 extern void ZRiteration_Hstatement(EXP *);
+extern void ZR986(EXP *);
+extern void ZR859(TYPE, IDENTIFIER, TYPE *, IDENTIFIER *);
 extern void ZRassignment_Hoperator(void);
 extern void ZRexpression_Hstatement(EXP *);
 extern void ZRmember_Hdesignator(OFFSET, TYPE, OFFSET *, TYPE *);
 extern void ZRdeclaration_Hcond(void);
-extern void ZR862(TYPE, TYPE *);
+extern void ZR863(TYPE, TYPE *);
 extern void parse_mem_type(TYPE *);
-extern void ZR870(TYPE, IDENTIFIER, TYPE *, IDENTIFIER *);
-extern void ZR617(EXP *);
+extern void ZR871(TYPE, IDENTIFIER, TYPE *, IDENTIFIER *);
+extern void ZR618(EXP *);
 extern void parse_operator(IDENTIFIER *);
 extern void ZRinclusive_Hor_Hexpression(EXP *);
 extern void ZRjump_Hlabel(EXP *);
 extern void ZRcomma_Hexpression_Htail(SID_LIST_EXP *);
 extern void ZRparameter_Hdeclaration_Hlist(int *);
-extern void ZR876(EXP, EXP *);
 extern void ZRliteral(EXP *);
 extern void ZRsecond_Hparameter_Hid(IDENTIFIER *);
 extern void parse_decl(TYPE, DECL_SPEC);
+extern void ZR877(EXP, EXP *);
 extern void ZRexclusive_Hor_Hexpression(EXP *);
 extern void ZRcompound_Hstatement(EXP *);
-extern void ZR880(EXP, EXP *);
-extern void ZR626(SID_LIST_EXP *);
 extern void ZRsemicolon_Hx(void);
 extern void ZRlogical_Hor_Hexpression(EXP *);
 extern void ZRconstant_Hexpression(EXP *);
+extern void ZR881(EXP, EXP *);
+extern void ZR627(SID_LIST_EXP *);
 extern void ZRptr_Hoperator(TYPE *);
-extern void ZR884(EXP, EXP *);
-extern void ZR757(TYPE *);
 extern void ZRequality_Hexpression(EXP *);
 extern void ZRinit_Hdeclarator_Hlist(DECL_SPEC, BASE_TYPE, TYPE);
-extern void ZR1013(EXP *, EXP *);
-extern void ZR759(EXP *);
-extern void ZR760(int *);
+extern void ZR885(EXP, EXP *);
+extern void ZR758(TYPE *);
+extern void ZR1014(EXP *, EXP *);
+extern void ZR760(EXP *);
 extern void ZRmultiplicative_Hexpression(EXP *);
-extern void ZR888(EXP, EXP *);
+extern void ZR761(int *);
 extern int ZI0;
 #endif /* __SID_SPLIT */
 
@@ -218,18 +218,18 @@ extern int ZI0;
 
 #define lex_double (102)
 #define lex_arith_Hcap (177)
-#define lex_macro_Harg (348)
+#define lex_macro_Harg (349)
 #define lex_hash_Helse (28)
 #define lex_private (142)
 #define lex_incompatible (242)
-#define lex_new_Harray_Hfull (351)
+#define lex_new_Harray_Hfull (352)
 #define lex_ifdef (233)
 #define lex_reject (291)
 #define lex_compute (193)
 #define lex_dollar (207)
 #define lex_tendra (309)
 #define lex_unreachable (323)
-#define lex_vtable (330)
+#define lex_vtable (331)
 #define lex_inline (137)
 #define lex_public (144)
 #define lex_namespace_Hname (3)
@@ -239,17 +239,17 @@ extern int ZI0;
 #define lex_catch (128)
 #define lex_const_Hcast (130)
 #define lex_pointer (276)
-#define lex_inset_Hstart (346)
+#define lex_inset_Hstart (347)
 #define lex_full_Hname (9)
 #define lex_nested (264)
 #define lex_suspend (306)
 #define lex_break (95)
 #define lex_begin (182)
 #define lex_ignore (235)
-#define lex_volatile_Ht (329)
+#define lex_volatile_Ht (330)
 #define lex_assign (36)
 #define lex_endif (212)
-#define lex_hash_Hhash_Hop (345)
+#define lex_hash_Hhash_Hop (346)
 #define lex_keyword (251)
 #define lex_promote (283)
 #define lex_wstring_Hlit (15)
@@ -260,7 +260,7 @@ extern int ZI0;
 #define lex_minus_Hminus (61)
 #define lex_lvalue (257)
 #define lex_struct_Hcap (305)
-#define lex_inset_Hend (347)
+#define lex_inset_Hend (348)
 #define lex_lshift (57)
 #define lex_open_Hround (65)
 #define lex_false (135)
@@ -305,7 +305,7 @@ extern int ZI0;
 #define lex_and_Heq_H2 (158)
 #define lex_bottom (185)
 #define lex_nline (265)
-#define lex_open_Hinit (352)
+#define lex_open_Hinit (353)
 #define lex_extern (105)
 #define lex_decl (197)
 #define lex_proc_Hcap (282)
@@ -313,7 +313,7 @@ extern int ZI0;
 #define lex_typeof (315)
 #define lex_while (125)
 #define lex_conditional (194)
-#define lex_new_Harray (350)
+#define lex_new_Harray (351)
 #define lex_char_Hexp (17)
 #define lex_code (189)
 #define lex_option (273)
@@ -348,13 +348,13 @@ extern int ZI0;
 #define lex_type_Hcap (314)
 #define lex_struct (118)
 #define lex_using (154)
-#define lex_close_Htemplate (338)
+#define lex_close_Htemplate (339)
 #define lex_identifier (1)
 #define lex_const (98)
 #define lex_line (253)
-#define lex_weak (332)
+#define lex_weak (333)
 #define lex_else (103)
-#define lex_delete_Harray_Hfull (342)
+#define lex_delete_Harray_Hfull (343)
 #define lex_union (121)
 #define lex_statement_Hname (4)
 #define lex_cast (186)
@@ -364,10 +364,10 @@ extern int ZI0;
 #define lex_stmt_Hcap (303)
 #define lex_unify (319)
 #define lex_minus (59)
-#define lex_new_Hfull (349)
+#define lex_new_Hfull (350)
 #define lex_definition (201)
 #define lex_int_Hcap (250)
-#define lex_array_Hop (335)
+#define lex_array_Hop (336)
 #define lex_not_H1 (62)
 #define lex_quote (288)
 #define lex_backslash (37)
@@ -380,9 +380,10 @@ extern int ZI0;
 #define lex_character (187)
 #define lex_minus_Heq (60)
 #define lex_void (123)
-#define lex_cond_Hop (339)
-#define lex_hash_Hop (344)
+#define lex_cond_Hop (340)
+#define lex_hash_Hop (345)
 #define lex_reference (290)
+#define lex_va_Hargs (329)
 #define lex_not_Heq_H1 (63)
 #define lex_abs (85)
 #define lex_enum (104)
@@ -407,7 +408,7 @@ extern int ZI0;
 #define lex_into (249)
 #define lex_no_Hdef (267)
 #define lex_off (271)
-#define lex_func_Hop (343)
+#define lex_func_Hop (344)
 #define lex_environment (213)
 #define lex_tag (307)
 #define lex_less_Heq (54)
@@ -427,18 +428,18 @@ extern int ZI0;
 #define lex_nested_Hname_Hstar (10)
 #define lex_div (44)
 #define lex_type (313)
-#define lex_open_Htemplate (353)
+#define lex_open_Htemplate (354)
 #define lex_or_Heq_H1 (68)
 #define lex_rem (73)
 #define lex_min (87)
 #define lex_dynamic_Hcast (132)
 #define lex_directive (203)
-#define lex_writeable (333)
+#define lex_writeable (334)
 #define lex_plus (69)
 #define lex_or_Heq_H2 (165)
 #define lex_max (86)
 #define lex_text (310)
-#define lex_delete_Harray (341)
+#define lex_delete_Harray (342)
 #define lex_dot (46)
 #define lex_for (107)
 #define lex_bitfield (183)
@@ -452,7 +453,7 @@ extern int ZI0;
 #define lex_variable (327)
 #define lex_int (110)
 #define lex_std (302)
-#define lex_builtin_Hfile (336)
+#define lex_builtin_Hfile (337)
 #define lex_conversion (195)
 #define lex_exhaustive (217)
 #define lex_set (298)
@@ -472,7 +473,7 @@ extern int ZI0;
 #define lex_defined (200)
 #define lex_template_Htype (7)
 #define lex_as (179)
-#define lex_builtin_Hline (337)
+#define lex_builtin_Hline (338)
 #define lex_of (270)
 #define lex_floating_Hexp (22)
 #define lex_eq (48)
@@ -482,7 +483,7 @@ extern int ZI0;
 #define lex_include_Hnext (241)
 #define lex_hash_Hhash_H1 (52)
 #define lex_hash_Hhash_H2 (91)
-#define lex_delete_Hfull (340)
+#define lex_delete_Hfull (341)
 #define lex_directory (204)
 #define lex_resolution (294)
 #define lex_includes (240)
@@ -498,7 +499,7 @@ extern int ZI0;
 #define lex_size_Ht (299)
 #define lex_try (151)
 #define lex_implicit (237)
-#define lex_zzzzzz (354)
+#define lex_zzzzzz (355)
 #define lex_template (147)
 #define lex_overload (275)
 #define lex_unsigned (122)
@@ -522,7 +523,7 @@ extern int ZI0;
 #define lex_colon_Hcolon (83)
 #define lex_continue (99)
 #define lex_register (112)
-#define lex_zzzz (334)
+#define lex_zzzz (335)
 #define lex_integer_Hlit (16)
 #define lex_function (228)
 #define lex_variety_Hcap (328)
@@ -557,7 +558,7 @@ extern int ZI0;
 #define lex_overflow (274)
 #define lex_object (268)
 #define lex_unassert (317)
-#define lex_warning (331)
+#define lex_warning (332)
 #define lex_friend (136)
 #define lex_member (260)
 #define lex_pragma (278)
@@ -574,7 +575,7 @@ extern int ZI0;
 
 /* BEGINNING OF TRAILER */
 
-#line 1503 "syntax.act"
+#line 1499 "syntax.act"
 
 
 
