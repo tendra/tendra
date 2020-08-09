@@ -220,7 +220,7 @@ de_tagdef(void)
 		node *d;
 		construct *p;
 		tag_info *info;
-		bool is_var;
+		int is_var;
 
 		/* Find the definition type */
 		long m = de_tagdef_bits();
