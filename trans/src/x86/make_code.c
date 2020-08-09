@@ -2113,8 +2113,8 @@ make_code1(where dest, ash stack, exp e)
 				asm_printop("addl %s,%s", "%ecx", "%esi");
 				asm_printop("shrl $2,%s", "%ecx");
 			} else {
-				asm_printop("movl $%d,%s",    longs / 32 + call_has_vcallees(cees) ?  5 :  4, "%ecx");
-				asm_printop("leal %d(%s),%s", longs /  8 + call_has_vcallees(cees) ? 16 : 12, "%esp", "%esi");
+				asm_printop("movl $%d,%s",    longs / 32 + (call_has_vcallees(cees) ?  5 :  4), "%ecx");
+				asm_printop("leal %d(%s),%s", longs /  8 + (call_has_vcallees(cees) ? 16 : 12), "%esp", "%esi");
 			}
 
 			asm_printop("subl $4,%s", "%edi");
