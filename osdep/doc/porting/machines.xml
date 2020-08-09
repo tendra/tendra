@@ -523,8 +523,8 @@ int main(void) {
 			&posix; headers for its own use, and hence requires
 			<code>-Yposix</code>:</para>
 
-		<screen><![CDATA[clarion% tcc -Yposix -I /usr/pkg/include -L /usr/pkg/lib -lpng a.c
-clarion%]]></screen>
+		<screen><![CDATA[% tcc -Yposix -I /usr/pkg/include -L /usr/pkg/lib -lpng a.c
+%]]></screen>
 
 		<para>An alternate approach would be to write a
 			&tspec; &api; for that library.
@@ -536,7 +536,7 @@ clarion%]]></screen>
 
 		<para>Meanwhile, back in the real world: TODO:</para>
 
-		<screen><![CDATA[clarion% tcc -Ysystem -I/usr/pkg/include -Wc,-mc a.c
+		<screen><![CDATA[% tcc -Ysystem -I/usr/pkg/include -Wc,-mc a.c
 /usr/include/sys/cdefs.h, line 270: Error:
     #error "No function renaming possible"!!!!
   [ISO 6.8.5]: "No function renaming possible".
@@ -546,7 +546,7 @@ clarion%]]></screen>
   [Syntax]: Parse error before '__RENAME'.
   [Syntax]: Can't recover from this error.
 
-clarion*]]></screen>
+*]]></screen>
 
 		<para>Here the system headers for NetBSD 5 make use of the
 			(non-portable) <code>__RENAME()</code> facility, which causes
@@ -567,8 +567,8 @@ clarion*]]></screen>
 		<para>which may be seen by sneakily defining the same
 			<code>_${OSVER}</code> macro used during &api; building:</para>
 
-		<screen><![CDATA[clarion% tcc -D_NETBSD5 -Ysystem -I /usr/pkg/include -L /usr/pkg/lib -lpng a.c
-clarion%]]></screen>
+		<screen><![CDATA[% tcc -D_NETBSD5 -Ysystem -I /usr/pkg/include -L /usr/pkg/lib -lpng a.c
+%]]></screen>
 
 		<para>However, actually doing this is dangerous because values defined
 			in the system headers might differ from what the user expects,

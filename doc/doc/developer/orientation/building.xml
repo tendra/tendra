@@ -108,7 +108,7 @@
 			<code>tcc -E</code>:</para>
 
 <programlisting language="C">
-clarion% tcc -Yc89 -E hello.c
+% tcc -Yc89 -E hello.c
 #line 1 "hello.c"
 ...
 #line 13 "<replaceable>$PREFIX_TSPEC</replaceable>/TenDRA/include/shared/c89.api/size_t.h"
