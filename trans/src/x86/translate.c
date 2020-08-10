@@ -64,6 +64,11 @@
 #include <dwarf2/dw2_common.h>
 #endif
 
+/* XXX: just here until this finds a home in a header */
+#ifdef TDF_DIAG3
+void init_stab_aux(void);
+#endif
+
 #define ptg(x) ((x)->pt.glob) /* addition to expmacs */
 
 static exp delayed_const_list = NULL;
