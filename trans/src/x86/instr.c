@@ -416,7 +416,7 @@ void label_operand
 
   if (ptno(labst) == 0)
     ptno(labst) = next_lab();
-  asm_printf("$%sV0x%x", local_prefix, ptno(labst));
+  asm_printf("$%sV0x%lx", local_prefix, ptno(labst));
 }
 
 void set_lv_label
@@ -427,7 +427,7 @@ void set_lv_label
 
   min_rfree |= 0x78;  /* save all callee registers */
 
-  asm_label("%sV0x%x", local_prefix, ptno(e));
+  asm_label("%sV0x%lx", local_prefix, ptno(e));
 }
 
 void set_env_off
