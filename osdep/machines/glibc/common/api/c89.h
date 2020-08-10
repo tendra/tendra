@@ -4,7 +4,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
-#ifdef _GLIBC2_14
+#if defined(_GLIBC2_14) || defined(_GLIBC2_31)
 #define __WRONG_C89_FLOAT_H_XPG4_RANGES /* provided by gcc; we need to provide our own */
 #endif
 

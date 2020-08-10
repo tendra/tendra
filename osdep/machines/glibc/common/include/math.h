@@ -12,7 +12,16 @@
 #endif
 #endif
 
+#if defined(_GLIBC2_31)
+#pragma TenDRA begin
+#pragma TenDRA directive warning allow
+#endif
+
 #include_next <math.h>
+
+#if defined(_GLIBC2_31)
+#pragma TenDRA end
+#endif
 
 #endif
 
