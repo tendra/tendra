@@ -3,7 +3,8 @@
 
 #if defined(_FREEBSD10_1) || defined(_FREEBSD10_2) || defined(_FREEBSD10_3) \
 	|| defined(_FREEBSD10_4) \
-	|| defined(_FREEBSD11_0) || defined(_FREEBSD11_1) || defined(_FREEBSD11_2)
+	|| defined(_FREEBSD11_0) || defined(_FREEBSD11_1) || defined(_FREEBSD11_2) \
+	|| defined(_FREEBSD11_3)
 
 #include <sys/cdefs.h>
 #include <machine/_types.h>

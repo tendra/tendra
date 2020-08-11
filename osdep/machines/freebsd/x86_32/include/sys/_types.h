@@ -2,7 +2,7 @@
 #define __HACKED_SYS__TYPES_H
 
 #if defined(_FREEBSD10_4) \
-	|| defined(_FREEBSD11_1) || defined(_FREEBSD11_2)
+	|| defined(_FREEBSD11_1) || defined(_FREEBSD11_2) || defined(_FREEBSD11_3)
 #define __aligned(x)
 #endif
 
