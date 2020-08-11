@@ -78,7 +78,7 @@
 	<!ENTITY temp.opt "<option>-temp</option>&nbsp;&dir.arg;">
 	<!ENTITY work.opt "<option>-work</option>&nbsp;&dir.arg;">
 
-	<!ENTITY query.opt   "<option>-query</option>">
+	<!ENTITY help.opt    "<option>-help</option>">
 	<!ENTITY quiet.opt   "<option>-quiet</option>">
 	<!ENTITY target.opt  "<option>-target</option>&nbsp;&str.arg;">
 	<!ENTITY disp_t.opt  "<option>-disp_t</option>">
@@ -225,7 +225,7 @@
 			<command>tcc</command>
 
 			<group choice="req">
-				<arg choice="plain">&query.opt;</arg>
+				<arg choice="plain">&help.opt;</arg>
 				<arg choice="plain">&version.opt;</arg>
 				<arg choice="plain">&V.opt;</arg>
 			</group>
@@ -1376,6 +1376,10 @@
 					<td>Dumps the current status</td>
 				</tr>
 				<tr>
+					<td><option>-help</option></td>
+					<td>Causes a list of options to be printed</td>
+				</tr>
+				<tr>
 					<td><option>-ignore_case</option></td>
 					<td>Ignores case in file names</td>
 				</tr>
@@ -1410,10 +1414,6 @@
 				<tr>
 					<td><option>-quiet</option></td>
 					<td>Equivalent to <option>-q</option></td>
-				</tr>
-				<tr>
-					<td><option>-query</option></td>
-					<td>Causes a list of options to be printed</td>
 				</tr>
 				<tr>
 					<td><option>-s&repletter;:&nbsp;&repstring;</option></td>
@@ -2238,7 +2238,7 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term>&query.opt;</term>
+				<term>&help.opt;</term>
 
 				<listitem>
 					<para>Causes &tcc; to print a list of all the options it

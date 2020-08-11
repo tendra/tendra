@@ -44,7 +44,7 @@
 		which is intended to be a &tcc; user's manual.
 		For even quicker reference, &tcc; will print a list of all its
 		command-line options (with a brief description) if invoked with
-		the <userinput>-query</userinput> option.</para>
+		the <userinput>-help</userinput> option.</para>
 
 </preface>
 
