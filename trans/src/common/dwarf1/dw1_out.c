@@ -54,7 +54,6 @@
 #endif
 
 #if TRANS_X86
-FILE *as_file;
 #define outnl()	fprintf(as_file, "\n")	/* avoid side effects of x86 outnl */
 #else
 #define outnl() asm_printf("\n");
