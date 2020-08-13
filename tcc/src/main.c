@@ -72,6 +72,88 @@ typedef struct _t_env_pair {
 	const char *value;
 } t_env_pair;
 
+
+void init_prefix_envvars(const char *root_path)
+{
+	const t_env_pair a[] = {
+		{ "PREFIX_BIN",     path_join(root_path, "bin")            },
+		{ "PREFIX_LIB",     path_join(root_path, "lib")            },
+		{ "PREFIX_LIBEXEC", path_join(root_path, "libexec")        },
+		{ "PREFIX_SHARE",   path_join(root_path, "share")          },
+		{ "PREFIX_INCLUDE", path_join(root_path, "include")        },
+		{ "PREFIX_MAN",     path_join(root_path, "man")            },
+		{ "PREFIX_TSPEC",   path_join(root_path, "share/tspec")    },
+		{ "PREFIX_STARTUP", path_join(root_path, "lib/tcc/startup")},
+		{ "PREFIX_ENV",     path_join(root_path, "lib/tcc/env")    },
+		{ "PREFIX_API",     path_join(root_path, "lib/tcc/api")    },
+		{ "PREFIX_LPI",     path_join(root_path, "lib/tcc/lpi")    },
+		{ "PREFIX_SYS",     path_join(root_path, "lib/tcc/sys")    },
+		{ "PREFIX_MAP",     path_join(root_path, "lib/tcc/map")    },
+	};
+
+	envvar_set(&envvars, "PREFIX", root_path,
+		HASH_ASSIGN, HASH_DEFAULT);
+
+	for (size_t i = 0; i < sizeof a / sizeof *a; i++) {
+		envvar_set(&envvars, a[i].name, a[i].value,
+			HASH_ASSIGN, HASH_DEFAULT);
+
+		free(a[i].value);
+	}
+}
+
+void init_platform_envvars()
+{
+	const t_env_pair b[] = {
+		/* Platform-specific things */
+		{ "MD_EXECFORMAT",  EXECFORMAT     },
+		{ "MD_BLDARCH",     BLDARCH        },
+		{ "MD_TRANSARCH",   TRANSARCH      },
+		{ "MD_OSFAM",       OSFAM          },
+		{ "MD_OSVER",       OSVER          }
+	};
+
+	for (size_t i = 0; i < sizeof b / sizeof *b; i++) {
+		envvar_set(&envvars, b[i].name, b[i].value,
+			HASH_ASSIGN, HASH_DEFAULT);
+	}
+}
+
+void init_tmp_envvars(const char *root_path)
+{
+	const char *temp_env = getenv("TEMP_PATH");
+	if (temp_env) {
+		envvar_set(&envvars, "PREFIX_TMP", temp_env,
+			HASH_ASSIGN, HASH_DEFAULT);
+	} else {
+		temp_env = path_join(root_path, "tmp");
+		envvar_set(&envvars, "PREFIX_TMP", temp_env,
+			HASH_ASSIGN, HASH_DEFAULT);
+		free(temp_env);
+	}
+}
+
+void init_tccenv_envvars(const char *root_path)
+{
+	const char *tcc_env;
+
+	tcc_env = getenv(TCCENV_VAR);
+	if (tcc_env != NULL) {
+		envvar_set(&envvars, "ENVPATH", tcc_env,
+			HASH_ASSIGN, HASH_TCCENV);
+	} else {
+		tcc_env = path_join(root_path, "lib/tcc/env");
+		envvar_set(&envvars, "ENVPATH", tcc_env,
+			HASH_ASSIGN, HASH_TCCENV);
+		free(tcc_env);
+	}
+
+	tcc_env = path_join(root_path, "share/tspec/TenDRA/env");
+	envvar_set(&envvars, "ENVPATH", tcc_env,
+		HASH_APPEND, HASH_SYSENV);
+	free(tcc_env);
+} 
+
 /*
  * MAIN INITIALISATION ROUTINE
  *
@@ -92,78 +174,11 @@ main_start(char *prog, char *executable_path)
 	srand(time(NULL));
 
 	const char *root_path = find_compiler_root(executable_path, prog_name);
-	const t_env_pair a[] = {
-		{ "PREFIX_BIN",     path_join(root_path, "bin")            },
-		{ "PREFIX_LIB",     path_join(root_path, "lib")            },
-		{ "PREFIX_LIBEXEC", path_join(root_path, "libexec")        },
-		{ "PREFIX_SHARE",   path_join(root_path, "share")          },
-		{ "PREFIX_INCLUDE", path_join(root_path, "include")        },
-		{ "PREFIX_MAN",     path_join(root_path, "man")            },
-		{ "PREFIX_TSPEC",   path_join(root_path, "share/tspec")    },
-		{ "PREFIX_STARTUP", path_join(root_path, "lib/tcc/startup")},
-		{ "PREFIX_ENV",     path_join(root_path, "lib/tcc/env")    },
-		{ "PREFIX_API",     path_join(root_path, "lib/tcc/api")    },
-		{ "PREFIX_LPI",     path_join(root_path, "lib/tcc/lpi")    },
-		{ "PREFIX_SYS",     path_join(root_path, "lib/tcc/sys")    },
-		{ "PREFIX_MAP",     path_join(root_path, "lib/tcc/map")    },
-	};
 
-	const t_env_pair b[] = {
-		/* Platform-specific things */
-		{ "MD_EXECFORMAT",  EXECFORMAT     },
-		{ "MD_BLDARCH",     BLDARCH        },
-		{ "MD_TRANSARCH",   TRANSARCH      },
-		{ "MD_OSFAM",       OSFAM          },
-		{ "MD_OSVER",       OSVER          }
-	};
-
-	envvar_set(&envvars, "PREFIX", root_path,
-		HASH_ASSIGN, HASH_DEFAULT);
-
-	for (i = 0; i < sizeof a / sizeof *a; i++) {
-		envvar_set(&envvars, a[i].name, a[i].value,
-			HASH_ASSIGN, HASH_DEFAULT);
-
-		free(a[i].value);
-	}
-
-	for (i = 0; i < sizeof b / sizeof *b; i++) {
-		envvar_set(&envvars, b[i].name, b[i].value,
-			HASH_ASSIGN, HASH_DEFAULT);
-	}
-
-	{
-		const char *temp_env = getenv("TEMP_PATH");
-		if (temp_env) {
-			envvar_set(&envvars, "PREFIX_TMP", temp_env,
-				HASH_ASSIGN, HASH_DEFAULT);
-		} else {
-			temp_env = path_join(root_path, "tmp");
-			envvar_set(&envvars, "PREFIX_TMP", temp_env,
-				HASH_ASSIGN, HASH_DEFAULT);
-			free(temp_env);
-		}
-	}
-
-	{
-		const char *tcc_env;
-
-		tcc_env = getenv(TCCENV_VAR);
-		if (tcc_env != NULL) {
-			envvar_set(&envvars, "ENVPATH", tcc_env,
-				HASH_ASSIGN, HASH_TCCENV);
-		} else {
-			tcc_env = path_join(root_path, "lib/tcc/env");
-			envvar_set(&envvars, "ENVPATH", tcc_env,
-				HASH_ASSIGN, HASH_TCCENV);
-			free(tcc_env);
-		}
-
-		tcc_env = path_join(root_path, "share/tspec/TenDRA/env");
-		envvar_set(&envvars, "ENVPATH", tcc_env,
-			HASH_APPEND, HASH_SYSENV);
-		free(tcc_env);
-	}
+	init_prefix_envvars(root_path);
+	init_platform_envvars();
+	init_tmp_envvars(root_path);
+	init_tccenv_envvars(root_path);
 
 	free(root_path);
 
