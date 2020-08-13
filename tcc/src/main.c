@@ -93,7 +93,6 @@ main_start(char *prog, char *executable_path)
 
 	const char *root_path = find_compiler_root(executable_path, prog_name);
 	const t_env_pair a[] = {
-		{ "PREFIX",         root_path                              },
 		{ "PREFIX_BIN",     path_join(root_path, "bin")            },
 		{ "PREFIX_LIB",     path_join(root_path, "lib")            },
 		{ "PREFIX_LIBEXEC", path_join(root_path, "libexec")        },
@@ -117,6 +116,9 @@ main_start(char *prog, char *executable_path)
 		{ "MD_OSFAM",       OSFAM          },
 		{ "MD_OSVER",       OSVER          }
 	};
+
+	envvar_set(&envvars, "PREFIX", root_path,
+		HASH_ASSIGN, HASH_DEFAULT);
 
 	for (i = 0; i < sizeof a / sizeof *a; i++) {
 		envvar_set(&envvars, a[i].name, a[i].value,
@@ -162,6 +164,8 @@ main_start(char *prog, char *executable_path)
 			HASH_APPEND, HASH_SYSENV);
 		free(tcc_env);
 	}
+
+	free(root_path);
 
 	read_env("base");
 
