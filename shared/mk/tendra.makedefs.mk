@@ -41,17 +41,14 @@ VERSION?=	${UNAME_REVISION}
 
 .if ${SYSTEM} == Linux
 
-.if exists(/lib/libc.so.6)
-LDD_BLURB?= /lib/libc.so.6 2>&1
-.else
-LDD_BLURB?= ldd --version  2>&1
-.endif
+LDD_BLURB?= (ldd --version  2>&1 || /lib/libc.so.6 2>&1)
 
 LDD_NAME!=                       \
     ${LDD_BLURB}                 \
     | { read v && case "$$v" in  \
         *EGLIBC*) echo EGLIBC;;  \
         *GLIBC*)  echo GLIBC;;   \
+        *GNU\ libc*) echo GLIBC;;   \
         *GNU\ C*) echo GLIBC;;   \
         *musl*)   echo MUSL;;    \
         *)        echo unknown;; \
@@ -60,6 +57,7 @@ LDD_NAME!=                       \
 LDD_VER!=                        \
     ${LDD_BLURB}                 \
     | { read v && case "$$v" in  \
+        *GNU\ libc*)  echo "$$v" | sed -n 's/^ldd (\(GNU libc\|.* E\?GLIBC .*\)) //p';; \
         *GLIBC*)  echo "$$v" | sed -n 's/^ldd (\(GNU libc\|.* E\?GLIBC .*\)) //p';; \
         *GNU\ C*) echo "$$v" | sed -n 's/^.*version \(.*\), .*/\1/p';;              \
         MUSL)     echo "$$v" | sed -n 's/^Version \(.*\)/\1/p';;                    \
