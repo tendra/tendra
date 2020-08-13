@@ -64,15 +64,15 @@ void init_hash(void);
  *
  * These hash tables represent the basic namespaces.
  */
-hash_table *exps;
-hash_table *files;
-hash_table *keywords;
-hash_table *subsets;
-hash_table *tags;
-hash_table *tag_fields;
-hash_table *tokens;
-hash_table *types;
-hash_table *type_fields;
+extern hash_table *exps;
+extern hash_table *files;
+extern hash_table *keywords;
+extern hash_table *subsets;
+extern hash_table *tags;
+extern hash_table *tag_fields;
+extern hash_table *tokens;
+extern hash_table *types;
+extern hash_table *type_fields;
 
 #endif
 
