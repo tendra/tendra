@@ -140,6 +140,9 @@ main_start(char *prog, char *executable_path)
 		if (tcc_env != NULL) {
 			envvar_set(&envvars, "ENVPATH", tcc_env,
 				HASH_ASSIGN, HASH_TCCENV);
+		} else {
+			envvar_set(&envvars, "ENVPATH", path_join(root_path, "lib/tcc/env"),
+				HASH_ASSIGN, HASH_TCCENV);
 		}
 
 		envvar_set(&envvars, "ENVPATH", PREFIX_TSPEC "/TenDRA/env",
