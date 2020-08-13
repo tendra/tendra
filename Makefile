@@ -49,6 +49,7 @@ all: bootstrap
 doc:
 
 clean:
+	rm -rf ${OBJ_DIR}*
 
 # TODO: depend on rebuild instead, and install to $PREFIX
 install:
