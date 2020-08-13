@@ -121,7 +121,7 @@ void init_platform_envvars()
 
 void init_tmp_envvars(const char *root_path)
 {
-	const char *temp_env = getenv("TEMP_PATH");
+	const char *temp_env = getenv("TMPDIR");
 	if (temp_env) {
 		envvar_set(&envvars, "PREFIX_TMP", temp_env,
 			HASH_ASSIGN, HASH_DEFAULT);
