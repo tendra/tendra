@@ -192,6 +192,7 @@ MD_LIBCVER!=                              \
         GLIBC_2_17*)   echo GLIBC2_17;;   \
         GLIBC_2_18*)   echo GLIBC2_18;;   \
         GLIBC_2_19*)   echo GLIBC2_19;;   \
+        GLIBC_2_27*)   echo GLIBC2_27;;   \
         GLIBC_2_31*)   echo GLIBC2_31;;   \
         MUSL_1_1_5)    echo MUSL1_1_5;;   \
         *)             echo ${MD_OSVER};; \

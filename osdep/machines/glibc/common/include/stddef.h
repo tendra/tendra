@@ -9,7 +9,7 @@
 #if defined(_GLIBC2_5) || defined(_GLIBC2_7) || defined(_GLIBC2_11) \
 	|| defined(_GLIBC2_12) || defined(_GLIBC2_14) || defined(_GLIBC2_15) \
 	|| defined(_GLIBC2_17) || defined(_GLIBC2_18) || defined(_GLIBC2_19) \
-	|| defined(_GLIBC2_31)
+	|| defined(_GLIBC2_27) || defined(_GLIBC2_31)
 
 #if defined(_ARCH_x86_32) || defined(_ARCH_x32_64)
 typedef unsigned int size_t;
