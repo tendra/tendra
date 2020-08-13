@@ -59,7 +59,7 @@ LDD_VER!=                        \
     | { read v && case "$$v" in  \
         *GNU\ libc*)  echo "$$v" | sed -n 's/^ldd (\(GNU libc\|.* E\?GLIBC .*\)) //p';; \
         *GLIBC*)  echo "$$v" | sed -n 's/^ldd (\(GNU libc\|.* E\?GLIBC .*\)) //p';; \
-        *GNU\ C*) echo "$$v" | sed -n 's/^.*version \(.*\), .*/\1/p';;              \
+        *GNU\ C*) echo "$$v" | sed -n 's/^.*version \(.*\), .*/\1/p' | printf '2';;              \
         MUSL)     echo "$$v" | sed -n 's/^Version \(.*\)/\1/p';;                    \
         *)        echo unknown;; \
     esac }                       \
