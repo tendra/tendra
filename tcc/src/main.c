@@ -168,6 +168,8 @@ main(int argc, char **argv)
 	/* Initialisation */
 	main_start(PROGNAME_TCC, executable_path);
 
+	free(executable_path);
+
 	/* Check TCCOPTS options */
 	s = getenv(TCCOPT_VAR);
 	if (s != NULL) {
