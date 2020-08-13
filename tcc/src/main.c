@@ -133,9 +133,6 @@ main_start(char *prog, char *executable_path)
 	{
 		const char *tcc_env;
 
-		envvar_set(&envvars, "ENVPATH", PREFIX_ENV,
-			HASH_ASSIGN, HASH_DEFAULT);
-
 		tcc_env = getenv(TCCENV_VAR);
 		if (tcc_env != NULL) {
 			envvar_set(&envvars, "ENVPATH", tcc_env,
