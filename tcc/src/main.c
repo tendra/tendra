@@ -160,7 +160,7 @@ main(int argc, char **argv)
 	filename *output;
 	list *opts = NULL;
 
-	char *executable_path = argv[0];
+	char *executable_path = realpath(argv[0], NULL);
 
 	/* Initialisation */
 	main_start(PROGNAME_TCC, executable_path);
