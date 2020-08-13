@@ -85,6 +85,39 @@ find_basename(const char *s)
 }
 
 
+const char *
+path_join(const char *a, const char *b) {
+	sprintf(buffer, "%s/%s", a, b);
+
+	return xstrdup(buffer);
+}
+
+const char *
+find_compiler_root(const char *executable_path, const char *executable_name)
+{
+	int pathlen = strlen(executable_path);
+	int namelen = strlen(executable_name);
+
+	int suffixlen = namelen + 5;
+
+	if (pathlen - suffixlen > 0) {
+		char binexec[suffixlen + 1];
+		sprintf(binexec, "/bin/%s", executable_name);
+
+		char *root = strdup(executable_path);
+		int startofsuffix = pathlen - suffixlen;
+		if (strcmp(executable_path + startofsuffix, binexec) == 0) {
+			root[startofsuffix] = '\0';
+			return root;
+		} else {
+			root[pathlen - namelen] = '\0';
+			return root;
+		}
+	} else {
+		return NULL;
+	}
+}
+
 /*
  * FIND THE FULL NAME OF A FILE
  *

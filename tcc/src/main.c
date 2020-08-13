@@ -67,6 +67,10 @@ main_end(void)
 	kill_stray();
 }
 
+typedef struct _t_env_pair {
+	const char *name;
+	const char *value;
+} t_env_pair;
 
 /*
  * MAIN INITIALISATION ROUTINE
@@ -75,29 +79,35 @@ main_end(void)
  */
 
 static void
-main_start(char *prog)
+main_start(char *prog, char *executable_path)
 {
 	size_t i;
 
-	struct {
-		const char *name;
-		const char *value;
-	} a[] = {
-		{ "PREFIX",         PREFIX         },
-		{ "PREFIX_BIN",     PREFIX_BIN     },
-		{ "PREFIX_LIB",     PREFIX_LIB     },
-		{ "PREFIX_LIBEXEC", PREFIX_LIBEXEC },
-		{ "PREFIX_SHARE",   PREFIX_SHARE   },
-		{ "PREFIX_INCLUDE", PREFIX_INCLUDE },
-		{ "PREFIX_MAN",     PREFIX_MAN     },
-		{ "PREFIX_TSPEC",   PREFIX_TSPEC   },
-		{ "PREFIX_STARTUP", PREFIX_STARTUP },
-		{ "PREFIX_ENV",     PREFIX_ENV     },
-		{ "PREFIX_API",     PREFIX_API     },
-		{ "PREFIX_LPI",     PREFIX_LPI     },
-		{ "PREFIX_SYS",     PREFIX_SYS     },
-		{ "PREFIX_TMP",     PREFIX_TMP     },
-		{ "PREFIX_MAP",     PREFIX_MAP     },
+	atexit(main_end);
+
+	buffer = xmalloc(buffer_size);
+	const char *prog_name = find_basename(prog);
+	set_progname(prog_name, VERSION);
+
+	srand(time(NULL));
+
+	const char *root_path = find_compiler_root(executable_path, prog_name);
+	const t_env_pair a[] = {
+		{ "PREFIX",         root_path      							},
+		{ "PREFIX_BIN",     path_join(root_path, "bin") 			},
+		{ "PREFIX_LIB",     path_join(root_path, "lib")     		},
+		{ "PREFIX_LIBEXEC", path_join(root_path, "libexec") 		},
+		{ "PREFIX_SHARE",   path_join(root_path, "share")   		},
+		{ "PREFIX_INCLUDE", path_join(root_path, "include") 		},
+		{ "PREFIX_MAN",     path_join(root_path, "man")     		},
+		{ "PREFIX_TSPEC",   path_join(root_path, "share/tspec")   	},
+		{ "PREFIX_STARTUP", path_join(root_path, "lib/tcc/startup") },
+		{ "PREFIX_ENV",     path_join(root_path, "lib/tcc/env")     },
+		{ "PREFIX_API",     path_join(root_path, "lib/tcc/api")     },
+		{ "PREFIX_LPI",     path_join(root_path, "lib/tcc/lpi")     },
+		{ "PREFIX_SYS",     path_join(root_path, "lib/tcc/sys")     },
+		{ "PREFIX_TMP",     path_join(root_path, "tmp")     		},
+		{ "PREFIX_MAP",     path_join(root_path, "lib/tcc/map")     },
 
 		/* Platform-specific things */
 		{ "MD_EXECFORMAT",  EXECFORMAT     },
@@ -107,12 +117,6 @@ main_start(char *prog)
 		{ "MD_OSVER",       OSVER          }
 	};
 
-	atexit(main_end);
-
-	buffer = xmalloc(buffer_size);
-	set_progname(find_basename(prog), VERSION);
-
-	srand(time(NULL));
 
 	for (i = 0; i < sizeof a / sizeof *a; i++) {
 		envvar_set(&envvars, a[i].name, a[i].value,
@@ -149,8 +153,10 @@ main(int argc, char **argv)
 	filename *output;
 	list *opts = NULL;
 
+	char *executable_path = argv[0];
+
 	/* Initialisation */
-	main_start(PROGNAME_TCC);
+	main_start(PROGNAME_TCC, executable_path);
 
 	/* Check TCCOPTS options */
 	s = getenv(TCCOPT_VAR);
