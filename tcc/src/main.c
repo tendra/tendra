@@ -163,8 +163,6 @@ void init_tccenv_envvars(const char *root_path)
 static void
 main_start(char *prog, char *executable_path)
 {
-	size_t i;
-
 	atexit(main_end);
 
 	buffer = xmalloc(buffer_size);
