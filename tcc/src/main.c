@@ -145,7 +145,7 @@ main_start(char *prog, char *executable_path)
 				HASH_ASSIGN, HASH_TCCENV);
 		}
 
-		envvar_set(&envvars, "ENVPATH", PREFIX_TSPEC "/TenDRA/env",
+		envvar_set(&envvars, "ENVPATH", path_join(root_path, "share/tspec/TenDRA/env"),
 			HASH_APPEND, HASH_SYSENV);
 	}
 
