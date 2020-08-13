@@ -106,7 +106,6 @@ main_start(char *prog, char *executable_path)
 		{ "PREFIX_API",     path_join(root_path, "lib/tcc/api")     },
 		{ "PREFIX_LPI",     path_join(root_path, "lib/tcc/lpi")     },
 		{ "PREFIX_SYS",     path_join(root_path, "lib/tcc/sys")     },
-		{ "PREFIX_TMP",     path_join(root_path, "tmp")     		},
 		{ "PREFIX_MAP",     path_join(root_path, "lib/tcc/map")     },
 
 		/* Platform-specific things */
@@ -117,9 +116,17 @@ main_start(char *prog, char *executable_path)
 		{ "MD_OSVER",       OSVER          }
 	};
 
-
 	for (i = 0; i < sizeof a / sizeof *a; i++) {
 		envvar_set(&envvars, a[i].name, a[i].value,
+			HASH_ASSIGN, HASH_DEFAULT);
+	}
+
+	const char *temp_env = getenv("TEMP_PATH");
+	if (temp_env) {
+		envvar_set(&envvars, "PREFIX_TMP", temp_env,
+			HASH_ASSIGN, HASH_DEFAULT);
+	} else {
+		envvar_set(&envvars, "PREFIX_TMP", path_join(root_path, "tmp"),
 			HASH_ASSIGN, HASH_DEFAULT);
 	}
 
