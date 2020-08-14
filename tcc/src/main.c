@@ -133,10 +133,8 @@ void init_tmp_envvars(char *root_path)
 		envvar_set(&envvars, "PREFIX_TMP", temp_env,
 			HASH_ASSIGN, HASH_DEFAULT);
 	} else {
-		char *relative_tmp = path_join(root_path, "tmp");
-		envvar_set(&envvars, "PREFIX_TMP", relative_tmp,
+		envvar_set(&envvars, "PREFIX_TMP", "/tmp",
 			HASH_ASSIGN, HASH_DEFAULT);
-		free(relative_tmp);
 	}
 }
 
