@@ -85,14 +85,14 @@ find_basename(const char *s)
 }
 
 
-const char *
+char *
 path_join(const char *a, const char *b) {
 	sprintf(buffer, "%s/%s", a, b);
 
 	return xstrdup(buffer);
 }
 
-const char *
+char *
 find_compiler_root(const char *executable_path, const char *executable_name)
 {
 	int pathlen = strlen(executable_path);

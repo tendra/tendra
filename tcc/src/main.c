@@ -67,15 +67,20 @@ main_end(void)
 	kill_stray();
 }
 
-typedef struct _t_env_pair {
+typedef struct {
 	const char *name;
 	const char *value;
-} t_env_pair;
+} t_env_pair_const;
+
+typedef struct {
+	const char *name;
+	char *value;
+} t_env_pair_ptr;
 
 
-void init_prefix_envvars(const char *root_path)
+void init_prefix_envvars(char *root_path)
 {
-	const t_env_pair a[] = {
+	const t_env_pair_ptr a[] = {
 		{ "PREFIX_BIN",     path_join(root_path, "bin")            },
 		{ "PREFIX_LIB",     path_join(root_path, "lib")            },
 		{ "PREFIX_LIBEXEC", path_join(root_path, "libexec")        },
@@ -94,7 +99,8 @@ void init_prefix_envvars(const char *root_path)
 	envvar_set(&envvars, "PREFIX", root_path,
 		HASH_ASSIGN, HASH_DEFAULT);
 
-	for (size_t i = 0; i < sizeof a / sizeof *a; i++) {
+	size_t i;
+	for (i = 0; i < sizeof a / sizeof *a; i++) {
 		envvar_set(&envvars, a[i].name, a[i].value,
 			HASH_ASSIGN, HASH_DEFAULT);
 
@@ -104,7 +110,7 @@ void init_prefix_envvars(const char *root_path)
 
 void init_platform_envvars()
 {
-	const t_env_pair b[] = {
+	const t_env_pair_const b[] = {
 		/* Platform-specific things */
 		{ "MD_EXECFORMAT",  EXECFORMAT     },
 		{ "MD_BLDARCH",     BLDARCH        },
@@ -113,45 +119,44 @@ void init_platform_envvars()
 		{ "MD_OSVER",       OSVER          }
 	};
 
-	for (size_t i = 0; i < sizeof b / sizeof *b; i++) {
+	size_t i;
+	for (i = 0; i < sizeof b / sizeof *b; i++) {
 		envvar_set(&envvars, b[i].name, b[i].value,
 			HASH_ASSIGN, HASH_DEFAULT);
 	}
 }
 
-void init_tmp_envvars(const char *root_path)
+void init_tmp_envvars(char *root_path)
 {
 	const char *temp_env = getenv("TMPDIR");
 	if (temp_env) {
 		envvar_set(&envvars, "PREFIX_TMP", temp_env,
 			HASH_ASSIGN, HASH_DEFAULT);
 	} else {
-		temp_env = path_join(root_path, "tmp");
-		envvar_set(&envvars, "PREFIX_TMP", temp_env,
+		char *relative_tmp = path_join(root_path, "tmp");
+		envvar_set(&envvars, "PREFIX_TMP", relative_tmp,
 			HASH_ASSIGN, HASH_DEFAULT);
-		free(temp_env);
+		free(relative_tmp);
 	}
 }
 
-void init_tccenv_envvars(const char *root_path)
+void init_tccenv_envvars(char *root_path)
 {
-	const char *tcc_env;
-
-	tcc_env = getenv(TCCENV_VAR);
+	const char *tcc_env = getenv(TCCENV_VAR);
 	if (tcc_env != NULL) {
 		envvar_set(&envvars, "ENVPATH", tcc_env,
 			HASH_ASSIGN, HASH_TCCENV);
 	} else {
-		tcc_env = path_join(root_path, "lib/tcc/env");
-		envvar_set(&envvars, "ENVPATH", tcc_env,
+		char *relative_env = path_join(root_path, "lib/tcc/env");
+		envvar_set(&envvars, "ENVPATH", relative_env,
 			HASH_ASSIGN, HASH_TCCENV);
-		free(tcc_env);
+		free(relative_env);
 	}
 
-	tcc_env = path_join(root_path, "share/tspec/TenDRA/env");
-	envvar_set(&envvars, "ENVPATH", tcc_env,
+	char *tspec_env = path_join(root_path, "share/tspec/TenDRA/env");
+	envvar_set(&envvars, "ENVPATH", tspec_env,
 		HASH_APPEND, HASH_SYSENV);
-	free(tcc_env);
+	free(tspec_env);
 } 
 
 /*
@@ -161,17 +166,21 @@ void init_tccenv_envvars(const char *root_path)
  */
 
 static void
-main_start(char *prog, char *executable_path)
+main_start(char *prog, const char *rel_executable_path)
 {
 	atexit(main_end);
 
 	buffer = xmalloc(buffer_size);
+	realpath(rel_executable_path, buffer);
+
+	char *executable_path = xstrdup(buffer);
+
 	const char *prog_name = find_basename(prog);
 	set_progname(prog_name, VERSION);
 
 	srand(time(NULL));
 
-	const char *root_path = find_compiler_root(executable_path, prog_name);
+	char *root_path = find_compiler_root(executable_path, prog_name);
 
 	init_prefix_envvars(root_path);
 	init_platform_envvars();
@@ -179,6 +188,7 @@ main_start(char *prog, char *executable_path)
 	init_tccenv_envvars(root_path);
 
 	free(root_path);
+	free(executable_path);
 
 	read_env("base");
 
@@ -194,12 +204,8 @@ main(int argc, char **argv)
 	filename *output;
 	list *opts = NULL;
 
-	char *executable_path = realpath(argv[0], NULL);
-
 	/* Initialisation */
-	main_start(PROGNAME_TCC, executable_path);
-
-	free(executable_path);
+	main_start(PROGNAME_TCC, argv[0]);
 
 	/* Check TCCOPTS options */
 	s = getenv(TCCOPT_VAR);
