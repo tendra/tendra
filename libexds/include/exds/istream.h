@@ -62,7 +62,7 @@ extern ExceptionT *XX_istream_read_error;
  * standard input.  The istream_setup function must be called before this
  * constant is used.
  */
-IStreamT *const istream_input;
+extern IStreamT *const istream_input;
 
 /*
  * This function initialises the input stream facility.  It should be called

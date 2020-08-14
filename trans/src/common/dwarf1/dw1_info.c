@@ -60,8 +60,6 @@ static dwarf_label lex_blk_stk[100];
 				error(ERR_INTERNAL, "lex stk underflow");	\
 			}
 
-FILE *as_file;
-
 static void
 out_dwarf_start_scope(dwarf_label *l)
 {

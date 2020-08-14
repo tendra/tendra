@@ -1,11 +1,25 @@
-on: [push, pull_request]
 name: Build
+
+on: [push, pull_request]
+
 jobs:
   build:
-    runs-on: ubuntu-16.04
-    name: Build on Ubuntu 16.04
+    strategy:
+      matrix:
+        os: [ubuntu-16.04, ubuntu-latest] # macos-latest
+        target: [x32_64] # x86_32
+    runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
-      - name: Install dependencies
-        run: sudo apt-get install -y gcc-multilib bmake
-      - run: bmake TARGETARCH=x32_64 OSVER=LINUX37 LIBCVER=GLIBC2_19
+      - name: Checkout main
+        uses: actions/checkout@v2
+
+      - name: Install dependencies (ubuntu)
+        if: startsWith(matrix.os, 'ubuntu')
+        run: sudo apt-get install -y gcc-multilib bmake libc6-dev-i386
+
+#      - name: Install dependencies (macos)
+#        if: startsWith(matrix.os, 'macos')
+#        run: brew install gcc bmake
+
+      - name: Build
+        run: bmake TARGETARCH=${{ matrix.target }}
