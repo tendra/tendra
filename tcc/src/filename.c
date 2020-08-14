@@ -99,12 +99,14 @@ find_compiler_root(const char *executable_path, const char *executable_name)
 	int namelen = strlen(executable_name);
 
 	int suffixlen = namelen + 5;
+	char *root;
+	int startofsuffix;
 
 	if (pathlen - suffixlen > 0) {
 		sprintf(buffer, "/bin/%s", executable_name);
 
-		char *root = xstrdup(executable_path);
-		int startofsuffix = pathlen - suffixlen;
+		root = xstrdup(executable_path);
+		startofsuffix = pathlen - suffixlen;
 		if (strcmp(executable_path + startofsuffix, buffer) == 0) {
 			root[startofsuffix] = '\0';
 			return root;
