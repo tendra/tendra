@@ -6,6 +6,9 @@
 +LIB_CRT0	"/usr/lib/i386-linux-gnu/crt1.o"
 +LIB_CRTI	"/usr/lib/i386-linux-gnu/crti.o"
 +LIB_CRTN	"/usr/lib/i386-linux-gnu/crtn.o"
++LIB_CRTBEGIN	"/usr/lib/gcc/x86_64-linux-gnu/7/32/crtbegin.o"
++LIB_CRTEND     "/usr/lib/gcc/x86_64-linux-gnu/7/32/crtend.o"
+
 
 /* for -lc */
 <FLAG_LINK  "-L /lib32"
