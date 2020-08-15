@@ -33,7 +33,7 @@ EXEC_BIN?=	${PREFIX}/bin
 ${OBJ_SDIR}/${PROG}: ${OBJS}
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${PROG}"
-	${CC} ${LDOPTS} -o ${.TARGET} ${OBJS} ${LIBS}
+	${CC} ${CFLAGS} ${LDOPTS} -o ${.TARGET} ${OBJS} ${LIBS}
 
 
 

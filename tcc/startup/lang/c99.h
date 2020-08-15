@@ -18,6 +18,9 @@
 
 #pragma TenDRA declaration block end
 
+/* 6.4.9#2 */
+#pragma TenDRA option "cpplus_comment" allow
+
 /* 6.10.3 */
 #pragma TenDRA option "va_macro" allow
 
