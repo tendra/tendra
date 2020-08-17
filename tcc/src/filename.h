@@ -139,5 +139,8 @@ extern enum filetype find_type_suffix(char);
 extern enum filetype find_type_stage(char);
 extern enum file_storage where(enum filetype);
 
+char *path_join(const char *a, const char *b);
+char *find_compiler_root(const char *executable_path, const char *executable_name);
+
 
 #endif /* FILENAME_H */
