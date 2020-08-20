@@ -5,8 +5,7 @@
 
 # 4.1.3 Errors <errno.h>
 
-+FUNC (extern) int *__errno_location(void);
-+DEFINE errno %% (*__errno_location ()) %%;
++EXP lvalue int errno;
 
 +SUBSET "enums" := {
 	+CONST int EDOM, ERANGE;
