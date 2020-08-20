@@ -67,38 +67,46 @@ main_end(void)
 	kill_stray();
 }
 
+typedef struct {
+	const char *name;
+	const char *value;
+} t_env_pair_const;
 
-/*
- * MAIN INITIALISATION ROUTINE
- *
- * This is the initialisation routine called at the very start of the program.
- */
-
-static void
-main_start(char *prog)
+void set_default_envvar(const char *name, const char *value)
 {
-	size_t i;
+	envvar_set(&envvars, name, value,
+		HASH_ASSIGN, HASH_DEFAULT);
+}
 
-	struct {
-		const char *name;
-		const char *value;
-	} a[] = {
-		{ "PREFIX",         PREFIX         },
-		{ "PREFIX_BIN",     PREFIX_BIN     },
-		{ "PREFIX_LIB",     PREFIX_LIB     },
-		{ "PREFIX_LIBEXEC", PREFIX_LIBEXEC },
-		{ "PREFIX_SHARE",   PREFIX_SHARE   },
-		{ "PREFIX_INCLUDE", PREFIX_INCLUDE },
-		{ "PREFIX_MAN",     PREFIX_MAN     },
-		{ "PREFIX_TSPEC",   PREFIX_TSPEC   },
-		{ "PREFIX_STARTUP", PREFIX_STARTUP },
-		{ "PREFIX_ENV",     PREFIX_ENV     },
-		{ "PREFIX_API",     PREFIX_API     },
-		{ "PREFIX_LPI",     PREFIX_LPI     },
-		{ "PREFIX_SYS",     PREFIX_SYS     },
-		{ "PREFIX_TMP",     PREFIX_TMP     },
-		{ "PREFIX_MAP",     PREFIX_MAP     },
+void set_default_prefix_path_envvar(const char *name, char *root_path, const char *path_suffix)
+{
+ 	char *value = path_join(root_path, path_suffix);
+	set_default_envvar(name, value);
+	free(value);
+}
 
+void init_prefix_envvars(char *root_path)
+{
+	set_default_envvar("PREFIX", root_path);
+
+	set_default_prefix_path_envvar("PREFIX_BIN", root_path, "bin");
+	set_default_prefix_path_envvar("PREFIX_LIB", root_path, "lib");
+	set_default_prefix_path_envvar("PREFIX_LIBEXEC", root_path, "libexec");
+	set_default_prefix_path_envvar("PREFIX_SHARE", root_path, "share");
+	set_default_prefix_path_envvar("PREFIX_INCLUDE", root_path, "include");
+	set_default_prefix_path_envvar("PREFIX_MAN", root_path, "man");
+	set_default_prefix_path_envvar("PREFIX_TSPEC", root_path, "share/tspec");
+	set_default_prefix_path_envvar("PREFIX_STARTUP", root_path, "lib/tcc/startup");
+	set_default_prefix_path_envvar("PREFIX_ENV", root_path, "lib/tcc/env");
+	set_default_prefix_path_envvar("PREFIX_API", root_path, "lib/tcc/api");
+	set_default_prefix_path_envvar("PREFIX_LPI", root_path, "lib/tcc/lpi");
+	set_default_prefix_path_envvar("PREFIX_SYS", root_path, "lib/tcc/sys");
+	set_default_prefix_path_envvar("PREFIX_MAP", root_path, "lib/tcc/map");
+}
+
+void init_platform_envvars()
+{
+	const t_env_pair_const b[] = {
 		/* Platform-specific things */
 		{ "MD_EXECFORMAT",  EXECFORMAT     },
 		{ "MD_BLDARCH",     BLDARCH        },
@@ -107,33 +115,82 @@ main_start(char *prog)
 		{ "MD_OSVER",       OSVER          }
 	};
 
-	atexit(main_end);
-
-	buffer = xmalloc(buffer_size);
-	set_progname(find_basename(prog), VERSION);
-
-	srand(time(NULL));
-
-	for (i = 0; i < sizeof a / sizeof *a; i++) {
-		envvar_set(&envvars, a[i].name, a[i].value,
+	size_t i;
+	for (i = 0; i < sizeof b / sizeof *b; i++) {
+		envvar_set(&envvars, b[i].name, b[i].value,
 			HASH_ASSIGN, HASH_DEFAULT);
+	}
+}
+
+void init_tmp_envvars(char *root_path)
+{
+	const char *temp_env = getenv("TMPDIR");
+	if (temp_env) {
+		envvar_set(&envvars, "PREFIX_TMP", temp_env,
+			HASH_ASSIGN, HASH_DEFAULT);
+	} else {
+		envvar_set(&envvars, "PREFIX_TMP", "/tmp",
+			HASH_ASSIGN, HASH_DEFAULT);
+	}
+}
+
+void init_tccenv_envvars(char *root_path)
+{
+	const char *tcc_env = getenv(TCCENV_VAR);
+	if (tcc_env != NULL) {
+		envvar_set(&envvars, "ENVPATH", tcc_env,
+			HASH_ASSIGN, HASH_TCCENV);
+	} else {
+		char *relative_env = path_join(root_path, "lib/tcc/env");
+		envvar_set(&envvars, "ENVPATH", relative_env,
+			HASH_ASSIGN, HASH_TCCENV);
+		free(relative_env);
 	}
 
 	{
-		const char *tcc_env;
-
-		envvar_set(&envvars, "ENVPATH", PREFIX_ENV,
-			HASH_ASSIGN, HASH_DEFAULT);
-
-		tcc_env = getenv(TCCENV_VAR);
-		if (tcc_env != NULL) {
-			envvar_set(&envvars, "ENVPATH", tcc_env,
-				HASH_ASSIGN, HASH_TCCENV);
-		}
-
-		envvar_set(&envvars, "ENVPATH", PREFIX_TSPEC "/TenDRA/env",
+		char *tspec_env = path_join(root_path, "share/tspec/TenDRA/env");
+		envvar_set(&envvars, "ENVPATH", tspec_env,
 			HASH_APPEND, HASH_SYSENV);
+		free(tspec_env);
 	}
+} 
+
+/*
+ * MAIN INITIALISATION ROUTINE
+ *
+ * This is the initialisation routine called at the very start of the program.
+ */
+
+static void
+main_start(char *prog, const char *rel_executable_path)
+{
+	char *root_path;
+	const char *prog_name;
+
+	atexit(main_end);
+
+	buffer = xmalloc(buffer_size);
+
+	srand(time(NULL));
+
+	prog_name = find_basename(prog);
+	set_progname(prog_name, VERSION);
+
+	realpath(rel_executable_path, buffer);
+	{
+		char *executable_path = xstrdup(buffer);
+
+		root_path = find_compiler_root(executable_path, prog_name);
+
+		free(executable_path);
+	}
+
+	init_prefix_envvars(root_path);
+	init_platform_envvars();
+	init_tmp_envvars(root_path);
+	init_tccenv_envvars(root_path);
+
+	free(root_path);
 
 	read_env("base");
 
@@ -150,7 +207,7 @@ main(int argc, char **argv)
 	list *opts = NULL;
 
 	/* Initialisation */
-	main_start(PROGNAME_TCC);
+	main_start(PROGNAME_TCC, argv[0]);
 
 	/* Check TCCOPTS options */
 	s = getenv(TCCOPT_VAR);

@@ -111,9 +111,6 @@ bootstrap: ${BOOTSTRAP_DEPS}
 	@echo "===> bootstrapping tcc into ${OBJ_BPREFIX}"
 	cd ${.CURDIR}/tcc && ${MAKE}      \
 	    OBJ_DIR=${OBJ_BOOT}/tcc       \
-	    PREFIX_INCLUDE=               \
-	    PREFIX_MAN=                   \
-	    PREFIX_TMP=${OBJ_BPREFIX}/tmp \
 	    PREFIX=${OBJ_BPREFIX}         \
 	    RELEASE=${RELEASE}            \
 	    ${TARGETFLAGS}                \
@@ -182,9 +179,6 @@ bootstrap-rebuild:
 	cd ${.CURDIR}/tcc && ${MAKE}      \
 	    OBJ_DIR=${OBJ_REBOOT}/tcc     \
 	    TCC=${OBJ_BPREFIX}/bin/tcc    \
-	    PREFIX_INCLUDE=               \
-	    PREFIX_MAN=                   \
-	    PREFIX_TMP=${OBJ_RPREFIX}/tmp \
 	    PREFIX=${OBJ_RPREFIX}         \
 	    RELEASE=${RELEASE}            \
 	    ${TARGETFLAGS}                \
