@@ -23,3 +23,6 @@ jobs:
 
       - name: Build
         run: bmake TARGETARCH=${{ matrix.target }}
+
+      - name: Rebuild
+        run: bmake TARGETARCH=${{ matrix.target }} bootstrap-rebuild
