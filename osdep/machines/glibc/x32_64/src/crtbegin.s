@@ -5,5 +5,5 @@
 	.section .sbss
 	.align 8
 __dso_handle:
-	.skip 8
+	.long __dso_handle
 	.hidden __dso_handle
