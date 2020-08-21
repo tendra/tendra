@@ -13,5 +13,6 @@ install:: all
 	@${CONDCREATE} ${PREFIX_LIB}
 	@${CONDCREATE} ${PREFIX_LIB}/x86
 	${INSTALL} -m 644 crtbegin.o ${PREFIX_LIB}/x86/crtbegin.o
+	rm crtbegin.o
 
 .include "Makefile.inc"
