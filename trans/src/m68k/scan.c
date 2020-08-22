@@ -33,7 +33,7 @@
 void scan(bool, exp, exp);
 
 /*
- * MACROS TO SET OR GET THE SON OR BRO
+ * MACROS TO SET OR GET THE SON OR NEXT
  */
 #define assexp(I, P, V)	if (I) setson(P, V); else setnext(P, V)
 #define contexp(I, P)	((I) ? son(P): next(P))
@@ -497,7 +497,7 @@ indable_son(bool sto, exp to, exp e)
 #endif
 
 /*
- * APPLY scan TO A BRO LIST
+ * APPLY scan TO A NEXT LIST
  */
 static void
 scanargs(bool st, exp e)
