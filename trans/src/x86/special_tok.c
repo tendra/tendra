@@ -60,9 +60,9 @@ special_inline(tokval *tkv, token t, bitstream pars)
 	}
 
 	if (s->tag == ident_tag && son(s)->tag == clear_tag &&
-	    bro(son(s))->tag == seq_tag &&
-	    son(son(bro(son(s))))->tag == apply_tag) {
-		settoinline(son(son(bro(son(s)))));
+	    next(son(s))->tag == seq_tag &&
+	    son(son(next(son(s))))->tag == apply_tag) {
+		settoinline(son(son(next(son(s)))));
 	}
 
 	s = hold_refactor(s);

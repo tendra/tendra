@@ -90,9 +90,9 @@ hold(exp body)
 	exp body_hold = next_exp();
 
 	son(body_hold) = body;
-	bro(body) = body_hold;
+	next(body) = body_hold;
 	body->last = true;
-	bro(body_hold) = NULL;
+	next(body_hold) = NULL;
 
 	body_hold->tag = diagnose_registers ? hold_tag : 102;
 
@@ -107,7 +107,7 @@ hold_refactor(exp r)
 	h = hold(r);
 	IGNORE refactor(r, r);
 	sn = son(h);
-	bro(sn) = NULL;
+	next(sn) = NULL;
 	retcell(h);
 
 	return sn;
@@ -136,7 +136,7 @@ exp varchange(shape s, exp e)
 
 	r = getexp(s, NULL, 0, e, NULL, 0, 0, chvar_tag);
 	e->last = true;
-	bro(e) = r;
+	next(e) = r;
 
 	return hold_refactor(r);
 }
@@ -164,7 +164,7 @@ flpt_power_of_2(flpt f)
 /*
  * eq_explist compares two descendant lists of exp for equality.
  *
- * The given values, their bro's, bro(bro)'s etc are compared until an
+ * The given values, their next's, next(next)'s etc are compared until an
  * unequal pair is found or the end of one of the lists (last) is found.
  * In this case the lists are equal iff both ends have been reached.
  */
@@ -191,7 +191,7 @@ eq_explist(exp al, exp bl)
 		return 0;
 	}
 
-	return eq_explist(bro(al), bro(bl));
+	return eq_explist(next(al), next(bl));
 }
 
 /*
@@ -251,7 +251,7 @@ eq_exp(exp a, exp b)
 static void
 repbycont(exp e, bool has_label, exp scope)
 {
-	exp n = getexp(f_top, bro(e), (int) (e->last), NULL, NULL, 0, 0, top_tag);
+	exp n = getexp(f_top, next(e), (int) (e->last), NULL, NULL, 0, 0, top_tag);
 
 	if (has_label) {
 		no(son(pt(e)))--;
@@ -308,7 +308,7 @@ noslist(exp tl)
 		return nos(tl);
 	}
 
-	return nos(tl) && noslist(bro(tl));
+	return nos(tl) && noslist(next(tl));
 }
 
 static int
@@ -327,7 +327,7 @@ nos(exp t)
 	return((is_a(n) && optop(t) &&
 	        ((n == name_tag && !islastuse(t)) || n == val_tag ||
 	         noslist(son(t)))) || (n == ident_tag && !isenvoff(t) &&
-	                               nos(son(t)) && nos(bro(son(t)))));
+	                               nos(son(t)) && nos(next(son(t)))));
 }
 
 static int maxes[] = {
@@ -358,7 +358,7 @@ make_test(ntest nt, exp lab, exp arg1, exp arg2, unsigned char nm)
 	r = getexp(f_top, NULL, 0, arg1, lab, 0, 0, nm);
 	fno(r) = (float)0.5;
 	settest_number(r, (int)nt);
-	setbro(arg1, arg2);
+	setnext(arg1, arg2);
 	arg1->last = false;
 	++no(son(lab));
 	setfather(r, arg2);
@@ -396,8 +396,8 @@ static exp
 tests_to_bounds(exp a, exp b)
 {
 	exp x = son(a);
-	int na = no(bro(x));
-	int nb = no(bro(son(b)));
+	int na = no(next(x));
+	int nb = no(next(son(b)));
 	int ntemp;
 	ntest nta = test_number(a);
 	ntest ntb = test_number(b);
@@ -499,7 +499,7 @@ refactor_seq(exp e, exp scope)
 	exp t, k, kk;
 	int changed = 0;
 
-	if (sh(bro(son(e)))->tag == bothd && sh(e)->tag != bothd) {
+	if (sh(next(son(e)))->tag == bothd && sh(e)->tag != bothd) {
 		sh(e) = f_bottom;
 		changed = 1;
 	}
@@ -507,11 +507,11 @@ refactor_seq(exp e, exp scope)
 	while (sh(son(z))->tag == bothd || nos(son(z))) {
 		if (sh(son(z))->tag == bothd) {
 			if (!son(z)->last) {
-				kk = bro(son(z));
+				kk = next(son(z));
 				while (kk != NULL) {
 					k = kk;
 					if (!k->last) {
-						kk = bro(k);
+						kk = next(k);
 					} else {
 						kk = NULL;
 					}
@@ -524,13 +524,13 @@ refactor_seq(exp e, exp scope)
 
 #ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
-				dg_dead_code(bro(z), son(z));
+				dg_dead_code(next(z), son(z));
 				dg_whole_comp(e, son(z));
 			}
 #endif
 
 			/* kill dead variable refs */
-			kill_exp(bro(z), bro(z));
+			kill_exp(next(z), next(z));
 
 			/* before replace */
 			setfather(e, z);
@@ -544,11 +544,11 @@ refactor_seq(exp e, exp scope)
 		if (son(z)->last) {
 #ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
-				dg_rdnd_code(son(z), bro(z));
-				dg_whole_comp(e, bro(z));
+				dg_rdnd_code(son(z), next(z));
+				dg_whole_comp(e, next(z));
 			}
 #endif
-			replace(e, bro(z), scope);
+			replace(e, next(z), scope);
 			kill_exp(son(z), son(z));
 			retcell(z);
 			retcell(e);
@@ -558,28 +558,28 @@ refactor_seq(exp e, exp scope)
 
 #ifdef TDF_DIAG4
 		if (diag != DIAG_NONE) {
-			dg_rdnd_code(son(z), bro(son(z)));
+			dg_rdnd_code(son(z), next(son(z)));
 		}
 #endif
 
 		k = son(z);
-		son(z) = bro(son(z));
+		son(z) = next(son(z));
 		kill_exp(k, k);
 	}
 
 	t = son(z);
 	for (;;) {
-		if (t->tag == test_tag && bro(son(t))->tag == val_tag &&
-		    !isbigval(bro(son(t))) && sh(son(t))->tag <= ulonghd) {
+		if (t->tag == test_tag && next(son(t))->tag == val_tag &&
+		    !isbigval(next(son(t))) && sh(son(t))->tag <= ulonghd) {
 			exp b;
 			exp bnds;
 			exp *ref;
 
 			if (t->last) {
-				b = bro(bro(t));
+				b = next(next(t));
 				if (b->tag == test_tag &&
-				    bro(son(b))->tag == val_tag &&
-				    !isbigval(bro(son(b))) && pt(t) == pt(b) &&
+				    next(son(b))->tag == val_tag &&
+				    !isbigval(next(son(b))) && pt(t) == pt(b) &&
 				    eq_exp(son(t), son(b)))
 				{
 					bnds = tests_to_bounds(t, b);
@@ -602,11 +602,11 @@ refactor_seq(exp e, exp scope)
 					}
 
 					ref = refto(father(t), t);
-					bro(*ref) = bro(t);
+					next(*ref) = next(t);
 					(*ref)->last = true;
 					bnds->last = true;
-					bro(bnds) = e;
-					bro(z) = bnds;
+					next(bnds) = e;
+					next(z) = bnds;
 					return 0;
 				} else {
 					if (changed) {
@@ -617,19 +617,19 @@ refactor_seq(exp e, exp scope)
 				}
 			}
 
-			b = bro(t);
+			b = next(t);
 			if (b->tag == test_tag &&
-			    bro(son(b))->tag == val_tag &&
-			    !isbigval(bro(son(b))) && pt(t) == pt(b) &&
+			    next(son(b))->tag == val_tag &&
+			    !isbigval(next(son(b))) && pt(t) == pt(b) &&
 			    eq_exp(son(t), son(b)))
 			{
-				exp brob = bro(b);
+				exp nextb = next(b);
 				int lb = b->last;
 				ref = refto(father(t), t);
 
 				bnds = tests_to_bounds(t, b);
 				if (bnds != NULL) {
-					bro(bnds) = brob;
+					next(bnds) = nextb;
 					if (lb) {
 						bnds->last = true;
 					} else {
@@ -650,20 +650,20 @@ refactor_seq(exp e, exp scope)
 			return 0;
 		}
 
-		if (sh(bro(t))->tag == bothd) {
-			if (!bro(t)->last) {
-				kk = bro(bro(t));
+		if (sh(next(t))->tag == bothd) {
+			if (!next(t)->last) {
+				kk = next(next(t));
 				while (kk != NULL) {
 					k = kk;
 					if (!k->last) {
-						kk = bro(k);
+						kk = next(k);
 					} else {
 						kk = NULL;
 					}
 
 #ifdef TDF_DIAG4
 					if (diag != DIAG_NONE) {
-						dg_dead_code(k, bro(t));
+						dg_dead_code(k, next(t));
 					}
 #endif
 
@@ -673,50 +673,50 @@ refactor_seq(exp e, exp scope)
 
 #ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
-				dg_dead_code(bro(z), bro(t));
+				dg_dead_code(next(z), next(t));
 			}
 #endif
 
-			kill_exp(bro(z), bro(z));
-			bro(z) = bro(t);
-			bro(z)->last = true;
-			bro(bro(z)) = e;
+			kill_exp(next(z), next(z));
+			next(z) = next(t);
+			next(z)->last = true;
+			next(next(z)) = e;
 			t->last = true;
-			bro(t) = z;
+			next(t) = z;
 			sh(e) = f_bottom;
 			altered(e, scope);
 
 			return 0;
 		}
 
-		if (nos(bro(t))) {
-			if (bro(t)->last) {
+		if (nos(next(t))) {
+			if (next(t)->last) {
 #ifdef TDF_DIAG4
 				if (diag != DIAG_NONE) {
-					dg_rdnd_code(bro(t), bro(z));
+					dg_rdnd_code(next(t), next(z));
 				}
 #endif
 
-				kill_exp(bro(t), bro(t));
+				kill_exp(next(t), next(t));
 				t->last = true;
-				bro(t) = z;
+				next(t) = z;
 
 				return 0;
 			}
 
-			k = bro(t);
-			bro(t) = bro(bro(t));
+			k = next(t);
+			next(t) = next(next(t));
 
 #ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
-				dg_rdnd_code(k, bro(t));
+				dg_rdnd_code(k, next(t));
 			}
 #endif
 
 			kill_exp(k, k);
 			changed = 1;
 		} else {
-			t = bro(t);
+			t = next(t);
 		}
 	}
 
@@ -792,7 +792,7 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int), int one,
 			changed = 1;
 		}
 		looping = !t->last;
-		t = bro(t);
+		t = next(t);
 	} while (looping);
 
 	if (changed) {
@@ -805,7 +805,7 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int), int one,
 		/* start the result */
 
 		/* p is used to point to the current place where the next item
-		 * will be added (as bro). */
+		 * will be added (as next). */
 		p = q;
 		do {
 			while (t->tag == op_tag && optop(t) && dive) {
@@ -821,18 +821,18 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int), int one,
 #endif
 			} else {
 				/* add item at p and move p on */
-				bro(p) = t;
+				next(p) = t;
 				p->last = false;
-				p = bro(p);
+				p = next(p);
 			}
-			while (t->last && bro(t) != e) {
+			while (t->last && next(t) != e) {
 				/* ascend from sub-item */
-				t = bro(t);
+				t = next(t);
 			}
-		} while ((t->last) ? 0 : (t = bro(t), 1));
+		} while ((t->last) ? 0 : (t = next(t), 1));
 
-		/* put q into correct form (we were using its bro) */
-		son(q) = bro(q);
+		/* put q into correct form (we were using its next) */
+		son(q) = next(q);
 
 		if (p == q) {
 			/* no items but constant */
@@ -856,11 +856,11 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int), int one,
 			 */
 			exp r;
 			q->tag = 0;		/* use q a seq holder */
-			son(q) = bro(q);
-			bro(p) = q;
+			son(q) = next(q);
+			next(p) = q;
 			p->last = true;
 			q->last = false;
-			bro(q) = cst;
+			next(q) = cst;
 			r = getexp(sh(e), NULL, 0, q, NULL, 0, 0, seq_tag);
 #ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
@@ -875,11 +875,11 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int), int one,
 		     (no(cst) != one || (isbigval(cst) && cst != cst_u))) ||
 		    (isreal && cmpflpt(no(cst), one, 6))) {
 			/* form result if there is a non-unit constant term */
-			bro(p) = cst;
+			next(p) = cst;
 			p->last = false;
-			p = bro(p);
-			son(q) = bro(q);
-			bro(p) = q;
+			p = next(p);
+			son(q) = next(q);
+			next(p) = q;
 			p->last = true;
 			sh(q) = sh(e);
 #ifdef TDF_DIAG4
@@ -913,7 +913,7 @@ comm_ass(exp e, unsigned char op_tag, void (*fn)(exp, exp, int), int one,
 		}
 
 		/* form result if no constant and more than one arg */
-		bro(p) = q;
+		next(p) = q;
 
 		p->last = true;
 		sh(q) = sh(e);
@@ -1445,7 +1445,7 @@ doshl(exp e)
 {
 	flt64 x;
 	exp arg1 = son(e);
-	exp arg2 = bro(arg1);
+	exp arg2 = next(arg1);
 	int pl = no(arg2);
 	shape sha = sh(e);
 	int sg = is_signed(sha);
@@ -1523,10 +1523,10 @@ absbool(exp id)
 	if (isvar(id) && son(id)->tag == val_tag && no(son(id)) == 0 &&
 	    !isbigval(son(id)) && no(id) == 2) {
 		/* name initially 0 only used twice */
-		exp bdy = bro(son(id));
-		if (bdy->tag == seq_tag && bro(son(bdy))->tag == cont_tag &&
-		    son(bro(son(bdy)))->tag == name_tag &&
-		    son(son(bro(son(bdy)))) == id) {
+		exp bdy = next(son(id));
+		if (bdy->tag == seq_tag && next(son(bdy))->tag == cont_tag &&
+		    son(next(son(bdy)))->tag == name_tag &&
+		    son(son(next(son(bdy)))) == id) {
 			/* one use is result of sequence body */
 			exp c = son(son(bdy));
 #ifdef TDF_DIAG3
@@ -1537,23 +1537,23 @@ absbool(exp id)
 			if (c->last && c->tag == cond_tag) {
 				/* seq is cond=c; id */
 				exp first = son(c);
-				exp second = bro(son(c));
+				exp second = next(son(c));
 				/* only one jump to else */
 				if (no(son(second)) == 1 &&
-				    bro(son(second))->tag == top_tag &&
+				    next(son(second))->tag == top_tag &&
 				    first->tag == seq_tag) {
 					/* cond is (seq = first | L: top) */
 					exp s = son(son(first));
-					exp r = bro(son(first));
+					exp r = next(son(first));
 					/* last of seq is id = 1 */
 					/* start of seq is int test jumping to
 					 * second */
 					if (r->tag == ass_tag &&
 					    son(r)->tag == name_tag &&
 					    son(son(r)) == id &&
-					    bro(son(r))->tag == val_tag &&
-					    !isbigval(bro(son(r))) &&
-					    no(bro(son(r))) == 1 &&
+					    next(son(r))->tag == val_tag &&
+					    !isbigval(next(son(r))) &&
+					    no(next(son(r))) == 1 &&
 					    s->last && s->tag == test_tag &&
 					    pt(s) == second) {
 						return s;
@@ -1563,13 +1563,13 @@ absbool(exp id)
 			if (c->last && c->tag == condassign_tag) {
 				/* seq is condassign = c; id */
 				exp s = son(c);
-				exp r = bro(s);
+				exp r = next(s);
 				/* last of seq is id = 1 */
 				if (son(r)->tag == name_tag &&
 				    son(son(r)) == id &&
-				    bro(son(r))->tag == val_tag &&
-				    !isbigval(bro(son(r))) &&
-				    no(bro(son(r))) == 1) {
+				    next(son(r))->tag == val_tag &&
+				    !isbigval(next(son(r))) &&
+				    no(next(son(r))) == 1) {
 					return s;
 				}
 			} /* seq is condassign = c; id */
@@ -1587,9 +1587,9 @@ seq_distr(exp e, exp scope)
 {
 	exp x = son(e);
 	exp y;
-	if (x->last || (!x->last && bro(x)->last)) {
+	if (x->last || (!x->last && next(x)->last)) {
 		if (x->tag == seq_tag || x->tag == ident_tag) {
-			exp b = bro(son(x));
+			exp b = next(son(x));
 			exp r;
 			if (x->tag == ident_tag) {
 				clearinlined(x);
@@ -1599,10 +1599,10 @@ seq_distr(exp e, exp scope)
 			} else {
 #ifdef TDF_DIAG4
 				if (diag != DIAG_NONE) {
-					dg_restruct_code(x, bro(x), +1);
+					dg_restruct_code(x, next(x), +1);
 				}
 #endif
-				r = me_b3(sh(e), copy(b), bro(x), e->tag);
+				r = me_b3(sh(e), copy(b), next(x), e->tag);
 			}
 			pt(r) = pt(e);
 			no(r) = no(e);
@@ -1620,10 +1620,10 @@ seq_distr(exp e, exp scope)
 			return 1;
 		}
 	}
-	if (!x->last && bro(x)->last) {
-		y = bro(x);
+	if (!x->last && next(x)->last) {
+		y = next(x);
 		if (y->tag == seq_tag || y->tag == ident_tag) {
-			exp b = bro(son(y));
+			exp b = next(son(y));
 			exp r;
 			if (y->tag == ident_tag) {
 				clearinlined(y);
@@ -1690,7 +1690,7 @@ fneg(exp e)
 {
 	exp n = getexp(sh(e), NULL, 0, e, NULL, 0, 0, fneg_tag);
 	e->last = true;
-	bro(e) = n;
+	next(e) = n;
 	return n;
 }
 
@@ -1701,7 +1701,7 @@ static int
 refactor_fp2(exp e, exp scope)
 {
 	exp a1 = son(e);
-	exp a2 = bro(a1);
+	exp a2 = next(a1);
 	flpt f1, f2;
 	flt resval;
 	int status;
@@ -2012,7 +2012,7 @@ refactor(exp e, exp scope)
 							if (sib->last) {
 								break;
 							}
-							sib = bro(sib);
+							sib = next(sib);
 						}
 						dg_whole_comp(e, temp);
 					}
@@ -2024,14 +2024,14 @@ refactor(exp e, exp scope)
 				if (temp->last) {
 					break;
 				}
-				temp = bro(temp);
+				temp = next(temp);
 			}
 		}
 
 		switch (e->tag) {
 		case component_tag: {
 			exp v = son(e);
-			exp a = bro(v);
+			exp a = next(v);
 
 			if (a->tag == val_tag) {
 				exp res;
@@ -2140,13 +2140,13 @@ refactor(exp e, exp scope)
 
 		case offset_add_tag:
 			if (son(e)->tag == val_tag &&
-			    bro(son(e))->tag == val_tag &&
+			    next(son(e))->tag == val_tag &&
 			    !isbigval(son(e)) &&
-			    !isbigval(bro(son(e)))) {
+			    !isbigval(next(son(e)))) {
 				/* both arguments constant */
 				int n;
 				exp a = son(e);
-				exp b = bro(a);
+				exp b = next(a);
 
 				n = no(a) + no(b);
 
@@ -2161,13 +2161,13 @@ refactor(exp e, exp scope)
 
 		case offset_subtract_tag:
 			if (son(e)->tag == val_tag &&
-			    bro(son(e))->tag == val_tag &&
+			    next(son(e))->tag == val_tag &&
 			    !isbigval(son(e)) &&
-			    !isbigval(bro(son(e)))) {
+			    !isbigval(next(son(e)))) {
 				/* both arguments constant */
-				no(son(e)) -= no(bro(son(e)));
+				no(son(e)) -= no(next(son(e)));
 				sh(son(e)) = sh(e);
-				retcell(bro(son(e)));
+				retcell(next(son(e)));
 				replace(e, son(e), scope);
 				retcell(e);
 				return 1;
@@ -2193,15 +2193,15 @@ refactor(exp e, exp scope)
 
 		case offset_max_tag:
 			if (son(e)->tag == val_tag &&
-			    bro(son(e))->tag == val_tag &&
+			    next(son(e))->tag == val_tag &&
 			    !isbigval(son(e)) &&
-			    !isbigval(bro(son(e)))) {
+			    !isbigval(next(son(e)))) {
 				/* both arguments constant */
 				int n1 = no(son(e));
-				int n2 = no(bro(son(e)));
+				int n2 = no(next(son(e)));
 				no(son(e)) = (n1 > n2) ? n1 : n2;
 				sh(son(e)) = sh(e);
-				retcell(bro(son(e)));
+				retcell(next(son(e)));
 				replace(e, son(e), scope);
 				retcell(e);
 				return 1;
@@ -2210,15 +2210,15 @@ refactor(exp e, exp scope)
 
 		case offset_mult_tag:
 			if (son(e)->tag == val_tag &&
-			    bro(son(e))->tag == val_tag &&
+			    next(son(e))->tag == val_tag &&
 			    !isbigval(son(e)) &&
-			    !isbigval(bro(son(e)))) {
+			    !isbigval(next(son(e)))) {
 				/* both arguments constant */
 				int n1 = no(son(e));
-				int n2 = no(bro(son(e)));
+				int n2 = no(next(son(e)));
 				no(son(e)) = n1 * n2;
 				sh(son(e)) = sh(e);
-				retcell(bro(son(e)));
+				retcell(next(son(e)));
 				replace(e, son(e), scope);
 				retcell(e);
 				return 1;
@@ -2227,8 +2227,8 @@ refactor(exp e, exp scope)
 			    !isbigval(son(e)) &&
 			    no(son(e)) == 1) {
 				/* multiply by 1 */
-				sh(bro(son(e))) = sh(e);
-				replace(e, bro(son(e)), scope);
+				sh(next(son(e))) = sh(e);
+				replace(e, next(son(e)), scope);
 				retcell(e);
 				return 1;
 			}
@@ -2236,8 +2236,8 @@ refactor(exp e, exp scope)
 			    !isbigval(son(e)) && no(son(e)) == 0) {
 				/* multiply by 0 - replace by sequence - side-effects! */
 				exp_list el;
-				el.start = bro(son(e));
-				el.end = bro(son(e));
+				el.start = next(son(e));
+				el.end = next(son(e));
 				el.number = 1;
 				sh(son(e)) = sh(e);
 				replace(e, f_sequence(el, son(e)),
@@ -2246,25 +2246,25 @@ refactor(exp e, exp scope)
 				return 1;
 			}
 
-			if (bro(son(e))->tag == val_tag &&
+			if (next(son(e))->tag == val_tag &&
 			    son(e)->tag == plus_tag) {
 				/* distribute offset_mult over plus (giving offset_adds) */
 				/* the plus operation */
 				exp pl = son(e);
 
 				/* the offset constant */
-				exp b = bro(pl);
+				exp b = next(pl);
 
 				/* the first plus operand */
 				exp x = son(pl);
 
-				exp bx = bro(x);
+				exp bx = next(x);
 				exp res = hold_refactor(me_b3(sh(e), x,
 				                              copy(b), offset_mult_tag));
 				exp temp;
 				while (bx != pl) {
 					x = bx;
-					bx = bro(x);
+					bx = next(x);
 					temp = hold_refactor(me_b3(sh(e),
 					                           x, copy(b),
 					                           offset_mult_tag));
@@ -2282,15 +2282,15 @@ refactor(exp e, exp scope)
 		case offset_div_by_int_tag:
 		case offset_div_tag:
 			if (son(e)->tag == val_tag &&
-			    bro(son(e))->tag == val_tag &&
+			    next(son(e))->tag == val_tag &&
 			    !isbigval(son(e)) &&
-			    !isbigval(bro(son(e)))) {
+			    !isbigval(next(son(e)))) {
 				/* both arguments constant */
 				int n1 = no(son(e));
-				int n2 = no(bro(son(e)));
+				int n2 = no(next(son(e)));
 				no(son(e)) = n1 / n2;
 				sh(son(e)) = sh(e);
-				retcell(bro(son(e)));
+				retcell(next(son(e)));
 				replace(e, son(e), scope);
 				retcell(e);
 				return 1;
@@ -2307,7 +2307,7 @@ refactor(exp e, exp scope)
 			}
 
 			arg1 = son(e);
-			arg2 = bro(arg1);
+			arg2 = next(arg1);
 			nt = test_number(e);
 			if ((arg1->tag == val_tag ||
 			     arg1->tag == null_tag) &&
@@ -2328,8 +2328,8 @@ refactor(exp e, exp scope)
 			    arg1->tag == null_tag) {
 				/* constant argument always second */
 				son(e) = arg2;
-				bro(arg2) = arg1;
-				bro(arg1) = e;
+				next(arg2) = arg1;
+				next(arg1) = e;
 				arg1->last = true;
 				arg2->last = false;
 				nt = exchange_ntest[nt];
@@ -2343,7 +2343,7 @@ refactor(exp e, exp scope)
 #if TRANS_X86
 		{
 			exp arg1 = son(e);
-			exp arg2 = bro(arg1);
+			exp arg2 = next(arg1);
 			if (!optop(e)) {
 				return 0;
 			}
@@ -2381,9 +2381,9 @@ refactor(exp e, exp scope)
 				return 1;
 			}
 			if (arg2->tag == plus_tag &&
-			    bro(son(arg2))->tag == val_tag &&
+			    next(son(arg2))->tag == val_tag &&
 			    optop(arg2)) {
-				exp con = bro(son(arg2));
+				exp con = next(son(arg2));
 				exp x = hold_refactor(f_plus(f_impossible,
 				                             hold_refactor(f_plus(f_impossible,
 				                                     arg1, son(arg2))), con));
@@ -2397,12 +2397,12 @@ refactor(exp e, exp scope)
 				return 1;
 			}
 			if (arg1->tag == plus_tag &&
-			    bro(son(arg1))->tag == val_tag &&
+			    next(son(arg1))->tag == val_tag &&
 			    optop(arg1)) {
 				exp x = hold_refactor(f_plus(f_impossible,
 				                             son(arg1),
 				                             hold_refactor(f_plus(f_impossible,
-				                                     arg2, bro(son(arg1))))));
+				                                     arg2, next(son(arg1))))));
 #ifdef TDF_DIAG4
 				if (diag != DIAG_NONE) {
 					dg_whole_comp(e, x);
@@ -2414,7 +2414,7 @@ refactor(exp e, exp scope)
 			}
 			if (arg2->tag == plus_tag &&
 			    arg1->tag != plus_tag && optop(arg2)) {
-				exp t = bro(son(arg2));
+				exp t = next(son(arg2));
 				exp x = hold_refactor(f_plus(f_impossible,
 				                             hold_refactor(f_plus(f_impossible,
 				                                     arg1, son(arg2))), t));
@@ -2449,19 +2449,19 @@ refactor(exp e, exp scope)
 			if ((son(e)->tag == null_tag ||
 			     son(e)->tag == val_tag) &&
 			    !isbigval(son(e)) && no(son(e)) == 0) {
-				if (bro(son(e))->tag == val_tag &&
-				    !isbigval(bro(son(e))) &&
-				    al2(sh(bro(son(e)))) > 1) {
+				if (next(son(e))->tag == val_tag &&
+				    !isbigval(next(son(e))) &&
+				    al2(sh(next(son(e)))) > 1) {
 					/* constant evaluation */
-					sh(bro(son(e))) = sh(e);
-					no(bro(son(e))) /= 8;
+					sh(next(son(e))) = sh(e);
+					no(next(son(e))) /= 8;
 #ifdef TDF_DIAG4
 					if (diag != DIAG_NONE) {
 						dg_whole_comp(e,
-						              bro(son(e)));
+						              next(son(e)));
 					}
 #endif
-					replace(e, bro(son(e)), scope);
+					replace(e, next(son(e)), scope);
 					retcell(son(e));
 					retcell(e);
 					return 1;
@@ -2470,7 +2470,7 @@ refactor(exp e, exp scope)
 #if TRANS_ALPHA
 			{
 				exp ptr = son(e);
-				exp off = bro(ptr);
+				exp off = next(ptr);
 				if ((al1_of(sh(off))->al.frame & 4) != 0 &&
 				    !is_floating(al2_of(sh(off))->al.sh_hd)) {
 					exp r = getexp(sh(ptr), off, 0,
@@ -2479,18 +2479,18 @@ refactor(exp e, exp scope)
 					sh(off) =
 					    f_offset(al1_of(sh(off)),
 					             long_to_al(al2(sh(off))));
-					bro(ptr) = r;
+					next(ptr) = r;
 					ptr->last = true;
 					son(e) = r;
 				}
 			}
 
 #endif
-			if (bro(son(e))->tag == val_tag &&
-			    !isbigval(bro(son(e)))) {
+			if (next(son(e))->tag == val_tag &&
+			    !isbigval(next(son(e)))) {
 				/* replace addptr(x, const) by refffield operation */
 				exp p = son(e);
-				int k = no(bro(p));
+				int k = no(next(p));
 				exp r;
 				r = getexp(sh(e), NULL, 0, p, NULL,
 				           0, k, reff_tag);
@@ -2505,12 +2505,12 @@ refactor(exp e, exp scope)
 			    shape_size(sh(e)) == 32) {
 				/* replace addptr(reff[n](a), b) by reff[n](addptr(a, b)) */
 				exp p = son(son(e));
-				exp a = bro(son(e));
+				exp a = next(son(e));
 				exp ap1 = getexp(sh(e), NULL, 0, p,
 				                 NULL, 0, 0,
 				                 addptr_tag);
 				exp ap, r;
-				bro(p) = a;
+				next(p) = a;
 				p->last = false;
 #if TDF_DIAG4
 				if (diag != DIAG_NONE) {
@@ -2531,10 +2531,10 @@ refactor(exp e, exp scope)
 				retcell(e);
 				return 1;
 			}
-			if (bro(son(e))->tag == offset_add_tag) {
+			if (next(son(e))->tag == offset_add_tag) {
 				exp p = son(e);
-				exp a = son(bro(p));
-				exp c = bro(a);
+				exp a = son(next(p));
+				exp c = next(a);
 				if (c->tag == val_tag &&
 				    !isbigval(c)) {
 					exp ap = hold_refactor(me_b3(f_pointer(long_to_al(al2(sh(a)))),
@@ -2557,7 +2557,7 @@ refactor(exp e, exp scope)
 					                            p, a, addptr_tag));
 #ifdef TDF_DIAG4
 					if (diag != DIAG_NONE) {
-						dg_whole_comp(bro(p),
+						dg_whole_comp(next(p),
 						              inner);
 					}
 #endif
@@ -2737,7 +2737,7 @@ refactor(exp e, exp scope)
 					exp p = son(e);
 					exp r;
 					exp a = son(p);
-					exp n = bro(a);
+					exp n = next(a);
 					int l = (int)a->last;
 
 					/* if (optim & OPTIM_SHORTEN_OPS || shape_size(sh(e)) >= 16) */
@@ -2750,10 +2750,10 @@ refactor(exp e, exp scope)
 						while (!l) {
 							l = (int)n->last;
 							a = n;
-							n = bro(n);
-							setbro(q, varchange(sha, a));
+							n = next(n);
+							setnext(q, varchange(sha, a));
 							q->last = false;
-							q = bro(q);
+							q = next(q);
 						}
 
 						r = getexp(sha, NULL, 0, t, pt(p), 0, no(p), p->tag);
@@ -2769,14 +2769,14 @@ refactor(exp e, exp scope)
 				/* distribute chvar into variable declaration of simple form */
 				exp vardec = son(e);
 				exp def = son(vardec);
-				exp body = bro(def);
+				exp body = next(def);
 				exp res;
 				bool go = 1;
 				exp t, u, v;
 				if (body->tag != seq_tag) {
 					return 0;
 				}
-				res = bro(son(body));
+				res = next(son(body));
 				if (res->tag != cont_tag ||
 				    son(res)->tag != name_tag ||
 				    son(son(res)) != vardec) {
@@ -2786,7 +2786,7 @@ refactor(exp e, exp scope)
 				while (t != NULL && go) {
 					if (t == son(res) ||
 					    (!t->last &&
-					     bro(bro(t))->tag ==
+					     next(next(t))->tag ==
 					     ass_tag)) {
 						t = pt(t);
 					} else {
@@ -2809,7 +2809,7 @@ refactor(exp e, exp scope)
 				t = pt(vardec);
 				while (t != NULL) {
 					if (t != son(res)) {
-						v = bro(t);
+						v = next(t);
 						u = varchange(sh(e), copy(v));
 						replace(v, u, u);
 						kill_exp(v, def);
@@ -2848,11 +2848,11 @@ refactor(exp e, exp scope)
 					if ((n == cont_tag &&
 					     szbf == shape_size(sh(st))) ||
 					    (n == and_tag &&
-					     bro(son(st))->tag == val_tag &&
-					     no(bro(son(st))) == (1 << szbf) - 1)
+					     next(son(st))->tag == val_tag &&
+					     no(next(son(st))) == (1 << szbf) - 1)
 					    || (n == shr_tag &&
-					        bro(son(st))->tag == val_tag &&
-					        no(bro(son(st))) ==
+					        next(son(st))->tag == val_tag &&
+					        no(next(son(st))) ==
 					        shape_size(sh(st)) - szbf)) {
 						/* arises from bfcont_tag */
 						replace(e,
@@ -2923,7 +2923,7 @@ refactor(exp e, exp scope)
 
 		case minptr_tag: {
 			exp s = son(e);
-			exp b = bro(s);
+			exp b = next(s);
 			if (s->tag == val_tag && b->tag == null_tag) {
 				sh(s) = sh(e);
 				no(s) -= no(b);
@@ -2935,7 +2935,7 @@ refactor(exp e, exp scope)
 			if (s->tag == val_tag && b->tag == val_tag) {
 				/* both constants */
 				sh(s) = sh(e);
-				no(s) -= no(bro(son(e)));
+				no(s) -= no(next(son(e)));
 				no(s) *= 8;
 				replace(e, s, scope);
 				retcell(e);
@@ -2965,7 +2965,7 @@ refactor(exp e, exp scope)
 		case minus_tag: {
 			exp z, a2, r;
 			exp arg1 = son(e);
-			exp arg2 = bro(arg1);
+			exp arg2 = next(arg1);
 			if (!optop(e)) {
 				return 0;
 			}
@@ -2977,17 +2977,17 @@ refactor(exp e, exp scope)
 				return 1;
 			}
 			/* replace a - b by a + (-b) */
-			z = getexp(sh(e), NULL, 0, bro(son(e)), pt(e), 0, 0,
+			z = getexp(sh(e), NULL, 0, next(son(e)), pt(e), 0, 0,
 			           neg_tag);
 			seterrhandle(z, errhandle(e));
-			a2 = hc(z, bro(son(e)));
+			a2 = hc(z, next(son(e)));
 			r = getexp(sh(e), NULL, 0, son(e), pt(e), 0, 0,
 			           plus_tag);
 			seterrhandle(r, errhandle(e));
 #ifdef TDF_DIAG4
 			dgf(r) = dgf(e);
 #endif
-			bro(son(e)) = a2;
+			next(son(e)) = a2;
 			replace(e, hc(r, a2), scope);
 			retcell(e);
 			return 1;
@@ -2997,25 +2997,25 @@ refactor(exp e, exp scope)
 			if (!optop(e)) {
 				return 0;
 			}
-			if (bro(son(e))->tag == val_tag &&
-			    bro(son(e))->last &&
+			if (next(son(e))->tag == val_tag &&
+			    next(son(e))->last &&
 			    son(e)->tag == plus_tag &&
-			    bro(son(son(e)))->tag == val_tag) {
+			    next(son(son(e)))->tag == val_tag) {
 				/*
 				 * Replace mult(plus(a, const1), const2) by
 				 * plus(mult(a, const2), const1*const2)
 				 */
-				int k = no(bro(son(e))) * no(bro(son(son(e))));
+				int k = no(next(son(e))) * no(next(son(son(e))));
 				exp ke = me_shint(sh(e), k);
 				exp m = getexp(sh(e), NULL, 0, son(son(e)),
 				               NULL, 0, 0, mult_tag);
 				exp m1, pa;
-				setbro(son(m), copy(bro(son(e))));
+				setnext(son(m), copy(next(son(e))));
 				son(m)->last = false;
-				m1 = hc(m, bro(son(m)));
+				m1 = hc(m, next(son(m)));
 				pa = getexp(sh(e), NULL, 0, m1, NULL, 0, 0,
 				            plus_tag);
-				bro(m1) = ke;
+				next(m1) = ke;
 				m1->last = false;
 				replace(e, hc(pa, ke), scope);
 				retcell(e);
@@ -3031,12 +3031,12 @@ refactor(exp e, exp scope)
 
 		case subptr_tag: {
 			/* replace subptr(a, b) by addptr(a, (-b)) */
-			exp z = getexp(sh(e), NULL, 0, bro(son(e)), NULL,
+			exp z = getexp(sh(e), NULL, 0, next(son(e)), NULL,
 			               0, 0, neg_tag);
-			exp a2 = hc(z, bro(son(e)));
+			exp a2 = hc(z, next(son(e)));
 			exp r = getexp(sh(e), NULL, 0, son(e), NULL, 0,
 			               0, addptr_tag);
-			bro(son(e)) = a2;
+			next(son(e)) = a2;
 #ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
 				dgf(r) = dgf(e);
@@ -3091,18 +3091,18 @@ refactor(exp e, exp scope)
 				int lst;
 				do {
 					exp q = hold(getexp(sh(e), NULL, 0, t, NULL, 0, 0, neg_tag));
-					exp next = bro(t);
+					exp next = next(t);
 					lst = (int)t->last;
-					bro(t) = son(q);
+					next(t) = son(q);
 					t->last = true;
 					IGNORE refactor(son(q), scope);
-					bro(p) = son(q);
+					next(p) = son(q);
 					retcell(q);
-					p = bro(p);
+					p = next(p);
 					p->last = false;
 					t = next;
 				} while (!lst);
-				son(r) = bro(r);
+				son(r) = next(r);
 #ifdef TDF_DIAG4
 				if (diag != DIAG_NONE) {
 					dg_whole_comp(e, r);
@@ -3117,8 +3117,8 @@ refactor(exp e, exp scope)
 
 		case shl_tag:
 		case shr_tag:
-			if (bro(son(e))->tag == val_tag &&
-			    no(bro(son(e))) == 0) {
+			if (next(son(e))->tag == val_tag &&
+			    no(next(son(e))) == 0) {
 				/* remove zero place shift */
 				sh(son(e)) = sh(e);
 				replace(e, son(e), scope);
@@ -3126,7 +3126,7 @@ refactor(exp e, exp scope)
 				return 1;
 			}
 			if (son(e)->tag == val_tag &&
-			    bro(son(e))->tag == val_tag) {
+			    next(son(e))->tag == val_tag) {
 				/* evaluate if both args constant */
 				doshl(e);
 				sh(son(e)) = sh(e);
@@ -3135,14 +3135,14 @@ refactor(exp e, exp scope)
 				return 1;
 			}
 #if TRANS_MIPS
-			if (bro(son(e))->tag == val_tag &&
-			    no(bro(son(e))) == shape_size(sh(e))) {
+			if (next(son(e))->tag == val_tag &&
+			    no(next(son(e))) == shape_size(sh(e))) {
 				exp s1 = copy(e);
-				no(bro(son(s1)))--;
+				no(next(son(s1)))--;
 				if (e->tag == shl_tag) {
-					s1 = f_shift_left(f_continue, s1, me_shint(sh(bro(son(e))), 1));
+					s1 = f_shift_left(f_continue, s1, me_shint(sh(next(son(e))), 1));
 				} else {
-					s1 = f_shift_right(s1, me_shint(sh(bro(son(e))), 1));
+					s1 = f_shift_right(s1, me_shint(sh(next(son(e))), 1));
 				}
 				replace(e, s1, scope);
 				kill_exp(e, scope);
@@ -3156,14 +3156,14 @@ refactor(exp e, exp scope)
 			 * distinguished by the sign of the number of places.
 			 */
 			if (has & HAS_NEGSHIFT && e->tag == shr_tag) {
-				exp places = bro(son(e));
+				exp places = next(son(e));
 				exp r;
 				exp neg = getexp(sh(places), NULL, 0, places,
 				                 NULL, 0, 0, neg_tag);
 				neg = hc(neg, places);
 				r = getexp(sh(e), NULL, 0, son(e), NULL, 0,
 				           0, shl_tag);
-				bro(son(e)) = neg;
+				next(son(e)) = neg;
 				r = hc(r, neg);
 				replace(e, r, scope);
 				retcell(e);
@@ -3171,17 +3171,17 @@ refactor(exp e, exp scope)
 			}
 
 			if (e->tag == shr_tag && son(e)->tag == shl_tag &&
-			    bro(son(e))->tag == val_tag) {
+			    next(son(e))->tag == val_tag) {
 				exp arg1 = son(e);
-				int r = no(bro(arg1));
+				int r = no(next(arg1));
 				if (son(arg1)->tag == shr_tag &&
-				    bro(son(arg1))->tag == val_tag) {
+				    next(son(arg1))->tag == val_tag) {
 					exp arg11 = son(arg1);
-					int q = no(bro(arg11));
+					int q = no(next(arg11));
 					if (r >= q &&
-					    bro(son(arg11))->tag == val_tag) {
+					    next(son(arg11))->tag == val_tag) {
 						exp x = son(arg11);
-						int p = no(bro(x));
+						int p = no(next(x));
 						if (q >= p) {
 							exp temp =
 							    hold_refactor(me_b3(sh(arg1),
@@ -3192,8 +3192,8 @@ refactor(exp e, exp scope)
 						}
 					}
 				} else {
-					if (bro(son(arg1))->tag == val_tag) {
-						int q = no(bro(son(arg1)));
+					if (next(son(arg1))->tag == val_tag) {
+						int q = no(next(son(arg1)));
 						int se = shape_size(sh(e));
 						if (q == r &&
 						    (q == (se - 16) ||
@@ -3211,18 +3211,18 @@ refactor(exp e, exp scope)
 			}
 
 			if (e->tag == shl_tag && son(e)->tag == and_tag &&
-			    bro(son(e))->tag == val_tag) {
+			    next(son(e))->tag == val_tag) {
 				exp arg1 = son(e);
-				exp arg2 = bro(arg1); /* left_places */
+				exp arg2 = next(arg1); /* left_places */
 				if (arg1->tag == and_tag &&
-				    bro(son(arg1))->tag == val_tag) {
+				    next(son(arg1))->tag == val_tag) {
 					exp arg11 = son(arg1);
-					exp arg12 = bro(arg11); /* mask */
+					exp arg12 = next(arg11); /* mask */
 					if (arg11->tag == shr_tag &&
-					    bro(son(arg11))->tag == val_tag) {
+					    next(son(arg11))->tag == val_tag) {
 						exp arg111 = son(arg11);
 						/* right places */
-						exp arg112 = bro(arg111);
+						exp arg112 = next(arg111);
 
 						shape sha = sh(e);
 						{
@@ -3245,15 +3245,15 @@ refactor(exp e, exp scope)
 
 		case mod_tag:
 			if (son(e)->tag == val_tag &&
-			    bro(son(e))->tag == val_tag) {
+			    next(son(e))->tag == val_tag) {
 				/* evaluate if both args constant */
-				if (is_signed(sh(e)) && no(bro(son(e))) == -1) {
+				if (is_signed(sh(e)) && no(next(son(e))) == -1) {
 					replace(e, me_shint(sh(e), 0), scope);
 					retcell(e);
 					return 1;
 				}
-				if (no(bro(son(e))) != 0) {
-					domod(son(e), bro(son(e)));
+				if (no(next(son(e))) != 0) {
+					domod(son(e), next(son(e)));
 					sh(son(e)) = sh(e);
 					replace(e, son(e), scope);
 					retcell(e);
@@ -3265,17 +3265,17 @@ refactor(exp e, exp scope)
 		case rem0_tag:
 		case rem2_tag:
 			if (son(e)->tag == val_tag &&
-			    bro(son(e))->tag == val_tag) {
+			    next(son(e))->tag == val_tag) {
 				/* evaluate if both args constant */
 
 				/* some compilers get the rem2 wrong */
-				if (is_signed(sh(e)) && no(bro(son(e))) == -1) {
+				if (is_signed(sh(e)) && no(next(son(e))) == -1) {
 					replace(e, me_shint(sh(e), 0), scope);
 					retcell(e);
 					return 1;
 				}
-				if (no(bro(son(e))) != 0) {
-					dorem2(son(e), bro(son(e)));
+				if (no(next(son(e))) != 0) {
+					dorem2(son(e), next(son(e)));
 					sh(son(e)) = sh(e);
 					replace(e, son(e), scope);
 					retcell(e);
@@ -3285,8 +3285,8 @@ refactor(exp e, exp scope)
 			return 0;
 
 		case div1_tag:
-			if (bro(son(e))->tag == val_tag &&
-			    no(bro(son(e))) == 1) {
+			if (next(son(e))->tag == val_tag &&
+			    no(next(son(e))) == 1) {
 				/* remove divide by 1 */
 				sh(son(e)) = sh(e);
 				replace(e, son(e), scope);
@@ -3294,10 +3294,10 @@ refactor(exp e, exp scope)
 				return 1;
 			}
 			if (optop(e) && son(e)->tag == val_tag &&
-			    bro(son(e))->tag == val_tag &&
-			    no(bro(son(e))) != 0) {
+			    next(son(e))->tag == val_tag &&
+			    no(next(son(e))) != 0) {
 				/* evaluate if both args constant */
-				dodiv1(son(e), bro(son(e)));
+				dodiv1(son(e), next(son(e)));
 				sh(son(e)) = sh(e);
 				replace(e, son(e), scope);
 				retcell(e);
@@ -3307,8 +3307,8 @@ refactor(exp e, exp scope)
 
 		case div0_tag:
 		case div2_tag:
-			if (bro(son(e))->tag == val_tag &&
-			    no(bro(son(e))) == 1) {
+			if (next(son(e))->tag == val_tag &&
+			    no(next(son(e))) == 1) {
 				/* remove divide by 1 */
 				sh(son(e)) = sh(e);
 				replace(e, son(e), scope);
@@ -3316,10 +3316,10 @@ refactor(exp e, exp scope)
 				return 1;
 			}
 			if (optop(e) && son(e)->tag == val_tag &&
-			    bro(son(e))->tag == val_tag &&
-			    no(bro(son(e))) != 0) {
+			    next(son(e))->tag == val_tag &&
+			    no(next(son(e))) != 0) {
 				/* evaluate if both args constant */
-				dodiv2(son(e), bro(son(e)));
+				dodiv2(son(e), next(son(e)));
 				sh(son(e)) = sh(e);
 				replace(e, son(e), scope);
 				retcell(e);
@@ -3330,7 +3330,7 @@ refactor(exp e, exp scope)
 		case max_tag:
 		case min_tag: {
 			exp arg1 = son(e);
-			exp arg2 = bro(arg1);
+			exp arg2 = next(arg1);
 
 			if (arg1->tag == val_tag && arg2->tag == val_tag) {
 				domaxmin(arg1, arg2, e->tag == max_tag);
@@ -3497,10 +3497,10 @@ refactor(exp e, exp scope)
 				return 1;
 			}
 
-			if (bro(son(e))->tag == real_tag &&
-			    flptnos[no(bro(son(e)))].sign != 0 &&
+			if (next(son(e))->tag == real_tag &&
+			    flptnos[no(next(son(e)))].sign != 0 &&
 			    (!strict_fl_div ||
-			     flpt_power_of_2(no(bro(son(e)))))) {
+			     flpt_power_of_2(no(next(son(e)))))) {
 				shape sha = sh(e);
 				exp one;
 				exp temp;
@@ -3509,7 +3509,7 @@ refactor(exp e, exp scope)
 				flt_copy(flptnos[fone_no], &flptnos[f]);
 				one = getexp(sha, NULL, 0, NULL, NULL, 0,
 				             f, real_tag);
-				temp = hold_refactor(me_b3(sha, one, bro(son(e)),
+				temp = hold_refactor(me_b3(sha, one, next(son(e)),
 				                           fdiv_tag));
 				temp = hold_refactor(me_b3(sha, son(e), temp,
 				                           fmult_tag));
@@ -3557,11 +3557,11 @@ refactor(exp e, exp scope)
 
 		case and_tag:
 			if (has & HAS_BYTEOPS &&
-			    bro(son(e))->tag == val_tag &&
-			    no(bro(son(e))) == 0xff &&
+			    next(son(e))->tag == val_tag &&
+			    no(next(son(e))) == 0xff &&
 			    son(e)->tag == shr_tag &&
 			    son(son(e))->tag == cont_tag) {
-				exp a1 = bro(son(son(e)));
+				exp a1 = next(son(son(e)));
 
 				if (a1->tag == val_tag && !isbigval(a1) &&
 				    (no(a1) & 0x7) == 0) {
@@ -3590,12 +3590,12 @@ refactor(exp e, exp scope)
 			}
 
 			if (son(e)->tag == and_tag &&
-			    bro(son(e))->tag == val_tag &&
-			    bro(son(son(e)))->tag == val_tag &&
-			    !isbigval(bro(son(e))) &&
-			    !isbigval(bro(son(son(e))))) {
-				int mask = no(bro(son(e))) &
-				           no(bro(son(son(e))));
+			    next(son(e))->tag == val_tag &&
+			    next(son(son(e)))->tag == val_tag &&
+			    !isbigval(next(son(e))) &&
+			    !isbigval(next(son(son(e))))) {
+				int mask = no(next(son(e))) &
+				           no(next(son(son(e))));
 				exp res = hold_refactor(me_b3(sh(e), son(son(e)),
 				                              me_shint(sh(e), mask), and_tag));
 				replace(e, res, scope);
@@ -3604,28 +3604,28 @@ refactor(exp e, exp scope)
 			}
 
 			if (son(e)->tag == shr_tag &&
-			    bro(son(e))->tag == val_tag &&
-			    !isbigval(bro(son(e))))
+			    next(son(e))->tag == val_tag &&
+			    !isbigval(next(son(e))))
 			{
 				exp arg1 = son(e);
-				exp arg2 = bro(arg1); /* mask */
+				exp arg2 = next(arg1); /* mask */
 				int m = no(arg2);
 				int sz = shape_size(sh(arg1));
 
-				if (m > 0 && bro(son(arg1))->tag == val_tag &&
-				    !isbigval(bro(son(arg1))) &&
-				    m <= ((1 << (sz - no(bro(son(arg1))))) - 1))
+				if (m > 0 && next(son(arg1))->tag == val_tag &&
+				    !isbigval(next(son(arg1))) &&
+				    m <= ((1 << (sz - no(next(son(arg1))))) - 1))
 				{
 					exp arg11 = son(arg1);
 					/* right shift places */
-					exp arg12 = bro(arg11);
+					exp arg12 = next(arg11);
 
 					if (arg11->tag == shl_tag &&
-					    bro(son(arg11))->tag == val_tag &&
-					    !isbigval(bro(son(arg11)))) {
+					    next(son(arg11))->tag == val_tag &&
+					    !isbigval(next(son(arg11)))) {
 						exp arg111 = son(arg11);
 						/* left shift places */
-						exp arg112 = bro(arg111);
+						exp arg112 = next(arg111);
 
 						if (no(arg112) <= no(arg12)) {
 							exp res = hold_refactor(me_b3(sh(arg1),
@@ -3644,16 +3644,16 @@ refactor(exp e, exp scope)
 		case or_tag:
 			/* apply commutative and associative laws */
 			if (son(e)->tag == and_tag &&
-			    bro(son(e))->tag == val_tag &&
-			    !isbigval(bro(son(e))) &&
-			    bro(son(son(e)))->tag)
+			    next(son(e))->tag == val_tag &&
+			    !isbigval(next(son(e))) &&
+			    next(son(son(e)))->tag)
 			{
 				exp arg1 = son(e);
-				int q = no(bro(arg1));
+				int q = no(next(arg1));
 				exp arg11 = son(arg1);
-				int p = no(bro(arg11));
+				int p = no(next(arg11));
 				if ((q | p) == (int)0xffffffff) {
-					exp res = me_b3(sh(e), arg11, bro(arg1),
+					exp res = me_b3(sh(e), arg11, next(arg1),
 					                or_tag);
 					replace(e, hold_refactor(res), scope);
 					retcell(e);
@@ -3700,9 +3700,9 @@ refactor(exp e, exp scope)
 					exp r = getexp(f_pointer(f_alignment(sh(e))),
 					               NULL, 1, son(e), NULL, 0,
 					               disp, reff_tag);
-					bro(son(r)) = r;
+					next(son(r)) = r;
 					son(e) = hold_refactor(r);
-					bro(son(e)) = e;
+					next(son(e)) = e;
 					son(e)->last = true;
 					return 1;
 				}
@@ -3733,15 +3733,15 @@ refactor(exp e, exp scope)
 				exp s = son(son(e));
 				for (;;) {
 					if (no(s) == no(e) &&
-					    eq_shape(sh(e), sh(bro(s)))) {
-						replace(e, copy(bro(s)), scope);
+					    eq_shape(sh(e), sh(next(s)))) {
+						replace(e, copy(next(s)), scope);
 						kill_exp(e, scope);
 						return 1;
 					}
-					if (bro(s)->last) {
+					if (next(s)->last) {
 						break;
 					}
-					s = bro(bro(s));
+					s = next(next(s));
 				}
 			}
 
@@ -3760,7 +3760,7 @@ refactor(exp e, exp scope)
 					if (s->last) {
 						break;
 					}
-					s = bro(s);
+					s = next(s);
 				}
 			}
 
@@ -3790,13 +3790,13 @@ refactor(exp e, exp scope)
 
 			if (son(e)->tag == ident_tag && isvar(son(e)) &&
 			    son(son(e))->tag == clear_tag &&
-			    bro(son(son(e)))->tag == seq_tag) {
+			    next(son(son(e)))->tag == seq_tag) {
 				exp var = son(e);
-				exp sq = bro(son(var));
+				exp sq = next(son(var));
 
-				if (bro(son(sq))->tag == cont_tag &&
-				    son(bro(son(sq)))->tag == name_tag &&
-				    son(son(bro(son(sq)))) == var) {
+				if (next(son(sq))->tag == cont_tag &&
+				    son(next(son(sq)))->tag == name_tag &&
+				    son(son(next(son(sq)))) == var) {
 					int count = 0;
 					int good = 0;
 					exp p = son(son(sq));
@@ -3813,7 +3813,7 @@ refactor(exp e, exp scope)
 						if (no(son(p)) == no(e)) {
 							good = 1;
 						}
-						p = bro(p);
+						p = next(p);
 					}
 
 					if ((count + 1) != no(var) || !good) {
@@ -3822,20 +3822,20 @@ refactor(exp e, exp scope)
 
 					p = son(son(sq));
 					while (p != son(sq)) {
-						q = bro(p);
+						q = next(p);
 						if (no(son(p)) == no(e)) {
 							exp tp = f_make_top();
-							res = bro(son(p));
+							res = next(son(p));
 							replace(p, tp, tp);
 						} else {
-							exp w = bro(son(p));
+							exp w = next(son(p));
 							replace(p, w, w);
 						}
 						p = q;
 					}
 
 					SET(res);
-					replace(bro(son(sq)), res, res);
+					replace(next(son(sq)), res, res);
 					replace(e, hold_refactor(sq), scope);
 					return 1;
 				}
@@ -4025,7 +4025,7 @@ refactor(exp e, exp scope)
 		case fmin_tag: {
 			bool fmin = (e->tag == fmin_tag);
 			exp arg1 = son(e);
-			exp arg2 = bro(arg1);
+			exp arg2 = next(arg1);
 			/* identify arg1 */
 			exp id1 = me_startid(sh(arg1), arg1, 0);
 			/* identify arg2 */
@@ -4102,7 +4102,7 @@ refactor(exp e, exp scope)
 	/* side effecting ops */
 	switch (e->tag) {
 	case compound_tag: {
-		exp bse = bro(son(e));
+		exp bse = next(son(e));
 		unsigned char shn = sh(bse)->tag;
 		if (bse->last && son(e)->tag == val_tag &&
 		    no(son(e)) == 0 &&
@@ -4158,8 +4158,8 @@ refactor(exp e, exp scope)
 		el = new_exp_list(0);
 
 		for (;;) {
-			exp q = bro(t);	/* expression being assigned */
-			exp n = bro(q);
+			exp q = next(t);	/* expression being assigned */
+			exp n = next(q);
 			int end = (int)q->last;
 			exp ass, p, ap;
 			p = me_obtain(var);
@@ -4199,7 +4199,7 @@ refactor(exp e, exp scope)
 	case ident_tag:
 		if (sh(son(e))->tag == bothd) {
 			exp s = son(e);
-			exp b = bro(s);
+			exp b = next(s);
 #ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
 				dg_dead_code(b, s);
@@ -4237,8 +4237,8 @@ refactor(exp e, exp scope)
 			}
 		}
 
-		if (sh(bro(son(e)))->tag != sh(e)->tag) {
-			sh(e) = sh(bro(son(e)));
+		if (sh(next(son(e)))->tag != sh(e)->tag) {
+			sh(e) = sh(next(son(e)));
 			IGNORE refactor_id(e, scope);
 			return 1;
 		}
@@ -4248,26 +4248,26 @@ refactor(exp e, exp scope)
 		if (son(son(e)) == NULL) {
 			/* remove empty seq */
 			exp s = son(e);
-			sh(bro(s)) = sh(e);	/* unless bottom ? */
+			sh(next(s)) = sh(e);	/* unless bottom ? */
 
 #ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
-				dg_whole_comp(e, bro(s));
+				dg_whole_comp(e, next(s));
 			}
 #endif
-			replace(e, bro(s), scope);
+			replace(e, next(s), scope);
 			retcell(s);
 			return 1;
 		}
 		return refactor_seq(e, scope);
 
 	case cond_tag:
-		if (no(son(bro(son(e)))) == 0) {
+		if (no(son(next(son(e)))) == 0) {
 			/* remove inaccessible statements */
-			exp bs = bro(son(e));
+			exp bs = next(son(e));
 #ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
-				dg_dead_code(bro(son(bs)), son(e));
+				dg_dead_code(next(son(bs)), son(e));
 				dg_whole_comp(e, son(e));
 			}
 #endif
@@ -4281,8 +4281,8 @@ refactor(exp e, exp scope)
 		 * Replace cond which has first a simple goto to the
 		 * alt by the alt (removing the label)
 		 */
-		if (son(e)->tag == goto_tag && pt(son(e)) == bro(son(e))) {
-			exp x = bro(son(bro(son(e))));
+		if (son(e)->tag == goto_tag && pt(son(e)) == next(son(e))) {
+			exp x = next(son(next(son(e))));
 
 			/*
 			 * Copy shape of cond to the alt. they should be the same,
@@ -4298,8 +4298,8 @@ refactor(exp e, exp scope)
 			}
 #endif
 			replace(e, x, scope);
-			retcell(son(bro(son(e))));
-			retcell(bro(son(e)));
+			retcell(son(next(son(e))));
+			retcell(next(son(e)));
 			if (son(son(e)) != NULL) {
 				retcell(son(son(e)));
 			}
@@ -4309,12 +4309,12 @@ refactor(exp e, exp scope)
 			return 1;
 		}
 
-		if (son(e)->tag == seq_tag && no(son(bro(son(e)))) == 1 &&
-		    bro(son(son(e)))->tag == goto_tag) {
+		if (son(e)->tag == seq_tag && no(son(next(son(e)))) == 1 &&
+		    next(son(son(e)))->tag == goto_tag) {
 			/* is e = cond(seq(..;goto m), l: x) and is only 1 use of l */
 			exp t = son(son(son(e)));
 			while (!t->last) {
-				t = bro(t);
+				t = next(t);
 			}
 #ifdef TDF_DIAG3
 			if (t->tag == diagnose_tag) {
@@ -4322,7 +4322,7 @@ refactor(exp e, exp scope)
 			}
 #endif
 			if ((t->tag == test_tag || t->tag == testbit_tag) &&
-			    pt(t) == bro(son(e)) && test_number(t) <= 6) {
+			    pt(t) == next(son(e)) && test_number(t) <= 6) {
 				/*
 				 * Look at last element of sequence before goto m to see
 				 * if it is a conditional jump to l. If so reverse the test,
@@ -4330,9 +4330,9 @@ refactor(exp e, exp scope)
 				 */
 
 				settest_number(t, revtest[test_number(t) - 1]);
-				pt(t) = pt(bro(son(son(e))));
-				sh(son(e)) = sh(bro(son(bro(son(e)))));
-				replace(bro(son(son(e))), bro(son(bro(son(e)))),
+				pt(t) = pt(next(son(son(e))));
+				sh(son(e)) = sh(next(son(next(son(e)))));
+				replace(next(son(son(e))), next(son(next(son(e)))),
 				        son(e));
 				replace(e, son(e), scope);
 				retcell(e);
@@ -4373,7 +4373,7 @@ refactor(exp e, exp scope)
 			}
 
 			if (ismax || ismin) {
-				exp tq = me_b2(copy(son(t)), copy(bro(son(t))),
+				exp tq = me_b2(copy(son(t)), copy(next(son(t))),
 				               (ismax) ?
 				               (unsigned char)max_tag :
 				               (unsigned char)min_tag);
@@ -4389,7 +4389,7 @@ refactor(exp e, exp scope)
 
 			if (is_condassign(e, &to_test, &to_ass) &&
 			    is_floating(sh(son(to_test))->tag) ==
-			    is_floating(sh(bro(son(to_ass)))->tag)) {
+			    is_floating(sh(next(son(to_ass)))->tag)) {
 				exp res = me_b3(sh(e), to_test, to_ass,
 				                condassign_tag);
 				replace(e, res, scope);
@@ -4398,9 +4398,9 @@ refactor(exp e, exp scope)
 			}
 		}
 
-		if (bro(son(bro(son(e))))->tag == top_tag) {
+		if (next(son(next(son(e))))->tag == top_tag) {
 			exp first = son(e);
-			exp alt = bro(first);
+			exp alt = next(first);
 			int in_repeat = 0;
 			if (crt_repeat != NULL &&
 			    (int) (props(crt_repeat)) == 1) {
@@ -4408,7 +4408,7 @@ refactor(exp e, exp scope)
 			}
 			if (take_out_of_line(first, alt, in_repeat, 1.0)) {
 				exp t = son(son(first));
-				exp tst = (is_tester(t, 0)) ? t : bro(son(t));
+				exp tst = (is_tester(t, 0)) ? t : next(son(t));
 				if (no(tst) == 1000) {
 					no(tst) = 25;
 				}
@@ -4421,12 +4421,12 @@ refactor(exp e, exp scope)
 			return 0;
 		}
 
-		if (bro(son(e))->tag != ass_tag &&
+		if (next(son(e))->tag != ass_tag &&
 		    (son(e)->tag == test_tag ||
 		     son(e)->tag == testbit_tag)) {
-			exp sqz = me_b3(f_top, son(son(e)), bro(son(son(e))),
+			exp sqz = me_b3(f_top, son(son(e)), next(son(son(e))),
 			                0);
-			exp sq = me_b3(sh(e), sqz, bro(son(e)), seq_tag);
+			exp sq = me_b3(sh(e), sqz, next(son(e)), seq_tag);
 			replace(e, hold_refactor(sq), scope);
 			retcell(e);
 			return 1;
@@ -4440,7 +4440,7 @@ refactor(exp e, exp scope)
 		}
 
 		if (son(e)->tag == top_tag) {
-			replace(e, bro(son(e)), scope);
+			replace(e, next(son(e)), scope);
 			retcell(e);
 			return 1;
 		}
@@ -4456,35 +4456,35 @@ refactor(exp e, exp scope)
 		 * procedures. If it decides to do so it will put the destination
 		 * in as the first parameter of the procedure.
 		 */
-		if (0 && redo_structfns && !reg_result(sh(bro(son(e)))) &&
-		    bro(son(e))->tag == ident_tag &&
-		    isvar (bro(son(e))))
+		if (0 && redo_structfns && !reg_result(sh(next(son(e)))) &&
+		    next(son(e))->tag == ident_tag &&
+		    isvar (next(son(e))))
 		{
-			exp id = bro(son(e));
+			exp id = next(son(e));
 			exp def = son(id);
-			exp body = bro(def);
+			exp body = next(def);
 
 			if (def->tag == clear_tag && body->tag == seq_tag) {
 				if (son(son(body))->tag == apply_tag &&
 				    son(son(body))->last &&
-				    bro(son(body))->tag == cont_tag &&
-				    son(bro(son(body)))->tag == name_tag &&
-				    son(son(bro(son(body)))) == id)
+				    next(son(body))->tag == cont_tag &&
+				    son(next(son(body)))->tag == name_tag &&
+				    son(son(next(son(body)))) == id)
 				{
 					exp ap = son(son(body));
-					exp p1 = bro(son(ap));
+					exp p1 = next(son(ap));
 					if (p1->tag == name_tag &&
 					    son(p1) == id && ap->last)
 					{
 						/* this is the assignment of a struct result of a proc */
-						exp p2 = bro(son(ap));
+						exp p2 = next(son(ap));
 						exp se = son(e);
 						if (p2->last) {
 							se->last = true;
 						}
 
-						bro(se) = bro(p2);
-						bro(son(ap)) = se;
+						next(se) = next(p2);
+						next(son(ap)) = se;
 						if (se->tag == name_tag &&
 						    isvar(son(se)) &&
 						    !isglob(son(se)) &&
@@ -4505,16 +4505,16 @@ refactor(exp e, exp scope)
 			int x = al1_of(sh(son(e)))->al.sh_hd;
 
 			if (x >= scharhd && x <= uwordhd && endian == ENDIAN_BIG) {
-				exp b = bro(son(e));
+				exp b = next(son(e));
 				int disp = shape_size(ulongsh) -
 				           ((x >= swordhd) ? 16 : 8);
 				exp r = getexp(f_pointer(f_alignment(sh(b))),
 				               NULL, 1, son(e), NULL, 0,
 				               disp, reff_tag);
-				bro(son(r)) = r;
+				next(son(r)) = r;
 				son(r)->last = true;
 				r = hold_refactor(r);
-				bro(r) = b;
+				next(r) = b;
 				r->last = false;
 				son(e) = r;
 				return 1;
@@ -4525,7 +4525,7 @@ refactor(exp e, exp scope)
 
 	case testbit_tag: {
 		exp arg1 = son(e);
-		exp arg2 = bro(arg1);
+		exp arg2 = next(arg1);
 
 		if (arg1->tag == val_tag && arg2->tag == val_tag &&
 		    !isbigval(arg1) && !isbigval(arg2))
@@ -4543,11 +4543,11 @@ refactor(exp e, exp scope)
 		}
 
 		if (arg1->tag == shr_tag && arg2->tag == val_tag &&
-		    bro(son(arg1))->tag == val_tag &&
-		    !isbigval(arg2) && !isbigval(bro(son(arg1))))
+		    next(son(arg1))->tag == val_tag &&
+		    !isbigval(arg2) && !isbigval(next(son(arg1))))
 		{
 			exp x = son(arg1);
-			exp nsh = bro(x);
+			exp nsh = next(x);
 			int places = no(nsh);
 			exp res;
 
@@ -4570,7 +4570,7 @@ refactor(exp e, exp scope)
 		int n, bl;
 		unsigned char nt = test_number(e);
 		arg1 = son(e);
-		arg2 = bro(arg1);
+		arg2 = next(arg1);
 
 		if (flpt_always_comparable ||
 		    (sh(arg1)->tag < shrealhd || sh(arg1)->tag > doublehd))
@@ -4655,8 +4655,8 @@ refactor(exp e, exp scope)
 		    arg1->tag == null_tag) {
 			/* constant argument always second */
 			son(e) = arg2;
-			bro(arg2) = arg1;
-			bro(arg1) = e;
+			next(arg2) = arg1;
+			next(arg1) = e;
 			arg1->last = true;
 			arg2->last = false;
 			arg2 = arg1;
@@ -4691,10 +4691,10 @@ refactor(exp e, exp scope)
 					son(e) = son(arg1);
 					sh(son(arg1)) = slongsh;
 					son(arg1)->last = false;
-					bro(son(arg1)) = son(arg2);
+					next(son(arg1)) = son(arg2);
 					sh(son(arg2)) = slongsh;
 					son(arg2)->last = true;
-					bro(son(arg2)) = e;
+					next(son(arg2)) = e;
 					return 0;
 				}
 			}
@@ -4706,9 +4706,9 @@ refactor(exp e, exp scope)
 			 */
 			ee = copyexp(e);
 			son(ee) = son(arg1);
-			bro(son(arg1)) = son(arg2);
+			next(son(arg1)) = son(arg2);
 			son(arg1)->last = false;
-			replace(e, hc(ee, bro(son(ee))), scope);
+			replace(e, hc(ee, next(son(ee))), scope);
 			retcell(arg1);
 			retcell(arg2);
 			retcell(e);
@@ -4723,15 +4723,15 @@ refactor(exp e, exp scope)
 				/* e = test(val, and(a, b)) and test is == or != */
 				exp r, t, q;
 
-				if (bro(son(arg1))->last) {
+				if (next(son(arg1))->last) {
 					if (son(arg1)->tag == chvar_tag &&
-					    bro(son(arg1))->tag == val_tag) {
+					    next(son(arg1))->tag == val_tag) {
 						/* e = test(val, and(chvar(x), val)) */
-						exp v = bro(son(arg1));
+						exp v = next(son(arg1));
 						sh(v) = sh(son(son(arg1)));
 						son(arg1) = son(son(arg1));
 						son(arg1)->last = false;
-						bro(son(arg1)) = v;
+						next(son(arg1)) = v;
 					}
 
 					r = getexp(f_top, NULL, 0, son(arg1), pt(e),
@@ -4739,26 +4739,26 @@ refactor(exp e, exp scope)
 
 					no(r) = no(e);
 					settest_number(r, test_number(e));
-					replace(e, hc(r, bro(son(r))), scope);
+					replace(e, hc(r, next(son(r))), scope);
 					retcell(e);
 
 					return 1;
 				}
 
-				for (t = son(arg1); !bro(t)->last; t = bro(t))
+				for (t = son(arg1); !next(t)->last; t = next(t))
 					;
 
-				q = bro(t);
+				q = next(t);
 				t->last = true;
-				bro(t) = arg1;
+				next(t) = arg1;
 
 				r = getexp(f_top, NULL, 0, q, pt(e), 0, 0, testbit_tag);
 				no(r) = no(e);
 				settest_number(r, test_number(e));
 				q->last = false;
-				bro(q) = arg1;
+				next(q) = arg1;
 				arg1->last = true;
-				bro(arg1) = r;
+				next(arg1) = r;
 				replace(e, r, scope);
 				retcell(e);
 
@@ -4806,10 +4806,10 @@ refactor(exp e, exp scope)
 				if (bl) {
 					exp ee = copyexp(e);
 					son(ee) = son(arg1);
-					bro(son(arg1)) = arg2;
+					next(son(arg1)) = arg2;
 					son(arg1)->last = false;
 					sh(arg2) = sh(son(arg1));
-					replace(e, hc(ee, bro(son(ee))), scope);
+					replace(e, hc(ee, next(son(ee))), scope);
 					retcell(arg1);
 					retcell(e);
 					return 1;
@@ -4849,7 +4849,7 @@ refactor(exp e, exp scope)
 					no(r) = no(e);
 					settest_number(r, test_number(e));
 					c->last = false;
-					bro(c) = arg2;
+					next(c) = arg2;
 					replace(e, hc(r, arg2), scope);
 					retcell(e);
 
@@ -4862,12 +4862,12 @@ refactor(exp e, exp scope)
 				exp arg11 = son(arg1);
 
 				/* no of places shifted right */
-				exp arg12 = bro(arg11);
+				exp arg12 = next(arg11);
 
 				if (arg11->tag == shl_tag && arg12->tag == val_tag) {
 					exp arg111 = son(arg11);
 					/* no places shifted left */
-					exp arg112 = bro(arg111);
+					exp arg112 = next(arg111);
 
 					if (arg112->tag == val_tag && no(arg112) <= no(arg12)) {
 						/* right shift */
@@ -4905,7 +4905,7 @@ refactor(exp e, exp scope)
 					sh(arg2) = sha;
 					son(e) = q;
 					q->last = false;
-					bro(q) = arg2;
+					next(q) = arg2;
 					retcell(arg1);
 					return 1;
 				}
@@ -4937,14 +4937,14 @@ refactor(exp e, exp scope)
 		if (t->tag == goto_tag && no(son(pt(t))) == 1) {
 			exp lab = pt(t);
 
-			for (q = bro(t); q != e; q = bro(q)) {
+			for (q = next(t); q != e; q = next(q)) {
 				if (q == lab) {
 					break;
 				}
 			}
 
 			if (q != e) {
-				exp rep = copy(bro(son(lab)));
+				exp rep = copy(next(son(lab)));
 #ifdef TDF_DIAG4
 				/* note copy, in case original is removed ! */
 #endif
@@ -4955,10 +4955,10 @@ refactor(exp e, exp scope)
 		}
 
 		do {
-			if (no(son(bro(t))) == 0) {
+			if (no(son(next(t))) == 0) {
 				changed = 1;
-				q = bro(t);
-				bro(t) = bro(q);
+				q = next(t);
+				next(t) = next(q);
 
 				if (q->last) {
 					t->last = true;
@@ -4968,15 +4968,15 @@ refactor(exp e, exp scope)
 
 #ifdef TDF_DIAG4
 				if (diag != DIAG_NONE) {
-					dg_dead_code(bro(son(q)), t);
+					dg_dead_code(next(son(q)), t);
 				}
 #endif
 
 				kill_exp(q, q);
 				looping = !t->last;
 			} else {
-				looping = !bro(t)->last;
-				t = bro(t);
+				looping = !next(t)->last;
+				t = next(t);
 			}
 		} while (looping);
 
@@ -5012,7 +5012,7 @@ refactor(exp e, exp scope)
 			do {
 				exp up;
 
-				t = bro(t);
+				t = next(t);
 				if (son(t) == NULL) {
 					up = t;
 				} else {
@@ -5071,14 +5071,14 @@ refactor(exp e, exp scope)
 
 	case concatnof_tag: {
 		exp a1 = son(e);
-		exp a2 = bro(a1);
+		exp a2 = next(a1);
 		exp r;
 		nat n;
 
 		if (a1->tag == string_tag && a2->tag == string_tag) {
 			/* apply if args constant */
 			char *s1 = nostr(son(e));
-			char *s2 = nostr(bro(son(e)));
+			char *s2 = nostr(next(son(e)));
 			/* note NOT zero termination convention !! */
 			int sz1, sz2, i;
 			char *newstr;
@@ -5086,7 +5086,7 @@ refactor(exp e, exp scope)
 			shape newsh;
 
 			sz1 = shape_size(sh(son(e)))      / 8;
-			sz2 = shape_size(sh(bro(son(e)))) / 8;
+			sz2 = shape_size(sh(next(son(e)))) / 8;
 
 			if (sz1 + sz2 == 0) {
 				newstr = NULL;
@@ -5125,7 +5125,7 @@ refactor(exp e, exp scope)
 	case bfass_tag:
 	case bfassvol_tag: {
 		exp p = son(e);
-		exp val = bro(p);
+		exp val = next(p);
 		int bsz = shape_size(sh(val));
 		int rsz;
 		int rsh;

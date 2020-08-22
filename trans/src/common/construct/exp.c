@@ -128,7 +128,7 @@ getexp(shape s, exp b, int l, exp sn, exp px, prop pr, int n, unsigned char tag)
 
 	res = next_exp();
 	sh(res)  = s;
-	bro(res) = b;
+	next(res) = b;
 
 	if (l) {
 		res->last = true;
@@ -178,7 +178,7 @@ getshape(int l, alignment sn, alignment px, alignment pr, int n,
 
 	res->son.ald = sn;
 	res->pt.ald  = px;
-	res->bro.ald = pr;
+	res->next.ald = pr;
 
 	no(res)  = n;
 	res->tag = tag;
@@ -209,7 +209,7 @@ internal_to(exp whole, exp part)
 	while (q != whole && q != NULL &&
 	       !(q->tag == ident_tag && isglob(q))) {
 		f = (int)(q->last);
-		q = bro(q);
+		q = next(q);
 	}
 
 	/* ascend from part until we reach either whole or top of tree */
@@ -251,7 +251,7 @@ kill_exp(exp e, exp scope)
 
 		pt(q) = pt(e);		/* remove from usage list */
 		if (no(son(e)) == 0 && son(son(e)) != NULL &&
-			bro(son(son(e))) != NULL &&
+			next(son(son(e))) != NULL &&
 			(scope == NULL || internal_to(scope, son(e)))) {
 			IGNORE refactor(son(e), scope);
 		}
@@ -267,11 +267,11 @@ kill_exp(exp e, exp scope)
 		if (!son(e)->last) {
 			exp t;
 
-			t = bro(son(e));
+			t = next(son(e));
 			do {
 				no(son(t)) = 0;
 				looping = !t->last;
-				t = bro(t);
+				t = next(t);
 			} while (looping);
 		}
 
@@ -300,7 +300,7 @@ kill_exp(exp e, exp scope)
 	if (n == labst_tag) {
 		no(e)++;
 		proc_label_count--;
-		kill_el(bro(son(e)), scope);
+		kill_el(next(son(e)), scope);
 		retcell(son(e));
 		retcell(e);
 		return;
@@ -309,10 +309,10 @@ kill_exp(exp e, exp scope)
 	if (n == case_tag) {
 		exp b, nextb;
 
-		for (b = bro(son(e)); b != NULL; b = nextb) {
+		for (b = next(son(e)); b != NULL; b = nextb) {
 			int l;
 
-			nextb = bro(b);
+			nextb = next(b);
 			l     = b->last;
 
 			no(son(pt(b)))--;
@@ -332,7 +332,7 @@ kill_exp(exp e, exp scope)
 	}
 
 	if (n == cond_tag) {
-		no(son(bro(son(e)))) = 0;
+		no(son(next(son(e)))) = 0;
 		kill_el(son(e), scope);
 		retcell(e);
 		return;
@@ -343,7 +343,7 @@ kill_exp(exp e, exp scope)
 			son(pt(e)) = NULL;
 		}
 
-		no(son(bro(son(e)))) = 0;
+		no(son(next(son(e)))) = 0;
 		kill_el(son(e), scope);
 		retcell(e);
 		return;
@@ -372,7 +372,7 @@ kill_exp(exp e, exp scope)
 		if (p != NULL && (props(son(p)) & 1) == 0) {
 			/* decrease label usage count */
 			no(son(p))--;
-			if (no(son(p)) == 0 && !is_loaded_lv(p) && bro(son(p)) != NULL &&
+			if (no(son(p)) == 0 && !is_loaded_lv(p) && next(son(p)) != NULL &&
 				(scope == NULL || internal_to(scope, p))) {
 				/* process if now no use of label and not doing deadvar */
 				altered (p, scope);
@@ -400,7 +400,7 @@ kill_el (exp e, exp scope)
 
 	do {
 		l = (int)(e->last);
-		next = bro(e);
+		next = next(e);
 		kill_exp(e, scope);
 		e = next;
 	} while (!l && e != NULL);
@@ -497,11 +497,11 @@ case_item(exp i)
 	exp thigh;
 	exp nlow, nhigh;
 
-	while (go && bro(t) != NULL) {
-		exp j = bro(t);
+	while (go && next(t) != NULL) {
+		exp j = next(t);
 		exp  highj = (son(j) == NULL) ? j : son(j);
 		if (docmp_f((int)f_greater_than, i, highj)) {
-			t = bro(t);
+			t = next(t);
 		} else {
 			go = 0;
 		}
@@ -513,9 +513,9 @@ case_item(exp i)
 		SET(thigh);
 	}
 
-	if (bro(t) != NULL) {
-		nlow = bro(t);
-		nhigh = (son(bro(t)) == NULL) ? nlow : son(bro(t));
+	if (next(t) != NULL) {
+		nlow = next(t);
+		nhigh = (son(next(t)) == NULL) ? nlow : son(next(t));
 	} else {
 		SET(nlow);
 		SET(nhigh);
@@ -524,38 +524,38 @@ case_item(exp i)
 	if (t != l && docmp_f((int)f_less_than_or_equal, i, thigh)) {
 		error(ERR_INTERNAL, "case tags overlap");
 	}
-	if (bro(t) != NULL &&
+	if (next(t) != NULL &&
 	    docmp_f((int)f_greater_than_or_equal, newhigh, nlow)) {
 		error(ERR_INTERNAL, "case tags overlap");
 	}
 
 	if (isbigval(i) || isbigval(newhigh)) {
-		bro(i) = bro(t);
-		bro(t) = i;
+		next(i) = next(t);
+		next(t) = i;
 		return;
 	}
 
 	if (t != l && (no(i) - 1) == no(thigh) && pt(i) == pt(t)) {
-		if (bro(t) != NULL && (no(newhigh) + 1) == no(nlow) &&
-		    pt(i) == pt(bro(t))) {
+		if (next(t) != NULL && (no(newhigh) + 1) == no(nlow) &&
+		    pt(i) == pt(next(t))) {
 
-			if (son(bro(t)) != NULL) {
+			if (son(next(t)) != NULL) {
 				if (son(t) != NULL) {
 					retcell(son(t));
 				}
-				son(t) = son(bro(t));
-				bro(t) = bro(bro(t));
+				son(t) = son(next(t));
+				next(t) = next(next(t));
 				return;
 			}
 
 			if (son(t) != NULL) {
 				no(son(t)) = no(nhigh);
-				bro(t) = bro(bro(t));
+				next(t) = next(next(t));
 				return;
 			}
 
 			setson(t, getexp(slongsh, NULL, 1, NULL, NULL, 0, no(nhigh), 0));
-			bro(t) = bro(bro(t));
+			next(t) = next(next(t));
 			return;
 		}
 
@@ -568,29 +568,29 @@ case_item(exp i)
 		return;
 	}
 
-	if (bro(t) != NULL && (no(newhigh) + 1) == no(nlow) &&
-	    pt(i) == pt(bro(t))) {
+	if (next(t) != NULL && (no(newhigh) + 1) == no(nlow) &&
+	    pt(i) == pt(next(t))) {
 
-		if (son(bro(t)) != NULL) {
-			no(bro(t)) = no(i);
+		if (son(next(t)) != NULL) {
+			no(next(t)) = no(i);
 			return;
 		}
 
 		if (son(i) != NULL) {
 			no(son(i)) = no(nhigh);
-			bro(i) = bro(bro(t));
-			bro(t) = i;
+			next(i) = next(next(t));
+			next(t) = i;
 			return;
 		}
 
-		son(i) = bro(t);
-		bro(i) = bro(bro(t));
-		bro(t) = i;
+		son(i) = next(t);
+		next(i) = next(next(t));
+		next(t) = i;
 		return;
 	}
 
-	bro(i) = bro(t);
-	bro(t) = i;
+	next(i) = next(t);
+	next(t) = i;
 }
 
 /*
@@ -613,14 +613,14 @@ scan_solve(exp e)
 
 	case ident_tag:
 		scan_solve(son(e));
-		scan_solve(bro(son(e)));
+		scan_solve(next(son(e)));
 		return;
 
 	case case_tag: {
 		exp t;
 
-		for (t = son(e); !t->last; t = bro(t)) {
-			exp s = son(pt(bro(t)));
+		for (t = son(e); !t->last; t = next(t)) {
+			exp s = son(pt(next(t)));
 			if (isvar(s)) {
 				++no(s);
 			}
@@ -640,7 +640,7 @@ scan_solve(exp e)
 		if (son(e) != NULL) {
 			exp t;
 
-			for (t = son(e); scan_solve(t), !t->last; t = bro(t))
+			for (t = son(e); scan_solve(t), !t->last; t = next(t))
 				;
 		}
 
@@ -705,7 +705,7 @@ clean_labelled(exp main, label_list placelabs)
 		exp t = son(lab);
 		if ((props(t) & 8) != 8) {
 			/* remove unwanted statements */
-			kill_exp (bro(t), bro(t));
+			kill_exp (next(t), next(t));
 		} else {
 			/* form the result shape of the whole */
 			s = lub_shape(s, sh(lab));
@@ -717,13 +717,13 @@ clean_labelled(exp main, label_list placelabs)
 	for (i = 0; i < ord_no; ++i) {
 		/* set up the solve with the statements in the order specified by ord */
 		q->last = false;
-		bro(q) = get_lab(placelabs.elems[ord[i]]);
-		q = bro(q);
+		next(q) = get_lab(placelabs.elems[ord[i]]);
+		q = next(q);
 		props(son(q)) = (prop)(props(son(q)) & 0xfe);
 	}
 
 	son(crt_repeat) = r;
-	crt_repeat = bro(crt_repeat);
+	crt_repeat = next(crt_repeat);
 	setfather(r, q);
 	return r;
 }
@@ -736,7 +736,7 @@ refto(exp f, exp e)
 {
 	exp *x;
 
-	for (x = &son(f); *x != e; x = &bro(*x))
+	for (x = &son(f); *x != e; x = &next(*x))
 		;
 
 	return x;
@@ -753,10 +753,10 @@ father(exp e)
 	}
 
 	while (!e->last) {
-		e = bro(e);
+		e = next(e);
 	}
 
-	return bro(e);
+	return next(e);
 }
 
 /*
@@ -767,13 +767,13 @@ altaux(exp e, int n, exp scope)
 {
 	exp f;
 
-	if (bro(e) == NULL || e == scope || (e->tag == ident_tag && isglob(e))) {
+	if (next(e) == NULL || e == scope || (e->tag == ident_tag && isglob(e))) {
 		/* ignore if top of tree */
 		return;
 	}
 
 	f = father(e);
-	if (f == NULL || bro(f) == NULL || (f->tag == ident_tag && isglob(f))) {
+	if (f == NULL || next(f) == NULL || (f->tag == ident_tag && isglob(f))) {
 		/* ignore if top of tree */
 		return;
 	}
@@ -817,7 +817,7 @@ replace(exp old, exp e, exp scope)
 		e->last = false;
 	}
 
-	bro(e) = bro(*ref);
+	next(e) = next(*ref);
 	*ref = e;
 
 	if (scope == old) {
@@ -879,36 +879,36 @@ exp copy_cpd(exp e, exp new_record, exp var, exp lab)
 	}
 
 	/* copy the labelled statements */
-	q = bro(son(e));
+	q = next(son(e));
 	copy_labst(q);
 	while (!q->last) {
-		q = bro(q);
+		q = next(q);
 		copy_labst(q);
 	}
 
 	/* copy the bodies of the labelled statments */
-	q = bro(son(e));
-	while (j = copy_res(bro(son(q)), var, lab), c = pt(q), bro(son(c)) = j,
-	       bro(j) = c, j->last = true, !q->last) {
-		q = bro(q);
+	q = next(son(e));
+	while (j = copy_res(next(son(q)), var, lab), c = pt(q), next(son(c)) = j,
+	       next(j) = c, j->last = true, !q->last) {
+		q = next(q);
 	}
 
 	/* copy the lead statement */
 	s = copy_res(son(e), var, lab);
 	son(t) = s;
 	s->last = false;
-	q = bro(son(e));
+	q = next(son(e));
 	n = s;
 
 	/* restore the labelled statements */
-	while (k = undo_labst(q), bro(n) = k, n->last = false, !q->last) {
-		q = bro(q);
-		n = bro(n);
+	while (k = undo_labst(q), next(n) = k, n->last = false, !q->last) {
+		q = next(q);
+		n = next(n);
 	}
 
-	n = bro(n);
+	n = next(n);
 	n->last = true;
-	bro(n) = t;
+	next(n) = t;
 	return t;
 }
 
@@ -942,19 +942,19 @@ copy_res(exp e, exp var, exp lab)
 			   original */
 		pt(t) = NULL;		/* set the new usage list to empty */
 		s = copy_res(son(e), var, lab);	/* copy the definition */
-		bs = copy_res(bro(son(e)), var, lab);/* copy the body */
+		bs = copy_res(next(son(e)), var, lab);/* copy the body */
 
 		son(t) = s;
-		bro(s) = bs;
-		bro(bs) = t;
+		next(s) = bs;
+		next(bs) = t;
 		s->last = false;
 		bs->last = true;
 		pt(e) = x;		/* reset the remembered usage list */
 		clearcopy (e);		/* remove the copying flag */
 
 		if (n == ident_tag) {
-			/* in case bro(son(t)) is a tuple */
-			sh (t) = sh(bro(son(t)));
+			/* in case next(son(t)) is a tuple */
+			sh (t) = sh(next(son(t)));
 		}
 
 		return t;
@@ -1004,13 +1004,13 @@ copy_res(exp e, exp var, exp lab)
 		exp z;
 
 		if (record != NULL) {
-			exp senior = bro(record);
+			exp senior = next(record);
 			exp new_record = copyexp(record);
 
 			if (senior == NULL) {
 				/* XX008 */
 				senior = crt_repeat;
-				bro(new_record) = senior;
+				next(new_record) = senior;
 			}
 
 			set_copying_solve (record);/* mark as being copied */
@@ -1019,7 +1019,7 @@ copy_res(exp e, exp var, exp lab)
 			if (senior != NULL) {
 				/* update repeat records */
 				if ((props(senior) & 1) == 1) {
-					bro(new_record) = pt(senior);
+					next(new_record) = pt(senior);
 				} else {
 					++no(senior);
 				}
@@ -1042,19 +1042,19 @@ copy_res(exp e, exp var, exp lab)
 
 		son(z) = t;
 		while (!q->last) {
-			setbro(p, copyexp(bro(q)));
-			if (son(bro(q)) != NULL) {
-				setson(bro(p), copyexp(son(bro(q))));
+			setnext(p, copyexp(next(q)));
+			if (son(next(q)) != NULL) {
+				setson(next(p), copyexp(son(next(q))));
 			}
-			labloc = pt(bro(p));
+			labloc = pt(next(p));
 			tp = (copying(labloc)) ? pt(labloc) : labloc;
-			pt(bro(p)) = tp;
+			pt(next(p)) = tp;
 			no(son(tp)) ++;
-			p = bro(p);
-			q = bro(q);
+			p = next(p);
+			q = next(q);
 		}
 
-		bro(p) = z;
+		next(p) = z;
 		if (PIC_code) {
 			proc_externs = true;
 		}
@@ -1135,7 +1135,7 @@ copy_res(exp e, exp var, exp lab)
 				el.number = 1;
 #if TDF_DIAG4
 				if (extra_diags) {
-					diag_inline_result(bro(son(ass)));
+					diag_inline_result(next(son(ass)));
 				}
 #endif
 				return f_sequence(el, go);
@@ -1194,19 +1194,19 @@ copy_res(exp e, exp var, exp lab)
 			exp ptt = q;
 
 			while (!t->last) {	/* copy the arguments */
-				setbro(ptt, copy_res(bro(t), var, lab));
+				setnext(ptt, copy_res(next(t), var, lab));
 				ptt->last = false;
-				t = bro(t);
-				ptt = bro(ptt);
+				t = next(t);
+				ptt = next(ptt);
 			}
 
 			son(z) = q;
-			bro(ptt) = z;
+			next(ptt) = z;
 			ptt->last = true;
 
 			if (n == labst_tag || n == seq_tag) {
-				/* in case bro(son(z)) is a tuple */
-				sh(z) = sh(bro(son(z)));
+				/* in case next(son(z)) is a tuple */
+				sh(z) = sh(next(son(z)));
 			}
 
 			return z;
@@ -1249,7 +1249,7 @@ is_comm(exp e)
 		}
 
 		for (;;) {
-			t = bro(t);
+			t = next(t);
 
 			if (sh(t)->tag != bitfhd) {
 				if (!is_comm(t)) {
@@ -1271,7 +1271,7 @@ is_comm(exp e)
 				return true;
 			}
 
-			t = bro(t);
+			t = next(t);
 		}
 		/* Not reached */
 	}
@@ -1295,7 +1295,7 @@ is_comm(exp e)
 				return true;
 			}
 
-			t = bro(t);
+			t = next(t);
 		}
 
 		/* Not reached */
@@ -1303,7 +1303,7 @@ is_comm(exp e)
 
 	case concatnof_tag: {
 		exp t = son(e);
-		return is_comm(t) && is_comm(bro(t));
+		return is_comm(t) && is_comm(next(t));
 	}
 
 	case clear_tag:

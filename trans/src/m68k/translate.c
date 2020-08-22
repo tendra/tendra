@@ -72,12 +72,12 @@ mark_unaliased(exp e)
 	bool ca = 1;
 
 	for (p = pt(e); p != NULL && ca; p = pt(p)) {
-		exp q = bro(p);
+		exp q = next(p);
 
 		if (q == NULL) {
 			ca = 0;
 		} else if (!(p->last && q->tag == cont_tag) &&
-		          !(!p->last && q->last && bro(q)->tag == ass_tag)) {
+		          !(!p->last && q->last && next(q)->tag == ass_tag)) {
 			ca = 0;
 		}
 	}
@@ -126,7 +126,7 @@ local_translate_capsule(void)
 
 				np = pt(p);
 				ptr = refto(father(p), p);
-				c = getexp(sh(p), bro(p), p->last, p, NULL, 0, 0, cont_tag);
+				c = getexp(sh(p), next(p), p->last, p, NULL, 0, 0, cont_tag);
 
 				setfather(c, p);
 
@@ -271,7 +271,7 @@ code_const_list(void)
 		t = const_list;
 		s = son(t);
 		b = (s->tag != res_tag);
-		const_list = bro(const_list);
+		const_list = next(const_list);
 
 		if (s->tag == proc_tag || s->tag == general_proc_tag) {
 			char *name = xmalloc(30);
@@ -295,7 +295,7 @@ const_ready(exp e)
 	unsigned char n = e->tag;
 
 	if (n == env_size_tag) {
-		return brog(son(son(e)))->processed;
+		return nextg(son(son(e)))->processed;
 	}
 
 	if (n == env_offset_tag) {
@@ -306,7 +306,7 @@ const_ready(exp e)
 		return 1;
 	}
 
-	for (e = son(e); !e->last; e = bro(e)) {
+	for (e = son(e); !e->last; e = next(e)) {
 		if (!const_ready(e)) {
 			return 0;
 		}

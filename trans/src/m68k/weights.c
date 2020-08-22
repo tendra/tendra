@@ -247,7 +247,7 @@ add_wlist(exp re, explist *el)
 	wl1 = weightsv(re, el);
 
 	while (!re->last) {
-		re = bro(re);
+		re = next(re);
 		wl2 = weightsv(re, el);
 		wl1 = add_weights(wl1, wl2);
 	}
@@ -294,8 +294,8 @@ weightsv(exp e, explist *el)
 
 		while (isvar(e) && !isvis(e) && t != NULL) {
 			/* Scan along pt list */
-			if (!(t->last && bro(t)->tag == cont_tag) &&
-			    !(bro(t)->last && ass(bro(bro(t)))))
+			if (!(t->last && next(t)->tag == cont_tag) &&
+			    !(next(t)->last && ass(next(next(t)))))
 				/* Make sure it will not go in register */
 			{
 				setvis(e);
@@ -309,7 +309,7 @@ weightsv(exp e, explist *el)
 			fno(e) = 0.0f;
 
 			/* Work out weights for the body */
-			wbody = weightsv(bro(d), &nel);
+			wbody = weightsv(next(d), &nel);
 
 			/* Work out weights for the definition */
 			if (d->tag == clear_tag) {
@@ -389,18 +389,18 @@ weightsv(exp e, explist *el)
 			weights wbody;
 			float old_scale = scale;
 			scale = fno(e);
-			wbody = weightsv(bro(son(e)), &nel);
+			wbody = weightsv(next(son(e)), &nel);
 			scale = old_scale;
 			return wbody;
 		} else {
-			return add_wlist(bro(son(e)), &nel);
+			return add_wlist(next(son(e)), &nel);
 		}
 	}
 
 	case rep_tag: {
 		weights swl, bwl;
 		swl = weightsv(son(e), el);
-		bwl = weightsv(bro(son(e)), el);
+		bwl = weightsv(next(son(e)), el);
 		return add_weights(swl, bwl);
 	}
 
@@ -423,7 +423,7 @@ weightsv(exp e, explist *el)
 	case assvol_tag: {
 		weights swl, bwl;
 		swl = weightsv(son(e), el);
-		bwl = weightsv(bro(son(e)), el);
+		bwl = weightsv(next(son(e)), el);
 		return add_weights(swl, bwl);
 	}
 

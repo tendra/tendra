@@ -266,7 +266,7 @@ contop(exp a, int r0inuse, where dest)
 	    && son(a)->tag == ident_tag) {
 		/* IF 1 */
 		ash st;				/* dummy stack for use by make_code */
-		exp fin = bro (son (son (a)));	/* fin holds body of final identity */
+		exp fin = next (son (son (a)));	/* fin holds body of final identity */
 		unsigned char  oldn = fin->tag;		/* oldn hold name of final identity */
 		exp id1 = son (a);			/* outer identity */
 		int  inreg1 = ptno(son(son(id1))) == reg_pl;
@@ -286,12 +286,12 @@ contop(exp a, int r0inuse, where dest)
 		if (oldn == ident_tag) {
 			/* IF 2 */
 			/* body of id1 is an identity, so TWO identities, so addptr ivolved */
-			exp id2 = bro (son (id1));	/* inner identity */
+			exp id2 = next (son (id1));	/* inner identity */
 			int  inreg2 = ptno(son(son(id2))) == reg_pl;
 			/* true if def of inner identity is already in a register */
 			int  regs_good = regs_free + inreg1 + inreg2;
 			/* we want two registers but the definitions of id1 and id2 will do */
-			fin = bro(son(fin));
+			fin = next(son(fin));
 			oldn = fin->tag;		/* correct fin and oldn */
 
 			if (regs_good < 2) {
@@ -345,7 +345,7 @@ contop(exp a, int r0inuse, where dest)
 					 * This must be an addptr, note that the calculations
 					 * cannot involve the free reg.
 					 */
-					if (bro(son(fin))->tag == name_tag) {
+					if (next(son(fin))->tag == name_tag) {
 						/*
 						 * The offset is named, so add the pointer to the
 						 * offset and put in the free register.
@@ -356,9 +356,9 @@ contop(exp a, int r0inuse, where dest)
 						 * This is an offset_mult so do the arithmetic of address
 						 * calculation and put the address in the free register.
 						 */
-						exp m = bro(son(fin));
+						exp m = next(son(fin));
 						move(slongsh, mw(son(id1), 0), use_reg);
-						mult(slongsh, use_reg, mw(bro(son(m)), 0),
+						mult(slongsh, use_reg, mw(next(son(m)), 0),
 						     use_reg);
 						add(slongsh, mw(son(id2), 0), use_reg, use_reg);
 					}
@@ -397,7 +397,7 @@ contop(exp a, int r0inuse, where dest)
 				overflow_e = NULL;
 
 				/* it must be an addptr */
-				if (bro(son(fin))->tag == name_tag) {
+				if (next(son(fin))->tag == name_tag) {
 					/* the offset is named */
 					move(slongsh, mw(son(id1), 0), SPILLREG);
 					/* put the offset in SPILLREG */
@@ -413,10 +413,10 @@ contop(exp a, int r0inuse, where dest)
 					}
 				} else {
 					/* the offset is an offset_mult */
-					exp m = bro(son(fin));
+					exp m = next(son(fin));
 					move(slongsh, mw(son(id1), 0), SPILLREG);
 					/* number to SPILLREG */
-					mult(slongsh, SPILLREG, mw(bro(son(m)), 0), SPILLREG);
+					mult(slongsh, SPILLREG, mw(next(son(m)), 0), SPILLREG);
 					/* multiply by size */
 					if (eq_where(SPILLREG, mw(son(id2), 0)))
 						/* id2 is the SPILLREG, so add the pushed value */
@@ -763,7 +763,7 @@ cmp(shape sha, where from, where min, int nt, exp e)
 	    (eq_where(min, zero) || (min.where_exp->tag == null_tag && no(min.where_exp) == 0)) &&
 	    (is_signed(sha) || nt >= 5) &&
 	    ((cc->tag == ident_tag && eq_shape(sh(son(cc)), sha)) ||
-	     (cc->tag == ass_tag && eq_shape(sh(bro(son(cc))), sha)) ||
+	     (cc->tag == ass_tag && eq_shape(sh(next(son(cc))), sha)) ||
 	     eq_shape(sh(cc), sha)) &&
 	    eq_where(cond1, from) && sz <= 32) {
 		return 1;
@@ -798,7 +798,7 @@ cmp(shape sha, where from, where min, int nt, exp e)
 		    (eq_where(min, zero) || (min.where_exp->tag == null_tag && no(min.where_exp) == 0)) &&
 		    (is_signed(sha) || nt >= 5) &&
 		    ((cc->tag == ident_tag && eq_shape(sh(son(cc)), sha)) ||
-		     (cc->tag == ass_tag && eq_shape(sh(bro(son(cc))), sha)) ||
+		     (cc->tag == ass_tag && eq_shape(sh(next(son(cc))), sha)) ||
 		     eq_shape(sh(cc), sha)) &&
 		    eq_where(cond1, from) && sz <= 32) {
 			return 1;    /* we are comparing the value from which the conditions are set with zero */
@@ -919,7 +919,7 @@ cmp(shape sha, where from, where min, int nt, exp e)
 				      (PIC_code &&
 				       isglob(son(from.where_exp)) &&
 				       (sha->tag == prokhd || sha->tag == ptrhd) &&
-				       !brog(son(from.where_exp))-> extnamed))) ||
+				       !nextg(son(from.where_exp))-> extnamed))) ||
 				    from.where_exp->tag == reff_tag)
 				{
 					mova(from, reg0);
@@ -961,7 +961,7 @@ cmp(shape sha, where from, where min, int nt, exp e)
 			     ptno(son(me)) <= par_pl) ||
 			    (PIC_code && me->tag == name_tag && isglob(son(me)) &&
 			     (sha->tag == prokhd || sha->tag == ptrhd) &&
-			     !brog(son(me))-> extnamed) ||
+			     !nextg(son(me))-> extnamed) ||
 			    (me->tag == reff_tag && son(me)->tag == name_tag &&
 			     !isvar(son(son(me)))))
 			{

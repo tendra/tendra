@@ -125,7 +125,7 @@ ret_constlist(exp head)
 	t = son(head);
 	retcell(head);
 	while (t != limit) {
-		n = bro(t);
+		n = next(t);
 		retcell(t);
 		t = n;
 	}
@@ -142,7 +142,7 @@ static maxconst max_const(exp, exp, int);
  *
  *  whole   the program region under consideration
  *  e       the first expression in the list. Expressions are
- *          linked via the brother field.
+ *          linked via the next field.
  *  ass_ok  all assignments in this region are to simple unaliassed variables
  *  good    if this is true AND all the expressions in the list are
  *          constant then the value self_const is returned.
@@ -160,7 +160,7 @@ maxconst mc_list(exp whole, exp e, int ass_ok, int good)
 	do {
 		/* NB - t may be killed within max_const (offset_mult) */
 		/* so remember next one in list */
-		exp next_t = bro(t);
+		exp next_t = next(t);
 		if (t->last) {
 			contin = false;
 		}
@@ -175,7 +175,7 @@ maxconst mc_list(exp whole, exp e, int ass_ok, int good)
 				result.cont = getexp(f_bottom, NULL, false, w, w, 0,  0, 0);
 			} else {
 				/* add this to list */
-				bro(pt(result.cont)) = w;
+				next(pt(result.cont)) = w;
 				pt(result.cont) = w;
 			}
 		} else {
@@ -184,7 +184,7 @@ maxconst mc_list(exp whole, exp e, int ass_ok, int good)
 				/* but t has constants in it */
 				if (result.cont != NULL) {
 					/* add them to list */
-					bro(pt(result.cont)) = son(mc.cont);
+					next(pt(result.cont)) = son(mc.cont);
 					pt(result.cont) = pt(mc.cont);
 					retcell(mc.cont);
 				} else {
@@ -244,7 +244,7 @@ not_ass2(exp vardec, exp piece)
 		while (q != NULL && q != piece && q != vardec &&
 		       q->tag != rep_tag && (q->tag != ident_tag || !isglob(q))) {
 			upwards = q;
-			q = bro(q);
+			q = next(q);
 		}
 
 		if (q != NULL && q != piece && q->tag == rep_tag) {
@@ -253,7 +253,7 @@ not_ass2(exp vardec, exp piece)
 			exp h = pt(q), hp = pt(piece);
 
 			while (h != NULL && h != hp) {
-				h = bro(h);
+				h = next(h);
 			}
 
 			if (h == hp) {
@@ -261,7 +261,7 @@ not_ass2(exp vardec, exp piece)
 				q = piece;
 				upwards = son(q);
 				while (!upwards->last) {
-					upwards = bro(upwards);
+					upwards = next(upwards);
 				}
 			} else {
 				q = NULL;
@@ -275,15 +275,15 @@ not_ass2(exp vardec, exp piece)
 				return false;
 			}
 
-			if (!t->last && bro(t)->last &&
-			    (bro(bro(t))->tag == ass_tag || bro(bro(t))->tag == assvol_tag)) {
+			if (!t->last && next(t)->last &&
+			    (next(next(t))->tag == ass_tag || next(next(t))->tag == assvol_tag)) {
 				/* the use was an assignment */
 				return false;
 			}
 
-			if (!t->last && bro(t)->last && bro(bro(t))->tag == ident_tag) {
+			if (!t->last && next(t)->last && next(next(t))->tag == ident_tag) {
 				/* use in declaration */
-				if (!isvar(bro(bro(t))) && !not_assigned_to(bro(bro(t)), bro(t))) {
+				if (!isvar(next(next(t))) && !not_assigned_to(next(next(t)), next(t))) {
 					return false;
 				}
 			} else {
@@ -291,20 +291,20 @@ not_ass2(exp vardec, exp piece)
 
 				if (dad->tag == addptr_tag && son(dad) == t) {
 					/* use in subscript .... */
-					if (!dad->last && bro(dad)->last &&
-					    (bro(bro(dad))->tag == ass_tag ||
-					     bro(bro(dad))->tag == assvol_tag))
+					if (!dad->last && next(dad)->last &&
+					    (next(next(dad))->tag == ass_tag ||
+					     next(next(dad))->tag == assvol_tag))
 					{
 						/* the use was an assignment */
 						return false;
 					}
 
-					if (!dad->last && bro(dad)->last &&
-					    bro(bro(dad))->tag == ident_tag)
+					if (!dad->last && next(dad)->last &&
+					    next(next(dad))->tag == ident_tag)
 					{
 						/* ... which is identified */
-						if (!isvar(bro(bro(dad))) &&
-						    !not_assigned_to(bro(bro(dad)), bro(dad)))
+						if (!isvar(next(next(dad))) &&
+						    !not_assigned_to(next(next(dad)), next(dad)))
 						{
 							return false;
 						}
@@ -398,7 +398,7 @@ max_const(exp whole, exp e, int ass_ok)
 {
 	switch (e->tag) {
 	case labst_tag:
-		return mc_list(whole, bro(son(e)), ass_ok, false);
+		return mc_list(whole, next(son(e)), ass_ok, false);
 
 	case contvol_tag:
 	case case_tag:
@@ -411,7 +411,7 @@ max_const(exp whole, exp e, int ass_ok)
 		maxconst mc;
 		maxconst mct;
 
-		mc = max_const(whole, bro(son(e)), ass_ok);
+		mc = max_const(whole, next(son(e)), ass_ok);
 		mct = mc_list(whole, son(e), ass_ok, optop(e));
 		if (mct.self) {
 			return mct;
@@ -425,7 +425,7 @@ max_const(exp whole, exp e, int ass_ok)
 
 			flt_copy(flptnos[fone_no], &flptnos[f]);
 			funit = getexp(sh(e), NULL, 0, NULL, NULL, 0, f, real_tag);
-			temp1 = me_b3(sh(e), funit, bro(son(e)), fdiv_tag);
+			temp1 = me_b3(sh(e), funit, next(son(e)), fdiv_tag);
 			temp2 = me_b3(sh(e), son(e), temp1, fmult_tag);
 
 #ifdef TDF_DIAG4
@@ -515,7 +515,7 @@ max_const(exp whole, exp e, int ass_ok)
 			int arg_count = 0;
 			int tot_args = 1;
 
-			for (this = son(e); !this->last; this = bro(this)) {
+			for (this = son(e); !this->last; this = next(this)) {
 				tot_args++;
 			}
 
@@ -525,7 +525,7 @@ max_const(exp whole, exp e, int ass_ok)
 				this = son(h);
 				arg = son(e);
 				while (arg != NULL && arg != this) {
-					arg = (arg->last ? NULL : bro(arg));
+					arg = (arg->last ? NULL : next(arg));
 				}
 				if (arg != NULL) {
 					/* it's an argument of this operator */
@@ -533,7 +533,7 @@ max_const(exp whole, exp e, int ass_ok)
 					pt(h) = e;
 					last_h = h;
 				}
-				h = (h == limit ? NULL : bro(h));
+				h = (h == limit ? NULL : next(h));
 			}
 
 			/* remove reference to operator if only 1 arg is const */
@@ -570,8 +570,8 @@ max_const(exp whole, exp e, int ass_ok)
 
 			/* return up the chain, testing the offsets */
 			while (p != e) {
-				mx = max_const(whole, bro(p), ass_ok);
-				p = bro(p);		/* p is now the offset */
+				mx = max_const(whole, next(p), ass_ok);
+				p = next(p);		/* p is now the offset */
 
 				/* add offset to appropriate list */
 				list = (mx.self) ? &c_list : &v_list;
@@ -587,16 +587,16 @@ max_const(exp whole, exp e, int ass_ok)
 							no(h) = -1;	/* set "done" flag */
 						}
 
-						h = (h == lim ? NULL : bro(h));
+						h = (h == lim ? NULL : next(h));
 					}
 
 					/* add constant parts to mc */
-					bro(pt(mx.cont)) = son(mc.cont);
+					next(pt(mx.cont)) = son(mc.cont);
 					son(mc.cont) = son(mx.cont);
 					retcell(mx.cont);
 				}
 
-				p = bro(p); /* p is now the next higher operation */
+				p = next(p); /* p is now the next higher operation */
 			}
 
 			if (v_list == NULL) {
@@ -604,7 +604,7 @@ max_const(exp whole, exp e, int ass_ok)
 				/* return c_list elements */
 				while (c_list != NULL) {
 					x = c_list;
-					c_list = bro(c_list);
+					c_list = next(c_list);
 					retcell(x);
 				}
 
@@ -624,13 +624,13 @@ max_const(exp whole, exp e, int ass_ok)
 			while (v_list != NULL) {
 				/* put next offset in 2nd argument position */
 				x = son(p);
-				bro(x) = son(v_list);
-				bro(bro(x)) = p;
+				next(x) = son(v_list);
+				next(next(x)) = p;
 				p = x;		/* point to 1st argument */
 
 				/* traverse v_list, returning elements */
 				x = v_list;
-				v_list = bro(x);
+				v_list = next(x);
 				retcell(x);
 			}
 
@@ -641,13 +641,13 @@ max_const(exp whole, exp e, int ass_ok)
 			while (c_list != NULL) {
 				/* put next offset in 2nd argument position */
 				x = son(p);
-				bro(x) = son(c_list);
-				bro(bro(x)) = p;
+				next(x) = son(c_list);
+				next(next(x)) = p;
 				p = x;		/* point to 1st argument */
 
 				/* traverse c_list, returning elements */
 				x = c_list;
-				c_list = bro(x);
+				c_list = next(x);
 				retcell(x);
 			}
 
@@ -659,7 +659,7 @@ max_const(exp whole, exp e, int ass_ok)
 
 	case offset_mult_tag: {
 		exp arg1 = son(e);
-		exp arg2 = bro(arg1);
+		exp arg2 = next(arg1);
 
 		maxconst mc1, mc2;
 		shape ofsh = sh(e);
@@ -703,7 +703,7 @@ max_const(exp whole, exp e, int ass_ok)
 					if (m_arg->last) {
 						m_arg = NULL;
 					} else {
-						m_arg = bro(m_arg);
+						m_arg = next(m_arg);
 					}
 				}
 
@@ -717,12 +717,12 @@ max_const(exp whole, exp e, int ass_ok)
 						exp a1 = copy(son(z));
 						exp offmul = getexp(ofsh, NULL, false, a1, NULL,
 						                    0,  0, offset_mult_tag);
-						setbro(a1, m_res);
+						setnext(a1, m_res);
 						a1->last = false;
-						setbro(m_res, offmul);
+						setnext(m_res, offmul);
 						m_res->last = true;
 						m_res = hold_refactor(offmul);
-						*list = bro(z);
+						*list = next(z);
 						retcell(z);
 					}
 				}
@@ -735,7 +735,7 @@ max_const(exp whole, exp e, int ass_ok)
 					m_res->last = false;
 				}
 
-				bro(m_res) = bro(*ref);
+				next(m_res) = next(*ref);
 				*ref = m_res;
 				kill_exp(e, e);
 			} else {
@@ -782,7 +782,7 @@ do_this_k(exp kdec, exp patn, exp list, exp limit)
 			exp arg_h = getexp(NULL, arglist, 0, p, NULL, 0, 0, 0);
 			arglist = arg_h;
 			++nargs;
-			p = (p->last ? NULL : bro(p));
+			p = (p->last ? NULL : next(p));
 		}
 	}
 
@@ -792,7 +792,7 @@ do_this_k(exp kdec, exp patn, exp list, exp limit)
 				/* simple correspondence */
 				exp e = son(t);
 				exp f = father(e);
-				exp tagt = getexp(sh(e), bro(e), (int)(e->last),
+				exp tagt = getexp(sh(e), next(e), (int)(e->last),
 				                  kdec, pt(kdec), 0,  0, name_tag);
 				pt(kdec) = tagt;
 				++no(kdec);
@@ -818,7 +818,7 @@ do_this_k(exp kdec, exp patn, exp list, exp limit)
 
 						while (ap != NULL &&
 						       (pt(ap) != NULL || !eq_exp(son(t2), son(ap)))) {
-							ap = bro(ap);
+							ap = next(ap);
 						}
 
 						if (ap == NULL) {
@@ -832,7 +832,7 @@ do_this_k(exp kdec, exp patn, exp list, exp limit)
 					if (t2 == limit) {
 						scan2 = false;
 					} else {
-						t2 = bro(t2);
+						t2 = next(t2);
 					}
 				}
 
@@ -847,7 +847,7 @@ do_this_k(exp kdec, exp patn, exp list, exp limit)
 					while (oparg != NULL) {
 						last_arg = (int)oparg->last;
 
-						for (ap = arglist; ap != NULL && son(pt(ap)) != oparg; ap = bro(ap))
+						for (ap = arglist; ap != NULL && son(pt(ap)) != oparg; ap = next(ap))
 							;
 
 						if (ap == NULL) {
@@ -855,18 +855,18 @@ do_this_k(exp kdec, exp patn, exp list, exp limit)
 							if (prev_arg == NULL) {
 								son(op) = oparg;
 							} else {
-								bro(prev_arg) = oparg;
+								next(prev_arg) = oparg;
 							}
 
 							oparg->last = false;
 							prev_arg = oparg;
 						}
 
-						oparg = (last_arg ? NULL : bro(oparg));
+						oparg = (last_arg ? NULL : next(oparg));
 					}
 
 					/* now add combined constant */
-					bro(prev_arg) = cc;
+					next(prev_arg) = cc;
 
 					/* mark those dealt with & clear arglist */
 					ap = arglist;
@@ -876,7 +876,7 @@ do_this_k(exp kdec, exp patn, exp list, exp limit)
 						son(pt(ap)) = NULL;
 						pt(ap) = NULL;
 						kill_exp(deadarg, deadarg);
-						ap = bro(ap);
+						ap = next(ap);
 					}
 				}
 			}
@@ -886,12 +886,12 @@ do_this_k(exp kdec, exp patn, exp list, exp limit)
 			break;
 		}
 
-		t = bro(t);
+		t = next(t);
 	}
 
 	/* return arglist */
 	while (arglist != NULL) {
-		ap = bro(arglist);
+		ap = next(arglist);
 		retcell(arglist);
 		arglist = ap;
 	}
@@ -962,15 +962,15 @@ safe_arg(exp e, exp esc)
 	tst = getexp(f_top, NULL, 0, v1, esc, 0, 0, test_tag);
 	settest_number(tst, f_not_equal);
 	++no(son(esc));
-	setbro(v1, konst);
+	setnext(v1, konst);
 	tst = hc(tst, konst);
 
 	z = getexp(f_top, v2, 0, tst, NULL, 0,  0, 0);
-	setbro(tst, z);
+	setnext(tst, z);
 	tst->last = true;
 
 	s = getexp(sh(e), decl, 1, z, NULL, 0,  0, seq_tag);
-	setbro(e, s);
+	setnext(e, s);
 	e->last = false;
 	s = hc(s, v2);
 
@@ -1042,12 +1042,12 @@ safe_eval(exp e, exp escape_route)
 	case offset_div_tag:
 	case offset_div_by_int_tag: {
 		exp arg1 = safe_eval(son(e), esc_lab);
-		exp arg2 = safe_eval(bro(son(e)), esc_lab);
+		exp arg2 = safe_eval(next(son(e)), esc_lab);
 
 		res = copyexp(e);
 		setson(res, arg1);
 		arg2 = safe_arg(arg2, esc_lab);
-		setbro(arg1, arg2);
+		setnext(arg1, arg2);
 		arg1->last = false;
 		res = hc(res, arg2);
 		break;
@@ -1101,11 +1101,11 @@ safe_eval(exp e, exp escape_route)
 		p = safe_eval(arg, esc_lab);
 		setson(k, p);
 		while (!arg->last) {
-			exp safe = safe_eval(bro(arg), esc_lab);
-			setbro(p, safe);
+			exp safe = safe_eval(next(arg), esc_lab);
+			setnext(p, safe);
 			p->last = false;
-			p = bro(p);
-			arg = bro(arg);
+			p = next(p);
+			arg = next(arg);
 		}
 		res = hc(k, p);
 		break;
@@ -1129,9 +1129,9 @@ safe_eval(exp e, exp escape_route)
 		exp safe;
 
 		safe = getexp(sh(e), NULL, 1, NULL, NULL, 0,  0, clear_tag);
-		setbro(son(esc_lab), safe);
+		setnext(son(esc_lab), safe);
 		IGNORE hc(esc_lab, safe);
-		setbro(res, esc_lab);
+		setnext(res, esc_lab);
 		res->last = false;
 		IGNORE hc(cond, esc_lab);
 		return cond;
@@ -1153,12 +1153,12 @@ look_for_caonly(exp e)
 	}
 
 	if (e->tag == seq_tag || e->tag == ident_tag) {
-		look_for_caonly(bro(son(e)));
+		look_for_caonly(next(son(e)));
 	}
 }
 
 /*
- *  issn         loop is son(rf) else bro(rf)
+ *  issn         loop is son(rf) else next(rf)
  *  rf           EXP holding loop
  *  list_head    exp containing list of constant expressions
  *               this must not be empty
@@ -1176,7 +1176,7 @@ extract_consts(int issn, exp rf, exp list_head)
 		if (issn) {
 			val = son(rf);
 		} else {
-			val = bro(rf);
+			val = next(rf);
 		}
 
 		if (no(t) != 0) {
@@ -1189,13 +1189,13 @@ extract_consts(int issn, exp rf, exp list_head)
 			int force = 0;
 
 			if (pt(t) == NULL) {
-				/* simple constant - no brothers */
+				/* simple constant - no nexts */
 				exp f;
 				e = son(t);
 				f = father(e);
 
 				/* ?????????????????? */
-				if (!e->last && bro(e)->last && (f->tag == ident_tag) && !isvar(f)) {
+				if (!e->last && next(e)->last && (f->tag == ident_tag) && !isvar(f)) {
 					/*
 					 * This is an in-register constant declaration so remove the
 					 * force register bit from f so that it becomes a simple renaming
@@ -1230,7 +1230,7 @@ extract_consts(int issn, exp rf, exp list_head)
 						if (prev == NULL) {
 							son(new_c) = c_arg;
 						} else {
-							bro(prev) = c_arg;
+							next(prev) = c_arg;
 							prev->last = false;
 						}
 
@@ -1240,7 +1240,7 @@ extract_consts(int issn, exp rf, exp list_head)
 					if (t2 == limit) {
 						scan = false;
 					} else {
-						t2 = bro(t2);
+						t2 = next(t2);
 					}
 				}
 
@@ -1270,7 +1270,7 @@ extract_consts(int issn, exp rf, exp list_head)
 					konst = e;
 				}
 
-				newdec = getexp(sh(val), bro(val),
+				newdec = getexp(sh(val), next(val),
 					(int) (val->last), konst, NULL, 0,  0, ident_tag);
 				if (has_lj_dest) {
 					setvis(newdec);
@@ -1292,16 +1292,16 @@ extract_consts(int issn, exp rf, exp list_head)
 					look_for_caonly(konst);
 				}
 
-				bro(konst) = val;
+				next(konst) = val;
 				konst->last = false;
 
-				bro(val) = newdec;
+				next(val) = newdec;
 				val->last = true;
 
 				if (issn) {
 					son(rf) = newdec;
 				} else {
-					bro(rf) = newdec;
+					next(rf) = newdec;
 				}
 
 #ifdef TDF_DIAG4
@@ -1324,7 +1324,7 @@ extract_consts(int issn, exp rf, exp list_head)
 			/* that was the last in the list */
 			contin = false;
 		} else {
-			exp n = bro(t);
+			exp n = next(t);
 			retcell(t);
 			t = n;
 		}
@@ -1371,7 +1371,7 @@ named_dest(exp dest)
 
 	case addptr_tag:
 	case reff_tag:
-		/* Should we look at bro son to see if it contains an assignment ??? */
+		/* Should we look at next son to see if it contains an assignment ??? */
 		return false;
 
 	default:
@@ -1395,7 +1395,7 @@ assigns_alias(exp e)
 			return true;
 		} else {
 			/* check RHS for assignments */
-			return assigns_alias(bro(dest));
+			return assigns_alias(next(dest));
 		}
 	}
 
@@ -1420,7 +1420,7 @@ assigns_alias(exp e)
 			if (aa || s->last) {
 				s = NULL;
 			} else {
-				s = bro(s);
+				s = next(s);
 			}
 		}
 
@@ -1453,7 +1453,7 @@ scan_for_lv(exp e)
 			if (aa || s->last) {
 				s = NULL;
 			} else {
-				s = bro(s);
+				s = next(s);
 			}
 		}
 
@@ -1494,7 +1494,7 @@ repeat_consts(void)
 		}
 
 		loop = son(reps);
-		sts = bro(son(loop));
+		sts = next(son(loop));
 
 		/* put old identifier memory list into its free list */
 		mptr = &mem;
@@ -1530,12 +1530,12 @@ repeat_consts(void)
 		} else {
 			sn = 0;
 			rr = son(fa);
-			while (bro(rr) != loop && !rr->last) {
-				rr = bro(rr);
+			while (next(rr) != loop && !rr->last) {
+				rr = next(rr);
 			}
 		}
 
-		if (sn || bro(rr) == loop) {
+		if (sn || next(rr) == loop) {
 			while (fa->tag != proc_tag && fa->tag != general_proc_tag &&
 				   fa->tag != hold_tag && fa->tag != hold2_tag) {
 				fa = father(fa);
@@ -1587,7 +1587,7 @@ get_repeats(void)
 				if (son(sup) != NULL && son(sup)->tag == rep_tag) {
 					++dist;		/* only repeats are significant */
 				}
-				sup = bro(sup);	/* go to enclosing repeat */
+				sup = next(sup);	/* go to enclosing repeat */
 			} while (sup != NULL && (!is_dist(sup) || no(sup) < dist));
 		}
 	}

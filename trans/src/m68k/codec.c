@@ -189,7 +189,7 @@ bop(void(*op)(shape, where, where, where), shape sha, exp a, exp b, where dest,
 /*
  * This routine processes the logical operation described by the routine op.
  * This operation will be binary, commutative and associative. The operands
- * are given by the bro-list starting at the son of e.
+ * are given by the next-list starting at the son of e.
  * The result is put into dest.  The stack argument describes the current
  * state of the stack.
  */
@@ -197,7 +197,7 @@ static void
 logop(void(*op)(shape, where, where, where), exp e, where dest, ash stack)
 {
 	exp arg1 = son(e);    /* First argument */
-	exp arg2 = bro(arg1); /* Second argument */
+	exp arg2 = next(arg1); /* Second argument */
 	exp t, u, v;
 	where w;
 
@@ -238,7 +238,7 @@ logop(void(*op)(shape, where, where, where), exp e, where dest, ash stack)
 			break;
 		}
 
-		t = bro(t);
+		t = next(t);
 	}
 
 	/*
@@ -252,11 +252,11 @@ logop(void(*op)(shape, where, where, where), exp e, where dest, ash stack)
 	if (t == NULL) {
 		/* Process the first two terms */
 		(*op)(sh(e), zw(arg1), zw(arg2), w);
-		t = bro(arg2);
+		t = next(arg2);
 		while (!t->last) {
 			/* Process the third, fourth, ... terms */
 			(*op)(sh(e), zw(t), w, w);
-			t = bro(t);
+			t = next(t);
 		}
 
 		/* Process the last term */
@@ -284,7 +284,7 @@ logop(void(*op)(shape, where, where, where), exp e, where dest, ash stack)
 	u = arg1;
 	for (;;) {
 		if (t != u) {
-			if (u->last || (bro(u) == t && bro(u)->last)) {
+			if (u->last || (next(u) == t && next(u)->last)) {
 				(*op)(sh(e), zw(u), w, dest);
 			} else {
 				(*op)(sh(e), zw(u), w, w);
@@ -295,7 +295,7 @@ logop(void(*op)(shape, where, where, where), exp e, where dest, ash stack)
 			break;
 		}
 
-		u = bro(u);
+		u = next(u);
 	}
 	retcell(v);
 
@@ -369,11 +369,11 @@ codec(where dest, ash stack, exp e)
 		/*
 		 * Addition is treated similarly to logical operations - see
 		 * the routine logop above. It takes a variable number of
-		 * arguments in the form of a bro-list starting with the son of
+		 * arguments in the form of a next-list starting with the son of
 		 * e. Each argument may be of the form neg(x).
 		 */
 		exp arg1 = son(e);	/* First argument */
-		exp arg2 = bro(arg1);	/* Second argument */
+		exp arg2 = next(arg1);	/* Second argument */
 		exp s, t, u, v;
 		where w;
 		int prev_ov;
@@ -409,7 +409,7 @@ codec(where dest, ash stack, exp e)
 				t = NULL;
 				break;
 			}
-			t = bro(t);
+			t = next(t);
 		}
 		if (t == NULL && arg1->tag == neg_tag &&
 		    arg2->tag == neg_tag) {
@@ -418,7 +418,7 @@ codec(where dest, ash stack, exp e)
 
 		/* Deal with the case where all the arguments are operands */
 		if (t == NULL) {
-			t = bro(arg2);
+			t = next(arg2);
 			/* Deal with the first two arguments */
 			if (arg1->tag == neg_tag) {
 				addsub(sh(e), zw(arg1), zw(arg2),
@@ -433,7 +433,7 @@ codec(where dest, ash stack, exp e)
 			}
 			/* Deal with the third, fourth, ... arguments */
 			while (!t->last) {
-				u = bro(t);
+				u = next(t);
 				addsub(sh(e), zw(t), w, w, stack);
 				t = u;
 			}
@@ -451,7 +451,7 @@ codec(where dest, ash stack, exp e)
 		make_code(w, stack, t);
 		u = arg1;
 		for (;;) {
-			v = bro(u);
+			v = next(u);
 			if (t != u) {
 				if (u->last || (v == t && v->last)) {
 					addsub(sh(e), zw(u), w, dest, stack);
@@ -521,7 +521,7 @@ codec(where dest, ash stack, exp e)
 	case minus_tag: {
 		/* Minus, subtract pointer etc are binary operations */
 		int prev_ov = set_overflow(e);
-		bop(sub, sh(e), bro(son(e)), son(e), dest, stack);
+		bop(sub, sh(e), next(son(e)), son(e), dest, stack);
 		clear_overflow(prev_ov);
 		return;
 	}
@@ -532,7 +532,7 @@ codec(where dest, ash stack, exp e)
 	case subptr_tag:
 	case minptr_tag:
 		/* Minus, subtract pointer etc are binary operations */
-		bop(sub, sh(e), bro(son(e)), son(e), dest, stack);
+		bop(sub, sh(e), next(son(e)), son(e), dest, stack);
 		return;
 
 	case mult_tag: {
@@ -551,7 +551,7 @@ codec(where dest, ash stack, exp e)
 	case div2_tag: {
 		/* Division is a binary operation */
 		int prev_ov = set_overflow(e);
-		bop(div2, sh(e), bro(son(e)), son(e),
+		bop(div2, sh(e), next(son(e)), son(e),
 		    dest, stack);
 		if (!optop(e) && (sh(e)->tag != slonghd) &&
 		    (sh(e)->tag != ulonghd)) {
@@ -564,7 +564,7 @@ codec(where dest, ash stack, exp e)
 	case div1_tag: {
 		/* Division is a binary operation */
 		int prev_ov = set_overflow(e);
-		bop(div1, sh(e), bro(son(e)), son(e), dest, stack);
+		bop(div1, sh(e), next(son(e)), son(e), dest, stack);
 		if (!optop(e) && (sh(e)->tag != slonghd) &&
 		    (sh(e)->tag != ulonghd)) {
 			check_unset_overflow(dest, sh(e));
@@ -592,20 +592,20 @@ codec(where dest, ash stack, exp e)
 	case shl_tag: {
 		/* Shifting left is a binary operation */
 		int prev_ov = set_overflow(e);
-		bop(shift, sh(e), bro(son(e)), son(e), dest, stack);
+		bop(shift, sh(e), next(son(e)), son(e), dest, stack);
 		clear_overflow(prev_ov);
 		return;
 	}
 
 	case shr_tag:
 		/* Shifting right is a binary operation */
-		bop(rshift, sh(e), bro(son(e)), son(e), dest, stack);
+		bop(rshift, sh(e), next(son(e)), son(e), dest, stack);
 		return;
 
 	case mod_tag: {
 		/* Remainder is a binary operation */
 		int prev_ov = set_overflow(e);
-		bop(rem1, sh(e), bro(son(e)), son(e), dest, stack);
+		bop(rem1, sh(e), next(son(e)), son(e), dest, stack);
 		clear_overflow(prev_ov);
 		return;
 	}
@@ -614,7 +614,7 @@ codec(where dest, ash stack, exp e)
 	case rem2_tag: {
 		/* Remainder is a binary operation */
 		int prev_ov = set_overflow(e);
-		bop(rem2, sh(e), bro(son(e)), son(e), dest, stack);
+		bop(rem2, sh(e), next(son(e)), son(e), dest, stack);
 		clear_overflow(prev_ov);
 		return;
 	}
@@ -633,7 +633,7 @@ codec(where dest, ash stack, exp e)
 	case fmult_tag: {
 		/* Floating multiplication is a floating binary operation */
 		exp f1 = son(e);
-		exp f2 = bro(f1);
+		exp f2 = next(f1);
 		int prev_ov = set_overflow(e);
 		if (f2->last) {
 			/* two arguments */
@@ -650,7 +650,7 @@ codec(where dest, ash stack, exp e)
 
 			fl_binop(fmult_tag, sh(e), zw(f1), zw(f2), w);
 			while (!f2->last) {
-				f2 = bro(f2);
+				f2 = next(f2);
 				fl_binop(fmult_tag, sh(e), w, zw(f2),
 				         (f2->last ? dest : w));
 			}
@@ -663,7 +663,7 @@ codec(where dest, ash stack, exp e)
 	case fminus_tag: {
 		/* Floating subtraction is a floating binary operation */
 		exp f1 = son(e);
-		exp f2 = bro(f1);
+		exp f2 = next(f1);
 		int prev_ov = set_overflow(e);
 		fl_binop(fminus_tag, sh(e), zw(f2), zw(f1), dest);
 		clear_overflow(prev_ov);
@@ -673,7 +673,7 @@ codec(where dest, ash stack, exp e)
 	case fdiv_tag: {
 		/* Floating division is a floating binary operation */
 		exp f1 = son(e);
-		exp f2 = bro(f1);
+		exp f2 = next(f1);
 		int prev_ov = set_overflow(e);
 		fl_binop(fdiv_tag, sh(e), zw(f2), zw(f1), dest);
 		clear_overflow(prev_ov);
@@ -740,7 +740,7 @@ codec(where dest, ash stack, exp e)
 	case fplus_tag: {
 		/* Floating addition is similar to integer addition */
 		exp f1 = son(e);	/* First argument */
-		exp f2 = bro(f1);	/* Second argument */
+		exp f2 = next(f1);	/* Second argument */
 		exp t;
 		long count_dest = 2;
 		exp de = dest.wh_exp;
@@ -768,7 +768,7 @@ codec(where dest, ash stack, exp e)
 			return;
 		}
 
-		if (bro(f2)->last && bro(f2)->tag == real_tag &&
+		if (next(f2)->last && next(f2)->tag == real_tag &&
 		    dest.wh_exp->tag != apply_tag &&
 		    dest.wh_exp->tag != tail_call_tag &&
 		    dest.wh_exp->tag != apply_general_tag) {
@@ -780,12 +780,12 @@ codec(where dest, ash stack, exp e)
 				f2 = son(f2);
 				fl_binop(fminus_tag, sh(e), zw(f2), zw(f1),
 				         dest);
-				fl_binop(fplus_tag, sh(e), zw(bro(f2)), dest,
+				fl_binop(fplus_tag, sh(e), zw(next(f2)), dest,
 				         dest);
 			} else {
 				fl_binop(fplus_tag, sh(e), zw(f1), zw(f2),
 				         dest);
-				fl_binop(fplus_tag, sh(e), zw(bro(f2)), dest,
+				fl_binop(fplus_tag, sh(e), zw(next(f2)), dest,
 				         dest);
 			}
 			clear_overflow(prev_ov);
@@ -800,7 +800,7 @@ codec(where dest, ash stack, exp e)
 				count_dest++;
 			}
 			while (!t->last) {
-				t = bro(t);
+				t = next(t);
 				if (t->tag == fneg_tag) {
 					if (eq_where(zw(son(t)), dest)) {
 						count_dest = 2;
@@ -828,7 +828,7 @@ codec(where dest, ash stack, exp e)
 					fl_binop(fplus_tag, sh(e), zw(f1),
 					         zw(f2), dest);
 				}
-				t = bro(f2);
+				t = next(f2);
 			}
 
 			for (;;) {
@@ -849,7 +849,7 @@ codec(where dest, ash stack, exp e)
 				if (t->last) {
 					break;
 				}
-				t = bro(t);
+				t = next(t);
 			}
 		} else {
 			if (f2->tag == fneg_tag) {
@@ -860,7 +860,7 @@ codec(where dest, ash stack, exp e)
 				         FP0);
 			}
 
-			t = bro(f2);
+			t = next(f2);
 			while (!t->last) {
 				if (t->tag == fneg_tag) {
 					fl_binop(fminus_tag, sh(e), zw(son(t)),
@@ -869,7 +869,7 @@ codec(where dest, ash stack, exp e)
 					fl_binop(fplus_tag, sh(e), zw(t), FP0,
 					         FP0);
 				}
-				t = bro(t);
+				t = next(t);
 			}
 
 			if (t->tag == fneg_tag) {
@@ -895,19 +895,19 @@ codec(where dest, ash stack, exp e)
 	case offset_add_tag:
 		asm_comment("offset_add_tag...");
 		/* Offset addition is a binary operation */
-		bop(add, slongsh, son(e), bro(son(e)), dest, stack);
+		bop(add, slongsh, son(e), next(son(e)), dest, stack);
 		asm_comment("offset_add_tag done");
 		return;
 
 	case offset_subtract_tag:
 		/* Offset subtraction is a binary operation */
-		bop(sub, slongsh, bro(son(e)), son(e), dest, stack);
+		bop(sub, slongsh, next(son(e)), son(e), dest, stack);
 		return;
 
 	case offset_mult_tag:
 		asm_comment("offset_mult_tag...");
 		/* Offset multiplication is a binary operation */
-		bop(mult, slongsh, son(e), bro(son(e)), dest, stack);
+		bop(mult, slongsh, son(e), next(son(e)), dest, stack);
 		asm_comment("offset_mult_tag done");
 		return;
 
@@ -919,11 +919,11 @@ codec(where dest, ash stack, exp e)
 	case offset_div_tag:
 	case offset_div_by_int_tag:
 		/* Offset division is a binary operation */
-		if (sh(bro(son(e)))->tag < slonghd) {
-			exp changer = me_u3(slongsh, bro(son(e)), chvar_tag);
-			bro(son(e)) = changer;
+		if (sh(next(son(e)))->tag < slonghd) {
+			exp changer = me_u3(slongsh, next(son(e)), chvar_tag);
+			next(son(e)) = changer;
 		}
-		bop(div2, slongsh, bro(son(e)), son(e), dest, stack);
+		bop(div2, slongsh, next(son(e)), son(e), dest, stack);
 		return;
 
 	case offset_pad_tag: {
@@ -994,12 +994,12 @@ codec(where dest, ash stack, exp e)
 	case offset_max_tag:
 	case max_tag:
 		/* Maximum */
-		bop(maxop, sh(e), son(e), bro(son(e)), dest, stack);
+		bop(maxop, sh(e), son(e), next(son(e)), dest, stack);
 		return;
 
 	case min_tag:
 		/* Minimum */
-		bop(minop, sh(e), son(e), bro(son(e)), dest, stack);
+		bop(minop, sh(e), son(e), next(son(e)), dest, stack);
 		return;
 
 	case cont_tag:

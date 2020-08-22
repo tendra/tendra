@@ -92,7 +92,7 @@ new_word(int c)
 	if (word_ptr->type != SIMPLE && word_ptr->son == NULL) {
 	    word_ptr->son = new_ptr;
 	} else {
-	    word_ptr->bro = new_ptr;
+	    word_ptr->next = new_ptr;
 	}
 	word_ptr = new_ptr;
 	word_ptr->type = (char)c;
@@ -111,7 +111,7 @@ new_word(int c)
 	    word_ptr->length = 0;
 	}
 	word_ptr->son = NULL;
-	word_ptr->bro = NULL;
+	word_ptr->next = NULL;
     }
     return word_ptr;
 }

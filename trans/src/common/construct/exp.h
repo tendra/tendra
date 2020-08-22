@@ -17,8 +17,8 @@
 #include <construct/aldefs.h>
 
 typedef struct exp_list_t {
-	exp start;  /* the first element of a list chained through bro */
-	exp end;    /* the last element of a list chained through bro */
+	exp start;  /* the first element of a list chained through next */
+	exp end;    /* the last element of a list chained through next */
 	int number; /* the number of elements in the list */
 } exp_list;
 

@@ -272,7 +272,7 @@ static int find_where
 
 		case addptr_tag: {
 		    exp rr = son(r);
-		    exp eb = bro(rr);
+		    exp eb = next(rr);
 		    exp ec = simple_exp(cont_tag);
 		    son(ec) = rr;
 		    switch (eb->tag) {
@@ -326,7 +326,7 @@ static int find_where
 
 	case addptr_tag: {
 	    exp r = son(e);
-	    exp eb = bro(r);
+	    exp eb = next(r);
 	    exp ec = simple_exp(cont_tag);
 	    son(ec) = r;
 	    switch (eb->tag) {

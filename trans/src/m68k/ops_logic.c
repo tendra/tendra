@@ -596,7 +596,7 @@ bitf_to_int(exp e, shape sha, where dest, ash stack)
 		break;
 
 	case ass_tag:
-		dsha = sh(bro(son(t)));
+		dsha = sh(next(son(t)));
 		break;
 	}
 

@@ -58,7 +58,7 @@ typedef union {
 /*
  * STRUCTURE REPRESENTING EXPRESSIONS
  *
- * An expression has a number of constituents given by the son, bro,
+ * An expression has a number of constituents given by the son, next,
  * ptr and num fields, a shape (which is another expression),
  * a tag name representing the expression type and a properties field.
  *
@@ -66,7 +66,7 @@ typedef union {
  */
 struct exp_t {
 	expno son;
-	expno bro;
+	expno next;
 	expno pt;
 	expno num;
 
@@ -108,7 +108,7 @@ typedef struct exp_t *exp;
  */
 
 #define son(x)            ((x)->son.e)
-#define bro(x)            ((x)->bro.e)
+#define next(x)            ((x)->next.e)
 #define sh(x)             ((x)->sh)
 #define pt(x)             ((x)->pt.e)
 #define props(x)          ((x)->props)
@@ -124,7 +124,7 @@ typedef struct exp_t *exp;
  * ALTERNATIVE COMPONENTS OF AN EXPRESSION
  */
 
-#define brog(x)           ((x)->bro.glob)
+#define nextg(x)           ((x)->next.glob)
 #define nostr(x)          ((x)->num.str)
 #define ptno(x)           ((x)->pt.l)
 #define sonno(x)          ((x)->son.l)
@@ -140,11 +140,11 @@ typedef struct exp_t *exp;
  * MACROS FOR SETTING COMPONENTS OF AN EXPRESSION
  */
 
-#define setbro(x, b)      bro(x) = (b)
+#define setnext(x, b)      next(x) = (b)
 #define setsh(x, b)       sh(x) = (b)
 #define setson(x, b)      son(x) = (b)
 #define setpt(x, b)       pt(x) = (b)
-#define setfather(f, s)   setbro(s, f); (s)->last = true
+#define setfather(f, s)   setnext(s, f); (s)->last = true
 
 
 /*
@@ -171,7 +171,7 @@ typedef struct exp_t *exp;
 
 #define shape_size(x)     ((x)->num.l)
 #define al2ul(x)          ((unsigned long) ((x)->al.u.val))
-#define align_of(x)       ((x)->bro.ald)
+#define align_of(x)       ((x)->next.ald)
 #define shape_align(x)    al2ul(align_of (x))
 #define al1_of(x)         ((x)->son.ald)
 #define al1(x)            al2ul(al1_of (x))
@@ -239,7 +239,7 @@ typedef struct exp_t *exp;
 #define clearparam(x)             pclr(x, 0x20)
 #define isparam(x)                ptst(x, 0x20)
 
-/* global - in this case bro(e) is the index of the declaration */
+/* global - in this case next(e) is the index of the declaration */
 #define setglob(x)                pset(x, 0x40)
 #define clearglob(x)              pclr(x, 0x40)
 #define isglob(x)                 ptst(x, 0x40)

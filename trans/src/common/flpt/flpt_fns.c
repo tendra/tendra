@@ -682,15 +682,15 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 					make_label(body_labst), me_contents(n), constant1);
 
 				seq_zero = me_b2(square_z, update_w, 0);
-				setbro(square_z, half_n); /* insert half_n between */
-				setbro(half_n, update_w); /* square_x and update_w */
+				setnext(square_z, half_n); /* insert half_n between */
+				setnext(half_n, update_w); /* square_x and update_w */
 				half_n->last = false;
 				seq_zero = hold_refactor(seq_zero);
 
 				seq = hold_refactor(me_b3(sh(if_n_equals_1), seq_zero,
 					if_n_equals_1, seq_tag));
 
-				setbro(son(body_labst), seq);
+				setnext(son(body_labst), seq);
 				son(body_labst)->last = false;
 				setfather(body_labst, seq);
 
@@ -847,7 +847,7 @@ f_floating_mult(error_treatment ov_err, exp_list arg1)
 				break;
 			}
 
-			t = bro(t);
+			t = next(t);
 			if (sh(t)->tag == bothd) {
 				return t;
 			}
@@ -879,7 +879,7 @@ f_floating_mult(error_treatment ov_err, exp_list arg1)
 		t = arg1.start;
 
 		while (t != arg1.end) {
-			t = bro(t);
+			t = next(t);
 			z1 = push(y1, me_startid(complex_shape, t, 0));
 
 			z1_re = f_real_part(me_obtain(z1));		/* contents of next */
@@ -1008,7 +1008,7 @@ f_floating_plus(error_treatment ov_err, exp_list arg1)
 				break;
 			}
 
-			t = bro(t);
+			t = next(t);
 			if (sh(t)->tag == bothd) {
 				return t;
 			}
@@ -1036,7 +1036,7 @@ f_floating_plus(error_treatment ov_err, exp_list arg1)
 		z2 = z1;					/* start chain of idents */
 
 		while (t != arg1.end) {
-			t = bro(t);
+			t = next(t);
 			z2 = push(z2, me_startid(complex_shape, t, 0));
 
 			x2 = f_real_part(me_obtain(z2));	/* contents of next */
@@ -1224,11 +1224,11 @@ f_make_complex(floating_variety f, exp arg1, exp arg2)
 		exp sz = me_shint(off_set, SHREAL_SZ + SHREAL_SZ);
 		exp r = getexp(f_compound(sz), NULL, 0, val1, NULL, 0, 0, compound_tag);
 
-		setbro(val1, arg1);
+		setnext(val1, arg1);
 		val1->last = false;
-		setbro(arg1, val2);
+		setnext(arg1, val2);
 		arg1->last = false;
-		setbro(val2, arg2);
+		setnext(val2, arg2);
 		val2->last = false;
 		setfather(r, arg2);
 		return hold_refactor(r);
@@ -1241,11 +1241,11 @@ f_make_complex(floating_variety f, exp arg1, exp arg2)
 		exp sz = me_shint(off_set, REAL_SZ + REAL_SZ);
 		exp r = getexp(f_compound(sz), NULL, 0, val1, NULL, 0, 0, compound_tag);
 
-		setbro(val1, arg1);
+		setnext(val1, arg1);
 		val1->last = false;
-		setbro(arg1, val2);
+		setnext(arg1, val2);
 		arg1->last = false;
-		setbro(val2, arg2);
+		setnext(val2, arg2);
 		val2->last = false;
 		setfather(r, arg2);
 		return hold_refactor(r);
@@ -1258,11 +1258,11 @@ f_make_complex(floating_variety f, exp arg1, exp arg2)
 		exp sz = me_shint(off_set, DOUBLE_SZ + DOUBLE_SZ);
 		exp r = getexp(f_compound(sz), NULL, 0, val1, NULL, 0, 0, compound_tag);
 
-		setbro(val1, arg1);
+		setnext(val1, arg1);
 		val1->last = false;
-		setbro(arg1, val2);
+		setnext(arg1, val2);
 		arg1->last = false;
-		setbro(val2, arg2);
+		setnext(val2, arg2);
 		val2->last = false;
 		setfather(r, arg2);
 		return hold_refactor(r);
@@ -1778,21 +1778,21 @@ reorder_list(exp_list arg1, int consts_first)
 	exp type1_start, type1_end, type2_start, type2_end, t;
 
 	type1_start = type1_end = type2_start = type2_end = NULL;
-	setbro(arg1.end, NULL);
+	setnext(arg1.end, NULL);
 
-	for (t = arg1.start; t != arg1.end; t = bro(t)) {
+	for (t = arg1.start; t != arg1.end; t = next(t)) {
 		if ((is_const(t) && consts_first) || !(is_const(t) || consts_first)) {
 			if (type1_start == NULL) {
 				type1_start = type1_end = t;	/* first of type 1 */
 			} else {
-				setbro(type1_end, t);		/* add to existing type 1's */
+				setnext(type1_end, t);		/* add to existing type 1's */
 				type1_end = t;
 			}
 		} else {
 			if (type2_start == NULL) {
 				type2_start = type2_end = t;	/* first of type 2 */
 			} else {
-				setbro(type2_end, t);		/* add to existing type 2's */
+				setnext(type2_end, t);		/* add to existing type 2's */
 				type2_end = t;
 			}
 		}
@@ -1800,7 +1800,7 @@ reorder_list(exp_list arg1, int consts_first)
 
 	if ((type1_start != NULL) && (type2_start != NULL)) {
 		arg1.start = type1_start;
-		setbro(type1_end, type2_start);	/* if list is not a mixture */
+		setnext(type1_end, type2_start);	/* if list is not a mixture */
 		arg1.end = type2_end;		/* no reordering has to be done */
 	}
 
@@ -1830,7 +1830,7 @@ me_contents(exp arg1)
 static exp
 push(exp arg1, exp arg2)
 {
-	setbro(arg2, arg1);
+	setnext(arg2, arg1);
 	return arg2;
 }
 
@@ -1845,7 +1845,7 @@ me_complete_chain(exp ident_chain, exp last_link, exp link_to)
 	exp remove_link;
 
 	while (son(ident_chain) != last_link) {
-		remove_link = bro(ident_chain);
+		remove_link = next(ident_chain);
 		link_to = me_complete_id(ident_chain, link_to);
 		ident_chain = remove_link;
 	}
@@ -2086,7 +2086,7 @@ real_power(error_treatment ov_err, exp arg1, exp arg2)
 			st = add_exp_list(st, update_w, 2);
 			seq = f_sequence(st, if_n_equals_1);
 
-			setbro(son(body_labst), seq);
+			setnext(son(body_labst), seq);
 			setsh (body_labst, sh (seq));	/*  put seq into the body  */
 			son(body_labst)->last = false;	/*  of the labst           */
 			setfather(body_labst, seq);

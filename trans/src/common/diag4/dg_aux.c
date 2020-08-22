@@ -391,14 +391,14 @@ scan_diag_names(exp e, exp whole)
 	if (son(e) != NULL && e->tag != env_offset_tag) {
 		exp t;
 
-		for (t = son(e); ; t = bro(t)) {
+		for (t = son(e); ; t = next(t)) {
 			scan_diag_names(t, whole);
 
 			if (t->last) {
 				return;
 			}
 
-			t = bro(t);
+			t = next(t);
 		}
 	}
 }
@@ -417,7 +417,7 @@ diaginfo_exp(exp e)
 	scan_diag_names(e, e);
 	ans = hold(e);
 	setpt(ans, NULL);
-	setbro (ans, NULL);	/* these fields are used in dwarf generation */
+	setnext (ans, NULL);	/* these fields are used in dwarf generation */
 	no(ans) = 0;
 	props(ans) = 0;
 	ans->last = false;
@@ -452,8 +452,8 @@ set_obj_ref(dg_name nm)
 	}
 
 	if (e && e->tag == name_tag && isglob(son(e)) &&
-	    !(brog(son(e))->dg_name)) {
-		brog(son(e))->dg_name = nm;
+	    !(nextg(son(e))->dg_name)) {
+		nextg(son(e))->dg_name = nm;
 	}
 }
 
@@ -774,7 +774,7 @@ update_diag_copy(exp e, dg_info d, int update)
 		default: {
 			exp s;
 
-			for (s = son(e); s; s = bro(s)) {
+			for (s = son(e); s; s = next(s)) {
 				update_diag_copy(s, dgf(s), update);
 				if (s->last) {
 					break;
@@ -1202,7 +1202,7 @@ start_diag_inlining(exp e, dg_name dn)
 
 	while (body->tag == ident_tag &&
 	       (isparam(body) || (!dgf(body) && ref_param(son(body))))) {
-		body = bro(son(body));
+		body = next(son(body));
 	}
 
 	di = dgf(body);
@@ -1237,7 +1237,7 @@ end_diag_inlining(exp e, dg_name dn)
 	body = son(e);
 	while (body->tag == ident_tag &&
 	       (isparam(body) || (!dgf(body) && ref_param(son(body))))) {
-		body = bro(son(body));
+		body = next(son(body));
 	}
 
 	dgf(body) = dgf(body)->more;
@@ -1311,7 +1311,7 @@ dg_complete_inline(exp whole, exp comp)
 			/* we must find DGA_INL_CALL to replace the DGA_CALL */
 			while (!dgf(comp)) {
 				if (comp->tag == ident_tag) {
-					comp = bro(son(comp));
+					comp = next(son(comp));
 				} else if (comp->tag == cond_tag) {
 					comp = son(comp);
 				} else {
@@ -1461,7 +1461,7 @@ gather_detch(exp e, dg_info *dx, int reason, int descend, int reuse,
 		detch_info **ptr;
 
 		while (!s->last) {
-			s = bro(s);
+			s = next(s);
 
 			for (ptr = &ans; *ptr; ptr = &((*ptr)->next))
 				;
@@ -1520,7 +1520,7 @@ dg_restruct_code(exp outer, exp inner, int posn)
 void
 dg_rem_ass(exp ass)
 {
-	exp val = bro(son(ass));
+	exp val = next(son(ass));
 
 	if (son(ass)->tag == name_tag &&
 	    (val->tag == val_tag || val->tag == real_tag ||
@@ -1544,7 +1544,7 @@ dg_rem_ass(exp ass)
 		*dx = rem;
 	}
 
-	dg_detach(ass, bro(son(ass)), -1, DGD_REM, 0, 0, NULL);
+	dg_detach(ass, next(son(ass)), -1, DGD_REM, 0, 0, NULL);
 }
 
 void
@@ -1631,31 +1631,31 @@ gather_objects(exp e, exp whole, objset **obs, int ass)
 
 	case ident_tag:
 		/* definition part no_ass */
-		gather_objects(bro(son(e)), whole, obs, ass);
+		gather_objects(next(son(e)), whole, obs, ass);
 		break;
 
 	case seq_tag:
 		/* statements no_ass */
-		gather_objects(bro(son(e)), whole, obs, ass);
+		gather_objects(next(son(e)), whole, obs, ass);
 		e = son(e);
 		break;
 
 	case cond_tag:
 		gather_objects(son(e), whole, obs, ass);
-		gather_objects(bro(son(e)), whole, obs, ass);
+		gather_objects(next(son(e)), whole, obs, ass);
 		return;
 
 	case labst_tag:
-		gather_objects(bro(son(e)), whole, obs, ass);
+		gather_objects(next(son(e)), whole, obs, ass);
 		return;
 
 	case rep_tag:
 		gather_objects(son(e), whole, obs, 0);
-		gather_objects(bro(son(e)), whole, obs, ass);
+		gather_objects(next(son(e)), whole, obs, ass);
 		return;
 
 	case solve_tag:
-		for (t = son(e); ; t = bro(t)) {
+		for (t = son(e); ; t = next(t)) {
 			gather_objects(t, whole, obs, ass);
 			if (t->last) {
 				return;
@@ -1665,12 +1665,12 @@ gather_objects(exp e, exp whole, objset **obs, int ass)
 	case ass_tag:
 	case assvol_tag:
 		gather_objects(son(e), whole, obs, 1);
-		gather_objects(bro(son(e)), whole, obs, 0);
+		gather_objects(next(son(e)), whole, obs, 0);
 		return;
 
 	case addptr_tag:
 		gather_objects(son(e), whole, obs, ass);
-		gather_objects(bro(son(e)), whole, obs, 0);
+		gather_objects(next(son(e)), whole, obs, 0);
 		return;
 
 	case env_offset_tag:
@@ -1681,7 +1681,7 @@ gather_objects(exp e, exp whole, objset **obs, int ass)
 	}
 
 	/* remaining cases all no_ass */
-	for (t = son(e); t; t = bro(t)) {
+	for (t = son(e); t; t = next(t)) {
 		gather_objects(t, whole, obs, 0);
 		if (t->last) {
 			return;
@@ -1694,7 +1694,7 @@ make_optim_dg(int reason, exp e)
 {
 	dg_info sub = new_dg_info(DGA_HOIST);
 	exp konst = son(e);
-	exp body = bro(konst);
+	exp body = next(konst);
 	dg_info *dx;
 	dgf(e) = dgf(body);
 	dgf(body) = NULL;

@@ -143,7 +143,7 @@ node_argcount(const node *p)
 
 	i = 0;
 
-	for (q = p; q != NULL; q = q->bro) {
+	for (q = p; q != NULL; q = q->next) {
 		i++;
 	}
 
@@ -197,7 +197,7 @@ node_label(const node *p, const char *fmt, ...)
 
 		IGNORE fprintf(output, "|{args:|");
 
-		for (i = 0, arg = p->son; i < argcount - 1; i++, arg = arg->bro) {
+		for (i = 0, arg = p->son; i < argcount - 1; i++, arg = arg->next) {
 			assert(arg != NULL);
 
 			IGNORE fprintf(output, "<%u> ", i);
@@ -279,7 +279,7 @@ print_node(const char *prefix, void *root, const char *port, node *p)
 {
 	unsigned arg;
 
-	for (arg = 0; p != NULL; p = p->bro, arg++) {
+	for (arg = 0; p != NULL; p = p->next, arg++) {
 		construct *q = p->cons;
 		sortname s = q->sortnum;
 		long m = q->encoding;
@@ -488,14 +488,14 @@ print_node(const char *prefix, void *root, const char *port, node *p)
 					node *z = new_node();
 
 					z->cons = &exp_shape;
-					z->bro = p->bro;
+					z->next = p->next;
 					z->son = p;
 
 					if (p->shape) {
-						z->son->bro = copy_node(p->shape);
+						z->son->next = copy_node(p->shape);
 					} else {
-						z->son->bro = new_node();
-						z->son->bro->cons = &unknown_cons;
+						z->son->next = new_node();
+						z->son->next->cons = &unknown_cons;
 					}
 
 					p->shape = &special_node;
@@ -550,7 +550,7 @@ print_name(char *title, construct *p, int dec)
 	if (p->ename && p->ename->cons->encoding && dec) {
 		char *f = "\n  %s (\n";
 		if (p->ename->son->cons->sortnum == SORT_tdfstring) {
-			if (p->ename->son->bro == NULL) {
+			if (p->ename->son->next == NULL) {
 				IGNORE fprintf(output, f, MAKE_STRING_EXTERN);
 			} else {
 				IGNORE fprintf(output, f, MAKE_CHAIN_EXTERN);
@@ -718,7 +718,7 @@ print_tagdef(construct *p)
 	}
 
 	/* Can have multiple definitions */
-	for (d = info->def; d != NULL; d = d->bro) {
+	for (d = info->def; d != NULL; d = d->next) {
 		(void) fputs("<tr>", output);
 		(void) fputs("<td bgcolor=\"#EEEEEE\">", output);
 
@@ -742,7 +742,7 @@ print_tagdef(construct *p)
 
 	(void) fputs("</table>> ];\n", output);
 
-	for (d = info->def; d != NULL; d = d->bro) {
+	for (d = info->def; d != NULL; d = d->next) {
 		if (d->son != NULL) {
 			fprintf(output, "\n");
 			fprintf(output, "\t\tsubgraph {\n");

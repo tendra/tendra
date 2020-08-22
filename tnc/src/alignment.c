@@ -78,7 +78,7 @@ al_shape(node *p)
 		case ENC_top:
 			return copy_node(al_top);
 		case ENC_nof:
-			return al_shape(p->son->bro);
+			return al_shape(p->son->next);
 		case ENC_shape_apply_token:
 			return al_shape(expand_tok(p));
 		}
@@ -134,7 +134,7 @@ offset_to(node *p)
 	p = expand_tok(p);
 
 	if (p && p->cons == cons_no(SORT_shape, ENC_offset))
-		return p->son->bro;
+		return p->son->next;
 
 	return NULL;
 }

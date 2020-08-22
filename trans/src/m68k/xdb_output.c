@@ -509,7 +509,7 @@ void diag_proc_main
     /* Step over actual procedure arguments */
     a = son(e);
     while (a->tag == ident_tag /* && isparam(a) */ ) {
-	a = bro(son(a));
+	a = next(son(a));
     }
 
     /* Read procedure argument definitions */

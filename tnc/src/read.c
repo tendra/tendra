@@ -281,13 +281,13 @@ void
 read_seq_node(node *p)
 {
     node *q = read_node("*[x]?[x]");
-    if (q->bro->son) {
-	node *r = q->bro->son;
-	q->bro = r;
+    if (q->next->son) {
+	node *r = q->next->son;
+	q->next = r;
 	p->son = q;
 	return;
     }
-    q->bro = NULL;
+    q->next = NULL;
     if (q->cons->encoding == 0) {
 	is_fatal = 0;
 	input_error("exp expected");
@@ -296,13 +296,13 @@ read_seq_node(node *p)
    (q->cons->encoding) --;
     p->son = q;
     q = q->son;
-    if (q->bro == NULL) {
+    if (q->next == NULL) {
 	p->son->son = NULL;
-	p->son->bro = q;
+	p->son->next = q;
     } else {
-	while (q->bro->bro)q = q->bro;
-	p->son->bro = q->bro;
-	q->bro = NULL;
+	while (q->next->next)q = q->next;
+	p->son->next = q->next;
+	q->next = NULL;
     }
     return;
 }
@@ -447,7 +447,7 @@ read_node_aux(char *str, int strict)
 	    case SORT_tdfbool: {
 		node *q = new_node();
 		q->cons = (negate ? &true_cons : &false_cons);
-		q->bro = p;
+		q->next = p;
 		return q;
 	    }
 	    case SORT_nat: {
@@ -465,7 +465,7 @@ read_node_aux(char *str, int strict)
 		q->cons = cons_no(SORT_signed_nat, ENC_make_signed_nat);
 		q->son = new_node();
 		q->son->cons = (negate ? &true_cons : &false_cons);
-		q->son->bro = p;
+		q->son->next = p;
 		return q;
 	    }
 	    default : {
@@ -664,7 +664,7 @@ adjust_scope(node *p, int end)
 			if (do_check && s == SORT_tag) {
 			    /* Fill in shape of tag */
 			    node *ts;
-			    node *p1 = p->bro;
+			    node *p1 = p->next;
 			    tag_info *info = get_tag_info(u);
 			    if (p1 && p1->cons->sortnum == SORT_exp) {
 				/* identity and variable have "t&x" */
@@ -679,16 +679,16 @@ adjust_scope(node *p, int end)
 			    /* Declaration = ?[u]?[X]S from 4.0 */
 			    info->dec = new_node();
 			    info->dec->cons = &false_cons;
-			    info->dec->bro = new_node();
-			    info->dec->bro->cons = &false_cons;
-			    info->dec->bro->bro = ts;
+			    info->dec->next = new_node();
+			    info->dec->next->cons = &false_cons;
+			    info->dec->next->next = ts;
 			}
 		    }
 		}
 		break;
 	    }
 	}
-	p = p->bro;
+	p = p->next;
     }
     return;
 }
@@ -793,22 +793,22 @@ read_node(char *str)
 			    /* Allow for optionals */
 			    node *pt = pr;
 			    if (pt && str[1]!= ']') {
-				pt->bro = read_node(str + 1);
+				pt->next = read_node(str + 1);
 			    }
 			    pr = new_node();
 			    pr->cons = &optional_cons;
 			    pr->son = pt;
 			}
 			if (sr[1]!= ']') {
-			    pr->bro = read_node(sr + 1);
+			    pr->next = read_node(sr + 1);
 			}
 			if (pe == NULL) {
 			    p->son = pr;
 			} else {
-			    pe->bro = pr;
+			    pe->next = pr;
 			}
 			pe = pr;
-			while (pe->bro)pe = pe->bro;
+			while (pe->next)pe = pe->next;
 			n++;
 		    } else {
 			if (word_type == INPUT_BAR_FIRST) {
@@ -851,7 +851,7 @@ read_node(char *str)
 		if (po) {
 		    if (func_input)check_comma();
 		    if (str[1]!= ']') {
-			po->bro = read_node(str + 1);
+			po->next = read_node(str + 1);
 		    }
 		} else {
 		    if (word_type == INPUT_BLANK_FIRST) {
@@ -896,10 +896,10 @@ read_node(char *str)
 	    if (qe == NULL) {
 		q = p;
 	    } else {
-		qe->bro = p;
+		qe->next = p;
 	    }
 	    qe = p;
-	    while (qe->bro)qe = qe->bro;
+	    while (qe->next)qe = qe->next;
 	    intro_var = 0;
 	}
 	str++;

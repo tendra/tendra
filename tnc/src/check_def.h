@@ -195,7 +195,7 @@
 	node *place = places->son ;\
 	while (place) {\
 	    sh = lub(sh, place->shape);\
-	    place = place->bro ;\
+	    place = place->next ;\
 	}\
 	exp->shape = normalize(sh);
 

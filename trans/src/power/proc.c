@@ -75,7 +75,7 @@ update_plc(postl_chain *ch, int ma)
 		exp pl = ch->pl;
 		while (pl->tag == ident_tag && son(pl)->tag == caller_name_tag) {
 			no(pl) += (ma << 6);
-			pl = bro(son(pl));
+			pl = next(son(pl));
 		}
 
 		ch = ch->outer;
@@ -143,7 +143,7 @@ bool last_caller_param(exp e)
 	if (IS_A_PROC(e)) {
 		next = son(e);
 	} else {
-		next = bro(son(e));
+		next = next(son(e));
 	}
 
 	/* Skip diagnose_tag which may be before next param */
@@ -240,7 +240,7 @@ makeans make_ident_tag_code(exp e, space sp, where dest, int exitlab)
 	makeans mka;
 
 	if (props(e) & defer_bit) {
-		return make_code(bro(init_exp), sp, dest, exitlab);
+		return make_code(next(init_exp), sp, dest, exitlab);
 	}
 
 	/* Is it an identification of a caller in a postlude? */
@@ -356,7 +356,7 @@ makeans make_ident_tag_code(exp e, space sp, where dest, int exitlab)
 	}
 
 	/* and evaluate the body of the declaration */
-	mka = make_code(bro(init_exp), guard(placew, sp), dest, exitlab);
+	mka = make_code(next(init_exp), guard(placew, sp), dest, exitlab);
 
 	asm_comment("make_ident_tag_code end_range: no(e) =%ld", no(e));
 
@@ -411,7 +411,7 @@ void make_res_tag_code(exp e, space sp)
 makeans make_apply_tag_code(exp e, space sp, where dest, int exitlab)
 {
 	exp fn  = son(e);  /* Function */
-	exp par = bro(fn); /* Parameters list */
+	exp par = next(fn); /* Parameters list */
 	space nsp;
 	nsp = sp;
 
@@ -440,9 +440,9 @@ makeans
 make_apply_general_tag_code(exp e, space sp, where dest, int exitlab)
 {
 	exp fn = son(e);
-	exp cers = bro(fn);
-	exp cees = bro(cers);
-	exp pl = bro(cees);
+	exp cers = next(fn);
+	exp cees = next(cers);
+	exp pl = next(cees);
 	space nsp;
 	makeans mka;
 	nsp = sp;
@@ -496,7 +496,7 @@ make_apply_general_tag_code(exp e, space sp, where dest, int exitlab)
 			if (x->last) {
 				break;
 			}
-			x = bro(x);
+			x = next(x);
 		}
 		update_plc(old_pls, p_args_and_link_size);
 		p.pl = pl;
@@ -564,7 +564,7 @@ void
 make_tail_call_tag_code(exp e, space sp)
 {
 	exp fn = son(e);
-	exp cees = bro(fn);
+	exp cees = next(fn);
 	baseoff callee_pointer;
 	bool direct_call = (fn->tag == name_tag
 	                    && son(fn)->tag == ident_tag
@@ -791,7 +791,7 @@ make_callee_list_tag_code(exp e, space sp)
 			if (list->last) {
 				break;
 			}
-			list = bro(list);
+			list = next(list);
 		}
 	}
 
@@ -813,10 +813,10 @@ make_dynamic_callee_tag_code(exp e, space sp)
 
 	rfrom = reg_operand(son(e), sp);
 	nsp = guardreg(rfrom, sp);
-	rsize = reg_operand(bro(son(e)), nsp);
+	rsize = reg_operand(next(son(e)), nsp);
 	nsp = guardreg(rsize, nsp);
 
-	if (al2(sh(bro(son(e)))) < 32) {
+	if (al2(sh(next(son(e)))) < 32) {
 		/* shouldn't happen for correct ANDF? */
 		rir_ins(i_a, rsize, 3, rsize);
 		rir_ins(i_and, rsize, ~3, rsize);
@@ -1036,7 +1036,7 @@ do_callers(int n, exp list, space sp)
 		if (list->last) {
 			break;
 		}
-		list = bro(list);
+		list = next(list);
 
 		disp = ALIGNNEXT(disp + ap.ashsize, 32);
 	}				/* end for */
@@ -1259,7 +1259,7 @@ restore_callers(int n)
 				asm_comment("restore param reg from reg");
 			}
 		}
-		bdy = bro(sbdy);
+		bdy = next(sbdy);
 	}
 
 	if (suspected_varargs) {
@@ -1297,7 +1297,7 @@ restore_callees(void)
 
 	while (bdy->tag == ident_tag && isparam(bdy)
 	       && son(bdy)->tag != formal_callee_tag) {
-		bdy = bro(son(bdy));
+		bdy = next(son(bdy));
 	}
 
 	while (bdy->tag == ident_tag && isparam(bdy)) {
@@ -1315,7 +1315,7 @@ restore_callees(void)
 			st_ro_ins(i_st, no(bdy), stackpos);
 		}
 
-		bdy = bro(sbdy);
+		bdy = next(sbdy);
 	}
 }
 
@@ -1327,9 +1327,9 @@ static exp find_ote(exp e, int n)
 		d = father(d);
 	}
 
-	d = son(bro(son(d))); /* list otagexps */
+	d = son(next(son(d))); /* list otagexps */
 	while (n != 0) {
-		d = bro(d);
+		d = next(d);
 		n--;
 	}
 

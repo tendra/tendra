@@ -33,10 +33,10 @@
 void scan(bool, exp, exp);
 
 /*
- * MACROS TO SET OR GET THE SON OR BRO
+ * MACROS TO SET OR GET THE SON OR NEXT
  */
-#define assexp(I, P, V)	if (I) setson(P, V); else setbro(P, V)
-#define contexp(I, P)	((I) ? son(P): bro(P))
+#define assexp(I, P, V)	if (I) setson(P, V); else setnext(P, V)
+#define contexp(I, P)	((I) ? son(P): next(P))
 
 /*
  * Transform a non-bit offset into a bit offset.
@@ -53,15 +53,15 @@ make_bitfield_offset(exp e, exp pe, int spe, shape sha)
 		return;
 	}
 
-	omul = getexp(sha, bro(e), (int)(e->last), e, NULL, 0, 0, offset_mult_tag);
+	omul = getexp(sha, next(e), (int)(e->last), e, NULL, 0, 0, offset_mult_tag);
 	val8 = getexp(slongsh, omul, 1, NULL, NULL, 0, 8, val_tag);
 
 	e->last = false;
-	setbro(e, val8);
+	setnext(e, val8);
 	if (spe) {
 		son(pe) = omul;
 	} else {
-		bro(pe) = omul;
+		next(pe) = omul;
 	}
 }
 
@@ -85,21 +85,21 @@ cca(bool sto, exp to, bool sx, exp x)
 	d = contexp(sx, x);
 	a = contexp(sto, to);
 
-	id  = getexp(sh(a), bro(a), a->last, d, NULL, 0, 1L, ident_tag);
-	tag = getexp(sh(d), bro(d), d->last, id, NULL, 0, 0L, name_tag);
+	id  = getexp(sh(a), next(a), a->last, d, NULL, 0, 1L, ident_tag);
+	tag = getexp(sh(d), next(d), d->last, id, NULL, 0, 0L, name_tag);
 
 	pt(id) = tag;
 	d->last = false;
 
 	if (d != a) {
-		bro(d) = a;
-		bro(a) = id;
+		next(d) = a;
+		next(a) = id;
 		a->last = true;
 		assexp(sto, to, id);
 		assexp(sx, x, tag);
 	} else {
-		bro(d) = tag;
-		bro(tag) = id;
+		next(d) = tag;
+		next(tag) = id;
 		tag->last = true;
 		d->last = false;
 		assexp(sto, to, id);
@@ -107,7 +107,7 @@ cca(bool sto, exp to, bool sx, exp x)
 }
 
 /*
- * Keeping the same to, cc scans along the bro list e, applying cca to
+ * Keeping the same to, cc scans along the next list e, applying cca to
  * introduce an identity declaration when doit is 1.  It keeps count as
  * the index position along the list in order to pass it to doit.  If it
  * uses cca it scans the resulting declaration, using the same to.  If it
@@ -214,12 +214,12 @@ ap_argsc(bool sto, exp to, bool se, exp e, int sz, bool b)
 {
 	exp ec = contexp(se, e);
 	exp p = son(ec);
-	exp a = bro(p);
+	exp a = next(p);
 	exp temp;
 
 	/* Check for multiplication by constant scale factor */
-	if (a->tag == offset_mult_tag && bro(son(a))->tag == val_tag) {
-		long k = no(bro(son(a)));
+	if (a->tag == offset_mult_tag && next(son(a))->tag == val_tag) {
+		long k = no(next(son(a)));
 		if ((k == 8 || k == 16 || k == 32 || k == 64) && k == sz) {
 			ccp(sto, to, 1, a);
 			ap_arg1(sto, to, 1, ec, b);
@@ -318,7 +318,7 @@ scan_alloc_args(exp s)
 		return 0;
 	}
 
-	return scan_alloc_args(bro(s));
+	return scan_alloc_args(next(s));
 }
 
 static int
@@ -336,7 +336,7 @@ scan_for_alloca(exp t)
 		return scan_for_alloca(son(t));
 
 	case labst_tag:
-		return scan_for_alloca(bro(son(t)));
+		return scan_for_alloca(next(son(t)));
 
 	case env_offset_tag:
 	case string_tag:
@@ -375,22 +375,22 @@ static void
 all_opnd(bool sto, exp to, exp e)
 {
 #if 0
-	if (!bro(son(e))->last) {
+	if (!next(son(e))->last) {
 		/* Operation has more than two parameters.  Make it diadic */
-		exp opn = getexp(sh(e), e, 0, bro(son(e)), NULL, 0, 0, e->tag);
-		exp nd = getexp(sh(e), bro(e), e->last, opn, NULL, 0, 1, ident_tag);
+		exp opn = getexp(sh(e), e, 0, next(son(e)), NULL, 0, 0, e->tag);
+		exp nd = getexp(sh(e), next(e), e->last, opn, NULL, 0, 1, ident_tag);
 		exp id = getexp(sh(e), e, 1, nd, NULL, 0, 0, name_tag);
 
 		pt(nd) = id;
-		bro(son(e)) = id;
+		next(son(e)) = id;
 		e->last = true;
-		bro(e) = nd;
+		next(e) = nd;
 
-		while (!bro(son(e))->last) {
-			bro(son(e)) = bro(bro(son(e)));
+		while (!next(son(e))->last) {
+			next(son(e)) = next(next(son(e)));
 		}
 
-		bro(bro(son(e))) = opn;
+		next(next(son(e))) = opn;
 		e = nd;
 		scan(sto, e, e);
 	}
@@ -497,7 +497,7 @@ indable_son(bool sto, exp to, exp e)
 #endif
 
 /*
- * APPLY scan TO A BRO LIST
+ * APPLY scan TO A NEXT LIST
  */
 static void
 scanargs(bool st, exp e)
@@ -613,17 +613,17 @@ scan(bool sto, exp to, exp e)
 #endif
 
 	case labst_tag:
-		scan(0, son(e), bro(son(e)));
+		scan(0, son(e), next(son(e)));
 		return;
 
 	case ident_tag:
-		scan(0, son(e), bro(son(e)));
+		scan(0, son(e), next(son(e)));
 		scan(1, e, son(e));
 		return;
 
 	case seq_tag:
 		scanargs(1, son(e));
-		scan(0, son(e), bro(son(e)));
+		scan(0, son(e), next(son(e)));
 		return;
 
 #if 0
@@ -647,7 +647,7 @@ scan(bool sto, exp to, exp e)
 #ifndef tdf3
 	case set_stack_limit_tag: {
 		exp lim = get_stack_limit();
-		setbro(lim, son(e));
+		setnext(lim, son(e));
 		setson(e, lim);
 		e->tag = ass_tag;
 		scan(sto, to, e);
@@ -657,11 +657,11 @@ scan(bool sto, exp to, exp e)
 
 	case offset_add_tag:
 	case offset_subtract_tag:
-		if ((al2(sh(son(e))) == 1) && (al2(sh(bro(son(e)))) != 1)) {
-			make_bitfield_offset(bro(son(e)), son(e), 0, sh(e));
+		if ((al2(sh(son(e))) == 1) && (al2(sh(next(son(e)))) != 1)) {
+			make_bitfield_offset(next(son(e)), son(e), 0, sh(e));
 		}
 
-		if ((al2(sh(son(e))) != 1) && (al2(sh(bro(son(e)))) == 1)) {
+		if ((al2(sh(son(e))) != 1) && (al2(sh(next(son(e)))) == 1)) {
 			make_bitfield_offset(son(e), e, 1, sh(e));
 		}
 
@@ -722,21 +722,21 @@ scan(bool sto, exp to, exp e)
 			e->tag = ass_tag;
 		}
 
-		if (!is_assable(bro(son(e)))) {
+		if (!is_assable(next(son(e)))) {
 			cca(sto, to, 0, son(e));
 			toc = contexp(sto, to);
 			scan(1, toc, son(toc));
 		} else {
-			scan(sto, to, bro(son(e)));
+			scan(sto, to, next(son(e)));
 		}
 
-		cont_arg(sto, to, e, sh(bro(son(e))));
+		cont_arg(sto, to, e, sh(next(son(e))));
 		return;
 	}
 
 #ifndef tdf3
 	case tail_call_tag: {
-		exp cees = bro(son(e));
+		exp cees = next(son(e));
 		cur_proc_has_tail_call    = true;
 		cur_proc_use_same_callees = (cees->tag == same_callees_tag);
 
@@ -750,23 +750,23 @@ scan(bool sto, exp to, exp e)
 	}
 
 	case apply_general_tag: {
-		exp cees = bro(bro(son(e)));
-		exp p_post = cees;	/* bro(p_post) is postlude */
+		exp cees = next(next(son(e)));
+		exp p_post = cees;	/* next(p_post) is postlude */
 
 		cur_proc_use_same_callees = (cees->tag == same_callees_tag);
 
-		while (bro(p_post)->tag == ident_tag &&
-		       son(bro(p_post))->tag == caller_name_tag) {
-			p_post = son(bro(p_post));
+		while (next(p_post)->tag == ident_tag &&
+		       son(next(p_post))->tag == caller_name_tag) {
+			p_post = son(next(p_post));
 		}
 
-		scan(0, p_post, bro(p_post));
+		scan(0, p_post, next(p_post));
 		if (son(cees) != NULL) {
 			scanargs(1, cees);
 		}
 
-		if (no(bro(son(e))) != 0) {
-			scanargs(1, bro(son(e)));
+		if (no(next(son(e))) != 0) {
+			scanargs(1, next(son(e)));
 		}
 
 		if (!is_indable(son(e))) {
@@ -838,7 +838,7 @@ scan(bool sto, exp to, exp e)
 
 	case plus_tag:
 		if (son(e)->tag == neg_tag &&
-		    bro(son(e))->tag == val_tag) {
+		    next(son(e))->tag == val_tag) {
 			scan(sto, to, son(e));
 			return;
 		}
@@ -847,11 +847,11 @@ scan(bool sto, exp to, exp e)
 		return;
 
 	case addptr_tag: {
-		exp a = bro(son(e));
+		exp a = next(son(e));
 
 		if (a->tag == offset_mult_tag &&
-		    bro(son(a))->tag == val_tag) {
-			long k = no(bro(son(a))) / 8;
+		    next(son(a))->tag == val_tag) {
+			long k = no(next(son(a))) / 8;
 			if (k == 1 || k == 2 || k == 4 || k == 8) {
 				ccp(sto, to, 1, a);
 				ap_arg1(sto, to, 1, e, 0);

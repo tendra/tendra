@@ -42,7 +42,7 @@ is_worth(exp c)
 		long  n = no(c);
 		exp dad;
 
-		if (n == 0 || bro(c) == NULL) {
+		if (n == 0 || next(c) == NULL) {
 			return false;
 		}
 
@@ -57,7 +57,7 @@ is_worth(exp c)
 			if ( grandad != NULL &&
 			     grandad->tag == test_tag && (n & (n - 1)) == 0 &&
 			     (props (grandad) == 5 || props (grandad) == 6) &&
-			     ((bro (son (grandad))->tag == val_tag && no (bro (son (grandad))) == 0)
+			     ((next (son (grandad))->tag == val_tag && no (next (son (grandad))) == 0)
 			      || (son (grandad)->tag == val_tag && no (son (grandad)) == 0))
 			   ) {
 				/*  a & 2^n == 0 is transformed later to

@@ -70,7 +70,7 @@ inlinechoice(exp t, exp def, int total_uses)
 		max_complexity = 120;
 	}
 
-	apars = bro(t); /* only uses are applications */
+	apars = next(t); /* only uses are applications */
 	no_actuals = t->last; /* if so then apars is apply_tag... */
 	fpars = son(def);
 
@@ -153,12 +153,12 @@ inlinechoice(exp t, exp def, int total_uses)
 			break;
 		}
 
-		fpars = bro(son(fpars));
+		fpars = next(son(fpars));
 		if (apars->last) {
 			break;
 		}
 
-		apars = bro(apars);
+		apars = next(apars);
 	}
 
 	adjusted_max_complexity = max_complexity;

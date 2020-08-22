@@ -83,7 +83,7 @@ inlinechoice(exp t, exp def, int total_uses)
 		max_complexity = crit_inline;
 	}
 
-	apars = bro(t); /* only uses are applications */
+	apars = next(t); /* only uses are applications */
 	fpars = son(def);
 
 	for (;;) {
@@ -160,12 +160,12 @@ inlinechoice(exp t, exp def, int total_uses)
 			break;
 		}
 
-		fpars = bro(son(fpars));
+		fpars = next(son(fpars));
 		if (apars->last) {
 			break;
 		}
 
-		apars = bro(apars);
+		apars = next(apars);
 	}
 
 	adjusted_max_complexity = max_complexity;

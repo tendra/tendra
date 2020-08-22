@@ -465,13 +465,13 @@ dw_locate_reloffset(exp e)
 		error(ERR_INTERNAL, bad_refloc);
 		return;
 	}
-	length = refloc_length(bro(son(e)), e);
+	length = refloc_length(next(son(e)), e);
 	out8();
 	if (length == 0) {
 		asm_printf("%d, %d", 1, DW_OP_nop);
 	} else {
 		asm_printf("%d", length);
-		out_refloc(bro(son(e)), e);
+		out_refloc(next(son(e)), e);
 	}
 	asm_printf("\n");
 }

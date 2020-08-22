@@ -56,7 +56,7 @@ baseoff boff
 				   for ls_ins etc */
   baseoff an;
   if (isglob (id)) {		/* globals */
-    dec * gl = brog(id);
+    dec * gl = nextg(id);
     long sno = gl->sym_number;
     an.base = - (sno + 1);
     an.offset = 0;
@@ -222,7 +222,7 @@ locate1(exp e, space sp, shape s, int dreg)
 	wsum = locate(sum, sp, sh(sum), 0);
 	asum = wsum.answhere;
 	/* answer is going to be wsum displaced by integer result of
-	   evaluating bro(sum) */
+	   evaluating next(sum) */
 
 	switch (asum.discrim) {
 	  case notinreg:
@@ -243,7 +243,7 @@ locate1(exp e, space sp, shape s, int dreg)
 		}
 		nsp = guardreg(b.base, sp);
 
-		addend = reg_operand(bro(sum), nsp);
+		addend = reg_operand(next(sum), nsp);
 		/* evaluate the displacement ... */
 		if (dreg == 0)
 		  dreg = getreg(nsp.fixed);
@@ -284,13 +284,13 @@ locate1(exp e, space sp, shape s, int dreg)
     breakpt: 			/* register ind contains the evaluation of
 				   1st operand of addptr */
 	nsp = guardreg(ind, sp);
-	if (bro(sum)->tag == env_offset_tag
-		|| bro(sum)->tag == general_env_offset_tag) {
+	if (next(sum)->tag == env_offset_tag
+		|| next(sum)->tag == general_env_offset_tag) {
           is.b.base = ind;
-          is.b.offset = frame_offset(son(bro(sum)));
+          is.b.offset = frame_offset(son(next(sum)));
 	}
 	else {
-          addend = reg_operand(bro(sum), nsp);
+          addend = reg_operand(next(sum), nsp);
           /* evaluate displacement .... */
           if (dreg == 0)
             dreg = getreg(nsp.fixed);
@@ -315,7 +315,7 @@ locate1(exp e, space sp, shape s, int dreg)
 	int   ind = reg_operand(sum, sp);
 	instore isa;
 	isa.adval = 1;
-	sum = bro(sum);
+	sum = next(sum);
 	if (sum->tag == val_tag) {
 	  instore isa;
 	  isa.b.base = ind;

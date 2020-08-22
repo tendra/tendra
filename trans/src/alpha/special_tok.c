@@ -178,7 +178,7 @@ special_va_start(tokval *tkv, token t, bitstream pars)
 	component2  = get_component(copy_of_compound, const_al32, SLONG_ALIGN, SLONG_SZ, slonghd, f_off32_32, 64);
 	assignment1 = f_assign(component1, arg2);
 	assignment2 = f_assign(component2, getexp(f_off32_32, NULL, 0, NULL, NULL, 0, 0, val_tag));
-	bro(assignment1) = assignment2;
+	next(assignment1) = assignment2;
 	list.start  = assignment1;
 	list.end    = assignment2;
 	list.number = 2;

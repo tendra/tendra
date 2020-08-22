@@ -254,10 +254,10 @@ de_tagdef(void)
 			if (is_var == 2) {
 				node *dp = info->def;
 
-				while (dp->bro)
-					dp = dp->bro;
+				while (dp->next)
+					dp = dp->next;
 
-				dp->bro = d;
+				dp->next = d;
 			} else {
 				if (!eq_node(info->def, d)) {
 					is_fatal = 0;

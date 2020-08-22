@@ -81,7 +81,7 @@ enc_external(bitstream *b, construct *p)
     if (e->cons->encoding) {
 	node *q = e->son;
 	if (q->cons->sortnum == SORT_tdfstring) {
-	    node *r = q->bro;
+	    node *r = q->next;
 	    if (r == NULL) {
 		enc_external_bits(b, ENC_string_extern);
 		align_bitstream(b);
@@ -96,7 +96,7 @@ enc_external(bitstream *b, construct *p)
 	    enc_external_bits(b, ENC_unique_extern);
 	    align_bitstream(b);
 	    enc_tdf_int(b, q->cons->encoding);
-	    for (q = e->son->son; q; q = q->bro) {
+	    for (q = e->son->son; q; q = q->next) {
 		enc_aligned_string(b, q->cons->name, q->cons->encoding);
 	    }
 	}
@@ -181,14 +181,14 @@ enc_node(bitstream *b, node *p)
 		    node *r = p->son;
 		    long m = r->cons->encoding;
 		    if (m < 0)m = -m;
-		    r = r->bro;
+		    r = r->next;
 		    n = r->cons->encoding;
 		    r = r->son;
 		    enc_tdf_int(b, m);
 		    enc_tdf_int(b, n);
 		    for (i = 0; i < n; i++) {
 			enc_bits(b,(int)m, r->cons->encoding);
-			r = r->bro;
+			r = r->next;
 		    }
 		} else {
 		    enc_tdf_int(b,(long)8);
@@ -281,7 +281,7 @@ enc_node(bitstream *b, node *p)
 		break;
 	    }
 	}
-	p = p->bro;
+	p = p->next;
     }
     return;
 }
@@ -352,7 +352,7 @@ enc_tagdef(bitstream *b, construct *p)
 	enc_tagdef_bits(b, m);
 	enc_tdf_int(b, p->encoding);
 	enc_node(b, d->son);
-	d = d->bro;
+	d = d->next;
 	n++;
     }
     return n;

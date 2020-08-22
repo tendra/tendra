@@ -292,7 +292,7 @@ de_node(char *str)
 					px->cons = new_construct();
 					px->cons->sortnum = SORT_repeat;
 					px->cons->encoding = m;
-					p->son->bro->bro = px;
+					p->son->next->next = px;
 
 					for (i = 0; i < m; i++) {
 						long v = fetch((int)n);
@@ -300,8 +300,8 @@ de_node(char *str)
 							px->son = make_int(v);
 							px = px->son;
 						} else {
-							px->bro->bro = make_int(v);
-							px = px->bro->bro;
+							px->next->next = make_int(v);
+							px = px->next->next;
 						}
 					}
 				}
@@ -355,11 +355,11 @@ de_node(char *str)
 					if (pe == NULL)
 						p->son = pi;
 					else
-						pe->bro = pi;
+						pe->next = pi;
 
 					pe = pi;
-					while (pe->bro)
-						pe = pe->bro;
+					while (pe->next)
+						pe = pe->next;
 				}
 				str = skip_text(str);
 				break;
@@ -425,11 +425,11 @@ de_node(char *str)
 			if (qe == NULL)
 				q = p;
 			else
-				qe->bro = p;
+				qe->next = p;
 
 			qe = p;
-			while (qe->bro)
-				qe = qe->bro;
+			while (qe->next)
+				qe = qe->next;
 		}
 		str++;
 	}

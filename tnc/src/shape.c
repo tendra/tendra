@@ -74,7 +74,7 @@ string_length(node *s)
 	node *str = s->son;
 	long n = str->cons->encoding;
 	if (n == -1) {
-	    str = str->son->bro;
+	    str = str->son->next;
 	    n = str->cons->encoding;
 	}
 	return make_nat(n);
@@ -184,12 +184,12 @@ sh_offset(node *p, node *q)
 	r->son->cons = p->cons;
 	r->son->son = p->son;
     }
-    r->son->bro = new_node();
+    r->son->next = new_node();
     if (q == NULL) {
-	r->son->bro->cons = &unknown_cons;
+	r->son->next->cons = &unknown_cons;
     } else {
-	r->son->bro->cons = q->cons;
-	r->son->bro->son = q->son;
+	r->son->next->cons = q->cons;
+	r->son->next->son = q->son;
     }
     return r;
 }
@@ -212,12 +212,12 @@ sh_nof(node *n, node *p)
 	q->son->cons = n->cons;
 	q->son->son = n->son;
     }
-    q->son->bro = new_node();
+    q->son->next = new_node();
     if (p == NULL) {
-	q->son->bro->cons = &unknown_cons;
+	q->son->next->cons = &unknown_cons;
     } else {
-	q->son->bro->cons = p->cons;
-	q->son->bro->son = p->son;
+	q->son->next->cons = p->cons;
+	q->son->next->son = p->son;
     }
     return q;
 }
@@ -280,7 +280,7 @@ normalize(node *p)
 	    }
 	    case ENC_offset: {
 		node *al1 = al_shape(p->son);
-		node *al2 = al_shape(p->son->bro);
+		node *al2 = al_shape(p->son->next);
 		return sh_offset(al1, al2);
 	    }
 	    case ENC_pointer: {
@@ -503,8 +503,8 @@ check_shapes(node *p, node *q, int tg)
 		if (c == NULL) return NULL;
 		if (c == sh_top) return sh_top;
 	    }
-	    xp = xp->bro;
-	    xq = xq->bro;
+	    xp = xp->next;
+	    xq = xq->next;
 	}
     } else {
 	if (tg == 2) return NULL;
@@ -601,7 +601,7 @@ check2(int t, node *p, node *q)
 	    if (sp && sp->cons->encoding == ENC_nof &&
 		 sq && sq->cons->encoding == ENC_nof) {
 		/* Find base shape of array */
-		s = check_shapes(sp->son->bro, sq->son->bro, 0);
+		s = check_shapes(sp->son->next, sq->son->next, 0);
 		sp = expand_tok(sp->son);
 		sq = expand_tok(sq->son);
 		if (sp && sp->cons->encoding == ENC_make_nat &&
@@ -649,7 +649,7 @@ checkn(int t, node *p, int nz)
     }
     q = p->son;
     r = check1(t, q);
-    while (q = q->bro, q != NULL) {
+    while (q = q->next, q != NULL) {
 	node *s = check1(t, q);
 	r = check_shapes(r, s, 0);
     }
@@ -679,13 +679,13 @@ set_token_args(construct **c, node *p, int set)
 		    if (aq == NULL) {
 			q = r;
 		    } else {
-			aq->bro = r;
+			aq->next = r;
 		    }
 		    aq = r;
 		}
 	    }
 	    info->def = copy_node(p);
-	    if (p)p = p->bro;
+	    if (p)p = p->next;
 	    c++;
 	}
     }
@@ -793,7 +793,7 @@ contains_tokens(node *p, int intro, int tok)
 	if (q) return 4;
 	p = p->son;
     }
-    for (q = p->son; q; q = q->bro) {
+    for (q = p->son; q; q = q->next) {
 	int c = contains_tokens(q, intro, tok);
 	if (c == 1 || c >= tok) return 1;
     }
@@ -819,12 +819,12 @@ expand_fully_aux(node *p, int c, int def)
 	    q = new_node();
 	    q->cons = p->cons;
 	    q->shape = p->shape;
-	    for (ap = p->son; ap; ap = ap->bro) {
+	    for (ap = p->son; ap; ap = ap->next) {
 		node *a;
 		c = contains_tokens(ap, intro, 2);
 		a = expand_fully_aux(ap, c, def);
 		if (aq) {
-		    aq->bro = a;
+		    aq->next = a;
 		} else {
 		    q->son = a;
 		}

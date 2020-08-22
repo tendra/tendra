@@ -93,15 +93,15 @@ inval(exp d, exp r)
 	}
 
 	if (r->tag == addptr_tag) {
-		if (bro(son(r))->tag == offset_mult_tag) {
-			return inval(d, son(r)) || inval(d, son(bro(son(r))));
+		if (next(son(r))->tag == offset_mult_tag) {
+			return inval(d, son(r)) || inval(d, son(next(son(r))));
 		}
 
-		return inval(d, son(r)) || inval(d, bro(son(r)));
+		return inval(d, son(r)) || inval(d, next(son(r)));
 	}
 
 	if (r->tag == ident_tag) {
-		return inval(d, son(r)) || inval(d, bro(son(r)));
+		return inval(d, son(r)) || inval(d, next(son(r)));
 	}
 
 	return 0;

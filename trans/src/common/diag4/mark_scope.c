@@ -55,8 +55,8 @@ mark_scope(exp e)
 	}
 
 	if (!*ptr && e->tag == seq_tag && son(son(e))->tag == ass_tag &&
-	    son(son(e))->last && bro(son(e))->tag != ident_tag) {
-		ptr = &dgf(bro(son(e)));
+	    son(son(e))->last && next(son(e))->tag != ident_tag) {
+		ptr = &dgf(next(son(e)));
 		while (*ptr && (*ptr)->key != DGA_SCOPE) {
 			ptr = &((*ptr)->more);
 		}
@@ -121,7 +121,7 @@ void
 correct_mark_scope(exp e)
 {
 	dg_info d = NULL;
-	dg_info *ptr = &(dgf(bro(son(e))));
+	dg_info *ptr = &(dgf(next(son(e))));
 
 	while (*ptr && (*ptr)->key != DGA_SCOPE) {
 		ptr = &(*ptr)->more;

@@ -66,22 +66,22 @@ special_longjmp(exp a1, exp a2, shape s, exp *e)
 {
 	exp r;
 
-	if (a2->last || bro(a2) == NULL) {
+	if (a2->last || next(a2) == NULL) {
 		return 0;
 	}
 
 	r = getexp(f_bottom, NULL, 0, a1, NULL, 0, 0, apply_tag);
 	has_setjmp = true;
 
-	bro(a1) = a2;
+	next(a1) = a2;
 	a1->last = false;
 	parked(a2) = 0;
 	a2->last = false;
 
-	a2 = bro(a2);
+	a2 = next(a2);
 	a2->last = true;
 	parked(a2) = 0;
-	bro(a2) = r;
+	next(a2) = r;
 
 	*e = r;
 

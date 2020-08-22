@@ -148,17 +148,17 @@ evalexp(exp e)
 	}
 
 	case not_tag: return ~evalexp(son(e));
-	case and_tag: return evalexp(son(e)) &  evalexp(bro(son(e)));
-	case or_tag:  return evalexp(son(e)) |  evalexp(bro(son(e)));
-	case xor_tag: return evalexp(son(e)) ^  evalexp(bro(son(e)));
-	case shr_tag: return evalexp(son(e)) >> evalexp(bro(son(e)));
-	case shl_tag: return evalexp(son(e)) << evalexp(bro(son(e)));
+	case and_tag: return evalexp(son(e)) &  evalexp(next(son(e)));
+	case or_tag:  return evalexp(son(e)) |  evalexp(next(son(e)));
+	case xor_tag: return evalexp(son(e)) ^  evalexp(next(son(e)));
+	case shr_tag: return evalexp(son(e)) >> evalexp(next(son(e)));
+	case shl_tag: return evalexp(son(e)) << evalexp(next(son(e)));
 
 	case concatnof_tag: {
 		ash a;
 		long  wd = evalexp(son(e));
 		a = ashof(sh(son(e)));
-		return wd | (evalexp(bro(son(e))) << a.ashsize);
+		return wd | (evalexp(next(son(e))) << a.ashsize);
 	}
 
 	case clear_tag: {
@@ -181,13 +181,13 @@ evalexp(exp e)
 		return (pr->frame_size + pr->callee_size) >> 3;
 	}
 
-	case offset_add_tag:        return evalexp(son(e)) + evalexp(bro(son(e)));
-	case offset_max_tag:        return MAX(evalexp(son(e)), evalexp(bro(son(e))));
+	case offset_add_tag:        return evalexp(son(e)) + evalexp(next(son(e)));
+	case offset_max_tag:        return MAX(evalexp(son(e)), evalexp(next(son(e))));
 	case offset_pad_tag:        return rounder(evalexp(son(e)), shape_align(sh(e)));
-	case offset_mult_tag:       return evalexp(son(e)) * evalexp(bro(son(e)));
+	case offset_mult_tag:       return evalexp(son(e)) * evalexp(next(son(e)));
 	case offset_div_tag:
-	case offset_div_by_int_tag: return evalexp(son(e)) / evalexp(bro(son(e)));
-	case offset_subtract_tag:   return evalexp(son(e)) - evalexp(bro(son(e)));
+	case offset_div_by_int_tag: return evalexp(son(e)) / evalexp(next(son(e)));
+	case offset_subtract_tag:   return evalexp(son(e)) - evalexp(next(son(e)));
 	case offset_negate_tag:     return -evalexp(son(e));
 
 	default:
@@ -365,7 +365,7 @@ evalone(exp e, long rep)
 
 	case name_tag: {
 		exp dc = son(e);
-		dec * globdec = brog(dc); /* must be global name */
+		dec * globdec = nextg(dc); /* must be global name */
 		char *name = globdec->name;
 		long symdef = globdec ->sym_number;
 
@@ -404,11 +404,11 @@ evalone(exp e, long rep)
 
 		for (;;) {
 			ash ae;
-			ae = ashof(sh(bro(tup)));
+			ae = ashof(sh(next(tup)));
 			offs = no(tup);
 
 			if (ae.ashalign == 1) {
-				unsigned long vb = evalexp(bro(tup));
+				unsigned long vb = evalexp(next(tup));
 
 				if (ae.ashsize != 32) {
 					vb = vb & ((1 << ae.ashsize) - 1);
@@ -487,11 +487,11 @@ evalone(exp e, long rep)
 					bits_start += 8;
 				}
 
-				evalone(bro(tup), 1);
-				bits_start += shape_size(sh(bro(tup)));
+				evalone(next(tup), 1);
+				bits_start += shape_size(sh(next(tup)));
 			}
 
-			if (bro(tup)->last) {
+			if (next(tup)->last) {
 				offs += ae.ashsize;
 				offs = (offs + 7) & ~7;
 
@@ -526,7 +526,7 @@ evalone(exp e, long rep)
 				return;
 			}
 
-			tup = bro(bro(tup));
+			tup = next(next(tup));
 		}
 	}
 
@@ -547,7 +547,7 @@ evalone(exp e, long rep)
 				return;
 			}
 
-			s = bro(s);
+			s = next(s);
 		}
 	}
 
@@ -576,7 +576,7 @@ evalone(exp e, long rep)
 				error(ERR_INTERNAL, "CAN'T REP concat");
 			}
 			evalone(son(e), 1);
-			evalone(bro(son(e)), 1);
+			evalone(next(son(e)), 1);
 		}
 		return;
 	}
@@ -615,7 +615,7 @@ evalone(exp e, long rep)
 
 	case seq_tag:
 		if (son(son(e))->tag == prof_tag && son(son(e))->last) {
-			evalone(bro(son(e)), rep);
+			evalone(next(son(e)), rep);
 			return;
 		}
 

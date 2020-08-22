@@ -236,9 +236,9 @@ mark_unaliased(exp e)
 	bool ca = 1;
 
 	for (p = pt(e); p != NULL && ca; p = pt(p)) {
-		if (bro(p) == NULL ||
-		    (!(p->last && bro(p)->tag == cont_tag) &&
-		     !(!p->last && bro(p)->last && bro(bro(p))->tag == ass_tag))) {
+		if (next(p) == NULL ||
+		    (!(p->last && next(p)->tag == cont_tag) &&
+		     !(!p->last && next(p)->last && next(next(p))->tag == ass_tag))) {
 			ca = 0;
 		}
 	}
@@ -285,19 +285,19 @@ local_translate_capsule(void)
 				exp cll = getexp(f_top, NULL, 0, fn, NULL, 0, 0, apply_tag);
 				exp * dm = &son(son(crt_exp));
 				exp hld, seq;
-				bro(fn) = cll;
+				next(fn) = cll;
 				fn->last = true;
 
 				while ((*dm)->tag == ident_tag && isparam(*dm)) {
-					dm = &bro(son(*dm));
+					dm = &next(son(*dm));
 				}
 				/* dm is body of main after params */
 
 				hld = getexp(f_top, *dm, 0, cll, NULL, 0, 1, 0);
-				seq = getexp(sh(*dm), bro(*dm), (*dm)->last, hld, NULL, 0, 0, seq_tag);
-				bro(*dm) = seq;
+				seq = getexp(sh(*dm), next(*dm), (*dm)->last, hld, NULL, 0, 0, seq_tag);
+				next(*dm) = seq;
 				(*dm)->last = true;
-				bro(cll) = hld;
+				next(cll) = hld;
 				cll->last = true;
 				*dm = seq;
 				break;
@@ -410,11 +410,11 @@ local_translate_capsule(void)
 			}
 
 			if (!No_S) {
-				IGNORE weightsv(1.0, bro(son(son(crt_exp))));
+				IGNORE weightsv(1.0, next(son(son(crt_exp))));
 			}
 
 			/* estimate usage of tags in body of proc */
-			forrest = regalloc(bro(son(son(crt_exp))), freefixed, freefloat,
+			forrest = regalloc(next(son(son(crt_exp))), freefixed, freefloat,
 			                   (PIC_code && !leaf) ? 32 : 0);
 			/* reg and stack allocation for tags */
 

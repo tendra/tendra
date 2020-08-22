@@ -52,7 +52,7 @@ baseoff boff
 {
   baseoff an;
   if (isglob (id)) {		/* globals */
-    dec * gl = brog(id);
+    dec * gl = nextg(id);
     long sno = gl->sym_number;
     an.base = - (sno + 1);
     an.offset = 0;
@@ -208,7 +208,7 @@ locate1(exp e, space sp, shape s, int dreg)
       wsum = locate(sum, sp, sh(sum), NO_REG);
       asum = wsum.answhere;
       /* answer is going to be wsum displaced by integer result of
-	   evaluating bro(sum) */
+	   evaluating next(sum) */
 
       switch (asum.discrim) {
       case notinreg:
@@ -234,25 +234,25 @@ locate1(exp e, space sp, shape s, int dreg)
 	     multiplier.  Not shure if this is any faster than
 	     using two instructions : mult & add.
 	     */
-	  if (bro(sum)->tag == offset_mult_tag) {
-	    multiplier = no(bro(son(bro(sum))));
+	  if (next(sum)->tag == offset_mult_tag) {
+	    multiplier = no(next(son(next(sum))));
 	    switch (multiplier) {
 	    case 4:
 	      scale_ins=i_s4addq;
-	      addend = reg_operand(son(bro(sum)),nsp);
+	      addend = reg_operand(son(next(sum)),nsp);
 	      break;
 	    case 8:
 	      scale_ins=i_s8addq;
-	      addend = reg_operand(son(bro(sum)),nsp);
+	      addend = reg_operand(son(next(sum)),nsp);
 	      break;
 	    default:
 	      scale_ins=i_addq;
-	      addend = reg_operand(bro(sum),nsp);
+	      addend = reg_operand(next(sum),nsp);
 	    }
 	  }
 	  else{
 	    scale_ins=i_addq;
-	    addend = reg_operand(bro(sum), nsp);
+	    addend = reg_operand(next(sum), nsp);
 	  }
 
 	  /* evaluate the displacement ... */
@@ -297,33 +297,33 @@ locate1(exp e, space sp, shape s, int dreg)
     breakpt: 		/* register ind contains the evaluation of
 		        1st operand of addptr */
       nsp = guardreg(ind, sp);
-      if (bro(sum)->tag == env_offset_tag ||
-	  bro(sum)->tag ==general_env_offset_tag) {
+      if (next(sum)->tag == env_offset_tag ||
+	  next(sum)->tag ==general_env_offset_tag) {
 	is.b.base = ind;
-	is.b.offset = frame_offset(son(bro(sum)));
+	is.b.offset = frame_offset(son(next(sum)));
       }
       else {
 	instruction ins=i_addq;
-	if (bro(sum)->tag == offset_mult_tag &&
-	   bro(son(bro(sum)))->tag ==val_tag) {
-	  switch (no(bro(son(bro(sum))))) {
+	if (next(sum)->tag == offset_mult_tag &&
+	   next(son(next(sum)))->tag ==val_tag) {
+	  switch (no(next(son(next(sum))))) {
 	  case 4:
 	    ins=i_s4addq;
-	    addend = reg_operand(son(bro(sum)),nsp);
+	    addend = reg_operand(son(next(sum)),nsp);
 	    break;
 	  case 8:
 	    ins=i_s8addq;
-	    addend = reg_operand(son(bro(sum)),nsp);
+	    addend = reg_operand(son(next(sum)),nsp);
 	    break;
 	  default:
-	    addend = reg_operand(bro(sum),nsp);
+	    addend = reg_operand(next(sum),nsp);
 	    break;
 	  }
 	}
 	else{
-	  addend = reg_operand(bro(sum),nsp);
+	  addend = reg_operand(next(sum),nsp);
 	}
-	/*addend = reg_operand (bro (sum), nsp);*/
+	/*addend = reg_operand (next (sum), nsp);*/
 	/* evaluate displacement .... */
 	if (dreg == NO_REG)
 	  dreg = getreg(nsp.fixed);
@@ -350,7 +350,7 @@ locate1(exp e, space sp, shape s, int dreg)
       int   ind = reg_operand(sum, sp);
       instore isa;
       isa.adval = 1;
-      sum = bro(sum);
+      sum = next(sum);
       if (sum->tag == val_tag) {
 	instore isa;
 	isa.b.base = ind;

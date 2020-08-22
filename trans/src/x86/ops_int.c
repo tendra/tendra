@@ -691,13 +691,13 @@ add_plus(shape sha, where a1, where a2, where dest, int plus1)
 
 		ap = getexp(f_bottom, NULL, 0, a, NULL, 0, 0, addptr_tag);
 		{
-			exp temp = bro(a);
-			bro(a) = b;
+			exp temp = next(a);
+			next(a) = b;
 			cond1_set = false;
 			ins2(leal, 32, 32, mw(ap, 0), dest);
 			retcell(ap);
 			invalidate_dest(dest);
-			bro(a) = temp;
+			next(a) = temp;
 			return;
 		}
 	}

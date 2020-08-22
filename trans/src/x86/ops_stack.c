@@ -84,7 +84,7 @@ use_pop_ass(exp n, exp ln)
 	while (n != id && n->last &&
 		   (is_a(n->tag) || n->tag == ident_tag ||
 			n->tag == ass_tag)) {
-		n = bro(n);
+		n = next(n);
 	}
 
 	if (n == id) {
@@ -109,7 +109,7 @@ use_pop(exp n, exp ln)
 
 	id = son(ln);
 	while (n != id && n->last) {
-		n = bro(n);
+		n = next(n);
 	}
 
 	if (n == id) {
@@ -231,7 +231,7 @@ callins(int longs, exp fn, int ret_stack_dec)
 		if (current_dg_info) {
 			current_dg_info->data.i_call.brk = set_dw_text_label();
 			current_dg_info->data.i_call.p.k = WH_STR;
-			current_dg_info->data.i_call.p.u.s = (brog(son(fn))) ->name;
+			current_dg_info->data.i_call.p.u.s = (nextg(son(fn))) ->name;
 			current_dg_info->data.i_call.p.o = no(fn) / 8;
 		}
 #endif

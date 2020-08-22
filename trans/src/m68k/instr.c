@@ -47,7 +47,7 @@
 static char *
 extname(exp e)
 {
-	dec *d = brog(e);
+	dec *d = nextg(e);
 #if 0
 	if (d->external_register) {
 		error(ERR_SERIOUS, "External registers not yet implemented");
@@ -362,7 +362,7 @@ operand(long sz, where wh)
 		case addptr_tag: {
 			where wb, wc;
 			exp rr = son(r);
-			exp eb = bro(rr);
+			exp eb = next(rr);
 			exp ec = simple_exp(cont_tag);
 			son(ec) = rr;
 			wb.wh_exp = eb;
@@ -375,7 +375,7 @@ operand(long sz, where wh)
 			case cont_tag:
 				return index_opnd(wc, wb, 1);
 			case offset_mult_tag: {
-				long k = no(bro(son(eb))) / 8;
+				long k = no(next(son(eb))) / 8;
 				if (sz == 8 * k) {
 					wb.wh_exp = son(eb);
 					wb.wh_off = 0;
@@ -557,7 +557,7 @@ operand(long sz, where wh)
 	case addptr_tag: {
 		where wb, wc;
 		exp r = son(w);
-		exp eb = bro(r);
+		exp eb = next(r);
 		exp ec = simple_exp(cont_tag);
 		son(ec) = r;
 		wb.wh_exp = eb;
@@ -570,7 +570,7 @@ operand(long sz, where wh)
 		case cont_tag:
 			return index_opnd(wc, wb, 1);
 		case offset_mult_tag: {
-			long k = no(bro(son(eb))) / 8;
+			long k = no(next(son(eb))) / 8;
 			wb.wh_exp = son(eb);
 			wb.wh_off = 0;
 			return index_opnd(wc, wb, (int) k);
@@ -617,7 +617,7 @@ operand(long sz, where wh)
 		return make_register(REG_AP);
 #ifndef tdf3
 	case env_size_tag: {
-		dec *dp = brog(son(son(w)));
+		dec *dp = nextg(son(son(w)));
 		return make_lab((long)dp, 0);
 	}
 	case env_offset_tag: {

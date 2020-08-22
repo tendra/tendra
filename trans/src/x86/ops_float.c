@@ -452,7 +452,7 @@ void
 fl_multop(unsigned char op, shape sha, exp arglist, where dest)
 {
 	exp arg1 = arglist;
-	exp arg2 = bro(arg1);
+	exp arg2 = next(arg1);
 
 	if (arg1->last) {
 		/* only one arg, so just move to dest */
@@ -485,7 +485,7 @@ fl_multop(unsigned char op, shape sha, exp arglist, where dest)
 			break;
 		}
 
-		arg2 = bro(arg2);
+		arg2 = next(arg2);
 	}
 
 	move(sha, flstack, dest);

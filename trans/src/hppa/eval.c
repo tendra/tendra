@@ -269,30 +269,30 @@ evalexp(exp e)
 	}
 
 	case not_tag: return evalexp(son(e));
-	case and_tag: return evalexp(son(e)) & evalexp(bro(son(e)));
-	case or_tag:  return evalexp(son(e)) | evalexp(bro(son(e)));
-	case xor_tag: return evalexp(son(e)) ^ evalexp(bro(son(e)));
+	case and_tag: return evalexp(son(e)) & evalexp(next(son(e)));
+	case or_tag:  return evalexp(son(e)) | evalexp(next(son(e)));
+	case xor_tag: return evalexp(son(e)) ^ evalexp(next(son(e)));
 
 	case shr_tag: {
 		bool sgned = is_signed(sh(e));
 
 		asm_comment("evalexp() shr_tag: sgned=%d", sgned);
 		if (sgned) {
-			return ((long) evalexp(son(e))) >> evalexp(bro(son(e)));
+			return ((long) evalexp(son(e))) >> evalexp(next(son(e)));
 		} else {
-			return ((unsigned long) evalexp(son(e))) >> evalexp(bro(son(e)));
+			return ((unsigned long) evalexp(son(e))) >> evalexp(next(son(e)));
 		}
 	}
 
 	case shl_tag:
-		return evalexp(son(e)) << evalexp(bro(son(e)));
+		return evalexp(son(e)) << evalexp(next(son(e)));
 
 	case concatnof_tag: {
 		unsigned long w_lhs = evalexp(son(e));
-		unsigned long w_rhs = evalexp(bro(son(e)));
+		unsigned long w_rhs = evalexp(next(son(e)));
 		ash ash_lhs, ash_rhs;
 		ash_lhs = ashof(sh(son(e)));
-		ash_rhs = ashof(sh(bro(son(e))));
+		ash_rhs = ashof(sh(next(son(e))));
 
 		assert(ash_lhs.ashalign == 1 && ash_lhs.ashsize <= 32);
 		assert(ash_rhs.ashalign == 1 && ash_rhs.ashsize <= 32);
@@ -319,13 +319,13 @@ evalexp(exp e)
 		return (pr->frame_sz + 0) >> 3;
 	}
 
-	case offset_add_tag:        return evalexp(son(e)) + evalexp(bro(son(e)));
-	case offset_max_tag:        return MAX(evalexp(son(e)), evalexp(bro(son(e))));
+	case offset_add_tag:        return evalexp(son(e)) + evalexp(next(son(e)));
+	case offset_max_tag:        return MAX(evalexp(son(e)), evalexp(next(son(e))));
 	case offset_pad_tag:        return rounder(evalexp(son(e)), shape_align(sh(e)));
-	case offset_mult_tag:       return evalexp(son(e)) * evalexp(bro(son(e)));
+	case offset_mult_tag:       return evalexp(son(e)) * evalexp(next(son(e)));
 	case offset_div_tag:
-	case offset_div_by_int_tag: return evalexp(son(e)) / evalexp(bro(son(e)));
-	case offset_subtract_tag:   return evalexp(son(e)) - evalexp(bro(son(e)));
+	case offset_div_by_int_tag: return evalexp(son(e)) / evalexp(next(son(e)));
+	case offset_subtract_tag:   return evalexp(son(e)) - evalexp(next(son(e)));
 	case offset_negate_tag:     return -evalexp(son(e));
 
 	case clear_tag: {
@@ -520,7 +520,7 @@ evalconcbitaux(exp e, concbittype before)
 	case concatnof_tag: {
 		concbittype lhs, rhs;
 		lhs = evalconcbitaux(son(e), before);
-		rhs = evalconcbitaux(bro(son(e)), lhs);
+		rhs = evalconcbitaux(next(son(e)), lhs);
 		return rhs;
 	}
 
@@ -567,7 +567,7 @@ is_zero(exp e)
 
 	case compound_tag: {
 		/* (compound_tag <offset> <initialiser> ...) */
-		e = bro(son(e));
+		e = next(son(e));
 		for (;;) {
 			if (is_zero(e) == 0) {
 				return 0;    /* found non-zero */
@@ -577,7 +577,7 @@ is_zero(exp e)
 				return 1;    /* all done, all zero */
 			}
 
-			e = bro(bro(e));
+			e = next(next(e));
 		}
 
 		UNREACHED;
@@ -768,7 +768,7 @@ evalone(exp e, int bitposn)
 	}
 
 	case name_tag: {
-		dec *globdec = brog(son(e)) ;	/* must be global name */
+		dec *globdec = nextg(son(e)) ;	/* must be global name */
 		char *name = globdec->name;
 
 		assert(isglob(son(e)));
@@ -794,7 +794,7 @@ evalone(exp e, int bitposn)
 	case compound_tag: {
 		/* Compound values */
 		exp off = son(e);
-		exp tup = bro(off);
+		exp tup = next(off);
 		ash tupa;
 		concbittype left;
 		long last_offset = 0;
@@ -819,9 +819,9 @@ evalone(exp e, int bitposn)
 				if (tup->last) {
 					return;
 				} else {
-					off = bro(bro(off));
+					off = next(next(off));
 					assert(!off->last);
-					tup = bro(off);
+					tup = next(off);
 					tupa = ashof(sh(tup));
 					continue;
 				}
@@ -871,9 +871,9 @@ evalone(exp e, int bitposn)
 				return;
 			}
 
-			off = bro(bro(off));
+			off = next(next(off));
 			assert(!off->last);
-			tup = bro(off);
+			tup = next(off);
 			tupa = ashof(sh(tup));
 		}
 
@@ -890,7 +890,7 @@ evalone(exp e, int bitposn)
 				return;
 			}
 
-			s = bro(s);
+			s = next(s);
 		}
 	}
 
@@ -924,11 +924,11 @@ evalone(exp e, int bitposn)
 			evalone(son(e), bitposn);
 			bitposn += a.ashsize;
 
-			a = ashof(sh(bro(son(e))));
+			a = ashof(sh(next(son(e))));
 			if (a.ashalign != 0) {
 				bitposn = (bitposn / a.ashalign) * a.ashalign;
 			}
-			evalone(bro(son(e)), bitposn);
+			evalone(next(son(e)), bitposn);
 		}
 		return;
 	}
@@ -969,13 +969,13 @@ evalone(exp e, int bitposn)
 
 	case offset_add_tag:
 		outs("\t.WORD\t");
-		outn(evalexp(son(e)) + evalexp(bro(son(e))));
+		outn(evalexp(son(e)) + evalexp(next(son(e))));
 		outnl();
 		return;
 
 	case offset_max_tag:
 		outs("\t.WORD\t");
-		outn(MAX(evalexp(son(e)), evalexp(bro(son(e)))));
+		outn(MAX(evalexp(son(e)), evalexp(next(son(e)))));
 		outnl();
 		return;
 
@@ -987,20 +987,20 @@ evalone(exp e, int bitposn)
 
 	case offset_mult_tag:
 		outs("\t.WORD\t");
-		outn(evalexp(son(e)) * evalexp(bro(son(e))));
+		outn(evalexp(son(e)) * evalexp(next(son(e))));
 		outnl();
 		return;
 
 	case offset_div_tag:
 	case offset_div_by_int_tag:
 		outs("\t.WORD\t");
-		outn(evalexp(son(e)) / evalexp(bro(son(e))));
+		outn(evalexp(son(e)) / evalexp(next(son(e))));
 		outnl();
 		return;
 
 	case offset_subtract_tag:
 		outs("\t.WORD\t");
-		outn(evalexp(son(e)) - evalexp(bro(son(e))));
+		outn(evalexp(son(e)) - evalexp(next(son(e))));
 		outnl();
 		return;
 

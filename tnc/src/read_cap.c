@@ -287,8 +287,8 @@ read_tagdef(bool local, int is_var)
     if (info->def) {
 	if (is_var == 2) {
 	    node *dp = info->def;
-	    while (dp->bro)dp = dp->bro;
-	    dp->bro = d;
+	    while (dp->next)dp = dp->next;
+	    dp->next = d;
 	} else {
 	    if (!eq_node(info->def, d)) {
 		is_fatal = 0;

@@ -45,7 +45,7 @@ tidyshort(int r, exp e)
 
 	switch (e->tag) {
 	case and_tag: {
-		exp r = bro(son(e)); /* could be a val_tag */
+		exp r = next(son(e)); /* could be a val_tag */
 
 		if (s->tag == ucharhd && r->tag == val_tag && ((no(r) & 0xff  ) == no(r))) {
 			return;
@@ -73,7 +73,7 @@ static bool
 regremoved(exp * seq, int reg)
 {
 	exp s = *seq;
-	exp t = bro(s);
+	exp t = next(s);
 
 	if (ABS(regofval(s)) == reg) {
 		*seq = t;
@@ -82,7 +82,7 @@ regremoved(exp * seq, int reg)
 
 	for (;;) {
 		if (ABS(regofval(t)) == reg) {
-			bro(s) = bro(t);
+			next(s) = next(t);
 			if (t->last) {
 				s->last = true;
 			}
@@ -95,7 +95,7 @@ regremoved(exp * seq, int reg)
 		}
 
 		s = t;
-		t = bro(t);
+		t = next(t);
 	}
 }
 
@@ -112,14 +112,14 @@ do_comm(exp seq, space sp, int final, Instruction_P rins)
 	int a2;
 
 	/* should have been optimised in scan... */
-	assert(!(rins == i_a && seq->tag == neg_tag && bro(seq)->tag != val_tag));
+	assert(!(rins == i_a && seq->tag == neg_tag && next(seq)->tag != val_tag));
 
 	/* evaluate 1st operand into a1 */
 	a1 = reg_operand(seq, sp);
 
 	for (;;) {
 		nsp = guardreg(a1, sp);
-		seq = bro(seq);
+		seq = next(seq);
 
 		if (seq->tag == val_tag) {	/* next operand is a constant */
 			if (seq->last) {
@@ -224,7 +224,7 @@ int
 non_comm_op(exp e, space sp, where dest, Instruction_P ins)
 {
 	exp l = son(e);
-	exp r = bro(l);
+	exp r = next(l);
 
 	/* we can use sfi instruction */
 	bool sf_imm = l->tag == val_tag && ins == i_s && IMM_SIZE(no(l));
@@ -281,7 +281,7 @@ int
 fop(exp e, space sp, where dest, Instruction_P ins)
 {
 	exp l = son(e);
-	exp r = bro(l);
+	exp r = next(l);
 	int a1;
 	int a2;
 	space nsp;

@@ -38,14 +38,14 @@ refactor_ext(exp e)
 		return;
 	}
 
-	if ((!PIC_code || brog(e)->var == 0) && !isvar(e) &&
+	if ((!PIC_code || nextg(e)->var == 0) && !isvar(e) &&
 	    (def->tag == val_tag || def->tag == real_tag ||
 	     def->tag == null_tag))
 	{
 		while (pt(e) != NULL) {
 			/* substitute constants in */
 			exp q = pt(e);
-			if (bro(q) != NULL) {
+			if (next(q) != NULL) {
 				/* can be NULL for diags */
 				exp d = copy(def);
 				replace(q, d, NULL);

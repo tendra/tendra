@@ -542,13 +542,13 @@ testlast ( exp e, exp second )
 		return NULL;
 	}
 
-	b = bro ( son ( e ) ) ;
+	b = next ( son ( e ) ) ;
 	if ( b->tag == test_tag && pt ( b ) == second ) {
 		return b;
 	} else if ( b->tag == top_tag ) {
 		exp list;
 
-		for (list = son(son(e)); !list->last; list = bro(list))
+		for (list = son(son(e)); !list->last; list = next(list))
 			;
 
 		if ( list->tag == test_tag &&
@@ -572,7 +572,7 @@ last_param ( exp e )
 		return 0;
 	}
 
-	e = bro ( son ( e ) ) ;
+	e = next ( son ( e ) ) ;
 
 #ifdef TDF_DIAG3
 aa:
@@ -610,7 +610,7 @@ has_bitfield ( exp e )
 
 	switch ( e->tag ) {
 	case compound_tag : {
-		for ( e = bro ( son ( e ) ) ; ; e = bro ( bro ( e ) ) ) {
+		for ( e = next ( son ( e ) ) ; ; e = next ( next ( e ) ) ) {
 			if ( has_bitfield ( e ) ) {
 				return 1;
 			}
@@ -642,14 +642,14 @@ fix_nonbitfield ( exp e )
 		return;
 	}
 
-	for ( e = son ( e ) ; ; e = bro ( bro ( e ) ) ) {
+	for ( e = son ( e ) ; ; e = next ( next ( e ) ) ) {
 		if ( e->tag == val_tag && sh ( e ) -> tag == offsethd
 		     && al2 ( sh ( e ) ) >= 8 ) {
 			no ( e ) = no ( e ) << 3 ;
 		}
 
-		fix_nonbitfield ( bro ( e ) ) ;
-		if ( bro ( e ) -> last ) {
+		fix_nonbitfield ( next ( e ) ) ;
+		if ( next ( e ) -> last ) {
 			return ;
 		}
 	}
@@ -683,9 +683,9 @@ find_ote ( exp nom, int n )
 		dad = father(dad);
 	}
 
-	dad = son(bro(son(dad)));
+	dad = son(next(son(dad)));
 	while(n) {
-		dad = bro(dad);
+		dad = next(dad);
 		n -- ;
 	}
 
@@ -959,10 +959,10 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 	case seq_tag : {
 		/* Sequences */
 		exp t = son ( son ( e ) ) ;
-		exp f = bro ( son ( e ) ) ;
+		exp f = next ( son ( e ) ) ;
 
 		for ( ; ; ) {
-			exp nt = ( t -> last ? f : bro ( t ) ) ;
+			exp nt = ( t -> last ? f : next ( t ) ) ;
 
 			if ( nt->tag == goto_tag ) {
 				/* Gotos end sequences */
@@ -995,13 +995,13 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 #endif
 		}
 
-		return make_code ( bro ( son ( e ) ), sp, dest, exitlab ) ;
+		return make_code ( next ( son ( e ) ), sp, dest, exitlab ) ;
 	}
 
 	case rep_tag : {
 		/* Repeats */
 		exp first = son ( e ) ;
-		exp second = bro ( first ) ;
+		exp second = next ( first ) ;
 
 		code_here(first, sp, nowhere);
 		no ( son ( second ) ) = new_label () ;
@@ -1080,7 +1080,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		int lab ;
 		ins_p branch ;
 		exp l = son ( e ) ;
-		exp r = bro ( l ) ;
+		exp r = next ( l ) ;
 		shape shl = sh ( l ) ;
 
 		/* Find test number (mask out Rev bit) */
@@ -1259,7 +1259,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 
 	case solve_tag : {
 		/* Labelled statements */
-		exp m = bro ( son ( e ) ) ;
+		exp m = next ( son ( e ) ) ;
 		int l = exitlab ;
 
 		if ( discrim ( dest.answhere ) == insomereg ) {
@@ -1278,7 +1278,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				break ;
 			}
 
-			m = bro ( m ) ;
+			m = next ( m ) ;
 		}
 
 		m = son ( e ) ;
@@ -1306,7 +1306,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				return mka;
 			}
 
-			m = bro ( m ) ;
+			m = next ( m ) ;
 		}
 
 		UNREACHED;
@@ -1775,7 +1775,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 			case ulonghd: {
 				int l, r;
 				l = reg_operand(son(e), nsp);
-				r = reg_operand(bro(son(e)), nsp);
+				r = reg_operand(next(son(e)), nsp);
 
 				if (!error_treatment_is_trap(e)) {
 					condrr_ins(i_bgtu, r, l, no(son(pt(e))));
@@ -1922,7 +1922,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		/* modelled on test code */
 		ins_p branch ;
 		exp l = son ( e ) ;
-		exp r = bro ( l ) ;
+		exp r = next ( l ) ;
 		freg a1, a2, d;
 		space nsp;
 		ans aa;
@@ -1954,7 +1954,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		/* modelled on test code */
 		ins_p branch ;
 		exp l = son ( e ) ;
-		exp r = bro ( l ) ;
+		exp r = next ( l ) ;
 		shape shl = sh ( l ) ;
 		int a1, a2, d;
 		space nsp;
@@ -2002,7 +2002,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		bool sgned = issgn ( sh ( e ) ) ;
 
 		if (!optop(e) && !error_treatment_is_trap(e)) {
-			int reg_test = reg_operand(bro(son(e)), sp);
+			int reg_test = reg_operand(next(son(e)), sp);
 			condrr_ins(i_be, reg_test, 0, no(son(pt(e))));
 		}
 
@@ -2080,7 +2080,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		bool sgned = issgn ( sh ( e ) ) ;
 
 		if (!optop(e) && !error_treatment_is_trap(e)) {
-			int reg_test = reg_operand(bro(son(e)), sp);
+			int reg_test = reg_operand(next(son(e)), sp);
 			condrr_ins(i_be, reg_test, 0, no(son(pt(e))));
 		}
 
@@ -2226,7 +2226,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		space nsp ;
 		ins_p shnat ;
 		exp s = son ( e ) ;
-		exp b = bro ( s ) ;
+		exp b = next ( s ) ;
 		bool sgned = issgn ( sh ( e ) ) ;
 		int a = reg_operand ( s, sp ) ;
 		int sz = shape_size(sh(s));
@@ -2362,10 +2362,10 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				                      real_tag);
 				setregalt(newdest.answhere, getreg(sp.fixed));
 				newdest.ashwhere.ashsize = newdest.ashwhere.ashalign = 32;
-				quad_op(bro(son(e)), zero_exp, sp, newdest, -5); /* _Q_fne */
+				quad_op(next(son(e)), zero_exp, sp, newdest, -5); /* _Q_fne */
 				condrr_ins(i_be, R_O0, R_G0, no(son(pt(e))));
 			} else {
-				int divr = freg_operand(bro(son(e)), sp, getfreg(sp.flt));
+				int divr = freg_operand(next(son(e)), sp, getfreg(sp.flt));
 				int newfr = getfreg(guardfreg(divr, sp).flt);
 				fconst(newfr, 0, 0);
 				rrf_ins(isdbl(sh(e)) ? i_fcmpd : i_fcmps, divr << 1, newfr << 1);
@@ -3103,7 +3103,7 @@ null_tag_case :
 	case local_free_tag: {
 		exp s = son(e);
 		int r = reg_operand(s, sp);
-		exp off = bro(s);
+		exp off = next(s);
 
 		asm_comment("local free tag");
 
@@ -3176,12 +3176,12 @@ null_tag_case :
 				newis.b.offset += no ( t ) ;
 
 				setinsalt ( newdest.answhere, newis ) ;
-				newdest.ashwhere = ashof ( sh ( bro ( t ) ) ) ;
-				( void ) code_here ( bro ( t ), nsp, newdest ) ;
-				if ( bro ( t ) -> last ) {
+				newdest.ashwhere = ashof ( sh ( next ( t ) ) ) ;
+				( void ) code_here ( next ( t ), nsp, newdest ) ;
+				if ( next ( t ) -> last ) {
 					return mka;
 				}
-				t = bro ( bro ( t ) ) ;
+				t = next ( next ( t ) ) ;
 			}
 
 			UNREACHED;
@@ -3204,7 +3204,7 @@ null_tag_case :
 			int null_dest;
 			int bits_used = 0;
 
-			( void ) code_here ( bro ( t ), sp, dest ) ;
+			( void ) code_here ( next ( t ), sp, dest ) ;
 			r = regalt ( dest.answhere ) ;
 			null_dest = (r == R_G0);
 
@@ -3230,11 +3230,11 @@ null_tag_case :
 			assert (null_dest || bits_used <= 32);
 
 			nsp = guardreg ( r, sp ) ;
-			while ( ! bro ( t ) -> last ) {
+			while ( ! next ( t ) -> last ) {
 				int z ;
-				t = bro ( bro ( t ) ) ;
+				t = next ( next ( t ) ) ;
 				assert ( t->tag == val_tag ) ;
-				z = reg_operand ( bro ( t ), nsp ) ;
+				z = reg_operand ( next ( t ), nsp ) ;
 				v = no ( t ) ;
 
 				if ( v != 0 ) {
@@ -3307,8 +3307,8 @@ null_tag_case :
 				}
 
 				disp += ( rounder ( shape_size ( sh ( t ) ),
-				                    shape_align ( sh ( bro ( t ) ) ) ) >> 3 ) ;
-				t = bro ( t ) ;
+				                    shape_align ( sh ( next ( t ) ) ) ) >> 3 ) ;
+				t = next ( t ) ;
 			}
 
 			UNREACHED;
@@ -3338,8 +3338,8 @@ null_tag_case :
 			while ( ! t -> last ) {
 				int z ;
 				disp += rounder ( shape_size ( sh ( t ) ),
-				                  shape_align ( sh ( bro ( t ) ) ) ) ;
-				t = bro ( t ) ;
+				                  shape_align ( sh ( next ( t ) ) ) ) ;
+				t = next ( t ) ;
 				z = reg_operand ( t, nsp ) ;
 				rir_ins ( i_sll, z, ( long ) disp, z ) ;
 				rrr_ins ( i_or, r, z, r ) ;
@@ -3452,7 +3452,7 @@ null_tag_case :
 		 * a parameter though, so we can generate a .stab.
 		 */
 		if ( props ( e ) & defer_bit ) {
-			return make_code ( bro ( son ( e ) ), sp, dest, exitlab ) ;
+			return make_code ( next ( son ( e ) ), sp, dest, exitlab ) ;
 		}
 
 		if ( son ( e ) == NULL ) {
@@ -3682,15 +3682,15 @@ null_tag_case :
 		}
 
 		/* and evaluate the body of the declaration */
-		assert ( bro ( son ( e ) ) != e ) ;
-		mka = make_code ( bro ( son ( e ) ), guard ( placew, sp ),
+		assert ( next ( son ( e ) ) != e ) ;
+		mka = make_code ( next ( son ( e ) ), guard ( placew, sp ),
 		                  dest, exitlab ) ;
 		return mka;
 	}
 
 	case cond_tag : {
 		exp first = son ( e ) ;
-		exp second = bro ( son ( e ) ) ;
+		exp second = next ( son ( e ) ) ;
 		exp test ;
 
 		if ( discrim ( dest.answhere ) == insomereg ) {
@@ -3717,20 +3717,20 @@ null_tag_case :
 			/* nugatory test */
 			no ( son ( second ) ) = 0 ;
 			( void ) code_here ( son ( first ), sp, nowhere ) ;
-			( void ) code_here ( bro ( son ( first ) ), sp, nowhere ) ;
+			( void ) code_here ( next ( son ( first ) ), sp, nowhere ) ;
 			return make_code ( second, sp, dest, exitlab ) ;
 		}
 #endif
-		else if ( second->tag == labst_tag && bro ( son ( second ) ) -> tag == top_tag ) {
+		else if ( second->tag == labst_tag && next ( son ( second ) ) -> tag == top_tag ) {
 			/* second is empty */
 			int endl = ( exitlab == 0 ) ? new_label () : exitlab ;
 			no ( son ( second ) ) = endl ;
 			make_code ( first, sp, dest, endl ) ;
 			mka.lab = endl ;
 			return mka;
-		} else if ( second->tag == labst_tag && bro ( son ( second ) ) -> tag == goto_tag ) {
+		} else if ( second->tag == labst_tag && next ( son ( second ) ) -> tag == goto_tag ) {
 			/* second is goto */
-			exp g = bro ( son ( second ) ) ;
+			exp g = next ( son ( second ) ) ;
 			no ( son ( second ) ) = no ( son ( pt ( g ) ) ) ;
 			return make_code ( first, sp, dest, exitlab ) ;
 		}
@@ -3776,7 +3776,7 @@ null_tag_case :
 	case ass_tag :
 	case assvol_tag : {
 		exp lhs = son ( e ) ;
-		exp rhs = bro ( lhs ) ;
+		exp rhs = next ( lhs ) ;
 
 		where assdest ;
 		space nsp ;
@@ -3837,10 +3837,10 @@ null_tag_case :
 			ashe = ashof ( sh ( rhs ) ) ;
 			ashsize = ( int ) ( ashe.ashsize ) ;
 
-			if ( bro ( addptr_sons ) -> last &&
+			if ( next ( addptr_sons ) -> last &&
 			     ashe.ashalign == ashsize &&
 			     ( ashsize == 8 || ashsize == 16 ||
-			       ashsize == 32 || ( is_float && !param_aligned(bro(addptr_sons)) )
+			       ashsize == 32 || ( is_float && !param_aligned(next(addptr_sons)) )
 			     ) )
 			{
 				int lhs_addptr_reg ;
@@ -3849,7 +3849,7 @@ null_tag_case :
 
 				lhs_addptr_reg = reg_operand ( addptr_sons, sp ) ;
 				nsp = guardreg ( lhs_addptr_reg, sp ) ;
-				rhs_addptr_reg = reg_operand ( bro ( addptr_sons ), nsp ) ;
+				rhs_addptr_reg = reg_operand ( next ( addptr_sons ), nsp ) ;
 				nsp = guardreg ( rhs_addptr_reg, nsp ) ;
 
 				if ( is_float ) {
@@ -4069,7 +4069,7 @@ null_tag_case :
 		int r = reg_operand ( son ( e ), sp ) ;
 		space nsp ;
 		mm lims ;
-		exp z = bro ( son ( e ) ) ;
+		exp z = next ( son ( e ) ) ;
 		exp zt = z ;
 		long n ;
 		long l ;
@@ -4099,7 +4099,7 @@ null_tag_case :
 				}
 			}
 
-			zt = bro ( zt ) ;
+			zt = next ( zt ) ;
 		}
 
 		/* now l is lowest controlling value, u is highest and n is number of cases */
@@ -4229,7 +4229,7 @@ null_tag_case :
 					break ;
 				}
 
-				z = bro ( z ) ;
+				z = next ( z ) ;
 			}
 
 			if ( sysV_assembler && !PIC_code ) {
@@ -4301,7 +4301,7 @@ null_tag_case :
 					return mka;
 				}
 
-				z = bro ( z ) ;
+				z = next ( z ) ;
 			}
 		} else {
 			/* unsigned, use branches - tests are ordered */
@@ -4362,15 +4362,15 @@ null_tag_case :
 					return mka;
 				}
 
-				z = bro ( z ) ;
+				z = next ( z ) ;
 			}
 		}
 	}
 
 	case movecont_tag: {
 		exp frome = son(e);	/* names with a trailing e to avoid keywords */
-		exp toe   = bro(frome);
-		exp nbytes = bro(toe);
+		exp toe   = next(frome);
+		exp nbytes = next(toe);
 		int overlaps = !isnooverlap(e);
 
 		overlaps = 1;	/* for now use memmove always */
@@ -4395,21 +4395,21 @@ null_tag_case :
 					nsp = guardreg(param_reg + 1, nsp);
 					reg_operand_here(frome, nsp, param_reg + 1);
 					nsp = guardreg(param_reg, nsp);
-					reg_operand_here(bro(frome), nsp, param_reg);
+					reg_operand_here(next(frome), nsp, param_reg);
 				} else {
 					nsp = guardreg(param_reg, nsp);
 					reg_operand_here(frome, nsp, param_reg);
 					nsp = guardreg(param_reg + 1, nsp);
-					reg_operand_here(bro(frome), nsp, param_reg + 1);
+					reg_operand_here(next(frome), nsp, param_reg + 1);
 				}
 
 				nsp = guardreg(param_reg + 2, nsp);
-				reg_operand_here(bro(bro(frome)), nsp, param_reg + 2);
+				reg_operand_here(next(next(frome)), nsp, param_reg + 2);
 
 #if 0
 				for ( argp = frome, arg_cnt = 0 ;
 				      arg_cnt < 3 ;
-				      arg_cnt++, argp = bro(argp) ) {
+				      arg_cnt++, argp = next(argp) ) {
 					/* fixed point parameter in a single reg */
 					nsp = guardreg ( param_reg, nsp ) ;
 					reg_operand_here ( argp, nsp, param_reg ) ;
@@ -4426,7 +4426,7 @@ null_tag_case :
 		   needscan, muldvrem AS WELL */
 		else {		/* inline block move in oprators.c */
 			lhsreg = reg_operand ( addptr_sons, sp ) ;
-			rhsreg = reg_operand ( bro ( addptr_sons ),
+			rhsreg = reg_operand ( next ( addptr_sons ),
 			                       guardreg ( lhsreg, sp ) ) ;
 		}
 #endif
@@ -4478,10 +4478,10 @@ null_tag_case :
 			ashe = ashof ( sh ( e ) ) ;
 			ashsize = ( int ) ashe.ashsize ;
 
-			if ( bro ( addptr_sons ) -> last &&
+			if ( next ( addptr_sons ) -> last &&
 			     ashe.ashalign == ashsize &&
 			     ( ashsize == 8 || ashsize == 16 ||
-			       ashsize == 32 || ( is_float && !param_aligned(bro(addptr_sons)))))
+			       ashsize == 32 || ( is_float && !param_aligned(next(addptr_sons)))))
 			{
 				int lhsreg ;
 				int rhsreg ;
@@ -4490,7 +4490,7 @@ null_tag_case :
 				ans aa ;
 
 				lhsreg = reg_operand ( addptr_sons, sp ) ;
-				rhsreg = reg_operand ( bro ( addptr_sons ),
+				rhsreg = reg_operand ( next ( addptr_sons ),
 				                       guardreg ( lhsreg, sp ) ) ;
 
 				if ( is_float ) {
@@ -4626,7 +4626,7 @@ null_tag_case :
 
 	case long_jump_tag :  {
 		exp l = son ( e ) ;
-		exp r = bro ( l ) ;
+		exp r = next ( l ) ;
 		int a1 = reg_operand ( l, sp ), a2, r_spare ;
 		space nsp ;
 

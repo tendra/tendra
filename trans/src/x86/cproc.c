@@ -368,7 +368,7 @@ cproc(exp p, char *pname, int cname, int global
 	t = son(p);
 	param_pos = 0;
 	while (t->tag == ident_tag && isparam(t) && son(t)->tag != formal_callee_tag) {
-		t = bro(son(t));
+		t = next(son(t));
 	}
 	if (t->tag == ident_tag && son(t)->tag == formal_callee_tag) {
 		if (callee_size < 0) {
@@ -382,7 +382,7 @@ cproc(exp p, char *pname, int cname, int global
 				set_env_off(param_pos + 64, t);
 			}
 			param_pos = rounder(param_pos + shape_size(sh(son(t))), param_align);
-			t = bro(son(t));
+			t = next(son(t));
 		}
 
 		if (callee_size == 0) {
@@ -399,7 +399,7 @@ cproc(exp p, char *pname, int cname, int global
 				set_env_off(param_pos + 64, pp);
 			}
 			param_pos = rounder(param_pos + shape_size(sh(son(pp))), param_align);
-			pp = bro(son(pp));
+			pp = next(son(pp));
 		}
 	}
 
@@ -635,7 +635,7 @@ cproc(exp p, char *pname, int cname, int global
 		} else {
 			out_pops(tot_sp, push_space, ptno(returns_list) / 8, sonno(returns_list));
 		}
-		returns_list = bro(returns_list);
+		returns_list = next(returns_list);
 	}
 	out_set_pos(this_pos);
 
@@ -772,11 +772,11 @@ cproc(exp p, char *pname, int cname, int global
 			t->tag = 0;
 			ptno(t) = local_pl;
 		}
-		t = bro(son(t));
+		t = next(son(t));
 	}
 	while (hasenvoff_list != NULL) {
 		exp id = son(hasenvoff_list);
-		exp next = bro(hasenvoff_list);
+		exp next = next(hasenvoff_list);
 		no(id) -= (locals_offset * 8);
 		id->tag = 0;
 		retcell(hasenvoff_list);

@@ -161,7 +161,7 @@ update_plc(postlude_chain* chain, int maxargs)
 			if (son(pl)->tag == caller_name_tag) {
 				no(pl) += (maxargs << 1);
 			}
-			pl = bro(son(pl));
+			pl = next(son(pl));
 		}
 
 		chain = chain->outer;
@@ -497,7 +497,7 @@ make_proc_tag_code(exp e, space sp, where dest, int exitlab)
 				/* Param on stack, no change */
 			}
 		}
-		par = bro(son(par));
+		par = next(son(par));
 	}
 
 	clear_all();
@@ -711,7 +711,7 @@ makeans
 make_apply_tag_code(exp e, space sp, where dest, int exitlab)
 {
 	exp fn = son(e);
-	exp par = bro(fn);
+	exp par = next(fn);
 	exp list = par;
 	int hda = (int) sh(e)->tag;
 	int special;
@@ -871,7 +871,7 @@ make_apply_tag_code(exp e, space sp, where dest, int exitlab)
 			if (list->last) {
 				break;
 			}
-			list = bro(list);
+			list = next(list);
 		}
 	}
 
@@ -1094,7 +1094,7 @@ do_callers(exp list, space sp, int* param_reg, bool trad_call)
 			return sp;
 		}
 
-		list = bro(list);
+		list = next(list);
 	}
 
 	return sp;
@@ -1114,7 +1114,7 @@ get_param(exp par_base, int num)
 	}
 
 	for (current_par = 2; current_par <= num; ++current_par) {
-		res_exp = bro(res_exp);
+		res_exp = next(res_exp);
 	}
 
 	return res_exp;
@@ -1145,7 +1145,7 @@ move_parameters(exp callers, int size_reg, space sp)
 		} else {
 			param_offset += 4;
 		}
-		current_caller = bro(current_caller);
+		current_caller = next(current_caller);
 	}
 	current_caller = son(callers);
 
@@ -1155,7 +1155,7 @@ move_parameters(exp callers, int size_reg, space sp)
 		if (current_caller->tag == caller_tag) {
 			has_callers = 1;
 		}
-		current_caller = bro(current_caller);
+		current_caller = next(current_caller);
 	}
 	current_caller = son(callers);
 	last_caller = 0;
@@ -1204,9 +1204,9 @@ makeans
 make_apply_general_tag_code(exp e, space sp, where dest, int exitlab)
 {
 	exp fn = son(e);
-	exp callers = bro(fn);
-	exp cllees = bro(callers);
-	exp postlude = bro(cllees);
+	exp callers = next(fn);
+	exp cllees = next(callers);
+	exp postlude = next(cllees);
 	int hda = (int)sh(e)->tag;
 	int param_reg = R_O0;
 	int param_regs_used;
@@ -1239,7 +1239,7 @@ make_apply_general_tag_code(exp e, space sp, where dest, int exitlab)
 				trad_call = 1;
 			}
 		} else if (cllees->tag == make_dynamic_callee_tag) {
-			if (bro(son(cllees))->tag == val_tag && no(bro(son(cllees))) == 0) {
+			if (next(son(cllees))->tag == val_tag && no(next(son(cllees))) == 0) {
 				trad_call = 1;
 			}
 		} else {	/* same callees */
@@ -1384,7 +1384,7 @@ make_apply_general_tag_code(exp e, space sp, where dest, int exitlab)
 				size_reg = getreg(nsp.fixed);
 				ir_ins(i_mov, ((no(cllees) >> 3) + 23) & ~7, size_reg);
 			} else if (cllees->tag == make_dynamic_callee_tag) {
-				size_reg = reg_operand(bro(son(cllees)), nsp);
+				size_reg = reg_operand(next(son(cllees)), nsp);
 				rir_ins(i_add, size_reg, 4 * (PTR_SZ >> 3) + 7, size_reg);
 				rir_ins(i_and, size_reg, ~7, size_reg);
 			} else {	/* same callees */
@@ -1473,7 +1473,7 @@ make_apply_general_tag_code(exp e, space sp, where dest, int exitlab)
 
 	if (call_is_untidy(cllees)) {
 		/*    rir_ins(i_sub,R_SP,proc_state.maxargs>>3,R_SP);*/
-		/*assert(bro(cllees)->tag == top_tag);*/
+		/*assert(next(cllees)->tag == top_tag);*/
 	} else if (postlude_has_call(e)) {
 		exp x = son(callers);
 		postlude_chain p;
@@ -1491,7 +1491,7 @@ make_apply_general_tag_code(exp e, space sp, where dest, int exitlab)
 				if (x->last) {
 					break;
 				}
-				x = bro(x);
+				x = next(x);
 			}
 		}
 
@@ -1581,7 +1581,7 @@ make_make_callee_list_tag(exp e, space sp, where dest, int exitlab)
 
 	if (no(e)) {
 		int lastpar = 0;
-		for (; !lastpar; list = bro(list)) {
+		for (; !lastpar; list = next(list)) {
 			ap = ashof(sh(list));
 			disp = rounder(disp, ap.ashalign);
 			is.b.offset = disp >> 3;
@@ -1756,7 +1756,7 @@ make_make_dynamic_callee_tag(exp e, space sp, where dest, int exitlab)
 	load_reg(son(e), rptr, nsp); /* rptr now contains a pointer to the start of the callees */
 	rsize = getreg(nsp.fixed);
 	nsp = guardreg(rsize, nsp);
-	load_reg(bro(son(e)), rsize, nsp); /* rsize now contains the size of the callees */
+	load_reg(next(son(e)), rsize, nsp); /* rsize now contains the size of the callees */
 	rdest = getreg(nsp.fixed);
 	nsp = guardreg(rdest, nsp);
 	r_true_size = getreg(nsp.fixed);
@@ -1800,7 +1800,7 @@ makeans
 make_tail_call_tag(exp e, space sp, where dest, int exitlab)
 {
 	exp fn = son(e);
-	exp cllees = bro(fn);
+	exp cllees = next(fn);
 	exp bdy = son(current_proc);
 	space nsp;
 	bool vc = call_has_vcallees(cllees);
@@ -1821,7 +1821,7 @@ make_tail_call_tag(exp e, space sp, where dest, int exitlab)
 				trad_proc = 1;
 			}
 		} else if (cllees->tag == make_dynamic_callee_tag) {
-			if (bro(son(cllees))->tag == val_tag && no(bro(son(cllees))) == 0) {
+			if (next(son(cllees))->tag == val_tag && no(next(son(cllees))) == 0) {
 				trad_proc = 1;
 			}
 		} else {	/* same callees */
@@ -1915,7 +1915,7 @@ make_tail_call_tag(exp e, space sp, where dest, int exitlab)
 			}
 		}
 
-		bdy = bro(sbdy);
+		bdy = next(sbdy);
 	}
 
 	bproc = boff(son(fn));

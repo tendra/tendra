@@ -43,7 +43,7 @@ inlinechoice(exp t, exp def, int total_uses)
 	UNUSED(total_uses);
 
 	/* only uses are applications */
-	apars = bro(t);
+	apars = next(t);
 	fpars = son(def);
 
 	for (;;) {
@@ -74,12 +74,12 @@ inlinechoice(exp t, exp def, int total_uses)
 			newdecs++;
 		}
 
-		fpars = bro(son(fpars));
+		fpars = next(son(fpars));
 		if (apars->last) {
 			break;
 		}
 
-		apars = bro(apars);
+		apars = next(apars);
 	}
 
 	/*

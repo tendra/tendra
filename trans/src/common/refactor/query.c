@@ -75,7 +75,7 @@ is_maxlike(exp x, exp *t)
 		return false;
 	}
 
-	xCCCC = bro(xCCCC);
+	xCCCC = next(xCCCC);
 	op2 = xCCCC;
 	if (!xCCCC->last) {
 		return false;
@@ -89,7 +89,7 @@ is_maxlike(exp x, exp *t)
 		return false;
 	}
 
-	xCC = bro(xCC);
+	xCC = next(xCC);
 
 	z = xCC;
 
@@ -105,7 +105,7 @@ is_maxlike(exp x, exp *t)
 		return false;
 	}
 
-	xC = bro(xC);
+	xC = next(xC);
 	if (l != xC) {
 		return false;
 	}
@@ -122,7 +122,7 @@ is_maxlike(exp x, exp *t)
 		return false;
 	}
 
-	yCC = bro(yCC);
+	yCC = next(yCC);
 	w = yCC;
 
 	if (!(comp_eq_exp(w, op2, NULL, NULL))) {
@@ -185,7 +185,7 @@ is_minlike(exp x, exp *t)
 		return false;
 	}
 
-	xCCCC = bro(xCCCC);
+	xCCCC = next(xCCCC);
 	op2 = xCCCC;
 
 	if (!xCCCC->last) {
@@ -200,7 +200,7 @@ is_minlike(exp x, exp *t)
 		return false;
 	}
 
-	xCC = bro(xCC);
+	xCC = next(xCC);
 	z = xCC;
 
 	if (!(comp_eq_exp(z, op2, NULL, NULL))) {
@@ -215,7 +215,7 @@ is_minlike(exp x, exp *t)
 		return false;
 	}
 
-	xC = bro(xC);
+	xC = next(xC);
 	if (l != xC) {
 		return false;
 	}
@@ -232,7 +232,7 @@ is_minlike(exp x, exp *t)
 		return false;
 	}
 
-	yCC = bro(yCC);
+	yCC = next(yCC);
 	w = yCC;
 
 	if (!(comp_eq_exp(w, op1, NULL, NULL))) {
@@ -288,7 +288,7 @@ is_abslike(exp x, exp *t)
 		return false;
 	}
 
-	xCCCC = bro(xCCCC);
+	xCCCC = next(xCCCC);
 	if (xCCCC->tag != val_tag || no(xCCCC) != 0) {
 		return false;
 	}
@@ -305,7 +305,7 @@ is_abslike(exp x, exp *t)
 		return false;
 	}
 
-	xCC = bro(xCC);
+	xCC = next(xCC);
 	z = xCC;
 	if (!(comp_eq_exp(z, op, NULL, NULL))) {
 		return false;
@@ -319,7 +319,7 @@ is_abslike(exp x, exp *t)
 		return false;
 	}
 
-	xC = bro(xC);
+	xC = next(xC);
 	if (l != xC) {
 		return false;
 	}
@@ -335,7 +335,7 @@ is_abslike(exp x, exp *t)
 		return false;
 	}
 
-	yCC = bro(yCC);
+	yCC = next(yCC);
 	if (yCC->tag != neg_tag) {
 		return false;
 	}
@@ -396,7 +396,7 @@ is_fabslike(exp x, exp *t)
 		return false;
 	}
 
-	xCCCC = bro(xCCCC);
+	xCCCC = next(xCCCC);
 	if (xCCCC->tag != val_tag || no(xCCCC) != 0) {
 		return false;
 	}
@@ -413,7 +413,7 @@ is_fabslike(exp x, exp *t)
 		return false;
 	}
 
-	xCC = bro(xCC);
+	xCC = next(xCC);
 	z = xCC;
 
 	if (!(eq_exp(z, op))) {
@@ -428,7 +428,7 @@ is_fabslike(exp x, exp *t)
 		return false;
 	}
 
-	xC = bro(xC);
+	xC = next(xC);
 	if (l != xC) {
 		return false;
 	}
@@ -444,7 +444,7 @@ is_fabslike(exp x, exp *t)
 		return false;
 	}
 
-	yCC = bro(yCC);
+	yCC = next(yCC);
 	if (yCC->tag != fneg_tag) {
 		return false;
 	}
@@ -475,7 +475,7 @@ bool
 is_condassign(exp e, exp *to_test, exp *to_ass)
 {
 	exp arg1 = son(e);
-	exp arg2 = bro(arg1);
+	exp arg2 = next(arg1);
 	exp z;
 	exp st;
 	exp ass;
@@ -487,9 +487,9 @@ is_condassign(exp e, exp *to_test, exp *to_ass)
 
 	z = son(arg1);
 	st = son(z);
-	ass = bro(z);
+	ass = next(z);
 
-	if (no(son(arg2)) != 1 || bro(son(arg2))->tag != top_tag) {
+	if (no(son(arg2)) != 1 || next(son(arg2))->tag != top_tag) {
 		return false;
 	}
 
@@ -509,7 +509,7 @@ is_condassign(exp e, exp *to_test, exp *to_ass)
 		return false;
 	}
 
-	val = bro(son(ass));
+	val = next(son(ass));
 	*to_test = st;
 	*to_ass = ass;
 
@@ -546,7 +546,7 @@ comp_eq_explist(exp a, exp b, exp laba, exp labb)
 		return 0;
 	}
 
-	return comp_eq_explist(bro(a), bro(b), laba, labb);
+	return comp_eq_explist(next(a), next(b), laba, labb);
 }
 
 bool
@@ -558,15 +558,15 @@ comp_eq_exp(exp a, exp b, exp laba, exp labb)
 
 	if (a->tag == seq_tag) {
 		return(comp_eq_explist(son(son(a)), son(son(b)), laba, labb) &&
-		       comp_eq_exp(bro(son(a)), bro(son(b)), laba, labb));
+		       comp_eq_exp(next(son(a)), next(son(b)), laba, labb));
 	}
 
 	if (a->tag == cond_tag) {
 		exp fa = son(a);
 		exp fb = son(b);
 
-		return(comp_eq_exp(fa, fb, bro(fa), bro(fb)) &&
-		       comp_eq_exp(bro(son(bro(fa))), bro(son(bro(fb))), laba, labb));
+		return(comp_eq_exp(fa, fb, next(fa), next(fb)) &&
+		       comp_eq_exp(next(son(next(fa))), next(son(next(fb))), laba, labb));
 	}
 
 	if (a->tag == test_tag) {
@@ -662,7 +662,7 @@ oddtest(exp x, exp *t, exp *f, exp *v)
 		return false;
 	}
 
-	xCC = bro(xCC);
+	xCC = next(xCC);
 	*f = xCC;
 
 	if (!xCC->last) {
@@ -673,7 +673,7 @@ oddtest(exp x, exp *t, exp *f, exp *v)
 		return false;
 	}
 
-	xC = bro(xC);
+	xC = next(xC);
 	if (l != xC) {
 		return false;
 	}
@@ -690,7 +690,7 @@ oddtest(exp x, exp *t, exp *f, exp *v)
 		return false;
 	}
 
-	yCC = bro(yCC);
+	yCC = next(yCC);
 	g = yCC;
 
 	if (!(oddunary(*f, g, v))) {
