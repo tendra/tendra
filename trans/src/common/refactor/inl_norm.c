@@ -150,11 +150,11 @@ normalised_inlining(void)
 #endif
 				while (k != NULL && k->tag != hold_tag && k->tag != 102 &&
 				       k->tag != proc_tag && k->tag != general_proc_tag) {
-					k = bro(k);
+					k = next(k);
 				}
 
 				if (k != NULL && k->tag == proc_tag) {
-					int up = brog(bro(k))->index;
+					int up = brog(next(k))->index;
 					if (up >= 0 && up < proc_count) {
 						uses[proc_count * up + i] = 1;
 					}
@@ -256,12 +256,12 @@ normalised_inlining(void)
 					if (istoinline(dad)) {
 						inline_exp(dad);
 
-						for (k = t; k != NULL && k->tag != hold_tag && k->tag != proc_tag; k = bro(k))
+						for (k = t; k != NULL && k->tag != hold_tag && k->tag != proc_tag; k = next(k))
 							;
 
 						if (print_inlines) {
 							IGNORE fprintf(stderr, "%s inlined in %s\n",
-							               d->name, brog(bro(k))->name);
+							               d->name, brog(next(k))->name);
 						}
 
 						this_changed = 1;
@@ -280,12 +280,12 @@ normalised_inlining(void)
 							inline_exp(dad);
 							no_inlined++;
 
-							for (k = t; k != NULL && k->tag != hold_tag && k->tag != proc_tag; k = bro(k))
+							for (k = t; k != NULL && k->tag != hold_tag && k->tag != proc_tag; k = next(k))
 								;
 
 							if (print_inlines) {
 								IGNORE fprintf(stderr, "%s inlined in %s\n",
-								               d->name, brog(bro(k))->name);
+								               d->name, brog(next(k))->name);
 							}
 
 							this_changed = 1;

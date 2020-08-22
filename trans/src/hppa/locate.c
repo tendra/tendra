@@ -57,7 +57,7 @@ baseoff boff
 
   if (isglob(e))
   {
-    /* bro() is index in main_globals */
+    /* next() is index in main_globals */
     dec *gl = brog(e);
     long sno = gl->sym_number;
     an.base = - (sno + 1);
@@ -290,7 +290,7 @@ where locate1
 
       /*
        * answer is going to be wsum displaced by integer result of evaluating
-       * bro(sum)
+       * next(sum)
        */
 
       switch (discrim(asum))
@@ -318,17 +318,17 @@ where locate1
 
 	    nsp = guardreg(b.base, sp);
 
-	    shift=no(bro(son(bro(sum))));
-	    if (bro(sum)->tag ==offset_mult_tag && bro(son(bro(sum)))->tag ==val_tag && (shift==0 || shift==2 || shift==4))
+	    shift=no(next(son(next(sum))));
+	    if (next(sum)->tag ==offset_mult_tag && next(son(next(sum)))->tag ==val_tag && (shift==0 || shift==2 || shift==4))
 	    {
-	       addend=reg_operand(son(bro(sum)),nsp);
+	       addend=reg_operand(son(next(sum)),nsp);
 	       if (dreg == 0)
 		  dreg = getreg(nsp.fixed);
 	       rrr_ins(shift==0 ? i_add :(shift==2 ? i_sh1add : i_sh2add),                           c_,addend,b.base,dreg);
 	    }
 	    else
 	    {
-	       addend = reg_operand(bro(sum), nsp);
+	       addend = reg_operand(next(sum), nsp);
 	       /* evaluate the displacement ... */
 	       if (dreg == 0)
 		  dreg = getreg(nsp.fixed);
@@ -374,25 +374,25 @@ where locate1
       /* register ind contains the evaluation of 1st operand of addptr */
       nsp = guardreg(ind, sp);
       /* evaluate displacement, add it to ind in new reg */
-      if (bro(sum)->tag == env_offset_tag ||
-	  bro(sum)->tag == general_env_offset_tag)
+      if (next(sum)->tag == env_offset_tag ||
+	  next(sum)->tag == general_env_offset_tag)
       {
 	  is.b.base = ind;
-	  is.b.offset = frame_offset(son(bro(sum)));
+	  is.b.offset = frame_offset(son(next(sum)));
       }
       else
       {
-	 shift=no(bro(son(bro(sum))));
-	 if (bro(sum)->tag ==offset_mult_tag && bro(son(bro(sum)))->tag ==val_tag && (shift==0 || shift==2 || shift==4))
+	 shift=no(next(son(next(sum))));
+	 if (next(sum)->tag ==offset_mult_tag && next(son(next(sum)))->tag ==val_tag && (shift==0 || shift==2 || shift==4))
 	 {
-	    addend=reg_operand(son(bro(sum)),nsp);
+	    addend=reg_operand(son(next(sum)),nsp);
 	    if (dreg == 0)
 	       dreg = getreg(nsp.fixed);
 	    rrr_ins(shift==0 ? i_add :(shift==2 ? i_sh1add : i_sh2add),                           c_,addend,ind,dreg);
 	 }
 	 else
 	 {
-	    addend = reg_operand(bro(sum), nsp);
+	    addend = reg_operand(next(sum), nsp);
 
 	    if (dreg == 0)
 	       dreg = getreg(nsp.fixed);
@@ -418,7 +418,7 @@ where locate1
       instore isa;
 
       isa.adval = 1;
-      sum = bro(sum);
+      sum = next(sum);
       if (sum->tag == val_tag)
       {
 	instore isa;

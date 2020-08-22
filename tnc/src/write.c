@@ -225,14 +225,14 @@ print_node(node *p, int d)
 					node *z = new_node();
 
 					z->cons = &exp_shape;
-					z->bro = p->bro;
+					z->next = p->next;
 					z->son = p;
 
 					if (p->shape) {
-						z->son->bro = copy_node(p->shape);
+						z->son->next = copy_node(p->shape);
 					} else {
-						z->son->bro = new_node();
-						z->son->bro->cons = &unknown_cons;
+						z->son->next = new_node();
+						z->son->next->cons = &unknown_cons;
 					}
 
 					p->shape = &special_node;
@@ -265,7 +265,7 @@ default_label:
 			break;
 		}
 
-		p = p->bro;
+		p = p->next;
 		if (newline && p) {
 			if (func_output)
 				IGNORE fputc(',', output);
@@ -296,7 +296,7 @@ print_name(char *title, construct *p, int dec)
 	if (p->ename && p->ename->cons->encoding && dec) {
 		char *f = (func_output ? "\n  %s (\n" : "\n  ( %s\n");
 		if (p->ename->son->cons->sortnum == SORT_tdfstring) {
-			if (p->ename->son->bro == NULL)
+			if (p->ename->son->next == NULL)
 				IGNORE fprintf(output, f, MAKE_STRING_EXTERN);
 			else
 				IGNORE fprintf(output, f, MAKE_CHAIN_EXTERN);
@@ -400,7 +400,7 @@ print_tagdef(construct *p)
 		IGNORE fputc('\n', output);
 		IGNORE print_node(d->son, 1);
 		IGNORE fputs((func_output ? " ) ;\n\n" : " )\n\n"), output);
-		d = d->bro;
+		d = d->next;
 	}
 }
 

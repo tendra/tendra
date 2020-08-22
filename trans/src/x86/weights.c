@@ -85,7 +85,7 @@ no_side_aux(exp e)
 		return 1;
 	}
 
-	for (arg = son(e); ; arg = bro(arg)) {
+	for (arg = son(e); ; arg = next(arg)) {
 		if ((!is_a(arg->tag) && arg->tag != ident_tag) || !no_side_aux(arg)) {
 			return 0;
 		}
@@ -287,7 +287,7 @@ add_wlist(exp re, int usemc3, explist * el)
 	}
 
 	while (!re->last) {
-		re = bro(re);
+		re = next(re);
 		wl2 = weightsv(re, el);
 
 		if (usemc3) {
@@ -358,10 +358,10 @@ weightsv(exp e, explist * el)
 		nel.etl = el;
 
 		while (isvar(e) && !isvis(e) && t != NULL) {
-			if (!(t->last && bro(t)->tag == cont_tag) &&
-			    !(t->last && bro(t)->tag == hold_tag) &&
-			    !(bro(t)->last && (bro(bro(t))->tag == ass_tag ||
-			                       bro(bro(t))->tag == assvol_tag)))
+			if (!(t->last && next(t)->tag == cont_tag) &&
+			    !(t->last && next(t)->tag == hold_tag) &&
+			    !(next(t)->last && (next(next(t))->tag == ass_tag ||
+			                       next(next(t))->tag == assvol_tag)))
 			{
 				setvis(e);
 			}
@@ -372,7 +372,7 @@ weightsv(exp e, explist * el)
 		if (son(e) != NULL) {
 			weights wdef, wbody;
 			exp def = son(e);
-			exp body = bro(def);
+			exp body = next(def);
 
 			if (sh(def)->tag == u64hd || sh(def)->tag == s64hd) {
 				markreg1(el);
@@ -454,7 +454,7 @@ weightsv(exp e, explist * el)
 		nel.wident = e;
 		nel.etl = el;
 		old_scale = scale;
-		wbody = weightsv(bro(son(e)), &nel);
+		wbody = weightsv(next(son(e)), &nel);
 		scale = old_scale;
 		return wbody;
 	}
@@ -468,7 +468,7 @@ weightsv(exp e, explist * el)
 			scale = 20 * scale;
 		}
 
-		bwl = weightsv(bro(son(e)), el);
+		bwl = weightsv(next(son(e)), el);
 		scale = old_scale;
 
 		return add_weights(swl, bwl);
@@ -479,7 +479,7 @@ weightsv(exp e, explist * el)
 
 		scale = 0.5 * scale;
 		swl = weightsv(son(e), el);
-		bwl = weightsv(bro(son(e)), el);
+		bwl = weightsv(next(son(e)), el);
 		scale = old_scale;
 
 		return add_weights(swl, bwl);
@@ -510,16 +510,16 @@ weightsv(exp e, explist * el)
 	case ass_tag:
 	case assvol_tag: {
 		/* may use movc3 for assigned value */
-		unsigned char shn = sh(bro(son(e)))->tag;
+		unsigned char shn = sh(next(son(e)))->tag;
 		weights temp;
-		temp = weightsv(bro(son(e)), el);
+		temp = weightsv(next(son(e)), el);
 
 		if (shn == u64hd || shn == s64hd) {
 			markreg1(el);
 		}
 
 		return add_weights(weightsv(son(e), el),
-		                   try_mc3(bro(son(e)), temp, el));
+		                   try_mc3(next(son(e)), temp, el));
 	}
 
 	case proc_tag:

@@ -73,7 +73,7 @@ static bool
 regremoved(exp * seq, int reg )
 {
 	exp s = *seq;
-	exp t = bro(s);
+	exp t = next(s);
 
 	if (ABS(regofval(s)) == reg) {
 		( *seq)= t;
@@ -82,7 +82,7 @@ regremoved(exp * seq, int reg )
 
 	for (;;) {
 		if (ABS(regofval(t)) == reg) {
-			bro(s)= bro(t);
+			next(s)= next(t);
 			if (t -> last) {
 				s ->last = true;
 			}
@@ -94,7 +94,7 @@ regremoved(exp * seq, int reg )
 		}
 
 		s = t;
-		t = bro(t);
+		t = next(t);
 	}
 
 	UNREACHED;
@@ -114,14 +114,14 @@ do_comm(exp seq, space sp, int final, ins_p rins )
 	int a1, a2;
 
 	/* should have been optimised in scan... */
-	assert(!( rins == i_add && seq->tag == neg_tag && bro(seq)-> tag != val_tag));
+	assert(!( rins == i_add && seq->tag == neg_tag && next(seq)-> tag != val_tag));
 
 	/* evaluate first operand into a1 */
 	a1 = reg_operand(seq, sp);
 
 	for (;;) {
 		nsp = guardreg(a1, sp);
-		seq = bro(seq);
+		seq = next(seq);
 
 		if (seq->tag == val_tag) {
 			/* next operand is a constant */
@@ -244,7 +244,7 @@ int
 non_comm_op(exp e, space sp, where dest, ins_p rins )
 {
 	exp l = son(e);
-	exp r = bro(l);
+	exp r = next(l);
 	space nsp;
 
 	int a1 = reg_operand(l, sp), a2;
@@ -583,7 +583,7 @@ int
 fop(exp e, space sp, where dest, ins_p ins )
 {
 	exp l = son(e);
-	exp r = bro(l);
+	exp r = next(l);
 	space nsp;
 	int a1, a2;
 

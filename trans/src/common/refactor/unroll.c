@@ -53,7 +53,7 @@ uc_list(exp e, int n, exp control, int lia, exp ul, int decr)
 		return c;
 	}
 
-	return uc_list(bro(e), c, control, lia, ul, decr);
+	return uc_list(next(e), c, control, lia, ul, decr);
 }
 
 static int
@@ -100,16 +100,16 @@ unroll_complex(exp e, int n, exp control, int lia, exp ul, int decr)
 	case cond_tag: {
 		int t;
 
-		setunroll(bro(son(e)));		/* mark internal label */
+		setunroll(next(son(e)));		/* mark internal label */
 		if (sh(son(e))->tag == bothd) {
 			t = unroll_complex(son(e), n - (4 * decr), control, lia, ul, 0);
-			t = unroll_complex(bro(son(e)), t - decr, control, lia, ul, decr);
+			t = unroll_complex(next(son(e)), t - decr, control, lia, ul, decr);
 		} else {
 			t = unroll_complex(son(e), n - decr, control, lia, ul, decr);
-			t = unroll_complex(bro(son(e)), t - decr, control, lia, ul, decr);
+			t = unroll_complex(next(son(e)), t - decr, control, lia, ul, decr);
 		}
 
-		clearunroll(bro(son(e)));	/* unmark it */
+		clearunroll(next(son(e)));	/* unmark it */
 		return t;
 	}
 
@@ -142,34 +142,34 @@ unroll_complex(exp e, int n, exp control, int lia, exp ul, int decr)
 		if (son(e) == control) {
 			exp t;
 
-			if (!e->last || bro(e)->tag != cont_tag) {
+			if (!e->last || next(e)->tag != cont_tag) {
 				/* any use but contents -> no test elim */
 				allow_double = 0;
 			} else {
 				/* it is a cont */
-				t = bro(e);
+				t = next(e);
 
 #if TRANS_ALPHA
-				if (!t->last || bro(t)->tag != chvar_tag ||
-					bro(t)->last ||
-					bro(bro(t))->tag != val_tag ||
-					!bro(bro(t))->last ||
-					bro(bro(bro(t)))->tag != offset_mult_tag) {
+				if (!t->last || next(t)->tag != chvar_tag ||
+					next(t)->last ||
+					next(next(t))->tag != val_tag ||
+					!next(next(t))->last ||
+					next(next(next(t)))->tag != offset_mult_tag) {
 					/* not offset_mult -> no test elim */
 					allow_double = 0;
 				} else {
 					/* record the use */
-					names[names_index++] = bro(e);
+					names[names_index++] = next(e);
 				}
 #else
-				if (t->last || bro(t)->tag != val_tag ||
-					!bro(t)->last ||
-					bro(bro(t))->tag != offset_mult_tag) {
+				if (t->last || next(t)->tag != val_tag ||
+					!next(t)->last ||
+					next(next(t))->tag != offset_mult_tag) {
 					/* not offset_mult -> no test elim */
 					allow_double = 0;
 				} else {
 					/* record the use */
-					names[names_index++] = bro(e);
+					names[names_index++] = next(e);
 				}
 #endif
 			}
@@ -194,7 +194,7 @@ unroll_complex(exp e, int n, exp control, int lia, exp ul, int decr)
 		return n;
 
 	case labst_tag:
-		return unroll_complex(bro(son(e)), n, control, lia, ul, decr);
+		return unroll_complex(next(son(e)), n, control, lia, ul, decr);
 
 	case seq_tag:
 		return uc_list(son(e), n, control, lia, ul, decr);
@@ -231,30 +231,30 @@ simple_unroll(exp candidate, exp body, exp inc, exp te)
 	exp second_inc = copy(inc);	/* assignment to control */
 	exp second_test = copy(te);
 	exp z = getexp(f_top, te, 0, NULL, NULL, 0, 0, 0);
-	exp seq = getexp(f_top, bro(son(candidate)), 1, z, NULL, 0, 0, seq_tag);
+	exp seq = getexp(f_top, next(son(candidate)), 1, z, NULL, 0, 0, seq_tag);
 	exp cond_labst;
 	exp cl1, mt;
 	exp cond, f;
 	exp *point;
-	float freq = fno(bro(son(candidate)));
+	float freq = fno(next(son(candidate)));
 
 	/* decrease label count (increased by copy(te)) */
-	no(son(bro(son(candidate))))--;
+	no(son(next(son(candidate))))--;
 
 	second_inc->last = true;
-	bro(second_inc) = z;
+	next(second_inc) = z;
 	second_body->last = false;
-	bro(second_body) = second_inc;
+	next(second_body) = second_inc;
 	second_test->last = false;
-	bro(second_test) = second_body;
+	next(second_test) = second_body;
 	inc->last = false;
-	bro(inc) = second_test;
+	next(inc) = second_test;
 	body->last = false;
-	bro(body) = inc;
+	next(body) = inc;
 	son(z) = body;
 	te->last = true;
-	bro(te) = seq;
-	bro(son(bro(son(candidate)))) = seq;
+	next(te) = seq;
+	next(son(next(son(candidate)))) = seq;
 
 	/*
 	 * candidate
@@ -274,16 +274,16 @@ simple_unroll(exp candidate, exp body, exp inc, exp te)
 	pt(second_test) = cond_labst;
 	settest_number(second_test, (int)int_inverse_ntest[test_number(te)]);
 
-	cond = getexp(f_top, bro(candidate), (int)(candidate->last), candidate,
+	cond = getexp(f_top, next(candidate), (int)(candidate->last), candidate,
 	              NULL, 0, 0, cond_tag);
-	bro(cond_labst) = cond;
+	next(cond_labst) = cond;
 
 	f = father(candidate);
 	point = refto(f, candidate);
 	*point = cond;
 
 	candidate->last = false;
-	bro(candidate) = cond_labst;
+	next(candidate) = cond_labst;
 
 	/*
 	 * cond
@@ -316,9 +316,9 @@ inc_offset(exp var, shape sha, exp konst, exp body, int i)
 
 		for (i = 0; i < names_index; ++i) {
 			exp q = pt(t);
-			exp b = bro(t);
+			exp b = next(t);
 			/* replace the offset_mults in body */
-			replace(bro(t), copy(sum), body);
+			replace(next(t), copy(sum), body);
 			kill_exp(b, b);
 			t = q;
 		}
@@ -348,7 +348,7 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 	/* reps = current element of the repeat list */
 	/* times = no of times to unroll */
 
-	float freq = fno(bro(son(candidate)));
+	float freq = fno(next(son(candidate)));
 	if (allow_double && no(konst) == 1 &&
 	    /* allow_double==0 prevents test elimination */
 	    (nt == (int)f_greater_than || nt == (int)f_greater_than_or_equal) &&
@@ -397,9 +397,9 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 			                getexp(f_bottom, NULL, 0, NULL,
 			                       branches[i + 1], 0, 0, goto_tag),
 			                seq_tag);
-			bro(son(branches[i])) = seq;
+			next(son(branches[i])) = seq;
 			seq->last = true;
-			bro(seq) = branches[i];
+			next(seq) = branches[i];
 		}
 
 		pt(test_out) = branches[times + 1];
@@ -407,37 +407,37 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 		temp = me_b3(f_bottom, temp,
 		             getexp(f_bottom, NULL, 0, NULL,
 		                    branches[times], 0, 0, goto_tag), seq_tag);
-		bro(son(branches[times - 1])) = temp;
+		next(son(branches[times - 1])) = temp;
 		temp->last = true;
-		bro(temp) = branches[times - 1];
+		next(temp) = branches[times - 1];
 
 		temp = copy(body);
 		temp1 = temp;
 		if (jumps_out) {
-			bro(temp1) = copy(inc);
+			next(temp1) = copy(inc);
 			temp1->last = false;
-			temp1 = bro(temp1);
+			temp1 = next(temp1);
 		}
 
 		for (i = 1; i < times - 1; ++i) {
 			if (jumps_out) {
-				bro(temp1) = copy(body);
+				next(temp1) = copy(body);
 			} else {
-				bro(temp1) = inc_offset(var, sha, konst, body, i);
+				next(temp1) = inc_offset(var, sha, konst, body, i);
 			}
 
 			temp1->last = false;
-			temp1 = bro(temp1);
+			temp1 = next(temp1);
 			if (jumps_out) {
-				bro(temp1) = copy(inc);
+				next(temp1) = copy(inc);
 				temp1->last = false;
-				temp1 = bro(temp1);
+				temp1 = next(temp1);
 			}
 		}
 
 		bc = getexp(f_top, NULL, 0, temp, NULL, 0, 0, 0);
 		temp1->last = true;
-		bro(temp1) = bc;
+		next(temp1) = bc;
 		if (jumps_out) {
 			bc = me_b3(f_top, bc, copy(body), seq_tag);
 		} else {
@@ -449,7 +449,7 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 			kill_exp(new_c, new_c);
 		} else {
 			/* replace konst by times * konst */
-			replace(bro(son(bro(var))), new_c, new_c);
+			replace(next(son(next(var))), new_c, new_c);
 		}
 
 		temp = me_b3(f_top, bc, inc, 0);
@@ -463,17 +463,17 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 		pt(test_out) = branches[times + 1];
 
 		temp = f_make_top();
-		bro(son(branches[times + 1])) = temp;
+		next(son(branches[times + 1])) = temp;
 		temp->last = true;
-		bro(temp) = branches[times + 1];
+		next(temp) = branches[times + 1];
 
 		temp = me_u3(f_top, repeater, 0);
 		temp = me_b3(f_bottom, temp,
 		             getexp(f_bottom, NULL, 0, NULL,
 		                    branches[times + 1], 0, 0, goto_tag), seq_tag);
-		bro(son(branches[times])) = temp;
+		next(son(branches[times])) = temp;
 		temp->last = true;
-		bro(temp) = branches[times];
+		next(temp) = branches[times];
 
 		temp = me_u3(sha, copy(var), cont_tag);
 		temp1 = copy(limit);
@@ -489,26 +489,26 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 		id = me_startid(sha, temp, 0);
 		temp = getexp(f_top, NULL, 0, me_obtain(id), branches[times], 0, 0, test_tag);
 		settest_number(temp, f_not_equal);
-		bro(son(temp)) = me_shint(sha, 0);
-		bro(son(temp))->last = true;
-		bro(bro(son(temp))) = temp;
+		next(son(temp)) = me_shint(sha, 0);
+		next(son(temp))->last = true;
+		next(next(son(temp))) = temp;
 		temp1 = temp;
 
 		for (i = 1; i < (times - 1); ++i) {
 			temp2 = getexp(f_top, NULL, 0, me_obtain(id), branches[times - i - 1], 0, 0, test_tag);
 			settest_number(temp2, f_not_equal);
-			bro(son(temp2)) = me_shint(sha, i);
-			bro(son(temp2))->last = true;
-			bro(bro(son(temp2))) = temp2;
+			next(son(temp2)) = me_shint(sha, i);
+			next(son(temp2))->last = true;
+			next(next(son(temp2))) = temp2;
 			settest_number(temp, f_not_equal);
 			temp1->last = false;
-			bro(temp1) = temp2;
+			next(temp1) = temp2;
 			temp1 = temp2;
 		}
 
 		bc = getexp(f_top, NULL, 0, temp, NULL, 0, 0, 0);
 		temp1->last = true;
-		bro(temp1) = bc;
+		next(temp1) = bc;
 		bc = me_b3(f_bottom, bc,
 		           getexp(f_bottom, NULL, 0, NULL, branches[0], 0,
 		                  0, goto_tag), seq_tag);
@@ -517,14 +517,14 @@ unroll_trans(exp candidate, exp body, exp inc, exp te, exp limit, int nt,
 		temp1 = id;
 
 		for (i = 0; i < (times + 2); ++i) {
-			bro(temp1) = branches[i];
+			next(temp1) = branches[i];
 			temp1->last = false;
-			temp1 = bro(temp1);
+			temp1 = next(temp1);
 		}
 
 		res = getexp(f_top, NULL, 0, id, NULL, 0, 0, solve_tag);
 		temp1->last = true;
-		bro(temp1) = res;
+		next(temp1) = res;
 		setunrolled(repeater);
 
 		replace(candidate, res, res);
@@ -551,8 +551,8 @@ unroller(void)
 
 		/* this is a leaf repeat node */
 		candidate = son(reps);       /* this is the repeat */
-		labst = bro(son(candidate)); /* the repeated statement */
-		rb = bro(son(labst));        /* the repeated statement less label */
+		labst = next(son(candidate)); /* the repeated statement */
+		rb = next(son(labst));        /* the repeated statement less label */
 
 		/*
 		 * rep_tag
@@ -561,11 +561,11 @@ unroller(void)
 		 * 0	seq_tag
 		 */
 		if (son(candidate)->tag == top_tag && no(son(labst)) == 1 &&
-			rb->tag == seq_tag && bro(son(rb))->tag == seq_tag) {
-			exp final = bro(son(rb));
+			rb->tag == seq_tag && next(son(rb))->tag == seq_tag) {
+			exp final = next(son(rb));
 			exp body = son(son(rb));
 			exp ass = son(son(final));
-			exp te = bro(son(final));
+			exp te = next(son(final));
 
 			/*
 			 * rep_tag
@@ -577,7 +577,7 @@ unroller(void)
 			 */
 			if (ass->tag == ass_tag && te->tag == test_tag) {
 				exp dest = son(ass);
-				exp val = bro(dest);
+				exp val = next(dest);
 
 				/*
 				 * rep_tag
@@ -608,9 +608,9 @@ unroller(void)
 					if (val->tag == plus_tag && son(val)->tag == cont_tag &&
 						son(son(val))->tag == name_tag &&
 						son(son(son(val))) == son(dest) &&
-						bro(son(val))->tag == val_tag)
+						next(son(val))->tag == val_tag)
 					{
-						exp konst = bro(son(val));
+						exp konst = next(son(val));
 						int nt = (int)test_number(te);
 
 						/*
@@ -628,7 +628,7 @@ unroller(void)
 							pt(te) == labst && son(son(son(te))) == son(dest))
 						{
 							int count;
-							exp limit = bro(son(te));
+							exp limit = next(son(te));
 							exp unaliased_limit = NULL;
 							int limit_is_aliased = 0;
 

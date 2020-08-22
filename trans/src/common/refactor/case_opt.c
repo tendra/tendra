@@ -77,7 +77,7 @@ case_optimisation(exp body, exp id, shape shape_of_case, exp control_expression)
 
 	no_of_nodes = 0;
 	/* Calculate the number of cases in the case_tag */
-	for (t = body; !t->last; t = bro(t)) {
+	for (t = body; !t->last; t = next(t)) {
 		no_of_cases = no_of_cases + 1;
 	}
 
@@ -94,7 +94,7 @@ case_optimisation(exp body, exp id, shape shape_of_case, exp control_expression)
 	t = body;
 	for (i = 0; i < no_of_cases; i++) {
 		ELEMENTS[i] = t;
-		t = bro(t);
+		t = next(t);
 	}
 
 	/*
@@ -173,7 +173,7 @@ case_optimisation(exp body, exp id, shape shape_of_case, exp control_expression)
 		no_of_nodes = no_of_nodes + 1;
 
 		/* Chops up the list for later use */
-		bro(ELEMENTS[i]) = NULL;
+		next(ELEMENTS[i]) = NULL;
 
 		/*
 		 * Sets the last of ELEMENTS[i] so can be substituted directly into
@@ -376,13 +376,13 @@ set_up_exhaustive_case(exp body_of_case, exp id)
 	CONT__TAG = me_u3(sh(id), NAME__TAG, cont_tag);
 	CASE__TAG = getexp(f_bottom, NULL, 0, CONT__TAG, NULL, 0, 0, case_tag);
 
-	bro(CONT__TAG) = body_of_case;
+	next(CONT__TAG) = body_of_case;
 	CONT__TAG->last = false;
 
-	for (r = body_of_case; !r->last; r = bro(r))
+	for (r = body_of_case; !r->last; r = next(r))
 		;
 
-	bro(r) = CASE__TAG;
+	next(r) = CASE__TAG;
 
 	return CASE__TAG;
 }
@@ -406,13 +406,13 @@ set_up_inexhaustive_case(exp body_of_case, exp id, exp default_exp)
 
 	/* shape of case is f_top since it is not exhaustive */
 	CASE__TAG = getexp(f_top, NULL, 0, CONT__TAG, NULL, 0, 0, case_tag);
-	bro(CONT__TAG) = body_of_case;
+	next(CONT__TAG) = body_of_case;
 	CONT__TAG->last = false;
 
-	for (r = body_of_case; !r->last; r = bro(r))
+	for (r = body_of_case; !r->last; r = next(r))
 		;
 
-	bro(r) = CASE__TAG;
+	next(r) = CASE__TAG;
 	GOTO__TAG = getexp(f_bottom, NULL, 0, NULL, NULL, 0, 0, goto_tag);
 	pt(GOTO__TAG) = default_exp;
 	no(son(default_exp)) ++;
@@ -502,7 +502,7 @@ exhaustive_conditional_maker(int start, int end, exp id)
 	/* first test to see if we have only one node */
 	if (start == end) {
 		/* Check to see if not a jump table */
-		if (bro(node_start[start]) == NULL) {
+		if (next(node_start[start]) == NULL) {
 			t = getexp(f_bottom, NULL, 0, NULL, NULL, 0, 0,
 			           goto_tag);
 			pt(t) = pt(node_start[start]);
@@ -645,7 +645,7 @@ inexhaustive_conditional_maker(int start, int end, exp id, exp default_exp)
 						   (no(node_end[start]) - subtract_value),
 						   f_less_than_or_equal), 0);
 
-			for (r = node_start[start]; r != NULL; r = bro(r)) {
+			for (r = node_start[start]; r != NULL; r = next(r)) {
 				no(r) = no(r) - subtract_value;
 				if (son(r) != NULL) {
 					no(son(r)) = no(son(r)) -

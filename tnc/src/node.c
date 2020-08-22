@@ -42,19 +42,19 @@ new_node(void)
 		p = xmalloc_nof(node, m);
 
 		for (i = 0; i < m - 1; i++) {
-			(p + i) ->bro = p + (i + 1);
+			(p + i) ->next = p + (i + 1);
 			(p + i) ->son = NULL;
 		}
 
-		(p + (m - 1)) ->bro = NULL;
+		(p + (m - 1)) ->next = NULL;
 		(p + (m - 1)) ->son = NULL;
 		free_nodes = p;
 	}
 
-	free_nodes = p->bro;
+	free_nodes = p->next;
 	p->cons = NULL;
 	p->son = NULL;
-	p->bro = NULL;
+	p->next = NULL;
 	p->shape = NULL;
 
 	return p;
@@ -65,12 +65,12 @@ void
 free_node(node *p)
 {
 	while (p) {
-		node *q = p->bro;
+		node *q = p->next;
 
 		if (p->son)
 			free_node(p->son);
 
-		p->bro = free_nodes;
+		p->next = free_nodes;
 		free_nodes = p;
 		p = q;
 	}
@@ -152,8 +152,8 @@ eq_node_aux(node *p, node *q, construct *ap, construct *aq, int args)
 		if (!args)
 			return 1;
 
-		p = p->bro;
-		q = q->bro;
+		p = p->next;
+		q = q->next;
 	}
 
 	if (p == q)

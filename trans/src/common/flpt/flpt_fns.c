@@ -847,7 +847,7 @@ f_floating_mult(error_treatment ov_err, exp_list arg1)
 				break;
 			}
 
-			t = bro(t);
+			t = next(t);
 			if (sh(t)->tag == bothd) {
 				return t;
 			}
@@ -879,7 +879,7 @@ f_floating_mult(error_treatment ov_err, exp_list arg1)
 		t = arg1.start;
 
 		while (t != arg1.end) {
-			t = bro(t);
+			t = next(t);
 			z1 = push(y1, me_startid(complex_shape, t, 0));
 
 			z1_re = f_real_part(me_obtain(z1));		/* contents of next */
@@ -1008,7 +1008,7 @@ f_floating_plus(error_treatment ov_err, exp_list arg1)
 				break;
 			}
 
-			t = bro(t);
+			t = next(t);
 			if (sh(t)->tag == bothd) {
 				return t;
 			}
@@ -1036,7 +1036,7 @@ f_floating_plus(error_treatment ov_err, exp_list arg1)
 		z2 = z1;					/* start chain of idents */
 
 		while (t != arg1.end) {
-			t = bro(t);
+			t = next(t);
 			z2 = push(z2, me_startid(complex_shape, t, 0));
 
 			x2 = f_real_part(me_obtain(z2));	/* contents of next */
@@ -1780,7 +1780,7 @@ reorder_list(exp_list arg1, int consts_first)
 	type1_start = type1_end = type2_start = type2_end = NULL;
 	setbro(arg1.end, NULL);
 
-	for (t = arg1.start; t != arg1.end; t = bro(t)) {
+	for (t = arg1.start; t != arg1.end; t = next(t)) {
 		if ((is_const(t) && consts_first) || !(is_const(t) || consts_first)) {
 			if (type1_start == NULL) {
 				type1_start = type1_end = t;	/* first of type 1 */
@@ -1845,7 +1845,7 @@ me_complete_chain(exp ident_chain, exp last_link, exp link_to)
 	exp remove_link;
 
 	while (son(ident_chain) != last_link) {
-		remove_link = bro(ident_chain);
+		remove_link = next(ident_chain);
 		link_to = me_complete_id(ident_chain, link_to);
 		ident_chain = remove_link;
 	}

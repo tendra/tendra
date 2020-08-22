@@ -37,7 +37,7 @@ last_action(exp e)
 	}
 
 	if (e->tag == ident_tag || e->tag == seq_tag) {
-		return last_action(bro(son(e)));
+		return last_action(next(son(e)));
 	}
 
 	return e;
@@ -52,7 +52,7 @@ change_last_shapes(exp e, shape sha)
 
 	if (e->tag == ident_tag || e->tag == seq_tag) {
 		sh(e) = sha;
-		change_last_shapes(bro(son(e)), sha);
+		change_last_shapes(next(son(e)), sha);
 	}
 }
 
@@ -63,7 +63,7 @@ replace_pars(exp actual, exp formal_par)
 	exp def;
 
 	if (!actual->last) {
-		replace_pars(bro(actual), bro(son(formal_par)));
+		replace_pars(next(actual), next(son(formal_par)));
 	}
 
 	clearparam(formal_par);
@@ -82,7 +82,7 @@ void
 inline_exp(exp e)
 {
 	exp fn = son(e);	/* the name_tag for the function */
-	exp pars = bro(fn);	/* the first actual parameter */
+	exp pars = next(fn);	/* the first actual parameter */
 	exp body = son(son(son(fn)));	/* the proc_tag exp */
 	exp bc, t, q;
 	exp lab;
@@ -99,21 +99,21 @@ inline_exp(exp e)
 		var = NULL;
 		cond_alt = f_make_top();
 	} else {
-		if (e->last && bro(e)->tag == ass_tag &&
-		    son(bro(e))->tag == name_tag) {
+		if (e->last && next(e)->tag == ass_tag &&
+		    son(next(e))->tag == name_tag) {
 
 			/* the result of the application is being assigned to a name_tag */
-			var = son(bro(e));	/* the destination of the ass */
+			var = son(next(e));	/* the destination of the ass */
 
 			/* the result is being assigned in the body - no need for a delivered result */
 			cond_alt = f_make_top();
 
-			e = bro(e); /* NOTE e CHANGED to ass_tag */
+			e = next(e); /* NOTE e CHANGED to ass_tag */
 #ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
-				/* bro(son(e)) is now the call */
-				dg_whole_comp(e, bro(son(e)));
-				dgf(e) = dgf(bro(son(e)));
+				/* next(son(e)) is now the call */
+				dg_whole_comp(e, next(son(e)));
+				dgf(e) = dgf(next(son(e)));
 			}
 #endif
 		} else {
@@ -133,7 +133,7 @@ inline_exp(exp e)
 	/* the labst for the new cond_tag we are making up */
 	son(lab)->tag = clear_tag;
 
-	t = fn;	  /* start t so that its bro is the first actual parameter */
+	t = fn;	  /* start t so that its next is the first actual parameter */
 	q = body; /* start q so that its son is the first formal parameter */
 
 	while (!t->last) {
@@ -141,11 +141,11 @@ inline_exp(exp e)
 		if (q->tag != ident_tag || !isparam(q)) {
 			return;  /* no inline if more actuals than formals */
 		}
-		if (shape_size(sh(bro(t))) != shape_size(sh(son(q)))) {
+		if (shape_size(sh(next(t))) != shape_size(sh(son(q)))) {
 			return;	/* no inlining if shapes do not match. */
 		}
-		t = bro(t);		/* next actual */
-		q = bro(son(q));	/* next formal */
+		t = next(t);		/* next actual */
+		q = next(son(q));	/* next formal */
 	}
 
 	if (q->tag == ident_tag && isparam(q)) {
@@ -180,13 +180,13 @@ inline_exp(exp e)
 			res = (sha->tag == tophd) ? f_make_top() :
 			      f_make_value(sha);
 		} else {
-			change_last_shapes(res, sh(bro(son(lab))));
+			change_last_shapes(res, sh(next(son(lab))));
 #ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
-				dg_whole_comp(last_act, bro(son(lab)));
+				dg_whole_comp(last_act, next(son(lab)));
 			}
 #endif
-			replace(last_act, bro(son(lab)), res);
+			replace(last_act, next(son(lab)), res);
 		}
 	} else {
 		res = me_b3(sh(lab), res, lab, cond_tag);
@@ -206,10 +206,10 @@ inline_exp(exp e)
 			exp r = f_make_top();
 #ifdef TDF_DIAG4
 			if (diag != DIAG_NONE) {
-				dgf(r) = dgf(bro(son(lab)));
+				dgf(r) = dgf(next(son(lab)));
 			}
 #endif
-			replace(bro(son(lab)), r, r);
+			replace(next(son(lab)), r, r);
 		}
 	}
 

@@ -179,7 +179,7 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 			}
 			/* else  allocation of stack like regs in make_code */
 		}
-		body = regalloc(bro(s), ffix, ffloat, st);
+		body = regalloc(next(s), ffix, ffloat, st);
 		spareparregs = old_spareparregs;
 		return maxspace(body, def);
 	} else if (n == case_tag) {
@@ -189,7 +189,7 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
            && n != general_env_offset_tag && s != NULL) {
 		def = regalloc(s, freefixed, freefloat, stack);
 		while (!s->last) {
-			s = bro(s);
+			s = next(s);
 			def = maxspace(def, regalloc(s, freefixed, freefloat, stack));
 		}
 		return def;

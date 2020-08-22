@@ -90,7 +90,7 @@ const_ready(exp e)
 		return 1;
 	}
 
-	for (e = son(e); !e->last; e = bro(e)) {
+	for (e = son(e); !e->last; e = next(e)) {
 		if (!const_ready(e)) {
 			return 0;
 		}
@@ -103,7 +103,7 @@ static void
 eval_if_ready(exp t, int now)
 {
 	if (!now && !const_ready(son(t))) {
-		bro(t) = delayed_const_list;
+		next(t) = delayed_const_list;
 		delayed_const_list = t;
 
 		return;
@@ -214,7 +214,7 @@ code_def(dec *d)
 			while (const_list != NULL) {
 				/* put in the constants required by the procedure */
 				exp t = const_list;
-				const_list = bro(const_list);
+				const_list = next(const_list);
 				eval_if_ready(t, 0);
 			}
 		} else {
@@ -304,13 +304,13 @@ mark_unaliased(exp e)
 
 	for (p = pt(e); p != NULL && ca; p = pt(p)) {
 #ifdef TDF_DIAG4
-		if ((bro(p) == NULL ||
+		if ((next(p) == NULL ||
 #else
-		if (bro(p) == NULL ||
+		if (next(p) == NULL ||
 #endif
-		     (!(p->last && bro(p)->tag == cont_tag) &&
-		     !(!p->last && bro(p)->last &&
-		        bro(bro(p))->tag == ass_tag)))
+		     (!(p->last && next(p)->tag == cont_tag) &&
+		     !(!p->last && next(p)->last &&
+		        next(next(p))->tag == ass_tag)))
 #ifdef TDF_DIAG4
 		    && !isdiaginfo(p))
 #endif
@@ -361,7 +361,7 @@ local_translate_capsule(void)
 
 					np = pt(p);
 					ptr = refto(father(p), p);
-					c = getexp(sh(p), bro(p), p->last, p, NULL, 0, 0, cont_tag);
+					c = getexp(sh(p), next(p), p->last, p, NULL, 0, 0, cont_tag);
 					setfather(c, p);
 
 					if (no(p) != 0) {
@@ -456,7 +456,7 @@ local_translate_capsule(void)
 
 	while (delayed_const_list != NULL) {
 		exp t = delayed_const_list;
-		delayed_const_list = bro(delayed_const_list);
+		delayed_const_list = next(delayed_const_list);
 		eval_if_ready(t, 1);
 	}
 

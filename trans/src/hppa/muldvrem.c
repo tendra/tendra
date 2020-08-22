@@ -523,7 +523,7 @@ static int do_mul_comm
 (exp e, space sp, int final_reg, bool sgned)
 {
   exp seq = son(e);
-  exp arg2 = bro(seq);
+  exp arg2 = next(seq);
   int arg = 1;
   baseoff b;
   int v;
@@ -556,7 +556,7 @@ static int do_mul_comm
   {
     assert(!seq->last);		/* should have break out below by now */
 
-    seq = bro(seq);
+    seq = next(seq);
     arg++;
 
     asm_comment("do_mul_comm: seq->tag = %d", seq->tag);
@@ -622,7 +622,7 @@ static int do_div
 {
    exp seq = son(e);
    exp lhs = seq;
-   exp rhs = bro(lhs);
+   exp rhs = next(lhs);
    space nsp;
    int trap = 0;
    int sz = shape_size(sh(e));
@@ -712,7 +712,7 @@ static int do_div
       }
    }
 
-   if (bro(rhs)->tag == div1_tag && sgned)
+   if (next(rhs)->tag == div1_tag && sgned)
    {
       int fin = new_label();
       baseoff b;
@@ -757,7 +757,7 @@ static int do_rem
 {
    exp seq = son(e);
    exp lhs = seq;
-   exp rhs = bro(lhs);
+   exp rhs = next(lhs);
    int p=0;
    space nsp;
    int trap = 0;
@@ -794,7 +794,7 @@ static int do_rem
 	    return final_reg;
 	 }
 	 while (((1<< (++p)) & n) ==0);
-	 if (sgned && bro(rhs)->tag == rem2_tag)
+	 if (sgned && next(rhs)->tag == rem2_tag)
 	 {
 	    /*
 	     *   Allow for negative lhs. Calculate lhs % n ( = 2**p ) by
@@ -840,7 +840,7 @@ static int do_rem
 	 if (sgned)
 	 {
 	    call_millicode(MILLI_REMI,RP,stub,1);
-	    if (bro(rhs)->tag == mod_tag)
+	    if (next(rhs)->tag == mod_tag)
 	    {
 	       if (SIMM14(n))
 	       {
@@ -880,7 +880,7 @@ static int do_rem
    if (!optop(e))
       cj_ins(c_eq,GR0,ARG1,trap);
 
-   if (bro(rhs)->tag == mod_tag && sgned)
+   if (next(rhs)->tag == mod_tag && sgned)
    {
       st_ins(i_sw,ARG1,b);
       call_millicode(MILLI_REMI,RP,stub,1);
@@ -1005,7 +1005,7 @@ bool is_muldivrem_call
       case offset_mult_tag:
       {
 	/*multneeds - simple cases don't need a call */
-	exp arg2 = bro(son(e));
+	exp arg2 = next(son(e));
 	if (arg2->last && arg2->tag == val_tag)
 	{
 	  return 0;
@@ -1023,7 +1023,7 @@ bool is_muldivrem_call
     case offset_div_by_int_tag:
       {
 	/*remneeds, divneeds - simple cases don't need a call */
-	exp arg2 = bro(son(e));
+	exp arg2 = next(son(e));
 
 	if (arg2->last && arg2->tag == val_tag)
 	{
@@ -1051,7 +1051,7 @@ needs multneeds
 {
   needs n;
   exp arg1 = son(*(e));
-  exp arg2 = bro(arg1);
+  exp arg2 = next(arg1);
   n = likeplus(e, at);	/* has had comm_ass() treatment */
 
   /* remember that mult may have more than two args after optimisation */
@@ -1080,7 +1080,7 @@ needs divneeds
 {
   needs n;
   exp lhs = son(*(e));
-  exp rhs = bro(lhs);
+  exp rhs = next(lhs);
   n = likediv(e, at);
 
   assert(rhs->last);
@@ -1110,7 +1110,7 @@ needs remneeds
 {
   needs n;
   exp lhs = son(*(e));
-  exp rhs = bro(lhs);
+  exp rhs = next(lhs);
   n = likediv(e, at);
 
   assert(rhs->last);

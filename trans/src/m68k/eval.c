@@ -59,7 +59,7 @@ bool convert_floats = true;
 static char *ext_eval_name = "???";
 
 /*
- * All external constants created are formed into a bro-list.
+ * All external constants created are formed into a next-list.
  */
 exp const_list = NULL;
 
@@ -145,15 +145,15 @@ evalexp(exp e)
 	}
 
 	case not_tag: return ~evalexp(son(e));
-	case and_tag: return evalexp(son(e)) &  evalexp(bro(son(e)));
-	case or_tag:  return evalexp(son(e)) |  evalexp(bro(son(e)));
-	case xor_tag: return evalexp(son(e)) ^  evalexp(bro(son(e)));
-	case shr_tag: return evalexp(son(e)) >> evalexp(bro(son(e)));
-	case shl_tag: return evalexp(son(e)) << evalexp(bro(son(e)));
+	case and_tag: return evalexp(son(e)) &  evalexp(next(son(e)));
+	case or_tag:  return evalexp(son(e)) |  evalexp(next(son(e)));
+	case xor_tag: return evalexp(son(e)) ^  evalexp(next(son(e)));
+	case shr_tag: return evalexp(son(e)) >> evalexp(next(son(e)));
+	case shl_tag: return evalexp(son(e)) << evalexp(next(son(e)));
 
 	case concatnof_tag: {
 		long  wd = evalexp(son(e));
-		return wd | (evalexp(bro(son(e))) << shape_size(sh(son(e))));
+		return wd | (evalexp(next(son(e))) << shape_size(sh(son(e))));
 	}
 
 	case clear_tag:
@@ -192,11 +192,11 @@ evalexp(exp e)
 	}
 
 	case offset_add_tag:
-		return evalexp(son(e)) + evalexp(bro(son(e)));
+		return evalexp(son(e)) + evalexp(next(son(e)));
 
 	case offset_max_tag: {
 		long a = evalexp(son(e));
-		long b = evalexp(bro(son(e)));
+		long b = evalexp(next(son(e)));
 		return a > b ? a : b;
 	}
 
@@ -204,11 +204,11 @@ evalexp(exp e)
 		return rounder(evalexp(son(e)), shape_align(sh(e)) / 8);
 
 	case offset_mult_tag:
-		return evalexp(son(e)) * evalexp(bro(son(e)));
+		return evalexp(son(e)) * evalexp(next(son(e)));
 
 	case offset_div_tag:
 	case offset_div_by_int_tag: {
-		long n = evalexp(bro(son(e)));
+		long n = evalexp(next(son(e)));
 
 		if (n == 0) {
 			n++;
@@ -219,14 +219,14 @@ evalexp(exp e)
 	}
 
 	case offset_subtract_tag:
-		return evalexp(son(e)) - evalexp(bro(son(e)));
+		return evalexp(son(e)) - evalexp(next(son(e)));
 
 	case offset_negate_tag:
 		return -evalexp(son(e));
 
 	case seq_tag:
 		if (son(son(e))->tag == prof_tag && son(son(e))->last) {
-			return evalexp(bro(son(e)));
+			return evalexp(next(son(e)));
 		}
 		break;
 
@@ -520,9 +520,9 @@ evalaux(exp e, bool isconst, long al)
 		}
 
 		/* look ahead to determine if it is parameter aligned */
-		val = bro(offe);
+		val = next(offe);
 		if (! val->last) {
-			offe = bro(val);
+			offe = next(val);
 			if (sh(offe)->son.ald->al.u.val == 32) {
 				param_aligned = 1;
 			}
@@ -531,7 +531,7 @@ evalaux(exp e, bool isconst, long al)
 
 		for (;;) {
 			off = no(offe);
-			val = bro(offe);
+			val = next(offe);
 
 			if (bits_left && off >= (crt_off + 8)) {
 				op = make_value((work >> 24) & 0xff);
@@ -624,7 +624,7 @@ evalaux(exp e, bool isconst, long al)
 				}
 				return;
 			}
-			offe = bro(val);
+			offe = next(val);
 		}
 		/* Not reached */
 	}
@@ -730,7 +730,7 @@ evalaux(exp e, bool isconst, long al)
 			if (t->last) {
 				return;
 			}
-			t = bro(t);
+			t = next(t);
 		}
 
 		/* Not reached */
@@ -740,7 +740,7 @@ evalaux(exp e, bool isconst, long al)
 		/* Concatenated arrays */
 		long a2 = (al + shape_size(son(e))) & 63;
 		evalaux(son(e), isconst, al);
-		evalaux(bro(son(e)), isconst, a2);
+		evalaux(next(son(e)), isconst, a2);
 		return;
 	}
 
@@ -798,7 +798,7 @@ evalaux(exp e, bool isconst, long al)
 
 	case ident_tag: {
 		/* Simple identifications */
-		exp body = bro(son(e));
+		exp body = next(son(e));
 		if (body->tag == name_tag && son(body) == e) {
 			evalaux(son(e), isconst, al);
 			return;
@@ -808,7 +808,7 @@ evalaux(exp e, bool isconst, long al)
 
 	case minptr_tag: {
 		exp p1 = son(e);
-		exp p2 = bro(p1);
+		exp p2 = next(p1);
 
 		if (p1->tag == name_tag && p2->tag == name_tag) {
 			long n = no(p1) - no(p2);
@@ -878,7 +878,7 @@ is_comm(exp e)
 		}
 
 		for (;;) {
-			t = bro(t);
+			t = next(t);
 			if (sh(t)->tag != bitfhd) {
 				if (!is_comm(t)) {
 					return 0;
@@ -897,7 +897,7 @@ is_comm(exp e)
 			if (t->last) {
 				return 1;
 			}
-			t = bro(t);
+			t = next(t);
 		}
 
 		/* Not reached */
@@ -922,7 +922,7 @@ is_comm(exp e)
 				return 1;
 			}
 
-			t = bro(t);
+			t = next(t);
 		}
 
 		/* Not reached */
@@ -930,7 +930,7 @@ is_comm(exp e)
 
 	case concatnof_tag: {
 		exp t = son(e);
-		return is_comm(t) && is_comm(bro(t));
+		return is_comm(t) && is_comm(next(t));
 	}
 
 	case clear_tag:

@@ -222,11 +222,11 @@ mark_unaliased(exp e)
 	assert(!separate_units);
 
 	for (p = pt(e); p != NULL && ca; p = pt(p)) {
-		if (bro(p) == NULL) {
+		if (next(p) == NULL) {
 			ca = 0;
 		} else {
-			if (!(p->last && bro(p)->tag == cont_tag) &&
-			    !(!p->last && bro(p)->last && bro(bro(p))->tag == ass_tag)) {
+			if (!(p->last && next(p)->tag == cont_tag) &&
+			    !(!p->last && next(p)->last && next(next(p))->tag == ass_tag)) {
 				ca = 0;
 			}
 		}
@@ -394,7 +394,7 @@ local_translate_capsule(void)
 				}
 			}
 
-			pr->nameproc = bro(crt_exp);
+			pr->nameproc = next(crt_exp);
 			no(son(crt_exp)) = procno++;/* index into procrecs in no(proc) */
 		}
 	}
@@ -516,7 +516,7 @@ local_translate_capsule(void)
 			freefloat = 0;		/* none, always the same */
 
 			/* reg and stack allocation for tags */
-			forrest = regalloc(bro(son(son(crt_exp))), freefixed, freefloat, 0);
+			forrest = regalloc(next(son(son(crt_exp))), freefixed, freefloat, 0);
 
 			/* reg and stack allocation for tags */
 			pr->spacereqproc = forrest;

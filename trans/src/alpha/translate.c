@@ -234,8 +234,8 @@ mark_unaliased(exp e)
 	exp p;
 
 	for (p = pt (e); p != NULL && ca; p = pt(p)) {
-		if (bro(p) == NULL || (!(p->last && bro(p)->tag == cont_tag) &&
-		                      !(!p->last && bro(p)->last && bro(bro(p))->tag == ass_tag))) {
+		if (next(p) == NULL || (!(p->last && next(p)->tag == cont_tag) &&
+		                      !(!p->last && next(p)->last && next(next(p))->tag == ass_tag))) {
 			ca = 0;
 		}
 	}
@@ -432,11 +432,11 @@ local_translate_capsule(void)
 
 			freefixed += (Has_fp == 0);
 			if (!No_S) {
-				IGNORE weightsv (1.0, bro(son(son(crt_exp))));
+				IGNORE weightsv (1.0, next(son(son(crt_exp))));
 			}
 
 			/* estimate usage of tags in body of proc */
-			forrest = regalloc(bro(son(son(crt_exp))), freefixed, freefloat, 0);
+			forrest = regalloc(next(son(son(crt_exp))), freefixed, freefloat, 0);
 
 			/* reg and stack allocation for tags */
 			pr->spacereqproc = forrest;
@@ -471,8 +471,8 @@ local_translate_capsule(void)
 		if (no(tag) != 0 || (extnamed && son(tag) != NULL)
 		     || streq(name, "__alpha_errhandler") || streq(name, "__alpha_stack_limit"))
 		{
-			if (no(tag) == 1 && son(tag) == NULL && (bro(pt(tag)) == NULL ||
-			    bro(pt(tag))->tag == 101 || bro(pt(tag))->tag == 102 )
+			if (no(tag) == 1 && son(tag) == NULL && (next(pt(tag)) == NULL ||
+			    next(pt(tag))->tag == 101 || next(pt(tag))->tag == 102 )
 			   /* diagnostics only! */ )
 			{
 				symnos[i] = -1;

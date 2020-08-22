@@ -141,7 +141,7 @@ scan_for_labsts(exp e)
 	case name_tag:
 	case env_offset_tag:
 		if (!e->last) {
-			scan_for_labsts(bro(e));
+			scan_for_labsts(next(e));
 		}
 		return;
 
@@ -153,7 +153,7 @@ scan_for_labsts(exp e)
 
 	scan_for_labsts(son(e));
 	if (!e->last) {
-		scan_for_labsts(bro(e));
+		scan_for_labsts(next(e));
 	}
 }
 
@@ -217,8 +217,8 @@ show_bro(int i)
 		return NULL;
 	}
 
-	if (bro(l) != NULL) {
-		infotag(bro(l), i);
+	if (next(l) != NULL) {
+		infotag(next(l), i);
 	} else {
 		printf("No brother field to stored exp no %d\n", i);
 	}
@@ -385,7 +385,7 @@ infotag(exp e, int i)
 		printf("  |                                      |\n");
 	}
 
-	printf("| bro(e)       = 0x%-8x            ", (unsigned int)bro(e));
+	printf("| next(e)       = 0x%-8x            ", (unsigned int)next(e));
 
 	if (sh(e) != NULL) {
 
@@ -394,11 +394,11 @@ infotag(exp e, int i)
 	} else {
 		printf("|                                      |");
 	}
-	if (bro(e) != NULL) {
+	if (next(e) != NULL) {
 		if (e->last) {
-			printf("-->father:%s\n", getname(bro(e)->tag));
+			printf("-->father:%s\n", getname(next(e)->tag));
 		} else {
-			printf("-->brother:%s\n", getname(bro(e)->tag));
+			printf("-->brother:%s\n", getname(next(e)->tag));
 		}
 	} else {
 		printf("-->NULL\n");
@@ -442,7 +442,7 @@ infotag(exp e, int i)
 		while (!finished) {
 			finished = point->last;
 			printf("------------------------------   ");
-			point = bro(point);
+			point = next(point);
 		}
 		printf("\n");
 
@@ -452,7 +452,7 @@ infotag(exp e, int i)
 		while (!finished) {
 			finished = point->last;
 			printf("| %-17s0x%-8x|   ", getname(point->tag), (unsigned int)point);
-			point = bro(point);
+			point = next(point);
 		}
 		printf("\n");
 
@@ -461,7 +461,7 @@ infotag(exp e, int i)
 		while (!finished) {
 			finished = point->last;
 			printf("------------------------------   ");
-			point = bro(point);
+			point = next(point);
 		}
 		printf("\n");
 
@@ -471,7 +471,7 @@ infotag(exp e, int i)
 		while (!finished) {
 			finished = point->last;
 			printf("| no          = %-10ld   |   ", no(point));
-			point = bro(point);
+			point = next(point);
 		}
 		printf("\n");
 
@@ -481,7 +481,7 @@ infotag(exp e, int i)
 		while (!finished) {
 			finished = point->last;
 			printf("| pt          = 0x%-8x   |   ", (unsigned int)pt(point));
-			point = bro(point);
+			point = next(point);
 		}
 		printf("\n");
 
@@ -498,7 +498,7 @@ infotag(exp e, int i)
 			if (finished == 0) {
 				printf("-->");
 			}
-			point = bro(point);
+			point = next(point);
 		}
 		printf("\n");
 
@@ -512,7 +512,7 @@ infotag(exp e, int i)
 			} else {
 				printf("|                            |   ");
 			}
-			point = bro(point);
+			point = next(point);
 		}
 		printf("\n");
 
@@ -525,7 +525,7 @@ infotag(exp e, int i)
 			} else {
 				printf("|                            |   ");
 			}
-			point = bro(point);
+			point = next(point);
 		}
 		printf("\n");
 
@@ -540,7 +540,7 @@ infotag(exp e, int i)
 				printf("|                            |   ");
 			}
 
-			point = bro(point);
+			point = next(point);
 		}
 		printf("\n");
 
@@ -549,7 +549,7 @@ infotag(exp e, int i)
 		while (!finished) {
 			finished = point->last;
 			printf("------------------------------   ");
-			point = bro(point);
+			point = next(point);
 		}
 		printf("\n");
 
@@ -565,7 +565,7 @@ infotag(exp e, int i)
 				printf("                |                ");
 			}
 
-			point = bro(point);
+			point = next(point);
 		}
 		printf("\n");
 	}
@@ -673,7 +673,7 @@ exp_show(exp e, int depth, int depth_of_recursion, int flag)
 			exp s = son(e);
 			do {
 				int label;
-				s = bro(s);
+				s = next(s);
 				printf("(0x%x)", (int)s);
 				print_spaces(depth + 1);
 				printf("(%ld", no(s));
@@ -891,7 +891,7 @@ exp_show(exp e, int depth, int depth_of_recursion, int flag)
 	if (e->last || flag) {
 		return;
 	} else {
-		exp_show(bro(e), depth, depth_of_recursion, 0);
+		exp_show(next(e), depth, depth_of_recursion, 0);
 		return;
 	}
 }

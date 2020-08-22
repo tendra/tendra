@@ -38,7 +38,7 @@ sbl(exp e, int count, int newdecs,
 		return c;
 	}
 
-	return sbl(bro(e), c, newdecs,
+	return sbl(next(e), c, newdecs,
 		crit_decs, crit_decsatapp, apply_cost);
 }
 
@@ -80,7 +80,7 @@ complexity(exp e, int count, int newdecs,
 			crit_decs, crit_decsatapp, apply_cost);
 
 	case rep_tag:
-		return complexity(bro(son(e)), count - 1, newdecs + 1,
+		return complexity(next(son(e)), count - 1, newdecs + 1,
 			crit_decs, crit_decsatapp, apply_cost);
 
 	case res_tag:
@@ -116,7 +116,7 @@ complexity(exp e, int count, int newdecs,
 		return count - 1;
 
 	case labst_tag:
-		return complexity(bro(son(e)), count, newdecs,
+		return complexity(next(son(e)), count, newdecs,
 			crit_decs, crit_decsatapp, apply_cost);
 
 	case cond_tag:

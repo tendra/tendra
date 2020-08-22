@@ -96,11 +96,11 @@ rept:
 
 		if (na == ident_tag) {
 			int good = son(a) != NULL && son(b) != NULL &&
-			           bro(son(a)) != NULL && bro(son(b)) != NULL;
+			           next(son(a)) != NULL && next(son(b)) != NULL;
 
 			if (good) {
-				exp bsa = bro(son(a));
-				exp bsb = bro(son(b));
+				exp bsa = next(son(a));
+				exp bsb = next(son(b));
 
 				if (bsa->tag == name_tag && son(bsa) == a &&
 				    bsb->tag == name_tag && son(bsb) == b) {
@@ -560,7 +560,7 @@ operand(int le, where wh, int b, int addr)
 		} /* end of cont(reff()) */
 
 		if (s == addptr_tag) {
-			exp u = bro(son(ref));
+			exp u = next(son(ref));
 			exp c = getexp(f_bottom, NULL, 0, son(ref), NULL, 0, 0, cont_tag);
 			where wc, wu;
 
@@ -575,7 +575,7 @@ operand(int le, where wh, int b, int addr)
 			} /* end of cont(addptr(-, name)) */
 
 			if (u->tag == offset_mult_tag) {
-				int  k = no(bro(son (u))) / 8; /* cannot be bitfield */
+				int  k = no(next(son (u))) / 8; /* cannot be bitfield */
 				wu.where_exp = son(u);
 				index_opnd(wc, wu, k);
 				return;
@@ -633,7 +633,7 @@ operand(int le, where wh, int b, int addr)
 	} /* end of reff() */
 
 	if (n == addptr_tag) {
-		exp u = bro(son(w));
+		exp u = next(son(w));
 		exp c = getexp(f_bottom, NULL, 0, son(w), NULL, 0, 0, cont_tag);
 		where wc, wu;
 
@@ -648,7 +648,7 @@ operand(int le, where wh, int b, int addr)
 		} /* end of addptr(-, name)  */
 
 		if (u->tag == offset_mult_tag) {
-			int  k = no(bro(son (u))) / 8;	/* cannot be bitfield */
+			int  k = no(next(son (u))) / 8;	/* cannot be bitfield */
 			wu.where_exp = son(u);
 			index_opnd(wc, wu, k);
 			return;

@@ -81,7 +81,7 @@ static bool
 regremoved(exp * seq, int reg)
 {
 	exp s = *seq;
-	exp t = bro(s);
+	exp t = next(s);
 
 	if (ABS(regofval(s)) == reg) {
 		*seq = t;
@@ -90,7 +90,7 @@ regremoved(exp * seq, int reg)
 
 	for (;;) {
 		if (ABS(regofval(t)) == reg) {
-			bro(s) = bro(t);
+			next(s) = next(t);
 			if (t->last) {
 				s->last = true;
 			}
@@ -102,7 +102,7 @@ regremoved(exp * seq, int reg)
 		}
 
 		s = t;
-		t = bro(t);
+		t = next(t);
 	}
 }
 
@@ -218,7 +218,7 @@ do_comm(exp seq, space sp, int final, ins_p rins)
 	space nsp;
 	int a1;
 	int a2;
-	exp next = bro(seq);
+	exp next = next(seq);
 
 	if (seq->tag == not_tag &&
 	    next->last &&
@@ -249,7 +249,7 @@ do_comm(exp seq, space sp, int final, ins_p rins)
 	    rins == i_and &&
 	    seq->tag == shr_tag)
 	{
-		exp shift = bro(son(seq));
+		exp shift = next(son(seq));
 
 		if (shift->tag == val_tag) {
 			int n, s;
@@ -277,7 +277,7 @@ do_comm(exp seq, space sp, int final, ins_p rins)
 
 	/* evaluate 1st operand into a1 */
 
-	if (seq->tag == cont_tag && bro(seq)->tag == val_tag && bro(seq)->last
+	if (seq->tag == cont_tag && next(seq)->tag == val_tag && next(seq)->last
 	    && !(props(son(seq)) & inreg_bits)) {
 		reg_operand_here(seq, sp, final);
 		a1 = final;
@@ -294,7 +294,7 @@ do_comm(exp seq, space sp, int final, ins_p rins)
 
 	for (;;) {
 		nsp = guardreg(a1, sp);
-		seq = bro(seq);
+		seq = next(seq);
 
 		if (seq->tag == val_tag) {	/* next operand is a constant */
 			int n = no(seq);
@@ -436,7 +436,7 @@ int
 non_comm_op(exp e, space sp, where dest, ins_p rins)
 {
 	exp l = son(e);
-	exp r = bro(l);
+	exp r = next(l);
 	int a1 = reg_operand(l, sp);
 	space nsp;
 	int a2;
@@ -655,10 +655,10 @@ quad_op(exp e, space sp, where dest)
 			: 25, ARG2);
 		if (IsRev(e)) {
 			r = son(e);
-			l = bro(r);
+			l = next(r);
 		} else {
 			l = son(e);
-			r = bro(l);
+			r = next(l);
 		}
 
 		quad_addr(l, ARG0, sp);
@@ -808,10 +808,10 @@ quad_op(exp e, space sp, where dest)
 		stub = "ARGW0=GR,ARGW1=GR";
 		if (IsRev(e)) {
 			r = son(e);
-			l = bro(r);
+			l = next(r);
 		} else {
 			l = son(e);
-			r = bro(l);
+			r = next(l);
 		}
 
 		quad_addr(l, ARG0, sp);
@@ -938,7 +938,7 @@ int
 fop(exp e, space sp, where dest, ins_p ins)
 {
 	exp l = son(e);
-	exp r = bro(l);
+	exp r = next(l);
 	int a1, a2, dble;
 	space nsp;
 	freg fr;

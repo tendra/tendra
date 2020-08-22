@@ -84,7 +84,7 @@ use_pop_ass(exp n, exp ln)
 	while (n != id && n->last &&
 		   (is_a(n->tag) || n->tag == ident_tag ||
 			n->tag == ass_tag)) {
-		n = bro(n);
+		n = next(n);
 	}
 
 	if (n == id) {
@@ -109,7 +109,7 @@ use_pop(exp n, exp ln)
 
 	id = son(ln);
 	while (n != id && n->last) {
-		n = bro(n);
+		n = next(n);
 	}
 
 	if (n == id) {

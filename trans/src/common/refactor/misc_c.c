@@ -37,7 +37,7 @@ invar_list(exp e)
 			return true;
 		}
 
-		e = bro(e);
+		e = next(e);
 	}
 }
 
@@ -78,47 +78,47 @@ take_out_of_line(exp first, exp alt, int in_repeat, double scale)
 	          sh(first)->tag == bothd && no(son(alt)) == 1 &&
 	          ((is_tester(son(son(first)), 0) && pt(son(son(first))) == alt) ||
 	           (son(son(first))->tag == ident_tag &&
-	            is_tester(bro(son(son(son(first)))), 0) &&
-	            pt(bro(son(son(son(first))))) == alt));
+	            is_tester(next(son(son(son(first)))), 0) &&
+	            pt(next(son(son(son(first))))) == alt));
 	if (!extract && first->tag == seq_tag && no(son(alt)) == 1 &&
-	    bro(son(first))->tag == apply_tag &&
+	    next(son(first))->tag == apply_tag &&
 	    ((is_tester(son(son(first)), 0) && pt(son(son(first))) == alt) ||
 	     (son(son(first))->tag == ident_tag &&
-	      is_tester(bro(son(son(son(first)))), 0) &&
-	      pt(bro(son(son(son(first))))) == alt))) {
+	      is_tester(next(son(son(son(first)))), 0) &&
+	      pt(next(son(son(son(first))))) == alt))) {
 		extract = true;
 	}
 
 	if (!extract && first->tag == seq_tag && no(son(alt)) == 1 &&
 	    ((is_tester(son(son(first)), 1) && pt(son(son(first))) == alt &&
-	      bro(son(son(son(first))))->tag == null_tag) ||
+	      next(son(son(son(first))))->tag == null_tag) ||
 	     (son(son(first))->tag == ident_tag &&
-	      is_tester(bro(son(son(son(first)))), 1) &&
-	      pt(bro(son(son(son(first))))) == alt &&
-	      bro(son(bro(son(son(son(first))))))->tag == null_tag))) {
+	      is_tester(next(son(son(son(first)))), 1) &&
+	      pt(next(son(son(son(first))))) == alt &&
+	      next(son(next(son(son(son(first))))))->tag == null_tag))) {
 		extract = true;
 	}
 
 	if (!extract && first->tag == seq_tag && no(son(alt)) == 1 &&
 	    son(son(first))->tag == ident_tag &&
-	    is_tester(bro(son(son(son(first)))), 0) &&
-	    pt(bro(son(son(son(first))))) == alt &&
-	    no(bro(son(son(son(first))))) < 29) {
+	    is_tester(next(son(son(son(first)))), 0) &&
+	    pt(next(son(son(son(first))))) == alt &&
+	    no(next(son(son(son(first))))) < 29) {
 		extract = true;
 	}
 
 	if (!extract && first->tag == seq_tag && no(son(alt)) == 1 &&
 	    (is_tester(son(son(first)), 0) && pt(son(son(first))) == alt)) {
-		exp q = bro(son(son(first)));
+		exp q = next(son(son(first)));
 		exp p = NULL;
 
 		if (q->tag == prof_tag) {
 			p = q;
 		}
 
-		if (q->tag == 0 && bro(q)->tag == seq_tag &&
-		    son(son(bro(q)))->tag == prof_tag) {
-			p = son(son(bro(q)));
+		if (q->tag == 0 && next(q)->tag == seq_tag &&
+		    son(son(next(q)))->tag == prof_tag) {
+			p = son(son(next(q)));
 		}
 
 		if (p != NULL && (double)(no(p)) < (0.29 * scale)) {
@@ -142,9 +142,9 @@ take_out_by_prob(exp first, exp alt)
 
 	if (!extract && first->tag == seq_tag && no(son(alt)) == 1 &&
 	    son(son(first))->tag == ident_tag &&
-	    is_tester(bro(son(son(son(first)))), 0) &&
-	    pt(bro(son(son(son(first))))) == alt &&
-	    no(bro(son(son(son(first))))) < 29) {
+	    is_tester(next(son(son(son(first)))), 0) &&
+	    pt(next(son(son(son(first))))) == alt &&
+	    no(next(son(son(son(first))))) < 29) {
 		extract = true;
 	}
 

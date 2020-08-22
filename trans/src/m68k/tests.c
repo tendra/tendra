@@ -63,7 +63,7 @@ no_side(exp e)
 {
 	int n = e->tag;
 	if (n == ident_tag) {
-		return no_side(son(e)) && (no_side(bro(son(e))));
+		return no_side(son(e)) && (no_side(next(son(e))));
 	}
 	return is_a(n) || n == test_tag || n == ass_tag || n == testbit_tag;
 }
@@ -86,7 +86,7 @@ push_arg(exp e)
 		return reg_result(sh(e));
 	}
 	if (n == ident_tag) {
-		return push_arg(son(e)) && push_arg(bro(son(e)));
+		return push_arg(son(e)) && push_arg(next(son(e)));
 	}
 	return 0;
 }
@@ -118,7 +118,7 @@ is_ptr_void(shape sha)
 			return 0;
 		}
 		ptrs++;
-		t = bro(t);
+		t = next(t);
 	} while (go);
 	if (ptrs < PTR_VOID_MIN) {
 		return 0;

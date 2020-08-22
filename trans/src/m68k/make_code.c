@@ -215,7 +215,7 @@ reuse(exp def)
 	case mult_tag: {
 		/* Allow at most two arguments - check both */
 		exp arg1 = son(def);
-		exp arg2 = bro(arg1);
+		exp arg2 = next(arg1);
 
 		if (arg1->last) {
 			return reuse_check(arg1);
@@ -241,7 +241,7 @@ reuse(exp def)
 	case shr_tag: {
 		/* Check two arguments */
 		exp arg1 = son(def);
-		exp arg2 = bro(arg1);
+		exp arg2 = next(arg1);
 		return reuse_check(arg1) || reuse_check(arg2);
 	}
 	}
@@ -284,7 +284,7 @@ alloc_variable(exp e, exp def, ash stack)
 
 	unsigned char n = def->tag;
 	exp s = son(def);
-	exp body = bro(def);
+	exp body = next(def);
 	int br = (int)no(e);
 
 	bool force_reg = isusereg(e);
@@ -415,7 +415,7 @@ alloc_variable(exp e, exp def, ash stack)
 	if (regable(e) && in_reg3) {
 		if ((n == apply_tag || n == apply_general_tag ||
 		     n == tail_call_tag) && shtype(sh(def)) != Freg &&
-		    nouse(bro(def))) {
+		    nouse(next(def))) {
 			dc.place = reg_pl;
 			dc.num = regmsk(REG_D0);
 			return dc;
@@ -468,23 +468,23 @@ solve(exp s, exp l, where dest, exp jr, ash stack)
 		long lb = next_lab();
 		exp record = simple_exp(0);
 
-		if (props(son(bro(l))) & 2) {
+		if (props(son(next(l))) & 2) {
 			record->last = true;
 		}
 
 		no(record) = stack;
 		sonno(record) = stack_dec;
 		ptno(record) = lb;
-		pt(son(bro(l))) = record;
-		dc = alloc_variable(bro(l), son(bro(l)), stack);
-		ptno(bro(l)) = dc.place;
-		no(bro(l)) = dc.num;
-		l = bro(l);
+		pt(son(next(l))) = record;
+		dc = alloc_variable(next(l), son(next(l)), stack);
+		ptno(next(l)) = dc.place;
+		no(next(l)) = dc.num;
+		l = next(l);
 	}
 
 	r1 = regsinuse;
 
-	if (s->tag != goto_tag || pt(s) != bro(s)) {
+	if (s->tag != goto_tag || pt(s) != next(s)) {
 		/* Code the starting expression */
 		have_cond = 0;
 		make_code(dest, stack, s);
@@ -498,7 +498,7 @@ solve(exp s, exp l, where dest, exp jr, ash stack)
 			make_jump(m_bra, ptno(jr));
 		}
 
-		t = bro(t);
+		t = next(t);
 		if (no(son(t)) > 0) {
 			make_label(ptno(pt(son(t))));
 			make_code(dest, stack, t);
@@ -512,7 +512,7 @@ solve(exp s, exp l, where dest, exp jr, ash stack)
 /*
  * The controlling number of the case statement is in the D1 register, from
  * which already has been deducted.  The list of options is given as a
- * bro-list in arg.  The routine returns the total number which has been
+ * next-list in arg.  The routine returns the total number which has been
  * deducted from D1 at the end.
  */
 static long
@@ -526,7 +526,7 @@ caser(exp arg, long already)
 	long i, j, n, *jtab;
 	long worth = 0;
 
-	for (t = bro(arg); go && (t != NULL); t = bro(t)) {
+	for (t = next(arg); go && (t != NULL); t = next(t)) {
 		if (is_signed(sh(t))) {
 			low = no(t);
 		} else {
@@ -556,13 +556,13 @@ caser(exp arg, long already)
 		}
 
 		worth += (low == high ? 1 : 2);
-		if (bro(t) != NULL) {
+		if (next(t) != NULL) {
 			double nextlow;
 
-			if (is_signed(sh(bro(t)))) {
-				nextlow = no(bro(t));
+			if (is_signed(sh(next(t)))) {
+				nextlow = no(next(t));
 			} else {
-				nextlow = (unsigned)no(bro(t));
+				nextlow = (unsigned)no(next(t));
 			}
 
 			if ((nextlow / 2) > (high / 2) + 20) {
@@ -582,9 +582,9 @@ caser(exp arg, long already)
 		/* Split into two */
 		long a;
 		exp new = copyexp(arg);
-		exp old_bro = bro(split_at);
-		bro(new) = old_bro;
-		bro(split_at) = NULL;
+		exp old_bro = next(split_at);
+		next(new) = old_bro;
+		next(split_at) = NULL;
 		split_at->last = true;
 
 		/* Code the first half */
@@ -607,7 +607,7 @@ caser(exp arg, long already)
 			jtab[i] = rlab;
 		}
 
-		for (t = bro(arg); t != NULL; t = bro(t)) {
+		for (t = next(arg); t != NULL; t = next(t)) {
 			if (is_signed(sh(t))) {
 				low = no(t);
 			} else {
@@ -682,7 +682,7 @@ caser(exp arg, long already)
 	}
 
 	/* A series of jumps/comparisons */
-	for (t = bro(arg); t != NULL; t = bro(t)) {
+	for (t = next(arg); t != NULL; t = next(t)) {
 		if (is_signed(sh(t))) {
 			low = no(t);
 		} else {
@@ -761,7 +761,7 @@ reset_stack_pointer(void)
 static bool
 red_jump(exp e, exp la)
 {
-	if (!la->last && pt(e) == bro(la)) {
+	if (!la->last && pt(e) == next(la)) {
 		return 1;
 	}
 
@@ -817,7 +817,7 @@ make_code(where dest, ash stack, exp e)
 
 		/* Find the identity definition and body */
 		exp def = son(e);
-		exp body = bro(def);
+		exp body = next(def);
 
 		/* Check up on uses */
 		exp x = pt(e);
@@ -918,12 +918,12 @@ make_code(where dest, ash stack, exp e)
 		while (make_code(zero, stack, t),
 		       no_bottom = (sh(t)->tag != bothd),
 		       !t->last) {
-			t = bro(t);
+			t = next(t);
 		}
 
 		/* Code the result expression if necessary */
 		if (no_bottom) {
-			make_code(dest, stack, bro(son(e)));
+			make_code(dest, stack, next(son(e)));
 		}
 
 		return;
@@ -938,16 +938,16 @@ make_code(where dest, ash stack, exp e)
 
 		/* Find the first and alternative expressions */
 		exp first = son(e);
-		exp alt = bro(first);
+		exp alt = next(first);
 
 		/* Check for "if cond goto ..." */
-		if (bro(son(alt))->tag == goto_tag) {
+		if (next(son(alt))->tag == goto_tag) {
 			is_condgoto = 1;
 		}
 
 		/* Find or create the label */
 		if (is_condgoto) {
-			record = pt(son(pt(bro(son(alt)))));
+			record = pt(son(pt(next(son(alt)))));
 		} else {
 			lb = next_lab();
 			record = simple_exp(0);
@@ -967,7 +967,7 @@ make_code(where dest, ash stack, exp e)
 		/* If first is just a jump to alt, just encode alt */
 		if (first->tag == goto_tag && pt(first) == alt &&
 		    son(first) != NULL && sh(son(first))->tag == tophd) {
-			make_code(dest, stack, bro(son(alt)));
+			make_code(dest, stack, next(son(alt)));
 			return;
 		}
 
@@ -980,7 +980,7 @@ make_code(where dest, ash stack, exp e)
 		regsinuse = r1;
 
 		/* If alt is trivial, no further action is required */
-		if (bro(son(alt))->tag == top_tag) {
+		if (next(son(alt))->tag == top_tag) {
 			bitpattern ch = last_jump_regs;
 			make_label(ptno(record));
 			if (!is_condgoto && !output_immediately &&
@@ -1043,7 +1043,7 @@ make_code(where dest, ash stack, exp e)
 		}
 
 		/* Encode the body */
-		make_code(dest, stack, bro(son(e)));
+		make_code(dest, stack, next(son(e)));
 
 		/* Update max_stack and regsinuse */
 		if (dc.place == var_pl) {
@@ -1067,7 +1067,7 @@ make_code(where dest, ash stack, exp e)
 
 		/* Find the starter and the body of the loop */
 		exp start = son(e);
-		exp body = bro(start);
+		exp body = next(start);
 
 		/* Allocate space */
 		dc = alloc_variable(body, son(body), stack);
@@ -1099,9 +1099,9 @@ make_code(where dest, ash stack, exp e)
 		exp lab;
 
 		/* Try to avoid unnecessary jumps */
-		if (e->last && bro(e)->tag == seq_tag &&
-		    bro(bro(e))->tag == labst_tag &&
-		    red_jump(e, bro(e))) {
+		if (e->last && next(e)->tag == seq_tag &&
+		    next(next(e))->tag == labst_tag &&
+		    red_jump(e, next(e))) {
 			return;
 		}
 
@@ -1143,7 +1143,7 @@ make_code(where dest, ash stack, exp e)
 
 	case long_jump_tag: {
 		exp new_env = son(e);
-		exp dest_lab = bro(new_env);
+		exp dest_lab = next(new_env);
 		asm_comment("long_jump");
 
 		move(sh(dest_lab), zw(dest_lab), A0);
@@ -1169,7 +1169,7 @@ make_code(where dest, ash stack, exp e)
 
 		/* Find the expressions being compared */
 		exp arg1 = son(e);
-		exp arg2 = bro(arg1);
+		exp arg2 = next(arg1);
 
 		/* Find the label to be jumped to */
 		exp lab_exp = pt(e);
@@ -1309,7 +1309,7 @@ make_code(where dest, ash stack, exp e)
 
 		/* Find the arguments */
 		exp arg1 = son(e);
-		exp arg2 = bro(arg1);
+		exp arg2 = next(arg1);
 
 		/* Find the label to be jumped to */
 		exp lab_exp = pt(e);
@@ -1345,7 +1345,7 @@ make_code(where dest, ash stack, exp e)
 	case assvol_tag: {
 		/* Variable assignments */
 		exp assdest = son(e);
-		exp assval = bro(assdest);
+		exp assval = next(assdest);
 		asm_comment("assign ...");
 		if (sh(assval)->tag == bitfhd) {
 			int_to_bitf(assval, e, stack);
@@ -1385,7 +1385,7 @@ make_code(where dest, ash stack, exp e)
 				return;
 			}
 			crt += off;
-			v = bro(v);
+			v = next(v);
 		}
 
 		/* Not reached */
@@ -1447,7 +1447,7 @@ make_code(where dest, ash stack, exp e)
 	case concatnof_tag: {
 		ash stack2;
 		exp a1 = son(e);
-		exp a2 = bro(a1);
+		exp a2 = next(a1);
 		long off = dest.wh_off + shape_size(sh(a1));
 		make_code(dest, stack, a1);
 		stack2 = stack_room(stack, dest, off);
@@ -1493,7 +1493,7 @@ make_code(where dest, ash stack, exp e)
 
 		/* Find the procedure and the arguments */
 		exp proc = son(e);
-		exp arg = (proc->last ? NULL : bro(proc));
+		exp arg = (proc->last ? NULL : next(proc));
 
 #if 0
 		/*
@@ -1528,7 +1528,7 @@ make_code(where dest, ash stack, exp e)
 				a = add_shape_to_stack(st, sh(t));
 				st = a.astash;
 
-				t = (t->last ? NULL : bro(t));
+				t = (t->last ? NULL : next(t));
 			}
 		}
 		longs = st;
@@ -1591,7 +1591,7 @@ make_code(where dest, ash stack, exp e)
 				make_code(stp, stack, t);
 				a = add_shape_to_stack(st, sh(t));
 				st = a.astash;
-				t = (t->last ? NULL : bro(t));
+				t = (t->last ? NULL : next(t));
 			}
 
 			apply_tag_flag--;
@@ -1768,7 +1768,7 @@ make_code(where dest, ash stack, exp e)
 
 	case local_free_tag: {
 		exp base = son(e);
-		exp offset = bro(base);
+		exp offset = next(base);
 		exp s_a0 = sim_exp(sh(base), A0);
 		where w_a0;
 		w_a0 = zw(s_a0);
@@ -1908,9 +1908,9 @@ make_code(where dest, ash stack, exp e)
 
 		/* Mark the end of the cases */
 		while (!t->last) {
-			t = bro(t);
+			t = next(t);
 		}
-		bro(t) = NULL;
+		next(t) = NULL;
 
 		d1 = sim_exp(sh(arg1), D1);
 		w1 = zw(d1);
@@ -1931,8 +1931,8 @@ make_code(where dest, ash stack, exp e)
 	case movecont_tag: {
 		/* This is done by a library call to memmove */
 		exp from_exp = son(e);
-		exp to_exp = bro(from_exp);
-		exp num_bytes = bro(to_exp);
+		exp to_exp = next(from_exp);
+		exp num_bytes = next(to_exp);
 		mach_op *op = make_extern_ind(abi == ABI_SUNOS ? "_bcopy" : "_memmove", 0);
 		asm_comment("move_some ...");
 		push(slongsh, 32L, D0);

@@ -71,9 +71,9 @@ exp
 me_complete_id(exp id, exp body)
 {
 	son(id)->last = false;
-	bro(son(id)) = body;
+	next(son(id)) = body;
 	body->last = true;
-	bro(body) = id;
+	next(body) = id;
 	sh(id) = sh(body);
 	return hold_refactor(id);
 }
@@ -273,7 +273,7 @@ note_repeat(exp r)
 	pt(r) = crt_repeat;
 
 	son(crt_repeat) = r;
-	crt_repeat = bro(crt_repeat);
+	crt_repeat = next(crt_repeat);
 }
 
 

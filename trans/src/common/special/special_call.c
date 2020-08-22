@@ -54,15 +54,15 @@ special_strcpy(dec *dp)
 		exp src_def;
 		shape sha;
 
-		if (t->last || bro(t)->last || !bro(bro(t))->last ||
-			bro(bro(bro(t)))->tag != apply_tag ||
-			son(bro(bro(bro(t)))) != t)
+		if (t->last || next(t)->last || !next(next(t))->last ||
+			next(next(next(t)))->tag != apply_tag ||
+			son(next(next(next(t)))) != t)
 		{
 			continue;
 		}
 
-		dst = bro(t);
-		src = bro(dst);
+		dst = next(t);
+		src = next(dst);
 
 		if (src->tag != name_tag ||
 			!isglob(son(src)) || !isvar(son(src)) || no(son(src)) != 1)
@@ -91,8 +91,8 @@ special_strcpy(dec *dp)
 
 			if (j < l) {
 				exp q;
-				exp to_change = bro(src);
-				exp idsc = getexp(sh(bro(src)), NULL, 0, dst, NULL, 0, 2, ident_tag);
+				exp to_change = next(src);
+				exp idsc = getexp(sh(next(src)), NULL, 0, dst, NULL, 0, 2, ident_tag);
 				exp n1 = getexp(sh(dst), NULL, 0, idsc, NULL, 0, 0, name_tag);
 				exp n2 = getexp(sh(dst), NULL, 0, idsc, n1, 0, 0, name_tag);
 				exp_list el;
@@ -106,7 +106,7 @@ special_strcpy(dec *dp)
 
 				q = f_sequence(el, n2);
 				dst->last = false;
-				bro(dst) = q;
+				next(dst) = q;
 				setfather(idsc, q);
 				kill_exp(t, t);
 				replace(to_change, idsc, idsc);
@@ -138,14 +138,14 @@ special_strlen(dec *dp)
 		exp st_def;
 		shape sha;
 
-		if (t->last || !bro(t)->last ||
-			bro(bro(t))->tag != apply_tag ||
-			son(bro(bro(t))) != t)
+		if (t->last || !next(t)->last ||
+			next(next(t))->tag != apply_tag ||
+			son(next(next(t))) != t)
 		{
 			continue;
 		}
 
-		st = bro(t);
+		st = next(t);
 
 		if (st->tag != name_tag || !isglob(son(st)) ||
 			!isvar(son(st)) || no(son(st)) != 1)
@@ -173,7 +173,7 @@ special_strlen(dec *dp)
 				;
 
 			if (j < l) {
-				exp to_change = bro(st);
+				exp to_change = next(st);
 				exp res = getexp(sh(to_change), NULL, 0, NULL, NULL, 0, j, val_tag);
 				kill_exp(t, t);
 				replace(to_change, res, NULL);

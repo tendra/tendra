@@ -85,15 +85,15 @@ evalexp(exp e)
 	}
 
 	case not_tag: return ~evalexp(son(e));
-	case and_tag: return evalexp(son(e))  & evalexp(bro(son(e)));
-	case or_tag:  return evalexp(son(e))  | evalexp(bro(son(e)));
-	case xor_tag: return evalexp(son(e))  ^ evalexp(bro(son(e)));
-	case shr_tag: return evalexp(son(e)) >> evalexp(bro(son(e)));
-	case shl_tag: return evalexp(son(e)) << evalexp(bro(son(e)));
+	case and_tag: return evalexp(son(e))  & evalexp(next(son(e)));
+	case or_tag:  return evalexp(son(e))  | evalexp(next(son(e)));
+	case xor_tag: return evalexp(son(e))  ^ evalexp(next(son(e)));
+	case shr_tag: return evalexp(son(e)) >> evalexp(next(son(e)));
+	case shl_tag: return evalexp(son(e)) << evalexp(next(son(e)));
 
 	case concatnof_tag: {
 		long  wd = evalexp(son(e));
-		return wd | (evalexp(bro(son(e))) << shape_size(sh(son(e))));
+		return wd | (evalexp(next(son(e))) << shape_size(sh(son(e))));
 	}
 
 	case clear_tag:
@@ -118,21 +118,21 @@ evalexp(exp e)
 
 	case offset_max_tag: {
 		long a = evalexp(son(e));
-		long b = evalexp(bro(son(e)));
+		long b = evalexp(next(son(e)));
 		return a > b ? a : b;
 	}
 
 	case offset_pad_tag:        return rounder(evalexp(son(e)), shape_align(sh(e)) / 8);
-	case offset_add_tag:        return evalexp(son(e)) + evalexp(bro(son(e)));
-	case offset_mult_tag:       return evalexp(son(e)) * evalexp(bro(son(e)));
+	case offset_add_tag:        return evalexp(son(e)) + evalexp(next(son(e)));
+	case offset_mult_tag:       return evalexp(son(e)) * evalexp(next(son(e)));
 	case offset_div_tag:
-	case offset_div_by_int_tag: return evalexp(son(e)) / evalexp(bro(son(e)));
-	case offset_subtract_tag:   return evalexp(son(e)) - evalexp(bro(son(e)));
+	case offset_div_by_int_tag: return evalexp(son(e)) / evalexp(next(son(e)));
+	case offset_subtract_tag:   return evalexp(son(e)) - evalexp(next(son(e)));
 	case offset_negate_tag:     return -evalexp(son(e));
 
 	case seq_tag:
 		if (son(son(e))->tag == prof_tag && son(son(e))->last) {
-			return evalexp(bro(son(e)));
+			return evalexp(next(son(e)));
 		}
 		break;
 
@@ -277,7 +277,7 @@ evalaux(exp e, int isconst, int al)
 
 		for (;;) {
 			off = no(offe);
-			val = bro(offe);
+			val = next(offe);
 
 			if (bits_left &&
 			    off >= (crt_off + 8)) {
@@ -339,7 +339,7 @@ evalaux(exp e, int isconst, int al)
 				return;
 			}
 
-			offe = bro(val);
+			offe = next(val);
 		}
 	}
 
@@ -449,14 +449,14 @@ evalaux(exp e, int isconst, int al)
 				return;
 			}
 
-			t = bro(t);
+			t = next(t);
 			dot_align((shape_align(sh(t)) <= 8) ? 1 : shape_align(sh(t)) / 8);
 		}
 	}
 
 	if (n == concatnof_tag) {
 		evalaux(son(e), isconst, al);
-		evalaux(bro(son(e)), isconst, (al + shape_size(son(e))) & 63);
+		evalaux(next(son(e)), isconst, (al + shape_size(son(e))) & 63);
 		return;
 	}
 

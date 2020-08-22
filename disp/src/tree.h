@@ -23,7 +23,7 @@ typedef struct s_word {
     int length;
     char *text;
     struct s_word *son;
-    struct s_word *bro;
+    struct s_word *next;
 } word;
 
 
@@ -58,7 +58,7 @@ typedef struct s_word {
  */
 
 #define blank_line()		(void)new_word(SIMPLE)
-#define end_word(X)		word_ptr = (X); word_ptr->bro = NULL
+#define end_word(X)		word_ptr = (X); word_ptr->next = NULL
 
 extern int length;
 extern word word1;

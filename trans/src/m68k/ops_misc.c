@@ -883,7 +883,7 @@ move_from_freg(long sz, where from, where to)
 		}
 		push_float(sz, from);
 		pop(slongsh, 32L, zw(son(te)));
-		pop(slongsh, 32L, zw(bro(te)));
+		pop(slongsh, 32L, zw(next(te)));
 		have_cond = 0;
 		return;
 	}
@@ -927,7 +927,7 @@ move_to_freg(long sz, where from, where to)
 		if (sz != 64) {
 			error(ERR_SERIOUS, "Wrong floating variety");
 		}
-		push(slongsh, 32L, zw(bro(fe)));
+		push(slongsh, 32L, zw(next(fe)));
 		push(slongsh, 32L, zw(son(fe)));
 		pop_float(sz, to);
 		have_cond = 0;
@@ -1075,14 +1075,14 @@ move_bytes(long sz, where from, where to, int down)
 		case 0: op1 = make_indirect(r1, off / 8);               break;
 		case 2: op1 = make_lab_ind (r1, off / 8);               break;
 		case 3: op1 = operand(32L, mw(fe, fof + off));          break;
-		case 4: op1 = operand(32L, zw(sz ? bro(fe) : son(fe))); break;
+		case 4: op1 = operand(32L, zw(sz ? next(fe) : son(fe))); break;
 		}
 
 		switch (s2) {
 		case 0: op2 = make_indirect(r2, off / 8);               break;
 		case 1: op2 = make_dec_sp();                            break;
 		case 3: op2 = operand(32L, mw(te, tof + off));          break;
-		case 4: op2 = operand(32L, zw(sz ? bro(te) : son(te))); break;
+		case 4: op2 = operand(32L, zw(sz ? next(te) : son(te))); break;
 		}
 
 		make_instr(instr, op1, op2, 0);
@@ -1163,7 +1163,7 @@ move(shape sha, where from, where to)
 
 			case RegPair:
 				from1 = zw(son(fe));
-				from2 = zw(bro(fe));
+				from2 = zw(next(fe));
 				break;
 
 			case Variable:
@@ -1245,7 +1245,7 @@ move(shape sha, where from, where to)
 					ins2(m_movl, 32L, 32L, from1,
 					     zw(son(te)), 1);
 					ins2(m_movl, 32L, 32L, from2,
-					     zw(bro(te)), 1);
+					     zw(next(te)), 1);
 					have_cond = 0;
 					return;
 				}
@@ -1262,7 +1262,7 @@ move(shape sha, where from, where to)
 				error(ERR_SERIOUS, "Wrong floating variety");
 			}
 
-			ins2(m_movl, 32L, 32L, zw(bro(fe)), mw(te, tof + 32), 1);
+			ins2(m_movl, 32L, 32L, zw(next(fe)), mw(te, tof + 32), 1);
 			ins2(m_movl, 32L, 32L, zw(son(fe)), to, 1);
 			have_cond = 0;
 			return;
@@ -1274,7 +1274,7 @@ move(shape sha, where from, where to)
 			}
 			ins2(m_movl, 32L, 32L, from, zw(son(te)), 1);
 			ins2(m_movl, 32L, 32L, mw(fe, fof + 32),
-			     zw(bro(te)), 1);
+			     zw(next(te)), 1);
 			have_cond = 0;
 			return;
 		}

@@ -745,16 +745,16 @@ bit_pos_cont(exp e, int nbits)
 	}
 
 	if (e->tag == ident_tag) {
-		if (bro(son(e))->tag == reff_tag) {
-			return adjust_pos(bro(son(e)), nbits);
+		if (next(son(e))->tag == reff_tag) {
+			return adjust_pos(next(son(e)), nbits);
 		}
 
-		if (bro(son(e))->tag == ident_tag) {
-			return bit_pos_cont(bro(son(e)), nbits);
+		if (next(son(e))->tag == ident_tag) {
+			return bit_pos_cont(next(son(e)), nbits);
 		}
 
-		if (bro(son(e))->tag == name_tag &&
-		    son(bro(son(e))) == e &&
+		if (next(son(e))->tag == name_tag &&
+		    son(next(son(e))) == e &&
 		    son(e)->tag == name_tag) {
 			return bit_pos_cont(son(son(e)), nbits);
 		}

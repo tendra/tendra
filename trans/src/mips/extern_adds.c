@@ -29,7 +29,7 @@
 
    initially replace usage chain by
      name:0; pt: usage chain in proc P; son: P; props: !=0 if in loop
-	no: no of usages in proc; bro: last in usage chain;
+	no: no of usages in proc; next: last in usage chain;
     in usages[no of procs]
     Use this to determine if and where to identify global to a proc local
 
@@ -113,7 +113,7 @@ global_usages(exp id, int nop)
 		shape sname = f_pointer(f_alignment(sh(id)));
 		for(pi= &son(son(ui));;) {
 		  if ((*pi)->tag== ident_tag && isparam(*pi)) {
-		  	pi = &bro(son(*pi));
+		  	pi = &next(son(*pi));
 		  }
 		  else
 		  if ((*pi)->tag == diagnose_tag || (*pi)->tag == prof_tag) {
@@ -123,11 +123,11 @@ global_usages(exp id, int nop)
 		  	/* invent new def to identify global ... */
 			exp nl = getexp(sname,
 				   *pi, 0, id, pt(id), 0, 0, name_tag);
-			exp ndef = getexp(sh(*pi), bro(*pi), (*pi)->last,
+			exp ndef = getexp(sh(*pi), next(*pi), (*pi)->last,
 					 nl, NULL, 0x10 /*don't defer */,
 					0, ident_tag);
 			exp lu = pt(ui);
-			(*pi)->last = true; bro(*pi) = ndef;
+			(*pi)->last = true; next(*pi) = ndef;
 			pt(id) = nl; no(id)++;
 			*pi = ndef;
 			/*... and replace uses of global by ndef */
@@ -135,11 +135,11 @@ global_usages(exp id, int nop)
 			  exp nlu = pt(lu);
 			  if (no(lu)!=0) {
 				exp * plu = ptr_position(lu);
-				exp nrf = getexp(sh(lu), bro(lu), lu->last,
+				exp nrf = getexp(sh(lu), next(lu), lu->last,
 						lu, NULL, 0, no(lu), reff_tag);
 				sh(lu) = sname;
 				no(lu) = 0;
-				bro(lu) = nrf; lu->last = true;
+				next(lu) = nrf; lu->last = true;
 				*plu = nrf;
 			  }
 			  son(lu) = ndef;
@@ -153,7 +153,7 @@ global_usages(exp id, int nop)
 	      }
 	      else {
 	      	/* restore normal usage chain */
-		pt(bro(ui)) = pt(id);
+		pt(next(ui)) = pt(id);
 		pt(id) = pt(ui);
 		no(id)+= no(ui);
 	      }

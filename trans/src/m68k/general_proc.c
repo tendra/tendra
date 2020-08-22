@@ -137,7 +137,7 @@ gcproc(exp p, char *pname, long cname, int is_ext, int reg_res, diag_descriptor 
 	t = son(p);
 	while (t->tag == ident_tag && isparam(t) &&
 	       son(t)->tag != formal_callee_tag) {
-		t = bro(son(t));
+		t = next(son(t));
 		has_callers = 1;
 	}
 
@@ -162,7 +162,7 @@ gcproc(exp p, char *pname, long cname, int is_ext, int reg_res, diag_descriptor 
 
 			make_visible(t);
 
-			t = bro(son(t));
+			t = next(son(t));
 		}
 
 		cur_proc_callees_size = param_pos;
@@ -189,7 +189,7 @@ gcproc(exp p, char *pname, long cname, int is_ext, int reg_res, diag_descriptor 
 
 			make_visible(caller);
 
-			caller = bro(son(caller));
+			caller = next(son(caller));
 		}
 	}
 
@@ -617,7 +617,7 @@ push_dynamic_callees(exp pcallees, ash stack)
 {
 	mach_op *op1, *op2;
 	exp ptr = son(pcallees);
-	exp sze = bro(ptr);
+	exp sze = next(ptr);
 	exp ident, ident_def;
 	bool const_compound_shape = 0;
 	long total_size = 0;
@@ -641,7 +641,7 @@ push_dynamic_callees(exp pcallees, ash stack)
 		exp pair = son(ident_def);
 		if (pair) {
 			for (;;) {
-				pair = bro(pair);
+				pair = next(pair);
 				value = no(pair);
 
 				op1 = make_value(value);
@@ -652,7 +652,7 @@ push_dynamic_callees(exp pcallees, ash stack)
 				if (pair->last) {
 					break;
 				}
-				pair = bro(pair);
+				pair = next(pair);
 			}
 		}
 	} else {
@@ -801,7 +801,7 @@ static bool
 postlude_has_code(exp postlude)
 {
 	while (postlude->tag == ident_tag && son(postlude)->tag == caller_name_tag) {
-		postlude = bro(son(postlude));
+		postlude = next(son(postlude));
 	}
 
 	return postlude->tag != top_tag;
@@ -837,11 +837,11 @@ apply_general_proc(exp e, where dest, ash stack)
 
 	tmp_dest = dest;
 	proc = son(e);
-	caller_args = (!proc->last) ? bro(proc) : NULL;
+	caller_args = (!proc->last) ? next(proc) : NULL;
 
 	if (e->tag == apply_general_tag) {
-		pcallees     = bro(caller_args);
-		postlude    = bro(pcallees);
+		pcallees     = next(caller_args);
+		postlude    = next(pcallees);
 		callee_args = son(pcallees);
 		caller_args = son(caller_args);
 
@@ -1095,7 +1095,7 @@ test_push_args(exp args, ash* args_size)
 			no(arg) = stack_add_res.astoff + stack_add_res.astadj;
 		}
 
-		arg = (arg->last ? NULL : bro(arg));
+		arg = (arg->last ? NULL : next(arg));
 	}
 
 	(* args_size) = stack;
@@ -1138,7 +1138,7 @@ place_arguments(exp args, ash stack, long start)
 		stack_add_res = add_shape_to_stack(st, sh(formal));
 		st = stack_add_res.astash;
 
-		arg = (arg->last ? NULL : bro(arg));
+		arg = (arg->last ? NULL : next(arg));
 	}
 
 	apply_tag_flag --;
@@ -1147,7 +1147,7 @@ place_arguments(exp args, ash stack, long start)
 /*
  * PUSH A SET OF PROCEDURE ARGUMENTS
  *
- * The arguments are given by a bro-list t.
+ * The arguments are given by a next-list t.
  * They are coded in reverse order.
  */
 static void
@@ -1163,7 +1163,7 @@ push_args(where w, ash stack, exp args)
 		stack_dec -= rounder(sz, param_align);
 	} else {
 		/* Code the following arguments */
-		push_args(w, stack, bro(args));
+		push_args(w, stack, next(args));
 		/* And then this one */
 		formal = (args->tag == caller_tag) ? son(args) : args;
 		make_code(w, stack, formal);
@@ -1189,7 +1189,7 @@ tail_call(exp e, where dest, ash stack)
 	UNUSED(dest);
 
 	proc        = son(e);
-	pcallees    = bro(proc);
+	pcallees    = next(proc);
 	callee_args = son(pcallees);
 	use_push = 1;
 
@@ -1599,7 +1599,7 @@ code_postlude(exp postlude, exp callers, ash stack, long post_offset)
 		int n = no(son(postlude));
 		exp a = callers;
 		while (n != 0) {
-			a = bro(a);
+			a = next(a);
 			n--;
 		}
 		if (a->tag != caller_tag) {
@@ -1609,7 +1609,7 @@ code_postlude(exp postlude, exp callers, ash stack, long post_offset)
 		ptno(postlude) = par3_pl;
 		no(postlude) = no(a) + stack_dec + post_offset;
 
-		postlude = bro(son(postlude));
+		postlude = next(son(postlude));
 	}
 
 	/* code the postlude */
@@ -1684,7 +1684,7 @@ static void
 fix_addptr(exp addptr)
 {
 	exp pointer  = son(addptr);
-	exp offset   = bro(pointer);
+	exp offset   = next(pointer);
 	exp E1, E2, E3, E4, E5;
 	shape pc_sh;
 
@@ -1704,13 +1704,13 @@ fix_addptr(exp addptr)
 	 *
 	 *                addptr
 	 *                  |
-	 *                  |(son)   bro(son)
+	 *                  |(son)   next(son)
 	 *                  |-------------|
 	 *            E5  reff(8*8)     offset
 	 *                  |(son)
 	 *                  |
 	 *            E4  addptr
-	 *                  |(son)   bro(son)
+	 *                  |(son)   next(son)
 	 *                  |----------|
 	 *               pointer  E3  cont
 	 *                             |(son)
@@ -1731,14 +1731,14 @@ fix_addptr(exp addptr)
 	E5 = getexp(pc_sh, 0, 0, E4, 0, 0, 12 * 8, reff_tag);
 	son(addptr) = E5;
 
-	/* Terminate each bro list */
+	/* Terminate each next list */
 	setfather(E2, E1);
 	setfather(E3, E2);
 	setfather(E4, E3);
 	setfather(E5, E4);
 
-	bro(pointer) = E3;
-	bro(E5) = offset;
+	next(pointer) = E3;
+	next(E5) = offset;
 }
 
 /*
@@ -1751,7 +1751,7 @@ transform(exp e)
 
 	/* Transform the childs (if any) */
 	if (s && (e->tag != name_tag) && (e->tag != env_offset_tag) && (e->tag != case_tag))
-		for (; s && s != e; s = bro(s)) {
+		for (; s && s != e; s = next(s)) {
 			transform(s);
 		}
 

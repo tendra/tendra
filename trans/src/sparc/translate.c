@@ -248,7 +248,7 @@ mark_unaliased(exp e)
 	assert(!separate_units);
 
 	for (p = pt(e); p != NULL && ca; p = pt(p)) {
-		exp q = bro(p);
+		exp q = next(p);
 
 		if (q == NULL) {
 #ifdef TDF_DIAG4
@@ -257,7 +257,7 @@ mark_unaliased(exp e)
 				ca = 0;
 		} else {
 			if (!(p->last && q->tag == cont_tag) &&
-			  !(!p->last && q->last && bro(q)->tag == ass_tag))
+			  !(!p->last && q->last && next(q)->tag == ass_tag))
 			{
 #ifdef TDF_DIAG4
 				if (!isdiaginfo(p))
@@ -455,7 +455,7 @@ local_translate_capsule(void)
 
 		if ((s->tag == proc_tag || s->tag == general_proc_tag)) {
 			procrec *pr = &procrecs [ procno ];
-			pr->nameproc = bro(c);
+			pr->nameproc = next(c);
 			no(s) = procno++;
 		}
 	}
@@ -517,7 +517,7 @@ local_translate_capsule(void)
 
 				for (a = son(s);
 					a->tag == ident_tag && isparam(a) && son(a)->tag != formal_callee_tag;
-					a = bro(son(a)))
+					a = next(son(a)))
 				{
 					if (isenvoff(a) && caller_offset_used) {
 						any_envoff = 1;
@@ -605,7 +605,7 @@ local_translate_capsule(void)
 
 			/* estimate tag usage */
 			/* calculate register and stack allocation for tags */
-			forrest = regalloc(bro(son(s)), freefixed, freefloat, 0);
+			forrest = regalloc(next(son(s)), freefixed, freefloat, 0);
 			pr->spacereqproc = forrest;
 		}
 	}

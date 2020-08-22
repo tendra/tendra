@@ -66,7 +66,7 @@ trace_uses(exp e, exp id)
 	    if ( u != nouses || p == 2 ) useinpar = 1 ;
 	    if ( p == 0 ) nouses = u ;
 	    if ( ( l ) -> last ) break ;
-	    l = bro ( l ) ;
+	    l = next ( l ) ;
 	}
 	return 0;
     }
@@ -81,7 +81,7 @@ trace_uses(exp e, exp id)
 
 	case ident_tag : {
 	    exp f = son ( e ) ;
-	    exp s = bro ( f ) ;
+	    exp s = next ( f ) ;
 	    int a ;
 
 	    if ( ( props ( e ) & defer_bit ) != 0 ) {
@@ -109,9 +109,9 @@ trace_uses(exp e, exp id)
 		int el = trace_uses ( s, id ) ;
 		if ( el != 1 ) return el;
 		if ( ( s ) -> last ) {
-		    return trace_uses ( bro ( son ( e ) ), id ) ;
+		    return trace_uses ( next ( son ( e ) ), id ) ;
 		}
-		s = bro ( s ) ;
+		s = next ( s ) ;
 	    }
         UNREACHED;
 	    break ;
@@ -120,7 +120,7 @@ trace_uses(exp e, exp id)
 	case test_tag: case goto_lv_tag:{
 		int nu = nouses;
 		if (trace_uses(son(e),id) != 1 || 
-				trace_uses(bro(son(e)), id) !=1 ){
+				trace_uses(next(son(e)), id) !=1 ){
 			nouses = nu;
 		}
 		return 0;
@@ -129,10 +129,10 @@ trace_uses(exp e, exp id)
 	case ass_tag : {
 	    if ( isvar ( id ) && son ( e ) -> tag == name_tag &&
 		 son ( son ( e ) ) == id ) {
-		trace_uses ( bro ( son ( e ) ), id ) ;
+		trace_uses ( next ( son ( e ) ), id ) ;
 		return 2;
-	    } else if ( APPLYLIKE ( bro ( son ( e ) ) ) ) {
-		return trace_uses ( bro ( son ( e ) ), id ) ;
+	    } else if ( APPLYLIKE ( next ( son ( e ) ) ) ) {
+		return trace_uses ( next ( son ( e ) ), id ) ;
 	    }
 
 		FALL_THROUGH;
@@ -152,7 +152,7 @@ trace_uses(exp e, exp id)
 		    return el ;
 		}
 		if ( ( s ) -> last ) return 1;
-		s = bro ( s ) ;
+		s = next ( s ) ;
 	    }
         UNREACHED;
 	    break ;
@@ -189,9 +189,9 @@ after_a(exp a, exp id)
 	    return ;
 	}
 
-	for ( l = a ; ! l -> last ; l = bro ( l ) )
+	for ( l = a ; ! l -> last ; l = next ( l ) )
 	{
-	    int u = trace_uses ( bro ( l ), id ) ;
+	    int u = trace_uses ( next ( l ), id ) ;
 	    if ( u != 1 || nouses == 0 ) return ;
 	}
 	a = dad ;
@@ -234,9 +234,9 @@ tempdec(exp e, bool enoughs)
     if ( isvar ( e ) ) {
 	for ( p = pt ( e ) ; p != NULL ; p = pt ( p ) ) {
 	    /* find no of uses which are not assignments to id ... */
-	    if ( !  p -> last && bro ( p ) -> last &&
-		 bro ( bro ( p ) ) -> tag == ass_tag ) {
-		if ( !simple_seq ( bro ( bro ( p ) ), e ) ) return  ( 0 ) ;
+	    if ( !  p -> last && next ( p ) -> last &&
+		 next ( next ( p ) ) -> tag == ass_tag ) {
+		if ( !simple_seq ( next ( next ( p ) ), e ) ) return  ( 0 ) ;
 		/* ... in simple sequence */
 		continue ;
 	    }
@@ -258,9 +258,9 @@ tempdec(exp e, bool enoughs)
 
     if ( isvar ( e ) ) {
 	for ( p = pt ( e ) ; p != NULL ; p = pt ( p ) ) {
-	    if ( ! p -> last && bro ( p ) -> last &&
-		 bro ( bro ( p ) ) -> tag == ass_tag ) {
-		after_a ( bro ( bro ( p ) ), e ) ;
+	    if ( ! p -> last && next ( p ) -> last &&
+		 next ( next ( p ) ) -> tag == ass_tag ) {
+		after_a ( next ( next ( p ) ), e ) ;
 	    }
 	}
     }

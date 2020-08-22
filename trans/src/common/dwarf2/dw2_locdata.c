@@ -40,8 +40,8 @@
 
 /* Location list information is collected for each object, held via
    fields of the 'obtain_value' exp (which is a hold_tag). last is set if the
-   object is master of a new location. bro is used to hold references to other
-   objects that share this location (as a bro list).  no is label for shared
+   object is master of a new location. next is used to hold references to other
+   objects that share this location (as a next list).  no is label for shared
    location set.  pt holds other more temporary uses (via ll_item).
 */
 
@@ -173,7 +173,7 @@ set_locdata(obj_list this_obl)
 						no(x) = next_dwarf_label();
 					} else {
 						exp y = master->data.n_obj.obtain_val;
-						setbro(x, bro(y));
+						setbro(x, next(y));
 						setbro(y,
 						       (exp)((void *)this_name));
 						no(x) = no(y);
@@ -189,7 +189,7 @@ set_locdata(obj_list this_obl)
 							if (name->key == DGN_OBJECT) {
 								exp y = name->data.n_obj.obtain_val;
 								if (y && y->last && dw_has_location(son(y)) == id) {
-									setbro(x, bro(y));
+									setbro(x, next(y));
 									setbro(y, (exp)((void *)this_name));
 									no(x) = no(y);
 									check_taggable(name);
@@ -465,7 +465,7 @@ complete_dw_locdata(void)
 						regitem->name = NULL;
 						break;
 					}
-					name = (dg_name)((void *)bro(name->data.n_obj.obtain_val));
+					name = (dg_name)((void *)next(name->data.n_obj.obtain_val));
 				} while (name);
 				if (!name) {
 					/* regitem not in allocation shareset */
@@ -572,7 +572,7 @@ decide_ll_type(exp x)
 {
 	/* 1 if need location list, 2 if extension list */
 	ll_item l = (ll_item)((void *)(pt(x)));
-	if ((x->last && bro(x)) || (!x->last && no(x))) {
+	if ((x->last && next(x)) || (!x->last && no(x))) {
 		/* main location is shared */
 		return 2;
 	} else {
@@ -696,7 +696,7 @@ void
 out_obj_extloclist(long l1, long l2, exp x)
 {
 	ll_item l = (ll_item)((void *)(pt(x)));
-	if ((x->last && bro(x)) || (!x->last && no(x))) {
+	if ((x->last && next(x)) || (!x->last && no(x))) {
 		/* main location is shared */
 		out_loc_range(l1, l2, 0);
 		dw_at_data(1, LOp_Shared);
@@ -720,11 +720,11 @@ out_obj_shared_set(dg_name dn)
 {
 	exp x = dn->data.n_obj.obtain_val;
 	ll_item l = find_ll_item(dn, LL_MASTERSHARE, 0);
-	if (x->last && (bro(x) || l)) {
+	if (x->last && (next(x) || l)) {
 		out_dwf_label(no(x), 1);
 		dw_at_ext_address(dn->more->this_tag);
-		while (bro(x)) {
-			dg_name name = (dg_name)((void *)bro(x));
+		while (next(x)) {
+			dg_name name = (dg_name)((void *)next(x));
 			dw_at_ext_address(name->more->this_tag);
 			x = name->data.n_obj.obtain_val;
 		}

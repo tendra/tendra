@@ -184,7 +184,7 @@ add_wlist(double scale, exp re)
 
 	w = weightsv(scale, r);
 	do {
-		r = bro(r);
+		r = next(r);
 		w1 = weightsv(scale, r);
 		w = add_weights(&w, &w1);
 	} while (!r->last);
@@ -247,7 +247,7 @@ tailrecurse:
 		}
 		/* weights for initialisation of dec */
 
-		wbody = weightsv(scale, bro(son(e)));
+		wbody = weightsv(scale, next(son(e)));
 		/* weights of body of scan */
 
 		if (props (e) & defer_bit) {
@@ -291,7 +291,7 @@ tailrecurse:
 	}
 
 	case rep_tag:
-		e = bro(son(e));
+		e = next(son(e));
 		goto tailrecurse;
 
 	case case_tag:
@@ -300,7 +300,7 @@ tailrecurse:
 
 	case labst_tag:
 		scale = fno(e);
-		e = bro(son(e));
+		e = next(son(e));
 		goto tailrecurse;
 
 	case val_tag:
@@ -313,12 +313,12 @@ tailrecurse:
 
 	case seq_tag:  {
 		exp l = son(son(e));
-		exp r = bro(son(e));
+		exp r = next(son(e));
 		weights w, w1;
 
 		w = weightsv(scale, l);
 		while (!l->last) {
-			l = bro(l);
+			l = next(l);
 			w1 = weightsv(scale, l);
 			w = add_weights(&w, &w1);
 		}

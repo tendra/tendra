@@ -153,7 +153,7 @@ all_in_regs(exp e)
 			return 0;
 		}
 
-		id2 = bro(son(id1));
+		id2 = next(son(id1));
 		if (id2->tag != ident_tag) {
 			return 1;
 		}

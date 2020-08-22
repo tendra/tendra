@@ -46,9 +46,9 @@ make_int(long n)
     } else {
 	p->cons = &false_cons;
     }
-    p->bro = new_node();
-    p->bro->cons = make_construct(SORT_small_tdfint);
-    p->bro->cons->encoding = n;
+    p->next = new_node();
+    p->next->cons = make_construct(SORT_small_tdfint);
+    p->next->cons->encoding = n;
     return p;
 }
 
@@ -69,10 +69,10 @@ make_int_exp(node *sh, long n, char *val)
     node *p = new_node();
     p->cons = cons_no(SORT_exp, ENC_make_int);
     p->son = copy_node(sh->son);
-    p->son->bro = make_signed_nat(n);
+    p->son->next = make_signed_nat(n);
     if (val) {
 	/* Assign large values */
-	node *r = p->son->bro->son->bro;
+	node *r = p->son->next->son->next;
 	r->cons = make_construct(SORT_tdfint);
 	r->cons->name = val;
     }
@@ -88,14 +88,14 @@ is_constant(node *p, long *pn)
 	sortname s = p->cons->sortnum;
 	long n = p->cons->encoding;
 	if (s == SORT_exp && n == ENC_make_int) {
-	    p = p->son->bro;
+	    p = p->son->next;
 	    s = p->cons->sortnum;
 	    n = p->cons->encoding;
 	}
 	if (s == SORT_signed_nat && n == ENC_make_signed_nat) {
 	    /* Allow signed integer literals */
 	    long negate = p->son->cons->encoding;
-	    p = p->son->bro;
+	    p = p->son->next;
 	    s = p->cons->sortnum;
 	    n = p->cons->encoding;
 	    if (negate)n = -n;
@@ -136,7 +136,7 @@ is_var_width(node *sh, long *pn, long *pm)
 	if (sh->son->cons->encoding == ENC_var_width) {
 	    node *q = sh->son->son;
 	    if (is_constant(q, pn)) {
-		if (is_constant(q->bro, pm)) {
+		if (is_constant(q->next, pm)) {
 		    return 1;
 		}
 	    }
@@ -394,10 +394,10 @@ eval_decr(node *p)
     if (p->cons->encoding == ENC_make_int) {
 	node *sh = p->shape;
 	if (sh == NULL)sh = sh_integer(p->son);
-	p = p->son->bro;
+	p = p->son->next;
 	if (p->cons->encoding == ENC_make_signed_nat) {
 	    if (!p->son->cons->encoding) {
-		p = p->son->bro;
+		p = p->son->next;
 		if (p->cons->sortnum == SORT_tdfint) {
 		    long c = 0;
 		    char *val = minus_one(p->cons->name);
@@ -423,8 +423,8 @@ eval_node(node *p)
 	/* Conditional constructs */
 	long m = 0;
 	if (is_constant(p->son, &m)) {
-	    p = p->son->bro;
-	    if (m == 0)p = p->bro;
+	    p = p->son->next;
+	    if (m == 0)p = p->next;
 	    return p->son;
 	}
     }
@@ -438,9 +438,9 @@ eval_node(node *p)
 	    }
 	    case ENC_change_variety: {
 		/* Allow for change_variety */
-		node *r = p->son->bro;
+		node *r = p->son->next;
 		if (p->shape == NULL)p->shape = sh_integer(r);
-		if (is_constant(r->bro, &m1)) {
+		if (is_constant(r->next, &m1)) {
 		    long err = p->son->cons->encoding;
 		    node *q = eval_exp(n, err, p->shape, m1, m2);
 		    if (q)p = q;
@@ -449,15 +449,15 @@ eval_node(node *p)
 	    }
 	    case ENC_integer_test: {
 		/* Allow for integer_test */
-		node *r = p->son->bro->bro->bro;
+		node *r = p->son->next->next->next;
 		if (is_constant(r, &m1)) {
-		    if (is_constant(r->bro, &m2)) {
-			long tst = p->son->bro->cons->encoding;
+		    if (is_constant(r->next, &m2)) {
+			long tst = p->son->next->cons->encoding;
 			int res = eval_test(tst, m1, m2);
 			if (res == 0) {
 			    node *q = new_node();
 			    q->cons = cons_no(SORT_exp, ENC_goto);
-			    q->son = copy_node(p->son->bro->bro);
+			    q->son = copy_node(p->son->next->next);
 			    return q;
 			}
 			if (res == 1) {
@@ -471,8 +471,8 @@ eval_node(node *p)
 	    }
 	    case ENC_conditional: {
 		/* Allow for conditional */
-		node *r = p->son->bro;
-		if (is_constant(r->bro, &m2)) {
+		node *r = p->son->next;
+		if (is_constant(r->next, &m2)) {
 		    if (is_constant(r, &m1)) {
 			/* First branch terminates */
 			return copy_node(r);
@@ -480,7 +480,7 @@ eval_node(node *p)
 		    if (r->cons->encoding == ENC_goto) {
 			if (eq_node(p->son, r->son)) {
 			    /* First branch is a jump */
-			    return copy_node(r->bro);
+			    return copy_node(r->next);
 			}
 		    }
 		}
@@ -502,9 +502,9 @@ eval_node(node *p)
 		    } else {
 			return p;
 		    }
-		    r = r->bro;
+		    r = r->next;
 		}
-		r = p->son->bro;
+		r = p->son->next;
 		if (is_constant(r, &m1)) {
 		    if (reached)q = r;
 		} else if (r->cons->encoding == ENC_goto) {
@@ -530,7 +530,7 @@ eval_node(node *p)
 	    case ENC_abs:
 	    case ENC_negate: {
 		/* Unary operations with error treatment */
-		node *r = p->son->bro;
+		node *r = p->son->next;
 		if (is_constant(r, &m1)) {
 		    long err = p->son->cons->encoding;
 		    node *q = eval_exp(n, err, r->shape, m1, m2);
@@ -549,7 +549,7 @@ eval_node(node *p)
 		/* Binary operations */
 		node *r = p->son;
 		if (is_constant(r, &m1)) {
-		    if (is_constant(r->bro, &m2)) {
+		    if (is_constant(r->next, &m2)) {
 			long err = ENC_wrap;
 			node *q = eval_exp(n, err, r->shape, m1, m2);
 			if (q)p = q;
@@ -563,8 +563,8 @@ eval_node(node *p)
 	    case ENC_power:
 	    case ENC_shift_left: {
 		/* Binary operations with error treatment */
-		node *r = p->son->bro;
-		if (is_constant(r->bro, &m2)) {
+		node *r = p->son->next;
+		if (is_constant(r->next, &m2)) {
 		    if (is_constant(r, &m1)) {
 			long err = p->son->cons->encoding;
 			node *q = eval_exp(n, err, r->shape, m1, m2);
@@ -583,10 +583,10 @@ eval_node(node *p)
 	    case ENC_rem1:
 	    case ENC_rem2: {
 		/* Binary operations with two error treatments */
-		node *r = p->son->bro->bro;
+		node *r = p->son->next->next;
 		if (is_constant(r, &m1)) {
-		    if (is_constant(r->bro, &m2)) {
-			long err = p->son->bro->cons->encoding;
+		    if (is_constant(r->next, &m2)) {
+			long err = p->son->next->cons->encoding;
 			node *q = eval_exp(n, err, r->shape, m1, m2);
 			if (q)p = q;
 		    }
@@ -608,12 +608,12 @@ eval_node(node *p)
 		return make_signed_nat(m);
 	    }
 	    if (p->son->cons->encoding == ENC_make_int) {
-		return copy_node(p->son->son->bro);
+		return copy_node(p->son->son->next);
 	    }
 	} else if (n == ENC_snat_from_nat) {
 	    long m1 = 0, m2 = 0;
 	    if (is_constant(p->son, &m1)) {
-		if (is_constant(p->son->bro, &m2)) {
+		if (is_constant(p->son->next, &m2)) {
 		    if (m1)m2 = -m2;
 		    return make_signed_nat(m2);
 		}
@@ -628,10 +628,10 @@ static node *
 eval_fully(node *p)
 {
     if (p) {
-	node *q = p->bro;
+	node *q = p->next;
 	p->son = eval_fully(p->son);
 	p = eval_node(p);
-	p->bro = eval_fully(q);
+	p->next = eval_fully(q);
     }
     return p;
 }

@@ -235,7 +235,7 @@ static void output_info
     for (;;) {
       output_info (t, dgf(t));
       if (t->last || e->tag == case_tag) return;
-      t = bro(t);
+      t = next(t);
     }
   }
 
@@ -978,7 +978,7 @@ static void dw2_out_proc
       if (proc_has_vcallees(p))
 	is_callable = DW_CC_nocall;
       while (t->tag == ident_tag && isparam(t) && son(t)->tag != formal_callee_tag)
-	t = bro(son(t));
+	t = next(son(t));
       if (t->tag == ident_tag && son(t)->tag == formal_callee_tag)
 	is_callable = DW_CC_nocall;
       if (brog(id)->extnamed) {

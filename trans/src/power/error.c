@@ -416,7 +416,7 @@ int minus_error_treatment(exp e, space sp, where dest)
   int destr;
   long trap = trap_label(e);
   ans aa;
-  rhs_reg=reg_operand(bro(son(e)),guardreg(lhs_reg,sp));
+  rhs_reg=reg_operand(next(son(e)),guardreg(lhs_reg,sp));
   destr=regfrmdest(&dest,sp);
   setregalt(aa,destr);
   /* Both sides evaluated lhs in lhs_reg ,rhs in rhs_reg*/
@@ -478,7 +478,7 @@ int mult_error_treatment(exp e, space sp, where dest)
   space nsp;
   ans aa;
   nsp=guardreg(lhs_reg,sp);
-  rhs_reg=reg_operand(bro(son(e)),nsp);
+  rhs_reg=reg_operand(next(son(e)),nsp);
   nsp=guardreg(rhs_reg,nsp);
   destr=regfrmdest(&dest,sp);
   setregalt(aa,destr);
@@ -580,7 +580,7 @@ int plus_error_treatment(exp e, space sp, where dest)
   long trap = trap_label(e);
   ans aa;
 
-  rhs_reg = reg_operand(bro(son(e)),guardreg(lhs_reg,sp));
+  rhs_reg = reg_operand(next(son(e)),guardreg(lhs_reg,sp));
   destr=regfrmdest(&dest,sp);
   setregalt(aa,destr);
   switch (sh(e)->tag)
@@ -761,7 +761,7 @@ void round_error_treatment(exp *e)
   seterrhandle(round,0);
 
   id->last = true;
-  bro(id) = round;
+  next(id) = round;
   son(round) = id;
 }
 

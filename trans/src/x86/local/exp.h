@@ -64,7 +64,7 @@
 #define set_proc_needs_envsize(x) props(x) = (prop)(props(x) | 0x8000)
 #define proc_needs_envsize(x) (props(x) & 0x8000)
 
-#define call_has_checkstack(e) (props(bro(son(e))) & 8)
+#define call_has_checkstack(e) (props(next(son(e))) & 8)
 
 #endif
 

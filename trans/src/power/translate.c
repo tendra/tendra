@@ -466,7 +466,7 @@ local_translate_capsule(void)
 			 * calculating the break points for register allocation
 			 */
 			if (!(pr->save_all_sregs)) {
-				IGNORE weightsv(UNITWEIGHT, bro(son(son(tag))));
+				IGNORE weightsv(UNITWEIGHT, next(son(son(tag))));
 			}
 
 			/* Check to see if we need a frame pointer */
@@ -480,7 +480,7 @@ local_translate_capsule(void)
 			/*
 			 * reg and stack allocation for tags
 			 */
-			pr->spacereqproc = regalloc(bro(son(son(tag))), freefixed, freefloat, 0);
+			pr->spacereqproc = regalloc(next(son(son(tag))), freefixed, freefloat, 0);
 
 			/*
 			 * Ensure that the registers that were not allocated get stored

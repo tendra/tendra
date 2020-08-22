@@ -104,8 +104,8 @@ is_worth(exp c)
 
 			if ( (grandad->tag == test_tag && ( n & ( n - 1 ) ) == 0
 			      && ( props ( grandad ) == 5 || props ( grandad ) == 6 )
-			      && ( bro ( son ( grandad ) ) -> tag == val_tag
-			           && no ( bro ( son ( grandad ) ) ) == 0 ))
+			      && ( next ( son ( grandad ) ) -> tag == val_tag
+			           && no ( next ( son ( grandad ) ) ) == 0 ))
 			     || ( son ( grandad ) -> tag == val_tag
 			          && no ( son ( grandad ) ) == 0 ) ) {
 				/* a & 2^n == 0 is transformed into a shift */

@@ -88,7 +88,7 @@ settempregs(exp tag)
       if ((props(stag) & infreg_bits) != 0) {
 	useable_float &= ~(1<<no(stag));
       }
-    stag = bro(son(stag));
+    stag = next(son(stag));
   }
 }
 

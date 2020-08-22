@@ -289,7 +289,7 @@ void output_parameters(exp e)
       /* LIVES IN PLACE ON STACK */
     }
 
-    par = bro(son(par));
+    par = next(son(par));
   }
   do_fixed_params();
   do_float_params();

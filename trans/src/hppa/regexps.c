@@ -80,7 +80,7 @@ sim_explist(exp al, exp bl)
 		return 0;
 	}
 
-	return sim_explist(bro(al), bro(bl));
+	return sim_explist(next(al), next(bl));
 }
 
 /*
@@ -371,7 +371,7 @@ couldbe(exp e, exp lhs)
 	}
 
 	if (ne == addptr_tag || ne == subptr_tag) {
-		return couldbe(s, lhs) || couldaffect(bro(s), lhs);
+		return couldbe(s, lhs) || couldaffect(next(s), lhs);
 	}
 
 	return 1;
@@ -419,7 +419,7 @@ couldaffect(exp e, exp z /* a name or zero */)
 			return 0;
 		}
 
-		e = bro(e);
+		e = next(e);
 	}
 
 	return 0;

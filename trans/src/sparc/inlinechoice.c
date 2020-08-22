@@ -102,7 +102,7 @@ inlinechoice(exp t, exp def, int cnt)
 			proc_in = father(proc_in);
 			assert(proc_in != NULL);
 		}
-		proc_in = bro(proc_in);
+		proc_in = next(proc_in);
 		assert(proc_in->tag = ident_tag);
 
 		fprintf(stderr, "Considering %s in %s\n",
@@ -110,7 +110,7 @@ inlinechoice(exp t, exp def, int cnt)
 		        brog(proc_in)->name);
 	}
 
-	apars = bro(t); /* t is name_tag */
+	apars = next(t); /* t is name_tag */
 	fpars = son(def);
 
 	for (;;) {
@@ -186,12 +186,12 @@ inlinechoice(exp t, exp def, int cnt)
 			break;
 		}
 
-		fpars = bro(son(fpars));
+		fpars = next(son(fpars));
 		if (apars->last) {
 			break;
 		}
 
-		apars = bro(apars);
+		apars = next(apars);
 	}
 
 	adjusted_max_complexity = max_complexity;

@@ -701,7 +701,7 @@ static int dw_eval_exp
     case plus_tag:
     case offset_add_tag: {
       line_started = dw_eval_exp(son(e), line_started);
-      if (bro(son(e))->tag == val_tag && !is_signed(sh(e)) && !isbigval(bro(son(e)))) {
+      if (next(son(e))->tag == val_tag && !is_signed(sh(e)) && !isbigval(next(son(e)))) {
 	if (line_started)
 	  asm_printf(", ");
 	else {
@@ -712,7 +712,7 @@ static int dw_eval_exp
 	uleb128((unsigned long)no(e));
       }
       else {
-	line_started = dw_eval_exp(bro(son(e)), line_started);
+	line_started = dw_eval_exp(next(son(e)), line_started);
 	if (line_started)
 	  asm_printf(", ");
 	else {
@@ -726,7 +726,7 @@ static int dw_eval_exp
     case minus_tag:
     case offset_subtract_tag: {
       line_started = dw_eval_exp(son(e), line_started);
-      line_started = dw_eval_exp(bro(son(e)), line_started);
+      line_started = dw_eval_exp(next(son(e)), line_started);
       if (line_started)
 	asm_printf(", ");
       else {
@@ -751,7 +751,7 @@ static int dw_eval_exp
     case mult_tag:
     case offset_mult_tag: {
       line_started = dw_eval_exp(son(e), line_started);
-      line_started = dw_eval_exp(bro(son(e)), line_started);
+      line_started = dw_eval_exp(next(son(e)), line_started);
       if (line_started)
 	asm_printf(", ");
       else {
@@ -767,7 +767,7 @@ static int dw_eval_exp
     case offset_div_by_int_tag:
     case offset_div_tag: {
       line_started = dw_eval_exp(son(e), line_started);
-      line_started = dw_eval_exp(bro(son(e)), line_started);
+      line_started = dw_eval_exp(next(son(e)), line_started);
       if (line_started)
 	asm_printf(", ");
       else {
@@ -1182,12 +1182,12 @@ static void trace_branch_aux
       break;
     }
     case case_tag: {
-      t = bro(son(e));
+      t = next(son(e));
       for (;;) {
 	if (!intnl_to(whole, pt(t)))
 	  mark_lab(pt(t));
 	if (t->last)break;
-	t = bro(t);
+	t = next(t);
       }
       break;
     }
@@ -1207,7 +1207,7 @@ static void trace_branch_aux
     for (;;) {
       trace_branch_aux(whole, t);
       if (t->last || e->tag == case_tag)break;
-      t = bro(t);
+      t = next(t);
     }
   }
 }

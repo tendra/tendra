@@ -15,7 +15,7 @@
  *
  * This is to allow exps to be represented by indices into arrays and to
  * allow the arrays to be realloced, which invalidates the use of
- * &son(to) and &bro(to).
+ * &son(to) and &next(to).
  */
 
 #include <stddef.h>
@@ -46,7 +46,7 @@
 #include "scan.h"
 
 #define assexp(isson, p, v) if (isson)setson(p, v); else setbro(p, v)
-#define contexp(isson, p)((isson)? son(p): bro(p))
+#define contexp(isson, p)((isson)? son(p): next(p))
 
 /*
  * Inserts an identity declaration of x at to,
@@ -65,20 +65,20 @@ cca(int sto, exp to, int sx, exp x)
 	}
 
 	ato = contexp(sto, to);
-	id  = getexp(sh(ato), bro(ato), (int)(ato->last), def, NULL, 0, 1, ident_tag);
-	tag = getexp(sh(def), bro(def), (int)(def->last), id, NULL, 0, 0, name_tag);
+	id  = getexp(sh(ato), next(ato), (int)(ato->last), def, NULL, 0, 1, ident_tag);
+	tag = getexp(sh(def), next(def), (int)(def->last), id, NULL, 0, 0, name_tag);
 	pt(id) = tag;
 	def->last = false;
 
 	if (def != ato) {
-		bro(def) = ato;
-		bro(ato) = id;
+		next(def) = ato;
+		next(ato) = id;
 		ato->last = true;
 		assexp(sto, to, id);
 		assexp(sx, x, tag);
 	} else {
-		bro(def) = tag;
-		bro(tag) = id;
+		next(def) = tag;
+		next(tag) = id;
 		tag->last = true;
 		def->last = false;
 		assexp(sto, to, id);
@@ -86,14 +86,14 @@ cca(int sto, exp to, int sx, exp x)
 
 #ifdef TDF_DIAG4
 	if (diag != DIAG_NONE) {
-		dgf(id) = dgf(bro(son(id)));
-		dgf(bro(son(id))) = NULL;
+		dgf(id) = dgf(next(son(id)));
+		dgf(next(son(id))) = NULL;
 	}
 #endif
 }
 
 /*
- * Keeping the same to, scans along the bro list e, applying cca to introduce
+ * Keeping the same to, scans along the next list e, applying cca to introduce
  * an identity declaration when doit is 1.
  *
  * Keeps count as the index position along the list in order to pass it to doit.
@@ -144,7 +144,7 @@ cc(int sto, exp to, int se, exp e,
 }
 
 /*
- * Keeping the same to, scans along the bro list e, applying cca to introduce
+ * Keeping the same to, scans along the next list e, applying cca to introduce
  * an identity declaration when doit is 1.
  *
  * Keeps count as the index position along the list in order to pass it to doit.
@@ -263,10 +263,10 @@ ap_argsc(int sto, exp to, exp e)
 	}
 
 	if ((frame_al_of_ptr(sh(son(q))) & al_includes_vcallees) &&
-	    (frame_al1_of_offset(sh(bro(son(q)))) & al_includes_caller_args)) {
+	    (frame_al1_of_offset(sh(next(son(q)))) & al_includes_caller_args)) {
 		/* env_offset to arg requires indirection from frame pointer */
 		shape pc_sh = f_pointer(f_callers_alignment(0));
-		exp c = getexp(pc_sh, bro(son(q)), 0, NULL, NULL, 0, 0, cont_tag);
+		exp c = getexp(pc_sh, next(son(q)), 0, NULL, NULL, 0, 0, cont_tag);
 		exp r = getexp(pc_sh, c, 1, son(q), NULL, 0, 64, reff_tag);
 		setfather(r, son(q));
 		son(c) = r;
@@ -274,7 +274,7 @@ ap_argsc(int sto, exp to, exp e)
 	}
 
 	p = son(q);
-	a = bro(p);
+	a = next(p);
 
 	if (p->tag == name_tag && isvar(son(p)) && isglob(son(p))) {
 		do1 = 0;
@@ -284,16 +284,16 @@ ap_argsc(int sto, exp to, exp e)
 		ccp(1, e, 1, q);
 	}
 
-	if (a->tag == offset_mult_tag && bro(son(a))->tag == val_tag &&
-	    (k = no(bro(son(a))), k == 8 || k == 16 || k == 32 || k == 64)) {
-		ccp(1, e, 1, bro(son(q)));
+	if (a->tag == offset_mult_tag && next(son(a))->tag == val_tag &&
+	    (k = no(next(son(a))), k == 8 || k == 16 || k == 32 || k == 64)) {
+		ccp(1, e, 1, next(son(q)));
 	} else {
 		ccp(1, e, 0, son(q));
 	}
 
 	if (do1) {
 		cca(sto, to, 1, son(e));
-		cca(sto, to, 1, bro(son(son(e))));
+		cca(sto, to, 1, next(son(son(e))));
 	} else {
 		cca(sto, to, 1, son(e));
 	}
@@ -402,7 +402,7 @@ scan_alloc_args(exp s)
 		return 0;
 	}
 
-	return scan_alloc_args(bro(s));
+	return scan_alloc_args(next(s));
 }
 
 static int
@@ -420,7 +420,7 @@ scan_for_alloca(exp t)
 		return scan_for_alloca(son(t));
 
 	case labst_tag:
-		return scan_for_alloca(bro(son(t)));
+		return scan_for_alloca(next(son(t)));
 
 	case env_offset_tag:
 	case string_tag:
@@ -524,7 +524,7 @@ indable_son(int sto, exp to, exp e)
 	}
 }
 
-/* Apply scan to this bro list, moving "to" along it */
+/* Apply scan to this next list, moving "to" along it */
 static void
 scanargs(int st, exp e, int usereg0)
 {
@@ -593,7 +593,7 @@ make_bitfield_offset(exp e, exp pe, int spe, shape sha)
 		return;
 	}
 
-	omul = getexp(sha, bro(e), (int)(e->last), e, NULL, 0, 0, offset_mult_tag);
+	omul = getexp(sha, next(e), (int)(e->last), e, NULL, 0, 0, offset_mult_tag);
 	val8 = getexp(slongsh, omul, 1, NULL, NULL, 0, 8, val_tag);
 
 	e->last = false;
@@ -685,14 +685,14 @@ check_asm_seq(exp e, int ext)
 	if (e->tag == seq_tag) {
 		exp t;
 
-		for (t = son(son(e)); ; t = bro(t)) {
+		for (t = son(son(e)); ; t = next(t)) {
 			check_asm_seq(t, ext);
 			if (t->last) {
 				break;
 			}
 		}
 
-		check_asm_seq(bro(son(e)), ext);
+		check_asm_seq(next(son(e)), ext);
 	} else if (e->tag != top_tag) {
 		error(ERR_INTERNAL, "illegal ~asm");
 	}
@@ -725,17 +725,17 @@ scan(int sto, exp to, exp e, int usereg0)
 		return 0;
 
 	case labst_tag:
-		IGNORE scan(0, son(e), bro(son(e)), 1);
+		IGNORE scan(0, son(e), next(son(e)), 1);
 		return 0;
 
 	case ident_tag:
-		IGNORE scan(0, son(e), bro(son(e)), 0);
+		IGNORE scan(0, son(e), next(son(e)), 0);
 		IGNORE scan(1, e, son(e), 0);
 		return 0;
 
 	case seq_tag:
 		scanargs(1, son(e), 1);
-		IGNORE scan(0, son(e), bro(son(e)), 1);
+		IGNORE scan(0, son(e), next(son(e)), 1);
 		return 0;
 
 	case local_free_tag:
@@ -746,11 +746,11 @@ scan(int sto, exp to, exp e, int usereg0)
 
 	case offset_add_tag:
 	case offset_subtract_tag:
-		if (al2(sh(son(e))) == 1 && al2(sh(bro(son(e)))) != 1) {
-			make_bitfield_offset(bro(son(e)), son(e), 0, sh(e));
+		if (al2(sh(son(e))) == 1 && al2(sh(next(son(e)))) != 1) {
+			make_bitfield_offset(next(son(e)), son(e), 0, sh(e));
 		}
 
-		if (al2(sh(son(e))) != 1 && al2(sh(bro(son(e)))) == 1) {
+		if (al2(sh(son(e))) != 1 && al2(sh(next(son(e)))) == 1) {
 			make_bitfield_offset(son(e), e, 1, sh(e));
 		}
 
@@ -815,11 +815,11 @@ scan(int sto, exp to, exp e, int usereg0)
 	case div2_tag:
 	case div0_tag:
 		if (sh(e)->tag == u64hd) {
-			exp * bottom = &bro(son(e));
+			exp * bottom = &next(son(e));
 			if ((*bottom)->tag == chvar_tag && shape_size(sh(son(*bottom))) <= 32 &&
 			    son(*bottom)->tag != val_tag && !is_signed(sh(son(*bottom)))) {
 				if (shape_size(sh(son(*bottom))) == 32) {
-					setbro(son(*bottom), bro(*bottom));
+					setbro(son(*bottom), next(*bottom));
 					*bottom = son(*bottom);
 				} else {
 					setsh(son(*bottom), ulongsh);
@@ -841,10 +841,10 @@ scan(int sto, exp to, exp e, int usereg0)
 		return 0;
 
 	case offset_div_by_int_tag:
-		if (sh(bro(son(e)))->tag != slonghd &&  sh(bro(son(e)))->tag != ulonghd) {
-			exp ch = getexp((sh(bro(son(e)))->tag & 1 ? slongsh : ulongsh),
-			                e, 1, bro(son(e)), NULL, 0, 0, chvar_tag);
-			setbro(bro(son(e)), ch);
+		if (sh(next(son(e)))->tag != slonghd &&  sh(next(son(e)))->tag != ulonghd) {
+			exp ch = getexp((sh(next(son(e)))->tag & 1 ? slongsh : ulongsh),
+			                e, 1, next(son(e)), NULL, 0, 0, chvar_tag);
+			setbro(next(son(e)), ch);
 			setbro(son(e), ch);
 		}
 
@@ -875,13 +875,13 @@ scan(int sto, exp to, exp e, int usereg0)
 
 		IGNORE cont_arg(sto, to, e, 0);
 		/* special check for references */
-		if (!is_assable(bro(son(e)))) {
+		if (!is_assable(next(son(e)))) {
 			/* second argument must be assignable */
 			cca(sto, to, 0, son(e));
 			toc = contexp(sto, to);
 			IGNORE scan(1, toc, son(toc), 1);
 		} else {
-			IGNORE scan(sto, to, bro(son(e)), 1);
+			IGNORE scan(sto, to, next(son(e)), 1);
 		}
 
 		return 0;
@@ -905,24 +905,24 @@ scan(int sto, exp to, exp e, int usereg0)
 		return 0;
 
 	case apply_general_tag: {
-		exp cees = bro(bro(son(e)));
-		exp p_post = cees;	/* bro(p_post) is postlude */
+		exp cees = next(next(son(e)));
+		exp p_post = cees;	/* next(p_post) is postlude */
 
-		while (bro(p_post)->tag == ident_tag && son(bro(p_post))->tag == caller_name_tag) {
-			p_post = son(bro(p_post));
+		while (next(p_post)->tag == ident_tag && son(next(p_post))->tag == caller_name_tag) {
+			p_post = son(next(p_post));
 		}
 
-		scan(0, p_post, bro(p_post), 1);
+		scan(0, p_post, next(p_post), 1);
 		if (son(cees) != NULL) {
 			scan_apply_args(sto, to, 1, cees);
 		}
 
-		if (no(bro(son(e))) != 0) {
-			scan_apply_args(sto, to, 1, bro(son(e)));
+		if (no(next(son(e))) != 0) {
+			scan_apply_args(sto, to, 1, next(son(e)));
 		}
 
 		indable_son(sto, to, e);
-		if ((cees->tag == make_dynamic_callee_tag && bro(son(cees))->tag != val_tag)
+		if ((cees->tag == make_dynamic_callee_tag && next(son(cees))->tag != val_tag)
 		    || (cees->tag == same_callees_tag && callee_size < 0)) {
 			has_dy_callees = true;
 		}
@@ -939,7 +939,7 @@ scan(int sto, exp to, exp e, int usereg0)
 	}
 
 	case tail_call_tag: {
-		exp cees = bro(son(e));
+		exp cees = next(son(e));
 		has_tail_call = true;
 
 		if (son(cees) != NULL) {
@@ -947,7 +947,7 @@ scan(int sto, exp to, exp e, int usereg0)
 		}
 
 		indable_son(sto, to, e);
-		if (cees->tag == make_dynamic_callee_tag && bro(son(cees))->tag != val_tag) {
+		if (cees->tag == make_dynamic_callee_tag && next(son(cees))->tag != val_tag) {
 			has_dy_callees = true;
 		}
 
@@ -1004,11 +1004,11 @@ scan(int sto, exp to, exp e, int usereg0)
 
 	case addptr_tag: {
 		exp f = father(e);
-		exp new_r = getexp(sh(e), bro(e), (int)(e->last),
+		exp new_r = getexp(sh(e), next(e), (int)(e->last),
 		                   e, NULL, 0, 0, reff_tag);
 		exp * ref = refto(f, e);
 		e->last = true;
-		bro(e) = new_r;
+		next(e) = new_r;
 		*ref = new_r;
 		ap_argsc(sto, to, new_r);
 		return 0;
@@ -1021,7 +1021,7 @@ scan(int sto, exp to, exp e, int usereg0)
 				if ((*arglist)->tag == chvar_tag && shape_size(sh(son(*arglist))) <= 32 &&
 				    (is_signed(sh(e)) || !is_signed(sh(son(*arglist))))) {
 					if (shape_size(sh(son(*arglist))) == 32) {
-						setbro(son(*arglist), bro(*arglist));
+						setbro(son(*arglist), next(*arglist));
 						if ((*arglist)->last) {
 							son(*arglist)->last = true;
 						} else {
@@ -1035,7 +1035,7 @@ scan(int sto, exp to, exp e, int usereg0)
 				if ((*arglist)->last) {
 					break;
 				}
-				arglist = &bro(*arglist);
+				arglist = &next(*arglist);
 			}
 		}
 

@@ -123,7 +123,7 @@ trace_uses(exp e, exp id)
 	nouses = u;
       if (l->last)
 	break;
-      l = bro(l);
+      l = next(l);
     }
     return 0;
   }
@@ -144,7 +144,7 @@ trace_uses(exp e, exp id)
    case ident_tag:
     {
       exp f = son(e);
-      exp s = bro(f);
+      exp s = next(f);
       int a;
 
       if ((props(e) & defer_bit)!= 0)
@@ -192,8 +192,8 @@ trace_uses(exp e, exp id)
 	if (el != 1)
 	  return el;
 	if (s->last)
-	  return trace_uses(bro(son(e)), id);
-	s = bro(s);
+	  return trace_uses(next(son(e)), id);
+	s = next(s);
       }
     }
 
@@ -201,12 +201,12 @@ trace_uses(exp e, exp id)
     {
       if (isvar(id) && son(e)->tag == name_tag && son(son(e)) == id)
       {
-	trace_uses(bro(son(e)), id);
+	trace_uses(next(son(e)), id);
 	return 2;
       }
-      else if (APPLYLIKE(bro(son(e))))
+      else if (APPLYLIKE(next(son(e))))
       {
-	return trace_uses(bro(son(e)), id);
+	return trace_uses(next(son(e)), id);
       }
       /* else cont to next case */
     }
@@ -245,7 +245,7 @@ trace_uses(exp e, exp id)
 	}
 	if (s->last)
 	  break;
-	s = bro(s);
+	s = next(s);
       }
       if (bad_arguments==0)
       {
@@ -293,9 +293,9 @@ tailrecurse:
   }
 
 
-  for (l = a; !l->last; l = bro(l))
+  for (l = a; !l->last; l = next(l))
   {
-    int u = trace_uses(bro(l), id);
+    int u = trace_uses(next(l), id);
 
     if (u != 1 || nouses == 0)
       return;
@@ -352,9 +352,9 @@ tempdec(exp e, bool enoughs)
     for (p = pt(e); p != NULL; p = pt(p))
     {
       /* find no of uses which are not assignments to id ... */
-      if (!p->last && bro(p)->last && bro(bro(p))->tag == ass_tag)
+      if (!p->last && next(p)->last && next(next(p))->tag == ass_tag)
       {
-	if (!simple_seq(bro(bro(p)), e))
+	if (!simple_seq(next(next(p)), e))
 	  return 0;
 	continue;
       }
@@ -379,9 +379,9 @@ tempdec(exp e, bool enoughs)
   {
     for (p = pt(e); p != NULL; p = pt(p))
     {
-      if (!p->last && bro(p)->last && bro(bro(p))->tag == ass_tag)
+      if (!p->last && next(p)->last && next(next(p))->tag == ass_tag)
       {
-	after_a(bro(bro(p)), e);
+	after_a(next(next(p)), e);
       }
     }
   }
@@ -432,10 +432,10 @@ static int locate_param(exp e)
   switch (f->tag)
   {
    case apply_general_tag:
-    par =  son(bro(son(f)));
+    par =  son(next(son(f)));
     break;
    case apply_tag:
-    par = bro(son(f));
+    par = next(son(f));
     break;
    case round_tag:
     par = son(f);
@@ -478,7 +478,7 @@ static int locate_param(exp e)
       }
       if (par->last)
 	break;
-      par = bro(par);
+      par = next(par);
     }
     return 0;
   }

@@ -128,7 +128,7 @@ display(int test)
 {
     word *ptr;
     maximum = 0;
-    for (ptr = word1.bro; ptr; ptr = ptr->bro) {
+    for (ptr = word1.next; ptr; ptr = ptr->next) {
 	column = 0;
 	expression(ptr, 0, 0, 0, 1, 0);
 	if (test && (maximum > maxcol)) return;
@@ -227,7 +227,7 @@ expression(word *ptr, int col, int first, int last, int flag, int pending)
 	    if (p == NULL) {
 		horiz = 1;
 	    } else {
-		if (p->son == NULL && p->bro == NULL)horiz = 1;
+		if (p->son == NULL && p->next == NULL)horiz = 1;
 	    }
 	}
 
@@ -244,8 +244,8 @@ expression(word *ptr, int col, int first, int last, int flag, int pending)
 	    sep = comma;
 	    pends = 0;
 	    /* print parameters */
-	    for (p = ptr->son; p; p = p->bro) {
-		if (p->bro == NULL) {
+	    for (p = ptr->son; p; p = p->next) {
+		if (p->next == NULL) {
 		    /* for last, take trailing brackets into account */
 		    sep = close;
 		    pends = pending + visible;
@@ -274,9 +274,9 @@ expression(word *ptr, int col, int first, int last, int flag, int pending)
 	    sep = comma;
 	    pends = 0;
 	    /* print parameters */
-	    for (p = ptr->son; p; p = p->bro) {
+	    for (p = ptr->son; p; p = p->next) {
 		/* for last, take trailing brackets into account */
-		if (p->bro == NULL) {
+		if (p->next == NULL) {
 		    sep = close;
 		    pends = pending + visible;
 		}
@@ -300,8 +300,8 @@ expression(word *ptr, int col, int first, int last, int flag, int pending)
 		opener = 0;
 	    }
 	    /* print parameters */
-	    for (p = ptr->son; p; p = p->bro) {
-		if (p->bro == NULL) {
+	    for (p = ptr->son; p; p = p->next) {
+		if (p->next == NULL) {
 		    /* last requires special treatment */
 		    sep = 0;
 		    more = 0;

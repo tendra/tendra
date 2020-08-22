@@ -1005,9 +1005,9 @@ testlast(exp e, exp second)
 		return 0;
 	}
 
-	if (bro(son(e))->tag == test_tag && pt(bro(son(e))) == second) {
-		return bro(son(e));
-	} else if (bro(son(e))->tag == top_tag) {
+	if (next(son(e))->tag == test_tag && pt(next(son(e))) == second) {
+		return next(son(e));
+	} else if (next(son(e))->tag == top_tag) {
 		exp list;
 
 		list = son(son(e));
@@ -1020,7 +1020,7 @@ testlast(exp e, exp second)
 					return 0;
 				}
 			} else {
-				list = bro(list);
+				list = next(list);
 			}
 		}
 	}
@@ -1035,7 +1035,7 @@ last_param(exp e)
 		return false;
 	}
 
-	e = bro(son(e));
+	e = next(son(e));
 	while (e->tag == diagnose_tag) {
 		e = son(e);
 	}
@@ -1418,7 +1418,7 @@ do_callers(exp list, space sp, int *sizecallers)
 			return sp;
 		}
 
-		list = bro(list);
+		list = next(list);
 	}
 
 	return sp;
@@ -1444,7 +1444,7 @@ update_plc(postlude_chain *chain, int ma)
 
 		for (pl = chain->postlude;
 			pl->tag == ident_tag && son(pl)->tag == caller_name_tag;
-			pl = bro(son(pl)))
+			pl = next(son(pl)))
 		{
 			no(pl) += (ma << 1);
 		}
@@ -1464,7 +1464,7 @@ find_ote(exp name, int n)
 	for (dad = father(name); dad->tag != apply_general_tag; dad = father(dad))
 		;
 
-	for (dad = son(bro(son(dad))); n; dad = bro(dad), n--)
+	for (dad = son(next(son(dad))); n; dad = next(dad), n--)
 		;
 
 	assert(dad->tag == caller_tag);
@@ -1518,7 +1518,7 @@ tailrecurse:
 		 * with its definition, without reserving more space
 		 */
 		if (props(e) & defer_bit) {
-			e = bro(son(e));
+			e = next(son(e));
 			goto tailrecurse;
 		}
 
@@ -1827,7 +1827,7 @@ tailrecurse:
 		}
 
 		sp =  guard(placew, sp);
-		e = bro(son(e));
+		e = next(son(e));
 
 		goto tailrecurse; /* and evaluate the body of the declaration */
 	}
@@ -1838,8 +1838,8 @@ tailrecurse:
 	case seq_tag: {
 		exp t;
 
-		for (t = son(son(e)); ; t = bro(t)) {
-			exp next = (t->last) ? (bro(son(e))) : bro(t);
+		for (t = son(son(e)); ; t = next(t)) {
+			exp next = (t->last) ? (next(son(e))) : next(t);
 
 			if (next->tag == goto_tag) {/* gotos end sequences */
 				make_code(t, sp, nowhere, no(son(pt(next))));
@@ -1848,7 +1848,7 @@ tailrecurse:
 			}
 
 			if (t->last) {
-				e = bro(son(e));
+				e = next(son(e));
 				goto tailrecurse;
 			}
 		}
@@ -1856,7 +1856,7 @@ tailrecurse:
 
 	case cond_tag: {
 		exp first = son(e);
-		exp second = bro(son(e));
+		exp second = next(son(e));
 		exp test;
 
 		if (dest.answhere.discrim == insomereg) {
@@ -1890,7 +1890,7 @@ tailrecurse:
 
 			return mka;
 		} else if (second->tag == labst_tag &&
-		           bro(son(second))->tag == top_tag) {
+		           next(son(second))->tag == top_tag) {
 			/* second is empty */
 			int   endl = (exitlab == 0) ? new_label() : exitlab;
 			no(son(second)) = endl;
@@ -1899,9 +1899,9 @@ tailrecurse:
 
 			return mka;
 		} else if (second->tag == labst_tag &&
-		           bro(son(second))->tag == goto_tag) {
+		           next(son(second))->tag == goto_tag) {
 			/* second is goto */
-			exp g = bro(son(second));
+			exp g = next(son(second));
 			no(son(second)) = no(son(pt(g)));
 			mka = make_code(first, sp, dest, exitlab);
 
@@ -1974,12 +1974,12 @@ tailrecurse:
 			}
 		}
 
-		e = bro(son(e));
+		e = next(son(e));
 		goto tailrecurse;
 
 	case rep_tag: {
 		exp first = son(e);
-		exp second = bro(first);
+		exp second = next(first);
 
 		code_here(first, sp, nowhere);
 		no(son(second)) = new_label();
@@ -2012,7 +2012,7 @@ tailrecurse:
 
 	case long_jump_tag: {
 		int fp = reg_operand(son(e), sp);
-		int labval = reg_operand(bro(son(e)), sp);
+		int labval = reg_operand(next(son(e)), sp);
 
 		asm_comment("long jump");
 		operate_fmt(i_bis, fp, fp, FP);	/* move fp into FP */
@@ -2027,7 +2027,7 @@ tailrecurse:
 	case max_tag:
 	case min_tag: {
 		exp l = son(e);
-		exp r = bro(l);
+		exp r = next(l);
 
 		int a1 = reg_operand(l, sp);
 		int a2 = reg_operand(r, sp);
@@ -2053,7 +2053,7 @@ tailrecurse:
 
 	case fmax_tag: {
 		exp l = son(e);
-		exp r = bro(l);
+		exp r = next(l);
 
 		int a1 = freg_operand(l, sp);
 		int a2 = freg_operand(r, sp);
@@ -2113,7 +2113,7 @@ tailrecurse:
 	case absbool_tag: {
 		/* need to clear up the distinctions between comparison and conditional move. */
 		exp l = son(son(e));
-		exp r = bro(l);
+		exp r = next(l);
 		shape shl = sh(l);
 		instruction compare_ins;
 		int   n = props(son(e));
@@ -2264,7 +2264,7 @@ tailrecurse:
 	 */
 	case test_tag: {
 		exp l = son(e);
-		exp r = bro(l);
+		exp r = next(l);
 		int   lab = (ptno (e) < 0) ? -ptno (e) : no (son (pt (e))); /* !! */
 		/* see frig in cond_tag */
 		shape shl = sh(l);
@@ -2390,7 +2390,7 @@ tailrecurse:
 	case ass_tag:
 	case assvol_tag: {
 		exp lhs = son(e);
-		exp rhs = bro(lhs);
+		exp rhs = next(lhs);
 		where assdest;
 		space nsp;
 		ash arhs;
@@ -2607,14 +2607,14 @@ tailrecurse:
 				newis.b.offset += no(t);
 				assert(t->tag == val_tag && al2(sh(t)) >= 8);
 				setinsalt(newdest.answhere, newis);
-				newdest.ashwhere = ashof(sh(bro(t)));
-				code_here(bro(t), nsp, newdest);
+				newdest.ashwhere = ashof(sh(next(t)));
+				code_here(next(t), nsp, newdest);
 
-				if (bro(t)->last) {
+				if (next(t)->last) {
 					return mka;
 				}
 
-				t = bro(bro(t));
+				t = next(next(t));
 			}
 		}
 
@@ -2630,7 +2630,7 @@ tailrecurse:
 		}
 			FALL_THROUGH;
 		case inreg:
-			code_here(bro(t), sp, dest);
+			code_here(next(t), sp, dest);
 			r = regalt(dest.answhere);
 			assert(t->tag == val_tag);
 
@@ -2640,11 +2640,11 @@ tailrecurse:
 			}
 
 			nsp = guardreg(r, sp);
-			while (!bro(t)->last) {
+			while (!next(t)->last) {
 				int z;
-				t = bro(bro(t));
+				t = next(next(t));
 				assert(t->tag == val_tag);
-				z = reg_operand(bro(t), nsp);
+				z = reg_operand(next(t), nsp);
 
 				if (no(t) != 0) {
 					operate_fmt_immediate
@@ -2683,7 +2683,7 @@ tailrecurse:
 				str.b.offset = 0;
 			}
 
-			for (; t != NULL; t = bro(t)) {
+			for (; t != NULL; t = next(t)) {
 				where newdest;
 				instore newis;
 
@@ -2697,7 +2697,7 @@ tailrecurse:
 					return mka;
 				}
 
-				disp += (rounder(shape_size(sh(t)), shape_align(sh(bro(t)))) >> 3);
+				disp += (rounder(shape_size(sh(t)), shape_align(sh(next(t)))) >> 3);
 			}
 
 			return mka;
@@ -2726,8 +2726,8 @@ tailrecurse:
 
 			while (!t->last) {
 				int z;
-				disp += rounder(shape_size(sh(t)), shape_align(sh(bro(t))));
-				t = bro(t);
+				disp += rounder(shape_size(sh(t)), shape_align(sh(next(t))));
+				t = next(t);
 				z = reg_operand(t, nsp);
 				operate_fmt_immediate(i_sll, z, disp, z);
 				operate_fmt(i_bis, z, z, r);
@@ -2806,7 +2806,7 @@ tailrecurse:
 
 	case apply_tag: {
 		exp fn = son(e);
-		exp par = bro(fn);
+		exp par = next(fn);
 		exp list = par;
 		int   hda = sh(e)->tag;
 		int   disp;
@@ -2912,7 +2912,7 @@ tailrecurse:
 					break;
 				}
 
-				list = bro(list);
+				list = next(list);
 			}
 		}
 
@@ -2998,9 +2998,9 @@ tailrecurse:
 
 	case apply_general_tag: {
 		exp fn = son(e);
-		exp callers = bro(fn);
-		exp cllees = bro(callers);
-		exp postlude = bro(cllees);
+		exp callers = next(fn);
+		exp cllees = next(callers);
+		exp postlude = next(cllees);
 		space nsp;
 		int postlude_arg_space;
 		nsp = sp;
@@ -3065,7 +3065,7 @@ tailrecurse:
 		if (call_is_untidy(cllees)) {
 			operate_fmt_immediate(i_subq, SP, postlude_arg_space >> 3, SP);
 			reset_tos();
-			assert(bro(cllees)->tag == top_tag);
+			assert(next(cllees)->tag == top_tag);
 		} else if (postlude_has_call(e)) {
 			exp x = son(callers);
 			postlude_chain p;
@@ -3079,7 +3079,7 @@ tailrecurse:
 					break;
 				}
 
-				x = bro(x);
+				x = next(x);
 			}
 
 			asm_comment("In postlude, with call");
@@ -3149,7 +3149,7 @@ tailrecurse:
 		if (no(e)) {
 			int lastpar = 0;
 
-			for (; !lastpar; list =  bro(list)) {
+			for (; !lastpar; list =  next(list)) {
 				ap = ashof(sh(list));
 				disp = rounder(disp, ap.ashalign);
 				is.b.offset = disp >> 3;
@@ -3271,7 +3271,7 @@ tailrecurse:
 		load_reg(son(e), rptr, sp);
 		nsp = guardreg(rptr, sp);
 		rsize = getreg(nsp.fixed);
-		load_reg(bro(son(e)), rsize, sp);
+		load_reg(next(son(e)), rsize, sp);
 		nsp = guardreg(rsize, nsp);
 		rdest = getreg(nsp.fixed);
 		nsp = guardreg(rdest, nsp);
@@ -3307,7 +3307,7 @@ tailrecurse:
 
 	case tail_call_tag: {
 		exp fn = son(e);
-		exp cllees = bro(fn);
+		exp cllees = next(fn);
 		exp bdy = son(crt_proc);
 		int stack_space;
 		int rsize = -1;
@@ -3395,7 +3395,7 @@ tailrecurse:
 				}
 			}
 
-			bdy = bro(sbody);
+			bdy = next(sbody);
 		}
 
 		restore_sregs(fixdone, fltdone);
@@ -3433,7 +3433,7 @@ tailrecurse:
 			load_reg(son(cllees), rsource, sp);
 			nsp = guardreg(rsource, nsp);
 			rsize = getreg(nsp.fixed);
-			load_reg(bro(son(cllees)), rsize, nsp);
+			load_reg(next(son(cllees)), rsize, nsp);
 			nsp = guardreg(rsize, nsp);
 			tempreg = getreg(nsp.fixed);
 			operate_fmt_immediate(i_subq, FP, 4 * (PTR_SZ >> 3) + stack_space, rdest);
@@ -3481,7 +3481,7 @@ tailrecurse:
 			if (cllees->tag != make_dynamic_callee_tag) {
 				b.offset = (((no(cllees) >> 3) + 39) & ~7) - (PTR_SZ >> 3);
 			} else {
-				load_reg(bro(son(cllees)), rsize, sp);
+				load_reg(next(son(cllees)), rsize, sp);
 				operate_fmt_immediate(i_addq, rsize, 7, rsize);
 				operate_fmt_immediate(i_bic, rsize, 7, rsize);
 				operate_fmt_immediate(i_addq, rsize, (39 & ~7) - (PTR_SZ >> 3), rsize);
@@ -3623,7 +3623,7 @@ tailrecurse:
 		return mka;
 
 	case solve_tag: {
-		exp m = bro(son(e));
+		exp m = next(son(e));
 		int   l = exitlab;
 
 		if (dest.answhere.discrim == insomereg) {
@@ -3653,11 +3653,11 @@ tailrecurse:
 			if (m->last) {
 				break;
 			}
-			m = bro(m);
+			m = next(m);
 		}
 
 		/* evaluate all the component statements */
-		for (m = son(e); ; m = bro(m)) {
+		for (m = son(e); ; m = next(m)) {
 			int   fl = make_code(m, sp, dest, l).lab;
 			clear_all();
 
@@ -3687,7 +3687,7 @@ tailrecurse:
 		int   r = reg_operand(son(e), sp);
 		/* evaluate controlling integer into reg r */
 		mm lims;
-		exp z = bro(son(e));
+		exp z = next(son(e));
 		exp zt = z;
 		INT64  n;
 		INT64  l;
@@ -3720,7 +3720,7 @@ tailrecurse:
 				}
 			}
 
-			zt = bro(zt);
+			zt = next(zt);
 		}
 
 		/* Now l is lowest controlling value and u is highest */
@@ -3790,7 +3790,7 @@ tailrecurse:
 					break;
 				}
 
-				z = bro(z);
+				z = next(z);
 			}
 
 			set_text_section();
@@ -3892,7 +3892,7 @@ tailrecurse:
 					return mka;
 				}
 
-				z = bro(z);
+				z = next(z);
 			}
 		}
 	}
@@ -3917,7 +3917,7 @@ tailrecurse:
 			space nsp;
 			ans aa;
 			nsp = guardreg(r1, sp);
-			r2 = reg_operand(bro(son(e)), nsp);
+			r2 = reg_operand(next(son(e)), nsp);
 			nsp = guardreg(r2, nsp);
 			r0 = getreg(nsp.fixed);
 			nsp = guardreg(r0, nsp);
@@ -4336,7 +4336,7 @@ out:
 			space nsp;
 			ans aa;
 			nsp = guardreg(r1, sp);
-			r2 = reg_operand(bro(son(e)), nsp);
+			r2 = reg_operand(next(son(e)), nsp);
 			nsp = guardreg(r2, nsp);
 			r0 = getreg(nsp.fixed);
 			nsp = guardreg(r0, nsp);
@@ -4423,7 +4423,7 @@ out:
 	/* end minus */
 	case mult_tag:
 	case offset_mult_tag: {
-		exp rop = bro(son(e));
+		exp rop = next(son(e));
 		instruction mult_ins;
 
 		if (!optop(e) & error_treatment_is_trap(e)) {
@@ -4501,7 +4501,7 @@ out:
 			int zerolab = new_label();
 			int mult_end_lab = new_label();
 			nsp = guardreg(r1, sp);
-			r2 = reg_operand(bro(son(e)), nsp);
+			r2 = reg_operand(next(son(e)), nsp);
 			nsp = guardreg(r2, nsp);
 			r0 = getreg(nsp.fixed);
 			nsp = guardreg(r0, nsp);
@@ -4643,7 +4643,7 @@ out:
 	case offset_div_by_int_tag:
 	case offset_div_tag:
 	case div0_tag: {
-		exp rop = bro(son(e));
+		exp rop = next(son(e));
 		exp lop = son(e);
 		bool uns = (sh(e)->tag & 1) == 0; /* ?? */
 		space nsp;
@@ -4726,7 +4726,7 @@ out:
 
 #if 0
 	case div1_tag: {  /* only applies to signed operands */
-		exp rop = bro(son(e));
+		exp rop = next(son(e));
 		exp lop = son(e);
 		int ne = e->tag;
 		space nsp;
@@ -4911,7 +4911,7 @@ out:
 	}
 
 	case movecont_tag: {
-		exp szarg = bro(bro(son(e)));
+		exp szarg = next(next(son(e)));
 		int dr, sr, szr, mr;
 		int lout = new_label();
 		space nsp;
@@ -4926,10 +4926,10 @@ out:
 		nsp = guardreg(sr, sp);
 		dr = getreg(nsp.fixed);
 		setregalt(w.answhere, dr);
-		IGNORE make_code(bro(son(e)), nsp, w, 0);
+		IGNORE make_code(next(son(e)), nsp, w, 0);
 
 		nsp = guardreg(dr, nsp);
-		w.ashwhere = ashof(sh(bro(bro(son(e)))));
+		w.ashwhere = ashof(sh(next(next(son(e)))));
 		szr = getreg(nsp.fixed);
 		setregalt(w.answhere, szr);
 		IGNORE make_code(szarg, nsp, w, 0);
@@ -4987,7 +4987,7 @@ out:
 	case shl_tag:
 	case shr_tag: {
 		exp s = son(e);
-		exp b = bro(s);
+		exp b = next(s);
 		int a;
 		int d;
 		int src_reg;
@@ -5054,8 +5054,8 @@ out:
 			int ar = reg_operand(b, nsp);
 
 			/* ... similarly in these cases */
-			if (!is_signed(sh(b)) || (b->tag == and_tag && bro(son(b))->tag == val_tag
-			        && no(bro(son(b))) > 0 && no(bro(son(b))) <= 31))
+			if (!is_signed(sh(b)) || (b->tag == and_tag && next(son(b))->tag == val_tag
+			        && no(next(son(b))) > 0 && no(next(son(b))) <= 31))
 			{
 				operate_fmt(shnat, src_reg, ar, d);
 			} else {
@@ -5095,7 +5095,7 @@ out:
 #if 0
 	case mod_tag: {
 		/* only applies to signed operands */
-		exp rop = bro(son(e));
+		exp rop = next(son(e));
 		exp lop = son(e);
 		int ne = e->tag;
 		space nsp;
@@ -5146,7 +5146,7 @@ out:
 	case mod_tag:
 	case rem0_tag:
 	case rem2_tag: {
-		exp rop = bro(son(e));
+		exp rop = next(son(e));
 		exp lop = son(e);
 		bool uns = !is_signed(sh(e));
 		space nsp;
@@ -5395,7 +5395,7 @@ out:
 		*/
 
 		if (!optop(e) && !error_treatment_is_trap(e)) {
-			int fr = freg_operand(bro(son(e)), sp);
+			int fr = freg_operand(next(son(e)), sp);
 			float_branch(i_fbeq, fr, no(son(pt(e))));
 		}
 
@@ -5577,13 +5577,13 @@ out:
 	}
 
 	case and_tag:
-		if (use_andcomp && bro(son(e))->tag == not_tag) {
-			bro(son(e)) = son(bro(son(e)));
+		if (use_andcomp && next(son(e))->tag == not_tag) {
+			next(son(e)) = son(next(son(e)));
 			mka.regmove = comm_op(e, sp, dest, i_bic);
 		} else if (use_andcomp && son(e)->tag == not_tag) {
 			exp tmp = copyexp(son(e));
-			son(e) = bro(son(e));
-			bro(son(e)) = son(tmp);
+			son(e) = next(son(e));
+			next(son(e)) = son(tmp);
 			/*retcell(tmp)*/;
 			mka.regmove = comm_op(e, sp, dest, i_bic);
 		} else {
@@ -5805,7 +5805,7 @@ out:
 				}
 			}
 
-			l = bro(son(l));
+			l = next(son(l));
 			if (l->tag == dump_tag) {
 				l = son(l);
 			}
@@ -5829,7 +5829,7 @@ out:
 				}
 			}
 
-			l = bro(son(l));
+			l = next(son(l));
 			if (l->tag == dump_tag) {
 				l = son(l);
 			}
@@ -5972,7 +5972,7 @@ out:
 		pars.flt = 0;
 
 		for (l = son(e); l->tag == ident_tag && isparam(l) &&
-		     son(l)->tag != formal_callee_tag; l = bro(son(l))) {
+		     son(l)->tag != formal_callee_tag; l = next(son(l))) {
 			if ((props(l) & infreg_bits) != 0) {
 				int n = props(son(l));
 				if (n != no(l) && n != 0) {
@@ -6087,7 +6087,7 @@ out:
 		aritherr_lab = 0;
 
 		/* fix up integers passed in registers */
-		for (l = son(e); l->tag == ident_tag && isparam(l); l = bro(son(l))) {
+		for (l = son(e); l->tag == ident_tag && isparam(l); l = next(son(l))) {
 			if (props(l) & inreg_bits) {
 				int n = props(son(l));
 				assert((n >= FIRST_INT_ARG) && (n <= LAST_INT_ARG));
@@ -6178,7 +6178,7 @@ out:
 	case local_free_tag: {
 		exp s = son(e);
 		int r = reg_operand(s, sp);
-		exp off = bro(s);
+		exp off = next(s);
 
 		asm_comment("local_free_tag");
 		if (off->tag == val_tag) {
@@ -6426,7 +6426,7 @@ null_tag_case: {
 		 * This handles a conditional assignment of the form:
 		 * IF ( A .rel. B) THEN X = Y, using conditional moves.
 		 *
-		 * son(e) is the test_tag and bro(son(e)) is the assignment.
+		 * son(e) is the test_tag and next(son(e)) is the assignment.
 		 *
 		 * Note that the test condition is the opposite of the condition
 		 * for the conditional move (because the original test is a
@@ -6435,15 +6435,15 @@ null_tag_case: {
 		where assdest;
 		instruction cinst;
 		exp ctest = son(e);
-		exp cass = bro(ctest);
+		exp cass = next(ctest);
 		exp ltest = son(ctest);	/* lhs of test */
-		exp rtest = bro(ltest);	/* rhs of test */
+		exp rtest = next(ltest);	/* rhs of test */
 		int testid = props(ctest) & 127;
 		int targ1, targ2;		/* arguments of test */
 		int aarg1, aarg2;		/* arguments of assignment */
 		int rev = 0;		/* set if test is reversed */
 		ans aa;
-		exp rhs = bro(son(cass));
+		exp rhs = next(son(cass));
 		error(ERR_INTERNAL, "condassign_tag should not be encountered");
 		assdest = locate(son(cass), sp, sh(rhs), NO_REG);
 
@@ -6472,7 +6472,7 @@ null_tag_case: {
 
 			aarg1 = freg_operand(son(cass), sp);
 			nsp = guardreg(aarg1, sp);
-			aarg2 = freg_operand(bro(son(cass)), nsp);
+			aarg2 = freg_operand(next(son(cass)), nsp);
 			frg.fr = aarg1;
 			frg.type = (sh(ltest)->tag == shrealhd) ? IEEE_single : IEEE_double;
 			float_op(rev ? i_fcmovne : i_fcmoveq, rdest, aarg2, aarg1);

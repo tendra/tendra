@@ -237,7 +237,7 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 				assert (!isenvoff(e));
 			}
 		}
-		body = regalloc(bro(s), ffix, ffloat, st);
+		body = regalloc(next(s), ffix, ffloat, st);
 		return maxspace(body, def);
 	} else if (n == case_tag) {
 		/* recurse on all expressions in tree */
@@ -247,7 +247,7 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 		def = regalloc(s, freefixed, freefloat, stack);
 		while (!s->last) {
 			spacereq sdef;
-			s = bro(s);
+			s = next(s);
 			sdef = regalloc(s, freefixed, freefloat, stack);
 			def = maxspace(def, sdef);
 		}

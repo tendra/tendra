@@ -247,14 +247,14 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 				asm_comment("regalloc no(e)==%ld:/* allocation of stack like regs in make_code */", no(e));
 			}
 		}
-		body = regalloc(bro(s), ffix, ffloat, st);
+		body = regalloc(next(s), ffix, ffloat, st);
 
 		asm_comment("regalloc return:	ffix,ffloat,st = %d %d %ld", ffix, ffloat, st);
 		return maxspace2(def, body);
 	}
 
 	case case_tag:
-		/* We do not wish to recurse down the bro(son(e)) */
+		/* We do not wish to recurse down the next(son(e)) */
 		def = regalloc(s, freefixed, freefloat, stack);
 		def.obtain = NULL;/* A case returns nothing */
 		return def;
@@ -304,7 +304,7 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 
 	case seq_tag:
 		def = regalloc(s, freefixed, freefloat, stack);
-		s = bro(s);
+		s = next(s);
 		def = maxspace2(def, regalloc(s, freefixed, freefloat, stack));
 		return def;
 
@@ -327,7 +327,7 @@ label_default:
 			}
 
 			while (!s->last) {
-				s = bro(s);
+				s = next(s);
 				def = maxspace(def, regalloc(s, freefixed, freefloat, stack));
 				if (def.obtain == s) {
 					if ((props(def.obtain)&inreg_bits) != 0) {

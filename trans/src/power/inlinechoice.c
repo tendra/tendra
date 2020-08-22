@@ -62,7 +62,7 @@ inlinechoice(exp t, exp def, int total)
 		if (apars->last) {
 			return 1;
 		}
-		apars = bro(apars);
+		apars = next(apars);
 
 		switch (apars->tag) {
 		case val_tag:
@@ -83,7 +83,7 @@ inlinechoice(exp t, exp def, int total)
 			newdecs++;
 		}
 
-		fpars = bro(son(fpars));
+		fpars = next(son(fpars));
 	}
 
 	/*

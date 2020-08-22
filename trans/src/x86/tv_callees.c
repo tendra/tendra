@@ -53,7 +53,7 @@ transform_var_callees(void)
 			{
 				exp arg_id = gp_body;
 				exp oldlist = pt(arg_id);
-				gp_body = bro(son(gp_body));
+				gp_body = next(son(gp_body));
 
 				while (oldlist != NULL) {
 					exp this_n = oldlist;
@@ -69,7 +69,7 @@ transform_var_callees(void)
 					} else {
 						exp r = getexp(f_pointer(f_alignment(sh(son(arg_id)))),
 						               this_n, 1, new_n, NULL, 0, no(this_n) + param_offset, reff_tag);
-						bro(new_n) = r;
+						next(new_n) = r;
 						this_n->tag = cont_tag;
 						son(this_n) = r;
 					}
@@ -82,7 +82,7 @@ transform_var_callees(void)
 				arg_id->tag = 0;
 
 				no(arg_id) = param_offset;
-				bro(arg_id) = NULL;
+				next(arg_id) = NULL;
 				pt(arg_id) = NULL;
 				param_offset = rounder(param_offset + shape_size(sh(son(arg_id))), param_align);
 				retcell(son(arg_id));
@@ -92,7 +92,7 @@ transform_var_callees(void)
 			{
 				setparam (newdec);	/* not var */
 				setcaonly(newdec);
-				bro(son(newdec)) = gp_body;
+				next(son(newdec)) = gp_body;
 				setfather(newdec, gp_body);
 				gp_body = newdec;
 			}
@@ -106,8 +106,8 @@ transform_var_callees(void)
 		{
 			exp nlist = pt(tag);
 			while (nlist != NULL) {
-				if (nlist->tag == name_tag && nlist->last && bro(nlist) != NULL &&
-				    bro(nlist)->tag == env_size_tag) {
+				if (nlist->tag == name_tag && nlist->last && next(nlist) != NULL &&
+				    next(nlist)->tag == env_size_tag) {
 					set_proc_needs_envsize(son(tag));
 				}
 				nlist = pt(nlist);

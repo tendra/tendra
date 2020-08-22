@@ -385,7 +385,7 @@ scan_diag_names(exp e, exp whole)
 	if (son(e) != NULL && e->tag != env_offset_tag) {
 		exp t;
 
-		for (t = son(e); ; t = bro(t)) {
+		for (t = son(e); ; t = next(t)) {
 			scan_diag_names(t, whole);
 			if (t->last) {
 				return;

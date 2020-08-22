@@ -46,8 +46,8 @@ is_worth(exp c)
 	          )
 	       || (cnam == cont_tag && son(c)->tag == name_tag &&
 	           isvar(son(son(c))) && isglob(son(son(c))) &&
-	           ((c->last && bro(c) != NULL) ||
-	           (!c->last && bro(c)->last && bro(bro(c)) != NULL)) &&
+	           ((c->last && next(c) != NULL) ||
+	           (!c->last && next(c)->last && next(next(c)) != NULL)) &&
 	           father(c)->tag == test_tag);
 }
 

@@ -75,8 +75,8 @@ static void
 chk_cond(node *p)
 {
 	node *s;
-	node *q1 = p->son->bro->son;
-	node *q2 = p->son->bro->bro->son;
+	node *q1 = p->son->next->son;
+	node *q2 = p->son->next->next->son;
 	node *s1 = q1->shape;
 	node *s2 = q2->shape;
 
@@ -119,9 +119,9 @@ chk_tag(node *p, node *a, int intro)
 		if (d && d->cons->sortnum == SORT_completion)
 			d = d->son;
 		if (d)
-			d = d->bro;
+			d = d->next;
 		if (d)
-			d = d->bro;
+			d = d->next;
 
 		switch (info->var) {
 		case 0:
@@ -248,7 +248,7 @@ is_known(node *p)
 		if (p->son && !is_known(p->son))
 			return 0;
 
-		p = p->bro;
+		p = p->next;
 	}
 
 	return 1;
@@ -275,17 +275,17 @@ check_tagdef(construct *p)
 		df = df->son;
 
 	if (info->var)
-		df = df->bro;
+		df = df->next;
 
 	if (dc == NULL) {
 		if (is_known(df->shape)) {
 			/* Declaration = ?[u]?[X]S (from 4.0) */
 			node *q = new_node();
 			q->cons = &false_cons;
-			q->bro = new_node();
-			q->bro->cons = &false_cons;
-			q->bro->bro = df->shape;
-			info->dec->bro = completion(q);
+			q->next = new_node();
+			q->next->cons = &false_cons;
+			q->next->next = df->shape;
+			info->dec->next = completion(q);
 		} else {
 			is_fatal = 0;
 			input_error("Can't deduce shape of %s from definition", nm);
@@ -295,7 +295,7 @@ check_tagdef(construct *p)
 			dc = dc->son;
 
 		/* Declaration = ?[u]?[X]S (from 4.0) */
-		dc = dc->bro->bro;
+		dc = dc->next->next;
 		checking = nm;
 		IGNORE check_shapes(dc, df->shape, 1);
 	}
