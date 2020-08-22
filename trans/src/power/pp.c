@@ -38,7 +38,7 @@
  */
 
 void properties(int);
-exp show_bro(int);
+exp show_next(int);
 exp show_son(int);
 exp show_current(int);
 exp show_father(int);
@@ -199,7 +199,7 @@ show_current(int i)
 }
 
 exp
-show_bro(int i)
+show_next(int i)
 {
 	exp l;
 
