@@ -288,7 +288,7 @@ alloc_variable(exp e, exp def, ash stack)
 	int br = (int)no(e);
 
 	bool force_reg = isusereg(e);
-	bool big = (props(e) & 0x80 ? 1 : 0);
+	bool big = (e->props & 0x80 ? 1 : 0);
 	bool in_reg1 = 0, in_reg2 = 0, in_reg3 = 1;
 
 	dc.new_stack = stack;
@@ -468,7 +468,7 @@ solve(exp s, exp l, where dest, exp jr, ash stack)
 		long lb = next_lab();
 		exp record = simple_exp(0);
 
-		if (props(child(next(l))) & 2) {
+		if (child(next(l))->props & 2) {
 			record->last = true;
 		}
 
@@ -1165,7 +1165,7 @@ make_code(where dest, ash stack, exp e)
 		int shn;
 
 		/* Find the test number */
-		long test_n = (long)props(e);
+		long test_n = (long) e->props;
 
 		/* Find the expressions being compared */
 		exp arg1 = child(e);
@@ -1337,7 +1337,7 @@ make_code(where dest, ash stack, exp e)
 		bit_test(sh(arg1), zw(arg1), zw(arg2));
 
 		/* Output the conditional jump */
-		branch((long)props(e), jr, 1, 0, 0);
+		branch((long) e->props, jr, 1, 0, 0);
 		return;
 	}
 

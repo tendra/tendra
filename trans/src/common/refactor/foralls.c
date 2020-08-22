@@ -100,12 +100,12 @@ isaltered(exp ld, int always)
 	for (z = alteredset; z != NULL; z = next(z)) {
 		if (child(ld) == child(child(z)) &&
 		    (child(ld)->tag != proc_tag || no(ld) == no(child(z)))) {
-			props(z) &= (prop)always;
+			z->props &= (prop)always;
 			return;
 		}
 	}
 
-	nld = getexp(sh(ld), alteredset, 1, child(ld), NULL, props(ld), no(ld), ld->tag);
+	nld = getexp(sh(ld), alteredset, 1, child(ld), NULL, ld->props, no(ld), ld->tag);
 	alteredset = getexp(NULL, alteredset, alteredset == NULL, nld, NULL, (prop)always, 0, 0);
 }
 
@@ -177,7 +177,7 @@ tryalias:
 		           child(child(dest))->tag == name_tag && isvar(child(child(child(dest))))) {
 			isaltered(child(child(dest)), everytime);
 		} else if (dest->tag == name_tag &&
-		           (props(child(dest)) & 0x10) != 0) {
+		           (child(dest)->props & 0x10) != 0) {
 			/* const in some loop */
 			exp def = child(child(dest));
 			if (def->tag == reff_tag) {
@@ -301,7 +301,7 @@ usage_in(exp whole, exp part)
 	int res = 1;
 	int n = (int) q->tag;
 
-	while (q != whole && q != NULL && (n != ident_tag || (props(q) & 0x40) == 0)) {
+	while (q != whole && q != NULL && (n != ident_tag || (q->props & 0x40) == 0)) {
 		q = father(q);
 		n = (int)q->tag;
 
@@ -536,7 +536,7 @@ collect_loopthings(exp ind, int everytime)
 			exp n = getexp(topsh, NULL, 0, ind, pt(z), 0, 0, 0);
 			pt(z) = n;
 			no(z) ++;
-			props(z) &= (prop)everytime;
+			z->props &= (prop)everytime;
 			return;
 		}
 	}
@@ -589,7 +589,7 @@ collect_incrs(exp incr, int everytime)
 			exp n = getexp(topsh, NULL, 0, incr, pt(z), 0, 0, 0);
 			pt(z) = n;
 			no(z) ++;
-			props(z) &= (prop)everytime;
+			z->props &= (prop)everytime;
 			return;
 		}
 	}
@@ -997,7 +997,7 @@ weaken(exp loop, exp addptrset, exp incrset)
 		return 0;
 	}
 
-	if (props(addptrset) && unaltered(child(addptr), assign_alias)) {
+	if (addptrset->props && unaltered(child(addptr), assign_alias)) {
 		res = 1;
 	}
 
@@ -1144,7 +1144,7 @@ replace_var(exp ldcpy, exp loop, shape shcont)
 	exp z;
 	exp *pos;
 	exp ld = getexp(sh(ldcpy), NULL, 1, child(ldcpy), pt(child(ldcpy)),
-	                props(ldcpy), no(ldcpy), ldcpy->tag);
+	                ldcpy->props, no(ldcpy), ldcpy->tag);
 	exp def = getexp(shcont, NULL, 0, ld, NULL, 0, 0, cont_tag);
 	exp varid = getexp(sh(loop), next(loop), loop->last, def, NULL,
 	                   subvar | 1 /*var*/, 1, ident_tag);
@@ -1304,7 +1304,7 @@ remove_incr(exp adec, exp test, exp incr, int mult)
 	exp ldn = getexp(sh(child(ndec)), NULL, 0, ndec, pt(ndec), 0, 0,
 	                 name_tag);
 	exp ntestx = getexp(sh(test), next(test), test->last, NULL, pt(test),
-	                    props(test), no(test), test->tag);
+	                    test->props, no(test), test->tag);
 
 	next(lda) = clda;
 	pt(adec) = lda;
@@ -1373,7 +1373,7 @@ remove_incr2(exp adec, exp test, exp incr, int mult)
 	}
 
 	ntestx = getexp(sh(test), next(test), test->last, NULL, pt(test),
-	                props(test), no(test), test->tag);
+	                test->props, no(test), test->tag);
 	next(lda) = clda;
 	pt(adec) = lda;
 	no(adec)++;
@@ -1515,7 +1515,7 @@ do_one_rep(exp loop)
 
 			if (a->tag == name_tag &&
 			    (isglob(child(a)) || !isvar(child(a))) &&
-			    (props(child(a)) & subvar) == 0 &&
+			    (child(a)->props & subvar) == 0 &&
 			    (!assign_alias ||
 			     (isvar(child(a)) && iscaonly(child(a)))) &&
 			    !intnl_to(body, child(a))) {
@@ -1765,7 +1765,7 @@ static void
 order_loops(exp reps)
 {
 	/* start at outer loop ?! */
-	if ((props(reps) & 0x80) == 0) {
+	if ((reps->props & 0x80) == 0) {
 		if (next(reps) != NULL) {
 			order_loops(next(reps));
 		}
@@ -1797,7 +1797,7 @@ order_loops(exp reps)
 			IGNORE do_one_rep(loop);
 		}
 
-		props(reps) |= 0x80;
+		reps->props |= 0x80;
 	}
 }
 

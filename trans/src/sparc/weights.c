@@ -253,7 +253,7 @@ tailrecurse:
 		noe = no(e); /* set by scan */
 
 		/* weights for initialisation of dec */
-		if (child(e)->tag == clear_tag || props(e) & defer_bit) {
+		if (child(e)->tag == clear_tag || e->props & defer_bit) {
 			wdef = zeroweights;
 			fno(e) = 0.0;
 		} else {
@@ -269,7 +269,7 @@ tailrecurse:
 		/* weights of body of scan */
 		wbody = weightsv(scale, next(child(e)));
 
-		if (props(e) & defer_bit) {
+		if (e->props & defer_bit) {
 			/* declaration will be treated transparently in code production */
 			exp s;
 			exp t = child(e);
@@ -293,14 +293,14 @@ tailrecurse:
 			return wbody;
 		}
 
-		if ((props(e) & inreg_bits) == 0 && fixregable(e)) {
+		if ((e->props & inreg_bits) == 0 && fixregable(e)) {
 			/* NO decrease decrease in scale as reg windows
 			   make s-regs "cost-free" */
 			wp p;
 			p = max_weights(fno(e), &wbody, 1);
 			no(e) = (int) p.fix_break;
 			return add_weights (&wdef, &p.wp_weights);
-		} else if ((props(e) & infreg_bits) == 0 && floatregable(e)) {
+		} else if ((e->props & infreg_bits) == 0 && floatregable(e)) {
 			/* usage decreased by 3 because of dump and restore of
 			   double s-reg */
 			wp p;

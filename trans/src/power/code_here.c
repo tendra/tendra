@@ -52,11 +52,11 @@ int regofval(exp e)
   if (e->tag == name_tag)
   {
     assert(dc->tag == ident_tag);
-    if (props(dc) & defer_bit)
+    if (dc->props & defer_bit)
     {
       return regofval(child(dc));
     }
-    if (props(dc) & inreg_bits)
+    if (dc->props & inreg_bits)
     {
       /*
        * HACK: The no(dc) is a register number 0-31 i.e positive
@@ -92,7 +92,7 @@ fregofval(exp e)
      */
     assert(dc->tag == ident_tag);
 
-    if ((props(dc) & infreg_bits) != 0)
+    if ((dc->props & infreg_bits) != 0)
     {
       return no(dc);
     }

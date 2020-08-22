@@ -172,7 +172,7 @@ static exp testlast(exp e, exp second)
 }
 
 /* Does e, or components of e contain a bitfield? */
-/* +++ should detect this earlier and record in props(e) once-and-for-all */
+/* +++ should detect this earlier and record in e->props once-and-for-all */
 static int has_bitfield(exp e)
 {
 	if (e == NULL) {

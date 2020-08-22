@@ -381,7 +381,7 @@ evalaux(exp e, int isconst, int al)
 			}
 
 			for (j = i; goon && j < i + 10; ++j) {
-				switch (props(e)) {
+				switch (e->props) {
 				case 8:  asm_printf("%d", s[j]); break;
 				case 16: asm_printf("%d", ((short *) (void *) s)[j]); break; /* the pun to short * is correct: jmf */
 				case 32: asm_printf("%d", ((int   *) (void *) s)[j]); break; /* the pun to int   * is correct: jmf */

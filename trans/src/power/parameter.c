@@ -120,12 +120,12 @@ void output_parameters(exp e)
 
     init_exp = child(par);
     is_float = is_floating(sh(init_exp)->tag);
-    param_reg = props(init_exp);
+    param_reg = init_exp->props;
     param_size = shape_size(sh(init_exp));
     param_align = shape_align(sh(init_exp));
     param_offset = no(init_exp) >>3;
     src_in_reg = param_reg !=0;
-    dest_in_reg = (props(par) & inanyreg)!=0;
+    dest_in_reg = (par->props & inanyreg)!=0;
 
 
     if (src_in_reg==1)
@@ -148,7 +148,7 @@ void output_parameters(exp e)
     if (dest_in_reg==0
 	&& !p_has_no_vcallers
 	&& isvis(par)
-	&& props(init_exp)!=0
+	&& init_exp->props!=0
 	&& last_caller_param(par))
     {
       /* VARARGS */
@@ -255,7 +255,7 @@ void output_parameters(exp e)
       /* REGISTER  --->  REGISTER */
       int dest_reg = no(par);
       assert(dest_reg!=0);/* This is now set up in scan.c */
-      if ((props(par) & inreg_bits)!=0)
+      if ((par->props & inreg_bits)!=0)
       {
 	if (IS_SREG(dest_reg))
 	{

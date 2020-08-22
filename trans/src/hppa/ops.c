@@ -278,7 +278,7 @@ do_comm(exp seq, space sp, int final, ins_p rins)
 	/* evaluate 1st operand into a1 */
 
 	if (seq->tag == cont_tag && next(seq)->tag == val_tag && next(seq)->last
-	    && !(props(child(seq)) & inreg_bits)) {
+	    && !(child(seq)->props & inreg_bits)) {
 		reg_operand_here(seq, sp, final);
 		a1 = final;
 	} else {

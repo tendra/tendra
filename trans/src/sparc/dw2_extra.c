@@ -100,7 +100,7 @@ int dw_is_const(exp e)
 	return 0;
       if (isvar(child(e)))
 	return 1;
-      if ( props (child(e)) & defer_bit )
+      if ( child(e)->props & defer_bit )
 	return dw_is_const (child(child(e)));
       return 0;
 #if 0
@@ -121,7 +121,7 @@ exp dw_has_location(exp e)
     case name_tag: {
       if (isdiscarded(e) || isvar(child(e)))
 	return NULL;
-      if ( props (child(e)) & defer_bit )
+      if ( child(e)->props & defer_bit )
 	return dw_has_location (child(child(e)));
       return child(e);
     }
@@ -131,7 +131,7 @@ exp dw_has_location(exp e)
 	if (e->tag == name_tag && isdiscarded(e))
 	  return NULL;
       }
-      while (e->tag != ident_tag || (props(e) & defer_bit));
+      while (e->tag != ident_tag || (e->props & defer_bit));
       return e;
     }
     default:
@@ -144,7 +144,7 @@ static loc_s find_in_store(exp dc, long off)
 {
   loc_s l;
   baseoff b;
-  assert (! ( props ( dc ) & defer_bit ));
+  assert (! ( dc->props & defer_bit ));
   b = boff (dc);
   l.reg = b.base;
   l.off = off + b.offset;
@@ -168,7 +168,7 @@ static loc_s find_loc(exp e)
       }
       if ( isvar(child(e)) )
 	extra_deref--;
-      if ( props (child(e)) & defer_bit ) {
+      if ( child(e)->props & defer_bit ) {
 	l = find_loc (child(child(e)));
 	l.off += (no(e)/8);
       }
@@ -230,7 +230,7 @@ static loc_s find_loc(exp e)
 	  l.key = L_INDIRECT;
       }
       else
-      if ( props (child(child(e))) & defer_bit ) {
+      if ( child(child(e))->props & defer_bit ) {
 	l = find_loc (child(child(child(e))));
 	l.off += (no(child(e))/8);
       }
@@ -403,7 +403,7 @@ static int indirect_length(exp e)
       break;
     }
     case name_tag: {
-      if (props(child(e)) & defer_bit) {
+      if (child(e)->props & defer_bit) {
 	return indirect_length (child(child(e)));
       }
 	  FALL_THROUGH;
@@ -443,7 +443,7 @@ static void out_indirect(exp e)
 {
   loc_s l;
   if (e->tag == name_tag) {
-    assert (props(child(e)) & defer_bit);
+    assert (child(e)->props & defer_bit);
     out_indirect (child(child(e)));
     return;
   }
@@ -1023,7 +1023,7 @@ void dw_allocated(dg_name nm, exp id)
 {
   int reg = no(id), i;
   exp x = child(nm->data.n_obj.obtain_val);
-  if (!isglob(id) && (props(id) & inreg_bits) && reg < TRACKREGS) {
+  if (!isglob(id) && (id->props & inreg_bits) && reg < TRACKREGS) {
     dw_close_regassn (reg);
     regassns[reg].alloc = nm;
     regassns[reg].share_set = NULL;

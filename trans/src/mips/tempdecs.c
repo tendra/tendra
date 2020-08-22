@@ -59,7 +59,7 @@ trace_uses(exp e, exp id)
 	     exp f = child(e);
 	     exp s = next(f);
 	     int a;
-	     if ( ( props(e) & defer_bit) != 0 ) {
+	     if ( ( e->props & defer_bit) != 0 ) {
 		exp t = f;
 		f = s;
 	  	s = t;
@@ -211,7 +211,7 @@ tempdec(exp e, bool enoughs)
 	}
 
 	if (nouses ==0 &&(enoughs || !useinpar) ) {
-	     if (useinpar) props(e) |= notparreg; /* don't allocate this into par reg */
+	     if (useinpar) e->props |= notparreg; /* don't allocate this into par reg */
 	     return 1;
 	}
 	return 0;

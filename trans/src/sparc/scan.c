@@ -211,8 +211,8 @@ subvar_use ( exp uses )
 			if ( ! c -> last && next ( c ) -> last &&
 			     next ( next ( c ) ) -> tag == ident_tag ) {
 				exp id = next ( next ( c ) ) ;
-				if ( ( props ( id ) & subvar ) != 0 &&
-				     ( props ( id ) & inanyreg ) != 0 ) {
+				if ( ( id->props & subvar ) != 0 &&
+				     ( id->props & inanyreg ) != 0 ) {
 					return 1;
 				}
 			}
@@ -781,7 +781,7 @@ chase ( exp sel, exp * e )
 			exp stare = *e ;
 			exp newsel = getexp ( sh ( sel ), next ( stare ),
 			                      ( int ) stare -> last, stare,
-			                      NULL, props ( sel ), no ( sel ),
+			                      NULL, sel->props, no ( sel ),
 			                      sel->tag ) ;
 			*e = newsel ;
 			next ( stare ) = newsel ;
@@ -876,7 +876,7 @@ spin_lab  ( exp lab )
 static void
 id_in_asm ( exp id )
 {
-	if (!isparam(id) || !props(child(id))) {
+	if (!isparam(id) || !child(id)->props) {
 		setvis (id);
 	}
 }
@@ -1154,16 +1154,16 @@ scan ( exp * e, exp ** at )
 				/* Use an available param reg */
 				if (v_proc && (stparam >> 5) == last_reg) {
 					/* reserve R_I5 for use as local reg */
-					props(def2) = 0;
+					def2->props = 0;
 					stparam += 32;
 					n = stparam;
 				} else {
-					props ( def2 ) = ( prop ) fixparam ;
+					def2->props = ( prop ) fixparam ;
 				}
 			} else {
 				/* Pass by stack */
 				/* envoffset'ed this way always */
-				props ( def2 ) = 0 ;
+				def2->props = 0 ;
 			}
 
 			/* "offset" in params */
@@ -1179,7 +1179,7 @@ scan ( exp * e, exp ** at )
 			int n = rounder(callee_size, alp);
 			no(def2) = n;
 			callee_size = rounder(n + sizep, 32);
-			props(def2) = 0;
+			def2->props = 0;
 		}
 
 		nonevis = nonevis & !isvis ( stare ) ;
@@ -1203,7 +1203,7 @@ scan ( exp * e, exp ** at )
 		if ( isparam ( stare ) ) {
 			if (child(stare)->tag != formal_callee_tag) {
 				/* reg for param or else 0 */
-				int x = ( int ) props ( child ( stare ) ) ;
+				int x = ( int ) child ( stare )->props ;
 				/* bit size of param */
 				int par_size = shape_size ( sh ( child ( stare ) ) ) ;
 
@@ -1274,7 +1274,7 @@ scan ( exp * e, exp ** at )
 				/* don't take space for this dec */
 				pset ( stare, defer_bit ) ;
 			} else if ( !isvar ( stare ) &&
-			            ( ( props ( stare ) & 0x10 ) == 0 ) &&
+			            ( ( stare->props & 0x10 ) == 0 ) &&
 			            ( t->tag == name_tag ||
 			              t->tag == val_tag ) ) {
 				/* don't take space for this dec */
@@ -1418,7 +1418,7 @@ scan ( exp * e, exp ** at )
 		s = sh ( *arg ) ;
 		a = ashof ( s ) ;
 		/* clear possibility of tlrecirsion ; may be set later */
-		props ( *e ) = 0 ;
+		( *e )->props = 0 ;
 		x = scan ( arg, at ) ;
 		/* scan result exp ... */
 
@@ -1454,12 +1454,12 @@ scan ( exp * e, exp ** at )
 			     child ( child ( t ) ) == r )
 			{
 				/* result is tag allocated into result reg - see ident */
-				if ( ( props ( r ) & inreg_bits ) != 0 ) {
+				if ( ( r->props & inreg_bits ) != 0 ) {
 					x.fixneeds-- ;
-				} else if ( ( props ( r ) & infreg_bits ) != 0 ) {
+				} else if ( ( r->props & infreg_bits ) != 0 ) {
 					x.floatneeds-- ;
 				} else {
-					props ( r ) |= ( is_floating ( s->tag ) ) ?
+					r->props |= ( is_floating ( s->tag ) ) ?
 					               infreg_bits: inreg_bits ;
 				}
 
@@ -1706,7 +1706,7 @@ scan ( exp * e, exp ** at )
 		if ( tlrecpos ) {
 			exp dad = father ( appl ) ;
 			if ( dad->tag == res_tag ) {
-				props ( dad ) = 1 ;     /* do a tl recursion */
+				dad->props = 1 ;     /* do a tl recursion */
 			}
 		}
 
@@ -1775,7 +1775,7 @@ scan ( exp * e, exp ** at )
 		if ( tlrecpos ) {
 			exp dad = father ( mv ) ;
 			if ( dad->tag == res_tag ) {
-				props ( dad ) = 1 ;     /* do a tl recursion */
+				dad->props = 1 ;     /* do a tl recursion */
 			}
 		}
 
@@ -2042,7 +2042,7 @@ scan ( exp * e, exp ** at )
 		   test val */
 
 		if ( r->tag == val_tag &&
-		     (props(stare) == 5 || props(stare) == 6) && /* eq/neq */
+		     (stare->props == 5 || stare->props == 6) && /* eq/neq */
 		     no (r) == 0 &&	/* against 0 */
 		     l->tag == and_tag && next (child (l))->tag == val_tag &&
 		     (no (next (child (l))) & (no (next (child (l))) - 1)) == 0
@@ -2061,14 +2061,14 @@ scan ( exp * e, exp ** at )
 				l->tag = shl_tag;
 				no (next (child (l))) = x;
 			}
-			props (stare) -= 3;	/* test for neg */
+			stare->props -= 3;	/* test for neg */
 			sh (child (stare)) = slongsh;
 
 		}
 
 		if ( l->tag == bitf_to_int_tag &&
 		     r->tag == val_tag &&
-		     ( props ( stare ) == 5 || props ( stare ) == 6 ) &&
+		     ( stare->props == 5 || stare->props == 6 ) &&
 		     ( child ( l ) -> tag == cont_tag ||
 		       child ( l ) -> tag == name_tag ) ) {
 			/* equality of bits against +ve consts doesnt need
@@ -2091,14 +2091,14 @@ scan ( exp * e, exp ** at )
 		} else if ( is_floating ( sh ( l ) -> tag ) ) {
 			return fpop ( e, at ) ;
 		} else if ( r->tag == val_tag && no ( r ) == 1 &&
-		            ( props ( stare ) == 3 || props ( stare ) == 2 ) ) {
+		            ( stare->props == 3 || stare->props == 2 ) ) {
 			no ( r ) = 0 ;
-			if ( props ( stare ) == 3 ) {
+			if ( stare->props == 3 ) {
 				/* branch >= 1 -> branch > 0 */
-				props ( stare ) = 4 ;
+				stare->props = 4 ;
 			} else {
 				/* branch < 1 -> branch <= 0 */
-				props ( stare ) = 1 ;
+				stare->props = 1 ;
 			}
 		}
 		return likediv ( e, at ) ;
@@ -2534,7 +2534,7 @@ mult_tag_case:
 		needs nds;
 		nds = zeroneeds;
 
-		if (props(*e) != 0) {
+		if ((*e)->props != 0) {
 			error(ERR_SERIOUS, "~asm not in ~asm_sequence");
 		}
 

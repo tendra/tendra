@@ -48,10 +48,10 @@ regofval(exp e)
 {
   exp decx = child (e);
   if (e->tag == name_tag && decx->tag == ident_tag) {/* ident tag */
-    if ((props (decx) & defer_bit) != 0) {
+    if ((decx->props & defer_bit) != 0) {
       return regofval (child (decx));
     }
-    if ((props (decx) & inreg_bits) != 0) {
+    if ((decx->props & inreg_bits) != 0) {
       return isvar(decx) ? (-no (decx)) : (no (decx));
     }
     return 100;
@@ -74,11 +74,11 @@ fregofval(exp e)
 {
   exp decx = child (e);
   if (e->tag == name_tag && decx->tag == ident_tag) {
-    if ((props (decx) & infreg_bits) != 0) {
+    if ((decx->props & infreg_bits) != 0) {
       return no (decx);
     }
 #if 0
-    if((props(decx) & infreg_bits) != 0){
+    if((decx->props & infreg_bits) != 0){
       return isvar(decx) ? (-no(decx)) : (no(decx));
     }
 #endif

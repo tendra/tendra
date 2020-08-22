@@ -77,7 +77,7 @@ struct exp_t {
 	unsigned char tag;
 
 	bool last:1;
-	bool park:1;
+	bool parked:1;
 
 #ifdef TRANS_HPPA
 	bool commuted:1;
@@ -111,9 +111,7 @@ typedef struct exp_t *exp;
 #define next(x)            ((x)->next.e)
 #define sh(x)             ((x)->sh)
 #define pt(x)             ((x)->pt.e)
-#define props(x)          ((x)->props)
 #define no(x)             ((x)->num.l)
-#define parked(x)         ((x)->park)
 
 #ifdef TDF_DIAG4
 #define dgf(x)            ((x)->diag)
@@ -151,9 +149,9 @@ typedef struct exp_t *exp;
  * ERROR HANDLING
  */
 
-#define errhandle(x)       (props(x) & 0x7)
+#define errhandle(x)       ((x)->props & 0x7)
 #define optop(x)           ((int) (errhandle(x) <= 2))
-#define seterrhandle(x, e) props(x) = (props(x) & ~0x7) | (e)
+#define seterrhandle(x, e) (x)->props = ((x)->props & ~0x7) | (e)
 
 
 /*
@@ -161,8 +159,8 @@ typedef struct exp_t *exp;
  */
 
 #define setjmp_dest(x, d)  { setpt(x, d) ; no(child(d))++; }
-#define seterr_code(x, d)   props(x) = (d)
-#define isov(x)            (props(x) == 0x4)
+#define seterr_code(x, d)   (x)->props = (d)
+#define isov(x)            ((x)->props == 0x4)
 
 
 /*
@@ -184,24 +182,24 @@ typedef struct exp_t *exp;
  * CONSTITUENTS OF AN EXPRESSION FOR ROUNDING MODES
  */
 
-#define round_number(x)       (props (x) >> 3)
-#define setround_number(x, r) props (x) = (props (x) & 0x7) | ((r) << 3)
+#define round_number(x)       ((x)->props >> 3)
+#define setround_number(x, r) (x)->props = ((x)->props & 0x7) | ((r) << 3)
 
 
 /*
  * MACROS FOR MANIPULATING PROPERTIES
  */
 
-#define pset(x, m)        (props(x) |= (prop)  (m))
-#define pclr(x, m)        (props(x) &= (prop) ~(m))
-#define ptst(x, m)       ((props(x) & (m)) != 0)
+#define pset(x, m)        ((x)->props |= (prop)  (m))
+#define pclr(x, m)        ((x)->props &= (prop) ~(m))
+#define ptst(x, m)       (((x)->props & (m)) != 0)
 
 
 /*
  * PROPERTIES OF JUMP RECORD
  */
 
-#define fstack_pos_of(x)      props (x)
+#define fstack_pos_of(x)      (x)->props
 
 
 /*
@@ -278,19 +276,19 @@ typedef struct exp_t *exp;
 
 /* XXX: horrible */
 #if defined(TRANS_M68K) || defined(TRANS_MIPS)
-#define test_number(X)            ((int) props(X))
-#define settest_number(X, Y)       props(X) = (Y)
-#define setntest(X, Y)             props(X) = (Y)
+#define test_number(X)            ((int) (X)->props)
+#define settest_number(X, Y)       (X)->props = (Y)
+#define setntest(X, Y)             (X)->props = (Y)
 #elif defined(TRANS_X86) || defined(TRANS_ALPHA)
 #define test_number(x)            (ntest) ((x)->props & 0x1f)
-#define settest_number(x, t)      (x)->props = (prop)(((x)->props & ~0x1f) | (int) (t))
+#define settest_number(x, t)      (x)->props = (prop) (((x)->props & ~0x1f) | (int) (t))
 #elif defined(TRANS_HPPA)
-#define test_number(x)            (props(x) & 127)
-#define settest_number(x, t)       props(x) = (t)
-#define setntest(x, t)             props(x) = (t)
+#define test_number(x)            ((x)->props & 127)
+#define settest_number(x, t)       (x)->props = (t)
+#define setntest(x, t)             (x)->props = (t)
 #else
-#define test_number(x)            (props(x) & 0xf)
-#define settest_number(x, t)       props(x) = ((props(x) & ~0xf)| (t))
+#define test_number(x)            ((x)->props & 0xf)
+#define settest_number(x, t)       (x)->props = (((x)->props & ~0xf)| (t))
 #endif
 
 
@@ -327,7 +325,7 @@ typedef struct exp_t *exp;
  * PROPERTIES OF SOLVE CONSTRUCT
  */
 
-#define setcrtsolve(x)            props(x) = 0x01
+#define setcrtsolve(x)            (x)->props = 0x01
 
 
 /*
@@ -460,15 +458,15 @@ typedef struct exp_t *exp;
 
 /* New operations for spec 3.1 (previously from extra_expmacs.h) */
 /* TODO: rewrite to use ptst() */
-#define set_make_procprops(e, p)   props(e) |= ((p) << 8)
-#define proc_has_vcallees(e)     ((props(e) & 0x200) != 0)
-#define postlude_has_call(e)      (props(e) & 1)
-#define call_has_vcallees(e)     ((props(e) & 2)      != 0)
-#define call_has_vcallers(e)     ((props(e) & 1)      != 0)
-#define proc_has_checkstack(e)   ((props(e) & 0x800)  != 0)
-#define proc_has_vcallers(e)     ((props(e) & 0x100)  != 0)
-#define proc_has_nolongj(e)      ((props(e) & 0x1000) != 0)
-#define call_is_untidy(e)        ((props(e) & 4)      != 0)
+#define set_make_procprops(e, p)   (e)->props |= ((p) << 8)
+#define proc_has_vcallees(e)     (((e)->props & 0x200) != 0)
+#define postlude_has_call(e)      ((e)->props & 1)
+#define call_has_vcallees(e)     (((e)->props & 2)      != 0)
+#define call_has_vcallers(e)     (((e)->props & 1)      != 0)
+#define proc_has_checkstack(e)   (((e)->props & 0x800)  != 0)
+#define proc_has_vcallers(e)     (((e)->props & 0x100)  != 0)
+#define proc_has_nolongj(e)      (((e)->props & 0x1000) != 0)
+#define call_is_untidy(e)        (((e)->props & 4)      != 0)
 
 #define set_callee(id) child(id)->tag = formal_callee_tag
 

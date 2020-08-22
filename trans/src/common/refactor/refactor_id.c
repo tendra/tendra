@@ -113,7 +113,7 @@ used_in(exp vardec, exp piece)
 		q = t;
 
 		while (q != NULL && q != piece && q != vardec &&
-		       !parked(q) && (q->tag != ident_tag || !isglob(q))) {
+		       !q->parked && (q->tag != ident_tag || !isglob(q))) {
 			upwards = q;
 			q = next(q);
 		}

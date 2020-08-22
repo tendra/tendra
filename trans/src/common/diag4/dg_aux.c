@@ -419,7 +419,7 @@ diaginfo_exp(exp e)
 	setpt(ans, NULL);
 	setnext (ans, NULL);	/* these fields are used in dwarf generation */
 	no(ans) = 0;
-	props(ans) = 0;
+	ans->props = 0;
 	ans->last = false;
 	IGNORE refactor(e, e);
 

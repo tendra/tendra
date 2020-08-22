@@ -491,7 +491,7 @@ clear_exp_list(exp_list el)
 		return;
 	}
 	for (;;) {
-		parked(t) = 0;
+		t->parked = false;
 		if (t == el.end) {
 			return;
 		}
@@ -3042,12 +3042,12 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 								   (bool)1,
 								   child(use),
 								   pt(use),
-								   props(use),
+								   use->props,
 								   0, name_tag);
 							child(use) = new_use;
 							pt(prev) = new_use;
 							pt(use) = NULL;
-							props(use) = (prop)0;
+							use->props = (prop)0;
 							use->tag = cont_tag;
 							/* retain same no and
 							   sh */
@@ -3062,12 +3062,12 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 								   (bool)1,
 								   child(use),
 								   pt(use),
-								   props(use),
+								   use->props,
 								   0, name_tag);
 							child(use) = new_use;
 							pt(prev) = new_use;
 							pt(use) = NULL;
-							props(use) = (prop)0;
+							use->props = (prop)0;
 							use->tag = reff_tag;
 							/* retain same no and
 							   sh */
@@ -3097,10 +3097,10 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 
 				/* modify parameter itself */
 				if (isenvoff(param)) {
-					props(param) = (prop)0;
+					param->props = (prop)0;
 					setvis(param);
 				} else {
-					props(param) = (prop)0;
+					param->props = (prop)0;
 				}
 				setparam(param);
 				setcaonly(param);
@@ -3297,12 +3297,12 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 						exp new_use =
 						    getexp(ptr_s, use, (bool)1,
 							   child(use), pt(use),
-							   props(use), 0,
+							   use->props, 0,
 							   name_tag);
 						child(use) = new_use;
 						pt(prev) = new_use;
 						pt(use) = NULL;
-						props(use) = (prop)0;
+						use->props = (prop)0;
 						/* retain same no and sh */
 						use->tag = cont_tag;
 
@@ -3313,12 +3313,12 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 						exp new_use =
 						    getexp(ptr_s, use, (bool)1,
 							   child(use), pt(use),
-							   props(use), 0,
+							   use->props, 0,
 							   name_tag);
 						child(use) = new_use;
 						pt(prev) = new_use;
 						pt(use) = NULL;
-						props(use) = (prop)0;
+						use->props = (prop)0;
 						/* retain same no and sh */
 						use->tag = reff_tag;
 
@@ -3329,10 +3329,10 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 				/* modify parameter itself */
 				mustbevis = isenvoff(param);
 				if (isoutpar(param)) {
-					props(param) = (prop)0;
+					param->props = (prop)0;
 					setoutpar(param);
 				} else {
-					props(param) = (prop)0;
+					param->props = (prop)0;
 				}
 				if (mustbevis) {
 					setvis(param);
@@ -3529,7 +3529,7 @@ f_apply_general_proc(shape result_shape, procprops prcprops, exp p,
 
 	next(callee_pars) = postlude;
 	callee_pars->last = false;
-	props(callee_pars) = prcprops;
+	callee_pars->props = prcprops;
 
 	r_p = getexp(f_top, callee_pars, 0, caller_pars.start, NULL, prcprops,
 		     caller_pars.number, 0);
@@ -3651,7 +3651,7 @@ f_tail_call(procprops prcprops, exp p, callees callee_params)
 	}
 	has_setjmp = true; /* stop inlining! */
 	has_alloca = true; /* make sure has fp */
-	props(callee_params) = prcprops;
+	callee_params->props = prcprops;
 	next(p) = callee_params;
 	p->last = false;
 	setfather(res, callee_params);
@@ -5715,7 +5715,7 @@ add_exp_list(exp_list list, exp elem, int index)
 {
 	UNUSED(index);
 	++list.number;
-	parked(elem) = 1;
+	elem->parked = true;
 	if (list.start == NULL) {
 		list.start = elem;
 		list.end = elem;

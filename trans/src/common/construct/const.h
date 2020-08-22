@@ -33,9 +33,9 @@ typedef struct {
  */
 
 /* "no_alias" flag - set in consts.c and used by foralls.c */
-#define set_noalias(x)	props(x) = (prop)(props(x) | 0x01)
-#define clr_noalias(x)	props(x) &= 0xfe
-#define is_noalias(x)	(props(x) & 0x01)
+#define set_noalias(x)	(x)->props = (prop) ((x)->props | 0x01)
+#define clr_noalias(x)	(x)->props &= 0xfe
+#define is_noalias(x)	((x)->props & 0x01)
 
 /*
  * "dist" flag
@@ -44,8 +44,8 @@ typedef struct {
  * no(x) is maximum distance from a leaf repeat. Otherwise it is
  * the count of repeats in the next level down (as set in dexp.c)
  */
-#define set_dist(x)	(props(x) = (prop)(props(x) | 0x02))
-#define is_dist(x)	(props(x) & 0x02)
+#define set_dist(x)	((x)->props = (prop) ((x)->props | 0x02))
+#define is_dist(x)	((x)->props & 0x02)
 
 #define max_loop_depth 6
 

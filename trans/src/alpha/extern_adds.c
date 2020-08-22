@@ -52,7 +52,7 @@ static bool enter_parents
 	nu = getexp(sh(e), e, 1, dad, NULL, 0,0, 0);
 	usages[no(dad)] = nu;
       }
-      props(nu) |= inloop;
+      nu->props |= inloop;
       pt(e) = pt(nu);
 				/* remember pt(e) before entry */
       pt(nu) = e;
@@ -99,7 +99,7 @@ void global_usages
   for (i=0; i<nop; i++) {
     exp ui = usages[i];
     if (ui != NULL) {
-      if (props(ui)!= 0 ) {
+      if (ui->props!= 0 ) {
 	/* id is used enough in proc i -
 	   so identify it locally */
 	exp * pi;

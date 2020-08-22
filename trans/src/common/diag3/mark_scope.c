@@ -27,7 +27,7 @@ previous_scope(exp e)
 		return NULL;
 	}
 
-	if (next(e)->tag == diagnose_tag && (props(next(e)) & 0x7) == 1) {
+	if (next(e)->tag == diagnose_tag && (next(e)->props & 0x7) == 1) {
 		return previous_scope(next(e));
 	}
 
@@ -41,7 +41,7 @@ previous_scope(exp e)
 		}
 
 		if (next(next(e))->tag == diagnose_tag &&
-		    (props(next(next(e))) & 0x7) == 1) {
+		    (next(next(e))->props & 0x7) == 1) {
 			return previous_scope(next(next(e)));
 		}
 
@@ -108,11 +108,11 @@ mark_scope(exp e)
 
 		if (scope == NULL || param_scope(scope) ||
 		    needs_hiding(e, scope)) {
-			props(e) = (prop) (props(e) | 0x80);
+			e->props = (prop) (e->props | 0x80);
 			return;
 		}
 
-		if (props(scope) & 0x80) {
+		if (scope->props & 0x80) {
 			return;
 		}
 	}

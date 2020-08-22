@@ -1606,7 +1606,7 @@ seq_distr(exp e, exp scope)
 			}
 			pt(r) = pt(e);
 			no(r) = no(e);
-			props(r) = props(e);
+			r->props = e->props;
 			r = hold_refactor(r);
 			sh(x) = sh(e);
 			replace(b, r, r);	/* dgf preserved in copy */
@@ -1636,7 +1636,7 @@ seq_distr(exp e, exp scope)
 			r = me_b3(sh(e), x, copy(b), e->tag);
 			pt(r) = pt(e);
 			no(r) = no(e);
-			props(r) = props(e);
+			r->props = e->props;
 			r = hold_refactor(r);
 			sh(y) = sh(e);
 			replace(b, r, r);		/* dgf preserved in copy */
@@ -3717,7 +3717,7 @@ refactor(exp e, exp scope)
 				exp d;
 				r = hc(r, p);
 				d = getexp(sh(e), NULL, 0, r, pt(diag),
-				           props(diag), no(diag), diagnose_tag);
+				           diag->props, no(diag), diagnose_tag);
 				setfather(d, r);
 				replace(e, d, scope);
 				retcell(child(e));
@@ -4121,7 +4121,7 @@ refactor(exp e, exp scope)
 			    sh(child(child(bse)))->tag >= shrealhd &&
 			    sh(child(child(bse)))->tag <= doublehd) {
 				setvis(child(bse));
-				props(e) = (prop)(props(e) & ~0x08);
+				e->props = (prop)(e->props & ~0x08);
 			}
 			sh(bse) = sh(e);
 
@@ -4403,7 +4403,7 @@ refactor(exp e, exp scope)
 			exp alt = next(first);
 			int in_repeat = 0;
 			if (crt_repeat != NULL &&
-			    (int) (props(crt_repeat)) == 1) {
+			    (int) (crt_repeat)->props == 1) {
 				in_repeat = 1;
 			}
 			if (take_out_of_line(first, alt, in_repeat, 1.0)) {

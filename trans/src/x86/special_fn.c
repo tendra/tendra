@@ -75,12 +75,12 @@ special_longjmp(exp a1, exp a2, shape s, exp *e)
 
 	next(a1) = a2;
 	a1->last = false;
-	parked(a2) = 0;
+	a2->parked = false;
 	a2->last = false;
 
 	a2 = next(a2);
 	a2->last = true;
-	parked(a2) = 0;
+	a2->parked = false;
 	next(a2) = r;
 
 	*e = r;

@@ -594,9 +594,9 @@ static void output_diag(diag_info * d, int proc_no, exp e)
   assert(id->tag == ident_tag);
 
   mark_scope(e);
-  asm_comment("output_diag: DIAG_INFO_ID mark_scope props(e) =%#x", props(e));
+  asm_comment("output_diag: DIAG_INFO_ID mark_scope e->props =%#x", e->props);
 
-  if (props(e) & 0x80)
+  if (e->props & 0x80)
   {
     diagbr_open(current_fileno);
     stabn(current_fileno, current_lineno + 1);	/* don't have proper lineno */
@@ -638,7 +638,7 @@ static void output_end_scope(diag_info * d, exp e)
     stabn(f, lno);
     return;
   }
-  if (d->key == DIAG_INFO_ID && props(e) & 0x80)
+  if (d->key == DIAG_INFO_ID && e->props & 0x80)
   {
     diagbr_close(current_fileno);
     return;
@@ -1772,7 +1772,7 @@ again:
   if (id->tag == ident_tag)
   {
     asm_comment("stab_local ident_tag: %s disp=%d",(long)name, disp);
-    if ((props(id) & defer_bit) == 0)
+    if ((id->props & defer_bit) == 0)
     {
       if (isparam(id))
       {

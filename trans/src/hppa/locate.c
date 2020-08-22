@@ -171,7 +171,7 @@ where locate1
       bool var = isvar(dc);
 
       /* this a locally declared name ... */
-      if (props(dc) & defer_bit)
+      if (dc->props & defer_bit)
       {
 
 	/*
@@ -207,7 +207,7 @@ where locate1
 	  setinsalt(aa, is);
 	}
       }
-      else if (props(dc) & inreg_bits)
+      else if (dc->props & inreg_bits)
       {
 	/* ... it has been allocated in a fixed point reg */
 
@@ -227,7 +227,7 @@ where locate1
 	  setinsalt(aa, b);
 	}
       }
-      else if (props(dc) & infreg_bits)
+      else if (dc->props & infreg_bits)
       {
 	/* ... it has been allocated in a floating point reg */
 

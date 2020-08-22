@@ -262,7 +262,7 @@ output_diag(diag_info *d, int proc_no, exp e)
 
 		mark_scope(e);
 
-		if (props(e) & 0x80) {
+		if (e->props & 0x80) {
 			stab_scope_open(currentfile);
 			stabd(currentfile, (long)(currentlno + 1), N_SLINE);
 		}
@@ -285,7 +285,7 @@ output_end_scope(diag_info *d, exp e)
 		return;
 	}
 
-	if (d->key == DIAG_INFO_ID && props(e) & 0x80) {
+	if (d->key == DIAG_INFO_ID && e->props & 0x80) {
 		stab_scope_close(currentfile);
 		return;
 	}

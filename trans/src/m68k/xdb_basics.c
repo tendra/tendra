@@ -123,7 +123,7 @@ diag_start(diag_info *di, exp e)
 	}
 	case DIAG_INFO_ID:
 		mark_scope(e);
-		if (props(e) & 0x80) {
+		if (e->props & 0x80) {
 			dnt_begin();
 		}
 		if (diag != DIAG_XDB_NEW) {
@@ -147,7 +147,7 @@ diag_end(diag_info *di, exp e)
 		if (diag == DIAG_XDB_NEW) {
 			diag_variable(di, e);
 		}
-		if (props(e) & 0x80) {
+		if (e->props & 0x80) {
 			dnt_end();
 		}
 	}

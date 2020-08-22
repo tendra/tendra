@@ -361,13 +361,13 @@ infotag(exp e, int i)
 	} else {
 		printf("| No shape                             |\n");
 	}
-	printf("| props(e)     = ");
+	printf("| e->props     = ");
 	{
 		int i;
 		unsigned short mask;
 		for (i = 15; i >= 0; i--) {
 			mask = 1 << i;
-			if (mask & props(e)) {
+			if (mask & e->props) {
 				printf("1");
 			} else {
 				printf("0");
@@ -966,13 +966,13 @@ ident_props(exp e)
 	printf("isinlined   = %d\n", isinlined(e));
 #ifdef POWER
 #define subvar 0x0100
-	printf("subvar      = %d\n", !(!(props(e) & subvar)));
-	printf("inreg_bits  = %d\n", !(!(props(e) & inreg_bits)));
-	printf("infreg_bits = %d\n", !(!(props(e) & infreg_bits)));
-	printf("inanyreg    = %d\n", !(!(props(e) & inanyreg)));
-	printf("defer_bit   = %d\n", !(!(props(e) & defer_bit)));
-	printf("notparreg   = %d\n", !(!(props(e) & notparreg)));
-	printf("notresreg   = %d\n", !(!(props(e) & notresreg)));
+	printf("subvar      = %d\n", !(!(e->props & subvar)));
+	printf("inreg_bits  = %d\n", !(!(e->props & inreg_bits)));
+	printf("infreg_bits = %d\n", !(!(e->props & infreg_bits)));
+	printf("inanyreg    = %d\n", !(!(e->props & inanyreg)));
+	printf("defer_bit   = %d\n", !(!(e->props & defer_bit)));
+	printf("notparreg   = %d\n", !(!(e->props & notparreg)));
+	printf("notresreg   = %d\n", !(!(e->props & notresreg)));
 #endif
 }
 

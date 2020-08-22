@@ -433,7 +433,7 @@ make_proc_tag_code(exp e, space sp, where dest, int exitlab)
 	while (par->tag == ident_tag) {
 		if (isparam(par)) {
 			/* Got a parameter ident */
-			int r = (int)props(child(par));
+			int r = (int) child(par)->props;
 			/* r == 0 ? on stack : input reg no */
 			/*	assert(child(par)->tag == clear_tag); */
 
@@ -727,7 +727,7 @@ make_apply_tag_code(exp e, space sp, where dest, int exitlab)
 	makeans mka;
 
 	exp dad = father(e);
-	bool tlrecurse = dad->tag == res_tag && props(dad);
+	bool tlrecurse = dad->tag == res_tag && dad->props;
 
 	nsp = sp;
 
@@ -1219,7 +1219,7 @@ make_apply_general_tag_code(exp e, space sp, where dest, int exitlab)
 	int guarded_dest_reg = R_NO_REG; /* reg used to address tuple result */
 	makeans mka;
 	exp dad = father(e);
-	bool tlrecurse = dad->tag == res_tag && props(dad);
+	bool tlrecurse = dad->tag == res_tag && dad->props;
 	bool trad_call = 0;
 	ansash = ashof(sh(e));
 	nsp = sp;
@@ -1852,7 +1852,7 @@ make_tail_call_tag(exp e, space sp, where dest, int exitlab)
 		b.offset = (no(sbdy) >> 3) + (proc_state.params_offset >> 3);
 
 		if (sbdy->tag == formal_callee_tag) {
-			if ((props(bdy) & inanyreg) != 0) {
+			if ((bdy->props & inanyreg) != 0) {
 				b.offset -= (proc_state.callee_size >> 3);
 				if (isvar(bdy)) {
 					if (is_floating(sh(bdy)->tag)) {
@@ -1862,20 +1862,20 @@ make_tail_call_tag(exp e, space sp, where dest, int exitlab)
 					}
 				}
 			}
-		} else if (props(sbdy) == 0 && ((props(bdy) & inanyreg) != 0)) {
+		} else if (sbdy->props == 0 && ((bdy->props & inanyreg) != 0)) {
 			/* move from reg to store */
 			if (isvar(bdy)) {
 				if (is_floating(sh(sbdy)->tag)) {
 					stf_ins(i_stf, no(bdy) << 1, b);
 				} else {
-					assert(IS_IN_REG(props(sbdy)));
-					/*	  props(sbdy) = (props(sbdy)-R_I0)+R_O0;*/
+					assert(IS_IN_REG(sbdy->props));
+					/*	  sbdy->props = (sbdy->props-R_I0)+R_O0;*/
 					st_ro_ins(i_st, no(bdy), b);
 				}
 			}
-		} else if (props(sbdy) != 0 && ((props(bdy) &inanyreg) == 0)) {
+		} else if (sbdy->props != 0 && ((bdy->props &inanyreg) == 0)) {
 			/* move from store to reg */
-			int par_reg = props(sbdy);
+			int par_reg = sbdy->props;
 			int last_reg = (shape_size(sh(sbdy)) > 32 ? par_reg + 1 : par_reg);
 			int past_reg = ((trad_proc) ? R_I5 + 1 : (vc) ? R_I4 : R_I5);
 
@@ -1884,7 +1884,7 @@ make_tail_call_tag(exp e, space sp, where dest, int exitlab)
 			 * for handling of callee parameters
 			 */
 			assert(IS_IN_REG(par_reg));
-			/* props(sbdy) = (props(sbdy)-R_I0)+R_O0;*/
+			/* sbdy->props = (sbdy->props-R_I0)+R_O0;*/
 			if ((last_param(bdy) && isvis(bdy) && !Has_no_vcallers)
 			    || last_reg >= past_reg) {
 				last_reg = past_reg - 1;
@@ -1895,23 +1895,23 @@ make_tail_call_tag(exp e, space sp, where dest, int exitlab)
 				++par_reg;
 				b.offset += 4;
 			}
-		} else if (props(sbdy) != 0 && (props(sbdy) != no(bdy))) {
+		} else if (sbdy->props != 0 && (sbdy->props != no(bdy))) {
 			if (is_floating(sh(sbdy)->tag)) {
 				freg fr;
 				fr.fr = no(bdy);
 				fr.dble = (sh(sbdy)->tag == realhd);
 				stf_ins(i_st, fr.fr << 1, mem_temp(0));
-				ld_ro_ins(i_ld, mem_temp(0), props(sbdy));
+				ld_ro_ins(i_ld, mem_temp(0), sbdy->props);
 
 				if (fr.dble) {
 					stf_ins(i_st, (fr.fr << 1) + 1,
 					        mem_temp(4));
-					ld_ro_ins(i_ld, mem_temp(4), props(sbdy) + 1);
+					ld_ro_ins(i_ld, mem_temp(4), sbdy->props + 1);
 				}
 			} else {
-				assert(IS_IN_REG(props(sbdy)));
-				/*	props(sbdy) = (props(sbdy)-R_I0)+R_O0;*/
-				rr_ins(i_mov, no(bdy), props(sbdy));
+				assert(IS_IN_REG(sbdy->props));
+				/*	sbdy->props = (sbdy->props-R_I0)+R_O0;*/
+				rr_ins(i_mov, no(bdy), sbdy->props);
 			}
 		}
 

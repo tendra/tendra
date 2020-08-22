@@ -793,7 +793,7 @@ codec(where dest, ash stack, exp e)
 		}
 
 		if (de->tag == ass_tag && child(de)->tag == name_tag &&
-		    ((props(child(child(de))) & 0x9) == 0x9)) {
+		    ((child(child(de))->props & 0x9) == 0x9)) {
 			count_dest = 0;
 			t = f1;
 			if (eq_where(dest, zw(t))) {

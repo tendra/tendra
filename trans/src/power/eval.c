@@ -431,7 +431,7 @@ evalone(exp e, int bitposn)
 	/* generate data initialiser for e */
 	switch (e->tag) {
 	case string_tag: {
-		long char_size = props(e);	/* bits width of each output char */
+		long char_size = e->props;	/* bits width of each output char */
 		long strsize = shape_size(sh(e)) / char_size;
 		unsigned char *st = (unsigned char *) nostr(e);
 		int i;
