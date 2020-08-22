@@ -1,0 +1,6 @@
+lexer.? linguist-generated=true
+*_lexer.? linguist-generated=true
+keyword.h linguist-generated=true
+parser.? linguist-generated=true
+syntax.? linguist-generated=true
+syntax*.? linguist-generated=true
