@@ -124,7 +124,7 @@ typedef struct exp_t *exp;
  * ALTERNATIVE COMPONENTS OF AN EXPRESSION
  */
 
-#define brog(x)           ((x)->next.glob)
+#define nextg(x)           ((x)->next.glob)
 #define nostr(x)          ((x)->num.str)
 #define ptno(x)           ((x)->pt.l)
 #define sonno(x)          ((x)->son.l)

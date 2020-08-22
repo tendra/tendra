@@ -621,8 +621,8 @@ dwarf_out_descriptor(diag_descriptor *x)
 		t = son(acc);
 #endif
 
-		if (!isvar(brog(t)->exp) &&
-		    brog(t)->shape->tag == prokhd) {
+		if (!isvar(nextg(t)->exp) &&
+		    nextg(t)->shape->tag == prokhd) {
 			/*	fprintf(stderr, "%s was a proc\n",
 			 *	TDFSTRING2CHAR(x->data.id.name));*/
 			break;
@@ -630,7 +630,7 @@ dwarf_out_descriptor(diag_descriptor *x)
 			if (isparam(t)) {
 				error(ERR_INTERNAL, "out descriptor for parameter variable");
 			}
-			if (!brog(t) ->extnamed) {
+			if (!nextg(t) ->extnamed) {
 				cont_sib_chain(TAG_local_variable);
 			} else {
 				cont_sib_chain(TAG_global_variable);

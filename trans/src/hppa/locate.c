@@ -58,7 +58,7 @@ baseoff boff
   if (isglob(e))
   {
     /* next() is index in main_globals */
-    dec *gl = brog(e);
+    dec *gl = nextg(e);
     long sno = gl->sym_number;
     an.base = - (sno + 1);
     an.offset = 0;

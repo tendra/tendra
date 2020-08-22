@@ -174,7 +174,7 @@ static loc_s name_to_loc
   }
   if (isglob(id)) {
     l.key = L_GLOB;
-    l.s = brog(id) -> name;
+    l.s = nextg(id) -> name;
     l.off = n_off;
   }
   else {
@@ -229,7 +229,7 @@ static loc_s find_loc
 
     case name_tag: {
       if (isdiscarded(e) || (isglob(son(e)) && no(son(e)) == 0 &&
-				!(brog(son(e)) ->extnamed))) {
+				!(nextg(son(e)) ->extnamed))) {
 	l.key = L_INREG;
 	l.reg = 0;
 	no_location = 1;
@@ -245,7 +245,7 @@ static loc_s find_loc
       if (son(e)->tag == name_tag) {
 	if (isdiscarded(son(e)) ||
 			(isglob(son(son(e))) && no(son(son(e))) == 0 &&
-			 !(brog(son(son(e))) ->extnamed))) {
+			 !(nextg(son(son(e))) ->extnamed))) {
 	  l.key = L_INREG;
 	  l.reg = 0;
 	  no_location = 1;

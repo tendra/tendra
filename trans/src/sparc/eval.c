@@ -685,7 +685,7 @@ evalone(exp e, int bitposn, bool ro)
 
 	case name_tag: {
 		/* Global name */
-		dec *globdec = brog(son(e));
+		dec *globdec = nextg(son(e));
 		char *name = globdec->name;
 
 		asm_printf("\t.word %s", name);
@@ -902,8 +902,8 @@ evalone(exp e, int bitposn, bool ro)
 
 		if (p1->tag == name_tag && p2->tag == name_tag) {
 			long n = no(p1) - no(p2);
-			char *n1 = brog(son(p1))->name;
-			char *n2 = brog(son(p2))->name;
+			char *n1 = nextg(son(p1))->name;
+			char *n2 = nextg(son(p2))->name;
 
 			asm_printf("\t.word %s-%s", n1, n2);
 			if (n < 0) {

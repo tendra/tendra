@@ -981,7 +981,7 @@ static void dw2_out_proc
 	t = next(son(t));
       if (t->tag == ident_tag && son(t)->tag == formal_callee_tag)
 	is_callable = DW_CC_nocall;
-      if (brog(id)->extnamed) {
+      if (nextg(id)->extnamed) {
 	infolab = next_dwarf_label ();
 	exit_section ();
 	enter_section ("debug_pubnames");

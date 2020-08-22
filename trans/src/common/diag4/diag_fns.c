@@ -271,7 +271,7 @@ f_diag_desc_id(tdfstring n, sourcemark whence, exp acc, diag_type new_type)
 {
 	dg_idname nid;
 
-	if (brog(son(acc))->extnamed) {
+	if (nextg(son(acc))->extnamed) {
 		nid = f_dg_external_idname(n);
 	} else {
 		nid = f_dg_sourcestring_idname(n);

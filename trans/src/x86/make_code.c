@@ -1800,7 +1800,7 @@ make_code1(where dest, ash stack, exp e)
 		int ret_stack_dec;
 
 		if (builtinproc(e)) {
-			dec* dp = brog(son(proc));
+			dec* dp = nextg(son(proc));
 			char *name = dp -> name;
 			special_ins(name + strlen(name_prefix), arg, dest);
 			return;
@@ -2506,7 +2506,7 @@ dg_where_dest(exp e)
 
 	if (isglob(e)) {
 		w.k = WH_STR;
-		w.u.s = (brog(e)) ->name;
+		w.u.s = (nextg(e)) ->name;
 		w.o = 0;
 		return w;
 	}

@@ -38,7 +38,7 @@ refactor_ext(exp e)
 		return;
 	}
 
-	if ((!PIC_code || brog(e)->var == 0) && !isvar(e) &&
+	if ((!PIC_code || nextg(e)->var == 0) && !isvar(e) &&
 	    (def->tag == val_tag || def->tag == real_tag ||
 	     def->tag == null_tag))
 	{

@@ -324,7 +324,7 @@ void extn
 {
   dec * et;
 
-  et = brog(id);
+  et = nextg(id);
 
   if (PIC_code)
    {
@@ -387,7 +387,7 @@ void proc_extn
   if (PIC_code)
    {
      dec * et;
-     et = brog(id);
+     et = nextg(id);
      if (off == 0)
        asm_printf("%s", et -> name);
      else {
@@ -460,7 +460,7 @@ void envoff_operand
 void envsize_operand
 (exp e)
 {
-  dec * et = brog(e);
+  dec * et = nextg(e);
   asm_printf("%sESZ%s", local_prefix, et->name);
 }
 
@@ -1077,7 +1077,7 @@ exp make_extn
           setvar(id);
 	}
   }
-  brog(id) = g;
+  nextg(id) = g;
   if (prefix_length != 0) {
     int nl = (int)strlen(n);
     int j;

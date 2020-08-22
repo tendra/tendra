@@ -109,7 +109,7 @@ evalexp(exp e)
 		break;
 
 	case env_size_tag: {
-		dec *et = brog(son(son(e)));
+		dec *et = nextg(son(son(e)));
 		if (et -> processed) {
 			return et -> index;
 		}
@@ -139,7 +139,7 @@ evalexp(exp e)
 	case cont_tag:
 		if (PIC_code && son(e)->tag == name_tag && isglob(son(son(e)))
 		    && son(son(son(e))) != NULL
-		    && !(brog(son(son(e))) -> var))
+		    && !(nextg(son(son(e))) -> var))
 		{
 			return evalexp(son(son(son(e))));
 		}
@@ -199,7 +199,7 @@ evalval(exp e)
 
 	if (n == reff_tag && son(e)->tag == name_tag && isglob(son(son(e)))) {
 		outopenbr();
-		asm_printf("%s + %ld", brog(son(son(e))) -> name, (no(e) + no(son(e))) / 8);
+		asm_printf("%s + %ld", nextg(son(son(e))) -> name, (no(e) + no(son(e))) / 8);
 		outclosebr();
 		return;
 	}
@@ -207,10 +207,10 @@ evalval(exp e)
 	if (n == name_tag) {
 		if (no(e) != 0) {
 			outopenbr();
-			asm_printf("%s + %ld", brog(son(e)) -> name, no(e) / 8);
+			asm_printf("%s + %ld", nextg(son(e)) -> name, no(e) / 8);
 			outclosebr();
 		} else {
-			asm_printf("%s", brog(son(e)) -> name);
+			asm_printf("%s", nextg(son(e)) -> name);
 		}
 		return;
 	}

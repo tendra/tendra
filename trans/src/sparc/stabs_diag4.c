@@ -908,7 +908,7 @@ stab_local(dg_name di, int param)
 	}
 
 	if (id->tag != name_tag || isdiscarded(id) || (isglob(son(id)) &&
-	        no(son(id)) == 0 && !(brog(son(id))->extnamed))) {
+	        no(son(id)) == 0 && !(nextg(son(id))->extnamed))) {
 		return;
 	}
 

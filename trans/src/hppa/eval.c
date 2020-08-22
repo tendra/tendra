@@ -768,7 +768,7 @@ evalone(exp e, int bitposn)
 	}
 
 	case name_tag: {
-		dec *globdec = brog(son(e)) ;	/* must be global name */
+		dec *globdec = nextg(son(e)) ;	/* must be global name */
 		char *name = globdec->name;
 
 		assert(isglob(son(e)));

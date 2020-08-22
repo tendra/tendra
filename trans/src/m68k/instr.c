@@ -47,7 +47,7 @@
 static char *
 extname(exp e)
 {
-	dec *d = brog(e);
+	dec *d = nextg(e);
 #if 0
 	if (d->external_register) {
 		error(ERR_SERIOUS, "External registers not yet implemented");
@@ -617,7 +617,7 @@ operand(long sz, where wh)
 		return make_register(REG_AP);
 #ifndef tdf3
 	case env_size_tag: {
-		dec *dp = brog(son(son(w)));
+		dec *dp = nextg(son(son(w)));
 		return make_lab((long)dp, 0);
 	}
 	case env_offset_tag: {

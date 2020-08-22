@@ -227,7 +227,7 @@ is_opnd(exp e)
 
 		return son(son(e)) != NULL &&
 		       (!isglob(son(e)) || !PIC_code || sh(son(e))->tag != prokhd ||
-		        (brog(son(e)) -> extnamed)) &&
+		        (nextg(son(e)) -> extnamed)) &&
 		       (son(son(e))->tag != ident_tag || !isparam(son(son(e))));
 	}
 

@@ -184,7 +184,7 @@ evalexp(exp e)
 	}
 
 	case env_size_tag: {
-		dec *et = brog(son(son(e)));
+		dec *et = nextg(son(son(e)));
 		if (et -> processed) {
 			return et -> index;
 		}
@@ -233,7 +233,7 @@ evalexp(exp e)
 	case cont_tag:
 		if (PIC_code && son(e)->tag == name_tag && isglob(son(son(e)))
 		    && son(son(son(e))) != NULL
-		    && !(brog(son(son(e))) -> var)) {
+		    && !(nextg(son(son(e))) -> var)) {
 			return evalexp(son(son(son(e))));
 		}
 		break;
@@ -634,7 +634,7 @@ evalaux(exp e, bool isconst, long al)
 		mach_op *op;
 		long n = no(e);
 		long sz = shape_size(sh(e));
-		char *name = brog(son(e)) ->name;
+		char *name = nextg(son(e)) ->name;
 		op = make_extern_data(name, n / 8);
 		eval_op(sz, op);
 		return;
@@ -778,7 +778,7 @@ evalaux(exp e, bool isconst, long al)
 
 #if 0
 	case env_size_tag: {
-		dec *d = brog(son(son(e)));
+		dec *d = nextg(son(son(e)));
 		mach_op *op = make_lab_data((long) d, 0);
 		eval_op(32L, op);
 		return;
@@ -813,8 +813,8 @@ evalaux(exp e, bool isconst, long al)
 		if (p1->tag == name_tag && p2->tag == name_tag) {
 			long n = no(p1) - no(p2);
 			long sz = shape_size(sh(e));
-			char *n1 = brog(son(p1)) ->name;
-			char *n2 = brog(son(p2)) ->name;
+			char *n1 = nextg(son(p1)) ->name;
+			char *n2 = nextg(son(p2)) ->name;
 
 			mach_op *op1 = new_mach_op();
 			mach_op *op2 = new_mach_op();

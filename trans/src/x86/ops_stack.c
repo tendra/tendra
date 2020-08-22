@@ -231,7 +231,7 @@ callins(int longs, exp fn, int ret_stack_dec)
 		if (current_dg_info) {
 			current_dg_info->data.i_call.brk = set_dw_text_label();
 			current_dg_info->data.i_call.p.k = WH_STR;
-			current_dg_info->data.i_call.p.u.s = (brog(son(fn))) ->name;
+			current_dg_info->data.i_call.p.u.s = (nextg(son(fn))) ->name;
 			current_dg_info->data.i_call.p.o = no(fn) / 8;
 		}
 #endif

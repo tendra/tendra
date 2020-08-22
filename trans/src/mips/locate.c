@@ -56,7 +56,7 @@ baseoff boff
 				   for ls_ins etc */
   baseoff an;
   if (isglob (id)) {		/* globals */
-    dec * gl = brog(id);
+    dec * gl = nextg(id);
     long sno = gl->sym_number;
     an.base = - (sno + 1);
     an.offset = 0;

@@ -675,7 +675,7 @@ f_dg_object_name(dg_idname idname, dg_sourcepos whence, dg_type type,
 #if 0
 		if (acc->tag == cont_tag && son(acc)->tag == name_tag &&
 		    isglob(son(son(acc))) && isvar(son(son(acc)))) {
-			brog(son(son(acc)))->dg_name = ans;
+			nextg(son(son(acc)))->dg_name = ans;
 		}
 #endif
 	} else {
@@ -706,7 +706,7 @@ f_dg_proc_name(dg_idname idname, dg_sourcepos whence, dg_type type,
 		exp acc = obtain_value.val;
 		ans->data.n_proc.obtain_val = diaginfo_exp(acc);
 		if (acc->tag == name_tag && isglob(son(acc))) {
-			brog(son(acc))->dg_name = ans;
+			nextg(son(acc))->dg_name = ans;
 		}
 	} else {
 		ans->data.n_proc.obtain_val = NULL;
@@ -903,7 +903,7 @@ f_dg_module_name(dg_idname idname, dg_sourcepos whence, dg_namelist memlist,
 		exp acc = init.val;
 		ans->data.n_mod.init = diaginfo_exp(acc);
 		if (acc->tag == name_tag && isglob(son(acc))) {
-			brog(son(acc))->dg_name = ans;
+			nextg(son(acc))->dg_name = ans;
 		}
 	} else {
 		ans->data.n_mod.init = NULL;

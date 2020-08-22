@@ -160,7 +160,7 @@ static loc_s find_loc(exp e)
 
     case name_tag : {
       if (isdiscarded(e) || (isglob(son(e)) && no(son(e)) == 0 &&
-				!(brog(son(e))->extnamed) )) {
+				!(nextg(son(e))->extnamed) )) {
 	l.key = L_INREG;
 	l.reg = 0;
 	no_location = 1;
@@ -214,7 +214,7 @@ static loc_s find_loc(exp e)
     case contvol_tag : {
       if (son(e)->tag == name_tag && (isdiscarded(son(e)) ||
 			(isglob(son(son(e))) && no(son(son(e))) == 0 &&
-			 !(brog(son(son(e)))->extnamed) ))) {
+			 !(nextg(son(son(e)))->extnamed) ))) {
 	l.key = L_INREG;
 	l.reg = 0;
 	no_location = 1;

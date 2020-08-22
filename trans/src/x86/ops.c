@@ -919,7 +919,7 @@ cmp(shape sha, where from, where min, int nt, exp e)
 				      (PIC_code &&
 				       isglob(son(from.where_exp)) &&
 				       (sha->tag == prokhd || sha->tag == ptrhd) &&
-				       !brog(son(from.where_exp))-> extnamed))) ||
+				       !nextg(son(from.where_exp))-> extnamed))) ||
 				    from.where_exp->tag == reff_tag)
 				{
 					mova(from, reg0);
@@ -961,7 +961,7 @@ cmp(shape sha, where from, where min, int nt, exp e)
 			     ptno(son(me)) <= par_pl) ||
 			    (PIC_code && me->tag == name_tag && isglob(son(me)) &&
 			     (sha->tag == prokhd || sha->tag == ptrhd) &&
-			     !brog(son(me))-> extnamed) ||
+			     !nextg(son(me))-> extnamed) ||
 			    (me->tag == reff_tag && son(me)->tag == name_tag &&
 			     !isvar(son(son(me)))))
 			{

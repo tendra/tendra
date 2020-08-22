@@ -195,7 +195,7 @@ TDFwithet(error_treatment ov_err, exp e)
 		return e;
 	}
 	Te = find_named_tag("__TDFerror", slongsh);
-	brog(Te)->var = 1;
+	nextg(Te)->var = 1;
 	if (keep_PIC_vars) {
 		setvar(Te);
 	} else if (PIC_code) {

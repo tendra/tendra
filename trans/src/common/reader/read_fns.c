@@ -2341,7 +2341,7 @@ add_tagdec_list(tagdec_list list, tagdec elem, int index)
       setglob(e);
     }
     /* the defining exp */
-    brog(dp->exp) = dp;
+    nextg(dp->exp) = dp;
     if (dp->name == NULL) {
       dp->name = make_local_name();
     }

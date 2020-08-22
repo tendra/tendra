@@ -51,7 +51,7 @@ special_fn(const struct special_fn a[], size_t count,
 	char *name;
 	size_t i;
 
-	dp = brog(son(a1));
+	dp = nextg(son(a1));
 	name = dp->name;
 
 	if (name == NULL) {

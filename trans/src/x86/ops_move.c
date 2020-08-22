@@ -215,7 +215,7 @@ move(shape sha, where from, where to)
 	    (PIC_code && fe->tag == name_tag &&
 	     isglob(son(fe)) &&
 	     (sha->tag == offsethd) &&
-	     !brog(son(fe))-> extnamed)) {
+	     !nextg(son(fe))-> extnamed)) {
 		mova(from, to);
 		return;
 	}

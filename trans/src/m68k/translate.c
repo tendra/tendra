@@ -295,7 +295,7 @@ const_ready(exp e)
 	unsigned char n = e->tag;
 
 	if (n == env_size_tag) {
-		return brog(son(son(e)))->processed;
+		return nextg(son(son(e)))->processed;
 	}
 
 	if (n == env_offset_tag) {

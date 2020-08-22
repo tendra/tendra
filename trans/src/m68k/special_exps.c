@@ -37,7 +37,7 @@ make_extn(char *name, shape s, int v)
 		setvar(id);
 	}
 
-	brog(id) = g;
+	nextg(id) = g;
 
 	g->exp      = id;
 	g->name     = name;

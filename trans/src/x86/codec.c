@@ -60,7 +60,7 @@ is_crc(exp e)
 
 		return son(son(e)) == NULL ||
 		       (isglob(son(e)) && PIC_code && sh(son(e))->tag == prokhd &&
-		        !(brog(son(e)) -> extnamed)) ||
+		        !(nextg(son(e)) -> extnamed)) ||
 		       (son(son(e))->tag == ident_tag && isparam(son(son(e))));
 	}
 
@@ -950,7 +950,7 @@ codec(where dest, ash stack, exp e)
 		    e->tag == reff_tag ||
 		    (PIC_code && e->tag == name_tag && isglob(son(e)) &&
 		     sh(son(e))->tag == prokhd &&
-		     !brog(son(e)) ->  extnamed))
+		     !nextg(son(e)) ->  extnamed))
 		{
 			if (ptno(son(e)) != nowhere_pl) {
 				mova(mw(e, 0), dest);

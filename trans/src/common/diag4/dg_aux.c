@@ -452,8 +452,8 @@ set_obj_ref(dg_name nm)
 	}
 
 	if (e && e->tag == name_tag && isglob(son(e)) &&
-	    !(brog(son(e))->dg_name)) {
-		brog(son(e))->dg_name = nm;
+	    !(nextg(son(e))->dg_name)) {
+		nextg(son(e))->dg_name = nm;
 	}
 }
 

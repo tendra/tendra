@@ -235,7 +235,7 @@ make_extra_dec(char *name, int v, int g, exp init, shape s)
 	if (v) {
 		setvar(e);
 	}
-	brog(e) = extra_dec;
+	nextg(e) = extra_dec;
 	extra_dec->next = NULL;
 	*deflist_end = extra_dec;
 	deflist_end = &((*deflist_end)->next);
@@ -2993,7 +2993,7 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 						eo = f_env_offset(
 						     frame_alignment,
 						     f_parameter_alignment(
-						     ptr_s), brog(param));
+						     ptr_s), nextg(param));
 						obtain_param =
 						    f_add_to_ptr(
 						    f_current_env(), eo);
@@ -6233,7 +6233,7 @@ tidy_initial_values(void)
 			exp list_exp = find_named_tag("__PROM_init_list",
 						     f_pointer(f_alignment(
 						     str_sh)));
-			brog(list_exp)->var = 1;
+			nextg(list_exp)->var = 1;
 			setvar(list_exp);
 			prom_as = add_exp_list(prom_as, hold_refactor(f_assign(
 					       f_add_to_ptr(me_obtain(str_exp),

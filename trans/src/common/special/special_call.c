@@ -70,7 +70,7 @@ special_strcpy(dec *dp)
 			continue;
 		}
 
-		src_dec = brog(son(src));
+		src_dec = nextg(son(src));
 
 		if (src_dec->extnamed || son(src_dec->exp) == NULL) {
 			continue;
@@ -153,7 +153,7 @@ special_strlen(dec *dp)
 			continue;
 		}
 
-		src_dec = brog(son(st));
+		src_dec = nextg(son(st));
 
 		if (src_dec->extnamed || son(src_dec->exp) == NULL)	{
 			continue;

@@ -154,7 +154,7 @@ normalised_inlining(void)
 				}
 
 				if (k != NULL && k->tag == proc_tag) {
-					int up = brog(next(k))->index;
+					int up = nextg(next(k))->index;
 					if (up >= 0 && up < proc_count) {
 						uses[proc_count * up + i] = 1;
 					}
@@ -261,7 +261,7 @@ normalised_inlining(void)
 
 						if (print_inlines) {
 							IGNORE fprintf(stderr, "%s inlined in %s\n",
-							               d->name, brog(next(k))->name);
+							               d->name, nextg(next(k))->name);
 						}
 
 						this_changed = 1;
@@ -285,7 +285,7 @@ normalised_inlining(void)
 
 							if (print_inlines) {
 								IGNORE fprintf(stderr, "%s inlined in %s\n",
-								               d->name, brog(next(k))->name);
+								               d->name, nextg(next(k))->name);
 							}
 
 							this_changed = 1;

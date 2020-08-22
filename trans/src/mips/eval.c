@@ -365,7 +365,7 @@ evalone(exp e, long rep)
 
 	case name_tag: {
 		exp dc = son(e);
-		dec * globdec = brog(dc); /* must be global name */
+		dec * globdec = nextg(dc); /* must be global name */
 		char *name = globdec->name;
 		long symdef = globdec ->sym_number;
 

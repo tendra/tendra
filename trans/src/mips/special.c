@@ -66,7 +66,7 @@ specialfn(exp fn)
 {
 	if (fn->tag == name_tag && son(fn)->tag == ident_tag &&
 	    isglob (son (fn)) && son (son (fn)) == NULL) {
-		char *extname = brog(son (fn)) -> name;
+		char *extname = nextg(son (fn)) -> name;
 		return specno (extname);
 	}
 
