@@ -145,7 +145,7 @@ scan_for_labsts(exp e)
 		}
 		return;
 
-	/* don't scan bros of these tags */
+	/* don't scan nexts of these tags */
 	case case_tag:
 		scan_for_labsts(son(e));
 		return;

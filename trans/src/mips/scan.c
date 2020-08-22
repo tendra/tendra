@@ -2278,7 +2278,7 @@ scan(exp *e, exp **at)
 			} else {
 				/* transform to  ((..(..+..) - ..) -..) */
 				int   n = 0;
-				exp brosum = next(sum);
+				exp nextsum = next(sum);
 				bool lastsum = sum->last;
 				exp x = son(sum);
 				exp newsum = sum;
@@ -2329,7 +2329,7 @@ scan(exp *e, exp **at)
 					}
 				}
 
-				next(newsum) = brosum;
+				next(newsum) = nextsum;
 				if (lastsum) {
 					newsum->last = true;
 				} else {
