@@ -623,13 +623,13 @@ refactor_seq(exp e, exp scope)
 			    !isbigval(next(son(b))) && pt(t) == pt(b) &&
 			    eq_exp(son(t), son(b)))
 			{
-				exp brob = next(b);
+				exp nextb = next(b);
 				int lb = b->last;
 				ref = refto(father(t), t);
 
 				bnds = tests_to_bounds(t, b);
 				if (bnds != NULL) {
-					next(bnds) = brob;
+					next(bnds) = nextb;
 					if (lb) {
 						bnds->last = true;
 					} else {

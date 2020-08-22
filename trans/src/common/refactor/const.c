@@ -142,7 +142,7 @@ static maxconst max_const(exp, exp, int);
  *
  *  whole   the program region under consideration
  *  e       the first expression in the list. Expressions are
- *          linked via the brother field.
+ *          linked via the next field.
  *  ass_ok  all assignments in this region are to simple unaliassed variables
  *  good    if this is true AND all the expressions in the list are
  *          constant then the value self_const is returned.
@@ -1189,7 +1189,7 @@ extract_consts(int issn, exp rf, exp list_head)
 			int force = 0;
 
 			if (pt(t) == NULL) {
-				/* simple constant - no brothers */
+				/* simple constant - no nexts */
 				exp f;
 				e = son(t);
 				f = father(e);

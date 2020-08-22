@@ -67,7 +67,7 @@ maxspace(spacereq a, spacereq b)
 
 /*
  * maxspace2 is used by seq tags and ident_tags since the result of
- * these tags could be the result of one of the brothers.
+ * these tags could be the result of one of the nexts.
  */
 static spacereq
 maxspace2(spacereq a, spacereq b)

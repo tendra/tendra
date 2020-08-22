@@ -11,7 +11,7 @@
  *
  * These procedures use a pair of a boolean and and exp (eg sto and to)
  * instead of a pointer to an exp. The boolean is true if the exp being
- * referred to is the son of the given exp, and false if it is the brother.
+ * referred to is the son of the given exp, and false if it is the next.
  *
  * This is to allow exps to be represented by indices into arrays and to
  * allow the arrays to be realloced, which invalidates the use of

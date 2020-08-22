@@ -582,8 +582,8 @@ caser(exp arg, long already)
 		/* Split into two */
 		long a;
 		exp new = copyexp(arg);
-		exp old_bro = next(split_at);
-		next(new) = old_bro;
+		exp old_next = next(split_at);
+		next(new) = old_next;
 		next(split_at) = NULL;
 		split_at->last = true;
 

@@ -1595,15 +1595,15 @@ do_one_rep(exp loop)
 					exp bd = next(son(dc));
 
 					if (bd != loop && dc->tag == ident_tag) {
-						exp brodc = next(dc);
+						exp nextdc = next(dc);
 						int ldc = dc->last;
-						exp broloop = next(loop);
+						exp nextloop = next(loop);
 						int lloop = loop->last;
 						exp *pos = position(dc);
 						*pos = bd;
 
 						/* replace original dec with its body.*/
-						next(bd) = brodc;
+						next(bd) = nextdc;
 						if (ldc) {
 							bd->last = true;
 						} else {
@@ -1616,7 +1616,7 @@ do_one_rep(exp loop)
 						/* replace loop by dec */
 						*pos = dc;
 
-						next(dc) = broloop;
+						next(dc) = nextloop;
 						if (lloop) {
 							dc->last = true;
 						} else {

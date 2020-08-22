@@ -742,7 +742,7 @@ scan(exp *e, exp **at)
 	}
 
 	/*
-	 * shape of exp is body, son is def, brother of son is body,
+	 * shape of exp is body, son is def, next of son is body,
 	 * ptr of ident exp is chain of uses.
 	 */
 	case ident_tag: {

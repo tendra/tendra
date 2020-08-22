@@ -220,7 +220,7 @@ show_next(int i)
 	if (next(l) != NULL) {
 		infotag(next(l), i);
 	} else {
-		printf("No brother field to stored exp no %d\n", i);
+		printf("No next field to stored exp no %d\n", i);
 	}
 
 	return l;
@@ -398,7 +398,7 @@ infotag(exp e, int i)
 		if (e->last) {
 			printf("-->father:%s\n", getname(next(e)->tag));
 		} else {
-			printf("-->brother:%s\n", getname(next(e)->tag));
+			printf("-->next:%s\n", getname(next(e)->tag));
 		}
 	} else {
 		printf("-->NULL\n");
@@ -887,7 +887,7 @@ exp_show(exp e, int depth, int depth_of_recursion, int flag)
 		exp_show(son(e), depth + 1, depth_of_recursion, 0);
 	}
 
-	/* always look at brother unless told not to or it is last */
+	/* always look at next unless told not to or it is last */
 	if (e->last || flag) {
 		return;
 	} else {

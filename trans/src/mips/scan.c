@@ -741,7 +741,7 @@ tidy_ident(exp e)
 	if (!isvar(init)) {
 		if (bdyinit->tag == seq_tag) {
 			exp idy = next(son(bdyinit));
-			exp broe3;
+			exp nexte3;
 			bool laste3;
 
 			if (idy->tag != name_tag || son(idy) != init ||
@@ -757,13 +757,13 @@ tidy_ident(exp e)
 
 			change_names(init, e, idy);
 
-			broe3 = next(e3);
+			nexte3 = next(e3);
 			laste3 = e3->last;
 			next(son(bdyinit)) = e3;
 			next(e3) = bdyinit;
 			bdyinit->last = true;
 			/* bdyinit is now { e2/(y=>x); e3} */
-			next(bdyinit) = broe3;
+			next(bdyinit) = nexte3;
 
 			if (laste3) {
 				bdyinit->last = true;
@@ -787,7 +787,7 @@ tidy_ident(exp e)
 	} else {
 		if (bdyinit->tag == seq_tag) {
 			exp cy = next(son(bdyinit));
-			exp broe3;
+			exp nexte3;
 			bool laste3;
 
 			if (cy->tag != cont_tag) {
@@ -817,13 +817,13 @@ tidy_ident(exp e)
 
 			change_names(init, e, idy);
 
-			broe3 = next(e3);
+			nexte3 = next(e3);
 			laste3 = e3->last;
 			next(son(bdyinit)) = e3;
 			next(e3) = bdyinit;
 			bdyinit->last = true;
 			/* bdyinit is now { e2/(y=>x); e3} */
-			next(bdyinit) = broe3;
+			next(bdyinit) = nexte3;
 
 			if (laste3) {
 				bdyinit->last = true;
