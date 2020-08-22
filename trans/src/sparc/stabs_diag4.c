@@ -918,14 +918,14 @@ stab_local(dg_name di, int param)
 	dt = di->data.n_obj.type;
 	t = next_del_stab();
 
-	if (id->tag == ident_tag && ((props(id) & defer_bit) == 0)) {
+	if (id->tag == ident_tag && ((id->props & defer_bit) == 0)) {
 		disp += boff ( id ).offset; /* is this condition right ? */
 	}
 
 again:
 
 	if (id->tag == ident_tag) {
-		if ((props(id) & defer_bit) == 0) {
+		if ((id->props & defer_bit) == 0) {
 			/* +++ add assembler comment to say which reg is being used */
 			t->del_t = (param ? D_PARAM : D_LOCAL);
 			t->u.l.nm = nm;

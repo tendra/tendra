@@ -58,7 +58,7 @@ is_worth(exp c)
 		case and_tag: {
 			exp grandad = father (dad);
 			if ((grandad->tag == test_tag && (n & (n - 1)) == 0 &&
-			     (props (grandad) == 5 || props (grandad) == 6) &&
+			     (grandad->props == 5 || grandad->props == 6) &&
 			     (next (child (grandad))->tag == val_tag
 			      && no (next (child (grandad))) == 0)) || (child(grandad)->tag ==
 			              val_tag && no (child (grandad)) == 0)) {

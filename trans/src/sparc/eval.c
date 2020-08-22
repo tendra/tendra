@@ -601,7 +601,7 @@ evalone(exp e, int bitposn, bool ro)
 	case string_tag: {
 		/* Strings or arrays of integers */
 		int i, j;
-		long char_size = (long) props(e);
+		long char_size = (long) e->props;
 		long strsize = sz / char_size;
 		char *st = nostr(e);
 

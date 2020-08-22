@@ -332,7 +332,7 @@ evalone(exp e, int rep)
 	a = ashof(sh (e));
 	switch (e->tag) {
 	case string_tag: {
-		long char_size = props(e);
+		long char_size = e->props;
 		long  strsize = shape_size(sh(e)) / char_size;
 		char *st = nostr(e);
 		long  strs = shape_size(sh(e)) >> 3;

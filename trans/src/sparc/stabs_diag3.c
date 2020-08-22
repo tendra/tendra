@@ -250,7 +250,7 @@ stab_begin(diag_info * d, int proc_no, exp e)
 	}
 
 	mark_scope(e);
-	if (props(e) & 0x80) {
+	if (e->props & 0x80) {
 		stab_scope_open(currentfile);
 		stabd(currentfile,(long)(currentlno + 1), N_SLINE);
 	}
@@ -277,7 +277,7 @@ stab_end(diag_info * d, exp e)
 		return;
 	}
 
-	if (d->key == DIAG_INFO_ID && props(e) & 0x80) {
+	if (d->key == DIAG_INFO_ID && e->props & 0x80) {
 		stab_scope_close(currentfile);
 		return;
 	}
@@ -725,13 +725,13 @@ stab_local(char *name, diag_type dt, exp ldid, long disp, long findex)
 
 	UNUSED(findex);
 
-	if (id->tag == ident_tag && ((props(id) & defer_bit) == 0)) {
+	if (id->tag == ident_tag && ((id->props & defer_bit) == 0)) {
 		disp += boff(id).offset;	 /* is this condition right ? */
 	}
 
 again:
 	if (id->tag == ident_tag) {
-		if ((props(id) & defer_bit) == 0) {
+		if ((id->props & defer_bit) == 0) {
 			/* +++ add assembler comment to say which reg is being used */
 			if (isparam(id)) {
 				t->del_t = D_PARAM;

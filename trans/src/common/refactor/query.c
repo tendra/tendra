@@ -570,7 +570,7 @@ comp_eq_exp(exp a, exp b, exp laba, exp labb)
 	}
 
 	if (a->tag == test_tag) {
-		return(pt(a) == laba && pt(b) == labb && props(a) == props(b) &&
+		return(pt(a) == laba && pt(b) == labb && a->props == b->props &&
 		       comp_eq_explist(child(a), child(b), laba, labb));
 	}
 

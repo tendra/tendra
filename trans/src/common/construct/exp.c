@@ -138,7 +138,7 @@ getexp(shape s, exp b, int l, exp sn, exp px, prop pr, int n, unsigned char tag)
 
 	child(res)  = sn;
 	pt(res)     = px;
-	props(res)  = pr;
+	res->props  = pr;
 	no(res)     = n;
 	res->tag    = tag;
 	res->parked = false;
@@ -369,7 +369,7 @@ kill_exp(exp e, exp scope)
 		exp p;
 
 		p = pt(e);
-		if (p != NULL && (props(child(p)) & 1) == 0) {
+		if (p != NULL && (child(p)->props & 1) == 0) {
 			/* decrease label usage count */
 			no(child(p))--;
 			if (no(child(p)) == 0 && !is_loaded_lv(p) && next(child(p)) != NULL &&
@@ -667,7 +667,7 @@ clean_labelled(exp main, label_list placelabs)
 		exp l = get_lab(placelabs.elems[i]);
 		exp t = child(l);
 		no(t) = is_loaded_lv(l);
-		setcrtsolve (t);		/* defined in expmacs = props(t) = 1 */
+		setcrtsolve (t);		/* defined in expmacs = t->props = 1 */
 	}
 
 	crt_no = 0;
@@ -688,12 +688,12 @@ clean_labelled(exp main, label_list placelabs)
 			int j = ((i + crt_no) % n);
 			exp t = get_lab(placelabs.elems[j]);
 
-			if ((props(child(t)) & 8) == 0 && no(child(t)) != 0) {
+			if ((child(t)->props & 8) == 0 && no(child(t)) != 0) {
 				/* we have found an unprocessed but used statement */
 				go = 1;
-				props(child(t)) = 5;
+				child(t)->props = 5;
 				scan_solve (t);		/* now scan it to mark the things it uses */
-				props(child(t)) = (prop)((props(child(t)) & 0xfb) | 8);
+				child(t)->props = (prop)((child(t)->props & 0xfb) | 8);
 				ord[ord_no++] = j;
 			}
 		}
@@ -703,7 +703,7 @@ clean_labelled(exp main, label_list placelabs)
 	for (i = 0; i < n; ++i) {
 		exp lab = get_lab(placelabs.elems[i]);
 		exp t = child(lab);
-		if ((props(t) & 8) != 8) {
+		if ((t->props & 8) != 8) {
 			/* remove unwanted statements */
 			kill_exp (next(t), next(t));
 		} else {
@@ -719,7 +719,7 @@ clean_labelled(exp main, label_list placelabs)
 		q->last = false;
 		next(q) = get_lab(placelabs.elems[ord[i]]);
 		q = next(q);
-		props(child(q)) = (prop)(props(child(q)) & 0xfe);
+		child(q)->props = (prop) (child(q)->props & 0xfe);
 	}
 
 	child(crt_repeat) = r;
@@ -1018,7 +1018,7 @@ copy_res(exp e, exp var, exp lab)
 
 			if (senior != NULL) {
 				/* update repeat records */
-				if ((props(senior) & 1) == 1) {
+				if ((senior->props & 1) == 1) {
 					next(new_record) = pt(senior);
 				} else {
 					++no(senior);

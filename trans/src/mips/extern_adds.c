@@ -56,7 +56,7 @@ enter_parents(exp e)
 			  		0, 0);
 			  usages[no(dad)] = nu;
 		        }
-			props(nu) |= inloop;
+			nu->props |= inloop;
 			pt(e) = pt(nu);
 				/* remember pt(e) before entry */
 			pt(nu) = e;
@@ -107,7 +107,7 @@ global_usages(exp id, int nop)
 	  exp ui = usages[i];
 	  if (ui != NULL) {
 
-	     if (props(ui) != 0  ) {
+	     if (ui->props != 0  ) {
 	     	/* id is used enough in proc i - so identify it locally */
 		exp * pi;
 		shape sname = f_pointer(f_alignment(sh(id)));

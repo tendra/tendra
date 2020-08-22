@@ -91,7 +91,7 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 		spacereq body;
 		ash a;
 
-		if (props(e) & defer_bit) {
+		if (e->props & defer_bit) {
 			/* the tag declared is transparent to code production */
 			def = zerospace;
 		} else {
@@ -110,9 +110,9 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 				def = regalloc(s, freefixed, freefloat, st);
 			}
 
-			if ((props(e) & inreg_bits) == 0 && fixregable(e) && no(e) < ffix) {
+			if ((e->props & inreg_bits) == 0 && fixregable(e) && no(e) < ffix) {
 				/* suitable for s reg , no(e) has been set up by weights */
-				props(e) |= inreg_bits;
+				e->props |= inreg_bits;
 				if (ffix == 9) {
 					no(e) = 30;
 					def.fixdump |= (1 << 14);
@@ -121,17 +121,17 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 					def.fixdump |= (1 << (ffix - 1));
 				}
 				ffix -= 1;
-			} else if ((props(e) & infreg_bits) == 0
+			} else if ((e->props & infreg_bits) == 0
 			           && floatregable(e) && no(e) < ffloat) {
 				/* suitable for float s reg , no(e) has been set up by weights */
-				props(e) |= infreg_bits;
+				e->props |= infreg_bits;
 
 				no(e) = ffloat + 9;	/* will be in s reg , note start from $f20 */
 				ffloat -= 1;
 				def.fltdump |= (3 << (ffloat << 1));
-			} else if ((props(e) & inanyreg) == 0) {
+			} else if ((e->props & inanyreg) == 0) {
 				if (fixregable(e) && PossParReg(e) && spareparregs > 0) {
-					props(e) |= inreg_bits;
+					e->props |= inreg_bits;
 					no(e) = 0;
 					spareparregs--;
 				} else
@@ -144,19 +144,19 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 							t->tag = val_tag;
 							child(t) = NULL;
 							no(t) = no(child(e));
-							props(t) = 0;
+							t->props = 0;
 							pt(t) = NULL;
 							t = p;
 						}
 						pt(e) = NULL;
-						props(e) |= defer_bit;
+						e->props |= defer_bit;
 						def = zerospace;
 					} else if (child(e)->tag == name_tag && !isvar(e) && !isvis(e)) {
 						/* must have been forced  - defer it */
-						props(e) |= defer_bit;
+						e->props |= defer_bit;
 						def = zerospace;
 					} else if (isparam(e)) {
-						if (props(child(e)) != 0)  {
+						if (child(e)->props != 0)  {
 							spareparregs++;  /* can use this reg in PossParReg */
 						}
 						no(e) = 0;
@@ -174,7 +174,7 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 						no(e) = stack * 2 + basereg;
 					}
 			} else if (no(e) == 101) {
-				no(e) = ((props(e) & inreg_bits) != 0) ? 2 : 16;
+				no(e) = ((e->props & inreg_bits) != 0) ? 2 : 16;
 				/* set up result of proc as declared id ($f16 = $f0 later) */
 			}
 			/* else  allocation of stack like regs in make_code */

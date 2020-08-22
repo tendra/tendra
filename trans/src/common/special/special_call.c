@@ -79,8 +79,7 @@ special_strcpy(dec *dp)
 		src_def = child(child(src));
 		sha = sh(src_def);
 
-		if (src_def->tag == string_tag &&
-			props(src_def) == 8)
+		if (src_def->tag == string_tag && src_def->props == 8)
 		{
 			char *s = nostr(src_def);
 			size_t l = shape_size(sha);
@@ -162,8 +161,7 @@ special_strlen(dec *dp)
 		st_def = child(child(st));
 		sha = sh(st_def);
 
-		if (st_def->tag == string_tag &&
-			props(st_def) == 8)
+		if (st_def->tag == string_tag && st_def->props == 8)
 		{
 			char *s = nostr(st_def);
 			size_t l = shape_size(sha) / 8;

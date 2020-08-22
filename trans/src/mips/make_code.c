@@ -674,7 +674,7 @@ tailrecurse:
 		 * the tag of this declaration is transparently identified with its
 		 * definition, without reserving more space
 		 */
-		if (props (e) & defer_bit) {
+		if (e->props & defer_bit) {
 			e = next(child(e));
 			goto tailrecurse;
 
@@ -693,13 +693,13 @@ tailrecurse:
 			int   n = no(e);
 
 			a = ashof(sh(child(e)));
-			if ((props(e) & inreg_bits) != 0) {
+			if ((e->props & inreg_bits) != 0) {
 				/* tag in some fixed pt reg */
 				if (n == 0) {
 					/* if it hasn't been already allocated into a s-reg (or r2)
 					 * allocate tag into fixed t-reg ... */
 					int   s = sp.fixed;
-					if (props (e) & notparreg) { /* ... but not a parameter reg */
+					if (e->props & notparreg) { /* ... but not a parameter reg */
 						s |= 0xf0;
 					}
 
@@ -708,7 +708,7 @@ tailrecurse:
 				}
 
 				setregalt(placew.answhere, n);
-			} else if ((props(e) & infreg_bits) != 0) {
+			} else if ((e->props & infreg_bits) != 0) {
 				/* tag in some float reg */
 				freg frg;
 
@@ -717,7 +717,7 @@ tailrecurse:
 					 * allocate tag into float-reg ... */
 					int   s = sp.flt;
 
-					if (props(e) & notparreg) {
+					if (e->props & notparreg) {
 						s |= 0xc0;
 					}
 
@@ -740,7 +740,7 @@ tailrecurse:
 					no(e) = ((no(child(e)) + frame_size + callee_size - locals_offset) << 1) + 29 + Has_fp;
 
 					if ((!Has_no_vcallers ||
-					     (isvis(e) && props(child(e)) != 0)) && last_param(e)) {
+					     (isvis(e) && child(e)->props != 0)) && last_param(e)) {
 						/* vararg in reg ? */
 						int r = rounder(no(child(e)) + shape_size(sh(child(e))), 32);
 
@@ -761,7 +761,7 @@ tailrecurse:
 
 					is.b.offset = (Has_fp) ? (no(child(e)) >> 3) : n;
 					is.b.base = 29 + Has_fp;
-					if (endian == ENDIAN_BIG && props(child(e)) != 0 && shape_size(sh(child(e))) < 32) {
+					if (endian == ENDIAN_BIG && child(e)->props != 0 && shape_size(sh(child(e))) < 32) {
 						is.b.offset += (shape_size(sh(child(e))) == 8) ? 3 : 2;
 						/* short promotions */
 					}
@@ -802,7 +802,7 @@ tailrecurse:
 			exp d = e;
 
 			/* parameter fiddles */
-			if (props(se) == 0 && (props(d) & inanyreg) != 0) {
+			if (se->props == 0 && (d->props & inanyreg) != 0) {
 				/* not originally in required reg */
 				ans a;
 				instore is;
@@ -817,40 +817,40 @@ tailrecurse:
 
 				setinsalt(a, is);
 				IGNORE move(a, placew, sp, is_signed(sh(se)));
-			} else if (props(se) != 0 && (props(d) & inanyreg) == 0) {
+			} else if (se->props != 0 && (d->props & inanyreg) == 0) {
 				/* originally in reg and required in store */
 				ans a;
 
 				if (is_floating(sh(se)->tag)) {
 					freg fr;
-					fr.fr = props(se);
+					fr.fr = se->props;
 					fr.dble = (sh(se)->tag != shrealhd);
 					setfregalt(a, fr);
 				} else {
-					setregalt(a, props(se));
+					setregalt(a, se->props);
 				}
 
 				r = move(a, placew, sp, 0);
-			} else if (props(se) != 0 && props(se) != no(d)) {
+			} else if (se->props != 0 && se->props != no(d)) {
 				/* in wrong register */
 				int sr = no(d);
-				int tr = props(se);
+				int tr = se->props;
 
 				if (is_floating(sh(se)->tag)) {
 					if ((fltdone & (3 << (sr << 1))) != 0) {
 						rrfp_ins((sh(se)->tag != shrealhd) ? i_mov_d : i_mov_s,
-						         no(d) << 1, props(se) << 1);
+						         no(d) << 1, se->props << 1);
 					} else {
-						props(se) = sr;
+						se->props = sr;
 						no(d) = tr;
 						sp = guardfreg(tr, sp);
 						/* !? swopped and moved in  dump_tag !? */
 					}
 				} else {
 					if ((fixdone & (1 << sr)) != 0) {
-						mon_ins(i_move, no(d), props(se));
+						mon_ins(i_move, no(d), se->props);
 					} else {
-						props(se) = sr;
+						se->props = sr;
 						no(d) = tr;
 						sp = guardreg(tr, sp);
 						/* !? swopped for dump_tag !? */
@@ -862,7 +862,7 @@ tailrecurse:
 		} else if (isparam(e) && child(e)->tag == formal_callee_tag) {
 			exp se = child(e);
 			exp d = e;
-			if ((props(d) & inanyreg) != 0) {
+			if ((d->props & inanyreg) != 0) {
 				/* callee parameter assigned to reg */
 				ans a;
 				instore is;
@@ -981,7 +981,7 @@ tailrecurse:
 			int   l = (exitlab != 0) ? exitlab : new_label();
 			bool rev = IsRev(test);
 			ptno(test) = -l;	/* make test jump to exitlab - see test_tag: */
-			props(test) = notbranch[(props(test) & 127) - 1];
+			test->props = notbranch[(test->props & 127) - 1];
 			if (rev) {
 				SetRev(test);
 			}
@@ -1147,7 +1147,7 @@ tailrecurse:
 		exp r = next(l);
 		shape shl = sh(l);
 		char *setins;
-		int   n = props(child(e));
+		int   n = child(e)->props;
 		int   d;
 		int   a1;
 		int   a2;
@@ -1234,7 +1234,7 @@ tailrecurse:
 		/* see frig in cond_tag */
 		shape shl = sh(l);
 		char *branch;
-		int   n = (props (e)) & 127; /* could have Rev bit in props*/
+		int   n = (e->props) & 127; /* could have Rev bit in props*/
 
 		if (is_floating(sh(l)->tag)) {
 			bool dble = (shl->tag != shrealhd) ? 1 : 0;
@@ -1819,7 +1819,7 @@ tailrecurse:
 		while (bdy->tag == ident_tag && isparam(bdy)) {
 			/* make sure that current callees are in right place */
 			exp sbdy = child(bdy);
-			if (sbdy->tag == formal_callee_tag && (props(bdy) &inanyreg) != 0
+			if (sbdy->tag == formal_callee_tag && (bdy->props &inanyreg) != 0
 			    && isvar(bdy))
 			{
 				baseoff b;
@@ -2020,7 +2020,7 @@ tailrecurse:
 
 			if (sbdy->tag == formal_callee_tag
 			    && cees->tag == same_callees_tag) {
-				if ((props(bdy) &inanyreg) != 0) {
+				if ((bdy->props &inanyreg) != 0) {
 					b.offset -= (callee_size >> 3);
 					if (isvar(bdy)) {
 						if (is_floating(sh(sbdy)->tag)) {
@@ -2031,7 +2031,7 @@ tailrecurse:
 						}
 					}
 				}
-			} else if (props(sbdy) == 0 && (props(bdy) &inanyreg) != 0) {
+			} else if (sbdy->props == 0 && (bdy->props &inanyreg) != 0) {
 				/* should be instore; is in reg */
 				if (isvar(bdy)) {
 					if (is_floating(sh(sbdy)->tag)) {
@@ -2041,7 +2041,7 @@ tailrecurse:
 						ls_ins(i_sw, no(bdy), b);
 					}
 				}
-			} else if (props(sbdy) != 0 && (props(bdy) & inanyreg) == 0) {
+			} else if (sbdy->props != 0 && (bdy->props & inanyreg) == 0) {
 				/* should be in reg; is in store */
 				if (!Has_no_vcallers && isvis(bdy) && last_param(bdy)) {
 					int i = no(sbdy) >> 5;
@@ -2051,18 +2051,18 @@ tailrecurse:
 					}
 				} else if (is_floating(sh(sbdy)->tag)) {
 					lsfp_ins((sh(sbdy)->tag != shrealhd) ? i_l_d : i_l_s,
-					         props(sbdy) << 1, b);
+					         sbdy->props << 1, b);
 				} else {
-					ls_ins(i_lw, props(sbdy), b);
+					ls_ins(i_lw, sbdy->props, b);
 				}
 
-			} else if (props(sbdy) != 0 && props(sbdy) != no(bdy)) {
+			} else if (sbdy->props != 0 && sbdy->props != no(bdy)) {
 				/* in wrong register */
 				if (is_floating(sh(sbdy)->tag)) {
 					rrfp_ins((sh(sbdy)->tag != shrealhd) ? i_mov_d : i_mov_s,
-					         props(sbdy) << 1, no(bdy) << 1);
+					         sbdy->props << 1, no(bdy) << 1);
 				} else {
-					mon_ins(i_move, props(sbdy), no(bdy));
+					mon_ins(i_move, sbdy->props, no(bdy));
 				}
 			}
 
@@ -2174,7 +2174,7 @@ tailrecurse:
 		exp par = next(fn);
 		exp list = par;
 		exp dad = father(e);
-		bool tlrecurse = dad->tag == res_tag && props(dad);
+		bool tlrecurse = dad->tag == res_tag && dad->props;
 		int hda = sh(e)->tag;
 		int disp;
 
@@ -2297,7 +2297,7 @@ tailrecurse:
 
 		clear_all(); /* clear all register memories */
 
-		if (child(e)->tag == apply_tag && props(e)) {
+		if (child(e)->tag == apply_tag && e->props) {
 			return mka;
 		}
 
@@ -2493,7 +2493,7 @@ tailrecurse:
 
 				u = (child(z) == NULL) ? n : no(child(z));
 				for (; n <= u; n++) {
-					props(child(pt(z))) = 1; /* as bug - see labst_tag */
+					child(pt(z))->props = 1; /* as bug - see labst_tag */
 					if (as_file)
 						asm_printf(
 						    PIC_code ? "\t.gpword\t$%ld\n" : "\t.word\t$%ld\n", no(child(pt(z))));
@@ -3935,11 +3935,11 @@ found:
 
 		for (l = child(crt_proc); l->tag == ident_tag && isparam(l);) {
 			/* move any pars still in registers which go into dump regs */
-			int sr = props(child(l));
+			int sr = child(l)->props;
 			int tr = no(l);
 
-			if ((props(l) & inanyreg) != 0 && (tr != sr) && sr != 0) {
-				if ((props(l) & infreg_bits) != 0 &&
+			if ((l->props & inanyreg) != 0 && (tr != sr) && sr != 0) {
+				if ((l->props & infreg_bits) != 0 &&
 				    (fld & (3 << (sr << 1))) != 0) {
 					if (sh(child(l))->tag != shrealhd) {
 						rrfp_ins(i_mov_d, sr << 1, tr << 1);
@@ -3948,12 +3948,12 @@ found:
 					}
 					sp.flt &= ~(1 << tr); /* release fpar reg */
 					no(l) = sr;
-					props(child(l)) = tr;
+					child(l)->props = tr;
 				} else if ((fxd & (1 << sr)) != 0) {
 					mon_ins(i_move, sr, tr);
 					sp.fixed &= ~(1 << tr); /* release par reg */
 					no(l) = sr;
-					props(child(l)) = tr;
+					child(l)->props = tr;
 				}
 			}
 
@@ -3966,17 +3966,17 @@ found:
 		code_here(child(e), sp, dest);
 		for (l = child(crt_proc); l->tag == ident_tag && isparam(l);) {
 			/* restore structure of moved pars */
-			int sr = props(child(l));
+			int sr = child(l)->props;
 			int tr = no(l);
 
-			if ((props(l) & inanyreg) != 0 && (tr != sr) && sr != 0) {
-				if ((props(l) & infreg_bits) != 0 &&
+			if ((l->props & inanyreg) != 0 && (tr != sr) && sr != 0) {
+				if ((l->props & infreg_bits) != 0 &&
 				    (fld & (3 << (tr << 1))) != 0) {
 					no(l) = sr;
-					props(child(l)) = tr;
+					child(l)->props = tr;
 				} else if ((fxd & (1 << tr)) != 0) {
 					no(l) = sr;
-					props(child(l)) = tr;
+					child(l)->props = tr;
 				}
 			}
 
@@ -4049,13 +4049,13 @@ found:
 		     && child(l)->tag	!= formal_callee_tag;
 		     l = next(child(l)))
 		{
-			if ((props(l) & infreg_bits) != 0) {
-				int n = props(child(l));
+			if ((l->props & infreg_bits) != 0) {
+				int n = child(l)->props;
 				if (n != no(l) && n != 0) {
 					pars.flt |= (3 << (no(l) << 1));
 				}
-			} else if ((props(l) & inreg_bits) != 0) {
-				int n = props(child(l));
+			} else if ((l->props & inreg_bits) != 0) {
+				int n = child(l)->props;
 				if (n != no(l) && n != 0) {
 					pars.fixed |= (1 << no(l));
 				}

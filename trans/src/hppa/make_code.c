@@ -322,7 +322,7 @@ aa:
 }
 
 /* Does e, or components of e, contain a bitfield? */
-/* +++ should detect this earlier && record in props(e) once-and-for-all */
+/* +++ should detect this earlier && record in e->props once-and-for-all */
 static int
 has_bitfield(exp e)
 {
@@ -411,8 +411,8 @@ restore_callees(void)
 		b.base   = Has_vcallees ? FP : EP;
 		b.offset = (no(sbdy) - callees_offset) >> 3;
 
-		if (props(bdy) & infreg_bits) {
-		} else if (props(bdy) &inreg_bits) {
+		if (bdy->props & infreg_bits) {
+		} else if (bdy->props &inreg_bits) {
 			st_ins(i_sw, no(bdy), b);
 		}
 
@@ -653,7 +653,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 	long constval = 0;
 	makeans mka;
 	asm_comment("make_code: %d,\t%d,\tprops=%#x",
-	            sh(e)->tag, e->tag, props(e));
+	            sh(e)->tag, e->tag, e->props);
 	asm_comment("           space= (%ld,%ld) (%d)", sp.fixed, sp.flt, (int) discrim(dest.answhere));
 
 tailrecurse:
@@ -735,14 +735,14 @@ tailrecurse:
 
 		while (bdy->tag == ident_tag && isparam(bdy) && child(bdy)->tag != formal_callee_tag) {
 			exp sbdy = child(bdy);
-			int pr =  props(sbdy);
+			int pr =  sbdy->props;
 #if 0
 			if (pt(bdy) == NULL && diag == DIAG_NONE) {
 				/**  Parameter never used.  **/
 			} else
 #endif
 			{
-				if (pr == 0 && (props(bdy) &inanyreg) != 0) {
+				if (pr == 0 && (bdy->props &inanyreg) != 0) {
 					/* Parameter is passed on stack, but is kept in reg given by no(bdy). */
 					if (isvar(bdy)) {
 						baseoff b;
@@ -754,7 +754,7 @@ tailrecurse:
 							st_ins(i_sw, no(bdy), b);
 						}
 					}
-				} else if (pr && (props(bdy) &inanyreg) == 0) {
+				} else if (pr && (bdy->props &inanyreg) == 0) {
 					/* Parameter is passed in reg, but is kept on stack. */
 					if (Has_no_vcallers) {
 						baseoff stkpos;
@@ -776,7 +776,7 @@ tailrecurse:
 							}
 						}
 					}
-				} else if (pr != 0 && props(sbdy) != no(bdy)) {
+				} else if (pr != 0 && sbdy->props != no(bdy)) {
 					/*
 					 * Parameter is passed in a different register to that which it is kept in.
 					 */
@@ -923,7 +923,7 @@ tailrecurse:
 		int reg_res = reg_result(sh(e));
 		makeans mka;
 		exp dad = father(e);
-		bool tlrecurse = RSCOPE_LEVEL == 0 && (dad->tag == res_tag) && props(dad);
+		bool tlrecurse = RSCOPE_LEVEL == 0 && (dad->tag == res_tag) && dad->props;
 		char stub[128];  /* relocation stub */
 		nsp = sp;
 		stub[0] = '\t';
@@ -1290,7 +1290,7 @@ tailrecurse:
 		bool remember = 0;
 		exp se = child(e);
 
-		if (props(e) & defer_bit) {
+		if (e->props & defer_bit) {
 			return make_code(next(se), sp, dest, exitlab);
 		}
 
@@ -1307,28 +1307,28 @@ tailrecurse:
 			int n = no(e);
 			a = ashof(sh(se));
 
-			if (props(e) & inreg_bits) {
+			if (e->props & inreg_bits) {
 				/* tag is to be found in a fixed pt reg */
 				if (n == 0) {
 					/* We need to allocate a fixed t-reg */
 					int s = sp.fixed;
-					if (props(e) & notparreg) {
+					if (e->props & notparreg) {
 						s |= PARAM_TREGS;
 					}
-					if (props(e) &notresreg) {
+					if (e->props &notresreg) {
 						s |= RMASK(RET0);
 					}
 					n = getreg(s);
 					no(e) = n;
 				} else if (n == RET0) {
 					/* use result reg optimisation */
-					assert(!(props(e) & notparreg));
+					assert(!(e->props & notparreg));
 					IGNORE needreg(RET0, sp);	/* just as an error check */
 				} else {
 					assert(IS_SREG(n));
 				}
 				setregalt(placew.answhere, n);
-			} else if (props(e) & infreg_bits) {
+			} else if (e->props & infreg_bits) {
 				/* tag in some float reg */
 				freg frg;
 
@@ -1338,7 +1338,7 @@ tailrecurse:
 					 * allocate tag into float-reg ...
 					 */
 					int s = sp.flt;
-					if (props(e) & notparreg) {
+					if (e->props & notparreg) {
 						s |= PARAM_FLT_TREGS;
 					}
 					n = getfreg(s);
@@ -1366,7 +1366,7 @@ tailrecurse:
 					no(e) = n * 2 + GR17;
 					remember = 1;
 					if ((last_param(e) && (!Has_no_vcallers ||
-					                       (isvis(e) && props(se) != 0))) ||
+					                       (isvis(e) && se->props != 0))) ||
 					    a.ashsize == 0) {
 						/* possible varargs, dump remaining param regs on stack */
 						int i = n >> 5; /* next offset */
@@ -1415,7 +1415,7 @@ tailrecurse:
 				int off, sz = shape_size(sh(se));
 				baseoff stkpos;
 				int n = no(se);
-				int pr = props(se); /* (pr == 0) ? (on stack) : (input reg) */
+				int pr = se->props; /* (pr == 0) ? (on stack) : (input reg) */
 				stkpos.base = Has_vcallees ? FP : EP;
 				off = - ((n + params_offset) >> 3);
 				stkpos.offset = off;
@@ -1424,7 +1424,7 @@ tailrecurse:
 					/* parameter never used */
 				} else
 #endif
-					if (pr && (props(e) & inanyreg) == 0) {
+					if (pr && (e->props & inanyreg) == 0) {
 						/* param in reg pr, move to stack */
 						if (is_floating(sh(se)->tag)) {
 							stf_ins(sz == 64 ? i_fstd : i_fstw, pr, stkpos);
@@ -1445,7 +1445,7 @@ tailrecurse:
 						if (sh(se)->tag != cpdhd && sh(se)->tag != nofhd) {
 							remember = 0;
 						}
-					} else if (pr == 0 && (props(e) &inanyreg) != 0) {
+					} else if (pr == 0 && (e->props &inanyreg) != 0) {
 						/* param on stack, move to reg */
 						int d = no(e);
 						if (sz == 8) {
@@ -1466,7 +1466,7 @@ tailrecurse:
 						r = d;
 					}
 			} else {
-				if (props(e) & inanyreg) {
+				if (e->props & inanyreg) {
 					/* A callee parameter passed on stack but kept in register */
 					instore is;
 					ans aa;
@@ -1629,7 +1629,7 @@ tailrecurse:
 			int l = (exitlab != 0) ? exitlab : new_label();
 			bool rev = !!IsRev(test);
 			ptno(test) = -l;  /* make test jump to exitlab - see test_tag: */
-			props(test) = notbranch[props(test)];
+			test->props = notbranch[test->props];
 
 			if (rev) {
 				SetRev(test);

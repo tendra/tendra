@@ -31,15 +31,15 @@
 #define notparreg 0x4000
 #define subvar 0x100
 
-#define PossParReg(e) ((props(e) & 0x400)!=0)
-#define SetPossParReg(e) props(e) |= 0x400
-#define ClearPossParReg(e) props(e) &= ~0x400
+#define PossParReg(e) (((e)->props & 0x400)!=0)
+#define SetPossParReg(e) (e)->props |= 0x400
+#define ClearPossParReg(e) (e)->props &= ~0x400
 
 
 /* props of real operations */
-#define SetRev(e) props(e) |= 0x1000
-#define IsRev(e) ((props(e) & 0x1000)!=0)
-#define ClearRev(e) props(e) &= ~0x1000
+#define SetRev(e) (e)->props |= 0x1000
+#define IsRev(e) (((e)->props & 0x1000)!=0)
+#define ClearRev(e) (e)->props &= ~0x1000
 
 #define inlineassign 9
 

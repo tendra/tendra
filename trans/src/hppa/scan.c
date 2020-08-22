@@ -182,7 +182,7 @@ subvar_use(exp uses)
 			if (!c->last && next(c)->last && next(next(c))->tag == ident_tag) {
 				exp id = next(next(c));
 
-				if ((props(id) & subvar) != 0 && (props(id) & inanyreg) != 0) {
+				if ((id->props & subvar) != 0 && (id->props & inanyreg) != 0) {
 					return 1;
 				}
 			}
@@ -786,7 +786,7 @@ chase(exp sel, exp * e)
 			/* only change if not outer */
 			exp stare = *e;
 			exp newsel = getexp(sh(sel), next(stare), stare->last, stare, NULL,
-			                    props(sel), no(sel), sel->tag);
+			                    sel->props, no(sel), sel->tag);
 
 			*e = newsel;
 			next(stare) = newsel;
@@ -1093,21 +1093,21 @@ scan(exp *e, exp **at)
 				if (is_floating(shdef->tag)) {
 					if (fltparam < (3 * 8) + 1) {
 						/* floating paramter passed in registers */
-						props(def) = fltparam;
+						def->props = fltparam;
 						maxfloat--;
 					} else {
 						/* floating parameter passed by stack */
-						props(def) = 0;
+						def->props = 0;
 					}
 				} else {
 					if (fixparam < ARG3 + 1) {
 						/* param reg(s) free for the param */
-						props(def) = fixparam;
+						def->props = fixparam;
 						if (shdef->tag != cpdhd && shdef->tag != nofhd) {
 							maxfix--;
 						}
 					} else {
-						props(def) = 0;    /* Pass by stack */
+						def->props = 0;    /* Pass by stack */
 					}
 				}
 			} else {
@@ -1147,27 +1147,27 @@ scan(exp *e, exp **at)
 				     (!has_tail_call &&
 				      tempdec(stare, (fxregble && bdy.fixneeds <= 2) ||
 				              (flregble && bdy.floatneeds <= 1))))) {
-					int x = props(child(stare)); /* param reg it comes in, or else 0 */
+					int x = child(stare)->props; /* param reg it comes in, or else 0 */
 
-					if (x != 0 && (props(stare) & notparreg) == 0) {
+					if (x != 0 && (stare->props & notparreg) == 0) {
 						/*
 						 * use input param for leaf proc, unless it is R_RESULT=ARG0
 						 * and we plan to use that specially
 						 */
 						no(stare) = x;
 						if (flregble) {
-							/* props(stare) |= infreg_bits; */
+							/* stare->props |= infreg_bits; */
 							no(stare) = 0;
 						} else {
-							props(stare) |= inreg_bits;
+							stare->props |= inreg_bits;
 						}
 					} else if (fxregble && bdy.fixneeds < maxfix && (bdy.propneeds & morefix) == 0) {
 						no(stare) = 0;
-						props(stare) |= inreg_bits;
+						stare->props |= inreg_bits;
 						bdy.fixneeds += 1;
 					} else if (flregble && bdy.floatneeds < maxfloat && 0 && (bdy.propneeds & morefloat) == 0) {
 						no(stare) = 0;
-						props(stare) |= infreg_bits;
+						stare->props |= infreg_bits;
 						bdy.floatneeds += 1;
 					} else {
 						no(stare) = R_NO_REG;
@@ -1195,13 +1195,13 @@ scan(exp *e, exp **at)
 				 * or body ends with return tag, provided result is not used other wise.
 				 */
 				asm_comment("scan: ident_tag(%p): use result reg", (void *) stare);
-				props(stare) |= (fxregble) ? inreg_bits : infreg_bits;
+				stare->props |= (fxregble) ? inreg_bits : infreg_bits;
 
 				if (fxregble) {
-					props(stare) |= inreg_bits;
+					stare->props |= inreg_bits;
 					bdy.fixneeds++;
 				} else {
-					props(stare) |= infreg_bits;
+					stare->props |= infreg_bits;
 				}
 
 				bdy.propneeds |= uses_res_reg_bit;
@@ -1228,13 +1228,13 @@ scan(exp *e, exp **at)
 			{
 
 				asm_comment("scan: ident_tag(%p): dont take space for this dec", (void *) stare);
-				props(stare) |= defer_bit;
+				stare->props |= defer_bit;
 				/* dont take space for this dec */
 			} else if (!isvar(stare) &&
-			           ((props(stare) & 0x10 /* forced in const */ ) == 0)
+			           ((stare->props & 0x10 /* forced in const */ ) == 0)
 			           && (t->tag == name_tag || t->tag == val_tag)) {
 				asm_comment("scan: ident_tag(%p): dont take space for this dec (#2)", (void *) stare);
-				props(stare) |= defer_bit;
+				stare->props |= defer_bit;
 				/* dont take space for this dec */
 			} else if (fxregble && bdy.fixneeds < maxfix &&
 			           (bdy.propneeds & morefix) == 0 &&
@@ -1249,7 +1249,7 @@ scan(exp *e, exp **at)
 				asm_comment("scan: ident_tag(%p): use fixpt t-reg", (void *) stare);
 				asm_comment("	bdy.fixneeds=%d def.fixneeds=%d", bdy.fixneeds, def.fixneeds);
 
-				props(stare) |= inreg_bits;
+				stare->props |= inreg_bits;
 				no(stare) = 0;
 				bdy.fixneeds += 1;
 			} else if (bdy.floatneeds < maxfloat && (bdy.propneeds & morefloat) == 0
@@ -1263,7 +1263,7 @@ scan(exp *e, exp **at)
 				 * make_code
 				 */
 				asm_comment("scan: ident_tag(%p): use float t-reg", (void *) stare);
-				props(stare) |= infreg_bits;
+				stare->props |= infreg_bits;
 				no(stare) = 0;
 				bdy.floatneeds += 1;
 			} else {
@@ -1378,7 +1378,7 @@ scan(exp *e, exp **at)
 		/* exp r,ss,t; */
 		s = sh(*(arg));
 		a = ashof(s);
-		props(*e) = 0;		/* clear possibility of tlrecirsion; may be set later */
+		(*e)->props = 0;		/* clear possibility of tlrecirsion; may be set later */
 		x = scan(arg, at);
 
 		/* scan result exp ... */
@@ -1461,13 +1461,13 @@ scan(exp *e, exp **at)
 		plnds = scan(&next(next(next(child(application)))), at);
 
 		if ((plnds.propneeds & (anyproccall | uses2_bit)) != 0) {
-			props(application) = 1;
+			application->props = 1;
 			if (is_floating(sh(application)->tag) || valregable(sh(application))) {
 				cca(at, ptr_position(application));
 				plnds.propneeds |= usesproccall;
 			}
 		} else {
-			props(application) = 0;
+			application->props = 0;
 		}
 
 		nds = maxneeds(nds, plnds);
@@ -1670,7 +1670,7 @@ scan(exp *e, exp **at)
 			exp dad = father(application);
 
 			if (dad->tag == res_tag) {
-				props(dad) = 1;	/* do a tl recursion */
+				dad->props = 1;	/* do a tl recursion */
 			}
 		}
 
@@ -1913,7 +1913,7 @@ scan(exp *e, exp **at)
 		}
 
 		/* commute  const = x */
-		if (l->tag == val_tag && (props(stare) == 5 || props(stare) == 6)) {
+		if (l->tag == val_tag && (stare->props == 5 || stare->props == 6)) {
 			next(l) = stare;
 			l->last = true;
 			next(r) = l;
@@ -1926,7 +1926,7 @@ scan(exp *e, exp **at)
 
 		/* equality of bits against +ve consts doesnt need sign adjustment */
 		if (l->tag == bitf_to_int_tag && r->tag == val_tag &&
-		    (props(stare) == 5 || props(stare) == 6) &&
+		    (stare->props == 5 || stare->props == 6) &&
 		    (child(l)->tag == cont_tag || child(l)->tag == name_tag))
 		{
 			long n = no(r);
@@ -1952,13 +1952,13 @@ scan(exp *e, exp **at)
 		} else if (is_floating(sh(l)->tag)) {
 			return fpop(e, at);
 		} else if (r->tag == val_tag && no(r) == 1
-		           && (props(stare) == 3 || props(stare) == 2)) {
+		           && (stare->props == 3 || stare->props == 2)) {
 			no(r) = 0;
 
-			if (props(stare) == 3) {
-				props(stare) = 4;	/* branch >=1 -> branch > 0 */
+			if (stare->props == 3) {
+				stare->props = 4;	/* branch >=1 -> branch > 0 */
 			} else {
-				props(stare) = 1;	/* branch <1 -> branch <= 0 */
+				stare->props = 1;	/* branch <1 -> branch <= 0 */
 			}
 		}
 

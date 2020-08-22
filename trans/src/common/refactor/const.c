@@ -1259,7 +1259,7 @@ extract_consts(int issn, exp rf, exp list_head)
 				}
 #endif
 
-				if (props(t) > 1) {
+				if (t->props > 1) {
 					/*
 					 * This const. is in a conditional in the loop; ensure that extraction
 					 * from loop does not cause a failure.

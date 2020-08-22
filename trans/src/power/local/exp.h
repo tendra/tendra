@@ -27,7 +27,7 @@
  * PROPERTIES OF STRING CONSTRUCT
  */
 
-#define string_char_size( x )           props( x )
+#define string_char_size( x )           (x)->props
 
 
 /*

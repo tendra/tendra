@@ -10,10 +10,10 @@
 
 #include "bits.h"
 
-#define setse_opt(x) props(x) = (prop)(props(x) | 0x400)
-#define isse_opt(x) (props(x) & 0x400)
+#define setse_opt(x) (x)->props = (prop) ((x)->props | 0x400)
+#define isse_opt(x) ((x)->props & 0x400)
 
-#define setbyteuse(x)                   props(x) = (prop)(props(x) | 0x800)
+#define setbyteuse(x)                   (x)->props = (prop) ((x)->props | 0x800)
 
 #define frame_al_of_ptr(x) (x)->child.ald->al.frame
 #define frame_al1_of_offset(x) (x)->child.ald->al.frame

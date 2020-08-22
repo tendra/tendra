@@ -643,7 +643,7 @@ evalaux(exp e, bool isconst, long al)
 	case string_tag: {
 		/* Strings */
 		long i;
-		long char_size = (long) props(e);
+		long char_size = (long) e->props;
 		long n = shape_size(sh(e)) / char_size;
 
 		switch (char_size) {

@@ -1085,7 +1085,7 @@ scan(int sto, exp to, exp e, int usereg0)
 		return 0;
 
 	case asm_tag:
-		if (props(e) != 0) {
+		if (e->props != 0) {
 			error(ERR_INTERNAL, "~asm not in ~asm_sequence");
 		}
 

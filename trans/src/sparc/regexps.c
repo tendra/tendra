@@ -115,7 +115,7 @@ sim_exp(exp a, exp b)
 
 	return no(a) == no(b)
 		&& sim_explist(child(a), child(b))
-		&& ((a->tag != current_env_tag) || (props(a) == props(b)));
+		&& ((a->tag != current_env_tag) || (a->props == b->props));
 }
 
 /*

@@ -203,7 +203,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
       /* this a locally declared name ... */
       exp dc = child ( e ) ;
       bool var = ( bool ) isvar ( dc ) ;
-      if ( props ( dc ) & defer_bit ) {
+      if ( dc->props & defer_bit ) {
 	/* ... it has been identified with a simple expression
 	   which is better evaluated every time */
 	where w ;
@@ -226,7 +226,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
 	  setinsalt ( aa, is ) ;
 	}
       } 
-      else if ( props ( dc ) & inreg_bits ) {
+      else if ( dc->props & inreg_bits ) {
 	/* ... it has been allocated in a fixed point register */
 	if ( var ) {
 	  setregalt ( aa, no ( dc ) ) ;
@@ -239,7 +239,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
 	  setinsalt ( aa, b ) ;
 	}
       } 
-      else if ( props ( dc ) & infreg_bits ) {
+      else if ( dc->props & infreg_bits ) {
 	/* ... it has been allocated in a floating point register */
 	freg fr ;
 	fr.fr = no ( dc ) ;

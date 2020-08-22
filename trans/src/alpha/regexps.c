@@ -97,8 +97,8 @@ sim_exp(exp a, exp b)
 	}
 
 	if (a->tag == maxlike_tag || a->tag == minlike_tag || a->tag == abslike_tag) {
-		return(props(child(a)) == props(child(b)) && eq_size(sh(a), sh(b)) &&
-		       sim_explist(child(child(a)), child(child(b))));
+		return child(a)->props == child(b)->props && eq_size(sh(a), sh(b)) &&
+		       sim_explist(child(child(a)), child(child(b)));
 	}
 
 	if (!is_a(a->tag) || !eq_sze(sh(a), sh(b))) {

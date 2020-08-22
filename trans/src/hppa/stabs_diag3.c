@@ -1049,7 +1049,7 @@ stabd(long findex, long lno, int seg)
 
     mark_scope(e);
 
-    if (props(e) & 0x80) {
+    if (e->props & 0x80) {
 	stab_scope_open(currentfile);
 	stabd(currentfile,(long)(currentlno + 1), N_SLINE);
     }
@@ -1075,7 +1075,7 @@ void stab_end
 	stabd(f,lno,N_SLINE);
 	return;
     }
-    if (d->key == DIAG_INFO_ID && props(e) & 0x80) {
+    if (d->key == DIAG_INFO_ID && e->props & 0x80) {
 	stab_scope_close(currentfile);
 	return;
     }
@@ -2079,7 +2079,7 @@ stab_local(char *nm, diag_type dt, exp ldid, long disp, long findex)
     again:
     if (id->tag == ident_tag)
     {
-       if ((props(id) & defer_bit) == 0)
+       if ((id->props & defer_bit) == 0)
        {
 	  /* +++ add assembler comment to say which reg is being used */
 	  if (isparam(id))

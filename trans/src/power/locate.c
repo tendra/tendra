@@ -242,7 +242,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
 
       asm_comment("locate1 name_tag: dc->tag =%d, var=%d", dc->tag, var);
 
-      if (props(dc) & defer_bit)
+      if (dc->props & defer_bit)
       {
 	/*
 	 * ... it has been identified with a simple expression which is
@@ -275,7 +275,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
 	  setinsalt(aa, is);
 	}
       }
-      else if (props(dc) & inreg_bits)
+      else if (dc->props & inreg_bits)
       {
 	/* ... it has been allocated in a fixed point reg */
 	if (var)
@@ -292,7 +292,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
 	  setinsalt(aa, b);
 	}
       }
-      else if (props(dc) & infreg_bits)
+      else if (dc->props & infreg_bits)
       {
 	/* ... it has been allocated in a floating point reg */
 	freg fr;

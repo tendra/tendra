@@ -714,7 +714,7 @@ local_translate_capsule(void)
 		bool extnamed = d->extnamed;
 
 		if (stag != NULL && shape_size(sh(stag)) == 0 && stag->tag == asm_tag) {
-			if (props(stag) != 0) {
+			if (stag->props != 0) {
 				error(ERR_INTERNAL, "~asm not in ~asm_sequence");
 			}
 

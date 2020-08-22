@@ -46,9 +46,9 @@
     PROPERTIES OF REAL OPERATIONS
 */
 
-#define SetRev( e )		props ( e ) |= 0x1000
-#define IsRev( e )		( props (e) & 0x1000 )
-#define ClearRev( e )		props ( e ) &= ~0x1000
+#define SetRev( e )		(e)->props |= 0x1000
+#define IsRev( e )		(e->props & 0x1000)
+#define ClearRev( e )		(e)->props &= ~0x1000
 
 
 /*

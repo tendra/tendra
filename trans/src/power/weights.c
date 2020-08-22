@@ -244,7 +244,7 @@ tailrecurse:
 			wdef_set = 0;
 		} else
 #endif
-			if (child(e)->tag == clear_tag || props(e) & defer_bit) {
+			if (child(e)->tag == clear_tag || e->props & defer_bit) {
 				fno(e) = 0.0;
 				wdef_set = 0;
 			} else {
@@ -262,7 +262,7 @@ tailrecurse:
 		wbody = weightsv(scale, next(child(e)));
 		/* weights of body of scan */
 
-		if (props(e) & defer_bit) {
+		if (e->props & defer_bit) {
 			/* declaration will be treated transparently in code production */
 			exp t = child(e);
 			exp s;
@@ -284,7 +284,7 @@ tailrecurse:
 			return wbody;
 		}	/* end deferred */
 
-		if ((props(e) & inreg_bits) == 0 && fixregable(e)) {
+		if ((e->props & inreg_bits) == 0 && fixregable(e)) {
 			wp p;
 
 			/*
@@ -300,7 +300,7 @@ tailrecurse:
 			} else {
 				return p.wp_weights;
 			}
-		} else if ((props(e) & infreg_bits) == 0 && floatregable(e)) {
+		} else if ((e->props & infreg_bits) == 0 && floatregable(e)) {
 			wp p;
 
 			/*

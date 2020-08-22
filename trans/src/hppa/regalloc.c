@@ -118,7 +118,7 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 		assert(freefixed >= 0);
 		assert(freefloat >= 0);
 
-		if (props(e) & defer_bit) {
+		if (e->props & defer_bit) {
 			/* the tag declared is transparent to code production */
 			def = zerospace;
 		} else if (
@@ -127,13 +127,13 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 		    && !isvar(child(s))
 		    && !isvis(child(s))
 		    && !isparam(child(s))
-		    && (props(child(s)) & inreg_bits)
+		    && (child(s)->props & inreg_bits)
 		) {
 			/*
 			 * Dont take space for this constant dec, initialiser is another
 			 * simple constant ident (eg from double nested loop optimisation)
 			 */
-			props(e) |= defer_bit;
+			e->props |= defer_bit;
 			def = zerospace;
 		} else {
 			a = ashof(sh(s));
@@ -161,11 +161,11 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 			}
 
 			asm_comment("regalloc ident_tag:	props=%#x,fixregable=%d,no(e)=%ld,ffix=%d",
-			            props(e), fixregable(e), no(e), ffix);
+			            e->props, fixregable(e), no(e), ffix);
 
-			if ((props(e) & inreg_bits) == 0 && fixregable(e) && no(e) < ffix) {
+			if ((e->props & inreg_bits) == 0 && fixregable(e) && no(e) < ffix) {
 				/* suitable for s reg, no(e) has been set up by weights */
-				props(e) |= inreg_bits;
+				e->props |= inreg_bits;
 				no(e) = SREG_TO_REALREG(ffix);	/* will be an s reg */
 				ffix -= 1;
 				def.fixdump |= RMASK(no(e));
@@ -173,10 +173,10 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 				assert(ffix >= 0);
 				assert(IS_SREG(no(e)));
 				assert(a.ashsize <= 32);
-			} else if ((props(e) & infreg_bits) == 0 && floatregable(e) && no(e) < ffloat) {
+			} else if ((e->props & infreg_bits) == 0 && floatregable(e) && no(e) < ffloat) {
 				/* suitable for float s reg , no(e) has been set up by weights */
 				error(ERR_SERIOUS, "regalloc: no float point s regs acknowledged");
-			} else if ((props(e) & inanyreg) == 0) {
+			} else if ((e->props & inanyreg) == 0) {
 
 				/*
 				 * Not suitable for reg allocation
@@ -195,19 +195,19 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 						t->tag = val_tag;
 						child(t) = NULL;
 						no(t) = no(child(e));
-						props(t) = 0;
+						t->props = 0;
 						pt(t) = NULL;
 						t = p;
 					}
 					pt(e) = NULL;
 
 					asm_comment("regalloc heavily used const: no spare regs - replace use by value");
-					props(e) |= defer_bit;
+					e->props |= defer_bit;
 					def = zerospace;
 				} else if (child(e)->tag == name_tag && !isvar(e) && !isenvoff(e)) {
 					/* must have been forced  - defer it */
 					asm_comment("regalloc heavily used address: no spare regs - replace use by value");
-					props(e) |= defer_bit;
+					e->props |= defer_bit;
 					def = zerospace;
 				} else if (isparam(e)) {
 					/* don't know framesize yet; displacement in no(child(e)) */
@@ -237,8 +237,8 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 				 * Optimisation: use result reg for ident_tag to avoid reg move
 				 */
 				assert (!isenvoff(e));
-				asm_comment("regalloc no(e)==R_USE_RES_REG:	no(e)=%ld, inreg_bits=%d", no(e), (props(e) & inreg_bits) != 0);
-				no(e) = ((props(e) & inreg_bits) != 0) ? RET0 : R_DEFER_FR4;
+				asm_comment("regalloc no(e)==R_USE_RES_REG:	no(e)=%ld, inreg_bits=%d", no(e), (e->props & inreg_bits) != 0);
+				no(e) = ((e->props & inreg_bits) != 0) ? RET0 : R_DEFER_FR4;
 				/* set up result of proc as declared id ( R_DEFER_FR4 = %fr4 later) */
 			} else {
 				/* allocation of stack like regs in make_code */

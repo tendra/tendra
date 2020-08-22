@@ -101,11 +101,11 @@ settempregs(exp tag)
   }
 
   while (stag->tag==ident_tag && isparam(stag)) {
-  	if ((props(stag) & inreg_bits) !=0 ) {
+  	if ((stag->props & inreg_bits) !=0 ) {
   		useable_fixed &= ~ (1<<no(stag));
   	}
   	else
-  	if ((props(stag) & infreg_bits) != 0) {
+  	if ((stag->props & infreg_bits) != 0) {
   		useable_float &= ~(1<<no(stag));
   	}
   	stag = next(child(stag));

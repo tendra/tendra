@@ -599,7 +599,7 @@ aa:
  * DOES e OR ONE OF ITS COMPONENTS CONTAIN A BITFIELD?
  *
  * Should really detect this once and for all at an earlier stage and
- * record in props ( e ).
+ * record in e->props.
  */
 static int
 has_bitfield ( exp e )
@@ -3451,7 +3451,7 @@ null_tag_case :
 		 * Skip it for code generation. It may be a renaming of
 		 * a parameter though, so we can generate a .stab.
 		 */
-		if ( props ( e ) & defer_bit ) {
+		if ( e->props & defer_bit ) {
 			return make_code ( next ( child ( e ) ), sp, dest, exitlab ) ;
 		}
 
@@ -3477,8 +3477,8 @@ null_tag_case :
 					/* bit disp of params */
 					int n2 = no ( child ( e ) ) ;
 
-					if ( props ( child ( e ) ) > 0 ) {
-						/* param in input reg given by props(child(e) ) */
+					if ( child ( e )->props > 0 ) {
+						/* param in input reg given by child(e)->props */
 						int end = rounder ( no ( child ( e ) ) +
 						                    shape_size ( sh ( child ( e ) ) ), 32 );
 
@@ -3522,18 +3522,18 @@ null_tag_case :
 							}
 						} else {
 							/* use register */
-							if ( ( props ( e ) & infreg_bits ) != 0 ) {
+							if ( ( e->props & infreg_bits ) != 0 ) {
 								freg frg ;
-								frg.fr = ( int ) props ( child ( e ) ) ;
+								frg.fr = ( int ) child ( e )->props;
 								frg.dble = ( bool ) ( a.ashsize == 64 ) ;
 								setfregalt ( placew.answhere, frg ) ;
 							} else {
-								setregalt ( placew.answhere, (int)props( child ( e ) ) ) ;
+								setregalt ( placew.answhere, (int) child ( e )->props ) ;
 							}
 						}
 
 						/* is last param a vararg in reg? */
-						if ( ((!Has_no_vcallers) || isvis ( e )) && props ( child ( e ) ) != 0 &&
+						if ( ((!Has_no_vcallers) || isvis ( e )) && child ( e )->props != 0 &&
 						     /*pt ( e ) != NULL &&*/
 						     last_param ( e ) ) {
 							/* dump *all* remaining input regs to stack
@@ -3575,18 +3575,18 @@ null_tag_case :
 					        (/*Has_vcallees?local_reg:*/R_FP);
 					placew = nowhere;
 				}
-			} else if ( ( props ( e ) & inreg_bits ) != 0 ) {
+			} else if ( ( e->props & inreg_bits ) != 0 ) {
 				/* tag in some fixed pt reg */
 				if ( n == 0 ) {
 					/* if it hasn't been already allocated into a s-reg
 					   allocate tag into fixed t-reg */
 					long s = sp.fixed ;
 
-					if ( props ( e ) & notparreg ) {
+					if ( e->props & notparreg ) {
 						s |= PARAM_TREGS ;
 					}
 
-					if ( props ( e ) & notresreg ) {
+					if ( e->props & notresreg ) {
 						s |= RMASK ( R_O0 ) ;
 					}
 
@@ -3594,7 +3594,7 @@ null_tag_case :
 					no ( e ) = n ;
 				} else if ( n == R_O0 ) {
 					/* use result reg optimisation */
-					assert ( ! ( props ( e ) & notparreg ) ) ;
+					assert ( ! ( e->props & notparreg ) ) ;
 					/* just as an error check */
 					( void ) needreg ( R_O0, sp ) ;
 				} else {
@@ -3602,7 +3602,7 @@ null_tag_case :
 				}
 
 				setregalt ( placew.answhere, n ) ;
-			} else if ( ( props ( e ) & infreg_bits ) != 0 ) {
+			} else if ( ( e->props & infreg_bits ) != 0 ) {
 				/* tag in some float reg */
 				freg frg ;
 
@@ -3611,7 +3611,7 @@ null_tag_case :
 					   allocate tag into float-reg ...  */
 					long s = sp.flt ;
 
-					if ( props ( e ) & notparreg ) {
+					if ( e->props & notparreg ) {
 						s |= PARAM_FLT_TREGS ;	/* LINT */
 					}
 
@@ -3645,7 +3645,7 @@ null_tag_case :
 			exp se = child(e);
 			exp d = e;
 
-			if ((props(d) & inanyreg) != 0) {
+			if ((d->props & inanyreg) != 0) {
 				ans a;
 				instore is;
 				is.b.base = R_FP;
@@ -4697,7 +4697,7 @@ null_tag_case :
 		return mka;
 
 	case asm_tag :
-		if (props(e)) {
+		if (e->props) {
 			if (child(e)->tag == string_tag) {
 				asm_printf("%s", nostr(child(e)));
 			} else if (child(e)->tag == val_tag) {

@@ -147,7 +147,7 @@ trace_uses(exp e, exp id)
       exp s = next(f);
       int a;
 
-      if ((props(e) & defer_bit)!= 0)
+      if ((e->props & defer_bit)!= 0)
       {
 	exp t = f;
 
@@ -391,7 +391,7 @@ tempdec(exp e, bool enoughs)
     if (useinpar)
     {
       /* See if it can be allocated into a parameter register */
-      props(e) |= notparreg;
+      e->props |= notparreg;
       if (isparam(e))
       {
 	return param_uses(e);

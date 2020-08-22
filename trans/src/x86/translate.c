@@ -169,7 +169,7 @@ code_def(dec *d)
 		ash stack;
 		stack.ashsize = stack.ashalign = 0;
 
-		if (props(child(tag)) != 0) {
+		if (child(tag)->props != 0) {
 			error(ERR_INTERNAL, "~asm not in ~asm_sequence");
 		}
 
@@ -283,7 +283,7 @@ code_def(dec *d)
 					}
 				} else {
 					/* global values */
-					exp t = getexp(f_bottom, NULL, 0, child(tag), NULL, props(tag), -1, 0);
+					exp t = getexp(f_bottom, NULL, 0, child(tag), NULL, tag->props, -1, 0);
 					ptg(t) = d;
 					eval_if_ready(t, 0);
 				}

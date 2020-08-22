@@ -64,17 +64,17 @@ suses(exp e, space * pars, int incpars)
     case name_tag: {
 	exp id = child (e);
 	if (id->tag == ident_tag) {
-	  if (isglob (id) || (props (id) & inanyreg) == 0)
+	  if (isglob (id) || (id->props & inanyreg) == 0)
 	    return ans /* global or not in register */ ;
-	  if ((props (id) & defer_bit) != 0)
+	  if ((id->props & defer_bit) != 0)
 	    return suses (child (id), pars, incpars) /* dec does not take space */ ;
 
-	  if (isparam(id) && no(id) !=0 &&
-	      ((!incpars && props(child(id)) != 0) || no(id)==props(child(id)) ) )
+	  if (isparam(id) && no(id) != 0 &&
+	      ((!incpars && child(id)->props != 0) || no(id) == child(id)->props) )
 	   /* par in original reg (perhaps destined for sreg) */
 	  	 return ans;
 
-	  if ((props(id) & infreg_bits)!=0 ) {
+	  if ((id->props & infreg_bits)!=0 ) {
 	    if (no (id) != 16 && no (id) != 0) {/* uses floating s-reg */
 		ans.flt = 3 << ((no (id)) << 1);
 	    }
@@ -82,8 +82,8 @@ suses(exp e, space * pars, int incpars)
 	  else
 	    if (no (id) != 0 && no (id) != 2) {
 	      /* in s seg */
-	      if (isparam(id) && props(child(id)) !=0 &&
-	                     props(child(id)) >= incpars) return ans;
+	      if (isparam(id) && child(id)->props != 0 &&
+	                     child(id)->props >= incpars) return ans;
 	      ans.fixed = 1 << (no (id));
 	    }
 	}
@@ -130,7 +130,7 @@ suses(exp e, space * pars, int incpars)
 	/* proc call preserves s-regs; however must make sure that any
 	   pars destined for s-regs get there */
 	exp dad = father(e);
-	if (dad->tag==res_tag && props(dad)) {
+	if (dad->tag==res_tag && dad->props) {
 		/* tl recursion  - don't have to dump link or later regs */
 		int i;
 		exp p = next(child(e));
@@ -301,7 +301,7 @@ pushdumps(exp * pe, space * dmpd, space * tobd, space * pars)
   switch (e->tag) {
     case ident_tag: {
 	nds = suses (child (e), pars,0);
-	if ((props (e) & inanyreg) != 0 && no (e) == 0) {
+	if ((e->props & inanyreg) != 0 && no (e) == 0) {
 	  /*  This definition will be allocated into a t-reg so make sure
 	     of enough t-regs which are not par regs; I reuse any par
 	     registers whose pars are put in s-regs as t-regs  */
@@ -322,7 +322,7 @@ pushdumps(exp * pe, space * dmpd, space * tobd, space * pars)
 	}
 
 	if (child(e)->tag != clear_tag ||
-	      (isparam(e) && props(child(e))==0 /* ie initially on stack */)  ) {
+	      (isparam(e) && child(e)->props == 0 /* ie initially on stack */)  ) {
 	  /* id could be in s-reg; find from use */
 	  maxsp (&nds, suses (pt (e), pars, 0));
 	}

@@ -95,7 +95,7 @@ output_diag(diag_info *d, int proc_no, exp e)
 
 		mark_scope(e);
 
-		if (props(e) & 0x80) {
+		if (e->props & 0x80) {
 			asm_printf(" .def .bb; .val .; .scl 100;  .line %d; .endef\n",
 			            last_line_no);
 		}
@@ -190,7 +190,7 @@ code_diag_info(diag_info *d, int proc_no,
 static void
 output_end_scope(diag_info *d, exp e)
 {
-	if (d->key == DIAG_INFO_ID && props(e) & 0x80) {
+	if (d->key == DIAG_INFO_ID && e->props & 0x80) {
 		asm_printf(" .def .eb; .val .; .scl 100; .line %d; .endef\n",
 			last_line_no);
 	}

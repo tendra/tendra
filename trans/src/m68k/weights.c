@@ -116,7 +116,7 @@ markcall(explist *el, bitpattern b)
 	explist *t;
 
 	for (t = el; t != NULL; t = t->next) {
-		props(t->member) |= b;
+		t->member->props |= b;
 	}
 }
 

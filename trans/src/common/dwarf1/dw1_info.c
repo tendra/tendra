@@ -89,7 +89,7 @@ dw1_output_diag(diag_info *d, int proc_no, exp e)
 
 		mark_scope(e);
 
-		if (props(e) & 0x80) {
+		if (e->props & 0x80) {
 			next_dwarf_lab(PUSH_LEX_BLK);
 			OUT_DWARF_BEG(TOS_LEX_BLK);
 			cont_sib_chain(TAG_lexical_block);
@@ -178,7 +178,7 @@ void
 dw1_output_end_scope(diag_info *d, exp e)
 {
 	/* TODO: asm_comment("END diag_info key %d", d->key); avoid x86 outnl side effect */
-	if (d->key != DIAG_INFO_SOURCE && props(e) & 0x80) {
+	if (d->key != DIAG_INFO_SOURCE && e->props & 0x80) {
 		OUT_DWARF_END(POP_LEX_BLK);
 		CHK_LEX_STK;
 		end_sib_chain();

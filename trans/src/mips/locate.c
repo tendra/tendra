@@ -140,7 +140,7 @@ locate1(exp e, space sp, shape s, int dreg)
 	exp decx = child(e);
 	bool var = isvar(decx);
 				/* this a locally declared name ... */
-	  if (props(decx) & defer_bit) {
+	  if (decx->props & defer_bit) {
 				/* ... it has been identified with a
 				   simple expression which is better
 				   evaluated every time */
@@ -167,7 +167,7 @@ locate1(exp e, space sp, shape s, int dreg)
 	    }
 	  }
 	  else
-	    if (props(decx) & inreg_bits) {
+	    if (decx->props & inreg_bits) {
 				/* ... it has been allocated in a fixed
 				   point reg */
 	      if (var) {
@@ -182,7 +182,7 @@ locate1(exp e, space sp, shape s, int dreg)
 	      }
 	    }
 	    else
-	      if (props(decx) & infreg_bits) {
+	      if (decx->props & infreg_bits) {
 				/* ... it has been allocated in a floating
 				   point reg */
 		freg fr;

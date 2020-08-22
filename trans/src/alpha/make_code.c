@@ -1517,7 +1517,7 @@ tailrecurse:
 		 * The tag of this declaration is transparently identified
 		 * with its definition, without reserving more space
 		 */
-		if (props(e) & defer_bit) {
+		if (e->props & defer_bit) {
 			e = next(child(e));
 			goto tailrecurse;
 		}
@@ -1545,11 +1545,11 @@ tailrecurse:
 			int   n = no(e);
 
 			a = ashof(sh(child(e)));
-			if (is_param_reg(n) && (props(e) &inreg_bits) && proc_has_vararg) {
-				props(e) &= (~inreg_bits);
+			if (is_param_reg(n) && (e->props &inreg_bits) && proc_has_vararg) {
+				e->props &= (~inreg_bits);
 			}
 
-			if (((props(e) & inreg_bits) != 0)) {
+			if (((e->props & inreg_bits) != 0)) {
 				/* tag in some fixed pt reg */
 				/*
 				 * If it hasn't been already allocated into a s-reg (or r0)
@@ -1557,7 +1557,7 @@ tailrecurse:
 				 */
 				if (n == NO_REG) {
 					int   s = sp.fixed;
-					if (props (e) & notparreg) { /* ... but not a parameter reg */
+					if (e->props & notparreg) { /* ... but not a parameter reg */
 						s |= PARAM_REGS;
 					}
 
@@ -1566,7 +1566,7 @@ tailrecurse:
 				}
 
 				setregalt(placew.answhere, n);
-			} else if ((props(e) & infreg_bits) != 0) {
+			} else if ((e->props & infreg_bits) != 0) {
 				/* tag in some float reg */
 				freg frg;
 
@@ -1576,7 +1576,7 @@ tailrecurse:
 				 */
 				if (n == NO_REG) {
 					int s = sp.flt;
-					if (props(e) & notparreg) {
+					if (e->props & notparreg) {
 						s |= 0xc0;
 					}
 					n = getfreg(s);
@@ -1616,8 +1616,8 @@ tailrecurse:
 						n = (((no(child(e)) + frame_size + callee_size - offset_adjustment) >> 3));
 					}
 
-					if (props(child(e))) {
-						this_reg = (props(child(e)) - 16) << 6;
+					if (child(e)->props) {
+						this_reg = (child(e)->props - 16) << 6;
 					}
 
 					/* save all parameters in 64 bit chunks */
@@ -1651,7 +1651,7 @@ tailrecurse:
 							is.b.offset += 8;
 						}
 
-						/*props(child(e))=0;*/ /* ensures it wont be saved again */
+						/*child(e)->props=0;*/ /* ensures it wont be saved again */
 					}
 
 					if (proc_has_vararg && last_param(e) && (this_reg >= 0)) {
@@ -1736,7 +1736,7 @@ tailrecurse:
 			exp d = e;
 
 			/* parameter fiddles */
-			if (props(se) == 0 && (props(d) & inanyreg) != 0) {
+			if (se->props == 0 && (d->props & inanyreg) != 0) {
 				/* not originally in required reg */
 				ans a;
 				instore is;
@@ -1748,13 +1748,13 @@ tailrecurse:
 				is.adval = 0;
 				setinsalt(a, is);
 				IGNORE move(a, placew, sp, sh(se)->tag & 1);
-			} else if (props(se) != 0 && (props(d) & inanyreg) == 0) {
+			} else if (se->props != 0 && (d->props & inanyreg) == 0) {
 				/* originally in reg and required in store */
 				ans a;
 
 				if (is_floating(sh(se)->tag)) {
 					freg fr;
-					fr.fr = props(se);
+					fr.fr = se->props;
 					if (sh(se)->tag != shrealhd) {
 						fr.type = IEEE_double;
 					} else {
@@ -1762,31 +1762,31 @@ tailrecurse:
 					}
 					setfregalt(a, fr);
 				} else {
-					setregalt(a, props(se));
+					setregalt(a, se->props);
 				}
 
 				r = move(a, placew, sp, 0);
-			} else if (props(se) != 0 && props(se) != no(d)) {
+			} else if (se->props != 0 && se->props != no(d)) {
 				/* in wrong register */
 				int sr = no(d);
-				int tr = props(se);
+				int tr = se->props;
 
 				if (is_floating(sh(se)->tag)) {
 					if ((fltdone & (1 << (sr))) != 0) {
 						float_op((sh(se)->tag != shrealhd) ? i_cpys : i_cpys,
-						         (int)props(se), (int)(props(se)), no(d));
+						         (int) se->props, (int) se->props, no(d));
 					} else {
-						props(se) = sr;
+						se->props = sr;
 						no(d) = tr;
 						sp = guardfreg(tr, sp);
 						/* !? swopped and moved in  dump_tag !? */
 					}
 				} else {
 					if ((fixdone & (1 << sr)) != 0) {
-						/* operate_fmt(i_bis,no(d),no(d),(int)props(se));*/
-						operate_fmt(i_bis, (int)props(se), (int)props(se), no(d));
+						/* operate_fmt(i_bis,no(d),no(d), (int) se->props); */
+						operate_fmt(i_bis, (int) se->props, (int) se->props, no(d));
 					} else {
-						props(se) = sr;
+						se->props = sr;
 						no(d) = tr;
 						sp = guardreg(tr, sp);
 						/* !? swapped for dump_tag !? */
@@ -1799,7 +1799,7 @@ tailrecurse:
 			exp se = child(e);
 			exp d = e;
 
-			if ((props(d) & inanyreg) != 0) {
+			if ((d->props & inanyreg) != 0) {
 				/* callee parameter assigned to reg */
 				ans a;
 				instore is;
@@ -1914,7 +1914,7 @@ tailrecurse:
 			bool rev = IsRev(test);
 
 			ptno(test)  = -l;	/* make test jump to exitlab - see test_tag: */
-			props(test) = notbranch[(props(test) & 127) - 1];
+			test->props = notbranch[(test->props & 127) - 1];
 
 			if (rev) {
 				SetRev(test);
@@ -2092,7 +2092,7 @@ tailrecurse:
 		int a1, rtmp;
 		nsp = sp;
 
-		test_num = props(child(e));
+		test_num = child(e)->props;
 		dest_reg = regfrmdest(&dest, nsp);
 		mka.regmove = dest_reg;
 		setregalt(aa, dest_reg);
@@ -2116,7 +2116,7 @@ tailrecurse:
 		exp r = next(l);
 		shape shl = sh(l);
 		instruction compare_ins;
-		int   n = props(child(e));
+		int   n = child(e)->props;
 		int   d;
 		int   a1;
 		int   a2;
@@ -2269,7 +2269,7 @@ tailrecurse:
 		/* see frig in cond_tag */
 		shape shl = sh(l);
 		instruction test_ins;
-		int   n = (props (e)) & 127; /* could have Rev bit in props*/
+		int   n = (e->props) & 127; /* could have Rev bit in props*/
 		bool rev;
 		bool is_compare = ((!is_signed(shl)) && ((n - 5) < 0) &&
 		                   (shl->tag != ptrhd)) || ((is64(shl)));
@@ -3342,7 +3342,7 @@ tailrecurse:
 #endif
 
 			if (sbody->tag == formal_callee_tag) {
-				if ((props(bdy) & inanyreg)) {
+				if ((bdy->props & inanyreg)) {
 					b.offset -= callee_size >> 3;
 					if (isvar(bdy)) {
 						if (is_floating(sh(sbody)->tag)) {
@@ -3352,22 +3352,22 @@ tailrecurse:
 						}
 					}
 				}
-			} else if (props(sbody) == 0 && (props(bdy) &inanyreg) != 0) {
+			} else if (sbody->props == 0 && (bdy->props &inanyreg) != 0) {
 				/* move from reg to store */
 				if (isvar(bdy)) {
 					if (is_floating(sh(sbody)->tag)) {
 						float_load_store((sh(sbody)->tag == shrealhd) ? i_sts : i_stt, no(bdy), b);
 					} else {
-						load_store(is64(sh(sbody)) ? i_stq : i_stl, props(sbody), b);
+						load_store(is64(sh(sbody)) ? i_stq : i_stl, sbody->props, b);
 					}
 				}
-			} else if (props(sbody) != 0 && (props(bdy) & inanyreg) == 0) {
+			} else if (sbody->props != 0 && (bdy->props & inanyreg) == 0) {
 				/* move from store to reg */
 				if (is_floating(sh(sbody)->tag)) {
-					float_load_store((sh(sbody)->tag == shrealhd) ? i_lds : i_ldt, props(sbody), b);
+					float_load_store((sh(sbody)->tag == shrealhd) ? i_lds : i_ldt, sbody->props, b);
 				} else {
 					if (isvis(bdy) && last_param(bdy) && !Has_no_vcallers) {
-						int this_reg = props(sbody);
+						int this_reg = sbody->props;
 						int r;
 						assert(this_reg >= 16);
 						b.offset = ((this_reg + 1 - 16) << 3) + ((gpdumpstart - frame_size) >> 3);
@@ -3381,17 +3381,17 @@ tailrecurse:
 							b.offset += (REG_SIZE >> 3);
 						}
 						b.offset = ((this_reg - 16) << 3) + ((gpdumpstart - frame_size) >> 3);
-						load_store(is64(sh(sbody)) ? i_ldq : i_ldl, props(sbody), b);
+						load_store(is64(sh(sbody)) ? i_ldq : i_ldl, sbody->props, b);
 					} else {
-						load_store(is64(sh(sbody)) ? i_ldq : i_ldl, props(sbody), b);
+						load_store(is64(sh(sbody)) ? i_ldq : i_ldl, sbody->props, b);
 					}
 				}
-			} else if (props(sbody) != 0 && (props(sbody) != no(bdy))) {
+			} else if (sbody->props != 0 && (sbody->props != no(bdy))) {
 				/* move from reg to reg */
 				if (is_floating(sh(sbody)->tag)) {
-					float_op(i_cpys, no(bdy), no(bdy), props(sbody));
+					float_op(i_cpys, no(bdy), no(bdy), sbody->props);
 				} else {
-					operate_fmt(i_bis, no(bdy), no(bdy), props(sbody));
+					operate_fmt(i_bis, no(bdy), no(bdy), sbody->props);
 				}
 			}
 
@@ -3552,7 +3552,7 @@ tailrecurse:
 		}
 
 		clear_all ();		/* clear all register memories */
-		if (child(e)->tag == apply_tag && props(e)) {
+		if (child(e)->tag == apply_tag && e->props) {
 			return mka;
 		}
 
@@ -5783,11 +5783,11 @@ out:
 
 		for (l = child(crt_proc); l->tag == ident_tag && isparam(l);) {
 			/* move any pars still in registers which go into dump regs */
-			int sr = props(child(l));
+			int sr = child(l)->props;
 			int tr = no(l);
 
-			if ((props(l) & inanyreg) != 0 && (tr != sr) && sr != 0) {
-				if ((props(l) & infreg_bits) != 0 &&
+			if ((l->props & inanyreg) != 0 && (tr != sr) && sr != 0) {
+				if ((l->props & infreg_bits) != 0 &&
 				    (fld & (1 << (sr))) != 0) {
 					if (sh(child(l))->tag != shrealhd) {
 						float_op(i_cpys, tr, tr, sr);
@@ -5796,12 +5796,12 @@ out:
 					}
 					sp.flt &= ~(1 << tr); /* release fpar reg */
 					no(l) = sr;
-					props(child(l)) = tr;
-				} else if (((fxd & (1 << sr)) != 0) && (props(l) & inreg_bits)) {
+					child(l)->props = tr;
+				} else if (((fxd & (1 << sr)) != 0) && (l->props & inreg_bits)) {
 					operate_fmt(i_bis, tr, tr, sr);
 					sp.fixed &= ~(1 << tr); /* release par reg */
 					no(l) = sr;
-					props(child(l)) = tr;
+					child(l)->props = tr;
 				}
 			}
 
@@ -5815,17 +5815,17 @@ out:
 
 		for (l = child(crt_proc); l->tag == ident_tag && isparam(l);) {
 			/* restore structure of moved pars */
-			int sr = props(child(l));
+			int sr = child(l)->props;
 			int tr = no(l);
 
-			if ((props(l) & inanyreg) != 0 && (tr != sr) && sr != 0) {
-				if ((props(l) & infreg_bits) != 0 &&
+			if ((l->props & inanyreg) != 0 && (tr != sr) && sr != 0) {
+				if ((l->props & infreg_bits) != 0 &&
 				    (fld & (1 << (tr << 1))) != 0) {
 					no(l) = sr;
-					props(child(l)) = tr;
+					child(l)->props = tr;
 				} else if ((fxd & (1 << tr)) != 0) {
 					no(l) = sr;
-					props(child(l)) = tr;
+					child(l)->props = tr;
 				}
 			}
 
@@ -5973,13 +5973,13 @@ out:
 
 		for (l = child(e); l->tag == ident_tag && isparam(l) &&
 		     child(l)->tag != formal_callee_tag; l = next(child(l))) {
-			if ((props(l) & infreg_bits) != 0) {
-				int n = props(child(l));
+			if ((l->props & infreg_bits) != 0) {
+				int n = child(l)->props;
 				if (n != no(l) && n != 0) {
 					pars.flt |= (1 << no(l));
 				}
-			} else if ((props(l) & inreg_bits) != 0) {
-				int n = props(child(l));
+			} else if ((l->props & inreg_bits) != 0) {
+				int n = child(l)->props;
 				if (n != no(l) && n != 0) {
 					pars.fixed |= (1 << no(l));
 				}
@@ -6088,8 +6088,8 @@ out:
 
 		/* fix up integers passed in registers */
 		for (l = child(e); l->tag == ident_tag && isparam(l); l = next(child(l))) {
-			if (props(l) & inreg_bits) {
-				int n = props(child(l));
+			if (l->props & inreg_bits) {
+				int n = child(l)->props;
 				assert((n >= FIRST_INT_ARG) && (n <= LAST_INT_ARG));
 				if (is32(sh(child(l)))) {
 					operate_fmt_immediate(i_addl, n, 0, n);
@@ -6438,7 +6438,7 @@ null_tag_case: {
 		exp cass = next(ctest);
 		exp ltest = child(ctest);	/* lhs of test */
 		exp rtest = next(ltest);	/* rhs of test */
-		int testid = props(ctest) & 127;
+		int testid = ctest->props & 127;
 		int targ1, targ2;		/* arguments of test */
 		int aarg1, aarg2;		/* arguments of assignment */
 		int rev = 0;		/* set if test is reversed */

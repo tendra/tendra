@@ -199,15 +199,15 @@ stab_local(char *nm, diag_type dt, exp ldid, int disp, long findex)
   disp+=no(ldid);
 again:
   if (id->tag == ident_tag) {
-    if ((props(id) & defer_bit) == 0) {
-      if ((props(id) & inreg_bits)!= 0) {
+    if ((id->props & defer_bit) == 0) {
+      if ((id->props & inreg_bits)!= 0) {
 	sc = scRegister;
 	v = no(id);
 	/*if (as_file){
 	  x (asm_printf( " # %s is in $%d\n", nm, v));
 	  }*/
       }
-      else if ((props(id) & infreg_bits)!= 0) {
+      else if ((id->props & infreg_bits)!= 0) {
 	sc = scRegister;
 	v = (no(id) << 1) + float_register;
 /*	  if (as_file)
@@ -271,7 +271,7 @@ static void output_diag
   /* can't output global values as local names in dbx
      && not only diag use */
   mark_scope(e);
-  if (props(e) & 0x80) {
+  if (e->props & 0x80) {
     stabd(currentfile, currentlno+1, 0); /* don't have proper lineno */
     diagbr_open(currentfile);
   }
@@ -293,7 +293,7 @@ static void output_end_scope
     stabd(f, (lno==currentlno)?lno+1:lno, 0); /*approx */
     return;
   }
-  if (d -> key == DIAG_INFO_ID && props(e) & 0x80) {
+  if (d -> key == DIAG_INFO_ID && e->props & 0x80) {
     diagbr_close(currentfile);
   }
 }

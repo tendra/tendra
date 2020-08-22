@@ -239,7 +239,7 @@ makeans make_ident_tag_code(exp e, space sp, where dest, int exitlab)
 	bool remember = 0;
 	makeans mka;
 
-	if (props(e) & defer_bit) {
+	if (e->props & defer_bit) {
 		return make_code(next(init_exp), sp, dest, exitlab);
 	}
 
@@ -251,19 +251,19 @@ makeans make_ident_tag_code(exp e, space sp, where dest, int exitlab)
 		no(e) = ENCODE_FOR_BOFF(caller_disp , OUTPUT_CALLER_PARAMETER);
 		set_coded_caller(ote); /* Used in apply_general*/
 
-		assert((props(e) & inanyreg) == 0);
+		assert((e->props & inanyreg) == 0);
 		/* Should not have been allocated a register by regalloc or scan() */
 		placew = nowhere;
 	}
 	/* Is it in a fixed point register? */
-	else if (props(e) &inreg_bits) {
+	else if (e->props &inreg_bits) {
 		if (ident_no == R_NO_REG) {	/* Need to allocate a t-reg */
 			int s = sp.fixed;
 
-			if (props(e) & notparreg) {
+			if (e->props & notparreg) {
 				s |= PARAM_TREGS;
 			}
-			if (props(e) & notresreg) {
+			if (e->props & notresreg) {
 				s |= RMASK(R_RESULT);
 			}
 			ident_no = getreg(s);
@@ -272,15 +272,15 @@ makeans make_ident_tag_code(exp e, space sp, where dest, int exitlab)
 		setregalt(placew.answhere, ident_no);
 	}
 	/* Is it in a floating point register? */
-	else if (props(e) & infreg_bits) {
+	else if (e->props & infreg_bits) {
 		freg frg;
 		if (ident_no == FR_NO_REG) {	/* Need to allocate a t-reg */
 			int s = sp.flt;
 
-			if (props(e) & notparreg) {
+			if (e->props & notparreg) {
 				s |= PARAM_FLT_TREGS;
 			}
-			if (props(e) & notresreg) {
+			if (e->props & notresreg) {
 				s |= RMASK(FR_RESULT);
 			}
 			ident_no = getfreg(s);
@@ -329,7 +329,7 @@ makeans make_ident_tag_code(exp e, space sp, where dest, int exitlab)
 	placew.ashwhere.ashalign = ident_align;
 
 	if (isparam(e)) {
-		if (init_exp->tag == formal_callee_tag && (props(e) & inanyreg)) {
+		if (init_exp->tag == formal_callee_tag && (e->props & inanyreg)) {
 			instore is;
 			ans aa;
 			assert(p_has_fp);
@@ -1198,9 +1198,9 @@ restore_callers(int n)
 	       && child(bdy)->tag != formal_callee_tag) {
 		exp sbdy = child(bdy);
 		baseoff parampos;
-		bool ident_in_register = (props(bdy) & inanyreg) != 0;
+		bool ident_in_register = (bdy->props & inanyreg) != 0;
 		bool is_aggregate = IS_AGGREGATE(sh(sbdy));
-		int param_reg = props(sbdy);
+		int param_reg = sbdy->props;
 		int ident_size = shape_size(sh(sbdy));
 
 		if (p_has_tp) {
@@ -1250,7 +1250,7 @@ restore_callers(int n)
 				ld_ro_ins(i_l, parampos, param_reg);
 				asm_comment("restore param reg from stack");
 			}
-		} else if (props(sbdy) != 0 && props(sbdy) != no(bdy)) {
+		} else if (sbdy->props != 0 && sbdy->props != no(bdy)) {
 			/* in wrong register */
 			if (is_floating(sh(sbdy)->tag)) {
 				rrf_ins(i_fmr, no(bdy), param_reg);
@@ -1306,11 +1306,11 @@ restore_callees(void)
 		stackpos.base   = R_FP;
 		stackpos.offset = EXTRA_CALLEE_BYTES + (no(sbdy) >> 3);
 
-		if (props(bdy) & infreg_bits) {
+		if (bdy->props & infreg_bits) {
 			bool dble = is_double_precision(sh(sbdy));
 			assert(IS_FLT_SREG(no(bdy)));
 			stf_ro_ins(dble ? i_stfd : i_stfs, no(bdy), stackpos);
-		} else if (props(bdy) & inreg_bits) {
+		} else if (bdy->props & inreg_bits) {
 			assert(IS_SREG(no(bdy)));
 			st_ro_ins(i_st, no(bdy), stackpos);
 		}

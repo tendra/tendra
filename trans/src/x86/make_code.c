@@ -779,7 +779,7 @@ solve(exp s, exp l, where dest, exp jr, ash stack)
 	/* while not the last branch */
 	while (!l->last) {
 		exp record = getexp(f_bottom, NULL,
-		                    (bool)(props(child(next(l))) & 2),
+		                    (bool) (child(next(l))->props & 2),
 		                    NULL,
 		                    NULL, 0, 0, 0);
 		childno(record) = stack_dec;
@@ -2431,7 +2431,7 @@ make_code1(where dest, ash stack, exp e)
 		return;
 
 	case asm_tag:
-		if (props(e)) {
+		if (e->props) {
 			asm_ins(e);
 		} else {
 			start_asm();
