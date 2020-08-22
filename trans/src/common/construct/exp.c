@@ -136,12 +136,12 @@ getexp(shape s, exp b, int l, exp sn, exp px, prop pr, int n, unsigned char tag)
 		res->last = false;
 	}
 
-	child(res)    = sn;
+	child(res)  = sn;
 	pt(res)     = px;
 	props(res)  = pr;
 	no(res)     = n;
 	res->tag    = tag;
-	parked(res) = 0;
+	res->parked = false;
 #ifdef TDF_DIAG4
 	dgf(res)    = NULL;
 #endif

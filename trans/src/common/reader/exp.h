@@ -77,7 +77,7 @@ struct exp_t {
 	unsigned char tag;
 
 	bool last:1;
-	bool park:1;
+	bool parked:1;
 
 #ifdef TRANS_HPPA
 	bool commuted:1;
@@ -113,7 +113,6 @@ typedef struct exp_t *exp;
 #define pt(x)             ((x)->pt.e)
 #define props(x)          ((x)->props)
 #define no(x)             ((x)->num.l)
-#define parked(x)         ((x)->park)
 
 #ifdef TDF_DIAG4
 #define dgf(x)            ((x)->diag)

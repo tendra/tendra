@@ -491,7 +491,7 @@ clear_exp_list(exp_list el)
 		return;
 	}
 	for (;;) {
-		parked(t) = 0;
+		t->parked = false;
 		if (t == el.end) {
 			return;
 		}
@@ -5715,7 +5715,7 @@ add_exp_list(exp_list list, exp elem, int index)
 {
 	UNUSED(index);
 	++list.number;
-	parked(elem) = 1;
+	elem->parked = true;
 	if (list.start == NULL) {
 		list.start = elem;
 		list.end = elem;
