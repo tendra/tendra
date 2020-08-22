@@ -717,9 +717,9 @@ max_const(exp whole, exp e, int ass_ok)
 						exp a1 = copy(son(z));
 						exp offmul = getexp(ofsh, NULL, false, a1, NULL,
 						                    0,  0, offset_mult_tag);
-						setbro(a1, m_res);
+						setnext(a1, m_res);
 						a1->last = false;
-						setbro(m_res, offmul);
+						setnext(m_res, offmul);
 						m_res->last = true;
 						m_res = hold_refactor(offmul);
 						*list = next(z);
@@ -962,15 +962,15 @@ safe_arg(exp e, exp esc)
 	tst = getexp(f_top, NULL, 0, v1, esc, 0, 0, test_tag);
 	settest_number(tst, f_not_equal);
 	++no(son(esc));
-	setbro(v1, konst);
+	setnext(v1, konst);
 	tst = hc(tst, konst);
 
 	z = getexp(f_top, v2, 0, tst, NULL, 0,  0, 0);
-	setbro(tst, z);
+	setnext(tst, z);
 	tst->last = true;
 
 	s = getexp(sh(e), decl, 1, z, NULL, 0,  0, seq_tag);
-	setbro(e, s);
+	setnext(e, s);
 	e->last = false;
 	s = hc(s, v2);
 
@@ -1047,7 +1047,7 @@ safe_eval(exp e, exp escape_route)
 		res = copyexp(e);
 		setson(res, arg1);
 		arg2 = safe_arg(arg2, esc_lab);
-		setbro(arg1, arg2);
+		setnext(arg1, arg2);
 		arg1->last = false;
 		res = hc(res, arg2);
 		break;
@@ -1102,7 +1102,7 @@ safe_eval(exp e, exp escape_route)
 		setson(k, p);
 		while (!arg->last) {
 			exp safe = safe_eval(next(arg), esc_lab);
-			setbro(p, safe);
+			setnext(p, safe);
 			p->last = false;
 			p = next(p);
 			arg = next(arg);
@@ -1129,9 +1129,9 @@ safe_eval(exp e, exp escape_route)
 		exp safe;
 
 		safe = getexp(sh(e), NULL, 1, NULL, NULL, 0,  0, clear_tag);
-		setbro(son(esc_lab), safe);
+		setnext(son(esc_lab), safe);
 		IGNORE hc(esc_lab, safe);
-		setbro(res, esc_lab);
+		setnext(res, esc_lab);
 		res->last = false;
 		IGNORE hc(cond, esc_lab);
 		return cond;

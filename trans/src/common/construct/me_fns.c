@@ -115,7 +115,7 @@ me_b1(error_treatment ov_err, exp arg1, exp arg2, unsigned char nm)
 {
 	exp r = getexp(sh(arg1), NULL, 0, arg1, NULL, 0, 0, nm);
 	seterrhandle(r, ov_err.err_code);
-	setbro(arg1, arg2);
+	setnext(arg1, arg2);
 	arg1->last = false;
 	if (isov(r)) {
 		setjmp_dest(r, get_lab(ov_err.jmp_dest));
@@ -129,7 +129,7 @@ exp
 me_b2(exp arg1, exp arg2, unsigned char nm)
 {
 	exp r = getexp(sh(arg1), NULL, 0, arg1, NULL, 0, 0, nm);
-	setbro(arg1, arg2);
+	setnext(arg1, arg2);
 	arg1->last = false;
 	setfather(r, arg2);
 	return r;
@@ -140,7 +140,7 @@ exp
 me_b3(shape sha, exp arg1, exp arg2, unsigned char nm)
 {
 	exp r = getexp(sha, NULL, 0, arg1, NULL, 0, 0, nm);
-	setbro(arg1, arg2);
+	setnext(arg1, arg2);
 	arg1->last = false;
 	setfather(r, arg2);
 	return r;
@@ -204,7 +204,7 @@ me_q1_aux(nat_option prob, ntest nt, exp lab, exp arg1, exp arg2,
 	r = getexp(f_top, NULL, 0, arg1, lab, 0, 0, nm);
 	no(r) = prob.present ? natint(prob.val) : 1000;
 	settest_number(r, nt);
-	setbro(arg1, arg2);
+	setnext(arg1, arg2);
 	arg1->last = false;
 	++no(son(lab));
 	setfather(r, arg2);
@@ -229,7 +229,7 @@ me_q2_aux(nat_option prob, error_treatment err, ntest nt, exp lab, exp arg1,
 	r = getexp(f_top, NULL, 0, arg1, lab, 0, 0, nm);
 	no(r) = prob.present ? natint(prob.val) : 1000;
 	settest_number(r, nt);
-	setbro(arg1, arg2);
+	setnext(arg1, arg2);
 	arg1->last = false;
 	++no(son(lab));
 	setfather(r, arg2);

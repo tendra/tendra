@@ -35,7 +35,7 @@ void scan(bool, exp, exp);
 /*
  * MACROS TO SET OR GET THE SON OR BRO
  */
-#define assexp(I, P, V)	if (I) setson(P, V); else setbro(P, V)
+#define assexp(I, P, V)	if (I) setson(P, V); else setnext(P, V)
 #define contexp(I, P)	((I) ? son(P): next(P))
 
 /*
@@ -57,7 +57,7 @@ make_bitfield_offset(exp e, exp pe, int spe, shape sha)
 	val8 = getexp(slongsh, omul, 1, NULL, NULL, 0, 8, val_tag);
 
 	e->last = false;
-	setbro(e, val8);
+	setnext(e, val8);
 	if (spe) {
 		son(pe) = omul;
 	} else {
@@ -647,7 +647,7 @@ scan(bool sto, exp to, exp e)
 #ifndef tdf3
 	case set_stack_limit_tag: {
 		exp lim = get_stack_limit();
-		setbro(lim, son(e));
+		setnext(lim, son(e));
 		setson(e, lim);
 		e->tag = ass_tag;
 		scan(sto, to, e);

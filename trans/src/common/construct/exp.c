@@ -1042,7 +1042,7 @@ copy_res(exp e, exp var, exp lab)
 
 		son(z) = t;
 		while (!q->last) {
-			setbro(p, copyexp(next(q)));
+			setnext(p, copyexp(next(q)));
 			if (son(next(q)) != NULL) {
 				setson(next(p), copyexp(son(next(q))));
 			}
@@ -1194,7 +1194,7 @@ copy_res(exp e, exp var, exp lab)
 			exp ptt = q;
 
 			while (!t->last) {	/* copy the arguments */
-				setbro(ptt, copy_res(next(t), var, lab));
+				setnext(ptt, copy_res(next(t), var, lab));
 				ptt->last = false;
 				t = next(t);
 				ptt = next(ptt);

@@ -1783,11 +1783,11 @@ f_conditional(label alt_label_intro, exp first, exp alt)
 	res_shape = lub_shape(sh(first), sh(alt));
 	r = getexp(res_shape, NULL, 0, first, NULL, 0, 0, cond_tag);
 	def = son(labst);
-	setbro(first, labst);
+	setnext(first, labst);
 	first->last = false;
-	setbro(def, alt);
+	setnext(def, alt);
 	def->last = false;
-	setbro(alt, labst);
+	setnext(alt, labst);
 	alt->last = true;
 	setsh(labst, sh(alt));
 	setfather(r, labst);
@@ -2114,7 +2114,7 @@ f_identify(access_option acc, tag name_intro, exp definition, exp body)
 		return definition;
 	}
 	setsh(i, sh(body));
-	setbro(d, body);
+	setnext(d, body);
 	d->last = false;
 	setfather(i, body);
 	return i;
@@ -2198,8 +2198,8 @@ f_labelled(label_list placelabs_intro, exp starter, exp_list places)
 		exp labst = get_lab(placelabs_intro.elems[i]);
 		b = next(f);
 
-		setbro(son(labst), f);
-		setbro(f, labst);
+		setnext(son(labst), f);
+		setnext(f, labst);
 		f->last = true;
 		setsh(labst, sh(f));
 		if (starter->tag == case_tag ||
@@ -3833,9 +3833,9 @@ f_move_some(transfer_mode md, exp arg1, exp arg2, exp arg3)
 		setnooverlap(r);
 	}
 	arg1->last = false;
-	setbro(arg1, arg2);
+	setnext(arg1, arg2);
 	arg2->last = false;
-	setbro(arg2, arg3);
+	setnext(arg2, arg3);
 	setfather(r, arg3);
 	return r;
 }
@@ -4535,9 +4535,9 @@ f_repeat(label repeat_label_intro, exp start, exp body)
 
 	next(start) = labst;
 	start->last = false;
-	setbro(son(labst), body);
+	setnext(son(labst), body);
 	son(labst)->last = false;
-	setbro(body, labst);
+	setnext(body, labst);
 	body->last = true;
 	setsh(labst, sh(body));
 	son(crt_repeat) = r;
@@ -4724,7 +4724,7 @@ f_sequence(exp_list statements, exp result)
 	}
 	if (statements.number <= MAX_ST_LENGTH) {
 		l->last = true;
-		setbro(l, h);
+		setnext(l, h);
 		r = getexp(sh(result), NULL, 0, h, NULL, 0, 0, seq_tag);
 		setfather(r, result);
 		return r;
@@ -4894,7 +4894,7 @@ f_variable(access_option acc, tag name_intro, exp init, exp body)
 	UNUSED(acc);
 	UNUSED(init);
 	setsh(i, sh(body));
-	setbro(d, body);
+	setnext(d, body);
 	d->last = false;
 	setfather(i, body);
 #ifdef TDF_DIAG4

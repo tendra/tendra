@@ -719,7 +719,7 @@ refactor_id(exp e, exp scope)
 
 			s = getexp(sh(body), NULL, 0, r, NULL, 0, 0, seq_tag);
 			c = getexp(sh(body), s, 1, cz, NULL, 0, 0, cont_tag);
-			setbro(r, hc(c, cz));
+			setnext(r, hc(c, cz));
 			replace(e, hc(s, next(son(s))), e);
 
 			return 1;

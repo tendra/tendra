@@ -140,11 +140,11 @@ typedef struct exp_t *exp;
  * MACROS FOR SETTING COMPONENTS OF AN EXPRESSION
  */
 
-#define setbro(x, b)      next(x) = (b)
+#define setnext(x, b)      next(x) = (b)
 #define setsh(x, b)       sh(x) = (b)
 #define setson(x, b)      son(x) = (b)
 #define setpt(x, b)       pt(x) = (b)
-#define setfather(f, s)   setbro(s, f); (s)->last = true
+#define setfather(f, s)   setnext(s, f); (s)->last = true
 
 
 /*

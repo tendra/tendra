@@ -193,7 +193,7 @@ make_bitfield_offset(exp e, exp pe, int spe, shape sha)
 	val8 = getexp(slongsh, omul, 1, NULL, NULL, 0, 8, val_tag);
 
 	e->last = false;
-	setbro(e, val8);
+	setnext(e, val8);
 	if (spe) {
 		son(pe) = omul;
 	} else {

@@ -436,7 +436,7 @@ like_me_q1(int prob, ntest nt, exp lab, exp arg1, exp arg2, unsigned char nm)
 	r = getexp(f_top, NULL, 0, arg1, lab, 0, 0, nm);
 	no(r) = prob;
 	settest_number(r, nt);
-	setbro(arg1, arg2);
+	setnext(arg1, arg2);
 	arg1->last = false;
 	++no(son(lab));
 	setfather(r, arg2);

@@ -358,7 +358,7 @@ make_test(ntest nt, exp lab, exp arg1, exp arg2, unsigned char nm)
 	r = getexp(f_top, NULL, 0, arg1, lab, 0, 0, nm);
 	fno(r) = (float)0.5;
 	settest_number(r, (int)nt);
-	setbro(arg1, arg2);
+	setnext(arg1, arg2);
 	arg1->last = false;
 	++no(son(lab));
 	setfather(r, arg2);
@@ -2751,7 +2751,7 @@ refactor(exp e, exp scope)
 							l = (int)n->last;
 							a = n;
 							n = next(n);
-							setbro(q, varchange(sha, a));
+							setnext(q, varchange(sha, a));
 							q->last = false;
 							q = next(q);
 						}
@@ -3010,7 +3010,7 @@ refactor(exp e, exp scope)
 				exp m = getexp(sh(e), NULL, 0, son(son(e)),
 				               NULL, 0, 0, mult_tag);
 				exp m1, pa;
-				setbro(son(m), copy(next(son(e))));
+				setnext(son(m), copy(next(son(e))));
 				son(m)->last = false;
 				m1 = hc(m, next(son(m)));
 				pa = getexp(sh(e), NULL, 0, m1, NULL, 0, 0,

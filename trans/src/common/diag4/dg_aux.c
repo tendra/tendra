@@ -417,7 +417,7 @@ diaginfo_exp(exp e)
 	scan_diag_names(e, e);
 	ans = hold(e);
 	setpt(ans, NULL);
-	setbro (ans, NULL);	/* these fields are used in dwarf generation */
+	setnext (ans, NULL);	/* these fields are used in dwarf generation */
 	no(ans) = 0;
 	props(ans) = 0;
 	ans->last = false;

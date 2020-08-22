@@ -173,8 +173,8 @@ set_locdata(obj_list this_obl)
 						no(x) = next_dwarf_label();
 					} else {
 						exp y = master->data.n_obj.obtain_val;
-						setbro(x, next(y));
-						setbro(y,
+						setnext(x, next(y));
+						setnext(y,
 						       (exp)((void *)this_name));
 						no(x) = no(y);
 						check_taggable(master);
@@ -189,8 +189,8 @@ set_locdata(obj_list this_obl)
 							if (name->key == DGN_OBJECT) {
 								exp y = name->data.n_obj.obtain_val;
 								if (y && y->last && dw_has_location(son(y)) == id) {
-									setbro(x, next(y));
-									setbro(y, (exp)((void *)this_name));
+									setnext(x, next(y));
+									setnext(y, (exp)((void *)this_name));
 									no(x) = no(y);
 									check_taggable(name);
 									check_taggable(this_name);

@@ -45,7 +45,7 @@
 #include "ops.h"
 #include "scan.h"
 
-#define assexp(isson, p, v) if (isson)setson(p, v); else setbro(p, v)
+#define assexp(isson, p, v) if (isson)setson(p, v); else setnext(p, v)
 #define contexp(isson, p)((isson)? son(p): next(p))
 
 /*
@@ -597,7 +597,7 @@ make_bitfield_offset(exp e, exp pe, int spe, shape sha)
 	val8 = getexp(slongsh, omul, 1, NULL, NULL, 0, 8, val_tag);
 
 	e->last = false;
-	setbro(e, val8);
+	setnext(e, val8);
 	assexp(spe, pe, omul);
 }
 
@@ -784,7 +784,7 @@ scan(int sto, exp to, exp e, int usereg0)
 
 	case set_stack_limit_tag: {
 		exp lim = find_stlim_var();
-		setbro(lim, son(e));
+		setnext(lim, son(e));
 		setson(e, lim);
 		e->tag = ass_tag;
 		return scan(sto, to, e, usereg0);
@@ -819,7 +819,7 @@ scan(int sto, exp to, exp e, int usereg0)
 			if ((*bottom)->tag == chvar_tag && shape_size(sh(son(*bottom))) <= 32 &&
 			    son(*bottom)->tag != val_tag && !is_signed(sh(son(*bottom)))) {
 				if (shape_size(sh(son(*bottom))) == 32) {
-					setbro(son(*bottom), next(*bottom));
+					setnext(son(*bottom), next(*bottom));
 					*bottom = son(*bottom);
 				} else {
 					setsh(son(*bottom), ulongsh);
@@ -844,8 +844,8 @@ scan(int sto, exp to, exp e, int usereg0)
 		if (sh(next(son(e)))->tag != slonghd &&  sh(next(son(e)))->tag != ulonghd) {
 			exp ch = getexp((sh(next(son(e)))->tag & 1 ? slongsh : ulongsh),
 			                e, 1, next(son(e)), NULL, 0, 0, chvar_tag);
-			setbro(next(son(e)), ch);
-			setbro(son(e), ch);
+			setnext(next(son(e)), ch);
+			setnext(son(e), ch);
 		}
 
 		/* all arguments except possibly the first must be operands */
@@ -1021,7 +1021,7 @@ scan(int sto, exp to, exp e, int usereg0)
 				if ((*arglist)->tag == chvar_tag && shape_size(sh(son(*arglist))) <= 32 &&
 				    (is_signed(sh(e)) || !is_signed(sh(son(*arglist))))) {
 					if (shape_size(sh(son(*arglist))) == 32) {
-						setbro(son(*arglist), next(*arglist));
+						setnext(son(*arglist), next(*arglist));
 						if ((*arglist)->last) {
 							son(*arglist)->last = true;
 						} else {
