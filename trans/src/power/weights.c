@@ -211,7 +211,7 @@ tailrecurse:
 
 	switch (e->tag) {
 	case name_tag: {
-		exp s = son(e);
+		exp s = child(e);
 
 		if (s->tag == ident_tag && !isglob(s)) {
 			/*
@@ -221,7 +221,7 @@ tailrecurse:
 			fno(s) += scale;
 		}
 
-		/* usage of tag stored in number of son of load_name (decl) */
+		/* usage of tag stored in number of child of load_name (decl) */
 		return zeroweights;
 	}
 
@@ -231,7 +231,7 @@ tailrecurse:
 		weights wbody;
 		long noe;
 
-		if (son(e) == NULL) {
+		if (child(e) == NULL) {
 			return zeroweights;
 		}
 
@@ -244,7 +244,7 @@ tailrecurse:
 			wdef_set = 0;
 		} else
 #endif
-			if (son(e)->tag == clear_tag || props(e) & defer_bit) {
+			if (child(e)->tag == clear_tag || props(e) & defer_bit) {
 				fno(e) = 0.0;
 				wdef_set = 0;
 			} else {
@@ -254,17 +254,17 @@ tailrecurse:
 				 */
 				assert(!isparam(e));
 				fno(e) = scale;
-				wdef = weightsv(scale, son(e));
+				wdef = weightsv(scale, child(e));
 				wdef_set = 1;
 			}
 		/* weights for initialisation of dec */
 
-		wbody = weightsv(scale, next(son(e)));
+		wbody = weightsv(scale, next(child(e)));
 		/* weights of body of scan */
 
 		if (props(e) & defer_bit) {
 			/* declaration will be treated transparently in code production */
-			exp t = son(e);
+			exp t = child(e);
 			exp s;
 
 			if (t->tag == val_tag || t->tag == real_tag) {
@@ -272,14 +272,14 @@ tailrecurse:
 			}
 
 			while (t->tag != name_tag) {
-				t = son(t);
+				t = child(t);
 			}
 
-			s = son(t);
+			s = child(t);
 			if (s->tag == ident_tag && !isglob(t)) {
 				fno(s) += fno(e);
 			}
-			/* usage of tag stored in number of son of load_name (decl) */
+			/* usage of tag stored in number of child of load_name (decl) */
 
 			return wbody;
 		}	/* end deferred */
@@ -329,16 +329,16 @@ tailrecurse:
 	}
 
 	case rep_tag:
-		e = next(son(e));
+		e = next(child(e));
 		goto tailrecurse;
 
 	case case_tag:
-		e = son(e);
+		e = child(e);
 		goto tailrecurse;
 
 	case labst_tag:
 		scale = fno(e);
-		e = next(son(e));
+		e = next(child(e));
 		goto tailrecurse;
 
 	case val_tag:
@@ -349,20 +349,20 @@ tailrecurse:
 
 	case ncopies_tag:
 		scale = no(e) * scale;
-		e = son(e);
+		e = child(e);
 		goto tailrecurse;
 
 	default:
-		if (son(e) == NULL) {
+		if (child(e) == NULL) {
 			return zeroweights;
 		}
 
-		if (son(e)->last) {
-			e = son(e);
+		if (child(e)->last) {
+			e = child(e);
 			goto tailrecurse;
 		}
 
-		return add_wlist(scale, son(e));
+		return add_wlist(scale, child(e));
 	}
 }
 

@@ -58,14 +58,14 @@ typedef union {
 /*
  * STRUCTURE REPRESENTING EXPRESSIONS
  *
- * An expression has a number of constituents given by the son, next,
+ * An expression has a number of constituents given by the child, next,
  * ptr and num fields, a shape (which is another expression),
  * a tag name representing the expression type and a properties field.
  *
  * .last serves as an end marker.
  */
 struct exp_t {
-	expno son;
+	expno child;
 	expno next;
 	expno pt;
 	expno num;
@@ -107,7 +107,7 @@ typedef struct exp_t *exp;
  * MAIN COMPONENTS OF AN EXPRESSION
  */
 
-#define son(x)            ((x)->son.e)
+#define child(x)            ((x)->child.e)
 #define next(x)            ((x)->next.e)
 #define sh(x)             ((x)->sh)
 #define pt(x)             ((x)->pt.e)
@@ -127,7 +127,7 @@ typedef struct exp_t *exp;
 #define nextg(x)           ((x)->next.glob)
 #define nostr(x)          ((x)->num.str)
 #define ptno(x)           ((x)->pt.l)
-#define sonno(x)          ((x)->son.l)
+#define childno(x)          ((x)->child.l)
 #define fno(x)            ((x)->num.f)
 #define uno(x)            ((x)->num.ui)
 
@@ -142,7 +142,7 @@ typedef struct exp_t *exp;
 
 #define setnext(x, b)      next(x) = (b)
 #define setsh(x, b)       sh(x) = (b)
-#define setson(x, b)      son(x) = (b)
+#define setchild(x, b)      child(x) = (b)
 #define setpt(x, b)       pt(x) = (b)
 #define setfather(f, s)   setnext(s, f); (s)->last = true
 
@@ -160,7 +160,7 @@ typedef struct exp_t *exp;
  * PROPERTIES OF CONSTRUCTS WITH EXCEPTIONS
  */
 
-#define setjmp_dest(x, d)  { setpt(x, d) ; no(son(d))++; }
+#define setjmp_dest(x, d)  { setpt(x, d) ; no(child(d))++; }
 #define seterr_code(x, d)   props(x) = (d)
 #define isov(x)            (props(x) == 0x4)
 
@@ -173,7 +173,7 @@ typedef struct exp_t *exp;
 #define al2ul(x)          ((unsigned long) ((x)->al.u.val))
 #define align_of(x)       ((x)->next.ald)
 #define shape_align(x)    al2ul(align_of (x))
-#define al1_of(x)         ((x)->son.ald)
+#define al1_of(x)         ((x)->child.ald)
 #define al1(x)            al2ul(al1_of (x))
 #define al2_of(x)         ((x)->pt.ald)
 #define al2(x)            al2ul(al2_of (x))
@@ -470,7 +470,7 @@ typedef struct exp_t *exp;
 #define proc_has_nolongj(e)      ((props(e) & 0x1000) != 0)
 #define call_is_untidy(e)        ((props(e) & 4)      != 0)
 
-#define set_callee(id) son(id)->tag = formal_callee_tag
+#define set_callee(id) child(id)->tag = formal_callee_tag
 
 
 #endif

@@ -21,31 +21,31 @@ is_worth(exp c)
 	unsigned char cnam = c->tag;
 
 	if (sh(c)->tag == realhd && cnam == cont_tag &&
-	    son(c)->tag == name_tag && isvar(son(son(c))) &&
-	    isglob(son(son(c))))
+	    child(c)->tag == name_tag && isvar(child(child(c))) &&
+	    isglob(child(child(c))))
 	{
 		return 1;
 	}
 
-	if (cnam == cont_tag && son(c)->tag == name_tag && !isvar(son(son(c)))) {
+	if (cnam == cont_tag && child(c)->tag == name_tag && !isvar(child(child(c)))) {
 		return 1;
 	}
 
 	return (!is_o(cnam) && cnam != clear_tag &&
 	        cnam != int_to_bitf_tag && cnam != bitf_to_int_tag) ||
 	       /* ignore simple things unless ... */
-	       (cnam == cont_tag && son(c)->tag == cont_tag &&
-	        son(son(c))->tag == name_tag)
+	       (cnam == cont_tag && child(c)->tag == cont_tag &&
+	        child(child(c))->tag == name_tag)
 	       || (cnam == name_tag &&
-	           (isloadparam(son(c)) || isparam(son(c))) &&
-	           !isvar(son(c)) &&
+	           (isloadparam(child(c)) || isparam(child(c))) &&
+	           !isvar(child(c)) &&
 	           shape_size(sh(c)) <= 32
 
 	           && sh(c)->tag != shrealhd
 
 	          )
-	       || (cnam == cont_tag && son(c)->tag == name_tag &&
-	           isvar(son(son(c))) && isglob(son(son(c))) &&
+	       || (cnam == cont_tag && child(c)->tag == name_tag &&
+	           isvar(child(child(c))) && isglob(child(child(c))) &&
 	           ((c->last && next(c) != NULL) ||
 	           (!c->last && next(c)->last && next(next(c)) != NULL)) &&
 	           father(c)->tag == test_tag);

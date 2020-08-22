@@ -60,7 +60,7 @@ param_scope(exp e)
 {
 	diag_info *d = dno(e);
 	if (d->key == DIAG_INFO_ID) {
-		return isparam(son(d->data.id_scope.access));
+		return isparam(child(d->data.id_scope.access));
 	}
 
 	return 0;

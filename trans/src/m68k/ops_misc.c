@@ -69,7 +69,7 @@ set_overflow(exp e)
 	if (!optop(e)) {
 		if (pt(e)) {
 			/* error jump on overflow */
-			overflow_jump = ptno(pt(son(pt(e))));
+			overflow_jump = ptno(pt(child(pt(e))));
 		} else {
 			overflow_jump = -1 ; /* trap on overflow */
 		}
@@ -227,13 +227,13 @@ void
 callins(long longs, exp fn)
 {
 	mach_op *op;
-	exp s = son(fn), call_exp, fn_exp;
+	exp s = child(fn), call_exp, fn_exp;
 	bool simple_proc = 0;
 	fn_exp = fn;
 
 	/* Let's see if we have the procedure at compilation time */
 	if (fn->tag == name_tag && ! isvar(s) && isglob(s)) {
-		exp def = son (s) ; /* Definition of Identify construct */
+		exp def = child (s) ; /* Definition of Identify construct */
 		if (!def || def->tag == proc_tag ||
 		    def->tag == general_proc_tag) {
 			simple_proc = 1;
@@ -272,7 +272,7 @@ void
 jmpins(exp fn)
 {
 	mach_op *op;
-	exp s = son(fn), jmp_exp, fn_exp;
+	exp s = child(fn), jmp_exp, fn_exp;
 	fn_exp = fn;
 
 	/* If this is not a straight jmp, put the name into an A register */
@@ -569,8 +569,8 @@ cmp(shape sha, where var, where limit, long ntst)
 
 #if 0
 	if (var.wh_exp->tag == name_tag && sha->tag == prokhd &&
-	    ((son(son(var.wh_exp)) == NULL) ||
-	     (son(son(var.wh_exp))->tag == proc_tag))) {
+	    ((child(child(var.wh_exp)) == NULL) ||
+	     (child(child(var.wh_exp))->tag == proc_tag))) {
 		exp proc_cont = getexp(sha, NULL, 0, var.wh_exp, NULL, 0,
 		                       0, cont_tag);
 		var.wh_exp = proc_cont;
@@ -882,7 +882,7 @@ move_from_freg(long sz, where from, where to)
 			error(ERR_SERIOUS, "Wrong floating variety");
 		}
 		push_float(sz, from);
-		pop(slongsh, 32L, zw(son(te)));
+		pop(slongsh, 32L, zw(child(te)));
 		pop(slongsh, 32L, zw(next(te)));
 		have_cond = 0;
 		return;
@@ -928,7 +928,7 @@ move_to_freg(long sz, where from, where to)
 			error(ERR_SERIOUS, "Wrong floating variety");
 		}
 		push(slongsh, 32L, zw(next(fe)));
-		push(slongsh, 32L, zw(son(fe)));
+		push(slongsh, 32L, zw(child(fe)));
 		pop_float(sz, to);
 		have_cond = 0;
 		return;
@@ -956,7 +956,7 @@ ca_extern(exp e)
 		return 0;
 	}
 
-	return son(e)->tag == name_tag ? 1 : 0;
+	return child(e)->tag == name_tag ? 1 : 0;
 }
 
 /*
@@ -1075,14 +1075,14 @@ move_bytes(long sz, where from, where to, int down)
 		case 0: op1 = make_indirect(r1, off / 8);               break;
 		case 2: op1 = make_lab_ind (r1, off / 8);               break;
 		case 3: op1 = operand(32L, mw(fe, fof + off));          break;
-		case 4: op1 = operand(32L, zw(sz ? next(fe) : son(fe))); break;
+		case 4: op1 = operand(32L, zw(sz ? next(fe) : child(fe))); break;
 		}
 
 		switch (s2) {
 		case 0: op2 = make_indirect(r2, off / 8);               break;
 		case 1: op2 = make_dec_sp();                            break;
 		case 3: op2 = operand(32L, mw(te, tof + off));          break;
-		case 4: op2 = operand(32L, zw(sz ? next(te) : son(te))); break;
+		case 4: op2 = operand(32L, zw(sz ? next(te) : child(te))); break;
 		}
 
 		make_instr(instr, op1, op2, 0);
@@ -1162,7 +1162,7 @@ move(shape sha, where from, where to)
 			}
 
 			case RegPair:
-				from1 = zw(son(fe));
+				from1 = zw(child(fe));
 				from2 = zw(next(fe));
 				break;
 
@@ -1243,7 +1243,7 @@ move(shape sha, where from, where to)
 
 				if (whto == RegPair) {
 					ins2(m_movl, 32L, 32L, from1,
-					     zw(son(te)), 1);
+					     zw(child(te)), 1);
 					ins2(m_movl, 32L, 32L, from2,
 					     zw(next(te)), 1);
 					have_cond = 0;
@@ -1263,7 +1263,7 @@ move(shape sha, where from, where to)
 			}
 
 			ins2(m_movl, 32L, 32L, zw(next(fe)), mw(te, tof + 32), 1);
-			ins2(m_movl, 32L, 32L, zw(son(fe)), to, 1);
+			ins2(m_movl, 32L, 32L, zw(child(fe)), to, 1);
 			have_cond = 0;
 			return;
 		}
@@ -1272,7 +1272,7 @@ move(shape sha, where from, where to)
 			if (sz != 64) {
 				error(ERR_SERIOUS, "Wrong floating variety");
 			}
-			ins2(m_movl, 32L, 32L, from, zw(son(te)), 1);
+			ins2(m_movl, 32L, 32L, from, zw(child(te)), 1);
 			ins2(m_movl, 32L, 32L, mw(fe, fof + 32),
 			     zw(next(te)), 1);
 			have_cond = 0;
@@ -1415,14 +1415,14 @@ mova(where from, where to)
 	char nt = to.wh_exp->tag;
 
 	if (nf == reff_tag) {
-		exp s = son(from.wh_exp);
+		exp s = child(from.wh_exp);
 		mova(mw(s, nw(from)), to);
 		return;
 	}
 
 	if (nt == apply_tag || nt == apply_general_tag ||
 	    nt == tail_call_tag) {
-		exp s = son(from.wh_exp);
+		exp s = child(from.wh_exp);
 		if (nf == cont_tag) {
 			ins1(m_pea, 32L, zw(s), 0);
 		} else {
@@ -1440,9 +1440,9 @@ mova(where from, where to)
 
 	case cont_tag:
 	case ass_tag: {
-		exp s = son(from.wh_exp);
+		exp s = child(from.wh_exp);
 		if (from.wh_off == 0 && s->tag == name_tag) {
-			exp ss = son(s);
+			exp ss = child(s);
 			if (!isvar(ss) && !isglob(ss)) {
 				move(slongsh, zw(s), to);
 				return;
@@ -1454,13 +1454,13 @@ mova(where from, where to)
 
 	if (whereis(to) == Areg) {
 /*
-		   if (nf == name_tag && isvar (son (fe))) {
+		   if (nf == name_tag && isvar (child (fe))) {
 		   	move (slongsh, from, to);
 		   	return;
 		   }
 */
-		if (nf == name_tag && !isvar(son(fe)) &&
-		    ptno(son(fe)) == reg_pl) {
+		if (nf == name_tag && !isvar(child(fe)) &&
+		    ptno(child(fe)) == reg_pl) {
 			add(slongsh, mw(fe, 0), mw(zeroe, from.wh_off / 8),
 			    to);
 		} else {

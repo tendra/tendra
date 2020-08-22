@@ -237,7 +237,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
    case name_tag:
     {
       /* NAME_TAG */
-      exp dc = son(e);
+      exp dc = child(e);
       bool var = isvar(dc);
 
       asm_comment("locate1 name_tag: dc->tag =%d, var=%d", dc->tag, var);
@@ -250,7 +250,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
 	 */
 	where w;
 
-	w = locate(son(dc), sp, sh(son(dc)), dreg);
+	w = locate(child(dc), sp, sh(child(dc)), dreg);
 
 	if (no(e) == 0)
 	{
@@ -307,7 +307,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
 	instore is;
 
 	if (var|| (sh(e)->tag == prokhd &&
-		     (son(dc) == NULL || IS_A_PROC(son(dc)))))
+		     (child(dc) == NULL || IS_A_PROC(child(dc)))))
 	{
 	  is.adval = 1;
 	  /* If it is a var tag you can get address of it */
@@ -354,7 +354,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
 
   case addptr_tag:
     {
-      exp sum = son(e);
+      exp sum = child(e);
       where wsum;
       int addend;
       space nsp;
@@ -440,7 +440,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
       if (next(sum)->tag == env_offset_tag || next(sum)->tag ==general_env_offset_tag)
       {
 	is.b.base = ind;
-	is.b.offset = frame_offset(son(next(sum)));
+	is.b.offset = frame_offset(child(next(sum)));
       }
       else
       {
@@ -470,7 +470,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
 	 * This is nugatory - previous transforms make it into addptr or reff
 	 */
     {
-      exp sum = son(e);
+      exp sum = child(e);
       int ind = reg_operand(sum, sp);
       instore isa;
 
@@ -505,7 +505,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
 
       /* answer is going to be wans displaced by no(e) */
 
-      wans = locate(son(e), sp, sh(son(e)), 0);
+      wans = locate(child(e), sp, sh(child(e)), 0);
 
       switch (wans.answhere.discrim)
       {
@@ -558,7 +558,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
    case cont_tag:
    case contvol_tag:
     {
-      exp p = son(e);
+      exp p = child(e);
       ans ason;
       instore isa;
       int reg;
@@ -646,7 +646,7 @@ static where locate1(exp e, space sp, shape s, int dreg)
     {
       instore isa;
 
-      wans = locate(son(e), sp, sh(son(e)), 0);
+      wans = locate(child(e), sp, sh(child(e)), 0);
 
       /*
        * answer is wans displace literally by no(e);

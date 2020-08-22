@@ -223,11 +223,11 @@ expression(word *ptr, int col, int first, int last, int flag, int pending)
 
 	if (sort == VERT_BRACKETS) {
 	    /* try to print things with only one parameter horizontally */
-	    p = ptr->son;
+	    p = ptr->child;
 	    if (p == NULL) {
 		horiz = 1;
 	    } else {
-		if (p->son == NULL && p->next == NULL)horiz = 1;
+		if (p->child == NULL && p->next == NULL)horiz = 1;
 	    }
 	}
 
@@ -244,7 +244,7 @@ expression(word *ptr, int col, int first, int last, int flag, int pending)
 	    sep = comma;
 	    pends = 0;
 	    /* print parameters */
-	    for (p = ptr->son; p; p = p->next) {
+	    for (p = ptr->child; p; p = p->next) {
 		if (p->next == NULL) {
 		    /* for last, take trailing brackets into account */
 		    sep = close;
@@ -274,7 +274,7 @@ expression(word *ptr, int col, int first, int last, int flag, int pending)
 	    sep = comma;
 	    pends = 0;
 	    /* print parameters */
-	    for (p = ptr->son; p; p = p->next) {
+	    for (p = ptr->child; p; p = p->next) {
 		/* for last, take trailing brackets into account */
 		if (p->next == NULL) {
 		    sep = close;
@@ -300,7 +300,7 @@ expression(word *ptr, int col, int first, int last, int flag, int pending)
 		opener = 0;
 	    }
 	    /* print parameters */
-	    for (p = ptr->son; p; p = p->next) {
+	    for (p = ptr->child; p; p = p->next) {
 		if (p->next == NULL) {
 		    /* last requires special treatment */
 		    sep = 0;

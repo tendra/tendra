@@ -503,9 +503,9 @@ type_size(dg_type dt)
 			dg_dim x;
 			x = dt->data.t_arr.dims.array[0];
 			if (x.d_key == DG_DIM_BOUNDS && !x.low_ref && !x.hi_ref && !x.hi_cnt) {
-				long lwb = no(son(x.lower.exp));
-				long upb = no(son(x.upper.exp));
-				long stride = no(son(dt->data.t_arr.stride));
+				long lwb = no(child(x.lower.exp));
+				long upb = no(child(x.upper.exp));
+				long stride = no(child(dt->data.t_arr.stride));
 				return stride * (upb - lwb + 1);
 
 			}
@@ -658,9 +658,9 @@ out_dt_shape(dg_type dt)
 			x = dt->data.t_arr.dims.array[0];
 
 			if (x.d_key == DG_DIM_BOUNDS && !x.low_ref && !x.hi_ref && !x.hi_cnt) {
-				long lwb = no(son(x.lower.exp));
-				long upb = no(son(x.upper.exp));
-				long stride = no(son(dt->data.t_arr.stride));
+				long lwb = no(child(x.lower.exp));
+				long upb = no(child(x.upper.exp));
+				long stride = no(child(dt->data.t_arr.stride));
 				dg_type index_type = x.d_type;
 				dg_type element_type = dt->data.t_arr.elem_type;
 				asm_fprintf(dg_file, "%ld=", non);
@@ -702,7 +702,7 @@ out_dt_shape(dg_type dt)
 		dt->outref.k = LAB_D;
 		asm_fprintf(dg_file, "%ld=e", dt->outref.u.l);
 		for (i = 0; i < dt->data.t_enum.values.len; i++) {
-			asm_fprintf(dg_file, "%s:%d,", el[i].ename, no(son(el[i].value)));
+			asm_fprintf(dg_file, "%s:%d,", el[i].ename, no(child(el[i].value)));
 		}
 
 		asm_fprintf(dg_file, ";");
@@ -725,7 +725,7 @@ out_dt_shape(dg_type dt)
 		asm_fprintf(dg_file, "%ld=%c%d", dt->outref.u.l, su, shape_size(s) / 8);
 
 		for (i = 0; i < dt->data.t_struct.u.fields.len; i++) {
-			long offset = no(son(el[i].d.cm_f.f_offset));
+			long offset = no(child(el[i].d.cm_f.f_offset));
 			if (depth_now >= max_depth) {
 				depth_now = 0;
 				asm_fprintf(dg_file, "\\\\\",0x80,0,%d,%d\n", 0, 0);
@@ -902,18 +902,18 @@ stab_local(dg_name di, int param)
 		return;
 	}
 
-	id = son(id);
-	if (id->tag == cont_tag && son(id)->tag == name_tag && isvar(son(son(id)))) {
-		id = son(id);
+	id = child(id);
+	if (id->tag == cont_tag && child(id)->tag == name_tag && isvar(child(child(id)))) {
+		id = child(id);
 	}
 
-	if (id->tag != name_tag || isdiscarded(id) || (isglob(son(id)) &&
-	        no(son(id)) == 0 && !(nextg(son(id))->extnamed))) {
+	if (id->tag != name_tag || isdiscarded(id) || (isglob(child(id)) &&
+	        no(child(id)) == 0 && !(nextg(child(id))->extnamed))) {
 		return;
 	}
 
 	disp = no(id);
-	id = son(id);
+	id = child(id);
 	nm = idname_chars(di->idname);
 	dt = di->data.n_obj.type;
 	t = next_del_stab();
@@ -933,25 +933,25 @@ again:
 			t->u.l.offset = disp;
 			return;
 		} else {
-			exp sn = son(id);
+			exp sn = child(id);
 			long d = disp;
 
 			while (sn != NULL) {
 				switch (sn->tag) {
 				case name_tag: {
 					disp = d + no(sn);
-					id = son(sn);
+					id = child(sn);
 					/* if ( isvar ( id ) ) dt = dt->data.ptr.object ;		?????????? */
 					goto again;
 				}
 
 				case reff_tag:
 					d += no(sn);
-					sn = son(sn);
+					sn = child(sn);
 					break;
 
 				case cont_tag:
-					sn = son(sn);
+					sn = child(sn);
 					break;
 
 				default:

@@ -315,7 +315,7 @@ local_translate_capsule(void)
 	noprocs = 0;
 	for (d = top_def; d != NULL; d = d->next) {
 		exp crt_exp = d->exp;
-		exp scexp = son(crt_exp);
+		exp scexp = child(crt_exp);
 
 		if (scexp == NULL) {
 			continue;
@@ -373,8 +373,8 @@ local_translate_capsule(void)
 	for (d = top_def; d != NULL; d = d->next) {
 		exp crt_exp = d->exp;
 
-		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag ||
-		                             son(crt_exp)->tag == general_proc_tag))
+		if (child(crt_exp) != NULL && (child(crt_exp)->tag == proc_tag ||
+		                             child(crt_exp)->tag == general_proc_tag))
 		{
 			procrec *pr = &procrecs[procno];
 			proc_def_trans_order[procno] = d;
@@ -395,7 +395,7 @@ local_translate_capsule(void)
 			}
 
 			pr->nameproc = next(crt_exp);
-			no(son(crt_exp)) = procno++;/* index into procrecs in no(proc) */
+			no(child(crt_exp)) = procno++;/* index into procrecs in no(proc) */
 		}
 	}
 
@@ -441,10 +441,10 @@ local_translate_capsule(void)
 	for (d = top_def; d != NULL; d = d->next) {
 		exp crt_exp = d->exp;
 
-		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag ||
-		                             son(crt_exp)->tag == general_proc_tag)) {
-			procrec *pr = &procrecs[no(son(crt_exp))];
-			exp *st = &son(crt_exp);
+		if (child(crt_exp) != NULL && (child(crt_exp)->tag == proc_tag ||
+		                             child(crt_exp)->tag == general_proc_tag)) {
+			procrec *pr = &procrecs[no(child(crt_exp))];
+			exp *st = &child(crt_exp);
 			cpr = pr;
 			cpr->Has_ll = 0;
 			cpr->Has_checkalloc = 0;
@@ -459,9 +459,9 @@ local_translate_capsule(void)
 	for (d = top_def; d != NULL; d = d->next) {
 		exp crt_exp = d->exp;
 
-		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag ||
-		                             son(crt_exp)->tag == general_proc_tag)) {
-			procrec *pr = &procrecs[no(son(crt_exp))];
+		if (child(crt_exp) != NULL && (child(crt_exp)->tag == proc_tag ||
+		                             child(crt_exp)->tag == general_proc_tag)) {
+			procrec *pr = &procrecs[no(child(crt_exp))];
 			needs * ndpr = & pr->needsproc;
 			long pprops = (ndpr->propneeds);
 			bool leaf = (pprops & anyproccall) == 0;
@@ -469,7 +469,7 @@ local_translate_capsule(void)
 			int freefixed, freefloat;
 			proc_name = d->name;
 
-			setframe_flags(son(crt_exp), leaf);
+			setframe_flags(child(crt_exp), leaf);
 
 			/* free s registers = GR3,GR4,..,GR18 */
 			freefixed = 16;
@@ -516,12 +516,12 @@ local_translate_capsule(void)
 			freefloat = 0;		/* none, always the same */
 
 			/* reg and stack allocation for tags */
-			forrest = regalloc(next(son(son(crt_exp))), freefixed, freefloat, 0);
+			forrest = regalloc(next(child(child(crt_exp))), freefixed, freefloat, 0);
 
 			/* reg and stack allocation for tags */
 			pr->spacereqproc = forrest;
 
-			set_up_frame(son(crt_exp));
+			set_up_frame(child(crt_exp));
 		}
 	}
 
@@ -550,12 +550,12 @@ local_translate_capsule(void)
 		char *name    = d->name;
 		bool extnamed = d->extnamed;
 
-		if (son(tag) == NULL && no(tag) != 0 && extnamed) {
+		if (child(tag) == NULL && no(tag) != 0 && extnamed) {
 			outs("\t.IMPORT\t");
 			outs(name);
 			outs(sh(tag)->tag == prokhd ? (isvar(tag) ? ",DATA\n" : ",CODE\n") : ",DATA\n");
-		} else if (son(tag) != NULL && (extnamed || no(tag) != 0)) {
-			if (son(tag)->tag != proc_tag && son(tag)->tag != general_proc_tag) {
+		} else if (child(tag) != NULL && (extnamed || no(tag) != 0)) {
+			if (child(tag)->tag != proc_tag && child(tag)->tag != general_proc_tag) {
 				/* evaluate all outer level constants */
 				instore is;
 				long symdef = d->sym_number + 1;
@@ -564,15 +564,15 @@ local_translate_capsule(void)
 					symdef = -symdef;
 				}
 
-				if (extnamed && !(is_zero(son(tag)))) {
+				if (extnamed && !(is_zero(child(tag)))) {
 					outs("\t.EXPORT\t");
 					outs(name);
 					outs(",DATA\n");
 				}
 
-				is = evaluated(son(tag), symdef);
+				is = evaluated(child(tag), symdef);
 				if (diag != DIAG_NONE) {
-					diag3_driver->stab_global(d->diag_info, son(tag), name, extnamed);
+					diag3_driver->stab_global(d->diag_info, child(tag), name, extnamed);
 				}
 
 				if (is.adval) {
@@ -589,7 +589,7 @@ local_translate_capsule(void)
 		char *name    = d->name;
 		bool extnamed = d->extnamed;
 
-		if (son(tag) == NULL && no(tag) != 0 && !extnamed) {
+		if (child(tag) == NULL && no(tag) != 0 && !extnamed) {
 			shape s = d->shape;
 			ash a;
 			long size;
@@ -682,11 +682,11 @@ local_translate_capsule(void)
 			outnl();
 
 			if (diag != DIAG_NONE) {
-				diag3_driver->stab_proc(d->diag_info, son(tag), name, extnamed);
+				diag3_driver->stab_proc(d->diag_info, child(tag), name, extnamed);
 			}
 
 			seed_label(); /* reset label sequence */
-			settempregs(son(tag)); /* reset getreg sequence */
+			settempregs(child(tag)); /* reset getreg sequence */
 
 			first = xmalloc(sizeof (struct labexp_t));
 			first->e    = NULL;
@@ -694,7 +694,7 @@ local_translate_capsule(void)
 			current = first;
 
 			proc_name = name;
-			code_here(son(tag), tempregs, nowhere);
+			code_here(child(tag), tempregs, nowhere);
 
 			outs("\t.PROCEND\n\t;");
 			outs(name);

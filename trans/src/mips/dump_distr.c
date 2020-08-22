@@ -11,7 +11,7 @@
      of its parameters, constants,  globals or t-registers.
     Applied to rscopes  after registers have been allocated .
     Mechanism is to insert a new exp with name dump_tag in the
-    appropriate place where son is exp after dump, pt is next dump starting
+    appropriate place where child is exp after dump, pt is next dump starting
     at pt of original rscope with no and prop fields telling which regs to dump.
     Main proc is dump_opt; if dump_opt_flag is off then dump is placed in at highest
     level, dumping all the required registers.
@@ -62,15 +62,15 @@ suses(exp e, space * pars, int incpars)
     return ans;
   switch (e->tag) {
     case name_tag: {
-	exp id = son (e);
+	exp id = child (e);
 	if (id->tag == ident_tag) {
 	  if (isglob (id) || (props (id) & inanyreg) == 0)
 	    return ans /* global or not in register */ ;
 	  if ((props (id) & defer_bit) != 0)
-	    return suses (son (id), pars, incpars) /* dec does not take space */ ;
+	    return suses (child (id), pars, incpars) /* dec does not take space */ ;
 
 	  if (isparam(id) && no(id) !=0 &&
-	      ((!incpars && props(son(id)) != 0) || no(id)==props(son(id)) ) )
+	      ((!incpars && props(child(id)) != 0) || no(id)==props(child(id)) ) )
 	   /* par in original reg (perhaps destined for sreg) */
 	  	 return ans;
 
@@ -82,8 +82,8 @@ suses(exp e, space * pars, int incpars)
 	  else
 	    if (no (id) != 0 && no (id) != 2) {
 	      /* in s seg */
-	      if (isparam(id) && props(son(id)) !=0 &&
-	                     props(son(id)) >= incpars) return ans;
+	      if (isparam(id) && props(child(id)) !=0 &&
+	                     props(child(id)) >= incpars) return ans;
 	      ans.fixed = 1 << (no (id));
 	    }
 	}
@@ -92,12 +92,12 @@ suses(exp e, space * pars, int incpars)
       }
     case case_tag:
       {
-	return suses (son (e), pars, incpars);
+	return suses (child (e), pars, incpars);
       }
 
     case seq_tag: {
-	exp t = son (son (e));
-	ans = suses (next (son (e)), pars, incpars);
+	exp t = child (child (e));
+	ans = suses (next (child (e)), pars, incpars);
 	for (;;) {
 	  maxsp (&ans, suses (t, pars,incpars));
 	  if (t->last) {
@@ -123,7 +123,7 @@ suses(exp e, space * pars, int incpars)
     	maxsp(&ans, *pars);
     	goto default1;
     }
-    case caller_tag: return suses(son(e), pars, incpars);
+    case caller_tag: return suses(child(e), pars, incpars);
 
 
     case apply_tag: {
@@ -133,9 +133,9 @@ suses(exp e, space * pars, int incpars)
 	if (dad->tag==res_tag && props(dad)) {
 		/* tl recursion  - don't have to dump link or later regs */
 		int i;
-		exp p = next(son(e));
+		exp p = next(child(e));
 
-		if (son(e)->last || p->tag==top_tag) return ans;
+		if (child(e)->last || p->tag==top_tag) return ans;
 		for(i=(incpars>4)?incpars:4; ; i++) {
 			if (!valregable(sh(p))) i=8;
 			maxsp(&ans, suses(p, pars, i));
@@ -146,7 +146,7 @@ suses(exp e, space * pars, int incpars)
       }				/* else cont to default */
 
     default: default1:{
-	exp t = son (e);
+	exp t = child (e);
 	maxsp (&ans, suses (t, pars,incpars));
 	while (t!=NULL && !t->last) {
 	  t = next (t);
@@ -204,10 +204,10 @@ goodcond(exp first, exp second, space * beforeb, space * pars)
      otherwise NULL */
   exp t;
   space nds;
-  int   n = no (son (second));	/* no of uses of labst second */
+  int   n = no (child (second));	/* no of uses of labst second */
   if (first->tag != seq_tag)
     return NULL;
-  t = son (son (first));
+  t = child (child (first));
   *beforeb = zsp;
   for (;;) {
     maxsp(beforeb, suses(t, pars, 0));
@@ -236,12 +236,12 @@ alljumps(exp e, exp slv, int * nol)
      recurse:
 	switch (e->tag) {
 	   case case_tag: {
-	   	exp z = next(son(e));
+	   	exp z = next(child(e));
 	   	for(;;) {
 	   		if (father(pt(z))==slv) {
 	   			if (--(*nol)==0) return 1;
 	   		}
-	   		if (z->last) { e = son(e); goto recurse; }
+	   		if (z->last) { e = child(e); goto recurse; }
 	   		z = next(z);
 	   	}
 	   }
@@ -255,7 +255,7 @@ alljumps(exp e, exp slv, int * nol)
 	   case name_tag: case val_tag: case float_tag: case string_tag:
 	   	return 0;
 	   default: {
-	   	exp se = son(e);
+	   	exp se = child(e);
 	   	if (se==NULL) return 0;
 	   	for(;;) {
 	   		if (se->last) { e = se; goto recurse; }
@@ -269,14 +269,14 @@ alljumps(exp e, exp slv, int * nol)
 static bool
 goodsolve(exp e)
 {
-	exp m = next(son(e));
+	exp m = next(child(e));
 	int nol;
 	for(nol=0;;nol++) {
-		if (no(son(m))!=1) return 0; /* more than one branch to labst */
+		if (no(child(m))!=1) return 0; /* more than one branch to labst */
 		if (m->last) break;
 		m = next(m);
 	}
-	return alljumps(son(e), e, &nol);
+	return alljumps(child(e), e, &nol);
 }
 
 static int  notregs;
@@ -300,12 +300,12 @@ pushdumps(exp * pe, space * dmpd, space * tobd, space * pars)
 
   switch (e->tag) {
     case ident_tag: {
-	nds = suses (son (e), pars,0);
+	nds = suses (child (e), pars,0);
 	if ((props (e) & inanyreg) != 0 && no (e) == 0) {
 	  /*  This definition will be allocated into a t-reg so make sure
 	     of enough t-regs which are not par regs; I reuse any par
 	     registers whose pars are put in s-regs as t-regs  */
-	  if (is_floating (sh(son(e))->tag)) {
+	  if (is_floating (sh(child(e))->tag)) {
 	    if (notfregs-- < 0) {
 	      nds = remd (tobd, dmpd);
 	      placedump ( pe, dmpd, tobd, &nds);
@@ -321,15 +321,15 @@ pushdumps(exp * pe, space * dmpd, space * tobd, space * pars)
 	  }
 	}
 
-	if (son(e)->tag != clear_tag ||
-	      (isparam(e) && props(son(e))==0 /* ie initially on stack */)  ) {
+	if (child(e)->tag != clear_tag ||
+	      (isparam(e) && props(child(e))==0 /* ie initially on stack */)  ) {
 	  /* id could be in s-reg; find from use */
 	  maxsp (&nds, suses (pt (e), pars, 0));
 	}
 	if (sameregs (&nds, dmpd) ||
 	    !placedump ( pe, dmpd, tobd, &nds)) {
 	  /* not all regs have been dumped - continue with body */
-	  arg = &next(son (e));
+	  arg = &next(child (e));
 	  pushdumps ( arg, dmpd, tobd, pars);
 	}
 	return;
@@ -337,12 +337,12 @@ pushdumps(exp * pe, space * dmpd, space * tobd, space * pars)
 
     case seq_tag: {
 	exp prev;
-	exp list = son (son (e));
+	exp list = child (child (e));
 	if (list->last ) {
-	   nds = suses(next(son(e)), pars, 8);
+	   nds = suses(next(child(e)), pars, 8);
 	   if (nds.fixed==0 && nds.flt==0) {
 	   	/* seq consists of two exps with last not using regs */
-	   	pushdumps(&son(son(e)), dmpd, tobd, pars);
+	   	pushdumps(&child(child(e)), dmpd, tobd, pars);
 	   	return;
 	   }
 	}
@@ -361,20 +361,20 @@ pushdumps(exp * pe, space * dmpd, space * tobd, space * pars)
 	  if (!sameregs (&nds, dmpd)) {
 	    /* uses undumped s-regs; construct new seq as result of this
 	       one .... */
-	    exp s_hold = getexp (sh (e), next (son (e)), 0, list, NULL, 0, 0,
-		son(e)->tag);
+	    exp s_hold = getexp (sh (e), next (child (e)), 0, list, NULL, 0, 0,
+		child(e)->tag);
 	    exp seq = getexp (sh (e), e, 1, s_hold, NULL, 0, 0, seq_tag);
 
-	    next (prev) = son (e);
+	    next (prev) = child (e);
 	    prev->last = true;
-	    next (son (e)) = seq;
+	    next (child (e)) = seq;
 	    next (next (s_hold)) = seq;
 	    while (!list->last) {
 	      list = next (list);
 	    }
 	    next (list) = s_hold;
 	    /* .... and continue with new result */
-	    arg = &next(son (e));
+	    arg = &next(child (e));
 	    if (!placedump ( arg, dmpd, tobd, &nds)) {
 	      pushdumps ( arg, dmpd, tobd, pars);
 	    }
@@ -382,13 +382,13 @@ pushdumps(exp * pe, space * dmpd, space * tobd, space * pars)
 	  }
 	}
 	/* no new s-regs used - carry on with result */
-	arg = &next(son (e));
+	arg = &next(child (e));
 	pushdumps ( arg, dmpd, tobd, pars);
 	return;
       }
 
     case cond_tag: {
-	exp first = son (e);
+	exp first = child (e);
 	exp second = next (first);
 	exp t;
 	bool same;
@@ -405,22 +405,22 @@ pushdumps(exp * pe, space * dmpd, space * tobd, space * pars)
 	  	}
 	  }
 	  if (!t->last) {
-	    exp seq_hold = getexp (sh (first), next (son (first)), 0, next (t), NULL, 0, 0, son(first)->tag);
+	    exp seq_hold = getexp (sh (first), next (child (first)), 0, next (t), NULL, 0, 0, child(first)->tag);
 	    exp new = getexp (sh (first), first, 1, seq_hold, NULL, 0, 0, seq_tag);
-	    exp x = son (seq_hold);
+	    exp x = child (seq_hold);
 	    while (!x->last) {
 	      x = next (x);
 	    }
-	    next (x) = seq_hold;	/* set dad son seq_hold */
+	    next (x) = seq_hold;	/* set dad child seq_hold */
 
 	    next (next (seq_hold)) = new;
 	    next(seq_hold)->last = true; /* set dad of seq_hold */
-	    next (son (first)) = new;
+	    next (child (first)) = new;
 	    t->last = true;
-	    next (t) = son (first);
+	    next (t) = child (first);
 	    /* first is now (t; (rest of first)) */
 	  }
-	  arg = &next(son (first));
+	  arg = &next(child (first));
 	  pushdumps ( arg, dmpd, tobd, pars);
 	  return;
 
@@ -430,7 +430,7 @@ pushdumps(exp * pe, space * dmpd, space * tobd, space * pars)
 	    return;
 	  }
 	}
-	arg = &next(son (e));
+	arg = &next(child (e));
 	pushdumps ( arg, dmpd, tobd, pars);
 	return;
       }
@@ -438,28 +438,28 @@ pushdumps(exp * pe, space * dmpd, space * tobd, space * pars)
 /*    case diag_tag:
     case fscope_tag:
     case cscope_tag: {
-	arg= &son(e);
+	arg= &child(e);
 	pushdumps ( arg, dmpd, tobd, pars);
 	return;
       }
 */
     case labst_tag: {		/* can only arrive here from cond */
-	arg = &next(son (e));
+	arg = &next(child (e));
 	pushdumps ( arg, dmpd, tobd, pars);
 	return;
       }
 
     case solve_tag: {
     	if (goodsolve(e)) {
-    		exp m = next(son(e));
+    		exp m = next(child(e));
     		space old_dmpd;
-    		nds = suses(son(e), pars, 0);
+    		nds = suses(child(e), pars, 0);
     		if (!sameregs(&nds, dmpd)) {
     			if (placedump(pe, dmpd,tobd, &nds) ) return;
     		}
     		old_dmpd = *dmpd;
     		for(;;) {
-    			pushdumps(&next(son(m)), dmpd, tobd, pars);
+    			pushdumps(&next(child(m)), dmpd, tobd, pars);
     			if (m->last) return;
     			m = next(m);
     			*dmpd = old_dmpd;
@@ -487,7 +487,7 @@ dump_opt(exp rscope, space * tobd, space * pars)
   exp  * arg;
   space dmpd;
   dmpd = zsp;			/* those regs already dumped */
-  arg = &son(rscope);
+  arg = &child(rscope);
 
   notregs = 10;
   notfregs = 8;			/* no of t-regs != par regs */

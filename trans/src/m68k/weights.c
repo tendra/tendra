@@ -268,8 +268,8 @@ weightsv(exp e, explist *el)
 {
 	switch (e->tag) {
 	case name_tag:
-		if (!isglob(son(e))) {
-			fno(son(e)) += scale;
+		if (!isglob(child(e))) {
+			fno(child(e)) += scale;
 		}
 
 		/* Add value to the no field of the declaration */
@@ -285,7 +285,7 @@ weightsv(exp e, explist *el)
 
 		/* Starting point for pt list */
 		exp t = pt(e);
-		exp d = son(e);
+		exp d = child(e);
 
 		/* Add e to the list of exps */
 		explist nel;
@@ -389,47 +389,47 @@ weightsv(exp e, explist *el)
 			weights wbody;
 			float old_scale = scale;
 			scale = fno(e);
-			wbody = weightsv(next(son(e)), &nel);
+			wbody = weightsv(next(child(e)), &nel);
 			scale = old_scale;
 			return wbody;
 		} else {
-			return add_wlist(next(son(e)), &nel);
+			return add_wlist(next(child(e)), &nel);
 		}
 	}
 
 	case rep_tag: {
 		weights swl, bwl;
-		swl = weightsv(son(e), el);
-		bwl = weightsv(next(son(e)), el);
+		swl = weightsv(child(e), el);
+		bwl = weightsv(next(child(e)), el);
 		return add_weights(swl, bwl);
 	}
 
 	case compound_tag:
-		return add_wlist(son(e), el);
+		return add_wlist(child(e), el);
 
 	case untidy_return_tag:
 	case case_tag:
 	case res_tag:
-		return weightsv(son(e), el);
+		return weightsv(child(e), el);
 
 	case apply_general_tag:
 	case apply_tag:
 	case round_tag:
 	case float_tag:
 		markcall(el, (bitpattern)0x80);
-		return add_wlist(son(e), el);
+		return add_wlist(child(e), el);
 
 	case ass_tag:
 	case assvol_tag: {
 		weights swl, bwl;
-		swl = weightsv(son(e), el);
-		bwl = weightsv(next(son(e)), el);
+		swl = weightsv(child(e), el);
+		bwl = weightsv(next(child(e)), el);
 		return add_weights(swl, bwl);
 	}
 
 	case general_proc_tag:
 	case proc_tag:
-		weightsv(son(e), NULL);
+		weightsv(child(e), NULL);
 		return zeros;
 
 	case env_offset_tag:
@@ -441,13 +441,13 @@ weightsv(exp e, explist *el)
 
 	case test_tag: {
 		weights twl;
-		twl = add_wlist(son(e), el);
+		twl = add_wlist(child(e), el);
 		/* scale = scale * (((float) 1.0) - fno(e)); */
 		return twl;
 	}
 
 	default:
-		return add_wlist(son(e), el);
+		return add_wlist(child(e), el);
 	}
 }
 

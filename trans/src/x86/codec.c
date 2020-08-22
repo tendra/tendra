@@ -54,14 +54,14 @@ is_crc(exp e)
 {
 	/* make sure (is_o && is_crc -> !is_opnd) */
 	if (e->tag == name_tag) {
-		if (isvar(son(e))) {
-			return !isglob(son(e)) || PIC_code;
+		if (isvar(child(e))) {
+			return !isglob(child(e)) || PIC_code;
 		}
 
-		return son(son(e)) == NULL ||
-		       (isglob(son(e)) && PIC_code && sh(son(e))->tag == prokhd &&
-		        !(nextg(son(e)) -> extnamed)) ||
-		       (son(son(e))->tag == ident_tag && isparam(son(son(e))));
+		return child(child(e)) == NULL ||
+		       (isglob(child(e)) && PIC_code && sh(child(e))->tag == prokhd &&
+		        !(nextg(child(e)) -> extnamed)) ||
+		       (child(child(e))->tag == ident_tag && isparam(child(child(e))));
 	}
 
 	if (e->tag == reff_tag || e->tag == field_tag) {
@@ -72,12 +72,12 @@ is_crc(exp e)
 		return false;
 	}
 
-	if (son(e)->tag == cont_tag) {
+	if (child(e)->tag == cont_tag) {
 		return true;
 	}
 
-	return son(e)->tag == reff_tag &&
-	       son(son(e))->tag == cont_tag;
+	return child(e)->tag == reff_tag &&
+	       child(child(e))->tag == cont_tag;
 }
 
 /*
@@ -124,15 +124,15 @@ no_reg_needed(exp e)
 	}
 
 	if (e->tag == cont_tag &&
-	    son(e)->tag == name_tag &&
-	    isvar(son(son(e))) &&
-	    ptno(son(son(e))) != reg_pl) {
+	    child(e)->tag == name_tag &&
+	    isvar(child(child(e))) &&
+	    ptno(child(child(e))) != reg_pl) {
 		return 1;
 	}
 
 	if (e->tag == name_tag &&
-	    !isvar(son(e)) &&
-	    ptno(son(e)) != reg_pl) {
+	    !isvar(child(e)) &&
+	    ptno(child(e)) != reg_pl) {
 		return 1;
 	}
 
@@ -207,7 +207,7 @@ static void
 logop(void(*op)(shape, where, where, where),
 	exp e, where dest, ash stack)
 {
-	exp arg1 = son(e);
+	exp arg1 = child(e);
 	exp arg2 = next(arg1);
 	shape sha = sh(e);
 	exp t, u;
@@ -301,7 +301,7 @@ static void
 multop(void(*op)(shape, where, where, where),
 	exp e, where dest, ash stack)
 {
-	exp arg1 = son(e);
+	exp arg1 = child(e);
 	exp arg2 = next(arg1);
 	exp t, u;
 	where qw;
@@ -382,7 +382,7 @@ multop(void(*op)(shape, where, where, where),
 }
 
 /*
- * if a is a negation form b-son(a) otherwise b+a in dest
+ * if a is a negation form b-child(a) otherwise b+a in dest
  */
 static void
 addsub(shape sha, where a, where b, where dest, exp e)
@@ -390,7 +390,7 @@ addsub(shape sha, where a, where b, where dest, exp e)
 	UNUSED(e);
 
 	if (a.where_exp->tag == neg_tag) {
-		sub(sha, mw(son(a.where_exp), 0), b, dest);
+		sub(sha, mw(child(a.where_exp), 0), b, dest);
 	} else {
 		add(sha, a, b, dest);
 	}
@@ -407,7 +407,7 @@ codec(where dest, ash stack, exp e)
 	switch (e->tag) {
 	case plus_tag: {
 		/* at most one of the arguments will not be a possible 80386 operand */
-		exp arg1 = son(e);
+		exp arg1 = child(e);
 		exp arg2 = next(arg1);
 		exp t, u, v;
 		where qw;
@@ -425,8 +425,8 @@ codec(where dest, ash stack, exp e)
 		if (arg2->last && is_o(arg1->tag) && !is_crc(arg1) &&
 		    ((is_o(arg2->tag) && !is_crc(arg2)) ||
 		     (arg2->tag == neg_tag &&
-		      !is_crc(son(arg2)) &&
-		      is_o(son(arg2)->tag))))
+		      !is_crc(child(arg2)) &&
+		      is_o(child(arg2)->tag))))
 		{
 			/* just two arguments. */
 			addsub(sh(e), mw(arg2, 0), mw(arg1, 0), dest, e);
@@ -446,8 +446,8 @@ codec(where dest, ash stack, exp e)
 		/* now look for argument which is not a possible 80386 operand */
 		for (;;) {
 			if ((!is_o(t->tag) || is_crc(t)) &&
-			    (t->tag != neg_tag || !is_o(son(t)->tag) ||
-			     is_crc(son(t)))) {
+			    (t->tag != neg_tag || !is_o(child(t)->tag) ||
+			     is_crc(child(t)))) {
 				break;
 			}
 
@@ -525,7 +525,7 @@ codec(where dest, ash stack, exp e)
 	}
 
 	case chvar_tag: {
-		exp a = son(e);
+		exp a = child(e);
 		exp old_overflow_e = overflow_e;
 
 		if (!optop(e)) {
@@ -569,7 +569,7 @@ codec(where dest, ash stack, exp e)
 		if (!optop(e)) {
 			overflow_e = e;
 		}
-		bop(sub, sh(e), next(son(e)), son(e), dest, stack);
+		bop(sub, sh(e), next(child(e)), child(e), dest, stack);
 		overflow_e = old_overflow_e;
 		return;
 	}
@@ -577,7 +577,7 @@ codec(where dest, ash stack, exp e)
 	case subptr_tag:
 	case minptr_tag:
 	case make_stack_limit_tag:
-		bop(sub, sh(e), next(son(e)), son(e), dest, stack);
+		bop(sub, sh(e), next(child(e)), child(e), dest, stack);
 		return;
 
 	case mult_tag:
@@ -596,7 +596,7 @@ codec(where dest, ash stack, exp e)
 		if (errhandle(e)) {
 			overflow_e = e;
 		}
-		bop(div2, sh(e), next(son(e)), son(e), dest, stack);
+		bop(div2, sh(e), next(child(e)), child(e), dest, stack);
 		overflow_e = old_overflow_e;
 		return;
 	}
@@ -606,7 +606,7 @@ codec(where dest, ash stack, exp e)
 		if (errhandle(e)) {
 			overflow_e = e;
 		}
-		bop(div1, sh(e), next(son(e)), son(e), dest, stack);
+		bop(div1, sh(e), next(child(e)), child(e), dest, stack);
 		overflow_e = old_overflow_e;
 		return;
 	}
@@ -616,7 +616,7 @@ codec(where dest, ash stack, exp e)
 		if (errhandle(e)) {
 			overflow_e = e;
 		}
-		bop(div0, sh(e), next(son(e)), son(e), dest, stack);
+		bop(div0, sh(e), next(child(e)), child(e), dest, stack);
 		overflow_e = old_overflow_e;
 		return;
 	}
@@ -626,7 +626,7 @@ codec(where dest, ash stack, exp e)
 		if (!optop(e)) {
 			overflow_e = e;
 		}
-		uop(negate, sh(e), son(e), dest, stack);
+		uop(negate, sh(e), child(e), dest, stack);
 		overflow_e = old_overflow_e;
 		return;
 	}
@@ -637,21 +637,21 @@ codec(where dest, ash stack, exp e)
 		if (!optop(e)) {
 			overflow_e = e;
 		}
-		bop(shiftl, sh(e), next(son(e)), son(e), dest, stack);
+		bop(shiftl, sh(e), next(child(e)), child(e), dest, stack);
 		overflow_e = old_overflow_e;
 		return;
 	}
 
 	case shr_tag:
-		bop(shiftr, sh(e), next(son(e)), son(e), dest, stack);
+		bop(shiftr, sh(e), next(child(e)), child(e), dest, stack);
 		return;
 
 	case rotl_tag:
-		bop(rotatel, sh(e), next(son(e)), son(e), dest, stack);
+		bop(rotatel, sh(e), next(child(e)), child(e), dest, stack);
 		return;
 
 	case rotr_tag:
-		bop(rotater, sh(e), next(son(e)), son(e), dest, stack);
+		bop(rotater, sh(e), next(child(e)), child(e), dest, stack);
 		return;
 
 	case mod_tag: {
@@ -659,7 +659,7 @@ codec(where dest, ash stack, exp e)
 		if (errhandle(e)) {
 			overflow_e = e;
 		}
-		bop(mod, sh(e), next(son(e)), son(e), dest, stack);
+		bop(mod, sh(e), next(child(e)), child(e), dest, stack);
 		overflow_e = old_overflow_e;
 		return;
 	}
@@ -669,7 +669,7 @@ codec(where dest, ash stack, exp e)
 		if (errhandle(e)) {
 			overflow_e = e;
 		}
-		bop(rem2, sh(e), next(son(e)), son(e), dest, stack);
+		bop(rem2, sh(e), next(child(e)), child(e), dest, stack);
 		overflow_e = old_overflow_e;
 		return;
 	}
@@ -679,7 +679,7 @@ codec(where dest, ash stack, exp e)
 		if (errhandle(e)) {
 			overflow_e = e;
 		}
-		bop(rem0, sh(e), next(son(e)), son(e), dest, stack);
+		bop(rem0, sh(e), next(child(e)), child(e), dest, stack);
 		overflow_e = old_overflow_e;
 		return;
 	}
@@ -699,11 +699,11 @@ codec(where dest, ash stack, exp e)
 		setup_fl_ovfl(e);
 
 		switch (round_number(e)) {
-		case 0: uop(frnd0, s, son(e), d, stack); break;
-		case 1: uop(frnd1, s, son(e), d, stack); break;
-		case 2: uop(frnd2, s, son(e), d, stack); break;
-		case 3: uop(frnd3, s, son(e), d, stack); break;
-		case 4: uop(frnd4, s, son(e), d, stack); break;
+		case 0: uop(frnd0, s, child(e), d, stack); break;
+		case 1: uop(frnd1, s, child(e), d, stack); break;
+		case 2: uop(frnd2, s, child(e), d, stack); break;
+		case 3: uop(frnd3, s, child(e), d, stack); break;
+		case 4: uop(frnd4, s, child(e), d, stack); break;
 		}
 
 		test_fl_ovfl(e, d);
@@ -720,55 +720,55 @@ codec(where dest, ash stack, exp e)
 
 	case fplus_tag:
 		setup_fl_ovfl(e);
-		fl_multop(fplus_tag, sh(e), son(e), dest);
+		fl_multop(fplus_tag, sh(e), child(e), dest);
 		test_fl_ovfl(e, dest);
 		return;
 
 	case fmult_tag:
 		setup_fl_ovfl(e);
-		fl_multop(fmult_tag, sh(e), son(e), dest);
+		fl_multop(fmult_tag, sh(e), child(e), dest);
 		test_fl_ovfl(e, dest);
 		return;
 
 	case fminus_tag:
 		setup_fl_ovfl(e);
-		fl_binop(fminus_tag, sh(e), mw(next(son(e)), 0),
-		         mw(son(e), 0), dest, next(son(e)));
+		fl_binop(fminus_tag, sh(e), mw(next(child(e)), 0),
+		         mw(child(e), 0), dest, next(child(e)));
 		test_fl_ovfl(e, dest);
 		return;
 
 	case fdiv_tag:
 		setup_fl_ovfl(e);
-		fl_binop(fdiv_tag, sh(e), mw(next(son(e)), 0),
-		         mw(son(e), 0), dest, next(son(e)));
+		fl_binop(fdiv_tag, sh(e), mw(next(child(e)), 0),
+		         mw(child(e), 0), dest, next(child(e)));
 		test_fl_ovfl(e, dest);
 		return;
 
 	case fneg_tag:
 		setup_fl_ovfl(e);
-		fl_neg(sh(e), mw(son(e), 0), dest);
+		fl_neg(sh(e), mw(child(e), 0), dest);
 		test_fl_ovfl(e, dest);
 		return;
 
 	case fabs_tag:
 		setup_fl_ovfl(e);
-		fl_abs(sh(e), mw(son(e), 0), dest);
+		fl_abs(sh(e), mw(child(e), 0), dest);
 		test_fl_ovfl(e, dest);
 		return;
 
 	case float_tag:
 		setup_fl_ovfl(e);
-		floater(sh(e), mw(son(e), 0), dest);
+		floater(sh(e), mw(child(e), 0), dest);
 		test_fl_ovfl(e, dest);
 		return;
 
 	case chfl_tag:
-		if (sh(e)->tag < sh(son(e))->tag) {
+		if (sh(e)->tag < sh(child(e))->tag) {
 			setup_fl_ovfl(e);
 		}
 
-		changefl(sh(e), mw(son(e), 0), dest);
-		if (sh(e)->tag < sh(son(e))->tag) {
+		changefl(sh(e), mw(child(e), 0), dest);
+		if (sh(e)->tag < sh(child(e))->tag) {
 			test_fl_ovfl(e, dest);
 		}
 		return;
@@ -786,21 +786,21 @@ codec(where dest, ash stack, exp e)
 		return;
 
 	case not_tag:
-		uop(not, sh(e), son(e), dest, stack);
+		uop(not, sh(e), child(e), dest, stack);
 		return;
 
 	case offset_pad_tag:
-		if (al2(sh(son(e))) >= al2(sh(e))) {
-			if (al2(sh(e)) != 1 || al2(sh(son(e))) == 1) {
-				make_code(dest, stack, son(e));
+		if (al2(sh(child(e))) >= al2(sh(e))) {
+			if (al2(sh(e)) != 1 || al2(sh(child(e))) == 1) {
+				make_code(dest, stack, child(e));
 			} else {
-				make_code(reg0, stack, son(e));
+				make_code(reg0, stack, child(e));
 				shiftl(slongsh, mw(zeroe, 3), reg0, dest);
 			}
 		} else {
 			int al = al2(sh(e)) / 8;
-			make_code(reg0, stack, son(e));
-			if (al2(sh(son(e))) == 1) {
+			make_code(reg0, stack, child(e));
+			if (al2(sh(child(e))) == 1) {
 				add(slongsh, mw(zeroe, al * 8 - 1), reg0, reg0);
 				shiftr(slongsh, mw(zeroe, 3), reg0, reg0);
 			} else {
@@ -811,7 +811,7 @@ codec(where dest, ash stack, exp e)
 		return;
 
 	case offset_add_tag:
-		bop(add, sh(e), son(e), next(son(e)), dest, stack);
+		bop(add, sh(e), child(e), next(child(e)), dest, stack);
 		return;
 
 	case abs_tag: {
@@ -819,44 +819,44 @@ codec(where dest, ash stack, exp e)
 		if (!optop(e)) {
 			overflow_e = e;
 		}
-		uop(absop, sh(e), son(e), dest, stack);
+		uop(absop, sh(e), child(e), dest, stack);
 		overflow_e = old_overflow_e;
 		return;
 	}
 
 	case offset_max_tag:
 	case max_tag:
-		bop(maxop, sh(e), son(e), next(son(e)), dest, stack);
+		bop(maxop, sh(e), child(e), next(child(e)), dest, stack);
 		return;
 
 	case min_tag:
-		bop(minop, sh(e), son(e), next(son(e)), dest, stack);
+		bop(minop, sh(e), child(e), next(child(e)), dest, stack);
 		return;
 
 	case offset_subtract_tag:
-		bop(sub, sh(e), next(son(e)), son(e), dest, stack);
+		bop(sub, sh(e), next(child(e)), child(e), dest, stack);
 		return;
 
 	case offset_mult_tag:
-		bop(mult, slongsh, son(e), next(son(e)), dest, stack);
+		bop(mult, slongsh, child(e), next(child(e)), dest, stack);
 		return;
 
 	case offset_negate_tag:
-		uop(negate, sh(e), son(e), dest, stack);
+		uop(negate, sh(e), child(e), dest, stack);
 		return;
 
 	case offset_div_by_int_tag:
-		bop(div0, sh(e), next(son(e)), son(e), dest, stack);
+		bop(div0, sh(e), next(child(e)), child(e), dest, stack);
 		return;
 
 	case offset_div_tag:
 		if (shape_size(sh(e)) == 32) {
-			bop(div0, sh(e), next(son(e)), son(e), dest, stack);
+			bop(div0, sh(e), next(child(e)), child(e), dest, stack);
 		} else if (inmem(dest)) {
-			bop(div0, sh(son(e)), next(son(e)), son(e), reg0, stack);
+			bop(div0, sh(child(e)), next(child(e)), child(e), reg0, stack);
 			change_var(sh(e), reg0, dest);
 		} else {
-			bop(div0, sh(son(e)), next(son(e)), son(e), dest, stack);
+			bop(div0, sh(child(e)), next(child(e)), child(e), dest, stack);
 			change_var(sh(e), dest, dest);
 		}
 		return;
@@ -867,14 +867,14 @@ codec(where dest, ash stack, exp e)
 
 	case int_to_bitf_tag: {
 		int mask = lsb_mask[shape_size(sh(e))];
-		move(slongsh, mw(son(e), 0), dest);
+		move(slongsh, mw(child(e), 0), dest);
 		and (slongsh, mw(zeroe, mask), dest, dest);
 		return;
 	}
 
 	case bitf_to_int_tag:
-		make_code(reg0, stack, son(e));
-		change_var_sh(sh(e), sh(son(e)), reg0, dest);
+		make_code(reg0, stack, child(e));
+		change_var_sh(sh(e), sh(child(e)), reg0, dest);
 		return;
 
 	case alloca_tag:
@@ -912,17 +912,17 @@ codec(where dest, ash stack, exp e)
 
 		if (is_crc(e) && e->tag != name_tag
 		    && e->tag != reff_tag && e->tag != field_tag) {
-			exp s = son(e);
-			exp ss = son(s);
+			exp s = child(e);
+			exp ss = child(s);
 			exp sss = ss;
-			exp * p = & son(e);
+			exp * p = & child(e);
 
 			if (s->tag == reff_tag) {
-				sss = son(ss);
-				p = & son(s);
+				sss = child(ss);
+				p = & child(s);
 			}
 
-			if (sss->tag == name_tag && ptno(son(sss)) == reg_pl) {
+			if (sss->tag == name_tag && ptno(child(sss)) == reg_pl) {
 				move(sh(e), mw(e, 0), dest);
 				return;
 			} else {
@@ -937,22 +937,22 @@ codec(where dest, ash stack, exp e)
 		}
 
 		if (e->tag == reff_tag &&
-		    (son(e)->tag == name_tag ||
-		     (son(e)->tag == cont_tag &&
-		      son(son(e))->tag == name_tag)))
+		    (child(e)->tag == name_tag ||
+		     (child(e)->tag == cont_tag &&
+		      child(child(e))->tag == name_tag)))
 		{
 			/* look for case when reff should be done by add */
-			add(slongsh, mw(son(e), 0), mw(zeroe, no(e) / 8), dest);
+			add(slongsh, mw(child(e), 0), mw(zeroe, no(e) / 8), dest);
 			return;
 		}
 
-		if ((e->tag == name_tag && isvar(son(e))) ||
+		if ((e->tag == name_tag && isvar(child(e))) ||
 		    e->tag == reff_tag ||
-		    (PIC_code && e->tag == name_tag && isglob(son(e)) &&
-		     sh(son(e))->tag == prokhd &&
-		     !nextg(son(e)) ->  extnamed))
+		    (PIC_code && e->tag == name_tag && isglob(child(e)) &&
+		     sh(child(e))->tag == prokhd &&
+		     !nextg(child(e)) ->  extnamed))
 		{
-			if (ptno(son(e)) != nowhere_pl) {
+			if (ptno(child(e)) != nowhere_pl) {
 				mova(mw(e, 0), dest);
 			}
 			return;

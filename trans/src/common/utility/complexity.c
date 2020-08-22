@@ -57,7 +57,7 @@ complexity(exp e, int count, int newdecs,
 		return -2;
 	}
 
-	if (son(e) == NULL) {
+	if (child(e) == NULL) {
 		return count;
 	}
 
@@ -76,25 +76,25 @@ complexity(exp e, int count, int newdecs,
 			return -3;
 		}
 
-		return sbl(son(e), count - apply_cost, newdecs + 1,
+		return sbl(child(e), count - apply_cost, newdecs + 1,
 			crit_decs, crit_decsatapp, apply_cost);
 
 	case rep_tag:
-		return complexity(next(son(e)), count - 1, newdecs + 1,
+		return complexity(next(child(e)), count - 1, newdecs + 1,
 			crit_decs, crit_decsatapp, apply_cost);
 
 	case res_tag:
-		return complexity(son(e), count + 1, newdecs,
+		return complexity(child(e), count + 1, newdecs,
 			crit_decs, crit_decsatapp, apply_cost);
 
 	case ident_tag:
 #if defined(TRANS_M68K) || defined(TRANS_HPPA)
-		if (isloadparam(son(e))) {
-			return sbl(son(e), count - 1, newdecs,
+		if (isloadparam(child(e))) {
+			return sbl(child(e), count - 1, newdecs,
 				crit_decs, crit_decsatapp, apply_cost);
 		}
 #endif
-		return sbl(son(e), count - 1, newdecs + 1,
+		return sbl(child(e), count - 1, newdecs + 1,
 			crit_decs, crit_decsatapp, apply_cost);
 
 	case val_tag:
@@ -107,7 +107,7 @@ complexity(exp e, int count, int newdecs,
 		return count;
 
 	case case_tag:
-		return complexity(son(e), count - 1, newdecs,
+		return complexity(child(e), count - 1, newdecs,
 			crit_decs, crit_decsatapp, apply_cost);
 
 	case name_tag:
@@ -116,17 +116,17 @@ complexity(exp e, int count, int newdecs,
 		return count - 1;
 
 	case labst_tag:
-		return complexity(next(son(e)), count, newdecs,
+		return complexity(next(child(e)), count, newdecs,
 			crit_decs, crit_decsatapp, apply_cost);
 
 	case cond_tag:
 	case seq_tag:
 	case solve_tag:
-		return sbl(son(e), count, newdecs,
+		return sbl(child(e), count, newdecs,
 			crit_decs, crit_decsatapp, apply_cost);
 
 	default:
-		return sbl(son(e), count - 1, newdecs,
+		return sbl(child(e), count - 1, newdecs,
 			crit_decs, crit_decsatapp, apply_cost);
 	}
 }

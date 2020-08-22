@@ -522,7 +522,7 @@ static void mul_const
 static int do_mul_comm
 (exp e, space sp, int final_reg, bool sgned)
 {
-  exp seq = son(e);
+  exp seq = child(e);
   exp arg2 = next(seq);
   int arg = 1;
   baseoff b;
@@ -620,7 +620,7 @@ static int do_mul_comm
 static int do_div
 (exp e, space sp, int final_reg, bool sgned)
 {
-   exp seq = son(e);
+   exp seq = child(e);
    exp lhs = seq;
    exp rhs = next(lhs);
    space nsp;
@@ -755,7 +755,7 @@ static int do_div
 static int do_rem
 (exp e, space sp, int final_reg, bool sgned)
 {
-   exp seq = son(e);
+   exp seq = child(e);
    exp lhs = seq;
    exp rhs = next(lhs);
    int p=0;
@@ -976,7 +976,7 @@ bool is_muldivrem_call
      case chfl_tag:
      case round_tag:
        if ((has & HAS_LONG_DOUBLE)) {
-	 exp s = son(e);
+	 exp s = child(e);
 	 if (sh(s)->tag ==doublehd)
 	    return 1;
        }
@@ -999,13 +999,13 @@ bool is_muldivrem_call
 
 #if 0
    case chvar_tag:
-     e = son(e);		/* fall through, look at arg */
+     e = child(e);		/* fall through, look at arg */
 #endif
       case mult_tag:
       case offset_mult_tag:
       {
 	/*multneeds - simple cases don't need a call */
-	exp arg2 = next(son(e));
+	exp arg2 = next(child(e));
 	if (arg2->last && arg2->tag == val_tag)
 	{
 	  return 0;
@@ -1023,7 +1023,7 @@ bool is_muldivrem_call
     case offset_div_by_int_tag:
       {
 	/*remneeds, divneeds - simple cases don't need a call */
-	exp arg2 = next(son(e));
+	exp arg2 = next(child(e));
 
 	if (arg2->last && arg2->tag == val_tag)
 	{
@@ -1050,7 +1050,7 @@ needs multneeds
 (exp * e, exp ** at)
 {
   needs n;
-  exp arg1 = son(*(e));
+  exp arg1 = child(*(e));
   exp arg2 = next(arg1);
   n = likeplus(e, at);	/* has had comm_ass() treatment */
 
@@ -1079,7 +1079,7 @@ needs divneeds
 (exp * e, exp ** at)
 {
   needs n;
-  exp lhs = son(*(e));
+  exp lhs = child(*(e));
   exp rhs = next(lhs);
   n = likediv(e, at);
 
@@ -1109,7 +1109,7 @@ needs remneeds
 (exp * e, exp ** at)
 {
   needs n;
-  exp lhs = son(*(e));
+  exp lhs = child(*(e));
   exp rhs = next(lhs);
   n = likediv(e, at);
 

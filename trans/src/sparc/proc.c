@@ -158,10 +158,10 @@ update_plc(postlude_chain* chain, int maxargs)
 	while (chain) {
 		exp pl = chain->postlude;
 		while (pl->tag == ident_tag) {
-			if (son(pl)->tag == caller_name_tag) {
+			if (child(pl)->tag == caller_name_tag) {
 				no(pl) += (maxargs << 1);
 			}
-			pl = next(son(pl));
+			pl = next(child(pl));
 		}
 
 		chain = chain->outer;
@@ -429,13 +429,13 @@ make_proc_tag_code(exp e, space sp, where dest, int exitlab)
 	}
 
 	/* Move params if necessary */
-	par = son(e);
+	par = child(e);
 	while (par->tag == ident_tag) {
 		if (isparam(par)) {
 			/* Got a parameter ident */
-			int r = (int)props(son(par));
+			int r = (int)props(child(par));
 			/* r == 0 ? on stack : input reg no */
-			/*	assert(son(par)->tag == clear_tag); */
+			/*	assert(child(par)->tag == clear_tag); */
 
 			if (r != 0) {
 				/* Parameter in register */
@@ -448,15 +448,15 @@ make_proc_tag_code(exp e, space sp, where dest, int exitlab)
 						assert(!fixregable(par) &&
 						       !floatregable(par));
 					} else if (no(par) == r) {
-						if (sh(son(par))->tag == ucharhd) {
+						if (sh(child(par))->tag == ucharhd) {
 							rir_ins(i_and, r, 255, no(par));
-						} else if (sh(son(par))->tag == uwordhd) {
+						} else if (sh(child(par))->tag == uwordhd) {
 							rir_ins(i_and, r, 65535, no(par));
 						}
 					} else {
-						if (sh(son(par))->tag == ucharhd) {
+						if (sh(child(par))->tag == ucharhd) {
 							rir_ins(i_and, r, 255, no(par));
-						} else if (sh(son(par))->tag == uwordhd) {
+						} else if (sh(child(par))->tag == uwordhd) {
 							rir_ins(i_and, r, 65535, no(par));
 						} else {
 							rr_ins(i_mov, r, no(par));
@@ -465,8 +465,8 @@ make_proc_tag_code(exp e, space sp, where dest, int exitlab)
 				} else {
 					/* Parameter in reg move to stack */
 					baseoff stackpos;
-					long size = shape_size(sh(son(par)));
-					int offs = (int) ((no(son(par)) + proc_state.params_offset) >> 3);
+					long size = shape_size(sh(child(par)));
+					int offs = (int) ((no(child(par)) + proc_state.params_offset) >> 3);
 					stackpos.base = R_FP;
 					stackpos.offset = offs;
 
@@ -497,7 +497,7 @@ make_proc_tag_code(exp e, space sp, where dest, int exitlab)
 				/* Param on stack, no change */
 			}
 		}
-		par = next(son(par));
+		par = next(child(par));
 	}
 
 	clear_all();
@@ -532,7 +532,7 @@ make_proc_tag_code(exp e, space sp, where dest, int exitlab)
 	}
 #endif
 
-	IGNORE code_here(son(e), sp, nowhere);
+	IGNORE code_here(child(e), sp, nowhere);
 	clear_all();
 	if (stackerr_lab) {
 		set_label(stackerr_lab);
@@ -586,8 +586,8 @@ make_res_tag_code(exp e, space sp, where dest, int exitlab)
 	assert(e->tag == res_tag || e->tag == untidy_return_tag);
 
 	w.answhere = proc_state.procans;
-	w.ashwhere = ashof(sh(son(e)));
-	IGNORE code_here(son(e), sp, w);
+	w.ashwhere = ashof(sh(child(e)));
+	IGNORE code_here(child(e), sp, w);
 	/* procedure return */
 
 	switch (discrim(w.answhere)) {
@@ -710,7 +710,7 @@ make_res_tag_code(exp e, space sp, where dest, int exitlab)
 makeans
 make_apply_tag_code(exp e, space sp, where dest, int exitlab)
 {
-	exp fn = son(e);
+	exp fn = child(e);
 	exp par = next(fn);
 	exp list = par;
 	int hda = (int) sh(e)->tag;
@@ -882,12 +882,12 @@ make_apply_tag_code(exp e, space sp, where dest, int exitlab)
 		extj_special_ins(i_call, special_call_name(special),
 		                 param_regs_used);
 	} else if (fn->tag == name_tag &&
-	           son(fn)->tag == ident_tag &&
-	           (son(son(fn)) == NULL ||
-	            (son(son(fn))->tag == proc_tag ||
-	             son(son(fn))->tag == general_proc_tag))) {
+	           child(fn)->tag == ident_tag &&
+	           (child(child(fn)) == NULL ||
+	            (child(child(fn))->tag == proc_tag ||
+	             child(child(fn))->tag == general_proc_tag))) {
 		baseoff b;
-		b = boff(son(fn));
+		b = boff(child(fn));
 		if (!tlrecurse) {
 #ifdef DWARF2
 			if (current_dg_info) {
@@ -1000,7 +1000,7 @@ do_callers(exp list, space sp, int* param_reg, bool trad_call)
 		where w;
 		shape a = sh(list);
 		int hd = (int) a->tag;
-		exp par = (list->tag == caller_tag) ? son(list) : list;
+		exp par = (list->tag == caller_tag) ? child(list) : list;
 		ap = ashof(a);
 		w.ashwhere = ap;
 
@@ -1133,7 +1133,7 @@ move_parameters(exp callers, int size_reg, space sp)
 	baseoff b;
 	int last_caller = 0;
 	int has_callers = 0;
-	exp current_caller = son(callers);
+	exp current_caller = child(callers);
 	int rtmp = getreg(sp.fixed);
 	int rtop = getreg(guardreg(rtmp, sp).fixed);
 	int i;
@@ -1147,7 +1147,7 @@ move_parameters(exp callers, int size_reg, space sp)
 		}
 		current_caller = next(current_caller);
 	}
-	current_caller = son(callers);
+	current_caller = child(callers);
 
 	/* top is sp + param_offset + callers * num */
 	while (!last_caller) {
@@ -1157,7 +1157,7 @@ move_parameters(exp callers, int size_reg, space sp)
 		}
 		current_caller = next(current_caller);
 	}
-	current_caller = son(callers);
+	current_caller = child(callers);
 	last_caller = 0;
 
 	if (!has_callers) {
@@ -1176,7 +1176,7 @@ move_parameters(exp callers, int size_reg, space sp)
 	assert(current_caller != (exp)NULL);
 
 	for (i = no(callers); i > 0; --i) {
-		exp par = get_param(son(callers), i);
+		exp par = get_param(child(callers), i);
 
 		if (par->tag != caller_tag) {
 			b.offset -= (shape_size(sh(par)) > 32 ? 8 : 4);
@@ -1203,7 +1203,7 @@ move_parameters(exp callers, int size_reg, space sp)
 makeans
 make_apply_general_tag_code(exp e, space sp, where dest, int exitlab)
 {
-	exp fn = son(e);
+	exp fn = child(e);
 	exp callers = next(fn);
 	exp cllees = next(callers);
 	exp postlude = next(cllees);
@@ -1239,7 +1239,7 @@ make_apply_general_tag_code(exp e, space sp, where dest, int exitlab)
 				trad_call = 1;
 			}
 		} else if (cllees->tag == make_dynamic_callee_tag) {
-			if (next(son(cllees))->tag == val_tag && no(next(son(cllees))) == 0) {
+			if (next(child(cllees))->tag == val_tag && no(next(child(cllees))) == 0) {
 				trad_call = 1;
 			}
 		} else {	/* same callees */
@@ -1308,19 +1308,19 @@ make_apply_general_tag_code(exp e, space sp, where dest, int exitlab)
 		int tmp = in_general_proc;
 		in_general_proc = 1;
 		vc_call = (call_has_vcallees(cllees) != 0);
-		nsp = do_callers(son(callers), nsp, &param_reg, trad_call);
+		nsp = do_callers(child(callers), nsp, &param_reg, trad_call);
 		vc_call = 0;
 		in_general_proc = tmp;
 	}
 	call_base_reg = R_SP;
 
-	if (fn->tag == name_tag && son(fn)->tag == ident_tag &&
-	    (son(son(fn)) == NULL ||
-	     (son(son(fn))->tag == proc_tag ||
-	      son(son(fn))->tag == general_proc_tag)))
+	if (fn->tag == name_tag && child(fn)->tag == ident_tag &&
+	    (child(child(fn)) == NULL ||
+	     (child(child(fn))->tag == proc_tag ||
+	      child(child(fn))->tag == general_proc_tag)))
 	{
 		baseoff b;
-		b = boff(son(fn));
+		b = boff(child(fn));
 		if (!tlrecurse) {
 			/* don't tell the assembler how many parameters are being used, as
 			it optimises away changes to "unused" parameter registers which,
@@ -1384,7 +1384,7 @@ make_apply_general_tag_code(exp e, space sp, where dest, int exitlab)
 				size_reg = getreg(nsp.fixed);
 				ir_ins(i_mov, ((no(cllees) >> 3) + 23) & ~7, size_reg);
 			} else if (cllees->tag == make_dynamic_callee_tag) {
-				size_reg = reg_operand(next(son(cllees)), nsp);
+				size_reg = reg_operand(next(child(cllees)), nsp);
 				rir_ins(i_add, size_reg, 4 * (PTR_SZ >> 3) + 7, size_reg);
 				rir_ins(i_and, size_reg, ~7, size_reg);
 			} else {	/* same callees */
@@ -1475,7 +1475,7 @@ make_apply_general_tag_code(exp e, space sp, where dest, int exitlab)
 		/*    rir_ins(i_sub,R_SP,proc_state.maxargs>>3,R_SP);*/
 		/*assert(next(cllees)->tag == top_tag);*/
 	} else if (postlude_has_call(e)) {
-		exp x = son(callers);
+		exp x = child(callers);
 		postlude_chain p;
 
 		if (x != NULL) {
@@ -1550,7 +1550,7 @@ make_make_callee_list_tag(exp e, space sp, where dest, int exitlab)
 	int size = ((no(e) >> 3) + 23) & ~7;
 	makeans mka;
 	bool vc = call_has_vcallees(e);
-	exp list = son(e);
+	exp list = child(e);
 	where w;
 	instore is;
 	baseoff b;
@@ -1753,10 +1753,10 @@ make_make_dynamic_callee_tag(exp e, space sp, where dest, int exitlab)
 	nsp = guardreg(call_base_reg, nsp);
 	rptr = getreg(nsp.fixed);
 	nsp = guardreg(rptr, nsp);
-	load_reg(son(e), rptr, nsp); /* rptr now contains a pointer to the start of the callees */
+	load_reg(child(e), rptr, nsp); /* rptr now contains a pointer to the start of the callees */
 	rsize = getreg(nsp.fixed);
 	nsp = guardreg(rsize, nsp);
-	load_reg(next(son(e)), rsize, nsp); /* rsize now contains the size of the callees */
+	load_reg(next(child(e)), rsize, nsp); /* rsize now contains the size of the callees */
 	rdest = getreg(nsp.fixed);
 	nsp = guardreg(rdest, nsp);
 	r_true_size = getreg(nsp.fixed);
@@ -1799,18 +1799,18 @@ make_make_dynamic_callee_tag(exp e, space sp, where dest, int exitlab)
 makeans
 make_tail_call_tag(exp e, space sp, where dest, int exitlab)
 {
-	exp fn = son(e);
+	exp fn = child(e);
 	exp cllees = next(fn);
-	exp bdy = son(current_proc);
+	exp bdy = child(current_proc);
 	space nsp;
 	bool vc = call_has_vcallees(cllees);
 	int callee_size = proc_state.callee_size;
 	makeans mka;
 	baseoff bproc;
 
-	bool glob = ((fn->tag == name_tag) && (son(fn)->tag == ident_tag) &&
-	             ((son(son(fn)) == NULL) || (son(son(fn))->tag == proc_tag)
-	              || (son(son(fn))->tag == general_proc_tag)));
+	bool glob = ((fn->tag == name_tag) && (child(fn)->tag == ident_tag) &&
+	             ((child(child(fn)) == NULL) || (child(child(fn))->tag == proc_tag)
+	              || (child(child(fn))->tag == general_proc_tag)));
 	bool trad_proc = 0;
 
 	UNUSED(dest);
@@ -1821,7 +1821,7 @@ make_tail_call_tag(exp e, space sp, where dest, int exitlab)
 				trad_proc = 1;
 			}
 		} else if (cllees->tag == make_dynamic_callee_tag) {
-			if (next(son(cllees))->tag == val_tag && no(next(son(cllees))) == 0) {
+			if (next(child(cllees))->tag == val_tag && no(next(child(cllees))) == 0) {
 				trad_proc = 1;
 			}
 		} else {	/* same callees */
@@ -1841,12 +1841,12 @@ make_tail_call_tag(exp e, space sp, where dest, int exitlab)
 	}
 
 #ifdef TDF_DIAG3
-	for (; bdy->tag == diagnose_tag; bdy = son(bdy))
+	for (; bdy->tag == diagnose_tag; bdy = child(bdy))
 		;
 #endif
 
 	while (bdy->tag == ident_tag && isparam(bdy)) {
-		exp sbdy = son(bdy);
+		exp sbdy = child(bdy);
 		baseoff b;
 		b.base = R_FP;
 		b.offset = (no(sbdy) >> 3) + (proc_state.params_offset >> 3);
@@ -1918,7 +1918,7 @@ make_tail_call_tag(exp e, space sp, where dest, int exitlab)
 		bdy = next(sbdy);
 	}
 
-	bproc = boff(son(fn));
+	bproc = boff(child(fn));
 	assert(bproc.offset == 0);
 	if ((gencompat && trad_proc)) {
 		int r;

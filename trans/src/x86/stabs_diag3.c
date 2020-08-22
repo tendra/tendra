@@ -256,7 +256,7 @@ output_diag(diag_info *d, int proc_no, exp e)
 	if (d->key == DIAG_INFO_ID) {
 		exp acc = d->data.id_scope.access;
 
-		if (isglob(son(acc)) || no(son(acc)) == 1) {
+		if (isglob(child(acc)) || no(child(acc)) == 1) {
 			return;
 		}
 
@@ -745,10 +745,10 @@ stab_local(diag_info *d, int proc_no, exp acc)
 	UNUSED(proc_no);
 
 	t = next_del_stab();
-	t->del_t = (isparam(son(acc)) ? D_PARAM : D_LOCAL);
+	t->del_t = (isparam(child(acc)) ? D_PARAM : D_LOCAL);
 	t->u.l.nm = d->data.id_scope.name.ints.chars;
 	t->u.l.dt = d->data.id_scope.type;
-	t->u.l.offset = (no(acc) + no(son(acc))) / 8;
+	t->u.l.offset = (no(acc) + no(child(acc))) / 8;
 }
 
 /*

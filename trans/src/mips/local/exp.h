@@ -8,8 +8,8 @@
 #ifndef LOCAL_EXP_H
 #define LOCAL_EXP_H
 
-#define frame_al_of_ptr(x) (x)->son.ald->al.frame
-#define frame_al1_of_offset(x) (x)->son.ald->al.frame
+#define frame_al_of_ptr(x) (x)->child.ald->al.frame
+#define frame_al1_of_offset(x) (x)->child.ald->al.frame
 #define includes_vcallees(x) ((x & 16) != 0)
 #define l_or_cees(x) ((x &25) !=0)
 

@@ -98,7 +98,7 @@ void output_parameters(exp e)
   clear_fixed();
   clear_float();
 
-  par = son(e);
+  par = child(e);
 
   for (;;)
   {
@@ -115,10 +115,10 @@ void output_parameters(exp e)
 
     if ((!isparam(par)) ||
 	(par->tag!=ident_tag) ||
-	(son(par)->tag ==formal_callee_tag))
+	(child(par)->tag ==formal_callee_tag))
       break;
 
-    init_exp = son(par);
+    init_exp = child(par);
     is_float = is_floating(sh(init_exp)->tag);
     param_reg = props(init_exp);
     param_size = shape_size(sh(init_exp));
@@ -289,7 +289,7 @@ void output_parameters(exp e)
       /* LIVES IN PLACE ON STACK */
     }
 
-    par = next(son(par));
+    par = next(child(par));
   }
   do_fixed_params();
   do_float_params();
@@ -444,7 +444,7 @@ static int getspare(long s)
 static void
 track_fixed(int reg, exp id)
 {
-  exp def = son(id);
+  exp def = child(id);
 
   if (pt(id)!=NULL && keep_eq_size(sh(def),sh(pt(id))))
   {

@@ -18,8 +18,8 @@
  *
  * If no sub-expressions are constant, cont has the value NULL.
  *
- * If cont is not empty, its son is a list of elements, each of which
- * has a son which is a constant within the specified program fragment.
+ * If cont is not empty, its child is a list of elements, each of which
+ * has a child which is a constant within the specified program fragment.
  * The pointer of cont points to the last element of the list.
  */
 typedef struct {

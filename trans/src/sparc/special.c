@@ -119,9 +119,9 @@ specialneeds(int i)
 int
 specialfn(exp fn)
 {
-	if (fn->tag == name_tag && son(fn)->tag == ident_tag &&
-	     isglob(son(fn)) && son(son(fn)) == NULL) {
-		char *extname = nextg(son(fn))->name;
+	if (fn->tag == name_tag && child(fn)->tag == ident_tag &&
+	     isglob(child(fn)) && child(child(fn)) == NULL) {
+		char *extname = nextg(child(fn))->name;
 		return specno(extname);
 	}
 
@@ -137,9 +137,9 @@ specialfn(exp fn)
 int
 specialopt(exp fn)
 {
-	if (fn->tag == name_tag && son(fn)->tag == ident_tag &&
-	     isglob(son(fn)) && son(son(fn)) == NULL) {
-		char *extname = nextg(son(fn))->name;
+	if (fn->tag == name_tag && child(fn)->tag == ident_tag &&
+	     isglob(child(fn)) && child(child(fn)) == NULL) {
+		char *extname = nextg(child(fn))->name;
 		if (extname == NULL) {
 			return 0;
 		}
@@ -173,7 +173,7 @@ specialmake (int i, exp par, space sp, where dest, int exitlab)
 		char *s;
 		exp e;
 
-		e = son(son(par));
+		e = child(child(par));
 
 		if (e->tag != string_tag) {
 			error(ERR_SERIOUS,  "asm argument is not a string" ) ;

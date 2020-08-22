@@ -603,22 +603,22 @@ dwarf_out_descriptor(diag_descriptor *x)
 	switch (x->key) {
 	case DIAG_ID_KEY: {
 		exp acc = x->data.id.access;
-		exp t = son(acc);
+		exp t = child(acc);
 #ifdef TDF_DIAG4
 		if (acc->tag != hold_tag) {
 			error(ERR_INTERNAL, "access should be in hold");
 			break;
 		}
-		acc = son(acc);
-		if (acc->tag == cont_tag && son(acc)->tag == name_tag &&
-		    isvar(son(son(acc)))) {
-			acc = son(acc);
+		acc = child(acc);
+		if (acc->tag == cont_tag && child(acc)->tag == name_tag &&
+		    isvar(child(child(acc)))) {
+			acc = child(acc);
 		}
 		if (acc->tag != name_tag) {
 			error(ERR_INTERNAL, "not name_tag");
 			break;
 		}
-		t = son(acc);
+		t = child(acc);
 #endif
 
 		if (!isvar(nextg(t)->exp) &&

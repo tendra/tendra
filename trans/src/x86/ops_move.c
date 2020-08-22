@@ -81,34 +81,34 @@ in_reg(exp e)
 {
 	unsigned char  ne = e->tag;
 
-	if (ne == name_tag && ptno(son(e)) == reg_pl) {
-		int n = no(son(e));
+	if (ne == name_tag && ptno(child(e)) == reg_pl) {
+		int n = no(child(e));
 
-		if (!iscaonly(son(e)) && isvar(son(e))) {
+		if (!iscaonly(child(e)) && isvar(child(e))) {
 			n = (n | (int)0x80000000);
 		}
 
 		return n;
 	}
 
-	if (ne == cont_tag && son(e)->tag == name_tag &&
-		isvar(son(son(e))) &&
-		ptno(son(son(e))) == reg_pl) {
-		int n = no(son(son(e)));
+	if (ne == cont_tag && child(e)->tag == name_tag &&
+		isvar(child(child(e))) &&
+		ptno(child(child(e))) == reg_pl) {
+		int n = no(child(child(e)));
 
-		if (!iscaonly(son(son(e))) && isvar(son(son(e)))) {
+		if (!iscaonly(child(child(e))) && isvar(child(child(e)))) {
 			n = (n | (int)0x80000000);
 		}
 
 		return n;
 	}
 
-	if (ne == ass_tag && son(e)->tag == name_tag &&
-		isvar(son(son(e))) &&
-		ptno(son(son(e))) == reg_pl) {
-		int n = no(son(son(e)));
+	if (ne == ass_tag && child(e)->tag == name_tag &&
+		isvar(child(child(e))) &&
+		ptno(child(child(e))) == reg_pl) {
+		int n = no(child(child(e)));
 
-		if (!iscaonly(son(son(e))) && isvar(son(son(e)))) {
+		if (!iscaonly(child(child(e))) && isvar(child(child(e)))) {
 			n = (n | (int)0x80000000);
 		}
 
@@ -146,19 +146,19 @@ all_in_regs(exp e)
 	unsigned char  n = e->tag;
 
 	if ((n == cont_tag || n == ass_tag || n == reff_tag)
-		&& son(e)->tag == ident_tag) {
-		id1 = son(e);
+		&& child(e)->tag == ident_tag) {
+		id1 = child(e);
 
-		if (ptno(son(son(id1))) != reg_pl) {
+		if (ptno(child(child(id1))) != reg_pl) {
 			return 0;
 		}
 
-		id2 = next(son(id1));
+		id2 = next(child(id1));
 		if (id2->tag != ident_tag) {
 			return 1;
 		}
 
-		return ptno(son(son(id2))) == reg_pl;
+		return ptno(child(child(id2))) == reg_pl;
 	}
 
 	return 1;
@@ -191,8 +191,8 @@ move(shape sha, where from, where to)
 	int isco = 0;
 	exp fe = from.where_exp;
 	exp te = to.where_exp;
-	exp holdfe = son(fe);
-	exp holdte = son(te);
+	exp holdfe = child(fe);
+	exp holdte = child(te);
 	where reg_w;
 	sz = rounder(shape_size(sha), 8);
 
@@ -213,9 +213,9 @@ move(shape sha, where from, where to)
 
 	if (fe->tag == reff_tag ||
 	    (PIC_code && fe->tag == name_tag &&
-	     isglob(son(fe)) &&
+	     isglob(child(fe)) &&
 	     (sha->tag == offsethd) &&
-	     !nextg(son(fe))-> extnamed)) {
+	     !nextg(child(fe))-> extnamed)) {
 		mova(from, to);
 		return;
 	}
@@ -247,14 +247,14 @@ move(shape sha, where from, where to)
 						ins1(fldt, 96, to);
 					}
 					end_contop();
-					son(fe) = holdfe;
-					son(te) = holdte;
+					child(fe) = holdfe;
+					child(te) = holdte;
 					return;
 				}
 
 				ins1 (fst, 0, to);	/* store fstack0 into to (a reg) */
-				son(fe) = holdfe;
-				son(te) = holdte;
+				child(fe) = holdfe;
+				child(te) = holdte;
 				return;
 			}
 
@@ -275,15 +275,15 @@ move(shape sha, where from, where to)
 
 				pop_fl;
 				end_contop();
-				son(fe) = holdfe;
-				son(te) = holdte;
+				child(fe) = holdfe;
+				child(te) = holdte;
 				return;
 			}
 
 			ins1 (fstp, 0, to);	/* pop from fstack0 into floating point register */
 			pop_fl;
-			son(fe) = holdfe;
-			son(te) = holdte;
+			child(fe) = holdfe;
+			child(te) = holdte;
 			return;
 		}
 
@@ -332,23 +332,23 @@ move(shape sha, where from, where to)
 
 				pop_fl;
 				end_contop();
-				son(fe) = holdfe;
-				son(te) = holdte;
+				child(fe) = holdfe;
+				child(te) = holdte;
 				return;
 			}
 
 			f2 = in_fl_reg(to.where_exp);
 			f2pos = get_reg_no(f2);
 			if (f2pos == fstack_pos) {
-				son(fe) = holdfe;
-				son(te) = holdte;
+				child(fe) = holdfe;
+				child(te) = holdte;
 				return;
 			}
 
 			ins1 (fstp, 0, to);	/* store fstack0 in to (a reg) and pop floating point stack */
 			pop_fl;
-			son(fe) = holdfe;
-			son(te) = holdte;
+			child(fe) = holdfe;
+			child(te) = holdte;
 			return;
 		}
 
@@ -372,8 +372,8 @@ move(shape sha, where from, where to)
 			}
 
 			move(slongsh, mw(zeroe, fint.i1), to);
-			son(fe) = holdfe;
-			son(te) = holdte;
+			child(fe) = holdfe;
+			child(te) = holdte;
 			return;
 		}
 
@@ -388,8 +388,8 @@ move(shape sha, where from, where to)
 					dw2_track_push();
 				}
 #endif
-				son(fe) = holdfe;
-				son(te) = holdte;
+				child(fe) = holdfe;
+				child(te) = holdte;
 				return;
 			}
 		}
@@ -421,8 +421,8 @@ move(shape sha, where from, where to)
 				}
 #endif
 
-				son(fe) = holdfe;
-				son(te) = holdte;
+				child(fe) = holdfe;
+				child(te) = holdte;
 				return;
 			}
 
@@ -441,8 +441,8 @@ move(shape sha, where from, where to)
 			}
 #endif
 
-			son(fe) = holdfe;
-			son(te) = holdte;
+			child(fe) = holdfe;
+			child(te) = holdte;
 			return;
 		}
 
@@ -457,8 +457,8 @@ move(shape sha, where from, where to)
 			}
 #endif
 
-			son(fe) = holdfe;
-			son(te) = holdte;
+			child(fe) = holdfe;
+			child(te) = holdte;
 			return;
 		}
 
@@ -471,8 +471,8 @@ move(shape sha, where from, where to)
 #endif
 
 		end_contop();
-		son(fe) = holdfe;
-		son(te) = holdte;
+		child(fe) = holdfe;
+		child(te) = holdte;
 		return;
 	}
 
@@ -481,8 +481,8 @@ move(shape sha, where from, where to)
 		/* from and to are both in memory */
 		move(sha, from, reg0);
 		move(sha, reg0, to);
-		son(fe) = holdfe;
-		son(te) = holdte;
+		child(fe) = holdfe;
+		child(te) = holdte;
 		return;
 	}
 
@@ -499,8 +499,8 @@ move(shape sha, where from, where to)
 			move(slongsh, mw(zeroe, fint.i3), mw(te, to.where_off + 64));
 		}
 
-		son(fe) = holdfe;
-		son(te) = holdte;
+		child(fe) = holdfe;
+		child(te) = holdte;
 		return;
 	}
 
@@ -536,8 +536,8 @@ move(shape sha, where from, where to)
 			ins2(xorl, 32, 32, to, to);
 			invalidate_dest(to);
 			end_contop();
-			son(fe) = holdfe;
-			son(te) = holdte;
+			child(fe) = holdfe;
+			child(te) = holdte;
 			return;
 		}
 
@@ -547,8 +547,8 @@ move(shape sha, where from, where to)
 			ins2(movb, sz, sz, mw(zeroe, (c & 0xff)), to);
 			invalidate_dest(to);
 			end_contop();
-			son(fe) = holdfe;
-			son(te) = holdte;
+			child(fe) = holdfe;
+			child(te) = holdte;
 			return;
 		}
 
@@ -556,8 +556,8 @@ move(shape sha, where from, where to)
 			ins2(movw, sz, sz, mw(zeroe, (c & 0xffff)), to);
 			invalidate_dest(to);
 			end_contop();
-			son(fe) = holdfe;
-			son(te) = holdte;
+			child(fe) = holdfe;
+			child(te) = holdte;
 			return;
 		}
 
@@ -584,14 +584,14 @@ move(shape sha, where from, where to)
 			}
 
 			end_contop();
-			son(fe) = holdfe;
-			son(te) = holdte;
+			child(fe) = holdfe;
+			child(te) = holdte;
 			return;
 		}
 
 		if (inmem(to) && (c == 0 &&
-		                  ((te->tag == ass_tag && son(te)->tag == name_tag &&
-		                    isvar(son(son(te)))) ||
+		                  ((te->tag == ass_tag && child(te)->tag == name_tag &&
+		                    isvar(child(child(te)))) ||
 		                   (te->tag == ident_tag)))) {
 			reg_w = equiv_reg(from, sz);
 			if (reg_w.where_exp != NULL) {
@@ -607,8 +607,8 @@ move(shape sha, where from, where to)
 
 		invalidate_dest(to);
 		end_contop();
-		son(fe) = holdfe;
-		son(te) = holdte;
+		child(fe) = holdfe;
+		child(te) = holdte;
 		return;
 	}
 
@@ -619,15 +619,15 @@ move(shape sha, where from, where to)
 		    (in_reg(from.where_exp) & 0x70)) {
 			if (!inmem(to)) {
 				move(slongsh, from, to);
-				son(fe) = holdfe;
-				son(te) = holdte;
+				child(fe) = holdfe;
+				child(te) = holdte;
 				return;
 			}
 
 			move(slongsh, from, reg0);
 			move(sha, reg0, to);
-			son(fe) = holdfe;
-			son(te) = holdte;
+			child(fe) = holdfe;
+			child(te) = holdte;
 			return;
 		}
 
@@ -635,15 +635,15 @@ move(shape sha, where from, where to)
 		    (in_reg(to.where_exp) & 0x70)) {
 			if (!inmem(from)) {
 				move(slongsh, from, to);
-				son(fe) = holdfe;
-				son(te) = holdte;
+				child(fe) = holdfe;
+				child(te) = holdte;
 				return;
 			}
 
 			move(sha, from, reg0);
 			move(slongsh, reg0, to);
-			son(fe) = holdfe;
-			son(te) = holdte;
+			child(fe) = holdfe;
+			child(te) = holdte;
 			return;
 		}
 
@@ -667,8 +667,8 @@ move(shape sha, where from, where to)
 			}
 		}
 
-		son(fe) = holdfe;
-		son(te) = holdte;
+		child(fe) = holdfe;
+		child(te) = holdte;
 		return;
 	}
 
@@ -693,8 +693,8 @@ move(shape sha, where from, where to)
 			}
 		}
 
-		son(fe) = holdfe;
-		son(te) = holdte;
+		child(fe) = holdfe;
+		child(te) = holdte;
 		return;
 	}
 
@@ -719,8 +719,8 @@ move(shape sha, where from, where to)
 			}
 		}
 
-		son(fe) = holdfe;
-		son(te) = holdte;
+		child(fe) = holdfe;
+		child(te) = holdte;
 		return;
 	}
 
@@ -749,8 +749,8 @@ move(shape sha, where from, where to)
 		}
 
 		regsinuse = riu;
-		son(fe) = holdfe;
-		son(te) = holdte;
+		child(fe) = holdfe;
+		child(te) = holdte;
 		return;
 	}
 
@@ -800,15 +800,15 @@ move(shape sha, where from, where to)
 			end_contop();
 			contop_level--;
 			end_contop();
-			son(fe) = holdfe;
-			son(te) = holdte;
+			child(fe) = holdfe;
+			child(te) = holdte;
 			return;
 		}
 
 		move(sha, from, flstack);
 		move(sha, flstack, to);
-		son(fe) = holdfe;
-		son(te) = holdte;
+		child(fe) = holdfe;
+		child(te) = holdte;
 		return;
 	}
 
@@ -837,8 +837,8 @@ move(shape sha, where from, where to)
 			end_contop();
 			contop_level--;
 			end_contop();
-			son(fe) = holdfe;
-			son(te) = holdte;
+			child(fe) = holdfe;
+			child(te) = holdte;
 			return;
 		}
 
@@ -860,16 +860,16 @@ move(shape sha, where from, where to)
 		end_contop();
 		contop_level--;
 		end_contop();
-		son(fe) = holdfe;
-		son(te) = holdte;
+		child(fe) = holdfe;
+		child(te) = holdte;
 		return;
 	}
 
 	if (sha->tag == realhd) {
 		move(sha, from, flstack);
 		move(sha, flstack, to);
-		son(fe) = holdfe;
-		son(te) = holdte;
+		child(fe) = holdfe;
+		child(te) = holdte;
 		return;
 	}
 
@@ -977,8 +977,8 @@ move(shape sha, where from, where to)
 		extra_stack = old_extra_stack;
 		min_rfree |= 0x30;
 		invalidate_dest(to);
-		son(fe) = holdfe;
-		son(te) = holdte;
+		child(fe) = holdfe;
+		child(te) = holdte;
 		return;
 	}
 }
@@ -1108,24 +1108,24 @@ void
 mova(where from, where to)
 {
 	exp fe = from.where_exp;
-	exp holdfe = son(fe);
+	exp holdfe = child(fe);
 
 	cond1_set = false;
 	cond2_set = false;
 
-	if (fe->tag == reff_tag && son (fe)->tag != ident_tag) {/* add on offset from reff */
-		mova(mw(son(fe), from.where_off + no(fe)), to);
+	if (fe->tag == reff_tag && child (fe)->tag != ident_tag) {/* add on offset from reff */
+		mova(mw(child(fe), from.where_off + no(fe)), to);
 		return;
 	}
 
 	if (to.where_exp->tag == apply_tag) {	/* pushing */
 		if (!PIC_code && fe->tag == cont_tag &&
-		    son(fe)->tag != ident_tag &&
-		    (son(fe)->tag != name_tag || !isvar(son(son(fe)))) &&
+		    child(fe)->tag != ident_tag &&
+		    (child(fe)->tag != name_tag || !isvar(child(child(fe)))) &&
 		    ((extra_stack == 0 && from.where_off == 0) ||
-		     !eq_where(mw(son(fe), 0), sp))) {
+		     !eq_where(mw(child(fe), 0), sp))) {
 			contop(fe, 0, to);
-			ins1lit(pushl,  32, mw(son(fe), from.where_off));
+			ins1lit(pushl,  32, mw(child(fe), from.where_off));
 
 #ifdef DWARF2
 			if (diag == DIAG_DWARF2 && no_frame) {
@@ -1134,12 +1134,12 @@ mova(where from, where to)
 #endif
 
 			end_contop();
-			son(fe) = holdfe;
+			child(fe) = holdfe;
 			return;
 		}
 
 		if (!PIC_code && fe->tag == name_tag &&
-		    isglob(son(fe)) && isvar(son(fe))) {
+		    isglob(child(fe)) && isvar(child(fe))) {
 			contop(fe, 0, to);
 			ins1lit(pushl,  32, from);
 
@@ -1150,7 +1150,7 @@ mova(where from, where to)
 #endif
 
 			end_contop();
-			son(fe) = holdfe;
+			child(fe) = holdfe;
 			return;
 		}
 
@@ -1170,15 +1170,15 @@ mova(where from, where to)
 		return;
 	}
 
-	if (!PIC_code && fe->tag == name_tag && isvar(son(fe)) &&
-	    isglob(son(fe))) {
+	if (!PIC_code && fe->tag == name_tag && isvar(child(fe)) &&
+	    isglob(child(fe))) {
 		move(slongsh, from, to);
 		return;
 	}
 
 	contop(from.where_exp, 0, to);
 
-	if (fe->tag == name_tag && !isvar(son(fe)) && ptno(son(fe)) == reg_pl) {
+	if (fe->tag == name_tag && !isvar(child(fe)) && ptno(child(fe)) == reg_pl) {
 		add(slongsh, mw(fe, 0), mw(zeroe, from.where_off / 8), to);
 	} else {
 		ins2(leal,  32,  32, from, to);
@@ -1186,6 +1186,6 @@ mova(where from, where to)
 
 	invalidate_dest(to);
 	end_contop();
-	son(fe) = holdfe;
+	child(fe) = holdfe;
 }
 

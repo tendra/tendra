@@ -96,7 +96,7 @@ sim_exp(exp a, exp b)
 		if (a->tag == name_tag) {
 			/* See if both are name_tags for same ident
 			with same offsets and same size and alignment */
-			return son(a) == son(b) && no(a) == no(b) &&
+			return child(a) == child(b) && no(a) == no(b) &&
 			       keep_eq_size(sh(a), sh(b));
 		}
 
@@ -110,11 +110,11 @@ sim_exp(exp a, exp b)
 		}
 
 		if (a->tag == float_tag) {
-			return eq_exp(son(a), son(b));
+			return eq_exp(child(a), child(b));
 			/* float_tag is special since we could have e.g float (-1 slongsh) float (-1 ulongsh) */
 		}
 
-		return no(a) == no(b) && sim_explist(son(a), son(b));
+		return no(a) == no(b) && sim_explist(child(a), child(b));
 	}
 
 	return 0;
@@ -182,12 +182,12 @@ iskept_regrange(exp e, int low_reg, int hi_reg)
 
 		if (((!isc && sim_exp(ke, e)) ||
 		     (e->tag == cont_tag && isc && keep_eq_size(sh(ke), sh(e))
-		      && sim_exp(ke, son(e)) && al1(sh(son(e))) == al1(sh(ke))))
+		      && sim_exp(ke, child(e)) && al1(sh(child(e))) == al1(sh(ke))))
 		) {
 			aa = (regexps[i].inans);
 
-			asm_comment("iskept found 1: reg=%d isc=%d e->tag =%d son(e)->tag =%d",
-			            i, isc, e->tag, son(e)->tag);
+			asm_comment("iskept found 1: reg=%d isc=%d e->tag =%d child(e)->tag =%d",
+			            i, isc, e->tag, child(e)->tag);
 			asm_comment("iskept found: no = %ld", no(e));
 
 			switch (aa.discrim) {
@@ -215,7 +215,7 @@ iskept_regrange(exp e, int low_reg, int hi_reg)
 
 				is = insalt(aq);
 				if (!is.adval && is.b.offset == 0 && IS_FIXREG(is.b.base)
-				    && sim_exp(son(ke), e)) {
+				    && sim_exp(child(ke), e)) {
 
 					/*
 					 * the contents of req expression is here as a reg-offset
@@ -223,8 +223,8 @@ iskept_regrange(exp e, int low_reg, int hi_reg)
 					is.adval = 1;
 					setinsalt(aq, is);
 
-					asm_comment("iskept found 2: reg=%d isc=%d e->tag =%d son(e)->tag =%d",
-					            i, isc, e->tag, son(e)->tag);
+					asm_comment("iskept found 2: reg=%d isc=%d e->tag =%d child(e)->tag =%d",
+					            i, isc, e->tag, child(e)->tag);
 
 					return aq;
 				}
@@ -239,7 +239,7 @@ iskept_regrange(exp e, int low_reg, int hi_reg)
 				is = insalt(aq);
 				if (is.adval && is.b.offset == (no(ke) / 8)
 				    && IS_FIXREG(is.b.base)
-				    && sim_exp(son(ke), e)) {
+				    && sim_exp(child(ke), e)) {
 
 					/*
 					 * a ref select of req expression is here as a reg-offset
@@ -248,8 +248,8 @@ iskept_regrange(exp e, int low_reg, int hi_reg)
 					is.b.offset = 0;
 					setinsalt(aq, is);
 
-					asm_comment("iskept found 3: reg=%d isc=%d e->tag =%d son(e)->tag =%d",
-					            i, isc, e->tag, son(e)->tag);
+					asm_comment("iskept found 3: reg=%d isc=%d e->tag =%d child(e)->tag =%d",
+					            i, isc, e->tag, child(e)->tag);
 
 					return aq;
 				}
@@ -427,10 +427,10 @@ static bool
 couldbe(exp e, exp lhs)/* is var name_tag exp or 0 meaning cont */
 {
 	int ne = e->tag;
-	exp s = son(e);
+	exp s = child(e);
 
 	if (ne == name_tag) {
-		if (lhs != 0 && s == son(lhs)) {
+		if (lhs != 0 && s == child(lhs)) {
 			return 1;
 		}
 
@@ -442,16 +442,16 @@ couldbe(exp e, exp lhs)/* is var name_tag exp or 0 meaning cont */
 			return lhs == 0;
 		}
 
-		if (son(s) == NULL) {
+		if (child(s) == NULL) {
 			return 1;
 		}
 
-		return couldbe(son(s), lhs);
+		return couldbe(child(s), lhs);
 	}
 
 	if (ne == cont_tag) {
-		if (lhs != 0 && s->tag == name_tag && son(s) != NULL) {
-			return son(s) == son(lhs) || isvis(son(lhs)) || isvis(son(s));
+		if (lhs != 0 && s->tag == name_tag && child(s) != NULL) {
+			return child(s) == child(lhs) || isvis(child(lhs)) || isvis(child(s));
 		}
 
 		return 1;
@@ -475,23 +475,23 @@ couldaffect(exp e, exp z)/* a name or zero */
 	int ne = e->tag;
 
 	if (ne == cont_tag) {
-		return couldbe(son(e), z);
+		return couldbe(child(e), z);
 	}
 
 	if (ne == name_tag) {
-		if (isvar(son(e))) {
-			return z == 0 && isvis(son(e));
+		if (isvar(child(e))) {
+			return z == 0 && isvis(child(e));
 		}
 
-		if (IS_A_PROC(son(e))) {
+		if (IS_A_PROC(child(e))) {
 			return 0;
 		}
 
-		if (son(son(e)) == NULL) {
+		if (child(child(e)) == NULL) {
 			return 1 /* could it happen? */ ;
 		}
 
-		return couldaffect(son(son(e)), z);
+		return couldaffect(child(child(e)), z);
 
 	}
 
@@ -499,7 +499,7 @@ couldaffect(exp e, exp z)/* a name or zero */
 		return 1;
 	}
 
-	e = son(e);
+	e = child(e);
 
 	while (e != NULL) {
 		if (couldaffect(e, z)) {
@@ -527,7 +527,7 @@ dependson(exp e, bool isc, exp z)
 	for (;;) {
 		if (z->tag == reff_tag || z->tag == addptr_tag ||
 		    z->tag == subptr_tag) {
-			z = son(z);
+			z = child(z);
 		}
 
 		if (z->tag != name_tag) {
@@ -538,20 +538,20 @@ dependson(exp e, bool isc, exp z)
 			break;
 		}
 
-		if (isvar(son(z))) {
+		if (isvar(child(z))) {
 			break;
 		}
 
-		if (IS_A_PROC(son(z))) {
+		if (IS_A_PROC(child(z))) {
 			z = 0;
 			break;
 		}
 
-		if (son(son(z)) == NULL) {
+		if (child(child(z)) == NULL) {
 			return 1;    /* can it happen? */
 		}
 
-		z = son(son(z));
+		z = child(child(z));
 	}
 
 	/* z is now unambiguous variable name or 0 meaning some contents */

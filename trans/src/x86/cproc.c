@@ -365,24 +365,24 @@ cproc(exp p, char *pname, int cname, int global
 
 	vc_pointer = NULL;
 	/* set up params before any diagnostics */
-	t = son(p);
+	t = child(p);
 	param_pos = 0;
-	while (t->tag == ident_tag && isparam(t) && son(t)->tag != formal_callee_tag) {
-		t = next(son(t));
+	while (t->tag == ident_tag && isparam(t) && child(t)->tag != formal_callee_tag) {
+		t = next(child(t));
 	}
-	if (t->tag == ident_tag && son(t)->tag == formal_callee_tag) {
+	if (t->tag == ident_tag && child(t)->tag == formal_callee_tag) {
 		if (callee_size < 0) {
 			vc_pointer = t;
 		}
 
-		while (t->tag == ident_tag && son(t)->tag == formal_callee_tag) {
+		while (t->tag == ident_tag && child(t)->tag == formal_callee_tag) {
 			ptno(t) = par_pl;
 			no(t) = param_pos;
 			if (isenvoff(t)) {
 				set_env_off(param_pos + 64, t);
 			}
-			param_pos = rounder(param_pos + shape_size(sh(son(t))), param_align);
-			t = next(son(t));
+			param_pos = rounder(param_pos + shape_size(sh(child(t))), param_align);
+			t = next(child(t));
 		}
 
 		if (callee_size == 0) {
@@ -391,15 +391,15 @@ cproc(exp p, char *pname, int cname, int global
 	}
 
 	{
-		exp pp = son(p);
-		while (pp->tag == ident_tag && isparam(pp) && son(pp)->tag != formal_callee_tag) {
+		exp pp = child(p);
+		while (pp->tag == ident_tag && isparam(pp) && child(pp)->tag != formal_callee_tag) {
 			ptno(pp) = par_pl;
 			no(pp) = param_pos;
 			if (isenvoff(pp)) {
 				set_env_off(param_pos + 64, pp);
 			}
-			param_pos = rounder(param_pos + shape_size(sh(son(pp))), param_align);
-			pp = next(son(pp));
+			param_pos = rounder(param_pos + shape_size(sh(child(pp))), param_align);
+			pp = next(child(pp));
 		}
 	}
 
@@ -570,7 +570,7 @@ cproc(exp p, char *pname, int cname, int global
 	if (crt_ret_lab_used) {
 		jr = getexp(f_bottom, NULL, 0, NULL, NULL, 0,
 		            0, 0);
-		sonno(jr) = stack_dec;
+		childno(jr) = stack_dec;
 		ptno(jr) = crt_ret_lab;
 		fstack_pos_of(jr) = (prop)first_fl_reg;
 		set_label(jr);
@@ -633,7 +633,7 @@ cproc(exp p, char *pname, int cname, int global
 		if (returns_list->tag == 1) {
 			out_untidy_pops(tot_sp, push_space);
 		} else {
-			out_pops(tot_sp, push_space, ptno(returns_list) / 8, sonno(returns_list));
+			out_pops(tot_sp, push_space, ptno(returns_list) / 8, childno(returns_list));
 		}
 		returns_list = next(returns_list);
 	}
@@ -765,17 +765,17 @@ cproc(exp p, char *pname, int cname, int global
 	/*
 	 * now prepare params with env_offset for possible constant evaluation
 	 */
-	t = son(p);
+	t = child(p);
 	while (t->tag == ident_tag && isparam(t)) {
 		if (isenvoff(t)) {
 			no(t) += 64;
 			t->tag = 0;
 			ptno(t) = local_pl;
 		}
-		t = next(son(t));
+		t = next(child(t));
 	}
 	while (hasenvoff_list != NULL) {
-		exp id = son(hasenvoff_list);
+		exp id = child(hasenvoff_list);
 		exp next = next(hasenvoff_list);
 		no(id) -= (locals_offset * 8);
 		id->tag = 0;
@@ -810,7 +810,7 @@ restore_callregs(int untidy)
 
 #ifdef DWARF2
 	if (diag == DIAG_DWARF2) {
-		sonno(returns_list) = (int)dw2_prep_fde_restore_args(untidy);
+		childno(returns_list) = (int)dw2_prep_fde_restore_args(untidy);
 	}
 #endif
 }

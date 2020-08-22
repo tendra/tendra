@@ -94,7 +94,7 @@ spacereq
 regalloc(exp e, int freefixed, int freefloat, long stack)
 {
 	int n = e->tag;
-	exp s = son(e);
+	exp s = child(e);
 	spacereq def;
 
 	switch(n) {
@@ -116,10 +116,10 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 		} else if (
 		    !isvar(e) && !isparam(e)
 		    && s->tag == name_tag
-		    && !isvar(son(s))
-		    && !isvis(son(s))
-		    && !isparam(son(s))
-		    && (props(son(s)) & inreg_bits)
+		    && !isvar(child(s))
+		    && !isvis(child(s))
+		    && !isparam(child(s))
+		    && (props(child(s)) & inreg_bits)
 		) {
 			/*
 			 * dont take space for this constant dec,
@@ -185,7 +185,7 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 				/*
 				 * not suitable for reg allocation
 				 */
-				if (son(e)->tag == val_tag && !isvar(e) && !isenvoff(e)) {
+				if (child(e)->tag == val_tag && !isvar(e) && !isenvoff(e)) {
 					/*
 					 * must have been forced by const optimisation
 					 * - replace uses by the value
@@ -196,8 +196,8 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 						exp p = pt(t);
 
 						t->tag = val_tag;
-						son(t) = NULL;
-						no(t) = no(son(e));
+						child(t) = NULL;
+						no(t) = no(child(e));
 						props(t) = 0;
 						pt(t) = NULL;
 						t = p;
@@ -207,7 +207,7 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 					asm_comment("regalloc heavily used const: no spare regs - replace use by value");
 					props(e) |= defer_bit;
 					def = zerospace;
-				} else if (son(e)->tag == name_tag && !isvar(e) && !isenvoff(e)) {
+				} else if (child(e)->tag == name_tag && !isvar(e) && !isenvoff(e)) {
 					/* must have been forced  - defer it */
 					asm_comment("regalloc heavily used address: no spare regs - replace use by value");
 					props(e) |= defer_bit;
@@ -254,23 +254,23 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 	}
 
 	case case_tag:
-		/* We do not wish to recurse down the next(son(e)) */
+		/* We do not wish to recurse down the next(child(e)) */
 		def = regalloc(s, freefixed, freefloat, stack);
 		def.obtain = NULL;/* A case returns nothing */
 		return def;
 
 	case cont_tag:
 		if (s->tag == name_tag &&
-		    son(s)->tag == ident_tag &&
-		    isvar(son(s)) &&
+		    child(s)->tag == ident_tag &&
+		    isvar(child(s)) &&
 		    (
-		        (((props(son(s)) & inreg_bits) != 0) && IS_SREG(no(son(s))))  ||
-		        (((props(son(s)) & infreg_bits) != 0) && IS_FLT_SREG(no(son(s))))
+		        (((props(child(s)) & inreg_bits) != 0) && IS_SREG(no(child(s))))  ||
+		        (((props(child(s)) & infreg_bits) != 0) && IS_FLT_SREG(no(child(s))))
 		    )
 		   ) {
 			def = zerospace;
 			def.stack = stack;
-			def.obtain = son(s);
+			def.obtain = child(s);
 			return def;
 		} else {
 			goto label_default;

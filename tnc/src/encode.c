@@ -79,7 +79,7 @@ enc_external(bitstream *b, construct *p)
     node *e = p->ename;
     enc_tdf_int(b, p->encoding);
     if (e->cons->encoding) {
-	node *q = e->son;
+	node *q = e->child;
 	if (q->cons->sortnum == SORT_tdfstring) {
 	    node *r = q->next;
 	    if (r == NULL) {
@@ -96,7 +96,7 @@ enc_external(bitstream *b, construct *p)
 	    enc_external_bits(b, ENC_unique_extern);
 	    align_bitstream(b);
 	    enc_tdf_int(b, q->cons->encoding);
-	    for (q = e->son->son; q; q = q->next) {
+	    for (q = e->child->child; q; q = q->next) {
 		enc_aligned_string(b, q->cons->name, q->cons->encoding);
 	    }
 	}
@@ -125,7 +125,7 @@ enc_node(bitstream *b, node *p)
 	    case SORT_bytestream: {
 		/* Encode a bytestream */
 		bitstream *c = new_bitstream();
-		enc_node(c, p->son);
+		enc_node(c, p->child);
 		enc_tdf_int(b, bitstream_length(c));
 		join_bitstreams(b, c);
 		break;
@@ -133,7 +133,7 @@ enc_node(bitstream *b, node *p)
 
 	    case SORT_completion: {
 		/* Encode a completion */
-		if (p->son)enc_node(b, p->son);
+		if (p->child)enc_node(b, p->child);
 		break;
 	    }
 
@@ -157,9 +157,9 @@ enc_node(bitstream *b, node *p)
 
 	    case SORT_option: {
 		/* Encode an optional argument */
-		if (p->son) {
+		if (p->child) {
 		    enc_bits(b, 1,(long)1);
-		    enc_node(b, p->son);
+		    enc_node(b, p->child);
 		} else {
 		    enc_bits(b, 1,(long)0);
 		}
@@ -170,7 +170,7 @@ enc_node(bitstream *b, node *p)
 		/* Encode a repeated argument */
 		enc_list_start(b);
 		enc_tdf_int(b, q->encoding);
-		if (p->son)enc_node(b, p->son);
+		if (p->child)enc_node(b, p->child);
 		break;
 	    }
 
@@ -178,12 +178,12 @@ enc_node(bitstream *b, node *p)
 		/* Encode a string */
 		long i, n = q->encoding;
 		if (n == -1) {
-		    node *r = p->son;
+		    node *r = p->child;
 		    long m = r->cons->encoding;
 		    if (m < 0)m = -m;
 		    r = r->next;
 		    n = r->cons->encoding;
-		    r = r->son;
+		    r = r->child;
 		    enc_tdf_int(b, m);
 		    enc_tdf_int(b, n);
 		    for (i = 0; i < n; i++) {
@@ -212,9 +212,9 @@ enc_node(bitstream *b, node *p)
 		long e = q->encoding;
 		enc_al_tag_bits(b,(int)e);
 		if (e == ENC_make_al_tag) {
-		    enc_tdf_int(b, p->son->cons->encoding);
+		    enc_tdf_int(b, p->child->cons->encoding);
 		} else {
-		    if (p->son)enc_node(b, p->son);
+		    if (p->child)enc_node(b, p->child);
 		}
 		break;
 	    }
@@ -224,9 +224,9 @@ enc_node(bitstream *b, node *p)
 		long e = q->encoding;
 		enc_label_bits(b,(int)e);
 		if (e == ENC_make_label) {
-		    enc_tdf_int(b, p->son->cons->encoding);
+		    enc_tdf_int(b, p->child->cons->encoding);
 		} else {
-		    if (p->son)enc_node(b, p->son);
+		    if (p->child)enc_node(b, p->child);
 		}
 		break;
 	    }
@@ -236,9 +236,9 @@ enc_node(bitstream *b, node *p)
 		long e = q->encoding;
 		enc_tag_bits(b,(int)e);
 		if (e == ENC_make_tag) {
-		    enc_tdf_int(b, p->son->cons->encoding);
+		    enc_tdf_int(b, p->child->cons->encoding);
 		} else {
-		    if (p->son)enc_node(b, p->son);
+		    if (p->child)enc_node(b, p->child);
 		}
 		break;
 	    }
@@ -255,10 +255,10 @@ enc_node(bitstream *b, node *p)
 		    enc_token_bits(b, ENC_make_tok);
 		    enc_tdf_int(b, q->encoding);
 		}
-		if (p->son) {
-		    if (p->son->cons != &token_cons) {
+		if (p->child) {
+		    if (p->child->cons != &token_cons) {
 			bitstream *c = new_bitstream();
-			enc_node(c, p->son);
+			enc_node(c, p->child);
 			enc_tdf_int(b, bitstream_length(c));
 			join_bitstreams(b, c);
 		    }
@@ -277,7 +277,7 @@ enc_node(bitstream *b, node *p)
 		} else {
 		    enc_bits(b, bits, q->encoding);
 		}
-		if (p->son)enc_node(b, p->son);
+		if (p->child)enc_node(b, p->child);
 		break;
 	    }
 	}
@@ -351,7 +351,7 @@ enc_tagdef(bitstream *b, construct *p)
 	/* Can have multiple definitions */
 	enc_tagdef_bits(b, m);
 	enc_tdf_int(b, p->encoding);
-	enc_node(b, d->son);
+	enc_node(b, d->child);
 	d = d->next;
 	n++;
     }

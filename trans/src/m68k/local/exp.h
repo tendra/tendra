@@ -9,8 +9,8 @@
 #define LOCAL_EXP_H
 
 #ifndef tdf3
-#define frame_al_of_ptr(x) (x)->son.ald->al.frame
-#define frame_al1_of_offset(x) (x)->son.ald->al.frame
+#define frame_al_of_ptr(x) (x)->child.ald->al.frame
+#define frame_al1_of_offset(x) (x)->child.ald->al.frame
 #define al_includes_vcallees 16
 #define al_includes_caller_args 6
 #endif
@@ -40,7 +40,7 @@
 #ifndef tdf3
 #define set_proc_needs_envsize(x) props(x) = (prop)(props(x) | 0x8000)
 #define proc_needs_envsize(x) (props(x) & 0x8000)
-#define call_has_checkstack(e) (props(next(son(e))) & 8)
+#define call_has_checkstack(e) (props(next(child(e))) & 8)
 #endif
 
 #endif

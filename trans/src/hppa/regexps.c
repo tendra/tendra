@@ -95,7 +95,7 @@ sim_exp (exp a, exp b)
 	}
 
 	if (a->tag == name_tag) {
-		return son(a) == son(b) && no(a) == no(b) && eq_sze(sh(a), sh(b));
+		return child(a) == child(b) && no(a) == no(b) && eq_sze(sh(a), sh(b));
 	}
 
 	if (!is_a(a->tag) || !eq_sze(sh(a), sh(b))) {
@@ -103,10 +103,10 @@ sim_exp (exp a, exp b)
 	}
 
 	if (a->tag == float_tag) { /* NEW bit */
-		return eq_exp(son(a), son(b));
+		return eq_exp(child(a), child(b));
 	}
 
-	return no(a) == no(b) && sim_explist(son(a), son(b));
+	return no(a) == no(b) && sim_explist(child(a), child(b));
 }
 
 /* forget all register - exp associations */
@@ -165,16 +165,16 @@ iskept(exp e)
 
 		if (((!isc && sim_exp(ke, e)) ||
 		     (e->tag == cont_tag && isc && eq_sze(sh(ke), sh(e))
-		      && sim_exp(ke, son(e))))
+		      && sim_exp(ke, child(e))))
 		) {
 			ans aa;
 			aa = (regexps[i].inans);
 
 #if 0
-			asm_comment("iskept found: reg=%d isc=%d e->tag =%d son(e)->tag =%d", i, isc, e->tag, son(e)->tag);
-			asm_comment("	hd(e) =%d hd(son(e)) =%d hd(ke) =%d", sh(e)->tag, sh(son(e))->tag, sh(ke)->tag);
-			asm_comment("	sim_exp(ke, e) =%d sim_exp(ke, son(e)) =%d eq_size(sh(ke), sh(e)) =%d",
-			            sim_exp(ke, e), sim_exp(ke, son(e)), eq_size(sh(ke), sh(e)));
+			asm_comment("iskept found: reg=%d isc=%d e->tag =%d child(e)->tag =%d", i, isc, e->tag, child(e)->tag);
+			asm_comment("	hd(e) =%d hd(child(e)) =%d hd(ke) =%d", sh(e)->tag, sh(child(e))->tag, sh(ke)->tag);
+			asm_comment("	sim_exp(ke, e) =%d sim_exp(ke, child(e)) =%d eq_size(sh(ke), sh(e)) =%d",
+			            sim_exp(ke, e), sim_exp(ke, child(e)), eq_size(sh(ke), sh(e)));
 #endif
 
 			switch (discrim(aa)) {
@@ -201,7 +201,7 @@ iskept(exp e)
 
 				is = insalt(aq);
 				if (!is.adval && is.b.offset == 0 && IS_FIXREG(is.b.base)
-				    && sim_exp(son(ke), e)) {
+				    && sim_exp(child(ke), e)) {
 					/* the contents of req expression is here as a reg-offset */
 					is.adval = 1;
 					setinsalt(aq, is);
@@ -218,7 +218,7 @@ iskept(exp e)
 				is = insalt(aq);
 				if (is.adval && is.b.offset == (no(ke) / 8)
 				    && IS_FIXREG(is.b.base)
-				    && sim_exp(son(ke), e)) {
+				    && sim_exp(child(ke), e)) {
 					/* a ref select of req expression is here as a reg-offset */
 					is.adval = 1;
 					is.b.offset = 0;
@@ -336,10 +336,10 @@ static bool
 couldbe(exp e, exp lhs)
 {
 	int ne = e->tag;
-	exp s = son(e);
+	exp s = child(e);
 
 	if (ne == name_tag) {
-		if (lhs != 0 && s == son(lhs)) {
+		if (lhs != 0 && s == child(lhs)) {
 			return 1;
 		}
 
@@ -351,16 +351,16 @@ couldbe(exp e, exp lhs)
 			return lhs == 0;
 		}
 
-		if (son(s) == NULL) {
+		if (child(s) == NULL) {
 			return 1;
 		}
 
-		return couldbe(son(s), lhs);
+		return couldbe(child(s), lhs);
 	}
 
 	if (ne == cont_tag) {
-		if (lhs != 0 && s->tag == name_tag && son(s) != NULL) {
-			return son(s) == son(lhs) || isvis(son(lhs)) || isvis(son(s));
+		if (lhs != 0 && s->tag == name_tag && child(s) != NULL) {
+			return child(s) == child(lhs) || isvis(child(lhs)) || isvis(child(s));
 		}
 
 		return 1;
@@ -385,30 +385,30 @@ couldaffect(exp e, exp z /* a name or zero */)
 
 	ne = e->tag;
 	if (ne == cont_tag) {
-		return couldbe(son(e), z);
+		return couldbe(child(e), z);
 	}
 
 	if (ne == name_tag) {
-		if (isvar(son(e))) {
-			return z == 0 && isvis(son(e));
+		if (isvar(child(e))) {
+			return z == 0 && isvis(child(e));
 		}
 
-		if (IS_A_PROC(son(e))) {
+		if (IS_A_PROC(child(e))) {
 			return 0;
 		}
 
-		if (son(son(e)) == NULL) {
+		if (child(child(e)) == NULL) {
 			return 1 /* could it happen? */ ;
 		}
 
-		return couldaffect(son(son(e)), z);
+		return couldaffect(child(child(e)), z);
 	}
 
 	if (ne < plus_tag || ne == contvol_tag) {
 		return 1;
 	}
 
-	e = son(e);
+	e = child(e);
 
 	while (e != NULL) {
 		if (couldaffect(e, z)) {
@@ -436,7 +436,7 @@ dependson(exp e, bool isc, exp z)
 	for (;;) {
 		if (z->tag == reff_tag || z->tag == addptr_tag ||
 		    z->tag == subptr_tag) {
-			z = son(z);
+			z = child(z);
 		}
 
 		if (z->tag != name_tag) {
@@ -447,20 +447,20 @@ dependson(exp e, bool isc, exp z)
 			break;
 		}
 
-		if (isvar(son(z))) {
+		if (isvar(child(z))) {
 			break;
 		}
 
-		if (IS_A_PROC(son(z))) {
+		if (IS_A_PROC(child(z))) {
 			z = 0;
 			break;
 		}
 
-		if (son(son(z)) == NULL) {
+		if (child(child(z)) == NULL) {
 			return 1; /* can it happen? */
 		}
 
-		z = son(son(z));
+		z = child(child(z));
 	}
 
 	/* z is now unambiguous variable name or 0 meaning some contents */

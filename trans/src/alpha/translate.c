@@ -120,8 +120,8 @@ code_it(dec *d)
 		return;
 	}
 
-	if (son(tag) != NULL && (!extnamed || !is_comm(son(tag)))) {
-		if (son(tag)->tag == proc_tag || son(tag)->tag == general_proc_tag) {
+	if (child(tag) != NULL && (!extnamed || !is_comm(child(tag)))) {
+		if (child(tag)->tag == proc_tag || child(tag)->tag == general_proc_tag) {
 			diag_descriptor *dd = d->diag_info;
 
 			/* compile code for proc */
@@ -171,8 +171,8 @@ code_it(dec *d)
 			out_common(symnos[symdef], ilabel);
 			out_option(1, diag != DIAG_NONE ? 1 : 2);
 			symnoforstart(symdef, currentfile);
-			settempregs(son(tag));
-			code_here(son(tag), tempspace, nowhere);
+			settempregs(child(tag));
+			code_here(child(tag), tempspace, nowhere);
 
 			if (diag != DIAG_NONE && dd != NULL) {
 				diag3_driver->stabd(fscopefile, currentlno + 1, 0);
@@ -185,14 +185,14 @@ code_it(dec *d)
 			out_common(symnoforend(d, currentfile), iend);
 		} else {
 			/* global values */
-			exp c = son(tag);
+			exp c = child(tag);
 			IGNORE evaluated(c, isvar(tag) ? -symdef - 1 : symdef + 1);
 		}
 	} else {
 		/* global declarations but no definitions or is_comm */
 		long size;
 		shape s = d->shape;
-		bool vs = son(tag) != NULL /* ie is_comm */;
+		bool vs = child(tag) != NULL /* ie is_comm */;
 		size = (shape_size(s) + 7) >> 3;
 
 		if ((isvar(tag) || s->tag != prokhd) && not_reserved(name)) {
@@ -209,7 +209,7 @@ code_it(dec *d)
 
 				out_value(symnos[symdef], iextern, size, 1);
 			}
-		} else if (son(tag) == NULL && !extnamed) {
+		} else if (child(tag) == NULL && !extnamed) {
 			if (as_file) {
 				asm_printf( "\n\t.lcomm\t%s %ld\n", name, size);
 			}
@@ -219,11 +219,11 @@ code_it(dec *d)
 	}
 
 	/*  NO! the pt fields are wrong!
-	    kill_exp(son(tag), son(tag));
+	    kill_exp(child(tag), child(tag));
 	 */
 
 	/*end:*/
-	/*son(tag) = NULL;*/
+	/*child(tag) = NULL;*/
 	d->processed = 1;
 }
 
@@ -289,7 +289,7 @@ local_translate_capsule(void)
 		exp crt_exp;
 
 		crt_exp = d->exp;
-		if (son(crt_exp) != NULL && !d->extnamed && isvar(crt_exp)) {
+		if (child(crt_exp) != NULL && !d->extnamed && isvar(crt_exp)) {
 			mark_unaliased(crt_exp);
 		}
 	}
@@ -303,9 +303,9 @@ local_translate_capsule(void)
 			exp crt_exp;
 
 			crt_exp = (*ptr_def)->exp;
-			if (son(crt_exp) != NULL) {
-				if ((son(crt_exp)->tag == general_proc_tag ||
-				    son(crt_exp)->tag == proc_tag) &&
+			if (child(crt_exp) != NULL) {
+				if ((child(crt_exp)->tag == general_proc_tag ||
+				    child(crt_exp)->tag == proc_tag) &&
 				   (no(crt_exp) == 0 && diag != DIAG_NONE && !(*ptr_def)->extnamed)) {
 					dec *old_ptr = *ptr_def;
 					*ptr_def = (*ptr_def)->next;
@@ -323,8 +323,8 @@ local_translate_capsule(void)
 	for (d = top_def; d != NULL; d = d->next) {
 		exp crt_exp = d->exp;
 
-		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag ||
-		                             son(crt_exp)->tag == general_proc_tag)) {
+		if (child(crt_exp) != NULL && (child(crt_exp)->tag == proc_tag ||
+		                             child(crt_exp)->tag == general_proc_tag)) {
 			noprocs++;
 		}
 	}
@@ -336,9 +336,9 @@ local_translate_capsule(void)
 	for (d = top_def; d != NULL; d = d->next) {
 		exp crt_exp = d->exp;
 
-		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag
-		                              || son(crt_exp)->tag == general_proc_tag)) {
-			no(son(crt_exp)) = noprocs++;
+		if (child(crt_exp) != NULL && (child(crt_exp)->tag == proc_tag
+		                              || child(crt_exp)->tag == general_proc_tag)) {
+			no(child(crt_exp)) = noprocs++;
 			/* put index into procrecs in no(proc) */
 		}
 	}
@@ -348,7 +348,7 @@ local_translate_capsule(void)
 		for (d = top_def; d != NULL; d = d->next) {
 			exp crt_exp = d->exp;
 
-			if (son(crt_exp) == NULL && isvar(crt_exp) ) {
+			if (child(crt_exp) == NULL && isvar(crt_exp) ) {
 				/* try to identify globals ptrs in procs */
 				global_usages(crt_exp, noprocs);
 			}
@@ -387,14 +387,14 @@ local_translate_capsule(void)
 	for (d = top_def; d != NULL; d = d->next) {
 		exp crt_exp = d->exp;
 
-		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag
-		                              || son(crt_exp)->tag == general_proc_tag)) {
+		if (child(crt_exp) != NULL && (child(crt_exp)->tag == proc_tag
+		                              || child(crt_exp)->tag == general_proc_tag)) {
 			procrec *pr;
 			exp *st;
 			bool has_varargs;
 
-			pr = &procrecs[no(son(crt_exp))];
-			st = &son(crt_exp);
+			pr = &procrecs[no(child(crt_exp))];
+			st = &child(crt_exp);
 			has_varargs = vascan(st);
 
 			(*st)->dfile = "";
@@ -414,9 +414,9 @@ local_translate_capsule(void)
 	for (d = top_def; d != NULL; d = d->next) {
 		exp crt_exp = d->exp;
 
-		if (son(crt_exp) != NULL && (son(crt_exp)->tag == proc_tag
-		                              || son(crt_exp)->tag == general_proc_tag)) {
-			procrec *pr = &procrecs[no(son(crt_exp))];
+		if (child(crt_exp) != NULL && (child(crt_exp)->tag == proc_tag
+		                              || child(crt_exp)->tag == general_proc_tag)) {
+			procrec *pr = &procrecs[no(child(crt_exp))];
 			needs *ndpr = & pr->needsproc;
 			long pprops = ndpr->propneeds;
 			bool leaf = (pprops & anyproccall) == 0;
@@ -424,23 +424,23 @@ local_translate_capsule(void)
 			int freefixed = 6;
 			int freefloat = 8;
 
-			setframe_flags(son(crt_exp), leaf);
-			/* if (Has_vcallees || proc_has_gen_call(son(crt_exp))) freefixed--;*/
+			setframe_flags(child(crt_exp), leaf);
+			/* if (Has_vcallees || proc_has_gen_call(child(crt_exp))) freefixed--;*/
 			if (Has_vcallees) {
 				freefixed--;
 			}
 
 			freefixed += (Has_fp == 0);
 			if (!No_S) {
-				IGNORE weightsv (1.0, next(son(son(crt_exp))));
+				IGNORE weightsv (1.0, next(child(child(crt_exp))));
 			}
 
 			/* estimate usage of tags in body of proc */
-			forrest = regalloc(next(son(son(crt_exp))), freefixed, freefloat, 0);
+			forrest = regalloc(next(child(child(crt_exp))), freefixed, freefloat, 0);
 
 			/* reg and stack allocation for tags */
 			pr->spacereqproc = forrest;
-			setframe_info(son(crt_exp));
+			setframe_info(child(crt_exp));
 		}
 	}
 
@@ -468,10 +468,10 @@ local_translate_capsule(void)
 		main_globals[i]->sym_number = i;
 
 		/* if not NULL */
-		if (no(tag) != 0 || (extnamed && son(tag) != NULL)
+		if (no(tag) != 0 || (extnamed && child(tag) != NULL)
 		     || streq(name, "__alpha_errhandler") || streq(name, "__alpha_stack_limit"))
 		{
-			if (no(tag) == 1 && son(tag) == NULL && (next(pt(tag)) == NULL ||
+			if (no(tag) == 1 && child(tag) == NULL && (next(pt(tag)) == NULL ||
 			    next(pt(tag))->tag == 101 || next(pt(tag))->tag == 102 )
 			   /* diagnostics only! */ )
 			{
@@ -519,7 +519,7 @@ local_translate_capsule(void)
 		char *name    = d->name;
 		bool extnamed = d->extnamed;
 
-		if (son(tag) != NULL && (extnamed || no(tag) != 0 || streq(name, "main"))) {
+		if (child(tag) != NULL && (extnamed || no(tag) != 0 || streq(name, "main"))) {
 			if (!extnamed) {
 				continue;
 			}

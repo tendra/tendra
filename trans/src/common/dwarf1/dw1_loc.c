@@ -192,7 +192,7 @@ out_dwarf_loc_attr(exp t, int proc_no)
 	new_dwarf_blk2();
 #endif
 	{
-		exp s = son(t);
+		exp s = child(t);
 
 		if (isglob(s)) {
 #ifndef LOCS_IN_BLKS

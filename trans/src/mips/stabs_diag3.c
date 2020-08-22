@@ -177,7 +177,7 @@ static void
 stab_local(char *nm, diag_type dt, exp ldid, long disp, long findex)
 {
   long  fs = frame_size >> 3;
-  exp id = son(ldid);
+  exp id = child(ldid);
   short   sc;
   long  v;
   disp+=no(ldid);
@@ -208,24 +208,24 @@ again:
       IGNORE new_lsym_d (nm, v, (isparam(id))?stParam :stLocal, sc, dt, findex);
     }
     else {
-      exp sn = son (id);
+      exp sn = child (id);
       long  d = disp;
       while (sn != NULL) {
 	switch (sn->tag) {
 	  case name_tag:
 	    {
 	      disp = d + no (sn);
-	      id = son (sn);
+	      id = child (sn);
 	      if (isvar (id)) dt = dt->data.ptr.object;
 	      goto again;
 	    }
 	  case reff_tag: {
 	      d += no (sn);
-	      sn = son (sn);
+	      sn = child (sn);
 	      break;
 	    }
 	  case cont_tag: {
-	      sn = son (sn);
+	      sn = child (sn);
 	      break;
 	    }
 	  default:
@@ -252,7 +252,7 @@ output_diag(diag_info *d, int proc_no, exp e)
     }
     if (d->key != DIAG_INFO_ID) return;
     x = d->data.id_scope.access;
-    if (isglob(son(x)) || no(son(x))==1) return;
+    if (isglob(child(x)) || no(child(x))==1) return;
     	    /* can't output global values as local names in dbx
     	         && not only diag use */
     mark_scope(e);
@@ -263,7 +263,7 @@ output_diag(diag_info *d, int proc_no, exp e)
 
     stab_local(d->data.id_scope.name.ints.chars, d->data.id_scope.type,
                     x,0,currentfile);
-    if (last_param(son(x))) {
+    if (last_param(child(x))) {
    	stabd(currentfile, currentlno+1, 0); /* don't have proper lineno */
     }
 

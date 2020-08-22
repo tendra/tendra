@@ -55,7 +55,7 @@ al_shape(node *p)
 	if (s == SORT_alignment) {
 		switch (p->cons->encoding) {
 		case ENC_alignment:
-			return al_shape(p->son);
+			return al_shape(p->child);
 		case ENC_alignment_apply_token:
 			return al_shape(expand_tok(p));
 		}
@@ -78,7 +78,7 @@ al_shape(node *p)
 		case ENC_top:
 			return copy_node(al_top);
 		case ENC_nof:
-			return al_shape(p->son->next);
+			return al_shape(p->child->next);
 		case ENC_shape_apply_token:
 			return al_shape(expand_tok(p));
 		}
@@ -86,7 +86,7 @@ al_shape(node *p)
 
 	q = new_node();
 	q->cons = cons_no(SORT_alignment, ENC_alignment);
-	q->son = copy_node(p);
+	q->child = copy_node(p);
 
 	return NULL;
 }
@@ -102,7 +102,7 @@ ptr_to(node *p)
 	p = expand_tok(p);
 
 	if (p && p->cons == cons_no(SORT_shape, ENC_pointer))
-		return p->son;
+		return p->child;
 
 	return NULL;
 }
@@ -118,7 +118,7 @@ offset_from(node *p)
 	p = expand_tok(p);
 
 	if (p && p->cons == cons_no(SORT_shape, ENC_offset))
-		return p->son;
+		return p->child;
 
 	return NULL;
 }
@@ -134,7 +134,7 @@ offset_to(node *p)
 	p = expand_tok(p);
 
 	if (p && p->cons == cons_no(SORT_shape, ENC_offset))
-		return p->son->next;
+		return p->child->next;
 
 	return NULL;
 }
@@ -178,11 +178,11 @@ al_union(node *p, node *q)
 		return NULL;
 
 	if (p->cons->encoding == ENC_alignment &&
-	    p->son->cons == cons_no(SORT_shape, ENC_top))
+	    p->child->cons == cons_no(SORT_shape, ENC_top))
 		return q;
 
 	if (q->cons->encoding == ENC_alignment &&
-	    q->son->cons == cons_no(SORT_shape, ENC_top))
+	    q->child->cons == cons_no(SORT_shape, ENC_top))
 		return p;
 
 	return NULL;
@@ -200,20 +200,20 @@ init_alignments(void)
 	/* Set up al_top */
 	al_top =  new_node();
 	al_top->cons = cons_no(SORT_alignment, ENC_alignment);
-	al_top->son = copy_node(sh_top);
+	al_top->child = copy_node(sh_top);
 
 	/* Set up al_offset */
 	al_offset =  new_node();
 	al_offset->cons = cons_no(SORT_alignment, ENC_alignment);
-	al_offset->son = sh_offset(al_top, al_top);
+	al_offset->child = sh_offset(al_top, al_top);
 
 	/* Set up al_pointer */
 	al_pointer =  new_node();
 	al_pointer->cons = cons_no(SORT_alignment, ENC_alignment);
-	al_pointer->son = sh_pointer(al_top);
+	al_pointer->child = sh_pointer(al_top);
 
 	/* Set up al_proc */
 	al_proc =  new_node();
 	al_proc->cons = cons_no(SORT_alignment, ENC_alignment);
-	al_proc->son = copy_node(sh_proc);
+	al_proc->child = copy_node(sh_proc);
 }

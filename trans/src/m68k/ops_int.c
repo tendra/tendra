@@ -64,7 +64,7 @@ load_ea(shape sha, long offset, where a, where dest, bool psh)
 		have_cond = 0;
 	} else {
 		exp ra = simple_exp(dummy_tag);
-		son(ra) = a.wh_exp;
+		child(ra) = a.wh_exp;
 		no(ra) = 8 * offset;
 
 		if (psh) {

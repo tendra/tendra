@@ -55,7 +55,7 @@ get_component(exp e, alignment shc, alignment align, int size, int nm, shape off
 	/* shape of component */
 	shape resshape = getshape(1, shc, shc, align, size, nm);
 
-	return hold_refactor(f_component(resshape, hold_refactor(me_u3(sh(son(son(e))), e, cont_tag)), offsetexp));
+	return hold_refactor(f_component(resshape, hold_refactor(me_u3(sh(child(child(e))), e, cont_tag)), offsetexp));
 }
 
 static bool

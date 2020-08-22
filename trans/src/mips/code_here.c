@@ -50,10 +50,10 @@
 int
 regofval(exp e)
 {
-        exp decx = son (e);
+        exp decx = child (e);
   if (e->tag == name_tag && decx->tag == ident_tag) {/* ident tag */
     if ((props (decx) & defer_bit) != 0) {
-      return regofval (son (decx));
+      return regofval (child (decx));
     }
     if ((props (decx) & inreg_bits) != 0) {
       return (isvar (decx)) ? (-no (decx)) : (no (decx));
@@ -73,7 +73,7 @@ regofval(exp e)
 static int
 fregofval(exp e)
 {
-        exp decx = son (e);
+        exp decx = child (e);
   if (e->tag == name_tag && decx->tag == ident_tag) {
     if ((props (decx) & infreg_bits) != 0) {
       return no (decx);
@@ -118,13 +118,13 @@ reg_operand(exp e, space sp)
     return x;
   }				/* x is a register for e */
   if (e->tag == cont_tag) {
-    x = regofval (son (e));
+    x = regofval (child (e));
     if (x < 0) {
       return -x;
     }
   }
   else
-    if (e->tag == apply_tag && specialfn (son (e)) == 0) {
+    if (e->tag == apply_tag && specialfn (child (e)) == 0) {
 				/* apply proc */
       setregalt (aa, 0);
       w.answhere = aa;
@@ -172,7 +172,7 @@ freg_operand(exp e, space sp)
     return x;
   }
   if (e->tag == cont_tag) {
-    x = fregofval (son (e));
+    x = fregofval (child (e));
     if (x < 100) {
       return x;
     }

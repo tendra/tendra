@@ -71,7 +71,7 @@ inlinechoice(exp t, exp def, int cnt)
 	newdecs = 0;
 	const_param_bonus = 0;
 
-	pr_ident = son(t); /* t is name_tag */
+	pr_ident = child(t); /* t is name_tag */
 	assert(pr_ident->tag == ident_tag);
 
 	max_complexity = 300 / cnt; /* was no(pr_ident), but that changes */
@@ -111,7 +111,7 @@ inlinechoice(exp t, exp def, int cnt)
 	}
 
 	apars = next(t); /* t is name_tag */
-	fpars = son(def);
+	fpars = child(def);
 
 	for (;;) {
 		if (fpars->tag != ident_tag || !isparam(fpars)) {
@@ -131,7 +131,7 @@ inlinechoice(exp t, exp def, int cnt)
 			break;
 
 		case cont_tag:
-			if (son(apars)->tag == name_tag && isvar(son(son(apars))) &&
+			if (child(apars)->tag == name_tag && isvar(child(child(apars))) &&
 			    !isvar(fpars)) {
 				break;
 			}
@@ -173,8 +173,8 @@ inlinechoice(exp t, exp def, int cnt)
 			break;
 
 		case cont_tag:
-			if (son(apars)->tag == name_tag &&
-			    isvar(son(son(apars))) &&
+			if (child(apars)->tag == name_tag &&
+			    isvar(child(child(apars))) &&
 			    !isvar(fpars)) {
 				break;
 			}
@@ -186,7 +186,7 @@ inlinechoice(exp t, exp def, int cnt)
 			break;
 		}
 
-		fpars = next(son(fpars));
+		fpars = next(child(fpars));
 		if (apars->last) {
 			break;
 		}

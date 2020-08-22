@@ -49,7 +49,7 @@ apply_only(exp e)
 #endif
 			f = father(t);
 
-			if (f->tag != apply_tag || son(f) != t) {
+			if (f->tag != apply_tag || child(f) != t) {
 				return 0;
 			}
 		}
@@ -83,7 +83,7 @@ normalised_inlining(void)
 	for (d = top_def; d != NULL; d = d->next) {
 		exp crt_exp = d->exp;
 
-		def = son(crt_exp);
+		def = child(crt_exp);
 		if (def != NULL && !isvar(crt_exp) && def->tag == proc_tag &&
 		    !isrecursive(def) && apply_only(crt_exp) && !proc_has_setjmp(def) &&
 		    !proc_uses_crt_env(def) && !proc_has_alloca(def) && !proc_has_lv(def)) {
@@ -120,7 +120,7 @@ normalised_inlining(void)
 	for (d = top_def; d != NULL; d = d->next) {
 		exp crt_exp = d->exp;
 
-		def = son(crt_exp);
+		def = child(crt_exp);
 		if (def != NULL && !isvar(crt_exp) && def->tag == proc_tag &&
 		    !isrecursive(def) && apply_only(crt_exp) && !proc_has_setjmp(def) &&
 		    !proc_uses_crt_env(def) && !proc_has_alloca(def) && !proc_has_lv(def)) {
@@ -136,7 +136,7 @@ normalised_inlining(void)
 	for (i = 0; i < proc_count; i++) {
 		exp crt_exp = to_dec[i]->exp;
 
-		if (no(crt_exp) == 0 || son(crt_exp) == NULL) {
+		if (no(crt_exp) == 0 || child(crt_exp) == NULL) {
 			consider[i] = 0;
 		} else {
 			exp t;
@@ -227,7 +227,7 @@ normalised_inlining(void)
 
 			d = to_dec[order[i] - 1];
 			crt_exp = d->exp;
-			def = son(crt_exp);
+			def = child(crt_exp);
 			total_uses = no(crt_exp);
 
 #ifdef TDF_DIAG4

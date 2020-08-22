@@ -68,7 +68,7 @@ spacereq
 regalloc(exp e, int freefixed, int freefloat, int stack)
 {
 	int n = e->tag;
-	exp s = son(e);
+	exp s = child(e);
 	spacereq def;
 
 	if (n == ident_tag) {
@@ -121,13 +121,13 @@ regalloc(exp e, int freefixed, int freefloat, int stack)
 					spareparregs--;
 				}
 				/* not suitable for reg allocation */
-				else if (son(e)->tag == val_tag && !isvar(e) && !isvis(e)) {
+				else if (child(e)->tag == val_tag && !isvar(e) && !isvis(e)) {
 					exp t = pt(e);
 					for ( ; t != NULL;) {
 						exp p = pt(t);
 						t->tag = val_tag;
-						son(t) = NULL;
-						no(t) = no(son(e));
+						child(t) = NULL;
+						no(t) = no(child(e));
 						props(t) = 0;
 						pt(t) = NULL;
 						t = p;
@@ -135,17 +135,17 @@ regalloc(exp e, int freefixed, int freefloat, int stack)
 					pt(e) = NULL;
 					props(e) |= defer_bit;
 					def = zerospace;
-				} else if (son(e)->tag == name_tag && !isvar(e) && !isvis(e)) {
+				} else if (child(e)->tag == name_tag && !isvar(e) && !isvis(e)) {
 					/* must have been forced  - defer it */
 					props(e) |= defer_bit;
 					def = zerospace;
 				} else if (isparam(e)) {
-					if (props(son(e)) != 0) {
+					if (props(child(e)) != 0) {
 						spareparregs++;
 					}
 					no(e) = 0;
 					/* don't know framesize yet;
-					 displacement in no(son(e)) */
+					 displacement in no(child(e)) */
 				} else {		/* allocate on stack */
 					int basereg = Has_vcallees ? local_reg : (Has_fp ? FP : SP);
 					if (a.ashalign <= 64 || (stack & 0x40) == 0) {

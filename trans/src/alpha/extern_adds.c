@@ -26,7 +26,7 @@ extern exp * ptr_position(exp e);
 /* replaces uses of extern in procs by local identification of address;
 
    initially replace usage chain by
-     name:0; pt: usage chain in proc P; son: P; props: !=0 if in loop
+     name:0; pt: usage chain in proc P; child: P; props: !=0 if in loop
 	no: no of usages in proc; next: last in usage chain;
     in usages[no of procs]
     Use this to determine if and where to identify global to a proc local
@@ -78,7 +78,7 @@ void global_usages
 {
   exp plist, nextpl;
   int i;
-  assert(id->tag ==ident_tag && isglob(id) && son(id) ==NULL);
+  assert(id->tag ==ident_tag && isglob(id) && child(id) ==NULL);
   if (no(id) ==0) return;
   for (i=0; i<nop; i++) {
     usages[i] = NULL;
@@ -104,12 +104,12 @@ void global_usages
 	   so identify it locally */
 	exp * pi;
 	shape sname = f_pointer(f_alignment(sh(id)));
-	for (pi= &son(son(ui));;) {
+	for (pi= &child(child(ui));;) {
 	  if ((*pi)->tag == ident_tag && isparam(*pi)) {
-	    pi = &next(son(*pi));
+	    pi = &next(child(*pi));
 	  }
 	  else if ((*pi)->tag == diagnose_tag || (*pi)->tag == prof_tag) {
-	    pi = &son(*pi);
+	    pi = &child(*pi);
 	  }
 	  else {
 	    /* invent new def to identify global ... */
@@ -135,7 +135,7 @@ void global_usages
 		next(lu) = nrf; lu->last = true;
 		*plu = nrf;
 	      }
-	      son(lu) = ndef;
+	      child(lu) = ndef;
 	      pt(lu) = pt(ndef);
 	      pt(ndef) = lu; no(ndef) ++;
 	      lu = nlu;

@@ -103,7 +103,7 @@ static void out_classmem
   switch (m.cm_key) {
     case DG_CM_FIELD: {
       dg_type f = m.d.cm_f.f_type;
-      exp off = son (m.d.cm_f.f_offset);
+      exp off = child (m.d.cm_f.f_offset);
       dg_type base = f;
       int base_sz = 1;
       long attr1 = H_TP, attr2;
@@ -125,7 +125,7 @@ static void out_classmem
 #ifdef H_DX
       if (m.d.cm_f.dflt) {
 	if (m.d.cm_f.dflt->span.sp_key == SP_SPAN ||
-	      (m.d.cm_f.dflt->val && dw_is_const (son(m.d.cm_f.dflt->val)) ))
+	      (m.d.cm_f.dflt->val && dw_is_const (child(m.d.cm_f.dflt->val)) ))
 	  attr1 |= H_DF;
 	else
 	  attr1 |= H_DX;
@@ -194,7 +194,7 @@ static void out_classmem
       if (attr2 & H_TP)
 	dw_at_ext_lab (dw2_find_type_label (m.d.cm_ind.type));
       if (attr2 & H_LC)
-	dw_locate_reloffset (son(m.d.cm_ind.ind_loc));
+	dw_locate_reloffset (child(m.d.cm_ind.ind_loc));
       break;
     }
     case DG_CM_STAT: {
@@ -230,7 +230,7 @@ static void out_class_data
       dw_at_ext_address (cb.base);
     if (attr2 & H_LC) {
       if (cb.location)
-	dw_locate_reloffset (son(cb.location));
+	dw_locate_reloffset (child(cb.location));
       else {
 	out8(); asm_printf("%d, %d\n", 1, DW_OP_nop);
       }
@@ -259,10 +259,10 @@ static void out_class_data
 		cm->d.cm_fn.fn->more && cm->d.cm_fn.fn->more->virt) {
 	exp a, b, c;
 	if (!vtable_exp || !cm->d.cm_fn.slot ||
-		sh(son(cm->d.cm_fn.slot))->tag != offsethd)
+		sh(child(cm->d.cm_fn.slot))->tag != offsethd)
 	  error(ERR_INTERNAL, "wrong virtual function data");
-	a = copy (son(vtable_exp));
-	b = copy (son(cm->d.cm_fn.slot));
+	a = copy (child(vtable_exp));
+	b = copy (child(cm->d.cm_fn.slot));
 	c = f_add_to_ptr (a, b);
 	cm->d.cm_fn.fn->more->vslot = hold (hold_refactor(c));
       }
@@ -413,13 +413,13 @@ void dw_out_dim
     if (d.low_ref)
       out_ref_bound (d.lower.tag);
     else
-      dw_out_const (son(d.lower.exp));
+      dw_out_const (child(d.lower.exp));
   }
   if (attr2 & (H_UB | H_CN)) {
     if (d.hi_ref)
       out_ref_bound (d.upper.tag);
     else
-      dw_out_const (son(d.upper.exp));
+      dw_out_const (child(d.upper.exp));
   }
 }
 
@@ -522,7 +522,7 @@ void dw_out_type
     }
 
     case DGT_ARRAY: {
-      exp stride_e = son(t->data.t_arr.stride);
+      exp stride_e = child(t->data.t_arr.stride);
       dg_dim * el = t->data.t_arr.dims.array;
       int stride_known = (stride_e->tag == val_tag);
       int size_known = stride_known;
@@ -582,7 +582,7 @@ void dw_out_type
       if (attr2 & H_XY)
 	dw_at_decl (t->data.t_enum.tpos);
       if (attr2 & H_SZ)
-	dw_at_udata ((unsigned long)(shape_size (sh (son(el[0].value))) >> 3));
+	dw_at_udata ((unsigned long)(shape_size (sh (child(el[0].value))) >> 3));
       if (attr2 & H_NW)
 	dw_at_flag ((t->more && t->more->isnew ? 1 : 0));
 
@@ -597,7 +597,7 @@ void dw_out_type
 	  IGNORE dw_entry (dwe_enum_tor, 0);
 	  dw_at_string (el[i].ename);
 	}
-	dw_out_const (son(el[i].value));
+	dw_out_const (child(el[i].value));
       }
       dw_sibling_end ();
       break;
@@ -871,30 +871,30 @@ void dw_out_type
       if (attr2 & ~(H_DF|H_DS))
 	fail_unimplemented (attr1, attr2);
       dw_at_ext_lab (dw2_find_type_label (t->data.t_adanum.rept));
-      dw_out_const (son(t->data.t_adanum.small));
+      dw_out_const (child(t->data.t_adanum.small));
       if (attr2 & H_DF)
-	dw_out_const (son(t->data.t_adanum.delta));
+	dw_out_const (child(t->data.t_adanum.delta));
       if (attr2 & H_DS)
-	dw_out_const (son(t->data.t_adanum.digits));
+	dw_out_const (child(t->data.t_adanum.digits));
       break;
     }
 
     case DGT_FLDIG: {
       IGNORE dw_entry (dwe_fldg_t, 0);
       dw_at_ext_lab (dw2_find_type_label (t->data.t_adanum.rept));
-      dw_out_const (son(t->data.t_adanum.digits));
+      dw_out_const (child(t->data.t_adanum.digits));
       break;
     }
 
     case DGT_MOD: {
       IGNORE dw_entry (dwe_modular_t, 0);
       dw_at_ext_lab (dw2_find_type_label (t->data.t_adanum.rept));
-      dw_out_const (son(t->data.t_adanum.digits));
+      dw_out_const (child(t->data.t_adanum.digits));
       break;
     }
 
     case DGT_STRING: {
-      exp l_e = son(t->data.t_string.length);	/* other fields ignored */
+      exp l_e = child(t->data.t_string.length);	/* other fields ignored */
       if (l_e->tag == val_tag) {
 	IGNORE dw_entry (dwe_stringc_t, 0);
 	dw_at_udata ((unsigned long)no(l_e));

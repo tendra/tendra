@@ -182,11 +182,11 @@ code_pars(ash stack, exp t)
 	int tsize = shape_size(sh(t));
 
 	if (t->last) {		/* last parameter is pushed first */
-		code_push(stack, (t->tag == caller_tag) ? son(t) : t);
+		code_push(stack, (t->tag == caller_tag) ? child(t) : t);
 		stack_dec -= rounder(tsize, param_align);
 	} else {
 		code_pars (stack, next (t));/* encode the rest of the parameters */
-		code_push (stack, (t->tag == caller_tag) ? son(t) : t);	/* code this parameter */
+		code_push (stack, (t->tag == caller_tag) ? child(t) : t);	/* code this parameter */
 		stack_dec -= rounder(tsize, param_align);
 		/* allow for the size */
 	}
@@ -204,7 +204,7 @@ procargs(ash stack, exp arg, int has_checkstack)
 
 	for (t = arg; t != NULL; t = next(t)) {
 		if (t->tag == caller_tag) {
-			if (use_push && !push_arg(son(t))) {
+			if (use_push && !push_arg(child(t))) {
 				use_push = 0;
 			}
 			no(t) = longs;	/* needed for postlude */
@@ -270,7 +270,7 @@ procargs(ash stack, exp arg, int has_checkstack)
 #endif
 
 		for (t = arg; ; t = next(t)) {
-			make_code(mw(ind_sp.where_exp, off), stack, (t->tag == caller_tag ? son(t) : t));
+			make_code(mw(ind_sp.where_exp, off), stack, (t->tag == caller_tag ? child(t) : t));
 			off = rounder(off + shape_size(sh(t)), param_align);
 			if (t->last) {
 				break;
@@ -619,11 +619,11 @@ alloc_regable(dcl dc, exp def, exp e, int big_reg)
 	alt = equiv_reg(mw(def, 0), defsize);
 
 	if (alt.where_exp != NULL) {
-		int  mask = no(son(alt.where_exp));
+		int  mask = no(child(alt.where_exp));
 		if (mask != 1 && (!big_reg || mask >= 0x8)) {
 			if ((mask & regsinuse) != 0 && !isvar(e) &&
 			    (defsize > 8 || mask < 0x10)) {
-				if (no_side(next(son(e)))) {
+				if (no_side(next(child(e)))) {
 					dc.dcl_pl  = reg_pl;
 					dc.dcl_n   = mask;
 					dc.dcl_new = 0;
@@ -636,7 +636,7 @@ alloc_regable(dcl dc, exp def, exp e, int big_reg)
 
 	if (ru = alloc_reg(regsinuse, sh(def), no(e), big_reg, e), ru.can_do) {
 		if (alt.where_exp != NULL) {
-			int  mask = no(son(alt.where_exp));
+			int  mask = no(child(alt.where_exp));
 			if (mask != 1 && (!big_reg || mask >= 0x8)) {
 				if ((mask & regsinuse) == 0 &&
 				    (defsize > 8 || mask < 0x10)) {
@@ -675,9 +675,9 @@ def_where(exp e, exp def, ash stack)
 		return dc;
 	}
 
-	if (def->tag == name_tag && !isvar(son(def)) &&
+	if (def->tag == name_tag && !isvar(child(def)) &&
 	    no(def) == 0 && isloadparam(def)) {
-		if (regable(e) && (son(son(def))->tag == formal_callee_tag ?
+		if (regable(e) && (child(child(def))->tag == formal_callee_tag ?
 		                   !has_same_callees : !has_tail_call)) {
 			dcl ndc;
 			ndc = alloc_regable(dc, def, e, big_reg);
@@ -686,8 +686,8 @@ def_where(exp e, exp def, ash stack)
 			}
 		}
 
-		dc.dcl_pl  = ptno(son(def));
-		dc.dcl_n   = no(son(def));
+		dc.dcl_pl  = ptno(child(def));
+		dc.dcl_n   = no(child(def));
 		dc.dcl_new = 0;
 
 		return dc;
@@ -699,17 +699,17 @@ def_where(exp e, exp def, ash stack)
 	 * definition.
 	 */
 	if (!isvar(e) &&
-	    ((def->tag == name_tag && !isvar(son(def)) &&
-	      (!isglob(son(def)))) ||
-	     (def->tag == cont_tag && son(def)->tag == name_tag &&
-	      isvar(son(son(def))) &&
-	      (!isglob(son(son(def)))) && no_side(body)))) {
+	    ((def->tag == name_tag && !isvar(child(def)) &&
+	      (!isglob(child(def)))) ||
+	     (def->tag == cont_tag && child(def)->tag == name_tag &&
+	      isvar(child(child(def))) &&
+	      (!isglob(child(child(def)))) && no_side(body)))) {
 		if (def->tag == name_tag) {
-			dc.dcl_pl = ptno(son(def));
-			dc.dcl_n = no(son(def)) + no(def);
+			dc.dcl_pl = ptno(child(def));
+			dc.dcl_n = no(child(def)) + no(def);
 		} else {
-			dc.dcl_pl = ptno(son(son(def)));
-			dc.dcl_n = no(son(son(def))) + no(son(def));
+			dc.dcl_pl = ptno(child(child(def)));
+			dc.dcl_n = no(child(child(def))) + no(child(def));
 		}
 
 		/* We have the declaration */
@@ -735,7 +735,7 @@ def_where(exp e, exp def, ash stack)
 	}
 
 	/* Try to allocate in registers, except when narrowing fp variety */
-	if (regable(e) && (def->tag != chfl_tag || sh(def)->tag >= sh(son(def))->tag)) {
+	if (regable(e) && (def->tag != chfl_tag || sh(def)->tag >= sh(child(def))->tag)) {
 		dcl ndc;
 		ndc = alloc_regable(dc, def, e, big_reg);
 		if (ndc.dcl_pl != 0) {
@@ -779,10 +779,10 @@ solve(exp s, exp l, where dest, exp jr, ash stack)
 	/* while not the last branch */
 	while (!l->last) {
 		exp record = getexp(f_bottom, NULL,
-		                    (bool)(props(son(next(l))) & 2),
+		                    (bool)(props(child(next(l))) & 2),
 		                    NULL,
 		                    NULL, 0, 0, 0);
-		sonno(record) = stack_dec;
+		childno(record) = stack_dec;
 		ptno(record) = next_lab();
 		fstack_pos_of(record) = (prop)fstack_pos;	/* CAST:jmf: */
 
@@ -790,7 +790,7 @@ solve(exp s, exp l, where dest, exp jr, ash stack)
 		 * Record the floating point stack position, fstack_pos
 		 * record is jump record for the label
 		 */
-		pt (son (next (l))) = record;/* put it away */
+		pt (child (next (l))) = record;/* put it away */
 		l = next(l);
 	}
 
@@ -819,8 +819,8 @@ solve(exp s, exp l, where dest, exp jr, ash stack)
 			}
 			/* only put in jump if needed */
 			t = next(t);
-			align_label(2, pt(son(t)));
-			set_label(pt(son(t)));
+			align_label(2, pt(child(t)));
+			set_label(pt(child(t)));
 			make_code(dest, stack, t);
 			reset_fpucon();
 		} while (!t->last);
@@ -850,7 +850,7 @@ caser(exp arg, int exhaustive, exp case_exp)
 	do {
 		t = next(t);
 	} while (next(t) != NULL);
-	max = ((son(t) == NULL) ? no(t) : no(son(t)));
+	max = ((child(t) == NULL) ? no(t) : no(child(t)));
 
 	/* Prepare to use jump table */
 	v = xcalloc(max - min + 1, sizeof(int));
@@ -863,9 +863,9 @@ caser(exp arg, int exhaustive, exp case_exp)
 		exp lab;
 		t = next(t);
 		lab = final_dest(pt(t));
-		n = ptno(pt(son(lab)));
+		n = ptno(pt(child(lab)));
 		for (i = no(t);
-		     i <= ((son(t) == NULL) ? no(t) : no(son(t)));
+		     i <= ((child(t) == NULL) ? no(t) : no(child(t)));
 		     ++i) {
 			v[i - min] = n;
 		}
@@ -915,7 +915,7 @@ make_code1(where dest, ash stack, exp e)
 
 	switch (e->tag) {
 	case ident_tag: {
-		exp def = son(e);
+		exp def = child(e);
 		exp body = next(def);
 		int sz;
 		dcl dc;
@@ -1014,7 +1014,7 @@ make_code1(where dest, ash stack, exp e)
 
 			invalidate_dest(mw(temp, 0));
 			if (isvar(e)) {
-				retcell(son(temp));
+				retcell(child(temp));
 			}
 
 			retcell(temp);
@@ -1029,7 +1029,7 @@ make_code1(where dest, ash stack, exp e)
 	}
 
 	case seq_tag: {
-		exp t = son(son(e));
+		exp t = child(child(e));
 		int no_bottom;
 
 		while (make_code(zero, stack, t),
@@ -1040,13 +1040,13 @@ make_code1(where dest, ash stack, exp e)
 		}
 
 		if (no_bottom) {
-			make_code(dest, stack, next(son(e)));
+			make_code(dest, stack, next(child(e)));
 		} else if (diag != DIAG_NONE) {
 #ifdef TDF_DIAG4
 			/* Beware lost information !!! */
-			next(son(e))->tag = top_tag;
-			son(next(son(e))) = NULL;
-			dgf(next(son(e))) = NULL;
+			next(child(e))->tag = top_tag;
+			child(next(child(e))) = NULL;
+			dgf(next(child(e))) = NULL;
 #endif
 		}
 
@@ -1055,21 +1055,21 @@ make_code1(where dest, ash stack, exp e)
 
 	case cond_tag: {
 		int  old_fstack_pos = fstack_pos;
-		exp first = son(e);
+		exp first = child(e);
 		exp alt = next(first);
 		exp record;	/* jump record for alt */
 		int  r1;
 		exp jr = NULL; /* jump record for end of construction */
 
-		if (no(son(alt)) == 0) {
+		if (no(child(alt)) == 0) {
 			make_code(dest, stack, first);
 
 			if (diag != DIAG_NONE) {
 #ifdef TDF_DIAG4
 				/* Beware lost information !!! */
-				next(son(alt))->tag = top_tag;
-				son(next(son(alt))) = NULL;
-				dgf(next(son(alt))) = NULL;
+				next(child(alt))->tag = top_tag;
+				child(next(child(alt))) = NULL;
+				dgf(next(child(alt))) = NULL;
 #endif
 			}
 
@@ -1079,31 +1079,31 @@ make_code1(where dest, ash stack, exp e)
 		clean_stack();
 
 		record = getexp(f_bottom, NULL, 0, NULL, NULL, 0, 0, 0);
-		sonno(record) = stack_dec;
+		childno(record) = stack_dec;
 		fstack_pos_of(record) = (prop)fstack_pos;
 
-		if (pt(son(alt)) != NULL) {
-			ptno(record) = ptno(pt(son(alt)));
+		if (pt(child(alt)) != NULL) {
+			ptno(record) = ptno(pt(child(alt)));
 		} else {
 			ptno(record) = next_lab();
 		}
 
-		if (next(son(alt))->tag == top_tag && stack_dec == 0 && !is_loaded_lv(alt)) {
+		if (next(child(alt))->tag == top_tag && stack_dec == 0 && !is_loaded_lv(alt)) {
 			int extract = take_out_of_line(first, alt, repeat_level > 0, scale);
 
 			if (extract) {
-				exp t = son(son(first));
+				exp t = child(child(first));
 				exp p, s, z;
 				int test_n;
 				shape sha;
 				outofline * rec;
-				exp tst = (is_tester(t, 0)) ? t : next(son(t));
+				exp tst = (is_tester(t, 0)) ? t : next(child(t));
 				jr = getexp(f_bottom, NULL, 0, NULL, NULL, 0,
 				            0, 0);
-				sonno(jr) = stack_dec;
+				childno(jr) = stack_dec;
 				ptno(jr) = next_lab();
 				fstack_pos_of(jr) = (prop)fstack_pos;
-				sha = sh(son(tst));
+				sha = sh(child(tst));
 
 				rec = xmalloc(sizeof(outofline));
 				rec->next         = odd_bits;
@@ -1118,13 +1118,13 @@ make_code1(where dest, ash stack, exp e)
 				rec->jr           = jr;	/* jump record for return from bit */
 
 				if (t->last) {
-					first = next(son(first));
+					first = next(child(first));
 				} else {
-					son(son(first)) = next(son(son(first)));
+					child(child(first)) = next(child(child(first)));
 				}
 
 				rec->body = first;
-				pt(son(alt)) = record;
+				pt(child(alt)) = record;
 
 				test_n = (int)test_number(tst);
 				if (sha->tag < shrealhd || sha->tag > doublehd) {
@@ -1135,7 +1135,7 @@ make_code1(where dest, ash stack, exp e)
 
 				settest_number(tst, test_n);
 				z = getexp(f_bottom, NULL, 0, NULL, NULL, 0, 0, 0);
-				sonno(z) = stack_dec;
+				childno(z) = stack_dec;
 				fstack_pos_of(z) = (prop)fstack_pos;
 				ptno(z) = rec->labno;
 				s = getexp(sha, NULL, 0, NULL, z, 0, 0, 0);
@@ -1181,7 +1181,7 @@ make_code1(where dest, ash stack, exp e)
 		 * Record floating point stack position so that we can align the positions.
 		 */
 		/* jump record set up for alt */
-		pt(son(alt)) = record;
+		pt(child(alt)) = record;
 		/* set the record in for use by jumps in first. */
 
 		/*
@@ -1196,15 +1196,15 @@ make_code1(where dest, ash stack, exp e)
 
 		regsinuse = r1;		/* restore regsinuse for alt */
 
-		if (next(son(alt))->tag == top_tag && !is_loaded_lv(alt)) {
+		if (next(child(alt))->tag == top_tag && !is_loaded_lv(alt)) {
 			/* if alt is only load top, do nothing but set the label */
-			if (sh(first)->tag == bothd && no(son(alt)) != 0) {
+			if (sh(first)->tag == bothd && no(child(alt)) != 0) {
 				align_label(2, record);
 			}
 
 			if (first->tag == seq_tag &&
-			    next(son(first))->tag == seq_tag &&
-			    next(son(next(son(first))))->tag == apply_tag) {
+			    next(child(first))->tag == seq_tag &&
+			    next(child(next(child(first))))->tag == apply_tag) {
 				align_label(0, record);
 			}
 
@@ -1226,16 +1226,16 @@ make_code1(where dest, ash stack, exp e)
 		 * the end of the construction, and make a jump record for it
 		 */
 		if (sh(first)->tag != bothd &&
-		    (no(son(alt)) != 0 || next(son(alt))->tag != goto_tag)) {
+		    (no(child(alt)) != 0 || next(child(alt))->tag != goto_tag)) {
 			jr = getexp(f_bottom, NULL, 0, NULL, NULL, 0, 0, 0);
-			sonno(jr) = stack_dec;
+			childno(jr) = stack_dec;
 			ptno(jr) = next_lab();
 			fstack_pos_of(jr) = (prop)fstack_pos;
 			jump(jr, in_fstack(dest.where_exp));
 		}
 
-		if (no(son(alt)) != 0 || next(son(alt))->tag != goto_tag) {
-			if (no(son(alt)) != 0) {
+		if (no(child(alt)) != 0 || next(child(alt))->tag != goto_tag) {
+			if (no(child(alt)) != 0) {
 				align_label(2, record);
 			}
 
@@ -1284,8 +1284,8 @@ make_code1(where dest, ash stack, exp e)
 			}
 		}
 
-		fstack_pos = (int)fstack_pos_of(pt(son(e)));
-		stack_dec = sonno(pt(son(e)));
+		fstack_pos = (int)fstack_pos_of(pt(child(e)));
+		stack_dec = childno(pt(child(e)));
 
 		old_scale = scale;
 #ifdef DWARF2
@@ -1293,7 +1293,7 @@ make_code1(where dest, ash stack, exp e)
 			dw2_start_basic_block();
 		}
 #endif
-		make_code(dest, stack, next(son(e)));
+		make_code(dest, stack, next(child(e)));
 		scale = old_scale;
 
 		clear_reg_record(crt_reg_record);
@@ -1302,7 +1302,7 @@ make_code1(where dest, ash stack, exp e)
 	}
 
 	case rep_tag: {
-		exp start = son(e);
+		exp start = child(e);
 		exp body = next(start);
 		exp record;		/* jump record for loop label */
 		++repeat_level;
@@ -1312,14 +1312,14 @@ make_code1(where dest, ash stack, exp e)
 		reset_fpucon();
 		clean_stack();
 		record = getexp(f_bottom, NULL, 1, NULL, NULL, 0, 0, 0);
-		sonno(record) = stack_dec;
+		childno(record) = stack_dec;
 		ptno(record) = next_lab();
 		fstack_pos_of(record) = (prop)fstack_pos;
 		cond1_set = false;
 		cond2_set = false;
 		align_label(1, record);
 		set_label (record);	/* set the label at the start of body */
-		pt(son(body)) = record;
+		pt(child(body)) = record;
 		old_scale = scale;
 
 		if (scale < 1e30) {
@@ -1344,13 +1344,13 @@ make_code1(where dest, ash stack, exp e)
 #ifdef DWARF2
 		if (current_dg_info) {
 			current_dg_info->data.i_tst.brk = set_dw_text_label();
-			current_dg_info->data.i_tst.jlab.u.l = ptno(pt(son(lab)));
+			current_dg_info->data.i_tst.jlab.u.l = ptno(pt(child(lab)));
 			current_dg_info->data.i_tst.jlab.k = LAB_CODE;
 		}
 #endif
 
 		if (label_is_next(lab, e)) {
-			int  fs_dest = (int)fstack_pos_of(pt(son(lab)));
+			int  fs_dest = (int)fstack_pos_of(pt(child(lab)));
 			int  good_fs = fstack_pos;
 			while (fstack_pos > fs_dest) {
 				discard_fstack();
@@ -1360,20 +1360,20 @@ make_code1(where dest, ash stack, exp e)
 			return;
 		}
 
-		jump(pt(son(lab)), 0);
+		jump(pt(child(lab)), 0);
 		return;
 	}
 
 	case goto_lv_tag:
 		clean_stack();
 		reset_fpucon();
-		jumpins(son(e));
+		jumpins(child(e));
 		return;
 
 	case long_jump_tag:
-		make_code(pushdest, stack, next(son(e)));
+		make_code(pushdest, stack, next(child(e)));
 		extra_stack += 32;
-		make_code(pushdest, stack, son(e));
+		make_code(pushdest, stack, child(e));
 		extra_stack += 32;
 		check_stack_max;
 		reset_fpucon();
@@ -1392,9 +1392,9 @@ make_code1(where dest, ash stack, exp e)
 			exp q = short_next_jump(e);
 			if (q != NULL &&
 			    (q->tag == goto_tag ||
-			     (q->tag == res_tag && son(q)->tag == top_tag)) &&
+			     (q->tag == res_tag && child(q)->tag == top_tag)) &&
 			    label_is_next(lab, q)) {
-				shape sha = sh(son(e));
+				shape sha = sh(child(e));
 				if (q->tag == goto_tag) {
 					temp = pt(q);
 					pt(q) = lab;
@@ -1433,21 +1433,21 @@ make_code1(where dest, ash stack, exp e)
 		}
 
 		SET(temp);
-		if (pt(son(temp)) == NULL) {
-			++no(son(temp));
-			pt(son(temp)) = copyexp(pt(son(lab)));
-			ptno(pt(son(temp))) = next_lab();
+		if (pt(child(temp)) == NULL) {
+			++no(child(temp));
+			pt(child(temp)) = copyexp(pt(child(lab)));
+			ptno(pt(child(temp))) = next_lab();
 		} else if (temp != lab) {
-			--no(son(lab));
-			++no(son(temp));
+			--no(child(lab));
+			++no(child(temp));
 		}
 
 		pt(e) = temp;
 		{
 			where qw;
 			exp lab_exp = pt(e);
-			exp jr = pt(son(lab_exp));
-			exp arg1 = son(e);
+			exp jr = pt(child(lab_exp));
+			exp arg1 = child(e);
 			exp arg2 = next(arg1);
 
 			if (!is_o(arg1->tag) || is_crc(arg1)) {
@@ -1509,9 +1509,9 @@ make_code1(where dest, ash stack, exp e)
 				exp q = short_next_jump(e);
 				if (q != NULL &&
 				    (q->tag == goto_tag ||
-				     (q->tag == res_tag && son(q)->tag == top_tag)) &&
+				     (q->tag == res_tag && child(q)->tag == top_tag)) &&
 				    label_is_next(lab, q)) {
-					shape sha = sh(son(e));
+					shape sha = sh(child(e));
 
 					if (q->tag == goto_tag) {
 						temp = pt(q);
@@ -1553,13 +1553,13 @@ make_code1(where dest, ash stack, exp e)
 			}
 
 			SET(temp);
-			if (pt(son(temp)) == NULL) {
-				++no(son(temp));
-				pt(son(temp)) = copyexp(pt(son(lab)));
-				ptno(pt(son(temp))) = next_lab();
+			if (pt(child(temp)) == NULL) {
+				++no(child(temp));
+				pt(child(temp)) = copyexp(pt(child(lab)));
+				ptno(pt(child(temp))) = next_lab();
 			} else if (temp != lab) {
-				--no(son(lab));
-				++no(son(temp));
+				--no(child(lab));
+				++no(child(temp));
 			}
 
 			pt(e) = temp;
@@ -1567,7 +1567,7 @@ make_code1(where dest, ash stack, exp e)
 
 		{
 			where qw;
-			exp arg1 = son(e);
+			exp arg1 = child(e);
 			exp arg2 = next(arg1);
 			unsigned char  test_n = test_number(e);
 			exp lab_exp = pt(e);
@@ -1575,7 +1575,7 @@ make_code1(where dest, ash stack, exp e)
 			int sg;
 
 			if (e->tag == test_tag) {
-				jr = pt(son(lab_exp));
+				jr = pt(child(lab_exp));
 			}
 
 			if (!is_o(arg1->tag) || is_crc(arg1)) {
@@ -1628,7 +1628,7 @@ make_code1(where dest, ash stack, exp e)
 			}
 
 			if (arg1->tag == val_tag || arg1->tag == env_offset_tag ||
-			    (arg1->tag == name_tag && isvar(son(arg1)) && isglob(son(arg1))))
+			    (arg1->tag == name_tag && isvar(child(arg1)) && isglob(child(arg1))))
 			{
 				/* if only one constant, cmp expects it to be arg2 */
 				exp holde = arg1;
@@ -1699,7 +1699,7 @@ make_code1(where dest, ash stack, exp e)
 
 	case ass_tag:
 	case assvol_tag: {
-		exp assdest = son(e);
+		exp assdest = child(e);
 		exp assval = next(assdest);
 
 		if (!newcode && sh(assval)->tag == bitfhd) {
@@ -1714,9 +1714,9 @@ make_code1(where dest, ash stack, exp e)
 	}
 
 	case concatnof_tag: {
-		int off = dest.where_off + shape_size(sh(son(e)));
-		make_code(dest, stack, son(e));
-		make_code(mw(dest.where_exp, off), stack_room(stack, dest, off), next(son(e)));
+		int off = dest.where_off + shape_size(sh(child(e)));
+		make_code(dest, stack, child(e));
+		make_code(mw(dest.where_exp, off), stack_room(stack, dest, off), next(child(e)));
 		return;
 	}
 
@@ -1733,13 +1733,13 @@ make_code1(where dest, ash stack, exp e)
 		for (i = 0; i < no(e); ++i) {
 			off = dest.where_off + i * sz;
 			make_code(mw(dest.where_exp, off),
-			          stack_room(stack, dest, off), copyexp(son(e)));
+			          stack_room(stack, dest, off), copyexp(child(e)));
 		}
 		return;
 	}
 
 	case nof_tag: {
-		exp v = son(e);
+		exp v = child(e);
 		shape sha;
 		int off;
 		int crt = 0;
@@ -1766,7 +1766,7 @@ make_code1(where dest, ash stack, exp e)
 	case compound_tag: {
 		exp v;
 
-		v = son(e);
+		v = child(e);
 		if (v == NULL) {
 			return;
 		}
@@ -1784,7 +1784,7 @@ make_code1(where dest, ash stack, exp e)
 
 	case apply_tag:
 	case apply_general_tag: {
-		exp proc = son(e);
+		exp proc = child(e);
 		exp arg = (!proc->last) ? next(proc) : NULL;
 		exp cees = NULL;
 		exp postlude = NULL;
@@ -1800,14 +1800,14 @@ make_code1(where dest, ash stack, exp e)
 		int ret_stack_dec;
 
 		if (builtinproc(e)) {
-			dec* dp = nextg(son(proc));
+			dec* dp = nextg(child(proc));
 			char *name = dp -> name;
 			special_ins(name + strlen(name_prefix), arg, dest);
 			return;
 		}
 
 		if (e->tag == apply_general_tag) {
-			arg = son(arg);
+			arg = child(arg);
 			cees = next(next(proc));
 			if (next(cees)->tag != top_tag) {
 				postlude = next(cees);
@@ -1828,7 +1828,7 @@ make_code1(where dest, ash stack, exp e)
 		} else {
 			switch (cees->tag) {
 			case make_callee_list_tag:
-				more_longs = procargs(stack, son(cees), has_checkstack);
+				more_longs = procargs(stack, child(cees), has_checkstack);
 				if (call_has_vcallees(cees)) {
 					ins2(leal, 32, 32, mw(ind_sp.where_exp, more_longs), reg0);
 					ins0(pusheax);
@@ -1838,7 +1838,7 @@ make_code1(where dest, ash stack, exp e)
 				break;
 
 			case make_dynamic_callee_tag: {
-				exp ptr = son(cees);
+				exp ptr = child(cees);
 				exp siz = next(ptr);
 				more_longs = push_cees(ptr, siz, call_has_vcallees(cees), stack);
 				break;
@@ -1866,10 +1866,10 @@ make_code1(where dest, ash stack, exp e)
 				regsinuse |= 0x2;    /* prevent callins using pop edx */
 			}
 
-			callins(longs, son(e), ret_stack_dec);
+			callins(longs, child(e), ret_stack_dec);
 			regsinuse = old_regsinuse;
 		} else {
-			callins (0, son (e), ret_stack_dec);	/* delay arg stack return */
+			callins (0, child (e), ret_stack_dec);	/* delay arg stack return */
 			if (untidy_call) {
 				stack_dec = 0;	/* as alloca, must_use_bp */
 				if (need_preserve_stack) {
@@ -1921,8 +1921,8 @@ make_code1(where dest, ash stack, exp e)
 			old_nip = not_in_postlude;
 
 			not_in_postlude = false;
-			while (postlude->tag == ident_tag && son(postlude)->tag == caller_name_tag) {
-				int n = no(son(postlude));
+			while (postlude->tag == ident_tag && child(postlude)->tag == caller_name_tag) {
+				int n = no(child(postlude));
 				exp a = arg;
 
 				while (n != 0) {
@@ -1936,7 +1936,7 @@ make_code1(where dest, ash stack, exp e)
 
 				no(postlude) = no(a) + stack_dec - post_offset;
 				ptno(postlude) = callstack_pl;
-				postlude = next(son(postlude));
+				postlude = next(child(postlude));
 			}
 
 			if (push_result) {
@@ -1966,7 +1966,7 @@ make_code1(where dest, ash stack, exp e)
 	}
 
 	case tail_call_tag: {
-		exp proc = son(e);
+		exp proc = child(e);
 		exp cees = next(proc);
 		int longs;
 		bool prev_use_bp = must_use_bp;	/* may be altered by push_cees */
@@ -1977,12 +1977,12 @@ make_code1(where dest, ash stack, exp e)
 		switch (cees->tag) {
 		case make_callee_list_tag:
 			not_in_params = false;
-			longs = procargs(stack, son(cees), call_has_checkstack(e));
+			longs = procargs(stack, child(cees), call_has_checkstack(e));
 			not_in_params = old_nip;
 			break;
 
 		case make_dynamic_callee_tag:
-			longs = push_cees(son(cees), next(son(cees)), 0, stack);
+			longs = push_cees(child(cees), next(child(cees)), 0, stack);
 			break;
 
 		case same_callees_tag:
@@ -2068,7 +2068,7 @@ make_code1(where dest, ash stack, exp e)
 
 			if (longs < 0) {
 				/* must be dynamic_callees */
-				exp sz = next(son(cees));
+				exp sz = next(child(cees));
 				move(slongsh, mw(sz, 0), reg2);
 				if (al2(sh(sz)) < param_align) {
 					if (al2(sh(sz)) == 1) {
@@ -2138,10 +2138,10 @@ make_code1(where dest, ash stack, exp e)
 	case alloca_tag: {
 		where sz_where;
 
-		if (son(e)->tag == val_tag) {
-			int n = no(son(e));
+		if (child(e)->tag == val_tag) {
+			int n = no(child(e));
 
-			if (sh(son(e))->tag != offsethd) {
+			if (sh(child(e))->tag != offsethd) {
 				n = 8 * n;
 			}
 
@@ -2150,20 +2150,20 @@ make_code1(where dest, ash stack, exp e)
 			exp temp;
 
 			temp = getexp(slongsh, NULL, 0, NULL, NULL, 0, 0, val_tag);
-			if (sh(son(e))->tag == offsethd && al2(sh(son(e))) == 1) {
+			if (sh(child(e))->tag == offsethd && al2(sh(child(e))) == 1) {
 				no(temp) = 31;
-				bop(add, ulongsh, temp, son(e), reg0, stack);
+				bop(add, ulongsh, temp, child(e), reg0, stack);
 				shiftr(ulongsh, mw(zeroe, 3), reg0, reg0);
 				and (ulongsh, mw(zeroe, -4), reg0, reg0);
 				sz_where = reg0;
-			} else if (al2(sh(son(e))) < 32) {
+			} else if (al2(sh(child(e))) < 32) {
 				no(temp) = 3;
-				bop(add, ulongsh, temp, son(e), reg0, stack);
+				bop(add, ulongsh, temp, child(e), reg0, stack);
 				and (ulongsh, mw(zeroe, -4), reg0, reg0);
 				sz_where = reg0;
 			} else {
 				sz_where = reg0;
-				make_code(sz_where, stack, son(e));
+				make_code(sz_where, stack, child(e));
 			}
 
 			retcell(temp);
@@ -2191,17 +2191,17 @@ make_code1(where dest, ash stack, exp e)
 		return;
 
 	case local_free_tag:
-		move(slongsh, mw(son(e), 0), sp);
-		if (next(son(e))->tag == val_tag) {
+		move(slongsh, mw(child(e), 0), sp);
+		if (next(child(e))->tag == val_tag) {
 			int sz;
-			int n = no(next(son(e)));
-			if (sh(next(son(e)))->tag != offsethd) {
+			int n = no(next(child(e)));
+			if (sh(next(child(e)))->tag != offsethd) {
 				n = 8 * n;
 			}
 			sz = rounder(n, stack_align);
 			add(slongsh, mw(zeroe, sz / 8), sp, sp);
 		} else {
-			add(slongsh, mw(next(son(e)), 0), sp, sp);
+			add(slongsh, mw(next(child(e)), 0), sp, sp);
 		}
 
 		add(slongsh, mw(zeroe, 3), sp, sp);
@@ -2222,7 +2222,7 @@ make_code1(where dest, ash stack, exp e)
 		return;
 
 	case ignorable_tag:
-		make_code(dest, stack, son(e));
+		make_code(dest, stack, child(e));
 		return;
 
 	case res_tag:
@@ -2236,23 +2236,23 @@ make_code1(where dest, ash stack, exp e)
 
 		{
 			/* procedure call not inlined, this res is for a procedure */
-			if (reg_result (sh (son (e)))) {/* answer to registers */
+			if (reg_result (sh (child (e)))) {/* answer to registers */
 				int with_fl_reg = 0;
-				/* int simple_res = (son(e)->tag == val_tag); */
+				/* int simple_res = (child(e)->tag == val_tag); */
 				int good_fs;
 
 				/* if (!simple_res) */
 				{
-					if (sh(son(e))->tag >= shrealhd &&
-					    sh(son(e))->tag <= doublehd) {
-						make_code(flstack, stack, son(e));
+					if (sh(child(e))->tag >= shrealhd &&
+					    sh(child(e))->tag <= doublehd) {
+						make_code(flstack, stack, child(e));
 						with_fl_reg = 1;
 					} else {
-						make_code(reg0, stack, son(e));
+						make_code(reg0, stack, child(e));
 					}
 				}
 
-				if (sh(son(e))->tag != bothd) {
+				if (sh(child(e))->tag != bothd) {
 					good_fs = fstack_pos;
 					if (with_fl_reg) {
 						/* jumping with a floating value */
@@ -2274,7 +2274,7 @@ make_code1(where dest, ash stack, exp e)
 					if (e->tag == untidy_return_tag) {
 						int old_regsinuse = regsinuse;
 						regsinuse &= ~0x6;	/* %ecx, %edx not preserved */
-						if (shape_size(sh(son(e))) > 32 && !with_fl_reg) {
+						if (shape_size(sh(child(e))) > 32 && !with_fl_reg) {
 							regsinuse |= 0x2;    /* %edx used for return value */
 						}
 						if (stack_dec != 0) {
@@ -2301,7 +2301,7 @@ make_code1(where dest, ash stack, exp e)
 					restore_callregs(e->tag == untidy_return_tag);
 #if 0
 					if (simple_res) {	/* now done earlier for dw2_returns consistency */
-						make_code(reg0, stack, son(e));
+						make_code(reg0, stack, child(e));
 					}
 #endif
 
@@ -2338,7 +2338,7 @@ make_code1(where dest, ash stack, exp e)
 
 		fstack_pos = good_fs;
 		reset_fpucon();
-		move(slongsh, mw(son(e), 0), reg0);
+		move(slongsh, mw(child(e), 0), reg0);
 		restore_callregs(0);
 		ins0("jmp *%eax");
 
@@ -2346,7 +2346,7 @@ make_code1(where dest, ash stack, exp e)
 	}
 
 	case movecont_tag: {
-		exp frome = son(e);
+		exp frome = child(e);
 		exp toe = next(frome);
 		exp lengthe = next(toe);
 
@@ -2358,11 +2358,11 @@ make_code1(where dest, ash stack, exp e)
 		exp jr = getexp(f_bottom, NULL, 0, NULL, NULL, 0, 0, 0);
 
 		clean_stack();
-		sonno(jr) = stack_dec;
+		childno(jr) = stack_dec;
 		ptno(jr) = next_lab();
 		fstack_pos_of(jr) = (prop)fstack_pos;
 		/* jump record for end */
-		solve(son(e), son(e), dest, jr, stack);
+		solve(child(e), child(e), dest, jr, stack);
 
 		if (sh(e)->tag != bothd) {
 			align_label(0, jr);
@@ -2383,7 +2383,7 @@ make_code1(where dest, ash stack, exp e)
 
 	case case_tag: {
 		where qw;
-		exp arg1 = son(e);
+		exp arg1 = child(e);
 		exp b = next(arg1);
 		exp t = arg1;
 
@@ -2420,7 +2420,7 @@ make_code1(where dest, ash stack, exp e)
 		}
 
 		diag3_driver->output_diag(d, crt_proc_id, e);
-		make_code(dest, stack, son(e));
+		make_code(dest, stack, child(e));
 		diag3_driver->output_end_scope(d, e);
 		return;
 	}
@@ -2435,7 +2435,7 @@ make_code1(where dest, ash stack, exp e)
 			asm_ins(e);
 		} else {
 			start_asm();
-			make_code(dest, stack, son(e));
+			make_code(dest, stack, child(e));
 			end_asm();
 		}
 
@@ -2457,11 +2457,11 @@ make_code1(where dest, ash stack, exp e)
 			} else {
 				codec(reg0, stack, e);
 			}
-		} else if (e->tag != name_tag && e->tag != env_offset_tag && son(e) != NULL) {
+		} else if (e->tag != name_tag && e->tag != env_offset_tag && child(e) != NULL) {
 			exp l;
 
 			/* catch all discards with side-effects */
-			for (l = son(e); ; l = next(l)) {
+			for (l = child(e); ; l = next(l)) {
 				make_code(dest, stack, l);
 				if (l->last) {
 					break;
@@ -2495,7 +2495,7 @@ dg_where_dest(exp e)
 	dg_where w;
 
 	if (e->tag == name_tag || e->tag == reff_tag) {
-		w = dg_where_dest(son(e));
+		w = dg_where_dest(child(e));
 		w.o += no(e) / 8;
 		return w;
 	}
@@ -2512,7 +2512,7 @@ dg_where_dest(exp e)
 	}
 
 	if (ptno(e) < 0 || ptno(e) > 10) {	/* contop case */
-		return dg_where_dest(son(e));
+		return dg_where_dest(child(e));
 	}
 
 	switch (ptno(e)) {
@@ -2544,7 +2544,7 @@ dg_where_dest(exp e)
 static dg_where
 contop_where(exp id)
 {
-	return dg_where_dest(next(son(id)));
+	return dg_where_dest(next(child(id)));
 }
 
 dg_where
@@ -2565,16 +2565,16 @@ find_diag_res(void * args)
 		break;
 
 	case ass_tag:
-		if (son(e)->tag == ident_tag) {
-			w = contop_where(son(e));
+		if (child(e)->tag == ident_tag) {
+			w = contop_where(child(e));
 		} else {
-			w = dg_where_dest(son(e));
+			w = dg_where_dest(child(e));
 		}
 		break;
 
 	case apply_tag:
 		w.k   = WH_REGOFF;
-		w.u.l = get_reg_no(no(son(sp.where_exp)));
+		w.u.l = get_reg_no(no(child(sp.where_exp)));
 		w.o   = 0;
 		break;
 

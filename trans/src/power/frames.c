@@ -51,7 +51,7 @@
 
 long frame_offset(exp id)
 {
-  exp init_exp = son(id);
+  exp init_exp = child(id);
   exp p;
   procrec *pr;
   long n = no (id);

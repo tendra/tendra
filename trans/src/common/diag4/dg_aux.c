@@ -378,7 +378,7 @@ static void
 scan_diag_names(exp e, exp whole)
 {
 	if (e->tag == name_tag) {
-		exp id = son(e);
+		exp id = child(e);
 
 		if (!isdiaginfo(e) && !internal_to(whole, id)) {
 			setisdiaginfo(e);
@@ -388,10 +388,10 @@ scan_diag_names(exp e, exp whole)
 		return;
 	}
 
-	if (son(e) != NULL && e->tag != env_offset_tag) {
+	if (child(e) != NULL && e->tag != env_offset_tag) {
 		exp t;
 
-		for (t = son(e); ; t = next(t)) {
+		for (t = child(e); ; t = next(t)) {
 			scan_diag_names(t, whole);
 
 			if (t->last) {
@@ -438,7 +438,7 @@ diag_kill_id(exp id)
 		setdiscarded(t);
 	}
 
-	son(id) = NULL;
+	child(id) = NULL;
 }
 
 /* nm is defining reference for its obtain value */
@@ -448,12 +448,12 @@ set_obj_ref(dg_name nm)
 	exp e = nm->data.n_obj.obtain_val;
 	while (e && (e->tag == hold_tag || e->tag == cont_tag ||
 	             e->tag == reff_tag)) {
-		e = son(e);
+		e = child(e);
 	}
 
-	if (e && e->tag == name_tag && isglob(son(e)) &&
-	    !(nextg(son(e))->dg_name)) {
-		nextg(son(e))->dg_name = nm;
+	if (e && e->tag == name_tag && isglob(child(e)) &&
+	    !(nextg(child(e))->dg_name)) {
+		nextg(child(e))->dg_name = nm;
 	}
 }
 
@@ -470,10 +470,10 @@ matched_obj(exp e, dg_name nm, dg_tag *refans)
 	x = nm->data.n_obj.obtain_val;
 	while (x && (x->tag == hold_tag || x->tag == cont_tag ||
 	             x->tag == reff_tag)) {
-		x = son(x);
+		x = child(x);
 	}
 
-	if ((x) && x->tag == name_tag && son(x) == son(e)) {
+	if ((x) && x->tag == name_tag && child(x) == child(e)) {
 		if ((no(x) <= no(e)) &&
 		    (no(x) + shape_size(sh(x)) >= no(e) + shape_size(sh(e)))) {
 			if (!nm->more || !nm->more->this_tag) {
@@ -558,7 +558,7 @@ check_const_exp(exp e)
 		return;
 	}
 
-	if (e->tag != hold_tag || son(e)->tag != val_tag) {
+	if (e->tag != hold_tag || child(e)->tag != val_tag) {
 		error(ERR_INTERNAL, "diag_type may need copying");
 	}
 
@@ -692,7 +692,7 @@ is_copied(exp e)
 
 	switch (e->tag) {
 	case name_tag:
-		return copying(son(e));
+		return copying(child(e));
 
 	case hold_tag:
 	case cont_tag:
@@ -700,7 +700,7 @@ is_copied(exp e)
 	case reff_tag:
 	case chvar_tag:
 	case chfl_tag:
-		return is_copied(son(e));
+		return is_copied(child(e));
 
 	case val_tag:
 	case null_tag:
@@ -774,7 +774,7 @@ update_diag_copy(exp e, dg_info d, int update)
 		default: {
 			exp s;
 
-			for (s = son(e); s; s = next(s)) {
+			for (s = child(e); s; s = next(s)) {
 				update_diag_copy(s, dgf(s), update);
 				if (s->last) {
 					break;
@@ -1075,7 +1075,7 @@ copy_dg_info(dg_info d, exp var, exp lab, bool doing_exp_copy)
 
 	case DGA_REMVAL:
 		new->data.i_remval = d->data.i_remval;
-		if (copying(son(son(d->data.i_remval.var)))) {
+		if (copying(child(child(d->data.i_remval.var)))) {
 			new->data.i_remval.var = copy(d->data.i_remval.var);
 		}
 		break;
@@ -1171,7 +1171,7 @@ ref_param(exp e)
 	case cont_tag:
 	case chvar_tag:
 	case chfl_tag:
-		return ref_param(son(e));
+		return ref_param(child(e));
 
 	case ident_tag:
 		if (isparam(e)) {
@@ -1181,7 +1181,7 @@ ref_param(exp e)
 		if (dgf(e) || isglob(e)) {
 			return 0;
 		}
-		return ref_param(son(e));
+		return ref_param(child(e));
 
 	default:
 		return 0;
@@ -1191,7 +1191,7 @@ ref_param(exp e)
 void
 start_diag_inlining(exp e, dg_name dn)
 {
-	exp body = son(e);
+	exp body = child(e);
 	dg_info di;
 	int any_inl;
 	dg_name_list args = NULL;
@@ -1201,8 +1201,8 @@ start_diag_inlining(exp e, dg_name dn)
 	}
 
 	while (body->tag == ident_tag &&
-	       (isparam(body) || (!dgf(body) && ref_param(son(body))))) {
-		body = next(son(body));
+	       (isparam(body) || (!dgf(body) && ref_param(child(body))))) {
+		body = next(child(body));
 	}
 
 	di = dgf(body);
@@ -1234,10 +1234,10 @@ end_diag_inlining(exp e, dg_name dn)
 		return;
 	}
 
-	body = son(e);
+	body = child(e);
 	while (body->tag == ident_tag &&
-	       (isparam(body) || (!dgf(body) && ref_param(son(body))))) {
-		body = next(son(body));
+	       (isparam(body) || (!dgf(body) && ref_param(child(body))))) {
+		body = next(child(body));
 	}
 
 	dgf(body) = dgf(body)->more;
@@ -1311,9 +1311,9 @@ dg_complete_inline(exp whole, exp comp)
 			/* we must find DGA_INL_CALL to replace the DGA_CALL */
 			while (!dgf(comp)) {
 				if (comp->tag == ident_tag) {
-					comp = next(son(comp));
+					comp = next(child(comp));
 				} else if (comp->tag == cond_tag) {
-					comp = son(comp);
+					comp = child(comp);
 				} else {
 					break;
 				}
@@ -1334,7 +1334,7 @@ dg_complete_inline(exp whole, exp comp)
  * dx is (ref) dg_info under consideration
  * part of dgf(e); this info being removed.
  * reason is enumerated reason for debugger.
- * descend is nonzero if son(e) to be processed.
+ * descend is nonzero if child(e) to be processed.
  * reuse is nonzero if simple movement (e remains in use).
  * opt_ref for reference to complex optimisation info.
  */
@@ -1450,7 +1450,7 @@ gather_detch(exp e, dg_info *dx, int reason, int descend, int reuse,
 		return NULL;
 	}
 
-	s = son(e);
+	s = child(e);
 	if (e->tag == name_tag || e->tag == env_size_tag ||
 	    e->tag == env_offset_tag || !s) {
 		return NULL;
@@ -1520,17 +1520,17 @@ dg_restruct_code(exp outer, exp inner, int posn)
 void
 dg_rem_ass(exp ass)
 {
-	exp val = next(son(ass));
+	exp val = next(child(ass));
 
-	if (son(ass)->tag == name_tag &&
+	if (child(ass)->tag == name_tag &&
 	    (val->tag == val_tag || val->tag == real_tag ||
 	     val->tag == null_tag)) {
 		dg_info h = dgf(val);
 		dg_info *dx = &(dgf(ass));
 		dg_info rem = new_dg_info(DGA_REMVAL);
-		rem->data.i_remval.var = hold(me_obtain(son(son(ass))));
-		setisdiaginfo(son(rem->data.i_remval.var));
-		--no(son(son(rem->data.i_remval.var)));
+		rem->data.i_remval.var = hold(me_obtain(child(child(ass))));
+		setisdiaginfo(child(rem->data.i_remval.var));
+		--no(child(child(rem->data.i_remval.var)));
 		dgf(val) = NULL;
 		rem->data.i_remval.val = copy(val);
 		dgf(val) = h;
@@ -1544,7 +1544,7 @@ dg_rem_ass(exp ass)
 		*dx = rem;
 	}
 
-	dg_detach(ass, next(son(ass)), -1, DGD_REM, 0, 0, NULL);
+	dg_detach(ass, next(child(ass)), -1, DGD_REM, 0, 0, NULL);
 }
 
 void
@@ -1580,7 +1580,7 @@ dg_extracted(exp nm, exp old)
 	dg_info *dx;
 
 	if (nm->tag != name_tag ||
-	    (dx = after_dg_context(son(nm)), !(*dx)->this_tag)) {
+	    (dx = after_dg_context(child(nm)), !(*dx)->this_tag)) {
 		error(ERR_INTERNAL, "make_optim error");
 		return;
 	}
@@ -1608,7 +1608,7 @@ gather_objects(exp e, exp whole, objset **obs, int ass)
 
 	switch (e->tag) {
 	case name_tag:
-		if (!intnl_to(whole, son(e))) {
+		if (!intnl_to(whole, child(e))) {
 			dg_tag tag = find_obj_ref(whole, e);
 			if (tag) {
 				objset *x;
@@ -1631,31 +1631,31 @@ gather_objects(exp e, exp whole, objset **obs, int ass)
 
 	case ident_tag:
 		/* definition part no_ass */
-		gather_objects(next(son(e)), whole, obs, ass);
+		gather_objects(next(child(e)), whole, obs, ass);
 		break;
 
 	case seq_tag:
 		/* statements no_ass */
-		gather_objects(next(son(e)), whole, obs, ass);
-		e = son(e);
+		gather_objects(next(child(e)), whole, obs, ass);
+		e = child(e);
 		break;
 
 	case cond_tag:
-		gather_objects(son(e), whole, obs, ass);
-		gather_objects(next(son(e)), whole, obs, ass);
+		gather_objects(child(e), whole, obs, ass);
+		gather_objects(next(child(e)), whole, obs, ass);
 		return;
 
 	case labst_tag:
-		gather_objects(next(son(e)), whole, obs, ass);
+		gather_objects(next(child(e)), whole, obs, ass);
 		return;
 
 	case rep_tag:
-		gather_objects(son(e), whole, obs, 0);
-		gather_objects(next(son(e)), whole, obs, ass);
+		gather_objects(child(e), whole, obs, 0);
+		gather_objects(next(child(e)), whole, obs, ass);
 		return;
 
 	case solve_tag:
-		for (t = son(e); ; t = next(t)) {
+		for (t = child(e); ; t = next(t)) {
 			gather_objects(t, whole, obs, ass);
 			if (t->last) {
 				return;
@@ -1664,13 +1664,13 @@ gather_objects(exp e, exp whole, objset **obs, int ass)
 
 	case ass_tag:
 	case assvol_tag:
-		gather_objects(son(e), whole, obs, 1);
-		gather_objects(next(son(e)), whole, obs, 0);
+		gather_objects(child(e), whole, obs, 1);
+		gather_objects(next(child(e)), whole, obs, 0);
 		return;
 
 	case addptr_tag:
-		gather_objects(son(e), whole, obs, ass);
-		gather_objects(next(son(e)), whole, obs, 0);
+		gather_objects(child(e), whole, obs, ass);
+		gather_objects(next(child(e)), whole, obs, 0);
 		return;
 
 	case env_offset_tag:
@@ -1681,7 +1681,7 @@ gather_objects(exp e, exp whole, objset **obs, int ass)
 	}
 
 	/* remaining cases all no_ass */
-	for (t = son(e); t; t = next(t)) {
+	for (t = child(e); t; t = next(t)) {
 		gather_objects(t, whole, obs, 0);
 		if (t->last) {
 			return;
@@ -1693,7 +1693,7 @@ void
 make_optim_dg(int reason, exp e)
 {
 	dg_info sub = new_dg_info(DGA_HOIST);
-	exp konst = son(e);
+	exp konst = child(e);
 	exp body = next(konst);
 	dg_info *dx;
 	dgf(e) = dgf(body);

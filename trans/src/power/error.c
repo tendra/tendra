@@ -231,7 +231,7 @@ static long trap_label(exp e)
   else
   {
     /* Error jump to destination */
-    return no(son(pt(e)));
+    return no(child(pt(e)));
   }
 }
 
@@ -267,7 +267,7 @@ static void call_TDFhandler(void)
  */
 int abs_error_treatment(exp e, space sp, where dest)
 {
-  int r = reg_operand(son(e),sp);
+  int r = reg_operand(child(e),sp);
   int destr = regfrmdest(&dest,sp);
   long trap = trap_label(e);
   ans aa;
@@ -308,11 +308,11 @@ int abs_error_treatment(exp e, space sp, where dest)
  */
 int chvar_error_treatment(exp e, space sp, where dest)
 {
-  int r = reg_operand(son(e),sp);
+  int r = reg_operand(child(e),sp);
   ans aa;
   int new_shpe = sh(e)->tag;
   long trap = trap_label(e);
-  bool sgned = is_signed(sh(son(e)));
+  bool sgned = is_signed(sh(child(e)));
 
   setregalt(aa,r);
   switch(new_shpe)		/* switch on the new shape */
@@ -411,12 +411,12 @@ void div_error_treatment(int l, int r, exp e)
  */
 int minus_error_treatment(exp e, space sp, where dest)
 {
-  int lhs_reg=reg_operand(son(e),sp);
+  int lhs_reg=reg_operand(child(e),sp);
   int rhs_reg;
   int destr;
   long trap = trap_label(e);
   ans aa;
-  rhs_reg=reg_operand(next(son(e)),guardreg(lhs_reg,sp));
+  rhs_reg=reg_operand(next(child(e)),guardreg(lhs_reg,sp));
   destr=regfrmdest(&dest,sp);
   setregalt(aa,destr);
   /* Both sides evaluated lhs in lhs_reg ,rhs in rhs_reg*/
@@ -471,14 +471,14 @@ int minus_error_treatment(exp e, space sp, where dest)
  */
 int mult_error_treatment(exp e, space sp, where dest)
 {
-  int lhs_reg=reg_operand(son(e),sp);
+  int lhs_reg=reg_operand(child(e),sp);
   int rhs_reg;
   int destr;
   long trap = trap_label(e);
   space nsp;
   ans aa;
   nsp=guardreg(lhs_reg,sp);
-  rhs_reg=reg_operand(next(son(e)),nsp);
+  rhs_reg=reg_operand(next(child(e)),nsp);
   nsp=guardreg(rhs_reg,nsp);
   destr=regfrmdest(&dest,sp);
   setregalt(aa,destr);
@@ -574,13 +574,13 @@ int mult_error_treatment(exp e, space sp, where dest)
  */
 int plus_error_treatment(exp e, space sp, where dest)
 {
-  int lhs_reg=reg_operand(son(e),sp);
+  int lhs_reg=reg_operand(child(e),sp);
   int rhs_reg;
   int destr;
   long trap = trap_label(e);
   ans aa;
 
-  rhs_reg = reg_operand(next(son(e)),guardreg(lhs_reg,sp));
+  rhs_reg = reg_operand(next(child(e)),guardreg(lhs_reg,sp));
   destr=regfrmdest(&dest,sp);
   setregalt(aa,destr);
   switch (sh(e)->tag)
@@ -641,7 +641,7 @@ void round_error_treatment(exp *e)
 {
   /* float --> int */
   exp round = *e;
-  exp fl =son(*e);
+  exp fl =child(*e);
   shape fl_shpe = sh(fl);
   bool trap = ERROR_TREATMENT_IS_TRAP(round);
   bool lower_strict,upper_strict;
@@ -762,7 +762,7 @@ void round_error_treatment(exp *e)
 
   id->last = true;
   next(id) = round;
-  son(round) = id;
+  child(round) = id;
 }
 
 #endif
@@ -772,7 +772,7 @@ void round_error_treatment(exp *e)
  */
 int neg_error_treatment(exp e, space sp, where dest)
 {
-  int r = reg_operand(son(e),sp);
+  int r = reg_operand(child(e),sp);
   int destr = regfrmdest(&dest,sp);
   long trap = trap_label(e);
   ans aa;

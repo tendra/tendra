@@ -406,7 +406,7 @@ refloc_length(exp e, exp id)
 {
 	switch (e->tag) {
 	case name_tag:
-		if (son(e) != id) {
+		if (child(e) != id) {
 			error(ERR_INTERNAL, bad_refloc);
 		}
 		if (no(e) == 0) {
@@ -414,12 +414,12 @@ refloc_length(exp e, exp id)
 		}
 		return 1 + uleb128_length((unsigned long)no(e) / 8);
 	case cont_tag:
-		return refloc_length(son(e), id) + 1;
+		return refloc_length(child(e), id) + 1;
 	case reff_tag:
 		if (no(e) <0) {
 			error(ERR_INTERNAL, bad_refloc);
 		}
-		return refloc_length(son(e), id) + 1 +
+		return refloc_length(child(e), id) + 1 +
 		       uleb128_length((unsigned long)no(e) / 8);
 	default:
 		error(ERR_INTERNAL, bad_refloc);
@@ -433,21 +433,21 @@ out_refloc(exp e, exp id)
 {
 	switch (e->tag) {
 	case name_tag:
-		if (son(e) != id) {
+		if (child(e) != id) {
 			error(ERR_INTERNAL, bad_refloc);
 		}
 		asm_printf(", %d, ", DW_OP_plus_uconst);
 		uleb128((unsigned long)no(e) /8);
 		return;
 	case cont_tag:
-		out_refloc(son(e), id);
+		out_refloc(child(e), id);
 		asm_printf(", %d", DW_OP_deref);
 		return;
 	case reff_tag:
 		if (no(e) <0) {
 			error(ERR_INTERNAL, bad_refloc);
 		}
-		out_refloc(son(e), id);
+		out_refloc(child(e), id);
 		asm_printf(", %d, ", DW_OP_plus_uconst);
 		uleb128((unsigned long)no(e) /8);
 		return;
@@ -465,13 +465,13 @@ dw_locate_reloffset(exp e)
 		error(ERR_INTERNAL, bad_refloc);
 		return;
 	}
-	length = refloc_length(next(son(e)), e);
+	length = refloc_length(next(child(e)), e);
 	out8();
 	if (length == 0) {
 		asm_printf("%d, %d", 1, DW_OP_nop);
 	} else {
 		asm_printf("%d", length);
-		out_refloc(next(son(e)), e);
+		out_refloc(next(child(e)), e);
 	}
 	asm_printf("\n");
 }

@@ -29,11 +29,11 @@ is_worth(exp c)
 		return true;
 	}
 
-	if (cnam == cont_tag && isflt && (son(c)->tag != name_tag || isglob(son(son(c))) )) {
+	if (cnam == cont_tag && isflt && (child(c)->tag != name_tag || isglob(child(child(c))) )) {
 		return true;
 	}
 
-	if (cnam == cont_tag && son(c)->tag == name_tag && isglob (son (son (c)))) {
+	if (cnam == cont_tag && child(c)->tag == name_tag && isglob (child (child (c)))) {
 		return true;
 	}
 
@@ -57,8 +57,8 @@ is_worth(exp c)
 			if ( grandad != NULL &&
 			     grandad->tag == test_tag && (n & (n - 1)) == 0 &&
 			     (props (grandad) == 5 || props (grandad) == 6) &&
-			     ((next (son (grandad))->tag == val_tag && no (next (son (grandad))) == 0)
-			      || (son (grandad)->tag == val_tag && no (son (grandad)) == 0))
+			     ((next (child (grandad))->tag == val_tag && no (next (child (grandad))) == 0)
+			      || (child (grandad)->tag == val_tag && no (child (grandad)) == 0))
 			   ) {
 				/*  a & 2^n == 0 is transformed later to
 						   shift and test negative */
@@ -100,7 +100,7 @@ is_worth(exp c)
 
 	return (!is_o (cnam) && cnam != clear_tag) ||
 	        /* ignore simple things unless ... */
-	        (cnam == cont_tag && son(c)->tag == cont_tag &&
-	         son(son(c))->tag == name_tag);
+	        (cnam == cont_tag && child(c)->tag == cont_tag &&
+	         child(child(c))->tag == name_tag);
 }
 

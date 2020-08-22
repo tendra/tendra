@@ -161,7 +161,7 @@ set_locdata(obj_list this_obl)
 		if (this_name->key == DGN_OBJECT) {
 			exp x = this_name->data.n_obj.obtain_val;
 			exp id;
-			if (x && (id = dw_has_location(son(x)), id)) {
+			if (x && (id = dw_has_location(child(x)), id)) {
 				if (isglob(id)) {
 					dg_name master =
 					    nextg(id)->dg_name;
@@ -188,7 +188,7 @@ set_locdata(obj_list this_obl)
 						while (name) {
 							if (name->key == DGN_OBJECT) {
 								exp y = name->data.n_obj.obtain_val;
-								if (y && y->last && dw_has_location(son(y)) == id) {
+								if (y && y->last && dw_has_location(child(y)) == id) {
 									setnext(x, next(y));
 									setnext(y, (exp)((void *)this_name));
 									no(x) = no(y);
@@ -252,14 +252,14 @@ find_equiv_object(exp e, int isc)
 			if (name->key == DGN_OBJECT) {
 				exp x = name->data.n_obj.obtain_val;
 				if (isc) {
-					if (x && son(x)->tag == cont_tag &&
+					if (x && child(x)->tag == cont_tag &&
 					    dw_loc_equivalence(e,
-							       son(son(x)))) {
+							       child(child(x)))) {
 						return name;
 					}
 				} else {
 					if (x && dw_loc_equivalence(e,
-								    son(x))) {
+								    child(x))) {
 						return name;
 					}
 				}
@@ -288,10 +288,10 @@ find_simple_object(exp e)
 				while (x && (x->tag == hold_tag ||
 					     x->tag == cont_tag ||
 					     x->tag == reff_tag)) {
-					x = son(x);
+					x = child(x);
 				}
 				if ((x) && x->tag == name_tag &&
-				    son(x) == son(e) &&
+				    child(x) == child(e) &&
 				    (no(x) <= no(e)) &&
 				    (no(x) + shape_size(sh(x))) >=
 				    (no(e) + shape_size(sh(e)))) {
@@ -345,7 +345,7 @@ set_optim_objects(dg_info optim, int start)
 void
 set_remval_object(dg_info rmv)
 {
-	dg_name name = find_simple_object(son(rmv->data.i_remval.var));
+	dg_name name = find_simple_object(child(rmv->data.i_remval.var));
 	if (name) {
 		ll_item *l = ll_root(name);
 		while (*l) {
@@ -373,11 +373,11 @@ set_obj_rets(retrec * rec)
 				while (x && (x->tag == hold_tag ||
 					     x->tag == cont_tag ||
 					     x->tag == reff_tag)) {
-					x = son(x);
+					x = child(x);
 				}
 				if ((x) && x->tag == name_tag &&
 				    !isdiscarded(x) &&
-				    !isglob(son(x))) {
+				    !isglob(child(x))) {
 					ll_item *l = ll_root(name);
 					while (*l) {
 						if ((*l)->open) {
@@ -638,7 +638,7 @@ out_obj_loclist(long l1, long l2, exp x)
 	ll_item l = (ll_item)((void *)(pt(x)));
 	startlab = l1;
 	ll_ok = 1;
-	obval = son(x);
+	obval = child(x);
 	loclist_portion(l);
 	if (ll_ok && l2 != startlab) {
 		out_loc_range(startlab, l2, 0);

@@ -102,7 +102,7 @@ spacereq
 regalloc(exp e, int freefixed, int freefloat, long stack)
 {
 	int n = e->tag;
-	exp s = son(e);
+	exp s = child(e);
 	spacereq def;
 
 	if (n == ident_tag) {
@@ -124,10 +124,10 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 		} else if (
 		    !isvar(e) && !isparam(e)
 		    && s->tag == name_tag
-		    && !isvar(son(s))
-		    && !isvis(son(s))
-		    && !isparam(son(s))
-		    && (props(son(s)) & inreg_bits)
+		    && !isvar(child(s))
+		    && !isvis(child(s))
+		    && !isparam(child(s))
+		    && (props(child(s)) & inreg_bits)
 		) {
 			/*
 			 * Dont take space for this constant dec, initialiser is another
@@ -181,7 +181,7 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 				/*
 				 * Not suitable for reg allocation
 				 */
-				if (son(e)->tag == val_tag && !isvar(e) && !isenvoff(e)) {
+				if (child(e)->tag == val_tag && !isvar(e) && !isenvoff(e)) {
 					exp t;
 
 					/*
@@ -193,8 +193,8 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 						exp p = pt(t);
 
 						t->tag = val_tag;
-						son(t) = NULL;
-						no(t) = no(son(e));
+						child(t) = NULL;
+						no(t) = no(child(e));
 						props(t) = 0;
 						pt(t) = NULL;
 						t = p;
@@ -204,13 +204,13 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 					asm_comment("regalloc heavily used const: no spare regs - replace use by value");
 					props(e) |= defer_bit;
 					def = zerospace;
-				} else if (son(e)->tag == name_tag && !isvar(e) && !isenvoff(e)) {
+				} else if (child(e)->tag == name_tag && !isvar(e) && !isenvoff(e)) {
 					/* must have been forced  - defer it */
 					asm_comment("regalloc heavily used address: no spare regs - replace use by value");
 					props(e) |= defer_bit;
 					def = zerospace;
 				} else if (isparam(e)) {
-					/* don't know framesize yet; displacement in no(son(e)) */
+					/* don't know framesize yet; displacement in no(child(e)) */
 					no(e) = 0; /* set correctly in make_code ident_tag */
 				} else {
 

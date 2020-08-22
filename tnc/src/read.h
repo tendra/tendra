@@ -23,7 +23,7 @@ void read_token(node *, sortname);
 void read_seq_node(node *);
 
 #define read_sequence(X, Y)		read_seq_node((X))
-#define read_make_signed_nat(X, Y)	(X) ->son = read_node("j")
+#define read_make_signed_nat(X, Y)	(X) ->child = read_node("j")
 
 
 #endif /* READ_H */

@@ -73,14 +73,14 @@ use_pop_ass(exp n, exp ln)
 	exp id;
 
 	if (ln->tag == cont_tag) {
-		ln = son(ln);
+		ln = child(ln);
 	}
 
 	if (ln->tag != name_tag) {
 		return 0;
 	}
 
-	id = son(ln);
+	id = child(ln);
 	while (n != id && n->last &&
 		   (is_a(n->tag) || n->tag == ident_tag ||
 			n->tag == ass_tag)) {
@@ -100,14 +100,14 @@ use_pop(exp n, exp ln)
 	exp id;
 
 	if (ln->tag == cont_tag) {
-		ln = son(ln);
+		ln = child(ln);
 	}
 
 	if (ln->tag != name_tag) {
 		return 0;
 	}
 
-	id = son(ln);
+	id = child(ln);
 	while (n != id && n->last) {
 		n = next(n);
 	}
@@ -225,13 +225,13 @@ callins(int longs, exp fn, int ret_stack_dec)
 	cond1_set = false;
 	cond2_set = false;
 
-	if (fn->tag == name_tag && !isvar(son(fn)) && isglob(son(fn))) {
+	if (fn->tag == name_tag && !isvar(child(fn)) && isglob(child(fn))) {
 		exp ind = getexp(f_proc, NULL, 0, fn, NULL, 0, 0, cont_tag);
 #ifdef DWARF2
 		if (current_dg_info) {
 			current_dg_info->data.i_call.brk = set_dw_text_label();
 			current_dg_info->data.i_call.p.k = WH_STR;
-			current_dg_info->data.i_call.p.u.s = (nextg(son(fn))) ->name;
+			current_dg_info->data.i_call.p.u.s = (nextg(child(fn))) ->name;
 			current_dg_info->data.i_call.p.o = no(fn) / 8;
 		}
 #endif
@@ -246,11 +246,11 @@ callins(int longs, exp fn, int ret_stack_dec)
 #ifdef DWARF2
 		if (current_dg_info) {
 			int rn;
-			if (fn->tag == name_tag && !isvar(son(fn))) {
-				rn = no(son(fn));
-			} else if (fn->tag == cont_tag && son(fn)->tag == name_tag &&
-			           isvar(son(son(fn)))) {
-				rn = no(son(son(fn)));
+			if (fn->tag == name_tag && !isvar(child(fn))) {
+				rn = no(child(fn));
+			} else if (fn->tag == cont_tag && child(fn)->tag == name_tag &&
+			           isvar(child(child(fn)))) {
+				rn = no(child(child(fn)));
 			} else {
 				error(ERR_INTERNAL, "where?");
 				rn = 1;

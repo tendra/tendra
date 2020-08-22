@@ -450,8 +450,8 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 		exp sn = me_startid(integer_shape, arg2, 0);
 
 		if (is_constant_arg(arg2) ||
-		    (arg2->tag == name_tag && son(arg2)->tag == ident_tag
-		     && !isvar(son(arg2)) && is_constant_arg(son(son(arg2)))))
+		    (arg2->tag == name_tag && child(arg2)->tag == ident_tag
+		     && !isvar(child(arg2)) && is_constant_arg(child(child(arg2)))))
 		{
 			/* we know the power */
 			int n;
@@ -461,7 +461,7 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 			if (is_constant_arg(arg2)) {
 				exponent = no(arg2); /* arg2 is a constant */
 			} else {
-				exponent = no(son(son(arg2)));
+				exponent = no(child(child(arg2)));
 				/* arg2 identifies a constant */
 			}
 
@@ -690,8 +690,8 @@ f_floating_power(error_treatment ov_err, exp arg1, exp arg2)
 				seq = hold_refactor(me_b3(sh(if_n_equals_1), seq_zero,
 					if_n_equals_1, seq_tag));
 
-				setnext(son(body_labst), seq);
-				son(body_labst)->last = false;
+				setnext(child(body_labst), seq);
+				child(body_labst)->last = false;
 				setfather(body_labst, seq);
 
 				repeat_body = hold_refactor(me_b3(sh(seq), top_cell, body_labst, rep_tag));
@@ -1844,7 +1844,7 @@ me_complete_chain(exp ident_chain, exp last_link, exp link_to)
 {
 	exp remove_link;
 
-	while (son(ident_chain) != last_link) {
+	while (child(ident_chain) != last_link) {
 		remove_link = next(ident_chain);
 		link_to = me_complete_id(ident_chain, link_to);
 		ident_chain = remove_link;
@@ -1936,8 +1936,8 @@ real_power(error_treatment ov_err, exp arg1, exp arg2)
 	f_real_mult = (is_integer(real_shape) ? f_mult : f_bin_floating_mult);
 
 	if (is_constant_arg(arg2) ||
-	    (arg2->tag == name_tag && son(arg2)->tag == ident_tag &&
-	     !isvar(son(arg2)) && is_constant_arg(son(son(arg2))))) {
+	    (arg2->tag == name_tag && child(arg2)->tag == ident_tag &&
+	     !isvar(child(arg2)) && is_constant_arg(child(child(arg2))))) {
 		/* we know the power */
 		int exponent;
 		exp x;
@@ -1945,7 +1945,7 @@ real_power(error_treatment ov_err, exp arg1, exp arg2)
 		if (is_constant_arg(arg2)) {
 			exponent = no(arg2);	/* arg2 is a constant */
 		} else {
-			exponent = no(son(son(arg2)));
+			exponent = no(child(child(arg2)));
 			/* arg2 identifies a constant */
 		}
 
@@ -2086,9 +2086,9 @@ real_power(error_treatment ov_err, exp arg1, exp arg2)
 			st = add_exp_list(st, update_w, 2);
 			seq = f_sequence(st, if_n_equals_1);
 
-			setnext(son(body_labst), seq);
+			setnext(child(body_labst), seq);
 			setsh (body_labst, sh (seq));	/*  put seq into the body  */
-			son(body_labst)->last = false;	/*  of the labst           */
+			child(body_labst)->last = false;	/*  of the labst           */
 			setfather(body_labst, seq);
 
 			repeat_body = hold_refactor(me_b3(sh(body_labst), f_make_top(),

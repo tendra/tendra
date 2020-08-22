@@ -45,7 +45,7 @@ tidyshort(int r, exp e)
 
 	switch (e->tag) {
 	case and_tag: {
-		exp r = next(son(e)); /* could be a val_tag */
+		exp r = next(child(e)); /* could be a val_tag */
 
 		if (s->tag == ucharhd && r->tag == val_tag && ((no(r) & 0xff  ) == no(r))) {
 			return;
@@ -164,8 +164,8 @@ comm_op(exp e, space sp, where d, Instruction_P rrins)
 	switch (d.answhere.discrim) {
 	case inreg: {
 		int dest = regalt(d.answhere);
-		bool usesdest = regremoved(&son(e), dest);
-		exp seq = son(e);
+		bool usesdest = regremoved(&child(e), dest);
+		exp seq = child(e);
 
 		/*
 		 * the destination is in a register; take care that we don't alter it
@@ -202,7 +202,7 @@ comm_op(exp e, space sp, where d, Instruction_P rrins)
 		space nsp;
 		bool rok = 1;
 		setregalt(a, r);
-		do_comm(son(e), sp, r, rins);
+		do_comm(child(e), sp, r, rins);
 
 		/* Evaluate the expression into r */
 		if (d.answhere.discrim != notinreg) {
@@ -223,7 +223,7 @@ comm_op(exp e, space sp, where d, Instruction_P rrins)
 int
 non_comm_op(exp e, space sp, where dest, Instruction_P ins)
 {
-	exp l = son(e);
+	exp l = child(e);
 	exp r = next(l);
 
 	/* we can use sfi instruction */
@@ -280,7 +280,7 @@ non_comm_op(exp e, space sp, where dest, Instruction_P ins)
 int
 fop(exp e, space sp, where dest, Instruction_P ins)
 {
-	exp l = son(e);
+	exp l = child(e);
 	exp r = next(l);
 	int a1;
 	int a2;
@@ -347,7 +347,7 @@ fop(exp e, space sp, where dest, Instruction_P ins)
 int
 fmop(exp e, space sp, where dest, Instruction_P ins)
 {
-	int a1 = freg_operand(son(e), sp, getfreg(sp.flt));
+	int a1 = freg_operand(child(e), sp, getfreg(sp.flt));
 
 	switch (dest.answhere.discrim) {
 	case infreg: {
