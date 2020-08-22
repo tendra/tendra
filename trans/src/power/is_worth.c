@@ -27,7 +27,7 @@
 /*
  * is_worth() for a complicated cont_tag.
  * True for any combination of reff_tag, cont_tag and name_tag.
- * 'c' is the son of the top cont_tag.
+ * 'c' is the child of the top cont_tag.
  * Allowing anything causes a bug when compiling SPECINT92 085.gcc.
  */
 static bool is_worth_cont_aux(exp c)
@@ -41,7 +41,7 @@ static bool is_worth_cont_aux(exp c)
 		FALL_THROUGH;
 
 	case cont_tag:
-		return is_worth_cont_aux(son(c));
+		return is_worth_cont_aux(child(c));
 
 	case name_tag:
 		return 1;
@@ -82,17 +82,17 @@ is_worth(exp c)
 		return false;    /* never identify a goto (causes bad labels) */
 	}
 
-	if (cnam == cont_tag && son(c)->tag == name_tag) {
+	if (cnam == cont_tag && child(c)->tag == name_tag) {
 		/* a simple load, most worthwile for globals to avoid TOC access */
-		return INMEMIDENT(son(son(c)));
+		return INMEMIDENT(child(child(c)));
 	}
 
 	if (cnam == cont_tag) {
 		/* complex load */
-		return is_worth_cont_aux(son(c));
+		return is_worth_cont_aux(child(c));
 	}
 
-	if (cnam == name_tag && isglob(son(c)) && s->tag != prokhd) {
+	if (cnam == name_tag && isglob(child(c)) && s->tag != prokhd) {
 		/* avoid load of TOC table entry in loops, except for params where there is no load delay */
 		return father(c)->tag != apply_tag;
 	}
@@ -125,10 +125,10 @@ is_worth(exp c)
 		case assvol_tag: {
 			/* must load all constants before store */
 			/* +++ better way of working out inmem lhs */
-			exp lhs = son(dad);
+			exp lhs = child(dad);
 
 			if (lhs->tag == name_tag) {
-				if (INMEMIDENT(son(lhs))) {
+				if (INMEMIDENT(child(lhs))) {
 					return true;    /* inmem */
 				} else {
 					return !IMM_SIZE(n) && !IMMLOGU_SIZE(n);

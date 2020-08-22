@@ -33,16 +33,16 @@ mark_scope(exp e)
 		return;
 	}
 
-	id = son(d->data.i_name.dname->data.n_obj.obtain_val);
+	id = child(d->data.i_name.dname->data.n_obj.obtain_val);
 	if (id->tag == cont_tag) {
-		id = son(id);
+		id = child(id);
 	}
 
 	if (id->tag != name_tag) {
 		return;
 	}
 
-	id = son(id);
+	id = child(id);
 	if (isparam(id)) {
 		return;
 	}
@@ -54,9 +54,9 @@ mark_scope(exp e)
 		ptr = &((*ptr)->more);
 	}
 
-	if (!*ptr && e->tag == seq_tag && son(son(e))->tag == ass_tag &&
-	    son(son(e))->last && next(son(e))->tag != ident_tag) {
-		ptr = &dgf(next(son(e)));
+	if (!*ptr && e->tag == seq_tag && child(child(e))->tag == ass_tag &&
+	    child(child(e))->last && next(child(e))->tag != ident_tag) {
+		ptr = &dgf(next(child(e)));
 		while (*ptr && (*ptr)->key != DGA_SCOPE) {
 			ptr = &((*ptr)->more);
 		}
@@ -77,7 +77,7 @@ mark_scope(exp e)
 	}
 #if 0
 	else {
-		exp def = son(id);
+		exp def = child(id);
 		if (dgf(def) && dgf(def)->key == DGA_SRC)
 			dgf(e)->data.i_name.dname->whence = dgf(def)->data.i_src.startpos;
 		d->more = dgf(id);
@@ -121,7 +121,7 @@ void
 correct_mark_scope(exp e)
 {
 	dg_info d = NULL;
-	dg_info *ptr = &(dgf(next(son(e))));
+	dg_info *ptr = &(dgf(next(child(e))));
 
 	while (*ptr && (*ptr)->key != DGA_SCOPE) {
 		ptr = &(*ptr)->more;

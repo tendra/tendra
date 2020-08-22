@@ -271,13 +271,13 @@ f_diag_desc_id(tdfstring n, sourcemark whence, exp acc, diag_type new_type)
 {
 	dg_idname nid;
 
-	if (nextg(son(acc))->extnamed) {
+	if (nextg(child(acc))->extnamed) {
 		nid = f_dg_external_idname(n);
 	} else {
 		nid = f_dg_sourcestring_idname(n);
 	}
 
-	if (new_type->key == DGT_PROC && !isvar(son(acc))) {
+	if (new_type->key == DGT_PROC && !isvar(child(acc))) {
 		return f_dg_proc_name(nid, whence, new_type,
 		                      yes_exp_option(diag_locate(acc)),
 		                      no_dg_accessibility_option,
@@ -403,7 +403,7 @@ f_diag_enum(diag_type base_type, tdfstring enum_name, enum_values_list values)
 	UNUSED(base_type);
 	return f_dg_enum_type(values,
 	                      yes_dg_idname_option(f_dg_sourcestring_idname(enum_name)),
-	                      no_dg_sourcepos_option, sh(son(values.array->value)), f_false);
+	                      no_dg_sourcepos_option, sh(child(values.array->value)), f_false);
 }
 
 diag_type

@@ -11,11 +11,11 @@
  *
  * These procedures use a pair of a boolean and and exp (eg sto and to)
  * instead of a pointer to an exp. The boolean is true if the exp being
- * referred to is the son of the given exp, and false if it is the next.
+ * referred to is the child of the given exp, and false if it is the next.
  *
  * This is to allow exps to be represented by indices into arrays and to
  * allow the arrays to be realloced, which invalidates the use of
- * &son(to) and &next(to).
+ * &child(to) and &next(to).
  */
 
 #include <stddef.h>
@@ -45,8 +45,8 @@
 #include "ops.h"
 #include "scan.h"
 
-#define assexp(isson, p, v) if (isson)setson(p, v); else setnext(p, v)
-#define contexp(isson, p)((isson)? son(p): next(p))
+#define assexp(ischild, p, v) if (ischild)setchild(p, v); else setnext(p, v)
+#define contexp(ischild, p)((ischild)? child(p): next(p))
 
 /*
  * Inserts an identity declaration of x at to,
@@ -86,8 +86,8 @@ cca(int sto, exp to, int sx, exp x)
 
 #ifdef TDF_DIAG4
 	if (diag != DIAG_NONE) {
-		dgf(id) = dgf(next(son(id)));
-		dgf(next(son(id))) = NULL;
+		dgf(id) = dgf(next(child(id)));
+		dgf(next(child(id))) = NULL;
 	}
 #endif
 }
@@ -119,7 +119,7 @@ cc(int sto, exp to, int se, exp e,
 		if (doit(ec, count, unused)) {
 			cca(sto, to, se, e);
 			ec = contexp(sto, to);
-			return scan(1, ec, son(ec), unused);
+			return scan(1, ec, child(ec), unused);
 		} else {
 			if (unused) {
 				return scan(se, e, ec, 1);
@@ -133,7 +133,7 @@ cc(int sto, exp to, int se, exp e,
 		if (doit(ec, count, unused)) {
 			cca(sto, to, se, e);
 			ec = contexp(sto, to);
-			return scan(1, ec, son(ec), unused);
+			return scan(1, ec, child(ec), unused);
 		} else {
 			if (unused) {
 				return scan(sto, to, ec, 1);
@@ -168,7 +168,7 @@ cc1(int sto, exp to, int se, exp e,
 		if (doit(ec, count, unused)) {
 			cca(sto, to, se, e);
 			ec = contexp(sto, to);
-			IGNORE scan(1, ec, son(ec), unused);
+			IGNORE scan(1, ec, child(ec), unused);
 			return;
 		} else {
 			if (unused) {
@@ -185,7 +185,7 @@ cc1(int sto, exp to, int se, exp e,
 		if (doit(ec, count, unused)) {
 			cca(sto, to, se, e);
 			ec = contexp(sto, to);
-			IGNORE scan(1, ec, son(ec), unused);
+			IGNORE scan(1, ec, child(ec), unused);
 			return;
 		} else {
 			if (unused) {
@@ -208,7 +208,7 @@ static void ccp
 	cca(sto, to, sx, x);
 	toc = contexp(sto, to);
 	setusereg(toc);
-	IGNORE scan(1, toc, son(toc), 0);
+	IGNORE scan(1, toc, child(toc), 0);
 }
 
 /*
@@ -221,14 +221,14 @@ is_opnd(exp e)
 
 	/* make sure (is_o && is_crc -> !is_opnd) */
 	if (n == name_tag) {
-		if (isvar(son(e))) {
-			return isglob(son(e)) && !PIC_code;
+		if (isvar(child(e))) {
+			return isglob(child(e)) && !PIC_code;
 		}
 
-		return son(son(e)) != NULL &&
-		       (!isglob(son(e)) || !PIC_code || sh(son(e))->tag != prokhd ||
-		        (nextg(son(e)) -> extnamed)) &&
-		       (son(son(e))->tag != ident_tag || !isparam(son(son(e))));
+		return child(child(e)) != NULL &&
+		       (!isglob(child(e)) || !PIC_code || sh(child(e))->tag != prokhd ||
+		        (nextg(child(e)) -> extnamed)) &&
+		       (child(child(e))->tag != ident_tag || !isparam(child(child(e))));
 	}
 
 	return
@@ -256,27 +256,27 @@ ap_argsc(int sto, exp to, exp e)
 	int  k;
 	int do1 = 1;
 
-	if (son(e)->tag == reff_tag) {
-		q = son(son(e));
+	if (child(e)->tag == reff_tag) {
+		q = child(child(e));
 	} else {
-		q = son (e);    /* q must be addptr - all addptrs processed here */
+		q = child (e);    /* q must be addptr - all addptrs processed here */
 	}
 
-	if ((frame_al_of_ptr(sh(son(q))) & al_includes_vcallees) &&
-	    (frame_al1_of_offset(sh(next(son(q)))) & al_includes_caller_args)) {
+	if ((frame_al_of_ptr(sh(child(q))) & al_includes_vcallees) &&
+	    (frame_al1_of_offset(sh(next(child(q)))) & al_includes_caller_args)) {
 		/* env_offset to arg requires indirection from frame pointer */
 		shape pc_sh = f_pointer(f_callers_alignment(0));
-		exp c = getexp(pc_sh, next(son(q)), 0, NULL, NULL, 0, 0, cont_tag);
-		exp r = getexp(pc_sh, c, 1, son(q), NULL, 0, 64, reff_tag);
-		setfather(r, son(q));
-		son(c) = r;
-		son(q) = c;
+		exp c = getexp(pc_sh, next(child(q)), 0, NULL, NULL, 0, 0, cont_tag);
+		exp r = getexp(pc_sh, c, 1, child(q), NULL, 0, 64, reff_tag);
+		setfather(r, child(q));
+		child(c) = r;
+		child(q) = c;
 	}
 
-	p = son(q);
+	p = child(q);
 	a = next(p);
 
-	if (p->tag == name_tag && isvar(son(p)) && isglob(son(p))) {
+	if (p->tag == name_tag && isvar(child(p)) && isglob(child(p))) {
 		do1 = 0;
 	}
 
@@ -284,18 +284,18 @@ ap_argsc(int sto, exp to, exp e)
 		ccp(1, e, 1, q);
 	}
 
-	if (a->tag == offset_mult_tag && next(son(a))->tag == val_tag &&
-	    (k = no(next(son(a))), k == 8 || k == 16 || k == 32 || k == 64)) {
-		ccp(1, e, 1, next(son(q)));
+	if (a->tag == offset_mult_tag && next(child(a))->tag == val_tag &&
+	    (k = no(next(child(a))), k == 8 || k == 16 || k == 32 || k == 64)) {
+		ccp(1, e, 1, next(child(q)));
 	} else {
-		ccp(1, e, 0, son(q));
+		ccp(1, e, 0, child(q));
 	}
 
 	if (do1) {
-		cca(sto, to, 1, son(e));
-		cca(sto, to, 1, next(son(son(e))));
+		cca(sto, to, 1, child(e));
+		cca(sto, to, 1, next(child(child(e))));
 	} else {
-		cca(sto, to, 1, son(e));
+		cca(sto, to, 1, child(e));
 	}
 }
 
@@ -314,24 +314,24 @@ ap_argsc(int sto, exp to, exp e)
 static int
 cont_arg(int sto, exp to, exp e, int usereg0)
 {
-	unsigned char  n = son(e)->tag;
+	unsigned char  n = child(e)->tag;
 
-	if (n == name_tag && isvar(son(son(e)))) {
+	if (n == name_tag && isvar(child(child(e)))) {
 		return usereg0;
 	}
 
 	if (n == cont_tag && usereg0 && shape_size(sh(e)) <= 32) {
-		cont_arg(sto, to, son(e), 1);
+		cont_arg(sto, to, child(e), 1);
 		return 0;
 	}
 
 	if (n == reff_tag) {
-		exp s = son(son(e));
+		exp s = child(child(e));
 		if (s->tag == name_tag) {
-			if (isusereg(son(s))) {
+			if (isusereg(child(s))) {
 				return 0;
 			}
-			if (!PIC_code && isglob(son(s)) && isvar(son(s))) {
+			if (!PIC_code && isglob(child(s)) && isvar(child(s))) {
 				return 0;
 			}
 		}
@@ -353,12 +353,12 @@ cont_arg(int sto, exp to, exp e, int usereg0)
 	}
 
 	if (n == reff_tag) {
-		ccp(1, e, 1, son(e));
+		ccp(1, e, 1, child(e));
 	} else {
 		ccp(1, e, 1, e);
 	}
 
-	cca(sto, to, 1, son(e));
+	cca(sto, to, 1, child(e));
 
 	return 0;
 }
@@ -417,10 +417,10 @@ scan_for_alloca(exp t)
 		return 1;
 
 	case case_tag:
-		return scan_for_alloca(son(t));
+		return scan_for_alloca(child(t));
 
 	case labst_tag:
-		return scan_for_alloca(next(son(t)));
+		return scan_for_alloca(next(child(t)));
 
 	case env_offset_tag:
 	case string_tag:
@@ -432,14 +432,14 @@ scan_for_alloca(exp t)
 			return 1;
 		}
 
-		return scan_alloc_args(son(t));
+		return scan_alloc_args(child(t));
 
 	default:
-		if (son(t) == NULL) {
+		if (child(t) == NULL) {
 			return 0;
 		}
 
-		return scan_alloc_args(son(t));
+		return scan_alloc_args(child(t));
 	}
 }
 
@@ -482,9 +482,9 @@ is_direct(exp e)
 {
 	unsigned char  s = e->tag;
 
-	return (s == name_tag && !isglob(son(e)) && !isvar(son(e))) ||
-	       (s == cont_tag && son(e)->tag == name_tag &&
-	        !isglob(son(son(e))) && isvar(son(son(e))));
+	return (s == name_tag && !isglob(child(e)) && !isvar(child(e))) ||
+	       (s == cont_tag && child(e)->tag == name_tag &&
+	        !isglob(child(child(e))) && isvar(child(child(e))));
 }
 
 /* Is indirectly addressable */
@@ -499,28 +499,28 @@ is_indable(exp e)
 	}
 
 	if (s == cont_tag) {
-		unsigned char  t = son(e)->tag;
-		return (t == name_tag && isvar(son(son(e)))) ||
-		       (t == cont_tag && son(son(e))->tag == name_tag &&
-		        isvar(son(son(son(e))))) ||
-		       (t == reff_tag && is_direct(son(son(e))));
+		unsigned char  t = child(e)->tag;
+		return (t == name_tag && isvar(child(child(e)))) ||
+		       (t == cont_tag && child(child(e))->tag == name_tag &&
+		        isvar(child(child(child(e))))) ||
+		       (t == reff_tag && is_direct(child(child(e))));
 	}
 
-	return (s == reff_tag && is_direct(son(e))) ||
+	return (s == reff_tag && is_direct(child(e))) ||
 	       s == addptr_tag;
 }
 
-/* son must be indirectly addressable */
+/* child must be indirectly addressable */
 static void
-indable_son(int sto, exp to, exp e)
+indable_child(int sto, exp to, exp e)
 {
-	if (!is_indable(son(e))) {
+	if (!is_indable(child(e))) {
 		exp ec;
 		cca(sto, to, 1, e);
 		ec = contexp(sto, to);
-		IGNORE scan(1, ec, son(ec), 0);
+		IGNORE scan(1, ec, child(ec), 0);
 	} else {
-		IGNORE scan(sto, to, son(e), 0);
+		IGNORE scan(sto, to, child(e), 0);
 	}
 }
 
@@ -615,17 +615,17 @@ scan_apply_args(int spto, exp pto, int sato, exp ato)
 static void
 cca_for_cees(int sto, exp to, exp e)
 {
-	if (son(e)->tag == name_tag) {
-		if (!isglob(son(son(e)))) {
-			set_intnl_call(son(son(e)));
+	if (child(e)->tag == name_tag) {
+		if (!isglob(child(child(e)))) {
+			set_intnl_call(child(child(e)));
 		}
 
 		return;
 	}
 
-	if (son(e)->tag == cont_tag && son(son(e))->tag == name_tag) {
-		if (!isglob(son(son(son(e))))) {
-			set_intnl_call(son(son(son(e))));
+	if (child(e)->tag == cont_tag && child(child(e))->tag == name_tag) {
+		if (!isglob(child(child(child(e))))) {
+			set_intnl_call(child(child(child(e))));
 		}
 
 		return;
@@ -643,17 +643,17 @@ is_asm_opnd(exp e, int ext)
 	UNUSED(ext);
 
 	if (n == name_tag) {
-		setvis(son(e));
+		setvis(child(e));
 		return 1;
 	}
 
-	if (n == cont_tag && son(e)->tag == name_tag && isvar(son(son(e)))) {
-		setvis(son(son(e)));
+	if (n == cont_tag && child(e)->tag == name_tag && isvar(child(child(e)))) {
+		setvis(child(child(e)));
 		return 1;
 	}
 
 	return n == val_tag || n == real_tag || n == null_tag ||
-	       (n == reff_tag && son(e)->tag == name_tag);
+	       (n == reff_tag && child(e)->tag == name_tag);
 }
 
 static int
@@ -663,8 +663,8 @@ is_asm_var(exp e, int ext)
 
 	UNUSED(ext);
 
-	if (n == name_tag && isvar(son(e))) {
-		setvis(son(e));
+	if (n == name_tag && isvar(child(e))) {
+		setvis(child(e));
 		return 1;
 	}
 
@@ -675,9 +675,9 @@ void
 check_asm_seq(exp e, int ext)
 {
 	if (e->tag == asm_tag) {
-		if ((asm_string(e) && son(e)->tag == string_tag) ||
-		    (asm_in(e) && is_asm_opnd(son(e), ext)) ||
-		    (asm_var(e) && is_asm_var(son(e), ext))) {
+		if ((asm_string(e) && child(e)->tag == string_tag) ||
+		    (asm_in(e) && is_asm_opnd(child(e), ext)) ||
+		    (asm_var(e) && is_asm_var(child(e), ext))) {
 			return;
 		}
 	}
@@ -685,14 +685,14 @@ check_asm_seq(exp e, int ext)
 	if (e->tag == seq_tag) {
 		exp t;
 
-		for (t = son(son(e)); ; t = next(t)) {
+		for (t = child(child(e)); ; t = next(t)) {
 			check_asm_seq(t, ext);
 			if (t->last) {
 				break;
 			}
 		}
 
-		check_asm_seq(next(son(e)), ext);
+		check_asm_seq(next(child(e)), ext);
 	} else if (e->tag != top_tag) {
 		error(ERR_INTERNAL, "illegal ~asm");
 	}
@@ -717,7 +717,7 @@ scan(int sto, exp to, exp e, int usereg0)
 	case diagnose_tag:
 #endif
 	case caller_tag:
-		if (son(e) == NULL) { /* empty make_nof */
+		if (child(e) == NULL) { /* empty make_nof */
 			return 0;
 		}
 
@@ -725,17 +725,17 @@ scan(int sto, exp to, exp e, int usereg0)
 		return 0;
 
 	case labst_tag:
-		IGNORE scan(0, son(e), next(son(e)), 1);
+		IGNORE scan(0, child(e), next(child(e)), 1);
 		return 0;
 
 	case ident_tag:
-		IGNORE scan(0, son(e), next(son(e)), 0);
-		IGNORE scan(1, e, son(e), 0);
+		IGNORE scan(0, child(e), next(child(e)), 0);
+		IGNORE scan(1, e, child(e), 0);
 		return 0;
 
 	case seq_tag:
-		scanargs(1, son(e), 1);
-		IGNORE scan(0, son(e), next(son(e)), 1);
+		scanargs(1, child(e), 1);
+		IGNORE scan(0, child(e), next(child(e)), 1);
 		return 0;
 
 	case local_free_tag:
@@ -746,12 +746,12 @@ scan(int sto, exp to, exp e, int usereg0)
 
 	case offset_add_tag:
 	case offset_subtract_tag:
-		if (al2(sh(son(e))) == 1 && al2(sh(next(son(e)))) != 1) {
-			make_bitfield_offset(next(son(e)), son(e), 0, sh(e));
+		if (al2(sh(child(e))) == 1 && al2(sh(next(child(e)))) != 1) {
+			make_bitfield_offset(next(child(e)), child(e), 0, sh(e));
 		}
 
-		if (al2(sh(son(e))) != 1 && al2(sh(next(son(e)))) == 1) {
-			make_bitfield_offset(son(e), e, 1, sh(e));
+		if (al2(sh(child(e))) != 1 && al2(sh(next(child(e)))) == 1) {
+			make_bitfield_offset(child(e), e, 1, sh(e));
 		}
 
 		/* all arguments except possibly one must be operands */
@@ -784,22 +784,22 @@ scan(int sto, exp to, exp e, int usereg0)
 
 	case set_stack_limit_tag: {
 		exp lim = find_stlim_var();
-		setnext(lim, son(e));
-		setson(e, lim);
+		setnext(lim, child(e));
+		setchild(e, lim);
 		e->tag = ass_tag;
 		return scan(sto, to, e, usereg0);
 	}
 
 	case chvar_tag: {
-		int ur = usereg0 && son(e)->tag != cont_tag;
+		int ur = usereg0 && child(e)->tag != cont_tag;
 		IGNORE all_opnd(sto, to, e, ur);
 		return 0;
 	}
 
 	case test_tag:
 	case absbool_tag:
-		if ((sh(son(e))->tag >= shrealhd &&
-		     sh(son(e))->tag <= doublehd)) {
+		if ((sh(child(e))->tag >= shrealhd &&
+		     sh(child(e))->tag <= doublehd)) {
 			IGNORE all_opnd (sto, to, e, 0);    /* all arguments must be operands */
 		} else {
 			IGNORE all_opnd(sto, to, e, usereg0);
@@ -815,14 +815,14 @@ scan(int sto, exp to, exp e, int usereg0)
 	case div2_tag:
 	case div0_tag:
 		if (sh(e)->tag == u64hd) {
-			exp * bottom = &next(son(e));
-			if ((*bottom)->tag == chvar_tag && shape_size(sh(son(*bottom))) <= 32 &&
-			    son(*bottom)->tag != val_tag && !is_signed(sh(son(*bottom)))) {
-				if (shape_size(sh(son(*bottom))) == 32) {
-					setnext(son(*bottom), next(*bottom));
-					*bottom = son(*bottom);
+			exp * bottom = &next(child(e));
+			if ((*bottom)->tag == chvar_tag && shape_size(sh(child(*bottom))) <= 32 &&
+			    child(*bottom)->tag != val_tag && !is_signed(sh(child(*bottom)))) {
+				if (shape_size(sh(child(*bottom))) == 32) {
+					setnext(child(*bottom), next(*bottom));
+					*bottom = child(*bottom);
 				} else {
-					setsh(son(*bottom), ulongsh);
+					setsh(child(*bottom), ulongsh);
 				}
 			}
 		}
@@ -841,11 +841,11 @@ scan(int sto, exp to, exp e, int usereg0)
 		return 0;
 
 	case offset_div_by_int_tag:
-		if (sh(next(son(e)))->tag != slonghd &&  sh(next(son(e)))->tag != ulonghd) {
-			exp ch = getexp((sh(next(son(e)))->tag & 1 ? slongsh : ulongsh),
-			                e, 1, next(son(e)), NULL, 0, 0, chvar_tag);
-			setnext(next(son(e)), ch);
-			setnext(son(e), ch);
+		if (sh(next(child(e)))->tag != slonghd &&  sh(next(child(e)))->tag != ulonghd) {
+			exp ch = getexp((sh(next(child(e)))->tag & 1 ? slongsh : ulongsh),
+			                e, 1, next(child(e)), NULL, 0, 0, chvar_tag);
+			setnext(next(child(e)), ch);
+			setnext(child(e), ch);
 		}
 
 		/* all arguments except possibly the first must be operands */
@@ -875,13 +875,13 @@ scan(int sto, exp to, exp e, int usereg0)
 
 		IGNORE cont_arg(sto, to, e, 0);
 		/* special check for references */
-		if (!is_assable(next(son(e)))) {
+		if (!is_assable(next(child(e)))) {
 			/* second argument must be assignable */
-			cca(sto, to, 0, son(e));
+			cca(sto, to, 0, child(e));
 			toc = contexp(sto, to);
-			IGNORE scan(1, toc, son(toc), 1);
+			IGNORE scan(1, toc, child(toc), 1);
 		} else {
-			IGNORE scan(sto, to, next(son(e)), 1);
+			IGNORE scan(sto, to, next(child(e)), 1);
 		}
 
 		return 0;
@@ -889,40 +889,40 @@ scan(int sto, exp to, exp e, int usereg0)
 
 	case apply_tag:
 		if (builtinproc(e)) {
-			/* son must be named global */
-			if (!son(e)->last) {
-				IGNORE cc(sto, to, 0, son(e), notopnd, 1, 0);
+			/* child must be named global */
+			if (!child(e)->last) {
+				IGNORE cc(sto, to, 0, child(e), notopnd, 1, 0);
 			}
 
 			return 0;
 		}
 
-		if (!son(e)->last) {
-			scan_apply_args(sto, to, 0, son(e));
+		if (!child(e)->last) {
+			scan_apply_args(sto, to, 0, child(e));
 		}
 
-		indable_son(sto, to, e);
+		indable_child(sto, to, e);
 		return 0;
 
 	case apply_general_tag: {
-		exp cees = next(next(son(e)));
+		exp cees = next(next(child(e)));
 		exp p_post = cees;	/* next(p_post) is postlude */
 
-		while (next(p_post)->tag == ident_tag && son(next(p_post))->tag == caller_name_tag) {
-			p_post = son(next(p_post));
+		while (next(p_post)->tag == ident_tag && child(next(p_post))->tag == caller_name_tag) {
+			p_post = child(next(p_post));
 		}
 
 		scan(0, p_post, next(p_post), 1);
-		if (son(cees) != NULL) {
+		if (child(cees) != NULL) {
 			scan_apply_args(sto, to, 1, cees);
 		}
 
-		if (no(next(son(e))) != 0) {
-			scan_apply_args(sto, to, 1, next(son(e)));
+		if (no(next(child(e))) != 0) {
+			scan_apply_args(sto, to, 1, next(child(e)));
 		}
 
-		indable_son(sto, to, e);
-		if ((cees->tag == make_dynamic_callee_tag && next(son(cees))->tag != val_tag)
+		indable_child(sto, to, e);
+		if ((cees->tag == make_dynamic_callee_tag && next(child(cees))->tag != val_tag)
 		    || (cees->tag == same_callees_tag && callee_size < 0)) {
 			has_dy_callees = true;
 		}
@@ -939,15 +939,15 @@ scan(int sto, exp to, exp e, int usereg0)
 	}
 
 	case tail_call_tag: {
-		exp cees = next(son(e));
+		exp cees = next(child(e));
 		has_tail_call = true;
 
-		if (son(cees) != NULL) {
+		if (child(cees) != NULL) {
 			IGNORE cc(sto, to, 1, cees, no_alloca, 1, 0);
 		}
 
-		indable_son(sto, to, e);
-		if (cees->tag == make_dynamic_callee_tag && next(son(cees))->tag != val_tag) {
+		indable_child(sto, to, e);
+		if (cees->tag == make_dynamic_callee_tag && next(child(cees))->tag != val_tag) {
 			has_dy_callees = true;
 		}
 
@@ -963,36 +963,36 @@ scan(int sto, exp to, exp e, int usereg0)
 	}
 
 	case goto_lv_tag:
-		indable_son(sto, to, e);
+		indable_child(sto, to, e);
 		return 0;
 
 	case res_tag:
 	case untidy_return_tag:
-		if ((sh(son(e))->tag == cpdhd) &&
-		    (son(e)->tag != cont_tag ||
-		     son(son(e))->tag != name_tag ||
-		     !isvar(son(son(son(e)))))) { /* gcc compatibility */
+		if ((sh(child(e))->tag == cpdhd) &&
+		    (child(e)->tag != cont_tag ||
+		     child(child(e))->tag != name_tag ||
+		     !isvar(child(child(child(e)))))) { /* gcc compatibility */
 			exp ec;
 			cca(sto, to, 1, e);
 			ec = contexp(sto, to);
-			IGNORE scan(1, ec, son(ec), 0);
+			IGNORE scan(1, ec, child(ec), 0);
 			return 0;
 		} else  {
-			IGNORE(scan(sto, to, son(e), 1));
+			IGNORE(scan(sto, to, child(e), 1));
 			return 0;
 		}
 
 	case case_tag: {
 		exp toc;
 
-		if (son(e)->tag != name_tag &&
-		    (son(e)->tag != cont_tag ||
-		     son(son(e))->tag != name_tag)) {
+		if (child(e)->tag != name_tag &&
+		    (child(e)->tag != cont_tag ||
+		     child(child(e))->tag != name_tag)) {
 			cca(sto, to, 1, e);
 			toc = contexp(sto, to);
-			IGNORE scan(1, toc, son(toc), 0);
+			IGNORE scan(1, toc, child(toc), 0);
 		} else {
-			IGNORE scan(sto, to, son(e), 0);
+			IGNORE scan(sto, to, child(e), 0);
 		}
 
 		return 0;
@@ -1016,20 +1016,20 @@ scan(int sto, exp to, exp e, int usereg0)
 
 	case mult_tag: {
 		if (shape_size(sh(e)) == 64 && optop(e)) {
-			exp * arglist = &son(e);
+			exp * arglist = &child(e);
 			for (;;) {
-				if ((*arglist)->tag == chvar_tag && shape_size(sh(son(*arglist))) <= 32 &&
-				    (is_signed(sh(e)) || !is_signed(sh(son(*arglist))))) {
-					if (shape_size(sh(son(*arglist))) == 32) {
-						setnext(son(*arglist), next(*arglist));
+				if ((*arglist)->tag == chvar_tag && shape_size(sh(child(*arglist))) <= 32 &&
+				    (is_signed(sh(e)) || !is_signed(sh(child(*arglist))))) {
+					if (shape_size(sh(child(*arglist))) == 32) {
+						setnext(child(*arglist), next(*arglist));
 						if ((*arglist)->last) {
-							son(*arglist)->last = true;
+							child(*arglist)->last = true;
 						} else {
-							son(*arglist)->last = false;
+							child(*arglist)->last = false;
 						}
-						*arglist = son(*arglist);
+						*arglist = child(*arglist);
 					} else {
-						setsh(son(*arglist), (is_signed(sh(e)) ? slongsh : ulongsh));
+						setsh(child(*arglist), (is_signed(sh(e)) ? slongsh : ulongsh));
 					}
 				}
 				if ((*arglist)->last) {
@@ -1061,17 +1061,17 @@ scan(int sto, exp to, exp e, int usereg0)
 		return cont_arg(sto, to, e, usereg0);
 
 	case field_tag:
-		if (!is_o(son(e)->tag) || e->tag == cont_tag) {
+		if (!is_o(child(e)->tag) || e->tag == cont_tag) {
 			exp temp;
 			cca(sto, to, 1, e);
 			temp = contexp(sto, to);
-			return scan(1, temp, son(temp), usereg0);
+			return scan(1, temp, child(temp), usereg0);
 		} else {
-			return scan(sto, to, son(e), usereg0);
+			return scan(sto, to, child(e), usereg0);
 		}
 
 	case reff_tag:
-		if (son(e)->tag == addptr_tag) {
+		if (child(e)->tag == addptr_tag) {
 			ap_argsc(sto, to, e);
 			return 0;
 		}
@@ -1081,7 +1081,7 @@ scan(int sto, exp to, exp e, int usereg0)
 
 	case proc_tag:
 	case general_proc_tag:
-		IGNORE scan(1, e, son(e), 1);
+		IGNORE scan(1, e, child(e), 1);
 		return 0;
 
 	case asm_tag:
@@ -1089,7 +1089,7 @@ scan(int sto, exp to, exp e, int usereg0)
 			error(ERR_INTERNAL, "~asm not in ~asm_sequence");
 		}
 
-		check_asm_seq(son(e), 0);
+		check_asm_seq(child(e), 0);
 		proc_has_asm = true;
 
 		return 0;

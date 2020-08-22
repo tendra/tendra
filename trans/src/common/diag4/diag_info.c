@@ -27,7 +27,7 @@
 exp
 diag_locate(exp e)
 {
-	exp id = son(e);
+	exp id = child(e);
 
 	if (isglob(id)) {
 		if (nextg(id)->var) {
@@ -35,7 +35,7 @@ diag_locate(exp e)
 		}
 	} else {
 		if (isvar(id)) {
-			e = f_contents(sh(son(id)), e);
+			e = f_contents(sh(child(id)), e);
 		}
 	}
 

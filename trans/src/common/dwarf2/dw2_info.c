@@ -68,11 +68,11 @@ static void fail_unimplemented
 static exp find_id
     ( exp e )
 {
-  if (e->tag == name_tag && !isdiscarded(e) && !isvar(son(e)))
-    return son(e);
-  if (e->tag == cont_tag && son(e)->tag == name_tag && !isdiscarded(son(e))
-		&& ( isvar(son(son(e))) || isparam(son(son(e))) ))
-    return son(son(e));
+  if (e->tag == name_tag && !isdiscarded(e) && !isvar(child(e)))
+    return child(e);
+  if (e->tag == cont_tag && child(e)->tag == name_tag && !isdiscarded(child(e))
+		&& ( isvar(child(child(e))) || isparam(child(child(e))) ))
+    return child(child(e));
   return NULL;
 }
 
@@ -125,8 +125,8 @@ void dw_out_const
 void dw_out_default
     ( dg_default * d )
 {
-  if (d->val && dw_is_const (son(d->val)))
-    dw_out_const (son(d->val));
+  if (d->val && dw_is_const (child(d->val)))
+    dw_out_const (child(d->val));
   else
   if (d->span.sp_key != SP_SPAN) {
     dw_at_form (DW_FORM_flag); asm_printf("\n");
@@ -203,10 +203,10 @@ static void check_trivial
 	/* This is still far too strong; e may be anything with equivalent
 		already in a register! */
   if (e && e->tag != val_tag && e->tag != name_tag &&
-	(e->tag != cont_tag || son(e)->tag != name_tag) &&
+	(e->tag != cont_tag || child(e)->tag != name_tag) &&
 	e->tag != goto_tag && e->tag != top_tag ) {
     if (e->tag == chvar_tag || e->tag == chfl_tag)
-      check_trivial (son(e));
+      check_trivial (child(e));
     else
       error(ERR_INTERNAL, "lost information?");
   }
@@ -230,7 +230,7 @@ static void output_info
       return;
     }
     if (e->tag == name_tag || e->tag == env_size_tag || 
-	e->tag == env_offset_tag || (t = son(e), !t))
+	e->tag == env_offset_tag || (t = child(e), !t))
       return;
     for (;;) {
       output_info (t, dgf(t));
@@ -365,7 +365,7 @@ static void output_info
 	}
 	IGNORE dw_entry (dwe_with, 0);
 	dw_at_ext_lab (dw2_find_type_label (d->data.i_with.w_type));
-	dw2_locate_exp (son(d->data.i_with.w_exp), 0, 0);
+	dw2_locate_exp (child(d->data.i_with.w_exp), 0, 0);
 	dw_at_address (d->data.i_with.lo_pc);
 	dw_at_address (d->data.i_with.hi_pc);
       }
@@ -505,7 +505,7 @@ static void output_info
 	if (d->data.i_raise.x_type)
 	  attr1 |= H_TP;
 	if (d->data.i_raise.x_val)
-	  attr1 |= (dw_is_const (son(d->data.i_raise.x_val)) ? H_CV : H_LC);
+	  attr1 |= (dw_is_const (child(d->data.i_raise.x_val)) ? H_CV : H_LC);
 	attr2 = dw_entry (dwe_throw, attr1);
 	if (attr2 & ~(H_XY|H_TP|H_LC|H_CV))
 	  fail_unimplemented ();
@@ -514,9 +514,9 @@ static void output_info
 	if (attr2 & H_TP)
 	  dw_at_ext_lab (dw2_find_type_label (d->data.i_raise.x_type));
 	if (attr2 & H_LC)
-	  dw2_locate_exp (son(d->data.i_raise.x_val), 0, 0);
+	  dw2_locate_exp (child(d->data.i_raise.x_val), 0, 0);
 	if (attr2 & H_CV)
-	  dw_out_const (son(d->data.i_raise.x_val));
+	  dw_out_const (child(d->data.i_raise.x_val));
       }
       output_info (e, d->more);
       break;
@@ -620,7 +620,7 @@ static void output_info
 	}
 	if (d->data.i_dest.val) {
 	  attr1 |= H_TP;
-	  attr1 |= (dw_is_const (son(d->data.i_dest.val)) ? H_CV : H_LC);
+	  attr1 |= (dw_is_const (child(d->data.i_dest.val)) ? H_CV : H_LC);
 	}
 	attr2 = dw_entry (dwe_destruct, attr1);
 	if (attr2 & ~(H_XY|H_TP|H_LC|H_CV))
@@ -630,9 +630,9 @@ static void output_info
 	if (attr2 & H_TP)
 	  dw_at_ext_lab (dw2_find_type_label (return_type));
 	if (attr2 & H_LC)
-	  dw2_locate_exp (son(d->data.i_dest.val), 0, 0);
+	  dw2_locate_exp (child(d->data.i_dest.val), 0, 0);
 	if (attr2 & H_CV)
-	  dw_out_const (son(d->data.i_dest.val));
+	  dw_out_const (child(d->data.i_dest.val));
       }
       output_info (e, d->more);
       if (!doing_abstract)
@@ -892,7 +892,7 @@ static void out_param
 #ifdef H_DX
   if (p.p_dflt) {
     if (p.p_dflt->span.sp_key == SP_SPAN ||
-	(p.p_dflt->val && dw_is_const (son(p.p_dflt->val)) ))
+	(p.p_dflt->val && dw_is_const (child(p.p_dflt->val)) ))
       attr1 |= H_DF;
     else
       attr1 |= H_DX;
@@ -963,23 +963,23 @@ static void dw2_out_proc
   id = di->data.n_proc.obtain_val;
   if (id) {
     exp p;
-    if (id->tag != hold_tag || son(id)->tag != name_tag) {
+    if (id->tag != hold_tag || child(id)->tag != name_tag) {
       error(ERR_INTERNAL, "wrong proc obtain_tag");
       return;
     }
-    id = son(son(id));
-    p = son(id);
+    id = child(child(id));
+    p = child(id);
     if (p) {
-      exp t = son(p);
+      exp t = child(p);
       dw2_prepare_locate (id);
       proc_dg_info = dgf(p);
       if (proc_dg_info && proc_dg_info->key != DGA_PRC)
 	error(ERR_INTERNAL, "inconsistent proc info");
       if (proc_has_vcallees(p))
 	is_callable = DW_CC_nocall;
-      while (t->tag == ident_tag && isparam(t) && son(t)->tag != formal_callee_tag)
-	t = next(son(t));
-      if (t->tag == ident_tag && son(t)->tag == formal_callee_tag)
+      while (t->tag == ident_tag && isparam(t) && child(t)->tag != formal_callee_tag)
+	t = next(child(t));
+      if (t->tag == ident_tag && child(t)->tag == formal_callee_tag)
 	is_callable = DW_CC_nocall;
       if (nextg(id)->extnamed) {
 	infolab = next_dwarf_label ();
@@ -1093,14 +1093,14 @@ static void dw2_out_proc
     if (attr2 & H_VT)
       dw_at_data (1, (long)(di->more ? di->more->virt : 0));
     if (attr2 & H_VL)
-      dw2_locate_exp (son(di->more->vslot), 0, 0);
+      dw2_locate_exp (child(di->more->vslot), 0, 0);
     if (attr2 & H_PC) {
       dw_at_address (proc_dg_info->data.i_prc.prc_start);
       dw_at_address (proc_dg_info->data.i_prc.prc_end);
       dw_at_procdetails ();	/* return address and frame_base */
     }
     if (attr2 & H_SL)
-      dw2_locate_exp (son(proc_dg_info->data.i_prc.p->data.i_param.o_env), 1, 0);
+      dw2_locate_exp (child(proc_dg_info->data.i_prc.p->data.i_param.o_env), 1, 0);
 
     if (attr2 & H_EXTN) {
       long block_end = next_dwarf_label ();
@@ -1118,7 +1118,7 @@ static void dw2_out_proc
       }
       if (attr1 & H_RP) {
 	set_attribute (DW_AT_DD_repn, 0);
-	dw_out_const (son (di->more->repn));
+	dw_out_const (child (di->more->repn));
       }
       if (attr1 & H_LN) {
 	set_attribute (DW_AT_language, DW_FORM_udata);
@@ -1213,7 +1213,7 @@ static void dw2_out_proc
 	if (atret2 & H_PC)
 	  dw_at_address (rets->lab);
 	if (atret2 & H_LC)
-	  dw2_locate_result (pt(son(id)));
+	  dw2_locate_result (pt(child(id)));
 	if (!rets)
 	  break;
 	rets = rets->next;
@@ -1222,7 +1222,7 @@ static void dw2_out_proc
     }
 
     if (id && (proc_dg_info || doing_abstract)) {
-      output_info (son(id), (proc_dg_info ? dgf(son(id))->more : dgf(son(id))));
+      output_info (child(id), (proc_dg_info ? dgf(child(id))->more : dgf(child(id))));
     }
 
     dw_sibling_end ();
@@ -1253,7 +1253,7 @@ void dw2_out_generic
 	dw_at_string (idname_chars (p->idname));
 	dw_at_decl (p->whence);
 	dw_at_ext_lab (dw2_find_type_label (p->data.n_obj.type));
-	dw_out_const (son (p->data.n_obj.obtain_val));
+	dw_out_const (child (p->data.n_obj.obtain_val));
 	break;
       }
       case DGN_TYPE: {
@@ -1315,7 +1315,7 @@ void dw2_out_name
 	error(ERR_INTERNAL, "inline inconsistency");
 
       if (contex == GLOBAL_NAME && di->idname.id_key == DG_ID_EXT &&
-		x && find_id (son(x))) {
+		x && find_id (child(x))) {
 	infolab = next_dwarf_label ();
 	exit_section ();
 	enter_section ("debug_pubnames");
@@ -1354,7 +1354,7 @@ void dw2_out_name
 #ifdef H_DX
 	  if (ppar && ppar->p_dflt) {
 	    if (ppar->p_dflt->span.sp_key == SP_SPAN ||
-		(ppar->p_dflt->val && dw_is_const (son(ppar->p_dflt->val)) ))
+		(ppar->p_dflt->val && dw_is_const (child(ppar->p_dflt->val)) ))
 	      attr1 |= H_DF;
 	    else
 	      attr1 |= H_DX;
@@ -1372,7 +1372,7 @@ void dw2_out_name
 	  error(ERR_INTERNAL, "obtain_value missing");
 	if (contex == LOCAL_NAME || contex == DEAD_NAME)
 	  attr1 |= H_SS;
-	if (contex != DEAD_NAME && dw_is_const (son(x)))
+	if (contex != DEAD_NAME && dw_is_const (child(x)))
 	  attr1 |= H_CV;
 	else {
 	  int ll = decide_ll_type (x);
@@ -1434,19 +1434,19 @@ void dw2_out_name
       if (attr2 & H_SS)
 	dw_at_distance (dw2_scope_start, local_var_place);
       if (attr2 & H_CV)
-	dw_out_const (son(x));
+	dw_out_const (child(x));
       if (attr2 & H_LC) {
 	if (contex == DEAD_NAME)
 	  dw_no_locate ();
 	else
-	  dw2_locate_exp (son(x), 0, 0);
+	  dw2_locate_exp (child(x), 0, 0);
       }
       if (attr2 & H_LL)
 	dw_at_address (loclab = next_dwarf_label ());
       if (attr2 & H_LE)
 	dw_at_address (loclabext = next_dwarf_label ());
       if (attr2 & H_RP)
-	dw_out_const (son (di->more->repn));
+	dw_out_const (child (di->more->repn));
 
       if (loclab) {
 	long lstart, lend;
@@ -1460,7 +1460,7 @@ void dw2_out_name
 	if (contex == PARAM_NAME) {
 	  lstart = proc_dg_info->data.i_prc.prc_start;
 	  out_loc_range (lstart, lstart, 1);
-	  dw2_locate_exp (son(x), 0, 3);
+	  dw2_locate_exp (child(x), 0, 3);
 	  lstart = proc_dg_info->data.i_prc.p->data.i_param.b_start;
 	  lend = proc_dg_info->data.i_prc.prc_end;
 	}
@@ -1475,7 +1475,7 @@ void dw2_out_name
 	    rend = rets->lab;
 	    if (rend != rstart) {
 	      out_loc_range (rstart, rend, 0);
-	      dw2_locate_exp (son(x), 0, 1);
+	      dw2_locate_exp (child(x), 0, 1);
 	    }
 	    rstart = rets->over;
 	  }
@@ -1484,7 +1484,7 @@ void dw2_out_name
 	rend = proc_dg_info->data.i_prc.prc_end;
 	if (rend != rstart) {
 	  out_loc_range (rstart, rend, 0);
-	  dw2_locate_exp (son(x), 0, 1);
+	  dw2_locate_exp (child(x), 0, 1);
 	}
 #endif
 	out32(); asm_printf("0, 0"); asm_comment("loclist end");
@@ -1515,12 +1515,12 @@ void dw2_out_name
       exp id = di->data.n_mod.init;
       dg_instantn * generic = NULL;
       dg_name mem;
-      if (id && id->tag == hold_tag && son(id)->tag == name_tag) {
-	id = son(son(id));
-	if (son(id) && (son(id)->tag == apply_tag ||
-			son(id)->tag == apply_general_tag)) {
+      if (id && id->tag == hold_tag && child(id)->tag == name_tag) {
+	id = child(child(id));
+	if (child(id) && (child(id)->tag == apply_tag ||
+			child(id)->tag == apply_general_tag)) {
 	  dw2_prepare_locate (id);
-	  if (dgf(son(id)))
+	  if (dgf(child(id)))
 	    has_init_code = 1;
 	}
       }
@@ -1595,7 +1595,7 @@ void dw2_out_name
       if (attr2 & H_AC)
 	dw_at_data (1, (long)(di->more ? di->more->acc : 0));
       if (attr2 & H_PC) {
-	dg_info pd = dgf(son(id));
+	dg_info pd = dgf(child(id));
 	if (pd->key != DGA_PRC)
 	  error(ERR_INTERNAL, "inconsistent proc info");
 	dw_at_address (pd->data.i_prc.prc_start);
@@ -1773,7 +1773,7 @@ void dw2_out_name
 	  if (attr2 & H_RM)
 	    dw_at_ext_address (c->refmem);
 	  if (attr2 & H_CV)
-	    dw_out_const (son(c->u.val));
+	    dw_out_const (child(c->u.val));
 	  if (attr2 & H_TP)
 	    dw_at_ext_lab (dw2_find_type_label (c->u.type));
 	  c = c->next;
@@ -1812,7 +1812,7 @@ void dw2_out_name
       if (attr2 & H_TP)
 	dw_at_ext_lab (dw2_find_type_label (res_t));
       if (attr2 & H_RP) {
-	dw_out_const (son (di->more->repn));
+	dw_out_const (child (di->more->repn));
       }
 
       for (i = 0; i < p_t->data.t_proc.params.len; i++)

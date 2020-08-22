@@ -95,17 +95,17 @@ rept:
 		}
 
 		if (na == ident_tag) {
-			int good = son(a) != NULL && son(b) != NULL &&
-			           next(son(a)) != NULL && next(son(b)) != NULL;
+			int good = child(a) != NULL && child(b) != NULL &&
+			           next(child(a)) != NULL && next(child(b)) != NULL;
 
 			if (good) {
-				exp bsa = next(son(a));
-				exp bsb = next(son(b));
+				exp bsa = next(child(a));
+				exp bsb = next(child(b));
 
-				if (bsa->tag == name_tag && son(bsa) == a &&
-				    bsb->tag == name_tag && son(bsb) == b) {
-					a = son(a);
-					b = son(b);
+				if (bsa->tag == name_tag && child(bsa) == a &&
+				    bsb->tag == name_tag && child(bsb) == b) {
+					a = child(a);
+					b = child(b);
 					first = 0;
 					goto rept;
 				}
@@ -113,12 +113,12 @@ rept:
 				if (bsa->tag == reff_tag &&
 				    bsb->tag == reff_tag &&
 				    (overlap ? (no(bsa) & -32) == (no(bsb) & -32) : no(bsa) == no(bsb)) &&
-				    son(bsa)->tag == name_tag &&
-				    son(son(bsa)) == a &&
-				    son(bsb)->tag == name_tag &&
-				    son(son(bsb)) == b) {
-					a = son(a);
-					b = son(b);
+				    child(bsa)->tag == name_tag &&
+				    child(child(bsa)) == a &&
+				    child(bsb)->tag == name_tag &&
+				    child(child(bsb)) == b) {
+					a = child(a);
+					b = child(b);
 					first = 0;
 					goto rept;
 				}
@@ -134,20 +134,20 @@ rept:
 
 		if (na == name_tag) {
 			if ((overlap ? (no(a) & -32) != (no(b) & -32) : no(a) != no(b)) ||
-			    (isvar(son(a)) != isvar(son(b)))) {
+			    (isvar(child(a)) != isvar(child(b)))) {
 				return 0;
 			}
 
-			a = son(a);
-			b = son(b);
+			a = child(a);
+			b = child(b);
 			first = 0;
 
 			goto rept;
 		}
 
 		if (na == cont_tag || na == ass_tag) {
-			a = son(a);
-			b = son(b);
+			a = child(a);
+			b = child(b);
 			first = 0;
 
 			goto rept;
@@ -158,8 +158,8 @@ rept:
 				return 0;
 			}
 
-			a = son(a);
-			b = son(b);
+			a = child(a);
+			b = child(b);
 			first = 0;
 
 			goto rept;
@@ -193,7 +193,7 @@ rept:
 			return 0;
 		}
 
-		a = son(a);
+		a = child(a);
 		first = 0;
 
 		goto rept;
@@ -204,59 +204,59 @@ rept:
 			return 0;
 		}
 
-		b = son(b);
+		b = child(b);
 		first = 0;
 
 		goto rept;
 	}
 
-	if (na == cont_tag && son(a)->tag == name_tag &&
-	    isvar(son(son(a))) && nb == ident_tag && first) {
-		if (overlap ? (no(son(a)) & -32) != 0 : no(son(a)) != 0) {
+	if (na == cont_tag && child(a)->tag == name_tag &&
+	    isvar(child(child(a))) && nb == ident_tag && first) {
+		if (overlap ? (no(child(a)) & -32) != 0 : no(child(a)) != 0) {
 			return 0;
 		}
 
-		a = son(son(a));
+		a = child(child(a));
 		first = 0;
 
 		goto rept;
 	}
 
-	if (na == ident_tag && nb == cont_tag && son(b)->tag == name_tag
-	    && isvar(son(son(b))) && first) {
-		if (overlap ? (no(son(b)) & -32) != 0 : no(son(b)) != 0) {
+	if (na == ident_tag && nb == cont_tag && child(b)->tag == name_tag
+	    && isvar(child(child(b))) && first) {
+		if (overlap ? (no(child(b)) & -32) != 0 : no(child(b)) != 0) {
 			return 0;
 		}
 
-		b = son(b);
+		b = child(b);
 		first = 0;
 
 		goto rept;
 	}
 
 	if ((na == cont_tag || na == ass_tag) &&
-	    son(a)->tag == name_tag &&
-	    isvar(son(son(a))) && nb == name_tag && !isvar(son(b))) {
-		if (overlap ? (no(son(a)) & -32) != (no(b) & -32) : no(son(a)) != no(b)) {
+	    child(a)->tag == name_tag &&
+	    isvar(child(child(a))) && nb == name_tag && !isvar(child(b))) {
+		if (overlap ? (no(child(a)) & -32) != (no(b) & -32) : no(child(a)) != no(b)) {
 			return 0;
 		}
 
-		a = son(son(a));
-		b = son(b);
+		a = child(child(a));
+		b = child(b);
 		first = 0;
 
 		goto rept;
 	}
 
 	if ((nb == cont_tag || nb == ass_tag) &&
-	    son(b)->tag == name_tag &&
-	    isvar(son(son(b))) && na == name_tag && !isvar(son(a))) {
-		if (overlap ? (no(son(b)) & -32) != (no(a) & -32) : no(son(b)) != no(a)) {
+	    child(b)->tag == name_tag &&
+	    isvar(child(child(b))) && na == name_tag && !isvar(child(a))) {
+		if (overlap ? (no(child(b)) & -32) != (no(a) & -32) : no(child(b)) != no(a)) {
 			return 0;
 		}
 
-		a = son(a);
-		b = son(son(b));
+		a = child(a);
+		b = child(child(b));
 		first = 0;
 
 		goto rept;
@@ -264,8 +264,8 @@ rept:
 
 	if ((na == ass_tag && nb == cont_tag) ||
 	    (nb == ass_tag && na == cont_tag)) {
-		a = son(a);
-		b = son(b);
+		a = child(a);
+		b = child(b);
 		first = 0;
 
 		goto rept;
@@ -365,7 +365,7 @@ operand(int le, where wh, int b, int addr)
 	}
 
 	if (n == name_tag) {
-		exp ident = son(w);
+		exp ident = child(w);
 		int  noff = no(w) + off;
 		int  ni = no(ident);
 
@@ -412,17 +412,17 @@ operand(int le, where wh, int b, int addr)
 	}
 
 	if (n == cont_tag || n == ass_tag) {
-		exp ref = son(w);
+		exp ref = child(w);
 		unsigned char  s = ref->tag;
 
 		if (addr) {
-			operand(le, mw(son(w), 0), b, 0);
+			operand(le, mw(child(w), 0), b, 0);
 			return;
 		}
 
 		if (s == name_tag) {	/* content of id */
-			if (!isvar(son(ref))) {
-				exp ident = son(ref);
+			if (!isvar(child(ref))) {
+				exp ident = child(ref);
 
 				if (ptno(ident) != reg_pl && off != 0) {
 					error(ERR_INTERNAL, "illegal operand");
@@ -451,7 +451,7 @@ operand(int le, where wh, int b, int addr)
 					return;
 				}
 			} else { /* variable */
-				exp ident = son(ref);
+				exp ident = child(ref);
 				int  noff = no(ref) + off;
 				int  ni = no(ident);
 
@@ -486,9 +486,9 @@ operand(int le, where wh, int b, int addr)
 			}
 		} /* end of cont(name) */
 
-		if (s == cont_tag && son(ref)->tag == name_tag &&
-		    isvar(son(son(ref)))) {
-			exp ident = son(son(ref));
+		if (s == cont_tag && child(ref)->tag == name_tag &&
+		    isvar(child(child(ref)))) {
+			exp ident = child(child(ref));
 
 			if (ptno(ident) != reg_pl && off != 0) {
 				error(ERR_INTERNAL, "illegal operand");
@@ -498,14 +498,14 @@ operand(int le, where wh, int b, int addr)
 				if (sh(w)->tag != prokhd) {
 					error(ERR_INTERNAL, "illegal operand");
 				} else {
-					extn(ident, no(son(ref)), b);
+					extn(ident, no(child(ref)), b);
 				}
 				return;
 			}
 
 			switch (ptno(ident)) {
 			case reg_pl: /* indirect from register */
-				ind_reg(no(ident), no(son(ref)), off, ref, b);
+				ind_reg(no(ident), no(child(ref)), off, ref, b);
 				return;
 
 			default:
@@ -515,18 +515,18 @@ operand(int le, where wh, int b, int addr)
 		} /* end of cont(cont(var)) */
 
 		if (s == reff_tag) {
-			exp et = son(ref);
+			exp et = child(ref);
 			unsigned char t = et->tag;
 
 			if (t == name_tag) {
-				if (isglob(son(et))) {
-					extn(son(et), no(ref), b);
+				if (isglob(child(et))) {
+					extn(child(et), no(ref), b);
 					return;
 				}
 
-				switch (ptno(son(et))) {
+				switch (ptno(child(et))) {
 				case reg_pl:
-					ind_reg(no(son(et)), no(et), (no(ref) + off), et, b);
+					ind_reg(no(child(et)), no(et), (no(ref) + off), et, b);
 					return;
 
 				default:
@@ -536,10 +536,10 @@ operand(int le, where wh, int b, int addr)
 			}			/* end of cont(reff(name)) */
 
 			if (t == cont_tag) {
-				switch (ptno(son(son(et)))) {
+				switch (ptno(child(child(et)))) {
 				case reg_pl:
-					ind_reg(no(son(son(et))), no(son(et)),
-					        (no(ref) + off), son(et), b);
+					ind_reg(no(child(child(et))), no(child(et)),
+					        (no(ref) + off), child(et), b);
 					return;
 
 				default:
@@ -560,8 +560,8 @@ operand(int le, where wh, int b, int addr)
 		} /* end of cont(reff()) */
 
 		if (s == addptr_tag) {
-			exp u = next(son(ref));
-			exp c = getexp(f_bottom, NULL, 0, son(ref), NULL, 0, 0, cont_tag);
+			exp u = next(child(ref));
+			exp c = getexp(f_bottom, NULL, 0, child(ref), NULL, 0, 0, cont_tag);
 			where wc, wu;
 
 			wc.where_exp = c;
@@ -575,8 +575,8 @@ operand(int le, where wh, int b, int addr)
 			} /* end of cont(addptr(-, name)) */
 
 			if (u->tag == offset_mult_tag) {
-				int  k = no(next(son (u))) / 8; /* cannot be bitfield */
-				wu.where_exp = son(u);
+				int  k = no(next(child (u))) / 8; /* cannot be bitfield */
+				wu.where_exp = child(u);
 				index_opnd(wc, wu, k);
 				return;
 			} /* end of cont(addptr(-, mult)) */
@@ -585,17 +585,17 @@ operand(int le, where wh, int b, int addr)
 
 
 	if (n == reff_tag) {
-		exp se = son(w);
+		exp se = child(w);
 		unsigned char  s = se->tag;
 		if (s == name_tag) {
-			if (isglob(son(se))) {
-				extn(son(se), no(w), b);
+			if (isglob(child(se))) {
+				extn(child(se), no(w), b);
 				return;
 			}
 
-			switch (ptno(son(se))) {
+			switch (ptno(child(se))) {
 			case reg_pl:
-				ind_reg(no(son(se)), no(son(se)), no(w), se, b);
+				ind_reg(no(child(se)), no(child(se)), no(w), se, b);
 				return;
 
 			default:
@@ -605,14 +605,14 @@ operand(int le, where wh, int b, int addr)
 		} /* end of reff(name)  */
 
 		if (s == cont_tag) {
-			if (isglob(son(son(se)))) {
-				extn(son(son(se)), no(w), b);
+			if (isglob(child(child(se)))) {
+				extn(child(child(se)), no(w), b);
 				return;
 			}
 
-			switch (ptno(son(son(se)))) {
+			switch (ptno(child(child(se)))) {
 			case reg_pl:
-				ind_reg(no(son(son(se))), no(son(se)), no(w), son(se), b);
+				ind_reg(no(child(child(se))), no(child(se)), no(w), child(se), b);
 				return;
 
 			default:
@@ -633,8 +633,8 @@ operand(int le, where wh, int b, int addr)
 	} /* end of reff() */
 
 	if (n == addptr_tag) {
-		exp u = next(son(w));
-		exp c = getexp(f_bottom, NULL, 0, son(w), NULL, 0, 0, cont_tag);
+		exp u = next(child(w));
+		exp c = getexp(f_bottom, NULL, 0, child(w), NULL, 0, 0, cont_tag);
 		where wc, wu;
 
 		wc.where_exp = c;
@@ -648,8 +648,8 @@ operand(int le, where wh, int b, int addr)
 		} /* end of addptr(-, name)  */
 
 		if (u->tag == offset_mult_tag) {
-			int  k = no(next(son (u))) / 8;	/* cannot be bitfield */
-			wu.where_exp = son(u);
+			int  k = no(next(child (u))) / 8;	/* cannot be bitfield */
+			wu.where_exp = child(u);
 			index_opnd(wc, wu, k);
 			return;
 		} /* end of addptr(-, mult) */
@@ -680,7 +680,7 @@ operand(int le, where wh, int b, int addr)
 	}
 
 	if (n == field_tag) {
-		operand(le, mw(son(w), off + no(w)), b, addr);
+		operand(le, mw(child(w), off + no(w)), b, addr);
 		return;
 	}
 
@@ -695,19 +695,19 @@ operand(int le, where wh, int b, int addr)
 	}
 
 	if (n == env_offset_tag) {
-		if (son(w)->tag == 0) {	/* must be caller arg with var_callees */
-			int_operand(no(son(w)) / 8, le);
+		if (child(w)->tag == 0) {	/* must be caller arg with var_callees */
+			int_operand(no(child(w)) / 8, le);
 			return;
 		}
 
 		asm_printf("$");
-		envoff_operand(son(w), no(w));
+		envoff_operand(child(w), no(w));
 		return;
 	}
 
 	if (n == env_size_tag) {
 		asm_printf("$");
-		envsize_operand(son(son(w)));
+		envsize_operand(child(child(w)));
 		return;
 	}
 

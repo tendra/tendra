@@ -245,7 +245,7 @@ stab_begin(diag_info * d, int proc_no, exp e)
 
 	x = d->data.id_scope.access;
 	/* MIPS */
-	if (isglob(son(x)) || no(son(x)) == 1) {
+	if (isglob(child(x)) || no(child(x)) == 1) {
 		return;
 	}
 
@@ -258,7 +258,7 @@ stab_begin(diag_info * d, int proc_no, exp e)
 	stab_local(d->data.id_scope.name.ints.chars, d->data.id_scope.type,
 					 x, 0, currentfile);
 
-	if (last_param(son(x))) {
+	if (last_param(child(x))) {
 		stabd(currentfile,(long)(currentlno + 1),N_SLINE);
 	}
 }
@@ -720,7 +720,7 @@ stab_proc_end(void)
 static void
 stab_local(char *name, diag_type dt, exp ldid, long disp, long findex)
 {
-	exp id = son(ldid);
+	exp id = child(ldid);
 	struct delay_stab *t = next_del_stab();
 
 	UNUSED(findex);
@@ -747,14 +747,14 @@ again:
 				return;
 			}
 		} else {
-			exp sn = son(id);
+			exp sn = child(id);
 			long d = disp;
 
 			while (sn != NULL) {
 				switch (sn->tag) {
 				case name_tag:
 					disp = d + no(sn);
-					id = son(sn);
+					id = child(sn);
 					if (isvar(id)) {
 						dt = dt->data.ptr.object;
 					}
@@ -762,11 +762,11 @@ again:
 
 				case reff_tag:
 					d += no(sn);
-					sn = son(sn);
+					sn = child(sn);
 					break;
 
 				case cont_tag:
-					sn = son(sn);
+					sn = child(sn);
 					break;
 
 				default:

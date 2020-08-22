@@ -37,14 +37,14 @@ typedef int sortname;
     TYPE REPRESENTING A TREE NODE
 
     TDF is represented as a tree structure.  Each node has a corresponding
-    construct given by the cons field.  The son and next fields give the
+    construct given by the cons field.  The child and next fields give the
     tree its structure.  For shape checking there is also a shape field
     which is itself a node.
 */
 
 typedef struct x_node {
 	struct x_construct *cons;
-	struct x_node *son;
+	struct x_node *child;
 	struct x_node *next;
 	struct x_node *shape;
 } node;

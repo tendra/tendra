@@ -31,7 +31,7 @@ something(dec *d)
 	name = d->name;
 
 	c = d->exp;
-	s = son(c);
+	s = child(c);
 
 	if (s == NULL) {
 		shape sha;

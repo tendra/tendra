@@ -138,13 +138,13 @@ do_exception ( int ex )
 
 /*
  * Check whether or not an exception condition has occured and,
- * if so, jump to the label given in no(son(pt(e))).
+ * if so, jump to the label given in no(child(pt(e))).
  */
 static
 void check_integer_exception ( exp e )
 {
 	if (!error_treatment_is_trap(e)) {
-		int trap = no(son(pt(e)));
+		int trap = no(child(pt(e)));
 		uncond_ins(i_bvs, trap);
 	} else {
 #if 1
@@ -200,7 +200,7 @@ check_floating_exception(exp e, space sp, int except)
 	move(aa, assdest, guardreg(rt2, nsp).fixed, 1);
 
 	if (!error_treatment_is_trap(e)) {
-		condrr_ins(i_bne, rt2, R_G0, no(son(pt(e))));
+		condrr_ins(i_bne, rt2, R_G0, no(child(pt(e))));
 	} else {
 		int new_lab = new_label();
 		condrr_ins(i_be, rt2, R_G0, new_lab);
@@ -262,12 +262,12 @@ check_integer_multiply_exception(exp e, space sp, int result)
 	}
 
 	rr_ins(i_rd, YREG, yreg);
-	if (is_signed(sh(son(e)))) {
+	if (is_signed(sh(child(e)))) {
 		int result_shift = getreg(guardreg(yreg, nsp).fixed);
 		rir_ins(i_sra, result, 31, result_shift);
 
 		if (!error_treatment_is_trap(e)) {
-			condrr_ins(i_bne, result_shift, yreg, no(son(pt(e))));
+			condrr_ins(i_bne, result_shift, yreg, no(child(pt(e))));
 		} else {
 			int new_lab = new_label();
 			condrr_ins(i_be, result_shift, yreg, new_lab);
@@ -276,7 +276,7 @@ check_integer_multiply_exception(exp e, space sp, int result)
 		}
 	} else {
 		if (!error_treatment_is_trap(e)) {
-			condrr_ins(i_bne, yreg, R_G0, no(son(pt(e))));
+			condrr_ins(i_bne, yreg, R_G0, no(child(pt(e))));
 		} else {
 			int new_lab = new_label();
 			condrr_ins(i_be, yreg, R_G0, new_lab);
@@ -542,13 +542,13 @@ testlast ( exp e, exp second )
 		return NULL;
 	}
 
-	b = next ( son ( e ) ) ;
+	b = next ( child ( e ) ) ;
 	if ( b->tag == test_tag && pt ( b ) == second ) {
 		return b;
 	} else if ( b->tag == top_tag ) {
 		exp list;
 
-		for (list = son(son(e)); !list->last; list = next(list))
+		for (list = child(child(e)); !list->last; list = next(list))
 			;
 
 		if ( list->tag == test_tag &&
@@ -572,21 +572,21 @@ last_param ( exp e )
 		return 0;
 	}
 
-	e = next ( son ( e ) ) ;
+	e = next ( child ( e ) ) ;
 
 #ifdef TDF_DIAG3
 aa:
 #endif
 
 	{
-		if ( (e->tag == ident_tag && son(e)->tag != formal_callee_tag) &&
+		if ( (e->tag == ident_tag && child(e)->tag != formal_callee_tag) &&
 		     isparam ( e ) ) {
 			return 0;
 		}
 
 #ifdef TDF_DIAG3
 		if ( e->tag == diagnose_tag ) {
-			e = son ( e ) ;
+			e = child ( e ) ;
 			goto aa ;
 		}
 #endif
@@ -610,7 +610,7 @@ has_bitfield ( exp e )
 
 	switch ( e->tag ) {
 	case compound_tag : {
-		for ( e = next ( son ( e ) ) ; ; e = next ( next ( e ) ) ) {
+		for ( e = next ( child ( e ) ) ; ; e = next ( next ( e ) ) ) {
 			if ( has_bitfield ( e ) ) {
 				return 1;
 			}
@@ -642,7 +642,7 @@ fix_nonbitfield ( exp e )
 		return;
 	}
 
-	for ( e = son ( e ) ; ; e = next ( next ( e ) ) ) {
+	for ( e = child ( e ) ; ; e = next ( next ( e ) ) ) {
 		if ( e->tag == val_tag && sh ( e ) -> tag == offsethd
 		     && al2 ( sh ( e ) ) >= 8 ) {
 			no ( e ) = no ( e ) << 3 ;
@@ -683,7 +683,7 @@ find_ote ( exp nom, int n )
 		dad = father(dad);
 	}
 
-	dad = son(next(son(dad)));
+	dad = child(next(child(dad)));
 	while(n) {
 		dad = next(dad);
 		n -- ;
@@ -875,7 +875,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		return make_res_tag_code ( e, sp, dest, exitlab ) ;
 
 	case caller_tag :
-		return make_code(son(e), sp, dest, exitlab);
+		return make_code(child(e), sp, dest, exitlab);
 
 	case apply_general_tag :
 		return make_apply_general_tag_code(e, sp, dest, exitlab);
@@ -902,7 +902,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		w.ashwhere.ashalign = 32;
 
 		setregalt(w.answhere, r);
-		code_here(son(e), sp, w);
+		code_here(child(e), sp, w);
 		clear_all();
 		rr_ins(i_mov, r, R_TMP);
 		/*rir_ins(i_sub,R_FP,proc_state.callee_size>>3,R_FP);*/
@@ -958,15 +958,15 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 
 	case seq_tag : {
 		/* Sequences */
-		exp t = son ( son ( e ) ) ;
-		exp f = next ( son ( e ) ) ;
+		exp t = child ( child ( e ) ) ;
+		exp f = next ( child ( e ) ) ;
 
 		for ( ; ; ) {
 			exp nt = ( t -> last ? f : next ( t ) ) ;
 
 			if ( nt->tag == goto_tag ) {
 				/* Gotos end sequences */
-				make_code ( t, sp, nowhere, no ( son ( pt ( nt ) ) ) ) ;
+				make_code ( t, sp, nowhere, no ( child ( pt ( nt ) ) ) ) ;
 			} else {
 				( void ) code_here ( t, sp, nowhere ) ;
 			}
@@ -983,7 +983,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 
 	case labst_tag : {
 		/* Labelled statements */
-		int lb = no ( son ( e ) ) ;
+		int lb = no ( child ( e ) ) ;
 
 		if ( lb != 0 ) {
 			clear_all () ;
@@ -995,16 +995,16 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 #endif
 		}
 
-		return make_code ( next ( son ( e ) ), sp, dest, exitlab ) ;
+		return make_code ( next ( child ( e ) ), sp, dest, exitlab ) ;
 	}
 
 	case rep_tag : {
 		/* Repeats */
-		exp first = son ( e ) ;
+		exp first = child ( e ) ;
 		exp second = next ( first ) ;
 
 		code_here(first, sp, nowhere);
-		no ( son ( second ) ) = new_label () ;
+		no ( child ( second ) ) = new_label () ;
 
 		return make_code ( second, sp, dest, exitlab ) ;
 	}
@@ -1014,7 +1014,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		assert(labst->tag == labst_tag);
 
 		{
-			int lab = no(son(labst)); /* this is the asm lab no without
+			int lab = no(child(labst)); /* this is the asm lab no without
 			     the prefix on it */
 			/* Now the code is much like val_tag, save that the value is a string... */
 			int r ;
@@ -1041,8 +1041,8 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 
 	case goto_lv_tag : {
 		int ptr_reg;
-		assert (son(e)->last);
-		ptr_reg = reg_operand (son(e), sp ) ;
+		assert (child(e)->last);
+		ptr_reg = reg_operand (child(e), sp ) ;
 
 #ifdef DWARF2
 		if (current_dg_info) {
@@ -1058,7 +1058,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 
 	case goto_tag : {
 		/* Gotos */
-		int lab = no ( son ( pt ( e ) ) ) ;
+		int lab = no ( child ( pt ( e ) ) ) ;
 		assert ( lab >= 100 ) ;
 		clear_all () ;
 		/* needed if lab == exitlab ? */
@@ -1079,7 +1079,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		/* Tests */
 		int lab ;
 		ins_p branch ;
-		exp l = son ( e ) ;
+		exp l = child ( e ) ;
 		exp r = next ( l ) ;
 		shape shl = sh ( l ) ;
 
@@ -1100,7 +1100,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		if ( ptno ( e ) < 0 ) {
 			lab = -ptno ( e ) ;
 		} else {
-			lab = no ( son ( pt ( e ) ) ) ;
+			lab = no ( child ( pt ( e ) ) ) ;
 		}
 
 		if ((has & HAS_LONG_DOUBLE)) {
@@ -1251,7 +1251,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		/* Diagnostics */
 		diag_info *d = dno ( e ) ;
 		diag3_driver->output_diag ( d, 0, e ) ;
-		mka = make_code ( son ( e ), sp, dest, exitlab ) ;
+		mka = make_code ( child ( e ), sp, dest, exitlab ) ;
 		diag3_driver->output_end_scope ( d, e ) ;
 		return mka;
 	}
@@ -1259,7 +1259,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 
 	case solve_tag : {
 		/* Labelled statements */
-		exp m = next ( son ( e ) ) ;
+		exp m = next ( child ( e ) ) ;
 		int l = exitlab ;
 
 		if ( discrim ( dest.answhere ) == insomereg ) {
@@ -1273,7 +1273,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 
 		/* Set up all the labels */
 		for ( ; ; ) {
-			no ( son ( m ) ) = new_label () ;
+			no ( child ( m ) ) = new_label () ;
 			if ( m -> last ) {
 				break ;
 			}
@@ -1281,7 +1281,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 			m = next ( m ) ;
 		}
 
-		m = son ( e ) ;
+		m = child ( e ) ;
 		/* Evaluate all the component statements */
 		for ( ; ; ) {
 			int fl = make_code ( m, sp, dest, l ).lab ;
@@ -1314,7 +1314,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 
 	case chvar_tag : {
 		/* Change integer variety */
-		exp arg = son ( e ) ;
+		exp arg = child ( e ) ;
 		int size_e = shape_size ( sh ( e ) ) ;
 		int to = ( int ) sh ( e ) -> tag, from ;
 		int sreg, dreg ;
@@ -1325,7 +1325,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		/* For a series of chvar_tags, do large to small in one go */
 		while ( arg->tag == chvar_tag &&
 		        shape_size ( sh ( arg ) ) >= size_e ) {
-			arg = son ( arg ) ;
+			arg = child ( arg ) ;
 		}
 
 		from = (int) sh ( arg ) -> tag ;
@@ -1401,7 +1401,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 			if (!optop(e)) {
 				switch ( to ) {
 				case ucharhd :
-					if (!is_signed(sh(son(e)))) {
+					if (!is_signed(sh(child(e)))) {
 						break;
 					}
 
@@ -1411,13 +1411,13 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 						do_exception(f_overflow);
 						set_label(oklab);
 					} else {
-						condrr_ins(i_blt, sreg, R_G0, no(son(pt(e))));
+						condrr_ins(i_blt, sreg, R_G0, no(child(pt(e))));
 					}
 
 					break ;
 
 				case scharhd :
-					if (is_signed(sh(son(e)))) {
+					if (is_signed(sh(child(e)))) {
 						break;
 					}
 
@@ -1427,13 +1427,13 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 						do_exception(f_overflow);
 						set_label(oklab);
 					} else {
-						condri_ins(i_bgtu, sreg, 0x7f, no(son(pt(e))));
+						condri_ins(i_bgtu, sreg, 0x7f, no(child(pt(e))));
 					}
 
 					break ;
 
 				case uwordhd :
-					if (!is_signed(sh(son(e)))) {
+					if (!is_signed(sh(child(e)))) {
 						break;
 					}
 
@@ -1443,13 +1443,13 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 						do_exception(f_overflow);
 						set_label(oklab);
 					} else {
-						condrr_ins(i_blt, sreg, R_G0, no(son(pt(e))));
+						condrr_ins(i_blt, sreg, R_G0, no(child(pt(e))));
 					}
 
 					break ;
 
 				case swordhd :
-					if (is_signed(sh(son(e)))) {
+					if (is_signed(sh(child(e)))) {
 						break;
 					}
 
@@ -1459,13 +1459,13 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 						do_exception(f_overflow);
 						set_label(oklab);
 					} else {
-						condri_ins(i_bgtu, sreg, 0x7fff, no(son(pt(e))));
+						condri_ins(i_bgtu, sreg, 0x7fff, no(child(pt(e))));
 					}
 
 					break ;
 
 				case ulonghd :
-					if (!is_signed(sh(son(e)))) {
+					if (!is_signed(sh(child(e)))) {
 						break;
 					}
 
@@ -1475,13 +1475,13 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 						do_exception(f_overflow);
 						set_label(oklab);
 					} else {
-						condrr_ins(i_blt, sreg, R_G0, no(son(pt(e))));
+						condrr_ins(i_blt, sreg, R_G0, no(child(pt(e))));
 					}
 
 					break;
 
 				case slonghd :
-					if (is_signed(sh(son(e)))) {
+					if (is_signed(sh(child(e)))) {
 						break;
 					}
 
@@ -1491,7 +1491,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 						do_exception(f_overflow);
 						set_label(oklab);
 					} else {
-						condri_ins(i_bgtu, sreg, 0x7fffffff, no(son(pt(e))));
+						condri_ins(i_bgtu, sreg, 0x7fffffff, no(child(pt(e))));
 					}
 
 					break;
@@ -1557,7 +1557,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				if (error_treatment_is_trap(e)) {
 					test_unsigned_and_trap(sreg, 255, f_overflow);
 				} else {
-					test_unsigned(sreg, 255, no(son(pt(e))));
+					test_unsigned(sreg, 255, no(child(pt(e))));
 				}
 			}
 
@@ -1569,7 +1569,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				if (error_treatment_is_trap(e)) {
 					test_signed_and_trap(sreg, -128, 127, f_overflow);
 				} else {
-					test_signed(sreg, -128, 127, no(son(pt(e))));
+					test_signed(sreg, -128, 127, no(child(pt(e))));
 				}
 			}
 
@@ -1582,7 +1582,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				if (error_treatment_is_trap(e)) {
 					test_unsigned_and_trap(sreg, 0xffff, f_overflow);
 				} else {
-					test_unsigned(sreg, 0xffff, no(son(pt(e))));
+					test_unsigned(sreg, 0xffff, no(child(pt(e))));
 				}
 			}
 
@@ -1598,7 +1598,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				if (error_treatment_is_trap(e)) {
 					test_signed_and_trap(sreg, -0x8000, 0x7fff, f_overflow);
 				} else {
-					test_signed(sreg, -0x8000, 0x7fff, no(son(pt(e))));
+					test_signed(sreg, -0x8000, 0x7fff, no(child(pt(e))));
 				}
 			}
 
@@ -1676,7 +1676,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 			case ulonghd: {
 				int l;
 				/*int newlab = new_label();*/
-				l = reg_operand(son(e), nsp);
+				l = reg_operand(child(e), nsp);
 
 				if (error_treatment_is_trap(e)) {
 					int new_lab = new_label();
@@ -1684,7 +1684,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 					do_exception(f_overflow);
 					set_label(new_lab);
 				} else {
-					condrr_ins(i_bltu, res_reg, l, no(son(pt(e))));
+					condrr_ins(i_bltu, res_reg, l, no(child(pt(e))));
 				}
 
 				break;
@@ -1698,7 +1698,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				if (error_treatment_is_trap(e)) {
 					test_signed_and_trap(res_reg, -0x8000, 0x7fff, f_overflow);
 				} else {
-					test_signed(res_reg, -0x8000, 0x7fff, no(son(pt(e))));
+					test_signed(res_reg, -0x8000, 0x7fff, no(child(pt(e))));
 				}
 				break;
 
@@ -1706,7 +1706,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				if (error_treatment_is_trap(e)) {
 					test_unsigned_and_trap(res_reg, 0xffff, f_overflow);
 				} else {
-					test_unsigned(res_reg, 0xffff, no(son(pt(e))));
+					test_unsigned(res_reg, 0xffff, no(child(pt(e))));
 				}
 				break;
 
@@ -1714,7 +1714,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				if (error_treatment_is_trap(e)) {
 					test_signed_and_trap(res_reg, -128, 127, f_overflow);
 				} else {
-					test_signed(res_reg, -128, 127, no(son(pt(e))));
+					test_signed(res_reg, -128, 127, no(child(pt(e))));
 				}
 				break;
 
@@ -1722,7 +1722,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				if (error_treatment_is_trap(e)) {
 					test_unsigned_and_trap(res_reg, 255, f_overflow);
 				} else {
-					test_unsigned(res_reg, 255, no(son(pt(e))));
+					test_unsigned(res_reg, 255, no(child(pt(e))));
 				}
 				break;
 
@@ -1774,11 +1774,11 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 			switch (sh(e)->tag) {
 			case ulonghd: {
 				int l, r;
-				l = reg_operand(son(e), nsp);
-				r = reg_operand(next(son(e)), nsp);
+				l = reg_operand(child(e), nsp);
+				r = reg_operand(next(child(e)), nsp);
 
 				if (!error_treatment_is_trap(e)) {
-					condrr_ins(i_bgtu, r, l, no(son(pt(e))));
+					condrr_ins(i_bgtu, r, l, no(child(pt(e))));
 				} else {
 					int newlab = new_label();
 					condrr_ins(i_bleu, r, l, newlab);
@@ -1796,7 +1796,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				if (error_treatment_is_trap(e)) {
 					test_signed_and_trap(res_reg, -0x8000, 0x7fff, f_overflow);
 				} else {
-					test_signed(res_reg, -0x8000, 0x7fff, no(son(pt(e))));
+					test_signed(res_reg, -0x8000, 0x7fff, no(child(pt(e))));
 				}
 				break;
 
@@ -1804,7 +1804,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				if (error_treatment_is_trap(e)) {
 					test_unsigned_and_trap(res_reg, 0xffff, f_overflow);
 				} else {
-					test_unsigned(res_reg, 0xffff, no(son(pt(e))));
+					test_unsigned(res_reg, 0xffff, no(child(pt(e))));
 				}
 				break;
 
@@ -1812,7 +1812,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				if (error_treatment_is_trap(e)) {
 					test_signed_and_trap(res_reg, -128, 127, f_overflow);
 				} else {
-					test_signed(res_reg, -128, 127, no(son(pt(e))));
+					test_signed(res_reg, -128, 127, no(child(pt(e))));
 				}
 				break;
 
@@ -1820,7 +1820,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				if (error_treatment_is_trap(e)) {
 					test_unsigned_and_trap(res_reg, 255, f_overflow);
 				} else {
-					test_unsigned(res_reg, 255, no(son(pt(e))));
+					test_unsigned(res_reg, 255, no(child(pt(e))));
 				}
 				break;
 
@@ -1879,7 +1879,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				if (error_treatment_is_trap(e)) {
 					test_signed_and_trap(res_reg, -0x8000, 0x7fff, f_overflow);
 				} else {
-					test_signed(res_reg, -0x8000, 0x7fff, no(son(pt(e))));
+					test_signed(res_reg, -0x8000, 0x7fff, no(child(pt(e))));
 				}
 				break;
 
@@ -1887,7 +1887,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				if (error_treatment_is_trap(e)) {
 					test_unsigned_and_trap(res_reg, 0xffff, f_overflow);
 				} else {
-					test_unsigned(res_reg, 0xffff, no(son(pt(e))));
+					test_unsigned(res_reg, 0xffff, no(child(pt(e))));
 				}
 				break;
 
@@ -1895,7 +1895,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				if (error_treatment_is_trap(e)) {
 					test_signed_and_trap(res_reg, -128, 127, f_overflow);
 				} else {
-					test_signed(res_reg, -128, 127, no(son(pt(e))));
+					test_signed(res_reg, -128, 127, no(child(pt(e))));
 				}
 				break;
 
@@ -1903,7 +1903,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				if (error_treatment_is_trap(e)) {
 					test_unsigned_and_trap(res_reg, 255, f_overflow);
 				} else {
-					test_unsigned(res_reg, 255, no(son(pt(e))));
+					test_unsigned(res_reg, 255, no(child(pt(e))));
 				}
 				break;
 
@@ -1921,7 +1921,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 	case fmax_tag : {
 		/* modelled on test code */
 		ins_p branch ;
-		exp l = son ( e ) ;
+		exp l = child ( e ) ;
 		exp r = next ( l ) ;
 		freg a1, a2, d;
 		space nsp;
@@ -1953,7 +1953,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 	case offset_max_tag : {
 		/* modelled on test code */
 		ins_p branch ;
-		exp l = son ( e ) ;
+		exp l = child ( e ) ;
 		exp r = next ( l ) ;
 		shape shl = sh ( l ) ;
 		int a1, a2, d;
@@ -2002,8 +2002,8 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		bool sgned = issgn ( sh ( e ) ) ;
 
 		if (!optop(e) && !error_treatment_is_trap(e)) {
-			int reg_test = reg_operand(next(son(e)), sp);
-			condrr_ins(i_be, reg_test, 0, no(son(pt(e))));
+			int reg_test = reg_operand(next(child(e)), sp);
+			condrr_ins(i_be, reg_test, 0, no(child(pt(e))));
 		}
 
 		if (!optop(e) /*&& !error_treatment_is_trap(e)*/) {
@@ -2030,7 +2030,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				if (error_treatment_is_trap(e)) {
 					test_signed_and_trap(res_reg, -0x800, 0x7fff, f_overflow);
 				} else {
-					test_signed(res_reg, -0x8000, 0x7fff, no(son(pt(e))));
+					test_signed(res_reg, -0x8000, 0x7fff, no(child(pt(e))));
 				}
 
 				break;
@@ -2039,7 +2039,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				if (error_treatment_is_trap(e)) {
 					test_unsigned_and_trap(res_reg, 0xffff, f_overflow);
 				} else {
-					test_unsigned(res_reg, 0xffff, no(son(pt(e))));
+					test_unsigned(res_reg, 0xffff, no(child(pt(e))));
 				}
 
 				break;
@@ -2048,7 +2048,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				if (error_treatment_is_trap(e)) {
 					test_signed_and_trap(res_reg, -128, 127, f_overflow);
 				} else {
-					test_signed(res_reg, -128, 127, no(son(pt(e))));
+					test_signed(res_reg, -128, 127, no(child(pt(e))));
 				}
 
 				break;
@@ -2057,7 +2057,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				if (error_treatment_is_trap(e)) {
 					test_unsigned_and_trap(res_reg, 255, f_overflow);
 				} else {
-					test_unsigned(res_reg, 255, no(son(pt(e))));
+					test_unsigned(res_reg, 255, no(child(pt(e))));
 				}
 
 				break;
@@ -2080,8 +2080,8 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		bool sgned = issgn ( sh ( e ) ) ;
 
 		if (!optop(e) && !error_treatment_is_trap(e)) {
-			int reg_test = reg_operand(next(son(e)), sp);
-			condrr_ins(i_be, reg_test, 0, no(son(pt(e))));
+			int reg_test = reg_operand(next(child(e)), sp);
+			condrr_ins(i_be, reg_test, 0, no(child(pt(e))));
 		}
 
 		mka.regmove = do_rem_op ( e, sp, dest, sgned ) ;
@@ -2095,7 +2095,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		int rd = regfrmdest(&dest, sp);
 
 		if (!optop(e)) {
-			int rsrc = reg_operand(son(e), sp);
+			int rsrc = reg_operand(child(e), sp);
 			if (rd == R_G0) {
 				rd = getreg(sp.fixed);
 			}
@@ -2110,7 +2110,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 			switch (sh(e)->tag) {
 			case ulonghd :
 				if (!error_treatment_is_trap(e)) {
-					condrr_ins(i_blt, rd, R_G0, no(son(pt(e))));
+					condrr_ins(i_blt, rd, R_G0, no(child(pt(e))));
 				} else {
 					int lab = new_label();
 					condrr_ins(i_bge, rd, R_G0, lab);
@@ -2126,7 +2126,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 
 			case uwordhd :
 				if (!error_treatment_is_trap(e)) {
-					condrr_ins(i_blt, rd, R_G0, no(son(pt(e))));
+					condrr_ins(i_blt, rd, R_G0, no(child(pt(e))));
 				} else {
 					int lab = new_label();
 					condrr_ins(i_bge, rd, R_G0, lab);
@@ -2140,14 +2140,14 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				if (error_treatment_is_trap(e)) {
 					test_signed_and_trap(rd, -0x8000, 0x7fff, f_overflow);
 				} else {
-					test_signed(rd, -0x8000, 0x7fff, no(son(pt(e))));
+					test_signed(rd, -0x8000, 0x7fff, no(child(pt(e))));
 				}
 
 				break;
 
 			case ucharhd :
 				if (!error_treatment_is_trap(e)) {
-					condrr_ins(i_blt, rd, R_G0, no(son(pt(e))));
+					condrr_ins(i_blt, rd, R_G0, no(child(pt(e))));
 				} else {
 					int lab = new_label();
 					condrr_ins(i_bge, rd, R_G0, lab);
@@ -2159,7 +2159,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 
 			case scharhd :
 				if (!error_treatment_is_trap(e)) {
-					test_signed(rd, -128, 127, no(son(pt(e))));
+					test_signed(rd, -128, 127, no(child(pt(e))));
 				} else {
 					test_signed_and_trap(rd, -128, 127, f_overflow);
 				}
@@ -2189,7 +2189,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 			if (error_treatment_is_trap(e)) {
 				test_unsigned_and_trap(mka.regmove, 0x7fffffff, f_overflow);
 			} else {
-				test_unsigned(mka.regmove, 0x7fffffff, no(son(pt(e))));
+				test_unsigned(mka.regmove, 0x7fffffff, no(child(pt(e))));
 			}
 
 			break;
@@ -2198,7 +2198,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 			if (error_treatment_is_trap(e)) {
 				test_unsigned_and_trap(mka.regmove, 0x7fff, f_overflow);
 			} else {
-				test_unsigned(mka.regmove, 0x7fff, no(son(pt(e))));
+				test_unsigned(mka.regmove, 0x7fff, no(child(pt(e))));
 			}
 
 			break;
@@ -2207,7 +2207,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 			if (error_treatment_is_trap(e)) {
 				test_unsigned_and_trap(mka.regmove, 127, f_overflow);
 			} else {
-				test_unsigned(mka.regmove, 127, no(son(pt(e))));
+				test_unsigned(mka.regmove, 127, no(child(pt(e))));
 			}
 
 			break;
@@ -2225,7 +2225,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		int d ;
 		space nsp ;
 		ins_p shnat ;
-		exp s = son ( e ) ;
+		exp s = child ( e ) ;
 		exp b = next ( s ) ;
 		bool sgned = issgn ( sh ( e ) ) ;
 		int a = reg_operand ( s, sp ) ;
@@ -2234,7 +2234,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 
 		bool lded = ((s->tag == name_tag && regofval(s) >= 100)
 		             || (s->tag == cont_tag &&
-		                 (son(s)->tag != name_tag || regofval(son(s)) > 0)
+		                 (child(s)->tag != name_tag || regofval(child(s)) > 0)
 		                ));
 		bool signok = (sz == 32) || (s->tag == chvar_tag) || lded;
 
@@ -2317,7 +2317,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				rrf_ins((isdbl(sh(e))) ? i_fcmped : i_fcmpes, (mka.regmove - 32) << 1, (mka.regmove - 32) << 1);
 			} else {
 				rrf_ins((isdbl(sh(e))) ? i_fcmpd : i_fcmps, (mka.regmove - 32) << 1, (mka.regmove - 32) << 1);
-				fbr_ins(i_fbu, no(son(pt(e))));
+				fbr_ins(i_fbu, no(child(pt(e))));
 			}
 		}
 
@@ -2342,7 +2342,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 					rrf_ins((isdbl(sh(e))) ? i_fcmped : i_fcmpes, (mka.regmove - 32) << 1, (mka.regmove - 32) << 1);
 				} else {
 					rrf_ins((isdbl(sh(e))) ? i_fcmpd : i_fcmps, (mka.regmove - 32) << 1, (mka.regmove - 32) << 1);
-					fbr_ins(i_fbu, no(son(pt(e))));
+					fbr_ins(i_fbu, no(child(pt(e))));
 				}
 			}
 
@@ -2362,14 +2362,14 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				                      real_tag);
 				setregalt(newdest.answhere, getreg(sp.fixed));
 				newdest.ashwhere.ashsize = newdest.ashwhere.ashalign = 32;
-				quad_op(next(son(e)), zero_exp, sp, newdest, -5); /* _Q_fne */
-				condrr_ins(i_be, R_O0, R_G0, no(son(pt(e))));
+				quad_op(next(child(e)), zero_exp, sp, newdest, -5); /* _Q_fne */
+				condrr_ins(i_be, R_O0, R_G0, no(child(pt(e))));
 			} else {
-				int divr = freg_operand(next(son(e)), sp, getfreg(sp.flt));
+				int divr = freg_operand(next(child(e)), sp, getfreg(sp.flt));
 				int newfr = getfreg(guardfreg(divr, sp).flt);
 				fconst(newfr, 0, 0);
 				rrf_ins(isdbl(sh(e)) ? i_fcmpd : i_fcmps, divr << 1, newfr << 1);
-				fbr_ins(i_fbe, no(son(pt(e))));
+				fbr_ins(i_fbe, no(child(pt(e))));
 			}
 
 			if (!exceptions_initialised) {
@@ -2387,7 +2387,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 					rrf_ins((isdbl(sh(e))) ? i_fcmped : i_fcmpes, (mka.regmove - 32) << 1, (mka.regmove - 32) << 1);
 				} else {
 					rrf_ins((isdbl(sh(e))) ? i_fcmpd : i_fcmps, (mka.regmove - 32) << 1, (mka.regmove - 32) << 1);
-					fbr_ins(i_fbu, no(son(pt(e))));
+					fbr_ins(i_fbu, no(child(pt(e))));
 				}
 			}
 		}
@@ -2410,7 +2410,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 
 		if ( (has & HAS_LONG_DOUBLE) && sh ( e ) -> tag == doublehd ) {
 			if (e->tag != fabs_tag) {
-				quad_op ( son ( e ), NULL, sp, dest, ( int ) e->tag ) ;
+				quad_op ( child ( e ), NULL, sp, dest, ( int ) e->tag ) ;
 			} else {	/* would it be so hard to implement _Q_abs? */
 				where newdest;
 				exp zero_exp;
@@ -2420,13 +2420,13 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 				setregalt(newdest.answhere, getreg(sp.fixed));
 				newdest.ashwhere.ashsize = newdest.ashwhere.ashalign = 32;
 				zero_exp = getexp(sh(e), NULL, 1, NULL, NULL, 0, fzero_no, real_tag);
-				quad_op(son(e), zero_exp, sp, newdest, -2);
+				quad_op(child(e), zero_exp, sp, newdest, -2);
 				condrr_ins(i_be, R_O0, R_G0, no_negate);
 				set_label(negate);
-				quad_op(son(e), NULL, sp, dest, fneg_tag);
+				quad_op(child(e), NULL, sp, dest, fneg_tag);
 				uncond_ins(i_b, endlab);
 				set_label(no_negate);
-				code_here(son(e), sp, dest);
+				code_here(child(e), sp, dest);
 				set_label(endlab);
 			}
 
@@ -2434,7 +2434,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		}
 
 		r1 = getfreg ( sp.flt ) ;
-		a1 = freg_operand ( son ( e ), sp, r1 ) ;
+		a1 = freg_operand ( child ( e ), sp, r1 ) ;
 		dble = isdbl ( sh ( e ) ) ;
 		i = ( e->tag == fneg_tag ? i_fnegs : i_fabss ) ;
 
@@ -2479,7 +2479,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		freg frg ;
 		int f = GETFREG ( dest, sp ) ;
 
-		exp in = son ( e ) ;
+		exp in = child ( e ) ;
 		int from_sz = shape_size ( sh ( in ) ) ;
 		bool from_sgned = issgn ( sh ( in ) ) ;
 
@@ -2490,7 +2490,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		}
 
 		if ( (has & HAS_LONG_DOUBLE) && sh ( e ) -> tag == doublehd ) {
-			quad_op ( son ( e ), NULL, sp, dest, float_tag ) ;
+			quad_op ( child ( e ), NULL, sp, dest, float_tag ) ;
 			return mka;
 		}
 
@@ -2556,7 +2556,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		freg frg ;
 
 		bool dto   = isdbl ( sh ( e ) ) ;
-		bool dfrom = isdbl ( sh ( son ( e ) ) ) ;
+		bool dfrom = isdbl ( sh ( child ( e ) ) ) ;
 
 		if (!optop(e) && !exceptions_initialised /*&& !error_treatment_is_trap(e)*/) {
 			exceptions_initialised = 1;
@@ -2565,15 +2565,15 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 
 		if ((has & HAS_LONG_DOUBLE)) {
 			if ( sh ( e ) -> tag == doublehd ) {
-				if ( sh ( son ( e ) ) -> tag == doublehd ) {
+				if ( sh ( child ( e ) ) -> tag == doublehd ) {
 					/* no change in representation */
-					return make_code ( son ( e ), sp, dest, exitlab ) ;
+					return make_code ( child ( e ), sp, dest, exitlab ) ;
 				}
-				quad_op ( son ( e ), NULL, sp, dest, chfl_tag ) ;
+				quad_op ( child ( e ), NULL, sp, dest, chfl_tag ) ;
 				return mka;
-			} else if ( sh ( son ( e ) ) -> tag == doublehd ) {
+			} else if ( sh ( child ( e ) ) -> tag == doublehd ) {
 				int o = ( dto ? 100 : 101 ) ;
-				quad_op ( son ( e ), NULL, sp, dest, o ) ;
+				quad_op ( child ( e ), NULL, sp, dest, o ) ;
 				frg.fr = 0 ;
 				frg.dble = dto ;
 				setfregalt ( aa, frg ) ;
@@ -2587,7 +2587,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 
 		if ( !dto && !dfrom ) {
 			/* no change in representation */
-			return make_code ( son ( e ), sp, dest, exitlab ) ;
+			return make_code ( child ( e ), sp, dest, exitlab ) ;
 		} else {
 			if ( discrim ( dest.answhere ) == infreg ) {
 				frg = fregalt ( dest.answhere ) ;
@@ -2599,8 +2599,8 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 			setfregalt ( aa, frg ) ;
 
 			w.answhere = aa ;
-			w.ashwhere = ashof ( sh ( son ( e ) ) ) ;
-			( void ) code_here ( son ( e ), sp, w ) ;
+			w.ashwhere = ashof ( sh ( child ( e ) ) ) ;
+			( void ) code_here ( child ( e ), sp, w ) ;
 
 			if (!dto || !dfrom) {
 				if (!sysV_assembler && !optop(e)) {
@@ -2644,7 +2644,7 @@ make_code_1 ( exp e, space sp, where dest, int exitlab )
 		return mka;
 
 	case locptr_tag : {
-		int ptr = reg_operand(son(e), sp);
+		int ptr = reg_operand(child(e), sp);
 		int ansr = regfrmdest(&dest, sp);
 
 		baseoff b;
@@ -2781,7 +2781,7 @@ null_tag_case :
 		int lab1, lab2, error_lab;
 		int sfr = -1, dfr, tfr, error_set = 1;
 		int r = GETREG ( dest, sp ) ;
-		int s = shape_size ( sh ( son ( e ) ) ) ;
+		int s = shape_size ( sh ( child ( e ) ) ) ;
 
 		/* Rounding mode : 0 = to near, 1 = up, 2 = down, 3 = to zero */
 		int rm = ( int ) round_number ( e ) ;
@@ -2795,7 +2795,7 @@ null_tag_case :
 				error_lab = new_label ();
 				error_set = 0;
 			} else {
-				error_lab = no(son(pt(e)));
+				error_lab = no(child(pt(e)));
 			}
 		}
 
@@ -2805,12 +2805,12 @@ null_tag_case :
 		}
 
 		/* Get two floating registers */
-		if ( (has & HAS_LONG_DOUBLE) && sh ( son ( e ) ) -> tag == doublehd ) {
-			quad_op ( son ( e ), NULL, sp, dest, 100 ) ;
+		if ( (has & HAS_LONG_DOUBLE) && sh ( child ( e ) ) -> tag == doublehd ) {
+			quad_op ( child ( e ), NULL, sp, dest, 100 ) ;
 			sfr = getfreg ( sp.flt ) ;
 			rrf_ins ( i_fmovd, 0, sfr << 1 ) ;
 		} else {
-			sfr = freg_operand ( son ( e ), sp, getfreg ( sp.flt ) ) ;
+			sfr = freg_operand ( child ( e ), sp, getfreg ( sp.flt ) ) ;
 		}
 
 		nsp = guardfreg ( sfr, sp ) ;
@@ -3014,8 +3014,8 @@ null_tag_case :
 		ans aa ;
 		space nsp ;
 		int size_res = shape_size ( sh ( e ) ) ;
-		int size_op = shape_size ( sh ( son ( e ) ) ) ;
-		int r = reg_operand ( son ( e ), sp ) ;
+		int size_op = shape_size ( sh ( child ( e ) ) ) ;
+		int r = reg_operand ( child ( e ), sp ) ;
 
 		UNREACHED;
 
@@ -3038,26 +3038,26 @@ null_tag_case :
 		/* Bitfield to integer conversion */
 		where w ;
 		int r = GETREG ( dest, sp ) ;
-		long sz = shape_size ( sh ( son ( e ) ) ) ;
-		bool src_sgned = issgn ( sh ( son ( e ) ) ) ;
+		long sz = shape_size ( sh ( child ( e ) ) ) ;
+		bool src_sgned = issgn ( sh ( child ( e ) ) ) ;
 		bool target_sgned = issgn ( sh ( e ) ) ;
 
 #if 0
 		/* Some cases are simple moves */
-		if ( ( son ( e ) -> tag == cont_tag ||
-		       son ( e ) -> tag == name_tag ) &&
+		if ( ( child ( e ) -> tag == cont_tag ||
+		       child ( e ) -> tag == name_tag ) &&
 		     ( sz == 8 || sz == 16 || sz == 32 ) ) {
 			where intreg ;
-			int olds = sh ( son ( e ) ) ;
+			int olds = sh ( child ( e ) ) ;
 			setregalt ( intreg.answhere, r ) ;
 			intreg.ashwhere.ashsize = sz ;
 			intreg.ashwhere.ashalign = sz ;
-			sh ( son ( e ) ) = sh ( e ) ;
-			w = locate ( son ( e ), sp, sh ( e ), r ) ;
+			sh ( child ( e ) ) = sh ( e ) ;
+			w = locate ( child ( e ), sp, sh ( e ), r ) ;
 			( void ) move ( w.answhere, intreg, guard ( w, sp ).fixed,
 			                issgn ( sh ( e ) ) ) ;
 			( void ) move ( intreg.answhere, dest, sp.fixed, 1 ) ;
-			sh ( son ( e ) ) = olds ;
+			sh ( child ( e ) ) = olds ;
 			keepreg ( e, r ) ;
 			return mka;
 		}
@@ -3065,8 +3065,8 @@ null_tag_case :
 
 		/* Do shift/and */
 		setregalt ( w.answhere, r ) ;
-		w.ashwhere = ashof ( sh ( son ( e ) ) ) ;
-		( void ) code_here ( son ( e ), sp, w ) ;
+		w.ashwhere = ashof ( sh ( child ( e ) ) ) ;
+		( void ) code_here ( child ( e ), sp, w ) ;
 
 		if ( sz != 32 && src_sgned != target_sgned ) {
 			/* Get correct sign */
@@ -3087,7 +3087,7 @@ null_tag_case :
 	}
 
 	case alloca_tag :
-		mka.lab = specialmake ( (checkalloc(e)) ? 6 : 5, son(e), sp, dest, exitlab ) ;
+		mka.lab = specialmake ( (checkalloc(e)) ? 6 : 5, child(e), sp, dest, exitlab ) ;
 		return mka;
 
 	case last_local_tag: {
@@ -3101,7 +3101,7 @@ null_tag_case :
 	}
 
 	case local_free_tag: {
-		exp s = son(e);
+		exp s = child(e);
 		int r = reg_operand(s, sp);
 		exp off = next(s);
 
@@ -3130,7 +3130,7 @@ null_tag_case :
 		int r ;
 		space nsp ;
 		instore str ;
-		exp t = son ( e ) ;
+		exp t = child ( e ) ;
 
 		/* Initialse bitfield by constructing and appropriate constant */
 		/* Must do it this way as SPARC has no bitfield instructions. */
@@ -3272,7 +3272,7 @@ null_tag_case :
 		space nsp ;
 		instore str ;
 		int r, disp = 0 ;
-		exp t = son ( e ) ;
+		exp t = child ( e ) ;
 
 		nsp = sp ;
 		switch ( discrim ( dest.answhere ) ) {
@@ -3361,7 +3361,7 @@ null_tag_case :
 		space nsp ;
 		instore str ;
 		int i, r, disp = 0 ;
-		exp t = son ( e ) ;
+		exp t = child ( e ) ;
 
 		nsp = sp ;
 
@@ -3434,9 +3434,9 @@ null_tag_case :
 		int r = NOREG ;
 		bool remember = 0 ;
 
-		if ( sh ( son ( e ) ) -> tag == ptrhd && son ( e ) -> tag != cont_tag ) {
+		if ( sh ( child ( e ) ) -> tag == ptrhd && child ( e ) -> tag != cont_tag ) {
 			/* we should never be identifing a pointer to bits */
-			if ( al1 ( sh ( son ( e ) ) ) == 1 ) {
+			if ( al1 ( sh ( child ( e ) ) ) == 1 ) {
 				/* ??? changed al1 to al2 here */
 				/* and back ???? */
 #if 0
@@ -3452,15 +3452,15 @@ null_tag_case :
 		 * a parameter though, so we can generate a .stab.
 		 */
 		if ( props ( e ) & defer_bit ) {
-			return make_code ( next ( son ( e ) ), sp, dest, exitlab ) ;
+			return make_code ( next ( child ( e ) ), sp, dest, exitlab ) ;
 		}
 
-		if ( son ( e ) == NULL ) {
+		if ( child ( e ) == NULL ) {
 			/* historical - unused tags are now removed cleanly */
 			placew = nowhere ;
-		} else if (son(e)->tag == caller_name_tag) {
-			/*      int disp = ((no(son(son(e)))>>3)<<4) +R_SP;*/
-			exp ote = find_ote(e, no(son(e)));
+		} else if (child(e)->tag == caller_name_tag) {
+			/*      int disp = ((no(child(child(e)))>>3)<<4) +R_SP;*/
+			exp ote = find_ote(e, no(child(e)));
 
 			no(e) = ((no(ote) >> 3) << 4) + R_SP;
 			placew = nowhere;
@@ -3468,26 +3468,26 @@ null_tag_case :
 			int n = no ( e ) ;
 			ash a ;
 
-			a = ashof ( sh ( son ( e ) ) ) ;
+			a = ashof ( sh ( child ( e ) ) ) ;
 			/* unlike mips, do this first as params in fixed regs treated differently */
 
 			if ( isparam ( e ) ) {
-				if (son(e)->tag != formal_callee_tag) {
+				if (child(e)->tag != formal_callee_tag) {
 					instore is ;
 					/* bit disp of params */
-					int n2 = no ( son ( e ) ) ;
+					int n2 = no ( child ( e ) ) ;
 
-					if ( props ( son ( e ) ) > 0 ) {
-						/* param in input reg given by props(son(e) ) */
-						int end = rounder ( no ( son ( e ) ) +
-						                    shape_size ( sh ( son ( e ) ) ), 32 );
+					if ( props ( child ( e ) ) > 0 ) {
+						/* param in input reg given by props(child(e) ) */
+						int end = rounder ( no ( child ( e ) ) +
+						                    shape_size ( sh ( child ( e ) ) ), 32 );
 
 						if ( no ( e ) == R_NO_REG ) {
 							/* store input regs used (may be more than one) */
 							int max_reg;
 							bool struct_par =
-							    !( is_floating ( sh ( son ( e ) ) -> tag ) ||
-							       valregable ( sh ( son ( e ) ) ) ) ;
+							    !( is_floating ( sh ( child ( e ) ) -> tag ) ||
+							       valregable ( sh ( child ( e ) ) ) ) ;
 							if ((gencompat && May_have_callees) || (!gencompat && in_general_proc)) {
 								if (Has_vcallees) {
 									max_reg = 4;
@@ -3524,16 +3524,16 @@ null_tag_case :
 							/* use register */
 							if ( ( props ( e ) & infreg_bits ) != 0 ) {
 								freg frg ;
-								frg.fr = ( int ) props ( son ( e ) ) ;
+								frg.fr = ( int ) props ( child ( e ) ) ;
 								frg.dble = ( bool ) ( a.ashsize == 64 ) ;
 								setfregalt ( placew.answhere, frg ) ;
 							} else {
-								setregalt ( placew.answhere, (int)props( son ( e ) ) ) ;
+								setregalt ( placew.answhere, (int)props( child ( e ) ) ) ;
 							}
 						}
 
 						/* is last param a vararg in reg? */
-						if ( ((!Has_no_vcallers) || isvis ( e )) && props ( son ( e ) ) != 0 &&
+						if ( ((!Has_no_vcallers) || isvis ( e )) && props ( child ( e ) ) != 0 &&
 						     /*pt ( e ) != NULL &&*/
 						     last_param ( e ) ) {
 							/* dump *all* remaining input regs to stack
@@ -3570,7 +3570,7 @@ null_tag_case :
 						remember = 1 ;
 					}
 				} else {
-					no(e) = no(son(e)) + BITS2BYTES(-proc_state.locals_offset +
+					no(e) = no(child(e)) + BITS2BYTES(-proc_state.locals_offset +
 					                                proc_state.frame_size) +
 					        (/*Has_vcallees?local_reg:*/R_FP);
 					placew = nowhere;
@@ -3641,8 +3641,8 @@ null_tag_case :
 		}
 
 		/* evaluate the initialisation of tag, putting it into place allocated */
-		if (isparam(e) && son(e)->tag == formal_callee_tag) {
-			exp se = son(e);
+		if (isparam(e) && child(e)->tag == formal_callee_tag) {
+			exp se = child(e);
 			exp d = e;
 
 			if ((props(d) & inanyreg) != 0) {
@@ -3655,7 +3655,7 @@ null_tag_case :
 				IGNORE move(a, placew, sp.fixed, is_signed(sh(se)));
 			}
 		} else {
-			r = code_here ( son ( e ), sp, placew ) ;
+			r = code_here ( child ( e ), sp, placew ) ;
 		}
 
 		/* if it was temporarily in a register, track it to optimise future access */
@@ -3671,10 +3671,10 @@ null_tag_case :
 #endif
 
 				if ( isvar ( e ) && sh(nm)->tag == ptrhd &&
-				     al1(sh(nm)) == shape_align(sh(son(e)))) {
+				     al1(sh(nm)) == shape_align(sh(child(e)))) {
 					keepcont ( nm, r ) ;
 					break;
-				} else if ( !isvar ( e ) && eq_shape (sh(nm), sh(son(e)))) {
+				} else if ( !isvar ( e ) && eq_shape (sh(nm), sh(child(e)))) {
 					keepreg ( nm, r ) ;
 					break;
 				}
@@ -3682,15 +3682,15 @@ null_tag_case :
 		}
 
 		/* and evaluate the body of the declaration */
-		assert ( next ( son ( e ) ) != e ) ;
-		mka = make_code ( next ( son ( e ) ), guard ( placew, sp ),
+		assert ( next ( child ( e ) ) != e ) ;
+		mka = make_code ( next ( child ( e ) ), guard ( placew, sp ),
 		                  dest, exitlab ) ;
 		return mka;
 	}
 
 	case cond_tag : {
-		exp first = son ( e ) ;
-		exp second = next ( son ( e ) ) ;
+		exp first = child ( e ) ;
+		exp second = next ( child ( e ) ) ;
 		exp test ;
 
 		if ( discrim ( dest.answhere ) == insomereg ) {
@@ -3708,30 +3708,30 @@ null_tag_case :
 
 		if ( first->tag == goto_tag && pt ( first ) == second ) {
 			/* first is goto second */
-			no ( son ( second ) ) = 0 ;
+			no ( child ( second ) ) = 0 ;
 			return make_code ( second, sp, dest, exitlab ) ;
 		}
 #if 0
 		/* not correct, see email from Mark Brandreth DRA, 22 Jan 92 */
 		else if ( first->tag == test_tag && pt ( first ) == second ) {
 			/* nugatory test */
-			no ( son ( second ) ) = 0 ;
-			( void ) code_here ( son ( first ), sp, nowhere ) ;
-			( void ) code_here ( next ( son ( first ) ), sp, nowhere ) ;
+			no ( child ( second ) ) = 0 ;
+			( void ) code_here ( child ( first ), sp, nowhere ) ;
+			( void ) code_here ( next ( child ( first ) ), sp, nowhere ) ;
 			return make_code ( second, sp, dest, exitlab ) ;
 		}
 #endif
-		else if ( second->tag == labst_tag && next ( son ( second ) ) -> tag == top_tag ) {
+		else if ( second->tag == labst_tag && next ( child ( second ) ) -> tag == top_tag ) {
 			/* second is empty */
 			int endl = ( exitlab == 0 ) ? new_label () : exitlab ;
-			no ( son ( second ) ) = endl ;
+			no ( child ( second ) ) = endl ;
 			make_code ( first, sp, dest, endl ) ;
 			mka.lab = endl ;
 			return mka;
-		} else if ( second->tag == labst_tag && next ( son ( second ) ) -> tag == goto_tag ) {
+		} else if ( second->tag == labst_tag && next ( child ( second ) ) -> tag == goto_tag ) {
 			/* second is goto */
-			exp g = next ( son ( second ) ) ;
-			no ( son ( second ) ) = no ( son ( pt ( g ) ) ) ;
+			exp g = next ( child ( second ) ) ;
+			no ( child ( second ) ) = no ( child ( pt ( g ) ) ) ;
 			return make_code ( first, sp, dest, exitlab ) ;
 		}
 
@@ -3745,7 +3745,7 @@ null_tag_case :
 			settest_number(test,  obranch(test_number(test))) ;
 
 			/* settest_number preserves the Rev bit */
-			no ( son ( second ) ) = new_label () ;
+			no ( child ( second ) ) = new_label () ;
 			make_code ( first, sp, dest, l ) ;
 			make_code ( second, sp, dest, l ) ;
 			mka.lab = l ;
@@ -3754,7 +3754,7 @@ null_tag_case :
 			return mka;
 		} else {
 			int fl ;
-			no ( son ( second ) ) = new_label () ;
+			no ( child ( second ) ) = new_label () ;
 			fl = make_code ( first, sp, dest, exitlab ).lab ;
 
 			{
@@ -3775,7 +3775,7 @@ null_tag_case :
 
 	case ass_tag :
 	case assvol_tag : {
-		exp lhs = son ( e ) ;
+		exp lhs = child ( e ) ;
 		exp rhs = next ( lhs ) ;
 
 		where assdest ;
@@ -3831,25 +3831,25 @@ null_tag_case :
 #ifndef NO_REGREG_ST
 		/* see if we can use [ reg + reg ] addressing for this store */
 		if ( lhs->tag == addptr_tag ) {
-			exp addptr_sons = son ( lhs ) ;
+			exp addptr_children = child ( lhs ) ;
 			ash ashe ;
 			int ashsize ;
 			ashe = ashof ( sh ( rhs ) ) ;
 			ashsize = ( int ) ( ashe.ashsize ) ;
 
-			if ( next ( addptr_sons ) -> last &&
+			if ( next ( addptr_children ) -> last &&
 			     ashe.ashalign == ashsize &&
 			     ( ashsize == 8 || ashsize == 16 ||
-			       ashsize == 32 || ( is_float && !param_aligned(next(addptr_sons)) )
+			       ashsize == 32 || ( is_float && !param_aligned(next(addptr_children)) )
 			     ) )
 			{
 				int lhs_addptr_reg ;
 				int rhs_addptr_reg ;
 				ans aa ;
 
-				lhs_addptr_reg = reg_operand ( addptr_sons, sp ) ;
+				lhs_addptr_reg = reg_operand ( addptr_children, sp ) ;
 				nsp = guardreg ( lhs_addptr_reg, sp ) ;
-				rhs_addptr_reg = reg_operand ( next ( addptr_sons ), nsp ) ;
+				rhs_addptr_reg = reg_operand ( next ( addptr_children ), nsp ) ;
 				nsp = guardreg ( rhs_addptr_reg, nsp ) ;
 
 				if ( is_float ) {
@@ -4027,9 +4027,9 @@ null_tag_case :
 				/* remember that dest contains source, provided
 				   that it is not dependent on it */
 				if ( lhs->tag == name_tag ) {
-					exp dc = son ( lhs ) ;
-					if ( son ( dc ) != NULL ) {
-						dc = son ( dc ) ;
+					exp dc = child ( lhs ) ;
+					if ( child ( dc ) != NULL ) {
+						dc = child ( dc ) ;
 					}
 					if ( shape_size ( sh ( dc ) ) ==
 					     shape_size ( sh ( rhs ) ) ) {
@@ -4066,10 +4066,10 @@ null_tag_case :
 
 	case case_tag : {
 		/* evaluate controlling integer into reg r */
-		int r = reg_operand ( son ( e ), sp ) ;
+		int r = reg_operand ( child ( e ), sp ) ;
 		space nsp ;
 		mm lims ;
-		exp z = next ( son ( e ) ) ;
+		exp z = next ( child ( e ) ) ;
 		exp zt = z ;
 		long n ;
 		long l ;
@@ -4081,18 +4081,18 @@ null_tag_case :
 		/* calculate crude criterion for using jump vector or branches */
 		l = no ( zt ) ;
 		for ( n = 1 ; ; n++ ) {
-			if ( u + 1 != no ( zt ) && son ( zt ) != NULL ) {
+			if ( u + 1 != no ( zt ) && child ( zt ) != NULL ) {
 				n++ ;
 			}
 
 			if ( zt -> last ) {
-				u = ( son ( zt ) != NULL ) ? no ( son ( zt ) ) :
+				u = ( child ( zt ) != NULL ) ? no ( child ( zt ) ) :
 				    no ( zt ) ;
 				break ;
 			}
 
-			if ( son ( zt ) != NULL ) {
-				u = no ( son ( zt ) ) ;
+			if ( child ( zt ) != NULL ) {
+				u = no ( child ( zt ) ) ;
 			} else {
 				if ( u + 1 == no ( zt ) ) {
 					u += 1 ;
@@ -4141,7 +4141,7 @@ null_tag_case :
 			use_jump_vector = range_factor <= n_factor ;	/* LINT */
 		}
 
-		if (is_signed(sh(son(e)))) {
+		if (is_signed(sh(child(e)))) {
 			assert ( l <= u ) ;
 		} else {
 			assert ( (unsigned long) l <= (unsigned long) u ) ;
@@ -4216,9 +4216,9 @@ null_tag_case :
 					asm_printf("\n") ;
 				}
 
-				u = ( son ( z ) == NULL ) ? n : no ( son ( z ) ) ;
+				u = ( child ( z ) == NULL ) ? n : no ( child ( z ) ) ;
 				for ( ; n != u + 1 ; n++ ) {	/* comparison independent of sign */
-					asm_printf("\t.word %s%ld", lab_prefix, no ( son ( pt ( z ) ) ) ) ;
+					asm_printf("\t.word %s%ld", lab_prefix, no ( child ( pt ( z ) ) ) ) ;
 					if ( PIC_code ) {
 						asm_printf("-1b" ) ;
 					}
@@ -4250,14 +4250,14 @@ null_tag_case :
 #endif
 
 			return mka;
-		} else if (is_signed(sh(son(e)))) {
+		} else if (is_signed(sh(child(e)))) {
 			/* use branches - tests are ordered */
 			int over = 0 ;
-			lims = maxmin ( sh ( son ( e ) ) ) ;
+			lims = maxmin ( sh ( child ( e ) ) ) ;
 			for ( ; ; ) {
-				int lab = no ( son ( pt ( z ) ) ) ;
+				int lab = no ( child ( pt ( z ) ) ) ;
 				long l = no ( z ) ;
-				if ( son ( z ) == NULL ) {
+				if ( child ( z ) == NULL ) {
 					/* only single test required */
 					condri_ins ( i_be, r, l, lab ) ;
 
@@ -4266,7 +4266,7 @@ null_tag_case :
 					} else if ( l == lims.mini ) {
 						lims.mini += 1 ;
 					}
-				} else if ( u = no ( son ( z ) ), l > lims.mini ) {
+				} else if ( u = no ( child ( z ) ), l > lims.mini ) {
 					if ( u >= lims.maxi ) {
 						/* have already tested lower */
 						condri_ins ( i_bge, r, l, lab ) ;
@@ -4308,15 +4308,15 @@ null_tag_case :
 			int over = 0 ;
 			unsigned long maxi;
 			unsigned long mini;
-			lims = maxmin ( sh ( son ( e ) ) ) ;
+			lims = maxmin ( sh ( child ( e ) ) ) ;
 
 			maxi = (unsigned)lims.maxi;
 			mini = (unsigned)lims.mini;
 
 			for ( ; ; ) {
-				int lab = no ( son ( pt ( z ) ) ) ;
+				int lab = no ( child ( pt ( z ) ) ) ;
 				unsigned long l = no ( z ) ;
-				if ( son ( z ) == NULL ) {
+				if ( child ( z ) == NULL ) {
 					/* only single test required */
 					condri_ins ( i_be, r, l, lab ) ;
 
@@ -4325,7 +4325,7 @@ null_tag_case :
 					} else if ( l == mini ) {
 						mini += 1 ;
 					}
-				} else if ( u = no ( son ( z ) ), l > mini ) {
+				} else if ( u = no ( child ( z ) ), l > mini ) {
 					if ( u >= maxi ) {
 						/* have already tested lower */
 						condri_ins ( i_bgeu, r, l, lab ) ;
@@ -4368,7 +4368,7 @@ null_tag_case :
 	}
 
 	case movecont_tag: {
-		exp frome = son(e);	/* names with a trailing e to avoid keywords */
+		exp frome = child(e);	/* names with a trailing e to avoid keywords */
 		exp toe   = next(frome);
 		exp nbytes = next(toe);
 		int overlaps = !isnooverlap(e);
@@ -4425,8 +4425,8 @@ null_tag_case :
 		/* IF YOU EVER COMPLETE THIS INLINE VERSION THEN FIX
 		   needscan, muldvrem AS WELL */
 		else {		/* inline block move in oprators.c */
-			lhsreg = reg_operand ( addptr_sons, sp ) ;
-			rhsreg = reg_operand ( next ( addptr_sons ),
+			lhsreg = reg_operand ( addptr_children, sp ) ;
+			rhsreg = reg_operand ( next ( addptr_children ),
 			                       guardreg ( lhsreg, sp ) ) ;
 		}
 #endif
@@ -4435,7 +4435,7 @@ null_tag_case :
 	}
 
 	case set_stack_limit_tag : {
-		int r = reg_operand(son(e), sp);
+		int r = reg_operand(child(e), sp);
 		baseoff b;
 
 		b = find_tag(TDF_STACKLIM);
@@ -4470,18 +4470,18 @@ null_tag_case :
 #if 1
 #ifndef NO_REGREG_LOADS
 		/* see if we can use [ reg + reg ] addressing for this load */
-		if ( son ( e ) -> tag == addptr_tag ) {
-			exp addptr_sons = son ( son ( e ) ) ;
+		if ( child ( e ) -> tag == addptr_tag ) {
+			exp addptr_children = child ( child ( e ) ) ;
 			ash ashe ;
 			int ashsize ;
 			bool is_float = ( bool ) is_floating ( sh ( e ) -> tag ) ;
 			ashe = ashof ( sh ( e ) ) ;
 			ashsize = ( int ) ashe.ashsize ;
 
-			if ( next ( addptr_sons ) -> last &&
+			if ( next ( addptr_children ) -> last &&
 			     ashe.ashalign == ashsize &&
 			     ( ashsize == 8 || ashsize == 16 ||
-			       ashsize == 32 || ( is_float && !param_aligned(next(addptr_sons)))))
+			       ashsize == 32 || ( is_float && !param_aligned(next(addptr_children)))))
 			{
 				int lhsreg ;
 				int rhsreg ;
@@ -4489,8 +4489,8 @@ null_tag_case :
 				                        issgn ( sh ( e ) ) ) ;
 				ans aa ;
 
-				lhsreg = reg_operand ( addptr_sons, sp ) ;
-				rhsreg = reg_operand ( next ( addptr_sons ),
+				lhsreg = reg_operand ( addptr_children, sp ) ;
+				rhsreg = reg_operand ( next ( addptr_children ),
 				                       guardreg ( lhsreg, sp ) ) ;
 
 				if ( is_float ) {
@@ -4582,12 +4582,12 @@ null_tag_case :
 
 	case env_offset_tag : {
 		baseoff b;
-		exp id = son(e);	/* as per tags.h, son is ident, not name */
+		exp id = child(e);	/* as per tags.h, child is ident, not name */
 
 		assert (id->tag == ident_tag);
 		/* b = boff(id); */
 		b.base = R_FP;
-		if (son(id)->tag == formal_callee_tag) {
+		if (child(id)->tag == formal_callee_tag) {
 			b.base = callee_start_reg;
 		}
 
@@ -4625,7 +4625,7 @@ null_tag_case :
 	}
 
 	case long_jump_tag :  {
-		exp l = son ( e ) ;
+		exp l = child ( e ) ;
 		exp r = next ( l ) ;
 		int a1 = reg_operand ( l, sp ), a2, r_spare ;
 		space nsp ;
@@ -4648,21 +4648,21 @@ null_tag_case :
 	}
 
 	case offset_pad_tag :   {
-		int roff = reg_operand(son(e), sp);
+		int roff = reg_operand(child(e), sp);
 		int rdest = regfrmdest(&dest, sp);
 		ans aa;
 
-		if (al2(sh(son(e))) >= al2(sh(e))) {
-			if (al2(sh(e)) != 1 || al2(sh(son(e))) == 1) {
+		if (al2(sh(child(e))) >= al2(sh(e))) {
+			if (al2(sh(e)) != 1 || al2(sh(child(e))) == 1) {
 				rr_ins(i_mov, roff, rdest);
 			} else {
 				rir_ins(i_sll, roff, 3, rdest);
 			}
 		} else {
-			int al = (al2(sh(son(e))) == 1) ? al2(sh(e)) : (al2(sh(e)) / 8);
+			int al = (al2(sh(child(e))) == 1) ? al2(sh(e)) : (al2(sh(e)) / 8);
 			rir_ins(i_add, roff, al - 1, rdest);
 			rir_ins(i_and, rdest, -al, rdest);
-			if (al2(sh(son(e))) == 1) {
+			if (al2(sh(child(e))) == 1) {
 				rir_ins(i_sra, rdest, 3, rdest);
 			}
 		}
@@ -4698,44 +4698,44 @@ null_tag_case :
 
 	case asm_tag :
 		if (props(e)) {
-			if (son(e)->tag == string_tag) {
-				asm_printf("%s", nostr(son(e)));
-			} else if (son(e)->tag == val_tag) {
-				asm_printf("%ld", no(son(e)));
+			if (child(e)->tag == string_tag) {
+				asm_printf("%s", nostr(child(e)));
+			} else if (child(e)->tag == val_tag) {
+				asm_printf("%ld", no(child(e)));
 			} else if (asm_in(e)) {
-				exp s = son(e);
-				if (s->tag == name_tag && !isvar(son(s))) {
+				exp s = child(e);
+				if (s->tag == name_tag && !isvar(child(s))) {
 					int r = regofval(s);
 					if (r != R_NO_REG) {
 						out_asm_reg (r, 0);
 					} else if (r = fregofval(s), r != R_NO_REG) {
 						out_asm_reg (r, 1);
 					} else {
-						out_asm_boff (boff(son(s)), no(s) / 8);
+						out_asm_boff (boff(child(s)), no(s) / 8);
 					}
-				} else if (s->tag == cont_tag && son(s)->tag == name_tag && isvar(son(son(s)))) {
-					int r = regofval(son(s));
+				} else if (s->tag == cont_tag && child(s)->tag == name_tag && isvar(child(child(s)))) {
+					int r = regofval(child(s));
 					if (r != R_NO_REG) {
 						out_asm_reg (-r, 0);
-					} else if (r = fregofval(son(s)), r != R_NO_REG) {
+					} else if (r = fregofval(child(s)), r != R_NO_REG) {
 						out_asm_reg (r, 1);
 					} else {
-						out_asm_boff (boff(son(son(s))), no(son(s)) / 8);
+						out_asm_boff (boff(child(child(s))), no(child(s)) / 8);
 					}
 				} else {
 					error(ERR_INTERNAL, "unsupported ASM operand");
 				}
 			} else if (asm_var(e)) {
-				exp s = son(e);
+				exp s = child(e);
 
-				if (s->tag == name_tag && isvar(son(s))) {
+				if (s->tag == name_tag && isvar(child(s))) {
 					int r = regofval(s);
 					if (r != R_NO_REG) {
 						out_asm_reg (-r, 0);
 					} else if (r = fregofval(s), r != R_NO_REG) {
 						out_asm_reg (r, 1);
 					} else {
-						out_asm_boff (boff(son(s)), no(s) / 8);
+						out_asm_boff (boff(child(s)), no(s) / 8);
 					}
 				} else {
 					error(ERR_INTERNAL, "unsupported ASM operand");
@@ -4746,7 +4746,7 @@ null_tag_case :
 		} else {
 			asm_printf("\n");
 			asm_comment("ASM sequence start");
-			code_here ( son(e), sp, nowhere ) ;
+			code_here ( child(e), sp, nowhere ) ;
 			asm_comment("ASM sequence ends");
 			asm_printf("\n");
 		}

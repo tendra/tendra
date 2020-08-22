@@ -48,18 +48,18 @@ char *checking = "????";
 static void
 chk_token(node *p)
 {
-	tok_info *info = get_tok_info(p->son->cons);
+	tok_info *info = get_tok_info(p->child->cons);
 	node *d = info->def;
 
 	if (d) {
 		if (d->cons->sortnum == SORT_completion)
-			d = d->son;
+			d = d->child;
 
 		p->shape = normalize(d->shape);
 	} else {
 		p->shape = new_node();
 		p->shape->cons = &shape_of;
-		p->shape->son = copy_node(p->son);
+		p->shape->child = copy_node(p->child);
 	}
 }
 
@@ -75,8 +75,8 @@ static void
 chk_cond(node *p)
 {
 	node *s;
-	node *q1 = p->son->next->son;
-	node *q2 = p->son->next->next->son;
+	node *q1 = p->child->next->child;
+	node *q2 = p->child->next->next->child;
 	node *s1 = q1->shape;
 	node *s2 = q2->shape;
 
@@ -113,11 +113,11 @@ static void
 chk_tag(node *p, node *a, int intro)
 {
 	if (!intro && a->cons->encoding == ENC_make_tag) {
-		tag_info *info = get_tag_info(a->son->cons);
+		tag_info *info = get_tag_info(a->child->cons);
 		node *d = info->dec;
 
 		if (d && d->cons->sortnum == SORT_completion)
-			d = d->son;
+			d = d->child;
 		if (d)
 			d = d->next;
 		if (d)
@@ -133,7 +133,7 @@ chk_tag(node *p, node *a, int intro)
 			break;
 		default:
 			if (text_input) {
-				char *nm = a->son->cons->name;
+				char *nm = a->child->cons->name;
 				is_fatal = 0;
 				input_error("Tag %s used but not declared", nm);
 			}
@@ -168,7 +168,7 @@ check_shape_fn(node *p)
 {
 	if (do_check && p && p->cons->encoding == ENC_compound) {
 		checking = p->cons->name;
-		IGNORE check1(ENC_offset, p->son);
+		IGNORE check1(ENC_offset, p->child);
 	}
 }
 
@@ -183,7 +183,7 @@ check_nat_fn(node *p)
 {
 	if (do_check && p && p->cons->encoding == ENC_computed_nat) {
 		checking = p->cons->name;
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	}
 }
 
@@ -198,7 +198,7 @@ check_snat_fn(node *p)
 {
 	if (do_check && p && p->cons->encoding == ENC_computed_signed_nat) {
 		checking = p->cons->name;
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	}
 }
 
@@ -245,7 +245,7 @@ is_known(node *p)
 				return 0;
 			}
 
-		if (p->son && !is_known(p->son))
+		if (p->child && !is_known(p->child))
 			return 0;
 
 		p = p->next;
@@ -272,7 +272,7 @@ check_tagdef(construct *p)
 		return;
 
 	if (df->cons->sortnum == SORT_completion)
-		df = df->son;
+		df = df->child;
 
 	if (info->var)
 		df = df->next;
@@ -292,7 +292,7 @@ check_tagdef(construct *p)
 		}
 	} else {
 		if (dc->cons->sortnum == SORT_completion)
-			dc = dc->son;
+			dc = dc->child;
 
 		/* Declaration = ?[u]?[X]S (from 4.0) */
 		dc = dc->next->next;

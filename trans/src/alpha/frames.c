@@ -138,11 +138,11 @@ int frame_offset
   }
   else{
     bool Has_vcallees = (p->tag == general_proc_tag && proc_has_vcallees(p));
-    int n = -8 - (no(son(id)) >>3);
-    if (isparam(id) && son(id)->tag!= formal_callee_tag) {
+    int n = -8 - (no(child(id)) >>3);
+    if (isparam(id) && child(id)->tag!= formal_callee_tag) {
       return n;
     }
-    else if (isparam(id) && son(id)->tag == formal_callee_tag) {
+    else if (isparam(id) && child(id)->tag == formal_callee_tag) {
       return (Has_vcallees)?n:((pr->callee_size>>3) - n);
     }
     else{

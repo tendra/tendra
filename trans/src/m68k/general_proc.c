@@ -134,10 +134,10 @@ gcproc(exp p, char *pname, long cname, int is_ext, int reg_res, diag_descriptor 
 
 	/* the callees are encoded first. Scan to first callee if any */
 
-	t = son(p);
+	t = child(p);
 	while (t->tag == ident_tag && isparam(t) &&
-	       son(t)->tag != formal_callee_tag) {
-		t = next(son(t));
+	       child(t)->tag != formal_callee_tag) {
+		t = next(child(t));
 		has_callers = 1;
 	}
 
@@ -151,18 +151,18 @@ gcproc(exp p, char *pname, long cname, int is_ext, int reg_res, diag_descriptor 
 	}
 
 	/* do we have any callees? */
-	if (t->tag == ident_tag && son(t)->tag == formal_callee_tag) {
-		while (t->tag == ident_tag && son(t)->tag == formal_callee_tag) {
+	if (t->tag == ident_tag && child(t)->tag == formal_callee_tag) {
+		while (t->tag == ident_tag && child(t)->tag == formal_callee_tag) {
 			ast a;
 
-			a = add_shape_to_stack(param_pos, sh(son(t)));
+			a = add_shape_to_stack(param_pos, sh(child(t)));
 			no(t) = a.astoff + a.astadj + (cur_proc_has_vcallees ? 4 * 8 : 0);
 			param_pos = a.astash;
 			ptno(t) = par_pl;
 
 			make_visible(t);
 
-			t = next(son(t));
+			t = next(child(t));
 		}
 
 		cur_proc_callees_size = param_pos;
@@ -170,7 +170,7 @@ gcproc(exp p, char *pname, long cname, int is_ext, int reg_res, diag_descriptor 
 
 	/* encode the caller parameters */
 	{
-		exp caller = son(p);
+		exp caller = child(p);
 		int location_id = par_pl;
 
 		if (uses_callers_pointer) {
@@ -179,17 +179,17 @@ gcproc(exp p, char *pname, long cname, int is_ext, int reg_res, diag_descriptor 
 		}
 
 		while (caller->tag == ident_tag && isparam(caller) &&
-		       son(caller)->tag != formal_callee_tag) {
+		       child(caller)->tag != formal_callee_tag) {
 
 			ast a;
-			a = add_shape_to_stack(param_pos, sh(son(caller)));
+			a = add_shape_to_stack(param_pos, sh(child(caller)));
 			ptno(caller) = location_id;
 			no(caller) = a.astoff + a.astadj;
 			param_pos = a.astash;
 
 			make_visible(caller);
 
-			caller = next(son(caller));
+			caller = next(child(caller));
 		}
 	}
 
@@ -616,7 +616,7 @@ static void
 push_dynamic_callees(exp pcallees, ash stack)
 {
 	mach_op *op1, *op2;
-	exp ptr = son(pcallees);
+	exp ptr = child(pcallees);
 	exp sze = next(ptr);
 	exp ident, ident_def;
 	bool const_compound_shape = 0;
@@ -629,8 +629,8 @@ push_dynamic_callees(exp pcallees, ash stack)
 
 	/* are callees of compond shape ? */
 	if (ptr->tag == name_tag) {
-		ident = son(ptr);
-		ident_def = son(ident);
+		ident = child(ptr);
+		ident_def = child(ident);
 		if (ident_def->tag == compound_tag) {
 			const_compound_shape = !(isvar(ident));
 		}
@@ -638,7 +638,7 @@ push_dynamic_callees(exp pcallees, ash stack)
 
 	if (const_compound_shape) {
 		long value;
-		exp pair = son(ident_def);
+		exp pair = child(ident_def);
 		if (pair) {
 			for (;;) {
 				pair = next(pair);
@@ -800,8 +800,8 @@ A1_result_pointer(long comp_size, long longs, long start_stack, where dest)
 static bool
 postlude_has_code(exp postlude)
 {
-	while (postlude->tag == ident_tag && son(postlude)->tag == caller_name_tag) {
-		postlude = next(son(postlude));
+	while (postlude->tag == ident_tag && child(postlude)->tag == caller_name_tag) {
+		postlude = next(child(postlude));
 	}
 
 	return postlude->tag != top_tag;
@@ -836,14 +836,14 @@ apply_general_proc(exp e, where dest, ash stack)
 	/* Find the procedure and the arguments */
 
 	tmp_dest = dest;
-	proc = son(e);
+	proc = child(e);
 	caller_args = (!proc->last) ? next(proc) : NULL;
 
 	if (e->tag == apply_general_tag) {
 		pcallees     = next(caller_args);
 		postlude    = next(pcallees);
-		callee_args = son(pcallees);
-		caller_args = son(caller_args);
+		callee_args = child(pcallees);
+		caller_args = child(caller_args);
 
 		is_untidy = call_is_untidy(e);
 		has_checkstack = call_has_checkstack(e);
@@ -1075,7 +1075,7 @@ test_push_args(exp args, ash* args_size)
 	ast stack_add_res;
 
 	while (arg != NULL) {
-		formal = (arg->tag == caller_tag) ? son(arg) : arg;
+		formal = (arg->tag == caller_tag) ? child(arg) : arg;
 
 		if (cpd_param(sh(formal))) {
 			use_push = 0;
@@ -1122,7 +1122,7 @@ place_arguments(exp args, ash stack, long start)
 
 	/* Encode the arguments onto the stack */
 	while (arg != NULL) {
-		exp formal = (arg->tag == caller_tag) ? son(arg) : arg;
+		exp formal = (arg->tag == caller_tag) ? child(arg) : arg;
 
 		char nc = sh(formal)->tag;
 		if (nc == scharhd || nc == ucharhd) {
@@ -1158,14 +1158,14 @@ push_args(where w, ash stack, exp args)
 
 	if (args->last) {
 		/* Code last argument */
-		formal = (args->tag == caller_tag) ? son(args) : args;
+		formal = (args->tag == caller_tag) ? child(args) : args;
 		make_code(w, stack, formal);
 		stack_dec -= rounder(sz, param_align);
 	} else {
 		/* Code the following arguments */
 		push_args(w, stack, next(args));
 		/* And then this one */
-		formal = (args->tag == caller_tag) ? son(args) : args;
+		formal = (args->tag == caller_tag) ? child(args) : args;
 		make_code(w, stack, formal);
 		stack_dec -= rounder(sz, param_align );
 	}
@@ -1188,9 +1188,9 @@ tail_call(exp e, where dest, ash stack)
 
 	UNUSED(dest);
 
-	proc        = son(e);
+	proc        = child(e);
 	pcallees    = next(proc);
-	callee_args = son(pcallees);
+	callee_args = child(pcallees);
 	use_push = 1;
 
 	asm_comment("Tail Call");
@@ -1595,8 +1595,8 @@ code_postlude(exp postlude, exp callers, ash stack, long post_offset)
 	asm_comment("Postlude ...");
 
 	/* mark parameters by use of the values calculated by gcproc */
-	while (postlude->tag == ident_tag && son(postlude)->tag == caller_name_tag) {
-		int n = no(son(postlude));
+	while (postlude->tag == ident_tag && child(postlude)->tag == caller_name_tag) {
+		int n = no(child(postlude));
 		exp a = callers;
 		while (n != 0) {
 			a = next(a);
@@ -1609,7 +1609,7 @@ code_postlude(exp postlude, exp callers, ash stack, long post_offset)
 		ptno(postlude) = par3_pl;
 		no(postlude) = no(a) + stack_dec + post_offset;
 
-		postlude = next(son(postlude));
+		postlude = next(child(postlude));
 	}
 
 	/* code the postlude */
@@ -1683,7 +1683,7 @@ make_visible(exp e)
 static void
 fix_addptr(exp addptr)
 {
-	exp pointer  = son(addptr);
+	exp pointer  = child(addptr);
 	exp offset   = next(pointer);
 	exp E1, E2, E3, E4, E5;
 	shape pc_sh;
@@ -1704,19 +1704,19 @@ fix_addptr(exp addptr)
 	 *
 	 *                addptr
 	 *                  |
-	 *                  |(son)   next(son)
+	 *                  |(child)   next(child)
 	 *                  |-------------|
 	 *            E5  reff(8*8)     offset
-	 *                  |(son)
+	 *                  |(child)
 	 *                  |
 	 *            E4  addptr
-	 *                  |(son)   next(son)
+	 *                  |(child)   next(child)
 	 *                  |----------|
 	 *               pointer  E3  cont
-	 *                             |(son)
+	 *                             |(child)
 	 *                             |
 	 *                        E2  reff(12*8)
-	 *                             |(son)
+	 *                             |(child)
 	 *                             |
 	 *                        E1  pointer (copy)
 	 *
@@ -1729,7 +1729,7 @@ fix_addptr(exp addptr)
 	E3 = getexp(pc_sh, 0, 0, E2, 0, 0, 0, cont_tag);
 	E4 = getexp(pc_sh, 0, 0, pointer, 0, 0, 0, addptr_tag);
 	E5 = getexp(pc_sh, 0, 0, E4, 0, 0, 12 * 8, reff_tag);
-	son(addptr) = E5;
+	child(addptr) = E5;
 
 	/* Terminate each next list */
 	setfather(E2, E1);
@@ -1747,7 +1747,7 @@ fix_addptr(exp addptr)
 static void
 transform(exp e)
 {
-	exp s = son(e);
+	exp s = child(e);
 
 	/* Transform the childs (if any) */
 	if (s && (e->tag != name_tag) && (e->tag != env_offset_tag) && (e->tag != case_tag))
@@ -1777,7 +1777,7 @@ make_transformations(void)
 	dec *d;
 
 	for (d = top_def; d != NULL; d = d->next) {
-		exp e = son(d->exp);
+		exp e = child(d->exp);
 		if (e) {
 			transform(e);
 		}

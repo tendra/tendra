@@ -16,13 +16,13 @@
  *  The structure word is used to record the layout of the pretty
  *  printed TDF tree.  It consists of a layout type (see below
  *  for details), a string of characters, together with the length
- *  of this string, and pointers to the "son" and "next" words.
+ *  of this string, and pointers to the "child" and "next" words.
  */
 typedef struct s_word {
     char type;
     int length;
     char *text;
-    struct s_word *son;
+    struct s_word *child;
     struct s_word *next;
 } word;
 

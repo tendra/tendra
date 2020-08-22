@@ -122,7 +122,7 @@ ret_constlist(exp head)
 	}
 
 	limit = pt(head);
-	t = son(head);
+	t = child(head);
 	retcell(head);
 	while (t != limit) {
 		n = next(t);
@@ -184,7 +184,7 @@ maxconst mc_list(exp whole, exp e, int ass_ok, int good)
 				/* but t has constants in it */
 				if (result.cont != NULL) {
 					/* add them to list */
-					next(pt(result.cont)) = son(mc.cont);
+					next(pt(result.cont)) = child(mc.cont);
 					pt(result.cont) = pt(mc.cont);
 					retcell(mc.cont);
 				} else {
@@ -259,7 +259,7 @@ not_ass2(exp vardec, exp piece)
 			if (h == hp) {
 				/* q was within piece */
 				q = piece;
-				upwards = son(q);
+				upwards = child(q);
 				while (!upwards->last) {
 					upwards = next(upwards);
 				}
@@ -289,7 +289,7 @@ not_ass2(exp vardec, exp piece)
 			} else {
 				exp dad = father(t);
 
-				if (dad->tag == addptr_tag && son(dad) == t) {
+				if (dad->tag == addptr_tag && child(dad) == t) {
 					/* use in subscript .... */
 					if (!dad->last && next(dad)->last &&
 					    (next(next(dad))->tag == ass_tag ||
@@ -398,7 +398,7 @@ max_const(exp whole, exp e, int ass_ok)
 {
 	switch (e->tag) {
 	case labst_tag:
-		return mc_list(whole, next(son(e)), ass_ok, false);
+		return mc_list(whole, next(child(e)), ass_ok, false);
 
 	case contvol_tag:
 	case case_tag:
@@ -411,8 +411,8 @@ max_const(exp whole, exp e, int ass_ok)
 		maxconst mc;
 		maxconst mct;
 
-		mc = max_const(whole, next(son(e)), ass_ok);
-		mct = mc_list(whole, son(e), ass_ok, optop(e));
+		mc = max_const(whole, next(child(e)), ass_ok);
+		mct = mc_list(whole, child(e), ass_ok, optop(e));
 		if (mct.self) {
 			return mct;
 		}
@@ -425,8 +425,8 @@ max_const(exp whole, exp e, int ass_ok)
 
 			flt_copy(flptnos[fone_no], &flptnos[f]);
 			funit = getexp(sh(e), NULL, 0, NULL, NULL, 0, f, real_tag);
-			temp1 = me_b3(sh(e), funit, next(son(e)), fdiv_tag);
-			temp2 = me_b3(sh(e), son(e), temp1, fmult_tag);
+			temp1 = me_b3(sh(e), funit, next(child(e)), fdiv_tag);
+			temp2 = me_b3(sh(e), child(e), temp1, fmult_tag);
 
 #ifdef TDF_DIAG4
 			dgf(temp2) = dgf(e);
@@ -446,7 +446,7 @@ max_const(exp whole, exp e, int ass_ok)
 			cond_flag = 1;
 		}
 
-		mc = mc_list(whole, son(e), ass_ok, false);
+		mc = mc_list(whole, child(e), ass_ok, false);
 		cond_flag = old_cond_flag;
 
 		return mc;
@@ -455,7 +455,7 @@ max_const(exp whole, exp e, int ass_ok)
 	case test_tag: {
 		maxconst mc;
 
-		mc = mc_list(whole, son(e), ass_ok, false);
+		mc = mc_list(whole, child(e), ass_ok, false);
 		if (cond_flag == 1) {
 			cond_flag = 2;
 		}
@@ -470,7 +470,7 @@ max_const(exp whole, exp e, int ass_ok)
 		return self_const;
 
 	case name_tag:
-		if (intnl_to(whole, son(e))) {
+		if (intnl_to(whole, child(e))) {
 			/* internal const - may change */
 			return no_consts;
 		} else {
@@ -479,9 +479,9 @@ max_const(exp whole, exp e, int ass_ok)
 		}
 
 	case cont_tag:
-		if ((son(e)->tag == name_tag) && isvar(son(son(e)))) {
+		if ((child(e)->tag == name_tag) && isvar(child(child(e)))) {
 			/* so e is extracting the contents of a variable */
-			exp var = son(son(e));
+			exp var = child(child(e));
 
 			/*
 			 * variable declared external to whole, and NEVER assigned to in whole
@@ -497,7 +497,7 @@ max_const(exp whole, exp e, int ass_ok)
 
 			return no_consts;
 		} else {
-			return mc_list(whole, son(e), ass_ok, ass_ok);
+			return mc_list(whole, child(e), ass_ok, ass_ok);
 		}
 
 	case plus_tag:
@@ -507,23 +507,23 @@ max_const(exp whole, exp e, int ass_ok)
 	case mult_tag: {
 		maxconst mc;
 
-		mc = mc_list(whole, son(e), ass_ok, optop(e));
+		mc = mc_list(whole, child(e), ass_ok, optop(e));
 
-		if (mc.cont != NULL && pt(mc.cont) != son(mc.cont) && optop(e)) {
+		if (mc.cont != NULL && pt(mc.cont) != child(mc.cont) && optop(e)) {
 			/* more than 1 item in list */
-			exp limit = pt(mc.cont), h = son(mc.cont), arg, this, last_h;
+			exp limit = pt(mc.cont), h = child(mc.cont), arg, this, last_h;
 			int arg_count = 0;
 			int tot_args = 1;
 
-			for (this = son(e); !this->last; this = next(this)) {
+			for (this = child(e); !this->last; this = next(this)) {
 				tot_args++;
 			}
 
 			/* remember for which operator these are arguments */
 			/* NB - some items may not be args of this operator */
 			while (h != NULL) {
-				this = son(h);
-				arg = son(e);
+				this = child(h);
+				arg = child(e);
 				while (arg != NULL && arg != this) {
 					arg = (arg->last ? NULL : next(arg));
 				}
@@ -552,7 +552,7 @@ max_const(exp whole, exp e, int ass_ok)
 		maxconst mc, mx;
 
 		/* find the root pointer */
-		for (p = son(e); p->tag == addptr_tag; p = son(p))
+		for (p = child(e); p->tag == addptr_tag; p = child(p))
 			;
 
 		mc = max_const(whole, p, ass_ok);
@@ -581,9 +581,9 @@ max_const(exp whole, exp e, int ass_ok)
 					/* the offset is not constant, but PARTS of it are */
 
 					/* remove any "negate(...)->tag" */
-					exp lim = pt(mx.cont), h = son(mx.cont);
+					exp lim = pt(mx.cont), h = child(mx.cont);
 					while (h != NULL) {
-						if (son(h)->tag == neg_tag && son(son(h))->tag == name_tag) {
+						if (child(h)->tag == neg_tag && child(child(h))->tag == name_tag) {
 							no(h) = -1;	/* set "done" flag */
 						}
 
@@ -591,8 +591,8 @@ max_const(exp whole, exp e, int ass_ok)
 					}
 
 					/* add constant parts to mc */
-					next(pt(mx.cont)) = son(mc.cont);
-					son(mc.cont) = son(mx.cont);
+					next(pt(mx.cont)) = child(mc.cont);
+					child(mc.cont) = child(mx.cont);
 					retcell(mx.cont);
 				}
 
@@ -623,8 +623,8 @@ max_const(exp whole, exp e, int ass_ok)
 			/* put non-constant offsets at the higher levels */
 			while (v_list != NULL) {
 				/* put next offset in 2nd argument position */
-				x = son(p);
-				next(x) = son(v_list);
+				x = child(p);
+				next(x) = child(v_list);
 				next(next(x)) = p;
 				p = x;		/* point to 1st argument */
 
@@ -635,13 +635,13 @@ max_const(exp whole, exp e, int ass_ok)
 			}
 
 			/* the rest is constant - add it to mc.cont */
-			son(cph) = p;
+			child(cph) = p;
 
 			/* and put constant offsets at the lower levels */
 			while (c_list != NULL) {
 				/* put next offset in 2nd argument position */
-				x = son(p);
-				next(x) = son(c_list);
+				x = child(p);
+				next(x) = child(c_list);
 				next(next(x)) = p;
 				p = x;		/* point to 1st argument */
 
@@ -653,12 +653,12 @@ max_const(exp whole, exp e, int ass_ok)
 
 			return mc;
 		} else {
-			return mc_list(whole, son(e), ass_ok, true);
+			return mc_list(whole, child(e), ass_ok, true);
 		}
 	}
 
 	case offset_mult_tag: {
-		exp arg1 = son(e);
+		exp arg1 = child(e);
 		exp arg2 = next(arg1);
 
 		maxconst mc1, mc2;
@@ -686,7 +686,7 @@ max_const(exp whole, exp e, int ass_ok)
 
 			ret_constlist(mc1.cont);
 			if (arg1->tag == mult_tag) {
-				exp m_arg = son(arg1);
+				exp m_arg = child(arg1);
 				/* sort into const and varying args */
 				while (m_arg != NULL) {
 					mc1 = max_const(whole, m_arg, ass_ok);
@@ -714,7 +714,7 @@ max_const(exp whole, exp e, int ass_ok)
 					/* use klist, and then nklist */
 					while (*list != NULL) {
 						exp z = *list;
-						exp a1 = copy(son(z));
+						exp a1 = copy(child(z));
 						exp offmul = getexp(ofsh, NULL, false, a1, NULL,
 						                    0,  0, offset_mult_tag);
 						setnext(a1, m_res);
@@ -742,18 +742,18 @@ max_const(exp whole, exp e, int ass_ok)
 				m_res = e;
 			}
 
-			return mc_list(whole, son(m_res), ass_ok, true);
+			return mc_list(whole, child(m_res), ass_ok, true);
 		}
 
 		/* default action */
-		return mc_list(whole, son(e), ass_ok, true);
+		return mc_list(whole, child(e), ass_ok, true);
 	}
 
 	default:
-		if (son(e) == NULL) {
+		if (child(e) == NULL) {
 			return self_const;
 		} else {
-			return mc_list(whole, son(e), ass_ok, is_a(e->tag) && optop(e));
+			return mc_list(whole, child(e), ass_ok, is_a(e->tag) && optop(e));
 		}
 	}
 }
@@ -764,7 +764,7 @@ max_const(exp whole, exp e, int ass_ok)
  *
  *   kdec    declaration of this new constant
  *   patn    pattern to look for
- *           NB where safe_eval has NOT been used, patn is son(kdec)
+ *           NB where safe_eval has NOT been used, patn is child(kdec)
  *   list    list of constant expresion holders
  *   limit   last constant holder in list
  */
@@ -777,7 +777,7 @@ do_this_k(exp kdec, exp patn, exp list, exp limit)
 
 	if (pt(list) != NULL) {
 		/* build required argument list */
-		exp p = son(patn);
+		exp p = child(patn);
 		while (p != NULL) {
 			exp arg_h = getexp(NULL, arglist, 0, p, NULL, 0, 0, 0);
 			arglist = arg_h;
@@ -788,9 +788,9 @@ do_this_k(exp kdec, exp patn, exp list, exp limit)
 
 	for (;;) {
 		if (no(t) == 0) {
-			if (pt(t) == NULL && eq_exp(son(t), patn)) {
+			if (pt(t) == NULL && eq_exp(child(t), patn)) {
 				/* simple correspondence */
-				exp e = son(t);
+				exp e = child(t);
 				exp f = father(e);
 				exp tagt = getexp(sh(e), next(e), (int)(e->last),
 				                  kdec, pt(kdec), 0,  0, name_tag);
@@ -803,7 +803,7 @@ do_this_k(exp kdec, exp patn, exp list, exp limit)
 #endif
 				*(refto(f, e)) = tagt;
 				no(t) = -1;		/* dealt with */
-				kill_exp(son(t), son(t));
+				kill_exp(child(t), child(t));
 			} else if (pt(t) != NULL && pt(t)->tag == patn->tag) {
 				/* try for complex match - at least the operator is correct */
 				/* check errtreat ??? */
@@ -817,7 +817,7 @@ do_this_k(exp kdec, exp patn, exp list, exp limit)
 						ap = arglist;
 
 						while (ap != NULL &&
-						       (pt(ap) != NULL || !eq_exp(son(t2), son(ap)))) {
+						       (pt(ap) != NULL || !eq_exp(child(t2), child(ap)))) {
 							ap = next(ap);
 						}
 
@@ -837,23 +837,23 @@ do_this_k(exp kdec, exp patn, exp list, exp limit)
 				}
 
 				if (matched == nargs) {
-					exp prev_arg = NULL, oparg = son(op), cc;
+					exp prev_arg = NULL, oparg = child(op), cc;
 					int last_arg;
 
-					cc = getexp(sh(son(kdec)), op, 1, kdec, pt(kdec), 0, 0, name_tag);
+					cc = getexp(sh(child(kdec)), op, 1, kdec, pt(kdec), 0, 0, name_tag);
 					pt(kdec) = cc;
 					++no(kdec);
 
 					while (oparg != NULL) {
 						last_arg = (int)oparg->last;
 
-						for (ap = arglist; ap != NULL && son(pt(ap)) != oparg; ap = next(ap))
+						for (ap = arglist; ap != NULL && child(pt(ap)) != oparg; ap = next(ap))
 							;
 
 						if (ap == NULL) {
 							/* this is one of the other args of op */
 							if (prev_arg == NULL) {
-								son(op) = oparg;
+								child(op) = oparg;
 							} else {
 								next(prev_arg) = oparg;
 							}
@@ -871,9 +871,9 @@ do_this_k(exp kdec, exp patn, exp list, exp limit)
 					/* mark those dealt with & clear arglist */
 					ap = arglist;
 					while (ap != NULL) {
-						exp deadarg = son(pt(ap));
+						exp deadarg = child(pt(ap));
 						no(pt(ap)) = -1;
-						son(pt(ap)) = NULL;
+						child(pt(ap)) = NULL;
 						pt(ap) = NULL;
 						kill_exp(deadarg, deadarg);
 						ap = next(ap);
@@ -961,7 +961,7 @@ safe_arg(exp e, exp esc)
 
 	tst = getexp(f_top, NULL, 0, v1, esc, 0, 0, test_tag);
 	settest_number(tst, f_not_equal);
-	++no(son(esc));
+	++no(child(esc));
 	setnext(v1, konst);
 	tst = hc(tst, konst);
 
@@ -1041,11 +1041,11 @@ safe_eval(exp e, exp escape_route)
 	case rem0_tag:
 	case offset_div_tag:
 	case offset_div_by_int_tag: {
-		exp arg1 = safe_eval(son(e), esc_lab);
-		exp arg2 = safe_eval(next(son(e)), esc_lab);
+		exp arg1 = safe_eval(child(e), esc_lab);
+		exp arg2 = safe_eval(next(child(e)), esc_lab);
 
 		res = copyexp(e);
-		setson(res, arg1);
+		setchild(res, arg1);
 		arg2 = safe_arg(arg2, esc_lab);
 		setnext(arg1, arg2);
 		arg1->last = false;
@@ -1054,10 +1054,10 @@ safe_eval(exp e, exp escape_route)
 	}
 
 	case cont_tag: {
-		exp arg = son(e);
+		exp arg = child(e);
 
 		if (arg->tag == name_tag &&
-		    (isglob(son(arg)) || isvar(son(arg)))) {
+		    (isglob(child(arg)) || isvar(child(arg)))) {
 			res = copy(e);
 		} else {
 			arg = safe_eval(arg, esc_lab);
@@ -1065,16 +1065,16 @@ safe_eval(exp e, exp escape_route)
 				arg = safe_arg(arg, esc_lab);
 			}
 			res = copyexp(e);
-			setson(res, arg);
+			setchild(res, arg);
 			res = hc(res, arg);
 		}
 		break;
 	}
 
 	case reff_tag: {
-		exp arg = son(e);
+		exp arg = child(e);
 
-		if (arg->tag == name_tag && isglob(son(arg))) {
+		if (arg->tag == name_tag && isglob(child(arg))) {
 			res = copy(e);
 		} else {
 			arg = safe_eval(arg, esc_lab);
@@ -1082,7 +1082,7 @@ safe_eval(exp e, exp escape_route)
 				arg = safe_arg(arg, esc_lab);
 			}
 			res = copyexp(e);
-			setson(res, arg);
+			setchild(res, arg);
 			res = hc(res, arg);
 		}
 		break;
@@ -1090,7 +1090,7 @@ safe_eval(exp e, exp escape_route)
 
 	default: {
 		exp k = copyexp(e);
-		exp arg = son(e);
+		exp arg = child(e);
 		exp p;
 
 		if (arg == NULL) {
@@ -1099,7 +1099,7 @@ safe_eval(exp e, exp escape_route)
 		}
 
 		p = safe_eval(arg, esc_lab);
-		setson(k, p);
+		setchild(k, p);
 		while (!arg->last) {
 			exp safe = safe_eval(next(arg), esc_lab);
 			setnext(p, safe);
@@ -1118,9 +1118,9 @@ safe_eval(exp e, exp escape_route)
 		return res;
 	}
 
-	if (no(son(esc_lab)) == 0) {
+	if (no(child(esc_lab)) == 0) {
 		/* the escape route is not used - inherently safe */
-		retcell(son(esc_lab));
+		retcell(child(esc_lab));
 		retcell(esc_lab);
 		return res;
 	} else {
@@ -1129,7 +1129,7 @@ safe_eval(exp e, exp escape_route)
 		exp safe;
 
 		safe = getexp(sh(e), NULL, 1, NULL, NULL, 0,  0, clear_tag);
-		setnext(son(esc_lab), safe);
+		setnext(child(esc_lab), safe);
 		IGNORE hc(esc_lab, safe);
 		setnext(res, esc_lab);
 		res->last = false;
@@ -1142,23 +1142,23 @@ static void
 look_for_caonly(exp e)
 {
 	if (e->tag == name_tag) {
-		if (isvar(son(e))) {
-			clearcaonly(son(e));
+		if (isvar(child(e))) {
+			clearcaonly(child(e));
 		}
 		return;
 	}
 
 	if (e->tag == addptr_tag) {
-		look_for_caonly(son(e));
+		look_for_caonly(child(e));
 	}
 
 	if (e->tag == seq_tag || e->tag == ident_tag) {
-		look_for_caonly(next(son(e)));
+		look_for_caonly(next(child(e)));
 	}
 }
 
 /*
- *  issn         loop is son(rf) else next(rf)
+ *  issn         loop is child(rf) else next(rf)
  *  rf           EXP holding loop
  *  list_head    exp containing list of constant expressions
  *               this must not be empty
@@ -1168,13 +1168,13 @@ extract_consts(int issn, exp rf, exp list_head)
 {
 	exp val;
 	int changed = 0;		/* result; will be true if we make a change */
-	exp t = son(list_head);	/* first in list */
+	exp t = child(list_head);	/* first in list */
 	exp limit = pt (list_head);	/* last in list */
 	int contin = true;
 
 	do {
 		if (issn) {
-			val = son(rf);
+			val = child(rf);
 		} else {
 			val = next(rf);
 		}
@@ -1191,7 +1191,7 @@ extract_consts(int issn, exp rf, exp list_head)
 			if (pt(t) == NULL) {
 				/* simple constant - no nexts */
 				exp f;
-				e = son(t);
+				e = child(t);
 				f = father(e);
 
 				/* ?????????????????? */
@@ -1212,7 +1212,7 @@ extract_consts(int issn, exp rf, exp list_head)
 #else
 				e = copy(e);
 #endif
-				/* so son(t) can be killed or used in declaration */
+				/* so child(t) can be killed or used in declaration */
 			} else {
 				/* the next few consts are args of the same operator */
 				exp op = pt(t), new_c, prev = NULL, c_arg = NULL, t2 = t;
@@ -1223,12 +1223,12 @@ extract_consts(int issn, exp rf, exp list_head)
 				while (scan) {
 					if (no(t2) == 0 && pt(t2) == op) {
 #ifdef TDF_DIAG4
-						c_arg = copy_dg_separate(son(t2)); /* original may remain in use */
+						c_arg = copy_dg_separate(child(t2)); /* original may remain in use */
 #else
-						c_arg = copy(son(t2));
+						c_arg = copy(child(t2));
 #endif
 						if (prev == NULL) {
-							son(new_c) = c_arg;
+							child(new_c) = c_arg;
 						} else {
 							next(prev) = c_arg;
 							prev->last = false;
@@ -1299,7 +1299,7 @@ extract_consts(int issn, exp rf, exp list_head)
 				val->last = true;
 
 				if (issn) {
-					son(rf) = newdec;
+					child(rf) = newdec;
 				} else {
 					next(rf) = newdec;
 				}
@@ -1341,20 +1341,20 @@ named_dest(exp dest)
 {
 	switch (dest->tag) {
 	case name_tag:
-		if (!isvar(son(dest))) {
-			if (son(son(dest)) != NULL) {
-				return named_dest(son(son(dest)));
+		if (!isvar(child(dest))) {
+			if (child(child(dest)) != NULL) {
+				return named_dest(child(child(dest)));
 			}
 
 			return false;
 		}
 
-		if (iscaonly(son(dest))) {
+		if (iscaonly(child(dest))) {
 			return true;
 		}
 
-		if (isglob(son(dest))) {
-			if (find_glob(son(dest))) {
+		if (isglob(child(dest))) {
+			if (find_glob(child(dest))) {
 				return true;
 			}
 
@@ -1362,7 +1362,7 @@ named_dest(exp dest)
 				return false;
 			}
 
-			glob_dest[glob_index++] = son(dest);
+			glob_dest[glob_index++] = child(dest);
 
 			return true;
 		}
@@ -1371,7 +1371,7 @@ named_dest(exp dest)
 
 	case addptr_tag:
 	case reff_tag:
-		/* Should we look at next son to see if it contains an assignment ??? */
+		/* Should we look at next child to see if it contains an assignment ??? */
 		return false;
 
 	default:
@@ -1388,9 +1388,9 @@ assigns_alias(exp e)
 	switch (e->tag) {
 	case assvol_tag:
 	case ass_tag: {
-		exp dest = son(e);
+		exp dest = child(e);
 
-		if (!named_dest(son(e))) {
+		if (!named_dest(child(e))) {
 			/* LHS may be aliassed */
 			return true;
 		} else {
@@ -1405,7 +1405,7 @@ assigns_alias(exp e)
 		return false;
 
 	case case_tag:
-		return assigns_alias(son(e)); /* NB - must only look at first son */
+		return assigns_alias(child(e)); /* NB - must only look at first child */
 
 	case bfass_tag:
 	case apply_tag:
@@ -1413,7 +1413,7 @@ assigns_alias(exp e)
 
 	default: {
 		int aa = false;
-		exp s = son(e);
+		exp s = child(e);
 
 		while ((s != NULL) && !aa) {
 			aa = assigns_alias(s);
@@ -1446,7 +1446,7 @@ scan_for_lv(exp e)
 
 	default: {
 		int aa = false;
-		exp s = son(e);
+		exp s = child(e);
 
 		while ((s != NULL) && !aa) {
 			aa = scan_for_lv(s);
@@ -1481,11 +1481,11 @@ repeat_consts(void)
 		exp fa;
 		memlist **mptr;
 
-		if (son(reps) == NULL) {
+		if (child(reps) == NULL) {
 			continue;
 		}
 
-		if (son(reps)->tag != rep_tag) {
+		if (child(reps)->tag != rep_tag) {
 			continue;
 		}
 
@@ -1493,8 +1493,8 @@ repeat_consts(void)
 			continue;
 		}
 
-		loop = son(reps);
-		sts = next(son(loop));
+		loop = child(reps);
+		sts = next(child(loop));
 
 		/* put old identifier memory list into its free list */
 		mptr = &mem;
@@ -1524,12 +1524,12 @@ repeat_consts(void)
 
 		fa = father(loop);
 
-		if (son(fa) == loop) {
+		if (child(fa) == loop) {
 			sn = 1;
 			rr = fa;
 		} else {
 			sn = 0;
-			rr = son(fa);
+			rr = child(fa);
 			while (next(rr) != loop && !rr->last) {
 				rr = next(rr);
 			}
@@ -1584,7 +1584,7 @@ get_repeats(void)
 			do {
 				set_dist (sup);	/* no(x) is now max dist to leaf */
 				no(sup) = dist;
-				if (son(sup) != NULL && son(sup)->tag == rep_tag) {
+				if (child(sup) != NULL && child(sup)->tag == rep_tag) {
 					++dist;		/* only repeats are significant */
 				}
 				sup = next(sup);	/* go to enclosing repeat */

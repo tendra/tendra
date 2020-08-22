@@ -39,7 +39,7 @@
 
 void properties(int);
 exp show_next(int);
-exp show_son(int);
+exp show_child(int);
 exp show_current(int);
 exp show_father(int);
 exp show_pt(int);
@@ -137,7 +137,7 @@ scan_for_labsts(exp e)
 		store_ident(e);
 		break;
 
-	/* don't scan sons of these tags */
+	/* don't scan children of these tags */
 	case name_tag:
 	case env_offset_tag:
 		if (!e->last) {
@@ -147,11 +147,11 @@ scan_for_labsts(exp e)
 
 	/* don't scan nexts of these tags */
 	case case_tag:
-		scan_for_labsts(son(e));
+		scan_for_labsts(child(e));
 		return;
 	}
 
-	scan_for_labsts(son(e));
+	scan_for_labsts(child(e));
 	if (!e->last) {
 		scan_for_labsts(next(e));
 	}
@@ -171,7 +171,7 @@ showme(exp e, int depth_of_recursion, int flag)
 		store_ident(e);
 	}
 
-	scan_for_labsts(son(e));
+	scan_for_labsts(child(e));
 	exp_show(e, 0, depth_of_recursion, flag);
 }
 
@@ -227,7 +227,7 @@ show_next(int i)
 }
 
 exp
-show_son(int i)
+show_child(int i)
 {
 	exp l;
 
@@ -246,10 +246,10 @@ show_son(int i)
 
 	}
 
-	if (son(l) != NULL) {
-		infotag(son(l), i);
+	if (child(l) != NULL) {
+		infotag(child(l), i);
 	} else {
-		printf("No son field to stored exp no %d\n", i);
+		printf("No child field to stored exp no %d\n", i);
 	}
 
 	return l;
@@ -428,11 +428,11 @@ infotag(exp e, int i)
 	}
 
 	printf("-------------------------------------------------------------------------------\n");
-	if (son(e) != NULL) {
+	if (child(e) != NULL) {
 		int finished = 0;
-		exp point = son(e);
+		exp point = child(e);
 		if (e->tag == name_tag) {
-			printf("son is ident 0x%-8x\n", (unsigned int)son(e));
+			printf("child is ident 0x%-8x\n", (unsigned int)child(e));
 			return e;
 		}
 
@@ -447,7 +447,7 @@ infotag(exp e, int i)
 		printf("\n");
 
 		/* second line */
-		point = son(e);
+		point = child(e);
 		finished = 0;
 		while (!finished) {
 			finished = point->last;
@@ -456,7 +456,7 @@ infotag(exp e, int i)
 		}
 		printf("\n");
 
-		point = son(e);
+		point = child(e);
 		finished = 0;
 		while (!finished) {
 			finished = point->last;
@@ -466,7 +466,7 @@ infotag(exp e, int i)
 		printf("\n");
 
 		/* new line */
-		point = son(e);
+		point = child(e);
 		finished = 0;
 		while (!finished) {
 			finished = point->last;
@@ -476,7 +476,7 @@ infotag(exp e, int i)
 		printf("\n");
 
 		/* new line */
-		point = son(e);
+		point = child(e);
 		finished = 0;
 		while (!finished) {
 			finished = point->last;
@@ -486,7 +486,7 @@ infotag(exp e, int i)
 		printf("\n");
 
 		/* third line */
-		point = son(e);
+		point = child(e);
 		finished = 0;
 		while (!finished) {
 			finished = point->last;
@@ -503,7 +503,7 @@ infotag(exp e, int i)
 		printf("\n");
 
 		/* fourth line */
-		point = son(e);
+		point = child(e);
 		finished = 0;
 		while (!finished) {
 			finished = point->last;
@@ -516,7 +516,7 @@ infotag(exp e, int i)
 		}
 		printf("\n");
 
-		point = son(e);
+		point = child(e);
 		finished = 0;
 		while (!finished) {
 			finished = point->last;
@@ -530,7 +530,7 @@ infotag(exp e, int i)
 		printf("\n");
 
 		/* fifth_line */
-		point = son(e);
+		point = child(e);
 		finished = 0;
 		while (!finished) {
 			finished = point->last;
@@ -544,7 +544,7 @@ infotag(exp e, int i)
 		}
 		printf("\n");
 
-		point = son(e);
+		point = child(e);
 		finished = 0;
 		while (!finished) {
 			finished = point->last;
@@ -554,11 +554,11 @@ infotag(exp e, int i)
 		printf("\n");
 
 		/* last line */
-		point = son(e);
+		point = child(e);
 		finished = 0;
 		while (!finished) {
 			finished = point->last;
-			if (son(point) == NULL) {
+			if (child(point) == NULL) {
 
 				printf("                                 ");
 			} else {
@@ -607,7 +607,7 @@ exp_show(exp e, int depth, int depth_of_recursion, int flag)
 	print_spaces(depth);
 
 	/*
-	 * Don't want to look down son's of name_tag's or env_offset_tag
+	 * Don't want to look down child's of name_tag's or env_offset_tag
 	 * because this will take you to ident_tag's and thus into an infinite loop
 	 */
 
@@ -623,41 +623,41 @@ exp_show(exp e, int depth, int depth_of_recursion, int flag)
 			printf("%s:\n", tagname);
 		}
 
-		exp_show(son(e), depth + 1, depth_of_recursion, 0);
+		exp_show(child(e), depth + 1, depth_of_recursion, 0);
 		break;
 	}
 
 	case name_tag: {
-		int l = ident_no(son(e));
+		int l = ident_no(child(e));
 		if (l) {
 			printf("%s:<%s> no=%ld obtain {tag~%04d}\n", tagname, shape_name(sh(e)->tag), no(e), l);
 		}
 #if 1
-		else if (sh(e)->tag == prokhd && (son(son(e))->tag == proc_tag || son(son(e)) == NULL || son(son(e))->tag == general_proc_tag) && done_scan == 1) {
-			baseoff b = boff(son(e));
+		else if (sh(e)->tag == prokhd && (child(child(e))->tag == proc_tag || child(child(e)) == NULL || child(child(e))->tag == general_proc_tag) && done_scan == 1) {
+			baseoff b = boff(child(e));
 			char *ext;
 			ext = main_globals[(-b.base) - 1]->name;
-			printf("%s:<%s> function \"%s\"(0x%x)\n", tagname, shape_name(sh(e)->tag), ext, (int)(son(e)));
+			printf("%s:<%s> function \"%s\"(0x%x)\n", tagname, shape_name(sh(e)->tag), ext, (int)(child(e)));
 		}
 #endif
 		else {
-			printf("%s:<%s> no=%ld obtain (0x%x)\n", tagname, shape_name(sh(e)->tag), no(e), (int)son(e));
+			printf("%s:<%s> no=%ld obtain (0x%x)\n", tagname, shape_name(sh(e)->tag), no(e), (int)child(e));
 		}
 		break;
 	}
 
 	case trap_tag:
 		printf("%s:no=%ld\n", tagname, no(e));
-		exp_show(son(e), depth + 1, depth_of_recursion, 0);
+		exp_show(child(e), depth + 1, depth_of_recursion, 0);
 		break;
 
 	case general_env_offset_tag:
 	case env_offset_tag: {
-		int l = ident_no(son(e));
+		int l = ident_no(child(e));
 		if (l) {
 			printf("%s:<%s> for ident {tag~%04d}\n", tagname, shape_name(sh(e)->tag), l);
 		} else {
-			printf("%s:<%s> for ident (0x%x)\n", tagname, shape_name(sh(e)->tag), (int)son(e));
+			printf("%s:<%s> for ident (0x%x)\n", tagname, shape_name(sh(e)->tag), (int)child(e));
 		}
 		break;
 	}
@@ -668,17 +668,17 @@ exp_show(exp e, int depth, int depth_of_recursion, int flag)
 
 	case case_tag:
 		printf("%s:<%s>\n", tagname, shape_name(sh(e)->tag));
-		exp_show(son(e), depth + 1, depth_of_recursion, 1);
+		exp_show(child(e), depth + 1, depth_of_recursion, 1);
 		{
-			exp s = son(e);
+			exp s = child(e);
 			do {
 				int label;
 				s = next(s);
 				printf("(0x%x)", (int)s);
 				print_spaces(depth + 1);
 				printf("(%ld", no(s));
-				if (son(s) != NULL) {
-					printf("-%ld)", no(son(s)));
+				if (child(s) != NULL) {
+					printf("-%ld)", no(child(s)));
 				} else {
 					printf(")");
 				}
@@ -698,7 +698,7 @@ exp_show(exp e, int depth, int depth_of_recursion, int flag)
 		} else {
 			printf("%s:<%s> ----> (0x%x)\n", tagname, shape_name(sh(e)->tag), (int)pt(e));
 		}
-		exp_show(son(e), depth + 1, depth_of_recursion, 0);
+		exp_show(child(e), depth + 1, depth_of_recursion, 0);
 		break;
 	}
 
@@ -727,12 +727,12 @@ exp_show(exp e, int depth, int depth_of_recursion, int flag)
 				printf("%s:<%s> error_jump=>0x%x\n", tagname, shape_name(sh(e)->tag), (unsigned int)pt(e));
 			}
 		}
-		exp_show(son(e), depth + 1, depth_of_recursion, 0);
+		exp_show(child(e), depth + 1, depth_of_recursion, 0);
 		break;
 
 	case last_local_tag:
 		printf("%s: pt=0x%x\n", tagname, (unsigned int)pt(e));
-		exp_show(son(e), depth + 1, depth_of_recursion, 0);
+		exp_show(child(e), depth + 1, depth_of_recursion, 0);
 		break;
 
 	case make_lv_tag: {
@@ -742,7 +742,7 @@ exp_show(exp e, int depth, int depth_of_recursion, int flag)
 		} else {
 			printf("%s: Label=0x%x\n", tagname, (unsigned int)pt(e));
 		}
-		exp_show(son(e), depth + 1, depth_of_recursion, 0);
+		exp_show(child(e), depth + 1, depth_of_recursion, 0);
 		break;
 	}
 
@@ -785,7 +785,7 @@ exp_show(exp e, int depth, int depth_of_recursion, int flag)
 	case chfl_tag:
 	case caller_tag:
 		printf("%s:<%s>\n", tagname, shape_name(sh(e)->tag));
-		exp_show(son(e), depth + 1, depth_of_recursion, 0);
+		exp_show(child(e), depth + 1, depth_of_recursion, 0);
 		break;
 
 	case bfass_tag:
@@ -796,7 +796,7 @@ exp_show(exp e, int depth, int depth_of_recursion, int flag)
 			printf("%s:<%s> bit_offset=%ld\n", tagname, shape_name(sh(e)->tag), no(e));
 		}
 
-		exp_show(son(e), depth + 1, depth_of_recursion, 0);
+		exp_show(child(e), depth + 1, depth_of_recursion, 0);
 		break;
 
 	case chvar_tag:
@@ -805,7 +805,7 @@ exp_show(exp e, int depth, int depth_of_recursion, int flag)
 		} else {
 			printf("%s:<%s>\n", tagname, shape_name(sh(e)->tag));
 		}
-		exp_show(son(e), depth + 1, depth_of_recursion, 0);
+		exp_show(child(e), depth + 1, depth_of_recursion, 0);
 		break;
 
 	case make_callee_list_tag:
@@ -814,22 +814,22 @@ exp_show(exp e, int depth, int depth_of_recursion, int flag)
 		} else {
 			printf("%s: no=%ld\n", tagname, no(e));
 		}
-		exp_show(son(e), depth + 1, depth_of_recursion, 0);
+		exp_show(child(e), depth + 1, depth_of_recursion, 0);
 		break;
 
 	case clear_tag:
 		printf("%s:<%s> no=%ld\n", tagname, shape_name(sh(e)->tag), no(e));
-		exp_show(son(e), depth + 1, depth_of_recursion, 0);
+		exp_show(child(e), depth + 1, depth_of_recursion, 0);
 		break;
 
 	case labst_tag:
 		printf("%s:<%s> {label~%04d}\n", tagname, shape_name(sh(e)->tag), labst_no(e));
-		exp_show(son(e), depth + 1, depth_of_recursion, 0);
+		exp_show(child(e), depth + 1, depth_of_recursion, 0);
 		break;
 
 	case diagnose_tag:
 		printf("%s:<%s> dno=0x%x\n", tagname, shape_name(sh(e)->tag), (unsigned int)dno(e));
-		exp_show(son(e), depth + 1, depth_of_recursion, 0);
+		exp_show(child(e), depth + 1, depth_of_recursion, 0);
 		break;
 
 	case val_tag:
@@ -839,7 +839,7 @@ exp_show(exp e, int depth, int depth_of_recursion, int flag)
 			printf("%s:<%s> no=%lu (0x%08lx)\n", tagname, shape_name(sh(e)->tag), no(e), no(e));
 		}
 
-		exp_show(son(e), depth + 1, depth_of_recursion, 0);
+		exp_show(child(e), depth + 1, depth_of_recursion, 0);
 		break;
 
 	case reff_tag:
@@ -847,7 +847,7 @@ exp_show(exp e, int depth, int depth_of_recursion, int flag)
 	case real_tag:
 	case ncopies_tag:
 		printf("%s:<%s> no=%ld\n", tagname, shape_name(sh(e)->tag), no(e));
-		exp_show(son(e), depth + 1, depth_of_recursion, 0);
+		exp_show(child(e), depth + 1, depth_of_recursion, 0);
 		break;
 
 	case test_tag: {
@@ -857,7 +857,7 @@ exp_show(exp e, int depth, int depth_of_recursion, int flag)
 		} else {
 			printf("%s: (f_%s) fails----> (0x%x)\n", tagname, find_test_name(test_number(e)), (int)pt(e));
 		}
-		exp_show(son(e), depth + 1, depth_of_recursion, 0);
+		exp_show(child(e), depth + 1, depth_of_recursion, 0);
 		break;
 	}
 
@@ -871,20 +871,20 @@ exp_show(exp e, int depth, int depth_of_recursion, int flag)
 		if (isglob(e))   printf(" GLOB");
 		printf("\n");
 
-		exp_show(son(e), depth + 1, depth_of_recursion, 0);
+		exp_show(child(e), depth + 1, depth_of_recursion, 0);
 		break;
 
 
 	case string_tag:
 		myprint(nostr(e));
 		printf("\"\n");
-		exp_show(son(e), depth + 1, depth_of_recursion, 0);
+		exp_show(child(e), depth + 1, depth_of_recursion, 0);
 		break;
 
 	default:
 		/* default action will be */
 		printf("%s:\n", tagname);
-		exp_show(son(e), depth + 1, depth_of_recursion, 0);
+		exp_show(child(e), depth + 1, depth_of_recursion, 0);
 	}
 
 	/* always look at next unless told not to or it is last */

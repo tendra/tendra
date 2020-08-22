@@ -148,9 +148,9 @@ comm_op(exp e, space sp, where d, instruction rrins)
 	switch (d.answhere.discrim) {
 	case inreg: {
 		int   dest = regalt(d.answhere);
-		bool usesdest = regremoved(&son(e), dest);
+		bool usesdest = regremoved(&child(e), dest);
 
-		exp seq = son(e);
+		exp seq = child(e);
 		if (dest == NO_REG) {
 			dest = getreg(sp.fixed);
 		}
@@ -187,7 +187,7 @@ comm_op(exp e, space sp, where d, instruction rrins)
 		space nsp;
 
 		setregalt(a, r);
-		do_comm(son(e), sp, r, rins);
+		do_comm(child(e), sp, r, rins);
 		/* evaluate the expression into r ... */
 		tidyshort(r, sh(e));
 		nsp = guardreg(r, sp);
@@ -202,7 +202,7 @@ comm_op(exp e, space sp, where d, instruction rrins)
 int
 non_comm_op(exp e, space sp, where dest, instruction rins)
 {
-	exp l = son(e);
+	exp l = child(e);
 	exp r = next(l);
 	int   a1 = reg_operand(l, sp);
 	space nsp;
@@ -243,7 +243,7 @@ non_comm_op(exp e, space sp, where dest, instruction rins)
 int
 fop(exp e, space sp, where dest, instruction ins)
 {
-	exp l = son(e);
+	exp l = child(e);
 	exp r = next(l);
 	int a1, a2;
 	space nsp;

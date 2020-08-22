@@ -325,8 +325,8 @@ long frame_offset
    co = pr->callees_offset>>3;
    if (isparam(e))
    {
-      int nse = no(son(e));
-      if (son(e)->tag ==formal_callee_tag)
+      int nse = no(child(e));
+      if (child(e)->tag ==formal_callee_tag)
       {
 	 eo = -co+ (nse>>3);
       }

@@ -673,9 +673,9 @@ f_dg_object_name(dg_idname idname, dg_sourcepos whence, dg_type type,
 		ans->data.n_obj.obtain_val = diaginfo_exp(acc);
 		set_obj_ref(ans);		/* globals only */
 #if 0
-		if (acc->tag == cont_tag && son(acc)->tag == name_tag &&
-		    isglob(son(son(acc))) && isvar(son(son(acc)))) {
-			nextg(son(son(acc)))->dg_name = ans;
+		if (acc->tag == cont_tag && child(acc)->tag == name_tag &&
+		    isglob(child(child(acc))) && isvar(child(child(acc)))) {
+			nextg(child(child(acc)))->dg_name = ans;
 		}
 #endif
 	} else {
@@ -705,8 +705,8 @@ f_dg_proc_name(dg_idname idname, dg_sourcepos whence, dg_type type,
 	if (obtain_value.present) {
 		exp acc = obtain_value.val;
 		ans->data.n_proc.obtain_val = diaginfo_exp(acc);
-		if (acc->tag == name_tag && isglob(son(acc))) {
-			nextg(son(acc))->dg_name = ans;
+		if (acc->tag == name_tag && isglob(child(acc))) {
+			nextg(child(acc))->dg_name = ans;
 		}
 	} else {
 		ans->data.n_proc.obtain_val = NULL;
@@ -902,8 +902,8 @@ f_dg_module_name(dg_idname idname, dg_sourcepos whence, dg_namelist memlist,
 	if (init.present) {
 		exp acc = init.val;
 		ans->data.n_mod.init = diaginfo_exp(acc);
-		if (acc->tag == name_tag && isglob(son(acc))) {
-			nextg(son(acc))->dg_name = ans;
+		if (acc->tag == name_tag && isglob(child(acc))) {
+			nextg(child(acc))->dg_name = ans;
 		}
 	} else {
 		ans->data.n_mod.init = NULL;
@@ -1759,7 +1759,7 @@ f_dg_bounds_dim(dg_bound low, dg_bound high, dg_type index_type)
 	if (low.is_ref || high.is_ref) {
 		ans.count = -1;
 	} else {
-		ans.count = (long)(no(son(high.u.exp)) - no(son(low.u.exp)) + 1);
+		ans.count = (long)(no(child(high.u.exp)) - no(child(low.u.exp)) + 1);
 	}
 
 	ans.tag = NULL;
@@ -1784,7 +1784,7 @@ f_dg_count_dim(dg_bound low, dg_bound count, dg_type index_type)
 	if (count.is_ref) {
 		ans.count = -1;
 	} else {
-		ans.count = (long)(no(son(count.u.exp)));
+		ans.count = (long)(no(child(count.u.exp)));
 	}
 
 	ans.tag = NULL;

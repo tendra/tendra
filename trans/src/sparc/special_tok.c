@@ -54,7 +54,7 @@ special_va_start(tokval *tkv, token t, bitstream pars)
 		error(ERR_INTERNAL, "Not a tag in va_start");
 	}
 
-	id = son(arg1);
+	id = child(arg1);
 	env_o = getexp(f_offset(f_callers_alignment(1), f_alignment(sh(arg1))),
 	               NULL, 0, id, NULL, 0, 0, env_offset_tag);
 	setvis(id);

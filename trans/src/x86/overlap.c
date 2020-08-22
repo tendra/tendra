@@ -31,7 +31,7 @@ might_overlap(shape sha, where w1, where w2)
 	e2 = w2.where_exp;
 
 	if (e1->tag != name_tag) {
-		if (e2->tag == name_tag && iscaonly(son(e2))) {
+		if (e2->tag == name_tag && iscaonly(child(e2))) {
 			return 0;
 		}
 
@@ -39,7 +39,7 @@ might_overlap(shape sha, where w1, where w2)
 	}
 
 	if (e2->tag != name_tag) {
-		if (e1->tag == name_tag && iscaonly(son(e1))) {
+		if (e1->tag == name_tag && iscaonly(child(e1))) {
 			return 0;
 		}
 
@@ -47,8 +47,8 @@ might_overlap(shape sha, where w1, where w2)
 	}
 
 	/* both are name_tags */
-	i1 = son(e1);
-	i2 = son(e2);
+	i1 = child(e1);
+	i2 = child(e2);
 	if (isglob(i1)) {
 		if (i1 != i2) {
 			return 0;

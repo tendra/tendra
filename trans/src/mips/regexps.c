@@ -85,14 +85,14 @@ sim_exp(exp a, exp b)
 	}
 
 	if (a->tag == name_tag) {
-		return son(a) == son(b) && no(a) == no(b) &&
+		return child(a) == child(b) && no(a) == no(b) &&
 		       eq_sze(sh(a), sh(b));
 	}
 
 	if (a->tag == maxlike_tag || a->tag == minlike_tag || a->tag == abslike_tag) {
-		return props(son(a)) == props(son(b)) &&
+		return props(child(a)) == props(child(b)) &&
 		       shape_size(sh(a)) == shape_size(sh(b)) &&
-		       sim_explist(son(son(a)), son(son(b)));
+		       sim_explist(child(child(a)), child(child(b)));
 	}
 
 	if (!is_a(a->tag) || !eq_sze(sh(a), sh(b))) {
@@ -100,10 +100,10 @@ sim_exp(exp a, exp b)
 	}
 
 	if (a->tag == float_tag) {
-		return eq_exp(son(a), son(b));
+		return eq_exp(child(a), child(b));
 	}
 
-	return no(a) == no(b) && sim_explist(son(a), son(b));
+	return no(a) == no(b) && sim_explist(child(a), child(b));
 }
 
 /* forget all register - exp associations */
@@ -152,7 +152,7 @@ iskept(exp e)
 		if (((!isc && sim_exp(ke, e)) ||
 		     (e->tag == cont_tag && isc  &&
 		      eq_sze(sh(ke), sh(e))
-		      && sim_exp(ke, son(e)) && al1(sh(son(e))) == al1(sh(ke)))))
+		      && sim_exp(ke, child(e)) && al1(sh(child(e))) == al1(sh(ke)))))
 		{
 			aa = (regexps[i].inans);
 			switch (aa.discrim) {
@@ -175,7 +175,7 @@ iskept(exp e)
 				instore is;
 				is = insalt(aq);
 				if (!is.adval && is.b.offset == 0 && is.b.base > 0 && is.b.base < 31
-				    && sim_exp(son(ke), e)) {
+				    && sim_exp(child(ke), e)) {
 					/* the contents of req expression is here
 					   as a reg-offset */
 					is.adval = 1;
@@ -191,7 +191,7 @@ iskept(exp e)
 				is = insalt(aq);
 				if (is.adval && is.b.offset == (no(ke) / 8)
 				    && is.b.base > 0 && is.b.base < 31
-				    && sim_exp(son(ke), e)) {
+				    && sim_exp(child(ke), e)) {
 					/* a ref select of req expression is here
 					   as a reg-offset */
 					is.adval = 1;
@@ -305,10 +305,10 @@ static bool
 couldbe(exp e, exp lhs, int count)
 {
 	int ne = e->tag;
-	exp s = son(e);
+	exp s = child(e);
 
 	if (ne == name_tag) {
-		if (lhs != 0 && s == son(lhs)) {
+		if (lhs != 0 && s == child(lhs)) {
 			return 1;
 		}
 
@@ -320,7 +320,7 @@ couldbe(exp e, exp lhs, int count)
 			return lhs == 0;
 		}
 
-		if (son(s) == NULL) {
+		if (child(s) == NULL) {
 			return 1;
 		}
 
@@ -328,12 +328,12 @@ couldbe(exp e, exp lhs, int count)
 			return 1;    /* pathological */
 		}
 
-		return couldbe(son(s), lhs, count + 1);
+		return couldbe(child(s), lhs, count + 1);
 	}
 
 	if (ne == cont_tag) {
-		if (lhs != 0 && s->tag == name_tag && son(s) != NULL) {
-			return son(s) == son(lhs) || isvis(son(lhs)) || isvis(son(s));
+		if (lhs != 0 && s->tag == name_tag && child(s) != NULL) {
+			return child(s) == child(lhs) || isvis(child(lhs)) || isvis(child(s));
 		}
 
 		return 1;
@@ -358,19 +358,19 @@ couldaffect(exp e, exp z, int count)
 	/* could alteration to z affect e? */
 	ne = e->tag;
 	if (ne == cont_tag) {
-		return couldbe(son(e), z, count);
+		return couldbe(child(e), z, count);
 	}
 
 	if (ne == name_tag) {
-		if (isvar(son(e))) {
-			return z == 0 && isvis(son(e));
+		if (isvar(child(e))) {
+			return z == 0 && isvis(child(e));
 		}
 
-		if (son(e)->tag == proc_tag) {
+		if (child(e)->tag == proc_tag) {
 			return 0;
 		}
 
-		if (son(son(e)) == NULL) {
+		if (child(child(e)) == NULL) {
 			return 1 /* could it happen? */ ;
 		}
 
@@ -378,7 +378,7 @@ couldaffect(exp e, exp z, int count)
 			return 1;    /* pathological */
 		}
 
-		return couldaffect(son(son(e)), z, count + 1);
+		return couldaffect(child(child(e)), z, count + 1);
 
 	}
 
@@ -386,7 +386,7 @@ couldaffect(exp e, exp z, int count)
 		return 1;
 	}
 
-	e = son(e);
+	e = child(e);
 
 	while (e != NULL) {
 		if (couldaffect(e, z, count)) {
@@ -414,7 +414,7 @@ dependson(exp e, bool isc, exp z)
 	for (;;) {
 		if (z->tag == reff_tag || z->tag == addptr_tag ||
 		    z->tag == subptr_tag) {
-			z = son(z);
+			z = child(z);
 		}
 
 		if (z->tag != name_tag) {
@@ -426,20 +426,20 @@ dependson(exp e, bool isc, exp z)
 			break;
 		}
 
-		if (isvar(son(z))) {
+		if (isvar(child(z))) {
 			break;
 		}
 
-		if (son(z)->tag == proc_tag) {
+		if (child(z)->tag == proc_tag) {
 			z = 0;
 			break;
 		}
 
-		if (son(son(z)) == NULL) {
+		if (child(child(z)) == NULL) {
 			return 1; /* can it happen? */
 		}
 
-		z = son(son(z));
+		z = child(child(z));
 	}
 
 	/* z is now unambiguous variable name or 0 meaning some contents */

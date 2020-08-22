@@ -40,8 +40,8 @@ bool
 fixregable(exp e)
 {
 	if (!isvis(e) && !isglob(e) && !isoutpar(e) &&
-	    son(e)->tag != caller_name_tag) {
-		shape s = sh(son(e)); /* son of ident exp is def */
+	    child(e)->tag != caller_name_tag) {
+		shape s = sh(child(e)); /* child of ident exp is def */
 		return valregable(s);
 	}
 
@@ -56,9 +56,9 @@ bool
 floatregable(exp e)
 {
 	if (!isvis(e) && !isglob(e) && !isoutpar(e) &&
-	    son(e)->tag != caller_name_tag)
+	    child(e)->tag != caller_name_tag)
 	{
-		shape s = sh(son(e));
+		shape s = sh(child(e));
 
 		return is_floating(s->tag);
 	}

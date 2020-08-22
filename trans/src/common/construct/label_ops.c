@@ -61,10 +61,10 @@ static exp
 down(exp e)
 {
 	if (e->tag == seq_tag) {
-		return down(son(son(e)));
+		return down(child(child(e)));
 	}
 	if (e->tag == cond_tag) {
-		return down(son(e));
+		return down(child(e));
 	}
 	return e;
 }
@@ -139,7 +139,7 @@ short_next_jump(exp e)
 static exp
 jump_dest(exp lab)
 {
-	return next_jump(son(lab));
+	return next_jump(child(lab));
 }
 
 
@@ -175,7 +175,7 @@ static int
 subsumes(exp a, exp b)
 {
 	if (a->tag == b->tag && test_number(a) == test_number(b) &&
-	    eq_exp(son(a), son(b)) && eq_exp(next(son(a)), next(son(b)))) {
+	    eq_exp(child(a), child(b)) && eq_exp(next(child(a)), next(child(b)))) {
 		return 1;
 	}
 	return 0;

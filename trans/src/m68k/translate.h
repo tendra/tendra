@@ -22,8 +22,8 @@
 
 #define is_offset(X)\
         (sh(X)->tag == offsethd && \
-	 (((al2(sh(son(X))) == 1) && (al2(sh(next(son(X))))!=1)) || \
-	  ((al2(sh(son(X)))!=1) && (al2(sh(next(son(X)))) == 1))))
+	 (((al2(sh(child(X))) == 1) && (al2(sh(next(child(X))))!=1)) || \
+	  ((al2(sh(child(X)))!=1) && (al2(sh(next(child(X)))) == 1))))
 #endif
 
 #define  simple_exp(X)\

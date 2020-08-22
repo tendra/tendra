@@ -149,13 +149,13 @@ de_%SN(void)
 @if sort.eq.callees
     args = get_char_info(cons);
     if (args) {
-	p->son = de_node(args);
+	p->child = de_node(args);
     }
 @else
 @if sort.eq.error_code
     args = get_char_info(cons);
     if (args) {
-	p->son = de_node(args);
+	p->child = de_node(args);
     }
 @else
     switch (n) {
@@ -169,10 +169,10 @@ de_%SN(void)
 @if cons.cond
 	case %CE: {
 	    args = get_char_info(cons);
-	    p->son = de_node(args);
+	    p->child = de_node(args);
 	    if (do_check) {
 		checking = "%CN";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
@@ -180,11 +180,11 @@ de_%SN(void)
 @if cons.edge
 	case %CE: {
 @if sort.link
-	    p->son = de_var_sort(%SN_var);
+	    p->child = de_var_sort(%SN_var);
 @else
 	    long m = tdf_int();
-	    p->son = new_node();
-	    p->son->cons = find_%SN(m);
+	    p->child = new_node();
+	    p->child->cons = find_%SN(m);
 @endif
 	    break;
 	}
@@ -195,7 +195,7 @@ de_%SN(void)
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = de_node(args);
+		p->child = de_node(args);
 	    }
 	    break;
 	}
@@ -269,13 +269,13 @@ read_%SN(long n)
 @if sort.eq.callees
     args = get_char_info(cons);
     if (args) {
-	p->son = read_node(args);
+	p->child = read_node(args);
     }
 @else
 @if sort.eq.error_code
     args = get_char_info(cons);
     if (args) {
-	p->son = read_node(args);
+	p->child = read_node(args);
     }
 @else
     switch (n) {
@@ -289,17 +289,17 @@ read_%SN(long n)
 @if cons.cond
 	case %CE: {
 	    args = get_char_info(cons);
-	    p->son = read_node(args);
+	    p->child = read_node(args);
 	    if (do_check) {
 		checking = "%CN";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 @else
 @if cons.edge
 	case %CE: {
-	    p->son = read_var_sort(SORT_%SN);
+	    p->child = read_var_sort(SORT_%SN);
 	    break;
 	}
 @else
@@ -316,7 +316,7 @@ read_%SN(long n)
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = read_node(args);
+		p->child = read_node(args);
 	    }
 	    break;
 	}

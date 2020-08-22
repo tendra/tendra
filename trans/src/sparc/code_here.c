@@ -53,10 +53,10 @@
 int 
 regofval ( exp e )
 {
-  exp dc = son ( e ) ;
+  exp dc = child ( e ) ;
   if ( e->tag == name_tag && dc->tag == ident_tag ) {
     if ( ( props ( dc ) & defer_bit ) != 0 ) {
-      return regofval ( son ( dc ) ) ;
+      return regofval ( child ( dc ) ) ;
     }
     if ( ( props ( dc ) & inreg_bits ) != 0 ) {
       return isvar ( dc ) ? ( -no ( dc ) ) : ( no ( dc ) ) ;
@@ -80,7 +80,7 @@ regofval ( exp e )
 int 
 fregofval ( exp e )
 {
-  exp dc = son ( e ) ;
+  exp dc = child ( e ) ;
   if ( e->tag == name_tag && dc->tag == ident_tag ) {
     if ( ( props ( dc ) & infreg_bits ) != 0 ) {
       return no ( dc ) ;
@@ -125,7 +125,7 @@ is_reg_operand ( exp e )
   int x = regofval ( e ) ;
   if ( x >= 0 && x < R_NO_REG ) return x;
   if ( e->tag == cont_tag ) {
-    x = regofval ( son ( e ) ) ;
+    x = regofval ( child ( e ) ) ;
     if ( x < 0 ) return -x;
   }
   aa = iskept ( e ) ;
@@ -216,7 +216,7 @@ freg_operand ( exp e, space sp, int reg )
   w.ashwhere = ashof ( sh ( e ) ) ;
   fr.dble = ( bool ) ( ( w.ashwhere.ashsize == 64 ) ? 1 : 0 ) ;
   if ( e->tag == cont_tag ) {
-    x = fregofval ( son ( e ) ) ;
+    x = fregofval ( child ( e ) ) ;
     if ( x < R_NO_REG ) return x;
   } 
   else if ( e->tag == apply_tag || e->tag == apply_general_tag) {

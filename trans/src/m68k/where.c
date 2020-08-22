@@ -136,7 +136,7 @@ static int find_where
 	    return EffAddr;
 
 	case field_tag:
-	    return find_where(son(e));
+	    return find_where(child(e));
 
 	case ident_tag:
 	case labst_tag: {
@@ -161,17 +161,17 @@ static int find_where
 	}
 
 	case name_tag: {
-	    exp id = son(e);
+	    exp id = child(e);
 #if 0
 	    if ((sh(e)->tag == prokhd) &&
-	      ((son(id) == NULL) || (son(id)->tag == proc_tag) ||
-		(son(id)->tag == general_proc_tag))) {
+	      ((child(id) == NULL) || (child(id)->tag == proc_tag) ||
+		(child(id)->tag == general_proc_tag))) {
 	      exp proc_cont = getexp(sh(e),NULL,0,e,NULL,0,
 				     0,cont_tag);
 	      /*return find_where(proc_cont);*/
 	      e = proc_cont;
 	      /*return EffAddr;*/
-	      id = son(e);
+	      id = child(e);
 /*	      return find_where(e);*/
 	    }
 #endif
@@ -199,11 +199,11 @@ static int find_where
 
 	case cont_tag:
 	case ass_tag: {
-	    exp r = son(e);
+	    exp r = child(e);
 	    switch (r->tag) {
 
 		case name_tag: {
-		    exp id = son(r);
+		    exp id = child(r);
 		    long pt_id = ptno(id);
 		    if (isvar(id)) return find_where(r);
 		    if (isglob(id)) {
@@ -224,9 +224,9 @@ static int find_where
 		}
 
 		case cont_tag: {
-		    exp rr = son(r);
+		    exp rr = child(r);
 		    if (rr->tag == name_tag) {
-			exp id = son(rr);
+			exp id = child(rr);
 			if (!isvar(id))break;
 			if (isglob(id)) return Other;
 			switch (ptno(id)) {
@@ -246,11 +246,11 @@ static int find_where
 		}
 
 		case reff_tag: {
-		    exp rr = son(r);
+		    exp rr = child(r);
 		    switch (rr->tag) {
 
 			case name_tag: {
-			    exp id = son(rr);
+			    exp id = child(rr);
 			    if (ptno(id) == reg_pl) {
 				return find_reg_ind(no(id));
 			    }
@@ -258,7 +258,7 @@ static int find_where
 			}
 
 			case cont_tag: {
-			    exp id = son(son(rr));
+			    exp id = child(child(rr));
 			    if (ptno(id) == reg_pl) {
 				return find_reg_ind(no(id));
 			    }
@@ -271,15 +271,15 @@ static int find_where
 		}
 
 		case addptr_tag: {
-		    exp rr = son(r);
+		    exp rr = child(r);
 		    exp eb = next(rr);
 		    exp ec = simple_exp(cont_tag);
-		    son(ec) = rr;
+		    child(ec) = rr;
 		    switch (eb->tag) {
 			case name_tag:
 			case cont_tag: return find_ind(eb, ec);
 			case offset_mult_tag: {
-			    return find_ind(son(eb), ec);
+			    return find_ind(child(eb), ec);
 			}
 		    }
 		    break;
@@ -290,7 +290,7 @@ static int find_where
 
 	case reff_tag:
 	case dummy_tag: {
-	    exp r = son(e);
+	    exp r = child(e);
 	    switch (r->tag) {
 
 		case ident_tag: {
@@ -301,7 +301,7 @@ static int find_where
 		}
 
 		case name_tag: {
-		    exp id = son(r);
+		    exp id = child(r);
 		    if (isglob(id)) return External;
 		    if (ptno(r) == reg_pl) {
 			return find_reg_ind(no(id));
@@ -311,7 +311,7 @@ static int find_where
 
 		case cont_tag:
 		case ass_tag: {
-		    exp id = son(son(r));
+		    exp id = child(child(r));
 		    if (isglob(id)) return External;
 		    if (ptno(r) == reg_pl) {
 			return find_reg_ind(no(id));
@@ -325,22 +325,22 @@ static int find_where
 	}
 
 	case addptr_tag: {
-	    exp r = son(e);
+	    exp r = child(e);
 	    exp eb = next(r);
 	    exp ec = simple_exp(cont_tag);
-	    son(ec) = r;
+	    child(ec) = r;
 	    switch (eb->tag) {
 		case name_tag:
 		case cont_tag: return find_ind(eb, ec);
 		case offset_mult_tag: {
-		    return find_ind(son(eb), ec);
+		    return find_ind(child(eb), ec);
 		}
 	    }
 	    break;
 	}
 
 	case diagnose_tag: {
-	    exp r = son(e);
+	    exp r = child(e);
 	    return find_where(r);
 	}
     }
@@ -361,9 +361,9 @@ where mw
 #if 0
 
   if ((e->tag ==name_tag && sh(e)->tag == prokhd) &&
-      !(((son(son(e)) == NULL || son(son(e))->tag == proc_tag ||
-	  son(son(e))->tag == apply_tag ||
-	  son(son(e))->tag == apply_general_tag)))) {
+      !(((child(child(e)) == NULL || child(child(e))->tag == proc_tag ||
+	  child(child(e))->tag == apply_tag ||
+	  child(child(e))->tag == apply_general_tag)))) {
     exp proc_cont = getexp(sh(e),NULL,0,e,NULL,0,0,cont_tag);
     e = proc_cont;
   }
@@ -562,17 +562,17 @@ bool eq_where_a
 	    case field_tag:
 	    case reff_tag: {
 		if (no(a)!= no(b)) return 0;
-		sa.wh_exp = son(a);
+		sa.wh_exp = child(a);
 		sa.wh_off = 0;
-		sb.wh_exp = son(b);
+		sb.wh_exp = child(b);
 		sb.wh_off = 0;
 		return eq_where_a(sa, sb, 0);
 	    }
 
 	    case cont_tag: {
-		sa.wh_exp = son(a);
+		sa.wh_exp = child(a);
 		sa.wh_off = 0;
-		sb.wh_exp = son(b);
+		sb.wh_exp = child(b);
 		sb.wh_off = 0;
 		return eq_where_a(sa, sb, 0);
 	    }
@@ -600,34 +600,34 @@ bool eq_where_a
 
     if (first && na == name_tag && nb == ident_tag) {
 	if (no(a)) return 0;
-	sa.wh_exp = son(a);
+	sa.wh_exp = child(a);
 	sa.wh_off = 0;
 	return eq_where_a(sa, wb, 0);
     }
 
     if (first && nb == name_tag && na == ident_tag) {
 	if (no(b)) return 0;
-	sb.wh_exp = son(b);
+	sb.wh_exp = child(b);
 	sb.wh_off = 0;
 	return eq_where_a(wa, sb, 0);
     }
 
     if ((na == cont_tag || na == ass_tag) &&
-	 son(a)->tag == name_tag &&
-	 isvar(son(son(a))) &&
+	 child(a)->tag == name_tag &&
+	 isvar(child(child(a))) &&
 	(nb == ident_tag || nb == name_tag)) {
-	if (no(son(a))) return 0;
-	sa.wh_exp = son(son(a));
+	if (no(child(a))) return 0;
+	sa.wh_exp = child(child(a));
 	sa.wh_off = 0;
 	return eq_where_a(sa, wb, 0);
     }
 
     if ((nb == cont_tag || nb == ass_tag) &&
-	 son(b)->tag == name_tag &&
-	 isvar(son(son(b))) &&
+	 child(b)->tag == name_tag &&
+	 isvar(child(child(b))) &&
 	(na == ident_tag || na == name_tag)) {
-	if (no(son(b))) return 0;
-	sb.wh_exp = son(son(b));
+	if (no(child(b))) return 0;
+	sb.wh_exp = child(child(b));
 	sb.wh_off = 0;
 	return eq_where_a(wa, sb, 0);
     }
@@ -635,9 +635,9 @@ bool eq_where_a
 
     if ((na == ass_tag && nb == cont_tag) ||
 	(nb == ass_tag && na == cont_tag)) {
-	sa.wh_exp = son(a);
+	sa.wh_exp = child(a);
 	sa.wh_off = 0;
-	sb.wh_exp = son(b);
+	sb.wh_exp = child(b);
 	sb.wh_off = 0;
 	return eq_where_a(sa, sb, 0);
     }

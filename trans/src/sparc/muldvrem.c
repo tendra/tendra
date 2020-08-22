@@ -645,7 +645,7 @@ static int do_div
     et = IS_TRAP;
   }
   else if (has_error_treatment) {
-    et = -no(son(pt(father(seq))));
+    et = -no(child(pt(father(seq))));
   }
   else {
     et = 0;
@@ -739,7 +739,7 @@ static int find_reg_and_apply
 (exp e, space sp, where dest, bool sgned, find_fn do_fn) {
   ans a;
   int dest_reg;
-  exp seq = son(e);
+  exp seq = child(e);
   /* tidyshort ( dest, sh ( e ) ) ; ??? */
   switch (discrim(dest.answhere)) {
     case inreg: {
@@ -815,7 +815,7 @@ bool is_muldivrem_call
     case chfl_tag:
     case round_tag:
      if ((has & HAS_LONG_DOUBLE)) {
-      exp s = son(e);
+      exp s = child(e);
       if (sh(s)->tag == doublehd) return 1;
 	  FALL_THROUGH;
      }
@@ -835,7 +835,7 @@ bool is_muldivrem_call
     case mult_tag:
     case offset_mult_tag: {
       /*multneeds - simple cases don't need a call */
-      exp arg2 = next(son(e));
+      exp arg2 = next(child(e));
       if (arg2->last && arg2->tag == val_tag && optop(e)) {
 	return 0;
       }
@@ -850,7 +850,7 @@ bool is_muldivrem_call
     case offset_div_tag:
     case offset_div_by_int_tag: {
       /*remneeds, divneeds - simple cases don't need a call */
-      exp arg2 = next(son(e));
+      exp arg2 = next(child(e));
       if (arg2->last && arg2->tag == val_tag && optop(e)) {
 	long constval = no(arg2);
 	if (constval > 0 && is_pow2(constval))
@@ -874,7 +874,7 @@ bool is_muldivrem_call
 needs multneeds
 (exp * e, exp ** at) {
   needs n;
-  exp arg1 = son(*e);
+  exp arg1 = child(*e);
   exp arg2 = next(arg1);
   n = likeplus(e, at);
 
@@ -898,7 +898,7 @@ needs multneeds
 needs divneeds
 (exp * e, exp ** at) {
   needs n;
-  exp lhs = son(*e);
+  exp lhs = child(*e);
   exp rhs = next(lhs);
 
   assert ( rhs -> last ) ;	/* after likediv may not be so */
@@ -924,7 +924,7 @@ needs divneeds
 needs remneeds
 (exp * e, exp ** at) {
   needs n;
-  exp lhs = son(*e);
+  exp lhs = child(*e);
   exp rhs = next(lhs);
   assert ( rhs -> last ) ;	/* after likediv may not be so */
   n = likediv(e, at);

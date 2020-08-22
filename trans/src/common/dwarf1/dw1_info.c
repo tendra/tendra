@@ -116,13 +116,13 @@ dw1_output_diag(diag_info *d, int proc_no, exp e)
 			if ((base_type(d->data.id_scope.type))->key ==
 			    DIAG_TYPE_INITED) {
 				error(ERR_WARN, "%s %s has no diagtype... omitting",
-					isparam(son(x)) ? "Formal parameter" :
+					isparam(child(x)) ? "Formal parameter" :
 					"Local variable",
 					TDFSTRING2CHAR(d->data.id_scope.name));
 				break;
 			}
-			if (isglob(son(x))) {
-				if (nextg(son(x)) ->extnamed) {
+			if (isglob(child(x))) {
+				if (nextg(child(x)) ->extnamed) {
 					break;
 				} else {
 					/* static; goes out as local */
@@ -130,7 +130,7 @@ dw1_output_diag(diag_info *d, int proc_no, exp e)
 					/* only for local vars */
 					out_dwarf_start_scope(&tlab);
 				}
-			} else if (isparam(son(x))) {
+			} else if (isparam(child(x))) {
 				cont_sib_chain(TAG_formal_parameter);
 			} else {
 				cont_sib_chain(TAG_local_variable);
@@ -234,10 +234,10 @@ code_diag_info(diag_info *d, int proc_no, void(*mcode)(void *), void *args)
 				error(ERR_INTERNAL, "access should be in hold");
 				break;
 			}
-			x = son(x);
-			if (x->tag == cont_tag && son(x)->tag == name_tag &&
-			    isvar(son(son(x)))) {
-				x = son(x);
+			x = child(x);
+			if (x->tag == cont_tag && child(x)->tag == name_tag &&
+			    isvar(child(child(x)))) {
+				x = child(x);
 			}
 			if ((x->tag != name_tag || isdiscarded(x)) &&
 			    x->tag != val_tag && x->tag != null_tag) {
@@ -250,8 +250,8 @@ code_diag_info(diag_info *d, int proc_no, void(*mcode)(void *), void *args)
 					TDFSTRING2CHAR(d->data.id_scope.name));
 				break;
 			}
-			if (x->tag == name_tag && isglob(son(x))) {
-				if (nextg(son(x)) ->extnamed) {
+			if (x->tag == name_tag && isglob(child(x))) {
+				if (nextg(child(x)) ->extnamed) {
 					break;
 				} else {
 					/* static; goes out as local */
@@ -259,7 +259,7 @@ code_diag_info(diag_info *d, int proc_no, void(*mcode)(void *), void *args)
 					/* only for local vars */
 					out_dwarf_start_scope(&tlab);
 				}
-			} else if (x->tag == name_tag && isparam(son(x))) {
+			} else if (x->tag == name_tag && isparam(child(x))) {
 				cont_sib_chain(TAG_formal_parameter);
 			} else {
 				cont_sib_chain(TAG_local_variable);

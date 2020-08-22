@@ -41,7 +41,7 @@
 void try_record_bit(exp e)
 {
   /* Tries to see if record bit can be used in this test_tag*/
-  exp l = son(e);
+  exp l = child(e);
   exp r = next(l);
   bool sgned = is_signed(sh(l)); 
   

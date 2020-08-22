@@ -46,14 +46,14 @@ is_maxlike(exp x, exp *t)
 		return false;
 	}
 
-	xC = son(x);
+	xC = child(x);
 
 	if (xC->tag != seq_tag) {
 		return false;
 	}
 
-	xCC = son(xC);
-	xCCC = son(xCC);
+	xCC = child(xC);
+	xCCC = child(xCC);
 
 	*t = xCCC;
 
@@ -63,7 +63,7 @@ is_maxlike(exp x, exp *t)
 
 	l = pt(*t);
 
-	xCCCC = son(xCCC);
+	xCCCC = child(xCCC);
 
 	op1 = xCCCC;
 
@@ -110,7 +110,7 @@ is_maxlike(exp x, exp *t)
 		return false;
 	}
 
-	yCC = son(xC);
+	yCC = child(xC);
 
 	z = yCC;
 
@@ -156,14 +156,14 @@ is_minlike(exp x, exp *t)
 		return false;
 	}
 
-	xC = son(x);
+	xC = child(x);
 
 	if (xC->tag != seq_tag) {
 		return false;
 	}
 
-	xCC = son(xC);
-	xCCC = son(xCC);
+	xCC = child(xC);
+	xCCC = child(xCC);
 
 	*t = xCCC;
 
@@ -173,7 +173,7 @@ is_minlike(exp x, exp *t)
 
 	l = pt(*t);
 
-	xCCCC = son(xCCC);
+	xCCCC = child(xCCC);
 
 	op1 = xCCCC;
 
@@ -220,7 +220,7 @@ is_minlike(exp x, exp *t)
 		return false;
 	}
 
-	yCC = son(xC);
+	yCC = child(xC);
 
 	z = yCC;
 
@@ -265,14 +265,14 @@ is_abslike(exp x, exp *t)
 		return false;
 	}
 
-	xC = son(x);
+	xC = child(x);
 
 	if (xC->tag != seq_tag) {
 		return false;
 	}
 
-	xCC = son(xC);
-	xCCC = son(xCC);
+	xCC = child(xC);
+	xCCC = child(xCC);
 
 	*t = xCCC;
 	if (xCCC->tag != test_tag) {
@@ -281,7 +281,7 @@ is_abslike(exp x, exp *t)
 
 	l = pt(*t);
 
-	xCCCC = son(xCCC);
+	xCCCC = child(xCCC);
 	op = xCCCC;
 
 	if (xCCCC->last) {
@@ -324,7 +324,7 @@ is_abslike(exp x, exp *t)
 		return false;
 	}
 
-	yCC = son(xC);
+	yCC = child(xC);
 	z = yCC;
 
 	if (!(no(z) == 1)) {
@@ -340,7 +340,7 @@ is_abslike(exp x, exp *t)
 		return false;
 	}
 
-	yCCC = son(yCC);
+	yCCC = child(yCC);
 	w = yCCC;
 
 	if (!(comp_eq_exp(op, w, NULL, NULL))) {
@@ -373,14 +373,14 @@ is_fabslike(exp x, exp *t)
 		return false;
 	}
 
-	xC = son(x);
+	xC = child(x);
 
 	if (xC->tag != seq_tag) {
 		return false;
 	}
 
-	xCC = son(xC);
-	xCCC = son(xCC);
+	xCC = child(xC);
+	xCCC = child(xCC);
 	*t = xCCC;
 
 	if (xCCC->tag != test_tag) {
@@ -389,7 +389,7 @@ is_fabslike(exp x, exp *t)
 
 	l = pt(*t);
 
-	xCCCC = son(xCCC);
+	xCCCC = child(xCCC);
 	op = xCCCC;
 
 	if (xCCCC->last) {
@@ -433,7 +433,7 @@ is_fabslike(exp x, exp *t)
 		return false;
 	}
 
-	yCC = son(xC);
+	yCC = child(xC);
 	z = yCC;
 
 	if (!(no(z) == 1)) {
@@ -449,7 +449,7 @@ is_fabslike(exp x, exp *t)
 		return false;
 	}
 
-	yCCC = son(yCC);
+	yCCC = child(yCC);
 	w = yCCC;
 
 	if (!(eq_exp(op, w))) {
@@ -474,7 +474,7 @@ is_fabslike(exp x, exp *t)
 bool
 is_condassign(exp e, exp *to_test, exp *to_ass)
 {
-	exp arg1 = son(e);
+	exp arg1 = child(e);
 	exp arg2 = next(arg1);
 	exp z;
 	exp st;
@@ -485,11 +485,11 @@ is_condassign(exp e, exp *to_test, exp *to_ass)
 		return false;
 	}
 
-	z = son(arg1);
-	st = son(z);
+	z = child(arg1);
+	st = child(z);
 	ass = next(z);
 
-	if (no(son(arg2)) != 1 || next(son(arg2))->tag != top_tag) {
+	if (no(child(arg2)) != 1 || next(child(arg2))->tag != top_tag) {
 		return false;
 	}
 
@@ -505,11 +505,11 @@ is_condassign(exp e, exp *to_test, exp *to_ass)
 		return false;
 	}
 
-	if (son(ass)->tag != name_tag || !isvar(son(son(ass)))) {
+	if (child(ass)->tag != name_tag || !isvar(child(child(ass)))) {
 		return false;
 	}
 
-	val = next(son(ass));
+	val = next(child(ass));
 	*to_test = st;
 	*to_ass = ass;
 
@@ -557,29 +557,29 @@ comp_eq_exp(exp a, exp b, exp laba, exp labb)
 	}
 
 	if (a->tag == seq_tag) {
-		return(comp_eq_explist(son(son(a)), son(son(b)), laba, labb) &&
-		       comp_eq_exp(next(son(a)), next(son(b)), laba, labb));
+		return(comp_eq_explist(child(child(a)), child(child(b)), laba, labb) &&
+		       comp_eq_exp(next(child(a)), next(child(b)), laba, labb));
 	}
 
 	if (a->tag == cond_tag) {
-		exp fa = son(a);
-		exp fb = son(b);
+		exp fa = child(a);
+		exp fb = child(b);
 
 		return(comp_eq_exp(fa, fb, next(fa), next(fb)) &&
-		       comp_eq_exp(next(son(next(fa))), next(son(next(fb))), laba, labb));
+		       comp_eq_exp(next(child(next(fa))), next(child(next(fb))), laba, labb));
 	}
 
 	if (a->tag == test_tag) {
 		return(pt(a) == laba && pt(b) == labb && props(a) == props(b) &&
-		       comp_eq_explist(son(a), son(b), laba, labb));
+		       comp_eq_explist(child(a), child(b), laba, labb));
 	}
 
 	if (a->tag == name_tag) {
-		return son(a) == son(b) && no(a) == no(b);
+		return child(a) == child(b) && no(a) == no(b);
 	}
 
 	return is_a(a->tag) && no(a) == no(b) &&
-	       comp_eq_explist(son(a), son(b), laba, labb);
+	       comp_eq_explist(child(a), child(b), laba, labb);
 }
 
 /*
@@ -614,10 +614,10 @@ flab1:
 		return false;
 	}
 
-	xC = son(x);
+	xC = child(x);
 	z = xC;
 
-	if (!(z != NULL && z->last && son(y) != NULL && oddunary(z, son(y), v))) {
+	if (!(z != NULL && z->last && child(y) != NULL && oddunary(z, child(y), v))) {
 		return false;
 	}
 
@@ -639,14 +639,14 @@ oddtest(exp x, exp *t, exp *f, exp *v)
 		return false;
 	}
 
-	xC = son(x);
+	xC = child(x);
 
 	if (xC->tag != seq_tag) {
 		return false;
 	}
 
-	xCC = son(xC);
-	xCCC = son(xCC);
+	xCC = child(xC);
+	xCCC = child(xCC);
 	*t = xCCC;
 
 	if (xCCC->tag != test_tag) {
@@ -678,7 +678,7 @@ oddtest(exp x, exp *t, exp *f, exp *v)
 		return false;
 	}
 
-	yCC = son(xC);
+	yCC = child(xC);
 
 	z = yCC;
 

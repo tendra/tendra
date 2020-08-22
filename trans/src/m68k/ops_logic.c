@@ -542,7 +542,7 @@ bitf_posn(exp e)
 	}
 
 	if (n == cont_tag || n == ass_tag) {
-		return bitf_posn(son(e));
+		return bitf_posn(child(e));
 	}
 
 	if (n == ident_tag) {
@@ -592,11 +592,11 @@ bitf_to_int(exp e, shape sha, where dest, ash stack)
 
 	switch (t->tag) {
 	case ident_tag:
-		dsha = sh(son(t));
+		dsha = sh(child(t));
 		break;
 
 	case ass_tag:
-		dsha = sh(next(son(t)));
+		dsha = sh(next(child(t)));
 		break;
 	}
 
@@ -696,7 +696,7 @@ int_to_bitf(exp e, exp d, ash stack)
 	}
 
 	if (e->tag == int_to_bitf_tag) {
-		exp s = son(e);
+		exp s = child(e);
 
 		if (is_o(s->tag)) {
 			e = s;

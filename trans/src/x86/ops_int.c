@@ -80,7 +80,7 @@ try_overflow(shape sha, int inv)
 		exp oe = overflow_e;
 
 		if (isov(overflow_e)) {
-			exp jd = pt(son(pt(overflow_e)));
+			exp jd = pt(child(pt(overflow_e)));
 			overflow_e = NULL;
 			jmp_overflow(jd, is_signed(sha), inv);
 		} else if (istrap(overflow_e)) {
@@ -200,8 +200,8 @@ maxmin(shape sha, where a1, where a2, where dest, int ismax)
 	}
 
 	if (eq_where(a1, dest)) {
-		exp hold1 = son(a1.where_exp);
-		exp hold2 = son(a2.where_exp);
+		exp hold1 = child(a1.where_exp);
+		exp hold2 = child(a2.where_exp);
 		int riu = regsinuse;
 
 		if (mem1 && mem2) {
@@ -312,8 +312,8 @@ maxmin(shape sha, where a1, where a2, where dest, int ismax)
 		invalidate_dest(dest);
 		invalidate_dest(a1);
 		invalidate_dest(a2);
-		son(a1.where_exp) = hold1;
-		son(a2.where_exp) = hold2;
+		child(a1.where_exp) = hold1;
+		child(a2.where_exp) = hold2;
 		return;
 	}
 
@@ -387,7 +387,7 @@ add_plus(shape sha, where a1, where a2, where dest, int plus1)
 		if (b->tag == val_tag && !plus1 && !isbigval(b) && (no(b) + boff == 0 ||
 		        ((no(b) + boff == 1 || no(b) + boff == -1) && sz <= 32 &&
 		         (overflow_e == NULL || is_signed(sha))))) {
-			exp hold = son(a);
+			exp hold = child(a);
 			if (no (b) + boff == 0) {	/* adding zero */
 				cond1_set = false;		/* we didn't know conditions after all */
 				return;
@@ -419,15 +419,15 @@ add_plus(shape sha, where a1, where a2, where dest, int plus1)
 			invalidate_dest(dest);
 			end_contop();
 			try_overflow(sha, plus1);
-			son(a) = hold;
+			child(a) = hold;
 			return;
 		}
 
 		if (!inmem(a1) || !inmem(a2)) {
 			/* either a1 or a2 is not in memory */
 			int riu = regsinuse;
-			exp holda = son(a);
-			exp holdb = son(b);
+			exp holda = child(a);
+			exp holdb = child(b);
 
 			if (sz == 64) {
 				regsinuse |= 0x2;
@@ -482,8 +482,8 @@ add_plus(shape sha, where a1, where a2, where dest, int plus1)
 			end_contop();
 			regsinuse = riu;
 			try_overflow(sha, plus1);
-			son(a) = holda;
-			son(b) = holdb;
+			child(a) = holda;
+			child(b) = holdb;
 			return;
 		}
 
@@ -498,7 +498,7 @@ add_plus(shape sha, where a1, where a2, where dest, int plus1)
 		if (a->tag == val_tag && !plus1 && !isbigval(a) && (no(a) + aoff == 0 ||
 		        ((no(a) + aoff == 1 || no(a) + aoff == -1) && sz <= 32 &&
 		         (overflow_e == NULL || is_signed(sha))))) {
-			exp hold = son(a);
+			exp hold = child(a);
 
 			if (no (a) + aoff == 0) {	/* adding zero */
 				cond1_set = false; /* we didn't know conditions after all */
@@ -531,15 +531,15 @@ add_plus(shape sha, where a1, where a2, where dest, int plus1)
 			invalidate_dest(dest);
 			end_contop();
 			try_overflow(sha, plus1);
-			son(a) = hold;
+			child(a) = hold;
 			return;
 		}
 
 		if (!inmem(a1) || !inmem(a2)) {
 			/* either a1 or a2 is not in memory */
 			int riu = regsinuse;
-			exp holda = son(a);
-			exp holdb = son(b);
+			exp holda = child(a);
+			exp holdb = child(b);
 
 			if (sz == 64) {
 				regsinuse |= 0x2;
@@ -598,8 +598,8 @@ add_plus(shape sha, where a1, where a2, where dest, int plus1)
 			end_contop();
 			regsinuse = riu;
 
-			son(a) = holda;
-			son(b) = holdb;
+			child(a) = holda;
+			child(b) = holdb;
 			return;
 		}
 
@@ -804,7 +804,7 @@ sub(shape sha, where a1, where a2, where dest)
 		if (a->tag == val_tag && !isbigval(a) && (no(a) + aoff == 0 ||
 		        ((no(a) + aoff == 1 || no(a) + aoff == -1) && sz <= 32 &&
 		         (overflow_e == NULL || is_signed(sha))))) {
-			exp hold = son(b);
+			exp hold = child(b);
 			if (no (a) + aoff == 0) {	/* we didn't know the conditions */
 				cond1_set = false;
 				return;
@@ -836,14 +836,14 @@ sub(shape sha, where a1, where a2, where dest)
 			invalidate_dest(dest);
 			end_contop();
 			try_overflow(sha, 0);
-			son(b) = hold;
+			child(b) = hold;
 			return;
 		}
 
 		if (!inmem(a1) || !inmem(a2)) {
 			int riu = regsinuse;
-			exp holda = son(a);
-			exp holdb = son(b);
+			exp holda = child(a);
+			exp holdb = child(b);
 
 			if (sz == 64) {
 				regsinuse |= 0x2;
@@ -897,8 +897,8 @@ sub(shape sha, where a1, where a2, where dest)
 			regsinuse = riu;
 			try_overflow(sha, 0);
 
-			son(a) = holda;
-			son(b) = holdb;
+			child(a) = holda;
+			child(b) = holdb;
 			return;
 		}
 
@@ -1063,7 +1063,7 @@ static void
 mult64(shape sha, shape sh1, shape sh2, where a1, where a2)
 {
 	int riu = regsinuse;	/* we know reg2 not in use */
-	exp holda2 = son(a2.where_exp);
+	exp holda2 = child(a2.where_exp);
 
 	if (shape_size(sh1) == 32) {
 		if (shape_size(sh2) != 32 || (eq_where(a2, reg0) && !eq_where(a1, reg0))) {
@@ -1112,7 +1112,7 @@ mult64(shape sha, shape sh1, shape sh2, where a1, where a2)
 
 			end_contop();
 			regsinuse = riu;
-			son(a2.where_exp) = holda2;
+			child(a2.where_exp) = holda2;
 			return;
 		}
 
@@ -1147,7 +1147,7 @@ mult64(shape sha, shape sh1, shape sh2, where a1, where a2)
 			ins1(mull, 32, a2);
 			ins2(subl, 32, 32, a2, reg1);
 			end_contop();
-			son(a2.where_exp) = holda2;
+			child(a2.where_exp) = holda2;
 			return;
 		}
 
@@ -1275,9 +1275,9 @@ mult64(shape sha, shape sh1, shape sh2, where a1, where a2)
 	}
 
 	if (eq_where(a2, reg0)) {
-		son(a2.where_exp) = holda2;
+		child(a2.where_exp) = holda2;
 		a2 = a1;
-		holda2 = son(a2.where_exp);
+		holda2 = child(a2.where_exp);
 		a1 = reg0;
 	}
 
@@ -1311,7 +1311,7 @@ mult64(shape sha, shape sh1, shape sh2, where a1, where a2)
 	ins2(addl, 32, 32, reg2, reg1);
 	end_contop();
 	regsinuse = riu;
-	son(a2.where_exp) = holda2;
+	child(a2.where_exp) = holda2;
 }
 
 static void
@@ -1341,8 +1341,8 @@ multiply(shape sha, where a1, where a2, where dest)
 	int  sz;
 	char *in;
 	int stored = 0;
-	exp hold_a1 = son(a1.where_exp);
-	exp hold_a2 = son(a2.where_exp);
+	exp hold_a1 = child(a1.where_exp);
+	exp hold_a2 = child(a2.where_exp);
 	sz = shape_size(sha);
 
 	cond1_set = false;
@@ -1373,24 +1373,24 @@ multiply(shape sha, where a1, where a2, where dest)
 			/* x * const->reg */
 			if (a1.where_exp->tag == val_tag) {
 				move(sha, a1, dest);
-				son(a1.where_exp) = hold_a1;
+				child(a1.where_exp) = hold_a1;
 				a1 = dest;
-				hold_a1 = son(a1.where_exp);
+				hold_a1 = child(a1.where_exp);
 			}
 			ins3(in, sz, sz, sz, a2, a1, dest);
 			invalidate_dest(dest);
 			end_contop();
 			try_overflow(sha, 0);
-			son(a1.where_exp) = hold_a1;
+			child(a1.where_exp) = hold_a1;
 			return;
 		}
 
 		/* x * const->notreg   : use reg0 */
 		if (a1.where_exp->tag == val_tag) {
 			move(sha, a1, reg0);
-			son(a1.where_exp) = hold_a1;
+			child(a1.where_exp) = hold_a1;
 			a1 = reg0;
-			hold_a1 =  son(a1.where_exp);
+			hold_a1 =  child(a1.where_exp);
 		}
 
 		ins3(in, sz, sz, sz, a2, a1, reg0);
@@ -1398,7 +1398,7 @@ multiply(shape sha, where a1, where a2, where dest)
 		end_contop();
 		try_overflow(sha, 0);
 		move(sha, reg0, dest);
-		son(a1.where_exp) = hold_a1;
+		child(a1.where_exp) = hold_a1;
 		return;
 	}
 
@@ -1412,7 +1412,7 @@ multiply(shape sha, where a1, where a2, where dest)
 				invalidate_dest(dest);
 				end_contop();
 				try_overflow(sha, 0);
-				son(a1.where_exp) = hold_a1;
+				child(a1.where_exp) = hold_a1;
 				return;
 			}
 			if (eq_where(a1, dest)) {
@@ -1422,7 +1422,7 @@ multiply(shape sha, where a1, where a2, where dest)
 				invalidate_dest(dest);
 				end_contop();
 				try_overflow(sha, 0);
-				son(a2.where_exp) = hold_a2;
+				child(a2.where_exp) = hold_a2;
 				return;
 			}
 		}
@@ -1434,7 +1434,7 @@ multiply(shape sha, where a1, where a2, where dest)
 			end_contop();
 			try_overflow(sha, 0);
 			move(sha, reg0, dest);
-			son(a1.where_exp) = hold_a1;
+			child(a1.where_exp) = hold_a1;
 			return;
 		}
 
@@ -1445,7 +1445,7 @@ multiply(shape sha, where a1, where a2, where dest)
 		end_contop();
 		try_overflow(sha, 0);
 		move(sha, reg0, dest);
-		son(a2.where_exp) = hold_a2;
+		child(a2.where_exp) = hold_a2;
 		return;
 	} else {
 		/* unsigned : use mul which only allows eax edx result */
@@ -1483,7 +1483,7 @@ multiply(shape sha, where a1, where a2, where dest)
 				end_contop();
 				clean_multiply(stored);
 				try_overflow(sha, 0);
-				son(a1.where_exp) = hold_a1;
+				child(a1.where_exp) = hold_a1;
 				return;
 			}
 
@@ -1502,7 +1502,7 @@ multiply(shape sha, where a1, where a2, where dest)
 				end_contop();
 				clean_multiply(stored);
 				try_overflow(sha, 0);
-				son(a2.where_exp) = hold_a2;
+				child(a2.where_exp) = hold_a2;
 				return;
 			}
 		}
@@ -1523,7 +1523,7 @@ multiply(shape sha, where a1, where a2, where dest)
 			clean_multiply(stored);
 			try_overflow(sha, 0);
 			move(sha, reg0, dest);
-			son(a1.where_exp) = hold_a1;
+			child(a1.where_exp) = hold_a1;
 			return;
 		}
 
@@ -1544,7 +1544,7 @@ multiply(shape sha, where a1, where a2, where dest)
 		clean_multiply(stored);
 		try_overflow(sha, 0);
 		move(sha, reg0, dest);
-		son(a2.where_exp) = hold_a2;
+		child(a2.where_exp) = hold_a2;
 		return;
 	}
 }
@@ -1561,7 +1561,7 @@ longc_mult(where a1, where a2, where dest, int inc)
 	int i, j;
 	int n = no(a2.where_exp) + a2.where_off;
 	shape sha = slongsh;
-	exp holdd = son(dest.where_exp);
+	exp holdd = child(dest.where_exp);
 
 	if (sh(a2.where_exp)->tag == offsethd && al2(sh(a2.where_exp)) != 1) {
 		n = n / 8;
@@ -1599,14 +1599,14 @@ longc_mult(where a1, where a2, where dest, int inc)
 			contop(dest.where_exp, 1, dest);
 			mult_op(inc, reg0, reg0, 2, dest);
 			invalidate_dest(dest);
-			son(dest.where_exp) = holdd;
+			child(dest.where_exp) = holdd;
 			return;
 		}
 
 		contop(dest.where_exp, eq_where(reg0, a1), dest);
 		mult_op(inc, a1, a1, 2, dest);
 		invalidate_dest(dest);
-		son(dest.where_exp) = holdd;
+		child(dest.where_exp) = holdd;
 		return;
 
 	case 5:
@@ -1615,14 +1615,14 @@ longc_mult(where a1, where a2, where dest, int inc)
 			contop(dest.where_exp, 1, dest);
 			mult_op(inc, reg0, reg0, 4, dest);
 			invalidate_dest(dest);
-			son(dest.where_exp) = holdd;
+			child(dest.where_exp) = holdd;
 			return;
 		}
 
 		contop(dest.where_exp, eq_where(reg0, a1), dest);
 		mult_op(inc, a1, a1, 4, dest);
 		invalidate_dest(dest);
-		son(dest.where_exp) = holdd;
+		child(dest.where_exp) = holdd;
 		return;
 
 	case 7:
@@ -1639,7 +1639,7 @@ longc_mult(where a1, where a2, where dest, int inc)
 				mult_op(inc, reg0, a1, 4, dest);
 				invalidate_dest(reg0);
 				invalidate_dest(dest);
-				son(dest.where_exp) = holdd;
+				child(dest.where_exp) = holdd;
 				return;
 			} else  {
 				ins0(pushedx);
@@ -1676,14 +1676,14 @@ longc_mult(where a1, where a2, where dest, int inc)
 			contop(dest.where_exp, 1, dest);
 			mult_op(inc, reg0, reg0, 8, dest);
 			invalidate_dest(dest);
-			son(dest.where_exp) = holdd;
+			child(dest.where_exp) = holdd;
 			return;
 		}
 
 		contop(dest.where_exp, eq_where(reg0, a1), dest);
 		mult_op(inc, a1, a1, 8, dest);
 		invalidate_dest(dest);
-		son(dest.where_exp) = holdd;
+		child(dest.where_exp) = holdd;
 		return;
 
 	case 15: {
@@ -1698,7 +1698,7 @@ longc_mult(where a1, where a2, where dest, int inc)
 		mult_op(inc, reg0, reg0, 4, dest);
 		invalidate_dest(reg0);
 		invalidate_dest(dest);
-		son(dest.where_exp) = holdd;
+		child(dest.where_exp) = holdd;
 		return;
 	}
 
@@ -1714,7 +1714,7 @@ longc_mult(where a1, where a2, where dest, int inc)
 		mult_op(inc, reg0, reg0, 4, dest);
 		invalidate_dest(reg0);
 		invalidate_dest(dest);
-		son(dest.where_exp) = holdd;
+		child(dest.where_exp) = holdd;
 		return;
 	}
 

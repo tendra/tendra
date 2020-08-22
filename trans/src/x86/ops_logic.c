@@ -78,8 +78,8 @@ andetc(char *opb, char *opw, char *opl, int one, shape sha, where a1, where a2, 
 	int aoff = a1.where_off;
 	exp b = a2.where_exp;
 	int boff = a2.where_off;
-	exp holda = son(a);
-	exp holdb = son(b);
+	exp holda = child(a);
+	exp holdb = child(b);
 	sz = shape_size(sha);
 
 	if (a->tag == val_tag && !isbigval(a) && no(a) + aoff == one) {
@@ -162,8 +162,8 @@ andetc(char *opb, char *opw, char *opl, int one, shape sha, where a1, where a2, 
 			invalidate_dest(dest);
 			end_contop();
 			regsinuse = riu;
-			son(a) = holda;
-			son(b) = holdb;
+			child(a) = holda;
+			child(b) = holdb;
 			return;
 		}
 
@@ -244,8 +244,8 @@ andetc(char *opb, char *opw, char *opl, int one, shape sha, where a1, where a2, 
 			invalidate_dest(dest);
 			end_contop();
 			regsinuse = riu;
-			son(a) = holda;
-			son(b) = holdb;
+			child(a) = holda;
+			child(b) = holdb;
 			return;
 		}
 
@@ -381,7 +381,7 @@ shiftl(shape sha, where wshift, where from, where to)
 	char *shifter;
 	int  sz;
 	int sig = is_signed(sha);
-	exp holdto = son(to.where_exp);
+	exp holdto = child(to.where_exp);
 	sz = shape_size(sha);
 
 	cond1_set = false;
@@ -467,7 +467,7 @@ shiftl(shape sha, where wshift, where from, where to)
 			ins2(shifter, 8, sz, wshift, to);
 			invalidate_dest(to);
 			end_contop();
-			son(to.where_exp) = holdto;
+			child(to.where_exp) = holdto;
 			return;
 		}
 
@@ -477,7 +477,7 @@ shiftl(shape sha, where wshift, where from, where to)
 			ins2(shifter, 8, sz, wshift, to);
 			invalidate_dest(to);
 			end_contop();
-			son(to.where_exp) = holdto;
+			child(to.where_exp) = holdto;
 			return;
 		}
 
@@ -546,7 +546,7 @@ rotshiftr(int shft, shape sha, where wshift, where from, where to)
 	char *shifter;
 	int sz;
 	int sig = is_signed(sha);
-	exp holdto = son(to.where_exp);
+	exp holdto = child(to.where_exp);
 	sz = shape_size(sha);
 
 	cond1_set = false;
@@ -622,7 +622,7 @@ rotshiftr(int shft, shape sha, where wshift, where from, where to)
 			ins2(shifter, 8, sz, wshift, to);
 			invalidate_dest(to);
 			end_contop();
-			son(to.where_exp) = holdto;
+			child(to.where_exp) = holdto;
 			return;
 		}
 
@@ -632,7 +632,7 @@ rotshiftr(int shft, shape sha, where wshift, where from, where to)
 			ins2(shifter, 8, sz, wshift, to);
 			invalidate_dest(to);
 			end_contop();
-			son(to.where_exp) = holdto;
+			child(to.where_exp) = holdto;
 			return;
 		}
 
@@ -745,22 +745,22 @@ bit_pos_cont(exp e, int nbits)
 	}
 
 	if (e->tag == ident_tag) {
-		if (next(son(e))->tag == reff_tag) {
-			return adjust_pos(next(son(e)), nbits);
+		if (next(child(e))->tag == reff_tag) {
+			return adjust_pos(next(child(e)), nbits);
 		}
 
-		if (next(son(e))->tag == ident_tag) {
-			return bit_pos_cont(next(son(e)), nbits);
+		if (next(child(e))->tag == ident_tag) {
+			return bit_pos_cont(next(child(e)), nbits);
 		}
 
-		if (next(son(e))->tag == name_tag &&
-		    son(next(son(e))) == e &&
-		    son(e)->tag == name_tag) {
-			return bit_pos_cont(son(son(e)), nbits);
+		if (next(child(e))->tag == name_tag &&
+		    child(next(child(e))) == e &&
+		    child(e)->tag == name_tag) {
+			return bit_pos_cont(child(child(e)), nbits);
 		}
 
-		if (son(e)->tag == name_tag) {
-			return adjust_pos(son(e), nbits);
+		if (child(e)->tag == name_tag) {
+			return adjust_pos(child(e), nbits);
 		}
 
 		return 0;
@@ -783,7 +783,7 @@ bit_pos(exp e, int nbits)
 	}
 
 	if (e->tag == cont_tag || e->tag == ass_tag) {
-		return bit_pos_cont(son(e), nbits);
+		return bit_pos_cont(child(e), nbits);
 	}
 
 	if (e->tag == ident_tag) {
@@ -906,14 +906,14 @@ bits_to_mem(exp e, exp d, ash stack)
 		move_sh = slongsh;
 	}
 
-	if (e->tag == int_to_bitf_tag && son(e)->tag == val_tag) {
-		if (no(son(e)) == lsb_mask[nbits]) {
+	if (e->tag == int_to_bitf_tag && child(e)->tag == val_tag) {
+		if (no(child(e)) == lsb_mask[nbits]) {
 			/* if we are assigning all ones, just or them in */
 			or (move_sh, mw(zeroe, k), dest, dest);
 			return;
 		}
 
-		if (no(son(e)) == 0) {
+		if (no(child(e)) == 0) {
 			/* if we are assigning all ones, just or them in */
 			k = ~k;
 			if ((pos + nbits) <= 8) {
@@ -934,10 +934,10 @@ bits_to_mem(exp e, exp d, ash stack)
 		}
 
 		if (e->tag == int_to_bitf_tag) {
-			if (son(e)->tag == val_tag) {
-				move(osh, mw(son(e), 0), dest);
+			if (child(e)->tag == val_tag) {
+				move(osh, mw(child(e), 0), dest);
 			} else {
-				make_code(reg0, stack, son(e));
+				make_code(reg0, stack, child(e));
 				move(osh, reg0, dest);
 			}
 		} else {
@@ -950,7 +950,7 @@ bits_to_mem(exp e, exp d, ash stack)
 	/* mask the bits we are putting in out of the dest */
 	if (e->tag != val_tag) {	/* this needs improvement */
 		if (e->tag == int_to_bitf_tag) {
-			make_code(reg0, stack, son(e));
+			make_code(reg0, stack, child(e));
 		} else {
 			move(sh(e), mw(e, 0), reg0);
 		}

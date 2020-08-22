@@ -128,10 +128,10 @@ evalexp(exp e)
 	}
 
 	case bitf_to_int_tag:
-		return evalexp(son(e));
+		return evalexp(child(e));
 
 	case int_to_bitf_tag: {
-		long  w = evalexp(son(e));
+		long  w = evalexp(child(e));
 
 		if (shape_align(sh(e)) != 1) {
 			error(ERR_INTERNAL, "should be align 1");
@@ -144,16 +144,16 @@ evalexp(exp e)
 		return w;
 	}
 
-	case not_tag: return ~evalexp(son(e));
-	case and_tag: return evalexp(son(e)) &  evalexp(next(son(e)));
-	case or_tag:  return evalexp(son(e)) |  evalexp(next(son(e)));
-	case xor_tag: return evalexp(son(e)) ^  evalexp(next(son(e)));
-	case shr_tag: return evalexp(son(e)) >> evalexp(next(son(e)));
-	case shl_tag: return evalexp(son(e)) << evalexp(next(son(e)));
+	case not_tag: return ~evalexp(child(e));
+	case and_tag: return evalexp(child(e)) &  evalexp(next(child(e)));
+	case or_tag:  return evalexp(child(e)) |  evalexp(next(child(e)));
+	case xor_tag: return evalexp(child(e)) ^  evalexp(next(child(e)));
+	case shr_tag: return evalexp(child(e)) >> evalexp(next(child(e)));
+	case shl_tag: return evalexp(child(e)) << evalexp(next(child(e)));
 
 	case concatnof_tag: {
-		long  wd = evalexp(son(e));
-		return wd | (evalexp(next(son(e))) << shape_size(sh(son(e))));
+		long  wd = evalexp(child(e));
+		return wd | (evalexp(next(child(e))) << shape_size(sh(child(e))));
 	}
 
 	case clear_tag:
@@ -163,7 +163,7 @@ evalexp(exp e)
 		break;
 
 	case env_offset_tag: {
-		exp ident_exp = son(e);
+		exp ident_exp = child(e);
 
 		if (ismarked(ident_exp)) {
 			long offval;
@@ -184,7 +184,7 @@ evalexp(exp e)
 	}
 
 	case env_size_tag: {
-		dec *et = nextg(son(son(e)));
+		dec *et = nextg(child(child(e)));
 		if (et -> processed) {
 			return et -> index;
 		}
@@ -192,49 +192,49 @@ evalexp(exp e)
 	}
 
 	case offset_add_tag:
-		return evalexp(son(e)) + evalexp(next(son(e)));
+		return evalexp(child(e)) + evalexp(next(child(e)));
 
 	case offset_max_tag: {
-		long a = evalexp(son(e));
-		long b = evalexp(next(son(e)));
+		long a = evalexp(child(e));
+		long b = evalexp(next(child(e)));
 		return a > b ? a : b;
 	}
 
 	case offset_pad_tag:
-		return rounder(evalexp(son(e)), shape_align(sh(e)) / 8);
+		return rounder(evalexp(child(e)), shape_align(sh(e)) / 8);
 
 	case offset_mult_tag:
-		return evalexp(son(e)) * evalexp(next(son(e)));
+		return evalexp(child(e)) * evalexp(next(child(e)));
 
 	case offset_div_tag:
 	case offset_div_by_int_tag: {
-		long n = evalexp(next(son(e)));
+		long n = evalexp(next(child(e)));
 
 		if (n == 0) {
 			n++;
 			error(ERR_SERIOUS, "evalexp: divide by zero");
 		}
 
-		return evalexp(son(e)) / n;
+		return evalexp(child(e)) / n;
 	}
 
 	case offset_subtract_tag:
-		return evalexp(son(e)) - evalexp(next(son(e)));
+		return evalexp(child(e)) - evalexp(next(child(e)));
 
 	case offset_negate_tag:
-		return -evalexp(son(e));
+		return -evalexp(child(e));
 
 	case seq_tag:
-		if (son(son(e))->tag == prof_tag && son(son(e))->last) {
-			return evalexp(next(son(e)));
+		if (child(child(e))->tag == prof_tag && child(child(e))->last) {
+			return evalexp(next(child(e)));
 		}
 		break;
 
 	case cont_tag:
-		if (PIC_code && son(e)->tag == name_tag && isglob(son(son(e)))
-		    && son(son(son(e))) != NULL
-		    && !(nextg(son(son(e))) -> var)) {
-			return evalexp(son(son(son(e))));
+		if (PIC_code && child(e)->tag == name_tag && isglob(child(child(e)))
+		    && child(child(child(e))) != NULL
+		    && !(nextg(child(child(e))) -> var)) {
+			return evalexp(child(child(child(e))));
 		}
 		break;
 	}
@@ -508,7 +508,7 @@ evalaux(exp e, bool isconst, long al)
 		/* Compound values - deal with each component */
 		exp val;
 		mach_op *op;
-		exp offe = son(e);
+		exp offe = child(e);
 		long off;
 		long work = 0;
 		long crt_off = 0;
@@ -523,11 +523,11 @@ evalaux(exp e, bool isconst, long al)
 		val = next(offe);
 		if (! val->last) {
 			offe = next(val);
-			if (sh(offe)->son.ald->al.u.val == 32) {
+			if (sh(offe)->child.ald->al.u.val == 32) {
 				param_aligned = 1;
 			}
 		}
-		offe = son(e);
+		offe = child(e);
 
 		for (;;) {
 			off = no(offe);
@@ -578,7 +578,7 @@ evalaux(exp e, bool isconst, long al)
 				if (val->tag == val_tag) {
 					nx = no(val);
 				} else {
-					nx = no(son(val));
+					nx = no(child(val));
 				}
 
 				if (sz > 32 - offn) {
@@ -634,7 +634,7 @@ evalaux(exp e, bool isconst, long al)
 		mach_op *op;
 		long n = no(e);
 		long sz = shape_size(sh(e));
-		char *name = nextg(son(e)) ->name;
+		char *name = nextg(child(e)) ->name;
 		op = make_extern_data(name, n / 8);
 		eval_op(sz, op);
 		return;
@@ -684,7 +684,7 @@ evalaux(exp e, bool isconst, long al)
 
 	case res_tag: {
 		/* Result values */
-		shape ss = sh(son(e));
+		shape ss = sh(child(e));
 		long sz = shape_size(ss) / 8;
 		long sa = shape_align(ss);
 		clear_out(sz, isconst, sa);
@@ -704,7 +704,7 @@ evalaux(exp e, bool isconst, long al)
 	case ncopies_tag: {
 		/* Multiple copies */
 		long i;
-		exp t = son(e);
+		exp t = child(e);
 		long sa = shape_align(sh(t));
 		if (is_comm(t)) {
 			long sz = rounder(shape_size(sh(t)), sa) / 8;
@@ -719,7 +719,7 @@ evalaux(exp e, bool isconst, long al)
 
 	case nof_tag: {
 		/* Array values */
-		exp t = son(e);
+		exp t = child(e);
 
 		if (t == NULL) {
 			return;
@@ -738,18 +738,18 @@ evalaux(exp e, bool isconst, long al)
 
 	case concatnof_tag: {
 		/* Concatenated arrays */
-		long a2 = (al + shape_size(son(e))) & 63;
-		evalaux(son(e), isconst, al);
-		evalaux(next(son(e)), isconst, a2);
+		long a2 = (al + shape_size(child(e))) & 63;
+		evalaux(child(e), isconst, al);
+		evalaux(next(child(e)), isconst, a2);
 		return;
 	}
 
 	case chvar_tag:
 	case int_to_bitf_tag: {
 		/* Change variety */
-		if (son(e)->tag == val_tag) {
-			sh(son(e)) = sh(e);
-			evalaux(son(e), isconst, al);
+		if (child(e)->tag == val_tag) {
+			sh(child(e)) = sh(e);
+			evalaux(child(e), isconst, al);
 			return;
 		}
 
@@ -759,9 +759,9 @@ evalaux(exp e, bool isconst, long al)
 
 	case chfl_tag: {
 		/* Change floating variety */
-		if (son(e)->tag == real_tag) {
-			sh(son(e)) = sh(e);
-			evalaux(son(e), isconst, al);
+		if (child(e)->tag == real_tag) {
+			sh(child(e)) = sh(e);
+			evalaux(child(e), isconst, al);
 			return;
 		}
 
@@ -778,7 +778,7 @@ evalaux(exp e, bool isconst, long al)
 
 #if 0
 	case env_size_tag: {
-		dec *d = nextg(son(son(e)));
+		dec *d = nextg(child(child(e)));
 		mach_op *op = make_lab_data((long) d, 0);
 		eval_op(32L, op);
 		return;
@@ -788,7 +788,7 @@ evalaux(exp e, bool isconst, long al)
 		/* Offsets */
 		long offval;
 		mach_op *op;
-		exp ident_exp = son(e);
+		exp ident_exp = child(e);
 		op = make_lab_data((long) ident_exp, 0);
 		eval_op(32L, op);
 
@@ -798,23 +798,23 @@ evalaux(exp e, bool isconst, long al)
 
 	case ident_tag: {
 		/* Simple identifications */
-		exp body = next(son(e));
-		if (body->tag == name_tag && son(body) == e) {
-			evalaux(son(e), isconst, al);
+		exp body = next(child(e));
+		if (body->tag == name_tag && child(body) == e) {
+			evalaux(child(e), isconst, al);
 			return;
 		}
 		break;
 	}
 
 	case minptr_tag: {
-		exp p1 = son(e);
+		exp p1 = child(e);
 		exp p2 = next(p1);
 
 		if (p1->tag == name_tag && p2->tag == name_tag) {
 			long n = no(p1) - no(p2);
 			long sz = shape_size(sh(e));
-			char *n1 = nextg(son(p1)) ->name;
-			char *n2 = nextg(son(p2)) ->name;
+			char *n1 = nextg(child(p1)) ->name;
+			char *n2 = nextg(child(p2)) ->name;
 
 			mach_op *op1 = new_mach_op();
 			mach_op *op2 = new_mach_op();
@@ -863,7 +863,7 @@ is_comm(exp e)
 
 	case int_to_bitf_tag:
 	case chvar_tag:
-		return is_comm(son(e));
+		return is_comm(child(e));
 
 	case real_tag: {
 		flpt f = no(e);
@@ -871,7 +871,7 @@ is_comm(exp e)
 	}
 
 	case compound_tag: {
-		exp t = son(e);
+		exp t = child(e);
 
 		if (t == NULL) {
 			return 1;
@@ -889,7 +889,7 @@ is_comm(exp e)
 						return 0;
 					}
 				} else {
-					if (no(son(t))) {
+					if (no(child(t))) {
 						return 0;
 					}
 				}
@@ -904,10 +904,10 @@ is_comm(exp e)
 	}
 
 	case ncopies_tag:
-		return is_comm(son(e));
+		return is_comm(child(e));
 
 	case nof_tag: {
-		exp t = son(e);
+		exp t = child(e);
 
 		if (t == NULL) {
 			return 1;
@@ -929,7 +929,7 @@ is_comm(exp e)
 	}
 
 	case concatnof_tag: {
-		exp t = son(e);
+		exp t = child(e);
 		return is_comm(t) && is_comm(next(t));
 	}
 
@@ -954,7 +954,7 @@ evaluate(exp c, long cname, char *s, int isconst, int global, diag_descriptor *d
 	long al = (long) shape_align(sh(c));
 
 	if (is_comm(c) ||
-	    ((c->tag == name_tag) && (son(son(c))) && (son(son(c))->tag == null_tag))) {
+	    ((c->tag == name_tag) && (child(child(c))) && (child(child(c))->tag == null_tag))) {
 
 		long sz = rounder(shape_size(sh(c)), 32);
 

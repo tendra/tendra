@@ -30,8 +30,8 @@
 #define proc_may_have_callees(e) ((props(e) & 0x8000) != 0)
 #define set_proc_may_have_callees(e) (props(e) |= 0x8000)
 
-#define frame_al_of_ptr(e) (e)->son.ald->al.frame
-#define frame_al1_of_offset(e) (e)->son.ald->al.frame
+#define frame_al_of_ptr(e) (e)->child.ald->al.frame
+#define frame_al1_of_offset(e) (e)->child.ald->al.frame
 #define include_vcallees(e) (e & 16)
 #define cees(e) (e & 24)
 #define l_or_cees(e)	(e&25)

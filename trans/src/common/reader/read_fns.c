@@ -1158,7 +1158,7 @@ f_make_id_tagdef(tdfint t, string_option sig, exp e)
   tagdef res;
   res.tag = dp;
   if (dp->processed ||
-      son(dp->exp) != NULL) {
+      child(dp->exp) != NULL) {
     res.def = NULL; /* set to NULL if already output */
   } else {
     res.def = e;
@@ -1186,7 +1186,7 @@ f_make_var_tagdef(tdfint t, access_option opt_access, string_option sig, exp e)
   UNUSED(opt_access);
   res.tag = dp;
   if (dp->processed ||
-      son(dp->exp) != NULL) {
+      child(dp->exp) != NULL) {
     res.def = NULL; /* set to NULL if already output */
   } else {
     res.def = e;
@@ -2360,7 +2360,7 @@ tagdef_list
 add_tagdef_list(tagdef_list list, tagdef elem, int index)
 {
   dec *dp = elem.tag;
-  exp old_def = son(dp->exp);
+  exp old_def = child(dp->exp);
   exp new_def = elem.def;
   UNUSED(list);
   UNUSED(index);
@@ -2371,7 +2371,7 @@ add_tagdef_list(tagdef_list list, tagdef elem, int index)
   if (old_def == NULL ||
       shape_size(sh(new_def)) > shape_size(sh(old_def)) ||
       (new_def->tag != clear_tag && old_def->tag == clear_tag)) {
-    son(dp->exp) = new_def;
+    child(dp->exp) = new_def;
     setfather(dp->exp, elem.def);
   }
 

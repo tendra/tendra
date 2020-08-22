@@ -90,8 +90,8 @@ output_diag(diag_info *d, int proc_no, exp e)
 	if (d->key == DIAG_INFO_ID) {
 		ot ty;
 		exp acc = d->data.id_scope.access;
-		int p = (no(acc) + no(son(acc))) / 8;
-		int param_dec = isparam(son(acc));
+		int p = (no(acc) + no(child(acc))) / 8;
+		int param_dec = isparam(child(acc));
 
 		mark_scope(e);
 
@@ -160,15 +160,15 @@ code_diag_info(diag_info *d, int proc_no,
 			failer("not hold_tag");
 		}
 
-		acc = son(acc);
-		if (acc->tag == cont_tag && son(acc)->tag == name_tag &&
-		    isvar(son(son(acc)))) {
-			acc = son(acc);
+		acc = child(acc);
+		if (acc->tag == cont_tag && child(acc)->tag == name_tag &&
+		    isvar(child(child(acc)))) {
+			acc = child(acc);
 		}
 
-		if (acc->tag == name_tag && !isdiscarded(acc) && !isglob(son(acc))) {
-			p = (no(acc) + no(son(acc))) / 8;
-			param_dec = isparam(son(acc));
+		if (acc->tag == name_tag && !isdiscarded(acc) && !isglob(child(acc))) {
+			p = (no(acc) + no(child(acc))) / 8;
+			param_dec = isparam(child(acc));
 			asm_printf(" .def %s; .val ", d->data.id_scope.name.ints.chars);
 			if (param_dec) {
 				asm_printf("%d", p + 8);

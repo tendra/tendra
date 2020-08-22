@@ -571,17 +571,17 @@ de_access(void)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = de_node(args);
+	    p->child = de_node(args);
 	    if (do_check) {
 		checking = "access_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = de_node(args);
+		p->child = de_node(args);
 	    }
 	    break;
 	}
@@ -612,13 +612,13 @@ de_al_tag(void)
 	    break;
 	}
 	case 1: {
-	    p->son = de_var_sort(al_tag_var);
+	    p->child = de_var_sort(al_tag_var);
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = de_node(args);
+		p->child = de_node(args);
 	    }
 	    break;
 	}
@@ -663,17 +663,17 @@ de_alignment(void)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = de_node(args);
+	    p->child = de_node(args);
 	    if (do_check) {
 		checking = "alignment_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = de_node(args);
+		p->child = de_node(args);
 	    }
 	    break;
 	}
@@ -705,17 +705,17 @@ de_bitfield_variety(void)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = de_node(args);
+	    p->child = de_node(args);
 	    if (do_check) {
 		checking = "bfvar_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = de_node(args);
+		p->child = de_node(args);
 	    }
 	    break;
 	}
@@ -747,17 +747,17 @@ de_bool(void)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = de_node(args);
+	    p->child = de_node(args);
 	    if (do_check) {
 		checking = "bool_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = de_node(args);
+		p->child = de_node(args);
 	    }
 	    break;
 	}
@@ -784,7 +784,7 @@ de_callees(void)
     }
     args = get_char_info(cons);
     if (args) {
-	p->son = de_node(args);
+	p->child = de_node(args);
     }
 #ifdef check_callees
     check_callees(p);
@@ -808,7 +808,7 @@ de_error_code(void)
     }
     args = get_char_info(cons);
     if (args) {
-	p->son = de_node(args);
+	p->child = de_node(args);
     }
 #ifdef check_error_code
     check_error_code(p);
@@ -837,17 +837,17 @@ de_error_treatment(void)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = de_node(args);
+	    p->child = de_node(args);
 	    if (do_check) {
 		checking = "errt_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = de_node(args);
+		p->child = de_node(args);
 	    }
 	    break;
 	}
@@ -879,17 +879,17 @@ de_exp(void)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = de_node(args);
+	    p->child = de_node(args);
 	    if (do_check) {
 		checking = "exp_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = de_node(args);
+		p->child = de_node(args);
 	    }
 	    break;
 	}
@@ -934,17 +934,17 @@ de_floating_variety(void)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = de_node(args);
+	    p->child = de_node(args);
 	    if (do_check) {
 		checking = "flvar_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = de_node(args);
+		p->child = de_node(args);
 	    }
 	    break;
 	}
@@ -976,14 +976,14 @@ de_label(void)
 	}
 	case 1: {
 	    long m = tdf_int();
-	    p->son = new_node();
-	    p->son->cons = find_label(m);
+	    p->child = new_node();
+	    p->child->cons = find_label(m);
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = de_node(args);
+		p->child = de_node(args);
 	    }
 	    break;
 	}
@@ -1015,17 +1015,17 @@ de_nat(void)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = de_node(args);
+	    p->child = de_node(args);
 	    if (do_check) {
 		checking = "nat_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = de_node(args);
+		p->child = de_node(args);
 	    }
 	    break;
 	}
@@ -1057,17 +1057,17 @@ de_ntest(void)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = de_node(args);
+	    p->child = de_node(args);
 	    if (do_check) {
 		checking = "ntest_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = de_node(args);
+		p->child = de_node(args);
 	    }
 	    break;
 	}
@@ -1099,17 +1099,17 @@ de_procprops(void)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = de_node(args);
+	    p->child = de_node(args);
 	    if (do_check) {
 		checking = "procprops_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = de_node(args);
+		p->child = de_node(args);
 	    }
 	    break;
 	}
@@ -1141,17 +1141,17 @@ de_rounding_mode(void)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = de_node(args);
+	    p->child = de_node(args);
 	    if (do_check) {
 		checking = "rounding_mode_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = de_node(args);
+		p->child = de_node(args);
 	    }
 	    break;
 	}
@@ -1183,17 +1183,17 @@ de_shape(void)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = de_node(args);
+	    p->child = de_node(args);
 	    if (do_check) {
 		checking = "shape_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = de_node(args);
+		p->child = de_node(args);
 	    }
 	    break;
 	}
@@ -1225,17 +1225,17 @@ de_signed_nat(void)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = de_node(args);
+	    p->child = de_node(args);
 	    if (do_check) {
 		checking = "signed_nat_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = de_node(args);
+		p->child = de_node(args);
 	    }
 	    break;
 	}
@@ -1280,17 +1280,17 @@ de_string(void)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = de_node(args);
+	    p->child = de_node(args);
 	    if (do_check) {
 		checking = "string_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = de_node(args);
+		p->child = de_node(args);
 	    }
 	    break;
 	}
@@ -1321,13 +1321,13 @@ de_tag(void)
 	    break;
 	}
 	case 1: {
-	    p->son = de_var_sort(tag_var);
+	    p->child = de_var_sort(tag_var);
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = de_node(args);
+		p->child = de_node(args);
 	    }
 	    break;
 	}
@@ -1437,17 +1437,17 @@ de_transfer_mode(void)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = de_node(args);
+	    p->child = de_node(args);
 	    if (do_check) {
 		checking = "transfer_mode_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = de_node(args);
+		p->child = de_node(args);
 	    }
 	    break;
 	}
@@ -1479,17 +1479,17 @@ de_variety(void)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = de_node(args);
+	    p->child = de_node(args);
 	    if (do_check) {
 		checking = "var_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = de_node(args);
+		p->child = de_node(args);
 	    }
 	    break;
 	}
@@ -1663,17 +1663,17 @@ read_access(long n)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = read_node(args);
+	    p->child = read_node(args);
 	    if (do_check) {
 		checking = "access_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = read_node(args);
+		p->child = read_node(args);
 	    }
 	    break;
 	}
@@ -1703,13 +1703,13 @@ read_al_tag(long n)
 	    break;
 	}
 	case 1: {
-	    p->son = read_var_sort(SORT_al_tag);
+	    p->child = read_var_sort(SORT_al_tag);
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = read_node(args);
+		p->child = read_node(args);
 	    }
 	    break;
 	}
@@ -1740,17 +1740,17 @@ read_alignment(long n)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = read_node(args);
+	    p->child = read_node(args);
 	    if (do_check) {
 		checking = "alignment_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = read_node(args);
+		p->child = read_node(args);
 	    }
 	    break;
 	}
@@ -1781,17 +1781,17 @@ read_bitfield_variety(long n)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = read_node(args);
+	    p->child = read_node(args);
 	    if (do_check) {
 		checking = "bfvar_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = read_node(args);
+		p->child = read_node(args);
 	    }
 	    break;
 	}
@@ -1822,17 +1822,17 @@ read_bool(long n)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = read_node(args);
+	    p->child = read_node(args);
 	    if (do_check) {
 		checking = "bool_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = read_node(args);
+		p->child = read_node(args);
 	    }
 	    break;
 	}
@@ -1858,7 +1858,7 @@ read_callees(long n)
     }
     args = get_char_info(cons);
     if (args) {
-	p->son = read_node(args);
+	p->child = read_node(args);
     }
 #ifdef check_callees
     check_callees(p);
@@ -1881,7 +1881,7 @@ read_error_code(long n)
     }
     args = get_char_info(cons);
     if (args) {
-	p->son = read_node(args);
+	p->child = read_node(args);
     }
 #ifdef check_error_code
     check_error_code(p);
@@ -1909,17 +1909,17 @@ read_error_treatment(long n)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = read_node(args);
+	    p->child = read_node(args);
 	    if (do_check) {
 		checking = "errt_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = read_node(args);
+		p->child = read_node(args);
 	    }
 	    break;
 	}
@@ -1950,10 +1950,10 @@ read_exp(long n)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = read_node(args);
+	    p->child = read_node(args);
 	    if (do_check) {
 		checking = "exp_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
@@ -1964,7 +1964,7 @@ read_exp(long n)
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = read_node(args);
+		p->child = read_node(args);
 	    }
 	    break;
 	}
@@ -1995,17 +1995,17 @@ read_floating_variety(long n)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = read_node(args);
+	    p->child = read_node(args);
 	    if (do_check) {
 		checking = "flvar_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = read_node(args);
+		p->child = read_node(args);
 	    }
 	    break;
 	}
@@ -2035,13 +2035,13 @@ read_label(long n)
 	    break;
 	}
 	case 1: {
-	    p->son = read_var_sort(SORT_label);
+	    p->child = read_var_sort(SORT_label);
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = read_node(args);
+		p->child = read_node(args);
 	    }
 	    break;
 	}
@@ -2072,17 +2072,17 @@ read_nat(long n)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = read_node(args);
+	    p->child = read_node(args);
 	    if (do_check) {
 		checking = "nat_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = read_node(args);
+		p->child = read_node(args);
 	    }
 	    break;
 	}
@@ -2113,17 +2113,17 @@ read_ntest(long n)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = read_node(args);
+	    p->child = read_node(args);
 	    if (do_check) {
 		checking = "ntest_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = read_node(args);
+		p->child = read_node(args);
 	    }
 	    break;
 	}
@@ -2154,17 +2154,17 @@ read_procprops(long n)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = read_node(args);
+	    p->child = read_node(args);
 	    if (do_check) {
 		checking = "procprops_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = read_node(args);
+		p->child = read_node(args);
 	    }
 	    break;
 	}
@@ -2195,17 +2195,17 @@ read_rounding_mode(long n)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = read_node(args);
+	    p->child = read_node(args);
 	    if (do_check) {
 		checking = "rounding_mode_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = read_node(args);
+		p->child = read_node(args);
 	    }
 	    break;
 	}
@@ -2236,17 +2236,17 @@ read_shape(long n)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = read_node(args);
+	    p->child = read_node(args);
 	    if (do_check) {
 		checking = "shape_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = read_node(args);
+		p->child = read_node(args);
 	    }
 	    break;
 	}
@@ -2277,10 +2277,10 @@ read_signed_nat(long n)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = read_node(args);
+	    p->child = read_node(args);
 	    if (do_check) {
 		checking = "signed_nat_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
@@ -2291,7 +2291,7 @@ read_signed_nat(long n)
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = read_node(args);
+		p->child = read_node(args);
 	    }
 	    break;
 	}
@@ -2322,17 +2322,17 @@ read_string(long n)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = read_node(args);
+	    p->child = read_node(args);
 	    if (do_check) {
 		checking = "string_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = read_node(args);
+		p->child = read_node(args);
 	    }
 	    break;
 	}
@@ -2362,13 +2362,13 @@ read_tag(long n)
 	    break;
 	}
 	case 1: {
-	    p->son = read_var_sort(SORT_tag);
+	    p->child = read_var_sort(SORT_tag);
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = read_node(args);
+		p->child = read_node(args);
 	    }
 	    break;
 	}
@@ -2399,17 +2399,17 @@ read_transfer_mode(long n)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = read_node(args);
+	    p->child = read_node(args);
 	    if (do_check) {
 		checking = "transfer_mode_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = read_node(args);
+		p->child = read_node(args);
 	    }
 	    break;
 	}
@@ -2440,17 +2440,17 @@ read_variety(long n)
 	}
 	case 2: {
 	    args = get_char_info(cons);
-	    p->son = read_node(args);
+	    p->child = read_node(args);
 	    if (do_check) {
 		checking = "var_cond";
-		IGNORE check1(ENC_integer, p->son);
+		IGNORE check1(ENC_integer, p->child);
 	    }
 	    break;
 	}
 	default : {
 	    args = get_char_info(cons);
 	    if (args) {
-		p->son = read_node(args);
+		p->child = read_node(args);
 	    }
 	    break;
 	}

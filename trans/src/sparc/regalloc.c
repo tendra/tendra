@@ -121,7 +121,7 @@ spacereq
 regalloc(exp e, int freefixed, int freefloat, long stack)
 {
 	spacereq def;
-	exp s = son(e);
+	exp s = child(e);
 	unsigned char n = e->tag;
 
 	if (n == ident_tag) {
@@ -156,13 +156,13 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 #endif
 			if (isparam(e)) {
 				/* (some) SPARC params in s-regs, reserve them here */
-				int n2 = (int) props(son(e));
-				int start = no(son(e)) >> 5;
+				int n2 = (int) props(child(e));
+				int start = no(child(e)) >> 5;
 				if (start <= 5) {
 					/* Some input registers (%i0 .. %i5) are used */
 					int nregs;
 					/* "end" Word offset beyond end of param */
-					long sz = shape_size(sh(son(e)));
+					long sz = shape_size(sh(child(e)));
 					int end = (int) (start + (rounder(sz, 32) >> 5));
 					if (end > 6) {
 						end = 6;
@@ -195,15 +195,15 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 			} else if ((props(e) & infreg_bits) == 0 && floatregable(e) && no(e) < ffloat) {
 				error(ERR_SERIOUS,  "regalloc : no float point s regs on SPARC" );
 			} else if ((props(e) & inanyreg) == 0) {
-				if (son(e)->tag == val_tag && !isvar(e) && !isenvoff(e)) {
+				if (child(e)->tag == val_tag && !isvar(e) && !isenvoff(e)) {
 					/* must have been forced by const optimisation -
 					   replace uses by the value */
 					exp t = pt(e);
 					for ( ; t != NULL ; ) {
 						exp p = pt(t);
 						t->tag = val_tag;
-						son(t) = NULL;
-						no(t) = no(son(e));
+						child(t) = NULL;
+						no(t) = no(child(e));
 						props(t) = 0;
 						pt(t) = NULL;
 						t = p;
@@ -211,7 +211,7 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 					pt(e) = NULL;
 					pset(e, defer_bit);
 					def = zerospace;
-				} else if (son(e)->tag == name_tag && !isvar(e) & !isenvoff(e)) {
+				} else if (child(e)->tag == name_tag && !isvar(e) & !isenvoff(e)) {
 					/* must have been forced - defer it */
 					pset(e, defer_bit);
 					def = zerospace;

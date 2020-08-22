@@ -56,7 +56,7 @@ special_strcpy(dec *dp)
 
 		if (t->last || next(t)->last || !next(next(t))->last ||
 			next(next(next(t)))->tag != apply_tag ||
-			son(next(next(next(t)))) != t)
+			child(next(next(next(t)))) != t)
 		{
 			continue;
 		}
@@ -65,18 +65,18 @@ special_strcpy(dec *dp)
 		src = next(dst);
 
 		if (src->tag != name_tag ||
-			!isglob(son(src)) || !isvar(son(src)) || no(son(src)) != 1)
+			!isglob(child(src)) || !isvar(child(src)) || no(child(src)) != 1)
 		{
 			continue;
 		}
 
-		src_dec = nextg(son(src));
+		src_dec = nextg(child(src));
 
-		if (src_dec->extnamed || son(src_dec->exp) == NULL) {
+		if (src_dec->extnamed || child(src_dec->exp) == NULL) {
 			continue;
 		}
 
-		src_def = son(son(src));
+		src_def = child(child(src));
 		sha = sh(src_def);
 
 		if (src_def->tag == string_tag &&
@@ -140,26 +140,26 @@ special_strlen(dec *dp)
 
 		if (t->last || !next(t)->last ||
 			next(next(t))->tag != apply_tag ||
-			son(next(next(t))) != t)
+			child(next(next(t))) != t)
 		{
 			continue;
 		}
 
 		st = next(t);
 
-		if (st->tag != name_tag || !isglob(son(st)) ||
-			!isvar(son(st)) || no(son(st)) != 1)
+		if (st->tag != name_tag || !isglob(child(st)) ||
+			!isvar(child(st)) || no(child(st)) != 1)
 		{
 			continue;
 		}
 
-		src_dec = nextg(son(st));
+		src_dec = nextg(child(st));
 
-		if (src_dec->extnamed || son(src_dec->exp) == NULL)	{
+		if (src_dec->extnamed || child(src_dec->exp) == NULL)	{
 			continue;
 		}
 
-		st_def = son(son(st));
+		st_def = child(child(st));
 		sha = sh(st_def);
 
 		if (st_def->tag == string_tag &&

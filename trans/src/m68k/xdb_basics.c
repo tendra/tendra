@@ -100,9 +100,9 @@ diag_variable(diag_info *di, exp e)
 	s = di->data.id_scope.access;
 	t = di->data.id_scope.type;
 	nm = di->data.id_scope.name.ints.chars;
-	p = (no(s) + no(son(s))) / 8;
+	p = (no(s) + no(child(s))) / 8;
 
-	if (!isparam(son(s))) {
+	if (!isparam(child(s))) {
 		diag_local_variable(t, nm, p);
 	}
 }

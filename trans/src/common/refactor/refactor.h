@@ -12,7 +12,7 @@
  * all components of this new exp have already had refactor applied to them.
  * It returns 1 if it has made a change, 0 if not.
  *
- * hold_refactor holds an exp as the son of a dummy exp and then
+ * hold_refactor holds an exp as the child of a dummy exp and then
  * applies refactor. the need for this operation is explained in
  * the overall documentation.
  *

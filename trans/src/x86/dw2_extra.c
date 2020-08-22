@@ -93,11 +93,11 @@ int dw_is_const
     case real_tag:
       return 1;
     case name_tag:
-      return !isdiscarded(e) && isvar(son(e));
+      return !isdiscarded(e) && isvar(child(e));
 #if 0
     case cont_tag:
-      return son(e)->tag == name_tag && !isdiscarded(son(e)) &&
-		!isvar(son(son(e))) && !isparam(son(son(e)));
+      return child(e)->tag == name_tag && !isdiscarded(child(e)) &&
+		!isvar(child(child(e))) && !isparam(child(child(e)));
 #endif
     case reff_tag:
       return 1;
@@ -111,13 +111,13 @@ exp dw_has_location
 {
   switch (e->tag) {
     case name_tag: {
-      if (isdiscarded(e) || isvar(son(e)))
+      if (isdiscarded(e) || isvar(child(e)))
 	return NULL;
-      return son(e);
+      return child(e);
     }
     case cont_tag: {
       do {
-	e = son(e);
+	e = child(e);
 	if (e->tag == name_tag && isdiscarded(e))
 	  return NULL;
       }
@@ -137,17 +137,17 @@ static loc_s find_param
 {
   switch (e->tag) {
     case name_tag:
-      if (isvar(son(e)))
+      if (isvar(child(e)))
 	extra_deref--;
-      if (isparam(son(e)))
+      if (isparam(child(e)))
         return name_to_loc(e);
-      return find_param(son(son(e)));
+      return find_param(child(child(e)));
     case cont_tag:
       extra_deref++;
 	  FALL_THROUGH;
     case chvar_tag:
     case chfl_tag:
-      return find_param(son(e));
+      return find_param(child(e));
     default:
       break;
   }
@@ -159,16 +159,16 @@ static loc_s name_to_loc
 (exp e)
 {
   loc_s l;
-  exp id = son(e);
+  exp id = child(e);
   long n_off = no(e) /8;
   if (locate_param && !isparam(id)) {
-    return find_param(son(id));
+    return find_param(child(id));
 #if 0
-    if (son(id)->tag == name_tag && isloadparam(son(id)) && isparam(son(son(id))))
-      return name_to_loc(son(id));
-    if (son(id)->tag == cont_tag && son(son(id))->tag == name_tag &&
-		isparam(son(son(son(id)))))
-      return name_to_loc(son(son(id)));
+    if (child(id)->tag == name_tag && isloadparam(child(id)) && isparam(child(child(id))))
+      return name_to_loc(child(id));
+    if (child(id)->tag == cont_tag && child(child(id))->tag == name_tag &&
+		isparam(child(child(child(id)))))
+      return name_to_loc(child(child(id)));
     error(ERR_INTERNAL, "parameter inconsistency");
 #endif
   }
@@ -228,33 +228,33 @@ static loc_s find_loc
   switch (e->tag) {
 
     case name_tag: {
-      if (isdiscarded(e) || (isglob(son(e)) && no(son(e)) == 0 &&
-				!(nextg(son(e)) ->extnamed))) {
+      if (isdiscarded(e) || (isglob(child(e)) && no(child(e)) == 0 &&
+				!(nextg(child(e)) ->extnamed))) {
 	l.key = L_INREG;
 	l.reg = 0;
 	no_location = 1;
 	return l;
       }
-      if (isvar(son(e)))
+      if (isvar(child(e)))
 	extra_deref--;
       return name_to_loc(e);
     }
 
     case cont_tag:
     case contvol_tag: {
-      if (son(e)->tag == name_tag) {
-	if (isdiscarded(son(e)) ||
-			(isglob(son(son(e))) && no(son(son(e))) == 0 &&
-			 !(nextg(son(son(e))) ->extnamed))) {
+      if (child(e)->tag == name_tag) {
+	if (isdiscarded(child(e)) ||
+			(isglob(child(child(e))) && no(child(child(e))) == 0 &&
+			 !(nextg(child(child(e))) ->extnamed))) {
 	  l.key = L_INREG;
 	  l.reg = 0;
 	  no_location = 1;
 	  return l;
 	}
-	if (isvar(son(son(e))))
-	  return name_to_loc(son(e));
+	if (isvar(child(child(e))))
+	  return name_to_loc(child(e));
       }
-      l = find_loc(son(e));
+      l = find_loc(child(e));
       if (l.key == L_INREG) {
 	l.key = L_REGOFF;
 	l.off = 0;
@@ -265,7 +265,7 @@ static loc_s find_loc
     }
 
     case reff_tag: {
-      l = find_loc(son(e));
+      l = find_loc(child(e));
       if (l.key == L_GLOB || l.key == L_REGOFF)
 	l.off += (no(e) /8);
       else
@@ -280,7 +280,7 @@ static loc_s find_loc
     }
 
     case chvar_tag: {
-      l = find_loc(son(e));
+      l = find_loc(child(e));
       break;
     }
 
@@ -372,7 +372,7 @@ static int indirect_length
       return 0;
     }
   }
-  l = find_loc(son(e));
+  l = find_loc(child(e));
   switch (l.key) {
     case L_INREG: {
       length += inreg_length(l.reg, 1);
@@ -387,7 +387,7 @@ static int indirect_length
       break;
     }
     case L_INDIRECT: {
-      length += indirect_length(son(e));
+      length += indirect_length(child(e));
       break;
     }
   }
@@ -416,7 +416,7 @@ static void out_indirect
       break;
     }
     case L_INDIRECT: {
-      out_indirect(son(e));
+      out_indirect(child(e));
       asm_printf(", ");
       break;
     }
@@ -528,7 +528,7 @@ void dw2_prepare_locate
 (exp id)
 {
 			/* set local proc conditions for local locations */
-  exp p = son(id);	/* proc or general proc */
+  exp p = child(id);	/* proc or general proc */
   locals_offset = no(p);
   has_fp = proc_has_fp(p);
 }
@@ -700,8 +700,8 @@ static int dw_eval_exp
     }
     case plus_tag:
     case offset_add_tag: {
-      line_started = dw_eval_exp(son(e), line_started);
-      if (next(son(e))->tag == val_tag && !is_signed(sh(e)) && !isbigval(next(son(e)))) {
+      line_started = dw_eval_exp(child(e), line_started);
+      if (next(child(e))->tag == val_tag && !is_signed(sh(e)) && !isbigval(next(child(e)))) {
 	if (line_started)
 	  asm_printf(", ");
 	else {
@@ -712,7 +712,7 @@ static int dw_eval_exp
 	uleb128((unsigned long)no(e));
       }
       else {
-	line_started = dw_eval_exp(next(son(e)), line_started);
+	line_started = dw_eval_exp(next(child(e)), line_started);
 	if (line_started)
 	  asm_printf(", ");
 	else {
@@ -725,8 +725,8 @@ static int dw_eval_exp
     }
     case minus_tag:
     case offset_subtract_tag: {
-      line_started = dw_eval_exp(son(e), line_started);
-      line_started = dw_eval_exp(next(son(e)), line_started);
+      line_started = dw_eval_exp(child(e), line_started);
+      line_started = dw_eval_exp(next(child(e)), line_started);
       if (line_started)
 	asm_printf(", ");
       else {
@@ -738,7 +738,7 @@ static int dw_eval_exp
     }
     case neg_tag:
     case offset_negate_tag: {
-      line_started = dw_eval_exp(son(e), line_started);
+      line_started = dw_eval_exp(child(e), line_started);
       if (line_started)
 	asm_printf(", ");
       else {
@@ -750,8 +750,8 @@ static int dw_eval_exp
     }
     case mult_tag:
     case offset_mult_tag: {
-      line_started = dw_eval_exp(son(e), line_started);
-      line_started = dw_eval_exp(next(son(e)), line_started);
+      line_started = dw_eval_exp(child(e), line_started);
+      line_started = dw_eval_exp(next(child(e)), line_started);
       if (line_started)
 	asm_printf(", ");
       else {
@@ -766,8 +766,8 @@ static int dw_eval_exp
     case div2_tag:
     case offset_div_by_int_tag:
     case offset_div_tag: {
-      line_started = dw_eval_exp(son(e), line_started);
-      line_started = dw_eval_exp(next(son(e)), line_started);
+      line_started = dw_eval_exp(child(e), line_started);
+      line_started = dw_eval_exp(next(child(e)), line_started);
       if (line_started)
 	asm_printf(", ");
       else {
@@ -1163,9 +1163,9 @@ static void mark_lab
 {
   if (!dg_labmark(labst)) {
     set_dg_labmark(labst);
-    if (son(son(labst))!= NULL)
+    if (child(child(labst))!= NULL)
       error(ERR_INTERNAL, "strange labst");
-    son(son(labst)) = lab_mark_list;
+    child(child(labst)) = lab_mark_list;
     lab_mark_list = labst;
   }
 }
@@ -1182,7 +1182,7 @@ static void trace_branch_aux
       break;
     }
     case case_tag: {
-      t = next(son(e));
+      t = next(child(e));
       for (;;) {
 	if (!intnl_to(whole, pt(t)))
 	  mark_lab(pt(t));
@@ -1202,7 +1202,7 @@ static void trace_branch_aux
     case general_env_offset_tag:
       return;
   }
-  t = son(e);
+  t = child(e);
   if (t) {
     for (;;) {
       trace_branch_aux(whole, t);
@@ -1221,10 +1221,10 @@ void trace_dw_branch_exits
     exp labst = lab_mark_list;
     exp dest = final_dest(labst);
     clear_dg_labmark(labst);
-    lab_mark_list = son(son(labst));
-    son(son(labst)) = NULL;
+    lab_mark_list = child(child(labst));
+    child(child(labst)) = NULL;
     IGNORE dw_entry(dwe_break, 0);
-    out32(); out_code_label((long)ptno(pt(son(dest)))); asm_printf("\n");
+    out32(); out_code_label((long)ptno(pt(child(dest)))); asm_printf("\n");
   }
 }
 

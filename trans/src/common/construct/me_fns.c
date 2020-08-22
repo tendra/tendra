@@ -36,7 +36,7 @@
 exp
 me_obtain(exp id)
 {
-	shape sha = (son(id) == NULL) ? sh(id) : sh(son(id));
+	shape sha = (child(id) == NULL) ? sh(id) : sh(child(id));
 	exp n;
 	n = getexp((isvar(id)) ? f_pointer(align_of(sha)) : sha, NULL, 0, id,
 		   pt(id), 0, 0, name_tag);
@@ -70,8 +70,8 @@ me_start_clearvar(shape sha, shape shb)
 exp
 me_complete_id(exp id, exp body)
 {
-	son(id)->last = false;
-	next(son(id)) = body;
+	child(id)->last = false;
+	next(child(id)) = body;
 	body->last = true;
 	next(body) = id;
 	sh(id) = sh(body);
@@ -206,7 +206,7 @@ me_q1_aux(nat_option prob, ntest nt, exp lab, exp arg1, exp arg2,
 	settest_number(r, nt);
 	setnext(arg1, arg2);
 	arg1->last = false;
-	++no(son(lab));
+	++no(child(lab));
 	setfather(r, arg2);
 	return r;
 }
@@ -231,7 +231,7 @@ me_q2_aux(nat_option prob, error_treatment err, ntest nt, exp lab, exp arg1,
 	settest_number(r, nt);
 	setnext(arg1, arg2);
 	arg1->last = false;
-	++no(son(lab));
+	++no(child(lab));
 	setfather(r, arg2);
 
 	return r;
@@ -272,7 +272,7 @@ note_repeat(exp r)
 
 	pt(r) = crt_repeat;
 
-	son(crt_repeat) = r;
+	child(crt_repeat) = r;
 	crt_repeat = next(crt_repeat);
 }
 

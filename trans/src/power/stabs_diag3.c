@@ -580,7 +580,7 @@ static void output_diag(diag_info * d, int proc_no, exp e)
     return;
   }
 
-  id = son(d->data.id_scope.access);
+  id = child(d->data.id_scope.access);
 
   asm_comment("output_diag: DIAG_INFO_ID %s isglob(id) =%d no(id) =%ld",
 	      CSTRING(d->data.id_scope.name), isglob(id), no(id));
@@ -1791,7 +1791,7 @@ again:
     }
     else
     {
-      exp sn = son(id);
+      exp sn = child(id);
       int d = disp;
 
       while (sn != NULL)
@@ -1801,7 +1801,7 @@ again:
 	case name_tag:
 	  {
 	    disp = d + no(sn);
-	    id = son(sn);
+	    id = child(sn);
 	    if (isvar(id))
 	      dt = dt->data.ptr.object;
 	    goto again;
@@ -1809,12 +1809,12 @@ again:
 	case reff_tag:
 	  {
 	    d += no(sn);
-	    sn = son(sn);
+	    sn = child(sn);
 	    break;
 	  }
 	case cont_tag:
 	  {
-	    sn = son(sn);
+	    sn = child(sn);
 	    break;
 	  }
 	default:

@@ -157,7 +157,7 @@ test_exception(int test_no, shape sha)
 		exp oe = overflow_e;
 
 		if (isov(overflow_e)) {
-			exp jd = pt(son(pt(overflow_e)));
+			exp jd = pt(child(pt(overflow_e)));
 			overflow_e = NULL;
 			branch(test_no, jd, is_signed(sha), sha->tag);
 		} else if (istrap(overflow_e)) {
@@ -176,7 +176,7 @@ do_exception(void)
 		exp oe = overflow_e;
 
 		if (isov(overflow_e)) {
-			exp jd = pt(son(pt(overflow_e)));
+			exp jd = pt(child(pt(overflow_e)));
 			overflow_e = NULL;
 			jump(jd, 0);
 		} else if (istrap(overflow_e)) {
@@ -263,13 +263,13 @@ contop(exp a, int r0inuse, where dest)
 	}
 
 	if ((n == cont_tag || n == ass_tag || n == reff_tag)
-	    && son(a)->tag == ident_tag) {
+	    && child(a)->tag == ident_tag) {
 		/* IF 1 */
 		ash st;				/* dummy stack for use by make_code */
-		exp fin = next (son (son (a)));	/* fin holds body of final identity */
+		exp fin = next (child (child (a)));	/* fin holds body of final identity */
 		unsigned char  oldn = fin->tag;		/* oldn hold name of final identity */
-		exp id1 = son (a);			/* outer identity */
-		int  inreg1 = ptno(son(son(id1))) == reg_pl;
+		exp id1 = child (a);			/* outer identity */
+		int  inreg1 = ptno(child(child(id1))) == reg_pl;
 		/* true if def of outer identity is already in a register */
 		int  reg_mask = (~regsinuse) & 0x3e;
 		int  regs_free = count_regs(reg_mask);
@@ -286,12 +286,12 @@ contop(exp a, int r0inuse, where dest)
 		if (oldn == ident_tag) {
 			/* IF 2 */
 			/* body of id1 is an identity, so TWO identities, so addptr ivolved */
-			exp id2 = next (son (id1));	/* inner identity */
-			int  inreg2 = ptno(son(son(id2))) == reg_pl;
+			exp id2 = next (child (id1));	/* inner identity */
+			int  inreg2 = ptno(child(child(id2))) == reg_pl;
 			/* true if def of inner identity is already in a register */
 			int  regs_good = regs_free + inreg1 + inreg2;
 			/* we want two registers but the definitions of id1 and id2 will do */
-			fin = next(son(fin));
+			fin = next(child(fin));
 			oldn = fin->tag;		/* correct fin and oldn */
 
 			if (regs_good < 2) {
@@ -304,18 +304,18 @@ contop(exp a, int r0inuse, where dest)
 						ptno(id1) = reg_pl;
 						no (id1) = 1;		/* id1 uses reg0 */
 						ptno(id2) = reg_pl;
-						no(id2) = no(son(son(id2)));
+						no(id2) = no(child(child(id2)));
 					} else {
 						ptno(id2) = reg_pl;
 						no (id2) = 1;		/* id2 uses reg0 */
 						ptno(id1) = reg_pl;
-						no(id1) = no(son(son(id1)));
+						no(id1) = no(child(child(id1)));
 					}
 
-					make_code(mw(id1, 0), st, son(id1));
-					make_code(mw (id2, 0), st, son (id2)); /* work out defs */
+					make_code(mw(id1, 0), st, child(id1));
+					make_code(mw (id2, 0), st, child (id2)); /* work out defs */
 					contop_level--;
-					son (a) = fin;		/* code body in caller */
+					child (a) = fin;		/* code body in caller */
 					return;
 				}
 
@@ -335,7 +335,7 @@ contop(exp a, int r0inuse, where dest)
 
 					if (fin->tag == reff_tag) {	/* remove reff */
 						offset = no(fin);
-						fin = son(fin);
+						fin = child(fin);
 					}
 
 					old_overflow_e = overflow_e;
@@ -345,32 +345,32 @@ contop(exp a, int r0inuse, where dest)
 					 * This must be an addptr, note that the calculations
 					 * cannot involve the free reg.
 					 */
-					if (next(son(fin))->tag == name_tag) {
+					if (next(child(fin))->tag == name_tag) {
 						/*
 						 * The offset is named, so add the pointer to the
 						 * offset and put in the free register.
 						 */
-						add(slongsh, mw(son(id2), 0), mw(son(id1), 0), use_reg);
+						add(slongsh, mw(child(id2), 0), mw(child(id1), 0), use_reg);
 					} else {
 						/*
 						 * This is an offset_mult so do the arithmetic of address
 						 * calculation and put the address in the free register.
 						 */
-						exp m = next(son(fin));
-						move(slongsh, mw(son(id1), 0), use_reg);
-						mult(slongsh, use_reg, mw(next(son(m)), 0),
+						exp m = next(child(fin));
+						move(slongsh, mw(child(id1), 0), use_reg);
+						mult(slongsh, use_reg, mw(next(child(m)), 0),
 						     use_reg);
-						add(slongsh, mw(son(id2), 0), use_reg, use_reg);
+						add(slongsh, mw(child(id2), 0), use_reg, use_reg);
 					}
 					overflow_e = old_overflow_e;
 
 					if (offset != 0) {
 						/* put back the reff if there was one */
-						exp r = getexp(sh(son(a)), NULL, 0, use_reg.where_exp,
+						exp r = getexp(sh(child(a)), NULL, 0, use_reg.where_exp,
 						               NULL, 0, offset, reff_tag);
-						son(a) = r;
+						child(a) = r;
 					} else {
-						son(a) = use_reg.where_exp;
+						child(a) = use_reg.where_exp;
 					}
 
 					/* The address is in the free register, code the rest in caller */
@@ -390,52 +390,52 @@ contop(exp a, int r0inuse, where dest)
 
 				if (fin->tag == reff_tag) {	/* remove reff */
 					offset = no(fin);
-					fin = son(fin);
+					fin = child(fin);
 				}
 
 				old_overflow_e = overflow_e;
 				overflow_e = NULL;
 
 				/* it must be an addptr */
-				if (next(son(fin))->tag == name_tag) {
+				if (next(child(fin))->tag == name_tag) {
 					/* the offset is named */
-					move(slongsh, mw(son(id1), 0), SPILLREG);
+					move(slongsh, mw(child(id1), 0), SPILLREG);
 					/* put the offset in SPILLREG */
 
-					if (eq_where(SPILLREG, mw(son(id2), 0)))
+					if (eq_where(SPILLREG, mw(child(id2), 0)))
 						/* id2 is the SPILLREG, so add the pushed value */
 					{
 						add(slongsh, stack0, SPILLREG, SPILLREG);
 					} else
 						/* otherwise add def of id2 to SPILLREG */
 					{
-						add(slongsh, mw(son(id2), 0), SPILLREG, SPILLREG);
+						add(slongsh, mw(child(id2), 0), SPILLREG, SPILLREG);
 					}
 				} else {
 					/* the offset is an offset_mult */
-					exp m = next(son(fin));
-					move(slongsh, mw(son(id1), 0), SPILLREG);
+					exp m = next(child(fin));
+					move(slongsh, mw(child(id1), 0), SPILLREG);
 					/* number to SPILLREG */
-					mult(slongsh, SPILLREG, mw(next(son(m)), 0), SPILLREG);
+					mult(slongsh, SPILLREG, mw(next(child(m)), 0), SPILLREG);
 					/* multiply by size */
-					if (eq_where(SPILLREG, mw(son(id2), 0)))
+					if (eq_where(SPILLREG, mw(child(id2), 0)))
 						/* id2 is the SPILLREG, so add the pushed value */
 					{
 						add(slongsh, stack0, SPILLREG, SPILLREG);
 					} else
 						/* otherwise add def of id2 to SPILLREG */
 					{
-						add(slongsh, mw(son(id2), 0), SPILLREG, SPILLREG);
+						add(slongsh, mw(child(id2), 0), SPILLREG, SPILLREG);
 					}
 				}
 				overflow_e = old_overflow_e;
 
 				if (offset != 0) {	/* put back the reff if needed */
-					exp r = getexp(sh(son(a)), NULL, 0, SPILLREG.where_exp,
+					exp r = getexp(sh(child(a)), NULL, 0, SPILLREG.where_exp,
 					               NULL, 0, offset, reff_tag);
-					son(a) = r;
+					child(a) = r;
 				} else {
-					son(a) = SPILLREG.where_exp;
+					child(a) = SPILLREG.where_exp;
 				}
 				/* code the rest in the caller */
 
@@ -453,11 +453,11 @@ contop(exp a, int r0inuse, where dest)
 
 			/* regs_goo >= 2 so we have enough registers */
 			fin->tag = top_tag;	/* nullify fin */
-			make_code(reg0, st, son (a));	/* code the declarations */
+			make_code(reg0, st, child (a));	/* code the declarations */
 			/* we are coding the identity declaration */
 			contop_level--;
 			fin->tag = oldn;	/* restore fin */
-			son (a) = fin;		/* code the rest in caller */
+			child (a) = fin;		/* code the rest in caller */
 			return;
 		}
 		/* end of IF 2 */
@@ -476,13 +476,13 @@ contop(exp a, int r0inuse, where dest)
 				extra_stack += 32;
 				check_stack_max;
 
-				move(slongsh, mw(son(id1), 0), SPILLREG);
+				move(slongsh, mw(child(id1), 0), SPILLREG);
 				/* put the pointer into SPILLREG */
 
 				ptno(id1) = reg_pl;
 				no(id1) = SPILLMASK;	/* set place for identity to SPILLREG */
 
-				son(a) = fin;	/* code the rest in caller */
+				child(a) = fin;	/* code the rest in caller */
 				contop_level--;
 				if (!eq_where(dest, SPILLREG)) {
 					contop_dopop = 1;    /* arrange to pop SPILLREG */
@@ -493,22 +493,22 @@ contop(exp a, int r0inuse, where dest)
 			}
 
 			/* reg0 is available */
-			move(slongsh, mw(son(id1), 0), reg0);
+			move(slongsh, mw(child(id1), 0), reg0);
 			/* put the pointer into reg0 */
 
 			ptno(id1) = reg_pl;
 			no(id1) = 1;	/* set place for identity to reg0 */
 
 			contop_level--;
-			son(a) = fin;	/* code the rest in caller */
+			child(a) = fin;	/* code the rest in caller */
 			return;
 		}
 
 		fin->tag = top_tag;	/* nullify fin */
-		make_code(reg0, st, son (a));	/* we are coding the identity declaration */
+		make_code(reg0, st, child (a));	/* we are coding the identity declaration */
 		contop_level--;
 		fin->tag = oldn;	/* restore fin */
-		son (a) = fin;		/* code the rest in caller */
+		child (a) = fin;		/* code the rest in caller */
 		return;
 	}
 
@@ -674,12 +674,12 @@ flinmem(where w)
 		recog = 1;
 	} else {
 		if (n == name_tag) {
-			id = son(e);
+			id = child(e);
 			recog = 1;
 		} else {
 			if ((n == cont_tag || n == ass_tag) &&
-			    son(e)->tag == name_tag && isvar(son(son(e)))) {
-				id = son(son(e));
+			    child(e)->tag == name_tag && isvar(child(child(e)))) {
+				id = child(child(e));
 				recog = 1;
 			}
 		}
@@ -687,7 +687,7 @@ flinmem(where w)
 
 #ifdef TDF_DIAG3
 	if (n == diagnose_tag) {
-		return flinmem(mw(son(e), w.where_off));
+		return flinmem(mw(child(e), w.where_off));
 	}
 #endif
 
@@ -698,7 +698,7 @@ flinmem(where w)
 	}
 
 	if (ptno(id) == reg_pl &&
-	    (sh (son (id))->tag > ucharhd || no (id) < 0x10)) { /* 0x10 is edi */
+	    (sh (child (id))->tag > ucharhd || no (id) < 0x10)) { /* 0x10 is edi */
 		return 0;    /* there are no char versions of edi, esi */
 	}
 
@@ -726,13 +726,13 @@ w_islastuse(where w)
 {
 	exp e = w.where_exp;
 
-	if (e->tag == name_tag && !isvar(son(e))) {
+	if (e->tag == name_tag && !isvar(child(e))) {
 		return islastuse(e);
 	}
 
-	if (e->tag == cont_tag && son(e)->tag == name_tag &&
-	    isvar(son(son(e)))) {
-		return islastuse(son(e));
+	if (e->tag == cont_tag && child(e)->tag == name_tag &&
+	    isvar(child(child(e)))) {
+		return islastuse(child(e));
 	}
 
 	return 0;
@@ -755,15 +755,15 @@ cmp(shape sha, where from, where min, int nt, exp e)
 	int contop_done = 0;
 	where has_equiv_from;
 	where has_equiv_min;
-	exp hold_from = son(from.where_exp);
-	exp hold_min = son(min.where_exp);
+	exp hold_from = child(from.where_exp);
+	exp hold_min = child(min.where_exp);
 	sz = shape_size(sha);
 
 	if (cond1_set &&
 	    (eq_where(min, zero) || (min.where_exp->tag == null_tag && no(min.where_exp) == 0)) &&
 	    (is_signed(sha) || nt >= 5) &&
-	    ((cc->tag == ident_tag && eq_shape(sh(son(cc)), sha)) ||
-	     (cc->tag == ass_tag && eq_shape(sh(next(son(cc))), sha)) ||
+	    ((cc->tag == ident_tag && eq_shape(sh(child(cc)), sha)) ||
+	     (cc->tag == ass_tag && eq_shape(sh(next(child(cc))), sha)) ||
 	     eq_shape(sh(cc), sha)) &&
 	    eq_where(cond1, from) && sz <= 32) {
 		return 1;
@@ -771,7 +771,7 @@ cmp(shape sha, where from, where min, int nt, exp e)
 
 	/* we are comparing the value from which the conditions are set with zero */
 	if (cond2_set &&
-	    ((cc2a->tag == ident_tag && eq_shape(sh(son(cc2a)), sha)) ||
+	    ((cc2a->tag == ident_tag && eq_shape(sh(child(cc2a)), sha)) ||
 	     eq_shape(sh(cc2a), sha)) &&
 	    eq_where(cond2a, from) &&
 	    eq_where(cond2b, min)) {
@@ -785,27 +785,27 @@ cmp(shape sha, where from, where min, int nt, exp e)
 
 		if (has_equiv_from.where_exp != NULL) {
 			from = has_equiv_from;
-			hold_from = son(from.where_exp);
+			hold_from = child(from.where_exp);
 		}
 
 		has_equiv_min = equiv_reg(min, sz);
 		if (has_equiv_min.where_exp != NULL) {
 			min = has_equiv_min;
-			hold_min = son(min.where_exp);
+			hold_min = child(min.where_exp);
 		}
 
 		if (cond1_set &&
 		    (eq_where(min, zero) || (min.where_exp->tag == null_tag && no(min.where_exp) == 0)) &&
 		    (is_signed(sha) || nt >= 5) &&
-		    ((cc->tag == ident_tag && eq_shape(sh(son(cc)), sha)) ||
-		     (cc->tag == ass_tag && eq_shape(sh(next(son(cc))), sha)) ||
+		    ((cc->tag == ident_tag && eq_shape(sh(child(cc)), sha)) ||
+		     (cc->tag == ass_tag && eq_shape(sh(next(child(cc))), sha)) ||
 		     eq_shape(sh(cc), sha)) &&
 		    eq_where(cond1, from) && sz <= 32) {
 			return 1;    /* we are comparing the value from which the conditions are set with zero */
 		}
 
 		if (cond2_set &&
-		    ((cc2a->tag == ident_tag && eq_shape(sh(son(cc2a)), sha)) ||
+		    ((cc2a->tag == ident_tag && eq_shape(sh(child(cc2a)), sha)) ||
 		     eq_shape(sh(cc2a), sha)) &&
 		    eq_where(cond2a, from) &&
 		    eq_where(cond2b, min)) {
@@ -908,18 +908,18 @@ cmp(shape sha, where from, where min, int nt, exp e)
 			if ((inmem(from) && inmem(min)) ||
 			    (sha->tag == prokhd && !PIC_code && !eq_where(min, reg0)) ||
 			    (from.where_exp->tag == name_tag &&
-			     isvar(son(from.where_exp))) ||
+			     isvar(child(from.where_exp))) ||
 			    (from.where_exp->tag == reff_tag &&
-			     son(from.where_exp)->tag == name_tag &&
-			     !isvar(son(son(from.where_exp)))))
+			     child(from.where_exp)->tag == name_tag &&
+			     !isvar(child(child(from.where_exp)))))
 			{
 				if ((from.where_exp->tag == name_tag &&
-				     ((isvar(son(from.where_exp)) &&
-				       ptno(son(from.where_exp)) <= par_pl) ||
+				     ((isvar(child(from.where_exp)) &&
+				       ptno(child(from.where_exp)) <= par_pl) ||
 				      (PIC_code &&
-				       isglob(son(from.where_exp)) &&
+				       isglob(child(from.where_exp)) &&
 				       (sha->tag == prokhd || sha->tag == ptrhd) &&
-				       !nextg(son(from.where_exp))-> extnamed))) ||
+				       !nextg(child(from.where_exp))-> extnamed))) ||
 				    from.where_exp->tag == reff_tag)
 				{
 					mova(from, reg0);
@@ -927,9 +927,9 @@ cmp(shape sha, where from, where min, int nt, exp e)
 					move(sha, from, reg0);
 				}
 
-				son(from.where_exp) = hold_from;
+				child(from.where_exp) = hold_from;
 				from = reg0;
-				hold_from = son(from.where_exp);
+				hold_from = child(from.where_exp);
 			} else {
 				if (inmem(from)) {
 					if (sz == 64) {
@@ -944,26 +944,26 @@ cmp(shape sha, where from, where min, int nt, exp e)
 			    ((from.where_exp->tag == val_tag || from.where_exp->tag == env_offset_tag) ||
 			     (keep_short && inmem(from)))) {
 				move(sha, from, reg0);
-				son(from.where_exp) = hold_from;
+				child(from.where_exp) = hold_from;
 				from = reg0;
-				hold_from = son(from.where_exp);
+				hold_from = child(from.where_exp);
 			}
 
 			if (eq_where(from, reg0) && eq_where(min, reg0)
 			    && !eq_where(orig_min, reg0)) {
-				son(min.where_exp) = hold_min;
+				child(min.where_exp) = hold_min;
 				min = orig_min;		/* equiv_reg lost due to evaluation of from */
-				hold_min = son(min.where_exp);
+				hold_min = child(min.where_exp);
 			}
 
 			me = min.where_exp;
-			if ((me->tag == name_tag && isvar(son(me)) &&
-			     ptno(son(me)) <= par_pl) ||
-			    (PIC_code && me->tag == name_tag && isglob(son(me)) &&
+			if ((me->tag == name_tag && isvar(child(me)) &&
+			     ptno(child(me)) <= par_pl) ||
+			    (PIC_code && me->tag == name_tag && isglob(child(me)) &&
 			     (sha->tag == prokhd || sha->tag == ptrhd) &&
-			     !nextg(son(me))-> extnamed) ||
-			    (me->tag == reff_tag && son(me)->tag == name_tag &&
-			     !isvar(son(son(me)))))
+			     !nextg(child(me))-> extnamed) ||
+			    (me->tag == reff_tag && child(me)->tag == name_tag &&
+			     !isvar(child(child(me)))))
 			{
 				if (eq_where(from, reg0)) {
 					ins0(pusheax);
@@ -987,15 +987,15 @@ cmp(shape sha, where from, where min, int nt, exp e)
 #endif
 
 					extra_stack -= 32;
-					son(from.where_exp) = hold_from;
-					son(min.where_exp) = hold_min;
+					child(from.where_exp) = hold_from;
+					child(min.where_exp) = hold_min;
 					return 0;
 				}
 
 				mova(min, reg0);
-				son(min.where_exp) = hold_min;
+				child(min.where_exp) = hold_min;
 				min = reg0;
-				hold_min = son(min.where_exp);
+				hold_min = child(min.where_exp);
 			} else {
 				if (inmem(min)) {
 					if (sz == 64) {
@@ -1009,16 +1009,16 @@ cmp(shape sha, where from, where min, int nt, exp e)
 			if (sz == 8 && (eq_where(min, reg4) || eq_where(min, reg5))) {
 				if (!eq_where(from, reg0)) {
 					move(sha, min, reg0);
-					son(min.where_exp) = hold_min;
+					child(min.where_exp) = hold_min;
 					min = reg0;
-					hold_min = son(min.where_exp);
+					hold_min = child(min.where_exp);
 				} else {
 					sub(sha, min, reg0, reg0);
 					if (contop_done) {
 						end_contop();
 					}
-					son(from.where_exp) = hold_from;
-					son(min.where_exp) = hold_min;
+					child(from.where_exp) = hold_from;
+					child(min.where_exp) = hold_min;
 					return 0;
 				}
 			}
@@ -1028,8 +1028,8 @@ cmp(shape sha, where from, where min, int nt, exp e)
 				if (contop_done) {
 					end_contop();
 				}
-				son(from.where_exp) = hold_from;
-				son(min.where_exp) = hold_min;
+				child(from.where_exp) = hold_from;
+				child(min.where_exp) = hold_min;
 				return 0;
 			}
 
@@ -1060,8 +1060,8 @@ cmp(shape sha, where from, where min, int nt, exp e)
 								end_contop();
 							}
 							regsinuse = riu;
-							son(from.where_exp) = hold_from;
-							son(min.where_exp) = hold_min;
+							child(from.where_exp) = hold_from;
+							child(min.where_exp) = hold_min;
 							return 0;
 						}
 					} else {
@@ -1088,8 +1088,8 @@ cmp(shape sha, where from, where min, int nt, exp e)
 						end_contop();
 					}
 					regsinuse = riu;
-					son(from.where_exp) = hold_from;
-					son(min.where_exp) = hold_min;
+					child(from.where_exp) = hold_from;
+					child(min.where_exp) = hold_min;
 					return 0;
 				}
 
@@ -1102,8 +1102,8 @@ cmp(shape sha, where from, where min, int nt, exp e)
 					end_contop();
 				}
 				regsinuse = riu;
-				son(from.where_exp) = hold_from;
-				son(min.where_exp) = hold_min;
+				child(from.where_exp) = hold_from;
+				child(min.where_exp) = hold_min;
 				return 0;
 			}
 		}
@@ -1114,8 +1114,8 @@ cmp(shape sha, where from, where min, int nt, exp e)
 		cond2b    = min;
 
 		fl_comp (sha, from, min, e);	/* do a floating point comparison */
-		son(from.where_exp) = hold_from;
-		son(min.where_exp) = hold_min;
+		child(from.where_exp) = hold_from;
+		child(min.where_exp) = hold_min;
 		return 0;
 	}
 }
@@ -1127,7 +1127,7 @@ void
 change_var_sh(shape sha, shape fsh, where from, where to)
 {
 	exp fe = from.where_exp;
-	exp holdfe = son(fe);
+	exp holdfe = child(fe);
 	int  szf, /* size of from */
 	     szt; /* size of to */
 	bool sgf, /* from is signed */
@@ -1300,7 +1300,7 @@ change_var_sh(shape sha, shape fsh, where from, where to)
 					end_contop();
 				}
 
-				son(fe) = holdfe;
+				child(fe) = holdfe;
 				return;
 			} else {
 				if (inmem(to)) {
@@ -1316,7 +1316,7 @@ change_var_sh(shape sha, shape fsh, where from, where to)
 					end_contop();
 				}
 
-				son(fe) = holdfe;
+				child(fe) = holdfe;
 				return;
 			}
 		}
@@ -1342,7 +1342,7 @@ change_var_sh(shape sha, shape fsh, where from, where to)
 					invalidate_dest(to);
 					end_contop();
 				}
-				son(fe) = holdfe;
+				child(fe) = holdfe;
 				return;
 			}
 
@@ -1366,7 +1366,7 @@ change_var_sh(shape sha, shape fsh, where from, where to)
 				}
 			}
 
-			son(fe) = holdfe;
+			child(fe) = holdfe;
 			return;
 		}
 	}
@@ -1384,16 +1384,16 @@ change_var_sh(shape sha, shape fsh, where from, where to)
 				} else {
 					move(sha, from, to);
 				}
-				son(fe) = holdfe;
+				child(fe) = holdfe;
 				return;
 			}
 			move(sha, from, to);
-			son(fe) = holdfe;
+			child(fe) = holdfe;
 			return;
 		}
 		if (szt == 16) {
 			move(sha, from, to);
-			son(fe) = holdfe;
+			child(fe) = holdfe;
 			return;
 		}
 
@@ -1420,7 +1420,7 @@ change_var_sh(shape sha, shape fsh, where from, where to)
 				end_contop();
 			}
 
-			son(fe) = holdfe;
+			child(fe) = holdfe;
 			return;
 		}
 
@@ -1436,7 +1436,7 @@ change_var_sh(shape sha, shape fsh, where from, where to)
 			and (slongsh, to, mw(zeroe, 0xffff), to);
 		}
 
-		son(fe) = holdfe;
+		child(fe) = holdfe;
 		return;
 	}
 
@@ -1455,12 +1455,12 @@ change_var_sh(shape sha, shape fsh, where from, where to)
 					move(sha, from, to);
 				}
 
-				son(fe) = holdfe;
+				child(fe) = holdfe;
 				return;
 			}
 
 			move(sha, from, to);
-			son(fe) = holdfe;
+			child(fe) = holdfe;
 			return;
 		}
 
@@ -1473,12 +1473,12 @@ change_var_sh(shape sha, shape fsh, where from, where to)
 					move(sha, from, to);
 				}
 
-				son(fe) = holdfe;
+				child(fe) = holdfe;
 				return;
 			}
 
 			move(sha, from, to);
-			son(fe) = holdfe;
+			child(fe) = holdfe;
 			return;
 		}
 
@@ -1496,18 +1496,18 @@ change_var_sh(shape sha, shape fsh, where from, where to)
 		}
 
 		move(sha, from, to);
-		son(fe) = holdfe;
+		child(fe) = holdfe;
 		return;
 	}
 
 	if (!sgf) {
 		move(sha, from, to);
-		son(fe) = holdfe;
+		child(fe) = holdfe;
 		return;
 	}
 
 	move(sha, from, to);
-	son(fe) = holdfe;
+	child(fe) = holdfe;
 }
 
 /* change variety from to sha, and put in to */
@@ -1551,29 +1551,29 @@ test(shape sha, where a, where b)
 	cond2_set = false;
 
 	if (inmem(a) && inmem(b)) {
-		hold = son(b.where_exp);
+		hold = child(b.where_exp);
 		move(sha, a, reg0);
 		contop(b.where_exp, 1, reg0);
 		ins2(t, sz, sz, reg0, b);
 		end_contop();
-		son(b.where_exp) = hold;
+		child(b.where_exp) = hold;
 		return;
 	}
 
 	if (!inmem(b) && a.where_exp->tag != val_tag) {
-		hold = son(a.where_exp);
+		hold = child(a.where_exp);
 		contop(a.where_exp, (eq_where(reg0, a) || eq_where(reg0, b)), reg0);
 		ins2(t, sz, sz, b, a);
 		end_contop();
-		son(a.where_exp) = hold;
+		child(a.where_exp) = hold;
 		return;
 	}
 
-	hold = son(b.where_exp);
+	hold = child(b.where_exp);
 	contop(b.where_exp, (eq_where(reg0, a) || eq_where(reg0, b)), reg0);
 	ins2(t, sz, sz, a, b);
 	end_contop();
-	son(b.where_exp) = hold;
+	child(b.where_exp) = hold;
 }
 
 /*
@@ -1622,12 +1622,12 @@ end_asm(void)
 void
 asm_ins(exp e)
 {
-	if (son(e)->tag == string_tag) {
-		asm_printf("%s", nostr(son(e)));
+	if (child(e)->tag == string_tag) {
+		asm_printf("%s", nostr(child(e)));
 	} else {
 		bool prev_use_bp = must_use_bp;
 		must_use_bp = true;	/* scan must ensure !no_frame */
-		operand(shape_size(son(e)), mw(son(e), 0), 1, 0);
+		operand(shape_size(child(e)), mw(child(e), 0), 1, 0);
 		must_use_bp = prev_use_bp;
 	}
 }

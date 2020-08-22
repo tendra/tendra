@@ -182,13 +182,13 @@ evalexp(exp e)
 		return flt64_to_INT64(exp_to_f64(e));
 
 	case bitf_to_int_tag:
-		return evalexp (son (e));
+		return evalexp (child (e));
 
 	case int_to_bitf_tag: {
 		ash a;
 		INT64 w;
 
-		w = evalexp(son(e));
+		w = evalexp(child(e));
 		a = ashof(sh(e));
 
 		if (a.ashalign != 1) {
@@ -204,22 +204,22 @@ evalexp(exp e)
 		return w;
 	}
 
-	case not_tag: return INT64_not(evalexp (son (e)));
-	case and_tag: return INT64_and(evalexp(son(e)), evalexp(next(son(e))));
-	case or_tag:  return INT64_or(evalexp(son(e)),  evalexp(next(son(e))));
-	case xor_tag: return INT64_xor(evalexp(son(e)), evalexp(next(son(e))));
+	case not_tag: return INT64_not(evalexp (child (e)));
+	case and_tag: return INT64_and(evalexp(child(e)), evalexp(next(child(e))));
+	case or_tag:  return INT64_or(evalexp(child(e)),  evalexp(next(child(e))));
+	case xor_tag: return INT64_xor(evalexp(child(e)), evalexp(next(child(e))));
 
-	case shr_tag: return INT64_shift_right(evalexp(son(e)), low_INT64(evalexp(next(son(e)))), 1);
-	case shl_tag: return INT64_shift_left(evalexp(son(e)),  low_INT64(evalexp(next(son(e)))), 1);
+	case shr_tag: return INT64_shift_right(evalexp(child(e)), low_INT64(evalexp(next(child(e)))), 1);
+	case shl_tag: return INT64_shift_left(evalexp(child(e)),  low_INT64(evalexp(next(child(e)))), 1);
 
 	case concatnof_tag: {
 		ash a;
 		INT64 wd;
 
-		wd = evalexp (son (e));
-		a = ashof (sh (son (e)));
+		wd = evalexp (child (e));
+		a = ashof (sh (child (e)));
 
-		return INT64_or(wd, INT64_shift_left(evalexp(next(son(e))), a.ashsize, 1));
+		return INT64_or(wd, INT64_shift_left(evalexp(next(child(e))), a.ashsize, 1));
 	}
 
 	case clear_tag: {
@@ -236,22 +236,22 @@ evalexp(exp e)
 
 	case general_env_offset_tag:
 	case env_offset_tag:
-		return make_INT64(0, frame_offset(son(e)));
+		return make_INT64(0, frame_offset(child(e)));
 
 	case env_size_tag: {
-		exp tag = son(son(e));
-		procrec *pr = &procrecs[no(son(tag))];
+		exp tag = child(child(e));
+		procrec *pr = &procrecs[no(child(tag))];
 		return (pr->frame_size + pr->callee_size) >> 3;
 	}
 
-	case offset_add_tag:        return evalexp(son(e)) + evalexp(next(son(e)));
-	case offset_max_tag:        return MAX(evalexp(son(e)), evalexp(next(son(e))));
-	case offset_pad_tag:        return rounder(evalexp(son(e)), shape_align(sh(e)) >> 3);
-	case offset_mult_tag:       return evalexp(son(e)) * evalexp(next(son(e)));
+	case offset_add_tag:        return evalexp(child(e)) + evalexp(next(child(e)));
+	case offset_max_tag:        return MAX(evalexp(child(e)), evalexp(next(child(e))));
+	case offset_pad_tag:        return rounder(evalexp(child(e)), shape_align(sh(e)) >> 3);
+	case offset_mult_tag:       return evalexp(child(e)) * evalexp(next(child(e)));
 	case offset_div_tag:
-	case offset_div_by_int_tag: return evalexp(son(e)) / evalexp(next(son(e)));
-	case offset_subtract_tag:   return evalexp(son(e)) - evalexp(next(son(e)));
-	case offset_negate_tag:     return -evalexp(son(e));
+	case offset_div_by_int_tag: return evalexp(child(e)) / evalexp(next(child(e)));
+	case offset_subtract_tag:   return evalexp(child(e)) - evalexp(next(child(e)));
+	case offset_negate_tag:     return -evalexp(child(e));
 
 	default:
 		error(ERR_INTERNAL, "tag not in evalexp");
@@ -432,7 +432,7 @@ evalone(exp e, int rep)
 		return;
 
 	case name_tag: {
-		dec * globdec = nextg(son (e)); /* must be global name */
+		dec * globdec = nextg(child (e)); /* must be global name */
 		char *name = globdec->name;
 		long symdef = globdec->sym_number;
 		char *storage_type;
@@ -456,7 +456,7 @@ evalone(exp e, int rep)
 	}
 
 	case compound_tag:  {
-		exp tup = son (e);
+		exp tup = child (e);
 		INT64 val;
 		bool first_bits = 1;
 		long bits_start = 0;
@@ -580,7 +580,7 @@ evalone(exp e, int rep)
 	}
 
 	case nof_tag: {
-		exp s = son(e);
+		exp s = child(e);
 
 		if (rep != 1) {
 			error(ERR_INTERNAL, "CAN'T REP TUPLES");
@@ -602,17 +602,17 @@ evalone(exp e, int rep)
 	}
 
 	case ncopies_tag:
-		if (son(e)->tag == compound_tag
-		 || son(e)->tag == concatnof_tag
-		 || son(e)->tag == nof_tag)
+		if (child(e)->tag == compound_tag
+		 || child(e)->tag == concatnof_tag
+		 || child(e)->tag == nof_tag)
 		{
 			int n;
 
 			for (n = rep * no(e); n > 0; n--) {
-				evalone(son(e), 1);
+				evalone(child(e), 1);
 			}
 		} else {
-			evalone (son (e), rep * no (e));
+			evalone (child (e), rep * no (e));
 		}
 		return;
 
@@ -628,8 +628,8 @@ evalone(exp e, int rep)
 			if (rep != 1) {
 				error(ERR_INTERNAL, "CAN'T REP concat");
 			}
-			evalone (son (e), 1);
-			evalone (next (son (e)), 1);
+			evalone (child (e), 1);
+			evalone (next (child (e)), 1);
 		}
 		return;
 
@@ -667,8 +667,8 @@ evalone(exp e, int rep)
 
 #if 1
 	case chvar_tag: {
-		sh(son(e)) = sh(e);
-		evalone(son(e), 1);
+		sh(child(e)) = sh(e);
+		evalone(child(e), 1);
 		error(ERR_WARN, "Dubious change variety");
 		return;
 	}

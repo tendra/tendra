@@ -183,7 +183,7 @@ f_diag_desc_id(tdfstring n, sourcemark whence, exp acc, diag_type new_type)
 	new.data.id.access   = acc;
 	new.data.id.new_type = new_type;
 
-	nextg(son(acc))->diag_info =
+	nextg(child(acc))->diag_info =
 	    diag3_driver->NEW_DIAG_GLOBAL(last_diag_desc);
 
 	return new;

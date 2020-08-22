@@ -170,8 +170,8 @@ comm_op(exp e, space sp, where d, ins_p rrins )
 	switch (discrim(d.answhere)) {
 	case inreg: {
 		int dest = regalt(d.answhere);
-		bool usesdest = regremoved(&son(e), dest);
-		exp seq = son(e);
+		bool usesdest = regremoved(&child(e), dest);
+		exp seq = child(e);
 
 		if (dest == R_G0) {
 			dest = getreg(sp.fixed);
@@ -219,7 +219,7 @@ comm_op(exp e, space sp, where d, ins_p rrins )
 		setregalt(a, r);
 
 		/* Evaluate the expression into r */
-		do_comm(son(e), sp, r, rins);
+		do_comm(child(e), sp, r, rins);
 		if (optop(e)) {
 			tidyshort(r, sh(e));
 		}
@@ -243,7 +243,7 @@ comm_op(exp e, space sp, where d, ins_p rrins )
 int
 non_comm_op(exp e, space sp, where dest, ins_p rins )
 {
-	exp l = son(e);
+	exp l = child(e);
 	exp r = next(l);
 	space nsp;
 
@@ -295,7 +295,7 @@ int
 monop(exp e, space sp, where dest, ins_p ins )
 {
 	int r1 = getreg(sp.fixed);
-	int a1 = reg_operand(son(e), sp);
+	int a1 = reg_operand(child(e), sp);
 
 	switch (discrim(dest.answhere)) {
 	case inreg: {
@@ -343,7 +343,7 @@ int
 absop(exp e, space sp, where dest )
 {
 	int r1  = getreg(sp.fixed);
-	int a1  = reg_operand(son(e), sp);
+	int a1  = reg_operand(child(e), sp);
 	int lab = new_label();
 
 	switch (discrim(dest.answhere)) {
@@ -582,7 +582,7 @@ quad_op(exp a1, exp a2, space sp, where dest, int op )
 int
 fop(exp e, space sp, where dest, ins_p ins )
 {
-	exp l = son(e);
+	exp l = child(e);
 	exp r = next(l);
 	space nsp;
 	int a1, a2;

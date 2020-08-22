@@ -31,7 +31,7 @@
 void
 refactor_ext(exp e)
 {
-	exp def = son(e);
+	exp def = child(e);
 
 	/* if it is not used or there is no definition here, do nothing */
 	if (no(e) == 0 || def == NULL) {

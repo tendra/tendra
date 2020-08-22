@@ -65,7 +65,7 @@ settempregs(exp tag)
 {
   procrec * pr = &procrecs[no(tag)];
   bool leaf = ((pr->needsproc).propneeds & anyproccall)==0;
-  exp stag = son(tag);
+  exp stag = child(tag);
   currentfix = 1;
   currentfloat = 1;
   choosefix = for1;
@@ -88,7 +88,7 @@ settempregs(exp tag)
       if ((props(stag) & infreg_bits) != 0) {
 	useable_float &= ~(1<<no(stag));
       }
-    stag = next(son(stag));
+    stag = next(child(stag));
   }
 }
 

@@ -56,7 +56,7 @@ trace_uses ( exp e, exp id ){
   if ( APPLYLIKE ( e ) ) {
     int u = nouses ;
     int p = 1 ;
-    exp l = son ( e ) ;
+    exp l = child ( e ) ;
     while ( p == 1 ) {
       p = trace_uses ( l, id ) ;
       if ( u != nouses || p == 2 ) useinpar = 1 ;
@@ -69,11 +69,11 @@ trace_uses ( exp e, exp id ){
   switch ( e->tag ) {
   case env_offset_tag :
   case name_tag : {
-    nouses -= ( son ( e ) == id ? 1 : 0 ) ;
+    nouses -= ( child ( e ) == id ? 1 : 0 ) ;
     return 1;
   }
   case ident_tag : {
-    exp f = son ( e ) ;
+    exp f = child ( e ) ;
     exp s = next ( f ) ;
     int a ;
     if ( ( props ( e ) & defer_bit ) != 0 ) {
@@ -86,7 +86,7 @@ trace_uses ( exp e, exp id ){
     return trace_uses ( s, id ) ;
   }
   case case_tag : {
-    ( void ) trace_uses ( son ( e ), id ) ;
+    ( void ) trace_uses ( child ( e ), id ) ;
     return 0;
   }
   case current_env_tag :
@@ -94,12 +94,12 @@ trace_uses ( exp e, exp id ){
     return 0;
   }
   case seq_tag : {
-    exp s = son ( son ( e ) ) ;
+    exp s = child ( child ( e ) ) ;
     for ( ; ; ) {
       int el = trace_uses ( s, id ) ;
       if ( el != 1 ) return el;
       if ( s -> last ) {
-	return trace_uses ( next ( son ( e ) ), id ) ;
+	return trace_uses ( next ( child ( e ) ), id ) ;
       }
       s = next ( s ) ;
     }
@@ -107,19 +107,19 @@ trace_uses ( exp e, exp id ){
     UNREACHED;
   }
   case ass_tag : {
-    if ( isvar ( id ) && son ( e ) -> tag == name_tag &&
-	 son ( son ( e ) ) == id ) {
-      ( void ) trace_uses ( next ( son ( e ) ), id ) ;
+    if ( isvar ( id ) && child ( e ) -> tag == name_tag &&
+	 child ( child ( e ) ) == id ) {
+      ( void ) trace_uses ( next ( child ( e ) ), id ) ;
       return 2;
-    } else if ( APPLYLIKE ( next ( son ( e ) ) ) ) {
-      return trace_uses ( next ( son ( e ) ), id ) ;
+    } else if ( APPLYLIKE ( next ( child ( e ) ) ) ) {
+      return trace_uses ( next ( child ( e ) ), id ) ;
     }
 
 	FALL_THROUGH;
   }
 
   default : {
-    exp s = son ( e ) ;
+    exp s = child ( e ) ;
     int nu = nouses ;	 /* s list can be done in any order ... */
     if ( s == NULL ) return 1;
     for ( ; ; ) {
@@ -233,8 +233,8 @@ tempdec ( exp e, bool enoughs ){
      id to find if all uses occur before unpredictable change of 
      control (or another assignment to id ) */
   
-  if ( son ( e ) -> tag != clear_tag || isparam ( e ) ) {
-    after_a ( son ( e ), e ) ;
+  if ( child ( e ) -> tag != clear_tag || isparam ( e ) ) {
+    after_a ( child ( e ), e ) ;
   }
   if ( isvar ( e ) ) {
     for ( p = pt ( e ) ; p != NULL ; p = pt ( p ) ) {

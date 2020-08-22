@@ -50,9 +50,9 @@
 #define prokhd 24
 
 #define plabel( X ) ( (X)<0 ?\
-    ( son(main_globals[((-X))-1]->exp)==NULL ?\
+    ( child(main_globals[((-X))-1]->exp)==NULL ?\
     sh(main_globals[((-X))-1]->exp)->tag==prokhd :\
-    ( IS_A_PROC(son(main_globals[((-X))-1]->exp)) ) ) : 0 )
+    ( IS_A_PROC(child(main_globals[((-X))-1]->exp)) ) ) : 0 )
 
 #define globaldata(X) ( (X)<0 ?\
     ( (sh(main_globals[((-X))-1]->exp)->tag==proc_tag ||\

@@ -77,12 +77,12 @@ read_diag_id_scope(exp body)
 	                       yes_exp_option(diag_locate(acc)),
 	                       no_dg_accessibility_option);
 
-	if (isparam(son(acc)) ||
-	    (son(son(acc)) != NULL && son(son(acc))->tag == chvar_tag &&
-	     shape_size(sh(son(son(acc)))) < 32 &&
-	     son(son(son(acc)))->tag == cont_tag &&
-	     son(son(son(son(acc))))->tag == name_tag &&
-	     isparam(son(son(son(son(son(acc)))))))) {
+	if (isparam(child(acc)) ||
+	    (child(child(acc)) != NULL && child(child(acc))->tag == chvar_tag &&
+	     shape_size(sh(child(child(acc)))) < 32 &&
+	     child(child(child(acc)))->tag == cont_tag &&
+	     child(child(child(child(acc))))->tag == name_tag &&
+	     isparam(child(child(child(child(child(acc)))))))) {
 		dg_info x = dgf(body);
 		if (x && x->key == DGA_PARAMS) {
 			dgn->next = x->data.i_param.args;

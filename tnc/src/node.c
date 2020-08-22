@@ -43,17 +43,17 @@ new_node(void)
 
 		for (i = 0; i < m - 1; i++) {
 			(p + i) ->next = p + (i + 1);
-			(p + i) ->son = NULL;
+			(p + i) ->child = NULL;
 		}
 
 		(p + (m - 1)) ->next = NULL;
-		(p + (m - 1)) ->son = NULL;
+		(p + (m - 1)) ->child = NULL;
 		free_nodes = p;
 	}
 
 	free_nodes = p->next;
 	p->cons = NULL;
-	p->son = NULL;
+	p->child = NULL;
 	p->next = NULL;
 	p->shape = NULL;
 
@@ -67,8 +67,8 @@ free_node(node *p)
 	while (p) {
 		node *q = p->next;
 
-		if (p->son)
-			free_node(p->son);
+		if (p->child)
+			free_node(p->child);
 
 		p->next = free_nodes;
 		free_nodes = p;
@@ -86,7 +86,7 @@ completion(node *p)
 	v->next = removals;
 	removals = NULL;
 	q->cons = v;
-	q->son = p;
+	q->child = p;
 
 	return q;
 }
@@ -105,7 +105,7 @@ eq_node_aux(node *p, node *q, construct *ap, construct *aq, int args)
 			switch (s) {
 			case SORT_bytestream:
 			case SORT_option:
-				/* Just check son */
+				/* Just check child */
 				break;
 
 			case SORT_tdfbool:
@@ -146,7 +146,7 @@ eq_node_aux(node *p, node *q, construct *ap, construct *aq, int args)
 			}
 		}
 
-		if (!eq_node_aux(p->son, q->son, ap, aq, 1))
+		if (!eq_node_aux(p->child, q->child, ap, aq, 1))
 			return 0;
 
 		if (!args)
@@ -199,12 +199,12 @@ eq_node(node *p, node *q)
 
 	if (p->cons->sortnum == SORT_completion) {
 		ap = p->cons->next;
-		p = p->son;
+		p = p->child;
 	}
 
 	if (q->cons->sortnum == SORT_completion) {
 		aq = q->cons->next;
-		q = q->son;
+		q = q->child;
 	}
 
 	if (!eq_cons_list(ap, aq))
