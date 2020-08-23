@@ -26,6 +26,10 @@ OBJ_TEST?=    ${OBJ_BPREFIX}/test
 OBJ_BOOT?=    ${OBJ_BPREFIX}/obj
 OBJ_REBOOT?=  ${OBJ_RPREFIX}/obj
 
+# If there's a choice to use system or builtin libc
+# this selects that.
+USE_LIBC?=    system
+
 # TODO: this should probably be the actual $PREFIX
 OBJ_RPREFIX?=	${OBJ_REBUILD}
 
@@ -78,7 +82,6 @@ build-bootstrap:
 	# ${MAKE} bootstrap-rebuild
 	# TODO: ${MAKE} bootstrap-regen
 
-
 bootstrap: ${BOOTSTRAP_DEPS}
 	mkdir -p "${OBJ_BPREFIX}/bin"
 	@echo "===> bootstrapping trans into ${OBJ_BPREFIX}"
@@ -108,6 +111,16 @@ bootstrap: ${BOOTSTRAP_DEPS}
 	mkdir -p "${OBJ_BPREFIX}/lib/tcc/lpi"
 	mkdir -p "${OBJ_BPREFIX}/lib/tcc/sys"
 	mkdir -p "${OBJ_BPREFIX}/lib/tcc/map"
+
+.if ${USE_LIBC} == builtin
+	mkdir -p "${OBJ_BPREFIX}/lib/tcc/sys/libc"
+	@echo "===> copying builtin libc to ${OBJ_BPREFIX}/lib/tcc/sys/libc/musl-1.1.5"
+	cp -r ${.CURDIR}/osdep/libc/musl-1.1.5 "${OBJ_BPREFIX}/lib/tcc/sys/libc"
+	ln -s \
+		"${OBJ_BPREFIX}/lib/tcc/sys/libc/musl-1.1.5/usr/lib/libc.so" \
+		"${OBJ_BPREFIX}/lib/tcc/sys/libc/musl-1.1.5/usr/lib/ld-musl-i386.so.1"
+.endif
+
 	@echo "===> bootstrapping tcc into ${OBJ_BPREFIX}"
 	cd ${.CURDIR}/tcc && ${MAKE}      \
 	    OBJ_DIR=${OBJ_BOOT}/tcc       \

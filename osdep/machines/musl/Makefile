@@ -7,7 +7,6 @@
 
 
 SUBDIR+=	common
-#SUBDIR+=	${BLDARCH}
+SUBDIR+=	${BLDARCH}
 
 .include <tendra.subdir.mk>
-
