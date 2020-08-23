@@ -2725,6 +2725,8 @@ make_code(where dest, ash stack, exp e)
 #ifdef DWARF2
 			dw2_code_info(dgf(e), make_code2, (void*) &args);
 #endif
+		} else {
+			make_code1(dest, stack, e);
 		}
 
 		if (dpos) {
