@@ -1337,7 +1337,6 @@ read_define(void)
 		PPTOKEN *p;
 		int err = 0;
 		int last_tok = lex_open_Hround;
-		int par_next = 2;
 		LIST(HASHID)lp;
 		unsigned long par_no = 1;
 
