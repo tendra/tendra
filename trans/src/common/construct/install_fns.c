@@ -55,6 +55,7 @@
 #include <special/special_fn.h>
 
 #include <utility/max.h>
+#include <utility/prefix.h>
 
 #include <main/flags.h>
 
@@ -6247,11 +6248,17 @@ tidy_initial_values(void)
 			prom_as = add_exp_list(prom_as, hold_refactor(f_assign(
 					       me_obtain(list_exp),
 					       me_obtain(str_exp))), 0);
+		} else {
+			dec *extra_dec;	
+			extra_dec = make_extra_dec(add_prefix(name_prefix, init_NAME(good_name)),	
+				0, 1, prc, f_proc);	
+			(void) extra_dec; /* XXX: suspicious; should this value be used? */
 		}
 	}
 	if (do_prom && prom_as.number != 0) {
 		/* ie there are some prom initialisations */
 		exp prc;
+		dec *extra_dec;
 		tagshacc_list tsl;
 
 		exp ret = f_return(f_make_top());
@@ -6261,5 +6268,8 @@ tidy_initial_values(void)
 		rep_make_proc = false;
 		start_make_proc(f_top, tsl, no_tagacc_option);
 		prc = f_make_proc(f_top, tsl, no_tagacc_option, seq);
+		extra_dec = make_extra_dec(add_prefix(name_prefix, init_NAME(good_name)),	
+			0, 1, prc, f_proc);	
+		(void) extra_dec; /* XXX: suspicious; should this value be used? */
 	}
 }
