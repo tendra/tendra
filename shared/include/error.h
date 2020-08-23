@@ -26,6 +26,9 @@ void fmt_register(char c, void (*f)(FILE *fp, void *));
 
 extern const char *progname;
 extern const char *progvers;
+/* Set the variable "exiting" to nonzero prior to
+   calling error() from an atexit() callback: */
+extern int exiting;
 extern int exit_status;
 extern unsigned long maximum_errors;
 extern unsigned long number_errors;

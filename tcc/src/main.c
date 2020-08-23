@@ -55,6 +55,7 @@ print_version(void)
 static void
 main_end(void)
 {
+	exiting = 1;
 	remove_junk();
 	remove_startup();
 	if (tempdir != NULL &&
