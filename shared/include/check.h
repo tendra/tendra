@@ -62,6 +62,8 @@
  */
 # ifdef __TenDRA__
 #  pragma TenDRA keyword UNREACHED for set unreachable
+# elif defined(__GNUC__) || defined(__clang__)
+#  define UNREACHED __builtin_unreachable()
 # else
 #  include <assert.h>
 #  include <stdlib.h>
