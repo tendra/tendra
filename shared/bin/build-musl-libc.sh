@@ -13,7 +13,7 @@ EOF
     )
 
 PACKAGES=$(cat <<EOF
-mpfr@4.1.0@
+mpfr@4.1.0@--prefix=${CURDIR}/gcc-libs
 mpc@1.2.0@--prefix=${CURDIR}/gcc-libs --with-mpfr-include=${CURDIR}/gcc-libs/include --with-mpfr-lib=${CURDIR}/gcc-libs/lib
 gmp@6.2.0@--prefix=${CURDIR}/gcc-libs --with-mpc=${CURDIR}/gcc-libs --with-mpfr=${CURDIR}/gcc-libs
 gcc@10.2.0@--prefix=${CURDIR}/gcc-libs --with-mpc=${CURDIR}/gcc-libs --with-gmp=${CURDIR}/gcc-libs --with-mpfr=${CURDIR}/gcc-libs --enable-languages=c
