@@ -61,8 +61,8 @@ read_sort(int sn)
 	case SORT_DG_TYPE:            v.tk_dg_type          = d_dg_type();          break; /* TDF_DIAG4 */
 
 	default:
-		SET(v);
 		error(ERR_INTERNAL, "illegal sort name");
+		UNREACHED;
 	}
 
 	return v;
