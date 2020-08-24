@@ -77,7 +77,7 @@ case_optimisation(exp body, exp id, shape shape_of_case, exp control_expression)
 
 	no_of_nodes = 0;
 	/* Calculate the number of cases in the case_tag */
-	for (t = body; !t->last; t = bro(t)) {
+	for (t = body; !t->last; t = next(t)) {
 		no_of_cases = no_of_cases + 1;
 	}
 
@@ -94,7 +94,7 @@ case_optimisation(exp body, exp id, shape shape_of_case, exp control_expression)
 	t = body;
 	for (i = 0; i < no_of_cases; i++) {
 		ELEMENTS[i] = t;
-		t = bro(t);
+		t = next(t);
 	}
 
 	/*
@@ -112,14 +112,14 @@ case_optimisation(exp body, exp id, shape shape_of_case, exp control_expression)
 		}
 
 		for (z = n; z <= i; z++) {
-			if (son(ELEMENTS[z]) != NULL) {
+			if (child(ELEMENTS[z]) != NULL) {
 				if (is_signed(sh(control_expression))) {
 					node_weight_sum +=
-					    ((double)no(son(ELEMENTS[z])) -
+					    ((double)no(child(ELEMENTS[z])) -
 					     (double)no(ELEMENTS[z]));
 				} else {
 					node_weight_sum +=
-					    ((double)(unsigned long)no(son(ELEMENTS[z]))
+					    ((double)(unsigned long)no(child(ELEMENTS[z]))
 					     - (double)(unsigned long)no(ELEMENTS[z]));
 				}
 			}
@@ -146,20 +146,20 @@ case_optimisation(exp body, exp id, shape shape_of_case, exp control_expression)
 		node_start[no_of_nodes] = ELEMENTS[n];
 
 		/* Sets up the node_end pointers */
-		node_end[no_of_nodes] = (son(ELEMENTS[i]) == NULL
-		                         ? ELEMENTS[i] : son(ELEMENTS[i]));
+		node_end[no_of_nodes] = (child(ELEMENTS[i]) == NULL
+		                         ? ELEMENTS[i] : child(ELEMENTS[i]));
 
 		/* sets up the node_weight of the node */
 		node_weight[no_of_nodes] = 0.0;
 		for (z = n; z <= i; z++) {
-			if (son(ELEMENTS[z]) != NULL) {
+			if (child(ELEMENTS[z]) != NULL) {
 				if (is_signed(sh(control_expression))) {
 					node_weight[no_of_nodes] +=
-					    ((double)no(son(ELEMENTS[z])) -
+					    ((double)no(child(ELEMENTS[z])) -
 					     (double)no(ELEMENTS[z]));
 				} else {
 					node_weight[no_of_nodes] +=
-					    ((double)(unsigned long)no(son(ELEMENTS[z])) -
+					    ((double)(unsigned long)no(child(ELEMENTS[z])) -
 					     (double)(unsigned long)no(ELEMENTS[z]));
 				}
 			}
@@ -173,7 +173,7 @@ case_optimisation(exp body, exp id, shape shape_of_case, exp control_expression)
 		no_of_nodes = no_of_nodes + 1;
 
 		/* Chops up the list for later use */
-		bro(ELEMENTS[i]) = NULL;
+		next(ELEMENTS[i]) = NULL;
 
 		/*
 		 * Sets the last of ELEMENTS[i] so can be substituted directly into
@@ -184,15 +184,15 @@ case_optimisation(exp body, exp id, shape shape_of_case, exp control_expression)
 
 	if (has & HAS_BYTEOPS) {
 		if (!jump_table_present) {
-			kill_exp(son(id), son(id));
-			son(id) = control_expression;
+			kill_exp(child(id), child(id));
+			child(id) = control_expression;
 			sh(id) = sh(control_expression);
 
 			t = body;
 			for (;;) {
 				sh(t) = sh(control_expression);
-				if (son(t) != NULL) {
-					sh(son(t)) = sh(control_expression);
+				if (child(t) != NULL) {
+					sh(child(t)) = sh(control_expression);
 				}
 
 				if (t->last) {
@@ -255,7 +255,7 @@ density(exp *ELEMENTS, int start, int end, int sgn)
 	double numerator, denominator;
 	int index;
 
-	if (son(ELEMENTS[end]) == NULL) {
+	if (child(ELEMENTS[end]) == NULL) {
 		if (sgn) {
 			denominator = (double) no(ELEMENTS[end]) -
 			              (double) no(ELEMENTS[start]);
@@ -265,11 +265,11 @@ density(exp *ELEMENTS, int start, int end, int sgn)
 		}
 	} else {
 		if (sgn) {
-			denominator = (double) no(son(ELEMENTS[end])) -
+			denominator = (double) no(child(ELEMENTS[end])) -
 			              (double) no(ELEMENTS[start]);
 		} else {
 			denominator =
-			    (double) (unsigned long) no(son(ELEMENTS[end])) -
+			    (double) (unsigned long) no(child(ELEMENTS[end])) -
 			    (double) (unsigned long) no(ELEMENTS[start]);
 		}
 	}
@@ -278,16 +278,16 @@ density(exp *ELEMENTS, int start, int end, int sgn)
 	numerator = 0.0;
 
 	for (index = start; index <= end; index++) {
-		if (son(ELEMENTS[index]) == NULL) {
+		if (child(ELEMENTS[index]) == NULL) {
 			numerator = numerator + 1.0;
 		} else {
 			if (sgn) {
 				numerator = numerator +
-				            ((double)no(son(ELEMENTS[index])) -
+				            ((double)no(child(ELEMENTS[index])) -
 				             (double)no(ELEMENTS[index])) + 1.0;
 			} else {
 				numerator = numerator +
-				            ((double)(unsigned long)no(son(ELEMENTS[index])) -
+				            ((double)(unsigned long)no(child(ELEMENTS[index])) -
 				             (double)(unsigned long)no(ELEMENTS[index])) + 1.0;
 			}
 		}
@@ -376,13 +376,13 @@ set_up_exhaustive_case(exp body_of_case, exp id)
 	CONT__TAG = me_u3(sh(id), NAME__TAG, cont_tag);
 	CASE__TAG = getexp(f_bottom, NULL, 0, CONT__TAG, NULL, 0, 0, case_tag);
 
-	bro(CONT__TAG) = body_of_case;
+	next(CONT__TAG) = body_of_case;
 	CONT__TAG->last = false;
 
-	for (r = body_of_case; !r->last; r = bro(r))
+	for (r = body_of_case; !r->last; r = next(r))
 		;
 
-	bro(r) = CASE__TAG;
+	next(r) = CASE__TAG;
 
 	return CASE__TAG;
 }
@@ -406,16 +406,16 @@ set_up_inexhaustive_case(exp body_of_case, exp id, exp default_exp)
 
 	/* shape of case is f_top since it is not exhaustive */
 	CASE__TAG = getexp(f_top, NULL, 0, CONT__TAG, NULL, 0, 0, case_tag);
-	bro(CONT__TAG) = body_of_case;
+	next(CONT__TAG) = body_of_case;
 	CONT__TAG->last = false;
 
-	for (r = body_of_case; !r->last; r = bro(r))
+	for (r = body_of_case; !r->last; r = next(r))
 		;
 
-	bro(r) = CASE__TAG;
+	next(r) = CASE__TAG;
 	GOTO__TAG = getexp(f_bottom, NULL, 0, NULL, NULL, 0, 0, goto_tag);
 	pt(GOTO__TAG) = default_exp;
-	no(son(default_exp)) ++;
+	no(child(default_exp)) ++;
 	ZERO__TAG = me_u3(f_top, CASE__TAG, 0);
 
 	/* doesn't matter what shape zero_tag is */
@@ -436,9 +436,9 @@ like_me_q1(int prob, ntest nt, exp lab, exp arg1, exp arg2, unsigned char nm)
 	r = getexp(f_top, NULL, 0, arg1, lab, 0, 0, nm);
 	no(r) = prob;
 	settest_number(r, nt);
-	setbro(arg1, arg2);
+	setnext(arg1, arg2);
 	arg1->last = false;
-	++no(son(lab));
+	++no(child(lab));
 	setfather(r, arg2);
 
 	return r;
@@ -502,7 +502,7 @@ exhaustive_conditional_maker(int start, int end, exp id)
 	/* first test to see if we have only one node */
 	if (start == end) {
 		/* Check to see if not a jump table */
-		if (bro(node_start[start]) == NULL) {
+		if (next(node_start[start]) == NULL) {
 			t = getexp(f_bottom, NULL, 0, NULL, NULL, 0, 0,
 			           goto_tag);
 			pt(t) = pt(node_start[start]);
@@ -548,15 +548,15 @@ inexhaustive_conditional_maker(int start, int end, exp id, exp default_exp)
 			} else {
 				option_left = getexp(f_bottom, NULL, 0, NULL, NULL, 0, 0, goto_tag);
 				pt(option_left) = default_exp;
-				no(son(default_exp))++;
-				no(son(pt(node_start[start])))--;
+				no(child(default_exp))++;
+				no(child(pt(node_start[start])))--;
 				return set_up_sequence(option_left,
 					pt(node_start[start]), f_not_equal, no(node_start[start]), id, 1000);
 			}
 		}
 
 		/* Multi range to single destination */
-		if (son(node_start[start]) == node_end[start]) {
+		if (child(node_start[start]) == node_end[start]) {
 			if ((node_start_flag[start] == 1) && (node_end_flag[start] == 1)) {
 				spare = getexp(f_bottom, NULL, 0, NULL, NULL, 0, 0, goto_tag);
 				pt(spare) = pt(node_start[start]);
@@ -566,8 +566,8 @@ inexhaustive_conditional_maker(int start, int end, exp id, exp default_exp)
 			if ((node_start_flag[start] == 1) && (node_end_flag[start] == 0)) {
 				option_left = getexp(f_bottom, NULL, 0, NULL, NULL, 0, 0, goto_tag);
 				pt(option_left) = default_exp;
-				no(son(default_exp))++;
-				no(son(pt(node_start[start])))--;
+				no(child(default_exp))++;
+				no(child(pt(node_start[start])))--;
 				node_end_flag[start] = 1;
 
 				return set_up_sequence(option_left,
@@ -577,8 +577,8 @@ inexhaustive_conditional_maker(int start, int end, exp id, exp default_exp)
 			if ((node_start_flag[start] == 0) && (node_end_flag[start] == 1)) {
 				option_left = getexp(f_bottom, NULL, 0, NULL, NULL, 0, 0, goto_tag);
 				pt(option_left) = default_exp;
-				no(son(default_exp)) ++;
-				no(son(pt(node_start[start])))--;
+				no(child(default_exp)) ++;
+				no(child(pt(node_start[start])))--;
 				node_start_flag[start] = 1;
 				return set_up_sequence(option_left,
 					pt(node_start[start]), f_less_than, no(node_start[start]), id, 1000);
@@ -595,8 +595,8 @@ inexhaustive_conditional_maker(int start, int end, exp id, exp default_exp)
 
 				GOTO__TAG = getexp(f_bottom, NULL, 0, NULL, NULL, 0, 0, goto_tag);
 				pt(GOTO__TAG) = default_exp;
-				no(son(default_exp)) ++;
-				no(son(pt(node_start[start])))--;
+				no(child(default_exp)) ++;
+				no(child(pt(node_start[start])))--;
 				ZERO__TAG = me_b3(f_top,
 				  set_up_assign(id, -subtract_value),
 				  set_up_unsigned_test(pt(node_start[start]), id,
@@ -645,10 +645,10 @@ inexhaustive_conditional_maker(int start, int end, exp id, exp default_exp)
 						   (no(node_end[start]) - subtract_value),
 						   f_less_than_or_equal), 0);
 
-			for (r = node_start[start]; r != NULL; r = bro(r)) {
+			for (r = node_start[start]; r != NULL; r = next(r)) {
 				no(r) = no(r) - subtract_value;
-				if (son(r) != NULL) {
-					no(son(r)) = no(son(r)) -
+				if (child(r) != NULL) {
+					no(child(r)) = no(child(r)) -
 					             subtract_value;
 				}
 			}
@@ -672,7 +672,7 @@ inexhaustive_conditional_maker(int start, int end, exp id, exp default_exp)
 	 */
 	if (split_value == start && (node_start[start] == node_end[start])) {
 		option_left = inexhaustive_conditional_maker(start + 1, end, id, default_exp);
-		no(son(pt(node_start[start])))--;
+		no(child(pt(node_start[start])))--;
 
 		return set_up_sequence(option_left, pt(node_start[start]),
 		                       f_not_equal, no(node_start[start]), id, 1000);
@@ -684,7 +684,7 @@ inexhaustive_conditional_maker(int start, int end, exp id, exp default_exp)
 	 */
 	if (split_value >= end - 1 && (node_start[end] == node_end[end])) {
 		option_left = inexhaustive_conditional_maker(start, end - 1, id, default_exp);
-		no(son(pt(node_start[end])))--;
+		no(child(pt(node_start[end])))--;
 		return set_up_sequence(option_left, pt(node_start[end]),
 		                       f_not_equal, no(node_start[end]), id, 1001);
 	}
@@ -694,7 +694,7 @@ inexhaustive_conditional_maker(int start, int end, exp id, exp default_exp)
 	 * 1:n split where the left hand comparison has been done
 	 */
 	if (split_value == start &&
-		(son(node_start[start]) == node_end[start]) &&
+		(child(node_start[start]) == node_end[start]) &&
 		node_start_flag[start] == 1)
 	{
 
@@ -704,7 +704,7 @@ inexhaustive_conditional_maker(int start, int end, exp id, exp default_exp)
 		}
 
 		option_left = inexhaustive_conditional_maker(start + 1, end, id, default_exp);
-		no(son(pt(node_start[start])))--;
+		no(child(pt(node_start[start])))--;
 		return set_up_sequence(option_left, pt(node_start[start]),
 		                       f_greater_than, no(node_end[start]), id,
 		                       1001);
@@ -715,7 +715,7 @@ inexhaustive_conditional_maker(int start, int end, exp id, exp default_exp)
 	 * n:1 split where the right hand comparison has been done.
 	 */
 	if (split_value >= end - 1 &&
-	    (son(node_start[end]) == node_end[end]) &&
+	    (child(node_start[end]) == node_end[end]) &&
 	    node_end_flag[end] == 1)
 	{
 		/* If we have a close together split there is no need to recompare. */
@@ -724,7 +724,7 @@ inexhaustive_conditional_maker(int start, int end, exp id, exp default_exp)
 		}
 
 		option_left = inexhaustive_conditional_maker(start, end - 1, id, default_exp);
-		no(son(pt(node_start[end])))--;
+		no(child(pt(node_start[end])))--;
 		return set_up_sequence(option_left, pt(node_start[end]),
 		                       f_less_than, no(node_start[end]), id, 1000);
 	}

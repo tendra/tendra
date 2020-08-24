@@ -73,7 +73,7 @@ static bool
 regremoved(exp * seq, int reg )
 {
 	exp s = *seq;
-	exp t = bro(s);
+	exp t = next(s);
 
 	if (ABS(regofval(s)) == reg) {
 		( *seq)= t;
@@ -82,7 +82,7 @@ regremoved(exp * seq, int reg )
 
 	for (;;) {
 		if (ABS(regofval(t)) == reg) {
-			bro(s)= bro(t);
+			next(s)= next(t);
 			if (t -> last) {
 				s ->last = true;
 			}
@@ -94,7 +94,7 @@ regremoved(exp * seq, int reg )
 		}
 
 		s = t;
-		t = bro(t);
+		t = next(t);
 	}
 
 	UNREACHED;
@@ -114,14 +114,14 @@ do_comm(exp seq, space sp, int final, ins_p rins )
 	int a1, a2;
 
 	/* should have been optimised in scan... */
-	assert(!( rins == i_add && seq->tag == neg_tag && bro(seq)-> tag != val_tag));
+	assert(!( rins == i_add && seq->tag == neg_tag && next(seq)-> tag != val_tag));
 
 	/* evaluate first operand into a1 */
 	a1 = reg_operand(seq, sp);
 
 	for (;;) {
 		nsp = guardreg(a1, sp);
-		seq = bro(seq);
+		seq = next(seq);
 
 		if (seq->tag == val_tag) {
 			/* next operand is a constant */
@@ -170,8 +170,8 @@ comm_op(exp e, space sp, where d, ins_p rrins )
 	switch (discrim(d.answhere)) {
 	case inreg: {
 		int dest = regalt(d.answhere);
-		bool usesdest = regremoved(&son(e), dest);
-		exp seq = son(e);
+		bool usesdest = regremoved(&child(e), dest);
+		exp seq = child(e);
 
 		if (dest == R_G0) {
 			dest = getreg(sp.fixed);
@@ -219,7 +219,7 @@ comm_op(exp e, space sp, where d, ins_p rrins )
 		setregalt(a, r);
 
 		/* Evaluate the expression into r */
-		do_comm(son(e), sp, r, rins);
+		do_comm(child(e), sp, r, rins);
 		if (optop(e)) {
 			tidyshort(r, sh(e));
 		}
@@ -243,8 +243,8 @@ comm_op(exp e, space sp, where d, ins_p rrins )
 int
 non_comm_op(exp e, space sp, where dest, ins_p rins )
 {
-	exp l = son(e);
-	exp r = bro(l);
+	exp l = child(e);
+	exp r = next(l);
 	space nsp;
 
 	int a1 = reg_operand(l, sp), a2;
@@ -295,7 +295,7 @@ int
 monop(exp e, space sp, where dest, ins_p ins )
 {
 	int r1 = getreg(sp.fixed);
-	int a1 = reg_operand(son(e), sp);
+	int a1 = reg_operand(child(e), sp);
 
 	switch (discrim(dest.answhere)) {
 	case inreg: {
@@ -343,7 +343,7 @@ int
 absop(exp e, space sp, where dest )
 {
 	int r1  = getreg(sp.fixed);
-	int a1  = reg_operand(son(e), sp);
+	int a1  = reg_operand(child(e), sp);
 	int lab = new_label();
 
 	switch (discrim(dest.answhere)) {
@@ -582,8 +582,8 @@ quad_op(exp a1, exp a2, space sp, where dest, int op )
 int
 fop(exp e, space sp, where dest, ins_p ins )
 {
-	exp l = son(e);
-	exp r = bro(l);
+	exp l = child(e);
+	exp r = next(l);
 	space nsp;
 	int a1, a2;
 

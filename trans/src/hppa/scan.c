@@ -106,16 +106,16 @@ ptr_position(exp e)
 {
 	exp *res;
 	exp dad = father(e);
-	exp sib = son(dad);
+	exp sib = child(dad);
 
 	if (sib == e) {
-		res = &son(dad);
+		res = &child(dad);
 	} else {
-		while (bro(sib) != e) {
-			sib = bro(sib);
+		while (next(sib) != e) {
+			sib = next(sib);
 		}
 
-		res = &bro(sib);
+		res = &next(sib);
 	}
 
 	return res;
@@ -130,18 +130,18 @@ static void
 cca(exp **to, exp *x)
 {
 	if ((**to)->tag == diagnose_tag) {
-		*to = &son(**to);
+		*to = &child(**to);
 	}
 
 	if (x == *to) {
 		exp def = *x;
 
 		/* replace by  Let tag = def In tag Ni */
-		exp id = getexp(sh(def), bro(def), def->last, def, NULL, 0, 1, ident_tag);
+		exp id = getexp(sh(def), next(def), def->last, def, NULL, 0, 1, ident_tag);
 		exp tag = getexp(sh(def), id, 1, id, NULL, 0, 0, name_tag);
 
 		pt(id)   = tag; /* use of tag */
-		bro(def) = tag; /* bro(def) is body of Let = tag */
+		next(def) = tag; /* next(def) is body of Let = tag */
 		def->last = false;
 
 		*x = id;	 	/* replace pointer to x by Let */
@@ -149,18 +149,18 @@ cca(exp **to, exp *x)
 		/* replace by Let tag = def In ato/def = tag Ni */
 		exp def = *x;
 		exp ato = **to;
-		exp id  = getexp(sh(ato), bro(ato), ato->last, def, NULL, 0, 1, ident_tag);
-		exp tag = getexp(sh(def), bro(def), def->last, id, NULL, 0, 0, name_tag);
+		exp id  = getexp(sh(ato), next(ato), ato->last, def, NULL, 0, 1, ident_tag);
+		exp tag = getexp(sh(def), next(def), def->last, id, NULL, 0, 0, name_tag);
 
 		pt(id)   = tag;	/* use of tag */
-		bro(def) = ato;	/* ato is body of Let */
+		next(def) = ato;	/* ato is body of Let */
 		def->last = false;
-		bro(ato) = id;	/* its father is Let */
+		next(ato) = id;	/* its father is Let */
 		ato->last = true;
 
 		**to = id;	/* replace pointer to 'to' by Let */
 		*x   = tag;		/* replace use of x by tag */
-		*to  = &bro(def); /* later replacement to same 'to' will be at * body of Let */
+		*to  = &next(def); /* later replacement to same 'to' will be at * body of Let */
 	}
 }
 
@@ -176,13 +176,13 @@ static bool
 subvar_use(exp uses)
 {
 	for (; uses != NULL; uses = pt(uses)) {
-		if (uses->last && bro(uses)->tag == cont_tag) {
-			exp c = bro(uses);
+		if (uses->last && next(uses)->tag == cont_tag) {
+			exp c = next(uses);
 
-			if (!c->last && bro(c)->last && bro(bro(c))->tag == ident_tag) {
-				exp id = bro(bro(c));
+			if (!c->last && next(c)->last && next(next(c))->tag == ident_tag) {
+				exp id = next(next(c));
 
-				if ((props(id) & subvar) != 0 && (props(id) & inanyreg) != 0) {
+				if ((id->props & subvar) != 0 && (id->props & inanyreg) != 0) {
 					return 1;
 				}
 			}
@@ -224,15 +224,15 @@ static void make_bitfield_offset
 		return;
 	}
 
-	omul = getexp(sha, bro(e), (int)(e->last), e, NULL, 0, 0, offset_mult_tag);
+	omul = getexp(sha, next(e), (int)(e->last), e, NULL, 0, 0, offset_mult_tag);
 	val8 = getexp(slongsh, omul, 1, NULL, NULL, 0, 8, val_tag);
 	e->last = false;
-	setbro(e, val8);
+	setnext(e, val8);
 
 	if (spe) {
-		son(pe) = omul;
+		child(pe) = omul;
 	} else {
-		bro(pe) = omul;
+		next(pe) = omul;
 	}
 }
 
@@ -247,7 +247,7 @@ complex(exp e)
 		return 0;
 	}
 
-	if (e->tag == cont_tag && son(e)->tag == name_tag && isvar(son(son(e)))) {
+	if (e->tag == cont_tag && child(e)->tag == name_tag && isvar(child(child(e)))) {
 		return 0;
 	}
 
@@ -267,12 +267,12 @@ change_to_var(exp e)
 	assert(e->tag == ident_tag && !isvar(e));
 	setvar(e);
 	setcaonly(e);
-	ns = f_pointer(f_alignment(sh(son(e))));
+	ns = f_pointer(f_alignment(sh(child(e))));
 
 	while (p != NULL) {
 		exp * pos = ptr_position(p);
-		exp ncont = getexp(sh(p), bro(p), p->last, p, NULL, 0, 0, cont_tag);
-		bro(p) = ncont;
+		exp ncont = getexp(sh(p), next(p), p->last, p, NULL, 0, 0, cont_tag);
+		next(p) = ncont;
 		p->last = true;
 		sh(p) = ns;
 		*pos = ncont;
@@ -290,7 +290,7 @@ change_names(exp f, exp t, exp except)
 	while (py != NULL) {
 		exp ppy = pt(py);
 		if (py != except) {
-			son(py) = t; /* change f to t */
+			child(py) = t; /* change f to t */
 			pt(py) = pt(t);
 			pt(t) = py;
 			no(t)++;  /* maintain usage */
@@ -304,34 +304,34 @@ static int
 scan_cond(exp * e, exp outer_id)
 {
 	exp ste = *e;
-	exp first = son(ste);
-	exp labst = bro(first);
-	exp second = bro(son(labst));
+	exp first = child(ste);
+	exp labst = next(first);
+	exp second = next(child(labst));
 
 	assert(ste->tag == cond_tag);
 
-	if (second->tag == top_tag && sh(first)->tag == bothd && no(son(labst)) == 1
-	    && first->tag == seq_tag && bro(son(first))->tag == goto_tag) {
+	if (second->tag == top_tag && sh(first)->tag == bothd && no(child(labst)) == 1
+	    && first->tag == seq_tag && next(child(first))->tag == goto_tag) {
 		/* cond is { ... test(L); ? ; goto X | L:make_top}
 			if ? empty can replace by seq { ... not-test(X); make_top }
 		*/
 
-		exp l = son(son(first));
+		exp l = child(child(first));
 		while (!l->last) {
-			l = bro(l);
+			l = next(l);
 		}
 
 		while (l->tag == seq_tag) {
-			l = bro(son(l));
+			l = next(child(l));
 		}
 
 		if (l->tag == test_tag && pt(l) == labst) {
 			settest_number(l, notbranch[test_number(l)]);
-			pt(l) = pt(bro(son(first)));
-			bro(son(first)) = second;
-			bro(second) = first;
+			pt(l) = pt(next(child(first)));
+			next(child(first)) = second;
+			next(second) = first;
 			second->last = true;
-			bro(first) = bro(ste);
+			next(first) = next(ste);
 
 			if (ste->last) {
 				first->last = true;
@@ -348,40 +348,40 @@ scan_cond(exp * e, exp outer_id)
 	}
 
 	if (first->tag == seq_tag && second->tag == cond_tag
-	    && no(son(labst)) == 1
-	    && son(son(first))->tag == test_tag
-	    && pt(son(son(first))) == labst
-	    && son(second)->tag == seq_tag
-	    && son(son(son(second)))->tag == test_tag)
+	    && no(child(labst)) == 1
+	    && child(child(first))->tag == test_tag
+	    && pt(child(child(first))) == labst
+	    && child(second)->tag == seq_tag
+	    && child(child(child(second)))->tag == test_tag)
 	{
 		/* cond is ( seq (test to L;....|
 		   L:cond(seq(test;...),...) ) ..... */
-		exp test1 = son(son(first));
-		exp test2 = son(son(son(second)));
+		exp test1 = child(child(first));
+		exp test2 = child(child(child(second)));
 
-		exp op11 = son(test1);
-		exp op21 = bro(op11);
-		exp op12 = son(test2);
-		exp op22 = bro(op12);
+		exp op11 = child(test1);
+		exp op21 = next(op11);
+		exp op12 = child(test2);
+		exp op22 = next(op12);
 
 		bool c1 = complex(op11);
 		bool c2 = complex(op21);
 
 		if (c1 && eq_exp(op11, op12)) {
 			/* ....if first operands of tests are same, identify them */
-			exp newid = getexp(sh(ste), bro(ste), ste->last, op11, NULL, 0, 2, ident_tag);
+			exp newid = getexp(sh(ste), next(ste), ste->last, op11, NULL, 0, 2, ident_tag);
 			exp tag1 = getexp(sh(op11), op21, 0, newid, NULL, 0, 0, name_tag);
 			exp tag2 = getexp(sh(op12), op22, 0, newid, NULL, 0, 0, name_tag);
 
 			pt(newid)  = tag1;
 			pt (tag1)  = tag2;	/* uses of newid */
-			bro (op11) = ste;
+			next (op11) = ste;
 			op11->last = false;/* body of newid */
-			/* forget son test2 = son test1 */
-			bro(ste) = newid;
+			/* forget child test2 = child test1 */
+			next(ste) = newid;
 			ste->last = true;	/* father body = newid */
-			son(test1) = tag1;
-			son(test2) = tag2;	/* relace 1st operands of test */
+			child(test1) = tag1;
+			child(test2) = tag2;	/* relace 1st operands of test */
 
 			if (!complex(op21)) {
 				/*
@@ -394,7 +394,7 @@ scan_cond(exp * e, exp outer_id)
 			kill_exp(op12, op12);
 			*e = newid;
 
-			if (scan_cond(&bro(son(labst)), newid) == 2 && complex(op22)) {
+			if (scan_cond(&next(child(labst)), newid) == 2 && complex(op22)) {
 				/*
 				 * ... however a further use of identification means that
 				 * the second operand of the second test must also be simple
@@ -406,20 +406,20 @@ scan_cond(exp * e, exp outer_id)
 		} else if (c2 && eq_exp(op21, op22)) {
 			/* ....if second operands of tests are same, identify them */
 
-			exp newid = getexp(sh(ste), bro(ste), ste->last, op21, NULL, 0, 2, ident_tag);
+			exp newid = getexp(sh(ste), next(ste), ste->last, op21, NULL, 0, 2, ident_tag);
 			exp tag1 = getexp(sh(op21), test1, 1, newid, NULL, 0, 0, name_tag);
 			exp tag2 = getexp(sh(op22), test2, 1, newid, NULL, 0, 0, name_tag);
 
 			pt(newid) = tag1;
 			pt (tag1) = tag2;	/* uses of newid */
-			bro(op21) = ste;
+			next(op21) = ste;
 			op21->last = false;
 			/* body of newid */
-			/* forget bro son test2 = bro son test1 */
-			bro(ste) = newid;
+			/* forget next child test2 = next child test1 */
+			next(ste) = newid;
 			ste->last = true;	/* father body = newid */
-			bro(op11) = tag1;
-			bro(op12) = tag2;
+			next(op11) = tag1;
+			next(op12) = tag2;
 
 			if (!complex(op11)) {
 				setinlined(newid);
@@ -429,15 +429,15 @@ scan_cond(exp * e, exp outer_id)
 			/* relace 2nd operands of test */
 			*e = newid;
 
-			if (scan_cond(&bro(son(labst)), newid) == 2 && complex(op12)) {
+			if (scan_cond(&next(child(labst)), newid) == 2 && complex(op12)) {
 				clearinlined(newid);
 			}
 
 			return 1;
 		} else if (op12->tag != name_tag
 		           && op11->tag == name_tag
-		           && son(op11) == outer_id
-		           && eq_exp(son(outer_id), op12))
+		           && child(op11) == outer_id
+		           && eq_exp(child(outer_id), op12))
 		{
 			/* 1st param of test1 is already identified with 1st param of  test2 */
 			exp tag = getexp(sh(op12), op22, 0, outer_id, pt(outer_id), 0, 0, name_tag);
@@ -449,10 +449,10 @@ scan_cond(exp * e, exp outer_id)
 			}
 
 			/* update usage of ident */
-			son(test2) = tag;
+			child(test2) = tag;
 			kill_exp(op12, op12);
 
-			if (scan_cond(&bro(son(labst)), outer_id) == 2 && complex(op22)) {
+			if (scan_cond(&next(child(labst)), outer_id) == 2 && complex(op22)) {
 				clearinlined(outer_id);
 			}
 
@@ -473,7 +473,7 @@ likeplus(exp *e, exp **at)
 	needs a1;
 	needs a2;
 	prop pc;
-	exp *br = &son(*e);
+	exp *br = &child(*e);
 	exp prev;
 	bool commuted = 0;
 	exp dad = *(e);
@@ -485,7 +485,7 @@ likeplus(exp *e, exp **at)
 		exp *prevbr;
 		prevbr = br;
 		prev = *(br);
-		br = &bro(prev);
+		br = &next(prev);
 		a2 = scan(br, at);
 
 		/* scan the next operand ... */
@@ -502,19 +502,19 @@ likeplus(exp *e, exp **at)
 				/*
 				 * ...its evaluation will call a proc, so put it first
 				 */
-				exp op1 = son(dad);
+				exp op1 = child(dad);
 				exp cop = *(br);
 				bool lcop = cop->last;
-				bro(prev) = bro(cop);
+				next(prev) = next(cop);
 
 				if (lcop) {
 					prev->last = true;
 				}
 
-				bro(cop) = op1;
+				next(cop) = op1;
 				cop->last = false;
-				son(dad) = cop;
-				br = (prev == op1) ? &bro(cop) : prevbr;
+				child(dad) = cop;
+				br = (prev == op1) ? &next(cop) : prevbr;
 				op1->commuted = 1;
 				cop->commuted = 1;
 				commuted = 1;
@@ -557,11 +557,11 @@ likediv(exp *e, exp **at)
 	needs l;
 	needs r;
 	prop pc;
-	exp *arg = &son(*e);
+	exp *arg = &child(*e);
 
 	l = scan(arg, at);
 	/* scan 1st operand */
-	arg = &bro(*arg);
+	arg = &next(*arg);
 	r = scan(arg, at);
 	/* scan second operand ... */
 	l.floatneeds = MAX(l.floatneeds, r.floatneeds);
@@ -601,10 +601,10 @@ fpop(exp *e, exp **at)
 	needs r;
 	exp op = *e;
 	prop pcr, pcl;
-	exp *arg = &son(op);
+	exp *arg = &child(op);
 
 	l = scan(arg, at);
-	arg = &bro(*arg);
+	arg = &next(*arg);
 	r = scan(arg, at);
 	l.fixneeds = MAX(l.fixneeds, r.fixneeds);
 	pcr = r.propneeds & hasproccall;
@@ -616,15 +616,15 @@ fpop(exp *e, exp **at)
 		}
 	}
 
-	if ((has & HAS_LONG_DOUBLE) && sh(son(op))->tag == doublehd) {
+	if ((has & HAS_LONG_DOUBLE) && sh(child(op))->tag == doublehd) {
 		ClearRev(op);
-		arg = &son(op);
+		arg = &child(op);
 
 		if (!is_o((*arg)->tag) || pcl) {
 			cca(at, arg);
 		}
 
-		arg = &bro(son(op));
+		arg = &next(child(op));
 		if (!is_o((*arg)->tag) || pcr) {
 			cca(at, arg);
 		}
@@ -683,12 +683,12 @@ maxneeds(needs a, needs b)
 static needs
 maxtup(exp e, exp ** at)
 {
-	exp *stat = &son(e);
+	exp *stat = &child(e);
 	needs an;
 
 	an = zeroneeds;
 	while (an = maxneeds(an, scan(stat, at)), !(*stat)->last) {
-		stat = &bro(*stat);
+		stat = &next(*stat);
 	}
 
 	return an;
@@ -708,12 +708,12 @@ unchanged(exp usedname, exp ident)
 			continue;
 		}
 
-		if (!uses->last || bro(uses)->tag != cont_tag) {
+		if (!uses->last || next(uses)->tag != cont_tag) {
 			exp z;
 
-			for (z = uses; z != ident; z = bro(z)) {
+			for (z = uses; z != ident; z = next(z)) {
 				if (!z->last ||
-				    (bro(z)->tag != seq_tag && bro(z)->tag != ident_tag)) {
+				    (next(z)->tag != seq_tag && next(z)->tag != ident_tag)) {
 					return 0;
 				}
 			}
@@ -743,12 +743,12 @@ chase(exp sel, exp * e)
 	case seq_tag:
 	case rep_tag:
 	case labst_tag:
-		b = chase(sel, &bro(son(*e)));
+		b = chase(sel, &next(child(*e)));
 		break;
 
 	case solve_tag:
 	case cond_tag: {
-		one = &son(*e);
+		one = &child(*e);
 
 		for (;;) {
 			b |= chase(sel, one);
@@ -756,23 +756,23 @@ chase(exp sel, exp * e)
 				break;
 			}
 
-			one = &bro(*one);
+			one = &next(*one);
 		}
 
 		break;
 	}
 
 	case field_tag:
-		if (chase(*e, &son(*e))) {
+		if (chase(*e, &child(*e))) {
 			/* inner field has been distributed */
 			exp stare = *e;
-			exp ss = son(stare);
+			exp ss = child(stare);
 
 			if (!stare->last) {
 				ss->last = false;
 			}
 
-			bro(ss) = bro(stare);
+			next(ss) = next(stare);
 			sh(ss) = sh(stare);
 			*e = ss;
 
@@ -782,14 +782,14 @@ chase(exp sel, exp * e)
 		/* ... continue to default */
 
 	default:
-		if ((son(sel) != *e) && (sh(*e)->tag != bothd)) {
+		if ((child(sel) != *e) && (sh(*e)->tag != bothd)) {
 			/* only change if not outer */
 			exp stare = *e;
-			exp newsel = getexp(sh(sel), bro(stare), stare->last, stare, NULL,
-			                    props(sel), no(sel), sel->tag);
+			exp newsel = getexp(sh(sel), next(stare), stare->last, stare, NULL,
+			                    sel->props, no(sel), sel->tag);
 
 			*e = newsel;
-			bro(stare) = newsel;
+			next(stare) = newsel;
 			stare->last = true;
 			b = 1;
 		}
@@ -841,7 +841,7 @@ scan(exp *e, exp **at)
 	/* ignore diagnostic information */
 #if 0
 	while (nstare == diag_tag || nstare == cscope_tag || nstare == fscope_tag) {
-		e = &son(ste);
+		e = &child(ste);
 		ste = *(e);
 		nstare = ste->tag;
 	}
@@ -865,15 +865,15 @@ scan(exp *e, exp **at)
 		exp dad;
 
 #if 1
-		if (nstare == nof_tag && son(ste) == NULL) {
+		if (nstare == nof_tag && child(ste) == NULL) {
 			return zeroneeds;
 		}
 #endif
 
-		if (ste->tag == ncopies_tag && son(ste)->tag != name_tag
-		    && son(ste)->tag != val_tag) {
-			nl = scan(&son(*e), at);
-			cca(at, &son(*e));
+		if (ste->tag == ncopies_tag && child(ste)->tag != name_tag
+		    && child(ste)->tag != val_tag) {
+			nl = scan(&child(*e), at);
+			cca(at, &child(*e));
 		} else {
 			nl = maxtup(*(e), at);
 		}
@@ -885,14 +885,14 @@ scan(exp *e, exp **at)
 		    || dad->tag == concatnof_tag) {
 			cantdo = 0;
 		} else if (ste->last) {
-			if (bro(ste)->tag == ass_tag) {
-				exp a = son(bro(ste));
-				cantdo = (a->tag != name_tag || !isvar(son(a)));
+			if (next(ste)->tag == ass_tag) {
+				exp a = child(next(ste));
+				cantdo = (a->tag != name_tag || !isvar(child(a)));
 			} else {
 				cantdo = 1;
 			}
-		} else if (bro(ste)->last) {
-			cantdo = (bro(bro(ste))->tag != ident_tag);
+		} else if (next(ste)->last) {
+			cantdo = (next(next(ste))->tag != ident_tag);
 		} else {
 			cantdo = 1;
 		}
@@ -921,85 +921,85 @@ scan(exp *e, exp **at)
 		/* else goto next case */
 #else
 
-		exp first = son(ste);
-		exp labst = bro(first);
-		exp second = bro(son(labst));
+		exp first = child(ste);
+		exp labst = next(first);
+		exp second = next(child(labst));
 		exp t, f, v;
 
 		if (first->tag == seq_tag && second->tag == cond_tag &&
-		    son(son(first))->tag == test_tag && pt(son(son(first))) == labst
-		    && son(second)->tag == seq_tag
-		    && son(son(son(second)))->tag == test_tag)
+		    child(child(first))->tag == test_tag && pt(child(child(first))) == labst
+		    && child(second)->tag == seq_tag
+		    && child(child(child(second)))->tag == test_tag)
 		{
 			/* cond is ( seq (test to L;....),
 			* L:cond(seq(test;...),...) ) ..... */
-			exp test1 = son(son(first));
-			exp test2 = son(son(son(second)));
-			bool c1 = complex(son(test1));
-			bool c2 = complex(bro(son(test1)));
+			exp test1 = child(child(first));
+			exp test2 = child(child(child(second)));
+			bool c1 = complex(child(test1));
+			bool c2 = complex(next(child(test1)));
 
-			if (c1 && eq_exp(son(test1), son(test2)))
+			if (c1 && eq_exp(child(test1), child(test2)))
 				/* ....if first operands of tests are same, identify them */
 			{
-				exp o21 = bro(son(test1));
-				exp o22 = bro(son(test2));
-				exp newid = getexp(sh(ste), bro(ste), ste->last, son(test1), NULL,
+				exp o21 = next(child(test1));
+				exp o22 = next(child(test2));
+				exp newid = getexp(sh(ste), next(ste), ste->last, child(test1), NULL,
 				                   0, 2, ident_tag);
-				exp tag1 = getexp(sh(son(test1)), o21, 0, newid, NULL, 0, 0, name_tag);
-				exp tag2 = getexp(sh(son(test2)), o22, 0, newid, NULL, 0, 0, name_tag);
+				exp tag1 = getexp(sh(child(test1)), o21, 0, newid, NULL, 0, 0, name_tag);
+				exp tag2 = getexp(sh(child(test2)), o22, 0, newid, NULL, 0, 0, name_tag);
 
 				pt(newid) = tag1;
 				pt(tag1)  = tag2;	/* uses of newid */
-				bro(son(test1)) = ste;
-				son(test1)->last = false; /* body of newid */
-				/* forget son test2 = son test1 */
-				bro(ste) = newid;
+				next(child(test1)) = ste;
+				child(test1)->last = false; /* body of newid */
+				/* forget child test2 = child test1 */
+				next(ste) = newid;
 				ste->last = true;		/* father body = newid */
-				son(test1) = tag1;
-				son(test2) = tag2;	/* relace 1st operands of test */
+				child(test1) = tag1;
+				child(test2) = tag2;	/* relace 1st operands of test */
 				*e = newid;
 
 				return scan(e, at);
-			} else if (c2 && eq_exp(bro(son(test1)), bro(son(test2))))
+			} else if (c2 && eq_exp(next(child(test1)), next(child(test2))))
 				/* ....if second operands of tests are same, identify them */
 			{
-				exp o21 = bro(bro(son(test1)));
-				exp o22 = bro(bro(son(test2)));
-				exp newid = getexp(sh(ste), bro(ste), ste->last, bro(son(test1)),
+				exp o21 = next(next(child(test1)));
+				exp o22 = next(next(child(test2)));
+				exp newid = getexp(sh(ste), next(ste), ste->last, next(child(test1)),
 				                   NULL, 0, 2, ident_tag);
-				exp tag1 = getexp(sh(bro(son(test1))), o21, 1,
+				exp tag1 = getexp(sh(next(child(test1))), o21, 1,
 				                  newid, NULL, 0, 0, name_tag);
-				exp tag2 = getexp(sh(bro(son(test2))), o22, 1, newid, NULL,
+				exp tag2 = getexp(sh(next(child(test2))), o22, 1, newid, NULL,
 				                  0, 0, name_tag);
 
 				pt(newid) = tag1;
 				pt(tag1)  = tag2;	/* uses of newid */
-				bro(bro(son(test1))) = ste;
-				bro(son(test1))->last = false;
+				next(next(child(test1))) = ste;
+				next(child(test1))->last = false;
 				/* body of newid */
-				/* forget bro son test2 = bro son test1 */
-				bro(ste) = newid;
+				/* forget next child test2 = next child test1 */
+				next(ste) = newid;
 				ste->last = true;		/* father body = newid */
-				bro(son(test1)) = tag1;
-				bro(son(test2)) = tag2;
+				next(child(test1)) = tag1;
+				next(child(test2)) = tag2;
 				/* relace 2st operands of test */
 				*e = newid;
 
 				return scan(e, at);
-			} else if (son(test2)->tag != name_tag
-			           && son(test1)->tag == name_tag &&
-			           son(son(test1))->tag == ident_tag && !isvar(son(son(test1)))
-			           && !isglob(son(son(test1)))
-			           && eq_exp(son(son(son(test1))), son(test2)))
+			} else if (child(test2)->tag != name_tag
+			           && child(test1)->tag == name_tag &&
+			           child(child(test1))->tag == ident_tag && !isvar(child(child(test1)))
+			           && !isglob(child(child(test1)))
+			           && eq_exp(child(child(child(test1))), child(test2)))
 				/* 1st param of test1 is identified with 1st param of  test2 */
 			{
-				exp tag = getexp(sh(son(test1)), bro(son(test2)), 0, son(son(test1)),
-				                 pt(son(son(test1))), 0, 0, name_tag);
+				exp tag = getexp(sh(child(test1)), next(child(test2)), 0, child(child(test1)),
+				                 pt(child(child(test1))), 0, 0, name_tag);
 
-				pt(son(son(test1))) = tag;
-				no(son(son(test1))) += 1;
+				pt(child(child(test1))) = tag;
+				no(child(child(test1))) += 1;
 				/* update usage of ident */
-				son(test2) = tag;
+				child(test2) = tag;
 				/* and then drop into next case */
 				asm_comment("scan() cond_tag: case 3");
 			}
@@ -1018,12 +1018,12 @@ scan(exp *e, exp **at)
 		exp *statat;
 		needs an;
 
-		stat = &son(*e);
+		stat = &child(*e);
 		statat = stat;
 
 		an = zeroneeds;
 		while (an = maxneeds(an, scan(stat, &statat)), !(*stat)->last) {
-			stat = &bro(*stat);
+			stat = &next(*stat);
 			statat = stat;
 		}
 
@@ -1038,9 +1038,9 @@ scan(exp *e, exp **at)
 		needs bdy;
 		needs def;
 		exp stare = *e;
-		exp *arg = &bro(son(stare));
+		exp *arg = &next(child(stare));
 		exp t = pt(stare), s;
-		shape shdef = sh(son(stare));
+		shape shdef = sh(child(stare));
 		bool fxregble;
 		bool flregble;
 		bool old_nonevis = nonevis;
@@ -1061,10 +1061,10 @@ scan(exp *e, exp **at)
 		}
 
 		if (isparam(stare)) {
-			exp def = son(stare);
+			exp def = child(stare);
 			shape shdef = sh(def);
 			long sz = shape_size(shdef);
-			if (son(stare)->tag != formal_callee_tag) {
+			if (child(stare)->tag != formal_callee_tag) {
 				assert(def->tag == clear_tag);
 				/* round up bytes and halfwords to full words */
 				if (sz > 0 && sz < 32) {
@@ -1093,21 +1093,21 @@ scan(exp *e, exp **at)
 				if (is_floating(shdef->tag)) {
 					if (fltparam < (3 * 8) + 1) {
 						/* floating paramter passed in registers */
-						props(def) = fltparam;
+						def->props = fltparam;
 						maxfloat--;
 					} else {
 						/* floating parameter passed by stack */
-						props(def) = 0;
+						def->props = 0;
 					}
 				} else {
 					if (fixparam < ARG3 + 1) {
 						/* param reg(s) free for the param */
-						props(def) = fixparam;
+						def->props = fixparam;
 						if (shdef->tag != cpdhd && shdef->tag != nofhd) {
 							maxfix--;
 						}
 					} else {
-						props(def) = 0;    /* Pass by stack */
+						def->props = 0;    /* Pass by stack */
 					}
 				}
 			} else {
@@ -1124,18 +1124,18 @@ scan(exp *e, exp **at)
 		bdy = scan(arg, &arg);
 
 		/* scan the body-scope */
-		arg = &son(stare);
+		arg = &child(stare);
 		def = scan(arg, &arg);
 		/* scan the initialisation of tag */
 
 		nonevis = old_nonevis;
-		t = son(stare);
-		s = bro(t);
+		t = child(stare);
+		s = next(t);
 		fxregble = fixregable(stare);
 		flregble = floatregable(stare);
 
 		if (isparam(stare)) {
-			if (son(stare)->tag == formal_callee_tag) {
+			if (child(stare)->tag == formal_callee_tag) {
 				/* IDENT is a callee parameter. */
 				no(stare) = R_NO_REG;
 			} else {
@@ -1147,27 +1147,27 @@ scan(exp *e, exp **at)
 				     (!has_tail_call &&
 				      tempdec(stare, (fxregble && bdy.fixneeds <= 2) ||
 				              (flregble && bdy.floatneeds <= 1))))) {
-					int x = props(son(stare)); /* param reg it comes in, or else 0 */
+					int x = child(stare)->props; /* param reg it comes in, or else 0 */
 
-					if (x != 0 && (props(stare) & notparreg) == 0) {
+					if (x != 0 && (stare->props & notparreg) == 0) {
 						/*
 						 * use input param for leaf proc, unless it is R_RESULT=ARG0
 						 * and we plan to use that specially
 						 */
 						no(stare) = x;
 						if (flregble) {
-							/* props(stare) |= infreg_bits; */
+							/* stare->props |= infreg_bits; */
 							no(stare) = 0;
 						} else {
-							props(stare) |= inreg_bits;
+							stare->props |= inreg_bits;
 						}
 					} else if (fxregble && bdy.fixneeds < maxfix && (bdy.propneeds & morefix) == 0) {
 						no(stare) = 0;
-						props(stare) |= inreg_bits;
+						stare->props |= inreg_bits;
 						bdy.fixneeds += 1;
 					} else if (flregble && bdy.floatneeds < maxfloat && 0 && (bdy.propneeds & morefloat) == 0) {
 						no(stare) = 0;
-						props(stare) |= infreg_bits;
+						stare->props |= infreg_bits;
 						bdy.floatneeds += 1;
 					} else {
 						no(stare) = R_NO_REG;
@@ -1183,10 +1183,10 @@ scan(exp *e, exp **at)
 			    (bdy.propneeds & (anyproccall | uses_res_reg_bit)) == 0
 			    && (fxregble /*|| flregble*/) &&
 			    (t->tag == apply_tag ||
-			     (s->tag == seq_tag && bro(son(s))->tag == res_tag &&
-			      son(bro(son(s)))->tag == cont_tag && isvar(stare) &&
-			      son(son(bro(son(s))))->tag == name_tag &&
-			      son(son(son(bro(son(s))))) == stare)))
+			     (s->tag == seq_tag && next(child(s))->tag == res_tag &&
+			      child(next(child(s)))->tag == cont_tag && isvar(stare) &&
+			      child(child(next(child(s))))->tag == name_tag &&
+			      child(child(child(next(child(s))))) == stare)))
 			{
 				/* Let a := ..; return cont a */
 				/* +++ integrate this with the block above, otherwise UNREACHED */
@@ -1195,13 +1195,13 @@ scan(exp *e, exp **at)
 				 * or body ends with return tag, provided result is not used other wise.
 				 */
 				asm_comment("scan: ident_tag(%p): use result reg", (void *) stare);
-				props(stare) |= (fxregble) ? inreg_bits : infreg_bits;
+				stare->props |= (fxregble) ? inreg_bits : infreg_bits;
 
 				if (fxregble) {
-					props(stare) |= inreg_bits;
+					stare->props |= inreg_bits;
 					bdy.fixneeds++;
 				} else {
-					props(stare) |= infreg_bits;
+					stare->props |= infreg_bits;
 				}
 
 				bdy.propneeds |= uses_res_reg_bit;
@@ -1210,31 +1210,31 @@ scan(exp *e, exp **at)
 				/* MUST go on stack */
 				no(stare) = R_NO_REG;
 			} else if (!isvar(*e) && !isparam(*e) &&
-			           ((t->tag == reff_tag && son(t)->tag == cont_tag &&
-			             son(son(t))->tag == name_tag && isvar(son(son(son(t))))
-			             && !isvis(son(son(son(t)))) && !isglob(son(son(son(t))))
-			             && unchanged(son(son(son(t))), stare)
+			           ((t->tag == reff_tag && child(t)->tag == cont_tag &&
+			             child(child(t))->tag == name_tag && isvar(child(child(child(t))))
+			             && !isvis(child(child(child(t)))) && !isglob(child(child(child(t))))
+			             && unchanged(child(child(child(t))), stare)
 
 			             /*
 			              * reff cont variable-not assigned to in scope
 			              */
 			            ) ||
-			            (t->tag == cont_tag && son(t)->tag == name_tag &&
-			             isvar(son(son(t))) && !isvis(son(son(t))) && !isglob(son(son(t)))
-			             && unchanged(son(son(t)), stare))))
+			            (t->tag == cont_tag && child(t)->tag == name_tag &&
+			             isvar(child(child(t))) && !isvis(child(child(t))) && !isglob(child(child(t)))
+			             && unchanged(child(child(t)), stare))))
 			             /*
 			              * cont variable - not assigned to in scope
 			              */
 			{
 
 				asm_comment("scan: ident_tag(%p): dont take space for this dec", (void *) stare);
-				props(stare) |= defer_bit;
+				stare->props |= defer_bit;
 				/* dont take space for this dec */
 			} else if (!isvar(stare) &&
-			           ((props(stare) & 0x10 /* forced in const */ ) == 0)
+			           ((stare->props & 0x10 /* forced in const */ ) == 0)
 			           && (t->tag == name_tag || t->tag == val_tag)) {
 				asm_comment("scan: ident_tag(%p): dont take space for this dec (#2)", (void *) stare);
-				props(stare) |= defer_bit;
+				stare->props |= defer_bit;
 				/* dont take space for this dec */
 			} else if (fxregble && bdy.fixneeds < maxfix &&
 			           (bdy.propneeds & morefix) == 0 &&
@@ -1249,7 +1249,7 @@ scan(exp *e, exp **at)
 				asm_comment("scan: ident_tag(%p): use fixpt t-reg", (void *) stare);
 				asm_comment("	bdy.fixneeds=%d def.fixneeds=%d", bdy.fixneeds, def.fixneeds);
 
-				props(stare) |= inreg_bits;
+				stare->props |= inreg_bits;
 				no(stare) = 0;
 				bdy.fixneeds += 1;
 			} else if (bdy.floatneeds < maxfloat && (bdy.propneeds & morefloat) == 0
@@ -1263,7 +1263,7 @@ scan(exp *e, exp **at)
 				 * make_code
 				 */
 				asm_comment("scan: ident_tag(%p): use float t-reg", (void *) stare);
-				props(stare) |= infreg_bits;
+				stare->props |= infreg_bits;
 				no(stare) = 0;
 				bdy.floatneeds += 1;
 			} else {
@@ -1286,15 +1286,15 @@ scan(exp *e, exp **at)
 
 	/*
 	 * shape of exp is shape of end of sequence
-	 * son is sequence holder, son of this is list of voided statements.
+	 * child is sequence holder, child of this is list of voided statements.
 	 */
 	case seq_tag: {
-		exp *arg = &bro(son(*e));
+		exp *arg = &next(child(*e));
 		needs an;
 		exp *stat;
 
 		an = scan(arg, &arg);
-		stat = &son(son(*e));
+		stat = &child(child(*e));
 
 		arg = stat;
 		for (;;) {
@@ -1310,7 +1310,7 @@ scan(exp *e, exp **at)
 				return an;
 			}
 
-			stat = &bro(*stat);
+			stat = &next(*stat);
 			arg = stat;
 		}
 	}
@@ -1321,8 +1321,8 @@ scan(exp *e, exp **at)
 
 	case ass_tag:
 	case assvol_tag: {
-		exp *lhs = &son(*e);
-		exp *rhs = &bro(*lhs);
+		exp *lhs = &child(*e);
+		exp *rhs = &next(*lhs);
 		needs nr;
 		ash a;
 
@@ -1339,7 +1339,7 @@ scan(exp *e, exp **at)
 		}
 
 		if ((*lhs)->tag == name_tag &&
-		    (isvar(son(*(lhs))) &&
+		    (isvar(child(*(lhs))) &&
 		     ((nr.propneeds & (hasproccall | morefix)) == 0
 		      && nr.fixneeds < maxfix)))
 		{
@@ -1374,11 +1374,11 @@ scan(exp *e, exp **at)
 		ash a;
 		needs x;
 		shape s;
-		exp *arg = &son(*e);
+		exp *arg = &child(*e);
 		/* exp r,ss,t; */
 		s = sh(*(arg));
 		a = ashof(s);
-		props(*e) = 0;		/* clear possibility of tlrecirsion; may be set later */
+		(*e)->props = 0;		/* clear possibility of tlrecirsion; may be set later */
 		x = scan(arg, at);
 
 		/* scan result exp ... */
@@ -1389,7 +1389,7 @@ scan(exp *e, exp **at)
 			}
 			asm_comment("scan res_tag: long real/real result");
 		} else {
-			if (!valregable(s) && !(son(*e)->tag == top_tag)) { /* .... result does not fit into reg */
+			if (!valregable(s) && !(child(*e)->tag == top_tag)) { /* .... result does not fit into reg */
 				x.propneeds |= long_result_bit;
 				asm_comment("scan res_tag: struct/union result");
 			}
@@ -1407,9 +1407,9 @@ scan(exp *e, exp **at)
 
 	case apply_general_tag: {
 		exp application = *(e);
-		exp *fn = &son(application);
-		exp cers = bro(*fn);
-		exp *cerl = &son(cers);
+		exp *fn = &child(application);
+		exp cers = next(*fn);
+		exp *cerl = &child(cers);
 		long stpar = 0;
 
 		needs nds;
@@ -1424,13 +1424,13 @@ scan(exp *e, exp **at)
 			cca(at, fn);
 			nds.propneeds &= ~hasproccall;
 			nds.propneeds |= usesproccall;
-			fn = &son(application);
+			fn = &child(application);
 		}
 
 		for (i = 0; i < no(cers); i++) {
 			needs onepar;
 			shape shonepar = sh(*cerl);
-			exp * par = (*cerl)->tag == caller_tag ? &son(*cerl) : cerl;
+			exp * par = (*cerl)->tag == caller_tag ? &child(*cerl) : cerl;
 			int n = rounder(stpar, shape_align(shonepar));
 			onepar = scan(par, at);
 
@@ -1452,22 +1452,22 @@ scan(exp *e, exp **at)
 
 			n = n + shape_size(shonepar);
 			stpar = rounder(n, 32);
-			cerl = &bro(*cerl);
+			cerl = &next(*cerl);
 		}
 
 		nds.maxargs = MAX(nds.maxargs, stpar);
-		nds = maxneeds(scan(&bro(bro(son(application))), at), nds);
+		nds = maxneeds(scan(&next(next(child(application))), at), nds);
 
-		plnds = scan(&bro(bro(bro(son(application)))), at);
+		plnds = scan(&next(next(next(child(application)))), at);
 
 		if ((plnds.propneeds & (anyproccall | uses2_bit)) != 0) {
-			props(application) = 1;
+			application->props = 1;
 			if (is_floating(sh(application)->tag) || valregable(sh(application))) {
 				cca(at, ptr_position(application));
 				plnds.propneeds |= usesproccall;
 			}
 		} else {
-			props(application) = 0;
+			application->props = 0;
 		}
 
 		nds = maxneeds(nds, plnds);
@@ -1477,7 +1477,7 @@ scan(exp *e, exp **at)
 
 	case make_callee_list_tag: {
 		exp cees = *e;
-		exp * par = &son(cees);
+		exp * par = &child(cees);
 		needs nds;
 		long stpar = 0;
 		int i;
@@ -1502,7 +1502,7 @@ scan(exp *e, exp **at)
 
 			n = n + shape_size(shonepar);
 			stpar = rounder(n, 32);
-			par = &bro(*par);
+			par = &next(*par);
 		}
 
 		no(cees) = stpar;
@@ -1511,7 +1511,7 @@ scan(exp *e, exp **at)
 
 	case make_dynamic_callee_tag: {
 		exp cees = *e;
-		exp *ptr = &son(cees);
+		exp *ptr = &child(cees);
 		needs ndsp;
 		needs nds;
 		nds = zeroneeds;
@@ -1527,12 +1527,12 @@ scan(exp *e, exp **at)
 			nds = ndsp;
 		}
 
-		ndsp = scan(&bro(son(*e)), at);
+		ndsp = scan(&next(child(*e)), at);
 		if (((ndsp.propneeds & hasproccall) != 0) ||
 		    ndsp.fixneeds + 2 > maxfix) {
-			cca(at, &bro(son(cees)));
+			cca(at, &next(child(cees)));
 			nds.propneeds |= usesproccall;
-			nds = maxneeds(shapeneeds(sh(bro(son(*e)))), nds);
+			nds = maxneeds(shapeneeds(sh(next(child(*e)))), nds);
 			nds.maxargs = MAX(nds.maxargs, ndsp.maxargs);
 		} else {
 			nds = maxneeds(ndsp, nds);
@@ -1558,7 +1558,7 @@ scan(exp *e, exp **at)
 		needs ndsp;
 		needs nds;
 
-		exp *fn = &son(*e);
+		exp *fn = &child(*e);
 		ndsp =  scan(fn, at);
 		if (((ndsp.propneeds & hasproccall) != 0) ||
 		    ndsp.fixneeds + 1 > maxfix) {
@@ -1573,22 +1573,22 @@ scan(exp *e, exp **at)
 		gen_call      = true;
 		has_tail_call = true;
 
-		ndsp = scan(&bro(son(*e)), at);
+		ndsp = scan(&next(child(*e)), at);
 		nds = maxneeds(nds, ndsp);
 
 		return nds;
 	}
 
 	case env_size_tag: {
-		exp *arg = &son(*e);
+		exp *arg = &child(*e);
 		return scan(arg, at);
 	}
 
 	case apply_tag: {
 		exp application = *(e);
-		exp fn = son(application);
-		exp *par = &bro(fn);
-		exp *fnexp = &son(*e);
+		exp fn = child(application);
+		exp *par = &next(fn);
+		exp *fnexp = &child(*e);
 		int parsize = 0;
 		needs nds;
 		bool tlrecpos = nonevis && callerfortr;
@@ -1607,12 +1607,12 @@ scan(exp *e, exp **at)
 			cca(at, fnexp);
 			nds.propneeds &= ~hasproccall;
 			nds.propneeds |= usesproccall;
-			fn = son(application);
-			par = &bro(fn);
+			fn = child(application);
+			par = &next(fn);
 		}
 
 		if (fn->tag != name_tag ||
-		    (son(son(fn)) != NULL && son(son(fn))->tag != proc_tag)) {
+		    (child(child(fn)) != NULL && child(child(fn))->tag != proc_tag)) {
 			tlrecpos = 0;
 		}
 
@@ -1652,7 +1652,7 @@ scan(exp *e, exp **at)
 				break;
 			}
 
-			par = &bro(*par);
+			par = &next(*par);
 		}
 
 		if (specialopt(fn)) {
@@ -1670,7 +1670,7 @@ scan(exp *e, exp **at)
 			exp dad = father(application);
 
 			if (dad->tag == res_tag) {
-				props(dad) = 1;	/* do a tl recursion */
+				dad->props = 1;	/* do a tl recursion */
 			}
 		}
 
@@ -1740,7 +1740,7 @@ scan(exp *e, exp **at)
 	case return_to_label_tag:
 #endif
 	{
-		exp *arg = &son(*e);
+		exp *arg = &child(*e);
 		return scan(arg, at);
 	}
 
@@ -1749,7 +1749,7 @@ scan(exp *e, exp **at)
 	case chfl_tag: {
 		needs nds;
 		exp *pste;
-		nds = scan(&son(*e), at);
+		nds = scan(&child(*e), at);
 		pste = ptr_position(ste);
 
 		if (!optop(*pste) && nds.fixneeds < 2) {
@@ -1759,9 +1759,9 @@ scan(exp *e, exp **at)
 		if ((has & HAS_LONG_DOUBLE)) {
 			exp op = *pste;
 			if (sh(op)->tag == doublehd ||
-			    sh(son(op))->tag == doublehd) {
-				if (!is_o(son(op)->tag) || (nds.propneeds & hasproccall)) {
-					cca(at, &son(op));
+			    sh(child(op))->tag == doublehd) {
+				if (!is_o(child(op)->tag) || (nds.propneeds & hasproccall)) {
+					cca(at, &child(op));
 				}
 				nds.propneeds |= hasproccall;
 			}
@@ -1771,7 +1771,7 @@ scan(exp *e, exp **at)
 	}
 
 	case bitf_to_int_tag: {
-		exp *arg = &son(*e);
+		exp *arg = &child(*e);
 		needs nds;
 		exp stararg;
 		exp stare;
@@ -1787,10 +1787,10 @@ scan(exp *e, exp **at)
 		      || (sizeb == 16 && (no(stararg) & 15) == 0)
 		      || (sizeb == 32 && (no(stararg) & 31) == 0))
 		    ) || (stararg->tag == cont_tag &&
-		          ((son(stararg)->tag != name_tag && son(stararg)->tag != reff_tag)
-		           || (sizeb == 8 && (no(son(stararg)) & 7) == 0)
-		           || (sizeb == 16 && (no(son(stararg)) & 15) == 0)
-		           || (sizeb == 32 && (no(son(stararg)) & 31) == 0))))
+		          ((child(stararg)->tag != name_tag && child(stararg)->tag != reff_tag)
+		           || (sizeb == 8 && (no(child(stararg)) & 7) == 0)
+		           || (sizeb == 16 && (no(child(stararg)) & 15) == 0)
+		           || (sizeb == 32 && (no(child(stararg)) & 31) == 0))))
 			/*
 			 * these bitsint(trimnof(X)) could be implemented by lb or lh
 			 * instructions ...
@@ -1804,7 +1804,7 @@ scan(exp *e, exp **at)
 			/* can use short loads instead of bits extractions */
 			if (stararg->tag == cont_tag) {
 				/* make the ptr shape consistent */
-				sh(son(stararg)) = f_pointer(long_to_al(shape_align(ns)));
+				sh(child(stararg)) = f_pointer(long_to_al(shape_align(ns)));
 			}
 
 			sh(stararg) = ns;
@@ -1815,7 +1815,7 @@ scan(exp *e, exp **at)
 	}
 
 	case int_to_bitf_tag: {
-		exp *arg = &son(*e);
+		exp *arg = &child(*e);
 		return scan(arg, at);
 	}
 
@@ -1824,7 +1824,7 @@ scan(exp *e, exp **at)
 		exp *arg;
 		exp *pste;
 		int rm = (int)round_number(*e);
-		arg = &son(*e);
+		arg = &child(*e);
 		s = scan(arg, at);
 		pste = ptr_position(ste);
 		s.fixneeds = MAX(s.fixneeds, 2);
@@ -1838,9 +1838,9 @@ scan(exp *e, exp **at)
 		if ((has & HAS_LONG_DOUBLE)) {
 			exp op = *pste;
 
-			if (sh(son(op))->tag == doublehd) {
-				if (!is_o(son(op)->tag) || (s.propneeds & hasproccall)) {
-					cca(at, &son(op));
+			if (sh(child(op))->tag == doublehd) {
+				if (!is_o(child(op)->tag) || (s.propneeds & hasproccall)) {
+					cca(at, &child(op));
 				}
 
 				s.propneeds |= hasproccall;
@@ -1853,8 +1853,8 @@ scan(exp *e, exp **at)
 	case shl_tag:
 	case shr_tag:
 	case long_jump_tag: {
-		exp *lhs = &son(*e);
-		exp *rhs = &bro(*lhs);
+		exp *lhs = &child(*e);
+		exp *rhs = &next(*lhs);
 		needs nl, nr;
 		prop prps;
 
@@ -1864,7 +1864,7 @@ scan(exp *e, exp **at)
 
 		nr = scan(rhs, at);
 		nl = scan(lhs, at);
-		rhs = &bro(*lhs);
+		rhs = &next(*lhs);
 		prps = (nr.propneeds & hasproccall) << 1;
 
 		/* if reg requirements overlap, identify second operand */
@@ -1882,52 +1882,52 @@ scan(exp *e, exp **at)
 
 	case test_tag: {
 		exp stare = *e;
-		exp l = son(stare);
-		exp r = bro(l);
+		exp l = child(stare);
+		exp r = next(l);
 
 		/* same test following in seq list - remove second test */
-		if (!stare->last && bro(stare)->tag == test_tag &&
-		    no(stare) == no(bro(stare)) &&
-		    test_number(stare) == test_number(bro(stare)) &&
-		    eq_exp(l, son(bro(stare))) && eq_exp(r, bro(son(bro(stare)))))
+		if (!stare->last && next(stare)->tag == test_tag &&
+		    no(stare) == no(next(stare)) &&
+		    test_number(stare) == test_number(next(stare)) &&
+		    eq_exp(l, child(next(stare))) && eq_exp(r, next(child(next(stare)))))
 		{
-			if (bro(stare)->last) {
+			if (next(stare)->last) {
 				stare->last = true;
 			}
 
-			bro(stare) = bro(bro(stare));
+			next(stare) = next(next(stare));
 		}
 
 		/* same test following in seq res - void second test */
-		if (stare->last && bro(stare)->tag == 0	/* seq holder */
-		    && bro(bro(stare))->tag == test_tag &&
-		    bro(bro(bro(stare)))->tag == seq_tag &&
-		    no(stare) == no(bro(bro(stare))) &&
-		    test_number(stare) == test_number(bro(bro(stare))) &&
-		    eq_exp(l, son(bro(bro(stare))))
-		    && eq_exp(r, bro(son(bro(bro(stare))))))
+		if (stare->last && next(stare)->tag == 0	/* seq holder */
+		    && next(next(stare))->tag == test_tag &&
+		    next(next(next(stare)))->tag == seq_tag &&
+		    no(stare) == no(next(next(stare))) &&
+		    test_number(stare) == test_number(next(next(stare))) &&
+		    eq_exp(l, child(next(next(stare))))
+		    && eq_exp(r, next(child(next(next(stare))))))
 		{
-			bro(bro(stare))->tag = top_tag;
-			son(bro(bro(stare))) = NULL;
-			pt(bro(bro(stare))) = NULL;
+			next(next(stare))->tag = top_tag;
+			child(next(next(stare))) = NULL;
+			pt(next(next(stare))) = NULL;
 		}
 
 		/* commute  const = x */
-		if (l->tag == val_tag && (props(stare) == 5 || props(stare) == 6)) {
-			bro(l) = stare;
+		if (l->tag == val_tag && (stare->props == 5 || stare->props == 6)) {
+			next(l) = stare;
 			l->last = true;
-			bro(r) = l;
+			next(r) = l;
 			r->last = false;
-			son(stare) = r;
+			child(stare) = r;
 
 			r = l;
-			l = son(stare);
+			l = child(stare);
 		}
 
 		/* equality of bits against +ve consts doesnt need sign adjustment */
 		if (l->tag == bitf_to_int_tag && r->tag == val_tag &&
-		    (props(stare) == 5 || props(stare) == 6) &&
-		    (son(l)->tag == cont_tag || son(l)->tag == name_tag))
+		    (stare->props == 5 || stare->props == 6) &&
+		    (child(l)->tag == cont_tag || child(l)->tag == name_tag))
 		{
 			long n = no(r);
 
@@ -1952,13 +1952,13 @@ scan(exp *e, exp **at)
 		} else if (is_floating(sh(l)->tag)) {
 			return fpop(e, at);
 		} else if (r->tag == val_tag && no(r) == 1
-		           && (props(stare) == 3 || props(stare) == 2)) {
+		           && (stare->props == 3 || stare->props == 2)) {
 			no(r) = 0;
 
-			if (props(stare) == 3) {
-				props(stare) = 4;	/* branch >=1 -> branch > 0 */
+			if (stare->props == 3) {
+				stare->props = 4;	/* branch >=1 -> branch > 0 */
 			} else {
-				props(stare) = 1;	/* branch <1 -> branch <= 0 */
+				stare->props = 1;	/* branch <1 -> branch <= 0 */
 			}
 		}
 
@@ -1968,7 +1968,7 @@ scan(exp *e, exp **at)
 	case plus_tag: {
 		/* replace any operands which are neg(..) by -, if poss */
 		exp sum = *e;
-		exp list = son(sum);
+		exp list = child(sum);
 		bool someneg = 0;
 		bool allneg = 1;
 
@@ -1983,7 +1983,7 @@ scan(exp *e, exp **at)
 				break;
 			}
 
-			list = bro(list);
+			list = next(list);
 		}
 
 		asm_comment("scan case plus_tag,addptr_tag: allneg=%d someneg=%d", allneg, someneg);
@@ -1998,24 +1998,24 @@ scan(exp *e, exp **at)
 				 * Build a new list form operand of neg_tags, which will
 				 * become plus_tag operands.
 				 */
-				x = son(sum);
-				list = son(x);
+				x = child(sum);
+				list = child(x);
 				for (;;) {
 					/*
 					 * 'x' moves along neg_tag's lists
-					 * 'list' moves along sons of neg_tag's lists, building a new list
-					 * eventually new list is made son of plus_tag
+					 * 'list' moves along children of neg_tag's lists, building a new list
+					 * eventually new list is made child of plus_tag
 					 */
 
-					bro(list) = son(bro(x));
+					next(list) = child(next(x));
 					if (!x->last) {
 						list->last = false;
-						list = bro(list);
-						x = bro(x);
+						list = next(list);
+						x = next(x);
 					} else {
 						list->last = true;
-						bro(list) = sum;		/* set father to be */
-						son(sum)  = son(son(sum)); /* set new sons of plus_tag */
+						next(list) = sum;		/* set father to be */
+						child(sum)  = child(child(sum)); /* set new children of plus_tag */
 						break;
 					}
 				}
@@ -2024,34 +2024,34 @@ scan(exp *e, exp **at)
 				 * create new neg_tag to replace plus_tag,
 				 * old plus_tag being the operand of the new neg_tag.
 				 */
-				x = getexp(sh(sum), bro(sum), sum->last, sum, NULL,
+				x = getexp(sh(sum), next(sum), sum->last, sum, NULL,
 				           0, 0, neg_tag);
 
 				sum->last = true;
 
 				/* set father of sum, new neg_tag exp */
-				bro(sum) = x;
+				next(sum) = x;
 
 				*e = x;
 			}			/* end allneg */
 			else {
 				/* transform to  ((..(..+..) - ..) -..) */
 				int n = 0;
-				exp brosum = bro(sum);
+				exp nextsum = next(sum);
 				bool lastsum = sum->last;
-				exp x = son(sum);
+				exp x = child(sum);
 				exp newsum = sum;
 
 				list = NULL;
 				for (;;) {
-					exp nxt = bro(x);
+					exp nxt = next(x);
 					bool final = x->last;
 
 					if (x->tag == neg_tag) {
-						bro(son(x)) = list;
-						list = son(x);
+						next(child(x)) = list;
+						list = child(x);
 					} else {
-						bro(x) = newsum;
+						next(x) = newsum;
 						newsum = x;
 						if ((n++) == 0) {
 							newsum->last = true;
@@ -2068,19 +2068,19 @@ scan(exp *e, exp **at)
 				}
 
 				if (n > 1) {
-					son(sum) = newsum;
+					child(sum) = newsum;
 					newsum = sum;	/* use existing exp for add operations */
 				}
 
 				for (;;) {
 					/* introduce - operations */
-					exp nxt = bro(list);
+					exp nxt = next(list);
 
-					bro(newsum) = list;
+					next(newsum) = list;
 					newsum->last = false;
 					x = getexp(sh(sum), NULL, 0, newsum, NULL, 0, 0, minus_tag);
 
-					bro(list) = x;
+					next(list) = x;
 					list->last = true;
 					newsum = x;
 
@@ -2089,7 +2089,7 @@ scan(exp *e, exp **at)
 					}
 				}
 
-				bro(newsum) = brosum;
+				next(newsum) = nextsum;
 				if (lastsum) {
 					newsum->last = true;
 				} else {
@@ -2112,8 +2112,8 @@ scan(exp *e, exp **at)
 		return likeplus(e, at);
 
 	case addptr_tag: {
-		exp p = son(*e);
-		exp d = bro(p);
+		exp p = child(*e);
+		exp d = next(p);
 		int fal = frame_al_of_ptr(sh(p));
 
 		if (fal != 0) {
@@ -2129,9 +2129,9 @@ scan(exp *e, exp **at)
 				/* oal = callees and callers are offset relative to
 				FP when there are variable callees */
 				exp ne = getexp(sh(p), d, 0, p, NULL, 0, 0, locptr_tag);
-				bro(p) = ne;
+				next(p) = ne;
 				p->last = true;
-				son(*e) = ne;
+				child(*e) = ne;
 			}
 		}
 
@@ -2148,7 +2148,7 @@ scan(exp *e, exp **at)
 	case offset_pad_tag:
 	case locptr_tag:
 	case chvar_tag: {
-		exp *arg = &son(*e);
+		exp *arg = &child(*e);
 		exp *pste;
 
 		needs nds;
@@ -2168,7 +2168,7 @@ scan(exp *e, exp **at)
 
 	case cont_tag:
 	case contvol_tag: {
-		exp *arg = &son(*e);
+		exp *arg = &child(*e);
 		needs nds;
 
 		nds = maxneeds(scan(arg, at), shapeneeds(sh(*(e))));
@@ -2184,14 +2184,14 @@ mult_tag_case:
 
 	case offset_mult_tag:
 	case offset_div_tag: {
-		exp op2 = bro(son(*e));
+		exp op2 = next(child(*e));
 		shape s = sh(op2);
 
 		if (op2->tag == val_tag && no(op2) == 8 &&
 		    s->tag == offsethd && al2(s) >= 8) {
 			/* offset is one byte */
-			exp op1 = son(*e);
-			bro(op1) = bro(*e);
+			exp op1 = child(*e);
+			next(op1) = next(*e);
 			if ((*e)->last) {
 				op1->last = true;
 			} else {
@@ -2210,15 +2210,15 @@ mult_tag_case:
 
 #if 0
 	case offset_div_tag: {
-		exp op1 = son(*e);
-		exp op2 = bro(op1);
+		exp op1 = child(*e);
+		exp op2 = next(op1);
 		shape s = sh(op2);
 
 		if (op2->tag == val_tag  && s->tag == offsethd && al2(s) >= 8) {
 			int n = no(op2) / 8;
 			if (n == 1) {
 				/* offset is one  byte */
-				bro(op1) = bro(*e);
+				next(op1) = next(*e);
 				if ((*e)->last) {
 					op1->last = true;
 				} else {
@@ -2230,12 +2230,12 @@ mult_tag_case:
 				return scan(e, at);
 			} else if (*e->tag == offset_mult_tag && n > 1 && (n & (n - 1)) == 0)
 				if (op1->tag == and_tag
-				    && son(op1)->tag == shr_tag &&
-				    bro(son(op1))->tag == val_tag) {
-					exp shexp = son(op1);
-					exp ac = bro(shexp);
-					exp shop1 = son(shexp);
-					exp shop2 = bro(shop1);
+				    && child(op1)->tag == shr_tag &&
+				    next(child(op1))->tag == val_tag) {
+					exp shexp = child(op1);
+					exp ac = next(shexp);
+					exp shop1 = child(shexp);
+					exp shop2 = next(shop1);
 					int na = no(ac);
 
 					if ((na & (na + 1)) == 0 && shop2->tag == val_tag) {
@@ -2254,7 +2254,7 @@ mult_tag_case:
 							     */
 							no(shop2) = ns - pn;
 							no(ac) = na * n;
-							bro(op1) = bro(*e);
+							next(op1) = next(*e);
 
 							if ((*e)->last) {
 								op1->last = true;
@@ -2269,7 +2269,7 @@ mult_tag_case:
 				} else {
 					/* will do this by literal shift */
 					no(op2) = n;
-					return scan(&son(*e), at);
+					return scan(&child(*e), at);
 				}
 		}
 
@@ -2285,12 +2285,12 @@ mult_tag_case:
 		return divneeds(e, at);
 
 	case offset_add_tag:
-		if ((al2(sh(son(*e))) == 1) && (al2(sh(bro(son(*e)))) != 1)) {
-			make_bitfield_offset(bro(son(*e)), son(*e), 0, sh(*e));
+		if ((al2(sh(child(*e))) == 1) && (al2(sh(next(child(*e)))) != 1)) {
+			make_bitfield_offset(next(child(*e)), child(*e), 0, sh(*e));
 		}
 
-		if ((al2(sh(son(*e))) != 1) && (al2(sh(bro(son(*e)))) == 1)) {
-			make_bitfield_offset(son(*e), *e, 1, sh(*e));
+		if ((al2(sh(child(*e))) != 1) && (al2(sh(next(child(*e)))) == 1)) {
+			make_bitfield_offset(child(*e), *e, 1, sh(*e));
 		}
 
 	case offset_subtract_tag:
@@ -2339,7 +2339,7 @@ mult_tag_case:
 #if 0
 	{
 		exp z = *e;
-		exp a2 = bro(son(z));
+		exp a2 = next(child(z));
 
 		if (a2->tag == real_tag) {	/* replace X/const by X*const^-1 */
 			flt inverse;
@@ -2364,7 +2364,7 @@ mult_tag_case:
 	case fminus_tag:
 	case fmult_tag: {
 		exp op = *e;
-		exp a2 = bro(son(op));
+		exp a2 = next(child(op));
 
 		/*
 		 * + and * can have >2 parameters - make them diadic - can do better
@@ -2374,19 +2374,19 @@ mult_tag_case:
 			exp opn = getexp(sh(op), op, 0, a2, NULL, 0, 0, op->tag);
 
 			/* dont need to transfer error treatment - nans */
-			exp nd = getexp(sh(op), bro(op), op->last, opn, NULL, 0, 1, ident_tag);
+			exp nd = getexp(sh(op), next(op), op->last, opn, NULL, 0, 1, ident_tag);
 			exp id = getexp(sh(op), op, 1, nd, NULL, 0, 0, name_tag);
 
 			pt(nd) = id;
-			bro(son(op)) = id;
+			next(child(op)) = id;
 			op->last = true;
-			bro(op) = nd;
+			next(op) = nd;
 
 			while (!a2->last) {
-				a2 = bro(a2);
+				a2 = next(a2);
 			}
 
-			bro(a2) = opn;
+			next(a2) = opn;
 			*e = nd;
 
 			return scan(e, at);
@@ -2397,18 +2397,18 @@ mult_tag_case:
 
 	case field_tag: {
 		needs str;
-		exp *arg = &son(*e);
+		exp *arg = &child(*e);
 
 		/* field has been distributed */
 		if (chase(*e, arg)) {
 			exp stare = *e;
-			exp ss = son(stare);
+			exp ss = child(stare);
 
 			if (!stare->last) {
 				ss->last = false;
 			}
 
-			bro(ss) = bro(stare);
+			next(ss) = next(stare);
 			sh(ss) = sh(stare);
 			*e = ss;
 
@@ -2444,7 +2444,7 @@ mult_tag_case:
 		fixparam = ARG0;
 		nonevis = true;
 
-		bexp = &son(*e);
+		bexp = &child(*e);
 		bat = bexp;
 		body = scan(bexp, &bat);
 		/* scan the body of the proc */
@@ -2462,7 +2462,7 @@ mult_tag_case:
 		needs nds;
 
 		cpr->Has_checkalloc = checkalloc(*e);
-		nds = scan(&son(*e), at);
+		nds = scan(&child(*e), at);
 		if (nds.fixneeds < 2) {
 			nds.fixneeds = 2;
 		}
@@ -2472,9 +2472,9 @@ mult_tag_case:
 	}
 
 	case movecont_tag: {
-		exp *d  = &son(*e);
-		exp *s  = &bro(*d);
-		exp *sz = &bro(*s);
+		exp *d  = &child(*e);
+		exp *s  = &next(*d);
+		exp *sz = &next(*s);
 
 		needs nd;
 		needs ns;

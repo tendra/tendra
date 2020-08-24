@@ -192,10 +192,10 @@
 
 #define CHECK_labelled\
 	node *sh = starter->shape ;\
-	node *place = places->son ;\
+	node *place = places->child ;\
 	while (place) {\
 	    sh = lub(sh, place->shape);\
-	    place = place->bro ;\
+	    place = place->next ;\
 	}\
 	exp->shape = normalize(sh);
 

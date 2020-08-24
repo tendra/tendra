@@ -34,13 +34,13 @@ label_is_next(exp lab, exp e)
 		return 0;
 	}
 	while (e->last) {
-		e = bro(e);
+		e = next(e);
 		if (e == NULL || e->tag >= ass_tag || sh(e)->tag != bothd) {
 			return 0;
 		}
 	}
-	if (bro(e)->tag == labst_tag) {
-		return bro(e) == lab;
+	if (next(e)->tag == labst_tag) {
+		return next(e) == lab;
 	}
 	return 0;
 }
@@ -61,10 +61,10 @@ static exp
 down(exp e)
 {
 	if (e->tag == seq_tag) {
-		return down(son(son(e)));
+		return down(child(child(e)));
 	}
 	if (e->tag == cond_tag) {
-		return down(son(e));
+		return down(child(e));
 	}
 	return e;
 }
@@ -83,12 +83,12 @@ next_jump(exp e)
 
 	do {
 		while (e->last) {
-			e = bro(e);
+			e = next(e);
 			if (e == NULL || e->tag >= goto_tag) {
 				return NULL;
 			}
 		}
-		e = bro(e);
+		e = next(e);
 	} while (e->tag == labst_tag && (e = father(e), e->tag !=rep_tag));
 
 	if (is_jumper(e)) {
@@ -116,12 +116,12 @@ short_next_jump(exp e)
 	}
 
 	while (e->last) {
-		e = bro(e);
+		e = next(e);
 		if (e == NULL || e->tag >= cond_tag) {
 			return NULL;
 		}
 	}
-	e = bro(e);
+	e = next(e);
 
 	if (is_jumper(e)) {
 		return e;
@@ -139,7 +139,7 @@ short_next_jump(exp e)
 static exp
 jump_dest(exp lab)
 {
-	return next_jump(son(lab));
+	return next_jump(child(lab));
 }
 
 
@@ -175,7 +175,7 @@ static int
 subsumes(exp a, exp b)
 {
 	if (a->tag == b->tag && test_number(a) == test_number(b) &&
-	    eq_exp(son(a), son(b)) && eq_exp(bro(son(a)), bro(son(b)))) {
+	    eq_exp(child(a), child(b)) && eq_exp(next(child(a)), next(child(b)))) {
 		return 1;
 	}
 	return 0;

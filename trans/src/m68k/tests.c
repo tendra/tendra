@@ -42,7 +42,7 @@ regable(exp e)
 		return 0;
 	}
 
-	sha = sh(son(e));
+	sha = sh(child(e));
 	n = sha->tag;
 	if (n == realhd || n == doublehd) {
 		return 1;
@@ -63,7 +63,7 @@ no_side(exp e)
 {
 	int n = e->tag;
 	if (n == ident_tag) {
-		return no_side(son(e)) && (no_side(bro(son(e))));
+		return no_side(child(e)) && (no_side(next(child(e))));
 	}
 	return is_a(n) || n == test_tag || n == ass_tag || n == testbit_tag;
 }
@@ -86,7 +86,7 @@ push_arg(exp e)
 		return reg_result(sh(e));
 	}
 	if (n == ident_tag) {
-		return push_arg(son(e)) && push_arg(bro(son(e)));
+		return push_arg(child(e)) && push_arg(next(child(e)));
 	}
 	return 0;
 }
@@ -108,7 +108,7 @@ is_ptr_void(shape sha)
 {
 	bool go;
 	int ptrs = 0;
-	exp t = son(sha);
+	exp t = child(sha);
 	if (t == NULL) {
 		return 0;
 	}
@@ -118,7 +118,7 @@ is_ptr_void(shape sha)
 			return 0;
 		}
 		ptrs++;
-		t = bro(t);
+		t = next(t);
 	} while (go);
 	if (ptrs < PTR_VOID_MIN) {
 		return 0;
@@ -212,8 +212,8 @@ is_worth(exp c)
 	unsigned char cnam = c->tag;
 	return (!is_o(cnam) && cnam != clear_tag) ||
 		/* ignore simple things unless ... */
-		(cnam == cont_tag && son(c)->tag == cont_tag &&
-		 son(son(c))->tag == name_tag) ||
-		(cnam == name_tag && isparam(son(c)) && !isvar(son(c)) &&
+		(cnam == cont_tag && child(c)->tag == cont_tag &&
+		 child(child(c))->tag == name_tag) ||
+		(cnam == name_tag && isparam(child(c)) && !isvar(child(c)) &&
 		 shape_size(sh(c)) <= 32 && sh(c)->tag != shrealhd);
 }

@@ -110,29 +110,29 @@ evalexp(exp e)
 	}
 
 	case env_size_tag: {
-		exp tag = son(son(e));
-		procrec *pr = &procrecs[no(son(tag))];
+		exp tag = child(child(e));
+		procrec *pr = &procrecs[no(child(tag))];
 		return ((pr->frame_size) >> 3) + pr->max_callee_bytes;
 	}
 
-	case offset_add_tag:        return evalexp(son(e)) + evalexp(bro(son(e)));
-	case offset_max_tag:        return MAX(evalexp(son(e)), evalexp(bro(son(e))));
-	case offset_pad_tag:        return rounder(evalexp(son(e)), shape_align(sh(e)));
-	case offset_mult_tag:       return evalexp(son(e)) * evalexp(bro(son(e)));
+	case offset_add_tag:        return evalexp(child(e)) + evalexp(next(child(e)));
+	case offset_max_tag:        return MAX(evalexp(child(e)), evalexp(next(child(e))));
+	case offset_pad_tag:        return rounder(evalexp(child(e)), shape_align(sh(e)));
+	case offset_mult_tag:       return evalexp(child(e)) * evalexp(next(child(e)));
 	case offset_div_tag:
-	case offset_div_by_int_tag: return evalexp(son(e)) / evalexp(bro(son(e)));
-	case offset_subtract_tag:   return evalexp(son(e)) - evalexp(bro(son(e)));
-	case offset_negate_tag:     return -evalexp(son(e));
+	case offset_div_by_int_tag: return evalexp(child(e)) / evalexp(next(child(e)));
+	case offset_subtract_tag:   return evalexp(child(e)) - evalexp(next(child(e)));
+	case offset_negate_tag:     return -evalexp(child(e));
 
 	case chvar_tag:
-		return correct_shape(evalexp(son(e)), sh(e)->tag);
+		return correct_shape(evalexp(child(e)), sh(e)->tag);
 
 	case bitf_to_int_tag:
-		return evalexp(son(e));
+		return evalexp(child(e));
 
 	case int_to_bitf_tag: {
 		ash a;
-		unsigned long w = evalexp(son(e));
+		unsigned long w = evalexp(child(e));
 
 		a = ashof(sh(e));
 		if (a.ashalign != 1) {
@@ -144,33 +144,33 @@ evalexp(exp e)
 		return w;
 	}
 
-	case not_tag: return correct_shape(~evalexp(son(e)), sh(e)->tag);
-	case and_tag: return evalexp(son(e)) & evalexp(bro(son(e)));
-	case or_tag:  return evalexp(son(e)) | evalexp(bro(son(e)));
-	case xor_tag: return evalexp(son(e)) ^ evalexp(bro(son(e)));
+	case not_tag: return correct_shape(~evalexp(child(e)), sh(e)->tag);
+	case and_tag: return evalexp(child(e)) & evalexp(next(child(e)));
+	case or_tag:  return evalexp(child(e)) | evalexp(next(child(e)));
+	case xor_tag: return evalexp(child(e)) ^ evalexp(next(child(e)));
 
 	case shr_tag: {
 		bool sgned = is_signed(sh(e));
 		long sl;
 		unsigned long ul;
 		if (sgned) {
-			sl = (long)correct_shape(evalexp(son(e)), sh(e)->tag);
-			return sl >> evalexp(bro(son(e)));
+			sl = (long)correct_shape(evalexp(child(e)), sh(e)->tag);
+			return sl >> evalexp(next(child(e)));
 		} else {
-			ul = (unsigned long)correct_shape(evalexp(son(e)), sh(e)->tag);
-			return ul >> evalexp(bro(son(e)));
+			ul = (unsigned long)correct_shape(evalexp(child(e)), sh(e)->tag);
+			return ul >> evalexp(next(child(e)));
 		}
 	}
 
 	case shl_tag:
-		return correct_shape(evalexp(son(e)) << evalexp(bro(son(e))), sh(e)->tag);
+		return correct_shape(evalexp(child(e)) << evalexp(next(child(e))), sh(e)->tag);
 
 	case concatnof_tag: {
-		unsigned long w_lhs = evalexp(son(e));
-		unsigned long w_rhs = evalexp(bro(son(e)));
+		unsigned long w_lhs = evalexp(child(e));
+		unsigned long w_rhs = evalexp(next(child(e)));
 		ash ash_lhs, ash_rhs;
-		ash_lhs = ashof(sh(son(e)));
-		ash_rhs = ashof(sh(bro(son(e))));
+		ash_lhs = ashof(sh(child(e)));
+		ash_rhs = ashof(sh(next(child(e))));
 
 		assert(ash_lhs.ashalign == 1 && ash_lhs.ashsize <= 32);
 		assert(ash_rhs.ashalign == 1 && ash_rhs.ashsize <= 32);
@@ -203,7 +203,7 @@ evalexp(exp e)
 
 	case env_offset_tag:
 	case general_env_offset_tag:
-		return frame_offset(son(e));
+		return frame_offset(child(e));
 
 	default:
 		asm_comment("tag not in evalexp: %d", e->tag);
@@ -370,8 +370,8 @@ evalconcbitaux(exp e, concbittype before)
 	case concatnof_tag: {
 		concbittype lhs, rhs;
 
-		lhs = evalconcbitaux(son(e), before);
-		rhs = evalconcbitaux(bro(son(e)), lhs);
+		lhs = evalconcbitaux(child(e), before);
+		rhs = evalconcbitaux(next(child(e)), lhs);
 
 		return rhs;
 	}
@@ -431,7 +431,7 @@ evalone(exp e, int bitposn)
 	/* generate data initialiser for e */
 	switch (e->tag) {
 	case string_tag: {
-		long char_size = props(e);	/* bits width of each output char */
+		long char_size = e->props;	/* bits width of each output char */
 		long strsize = shape_size(sh(e)) / char_size;
 		unsigned char *st = (unsigned char *) nostr(e);
 		int i;
@@ -573,10 +573,10 @@ evalone(exp e, int bitposn)
 	}
 
 	case name_tag: {
-		dec *globdec = brog(son(e));
+		dec *globdec = nextg(child(e));
 		char *name = globdec->name;
 
-		assert(isglob(son(e)));
+		assert(isglob(child(e)));
 
 		/* no() is offset */
 		if (no(e) == 0) {
@@ -594,8 +594,8 @@ evalone(exp e, int bitposn)
 		 * when tuples were without specified offsets for each field.
 		 * Really, this code should be totally rewritten.
 		 */
-		exp off = son(e);
-		exp tup = bro(off);
+		exp off = child(e);
+		exp tup = next(off);
 		ash tupa;
 		concbittype remainderbits;
 		long last_offset = 0;
@@ -666,9 +666,9 @@ evalone(exp e, int bitposn)
 				return;
 			}
 
-			off = bro(bro(off));
+			off = next(next(off));
 			assert(!off->last);
-			tup = bro(off);
+			tup = next(off);
 
 			tupa = ashof(sh(tup));
 		}
@@ -677,14 +677,14 @@ evalone(exp e, int bitposn)
 	}
 
 	case nof_tag: {
-		exp s = son(e);
+		exp s = child(e);
 
 		for (;;) {
 			evalone(s, bitposn);
 			if (s->last) {
 				return;
 			}
-			s = bro(s);
+			s = next(s);
 		}
 
 		UNREACHED;
@@ -698,12 +698,12 @@ evalone(exp e, int bitposn)
 
 		asm_comment("ncopies_tag: n=%d", n);
 
-		while (son(e)->tag == ncopies_tag) {
-			e = son(e);
+		while (child(e)->tag == ncopies_tag) {
+			e = child(e);
 			n *= no(e);
 		}
 
-		e = son(e);
+		e = child(e);
 		copya = ashof(sh(e));
 		if (copya.ashalign != 0) {
 			bitsize = (copya.ashsize / copya.ashalign) * copya.ashalign;
@@ -729,16 +729,16 @@ evalone(exp e, int bitposn)
 		} else {
 			ash a;
 
-			a = ashof(sh(son(e)));
-			evalone(son(e), bitposn);
+			a = ashof(sh(child(e)));
+			evalone(child(e), bitposn);
 			bitposn += a.ashsize;
 
-			a = ashof(sh(bro(son(e))));
+			a = ashof(sh(next(child(e))));
 			if (a.ashalign != 0) {
 				bitposn = (bitposn / a.ashalign) * a.ashalign;
 			}
 
-			evalone(bro(son(e)), bitposn);
+			evalone(next(child(e)), bitposn);
 		}
 
 		return;
@@ -776,13 +776,13 @@ evalone(exp e, int bitposn)
 		return;
 
 	case minptr_tag: {
-		exp p1 = son(e);
-		exp p2 = bro(p1);
+		exp p1 = child(e);
+		exp p2 = next(p1);
 
 		if (p1->tag == name_tag && p2->tag == name_tag) {
 			long n = no(p1) - no(p2);
-			char *n1 = brog(son(p1))->name;
-			char *n2 = brog(son(p2))->name;
+			char *n1 = nextg(child(p1))->name;
+			char *n2 = nextg(child(p2))->name;
 			asm_printf("\t.long\t(%s-%s)", n1, n2);
 			if (n < 0) {
 				asm_printf("%ld", n);

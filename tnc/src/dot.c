@@ -143,7 +143,7 @@ node_argcount(const node *p)
 
 	i = 0;
 
-	for (q = p; q != NULL; q = q->bro) {
+	for (q = p; q != NULL; q = q->next) {
 		i++;
 	}
 
@@ -161,7 +161,7 @@ node_label(const node *p, const char *fmt, ...)
 
 	s = p->cons->sortnum;
 
-	argcount = node_argcount(p->son);
+	argcount = node_argcount(p->child);
 
 	IGNORE fprintf(output, "\t\t\t\"%p\" [ shape = Mrecord, ", (void *) p);
 
@@ -197,7 +197,7 @@ node_label(const node *p, const char *fmt, ...)
 
 		IGNORE fprintf(output, "|{args:|");
 
-		for (i = 0, arg = p->son; i < argcount - 1; i++, arg = arg->bro) {
+		for (i = 0, arg = p->child; i < argcount - 1; i++, arg = arg->next) {
 			assert(arg != NULL);
 
 			IGNORE fprintf(output, "<%u> ", i);
@@ -206,7 +206,7 @@ node_label(const node *p, const char *fmt, ...)
 			if (fold_tncsorts) {
 				switch (arg->cons->sortnum) {
 				case SORT_option:
-					fprintf(output, "%s", arg->son == NULL ? "-" : "opt");
+					fprintf(output, "%s", arg->child == NULL ? "-" : "opt");
 					break;
 
 				case SORT_tdfbool: {
@@ -279,7 +279,7 @@ print_node(const char *prefix, void *root, const char *port, node *p)
 {
 	unsigned arg;
 
-	for (arg = 0; p != NULL; p = p->bro, arg++) {
+	for (arg = 0; p != NULL; p = p->next, arg++) {
 		construct *q = p->cons;
 		sortname s = q->sortnum;
 		long m = q->encoding;
@@ -292,7 +292,7 @@ print_node(const char *prefix, void *root, const char *port, node *p)
 				continue;
 
 			case SORT_option:
-				if (p->son == NULL) {
+				if (p->child == NULL) {
 					continue;
 				}
 				break;
@@ -321,13 +321,13 @@ print_node(const char *prefix, void *root, const char *port, node *p)
 		case SORT_bytestream:
 			/* Print a bytestream */
 			node_label(p, NULL);
-			print_node("", p, NULL, p->son);
+			print_node("", p, NULL, p->child);
 			break;
 
 		case SORT_completion:
 			/* Print a completion */
 			node_label(p, NULL);
-			print_node("", p, NULL, p->son);
+			print_node("", p, NULL, p->child);
 			break;
 
 		case SORT_small_tdfint:
@@ -361,7 +361,7 @@ print_node(const char *prefix, void *root, const char *port, node *p)
 			}
 			{
 				node_label(p, NULL);
-				print_node("", p, NULL, p->son);
+				print_node("", p, NULL, p->child);
 			}
 			break;
 
@@ -370,7 +370,7 @@ print_node(const char *prefix, void *root, const char *port, node *p)
 			{
 				node_label(p, "%ld", m);
 				if (m != 0) {
-					print_node("", p, NULL, p->son);
+					print_node("", p, NULL, p->child);
 				}
 			}
 			break;
@@ -381,7 +381,7 @@ print_node(const char *prefix, void *root, const char *port, node *p)
 				int n = (int) m;
 				if (n == -1) {
 					node_label(p, "%s", MAKE_STRING);
-					print_node("", p, NULL, p->son);
+					print_node("", p, NULL, p->child);
 				} else {
 					node_label(p, "%s", "TODO");
 /* TODO:
@@ -425,7 +425,7 @@ print_node(const char *prefix, void *root, const char *port, node *p)
 				goto default_label;
 			}
 			node_label(p, NULL);
-			print_node("", p, NULL, p->son);
+			print_node("", p, NULL, p->child);
 			break;
 
 		case SORT_signed_nat:
@@ -434,7 +434,7 @@ print_node(const char *prefix, void *root, const char *port, node *p)
 				goto default_label;
 			}
 			node_label(p, NULL);
-			print_node("", p, NULL, p->son);
+			print_node("", p, NULL, p->child);
 			break;
 
 		case SORT_string:
@@ -444,37 +444,37 @@ print_node(const char *prefix, void *root, const char *port, node *p)
 			}
 
 			node_label(p, NULL);
-			print_node("", p, NULL, p->son);
+			print_node("", p, NULL, p->child);
 			break;
 
 		case SORT_al_tag:
 			/* Print an alignment tag */
-			if (verbose || m != ENC_make_al_tag || p->son == NULL) {
+			if (verbose || m != ENC_make_al_tag || p->child == NULL) {
 				goto default_label;
 			}
 
 			node_label(p, NULL);
-			print_node("", p, NULL, p->son);
+			print_node("", p, NULL, p->child);
 			break;
 
 		case SORT_label:
 			/* Print a label */
-			if (verbose || m != ENC_make_label || p->son == NULL) {
+			if (verbose || m != ENC_make_label || p->child == NULL) {
 				goto default_label;
 			}
 
 			node_label(p, NULL);
-			print_node("", p, NULL, p->son);
+			print_node("", p, NULL, p->child);
 			break;
 
 		case SORT_tag:
 			/* Print a tag */
-			if (verbose || m != ENC_make_tag || p->son == NULL) {
+			if (verbose || m != ENC_make_tag || p->child == NULL) {
 				goto default_label;
 			}
 
 			node_label(p, NULL);
-			print_node("", p, NULL, p->son);
+			print_node("", p, NULL, p->child);
 			break;
 
 		case SORT_exp:
@@ -488,14 +488,14 @@ print_node(const char *prefix, void *root, const char *port, node *p)
 					node *z = new_node();
 
 					z->cons = &exp_shape;
-					z->bro = p->bro;
-					z->son = p;
+					z->next = p->next;
+					z->child = p;
 
 					if (p->shape) {
-						z->son->bro = copy_node(p->shape);
+						z->child->next = copy_node(p->shape);
 					} else {
-						z->son->bro = new_node();
-						z->son->bro->cons = &unknown_cons;
+						z->child->next = new_node();
+						z->child->next->cons = &unknown_cons;
 					}
 
 					p->shape = &special_node;
@@ -510,14 +510,14 @@ print_node(const char *prefix, void *root, const char *port, node *p)
 		default:
 default_label:
 			/* Print a simple sort */
-			if (!verbose && m == sort_tokens[s] && p->son &&
-			    p->son->cons->sortnum == SORT_token) {
+			if (!verbose && m == sort_tokens[s] && p->child &&
+			    p->child->cons->sortnum == SORT_token) {
 				node_label(p, NULL);
-				print_node("", p, NULL, p->son);
+				print_node("", p, NULL, p->child);
 			} else {
-				if (p->son) {
+				if (p->child) {
 					node_label(p, NULL);
-					print_node("", p, NULL, p->son);
+					print_node("", p, NULL, p->child);
 				} else {
 					node_label(p, "%s", q->name);
 /* XXX:
@@ -549,8 +549,8 @@ print_name(char *title, construct *p, int dec)
 
 	if (p->ename && p->ename->cons->encoding && dec) {
 		char *f = "\n  %s (\n";
-		if (p->ename->son->cons->sortnum == SORT_tdfstring) {
-			if (p->ename->son->bro == NULL) {
+		if (p->ename->child->cons->sortnum == SORT_tdfstring) {
+			if (p->ename->child->next == NULL) {
 				IGNORE fprintf(output, f, MAKE_STRING_EXTERN);
 			} else {
 				IGNORE fprintf(output, f, MAKE_CHAIN_EXTERN);
@@ -559,7 +559,7 @@ print_name(char *title, construct *p, int dec)
 			IGNORE fprintf(output, f, MAKE_UNIQUE_EXTERN);
 		}
 
-		print_node("", NULL, NULL, p->ename->son);
+		print_node("", NULL, NULL, p->ename->child);
 
 		(void) fputs(" ),\n  ", output);
 
@@ -718,7 +718,7 @@ print_tagdef(construct *p)
 	}
 
 	/* Can have multiple definitions */
-	for (d = info->def; d != NULL; d = d->bro) {
+	for (d = info->def; d != NULL; d = d->next) {
 		(void) fputs("<tr>", output);
 		(void) fputs("<td bgcolor=\"#EEEEEE\">", output);
 
@@ -742,12 +742,12 @@ print_tagdef(construct *p)
 
 	(void) fputs("</table>> ];\n", output);
 
-	for (d = info->def; d != NULL; d = d->bro) {
-		if (d->son != NULL) {
+	for (d = info->def; d != NULL; d = d->next) {
+		if (d->child != NULL) {
 			fprintf(output, "\n");
 			fprintf(output, "\t\tsubgraph {\n");
 
-			print_node("tagdef_", p, "def", d->son);
+			print_node("tagdef_", p, "def", d->child);
 
 			fprintf(output, "\t\t}\n");
 		}

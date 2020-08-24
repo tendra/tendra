@@ -121,7 +121,7 @@ spacereq
 regalloc(exp e, int freefixed, int freefloat, long stack)
 {
 	spacereq def;
-	exp s = son(e);
+	exp s = child(e);
 	unsigned char n = e->tag;
 
 	if (n == ident_tag) {
@@ -134,7 +134,7 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 		assert(freefixed >= 0);
 		assert(freefloat >= 0);
 
-		if (props(e) & defer_bit) {
+		if (e->props & defer_bit) {
 			/* the tag declared is transparent to code production */
 			def = zerospace;
 		} else {
@@ -156,13 +156,13 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 #endif
 			if (isparam(e)) {
 				/* (some) SPARC params in s-regs, reserve them here */
-				int n2 = (int) props(son(e));
-				int start = no(son(e)) >> 5;
+				int n2 = (int) child(e)->props;
+				int start = no(child(e)) >> 5;
 				if (start <= 5) {
 					/* Some input registers (%i0 .. %i5) are used */
 					int nregs;
 					/* "end" Word offset beyond end of param */
-					long sz = shape_size(sh(son(e)));
+					long sz = shape_size(sh(child(e)));
 					int end = (int) (start + (rounder(sz, 32) >> 5));
 					if (end > 6) {
 						end = 6;
@@ -173,7 +173,7 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 					ffix -= nregs ; /* this also prevents SREG_TO_REALREG
 			     from using these regs...*/
 				}
-				if ((props(e) & inreg_bits) != 0) {
+				if ((e->props & inreg_bits) != 0) {
 					assert(no(e) == n2);
 					assert(IS_SREG(no(e)));
 					assert(a.ashsize <= 32);
@@ -183,7 +183,7 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 					no(e) = 0;
 				}
 				assert(ffix >= 0);
-			} else if ((props(e) & inreg_bits) == 0 && fixregable(e) && no(e) < ffix) {
+			} else if ((e->props & inreg_bits) == 0 && fixregable(e) && no(e) < ffix) {
 				/* suitable for s reg, no(e) has been set up by weights */
 				pset(e, inreg_bits);
 				no(e) = SREG_TO_REALREG(ffix); /* will be in s reg */
@@ -192,26 +192,26 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 				assert(ffix >= 0);
 				assert(IS_SREG(no(e)));
 				assert(a.ashsize <= 32);
-			} else if ((props(e) & infreg_bits) == 0 && floatregable(e) && no(e) < ffloat) {
+			} else if ((e->props & infreg_bits) == 0 && floatregable(e) && no(e) < ffloat) {
 				error(ERR_SERIOUS,  "regalloc : no float point s regs on SPARC" );
-			} else if ((props(e) & inanyreg) == 0) {
-				if (son(e)->tag == val_tag && !isvar(e) && !isenvoff(e)) {
+			} else if ((e->props & inanyreg) == 0) {
+				if (child(e)->tag == val_tag && !isvar(e) && !isenvoff(e)) {
 					/* must have been forced by const optimisation -
 					   replace uses by the value */
 					exp t = pt(e);
 					for ( ; t != NULL ; ) {
 						exp p = pt(t);
 						t->tag = val_tag;
-						son(t) = NULL;
-						no(t) = no(son(e));
-						props(t) = 0;
+						child(t) = NULL;
+						no(t) = no(child(e));
+						t->props = 0;
 						pt(t) = NULL;
 						t = p;
 					}
 					pt(e) = NULL;
 					pset(e, defer_bit);
 					def = zerospace;
-				} else if (son(e)->tag == name_tag && !isvar(e) & !isenvoff(e)) {
+				} else if (child(e)->tag == name_tag && !isvar(e) & !isenvoff(e)) {
 					/* must have been forced - defer it */
 					pset(e, defer_bit);
 					def = zerospace;
@@ -231,13 +231,13 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 			} else if (no(e) == R_USE_RES_REG) {
 				/* use result register */
 				assert(!isenvoff(e));
-				no(e) = ((props(e) & inreg_bits) != 0) ?  R_O0 : R_DEFER_F0;
+				no(e) = ((e->props & inreg_bits) != 0) ?  R_O0 : R_DEFER_F0;
 			} else {
 				/* allocation of stack like regs in make_code */
 				assert (!isenvoff(e));
 			}
 		}
-		body = regalloc(bro(s), ffix, ffloat, st);
+		body = regalloc(next(s), ffix, ffloat, st);
 		return maxspace(body, def);
 	} else if (n == case_tag) {
 		/* recurse on all expressions in tree */
@@ -247,7 +247,7 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 		def = regalloc(s, freefixed, freefloat, stack);
 		while (!s->last) {
 			spacereq sdef;
-			s = bro(s);
+			s = next(s);
 			sdef = regalloc(s, freefixed, freefloat, stack);
 			def = maxspace(def, sdef);
 		}

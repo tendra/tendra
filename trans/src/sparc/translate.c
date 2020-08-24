@@ -85,6 +85,7 @@
 
 #include <assert.h>
 #include <string.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 #include <shared/bool.h>
@@ -248,7 +249,7 @@ mark_unaliased(exp e)
 	assert(!separate_units);
 
 	for (p = pt(e); p != NULL && ca; p = pt(p)) {
-		exp q = bro(p);
+		exp q = next(p);
 
 		if (q == NULL) {
 #ifdef TDF_DIAG4
@@ -257,7 +258,7 @@ mark_unaliased(exp e)
 				ca = 0;
 		} else {
 			if (!(p->last && q->tag == cont_tag) &&
-			  !(!p->last && q->last && bro(q)->tag == ass_tag))
+			  !(!p->last && q->last && next(q)->tag == ass_tag))
 			{
 #ifdef TDF_DIAG4
 				if (!isdiaginfo(p))
@@ -398,7 +399,7 @@ local_translate_capsule(void)
 		exp c;
 
 		c = d->exp;
-		if (son(c) == NULL) {
+		if (child(c) == NULL) {
 			continue;
 		}
 
@@ -406,7 +407,7 @@ local_translate_capsule(void)
 			mark_unaliased(c);
 		}
 
-		if (son(c)->tag == proc_tag || son(c)->tag == general_proc_tag) {
+		if (child(c)->tag == proc_tag || child(c)->tag == general_proc_tag) {
 			noprocs++;
 		}
 	}
@@ -447,7 +448,7 @@ local_translate_capsule(void)
 		exp c, s;
 
 		c = d->exp;
-		s = son(c);
+		s = child(c);
 
 		if (s == NULL) {
 			continue;
@@ -455,7 +456,7 @@ local_translate_capsule(void)
 
 		if ((s->tag == proc_tag || s->tag == general_proc_tag)) {
 			procrec *pr = &procrecs [ procno ];
-			pr->nameproc = bro(c);
+			pr->nameproc = next(c);
 			no(s) = procno++;
 		}
 	}
@@ -486,7 +487,7 @@ local_translate_capsule(void)
 		exp c, s;
 
 		c = d->exp;
-		s = son(c);
+		s = child(c);
 
 		if (s != NULL && (s->tag == proc_tag || s->tag == general_proc_tag)) {
 			exp *st = &s;
@@ -515,9 +516,9 @@ local_translate_capsule(void)
 				int any_envoff = 0;
 				exp a;
 
-				for (a = son(s);
-					a->tag == ident_tag && isparam(a) && son(a)->tag != formal_callee_tag;
-					a = bro(son(a)))
+				for (a = child(s);
+					a->tag == ident_tag && isparam(a) && child(a)->tag != formal_callee_tag;
+					a = next(child(a)))
 				{
 					if (isenvoff(a) && caller_offset_used) {
 						any_envoff = 1;
@@ -547,7 +548,7 @@ local_translate_capsule(void)
 			exp c, s;
 
 			c = d->exp;
-			s = son(c);
+			s = child(c);
 
 			if (s == NULL) {
 				continue;
@@ -563,7 +564,7 @@ local_translate_capsule(void)
 	/* calculate the break points for register allocation */
 	for (d = top_def; d != NULL; d = d->next) {
 		exp c = d->exp;
-		exp s = son(c);
+		exp s = child(c);
 
 		if (s == NULL) {
 			continue;
@@ -605,7 +606,7 @@ local_translate_capsule(void)
 
 			/* estimate tag usage */
 			/* calculate register and stack allocation for tags */
-			forrest = regalloc(bro(son(s)), freefixed, freefloat, 0);
+			forrest = regalloc(next(child(s)), freefixed, freefloat, 0);
 			pr->spacereqproc = forrest;
 		}
 	}
@@ -632,7 +633,7 @@ local_translate_capsule(void)
 	/* output global definitions */
 	for (d = top_def; d != NULL; d = d->next) {
 		exp tag = d->exp;
-		exp stag = son(tag);
+		exp stag = child(tag);
 		char *name = d->name;
 		bool extnamed = d->extnamed;
 
@@ -709,16 +710,16 @@ local_translate_capsule(void)
 	/* translate procedures */
 	for (d = top_def; d != NULL; d = d->next) {
 		exp tag  = d->exp;
-		exp stag = son(tag);
+		exp stag = child(tag);
 		char *name = d->name;
 		bool extnamed = d->extnamed;
 
 		if (stag != NULL && shape_size(sh(stag)) == 0 && stag->tag == asm_tag) {
-			if (props(stag) != 0) {
+			if (stag->props != 0) {
 				error(ERR_INTERNAL, "~asm not in ~asm_sequence");
 			}
 
-			check_asm_seq(son(stag), 1);
+			check_asm_seq(child(stag), 1);
 			insection(text_section);
 			IGNORE code_here(stag, tempregs, nowhere);
 			asm_printf("\n");
@@ -736,7 +737,7 @@ local_translate_capsule(void)
 			/* translate code for procedure */
 			int proc_directive;
 			exp c = d->exp;
-			prop p = procrecs[no(son(c))].needsproc.propneeds;
+			prop p = procrecs[no(child(c))].needsproc.propneeds;
 #ifdef TDF_DIAG3
 			diag_descriptor *diag_props = d->diag_info;
 #endif

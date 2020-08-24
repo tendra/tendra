@@ -7,6 +7,7 @@
 
 #include <assert.h>
 #include <string.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 #include <shared/bool.h>
@@ -496,7 +497,7 @@ make_proc_tag_code(exp e, space sp, where dest, int exitlab)
 	last_odd_bit = 0;
 	doing_odd_bits = false;
 
-	code_here(son(e), sp, nowhere);	/* Code body of procedure. */
+	code_here(child(e), sp, nowhere);	/* Code body of procedure. */
 
 	if (stackerr_lab != 0) {
 		outlab("L$$", stackerr_lab);
@@ -746,7 +747,7 @@ make_res_tag_code(exp e, space sp, where dest, int exitlab)
 		where w;
 		bool cmpd;
 		w.answhere = procans;
-		w.ashwhere = ashof(sh(son(e)));
+		w.ashwhere = ashof(sh(child(e)));
 		cmpd = (w.ashwhere.ashsize < 65 && !simpleans);
 
 		if (cmpd) {
@@ -759,7 +760,7 @@ make_res_tag_code(exp e, space sp, where dest, int exitlab)
 			w.answhere.val.instoreans.adval = 1;
 		}
 
-		code_here(son(e), sp, w); /*  Get the result  */
+		code_here(child(e), sp, w); /*  Get the result  */
 		if (cmpd) {
 			instore is;
 			baseoff b;
@@ -773,7 +774,7 @@ make_res_tag_code(exp e, space sp, where dest, int exitlab)
 
 	if (RSCOPE_LEVEL == 0) {
 		if (nm == TO_LAB) {
-			reg_operand_here(son(e), sp, RP);
+			reg_operand_here(child(e), sp, RP);
 		}
 
 		if (*ret_label == 0) {

@@ -108,7 +108,7 @@ trace_uses(exp e, exp id)
     /* u is nouses before we start to scan the parameters */
     int u = nouses;
     int p = 1;
-    exp l = son(e);
+    exp l = child(e);
 
     while (p == 1)
     {
@@ -123,7 +123,7 @@ trace_uses(exp e, exp id)
 	nouses = u;
       if (l->last)
 	break;
-      l = bro(l);
+      l = next(l);
     }
     return 0;
   }
@@ -133,21 +133,21 @@ trace_uses(exp e, exp id)
    case caller_name_tag:
    case env_offset_tag:
    case general_env_offset_tag:
-    /* Don't want to look at sons of these tags */
+    /* Don't want to look at children of these tags */
     return 1;
    case name_tag:
     {
-      nouses -= (son(e) == id);
+      nouses -= (child(e) == id);
       return 1;
     }
 
    case ident_tag:
     {
-      exp f = son(e);
-      exp s = bro(f);
+      exp f = child(e);
+      exp s = next(f);
       int a;
 
-      if ((props(e) & defer_bit)!= 0)
+      if ((e->props & defer_bit)!= 0)
       {
 	exp t = f;
 
@@ -161,7 +161,7 @@ trace_uses(exp e, exp id)
     }
    case case_tag:
     {
-      trace_uses(son(e), id);
+      trace_uses(child(e), id);
       return 0;
     }
 
@@ -174,7 +174,7 @@ trace_uses(exp e, exp id)
 
       /* Cond tags are not treated like the default since we know
 	 that the first argument will be coded first */
-      el = trace_uses(son(e),id);
+      el = trace_uses(child(e),id);
       if (el != 1)
       {
 	return el;
@@ -183,7 +183,7 @@ trace_uses(exp e, exp id)
     }
    case seq_tag:
     {
-      exp s = son(son(e));
+      exp s = child(child(e));
 
       for (;;)
       {
@@ -192,27 +192,27 @@ trace_uses(exp e, exp id)
 	if (el != 1)
 	  return el;
 	if (s->last)
-	  return trace_uses(bro(son(e)), id);
-	s = bro(s);
+	  return trace_uses(next(child(e)), id);
+	s = next(s);
       }
     }
 
    case ass_tag:
     {
-      if (isvar(id) && son(e)->tag == name_tag && son(son(e)) == id)
+      if (isvar(id) && child(e)->tag == name_tag && child(child(e)) == id)
       {
-	trace_uses(bro(son(e)), id);
+	trace_uses(next(child(e)), id);
 	return 2;
       }
-      else if (APPLYLIKE(bro(son(e))))
+      else if (APPLYLIKE(next(child(e))))
       {
-	return trace_uses(bro(son(e)), id);
+	return trace_uses(next(child(e)), id);
       }
       /* else cont to next case */
     }
    default:
     {
-      exp s = son(e);
+      exp s = child(e);
       int nu = nouses;
       int bad_arguments = 0;
       /* A bad argument is one which contains an assignment or something to stop flow */
@@ -245,7 +245,7 @@ trace_uses(exp e, exp id)
 	}
 	if (s->last)
 	  break;
-	s = bro(s);
+	s = next(s);
       }
       if (bad_arguments==0)
       {
@@ -293,9 +293,9 @@ tailrecurse:
   }
 
 
-  for (l = a; !l->last; l = bro(l))
+  for (l = a; !l->last; l = next(l))
   {
-    int u = trace_uses(bro(l), id);
+    int u = trace_uses(next(l), id);
 
     if (u != 1 || nouses == 0)
       return;
@@ -352,9 +352,9 @@ tempdec(exp e, bool enoughs)
     for (p = pt(e); p != NULL; p = pt(p))
     {
       /* find no of uses which are not assignments to id ... */
-      if (!p->last && bro(p)->last && bro(bro(p))->tag == ass_tag)
+      if (!p->last && next(p)->last && next(next(p))->tag == ass_tag)
       {
-	if (!simple_seq(bro(bro(p)), e))
+	if (!simple_seq(next(next(p)), e))
 	  return 0;
 	continue;
       }
@@ -370,18 +370,18 @@ tempdec(exp e, bool enoughs)
    * id)
    */
 
-  if (son(e)->tag!= clear_tag || isparam(e))
+  if (child(e)->tag!= clear_tag || isparam(e))
   {
-    after_a(son(e), e);
+    after_a(child(e), e);
   }
 
   if (isvar(e))
   {
     for (p = pt(e); p != NULL; p = pt(p))
     {
-      if (!p->last && bro(p)->last && bro(bro(p))->tag == ass_tag)
+      if (!p->last && next(p)->last && next(next(p))->tag == ass_tag)
       {
-	after_a(bro(bro(p)), e);
+	after_a(next(next(p)), e);
       }
     }
   }
@@ -391,7 +391,7 @@ tempdec(exp e, bool enoughs)
     if (useinpar)
     {
       /* See if it can be allocated into a parameter register */
-      props(e) |= notparreg;
+      e->props |= notparreg;
       if (isparam(e))
       {
 	return param_uses(e);
@@ -432,13 +432,13 @@ static int locate_param(exp e)
   switch (f->tag)
   {
    case apply_general_tag:
-    par =  son(bro(son(f)));
+    par =  child(next(child(f)));
     break;
    case apply_tag:
-    par = bro(son(f));
+    par = next(child(f));
     break;
    case round_tag:
-    par = son(f);
+    par = child(f);
     break;
    default:
     return 0;
@@ -478,7 +478,7 @@ static int locate_param(exp e)
       }
       if (par->last)
 	break;
-      par = bro(par);
+      par = next(par);
     }
     return 0;
   }

@@ -1732,7 +1732,7 @@ f_dg_bounds_dim(dg_bound low, dg_bound high, dg_type index_type)
 	if (low.is_ref || high.is_ref) {
 		ans.count = -1;
 	} else {
-		ans.count = (long) (no(son(high.u.exp)) - no(son(low.u.exp)) + 1);
+		ans.count = (long) (no(child(high.u.exp)) - no(child(low.u.exp)) + 1);
 	}
 
 	ans.tag = NULL;
@@ -1757,7 +1757,7 @@ f_dg_count_dim(dg_bound low, dg_bound count, dg_type index_type)
 	if (count.is_ref) {
 		ans.count = -1;
 	} else {
-		ans.count = (long)(no(son(count.u.exp)));
+		ans.count = (long)(no(child(count.u.exp)));
 	}
 
 	ans.tag = NULL;

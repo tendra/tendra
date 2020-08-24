@@ -81,11 +81,11 @@ no_side_aux(exp e)
 {
 	exp arg;
 
-	if (e->tag == name_tag || e->tag == env_offset_tag || e->tag == top_tag || son(e) == NULL) {
+	if (e->tag == name_tag || e->tag == env_offset_tag || e->tag == top_tag || child(e) == NULL) {
 		return 1;
 	}
 
-	for (arg = son(e); ; arg = bro(arg)) {
+	for (arg = child(e); ; arg = next(arg)) {
 		if ((!is_a(arg->tag) && arg->tag != ident_tag) || !no_side_aux(arg)) {
 			return 0;
 		}
@@ -287,7 +287,7 @@ add_wlist(exp re, int usemc3, explist * el)
 	}
 
 	while (!re->last) {
-		re = bro(re);
+		re = next(re);
 		wl2 = weightsv(re, el);
 
 		if (usemc3) {
@@ -305,7 +305,7 @@ int
 regable(exp e)
 {
 	unsigned char  n;
-	shape sha = sh(son(e));
+	shape sha = sh(child(e));
 	n = sha->tag;
 
 	if (isvis(e) || n == cpdhd || n == nofhd || n == s64hd || n == u64hd) {
@@ -342,8 +342,8 @@ weightsv(exp e, explist * el)
 
 	switch (e->tag) {
 	case name_tag:
-		if (!isglob(son(e))) {
-			fno (son (e)) += scale;
+		if (!isglob(child(e))) {
+			fno (child (e)) += scale;
 		} /* add number of uses to the no field of the declaration */
 
 		return zeros;
@@ -358,10 +358,10 @@ weightsv(exp e, explist * el)
 		nel.etl = el;
 
 		while (isvar(e) && !isvis(e) && t != NULL) {
-			if (!(t->last && bro(t)->tag == cont_tag) &&
-			    !(t->last && bro(t)->tag == hold_tag) &&
-			    !(bro(t)->last && (bro(bro(t))->tag == ass_tag ||
-			                       bro(bro(t))->tag == assvol_tag)))
+			if (!(t->last && next(t)->tag == cont_tag) &&
+			    !(t->last && next(t)->tag == hold_tag) &&
+			    !(next(t)->last && (next(next(t))->tag == ass_tag ||
+			                       next(next(t))->tag == assvol_tag)))
 			{
 				setvis(e);
 			}
@@ -369,10 +369,10 @@ weightsv(exp e, explist * el)
 			t = pt(t);
 		}
 
-		if (son(e) != NULL) {
+		if (child(e) != NULL) {
 			weights wdef, wbody;
-			exp def = son(e);
-			exp body = bro(def);
+			exp def = child(e);
+			exp body = next(def);
 
 			if (sh(def)->tag == u64hd || sh(def)->tag == s64hd) {
 				markreg1(el);
@@ -398,12 +398,12 @@ weightsv(exp e, explist * el)
 				} else {
 					float  sp_scale = scale;
 					if (!isvar(e) &&
-					    ((def->tag == name_tag && !isvar(son(def)) &&
-					      (!isglob(son(def))) && !isloadparam(def)) ||
+					    ((def->tag == name_tag && !isvar(child(def)) &&
+					      (!isglob(child(def))) && !isloadparam(def)) ||
 					     (def->tag == cont_tag &&
-					      son(def)->tag == name_tag &&
-					      isvar(son(son(def))) &&
-					      (!isglob(son(son(def)))) &&
+					      child(def)->tag == name_tag &&
+					      isvar(child(child(def))) &&
+					      (!isglob(child(child(def)))) &&
 					      no_side(body))))
 					{
 						if (isusereg(e)) {
@@ -454,13 +454,13 @@ weightsv(exp e, explist * el)
 		nel.wident = e;
 		nel.etl = el;
 		old_scale = scale;
-		wbody = weightsv(bro(son(e)), &nel);
+		wbody = weightsv(next(child(e)), &nel);
 		scale = old_scale;
 		return wbody;
 	}
 
 	case rep_tag: {
-		swl = weightsv(son(e), el);
+		swl = weightsv(child(e), el);
 
 		old_scale = scale;
 
@@ -468,7 +468,7 @@ weightsv(exp e, explist * el)
 			scale = 20 * scale;
 		}
 
-		bwl = weightsv(bro(son(e)), el);
+		bwl = weightsv(next(child(e)), el);
 		scale = old_scale;
 
 		return add_weights(swl, bwl);
@@ -478,23 +478,23 @@ weightsv(exp e, explist * el)
 		old_scale = scale;
 
 		scale = 0.5 * scale;
-		swl = weightsv(son(e), el);
-		bwl = weightsv(bro(son(e)), el);
+		swl = weightsv(child(e), el);
+		bwl = weightsv(next(child(e)), el);
 		scale = old_scale;
 
 		return add_weights(swl, bwl);
 	}
 
 	case case_tag:
-		return weightsv(son(e), el);
+		return weightsv(child(e), el);
 
 	case compound_tag:
-		return add_wlist(son(e), 1, el);
+		return add_wlist(child(e), 1, el);
 	/* may use movc3 for component */
 
 	case res_tag:
 	case untidy_return_tag:
-		return weightsv(son(e), el);
+		return weightsv(child(e), el);
 
 	case asm_tag:
 	case apply_tag:
@@ -504,36 +504,36 @@ weightsv(exp e, explist * el)
 			markcall(el);
 		}
 
-		return add_weights(add_wlist(son(e), 0, el), applyregs);
+		return add_weights(add_wlist(child(e), 0, el), applyregs);
 	}
 
 	case ass_tag:
 	case assvol_tag: {
 		/* may use movc3 for assigned value */
-		unsigned char shn = sh(bro(son(e)))->tag;
+		unsigned char shn = sh(next(child(e)))->tag;
 		weights temp;
-		temp = weightsv(bro(son(e)), el);
+		temp = weightsv(next(child(e)), el);
 
 		if (shn == u64hd || shn == s64hd) {
 			markreg1(el);
 		}
 
-		return add_weights(weightsv(son(e), el),
-		                   try_mc3(bro(son(e)), temp, el));
+		return add_weights(weightsv(child(e), el),
+		                   try_mc3(next(child(e)), temp, el));
 	}
 
 	case proc_tag:
 	case general_proc_tag:
-		IGNORE weightsv(son(e), NULL);
+		IGNORE weightsv(child(e), NULL);
 		return zeros;
 
 	case movecont_tag:
 		if (isnooverlap(e)) {
-			return add_weights(add_wlist(son(e), 0, el), moveregs);
+			return add_weights(add_wlist(child(e), 0, el), moveregs);
 		}
 
 		markcall(el);
-		return add_wlist(son(e), 0, el);
+		return add_wlist(child(e), 0, el);
 
 	case val_tag:
 	case real_tag:
@@ -543,11 +543,11 @@ weightsv(exp e, explist * el)
 	case test_tag: {
 		weights wlarg;
 
-		if (sh(son(e))->tag == s64hd || sh(son(e))->tag == u64hd) {
+		if (sh(child(e))->tag == s64hd || sh(child(e))->tag == u64hd) {
 			markreg1(el); /* use of reg0 can include reg1 */
 		}
 
-		wlarg = add_wlist(son(e), 0, el);
+		wlarg = add_wlist(child(e), 0, el);
 		return wlarg;
 	}
 
@@ -560,7 +560,7 @@ weightsv(exp e, explist * el)
 			markreg1(el);
 		}
 
-		return add_wlist(son(e), 0, el);
+		return add_wlist(child(e), 0, el);
 
 	default:
 		if (sh(e) != NULL &&
@@ -568,7 +568,7 @@ weightsv(exp e, explist * el)
 			markreg1 (el); /* use of reg0 can include reg1 */
 		}
 
-		return add_wlist(son(e), 1, el);
+		return add_wlist(child(e), 1, el);
 	}
 }
 

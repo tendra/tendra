@@ -89,10 +89,10 @@ new_word(int c)
 
 	/* set up fields of new word */
 	new_ptr = wblock + (block_count++);
-	if (word_ptr->type != SIMPLE && word_ptr->son == NULL) {
-	    word_ptr->son = new_ptr;
+	if (word_ptr->type != SIMPLE && word_ptr->child == NULL) {
+	    word_ptr->child = new_ptr;
 	} else {
-	    word_ptr->bro = new_ptr;
+	    word_ptr->next = new_ptr;
 	}
 	word_ptr = new_ptr;
 	word_ptr->type = (char)c;
@@ -110,8 +110,8 @@ new_word(int c)
 	    word_ptr->text = "";
 	    word_ptr->length = 0;
 	}
-	word_ptr->son = NULL;
-	word_ptr->bro = NULL;
+	word_ptr->child = NULL;
+	word_ptr->next = NULL;
     }
     return word_ptr;
 }

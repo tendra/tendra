@@ -38,11 +38,12 @@
 #define notparreg    0x4000
 #define notresreg    0x8000
 #define vararg_bit   0x0400 /* Set for the last ident param if vararg */
+
 /*
  * props of real operations 
  */
-#define SetRev(e)	(props(e) |= 0x1000)
-#define IsRev(e)	((props(e) & 0x1000)!=0)
-#define ClearRev(e)	(props(e) &= ~0x1000)
+#define SetRev(e)	((e)->props |= 0x1000)
+#define IsRev(e)	(((e)->props & 0x1000)!=0)
+#define ClearRev(e)	((e)->props &= ~0x1000)
 
 #endif /* bitmacs.h */

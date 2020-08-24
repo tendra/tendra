@@ -192,14 +192,14 @@ out_dwarf_loc_attr(exp t, int proc_no)
 	new_dwarf_blk2();
 #endif
 	{
-		exp s = son(t);
+		exp s = child(t);
 
 		if (isglob(s)) {
 #ifndef LOCS_IN_BLKS
 			OUT_DWARF_LOC_BLK(5);
 #endif
 			dwarf1(OP_ADDR);
-			dwarf4(brog(s) -> name);
+			dwarf4(nextg(s) -> name);
 		} else {
 #if TRANS_X86
 			int p = ptno(s);
@@ -249,16 +249,16 @@ out_dwarf_loc_attr(exp t, int proc_no)
 			}
 #else
 #if TRANS_SPARC
-			if (props(s) & defer_bit) {
+			if (s->props & defer_bit) {
 				error(ERR_INTERNAL, "Deferred expression in out_loc_attr");
 				rval = 0;
-			} else if (props(s) & inreg_bits) {
+			} else if (s->props & inreg_bits) {
 #ifndef LOCS_IN_BLKS
 				OUT_DWARF_LOC_BLK(5);
 #endif
 				dwarf1(OP_REG);
 				dwarf4n(no(s));
-			} else if (props(s) & infreg_bits) {
+			} else if (s->props & infreg_bits) {
 				error(ERR_INTERNAL, "Floating register expression in out_loc_attr");
 				rval = 0;
 			} else {

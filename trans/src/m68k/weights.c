@@ -116,7 +116,7 @@ markcall(explist *el, bitpattern b)
 	explist *t;
 
 	for (t = el; t != NULL; t = t->next) {
-		props(t->member) |= b;
+		t->member->props |= b;
 	}
 }
 
@@ -247,7 +247,7 @@ add_wlist(exp re, explist *el)
 	wl1 = weightsv(re, el);
 
 	while (!re->last) {
-		re = bro(re);
+		re = next(re);
 		wl2 = weightsv(re, el);
 		wl1 = add_weights(wl1, wl2);
 	}
@@ -268,8 +268,8 @@ weightsv(exp e, explist *el)
 {
 	switch (e->tag) {
 	case name_tag:
-		if (!isglob(son(e))) {
-			fno(son(e)) += scale;
+		if (!isglob(child(e))) {
+			fno(child(e)) += scale;
 		}
 
 		/* Add value to the no field of the declaration */
@@ -285,7 +285,7 @@ weightsv(exp e, explist *el)
 
 		/* Starting point for pt list */
 		exp t = pt(e);
-		exp d = son(e);
+		exp d = child(e);
 
 		/* Add e to the list of exps */
 		explist nel;
@@ -294,8 +294,8 @@ weightsv(exp e, explist *el)
 
 		while (isvar(e) && !isvis(e) && t != NULL) {
 			/* Scan along pt list */
-			if (!(t->last && bro(t)->tag == cont_tag) &&
-			    !(bro(t)->last && ass(bro(bro(t)))))
+			if (!(t->last && next(t)->tag == cont_tag) &&
+			    !(next(t)->last && ass(next(next(t)))))
 				/* Make sure it will not go in register */
 			{
 				setvis(e);
@@ -309,7 +309,7 @@ weightsv(exp e, explist *el)
 			fno(e) = 0.0f;
 
 			/* Work out weights for the body */
-			wbody = weightsv(bro(d), &nel);
+			wbody = weightsv(next(d), &nel);
 
 			/* Work out weights for the definition */
 			if (d->tag == clear_tag) {
@@ -389,47 +389,47 @@ weightsv(exp e, explist *el)
 			weights wbody;
 			float old_scale = scale;
 			scale = fno(e);
-			wbody = weightsv(bro(son(e)), &nel);
+			wbody = weightsv(next(child(e)), &nel);
 			scale = old_scale;
 			return wbody;
 		} else {
-			return add_wlist(bro(son(e)), &nel);
+			return add_wlist(next(child(e)), &nel);
 		}
 	}
 
 	case rep_tag: {
 		weights swl, bwl;
-		swl = weightsv(son(e), el);
-		bwl = weightsv(bro(son(e)), el);
+		swl = weightsv(child(e), el);
+		bwl = weightsv(next(child(e)), el);
 		return add_weights(swl, bwl);
 	}
 
 	case compound_tag:
-		return add_wlist(son(e), el);
+		return add_wlist(child(e), el);
 
 	case untidy_return_tag:
 	case case_tag:
 	case res_tag:
-		return weightsv(son(e), el);
+		return weightsv(child(e), el);
 
 	case apply_general_tag:
 	case apply_tag:
 	case round_tag:
 	case float_tag:
 		markcall(el, (bitpattern)0x80);
-		return add_wlist(son(e), el);
+		return add_wlist(child(e), el);
 
 	case ass_tag:
 	case assvol_tag: {
 		weights swl, bwl;
-		swl = weightsv(son(e), el);
-		bwl = weightsv(bro(son(e)), el);
+		swl = weightsv(child(e), el);
+		bwl = weightsv(next(child(e)), el);
 		return add_weights(swl, bwl);
 	}
 
 	case general_proc_tag:
 	case proc_tag:
-		weightsv(son(e), NULL);
+		weightsv(child(e), NULL);
 		return zeros;
 
 	case env_offset_tag:
@@ -441,13 +441,13 @@ weightsv(exp e, explist *el)
 
 	case test_tag: {
 		weights twl;
-		twl = add_wlist(son(e), el);
+		twl = add_wlist(child(e), el);
 		/* scale = scale * (((float) 1.0) - fno(e)); */
 		return twl;
 	}
 
 	default:
-		return add_wlist(son(e), el);
+		return add_wlist(child(e), el);
 	}
 }
 

@@ -482,7 +482,7 @@ static int do_mul_comm
 (exp seq, space sp, int final_reg, bool sgned) {
   space nsp;
   int mul_proc;
-  exp arg2 = bro(seq);
+  exp arg2 = next(seq);
   int has_error_treatment = !optop(father(seq));
   if (arg2->tag == val_tag && !has_error_treatment) {
     /* const optim */
@@ -505,7 +505,7 @@ static int do_mul_comm
   for (; ;) {
     /* should have break out below by now */
     assert(!seq->last);
-    seq = bro(seq);
+    seq = next(seq);
     if (!has_error_treatment && seq->tag == val_tag &&
 	 offset_mul_const_simple((long)no(seq), sgned)!=
 	 NOT_MUL_CONST_SIMPLE) {
@@ -565,10 +565,10 @@ static int do_div
 (exp seq, space sp, int final_reg, bool sgned) {
   int p;
   exp lhs = seq;
-  exp rhs = bro(lhs);
+  exp rhs = next(lhs);
   int has_error_treatment = !optop(father(seq)) && !error_treatment_is_trap(father(seq));
   int et;
-  assert ( rhs -> last ) ;	/* so bro(rhs) == the div exp  */
+  assert ( rhs -> last ) ;	/* so next(rhs) == the div exp  */
   if (!has_error_treatment && rhs->tag == val_tag &&
        is_pow2(no(rhs)) && no(rhs) > 0) {
     long constval = no(rhs);
@@ -592,7 +592,7 @@ static int do_div
       return final_reg;
     }
 
-    if (bro(rhs)->tag == div2_tag) /* shift and fix up for sgned div2 */
+    if (next(rhs)->tag == div2_tag) /* shift and fix up for sgned div2 */
     {
       /* signed, adjust lhs before shift */
       int tmp_reg = R_TMP;
@@ -635,7 +635,7 @@ static int do_div
     return R_O0;
     /* otherwise need to call .div/.udiv */
   }
-  else if (sgned && bro(rhs)->tag == div1_tag) {
+  else if (sgned && next(rhs)->tag == div1_tag) {
     p = SPECIAL_DIV1;
   }
   else {
@@ -645,7 +645,7 @@ static int do_div
     et = IS_TRAP;
   }
   else if (has_error_treatment) {
-    et = -no(son(pt(father(seq))));
+    et = -no(child(pt(father(seq))));
   }
   else {
     et = 0;
@@ -662,7 +662,7 @@ static int do_rem
 (exp seq, space sp, int final_reg, bool sgned) {
   int p;
   exp lhs = seq;
-  exp rhs = bro(lhs);
+  exp rhs = next(lhs);
 
   assert(rhs->last);
 
@@ -687,7 +687,7 @@ static int do_rem
       rcr_ins(i_and, lhs_reg, constval - 1, final_reg);
       return final_reg;
     }
-    if (bro(rhs)->tag == rem2_tag) {
+    if (next(rhs)->tag == rem2_tag) {
       /* signed, need to allow for negative lhs. Treat l % c
 	 as l - ( l / c ) * c */
       int tmp_reg = R_TMP;
@@ -714,7 +714,7 @@ static int do_rem
   }
 
   /* otherwise need to call .rem/.urem */
-  if (sgned && bro(rhs)->tag == mod_tag) {
+  if (sgned && next(rhs)->tag == mod_tag) {
     p = SPECIAL_REM1;
   }
   else {
@@ -739,7 +739,7 @@ static int find_reg_and_apply
 (exp e, space sp, where dest, bool sgned, find_fn do_fn) {
   ans a;
   int dest_reg;
-  exp seq = son(e);
+  exp seq = child(e);
   /* tidyshort ( dest, sh ( e ) ) ; ??? */
   switch (discrim(dest.answhere)) {
     case inreg: {
@@ -815,7 +815,7 @@ bool is_muldivrem_call
     case chfl_tag:
     case round_tag:
      if ((has & HAS_LONG_DOUBLE)) {
-      exp s = son(e);
+      exp s = child(e);
       if (sh(s)->tag == doublehd) return 1;
 	  FALL_THROUGH;
      }
@@ -835,7 +835,7 @@ bool is_muldivrem_call
     case mult_tag:
     case offset_mult_tag: {
       /*multneeds - simple cases don't need a call */
-      exp arg2 = bro(son(e));
+      exp arg2 = next(child(e));
       if (arg2->last && arg2->tag == val_tag && optop(e)) {
 	return 0;
       }
@@ -850,7 +850,7 @@ bool is_muldivrem_call
     case offset_div_tag:
     case offset_div_by_int_tag: {
       /*remneeds, divneeds - simple cases don't need a call */
-      exp arg2 = bro(son(e));
+      exp arg2 = next(child(e));
       if (arg2->last && arg2->tag == val_tag && optop(e)) {
 	long constval = no(arg2);
 	if (constval > 0 && is_pow2(constval))
@@ -874,8 +874,8 @@ bool is_muldivrem_call
 needs multneeds
 (exp * e, exp ** at) {
   needs n;
-  exp arg1 = son(*e);
-  exp arg2 = bro(arg1);
+  exp arg1 = child(*e);
+  exp arg2 = next(arg1);
   n = likeplus(e, at);
 
   /* remember that mult may have more than two args after
@@ -898,8 +898,8 @@ needs multneeds
 needs divneeds
 (exp * e, exp ** at) {
   needs n;
-  exp lhs = son(*e);
-  exp rhs = bro(lhs);
+  exp lhs = child(*e);
+  exp rhs = next(lhs);
 
   assert ( rhs -> last ) ;	/* after likediv may not be so */
 
@@ -924,8 +924,8 @@ needs divneeds
 needs remneeds
 (exp * e, exp ** at) {
   needs n;
-  exp lhs = son(*e);
-  exp rhs = bro(lhs);
+  exp lhs = child(*e);
+  exp rhs = next(lhs);
   assert ( rhs -> last ) ;	/* after likediv may not be so */
   n = likediv(e, at);
   if (rhs->tag == val_tag && optop(*e)) {

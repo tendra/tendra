@@ -11,8 +11,8 @@
 #ifndef NDEBUG
 extern void showme(exp,int,int);
 extern exp infotag(exp,int);
-extern exp show_bro(int);
-extern exp show_son(int);
+extern exp show_next(int);
+extern exp show_child(int);
 extern exp show_current(int);
 extern exp show_father(int);
 extern exp show_pt(int);

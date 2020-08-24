@@ -71,7 +71,7 @@ settempregs(exp tag)
 {
   procrec * pr = &procrecs[no(tag)];
   bool leaf = ((pr->needsproc).propneeds & anyproccall)==0;
-  exp stag = son(tag);
+  exp stag = child(tag);
   currentfix = 8;
   currentfloat = 0;
   choosefix = for8;
@@ -101,14 +101,14 @@ settempregs(exp tag)
   }
 
   while (stag->tag==ident_tag && isparam(stag)) {
-  	if ((props(stag) & inreg_bits) !=0 ) {
+  	if ((stag->props & inreg_bits) !=0 ) {
   		useable_fixed &= ~ (1<<no(stag));
   	}
   	else
-  	if ((props(stag) & infreg_bits) != 0) {
+  	if ((stag->props & infreg_bits) != 0) {
   		useable_float &= ~(1<<no(stag));
   	}
-  	stag = bro(son(stag));
+  	stag = next(child(stag));
   }
 
 }

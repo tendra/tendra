@@ -8,18 +8,18 @@
 #ifndef LOCAL_EXP_H
 #define LOCAL_EXP_H
 
-#define frame_al_of_ptr(x) (x)->son.ald->al.frame
-#define frame_al1_of_offset(x) (x)->son.ald->al.frame
+#define frame_al_of_ptr(x) (x)->child.ald->al.frame
+#define frame_al1_of_offset(x) (x)->child.ald->al.frame
 #define includes_vcallees(x) ((x & 16) != 0)
 #define l_or_cees(x) ((x &25) !=0)
 
 /* properties of IDENT */
 
 /* Set in weights and used in coder. At this time no copying */
-#define set_intnl_call(x) props(x) |= 0x80
-#define has_intnl_call(x) (props(x) & 0x80)
+#define set_intnl_call(x) (x)->props |= 0x80
+#define has_intnl_call(x) ((x)->props & 0x80)
 
 /* properties of STRING construction */
-#define string_char_size(e) props(e)
+#define string_char_size(e) (e)->props
 
 #endif

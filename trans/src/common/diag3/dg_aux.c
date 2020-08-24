@@ -372,7 +372,7 @@ static void
 scan_diag_names(exp e, exp whole)
 {
 	if (e->tag == name_tag) {
-		exp id = son(e);
+		exp id = child(e);
 
 		if (!isdiaginfo(e) && !internal_to(whole, id)) {
 			setisdiaginfo(e);
@@ -382,10 +382,10 @@ scan_diag_names(exp e, exp whole)
 		return;
 	}
 
-	if (son(e) != NULL && e->tag != env_offset_tag) {
+	if (child(e) != NULL && e->tag != env_offset_tag) {
 		exp t;
 
-		for (t = son(e); ; t = bro(t)) {
+		for (t = child(e); ; t = next(t)) {
 			scan_diag_names(t, whole);
 			if (t->last) {
 				return;
@@ -407,9 +407,9 @@ diaginfo_exp(exp e)
 	scan_diag_names(e, e);
 	ans = hold(e);
 	setpt(ans, NULL);
-	setbro (ans, NULL);	/* these fields are used in dwarf generation */
+	setnext (ans, NULL);	/* these fields are used in dwarf generation */
 	no(ans) = 0;
-	props(ans) = 0;
+	ans->props = 0;
 	ans->last = false;
 	IGNORE refactor(e, e);
 

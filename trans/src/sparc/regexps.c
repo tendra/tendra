@@ -89,7 +89,7 @@ sim_explist(exp al, exp bl)
 		return 0;
 	}
 
-	return sim_explist(bro(al), bro(bl));
+	return sim_explist(next(al), next(bl));
 }
 
 /*
@@ -104,7 +104,7 @@ sim_exp(exp a, exp b)
 	}
 
 	if (a->tag == name_tag) {
-		return son(a) == son(b)
+		return child(a) == child(b)
 			&& no(a) == no(b)
 			&& eq_sze(sh(a), sh(b));
 	}
@@ -114,8 +114,8 @@ sim_exp(exp a, exp b)
 	}
 
 	return no(a) == no(b)
-		&& sim_explist(son(a), son(b))
-		&& ((a->tag != current_env_tag) || (props(a) == props(b)));
+		&& sim_explist(child(a), child(b))
+		&& ((a->tag != current_env_tag) || (a->props == b->props));
 }
 
 /*
@@ -189,8 +189,8 @@ iskept(exp e)
 			|| (e->tag == cont_tag
 				&& isc
 				&& eq_sze(sh(ke), sh(e))
-				&& sim_exp(ke, son (e))
-				&& al1(sh(son(e))) == al1(sh(ke))))
+				&& sim_exp(ke, child (e))
+				&& al1(sh(child(e))) == al1(sh(ke))))
 		{
 			ans aa;
 
@@ -225,7 +225,7 @@ iskept(exp e)
 				is = insalt(aq);
 				if (!is.adval && is.b.offset == 0
 					&& IS_FIXREG(is.b.base)
-					&& sim_exp(son(ke), e))
+					&& sim_exp(child(ke), e))
 				{
 					/* the contents of required expression is here as
 					 * a register-offset */
@@ -249,7 +249,7 @@ iskept(exp e)
 				is = insalt(aq);
 				if (is.adval && is.b.offset == (no(ke) / 8)
 					&& IS_FIXREG(is.b.base)
-					&& sim_exp(son(ke), e))
+					&& sim_exp(child(ke), e))
 				{
 					/* a ref selection of required expression is here as
 					 * a register-offset */
@@ -388,10 +388,10 @@ static bool
 couldbe(exp e, exp lhs)
 {
 	unsigned char ne = e->tag ;
-	exp s = son(e);
+	exp s = child(e);
 
 	if (ne == name_tag) {
-		if (lhs != 0 && s == son(lhs)) {
+		if (lhs != 0 && s == child(lhs)) {
 			return 1;
 		}
 
@@ -403,18 +403,18 @@ couldbe(exp e, exp lhs)
 			return lhs == 0;
 		}
 
-		if (son(s) == NULL) {
+		if (child(s) == NULL) {
 			return 1;
 		}
 
-		return couldbe(son(s), lhs);
+		return couldbe(child(s), lhs);
 	}
 
 	if (ne == cont_tag) {
-		if (lhs != 0 && s->tag == name_tag && son(s) != NULL) {
-			return son(s) == son(lhs)
-				|| isvis(son(lhs))
-				|| isvis(son(s));
+		if (lhs != 0 && s->tag == name_tag && child(s) != NULL) {
+			return child(s) == child(lhs)
+				|| isvis(child(lhs))
+				|| isvis(child(s));
 		}
 
 		return 1;
@@ -425,7 +425,7 @@ couldbe(exp e, exp lhs)
 	}
 
 	if (ne == addptr_tag || ne == subptr_tag) {
-		return couldbe (s, lhs) || couldaffect(bro(s), lhs);
+		return couldbe (s, lhs) || couldaffect(next(s), lhs);
 	}
 
 	return 1;
@@ -442,30 +442,30 @@ couldaffect(exp e, exp z)
 	ne = e->tag ;
 
 	if (ne == cont_tag) {
-		return couldbe(son(e), z);
+		return couldbe(child(e), z);
 	}
 
 	if (ne == name_tag) {
-		if (isvar (son(e))) {
-			return z == 0 && isvis(son(e));
+		if (isvar (child(e))) {
+			return z == 0 && isvis(child(e));
 		}
 
-		if (son(e)->tag == proc_tag) {
+		if (child(e)->tag == proc_tag) {
 			return 0;
 		}
 
-		if (son(son(e)) == NULL) {
+		if (child(child(e)) == NULL) {
 			return 1;
 		}
 
-		return couldaffect(son(son(e)), z);
+		return couldaffect(child(child(e)), z);
 	}
 
 	if (ne < plus_tag || ne == contvol_tag) {
 		return 1;
 	}
 
-	for (e = son(e); e != NULL; e = bro(e)) {
+	for (e = child(e); e != NULL; e = next(e)) {
 		if (couldaffect(e, z)) {
 			return 1;
 		}
@@ -490,7 +490,7 @@ dependson(exp e, bool isc, exp z)
 
 	for (;;) {
 		if (z->tag == reff_tag || z->tag == addptr_tag || z->tag == subptr_tag) {
-			z = son(z);
+			z = child(z);
 		}
 
 		if (z->tag != name_tag) {
@@ -502,21 +502,21 @@ dependson(exp e, bool isc, exp z)
 			break;
 		}
 
-		if (isvar(son(z))) {
+		if (isvar(child(z))) {
 			break;
 		}
 
-		if (son(z)->tag == proc_tag) {
+		if (child(z)->tag == proc_tag) {
 			z = 0;
 			break;
 		}
 
-		if (son(son(z)) == NULL) {
+		if (child(child(z)) == NULL) {
 			/* can it happen? */
 			return 1;
 		}
 
-		z = son(son(z));
+		z = child(child(z));
 	}
 
 	/* z is now unambiguous variable name or 0 (meaning some contents) */

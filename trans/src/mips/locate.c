@@ -56,7 +56,7 @@ baseoff boff
 				   for ls_ins etc */
   baseoff an;
   if (isglob (id)) {		/* globals */
-    dec * gl = brog(id);
+    dec * gl = nextg(id);
     long sno = gl->sym_number;
     an.base = - (sno + 1);
     an.offset = 0;
@@ -64,7 +64,7 @@ baseoff boff
   else {
     int   x = no(id);
     int   b = x & 0x3f;
-    if (son(id)->tag ==caller_name_tag) {
+    if (child(id)->tag ==caller_name_tag) {
     	an.base = 29;
     	an.offset = (x-b) >>4;
     	/* caller tags */
@@ -131,21 +131,21 @@ locate1(exp e, space sp, shape s, int dreg)
 
 /*  while (e->tag == diag_tag || e->tag == fscope_tag
       || e->tag == cscope_tag) {
-    e = son (e);
+    e = child (e);
   }
 */
   switch (e->tag) {
     case name_tag:
       {
-	exp decx = son(e);
+	exp decx = child(e);
 	bool var = isvar(decx);
 				/* this a locally declared name ... */
-	  if (props(decx) & defer_bit) {
+	  if (decx->props & defer_bit) {
 				/* ... it has been identified with a
 				   simple expression which is better
 				   evaluated every time */
 	    where w;
-	    w = locate(son(decx), sp, sh(son(decx)), dreg);
+	    w = locate(child(decx), sp, sh(child(decx)), dreg);
 
 	    if (no(e) == 0) {
 	      aa = w.answhere;
@@ -167,7 +167,7 @@ locate1(exp e, space sp, shape s, int dreg)
 	    }
 	  }
 	  else
-	    if (props(decx) & inreg_bits) {
+	    if (decx->props & inreg_bits) {
 				/* ... it has been allocated in a fixed
 				   point reg */
 	      if (var) {
@@ -182,7 +182,7 @@ locate1(exp e, space sp, shape s, int dreg)
 	      }
 	    }
 	    else
-	      if (props(decx) & infreg_bits) {
+	      if (decx->props & infreg_bits) {
 				/* ... it has been allocated in a floating
 				   point reg */
 		freg fr;
@@ -193,8 +193,8 @@ locate1(exp e, space sp, shape s, int dreg)
 	      else {		/* ... it is in memory */
 		instore is;
 		if (var || (sh(e)->tag == prokhd &&
-		     (son(decx) == NULL || son(decx)->tag == proc_tag
-	                || son(decx)->tag == general_proc_tag))) {
+		     (child(decx) == NULL || child(decx)->tag == proc_tag
+	                || child(decx)->tag == general_proc_tag))) {
 		  is.adval = 1;
 		}
 		else {
@@ -211,7 +211,7 @@ locate1(exp e, space sp, shape s, int dreg)
 
     case addptr_tag:
       {
-	exp sum = son(e);
+	exp sum = child(e);
 	where wsum;
 	int   addend;
 	space nsp;
@@ -222,7 +222,7 @@ locate1(exp e, space sp, shape s, int dreg)
 	wsum = locate(sum, sp, sh(sum), 0);
 	asum = wsum.answhere;
 	/* answer is going to be wsum displaced by integer result of
-	   evaluating bro(sum) */
+	   evaluating next(sum) */
 
 	switch (asum.discrim) {
 	  case notinreg:
@@ -243,7 +243,7 @@ locate1(exp e, space sp, shape s, int dreg)
 		}
 		nsp = guardreg(b.base, sp);
 
-		addend = reg_operand(bro(sum), nsp);
+		addend = reg_operand(next(sum), nsp);
 		/* evaluate the displacement ... */
 		if (dreg == 0)
 		  dreg = getreg(nsp.fixed);
@@ -284,13 +284,13 @@ locate1(exp e, space sp, shape s, int dreg)
     breakpt: 			/* register ind contains the evaluation of
 				   1st operand of addptr */
 	nsp = guardreg(ind, sp);
-	if (bro(sum)->tag == env_offset_tag
-		|| bro(sum)->tag == general_env_offset_tag) {
+	if (next(sum)->tag == env_offset_tag
+		|| next(sum)->tag == general_env_offset_tag) {
           is.b.base = ind;
-          is.b.offset = frame_offset(son(bro(sum)));
+          is.b.offset = frame_offset(child(next(sum)));
 	}
 	else {
-          addend = reg_operand(bro(sum), nsp);
+          addend = reg_operand(next(sum), nsp);
           /* evaluate displacement .... */
           if (dreg == 0)
             dreg = getreg(nsp.fixed);
@@ -311,11 +311,11 @@ locate1(exp e, space sp, shape s, int dreg)
     case subptr_tag: 		/* this is nugatory - previous transforms
 				   make it into addptr or reff */
       {
-	exp sum = son(e);
+	exp sum = child(e);
 	int   ind = reg_operand(sum, sp);
 	instore isa;
 	isa.adval = 1;
-	sum = bro(sum);
+	sum = next(sum);
 	if (sum->tag == val_tag) {
 	  instore isa;
 	  isa.b.base = ind;
@@ -340,7 +340,7 @@ locate1(exp e, space sp, shape s, int dreg)
     case reff_tag: {
 	instore isa;
 
-	wans = locate(son(e), sp, sh(son(e)), 0);
+	wans = locate(child(e), sp, sh(child(e)), 0);
 	/* answer is going to be wans displaced by no(e) */
 
 	switch (wans.answhere.discrim) {
@@ -382,7 +382,7 @@ locate1(exp e, space sp, shape s, int dreg)
     case cont_tag:
     case contvol_tag:
       {
-	exp s = son(e);
+	exp s = child(e);
 	ans ason;
 	instore isa;
 	int   reg;
@@ -458,7 +458,7 @@ locate1(exp e, space sp, shape s, int dreg)
 
     case field_tag: {
 	instore isa;
-	wans = locate(son(e), sp, sh(son(e)), 0);
+	wans = locate(child(e), sp, sh(child(e)), 0);
 	/* answer is wans displace literally by no(e); it should always be
 	   a literal store adress */
 

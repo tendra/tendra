@@ -115,7 +115,7 @@ TDFcallop3(exp arg1, exp arg2, int n)
 	pars.number = 2;
 	pars.start = arg1;
 	pars.end = arg2;
-	bro(arg1) = arg2;
+	next(arg1) = arg2;
 	arg1->last = false;
 
 	res = f_apply_proc(sh(arg1), ob, pars, novar);
@@ -141,7 +141,7 @@ TDFcallop2(error_treatment ov_err, exp arg1, exp arg2, int n)
 	pars.number = 2;
 	pars.start = arg1;
 	pars.end = arg2;
-	bro(arg1) = arg2;
+	next(arg1) = arg2;
 	arg1->last = false;
 
 	res = f_apply_proc((n==test_tag)?slongsh:sh(arg1), ob, pars, novar);
@@ -195,7 +195,7 @@ TDFwithet(error_treatment ov_err, exp e)
 		return e;
 	}
 	Te = find_named_tag("__TDFerror", slongsh);
-	brog(Te)->var = 1;
+	nextg(Te)->var = 1;
 	if (keep_PIC_vars) {
 		setvar(Te);
 	} else if (PIC_code) {

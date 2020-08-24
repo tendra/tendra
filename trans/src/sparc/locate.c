@@ -52,39 +52,39 @@ boff ( exp e ){
   int b = REG_PART(n);
   baseoff an ;
   if ( isglob ( e ) ) {
-    /* bro is index in main_globals */
-    dec *gl = brog ( e ) ;
+    /* next is index in main_globals */
+    dec *gl = nextg ( e ) ;
     long sno = gl->sym_number ;
     an.base = ( int ) ( -( sno + 1 ) ) ;
     an.offset = 0 ;
   } 
-  else if ( isparam ( e ) && son(e)->tag != formal_callee_tag) {
+  else if ( isparam ( e ) && child(e)->tag != formal_callee_tag) {
     /* parameter, positive offset from %fp */
-    /* assert ( son ( e ) -> tag == clear_tag ) ;*/
+    /* assert ( child ( e ) -> tag == clear_tag ) ;*/
     an.base = R_FP ;
-    an.offset = BITS2BYTES( no ( son ( e ) ) + proc_state.params_offset );
+    an.offset = BITS2BYTES( no ( child ( e ) ) + proc_state.params_offset );
     assert ( an.offset >= BITS2BYTES(proc_state.params_offset) ) ;
   } 
-  else if (isparam(e) && son(e)->tag == formal_callee_tag){
+  else if (isparam(e) && child(e)->tag == formal_callee_tag){
     an.base = R_SP;
-    an.offset = BITS2BYTES(no(son(e)));
+    an.offset = BITS2BYTES(no(child(e)));
 #if 1
     if(Has_vcallees){
       an.base = local_reg;
       an.base = callee_start_reg;
-      an.offset = BITS2BYTES(no(son(e)));
+      an.offset = BITS2BYTES(no(child(e)));
     }
     else{
 /*
       an.base = R_FP;
-      an.offset = BITS2BYTES(no(son(e)) - proc_state.callee_size);
+      an.offset = BITS2BYTES(no(child(e)) - proc_state.callee_size);
 */
       an.base = callee_start_reg;
-      an.offset = BITS2BYTES(no(son(e)));
+      an.offset = BITS2BYTES(no(child(e)));
     }
 #endif
   }
-  else if(son(e)->tag == caller_name_tag){
+  else if(child(e)->tag == caller_name_tag){
     /* caller name tag is located at [%sp+paramsoffset] */
     an.base = R_SP;
      an.base = call_base_reg;
@@ -158,12 +158,12 @@ boff_env_offset ( exp e ){
   }
   if ( isparam ( e ) ) {
     /* parameter, positive offset from %fp */
-    /*    assert ( son ( e ) -> tag == clear_tag ) ;*/
-    if(son(e)->tag == formal_callee_tag) {
-      offset =  no(son(e))>>3;
+    /*    assert ( child ( e ) -> tag == clear_tag ) ;*/
+    if(child(e)->tag == formal_callee_tag) {
+      offset =  no(child(e))>>3;
     }
     else {
-      offset = BITS2BYTES( no ( son ( e ) ) + VAL_params_offset );
+      offset = BITS2BYTES( no ( child ( e ) ) + VAL_params_offset );
       assert ( offset >= BITS2BYTES(VAL_params_offset) ) ;
     }
   } 
@@ -201,13 +201,13 @@ locate1 ( exp e, space sp, shape s, int dreg ){
   switch ( e->tag ) {
     case name_tag : {
       /* this a locally declared name ... */
-      exp dc = son ( e ) ;
+      exp dc = child ( e ) ;
       bool var = ( bool ) isvar ( dc ) ;
-      if ( props ( dc ) & defer_bit ) {
+      if ( dc->props & defer_bit ) {
 	/* ... it has been identified with a simple expression
 	   which is better evaluated every time */
 	where w ;
-	w = locate ( son ( dc ), sp, sh ( son ( dc ) ), dreg ) ;
+	w = locate ( child ( dc ), sp, sh ( child ( dc ) ), dreg ) ;
 	if ( no ( e ) == 0 ) {
 	  aa = w.answhere ;
 	} 
@@ -226,7 +226,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
 	  setinsalt ( aa, is ) ;
 	}
       } 
-      else if ( props ( dc ) & inreg_bits ) {
+      else if ( dc->props & inreg_bits ) {
 	/* ... it has been allocated in a fixed point register */
 	if ( var ) {
 	  setregalt ( aa, no ( dc ) ) ;
@@ -239,7 +239,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
 	  setinsalt ( aa, b ) ;
 	}
       } 
-      else if ( props ( dc ) & infreg_bits ) {
+      else if ( dc->props & infreg_bits ) {
 	/* ... it has been allocated in a floating point register */
 	freg fr ;
 	fr.fr = no ( dc ) ;
@@ -250,9 +250,9 @@ locate1 ( exp e, space sp, shape s, int dreg ){
 	/* ... it is in memory */
 	instore is ;
 	if ( var || ( sh ( e ) -> tag == prokhd &&
-		      ( son ( dc ) == NULL ||
-			son ( dc ) -> tag == proc_tag ||
-			son(dc)->tag == general_proc_tag) ) ) {
+		      ( child ( dc ) == NULL ||
+			child ( dc ) -> tag == proc_tag ||
+			child(dc)->tag == general_proc_tag) ) ) {
 	  is.adval = 1 ;
 	} 
         else {
@@ -267,7 +267,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
       return wans;
     }
     case addptr_tag : {
-      exp sum = son ( e ) ;
+      exp sum = child ( e ) ;
       where wsum ;
       int addend ;
       space nsp ;
@@ -280,7 +280,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
       asum = wsum.answhere ;
     
       /* answer is going to be wsum displaced by integer result of
-       evaluating bro ( sum ) */
+       evaluating next ( sum ) */
       switch ( discrim ( asum ) ) {
 	case notinreg : {
 	  is = insalt ( asum ) ;
@@ -297,7 +297,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
 	      b.offset = 0 ;
 	    }
 	    nsp = guardreg ( b.base, sp ) ;
-	    addend = reg_operand ( bro ( sum ), nsp ) ;
+	    addend = reg_operand ( next ( sum ), nsp ) ;
 	
 	    /* evaluate the displacement ... */
 	    if ( dreg == 0 ) dreg = getreg ( nsp.fixed ) ;
@@ -333,13 +333,13 @@ locate1 ( exp e, space sp, shape s, int dreg ){
 	}
       }
     /*register ind contains the evaluation of 1st operand of addptr*/
-      if ( bro ( sum ) -> tag == env_offset_tag || 
-	   bro(sum)->tag == general_env_offset_tag) {
+      if ( next ( sum ) -> tag == env_offset_tag || 
+	   next(sum)->tag == general_env_offset_tag) {
 	is.b.base = ind;
-	is.b.offset = boff_env_offset(son(bro(sum)));
+	is.b.offset = boff_env_offset(child(next(sum)));
       }
       nsp = guardreg ( ind, sp ) ;
-      addend = reg_operand ( bro ( sum ), nsp ) ;
+      addend = reg_operand ( next ( sum ), nsp ) ;
       /* evaluate displacement, add it to ind in new reg */
       if ( dreg == 0 ) dreg = getreg ( nsp.fixed ) ;
       rrr_ins ( i_add, ind, addend, dreg ) ;
@@ -356,11 +356,11 @@ locate1 ( exp e, space sp, shape s, int dreg ){
     }
     case subptr_tag : {
       /* shouldn't occur */
-      exp sum = son ( e ) ;
+      exp sum = child ( e ) ;
       int ind = reg_operand ( sum, sp ) ;
       instore isa ;
       isa.adval = 1 ;
-      sum = bro ( sum ) ;
+      sum = next ( sum ) ;
       if ( sum->tag == val_tag ) {
 	isa.b.base = ind ;
 	isa.b.offset = -no ( e ) ;
@@ -381,7 +381,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
     }
     case reff_tag : {
       /* answer is going to be wans displaced by no ( e ) */
-      wans = locate ( son ( e ), sp, sh ( son ( e ) ), 0 ) ;
+      wans = locate ( child ( e ), sp, sh ( child ( e ) ), 0 ) ;
       switch ( discrim ( wans.answhere ) ) {
 	case notinreg : {
 	  instore isa;
@@ -420,7 +420,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
     }
     case cont_tag :
     case contvol_tag : {
-      exp se = son ( e ) ;
+      exp se = child ( e ) ;
       ans ason ;
       instore isa ;
       int reg ;
@@ -485,7 +485,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
     case field_tag : {
       /* answer is wans displace literally by no ( e ) ; it should
 	 always be a literal store address */
-      wans = locate ( son ( e ), sp, sh ( son ( e ) ), 0 ) ;
+      wans = locate ( child ( e ), sp, sh ( child ( e ) ), 0 ) ;
       switch ( discrim ( wans.answhere ) ) {
 	case notinreg : {
 	  instore isa;

@@ -71,10 +71,10 @@ node *
 string_length(node *s)
 {
     if (s->cons->encoding == ENC_make_string) {
-	node *str = s->son;
+	node *str = s->child;
 	long n = str->cons->encoding;
 	if (n == -1) {
-	    str = str->son->bro;
+	    str = str->child->next;
 	    n = str->cons->encoding;
 	}
 	return make_nat(n);
@@ -98,7 +98,7 @@ copy_node(node *p)
     } else {
 	q->cons = p->cons;
     }
-    q->son = p->son;
+    q->child = p->child;
     q->shape = p->shape;
     return q;
 }
@@ -113,12 +113,12 @@ sh_integer(node *p)
 {
     node *q = new_node();
     q->cons = cons_no(SORT_shape, ENC_integer);
-    q->son = new_node();
+    q->child = new_node();
     if (p == NULL) {
-	q->son->cons = &unknown_cons;
+	q->child->cons = &unknown_cons;
     } else {
-	q->son->cons = p->cons;
-	q->son->son = p->son;
+	q->child->cons = p->cons;
+	q->child->child = p->child;
     }
     return q;
 }
@@ -133,12 +133,12 @@ sh_floating(node *p)
 {
     node *q = new_node();
     q->cons = cons_no(SORT_shape, ENC_floating);
-    q->son = new_node();
+    q->child = new_node();
     if (p == NULL) {
-	q->son->cons = &unknown_cons;
+	q->child->cons = &unknown_cons;
     } else {
-	q->son->cons = p->cons;
-	q->son->son = p->son;
+	q->child->cons = p->cons;
+	q->child->child = p->child;
     }
     return q;
 }
@@ -153,13 +153,13 @@ sh_pointer(node *p)
 {
     node *q = new_node();
     q->cons = cons_no(SORT_shape, ENC_pointer);
-    q->son = new_node();
+    q->child = new_node();
     p = al_shape(p);
     if (p == NULL) {
-	q->son->cons = &unknown_cons;
+	q->child->cons = &unknown_cons;
     } else {
-	q->son->cons = p->cons;
-	q->son->son = p->son;
+	q->child->cons = p->cons;
+	q->child->child = p->child;
     }
     return q;
 }
@@ -174,22 +174,22 @@ sh_offset(node *p, node *q)
 {
     node *r = new_node();
     r->cons = cons_no(SORT_shape, ENC_offset);
-    r->son = new_node();
+    r->child = new_node();
     p = al_shape(p);
     q = al_shape(q);
     al_includes(p, q);
     if (p == NULL) {
-	r->son->cons = &unknown_cons;
+	r->child->cons = &unknown_cons;
     } else {
-	r->son->cons = p->cons;
-	r->son->son = p->son;
+	r->child->cons = p->cons;
+	r->child->child = p->child;
     }
-    r->son->bro = new_node();
+    r->child->next = new_node();
     if (q == NULL) {
-	r->son->bro->cons = &unknown_cons;
+	r->child->next->cons = &unknown_cons;
     } else {
-	r->son->bro->cons = q->cons;
-	r->son->bro->son = q->son;
+	r->child->next->cons = q->cons;
+	r->child->next->child = q->child;
     }
     return r;
 }
@@ -205,19 +205,19 @@ sh_nof(node *n, node *p)
 {
     node *q = new_node();
     q->cons = cons_no(SORT_shape, ENC_nof);
-    q->son = new_node();
+    q->child = new_node();
     if (n == NULL) {
-	q->son->cons = &unknown_cons;
+	q->child->cons = &unknown_cons;
     } else {
-	q->son->cons = n->cons;
-	q->son->son = n->son;
+	q->child->cons = n->cons;
+	q->child->child = n->child;
     }
-    q->son->bro = new_node();
+    q->child->next = new_node();
     if (p == NULL) {
-	q->son->bro->cons = &unknown_cons;
+	q->child->next->cons = &unknown_cons;
     } else {
-	q->son->bro->cons = p->cons;
-	q->son->bro->son = p->son;
+	q->child->next->cons = p->cons;
+	q->child->next->child = p->child;
     }
     return q;
 }
@@ -232,12 +232,12 @@ sh_bitfield(node *p)
 {
     node *q = new_node();
     q->cons = cons_no(SORT_shape, ENC_bitfield);
-    q->son = new_node();
+    q->child = new_node();
     if (p == NULL) {
-	q->son->cons = &unknown_cons;
+	q->child->cons = &unknown_cons;
     } else {
-	q->son->cons = p->cons;
-	q->son->son = p->son;
+	q->child->cons = p->cons;
+	q->child->child = p->child;
     }
     return q;
 }
@@ -252,12 +252,12 @@ sh_compound(node *p)
 {
     node *q = new_node();
     q->cons = cons_no(SORT_shape, ENC_compound);
-    q->son = new_node();
+    q->child = new_node();
     if (p == NULL) {
-	q->son->cons = &unknown_cons;
+	q->child->cons = &unknown_cons;
     } else {
-	q->son->cons = p->cons;
-	q->son->son = p->son;
+	q->child->cons = p->cons;
+	q->child->child = p->child;
     }
     return q;
 }
@@ -279,12 +279,12 @@ normalize(node *p)
 		break;
 	    }
 	    case ENC_offset: {
-		node *al1 = al_shape(p->son);
-		node *al2 = al_shape(p->son->bro);
+		node *al1 = al_shape(p->child);
+		node *al2 = al_shape(p->child->next);
 		return sh_offset(al1, al2);
 	    }
 	    case ENC_pointer: {
-		return sh_pointer(al_shape(p->son));
+		return sh_pointer(al_shape(p->child));
 	    }
 	}
     }
@@ -304,10 +304,10 @@ expand_tok(node *p)
     int count = 0;
     sortname s = p->cons->sortnum;
     while (p->cons->encoding == sort_tokens[s]) {
-	tok_info *info = get_tok_info(p->son->cons);
+	tok_info *info = get_tok_info(p->child->cons);
 	if (info->def) {
 	    p = info->def;
-	    if (p->cons->sortnum == SORT_completion)p = p->son;
+	    if (p->cons->sortnum == SORT_completion)p = p->child;
 	} else {
 	    return NULL;
 	}
@@ -353,8 +353,8 @@ check_shapes(node *p, node *q, int tg)
     if (np == sort_tokens[s]) {
 	p = expand_tok(p);
 	if (p == NULL) {
-	    if (np == nq && p1->son->cons == q->son->cons) {
-		if (p1->son->son == NULL) return p1;
+	    if (np == nq && p1->child->cons == q->child->cons) {
+		if (p1->child->child == NULL) return p1;
 	    }
 	    return q0;
 	}
@@ -450,7 +450,7 @@ check_shapes(node *p, node *q, int tg)
 	    } else {
 		/* Simple nats are checked */
 		if (np == ENC_make_nat) {
-		    if (!eq_node(p->son, q->son))ok = 0;
+		    if (!eq_node(p->child, q->child))ok = 0;
 		    if (tg == 2) return ok ? p1 : sh_top;
 		}
 	    }
@@ -466,7 +466,7 @@ check_shapes(node *p, node *q, int tg)
 	    } else {
 		/* Simple signed_nats are checked */
 		if (np == ENC_make_signed_nat) {
-		    if (!eq_node(p->son, q->son))ok = 0;
+		    if (!eq_node(p->child, q->child))ok = 0;
 		    if (tg == 2) return ok ? p1 : sh_top;
 		}
 	    }
@@ -495,16 +495,16 @@ check_shapes(node *p, node *q, int tg)
 
     /* Check arguments if necessary */
     if (check_further) {
-	node *xp = p->son;
-	node *xq = q->son;
+	node *xp = p->child;
+	node *xq = q->child;
 	while (xp && xq) {
 	    node *c = check_shapes(xp, xq, tg);
 	    if (tg == 2) {
 		if (c == NULL) return NULL;
 		if (c == sh_top) return sh_top;
 	    }
-	    xp = xp->bro;
-	    xq = xq->bro;
+	    xp = xp->next;
+	    xq = xq->next;
 	}
     } else {
 	if (tg == 2) return NULL;
@@ -568,7 +568,7 @@ check1(int t, node *p)
 	char tbuff[1000];
 	construct *c = cons_no(SORT_shape, t);
 	if (p->cons->encoding == ENC_exp_apply_token) {
-	    IGNORE sprintf(tbuff, "%s (%s)", nm, p->son->cons->name);
+	    IGNORE sprintf(tbuff, "%s (%s)", nm, p->child->cons->name);
 	    nm = tbuff;
 	}
 	is_fatal = 0;
@@ -601,14 +601,14 @@ check2(int t, node *p, node *q)
 	    if (sp && sp->cons->encoding == ENC_nof &&
 		 sq && sq->cons->encoding == ENC_nof) {
 		/* Find base shape of array */
-		s = check_shapes(sp->son->bro, sq->son->bro, 0);
-		sp = expand_tok(sp->son);
-		sq = expand_tok(sq->son);
+		s = check_shapes(sp->child->next, sq->child->next, 0);
+		sp = expand_tok(sp->child);
+		sq = expand_tok(sq->child);
 		if (sp && sp->cons->encoding == ENC_make_nat &&
 		     sq && sq->cons->encoding == ENC_make_nat) {
 		    /* Arrays of known size - find concatenated size */
-		    construct *np = sp->son->cons;
-		    construct *nq = sp->son->cons;
+		    construct *np = sp->child->cons;
+		    construct *nq = sp->child->cons;
 		    if (np->sortnum == SORT_small_tdfint &&
 			 nq->sortnum == SORT_small_tdfint) {
 			long up = np->encoding;
@@ -647,9 +647,9 @@ checkn(int t, node *p, int nz)
 	}
 	return NULL;
     }
-    q = p->son;
+    q = p->child;
     r = check1(t, q);
-    while (q = q->bro, q != NULL) {
+    while (q = q->next, q != NULL) {
 	node *s = check1(t, q);
 	r = check_shapes(r, s, 0);
     }
@@ -679,13 +679,13 @@ set_token_args(construct **c, node *p, int set)
 		    if (aq == NULL) {
 			q = r;
 		    } else {
-			aq->bro = r;
+			aq->next = r;
 		    }
 		    aq = r;
 		}
 	    }
 	    info->def = copy_node(p);
-	    if (p)p = p->bro;
+	    if (p)p = p->next;
 	    c++;
 	}
     }
@@ -781,19 +781,19 @@ contains_tokens(node *p, int intro, int tok)
 	}
     }
     if (p->cons == &shape_of) {
-	tok_info *info = get_tok_info(p->son->cons);
+	tok_info *info = get_tok_info(p->child->cons);
 	q = info->def;
-	if (q && q->cons->sortnum == SORT_completion)q = q->son;
+	if (q && q->cons->sortnum == SORT_completion)q = q->child;
 	if (q && q->shape) return 4;
-	p = p->son;
+	p = p->child;
     }
     if (s > 0 && n == sort_tokens[s]) {
-	tok_info *info = get_tok_info(p->son->cons);
+	tok_info *info = get_tok_info(p->child->cons);
 	q = info->def;
 	if (q) return 4;
-	p = p->son;
+	p = p->child;
     }
-    for (q = p->son; q; q = q->bro) {
+    for (q = p->child; q; q = q->next) {
 	int c = contains_tokens(q, intro, tok);
 	if (c == 1 || c >= tok) return 1;
     }
@@ -819,14 +819,14 @@ expand_fully_aux(node *p, int c, int def)
 	    q = new_node();
 	    q->cons = p->cons;
 	    q->shape = p->shape;
-	    for (ap = p->son; ap; ap = ap->bro) {
+	    for (ap = p->child; ap; ap = ap->next) {
 		node *a;
 		c = contains_tokens(ap, intro, 2);
 		a = expand_fully_aux(ap, c, def);
 		if (aq) {
-		    aq->bro = a;
+		    aq->next = a;
 		} else {
-		    q->son = a;
+		    q->child = a;
 		}
 		aq = a;
 	    }
@@ -835,16 +835,16 @@ expand_fully_aux(node *p, int c, int def)
 	case 2: {
 	    /* Tag or label usage */
 	    q = copy_node(p);
-	    q->son = copy_node(q->son);
+	    q->child = copy_node(q->child);
 	    break;
 	}
 	case 3: {
 	    /* Tag or label declaration */
-	    p->son->cons->alias = NULL;
+	    p->child->cons->alias = NULL;
 	    if (def) {
-		copy_construct(p->son->cons);
+		copy_construct(p->child->cons);
 		q = copy_node(p);
-		q->son = copy_node(q->son);
+		q->child = copy_node(q->child);
 	    } else {
 		q = copy_node(p);
 	    }
@@ -852,16 +852,16 @@ expand_fully_aux(node *p, int c, int def)
 	}
 	case 4: {
 	    /* Token application */
-	    construct *tok = p->son->cons;
+	    construct *tok = p->child->cons;
 	    tok_info *info = get_tok_info(tok);
 	    q = info->def;
 	    if (q) {
 		if (info->depth < 100) {
 		    node *prev;
 		    info->depth++;
-		    if (q->cons->sortnum == SORT_completion)q = q->son;
+		    if (q->cons->sortnum == SORT_completion)q = q->child;
 		    if (p->cons == &shape_of)q = q->shape;
-		    prev = set_token_args(info->pars, p->son->son, 1);
+		    prev = set_token_args(info->pars, p->child->child, 1);
 		    c = contains_tokens(q, 0, 2);
 		    q = expand_fully_aux(q, c, 1);
 		    IGNORE set_token_args(info->pars, prev, 0);

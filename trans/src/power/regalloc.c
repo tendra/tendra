@@ -67,7 +67,7 @@ maxspace(spacereq a, spacereq b)
 
 /*
  * maxspace2 is used by seq tags and ident_tags since the result of
- * these tags could be the result of one of the brothers.
+ * these tags could be the result of one of the nexts.
  */
 static spacereq
 maxspace2(spacereq a, spacereq b)
@@ -94,7 +94,7 @@ spacereq
 regalloc(exp e, int freefixed, int freefloat, long stack)
 {
 	int n = e->tag;
-	exp s = son(e);
+	exp s = child(e);
 	spacereq def;
 
 	switch(n) {
@@ -110,23 +110,23 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 		assert(freefixed >= 0);
 		assert(freefloat >= 0);
 
-		if (props(e) & defer_bit) {
+		if (e->props & defer_bit) {
 			/* the tag declared is transparent to code production */
 			def = zerospace;
 		} else if (
 		    !isvar(e) && !isparam(e)
 		    && s->tag == name_tag
-		    && !isvar(son(s))
-		    && !isvis(son(s))
-		    && !isparam(son(s))
-		    && (props(son(s)) & inreg_bits)
+		    && !isvar(child(s))
+		    && !isvis(child(s))
+		    && !isparam(child(s))
+		    && (child(s)->props & inreg_bits)
 		) {
 			/*
 			 * dont take space for this constant dec,
 			 * initialiser is another simple constant ident
 			 * (eg from double nested loop optimisation)
 			 */
-			props(e) |= defer_bit;
+			e->props |= defer_bit;
 			def = zerospace;
 		} else {
 			ash a;
@@ -155,13 +155,13 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 				def = regalloc(s, freefixed, freefloat, stack);
 			}
 
-			asm_comment("regalloc ident_tag:	props=%#x fixregable=%d no(e)=%ld ffix=%d", props(e), fixregable(e), no(e), ffix);
+			asm_comment("regalloc ident_tag:	props=%#x fixregable=%d no(e)=%ld ffix=%d", e->props, fixregable(e), no(e), ffix);
 
-			if ((props(e) & inreg_bits) == 0 &&
+			if ((e->props & inreg_bits) == 0 &&
 			    fixregable(e) && no(e) < ffix
 			    && !caller_in_postlude) {
 				/* suitable for s reg, no(e) has been set up by weights */
-				props(e) |= inreg_bits;
+				e->props |= inreg_bits;
 				no(e) = SREG_TO_REALREG(ffix);	/* will be in s reg */
 				def.fixdump |= RMASK(no(e));
 				ffix--;
@@ -169,11 +169,11 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 				assert(ffix >= 0);
 				assert(IS_SREG(no(e)));
 				assert(a.ashsize <= 32);
-			} else if ((props(e) & infreg_bits) == 0 &&
+			} else if ((e->props & infreg_bits) == 0 &&
 			           floatregable(e) && no(e) < ffloat
 			           && !caller_in_postlude) {
 				/* suitable for float s reg , no(e) has been set up by weights */
-				props(e) |= infreg_bits;
+				e->props |= infreg_bits;
 				no(e) = SFREG_TO_REALFREG(ffloat);	/* will be in s reg */
 				def.fltdump |= RMASK(no(e));
 				ffloat--;
@@ -181,11 +181,11 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 				assert(ffloat >= 0);
 				assert(IS_FLT_SREG(no(e)));
 				assert(a.ashsize <= 64);
-			} else if ((props(e) & inanyreg) == 0) {
+			} else if ((e->props & inanyreg) == 0) {
 				/*
 				 * not suitable for reg allocation
 				 */
-				if (son(e)->tag == val_tag && !isvar(e) && !isenvoff(e)) {
+				if (child(e)->tag == val_tag && !isvar(e) && !isenvoff(e)) {
 					/*
 					 * must have been forced by const optimisation
 					 * - replace uses by the value
@@ -196,21 +196,21 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 						exp p = pt(t);
 
 						t->tag = val_tag;
-						son(t) = NULL;
-						no(t) = no(son(e));
-						props(t) = 0;
+						child(t) = NULL;
+						no(t) = no(child(e));
+						t->props = 0;
 						pt(t) = NULL;
 						t = p;
 					}
 					pt(e) = NULL;
 
 					asm_comment("regalloc heavily used const: no spare regs - replace use by value");
-					props(e) |= defer_bit;
+					e->props |= defer_bit;
 					def = zerospace;
-				} else if (son(e)->tag == name_tag && !isvar(e) && !isenvoff(e)) {
+				} else if (child(e)->tag == name_tag && !isvar(e) && !isenvoff(e)) {
 					/* must have been forced  - defer it */
 					asm_comment("regalloc heavily used address: no spare regs - replace use by value");
-					props(e) |= defer_bit;
+					e->props |= defer_bit;
 					def = zerospace;
 				} else if (isparam(e) || caller_in_postlude) {
 					/*
@@ -247,30 +247,30 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 				asm_comment("regalloc no(e)==%ld:/* allocation of stack like regs in make_code */", no(e));
 			}
 		}
-		body = regalloc(bro(s), ffix, ffloat, st);
+		body = regalloc(next(s), ffix, ffloat, st);
 
 		asm_comment("regalloc return:	ffix,ffloat,st = %d %d %ld", ffix, ffloat, st);
 		return maxspace2(def, body);
 	}
 
 	case case_tag:
-		/* We do not wish to recurse down the bro(son(e)) */
+		/* We do not wish to recurse down the next(child(e)) */
 		def = regalloc(s, freefixed, freefloat, stack);
 		def.obtain = NULL;/* A case returns nothing */
 		return def;
 
 	case cont_tag:
 		if (s->tag == name_tag &&
-		    son(s)->tag == ident_tag &&
-		    isvar(son(s)) &&
+		    child(s)->tag == ident_tag &&
+		    isvar(child(s)) &&
 		    (
-		        (((props(son(s)) & inreg_bits) != 0) && IS_SREG(no(son(s))))  ||
-		        (((props(son(s)) & infreg_bits) != 0) && IS_FLT_SREG(no(son(s))))
+		        (((child(s)->props & inreg_bits) != 0) && IS_SREG(no(child(s))))  ||
+		        (((child(s)->props & infreg_bits) != 0) && IS_FLT_SREG(no(child(s))))
 		    )
 		   ) {
 			def = zerospace;
 			def.stack = stack;
-			def.obtain = son(s);
+			def.obtain = child(s);
 			return def;
 		} else {
 			goto label_default;
@@ -283,8 +283,8 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 		if (s->tag == ident_tag &&
 		    !isvar(s) &&
 		    (
-		        (((props(s) & inreg_bits) != 0) && IS_SREG(no(s))) ||
-		        (((props(s) & infreg_bits) != 0) && IS_FLT_SREG(no(s)))
+		        (((s->props & inreg_bits) != 0) && IS_SREG(no(s))) ||
+		        (((s->props & infreg_bits) != 0) && IS_FLT_SREG(no(s)))
 		    )
 		  ) {
 			/* This could be the last one */
@@ -304,7 +304,7 @@ regalloc(exp e, int freefixed, int freefloat, long stack)
 
 	case seq_tag:
 		def = regalloc(s, freefixed, freefloat, stack);
-		s = bro(s);
+		s = next(s);
 		def = maxspace2(def, regalloc(s, freefixed, freefloat, stack));
 		return def;
 
@@ -319,7 +319,7 @@ label_default:
 		} else {
 			def = regalloc(s, freefixed, freefloat, stack);
 			if (def.obtain == s) {
-				if ((props(def.obtain)&inreg_bits) != 0) {
+				if ((def.obtain->props & inreg_bits) != 0) {
 					freefixed--;
 				} else {
 					freefloat--;
@@ -327,10 +327,10 @@ label_default:
 			}
 
 			while (!s->last) {
-				s = bro(s);
+				s = next(s);
 				def = maxspace(def, regalloc(s, freefixed, freefloat, stack));
 				if (def.obtain == s) {
-					if ((props(def.obtain)&inreg_bits) != 0) {
+					if ((def.obtain->props & inreg_bits) != 0) {
 						freefixed--;
 					} else {
 						freefloat--;

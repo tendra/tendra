@@ -23,30 +23,30 @@
 static exp
 previous_scope(exp e)
 {
-	if (!e->last || bro(e) == NULL) {
+	if (!e->last || next(e) == NULL) {
 		return NULL;
 	}
 
-	if (bro(e)->tag == diagnose_tag && (props(bro(e)) & 0x7) == 1) {
-		return previous_scope(bro(e));
+	if (next(e)->tag == diagnose_tag && (next(e)->props & 0x7) == 1) {
+		return previous_scope(next(e));
 	}
 
-	if (bro(e)->tag == diagnose_tag) {
-		return bro(e);
+	if (next(e)->tag == diagnose_tag) {
+		return next(e);
 	}
 
-	if (bro(e)->tag == ident_tag && bro(e)->last) {
-		if (bro(bro(e)) == NULL) {
+	if (next(e)->tag == ident_tag && next(e)->last) {
+		if (next(next(e)) == NULL) {
 			return NULL;
 		}
 
-		if (bro(bro(e))->tag == diagnose_tag &&
-		    (props(bro(bro(e))) & 0x7) == 1) {
-			return previous_scope(bro(bro(e)));
+		if (next(next(e))->tag == diagnose_tag &&
+		    (next(next(e))->props & 0x7) == 1) {
+			return previous_scope(next(next(e)));
 		}
 
-		if (bro(bro(e))->tag == diagnose_tag) {
-			return bro(bro(e));
+		if (next(next(e))->tag == diagnose_tag) {
+			return next(next(e));
 		}
 
 		return NULL;
@@ -60,7 +60,7 @@ param_scope(exp e)
 {
 	diag_info *d = dno(e);
 	if (d->key == DIAG_INFO_ID) {
-		return isparam(son(d->data.id_scope.access));
+		return isparam(child(d->data.id_scope.access));
 	}
 
 	return 0;
@@ -108,11 +108,11 @@ mark_scope(exp e)
 
 		if (scope == NULL || param_scope(scope) ||
 		    needs_hiding(e, scope)) {
-			props(e) = (prop) (props(e) | 0x80);
+			e->props = (prop) (e->props | 0x80);
 			return;
 		}
 
-		if (props(scope) & 0x80) {
+		if (scope->props & 0x80) {
 			return;
 		}
 	}

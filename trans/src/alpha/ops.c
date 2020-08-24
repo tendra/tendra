@@ -50,7 +50,7 @@ static bool
 regremoved(exp *seq, int reg)
 {
 	exp s = *seq;
-	exp t = bro(s);
+	exp t = next(s);
 
 	if (abs(regofval(s)) == reg) {
 		*seq = t;
@@ -59,7 +59,7 @@ regremoved(exp *seq, int reg)
 
 	for (;;) {
 		if (abs(regofval(t)) == reg) {
-			bro(s) = bro(t);
+			next(s) = next(t);
 			if (t->last) {
 				s->last = true;
 			}
@@ -72,7 +72,7 @@ regremoved(exp *seq, int reg)
 		}
 
 		s = t;
-		t = bro(t);
+		t = next(t);
 	}
 }
 
@@ -88,7 +88,7 @@ do_comm(exp seq, space sp, int final, instruction rins)
 	/* evaluate 1st operand into a1 */
 	for (;;) {
 		nsp = guardreg (a1, sp);
-		seq = bro (seq);
+		seq = next (seq);
 		if (seq->tag == val_tag) {/* next operand is a constant */
 			if (seq->last) {
 				if (isbigval(seq)) {
@@ -148,9 +148,9 @@ comm_op(exp e, space sp, where d, instruction rrins)
 	switch (d.answhere.discrim) {
 	case inreg: {
 		int   dest = regalt(d.answhere);
-		bool usesdest = regremoved(&son(e), dest);
+		bool usesdest = regremoved(&child(e), dest);
 
-		exp seq = son(e);
+		exp seq = child(e);
 		if (dest == NO_REG) {
 			dest = getreg(sp.fixed);
 		}
@@ -187,7 +187,7 @@ comm_op(exp e, space sp, where d, instruction rrins)
 		space nsp;
 
 		setregalt(a, r);
-		do_comm(son(e), sp, r, rins);
+		do_comm(child(e), sp, r, rins);
 		/* evaluate the expression into r ... */
 		tidyshort(r, sh(e));
 		nsp = guardreg(r, sp);
@@ -202,8 +202,8 @@ comm_op(exp e, space sp, where d, instruction rrins)
 int
 non_comm_op(exp e, space sp, where dest, instruction rins)
 {
-	exp l = son(e);
-	exp r = bro(l);
+	exp l = child(e);
+	exp r = next(l);
 	int   a1 = reg_operand(l, sp);
 	space nsp;
 	int   a2;
@@ -243,8 +243,8 @@ non_comm_op(exp e, space sp, where dest, instruction rins)
 int
 fop(exp e, space sp, where dest, instruction ins)
 {
-	exp l = son(e);
-	exp r = bro(l);
+	exp l = child(e);
+	exp r = next(l);
 	int a1, a2;
 	space nsp;
 

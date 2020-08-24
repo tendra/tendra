@@ -68,10 +68,10 @@ evalexp(exp e)
 		return no(e);
 
 	case bitf_to_int_tag:
-		return evalexp(son(e));
+		return evalexp(child(e));
 
 	case int_to_bitf_tag: {
-		long  w = evalexp(son(e));
+		long  w = evalexp(child(e));
 
 		if (shape_align(sh(e)) != 1) {
 			error(ERR_INTERNAL, "should be align 1");
@@ -84,16 +84,16 @@ evalexp(exp e)
 		return w;
 	}
 
-	case not_tag: return ~evalexp(son(e));
-	case and_tag: return evalexp(son(e))  & evalexp(bro(son(e)));
-	case or_tag:  return evalexp(son(e))  | evalexp(bro(son(e)));
-	case xor_tag: return evalexp(son(e))  ^ evalexp(bro(son(e)));
-	case shr_tag: return evalexp(son(e)) >> evalexp(bro(son(e)));
-	case shl_tag: return evalexp(son(e)) << evalexp(bro(son(e)));
+	case not_tag: return ~evalexp(child(e));
+	case and_tag: return evalexp(child(e))  & evalexp(next(child(e)));
+	case or_tag:  return evalexp(child(e))  | evalexp(next(child(e)));
+	case xor_tag: return evalexp(child(e))  ^ evalexp(next(child(e)));
+	case shr_tag: return evalexp(child(e)) >> evalexp(next(child(e)));
+	case shl_tag: return evalexp(child(e)) << evalexp(next(child(e)));
 
 	case concatnof_tag: {
-		long  wd = evalexp(son(e));
-		return wd | (evalexp(bro(son(e))) << shape_size(sh(son(e))));
+		long  wd = evalexp(child(e));
+		return wd | (evalexp(next(child(e))) << shape_size(sh(child(e))));
 	}
 
 	case clear_tag:
@@ -103,13 +103,13 @@ evalexp(exp e)
 		break;
 
 	case env_offset_tag:
-		if (son(e)->tag == 0) {
-			return no(son(e)) / 8;
+		if (child(e)->tag == 0) {
+			return no(child(e)) / 8;
 		}
 		break;
 
 	case env_size_tag: {
-		dec *et = brog(son(son(e)));
+		dec *et = nextg(child(child(e)));
 		if (et -> processed) {
 			return et -> index;
 		}
@@ -117,31 +117,31 @@ evalexp(exp e)
 	}
 
 	case offset_max_tag: {
-		long a = evalexp(son(e));
-		long b = evalexp(bro(son(e)));
+		long a = evalexp(child(e));
+		long b = evalexp(next(child(e)));
 		return a > b ? a : b;
 	}
 
-	case offset_pad_tag:        return rounder(evalexp(son(e)), shape_align(sh(e)) / 8);
-	case offset_add_tag:        return evalexp(son(e)) + evalexp(bro(son(e)));
-	case offset_mult_tag:       return evalexp(son(e)) * evalexp(bro(son(e)));
+	case offset_pad_tag:        return rounder(evalexp(child(e)), shape_align(sh(e)) / 8);
+	case offset_add_tag:        return evalexp(child(e)) + evalexp(next(child(e)));
+	case offset_mult_tag:       return evalexp(child(e)) * evalexp(next(child(e)));
 	case offset_div_tag:
-	case offset_div_by_int_tag: return evalexp(son(e)) / evalexp(bro(son(e)));
-	case offset_subtract_tag:   return evalexp(son(e)) - evalexp(bro(son(e)));
-	case offset_negate_tag:     return -evalexp(son(e));
+	case offset_div_by_int_tag: return evalexp(child(e)) / evalexp(next(child(e)));
+	case offset_subtract_tag:   return evalexp(child(e)) - evalexp(next(child(e)));
+	case offset_negate_tag:     return -evalexp(child(e));
 
 	case seq_tag:
-		if (son(son(e))->tag == prof_tag && son(son(e))->last) {
-			return evalexp(bro(son(e)));
+		if (child(child(e))->tag == prof_tag && child(child(e))->last) {
+			return evalexp(next(child(e)));
 		}
 		break;
 
 	case cont_tag:
-		if (PIC_code && son(e)->tag == name_tag && isglob(son(son(e)))
-		    && son(son(son(e))) != NULL
-		    && !(brog(son(son(e))) -> var))
+		if (PIC_code && child(e)->tag == name_tag && isglob(child(child(e)))
+		    && child(child(child(e))) != NULL
+		    && !(nextg(child(child(e))) -> var))
 		{
-			return evalexp(son(son(son(e))));
+			return evalexp(child(child(child(e))));
 		}
 		break;
 	}
@@ -197,9 +197,9 @@ evalval(exp e)
 		return;
 	}
 
-	if (n == reff_tag && son(e)->tag == name_tag && isglob(son(son(e)))) {
+	if (n == reff_tag && child(e)->tag == name_tag && isglob(child(child(e)))) {
 		outopenbr();
-		asm_printf("%s + %ld", brog(son(son(e))) -> name, (no(e) + no(son(e))) / 8);
+		asm_printf("%s + %ld", nextg(child(child(e))) -> name, (no(e) + no(child(e))) / 8);
 		outclosebr();
 		return;
 	}
@@ -207,10 +207,10 @@ evalval(exp e)
 	if (n == name_tag) {
 		if (no(e) != 0) {
 			outopenbr();
-			asm_printf("%s + %ld", brog(son(e)) -> name, no(e) / 8);
+			asm_printf("%s + %ld", nextg(child(e)) -> name, no(e) / 8);
 			outclosebr();
 		} else {
-			asm_printf("%s", brog(son(e)) -> name);
+			asm_printf("%s", nextg(child(e)) -> name);
 		}
 		return;
 	}
@@ -269,15 +269,15 @@ evalaux(exp e, int isconst, int al)
 		int crt_off = 0;
 		int off, offn, sz, nx, i;
 
-		if (son(e) == NULL) {
+		if (child(e) == NULL) {
 			return;
 		}
 
-		offe = son(e);
+		offe = child(e);
 
 		for (;;) {
 			off = no(offe);
-			val = bro(offe);
+			val = next(offe);
 
 			if (bits_left &&
 			    off >= (crt_off + 8)) {
@@ -302,7 +302,7 @@ evalaux(exp e, int isconst, int al)
 			} else {
 				offn = off - crt_off;
 				sz = shape_size(sh(val));
-				nx = (val->tag == int_to_bitf_tag) ? no(son(val)) : no(val);
+				nx = (val->tag == int_to_bitf_tag) ? no(child(val)) : no(val);
 				work += nx << offn;
 				bits_left = offn + sz;
 				if ((offn + sz) <= 32) {
@@ -339,7 +339,7 @@ evalaux(exp e, int isconst, int al)
 				return;
 			}
 
-			offe = bro(val);
+			offe = next(val);
 		}
 	}
 
@@ -381,7 +381,7 @@ evalaux(exp e, int isconst, int al)
 			}
 
 			for (j = i; goon && j < i + 10; ++j) {
-				switch (props(e)) {
+				switch (e->props) {
 				case 8:  asm_printf("%d", s[j]); break;
 				case 16: asm_printf("%d", ((short *) (void *) s)[j]); break; /* the pun to short * is correct: jmf */
 				case 32: asm_printf("%d", ((int   *) (void *) s)[j]); break; /* the pun to int   * is correct: jmf */
@@ -409,19 +409,19 @@ evalaux(exp e, int isconst, int al)
 
 	if (n == res_tag) {
 		int  nb;
-		nb = shape_size(sh(son(e))) / 8;
-		clear_out(nb, isconst, shape_align(sh(son(e))));
+		nb = shape_size(sh(child(e))) / 8;
+		clear_out(nb, isconst, shape_align(sh(child(e))));
 		return;
 	}
 
 	if (n == ncopies_tag) {
 		int  m = no(e);
 		int  sz, i;
-		exp val = son(e);
+		exp val = child(e);
 
 		while (val->tag == ncopies_tag) {
 			m *= no(val);
-			val = son(val);
+			val = child(val);
 		}
 
 		sz = shape_size(sh(val)) / 8;
@@ -437,7 +437,7 @@ evalaux(exp e, int isconst, int al)
 	}
 
 	if (n == nof_tag) {
-		exp t = son(e);
+		exp t = child(e);
 
 		if (t == NULL) {
 			return;
@@ -449,14 +449,14 @@ evalaux(exp e, int isconst, int al)
 				return;
 			}
 
-			t = bro(t);
+			t = next(t);
 			dot_align((shape_align(sh(t)) <= 8) ? 1 : shape_align(sh(t)) / 8);
 		}
 	}
 
 	if (n == concatnof_tag) {
-		evalaux(son(e), isconst, al);
-		evalaux(bro(son(e)), isconst, (al + shape_size(son(e))) & 63);
+		evalaux(child(e), isconst, al);
+		evalaux(next(child(e)), isconst, (al + shape_size(child(e))) & 63);
 		return;
 	}
 
@@ -466,9 +466,9 @@ evalaux(exp e, int isconst, int al)
 		return;
 	}
 
-	if (n == chvar_tag && shape_size(sh(e)) == shape_size(sh(son(e)))) {
-		sh(son(e)) = sh(e);
-		evalaux(son(e), isconst, al);
+	if (n == chvar_tag && shape_size(sh(e)) == shape_size(sh(child(e)))) {
+		sh(child(e)) = sh(e);
+		evalaux(child(e), isconst, al);
 		return;
 	}
 

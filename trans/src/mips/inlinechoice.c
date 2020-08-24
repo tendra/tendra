@@ -48,7 +48,7 @@ inlinechoice(exp t, exp def, int total)
 	}
 
 	apars = t; /* only uses are applications */
-	fpars = son(def);
+	fpars = child(def);
 
 	for (;;) {
 		if (fpars->tag != ident_tag || !isparam(fpars)) {
@@ -61,7 +61,7 @@ inlinechoice(exp t, exp def, int total)
 		if (apars->last) {
 			return 1;
 		}
-		apars = bro(apars);
+		apars = next(apars);
 
 		switch (apars->tag) {
 		case val_tag:
@@ -71,7 +71,7 @@ inlinechoice(exp t, exp def, int total)
 			break;
 
 		case cont_tag:
-			if (son(apars)->tag == name_tag && isvar(son(son(apars))) &&
+			if (child(apars)->tag == name_tag && isvar(child(child(apars))) &&
 			    !isvar(fpars)) {
 				break;
 			}
@@ -82,7 +82,7 @@ inlinechoice(exp t, exp def, int total)
 			newdecs++;
 		}
 
-		fpars = bro(son(fpars));
+		fpars = next(child(fpars));
 	}
 
 	/*

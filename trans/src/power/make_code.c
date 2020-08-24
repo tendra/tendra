@@ -151,14 +151,14 @@ static exp testlast(exp e, exp second)
 		return 0;
 	}
 
-	if (bro(son(e))->tag == test_tag && pt(bro(son(e))) == second) {
+	if (next(child(e))->tag == test_tag && pt(next(child(e))) == second) {
 		/* is the last one of the sequence a test_tag pointing to second */
-		return bro(son(e));
-	} else if (bro(son(e))->tag == top_tag) {
+		return next(child(e));
+	} else if (next(child(e))->tag == top_tag) {
 		exp list;
 
 		/* find the penultimate exp of the seq_tag */
-		for (list = son(son(e)); !list->last; list = bro(list))
+		for (list = child(child(e)); !list->last; list = next(list))
 			;
 
 		if (list->tag == test_tag && pt(list) == second) {
@@ -172,7 +172,7 @@ static exp testlast(exp e, exp second)
 }
 
 /* Does e, or components of e contain a bitfield? */
-/* +++ should detect this earlier and record in props(e) once-and-for-all */
+/* +++ should detect this earlier and record in e->props once-and-for-all */
 static int has_bitfield(exp e)
 {
 	if (e == NULL) {
@@ -185,7 +185,7 @@ static int has_bitfield(exp e)
 		 * (compound_tag <offset> <initialiser> ... )
 		 */
 		/* look at alignment of initialisers */
-		e = bro(son(e));
+		e = next(child(e));
 		for (;;) {
 			if (has_bitfield(e)) {
 				return 1;    /* found bitfield */
@@ -195,7 +195,7 @@ static int has_bitfield(exp e)
 				return 0;    /* all done, no bitfield */
 			}
 
-			e = bro(bro(e));	/* try next initialiser */
+			e = next(next(e));	/* try next initialiser */
 		}
 			UNREACHED;
 	default: {
@@ -223,15 +223,15 @@ fix_nonbitfield(exp e)
 {
 	if (e->tag == compound_tag) {
 		/* for each offset */
-		for (e = son(e); ; e = bro(bro(e))) {
+		for (e = child(e); ; e = next(next(e))) {
 			if (e->tag == val_tag && sh(e)->tag == offsethd && al2(sh(e)) >= 8) {
 				no(e) = no(e) << 3;    /* fix it */
 			}
 
 			/* recursively fix the rest of the struct */
-			fix_nonbitfield(bro(e));
+			fix_nonbitfield(next(e));
 
-			if (bro(e)->last) {
+			if (next(e)->last) {
 				return; /* all done */
 			}
 		}
@@ -344,7 +344,7 @@ case_tag_code_transform(int caseint_reg, exp e, space sp)
 	long l;
 	long n;
 
-	exp z = bro(son(e));
+	exp z = next(child(e));
 	exp zt = z;
 	int endlab = new_label();	/* +++ often another jump at endlab */
 	int veclab = next_data_lab();
@@ -355,10 +355,10 @@ case_tag_code_transform(int caseint_reg, exp e, space sp)
 				 * used until after lase use of caseint_reg */
 
 	l = no(zt);
-	while (bro(zt) != NULL) {
-		zt = bro(zt);
+	while (next(zt) != NULL) {
+		zt = next(zt);
 	}
-	u = (son(zt) == NULL) ? no(zt) : no(son(zt));
+	u = (child(zt) == NULL) ? no(zt) : no(child(zt));
 
 	zeroveclab.offset = 0;
 	zeroveclab.base = veclab;
@@ -394,16 +394,16 @@ case_tag_code_transform(int caseint_reg, exp e, space sp)
 			asm_printop(".long L.%d-%s", endlab, veclabname);
 		}
 
-		u = (son(z) == NULL) ? n : no(son(z));
+		u = (child(z) == NULL) ? n : no(child(z));
 		for (; u + 1 != n; n++) {	/* comparison independent of sign */
-			asm_printop(".long L.%ld-%s", no(son(pt(z))), veclabname);
+			asm_printop(".long L.%ld-%s", no(child(pt(z))), veclabname);
 		}
 
 		if (z->last) {
 			break;
 		}
 
-		z = bro(z);
+		z = next(z);
 	}
 
 	set_label(endlab);
@@ -413,7 +413,7 @@ static void
 case_tag_code_notransform(int caseint_reg, exp e, space sp)
 {
 	mm lims;
-	exp z = bro(son(e));
+	exp z = next(child(e));
 	exp zt = z;
 	long n;
 	long l;
@@ -426,24 +426,24 @@ case_tag_code_notransform(int caseint_reg, exp e, space sp)
 	/* calculate crude criterion for using jump vector or branches */
 	l = no(zt);
 	for (n = 1;; n++) {
-		if (u + 1 != no(zt) && son(zt) != NULL) {
+		if (u + 1 != no(zt) && child(zt) != NULL) {
 			n++;
 		}
 
 		if (zt->last) {
-			u = (son(zt) != NULL) ? no(son(zt)) : no(zt);
+			u = (child(zt) != NULL) ? no(child(zt)) : no(zt);
 			break;
 		}
 
-		if (son(zt) != NULL) {
-			u = no(son(zt));
+		if (child(zt) != NULL) {
+			u = no(child(zt));
 		} else {
 			if (u + 1 == no(zt)) {
 				u += 1;
 			}
 		}
 
-		zt = bro(zt);
+		zt = next(zt);
 	}
 
 	/* now l is lowest controlling value, u is highest and n is number of cases */
@@ -485,7 +485,7 @@ case_tag_code_notransform(int caseint_reg, exp e, space sp)
 	}
 
 	asm_comment("case_tag: n=%ld l,u=%ld,%ld approx_range=%lu", n, l, u, approx_range);
-	if (is_signed(sh(son(e)))) {
+	if (is_signed(sh(child(e)))) {
 		assert(l <= u);
 	} else {
 		assert((unsigned long)l <= (unsigned long)u);
@@ -543,30 +543,30 @@ case_tag_code_notransform(int caseint_reg, exp e, space sp)
 			for (; no(z) != n; n++) {
 				asm_printop(".long L.%d-%s", endlab, veclabname);
 			}
-			u = (son(z) == NULL) ? n : no(son(z));
+			u = (child(z) == NULL) ? n : no(child(z));
 			for (; u + 1 != n; n++) {
-				asm_printop(".long L.%ld-%s", no(son(pt(z))), veclabname);
+				asm_printop(".long L.%ld-%s", no(child(pt(z))), veclabname);
 			}
 			if (z->last) {
 				break;
 			}
-			z = bro(z);
+			z = next(z);
 		}
 
 		set_label(endlab);
 		return;
-	} else if (is_signed(sh(son(e)))) {
+	} else if (is_signed(sh(child(e)))) {
 		/* use branches - tests are ordered */
 		int endlab = 0;
-		lims = maxmin(sh(son(e)));
+		lims = maxmin(sh(child(e)));
 		clear_branch_queue();
 
 		for (;;) {
-			int lab = no(son(pt(z)));
+			int lab = no(child(pt(z)));
 			int creg = next_creg();
 
 			long l = no(z);
-			if (son(z) == NULL) {
+			if (child(z) == NULL) {
 				/* only single test required */
 				cmp_ri_ins(i_cmp, caseint_reg, l, creg);
 				queue_bc_ins(i_beq, creg, lab);
@@ -575,7 +575,7 @@ case_tag_code_notransform(int caseint_reg, exp e, space sp)
 				} else if (l == lims.mini) {
 					lims.mini += 1;
 				}
-			} else if (u = no(son(z)), l > lims.mini) {
+			} else if (u = no(child(z)), l > lims.mini) {
 				if (u >= lims.maxi) {
 					/* have already tested lower */
 					cmp_ri_ins(i_cmp, caseint_reg, l, creg);
@@ -620,24 +620,24 @@ case_tag_code_notransform(int caseint_reg, exp e, space sp)
 				return;
 			}
 
-			z = bro(z);
+			z = next(z);
 		}
 	} else {
 		/* unsigned, use branches - tests are ordered */
 		int endlab = 0;
 		unsigned long maxi;
 		unsigned long mini;
-		lims = maxmin(sh(son(e)));
+		lims = maxmin(sh(child(e)));
 		maxi = (unsigned)lims.maxi;
 		mini = (unsigned)lims.mini;
 		clear_branch_queue();
 
 		for (;;) {
-			int lab = no(son(pt(z)));
+			int lab = no(child(pt(z)));
 			int creg = next_creg();
 
 			unsigned long l = no(z);
-			if (son(z) == NULL) {
+			if (child(z) == NULL) {
 				/* only single test required */
 				cmp_ri_ins(i_cmpl, caseint_reg, l, creg);
 				queue_bc_ins(i_beq, creg, lab);
@@ -646,7 +646,7 @@ case_tag_code_notransform(int caseint_reg, exp e, space sp)
 				} else if (l == mini) {
 					mini += 1;
 				}
-			} else if (u = no(son(z)), l > mini) {
+			} else if (u = no(child(z)), l > mini) {
 				if (u >= maxi) {
 					/* have already tested lower */
 					cmp_ri_ins(i_cmpl, caseint_reg, l, creg);
@@ -691,7 +691,7 @@ case_tag_code_notransform(int caseint_reg, exp e, space sp)
 				return;
 			}
 
-			z = bro(z);
+			z = next(z);
 		}
 	}
 }
@@ -713,12 +713,12 @@ case_tag_code(int caseint_reg, exp e, space sp)
 static bc_info
 make_test_tag_cmp(exp e, space sp)
 {
-	exp l = son(e);
-	exp r = bro(l);
+	exp l = child(e);
+	exp r = next(l);
 	shape shl = sh(l);
 	bc_info bcinfo;
 
-	bcinfo.lab = (ptno(e) < 0) ? -ptno(e) : no(son(pt(e)));
+	bcinfo.lab = (ptno(e) < 0) ? -ptno(e) : no(child(pt(e)));
 	/* see frig in cond_tag */
 	/* generate compare */
 
@@ -793,7 +793,7 @@ make_code(exp e, space sp, where dest, int exitlab)
 	 * 13500 exp nodes generate 8k words of instructions.
 	 * We play safe and allow 1 instruction per exp.
 	 */
-#define TEST_TAG_NEAR_BRANCH(e)	(ptno(e) < 0 || ABS(ptno(son(pt(e))) -exp_num) < 8192)
+#define TEST_TAG_NEAR_BRANCH(e)	(ptno(e) < 0 || ABS(ptno(child(pt(e))) -exp_num) < 8192)
 
 tailrecurse:
 
@@ -861,20 +861,20 @@ tailrecurse:
 	case seq_tag: {
 		exp t;
 
-		for (t = son(son(e)); ; t = bro(t)) {
-			exp next = (t->last) ? (bro(son(e))) : bro(t);
+		for (t = child(child(e)); ; t = next(t)) {
+			exp next = (t->last) ? (next(child(e))) : next(t);
 
 			if (next->tag == goto_tag) {	/* gotos end sequences */
-				make_code(t, sp, nowhere, no(son(pt(next))));
+				make_code(t, sp, nowhere, no(child(pt(next))));
 			} else {
 				code_here(t, sp, nowhere);
 			}
 
 			if (t->last) {
-				exp l = bro(son(e)); /* last exp of sequence */
+				exp l = next(child(e)); /* last exp of sequence */
 
 				if (sh(t)->tag == bothd && l->tag == res_tag &&
-				    (son(l)->tag == clear_tag || son(l)->tag == top_tag)) {
+				    (child(l)->tag == clear_tag || child(l)->tag == top_tag)) {
 					/*
 					 * res_tag that cannot be reached.  Eg an extra one inserted at
 					 * end of proc.  Skip it.
@@ -889,8 +889,8 @@ tailrecurse:
 	}
 
 	case cond_tag: {
-		exp first = son(e);
-		exp second = bro(son(e));
+		exp first = child(e);
+		exp second = next(child(e));
 		exp test;
 
 		if (dest.answhere.discrim == insomereg) {
@@ -928,26 +928,26 @@ tailrecurse:
 		 */
 		if (first->tag == goto_tag && pt(first) == second) {
 			/* first is goto second */
-			no(son(second)) = 0;
+			no(child(second)) = 0;
 			return make_code(second, sp, dest, exitlab);
 		}
 #if 0 /* could we do this better to prevent long branch problem?*/
-		else if (second->tag == labst_tag && bro(son(second))->tag == top_tag) {
+		else if (second->tag == labst_tag && next(child(second))->tag == top_tag) {
 			/* second is empty */
 
 			int endl = (exitlab == 0) ? new_label() : exitlab;
 
-			no(son(second)) = endl;
+			no(child(second)) = endl;
 			make_code(first, sp, dest, endl);
 			mka.lab = endl;
 			return mka;
 		}
 #endif
-		else if (second->tag == labst_tag && bro(son(second))->tag == goto_tag) {
+		else if (second->tag == labst_tag && next(child(second))->tag == goto_tag) {
 			/* second is goto */
-			exp g = bro(son(second));
+			exp g = next(child(second));
 
-			no(son(second)) = no(son(pt(g)));
+			no(child(second)) = no(child(pt(g)));
 			return make_code(first, sp, dest, exitlab);
 		}
 
@@ -959,7 +959,7 @@ tailrecurse:
 			ptno(test) = -l;	/* make test jump to exitlab - see test_tag: */
 			settest_number(test, obranch(test_number(test)));
 			/* settest_number preserves the Rev bit */
-			no(son(second)) = new_label();
+			no(child(second)) = new_label();
 			make_code(first, sp, dest, l);
 			make_code(second, sp, dest, l);
 			mka.lab = l;
@@ -969,7 +969,7 @@ tailrecurse:
 			int fl;
 			int l;
 
-			no(son(second)) = new_label();
+			no(child(second)) = new_label();
 			fl = make_code(first, sp, dest, exitlab).lab;
 			l = (fl != 0) ? fl : ((exitlab != 0) ? exitlab : new_label());
 
@@ -986,10 +986,10 @@ tailrecurse:
 	}
 
 	case labst_tag:
-		ptno(son(e)) = exp_num;	/* update estimate made in scan() */
-		if (no(son(e)) != 0) {
+		ptno(child(e)) = exp_num;	/* update estimate made in scan() */
+		if (no(child(e)) != 0) {
 			clear_all();
-			set_label(no(son(e)));
+			set_label(no(child(e)));
 
 			if (is_loaded_lv(e) && p_save_all_sregs) {
 				/* It is long jumpabble to (potentially)*/
@@ -1012,15 +1012,15 @@ tailrecurse:
 
 		}
 
-		return make_code(bro(son(e)), sp, dest, exitlab);
+		return make_code(next(child(e)), sp, dest, exitlab);
 
 	case rep_tag: {
-		exp first = son(e);
-		exp second = bro(first);
+		exp first = child(e);
+		exp second = next(first);
 
 		code_here(first, sp, nowhere);
 		assert(second->tag == labst_tag);
-		no(son(second)) = new_label();
+		no(child(second)) = new_label();
 
 #if 1
 		if (cpu != CPU_POWERPC) {
@@ -1030,10 +1030,10 @@ tailrecurse:
 			 * to reduce RS/6000 branch delays
 			 */
 			/* look for last test_tag of repeat exp */
-			last_test = bro(son(second));	/* under labst_tag */
+			last_test = next(child(second));	/* under labst_tag */
 			/* dive down sequences */
 			while (last_test->tag == seq_tag) {
-				last_test = bro(son(last_test));
+				last_test = next(child(last_test));
 			}
 
 			if (diag == DIAG_NONE && last_test->tag == test_tag) {
@@ -1060,7 +1060,7 @@ tailrecurse:
 					static int rep_org_labnos = 0;
 					int rep_org_lab = 0;
 					int end_rep_test_lab = new_label();
-					int start_of_rep_lab = no(son(second));	/* labst_tag label */
+					int start_of_rep_lab = no(child(second));	/* labst_tag label */
 					int end_rep_lab = (exitlab == 0) ? new_label() : exitlab;
 					bc_info bcinfo;
 
@@ -1129,16 +1129,16 @@ tailrecurse:
 #if 0
 		/* This would be a lovely optimisation, however silly people give me test
 		   programs with L1:goto L1 so I despair */
-		while (bro(son(gotodest))->tag == goto_tag) {
+		while (next(child(gotodest))->tag == goto_tag) {
 			/* goto to goto optimisation */
-			gotodest = pt(bro(son(gotodest)));
+			gotodest = pt(next(child(gotodest)));
 		}
 #endif
 
-		lab = no(son(gotodest));
+		lab = no(child(gotodest));
 		clear_all();
-		if (e->last == 0 || bro(e)->tag != seq_tag || bro(e)->last ||
-		    bro(bro(e)) != gotodest) {
+		if (e->last == 0 || next(e)->tag != seq_tag || next(e)->last ||
+		    next(next(e)) != gotodest) {
 			uncond_ins(i_b, lab);
 		} /* otherwise dest is next in sequence */
 
@@ -1162,7 +1162,7 @@ tailrecurse:
 			bc_ins(bcinfo.branch, bcinfo.creg, bcinfo.lab, branch_prediction);
 		} else {
 			int newlab = new_label();
-			int oldlab = no(son(pt(e)));
+			int oldlab = no(child(pt(e)));
 
 			/*
 			 * Branch is too far away so we reverse branch to new label
@@ -1181,8 +1181,8 @@ tailrecurse:
 
 	case ass_tag:
 	case assvol_tag: {
-		exp lhs = son(e);
-		exp rhs = bro(lhs);
+		exp lhs = child(e);
+		exp rhs = next(lhs);
 		where assdest;
 		space nsp;
 		int contreg = NOREG;
@@ -1250,13 +1250,13 @@ tailrecurse:
 #ifndef NO_REGREG_ST
 		/* see if we can use [reg+reg] addressing for this store */
 		if (lhs->tag == addptr_tag) {
-			exp addptr_sons = son(lhs);
+			exp addptr_children = child(lhs);
 			ash a;
 			int ashsize;
 			a = ashof(sh(rhs));
 			ashsize = a.ashsize;
 
-			if (bro(addptr_sons)->last
+			if (next(addptr_children)->last
 			    && a.ashalign == ashsize
 			    && (ashsize == 8 || ashsize == 16 || ashsize == 32 || is_float)) {
 				int lhs_addptr_reg;
@@ -1265,9 +1265,9 @@ tailrecurse:
 
 				asm_comment("make_code ass_tag: store suitable for [reg+reg] addressing");
 
-				lhs_addptr_reg = reg_operand(addptr_sons, sp);
+				lhs_addptr_reg = reg_operand(addptr_children, sp);
 				nsp = guardreg(lhs_addptr_reg, sp);
-				rhs_addptr_reg = reg_operand(bro(addptr_sons), nsp);
+				rhs_addptr_reg = reg_operand(next(addptr_children), nsp);
 				nsp = guardreg(rhs_addptr_reg, nsp);
 
 				if (is_float) {
@@ -1412,9 +1412,9 @@ tailrecurse:
 #endif
 #if 1
 					if (lhs->tag == name_tag) {
-						exp dc = son(lhs);
-						if (son(dc) != NULL) {
-							dc = son(dc);
+						exp dc = child(lhs);
+						if (child(dc) != NULL) {
+							dc = child(dc);
 						}
 						if (shape_size(sh(dc)) ==
 						    shape_size(sh(rhs))) {
@@ -1475,7 +1475,7 @@ tailrecurse:
 		}
 
 		nsp = sp;
-		t = son(e);
+		t = child(e);
 		switch (dest.answhere.discrim) {
 		case notinreg: {
 			str = insalt(dest.answhere);	/* it should be !! */
@@ -1502,15 +1502,15 @@ tailrecurse:
 				assert(t->tag == val_tag && al2(sh(t)) >= 8);
 
 				setinsalt(newdest.answhere, newis);
-				newdest.ashwhere = ashof(sh(bro(t)));
+				newdest.ashwhere = ashof(sh(next(t)));
 
-				code_here(bro(t), nsp, newdest);
+				code_here(next(t), nsp, newdest);
 
-				if (bro(t)->last) {
+				if (next(t)->last) {
 					return mka;
 				}
 
-				t = bro(bro(t));
+				t = next(next(t));
 			}
 		}
 
@@ -1528,7 +1528,7 @@ tailrecurse:
 		}
 
 		case inreg: {
-			code_here(bro(t), sp, dest);
+			code_here(next(t), sp, dest);
 			r = regalt(dest.answhere);
 			assert(t->tag == val_tag);
 
@@ -1537,12 +1537,12 @@ tailrecurse:
 			}
 
 			nsp = guardreg(r, sp);
-			while (!bro(t)->last) {
+			while (!next(t)->last) {
 				int z;
 
-				t = bro(bro(t));
+				t = next(next(t));
 				assert(t->tag == val_tag);
-				z = reg_operand(bro(t), nsp);
+				z = reg_operand(next(t), nsp);
 				if (no(t) != 0) {
 					rir_ins(i_sl, z, ((al2(sh(t)) >= 8) ? (no(t) << 3) : no(t)), z);
 				}
@@ -1560,7 +1560,7 @@ tailrecurse:
 
 	case nof_tag:
 	case concatnof_tag: {
-		exp t = son(e);
+		exp t = child(e);
 		space nsp;
 		instore str;
 		int r, disp = 0;
@@ -1596,8 +1596,8 @@ tailrecurse:
 					return mka;
 				}
 
-				disp += (rounder(shape_size(sh(t)), shape_align(sh(bro(t)))) >> 3);
-				t = bro(t);
+				disp += (rounder(shape_size(sh(t)), shape_align(sh(next(t)))) >> 3);
+				t = next(t);
 			}
 
 		case insomereg: {
@@ -1621,8 +1621,8 @@ tailrecurse:
 			while (!t->last) {
 				int z;
 
-				disp += rounder(shape_size(sh(t)), shape_align(sh(bro(t))));
-				t = bro(t);
+				disp += rounder(shape_size(sh(t)), shape_align(sh(next(t))));
+				t = next(t);
 				z = reg_operand(t, nsp);
 				if (disp != 0) {
 					rir_ins(i_sl, z, disp, z);
@@ -1640,7 +1640,7 @@ tailrecurse:
 	}
 
 	case ncopies_tag: {
-		exp t = son(e);
+		exp t = child(e);
 		space nsp;
 		instore str;
 		int i, r, disp = 0;
@@ -1713,13 +1713,13 @@ tailrecurse:
 
 	case diagnose_tag:
 		diag3_driver->output_diag(dno(e), 0, e);
-		mka = make_code(son(e), sp, dest, exitlab);
+		mka = make_code(child(e), sp, dest, exitlab);
 		diag3_driver->output_end_scope(dno(e), e);
 
 		return mka;
 
 	case solve_tag: {
-		exp m = bro(son(e));
+		exp m = next(child(e));
 		int l = exitlab;
 
 		if (dest.answhere.discrim == insomereg) {
@@ -1749,14 +1749,14 @@ tailrecurse:
 
 		/* Set up all the labels in the component labst_tags */
 		for (;;) {
-			no(son(m)) = new_label();
+			no(child(m)) = new_label();
 			if (m->last) {
 				break;
 			}
 
-			m = bro(m);
+			m = next(m);
 		}
-		m = son(e);
+		m = child(e);
 
 		/* Evaluate all the component statements */
 		for (;;) {
@@ -1782,12 +1782,12 @@ tailrecurse:
 				return mka;
 			}
 
-			m = bro(m);
+			m = next(m);
 		}
 	}
 
 	case case_tag: {
-		exp control = son(e);
+		exp control = child(e);
 		int control_reg;
 		control_reg = reg_operand(control, sp);
 		case_tag_code(control_reg, e, sp);
@@ -1810,7 +1810,7 @@ tailrecurse:
 	}
 
 	case chvar_tag: {
-		exp arg = son(e);		/* source of chvar, adjusted below   */
+		exp arg = child(e);		/* source of chvar, adjusted below   */
 		int size_e = shape_size(sh(e));	/* size of result                    */
 		int to = sh(e)->tag;	/* to hd                             */
 		int from;				/* from hd                           */
@@ -1824,7 +1824,7 @@ tailrecurse:
 		while (arg->tag == chvar_tag &&
 		       ashof(sh(arg)).ashsize >= size_e && NO_ERROR_TREATMENT(arg)) {
 			asm_comment("make_code chvar_tag: skipping intermediate shape %d", sh(arg)->tag);
-			arg = son(arg);
+			arg = child(arg);
 		}
 
 		if (ERROR_TREATMENT(e)) {
@@ -1981,7 +1981,7 @@ tailrecurse:
 		if (ERROR_TREATMENT(e)) {
 			mka.regmove = neg_error_treatment(e, sp, dest);
 		} else {
-			int r = reg_operand(son(e), sp);
+			int r = reg_operand(child(e), sp);
 			int destr = regfrmdest(&dest, sp);
 			space nsp;
 			ans aa;
@@ -2003,7 +2003,7 @@ tailrecurse:
 			mka.regmove = abs_error_treatment(e, sp, dest);
 			return mka;
 		} else {
-			int r = reg_operand(son(e), sp);
+			int r = reg_operand(child(e), sp);
 			int destr = regfrmdest(&dest, sp);
 			space nsp;
 			ans aa;
@@ -2021,8 +2021,8 @@ tailrecurse:
 
 	case shl_tag:
 	case shr_tag: {
-		exp s = son(e);
-		exp b = bro(s);
+		exp s = child(e);
+		exp b = next(s);
 		int a;
 		int d;
 		ans aa;
@@ -2036,10 +2036,10 @@ tailrecurse:
 #if 0
 		bool lded = ((s->tag == name_tag && regofval(s) >= 100)
 		             || (s->tag == cont_tag &&
-		                 (son(s)->tag != name_tag || regofval(son(s)) > 0)));
+		                 (child(s)->tag != name_tag || regofval(child(s)) > 0)));
 #endif
 		bool signok = (sz == 32); /* better safe than sorry for the time being */
-		if (son(e)->tag == shl_tag && shape_size(sh(son(s))) != 32) {
+		if (child(e)->tag == shl_tag && shape_size(sh(child(s))) != 32) {
 			signok = 1;
 		}
 #endif
@@ -2049,10 +2049,10 @@ tailrecurse:
 		}
 
 		if (s->tag == and_tag && b->tag == val_tag &&
-		    bro(son(s))->tag == val_tag &&
-		    is_a_mask(no(bro(son(s)))) &&
+		    next(child(s))->tag == val_tag &&
+		    is_a_mask(no(next(child(s)))) &&
 		    shape_size(sh(e)) == 32) {
-			unsigned int mask = (unsigned int)no(bro(son(s)));
+			unsigned int mask = (unsigned int)no(next(child(s)));
 			int mask_left = left_of_mask(mask);
 			int rotation_left;
 			bool use_rlinm_ins = 0;
@@ -2074,7 +2074,7 @@ tailrecurse:
 			}
 
 			if (use_rlinm_ins == 1) {
-				a = reg_operand(son(s), sp);
+				a = reg_operand(child(s), sp);
 				d = regfrmdest(&dest, sp);
 
 				if (isrecordbit(e)) {
@@ -2176,7 +2176,7 @@ tailrecurse:
 		return mka;
 
 	case float_tag: {
-		exp in = son(e);
+		exp in = child(e);
 		int f = (dest.answhere.discrim == infreg) ?
 		        fregalt(dest.answhere).fr :
 		        getfreg(sp.flt);
@@ -2225,13 +2225,13 @@ tailrecurse:
 
 	case chfl_tag: {
 		int to = sh(e)->tag;
-		int from = sh(son(e))->tag;
+		int from = sh(child(e))->tag;
 		bool dto = (to != shrealhd);
 		bool dfrom = (from != shrealhd);
 
 		if (dto == dfrom) {
 			/* no change in representation */
-			return make_code(son(e), sp, dest, exitlab);
+			return make_code(child(e), sp, dest, exitlab);
 		} else {
 			freg frg;
 			ans aa;
@@ -2240,8 +2240,8 @@ tailrecurse:
 			frg = fregfrmdest(dfrom, &dest, sp);
 			setfregalt(aa, frg);
 			w.answhere = aa;
-			w.ashwhere = ashof(sh(son(e)));
-			code_here(son(e), sp, w);
+			w.ashwhere = ashof(sh(child(e)));
+			code_here(child(e), sp, w);
 
 			if (to == shrealhd) {
 				if (ERROR_TREATMENT(e)) {
@@ -2260,14 +2260,14 @@ tailrecurse:
 	}
 
 	case and_tag: {
-		exp arg1 = son(e);
-		exp arg2 = bro(arg1);
+		exp arg1 = child(e);
+		exp arg2 = next(arg1);
 
 		if (arg2->tag == val_tag &&
 		    is_a_mask(no(arg2)) &&
 		    shape_size(sh(e)) == 32 &&
 		    (arg1->tag == shl_tag || arg1->tag == shr_tag) &&
-		    bro(son(arg1))->tag == val_tag)
+		    next(child(arg1))->tag == val_tag)
 		{
 			unsigned int mask = (unsigned int)no(arg2);
 			int mask_left = left_of_mask(mask);
@@ -2276,13 +2276,13 @@ tailrecurse:
 			long rotation_left;
 
 			if (arg1->tag == shl_tag) {
-				int shift_left = no(bro(son(arg1)));
+				int shift_left = no(next(child(arg1)));
 				if (shift_left <= mask_right) {
 					rotation_left = shift_left;
 					use_rlinm_ins = 1;
 				}
 			} else if (arg1->tag == shr_tag) {
-				int shift_right = no(bro(son(arg1)));
+				int shift_right = no(next(child(arg1)));
 				if (shift_right <= (31 - mask_left)) {
 					rotation_left = 32 - shift_right;
 					use_rlinm_ins = 1;
@@ -2290,7 +2290,7 @@ tailrecurse:
 			}
 
 			if (use_rlinm_ins == 1) {
-				int r = reg_operand(son(arg1), sp);
+				int r = reg_operand(child(arg1), sp);
 				int dr = regfrmdest(&dest, sp);
 				ans aa;
 
@@ -2326,7 +2326,7 @@ tailrecurse:
 
 	case not_tag: {
 		/* i_not is a pseudo instruction expanded to sfi dest,-1,src */
-		int a1 = reg_operand(son(e), sp);
+		int a1 = reg_operand(child(e), sp);
 		ans aa;
 		int d = regfrmdest(&dest, sp);
 
@@ -2354,14 +2354,14 @@ tailrecurse:
 		/*
 		 * Check to see if we can use [reg+reg] addressing for this load
 		 */
-		if (son(e)->tag == addptr_tag) {
+		if (child(e)->tag == addptr_tag) {
 			shape cont_shape = sh(e);
 			int cont_size = shape_size(cont_shape);
 			int cont_align = shape_align(cont_shape);
-			exp addptr_sons = son(son(e));
+			exp addptr_children = child(child(e));
 			bool is_float = is_floating(cont_shape->tag);
 
-			if (bro(addptr_sons)->last
+			if (next(addptr_children)->last
 			    && cont_align == cont_size
 			    && (cont_size == 8 || cont_size == 16 || cont_size == 32 || is_float)) {
 				int lhsreg;
@@ -2371,8 +2371,8 @@ tailrecurse:
 
 				asm_comment("make_code: load suitable for [reg+reg] addressing");
 
-				lhsreg = reg_operand(addptr_sons, sp);
-				rhsreg = reg_operand(bro(addptr_sons), guardreg(lhsreg, sp));
+				lhsreg = reg_operand(addptr_children, sp);
+				rhsreg = reg_operand(next(addptr_children), guardreg(lhsreg, sp));
 
 				if (is_float) {
 					freg dfreg;
@@ -2511,7 +2511,7 @@ tailrecurse:
 		bool call_fctiwz = 0;
 		int ifr = getfreg(sp.flt);
 
-		sfr = freg_operand(son(e), sp, getfreg(sp.flt));
+		sfr = freg_operand(child(e), sp, getfreg(sp.flt));
 
 		/* Doesn't matter if sfr and ifr same */
 		switch (round_number(e)) {
@@ -2565,11 +2565,11 @@ tailrecurse:
 	case int_to_bitf_tag: {
 		int r;
 		int size_res = shape_size(sh(e));
-		int size_op = shape_size(sh(son(e)));
+		int size_op = shape_size(sh(child(e)));
 		ans aa;
 		space nsp;
 
-		r = reg_operand(son(e), sp);
+		r = reg_operand(child(e), sp);
 
 		asm_comment("make_code int_to_bitf_tag: size %d -> %d", size_op, size_res);
 
@@ -2599,10 +2599,10 @@ tailrecurse:
 		ash a;
 		int r;
 		where w;
-		bool src_sgned    = sh(son(e))->tag & 1;
+		bool src_sgned    = sh(child(e))->tag & 1;
 		bool target_sgned = sh(e)->tag & 1;
 
-		a = ashof(sh(son(e)));
+		a = ashof(sh(child(e)));
 		switch (dest.answhere.discrim) {
 		case inreg: r = regalt(dest.answhere); break;
 		default:    r = getreg(sp.fixed);      break;
@@ -2610,7 +2610,7 @@ tailrecurse:
 
 		setregalt(w.answhere, r);
 		w.ashwhere = a;
-		code_here(son(e), sp, w);
+		code_here(child(e), sp, w);
 
 		asm_comment("make_code bitsint_tag: size=%ld", a.ashsize);
 
@@ -2643,7 +2643,7 @@ tailrecurse:
 	}
 
 	case movecont_tag: {
-		exp szarg = bro(bro(son(e)));
+		exp szarg = next(next(child(e)));
 		int dr, sr, szr;
 		int lout = new_label();
 		int creg = next_creg();
@@ -2653,14 +2653,14 @@ tailrecurse:
 
 		sr = getreg(sp.fixed);
 		setregalt(w.answhere, sr);
-		w.ashwhere = ashof(sh(son(e)));
-		make_code(son(e), sp, w, 0);
+		w.ashwhere = ashof(sh(child(e)));
+		make_code(child(e), sp, w, 0);
 		nsp = guardreg(sr, sp);
 		dr = getreg(nsp.fixed);
 		setregalt(w.answhere, dr);
-		make_code(bro(son(e)), nsp, w, 0);
+		make_code(next(child(e)), nsp, w, 0);
 		nsp = guardreg(dr, nsp);
-		w.ashwhere = ashof(sh(bro(bro(son(e)))));
+		w.ashwhere = ashof(sh(next(next(child(e)))));
 		szr = getreg(nsp.fixed);
 		setregalt(w.answhere, szr);
 		IGNORE make_code(szarg, nsp, w, 0);
@@ -2668,8 +2668,8 @@ tailrecurse:
 		bytemove = (al2(sh(szarg)) >> 3);
 
 #if 0
-		clear_dep_reg(son(e));
-		clear_dep_reg(bro(son(e)));
+		clear_dep_reg(child(e));
+		clear_dep_reg(next(child(e)));
 #else
 		clear_all();
 #endif
@@ -2702,28 +2702,28 @@ tailrecurse:
 		int v;
 		ans aa;
 
-		if (al2(sh(son(e))) >= al2(sh(e))) {
-			if (al2(sh(e)) != 1 || al2(sh(son(e))) == 1) {
+		if (al2(sh(child(e))) >= al2(sh(e))) {
+			if (al2(sh(e)) != 1 || al2(sh(child(e))) == 1) {
 				/*
 				 * Is already aligned correctly,
 				 * whether as bit or byte-offset
 				 */
-				e = son(e);
+				e = child(e);
 				goto tailrecurse;
 			}
 
 			r = regfrmdest(&dest, sp);
-			v = reg_operand(son(e), sp);
+			v = reg_operand(child(e), sp);
 			rir_ins(i_sl,  v, 3 , r);
 		} else {
-			int al = (al2(sh(son(e))) == 1) ? al2(sh(e)) : (al2(sh(e)) / 8);
+			int al = (al2(sh(child(e))) == 1) ? al2(sh(e)) : (al2(sh(e)) / 8);
 			r = regfrmdest(&dest, sp);
-			v = reg_operand(son(e), sp);
+			v = reg_operand(child(e), sp);
 
 			rir_ins(i_a, v, al - 1, r);
 			rir_ins(i_and, r, -al , r);
 
-			if (al2(sh(son(e))) == 1) {
+			if (al2(sh(child(e))) == 1) {
 				/*
 				 * operand is bit-offset,
 				 * byte-offset required
@@ -2750,13 +2750,13 @@ tailrecurse:
 
 		space nsp;
 		if (IsRev(e)) {
-			right = reg_operand(bro(son(e)), sp);
+			right = reg_operand(next(child(e)), sp);
 			nsp = guardreg(right, sp);
-			left = reg_operand(son(e), nsp);
+			left = reg_operand(child(e), nsp);
 		} else {
-			left = reg_operand(son(e), sp);
+			left = reg_operand(child(e), sp);
 			nsp = guardreg(left, sp);
-			right = reg_operand(bro(son(e)), nsp);
+			right = reg_operand(next(child(e)), nsp);
 		}
 
 		creg = next_creg();
@@ -2785,8 +2785,8 @@ tailrecurse:
 	 * The byte offset must be converted into bits for the addition
 	 */
 	case offset_add_tag: {
-		exp byte_offset = son(e);
-		exp bit_offset = bro(byte_offset);
+		exp byte_offset = child(e);
+		exp bit_offset = next(byte_offset);
 		int destr = regfrmdest(&dest, sp);
 		int byte_offset_reg = reg_operand(byte_offset, sp);
 		int bit_offset_reg;
@@ -2815,8 +2815,8 @@ tailrecurse:
 	 * All others converted to minus_tag by needscan.
 	 */
 	case offset_subtract_tag: {
-		exp bit_offset = son(e);
-		exp byte_offset = bro(bit_offset);
+		exp bit_offset = child(e);
+		exp byte_offset = next(bit_offset);
 		int destr = regfrmdest(&dest, sp);
 		int byte_offset_reg = reg_operand(byte_offset, sp);
 		int bit_offset_reg;
@@ -2864,11 +2864,11 @@ tailrecurse:
 	/* NOTE: env_offset works in conjunction with current_env.
 	 * So it must be consistent with current env */
 	case env_offset_tag:
-		constval = frame_offset(son(e));
+		constval = frame_offset(child(e));
 		goto moveconst;
 
 	case goto_lv_tag: {
-		int r = reg_operand(son(e), sp);
+		int r = reg_operand(child(e), sp);
 
 		mt_ins(i_mtctr, r);
 		z_ins(i_bctr);
@@ -2881,7 +2881,7 @@ tailrecurse:
 		int r = regfrmdest(&dest, sp);
 		int next_mlv_number = get_next_mlv_number();
 		ans aa;
-		long marked_label = no(son(pt(e)));
+		long marked_label = no(child(pt(e)));
 
 		asm_printop(".toc");
 		asm_printf("T.make_lv%d:\t.tc\tL.%d[TC],L.%d\n",
@@ -2899,8 +2899,8 @@ tailrecurse:
 	}
 
 	case long_jump_tag: {
-		int fp = reg_operand(son(e), sp);
-		int labval = reg_operand(bro(son(e)), sp);
+		int fp = reg_operand(child(e), sp);
+		int labval = reg_operand(next(child(e)), sp);
 
 		/*
 		 * Long jumps are always done through the frame pointer
@@ -2929,16 +2929,16 @@ tailrecurse:
 		assert(p_has_alloca);
 		assert(p_has_fp);
 
-		if (son(e)->tag == val_tag) {
+		if (child(e)->tag == val_tag) {
 			/* allocate constant number of bytes on stack*/
-			int no_of_bytes = ALLOCA_ALIGNMENT(no(son(e)));
+			int no_of_bytes = ALLOCA_ALIGNMENT(no(child(e)));
 			if (checkalloc(e)) {
 				rir_ins(i_a, R_SP, - (long)no_of_bytes, xdreg);
 			} else {
 				rir_ins(i_a, R_SP, - (long)no_of_bytes, R_SP);
 			}
 		} else {
-			int nreg = reg_operand(son(e), sp);
+			int nreg = reg_operand(child(e), sp);
 
 			/* adjust to correct alignment, i.e mul of 8 */
 			rir_ins(i_a, nreg, 7, R_TMP0);
@@ -3025,11 +3025,11 @@ tailrecurse:
 		space nsp;
 
 		assert(p_has_alloca);
-		r = reg_operand(son(e), sp);
+		r = reg_operand(child(e), sp);
 		/* r is a pointer returned by alloca
 		off is the number of bytes to free up */
-		if (bro(son(e))->tag == val_tag) {
-			int displacement = ALLOCA_ALIGNMENT(no(bro(son(e))));
+		if (next(child(e))->tag == val_tag) {
+			int displacement = ALLOCA_ALIGNMENT(no(next(child(e))));
 			displacement -= p_args_and_link_size;
 			if (displacement != 0) {
 				rir_ins(i_a, r, displacement, R_SP);
@@ -3038,7 +3038,7 @@ tailrecurse:
 			}
 		} else {
 			nsp = guardreg(r, sp);
-			off = reg_operand(bro(son(e)), nsp);
+			off = reg_operand(next(child(e)), nsp);
 
 			rir_ins(i_a, off, 7, off);
 			rir_ins(i_and, off, ~7, off);
@@ -3068,7 +3068,7 @@ tailrecurse:
 		 * when calculating general_env_offset using current_env
 		 */
 		int destr = regfrmdest(&dest, sp);
-		int pr = reg_operand(son(e), sp);
+		int pr = reg_operand(child(e), sp);
 		space nsp;
 		baseoff b;
 		ans aa;
@@ -3114,7 +3114,7 @@ tailrecurse:
 	case set_stack_limit_tag: {
 		baseoff b;
 
-		int r = reg_operand(son(e), sp);
+		int r = reg_operand(child(e), sp);
 		b = find_tag("__TDFstacklim");
 		st_ins(i_st, r, b);
 
@@ -3122,9 +3122,9 @@ tailrecurse:
 	}
 
 	case env_size_tag: {
-		exp tag = son(son(e));
+		exp tag = child(child(e));
 
-		procrec * pr = &procrecs[no(son(tag))];
+		procrec * pr = &procrecs[no(child(tag))];
 		constval = ((pr->frame_size) >> 3) + pr->max_callee_bytes;
 
 		goto moveconst;

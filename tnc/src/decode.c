@@ -82,8 +82,8 @@ de_token(node *p, sortname s)
 		long m = tdf_int();
 		t = find_binding(crt_binding, tok_var, m);
 		info = get_tok_info(t);
-		p->son = new_node();
-		p->son->cons = t;
+		p->child = new_node();
+		p->child->cons = t;
 	} else if (n == ENC_use_tokdef) {
 		char *nm;
 		t = make_construct(SORT_token);
@@ -95,8 +95,8 @@ de_token(node *p, sortname s)
 
 		de_token_defn(t, NULL);
 		info = get_tok_info(t);
-		p->son = new_node();
-		p->son->cons = t;
+		p->child = new_node();
+		p->child->cons = t;
 	} else {
 		high_sort *h;
 		construct *tt;
@@ -113,8 +113,8 @@ de_token(node *p, sortname s)
 	/* Quit here if only reading token */
 	if (s == SORT_unknown) {
 		if (!text_output) {
-			p->son->son = new_node();
-			p->son->son->cons = &token_cons;
+			p->child->child = new_node();
+			p->child->child->cons = &token_cons;
 		}
 		return NULL;
 	}
@@ -142,7 +142,7 @@ de_token(node *p, sortname s)
 				args = "F";
 			}
 			bits += tell_posn();
-			p->son->son = de_node(args);
+			p->child->child = de_node(args);
 			bits -= tell_posn();
 			if (bits < 0) {
 				input_error("Token %s, arguments length wrong", t->name);
@@ -168,7 +168,7 @@ de_token(node *p, sortname s)
 		if (info->args) {
 			/* Decode arguments */
 			long end_posn = tell_posn() + bits;
-			p->son->son = de_node(info->args);
+			p->child->child = de_node(info->args);
 			if (tell_posn() != end_posn) {
 				input_error("Token %s, arguments length wrong", t->name);
 				return t;
@@ -286,22 +286,22 @@ de_node(char *str)
 
 					p = new_node();
 					p->cons = &string_cons;
-					p->son = make_int(n);
+					p->child = make_int(n);
 					m = tdf_int();
 					px = new_node();
 					px->cons = new_construct();
 					px->cons->sortnum = SORT_repeat;
 					px->cons->encoding = m;
-					p->son->bro->bro = px;
+					p->child->next->next = px;
 
 					for (i = 0; i < m; i++) {
 						long v = fetch((int)n);
 						if (i == 0) {
-							px->son = make_int(v);
-							px = px->son;
+							px->child = make_int(v);
+							px = px->child;
 						} else {
-							px->bro->bro = make_int(v);
-							px = px->bro->bro;
+							px->next->next = make_int(v);
+							px = px->next->next;
 						}
 					}
 				}
@@ -353,13 +353,13 @@ de_node(char *str)
 					node *pi = de_node(str);
 
 					if (pe == NULL)
-						p->son = pi;
+						p->child = pi;
 					else
-						pe->bro = pi;
+						pe->next = pi;
 
 					pe = pi;
-					while (pe->bro)
-						pe = pe->bro;
+					while (pe->next)
+						pe = pe->next;
 				}
 				str = skip_text(str);
 				break;
@@ -371,10 +371,10 @@ de_node(char *str)
 			str += 2;
 
 			if (tdf_bool()) {
-				p->son = de_node(str);
-				if (*str == '*' && p->son->cons->encoding == 0) {
+				p->child = de_node(str);
+				if (*str == '*' && p->child->cons->encoding == 0) {
 					/* Get rid of optional empty lists */
-					p->son = NULL;
+					p->child = NULL;
 				}
 			}
 			str = skip_text(str);
@@ -389,7 +389,7 @@ de_node(char *str)
 				pos = tell_posn();
 				p = new_node();
 				p->cons = &bytestream_cons;
-				p->son = de_node(str);
+				p->child = de_node(str);
 
 				if (len + pos != tell_posn())
 					input_error("Conditional length wrong");
@@ -402,7 +402,7 @@ de_node(char *str)
 				node dummy;
 				str = find_sortname(str, NULL);
 				IGNORE de_token(&dummy, SORT_unknown);
-				p = dummy.son;
+				p = dummy.child;
 				break;
 			}
 		case 'F':
@@ -425,11 +425,11 @@ de_node(char *str)
 			if (qe == NULL)
 				q = p;
 			else
-				qe->bro = p;
+				qe->next = p;
 
 			qe = p;
-			while (qe->bro)
-				qe = qe->bro;
+			while (qe->next)
+				qe = qe->next;
 		}
 		str++;
 	}

@@ -875,31 +875,6 @@ flt_round(flt f, flt *res)
 }
 
 /*
- * "f" is a legal single precision number. "res" is a pointer to a single
- * precision number.
- *
- * On return, the number pointed to by "res" will be the integer value of
- * "f" rounded towards zero.
- */
-static void
-flt_trunc(flt f, flt *res)
-{
-	int i;
-
-	if (f.exp < 0) {
-		flt_zero(res);
-		return;
-	}
-
-	flt_copy(f, res);
-
-	for (i = f.exp + 1; i < MANT_SIZE; i++) {
-		res->mant[i] = 0;
-	}
-}
-
-
-/*
  * Interface to TDF translator
  */
 

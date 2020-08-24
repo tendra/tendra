@@ -37,7 +37,7 @@ OBJS+=	${PARTS:C/^/${OBJ_SDIR}\/_partial\//:C/$/\/_partial.o/}
 # TODO: override OBJ_* etc when calling ${MAKE}
 # TODO: pass through CFLAGS etc (call these PART_CFLAGS, PART_CCOPTS etc)
 # TODO: directory here is ${OBJ_SDIR}/_partial/installers/80x86/common
-${OBJ_SDIR}/_partial/${part}/_partial.o:
+${OBJ_SDIR}/_partial/${part}/_partial.o::
 	@cd ${BASE_DIR}/${part} && ${MAKE}        \
 	    BASE_DIR=${BASE_DIR}                  \
 	    OBJ_DIR=${OBJ_SDIR}/_partial          \

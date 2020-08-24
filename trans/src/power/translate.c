@@ -200,24 +200,24 @@ local_translate_capsule(void)
 			 * do not get a diag_descriptor so fixup_name does not change
 			 * their names.
 			 */
-			fixup_name(son(tag), top_def, d);
+			fixup_name(child(tag), top_def, d);
 		}
 
 		name = d->name;		/* might be changed by fixup_name() */
 
 		asm_comment("%s: extnamed=%d no(tag)=%ld isvar(tag)=%d", name, extnamed, no(tag), isvar(tag));
-		asm_comment("\ttag->tag=%d outermost=%d have_def=%d son(tag)!=NULL=%d",
-		            tag->tag, d->outermost, d->have_def, son(tag) != NULL);
-		if (son(tag) != NULL) {
-			asm_comment("\tshape, sh(tag), sh(son(tag))=%d,%d,%d", s->tag, sh(tag)->tag, sh(son(tag))->tag);
+		asm_comment("\ttag->tag=%d outermost=%d have_def=%d child(tag)!=NULL=%d",
+		            tag->tag, d->outermost, d->have_def, child(tag) != NULL);
+		if (child(tag) != NULL) {
+			asm_comment("\tshape, sh(tag), sh(child(tag))=%d,%d,%d", s->tag, sh(tag)->tag, sh(child(tag))->tag);
 		}
 
-		d->have_def = (son(tag) != NULL);
+		d->have_def = (child(tag) != NULL);
 
 		assert(tag->tag == ident_tag);
-		assert(son(tag) == NULL || sh(tag)->tag == s->tag);
+		assert(child(tag) == NULL || sh(tag)->tag == s->tag);
 
-		if (son(tag) == NULL) {
+		if (child(tag) == NULL) {
 #if 0
 			if (diag == DIAG_NONE && no(tag) == 0)
 #else
@@ -246,13 +246,13 @@ local_translate_capsule(void)
 					}
 				}
 			} else {
-				long byte_size = ALIGNNEXT(shape_size(sh(son(tag))), 64) >> 3;
+				long byte_size = ALIGNNEXT(shape_size(sh(child(tag))), 64) >> 3;
 				/* +++ is .lcomm always kept double aligned?  Otherwise how do we do it? */
 
 				assert(extnamed);
 				asm_printop(".lcomm %s,%ld", name, byte_size);
 			}
-		} else if (IS_A_PROC(son(tag))) {
+		} else if (IS_A_PROC(child(tag))) {
 			noprocs++;
 
 			if (extnamed) {
@@ -263,10 +263,10 @@ local_translate_capsule(void)
 				/* +++ always when .lglobl documented */
 				asm_printop(".lglobl .%s", name);	/* .name entry point */
 			}
-		} else if (is_comm(son(tag)) && (diag != DIAG_NONE || extnamed || no(tag) > 0)) {
+		} else if (is_comm(child(tag)) && (diag != DIAG_NONE || extnamed || no(tag) > 0)) {
 			/* zero initialiser needed */
-			long size = shape_size(sh(son(tag)));
-			long align = shape_align(sh(son(tag)));
+			long size = shape_size(sh(child(tag)));
+			long align = shape_align(sh(child(tag)));
 			long byte_size = ALIGNNEXT(size, 64) >> 3;
 			/* +++ do we need to round up? */
 			int aligncode = ((align > 32 || size > 32) ? 3 : 2);
@@ -279,7 +279,7 @@ local_translate_capsule(void)
 			if (extnamed) {
 				asm_printop(".comm %s,%ld,%d", name, byte_size, aligncode);
 				if (diag != DIAG_NONE) {
-					diag3_driver->stab_global(diag_def->diag_info, son(tag), name, extnamed);
+					diag3_driver->stab_global(diag_def->diag_info, child(tag), name, extnamed);
 				}
 			} else {
 				if (diag != DIAG_NONE) {
@@ -292,7 +292,7 @@ local_translate_capsule(void)
 					asm_printop(".csect [PR]");
 					asm_printop(".lcomm %s,%ld,%s", name, byte_size, csect_name);
 					stab_bs(csect_name);
-					diag3_driver->stab_global(diag_def->diag_info, son(tag), name, extnamed);
+					diag3_driver->stab_global(diag_def->diag_info, child(tag), name, extnamed);
 					stab_es(csect_name);
 				} else if (no(tag) > 0) {		/* used */
 					asm_printop(".lcomm %s,%ld", name, byte_size);
@@ -363,7 +363,7 @@ local_translate_capsule(void)
 			bool extnamed = d->extnamed;
 			char *storage_class;
 
-			if (extnamed && son(tag) == NULL) {
+			if (extnamed && child(tag) == NULL) {
 				/* extern from another module */
 				if (d->shape->tag == prokhd) {
 					storage_class = ""; /* proc descriptor */
@@ -394,8 +394,8 @@ local_translate_capsule(void)
 		d->sym_number = globalno;
 		globalno++;
 
-		if (son(tag) != NULL && IS_A_PROC(son(tag))) {
-			no(son(tag)) = procno;	/* index into procrecs in no(proc) */
+		if (child(tag) != NULL && IS_A_PROC(child(tag))) {
+			no(child(tag)) = procno;	/* index into procrecs in no(proc) */
 			procno++;
 		}
 	}
@@ -444,13 +444,13 @@ local_translate_capsule(void)
 	for (d = top_def; d != NULL; d = d->next) {
 		exp tag = d->exp;
 
-		if (son(tag) == NULL) {
+		if (child(tag) == NULL) {
 			continue;
 		}
 
-		if (IS_A_PROC(son(tag))) {
-			procrec *pr = &procrecs[no(son(tag))];
-			exp *st = &son(tag);
+		if (IS_A_PROC(child(tag))) {
+			procrec *pr = &procrecs[no(child(tag))];
+			exp *st = &child(tag);
 			int freefixed = MAXFIX_SREGS; /* The maximum no of free fixed s regs */
 			int freefloat = MAXFLT_SREGS; /* The maximum no of free float s regs */
 			int r;
@@ -459,14 +459,14 @@ local_translate_capsule(void)
 			 * SCAN the procedure
 			 */
 			pr->needsproc = scan(st, &st);
-			set_up_frame_pointer(pr, son(tag));
+			set_up_frame_pointer(pr, child(tag));
 
 			/*
 			 * estimate usage of tags in body of proc,
 			 * calculating the break points for register allocation
 			 */
 			if (!(pr->save_all_sregs)) {
-				IGNORE weightsv(UNITWEIGHT, bro(son(son(tag))));
+				IGNORE weightsv(UNITWEIGHT, next(child(child(tag))));
 			}
 
 			/* Check to see if we need a frame pointer */
@@ -480,7 +480,7 @@ local_translate_capsule(void)
 			/*
 			 * reg and stack allocation for tags
 			 */
-			pr->spacereqproc = regalloc(bro(son(son(tag))), freefixed, freefloat, 0);
+			pr->spacereqproc = regalloc(next(child(child(tag))), freefixed, freefloat, 0);
 
 			/*
 			 * Ensure that the registers that were not allocated get stored
@@ -493,7 +493,7 @@ local_translate_capsule(void)
 				pr->spacereqproc.fltdump = 0xffffc000;
 			}
 
-			set_up_frame_info(pr, son(tag));
+			set_up_frame_info(pr, child(tag));
 		}
 	}
 
@@ -509,10 +509,10 @@ local_translate_capsule(void)
 		bool extnamed = d->extnamed;
 		diag_def      = d; /* just in case find_dd is called */
 
-		asm_comment("no(tag)=%ld isvar(tag)=%d extnamed=%d son(tag)==NULL=%d",
-		            no(tag), isvar(tag), extnamed, son(tag) == NULL);
+		asm_comment("no(tag)=%ld isvar(tag)=%d extnamed=%d child(tag)==NULL=%d",
+		            no(tag), isvar(tag), extnamed, child(tag) == NULL);
 
-		if (son(tag) == NULL) {
+		if (child(tag) == NULL) {
 			continue;
 		}
 
@@ -532,7 +532,7 @@ local_translate_capsule(void)
 		}
 
 		/* +++ could do better than making everything except strings [RW] */
-		if (!IS_A_PROC(son(tag))) {
+		if (!IS_A_PROC(child(tag))) {
 			/* put all things in [RW] section */
 
 			/*
@@ -549,10 +549,10 @@ local_translate_capsule(void)
 				}
 			}
 
-			evaluated(son(tag), -symdef - 1);
+			evaluated(child(tag), -symdef - 1);
 
 			if (diag != DIAG_NONE) {
-				diag3_driver->stab_global(diag_def->diag_info, son(tag), name, extnamed);
+				diag3_driver->stab_global(diag_def->diag_info, child(tag), name, extnamed);
 			}
 
 			asm_printf( "#\t.enddata\t%s\n\n", name);
@@ -577,7 +577,7 @@ local_translate_capsule(void)
 		bool extnamed = d->extnamed;
 		diag_def      = d; /* just in case find_dd is called */
 
-		if (son(tag) == NULL) {
+		if (child(tag) == NULL) {
 			continue;
 		}
 
@@ -594,7 +594,7 @@ local_translate_capsule(void)
 			continue;
 		}
 
-		if (!IS_A_PROC(son(tag))) {
+		if (!IS_A_PROC(child(tag))) {
 			/* non proc, which is not isvar() [variable] for [RO] section */
 			long symdef = d->sym_number;
 
@@ -606,10 +606,10 @@ local_translate_capsule(void)
 				}
 			}
 
-			evaluated(son(tag), symdef + 1);
+			evaluated(child(tag), symdef + 1);
 
 			if (diag != DIAG_NONE) {
-				diag3_driver->stab_global(diag_def->diag_info, son(tag), name, extnamed);
+				diag3_driver->stab_global(diag_def->diag_info, child(tag), name, extnamed);
 			}
 			asm_printf( "#\t.enddata\t%s\n\n", name);
 
@@ -632,7 +632,7 @@ local_translate_capsule(void)
 		char *name    = d->name;
 		bool extnamed = d->extnamed;
 
-		if (son(tag) == NULL) {
+		if (child(tag) == NULL) {
 			continue;
 		}
 
@@ -646,14 +646,14 @@ local_translate_capsule(void)
 			continue;
 		}
 
-		if (IS_A_PROC(son(tag))) {
+		if (IS_A_PROC(child(tag))) {
 			/* translate code for proc */
 			asm_printf( "\n");		/* make proc more visable to reader */
 			diag_def = d;
 			/* switch to correct file */
 			if (diag != DIAG_NONE && d->diag_info != NULL ) {
 				anydone = 1;
-				diag3_driver->stab_proc_file(d->diag_info, son(tag), name, extnamed);
+				diag3_driver->stab_proc_file(d->diag_info, child(tag), name, extnamed);
 			}
 
 
@@ -670,16 +670,16 @@ local_translate_capsule(void)
 
 			/* stab proc details */
 			if (diag != DIAG_NONE && d->diag_info != NULL) {
-				diag3_driver->stab_proc(d->diag_info, son(tag), name, extnamed);
+				diag3_driver->stab_proc(d->diag_info, child(tag), name, extnamed);
 			}
 
 			seed_label();		/* reset label sequence */
-			settempregs(son(tag));	/* reset getreg sequence */
+			settempregs(child(tag));	/* reset getreg sequence */
 
-			code_here(son(tag), tempregs, nowhere);
+			code_here(child(tag), tempregs, nowhere);
 
 			if (diag != DIAG_NONE && diag_def->diag_info != NULL) {
-				stab_endproc(son(tag), name, extnamed);
+				stab_endproc(child(tag), name, extnamed);
 			}
 
 			asm_printf( "#\t.end\t%s\n", name);

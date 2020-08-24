@@ -158,7 +158,7 @@ main(int argc, char *argv[])
 		char opts[256];
 		int c;
 
-		sprintf(opts, "%s%s", "A:B:C:DE:F:G:H:IK:MO:PQRS:VWX:YZ" "TJ" "hv", driver.opts);
+		sprintf(opts, "%s%s", "A:B:C:DE:F:G:H:IK:MNO:PQRS:VWX:YZ" "TJ" "hv", driver.opts);
 
 		while (c = getopt(argc, argv, opts), c != -1) {
 			switch (c) {
@@ -242,6 +242,11 @@ main(int argc, char *argv[])
 
 	if (quit) {
 		return 0;
+	}
+
+	/* PROM code depends on emitting dynamic initialisers */
+	if (do_prom) {
+		dyn_init = 1;
 	}
 
 	{

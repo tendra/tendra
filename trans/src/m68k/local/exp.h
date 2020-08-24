@@ -9,8 +9,8 @@
 #define LOCAL_EXP_H
 
 #ifndef tdf3
-#define frame_al_of_ptr(x) (x)->son.ald->al.frame
-#define frame_al1_of_offset(x) (x)->son.ald->al.frame
+#define frame_al_of_ptr(x) (x)->child.ald->al.frame
+#define frame_al1_of_offset(x) (x)->child.ald->al.frame
 #define al_includes_vcallees 16
 #define al_includes_caller_args 6
 #endif
@@ -19,11 +19,11 @@
  * PROPERTIES OF IDENTITY DECLARATIONS
  */
 
-#define set_intnl_call(X)	props (X) |= 0x80
-#define has_intnl_call(X)	(props (X) & 0x80)
+#define set_intnl_call(X)	(X)->props |= 0x80
+#define has_intnl_call(X)	((X)->props & 0x80)
 
-#define setismarked(X)       props (X) |= 0x100
-#define ismarked(X)		(props (X) & 0x100)
+#define setismarked(X)       (X)->props |= 0x100
+#define ismarked(X)		((X)->props & 0x100)
 
 
 #ifndef tdf3
@@ -32,15 +32,15 @@
 #define isoutpar(x) isvis(x)
 #define clearoutpar(x)
 #else
-#define setoutpar(x) props(x) |= 0x8000
-#define isoutpar(x) ((props(x) & 0x8000) != 0)
-#define clearoutpar(x) props(x) &= ~0x8000
+#define setoutpar(x) (x)->props |= 0x8000
+#define isoutpar(x) (((x)->props & 0x8000) != 0)
+#define clearoutpar(x) (x)->props &= ~0x8000
 #endif
 
 #ifndef tdf3
-#define set_proc_needs_envsize(x) props(x) = (prop)(props(x) | 0x8000)
-#define proc_needs_envsize(x) (props(x) & 0x8000)
-#define call_has_checkstack(e) (props(bro(son(e))) & 8)
+#define set_proc_needs_envsize(x) (x)->props = (prop) ((x)->props | 0x8000)
+#define proc_needs_envsize(x) ((x)->props & 0x8000)
+#define call_has_checkstack(e) (next(child(e))->props & 8)
 #endif
 
 #endif

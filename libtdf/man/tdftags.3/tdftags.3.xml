@@ -90,10 +90,10 @@
 
 		<para>An exp can occur in just one place in the tree, because of
 			the backward pointers. Except for name_tag the general structure is
-			that an exp has a son which is &NULL; or its first argument exp. The
-			next argument is the bro of the first, the next the bro of that etc.
-			The last argument has the last field set and its bro is the head exp
-			of the construction. In a name_tag the son contains the ident_tag which
+			that an exp has a child which is &NULL; or its first argument exp. The
+			next argument is the next of the first, the next the next of that etc.
+			The last argument has the last field set and its next is the head exp
+			of the construction. In a name_tag the child contains the ident_tag which
 			declares the identity or variable being used. case, env_offset and string
 			are also special cases.</para>
 
@@ -137,7 +137,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
@@ -161,11 +161,11 @@
 
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
-							<td><code>bro(arg1)</code></td>
+							<td><code>next(arg1)</code></td>
 							<td>arg2</td>
 						</tr>
 						<tr>
@@ -197,11 +197,11 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1 (pointer)</td>
 						</tr>
 						<tr>
-							<td><code>bro(arg1)</code></td>
+							<td><code>next(arg1)</code></td>
 							<td>arg2 (offset)</td>
 						</tr>
 						<tr>
@@ -227,7 +227,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
@@ -257,8 +257,8 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
-							<td>a brother list of argument, all of the same shape.
+							<td><code>child(e)</code></td>
+							<td>a next list of argument, all of the same shape.
 								At least two arguments. After check any constants will
 								have been combined into one, which will be the last exp.</td>
 						</tr>
@@ -268,7 +268,7 @@
 						</tr>
 						<tr>
 							<td><code>shape</code></td>
-							<td>shape of son(e). This may be changed in some installers
+							<td>shape of child(e). This may be changed in some installers
 								by chvar_tag transformations in check - only if
 								<code>HAS_BYTEOPS</code> is set.</td>
 						</tr>
@@ -291,12 +291,12 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
-							<td><code>bro(son(e))</code></td>
-							<td>arg2 in the form of a brother list of zero or more exps.</td>
+							<td><code>next(child(e))</code></td>
+							<td>arg2 in the form of a next list of zero or more exps.</td>
 						</tr>
 						<tr>
 							<td><code>shape</code></td>
@@ -323,7 +323,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg</td>
 						</tr>
 						<tr>
@@ -351,11 +351,11 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
-							<td><code>bro(son(e))</code></td>
+							<td><code>next(child(e))</code></td>
 							<td>arg2</td>
 						</tr>
 						<tr>
@@ -381,11 +381,11 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
-							<td><code>bro(son(e))</code></td>
+							<td><code>next(child(e))</code></td>
 							<td>arg2</td>
 						</tr>
 						<tr>
@@ -418,7 +418,7 @@
 			<varlistentry>
 				<term><code>bitf_to_int_tag</code>:
 					represents bitfield to int conversion
-					son(e)arg1.</term>
+					child(e)arg1.</term>
 
 				<listitem>
 					<informaltable>
@@ -445,18 +445,18 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>control</td>
 						</tr>
 						<tr>
-							<td><code>bro(son(e))</code></td>
-							<td>a brother list of exps representing branches.
+							<td><code>next(child(e))</code></td>
+							<td>a next list of exps representing branches.
 							   Each element is zero-named exp with:
 									   pt is destination labst_tag.
 									   no is lower limit.
 									   if upper limit is equal to lower
-										 then son is &NULL;
-										 else son is exp with no the upper limit.
+										 then child is &NULL;
+										 else child is exp with no the upper limit.
 							   The elements of this list are arranged in increasing
 							   order of lower limit.</td>
 						</tr>
@@ -483,7 +483,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
@@ -509,7 +509,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
@@ -535,7 +535,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>&NULL;</td>
 						</tr>
 						<tr>
@@ -570,8 +570,8 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
-							<td>arg2 in the form of a brother list of zero
+							<td><code>child(e)</code></td>
+							<td>arg2 in the form of a next list of zero
 								or more pairs. The first of each pair will be a val_tag
 								with shape some offset. Its no field will be the offset
 								in which to put the next item of the pair.</td>
@@ -599,11 +599,11 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
-							<td><code>bro(arg1)</code></td>
+							<td><code>next(arg1)</code></td>
 							<td>arg2. arg1 and arg2 will be nof(m, s) and nof(n, s)</td>
 						</tr>
 						<tr>
@@ -629,11 +629,11 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>first</td>
 						</tr>
 						<tr>
-							<td><code>bro(son(e))</code></td>
+							<td><code>next(child(e))</code></td>
 							<td>alt, which will be a labst_tag</td>
 						</tr>
 						<tr>
@@ -661,7 +661,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1 (a pointer)</td>
 						</tr>
 						<tr>
@@ -689,7 +689,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>&NULL;</td>
 						</tr>
 						<tr>
@@ -719,12 +719,12 @@
 							<td>diag_info (qv.)</td>
 						</tr>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>controlled exp.</td>
 						</tr>
 						<tr>
 							<td><code>shape</code></td>
-							<td>sh(son(e))</td>
+							<td>sh(child(e))</td>
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
@@ -743,11 +743,11 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
-							<td><code>bro(arg1)</code></td>
+							<td><code>next(arg1)</code></td>
 							<td>arg2</td>
 						</tr>
 						<tr>
@@ -775,7 +775,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>ident_tag referred to</td>
 						</tr>
 						<tr>
@@ -801,7 +801,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
@@ -829,11 +829,11 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
-							<td><code>bro(arg1)</code></td>
+							<td><code>next(arg1)</code></td>
 							<td>arg2</td>
 						</tr>
 						<tr>
@@ -861,7 +861,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1 (value of shape compound)</td>
 						</tr>
 						<tr>
@@ -888,7 +888,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1 (int)</td>
 						</tr>
 						<tr>
@@ -917,11 +917,11 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
-							<td><code>bro(arg1)</code></td>
+							<td><code>next(arg1)</code></td>
 							<td>arg2</td>
 						</tr>
 						<tr>
@@ -947,11 +947,11 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
-							<td><code>bro(arg1)</code></td>
+							<td><code>next(arg1)</code></td>
 							<td>arg2</td>
 						</tr>
 						<tr>
@@ -979,15 +979,15 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
-							<td>a brother list of argument, all of the same shape.
+							<td><code>child(e)</code></td>
+							<td>a next list of argument, all of the same shape.
 								At least two arguments. After check any constants will
 								have been combined into one, which will be the last exp.
 								if there is a constant contribution.</td>
 						</tr>
 						<tr>
 							<td><code>shape</code></td>
-							<td>shape of son(e)</td>
+							<td>shape of child(e)</td>
 						</tr>
 						<tr>
 							<td><code>no(e)</code></td>
@@ -1010,7 +1010,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
@@ -1038,15 +1038,15 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
-							<td>a brother list of argument, all of the same shape.
+							<td><code>child(e)</code></td>
+							<td>a next list of argument, all of the same shape.
 								At least two arguments. After check any constants will
 								have been combined into one, which will be the last exp
 								if there is a constant contribution.</td>
 						</tr>
 						<tr>
 							<td><code>shape</code></td>
-							<td>shape of son(e)</td>
+							<td>shape of child(e)</td>
 						</tr>
 						<tr>
 							<td><code>no(e)</code></td>
@@ -1069,16 +1069,16 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
-							<td><code>bro(arg1)</code></td>
+							<td><code>next(arg1)</code></td>
 							<td>arg2</td>
 						</tr>
 						<tr>
 							<td><code>shape</code></td>
-							<td>shape of son(e)</td>
+							<td>shape of child(e)</td>
 						</tr>
 						<tr>
 							<td><code>no(e)</code></td>
@@ -1101,7 +1101,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>&NULL;</td>
 						</tr>
 						<tr>
@@ -1115,7 +1115,7 @@
 					</informaltable>
 
 <!-- TODO: hppa, mips, power say:
-    son is exp for value jumped with
+    child is exp for value jumped with
     ptr is labelled exp
 -->
 
@@ -1131,7 +1131,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>local_lv value</td>
 						</tr>
 						<tr>
@@ -1157,7 +1157,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>exp being so held.</td>
 						</tr>
 					</informaltable>
@@ -1173,11 +1173,11 @@
 
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>definition</td>
 						</tr>
 						<tr>
-							<td><code>bro(son(e))</code></td>
+							<td><code>next(child(e))</code></td>
 							<td>body</td>
 						</tr>
 					</informaltable>
@@ -1186,11 +1186,11 @@
 
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>init</td>
 						</tr>
 						<tr>
-							<td><code>bro(son(e))</code></td>
+							<td><code>next(child(e))</code></td>
 							<td>body</td>
 						</tr>
 					</informaltable>
@@ -1218,12 +1218,12 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>exp being controlled</td>
 						</tr>
 						<tr>
 							<td><code>shape</code></td>
-							<td>sh(son(e))</td>
+							<td>sh(child(e))</td>
 						</tr>
 						<tr>
 							<td><code>no(e)</code></td>
@@ -1244,7 +1244,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>complex number</td>
 						</tr>
 						<tr>
@@ -1270,7 +1270,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1 (int)</td>
 						</tr>
 						<tr>
@@ -1299,16 +1299,16 @@
 
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>a holder</td>
 						</tr>
 						<tr>
-							<td><code>bro(son(e))</code></td>
+							<td><code>next(child(e))</code></td>
 							<td>the destination exp</td>
 						</tr>
 						<tr>
 							<td><code>shape</code></td>
-							<td>shape of bro(son(e))</td>
+							<td>shape of next(child(e))</td>
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
@@ -1318,9 +1318,9 @@
 
 					<para>Properties in the props field are defined in &exp.h;</para>
 
-					<para>The holder (i.e. the son of the labst) can have any name_tag;
+					<para>The holder (i.e. the child of the labst) can have any name_tag;
 						its no field is the number of uses of the labst and
-						its bro is the destination exp. No other field is defined.</para>
+						its next is the destination exp. No other field is defined.</para>
 				</listitem>
 			</varlistentry>
 
@@ -1331,7 +1331,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>&NULL;</td>
 						</tr>
 						<tr>
@@ -1357,7 +1357,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>&NULL;</td>
 						</tr>
 						<tr>
@@ -1383,11 +1383,11 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg2 (pointer)</td>
 						</tr>
 						<tr>
-							<td><code>bro(son(e))</code></td>
+							<td><code>next(child(e))</code></td>
 							<td>arg1 (offset)</td>
 						</tr>
 						<tr>
@@ -1413,11 +1413,11 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
-							<td><code>bro(son(e))</code></td>
+							<td><code>next(child(e))</code></td>
 							<td>arg2</td>
 						</tr>
 						<tr>
@@ -1443,11 +1443,11 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
-							<td><code>bro(arg1)</code></td>
+							<td><code>next(arg1)</code></td>
 							<td>arg2</td>
 						</tr>
 						<tr>
@@ -1469,7 +1469,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>&NULL;</td>
 						</tr>
 						<tr>
@@ -1498,11 +1498,11 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
-							<td><code>bro(arg1)</code></td>
+							<td><code>next(arg1)</code></td>
 							<td>arg2</td>
 						</tr>
 						<tr>
@@ -1524,11 +1524,11 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
-							<td><code>bro(son(e))</code></td>
+							<td><code>next(child(e))</code></td>
 							<td>arg2</td>
 						</tr>
 						<tr>
@@ -1563,11 +1563,11 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
-							<td><code>bro(son(e))</code></td>
+							<td><code>next(child(e))</code></td>
 							<td>arg2</td>
 						</tr>
 						<tr>
@@ -1593,15 +1593,15 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
-							<td><code>bro(son(e))</code></td>
+							<td><code>next(child(e))</code></td>
 							<td>arg2</td>
 						</tr>
 						<tr>
-							<td><code>bro(bro(son(e)))</code></td>
+							<td><code>next(next(child(e)))</code></td>
 							<td>arg3</td>
 						</tr>
 						<tr>
@@ -1629,15 +1629,15 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
-							<td>a brother list of argument, all of the same shape.
+							<td><code>child(e)</code></td>
+							<td>a next list of argument, all of the same shape.
 								At least two arguments. After check any constants will
 								have been combined into one, which will be the last exp
 								if there is a constant contribution.</td>
 						</tr>
 						<tr>
 							<td><code>shape</code></td>
-							<td>shape of son(e)</td>
+							<td>shape of child(e)</td>
 						</tr>
 						<tr>
 							<td><code>no(e)</code></td>
@@ -1660,7 +1660,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>declaration (an ident_tag).</td>
 						</tr>
 						<tr>
@@ -1689,7 +1689,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>value to be copied</td>
 						</tr>
 						<tr>
@@ -1698,7 +1698,7 @@
 						</tr>
 						<tr>
 							<td><code>shape</code></td>
-							<td>nof(n, sh(son(e)))</td>
+							<td>nof(n, sh(child(e)))</td>
 						</tr>
 						<tr>
 							<td><code>pt(e)</code></td>
@@ -1715,7 +1715,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
@@ -1741,8 +1741,8 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
-							<td>arg1 as a brother list of zero or more exps, each of
+							<td><code>child(e)</code></td>
+							<td>arg1 as a next list of zero or more exps, each of
     							the same shape (under eq_shape)</td>
 						</tr>
 						<tr>
@@ -1768,7 +1768,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
@@ -1794,7 +1794,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>&NULL;</td>
 						</tr>
 						<tr>
@@ -1820,11 +1820,11 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
-							<td><code>bro(son(e))</code></td>
+							<td><code>next(child(e))</code></td>
 							<td>arg2</td>
 						</tr>
 						<tr>
@@ -1850,11 +1850,11 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
-							<td><code>bro(son(e))</code></td>
+							<td><code>next(child(e))</code></td>
 							<td>arg2</td>
 						</tr>
 						<tr>
@@ -1880,11 +1880,11 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
-							<td><code>bro(son(e))</code></td>
+							<td><code>next(child(e))</code></td>
 							<td>arg2</td>
 						</tr>
 						<tr>
@@ -1910,11 +1910,11 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
-							<td><code>bro(son(e))</code></td>
+							<td><code>next(child(e))</code></td>
 							<td>arg2</td>
 						</tr>
 						<tr>
@@ -1940,11 +1940,11 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
-							<td><code>bro(son(e))</code></td>
+							<td><code>next(child(e))</code></td>
 							<td>arg2</td>
 						</tr>
 						<tr>
@@ -1970,7 +1970,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
@@ -1996,7 +1996,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1 (offset)</td>
 						</tr>
 						<tr>
@@ -2022,11 +2022,11 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
-							<td><code>bro(son(e))</code></td>
+							<td><code>next(child(e))</code></td>
 							<td>arg2</td>
 						</tr>
 						<tr>
@@ -2052,15 +2052,15 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
-							<td>a brother list of argument, all of the same shape.
+							<td><code>child(e)</code></td>
+							<td>a next list of argument, all of the same shape.
 								At least two arguments. After check any constants will
 								have been combined into one, which will be the last exp
 								if there is a a constant contribution.</td>
 						</tr>
 						<tr>
 							<td><code>shape</code></td>
-							<td>shape of son(e)</td>
+							<td>shape of child(e)</td>
 						</tr>
 						<tr>
 							<td><code>no(e)</code></td>
@@ -2081,15 +2081,15 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
-							<td>a brother list of argument, all of the same shape.
+							<td><code>child(e)</code></td>
+							<td>a next list of argument, all of the same shape.
 								At least two arguments. After check any constants will
 								have been combined into one, which will be the last exp
 								if there is a constant contribution.</td>
 						</tr>
 						<tr>
 							<td><code>shape</code></td>
-							<td>shape of son(e)</td>
+							<td>shape of child(e)</td>
 						</tr>
 						<tr>
 							<td><code>no(e)</code></td>
@@ -2110,11 +2110,11 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
-							<td><code>bro(arg1)</code></td>
+							<td><code>next(arg1)</code></td>
 							<td>arg2</td>
 						</tr>
 						<tr>
@@ -2142,7 +2142,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>body of procedure, starting with declarations
     							(ident_tag) of parameters.</td>
 						</tr>
@@ -2174,7 +2174,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>&NULL;</td>
 						</tr>
 						<tr>
@@ -2200,7 +2200,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>&NULL;</td>
 						</tr>
 						<tr>
@@ -2226,7 +2226,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1 (complex)</td>
 						</tr>
 						<tr>
@@ -2252,7 +2252,7 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1 (pointer)</td>
 						</tr>
 						<tr>
@@ -2279,11 +2279,11 @@
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
-							<td><code>bro(son(e))</code></td>
+							<td><code>next(child(e))</code></td>
 							<td>arg2</td>
 						</tr>
 						<tr>
@@ -2313,11 +2313,11 @@ power/scan.c:
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>start</td>
 						</tr>
 						<tr>
-							<td><code>bro(son(e))</code></td>
+							<td><code>next(child(e))</code></td>
 							<td>body, which will be a labst_tag</td>
 						</tr>
 						<tr>
@@ -2345,7 +2345,7 @@ power/scan.c:
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
@@ -2372,11 +2372,11 @@ power/scan.c:
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1 (value to be rotated)</td>
 						</tr>
 						<tr>
-							<td><code>bro(arg1)</code></td>
+							<td><code>next(arg1)</code></td>
 							<td>arg2 (no of places)</td>
 						</tr>
 						<tr>
@@ -2402,7 +2402,7 @@ power/scan.c:
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
@@ -2428,11 +2428,11 @@ power/scan.c:
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>bro(son(e))</code></td>
+							<td><code>next(child(e))</code></td>
 							<td>result.
-								son(e) is statements in the form of a zero-named exp, with its
-								son as the first statement, and the remaining statements
-								chained through the bro fields.</td>
+								child(e) is statements in the form of a zero-named exp, with its
+								child as the first statement, and the remaining statements
+								chained through the next fields.</td>
 						</tr>
 						<tr>
 							<td><code>shape</code></td>
@@ -2450,7 +2450,7 @@ power/scan.c:
 
 <!-- TODO: mips, power say:
     shape of exp is shape of end of sequence
-    son is sequence holder, son of this is list of voided statements.
+    child is sequence holder, child of this is list of voided statements.
 -->
 
     				<para>Use new_exp_list to start and empty sequence, add_exp_list to
@@ -2467,11 +2467,11 @@ power/scan.c:
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
-							<td><code>bro(son(e))</code></td>
+							<td><code>next(child(e))</code></td>
 							<td>arg2</td>
 						</tr>
 						<tr>
@@ -2499,11 +2499,11 @@ power/scan.c:
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
-							<td><code>bro(son(e))</code></td>
+							<td><code>next(child(e))</code></td>
 							<td>arg2</td>
 						</tr>
 						<tr>
@@ -2533,12 +2533,12 @@ power/scan.c:
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>starter</td>
 						</tr>
 						<tr>
-							<td><code>bro(son(e))</code></td>
-							<td>the start of a brother list of one or more exps,
+							<td><code>next(child(e))</code></td>
+							<td>the start of a next list of one or more exps,
     							which will be labst_tag's for each of the places</td>
 						</tr>
 						<tr>
@@ -2566,7 +2566,7 @@ power/scan.c:
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>&NULL;</td>
 						</tr>
 						<tr>
@@ -2604,11 +2604,11 @@ power/scan.c:
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>x</td>
 						</tr>
 						<tr>
-							<td><code>bro(son(e))</code></td>
+							<td><code>next(child(e))</code></td>
 							<td>mask (not necessarily constant)</td>
 						</tr>
 						<tr>
@@ -2638,11 +2638,11 @@ power/scan.c:
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>arg1</td>
 						</tr>
 						<tr>
-							<td><code>bro(son(e))</code></td>
+							<td><code>next(child(e))</code></td>
 							<td>arg2</td>
 						</tr>
 						<tr>
@@ -2679,7 +2679,7 @@ power/scan.c:
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>&NULL;</td>
 						</tr>
 						<tr>
@@ -2705,7 +2705,7 @@ power/scan.c:
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son(e)</code></td>
+							<td><code>child(e)</code></td>
 							<td>&NULL;</td>
 						</tr>
 						<tr>
@@ -2735,7 +2735,7 @@ power/scan.c:
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son</code></td>
+							<td><code>child</code></td>
 							<td>(ident for caller-formal as in proc_tag)
     			....
     	      with body = (ident for callee_formal with
@@ -2765,17 +2765,17 @@ power/scan.c:
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son</code></td>
+							<td><code>child</code></td>
 							<td>proc</td>
 						</tr>
 						<tr>
-							<td><code>bro(son)</code></td>
+							<td><code>next(child)</code></td>
 							<td>
 		exp(tag = 0; props = procprops; no = number of otagexps;
-				son = list of otagexps ie caller actuals)
+				child = list of otagexps ie caller actuals)
 			   if tag is present in otagexp, then
 					name(otagexp) = caller_tag
-					son(otagexp) = actual
+					child(otagexp) = actual
 				and postlude will have ident with
 					def = caller_name_tag
 				and no(def) = no of corresponding caller_tag
@@ -2784,18 +2784,18 @@ power/scan.c:
 							</td>
 						</tr>
 						<tr>
-							<td><code>bro(bro(son))</code></td>
+							<td><code>next(next(child))</code></td>
 							<td>
-		callees = (1) make_callee_list_tag with son list of exps
+		callees = (1) make_callee_list_tag with child list of exps
 							and number = number in list
-						 (2) make_dynamic_callee_tag with son ptr
-							and bro(son) size
+						 (2) make_dynamic_callee_tag with child ptr
+							and next(child) size
 						 (3) same_callees_tag
 				and props = procprops
 							</td>
 						</tr>
 						<tr>
-							<td><code>bro(bro(bro(son)))</code></td>
+							<td><code>next(next(next(child)))</code></td>
 							<td>postlude with tags identified as above</td>
 						</tr>
 					</informaltable>
@@ -2808,12 +2808,12 @@ power/scan.c:
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son</code></td>
+							<td><code>child</code></td>
 							<td>proc</td>
 						</tr>
 						<tr>
-							<td><code>bro(son)</code></td>
-							<td>(tag = 0; props = procprops; son = callees as above)</td>
+							<td><code>next(child)</code></td>
+							<td>(tag = 0; props = procprops; child = callees as above)</td>
 						</tr>
 					</informaltable>
 				</listitem>
@@ -2825,7 +2825,7 @@ power/scan.c:
 				<listitem>
 					<informaltable>
 						<tr>
-							<td><code>son</code></td>
+							<td><code>child</code></td>
 							<td>result exp</td>
 						</tr>
 					</informaltable>

@@ -100,11 +100,11 @@ read_external(sortname s, bool local)
 	e = new_node();
 	e->cons = &true_cons;
 	if (estate == 1) {
-	    e->son = read_node("$");
+	    e->child = read_node("$");
 	} else if (estate == 2) {
-	    e->son = read_node("*[$]");
+	    e->child = read_node("*[$]");
 	} else {
-	    e->son = read_node("$i");
+	    e->child = read_node("$i");
 	}
 	read_word();
 	if (word_type != INPUT_CLOSE) {
@@ -148,7 +148,7 @@ read_external(sortname s, bool local)
 	    }
 	} else {
 	    if (p->ename) {
-		if (e->son) {
+		if (e->child) {
 		    is_fatal = 0;
 		    input_error("External name of object %s given twice",
 				  word);
@@ -287,8 +287,8 @@ read_tagdef(bool local, int is_var)
     if (info->def) {
 	if (is_var == 2) {
 	    node *dp = info->def;
-	    while (dp->bro)dp = dp->bro;
-	    dp->bro = d;
+	    while (dp->next)dp = dp->next;
+	    dp->next = d;
 	} else {
 	    if (!eq_node(info->def, d)) {
 		is_fatal = 0;

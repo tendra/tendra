@@ -71,7 +71,7 @@ inlinechoice(exp t, exp def, int cnt)
 	newdecs = 0;
 	const_param_bonus = 0;
 
-	pr_ident = son(t); /* t is name_tag */
+	pr_ident = child(t); /* t is name_tag */
 	assert(pr_ident->tag == ident_tag);
 
 	max_complexity = 300 / cnt; /* was no(pr_ident), but that changes */
@@ -102,16 +102,16 @@ inlinechoice(exp t, exp def, int cnt)
 			proc_in = father(proc_in);
 			assert(proc_in != NULL);
 		}
-		proc_in = bro(proc_in);
+		proc_in = next(proc_in);
 		assert(proc_in->tag = ident_tag);
 
 		fprintf(stderr, "Considering %s in %s\n",
-		        brog(pr_ident)->name,
-		        brog(proc_in)->name);
+		        nextg(pr_ident)->name,
+		        nextg(proc_in)->name);
 	}
 
-	apars = bro(t); /* t is name_tag */
-	fpars = son(def);
+	apars = next(t); /* t is name_tag */
+	fpars = child(def);
 
 	for (;;) {
 		if (fpars->tag != ident_tag || !isparam(fpars)) {
@@ -131,7 +131,7 @@ inlinechoice(exp t, exp def, int cnt)
 			break;
 
 		case cont_tag:
-			if (son(apars)->tag == name_tag && isvar(son(son(apars))) &&
+			if (child(apars)->tag == name_tag && isvar(child(child(apars))) &&
 			    !isvar(fpars)) {
 				break;
 			}
@@ -173,8 +173,8 @@ inlinechoice(exp t, exp def, int cnt)
 			break;
 
 		case cont_tag:
-			if (son(apars)->tag == name_tag &&
-			    isvar(son(son(apars))) &&
+			if (child(apars)->tag == name_tag &&
+			    isvar(child(child(apars))) &&
 			    !isvar(fpars)) {
 				break;
 			}
@@ -186,12 +186,12 @@ inlinechoice(exp t, exp def, int cnt)
 			break;
 		}
 
-		fpars = bro(son(fpars));
+		fpars = next(child(fpars));
 		if (apars->last) {
 			break;
 		}
 
-		apars = bro(apars);
+		apars = next(apars);
 	}
 
 	adjusted_max_complexity = max_complexity;
@@ -244,7 +244,7 @@ inlinechoice(exp t, exp def, int cnt)
 			fprintf(stderr, "NO WAY\n");
 		}
 
-		fprintf(stderr, "--%s %s\n", brog(pr_ident)->name,
+		fprintf(stderr, "--%s %s\n", nextg(pr_ident)->name,
 		        classify[(ptno(def) & MASK)]);
 	}
 

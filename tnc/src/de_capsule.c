@@ -419,7 +419,7 @@ de_capsule(void)
 						if (!is_local_name(nm)) {
 							p->ename = new_node();
 							p->ename->cons = &true_cons;
-							p->ename->son = ns;
+							p->ename->child = ns;
 						}
 					}
 				}
@@ -435,7 +435,7 @@ de_capsule(void)
 					IGNORE sprintf(p->name, "~~extern_%d", un++);
 					p->ename = new_node();
 					p->ename->cons = &true_cons;
-					p->ename->son = nu;
+					p->ename->child = nu;
 				}
 			} else if (n == ENC_chain_extern) {
 				/* Chain external name */
@@ -449,7 +449,7 @@ de_capsule(void)
 					IGNORE sprintf(p->name, "~~extern_%d", un++);
 					p->ename = new_node();
 					p->ename->cons = &true_cons;
-					p->ename->son = nc;
+					p->ename->child = nc;
 				}
 			} else
 				input_error("Illegal EXTERN value, %ld", n);

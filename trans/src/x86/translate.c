@@ -79,18 +79,18 @@ const_ready(exp e)
 	unsigned char n = e->tag;
 
 	if (n == env_size_tag) {
-		return brog(son(son(e)))->processed;
+		return nextg(child(child(e)))->processed;
 	}
 
 	if (n == env_offset_tag) {
-		return son(e)->tag == 0;
+		return child(e)->tag == 0;
 	}
 
-	if (n == name_tag || son(e) == NULL) {
+	if (n == name_tag || child(e) == NULL) {
 		return 1;
 	}
 
-	for (e = son(e); !e->last; e = bro(e)) {
+	for (e = child(e); !e->last; e = next(e)) {
 		if (!const_ready(e)) {
 			return 0;
 		}
@@ -102,15 +102,15 @@ const_ready(exp e)
 static void
 eval_if_ready(exp t, int now)
 {
-	if (!now && !const_ready(son(t))) {
-		bro(t) = delayed_const_list;
+	if (!now && !const_ready(child(t))) {
+		next(t) = delayed_const_list;
 		delayed_const_list = t;
 
 		return;
 	}
 
 	if (!isglob(t)) {
-		if (!writable_strings && son(t)->tag != res_tag) {
+		if (!writable_strings && child(t)->tag != res_tag) {
 			out_readonly_section();
 			asm_printf("\n");
 		} else {
@@ -120,7 +120,7 @@ eval_if_ready(exp t, int now)
 			asm_printf(".data\n");
 		}
 
-		evaluate(son(t), no(t), NULL, (son(t)->tag != res_tag), 0, NULL);
+		evaluate(child(t), no(t), NULL, (child(t)->tag != res_tag), 0, NULL);
 	} else {
 		dec *d = ptg(t);
 
@@ -146,7 +146,7 @@ eval_if_ready(exp t, int now)
 #endif
 		}
 
-		evaluate(son(t), -1, d->name, !isvar(t), (int) d->extnamed
+		evaluate(child(t), -1, d->name, !isvar(t), (int) d->extnamed
 #ifdef TDF_DIAG3
 			 , d->diag_info
 #endif
@@ -165,25 +165,25 @@ code_def(dec *d)
 	exp tag  = d->exp;
 	char *name = d->name;
 
-	if (son(tag) != NULL && shape_size(sh(son(tag))) == 0 && son(tag)->tag == asm_tag) {
+	if (child(tag) != NULL && shape_size(sh(child(tag))) == 0 && child(tag)->tag == asm_tag) {
 		ash stack;
 		stack.ashsize = stack.ashalign = 0;
 
-		if (props(son(tag)) != 0) {
+		if (child(tag)->props != 0) {
 			error(ERR_INTERNAL, "~asm not in ~asm_sequence");
 		}
 
-		check_asm_seq(son(son(tag)), 1);
+		check_asm_seq(child(child(tag)), 1);
 		asm_printf(".text\n");
-		make_code(zero, stack, son(tag));
+		make_code(zero, stack, child(tag));
 		asm_printf("\n");
 	}
 
-	if (son(tag) != NULL && (d->extnamed || no(tag) != 0)) {
-		if (son(tag)->tag == proc_tag || son(tag)->tag == general_proc_tag) {
+	if (child(tag) != NULL && (d->extnamed || no(tag) != 0)) {
+		if (child(tag)->tag == proc_tag || child(tag)->tag == general_proc_tag) {
 			if (dyn_init && strncmp("__I.TDF", name + strlen(name_prefix), 7) == 0) {
 				out_initialiser(name);
-				set_proc_uses_external (son (tag));	/* for PIC_code, should be done in install_fns? */
+				set_proc_uses_external (child (tag));	/* for PIC_code, should be done in install_fns? */
 			}
 
 			asm_printf(".text\n");
@@ -202,7 +202,7 @@ code_def(dec *d)
 			}
 
 			/* for use in constant evaluation */
-			d->index = cproc(son(tag), name, -1, (int) d->extnamed
+			d->index = cproc(child(tag), name, -1, (int) d->extnamed
 #ifdef TDF_DIAG3
 		          , d->diag_info
 #endif
@@ -214,7 +214,7 @@ code_def(dec *d)
 			while (const_list != NULL) {
 				/* put in the constants required by the procedure */
 				exp t = const_list;
-				const_list = bro(const_list);
+				const_list = next(const_list);
 				eval_if_ready(t, 0);
 			}
 		} else {
@@ -226,7 +226,7 @@ code_def(dec *d)
 			struct dg_name_t * diag_props = d->dg_name;
 #endif
 
-			if (shape_size(sh(son(tag))) == 0) {
+			if (shape_size(sh(child(tag))) == 0) {
 				if (d->extnamed) {
 					asm_printf(".globl %s\n", name);
 				} else if (assembler == ASM_SUN) {
@@ -237,16 +237,16 @@ code_def(dec *d)
 				} else {
 					asm_printf(".set %s, 0\n", name);
 				}
-			} else if (!PIC_code && !isvar(tag) && son(tag)->tag == null_tag &&
-			           sh(son(tag))->tag == prokhd) {
+			} else if (!PIC_code && !isvar(tag) && child(tag)->tag == null_tag &&
+			           sh(child(tag))->tag == prokhd) {
 				if (d->extnamed) {
 					asm_printf(".globl %s\n", name);
 				} else if (assembler == ASM_SUN) {
 					asm_printf(".local %s\n", name);
 				}
-				asm_printf(".set %s, %ld\n", name, (long) no(son(tag)));
+				asm_printf(".set %s, %ld\n", name, (long) no(child(tag)));
 			} else {
-				if (!d->isweak && is_comm(son(tag))) {
+				if (!d->isweak && is_comm(child(tag))) {
 					int is_ext = d->extnamed;
 
 					if (diag_props && diag != DIAG_NONE) {
@@ -258,22 +258,23 @@ code_def(dec *d)
 #endif
 					}
 
-					if (son(tag)->tag == clear_tag && no(son(tag)) == -1) {
+					if (child(tag)->tag == clear_tag && no(child(tag)) == -1) {
 						/* prom global data */
 						if (is_ext) {
 							asm_printf(".globl %s\n", name);
 						}
 
-						out_bss(name, sh(son(tag)));
+						out_dot_lcomm(name, sh(child(tag)));
+
 #ifdef DWARF2
 						if (diag == DIAG_DWARF2) {
 							note_data(name);
 						}
 #endif
 					} else if (is_ext) {
-						out_dot_comm(name, sh(son(tag)));
+						out_dot_comm(name, sh(child(tag)));
 					} else {
-						out_dot_lcomm(name, sh(son(tag)));
+						out_dot_lcomm(name, sh(child(tag)));
 					}
 
 					if (diag_props) {
@@ -283,7 +284,7 @@ code_def(dec *d)
 					}
 				} else {
 					/* global values */
-					exp t = getexp(f_bottom, NULL, 0, son(tag), NULL, props(tag), -1, 0);
+					exp t = getexp(f_bottom, NULL, 0, child(tag), NULL, tag->props, -1, 0);
 					ptg(t) = d;
 					eval_if_ready(t, 0);
 				}
@@ -291,7 +292,7 @@ code_def(dec *d)
 		}
 	}
 
-	if (son(tag) != NULL) {
+	if (child(tag) != NULL) {
 		d->processed = 1;
 	}
 }
@@ -304,13 +305,13 @@ mark_unaliased(exp e)
 
 	for (p = pt(e); p != NULL && ca; p = pt(p)) {
 #ifdef TDF_DIAG4
-		if ((bro(p) == NULL ||
+		if ((next(p) == NULL ||
 #else
-		if (bro(p) == NULL ||
+		if (next(p) == NULL ||
 #endif
-		     (!(p->last && bro(p)->tag == cont_tag) &&
-		     !(!p->last && bro(p)->last &&
-		        bro(bro(p))->tag == ass_tag)))
+		     (!(p->last && next(p)->tag == cont_tag) &&
+		     !(!p->last && next(p)->last &&
+		        next(next(p))->tag == ass_tag)))
 #ifdef TDF_DIAG4
 		    && !isdiaginfo(p))
 #endif
@@ -337,7 +338,7 @@ local_translate_capsule(void)
 		exp crt_exp = d->exp;
 
 		if (PIC_code) {
-			exp idval = son(crt_exp);
+			exp idval = child(crt_exp);
 			if (!d->var &&
 			    (idval == NULL || (idval->tag != val_tag && idval->tag != real_tag &&
 			                       idval->tag != null_tag) /* optimised out in opt_all_exps/refactor_ext */
@@ -361,13 +362,13 @@ local_translate_capsule(void)
 
 					np = pt(p);
 					ptr = refto(father(p), p);
-					c = getexp(sh(p), bro(p), p->last, p, NULL, 0, 0, cont_tag);
+					c = getexp(sh(p), next(p), p->last, p, NULL, 0, 0, cont_tag);
 					setfather(c, p);
 
 					if (no(p) != 0) {
 						exp r = getexp(sh(p), c, 1, p, NULL, 0, no(p), reff_tag);
 						no(p) = 0;
-						son(c) = r;
+						child(c) = r;
 						setfather(r, p);
 					}
 
@@ -377,8 +378,8 @@ local_translate_capsule(void)
 		} else {
 			/* !PIC_code; make indirect global idents direct */
 			exp tag = crt_exp;
-			while (!isvar(tag) && son(tag) != NULL && son(tag)->tag == name_tag && no(son(tag)) == 0) {
-				tag = son(son(tag));
+			while (!isvar(tag) && child(tag) != NULL && child(tag)->tag == name_tag && no(child(tag)) == 0) {
+				tag = child(child(tag));
 			}
 
 			if (tag != crt_exp) {
@@ -386,11 +387,11 @@ local_translate_capsule(void)
 
 				for (p = pt(crt_exp); p != NULL; p = np) {
 					np = pt(p);
-					if (son(p) != crt_exp) {
+					if (child(p) != crt_exp) {
 						error(ERR_INTERNAL, "not simple name");
 					}
 
-					son(p) = tag;
+					child(p) = tag;
 					pt(p) = pt(tag);
 					pt(tag) = p;
 					++no(tag);
@@ -411,7 +412,7 @@ local_translate_capsule(void)
 		exp crt_exp;
 
 		crt_exp = d->exp;
-		if (son(crt_exp) != NULL && !d->extnamed && isvar(crt_exp)) {
+		if (child(crt_exp) != NULL && !d->extnamed && isvar(crt_exp)) {
 			mark_unaliased(crt_exp);
 		}
 	}
@@ -456,7 +457,7 @@ local_translate_capsule(void)
 
 	while (delayed_const_list != NULL) {
 		exp t = delayed_const_list;
-		delayed_const_list = bro(delayed_const_list);
+		delayed_const_list = next(delayed_const_list);
 		eval_if_ready(t, 1);
 	}
 

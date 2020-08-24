@@ -55,6 +55,7 @@
 #include <special/special_fn.h>
 
 #include <utility/max.h>
+#include <utility/prefix.h>
 
 #include <main/flags.h>
 
@@ -235,7 +236,7 @@ make_extra_dec(char *name, int v, int g, exp init, shape s)
 	if (v) {
 		setvar(e);
 	}
-	brog(e) = extra_dec;
+	nextg(e) = extra_dec;
 	extra_dec->next = NULL;
 	*deflist_end = extra_dec;
 	deflist_end = &((*deflist_end)->next);
@@ -284,7 +285,7 @@ promote_actuals(exp par)
 		if (par->last) {
 			break;
 		}
-		par = bro(par);
+		par = next(par);
 	}
 }
 
@@ -297,16 +298,16 @@ promote_formals(exp bdy)
 	       || bdy->tag == diagnose_tag
 #endif
 	      ) {
-		shape spar = sh(son(bdy));
+		shape spar = sh(child(bdy));
 		if (bdy->tag != ident_tag) {
-			bdy = son(bdy);
+			bdy = child(bdy);
 			continue;
 		}
 		if (spar->tag >= scharhd && spar->tag <= uwordhd) {
 			shape ns = (is_signed(spar)) ? slongsh : ulongsh;
 			exp u = pt(bdy);
 			exp w;
-			sh(son(bdy)) = ns;
+			sh(child(bdy)) = ns;
 			if (!isvar(bdy)) {
 				while (u != NULL) {
 					exp nextu = pt(u);
@@ -321,9 +322,9 @@ promote_formals(exp bdy)
 				shape ps = f_pointer(f_alignment(ns));
 				while (u != NULL) {
 					exp nextu = pt(u);
-					if (u->last && bro(u)->tag == cont_tag) {
+					if (u->last && next(u)->tag == cont_tag) {
 						if (endian == ENDIAN_LITTLE) {
-							exp con = bro(u);
+							exp con = next(u);
 							sh(u) = ps;
 							sh(con) = ns;
 							w = f_change_variety(
@@ -344,7 +345,7 @@ promote_formals(exp bdy)
 				}
 			}
 		}
-		bdy = bro(son(bdy));
+		bdy = next(child(bdy));
 	}
 }
 
@@ -404,7 +405,7 @@ f_make_otagexp(tag_option tagopt, exp e)
 	init = getexp(sh(e), NULL, 0, NULL , NULL, 0, 0, caller_name_tag);
 	pt(e) = getexp(f_top, NULL, 0, init, NULL, 0, 0, ident_tag);
 	/*  	setvar(pt(e));   - NOT ACCORDING TO SPEC */
-	setfather(e, son(e));
+	setfather(e, child(e));
 	set_tag(tagopt.val, pt(e));
 	return e;
 }
@@ -429,7 +430,7 @@ add_otagexp_list(otagexp_list list, otagexp ote, int n)
 	if (list.number++ == 0) {
 		list.start = list.end = ote;
 	} else {
-		bro(list.end) = ote;
+		next(list.end) = ote;
 		list.end->last = false;
 		list.end = ote;
 	}
@@ -437,12 +438,12 @@ add_otagexp_list(otagexp_list list, otagexp ote, int n)
 	if (ote->tag == caller_tag) {
 		exp id = pt(ote);
 		exp lid = list.id;
-		bro(son(id)) = lid;
+		next(child(id)) = lid;
 		if (lid != NULL) {
-			bro(lid) = id;
+			next(lid) = id;
 			lid->last = true;
 		}
-		no(son(id)) = n;
+		no(child(id)) = n;
 		list.id = id;
 		pt(ote) = NULL; /* this pt is a temp link */
 	}
@@ -470,7 +471,7 @@ f_make_dynamic_callees(exp ptr, exp sze)
 {
 	exp e = getexp(f_top, NULL, 0, ptr, NULL, 0, 0,
 		       make_dynamic_callee_tag);
-	bro(ptr) = sze;
+	next(ptr) = sze;
 	ptr->last = false;
 	setfather(e, sze);
 	return e;
@@ -491,11 +492,11 @@ clear_exp_list(exp_list el)
 		return;
 	}
 	for (;;) {
-		parked(t) = 0;
+		t->parked = false;
 		if (t == el.end) {
 			return;
 		}
-		t = bro(t);
+		t = next(t);
 	}
 }
 
@@ -953,7 +954,7 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 
 	clear_exp_list(arg2);
 
-	if (arg1->tag == name_tag && isglob(son(arg1)) && !isvar(son(arg1))) {
+	if (arg1->tag == name_tag && isglob(child(arg1)) && !isvar(child(arg1))) {
 		exp e;
 
 		/* check for substitutions for certain global procedures */
@@ -966,10 +967,10 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 		setfather(res, arg1);
 	} else {
 		arg1->last = false;
-		bro(arg1) = arg2.start;
+		next(arg1) = arg2.start;
 		setfather(res, arg2.end);
 		if (promote_pars) {
-			promote_actuals(bro(son(res)));
+			promote_actuals(next(child(res)));
 		}
 	}
 
@@ -979,7 +980,7 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 		exp param, prev;
 
 		prev = arg1;
-		param = bro(arg1);
+		param = next(arg1);
 
 		while (1 /*"break" below*/) {
 			if ((varhack && param->last) ||
@@ -1019,7 +1020,7 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 					    /* new_ident: (ident_tag sh=sh(res)
 					       no=1 pt=new_par param res) */
 					    new_ident = getexp(sh(res),
-							       bro(res),
+							       next(res),
 							       (int)res->last,
 							       param, NULL, 0,
 							       1, ident_tag);
@@ -1029,7 +1030,7 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 
 					    /* new_par: (name_tag sh=ptr_s pt=0
 					       new_ident) */
-					    new_par = getexp(ptr_s, bro(param),
+					    new_par = getexp(ptr_s, next(param),
 							     (bool)param->last,
 							     new_ident, NULL,
 							     0, 0, name_tag);
@@ -1042,12 +1043,12 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 					    /* install res as body of
 					       new_ident */
 					    param->last = false;
-					    bro(param) = res;
+					    next(param) = res;
 
 					    res->last = true;
-					    bro(res) = new_ident;
+					    next(res) = new_ident;
 
-					    bro(prev) = new_par;
+					    next(prev) = new_par;
 
 					    res = new_ident;
 					    /* all done */
@@ -1057,7 +1058,7 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 						    break;
 					    }
 
-					    param = bro(new_par);
+					    param = next(new_par);
 					    prev = new_par;
 				    } else {
 					    /* iteration */
@@ -1066,7 +1067,7 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 					    }
 
 					    prev = param;
-					    param = bro(param);
+					    param = next(param);
 				    }
 		}
 	}
@@ -1090,28 +1091,28 @@ f_apply_proc(shape result_shape, exp arg1, exp_list arg2, exp_option varparam)
 				  0, name_tag);
 		pt(vardec) = contname;
 		cont = f_contents(result_shape, contname);
-		appname = getexp(ptr_res_shape, bro(son(res)), 0, vardec,
+		appname = getexp(ptr_res_shape, next(child(res)), 0, vardec,
 				 contname, 0, 0, name_tag);
 		++no(vardec);
 		pt(vardec) = appname;
-		app = getexp(f_top, NULL, 0, son(res), NULL, 0, 32,
+		app = getexp(f_top, NULL, 0, child(res), NULL, 0, 32,
 			     apply_tag);
-		if (son(res)->last) {
-			son(res)->last = false;
+		if (child(res)->last) {
+			child(res)->last = false;
 			appname->last  = true;
-			bro(appname) = app;
+			next(appname) = app;
 		}
-		bro(son(res)) = appname;
-		t = son(app);
+		next(child(res)) = appname;
+		t = child(app);
 		list.number = 1;
 		while (!t->last) {
-			t = bro(t);
+			t = next(t);
 		}
-		bro(t) = app;
+		next(t) = app;
 		list.start = app;
 		list.end = app;
 		seq = f_sequence(list, cont);
-		bro(init) = seq;
+		next(init) = seq;
 		setfather(vardec, seq);
 		retcell(res);
 		return vardec;
@@ -1179,7 +1180,7 @@ f_assign_with_mode(transfer_mode md, exp arg1, exp arg2)
 	} else if ((md & f_overlap) &&
 		   (arg2->tag == cont_tag || arg2->tag == contvol_tag) &&
 		   !reg_result(sh(arg2))) {
-		return f_move_some(md, son(arg2), arg1,
+		return f_move_some(md, child(arg2), arg1,
 				   f_shape_offset(sh(arg2)));
 	} else {
 		return me_b3(f_top, arg1, arg2, ass_tag);
@@ -1226,7 +1227,7 @@ f_bitfield_assign(exp p, exp off, exp val)
 				   name_tag);
 		exp idoff = getexp(f_top, NULL, 0, off, noff2, 0, 2,
 				   ident_tag);
-		son(noff1) = idoff; son(noff2) = idoff;
+		child(noff1) = idoff; child(noff2) = idoff;
 		{
 			exp v, idbnt;
 			exp pn1, pn2, idpn;
@@ -1275,20 +1276,20 @@ f_bitfield_assign(exp p, exp off, exp val)
 			idpn = getexp(f_top, idbnt, 1,
 				  f_add_to_ptr(p, nby1), pn2, 0, 2, ident_tag);
 
-			son(nby1) = idby; son(nby2) = idby; son(nby3) = idby;
-			son(bnt1) = idbnt; son(bnt2) = idbnt;
-			son(pn1) = idpn; son(pn2) = idpn;
-			bro(son(idby)) = idbnt; son(idby )->last = false;
-			bro(son(idbnt)) = idpn; son(idbnt)->last = false;
-			bro(son(idoff)) = idby; son(idoff)->last = false;
+			child(nby1) = idby; child(nby2) = idby; child(nby3) = idby;
+			child(bnt1) = idbnt; child(bnt2) = idbnt;
+			child(pn1) = idpn; child(pn2) = idpn;
+			next(child(idby)) = idbnt; child(idby )->last = false;
+			next(child(idbnt)) = idpn; child(idbnt)->last = false;
+			next(child(idoff)) = idby; child(idoff)->last = false;
 
 			mask1 = f_not(f_shift_left(f_wrap, mask0, bnt1));
 			cnt = f_and(f_contents(s, pn1), mask1);
 			orit = f_or(cnt, f_shift_left(f_wrap,
 			    f_change_bitfield_to_int(s, val), bnt2));
 			asit = f_assign(pn2, orit);
-			bro(son(idpn)) = asit; son(idpn)->last = false;
-			bro(asit) = idpn; asit->last = true;
+			next(child(idpn)) = asit; child(idpn)->last = false;
+			next(asit) = idpn; asit->last = true;
 
 			return idoff;
 		}
@@ -1378,7 +1379,7 @@ f_bitfield_contents(bitfield_variety bf, exp p, exp off)
 		exp noff2 = getexp(sh(off), NULL, 0, NULL, noff1, 0, 0,
 				   name_tag);
 		exp idoff = getexp(s, NULL, 0, off, noff2, 0, 2, ident_tag);
-		son(noff1) = idoff; son(noff2) = idoff;
+		child(noff1) = idoff; child(noff2) = idoff;
 		{
 			exp addbf = f_offset_add(noff1, f_shape_offset(bfs));
 			exp byteoffinit =
@@ -1396,7 +1397,7 @@ f_bitfield_contents(bitfield_variety bf, exp p, exp off)
 				       shape_size(s) - bf.bits, val_tag);
 			exp v1bit = getexp(ob, NULL, 0, NULL, NULL, 0, 1,
 					   val_tag);
-			son(nby1) = idby; son(nby2) = idby;
+			child(nby1) = idby; child(nby2) = idby;
 			cnt = f_contents(s, f_add_to_ptr(p, nby1));
 			bitoff =
 			    f_offset_div(ulongsh, f_offset_subtract(noff2,
@@ -1411,10 +1412,10 @@ f_bitfield_contents(bitfield_variety bf, exp p, exp off)
 			}
 			sh1 = f_shift_left(f_wrap, cnt, shl);
 			sh2 = f_shift_right(sh1, v);
-			bro(byteoffinit) = sh2; byteoffinit->last = false;
-			bro(sh2) = idby; sh2->last = true;
-			bro(off) = idby; off->last = false;
-			bro(idby) = idoff; idby->last = true;
+			next(byteoffinit) = sh2; byteoffinit->last = false;
+			next(sh2) = idby; sh2->last = true;
+			next(off) = idby; off->last = false;
+			next(idby) = idoff; idby->last = true;
 			return f_change_int_to_bitfield(bf, idoff);
 		}
 	}
@@ -1485,26 +1486,26 @@ f_case_transform(bool exhaustive, exp control, caselim_list branches)
 		return control;
 	}
 
-	bro(global_case) = NULL;
+	next(global_case) = NULL;
 	while (branches != NULL) {
 		exp hd = branches;
-		branches = bro(branches);
-		bro(hd) = NULL;
+		branches = next(branches);
+		next(hd) = NULL;
 		sh(hd) = sh(control);
-		if (son(hd) != NULL) {
-			sh(son(hd)) = sh(control);
+		if (child(hd) != NULL) {
+			sh(child(hd)) = sh(control);
 		}
-		if (son(hd) != NULL &&
-		    docmp_f((int)f_less_than, son(hd), hd)) {
-			--no(son(pt(hd)));
-			retcell(son(hd));
+		if (child(hd) != NULL &&
+		    docmp_f((int)f_less_than, child(hd), hd)) {
+			--no(child(pt(hd)));
+			retcell(child(hd));
 			retcell(hd);
 		} else {
 			case_item(hd);
 		}
 	}
 
-	if (bro(global_case) == NULL) {
+	if (next(global_case) == NULL) {
 		return control;
 	}
 	case_shape = (exhaustive)? f_bottom : f_top;
@@ -1521,20 +1522,20 @@ f_case_transform(bool exhaustive, exp control, caselim_list branches)
 
 	r = getexp(case_shape, NULL, 0, control, NULL, 0, 0, case_tag);
 	control->last = false;
-	bro(control) = bro(global_case);
+	next(control) = next(global_case);
 	ht = control;
-	while (bro(ht) != NULL) {
-		ht = bro(ht);
+	while (next(ht) != NULL) {
+		ht = next(ht);
 		sh(ht) = changer_shape;
-		if (son(ht) != NULL) {
-			sh(son(ht)) = changer_shape;
+		if (child(ht) != NULL) {
+			sh(child(ht)) = changer_shape;
 		}
 	}
 	ht->last = true;
-	bro(ht) = r;
+	next(ht) = r;
 
-	control_expression = son(r);
-	body_of_case = bro(son(r));
+	control_expression = child(r);
+	body_of_case = next(child(r));
 
 	copy_ce = copy(control_expression);
 	changer = hold_refactor(me_u3(changer_shape, control_expression,
@@ -1559,32 +1560,32 @@ f_case_notransform(bool exhaustive, exp control, caselim_list branches)
 	exp r, ht;
 	shape case_shape;
 	/*  UNUSED(branches);
-	    if (sh(control)->tag == bothd || bro(global_case) == NULL)
+	    if (sh(control)->tag == bothd || next(global_case) == NULL)
 	    return control;
 	 */
 	if (sh(control)->tag == bothd) {
 		return control;
 	}
 
-	bro(global_case) = NULL;
+	next(global_case) = NULL;
 	while (branches != NULL) {
 		exp hd = branches;
-		branches = bro(branches);
-		bro(hd) = NULL;
+		branches = next(branches);
+		next(hd) = NULL;
 		sh(hd) = sh(control);
-		if (son(hd) != NULL) {
-			sh(son(hd)) = sh(control);
+		if (child(hd) != NULL) {
+			sh(child(hd)) = sh(control);
 		}
-		if (son(hd) != NULL &&
-		    docmp_f((int)f_less_than, son(hd), hd)) {
-			--no(son(pt(hd)));
-			retcell(son(hd));
+		if (child(hd) != NULL &&
+		    docmp_f((int)f_less_than, child(hd), hd)) {
+			--no(child(pt(hd)));
+			retcell(child(hd));
 			retcell(hd);
 		} else {
 			case_item(hd);
 		}
 	}
-	if (bro(global_case) == NULL) {
+	if (next(global_case) == NULL) {
 		return control;
 	}
 	case_shape = (exhaustive) ? f_bottom : f_top;
@@ -1601,17 +1602,17 @@ f_case_notransform(bool exhaustive, exp control, caselim_list branches)
 
 	r = getexp(case_shape, NULL, 0, control, NULL, 0, 0, case_tag);
 	control->last = false;
-	bro(control) = bro(global_case);
+	next(control) = next(global_case);
 	ht = control;
-	while (bro(ht) != NULL) {
-		ht = bro(ht);
+	while (next(ht) != NULL) {
+		ht = next(ht);
 		sh(ht) = sh(control);
-		if (son(ht) != NULL) {
-			sh(son(ht)) = sh(control);
+		if (child(ht) != NULL) {
+			sh(child(ht)) = sh(control);
 		}
 	}
 	ht->last = true;
-	bro(ht) = r;
+	next(ht) = r;
 
 #ifdef TDF_DIAG4
 	if (extra_diags) {
@@ -1782,12 +1783,12 @@ f_conditional(label alt_label_intro, exp first, exp alt)
 
 	res_shape = lub_shape(sh(first), sh(alt));
 	r = getexp(res_shape, NULL, 0, first, NULL, 0, 0, cond_tag);
-	def = son(labst);
-	setbro(first, labst);
+	def = child(labst);
+	setnext(first, labst);
 	first->last = false;
-	setbro(def, alt);
+	setnext(def, alt);
 	def->last = false;
-	setbro(alt, labst);
+	setnext(alt, labst);
 	alt->last = true;
 	setsh(labst, sh(alt));
 	setfather(r, labst);
@@ -2051,7 +2052,7 @@ f_env_offset(alignment fa, alignment y, tag t)
 	if (e == NULL) {
 		e = getexp(f_bottom, NULL, 0, NULL, NULL, 0, 0,
 			   ident_tag);
-		son(e) = e; /* used to indicate that tag is not yet defined!?*/
+		child(e) = e; /* used to indicate that tag is not yet defined!?*/
 		set_tag(t, e);
 	}
 	res = getexp(s, NULL, 0, e, NULL, 0, 0, env_offset_tag);
@@ -2081,7 +2082,7 @@ f_goto(label dest)
 {
 	exp lab = get_lab(dest);
 	exp r = getexp(f_bottom, NULL, 0, NULL, lab, 0, 0, goto_tag);
-	++no(son(lab));
+	++no(child(lab));
 	return r;
 }
 
@@ -2107,14 +2108,14 @@ exp
 f_identify(access_option acc, tag name_intro, exp definition, exp body)
 {
 	exp i = get_tag(name_intro);
-	exp d = son(i);
+	exp d = child(i);
 	UNUSED(acc);
 	if (sh(definition)->tag == bothd) {
 		kill_exp(body, body);
 		return definition;
 	}
 	setsh(i, sh(body));
-	setbro(d, body);
+	setnext(d, body);
 	d->last = false;
 	setfather(i, body);
 	return i;
@@ -2125,12 +2126,12 @@ void
 start_identify(access_option acc, tag name_intro, exp definition)
 {
 	exp i = get_tag(name_intro);
-	if (i == NULL || son(i) != i) {
+	if (i == NULL || child(i) != i) {
 		i = getexp(f_bottom, NULL, 0, definition, NULL, 0, 0,
 			   ident_tag);
 	} else {
 		/* could have been already used in env_offset */
-		son(i) = definition;
+		child(i) = definition;
 	}
 	clearvar(i);
 	if ((acc & (f_visible | f_long_jump_access)) != 0) {
@@ -2196,15 +2197,15 @@ f_labelled(label_list placelabs_intro, exp starter, exp_list places)
 
 	for (i = 0; i < places.number; ++i) {
 		exp labst = get_lab(placelabs_intro.elems[i]);
-		b = bro(f);
+		b = next(f);
 
-		setbro(son(labst), f);
-		setbro(f, labst);
+		setnext(child(labst), f);
+		setnext(f, labst);
 		f->last = true;
 		setsh(labst, sh(f));
 		if (starter->tag == case_tag ||
 		    (starter->tag == seq_tag &&
-		     son(son(starter))->tag == case_tag)) {
+		     child(child(starter))->tag == case_tag)) {
 			fno(labst) = (float)(1.0 / places.number);
 		} else {
 			fno(labst) = (float)5.0;
@@ -2352,18 +2353,18 @@ f_make_compound(exp arg1, exp_list arg2)
 	if (check & CHECK_SHAPE) {
 		exp t = first;
 		for (;;) {
-			if (t != arg2.end && sh(bro(t))->tag == bothd) {
-				return bro(t);
+			if (t != arg2.end && sh(next(t))->tag == bothd) {
+				return next(t);
 			}
 			if (t == arg2.end || sh(t)->tag != offsethd ||
 			    (!doing_aldefs &&
-			     al2(sh(t)) < shape_align(sh(bro(t))))) {
+			     al2(sh(t)) < shape_align(sh(next(t))))) {
 				error(ERR_INTERNAL, "check_shape: make_compound");
 			}
-			if (bro(t) == arg2.end) {
+			if (next(t) == arg2.end) {
 				break;
 			}
-			t = bro(bro(t));
+			t = next(next(t));
 		}
 	}
 
@@ -2372,15 +2373,15 @@ f_make_compound(exp arg1, exp_list arg2)
 	if (!doing_aldefs && arg2.number > 2) {
 		exp *arr = xcalloc(arg2.number, sizeof(exp));
 		int i;
-		exp t = son(r);
+		exp t = child(r);
 
 		for (i = 0; i < arg2.number; ++i) {
-			if (!(i & 1) && (no(t) + shape_size(sh(bro(t))) >
+			if (!(i & 1) && (no(t) + shape_size(sh(next(t))) >
 					 shape_size(sh(r)))) {
 				error(ERR_INTERNAL, "make_compound size exceeded");
 			}
 			arr[i] = t;
-			t = bro(t);
+			t = next(t);
 		}
 
 		if (promote_pars) {
@@ -2402,12 +2403,12 @@ f_make_compound(exp arg1, exp_list arg2)
 		qsort(arr, (size_t)(arg2.number / 2), (size_t)(2 * sizeof(exp)),
 		      comp_compare);
 
-		son(r) = arr[0];
+		child(r) = arr[0];
 		for (i = 1; i < arg2.number; ++i) {
-			bro(arr[i - 1]) = arr[i];
+			next(arr[i - 1]) = arr[i];
 			arr[i - 1]->last = false;
 		}
-		bro(arr[arg2.number - 1]) = r;
+		next(arr[arg2.number - 1]) = r;
 		arr[arg2.number - 1]->last = true;
 
 		xfree(arr);
@@ -2485,7 +2486,7 @@ f_make_local_lv(label lab)
 	exp l = get_lab(lab);
 	exp res = getexp(f_local_label_value, NULL, 0, NULL, l, 0, 0,
 			 make_lv_tag);
-	++no(son(l));
+	++no(child(l));
 	set_loaded_lv(l);
 	has_lv = true;
 	return res;
@@ -2517,7 +2518,7 @@ f_make_nof(exp_list arg1)
 			if (temp == arg1.end) {
 				break;
 			}
-			temp = bro(temp);
+			temp = next(temp);
 		}
 	}
 
@@ -2535,9 +2536,9 @@ f_make_nof(exp_list arg1)
 					   f_alignment(sh(first))),
 				  NULL, 0, NULL, NULL, 0, 0, val_tag);
 		for (i = 0; i < arg1.number; i++) {
-			bro(soff) = *a;
+			next(soff) = *a;
 			*a = copyexp(soff);
-			a = &bro(bro(*a));
+			a = &next(next(*a));
 			no(soff) += sf;
 		}
 		arg1.number *= 2;
@@ -2891,10 +2892,10 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 		if (params_intro.id == NULL) {
 			params_intro.id = i;
 		} else {
-			bro(params_intro.last_def) = i;
+			next(params_intro.last_def) = i;
 		}
-		bro(i) = params_intro.last_id;
-		params_intro.last_def = son(i);
+		next(i) = params_intro.last_id;
+		params_intro.last_def = child(i);
 		params_intro.last_id = i;
 		setvis(i);
 		++params_intro.number;
@@ -2905,16 +2906,16 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 		     proc_tag);
 
 	if (params_intro.number == 0) {
-		son(res) = body;
+		child(res) = body;
 		body->last = true;
-		bro(body) = res;
+		next(body) = res;
 	} else {
-		bro(son(res)) = res;
-		bro(params_intro.last_def) = body;
+		next(child(res)) = res;
+		next(params_intro.last_def) = body;
 		body->last = true;
-		bro(body) = params_intro.last_id;
+		next(body) = params_intro.last_id;
 		if (promote_pars) {
-			promote_formals(son(res));
+			promote_formals(child(res));
 		}
 	}
 
@@ -2952,21 +2953,21 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 	if (params_intro.number != 0) {
 		exp param;
 		for (param = params_intro.last_id; param != res;
-		     param = bro(param)) {
+		     param = next(param)) {
 			if (redo_structparams &&
 #if TRANS_HPPA
-			    (varhack || ((shape_size(sh(son(param))) >64) &&
-					 (sh(son(param))->tag == cpdhd ||
-					  sh(son(param))->tag == nofhd ||
-					  sh(son(param))->tag == doublehd))))
+			    (varhack || ((shape_size(sh(child(param))) >64) &&
+					 (sh(child(param))->tag == cpdhd ||
+					  sh(child(param))->tag == nofhd ||
+					  sh(child(param))->tag == doublehd))))
 #else
 #if TRANS_SPARC
-			    (varhack || sparccpd(sh(son(param)))))
+			    (varhack || sparccpd(sh(child(param)))))
 
 #else
-			    (varhack || sh(son(param))->tag == cpdhd ||
-			     sh(son(param))->tag == nofhd ||
-			     sh(son(param))->tag == doublehd))
+			    (varhack || sh(child(param))->tag == cpdhd ||
+			     sh(child(param))->tag == nofhd ||
+			     sh(child(param))->tag == doublehd))
 #endif
 #endif
 			{
@@ -2980,20 +2981,20 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 				exp prev;	/* previous use in pt() chain */
 				exp eo = NULL;
 				shape ptr_s =
-				    f_pointer(f_alignment(sh(son(param))));
+				    f_pointer(f_alignment(sh(child(param))));
 
 #if TRANS_HPPA
 				/* modify parameter itself */
 				if (!varhack) {
 					exp obtain_param;
 					exp assign;
-					shape sha=sh(son(param));
+					shape sha=sh(child(param));
 					t=me_obtain(param);
 					if (uses_crt_env) {
 						eo = f_env_offset(
 						     frame_alignment,
 						     f_parameter_alignment(
-						     ptr_s), brog(param));
+						     ptr_s), nextg(param));
 						obtain_param =
 						    f_add_to_ptr(
 						    f_current_env(), eo);
@@ -3011,20 +3012,20 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 						       new_exp_list(1), assign,
 						       0), body);
 					}
-					son(ptr)->last = false;
-					bro(son(ptr)) = body;
+					child(ptr)->last = false;
+					next(child(ptr)) = body;
 					body->last = true;
-					bro(body) = ptr;
+					next(body) = ptr;
 					sh(ptr) = sh(body);
 					body = id;
-					son(id)->last = false;
-					bro(son(id)) = ptr;
+					child(id)->last = false;
+					next(child(id)) = ptr;
 					ptr->last = true;
-					bro(ptr) = id;
+					next(ptr) = id;
 					sh(id) = sh(ptr);
-					bro(params_intro.last_def) = body;
+					next(params_intro.last_def) = body;
 					body->last = true;
-					bro(body) = param;
+					next(body) = param;
 				}
 #endif
 
@@ -3040,14 +3041,14 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 							exp new_use =
 							    getexp(ptr_s, use,
 								   (bool)1,
-								   son(use),
+								   child(use),
 								   pt(use),
-								   props(use),
+								   use->props,
 								   0, name_tag);
-							son(use) = new_use;
+							child(use) = new_use;
 							pt(prev) = new_use;
 							pt(use) = NULL;
-							props(use) = (prop)0;
+							use->props = (prop)0;
 							use->tag = cont_tag;
 							/* retain same no and
 							   sh */
@@ -3060,14 +3061,14 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 							exp new_use =
 							    getexp(ptr_s, use,
 								   (bool)1,
-								   son(use),
+								   child(use),
 								   pt(use),
-								   props(use),
+								   use->props,
 								   0, name_tag);
-							son(use) = new_use;
+							child(use) = new_use;
 							pt(prev) = new_use;
 							pt(use) = NULL;
-							props(use) = (prop)0;
+							use->props = (prop)0;
 							use->tag = reff_tag;
 							/* retain same no and
 							   sh */
@@ -3083,12 +3084,12 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 					   param to references to ptr */
 					for (use = pt(param); use != NULL;
 					     use = pt(use)) {
-						if ((son(use) ==param) &&
-						    (use != son(son(id))) &&
+						if ((child(use) ==param) &&
+						    (use != child(child(id))) &&
 						    (!uses_crt_env ||
 						     (uses_crt_env &&
 						      use != eo))) {
-							son(use) =ptr;
+							child(use) =ptr;
 						}
 					}
 					pt(ptr) =pt(param);
@@ -3097,17 +3098,17 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 
 				/* modify parameter itself */
 				if (isenvoff(param)) {
-					props(param) = (prop)0;
+					param->props = (prop)0;
 					setvis(param);
 				} else {
-					props(param) = (prop)0;
+					param->props = (prop)0;
 				}
 				setparam(param);
 				setcaonly(param);
 				if (varhack) {
 					setvis(param);
 				}
-				setsh(son(param), ptr_s);
+				setsh(child(param), ptr_s);
 			} /* if redo... */
 			varhack = 0;
 			/* apply refactor_id to the parameters */
@@ -3116,9 +3117,9 @@ f_make_proc(shape result_shape, tagshacc_list params_intro,
 	}
 
 	if (proc_struct_result != NULL) {
-		bro(son(proc_struct_result)) = son(res);
-		setfather(proc_struct_result, son(res));
-		son(res) = proc_struct_result;
+		next(child(proc_struct_result)) = child(res);
+		setfather(proc_struct_result, child(res));
+		child(res) = proc_struct_result;
 		setfather(res, proc_struct_result);
 	}
 
@@ -3197,35 +3198,35 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 		     general_proc_tag);
 
 	if (caller_intro.number == 0 && callee_intro.number == 0) {
-		son(res) = body;
+		child(res) = body;
 		body->last = true;
-		bro(body) = res;
+		next(body) = res;
 	} else if (callee_intro.number == 0) {
-		bro(son(res)) = res;
-		bro(caller_intro.last_def) = body;
+		next(child(res)) = res;
+		next(caller_intro.last_def) = body;
 		body->last = true;
-		bro(body) = caller_intro.last_id;
+		next(body) = caller_intro.last_id;
 	} else {
 		int i;
 		exp z = callee_intro.id;
 		for (i = 0; i < callee_intro.number; i++) {
 			set_callee(z);
-			z = bro(son(z));
+			z = next(child(z));
 		}
 		if (caller_intro.number != 0) {
-			bro(caller_intro.last_def) = callee_intro.id;
-			bro(callee_intro.id) = caller_intro.last_id;	/*???*/
+			next(caller_intro.last_def) = callee_intro.id;
+			next(callee_intro.id) = caller_intro.last_id;	/*???*/
 		} else {
-			son(res) = callee_intro.id;
+			child(res) = callee_intro.id;
 		}
-		bro(son(res)) = res;
-		bro(callee_intro.last_def) = body;
+		next(child(res)) = res;
+		next(callee_intro.last_def) = body;
 		body->last = true;
-		bro(body) = callee_intro.last_id;
+		next(body) = callee_intro.last_id;
 	}
 
 	if (promote_pars) {
-		promote_formals(son(res));
+		promote_formals(child(res));
 	}
 
 	/* set the properties of the procedure construction from the
@@ -3261,17 +3262,17 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 		bool varhack = 0;
 		exp param;
 		for (param = caller_intro.last_id; param != res;
-		     param = bro(param)) {
+		     param = next(param)) {
 			if (redo_structparams && !varhack &&
 #if TRANS_HPPA
-			    shape_size(sh(son(param))) > 64)
+			    shape_size(sh(child(param))) > 64)
 #else
-				(sh(son(param))->tag == cpdhd ||
-				 sh(son(param))->tag == nofhd ||
+				(sh(child(param))->tag == cpdhd ||
+				 sh(child(param))->tag == nofhd ||
 #if TRANS_SPARC
-				 sparccpd(sh(son(param))) ||
+				 sparccpd(sh(child(param))) ||
 #endif
-				 sh(son(param))->tag == doublehd))
+				 sh(child(param))->tag == doublehd))
 #endif
 			{
 				/*
@@ -3284,7 +3285,7 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 				exp prev; /* previous use in pt() chain */
 
 				shape ptr_s =
-				    f_pointer(f_alignment(sh(son(param))));
+				    f_pointer(f_alignment(sh(child(param))));
 				int mustbevis;
 
 				/* visit each use of the parameter modifying
@@ -3296,13 +3297,13 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 						/* add cont */
 						exp new_use =
 						    getexp(ptr_s, use, (bool)1,
-							   son(use), pt(use),
-							   props(use), 0,
+							   child(use), pt(use),
+							   use->props, 0,
 							   name_tag);
-						son(use) = new_use;
+						child(use) = new_use;
 						pt(prev) = new_use;
 						pt(use) = NULL;
-						props(use) = (prop)0;
+						use->props = (prop)0;
 						/* retain same no and sh */
 						use->tag = cont_tag;
 
@@ -3312,13 +3313,13 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 					if (no(use) > 0) {	/* add reff */
 						exp new_use =
 						    getexp(ptr_s, use, (bool)1,
-							   son(use), pt(use),
-							   props(use), 0,
+							   child(use), pt(use),
+							   use->props, 0,
 							   name_tag);
-						son(use) = new_use;
+						child(use) = new_use;
 						pt(prev) = new_use;
 						pt(use) = NULL;
-						props(use) = (prop)0;
+						use->props = (prop)0;
 						/* retain same no and sh */
 						use->tag = reff_tag;
 
@@ -3329,17 +3330,17 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 				/* modify parameter itself */
 				mustbevis = isenvoff(param);
 				if (isoutpar(param)) {
-					props(param) = (prop)0;
+					param->props = (prop)0;
 					setoutpar(param);
 				} else {
-					props(param) = (prop)0;
+					param->props = (prop)0;
 				}
 				if (mustbevis) {
 					setvis(param);
 				}
 				setparam(param);
 				setcaonly(param);
-				setsh(son(param), ptr_s);
+				setsh(child(param), ptr_s);
 			} /* if redo... */
 			varhack = 0;
 			/* apply refactor_id to the caller parameters */
@@ -3364,15 +3365,15 @@ f_make_general_proc(shape result_shape, procprops prcprops,
 			exp init = getexp(f_pointer(f_alignment(result_shape)),
 					  NULL, 0, NULL, NULL, 0, 0,
 					  clear_tag);
-			exp iddec = getexp(sh(son(res)), NULL, 0, init,
+			exp iddec = getexp(sh(child(res)), NULL, 0, init,
 					   NULL, 0, 0, ident_tag);
 			setparam(iddec);
 			proc_struct_result = iddec;
 		}
 
-		bro(son(proc_struct_result)) = son(res);
-		setfather(proc_struct_result, son(res));
-		son(res) = proc_struct_result;
+		next(child(proc_struct_result)) = child(res);
+		setfather(proc_struct_result, child(res));
+		child(res) = proc_struct_result;
 		setfather(res, proc_struct_result);
 	}
 
@@ -3400,10 +3401,10 @@ static exp
 find_caller_id(int n, exp p)
 {
 	while (p->tag == ident_tag) {
-		if (son(p)->tag == caller_name_tag && no(son(p)) ==n) {
+		if (child(p)->tag == caller_name_tag && no(child(p)) ==n) {
 			return p;
 		}
-		p = bro(son(p));
+		p = next(child(p));
 	}
 	return NULL;
 }
@@ -3445,7 +3446,7 @@ f_apply_general_proc(shape result_shape, procprops prcprops, exp p,
 		exp *plce = &caller_pars.start;
 		for (i = 0; i < caller_pars.number; i++) {
 			exp ote = *plce;
-			exp param = (ote->tag == caller_tag) ? son(ote) : ote;
+			exp param = (ote->tag == caller_tag) ? child(ote) : ote;
 			if ((sh(param)->tag == cpdhd ||
 			     sh(param)->tag == nofhd ||
 			     sh(param)->tag == doublehd)
@@ -3466,13 +3467,13 @@ f_apply_general_proc(shape result_shape, procprops prcprops, exp p,
 				    (id = find_caller_id(i, caller_pars.id)) !=
 				    NULL) {
 					exp p = pt(id);
-					son(ote) = npar;
-					bro(npar) = ote;
+					child(ote) = npar;
+					next(npar) = ote;
 					npar->last = true;
-					sh(son(id)) = sh(npar);
+					sh(child(id)) = sh(npar);
 					while(p != NULL) {
 						/* replaces uses in postlude */
-						exp bp = bro(p);
+						exp bp = next(p);
 						int l = p->last;
 						exp np = pt(p);
 						exp *pos = refto(father(p), p);
@@ -3484,52 +3485,52 @@ f_apply_general_proc(shape result_shape, procprops prcprops, exp p,
 						} else {
 							c->last = false;
 						}
-						bro(c) = bp;
+						next(c) = bp;
 						*pos = c;
 						p = np;
 					}
 					sh(ote) = nshape;
-					plce = &bro(ote);
+					plce = &next(ote);
 				} else {
 					if (ote->last) {
 						npar->last = true;
 					}
-					bro(npar) = bro(ote);
+					next(npar) = next(ote);
 					if (ote == caller_pars.end) {
 						caller_pars.end = npar;
 					}
 					*plce = npar;
-					plce = &bro(npar);
+					plce = &next(npar);
 				}
-				bro(son(rd)) = redos;
-				son(rd)->last = false;
+				next(child(rd)) = redos;
+				child(rd)->last = false;
 				if (redos != NULL) {
-					bro(redos) = rd;
+					next(redos) = rd;
 					redos->last = true;
 				} else {
 					last_redo = rd;
 				}
 				redos = rd;
 			} else {
-				plce = &bro(ote);}
+				plce = &next(ote);}
 		}
 	}
 
 	if (caller_pars.id != NULL) {
 		exp a = caller_pars.id;
-		while (bro(son(a)) != NULL) {
-			a = bro(son(a));
+		while (next(child(a)) != NULL) {
+			a = next(child(a));
 		}
-		bro(son(a)) = postlude;
+		next(child(a)) = postlude;
 		setfather(a, postlude);
 		postlude = caller_pars.id;
 	}
 
 	setfather(res, postlude);
 
-	bro(callee_pars) = postlude;
+	next(callee_pars) = postlude;
 	callee_pars->last = false;
-	props(callee_pars) = prcprops;
+	callee_pars->props = prcprops;
 
 	r_p = getexp(f_top, callee_pars, 0, caller_pars.start, NULL, prcprops,
 		     caller_pars.number, 0);
@@ -3537,7 +3538,7 @@ f_apply_general_proc(shape result_shape, procprops prcprops, exp p,
 		setfather(r_p, caller_pars.end);
 	}
 
-	bro(p) = r_p; p->last = false;
+	next(p) = r_p; p->last = false;
 
 	if (promote_pars) {
 		int i;
@@ -3547,8 +3548,8 @@ f_apply_general_proc(shape result_shape, procprops prcprops, exp p,
 			if (s->tag >= scharhd && s->tag <= uwordhd) {
 				shape ns = (is_signed(s)) ? slongsh : ulongsh;
 				exp par = (ote->tag == caller_tag) ?
-				    son(ote) : ote;
-				exp next = bro(ote);
+				    child(ote) : ote;
+				exp next = next(ote);
 				exp id;
 				int l = ote->last;
 				exp w = hold_refactor(f_change_variety(f_wrap, ns,
@@ -3562,7 +3563,7 @@ f_apply_general_proc(shape result_shape, procprops prcprops, exp p,
 				    (id = find_caller_id(i, postlude)) !=
 				    NULL) {
 					exp p = pt(id);
-					sh(son(id)) = ns;
+					sh(child(id)) = ns;
 					while(p != NULL) {
 						/* replaces uses in postlude */
 						exp nextp = pt(p);
@@ -3578,7 +3579,7 @@ f_apply_general_proc(shape result_shape, procprops prcprops, exp p,
 					break;
 				}
 				ote = next;
-			} else ote = bro(ote);
+			} else ote = next(ote);
 		}
 	}
 
@@ -3599,30 +3600,30 @@ f_apply_general_proc(shape result_shape, procprops prcprops, exp p,
 		pt(vardec) = contname;
 		cont = f_contents(result_shape, contname);
 
-		appname = getexp(ptr_res_shape, son(r_p), 0, vardec, contname,
+		appname = getexp(ptr_res_shape, child(r_p), 0, vardec, contname,
 				 0, 0, name_tag);
 		if (no(r_p)++ == 0) {
 			setfather(r_p, appname);
 		}
 		++no(vardec);
 		pt(vardec) = appname;
-		app = getexp(f_top, NULL, 0, son(res), NULL, 0, 32,
+		app = getexp(f_top, NULL, 0, child(res), NULL, 0, 32,
 			     apply_general_tag);
-		son(r_p) = appname;
+		child(r_p) = appname;
 
 		tmp = postlude;
 		while (tmp->tag ==ident_tag &&
-		       son(tmp)->tag == caller_name_tag) {
-			no(son(tmp))++;
-			tmp = bro(son(tmp));
+		       child(tmp)->tag == caller_name_tag) {
+			no(child(tmp))++;
+			tmp = next(child(tmp));
 		}
 
-		bro(postlude) = app;
+		next(postlude) = app;
 		list.number = 1;
 		list.start = app;
 		list.end = app;
 		seq = f_sequence(list, cont);
-		bro(init) = seq;
+		next(init) = seq;
 		setfather(vardec, seq);
 		retcell(res);
 		res = vardec;
@@ -3630,9 +3631,9 @@ f_apply_general_proc(shape result_shape, procprops prcprops, exp p,
 
 	if (redos != NULL) {
 		/* put in decs given by redo_structparams */
-		bro(son(last_redo)) = res;
-		son(last_redo)->last = false;
-		bro(res) = last_redo;
+		next(child(last_redo)) = res;
+		child(last_redo)->last = false;
+		next(res) = last_redo;
 		res->last = true;
 		res = redos;
 	}
@@ -3651,8 +3652,8 @@ f_tail_call(procprops prcprops, exp p, callees callee_params)
 	}
 	has_setjmp = true; /* stop inlining! */
 	has_alloca = true; /* make sure has fp */
-	props(callee_params) = prcprops;
-	bro(p) = callee_params;
+	callee_params->props = prcprops;
+	next(p) = callee_params;
 	p->last = false;
 	setfather(res, callee_params);
 	return res;
@@ -3712,8 +3713,8 @@ f_env_size(tag proctag)
   	exp res = getexp(f_offset(f_locals_alignment, f_locals_alignment),
 			 NULL, 0, f_obtain_tag(proctag), NULL, 0, 0,
 			 env_size_tag);
-  	bro(son(res)) = res;
-	son(res)->last = true;
+  	next(child(res)) = res;
+	child(res)->last = true;
   	return res;
 }
 
@@ -3833,9 +3834,9 @@ f_move_some(transfer_mode md, exp arg1, exp arg2, exp arg3)
 		setnooverlap(r);
 	}
 	arg1->last = false;
-	setbro(arg1, arg2);
+	setnext(arg1, arg2);
 	arg2->last = false;
-	setbro(arg2, arg3);
+	setnext(arg2, arg3);
 	setfather(r, arg3);
 	return r;
 }
@@ -3899,20 +3900,20 @@ f_n_copies(nat n, exp arg1)
 		a.start = copyexp(soff);
 		a.end = a.start;
 		a.number = 2;
-		bro(a.end) = copyexp(arg1);
-		a.end = bro(a.end);
+		next(a.end) = copyexp(arg1);
+		a.end = next(a.end);
 		for (no(soff) = sf; no(soff) <= shape_size(cs) -sf;
 		     no(soff) +=sf) {
-			bro(a.end) = copyexp(soff);
+			next(a.end) = copyexp(soff);
 			a.end->last = false;
-			a.end = bro(a.end);
-			bro(a.end) = copyexp(arg1);
-			a.end = bro(a.end);
+			a.end = next(a.end);
+			next(a.end) = copyexp(arg1);
+			a.end = next(a.end);
 			a.number += 2;
 		}
 
 		a.end->last = true;
-		bro(a.end) = NULL;
+		next(a.end) = NULL;
 		cexp = f_make_compound(hold_refactor(f_shape_offset(cs)), a);
 		if (shape_size(cs) >= shape_size(cpds)) {
 			return cexp;
@@ -3996,7 +3997,7 @@ f_obtain_tag(tag t)
 		proc_externs = true;
 #endif
 	} else {
-		s = sh(son(tag));
+		s = sh(child(tag));
 	}
 
 	if (isvar(tag)) {
@@ -4533,15 +4534,15 @@ f_repeat(label repeat_label_intro, exp start, exp body)
 	exp r = getexp(sh(body), NULL, 0, start, crt_repeat, 0, 0, rep_tag);
 	exp labst = get_lab(repeat_label_intro);
 
-	bro(start) = labst;
+	next(start) = labst;
 	start->last = false;
-	setbro(son(labst), body);
-	son(labst)->last = false;
-	setbro(body, labst);
+	setnext(child(labst), body);
+	child(labst)->last = false;
+	setnext(body, labst);
 	body->last = true;
 	setsh(labst, sh(body));
-	son(crt_repeat) = r;
-	crt_repeat = bro(crt_repeat);
+	child(crt_repeat) = r;
+	crt_repeat = next(crt_repeat);
 	setfather(r, labst);
 	if (silly_count == 0) {
 		default_freq = (float)(default_freq / 20.0);
@@ -4724,7 +4725,7 @@ f_sequence(exp_list statements, exp result)
 	}
 	if (statements.number <= MAX_ST_LENGTH) {
 		l->last = true;
-		setbro(l, h);
+		setnext(l, h);
 		r = getexp(sh(result), NULL, 0, h, NULL, 0, 0, seq_tag);
 		setfather(r, result);
 		return r;
@@ -4745,10 +4746,10 @@ f_sequence(exp_list statements, exp result)
 			work.start = t;
 			work.number = MAX_ST_LENGTH;
 			for (j = 0; j < (MAX_ST_LENGTH - 1); ++j) {
-				t = bro(t);
+				t = next(t);
 			}
 			work.end = t;
-			t = bro(t);
+			t = next(t);
 			res = add_exp_list(res, hold_refactor(f_sequence(work,
 							f_make_top())), i);
 		}
@@ -4890,11 +4891,11 @@ exp
 f_variable(access_option acc, tag name_intro, exp init, exp body)
 {
 	exp i = get_tag(name_intro);
-	exp d = son(i);
+	exp d = child(i);
 	UNUSED(acc);
 	UNUSED(init);
 	setsh(i, sh(body));
-	setbro(d, body);
+	setnext(d, body);
 	d->last = false;
 	setfather(i, body);
 #ifdef TDF_DIAG4
@@ -4911,11 +4912,11 @@ void
 start_variable(access_option acc, tag name_intro, exp init)
 {
 	exp i = get_tag(name_intro);
-	if (i == NULL || son(i) != i) {
+	if (i == NULL || child(i) != i) {
 		i = getexp(f_bottom, NULL, 0, init, NULL, 0, 0, ident_tag);
 	} else {
 		/* could have been already used in env_offset */
-		son(i) = init;
+		child(i) = init;
 	}
 
 	setvar(i);
@@ -5012,8 +5013,8 @@ f_computed_nat(exp arg)
 		}
 	}
 
-	if (arg->tag == name_tag && !isvar(son(arg))) {
-		res = f_computed_nat(son(son(arg)));
+	if (arg->tag == name_tag && !isvar(child(arg))) {
+		res = f_computed_nat(child(child(arg)));
 		kill_exp(arg, arg);
 		return res;
 	}
@@ -5432,8 +5433,8 @@ f_computed_signed_nat(exp arg)
 		}
 	}
 
-	if (arg->tag == name_tag && !isvar(son(arg))) {
-		res = f_computed_signed_nat(son(son(arg)));
+	if (arg->tag == name_tag && !isvar(child(arg))) {
+		res = f_computed_signed_nat(child(child(arg)));
 		kill_exp(arg, arg);
 		return res;
 	}
@@ -5715,19 +5716,19 @@ add_exp_list(exp_list list, exp elem, int index)
 {
 	UNUSED(index);
 	++list.number;
-	parked(elem) = 1;
+	elem->parked = true;
 	if (list.start == NULL) {
 		list.start = elem;
 		list.end = elem;
 		elem->last = true;
-		bro(elem) = NULL;
+		next(elem) = NULL;
 		return list;
 	}
 	list.end->last = false;
-	bro(list.end) = elem;
+	next(list.end) = elem;
 	list.end = elem;
 	elem->last = true;
-	bro(elem) = NULL;
+	next(elem) = NULL;
 	return list;
 }
 
@@ -5736,7 +5737,7 @@ caselim_list
 new_caselim_list(int n)
 {
 	UNUSED(n);
-	/*  bro(global_case) = NULL;
+	/*  next(global_case) = NULL;
 	    return 0;
 	 */
 	return NULL;
@@ -5819,11 +5820,11 @@ add_caselim_list(caselim_list list, caselim elem, int index)
 	       return 0;
 	       }
 	 */
-	++no(son(pt(lowval)));	/* record label use */
-	son(lowval) = ht;
+	++no(child(pt(lowval)));	/* record label use */
+	child(lowval) = ht;
 	/*    case_item (lowval);
 	 */
-	bro(lowval) = list;
+	next(lowval) = list;
 	return lowval;
 }
 
@@ -5876,7 +5877,7 @@ add_tagshacc_list(tagshacc_list list, tagshacc elem, int index)
 	if (list.id == NULL) {
 		list.id = i;
 	} else {
-		bro(list.last_def) = i;
+		next(list.last_def) = i;
 	}
 	list.last_def = d;
 	list.last_id = i;
@@ -6135,11 +6136,11 @@ tidy_initial_values(void)
 	for (d = top_def; d != NULL; d = d->next) {
 		exp crt_exp = d->exp;
 
-		if (son(crt_exp) != NULL && d->extnamed) {
+		if (child(crt_exp) != NULL && d->extnamed) {
 			good_name = d->name;
 		}
-		if (son(crt_exp) != NULL &&
-		    son(crt_exp)->tag == initial_value_tag) {
+		if (child(crt_exp) != NULL &&
+		    child(crt_exp)->tag == initial_value_tag) {
 			/* accumulate assignments of initial values in one
 			   explist */
 			if (!d->var) {
@@ -6156,23 +6157,23 @@ tidy_initial_values(void)
 				}
 			}
 			{
-				exp init = son(son(crt_exp));
+				exp init = child(child(crt_exp));
 				exp new_init = f_make_value(sh(init));
 				if (good_name == NULL) {
 					good_name = d->name;
 				}
-				retcell(son(crt_exp));
-				son(crt_exp) = new_init;
-				bro(new_init) = crt_exp; new_init->last = true;
+				retcell(child(crt_exp));
+				child(crt_exp) = new_init;
+				next(new_init) = crt_exp; new_init->last = true;
 				initial_as = add_exp_list(initial_as,
 				    hold_refactor(f_assign(me_obtain(crt_exp),
 							init)), 0);
 			}
 		}
-		if (do_prom && son(crt_exp) != NULL && d->var && !is_comm(son(crt_exp))) {
+		if (do_prom && child(crt_exp) != NULL && d->var && !is_comm(child(crt_exp))) {
 			/* accumulate assignments of non-zero initialisations
 			   in one explist */
-			exp init = son(crt_exp);
+			exp init = child(crt_exp);
 			exp new_init = f_make_value(sh(init));
 			if (good_name == NULL) {
 				good_name = d->name;
@@ -6187,10 +6188,10 @@ tidy_initial_values(void)
 							     sh(init));
 				init = me_obtain(id_dec->exp);
 			}
-			son(crt_exp) = new_init;
+			child(crt_exp) = new_init;
 			no(new_init) = -1; /* we may need to distinguish for
 					      diags */
-			bro(new_init) = crt_exp;
+			next(new_init) = crt_exp;
 			new_init->last = true;
 			prom_as = add_exp_list(prom_as,
 					       hold_refactor(f_assign(me_obtain(
@@ -6233,7 +6234,7 @@ tidy_initial_values(void)
 			exp list_exp = find_named_tag("__PROM_init_list",
 						     f_pointer(f_alignment(
 						     str_sh)));
-			brog(list_exp)->var = 1;
+			nextg(list_exp)->var = 1;
 			setvar(list_exp);
 			prom_as = add_exp_list(prom_as, hold_refactor(f_assign(
 					       f_add_to_ptr(me_obtain(str_exp),
@@ -6247,11 +6248,17 @@ tidy_initial_values(void)
 			prom_as = add_exp_list(prom_as, hold_refactor(f_assign(
 					       me_obtain(list_exp),
 					       me_obtain(str_exp))), 0);
+		} else {
+			dec *extra_dec;	
+			extra_dec = make_extra_dec(add_prefix(name_prefix, init_NAME(good_name)),	
+				0, 1, prc, f_proc);	
+			(void) extra_dec; /* XXX: suspicious; should this value be used? */
 		}
 	}
 	if (do_prom && prom_as.number != 0) {
 		/* ie there are some prom initialisations */
 		exp prc;
+		dec *extra_dec;
 		tagshacc_list tsl;
 
 		exp ret = f_return(f_make_top());
@@ -6261,5 +6268,8 @@ tidy_initial_values(void)
 		rep_make_proc = false;
 		start_make_proc(f_top, tsl, no_tagacc_option);
 		prc = f_make_proc(f_top, tsl, no_tagacc_option, seq);
+		extra_dec = make_extra_dec(add_prefix(name_prefix, init_NAME(good_name)),	
+			0, 1, prc, f_proc);	
+		(void) extra_dec; /* XXX: suspicious; should this value be used? */
 	}
 }

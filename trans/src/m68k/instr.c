@@ -47,7 +47,7 @@
 static char *
 extname(exp e)
 {
-	dec *d = brog(e);
+	dec *d = nextg(e);
 #if 0
 	if (d->external_register) {
 		error(ERR_SERIOUS, "External registers not yet implemented");
@@ -147,16 +147,16 @@ operand(long sz, where wh)
 			return NULL;
 		}
 	case name_tag: {
-		exp id = son(w);
+		exp id = child(w);
 		long d1 = no(w) + off;
 		long d2 = no(id);
 
 		if (isglob(id)) {
 			if (sh(w)->tag == prokhd) {
 #if 1
-				if ((son(id) == NULL ||
-				     son(id)->tag == proc_tag ||
-				     son(id)->tag == general_proc_tag))
+				if ((child(id) == NULL ||
+				     child(id)->tag == proc_tag ||
+				     child(id)->tag == general_proc_tag))
 #endif
 					return make_ext(id, d1);
 
@@ -184,10 +184,10 @@ operand(long sz, where wh)
 	}
 	case cont_tag:
 	case ass_tag: {
-		exp r = son(w);
+		exp r = child(w);
 		switch (r->tag) {
 		case name_tag: {
-			exp id = son(r);
+			exp id = child(r);
 			if (!isvar(id)) {
 				if (isglob(id)) {
 					int ra;
@@ -234,15 +234,15 @@ operand(long sz, where wh)
 			}
 		}
 		case cont_tag: {
-			exp rr = son(r);
+			exp rr = child(r);
 			int roff = 0;
 			if (rr->tag == reff_tag) {
-				rr = son(rr);
+				rr = child(rr);
 				roff = no(rr);
 			}
 			switch (rr->tag) {
 			case name_tag: {
-				exp id = son(rr);
+				exp id = child(rr);
 #if 0
 				if (!isvar(id)) {
 					error(ERR_SERIOUS, illegal_operand, 5);
@@ -287,10 +287,10 @@ operand(long sz, where wh)
 			}
 		}
 		case reff_tag: {
-			exp rr = son(r);
+			exp rr = child(r);
 			switch (rr->tag) {
 			case name_tag: {
-				exp id = son(rr);
+				exp id = child(rr);
 				if (isglob(id)) {
 					int ra;
 					op = make_ext_ind(id, 0);
@@ -329,8 +329,8 @@ operand(long sz, where wh)
 				}
 			}
 			case cont_tag: {
-				exp rrr = son(rr);
-				exp id = son(rrr);
+				exp rrr = child(rr);
+				exp id = child(rrr);
 				if (ptno(id) == reg_pl) {
 					d = no(r) + off;
 					return make_ind(no(id), d);
@@ -361,10 +361,10 @@ operand(long sz, where wh)
 		}
 		case addptr_tag: {
 			where wb, wc;
-			exp rr = son(r);
-			exp eb = bro(rr);
+			exp rr = child(r);
+			exp eb = next(rr);
 			exp ec = simple_exp(cont_tag);
-			son(ec) = rr;
+			child(ec) = rr;
 			wb.wh_exp = eb;
 			wb.wh_off = 0;
 			wc.wh_exp = ec;
@@ -375,9 +375,9 @@ operand(long sz, where wh)
 			case cont_tag:
 				return index_opnd(wc, wb, 1);
 			case offset_mult_tag: {
-				long k = no(bro(son(eb))) / 8;
+				long k = no(next(child(eb))) / 8;
 				if (sz == 8 * k) {
-					wb.wh_exp = son(eb);
+					wb.wh_exp = child(eb);
 					wb.wh_off = 0;
 					return index_opnd(wc, wb, (int) k);
 				}
@@ -395,7 +395,7 @@ operand(long sz, where wh)
 		}
 	}
 	case dummy_tag: {
-		exp r = son(w);
+		exp r = child(w);
 
 		switch (r->tag) {
 		case ident_tag:
@@ -418,7 +418,7 @@ operand(long sz, where wh)
 				return NULL;
 			}
 		case name_tag: {
-			exp id = son(r);
+			exp id = child(r);
 			if (isglob(id)) {
 				return make_ext_ind(id, no(w));
 			}
@@ -442,8 +442,8 @@ operand(long sz, where wh)
 		}
 		case cont_tag:
 		case ass_tag: {
-			exp rr = son(r);
-			exp id = son(rr);
+			exp rr = child(r);
+			exp id = child(rr);
 			if (isglob(id)) {
 				return make_ext_ind(id, no(w));
 			}
@@ -477,11 +477,11 @@ operand(long sz, where wh)
 		}
 	}
 	case reff_tag: {
-		exp r = son(w);
+		exp r = child(w);
 
 		switch (r->tag) {
 		case name_tag: {
-			exp id = son(r);
+			exp id = child(r);
 			if (isglob(id)) {
 				return make_ext(id, no(w));
 			}
@@ -509,8 +509,8 @@ operand(long sz, where wh)
 		}
 		case cont_tag:
 		case ass_tag: {
-			exp rr = son(r);
-			exp id = son(rr);
+			exp rr = child(r);
+			exp id = child(rr);
 			if (isglob(id)) {
 				if (no(w)) {
 					int ra;
@@ -556,10 +556,10 @@ operand(long sz, where wh)
 	}
 	case addptr_tag: {
 		where wb, wc;
-		exp r = son(w);
-		exp eb = bro(r);
+		exp r = child(w);
+		exp eb = next(r);
 		exp ec = simple_exp(cont_tag);
-		son(ec) = r;
+		child(ec) = r;
 		wb.wh_exp = eb;
 		wb.wh_off = 0;
 		wc.wh_exp = ec;
@@ -570,8 +570,8 @@ operand(long sz, where wh)
 		case cont_tag:
 			return index_opnd(wc, wb, 1);
 		case offset_mult_tag: {
-			long k = no(bro(son(eb))) / 8;
-			wb.wh_exp = son(eb);
+			long k = no(next(child(eb))) / 8;
+			wb.wh_exp = child(eb);
 			wb.wh_off = 0;
 			return index_opnd(wc, wb, (int) k);
 		}
@@ -609,7 +609,7 @@ operand(long sz, where wh)
 		return make_dec_sp();
 	case field_tag: {
 		where new_w;
-		new_w.wh_exp = son(w);
+		new_w.wh_exp = child(w);
 		new_w.wh_off = no(w) + off;
 		return operand(sz, new_w);
 	}
@@ -617,16 +617,16 @@ operand(long sz, where wh)
 		return make_register(REG_AP);
 #ifndef tdf3
 	case env_size_tag: {
-		dec *dp = brog(son(son(w)));
+		dec *dp = nextg(child(child(w)));
 		return make_lab((long)dp, 0);
 	}
 	case env_offset_tag: {
-		exp ident_exp = son(w);
+		exp ident_exp = child(w);
 		return make_lab((long)ident_exp, 0);
 	}
 #else
 	case env_offset_tag: {
-		exp id = son(w);
+		exp id = child(w);
 		switch (ptno(id)) {
 		case var_pl:
 			d = no(id) - off;
@@ -647,7 +647,7 @@ operand(long sz, where wh)
 	}
 #endif
 	case make_lv_tag:
-		return make_lab(ptno(pt(son(pt(w)))), 0);
+		return make_lab(ptno(pt(child(pt(w)))), 0);
 	case local_free_all_tag:
 		return make_special_data("PA");
 	case internal_tag:

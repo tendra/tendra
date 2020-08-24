@@ -54,33 +54,32 @@ special_strcpy(dec *dp)
 		exp src_def;
 		shape sha;
 
-		if (t->last || bro(t)->last || !bro(bro(t))->last ||
-			bro(bro(bro(t)))->tag != apply_tag ||
-			son(bro(bro(bro(t)))) != t)
+		if (t->last || next(t)->last || !next(next(t))->last ||
+			next(next(next(t)))->tag != apply_tag ||
+			child(next(next(next(t)))) != t)
 		{
 			continue;
 		}
 
-		dst = bro(t);
-		src = bro(dst);
+		dst = next(t);
+		src = next(dst);
 
 		if (src->tag != name_tag ||
-			!isglob(son(src)) || !isvar(son(src)) || no(son(src)) != 1)
+			!isglob(child(src)) || !isvar(child(src)) || no(child(src)) != 1)
 		{
 			continue;
 		}
 
-		src_dec = brog(son(src));
+		src_dec = nextg(child(src));
 
-		if (src_dec->extnamed || son(src_dec->exp) == NULL) {
+		if (src_dec->extnamed || child(src_dec->exp) == NULL) {
 			continue;
 		}
 
-		src_def = son(son(src));
+		src_def = child(child(src));
 		sha = sh(src_def);
 
-		if (src_def->tag == string_tag &&
-			props(src_def) == 8)
+		if (src_def->tag == string_tag && src_def->props == 8)
 		{
 			char *s = nostr(src_def);
 			size_t l = shape_size(sha);
@@ -91,8 +90,8 @@ special_strcpy(dec *dp)
 
 			if (j < l) {
 				exp q;
-				exp to_change = bro(src);
-				exp idsc = getexp(sh(bro(src)), NULL, 0, dst, NULL, 0, 2, ident_tag);
+				exp to_change = next(src);
+				exp idsc = getexp(sh(next(src)), NULL, 0, dst, NULL, 0, 2, ident_tag);
 				exp n1 = getexp(sh(dst), NULL, 0, idsc, NULL, 0, 0, name_tag);
 				exp n2 = getexp(sh(dst), NULL, 0, idsc, n1, 0, 0, name_tag);
 				exp_list el;
@@ -106,7 +105,7 @@ special_strcpy(dec *dp)
 
 				q = f_sequence(el, n2);
 				dst->last = false;
-				bro(dst) = q;
+				next(dst) = q;
 				setfather(idsc, q);
 				kill_exp(t, t);
 				replace(to_change, idsc, idsc);
@@ -138,32 +137,31 @@ special_strlen(dec *dp)
 		exp st_def;
 		shape sha;
 
-		if (t->last || !bro(t)->last ||
-			bro(bro(t))->tag != apply_tag ||
-			son(bro(bro(t))) != t)
+		if (t->last || !next(t)->last ||
+			next(next(t))->tag != apply_tag ||
+			child(next(next(t))) != t)
 		{
 			continue;
 		}
 
-		st = bro(t);
+		st = next(t);
 
-		if (st->tag != name_tag || !isglob(son(st)) ||
-			!isvar(son(st)) || no(son(st)) != 1)
+		if (st->tag != name_tag || !isglob(child(st)) ||
+			!isvar(child(st)) || no(child(st)) != 1)
 		{
 			continue;
 		}
 
-		src_dec = brog(son(st));
+		src_dec = nextg(child(st));
 
-		if (src_dec->extnamed || son(src_dec->exp) == NULL)	{
+		if (src_dec->extnamed || child(src_dec->exp) == NULL)	{
 			continue;
 		}
 
-		st_def = son(son(st));
+		st_def = child(child(st));
 		sha = sh(st_def);
 
-		if (st_def->tag == string_tag &&
-			props(st_def) == 8)
+		if (st_def->tag == string_tag && st_def->props == 8)
 		{
 			char *s = nostr(st_def);
 			size_t l = shape_size(sha) / 8;
@@ -173,7 +171,7 @@ special_strlen(dec *dp)
 				;
 
 			if (j < l) {
-				exp to_change = bro(st);
+				exp to_change = next(st);
 				exp res = getexp(sh(to_change), NULL, 0, NULL, NULL, 0, j, val_tag);
 				kill_exp(t, t);
 				replace(to_change, res, NULL);

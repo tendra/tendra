@@ -46,7 +46,7 @@ special_alloca(exp a1, exp a2, shape s, exp *e)
 	exp r;
 
 	r = getexp(s, NULL, 0, a2, NULL, 0, 0, alloca_tag);
-	setfather(r, son(r));
+	setfather(r, child(r));
 	has_alloca = true;
 	kill_exp(a1, a1);
 

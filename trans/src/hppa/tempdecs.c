@@ -11,6 +11,8 @@
 
 */
 
+#include <stddef.h>
+
 #include <shared/bool.h>
 #include <shared/check.h>
 
@@ -59,14 +61,14 @@ trace_uses(exp e, exp id)
     if ( APPLYLIKE ( e ) ) {
 	int u = nouses ;
 	int p = 1 ;
-	exp l = son ( e ) ;
+	exp l = child ( e ) ;
 
 	while ( p == 1 ) {
 	    p = trace_uses ( l, id ) ;
 	    if ( u != nouses || p == 2 ) useinpar = 1 ;
 	    if ( p == 0 ) nouses = u ;
 	    if ( ( l ) -> last ) break ;
-	    l = bro ( l ) ;
+	    l = next ( l ) ;
 	}
 	return 0;
     }
@@ -75,16 +77,16 @@ trace_uses(exp e, exp id)
 
 	case env_offset_tag:
 	case name_tag : {
-	    nouses -= ( son ( e ) == id ? 1 : 0 ) ;
+	    nouses -= ( child ( e ) == id ? 1 : 0 ) ;
 	    return 1;
 	}
 
 	case ident_tag : {
-	    exp f = son ( e ) ;
-	    exp s = bro ( f ) ;
+	    exp f = child ( e ) ;
+	    exp s = next ( f ) ;
 	    int a ;
 
-	    if ( ( props ( e ) & defer_bit ) != 0 ) {
+	    if ( ( e->props & defer_bit ) != 0 ) {
 		exp t = f ;
 		f = s ;
 		s = t ;
@@ -95,7 +97,7 @@ trace_uses(exp e, exp id)
 	}
 
 	case case_tag : {
-	    trace_uses ( son ( e ), id ) ;
+	    trace_uses ( child ( e ), id ) ;
 	    return 0;
 	}
 
@@ -104,14 +106,14 @@ trace_uses(exp e, exp id)
 	}
 
 	case seq_tag : {
-	    exp s = son ( son ( e ) ) ;
+	    exp s = child ( child ( e ) ) ;
 	    for ( ; ; ) {
 		int el = trace_uses ( s, id ) ;
 		if ( el != 1 ) return el;
 		if ( ( s ) -> last ) {
-		    return trace_uses ( bro ( son ( e ) ), id ) ;
+		    return trace_uses ( next ( child ( e ) ), id ) ;
 		}
-		s = bro ( s ) ;
+		s = next ( s ) ;
 	    }
         UNREACHED;
 	    break ;
@@ -119,27 +121,27 @@ trace_uses(exp e, exp id)
 
 	case test_tag: case goto_lv_tag:{
 		int nu = nouses;
-		if (trace_uses(son(e),id) != 1 || 
-				trace_uses(bro(son(e)), id) !=1 ){
+		if (trace_uses(child(e),id) != 1 || 
+				trace_uses(next(child(e)), id) !=1 ){
 			nouses = nu;
 		}
 		return 0;
 	}
 
 	case ass_tag : {
-	    if ( isvar ( id ) && son ( e ) -> tag == name_tag &&
-		 son ( son ( e ) ) == id ) {
-		trace_uses ( bro ( son ( e ) ), id ) ;
+	    if ( isvar ( id ) && child ( e ) -> tag == name_tag &&
+		 child ( child ( e ) ) == id ) {
+		trace_uses ( next ( child ( e ) ), id ) ;
 		return 2;
-	    } else if ( APPLYLIKE ( bro ( son ( e ) ) ) ) {
-		return trace_uses ( bro ( son ( e ) ), id ) ;
+	    } else if ( APPLYLIKE ( next ( child ( e ) ) ) ) {
+		return trace_uses ( next ( child ( e ) ), id ) ;
 	    }
 
 		FALL_THROUGH;
 	}
 
 	default : {
-	    exp s = son ( e ) ;
+	    exp s = child ( e ) ;
 	    int nu = nouses ;	 /* s list can be done in any order ... */
 
 	    if ( s == NULL ) return 1;
@@ -152,7 +154,7 @@ trace_uses(exp e, exp id)
 		    return el ;
 		}
 		if ( ( s ) -> last ) return 1;
-		s = bro ( s ) ;
+		s = next ( s ) ;
 	    }
         UNREACHED;
 	    break ;
@@ -189,9 +191,9 @@ after_a(exp a, exp id)
 	    return ;
 	}
 
-	for ( l = a ; ! l -> last ; l = bro ( l ) )
+	for ( l = a ; ! l -> last ; l = next ( l ) )
 	{
-	    int u = trace_uses ( bro ( l ), id ) ;
+	    int u = trace_uses ( next ( l ), id ) ;
 	    if ( u != 1 || nouses == 0 ) return ;
 	}
 	a = dad ;
@@ -234,9 +236,9 @@ tempdec(exp e, bool enoughs)
     if ( isvar ( e ) ) {
 	for ( p = pt ( e ) ; p != NULL ; p = pt ( p ) ) {
 	    /* find no of uses which are not assignments to id ... */
-	    if ( !  p -> last && bro ( p ) -> last &&
-		 bro ( bro ( p ) ) -> tag == ass_tag ) {
-		if ( !simple_seq ( bro ( bro ( p ) ), e ) ) return  ( 0 ) ;
+	    if ( !  p -> last && next ( p ) -> last &&
+		 next ( next ( p ) ) -> tag == ass_tag ) {
+		if ( !simple_seq ( next ( next ( p ) ), e ) ) return  ( 0 ) ;
 		/* ... in simple sequence */
 		continue ;
 	    }
@@ -252,15 +254,15 @@ tempdec(exp e, bool enoughs)
  * id )
  */
 
-    if ( son ( e ) -> tag != clear_tag || isparam ( e ) ) {
-	after_a ( son ( e ), e ) ;
+    if ( child ( e ) -> tag != clear_tag || isparam ( e ) ) {
+	after_a ( child ( e ), e ) ;
     }
 
     if ( isvar ( e ) ) {
 	for ( p = pt ( e ) ; p != NULL ; p = pt ( p ) ) {
-	    if ( ! p -> last && bro ( p ) -> last &&
-		 bro ( bro ( p ) ) -> tag == ass_tag ) {
-		after_a ( bro ( bro ( p ) ), e ) ;
+	    if ( ! p -> last && next ( p ) -> last &&
+		 next ( next ( p ) ) -> tag == ass_tag ) {
+		after_a ( next ( next ( p ) ), e ) ;
 	    }
 	}
     }
@@ -268,10 +270,10 @@ tempdec(exp e, bool enoughs)
     if ( nouses == 0 && ( enoughs || !useinpar ) ) {
 #if 0
 	/* +++ temp circumvention, we need to calculate t-reg reqt better when
-     some not allowed by props ( e ) |= notparreg */
+     some not allowed by e->props |= notparreg */
 	if ( useinpar ) return 0;
 #else
-	if ( useinpar ) props ( e ) |= notparreg ;     /* don't allocate this into par reg */
+	if ( useinpar ) e->props |= notparreg ;     /* don't allocate this into par reg */
 #endif
 	return 1;
     }

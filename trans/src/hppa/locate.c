@@ -57,13 +57,13 @@ baseoff boff
 
   if (isglob(e))
   {
-    /* bro() is index in main_globals */
-    dec *gl = brog(e);
+    /* next() is index in main_globals */
+    dec *gl = nextg(e);
     long sno = gl->sym_number;
     an.base = - (sno + 1);
     an.offset = 0;
   }
-  else if (son(e)->tag ==caller_name_tag)
+  else if (child(e)->tag ==caller_name_tag)
   {
      int n = no(e);
      an.base = SP;
@@ -72,7 +72,7 @@ baseoff boff
   else if (isparam(e))
   {
      /* parameter */
-     assert(son(e)->tag == clear_tag);
+     assert(child(e)->tag == clear_tag);
      if (Has_vcallees)
      {
 	an.base = FP;
@@ -81,13 +81,13 @@ baseoff boff
      {
 	an.base = EP;
      }
-     if (son(e)->tag ==formal_callee_tag)
+     if (child(e)->tag ==formal_callee_tag)
      {
-	an.offset=(no(son(e))-callees_offset)>>3;/* outermost ()'s for gcc */
+	an.offset=(no(child(e))-callees_offset)>>3;/* outermost ()'s for gcc */
      }
      else
      {
-	an.offset=(-no(son(e))-params_offset)>>3;/* outermost ()'s for gcc */
+	an.offset=(-no(child(e))-params_offset)>>3;/* outermost ()'s for gcc */
      }
   }
   else if (b == GR17)
@@ -152,7 +152,7 @@ where locate1
   where wans;
 #if 0				/* causes core dump spec/espresso/set.c */
   asm_comment("locate1: %s, %s, dreg=%d",(int)tag_name(e->tag), (int)sh_name(s->tag), dreg);
-  asm_comment("        space= (%ld,%ld) no(e) =%d no(son(e)) =%d", sp.fixed, sp.flt, no(e), no(son(e)));
+  asm_comment("        space= (%ld,%ld) no(e) =%d no(child(e)) =%d", sp.fixed, sp.flt, no(e), no(child(e)));
 #endif
 
   a = ashof(s);
@@ -160,18 +160,18 @@ where locate1
 /*
   while (e->tag == diag_tag || e->tag == fscope_tag || e->tag == cscope_tag)
   {
-    e = son(e);
+    e = child(e);
   }
 */
   switch (e->tag)
   {
   case name_tag:
     {
-      exp dc = son(e);
+      exp dc = child(e);
       bool var = isvar(dc);
 
       /* this a locally declared name ... */
-      if (props(dc) & defer_bit)
+      if (dc->props & defer_bit)
       {
 
 	/*
@@ -182,7 +182,7 @@ where locate1
 
 	asm_comment("locate1: name_tag: defer_bit");
 
-	w = locate(son(dc), sp, sh(son(dc)), dreg);
+	w = locate(child(dc), sp, sh(child(dc)), dreg);
 
 	if (no(e) == 0)
 	{
@@ -207,7 +207,7 @@ where locate1
 	  setinsalt(aa, is);
 	}
       }
-      else if (props(dc) & inreg_bits)
+      else if (dc->props & inreg_bits)
       {
 	/* ... it has been allocated in a fixed point reg */
 
@@ -227,7 +227,7 @@ where locate1
 	  setinsalt(aa, b);
 	}
       }
-      else if (props(dc) & infreg_bits)
+      else if (dc->props & infreg_bits)
       {
 	/* ... it has been allocated in a floating point reg */
 
@@ -245,7 +245,7 @@ where locate1
 	instore is;
 
 	if (var || (sh(e)->tag == prokhd &&
-		   (son(dc) == NULL || IS_A_PROC(son(dc)))))
+		   (child(dc) == NULL || IS_A_PROC(child(dc)))))
 	{
 	  is.adval = 1;
 	}
@@ -275,7 +275,7 @@ where locate1
 
   case addptr_tag:
     {
-      exp sum = son(e);
+      exp sum = child(e);
       where wsum;
       int addend;
       space nsp;
@@ -290,7 +290,7 @@ where locate1
 
       /*
        * answer is going to be wsum displaced by integer result of evaluating
-       * bro(sum)
+       * next(sum)
        */
 
       switch (discrim(asum))
@@ -318,17 +318,17 @@ where locate1
 
 	    nsp = guardreg(b.base, sp);
 
-	    shift=no(bro(son(bro(sum))));
-	    if (bro(sum)->tag ==offset_mult_tag && bro(son(bro(sum)))->tag ==val_tag && (shift==0 || shift==2 || shift==4))
+	    shift=no(next(child(next(sum))));
+	    if (next(sum)->tag ==offset_mult_tag && next(child(next(sum)))->tag ==val_tag && (shift==0 || shift==2 || shift==4))
 	    {
-	       addend=reg_operand(son(bro(sum)),nsp);
+	       addend=reg_operand(child(next(sum)),nsp);
 	       if (dreg == 0)
 		  dreg = getreg(nsp.fixed);
 	       rrr_ins(shift==0 ? i_add :(shift==2 ? i_sh1add : i_sh2add),                           c_,addend,b.base,dreg);
 	    }
 	    else
 	    {
-	       addend = reg_operand(bro(sum), nsp);
+	       addend = reg_operand(next(sum), nsp);
 	       /* evaluate the displacement ... */
 	       if (dreg == 0)
 		  dreg = getreg(nsp.fixed);
@@ -374,25 +374,25 @@ where locate1
       /* register ind contains the evaluation of 1st operand of addptr */
       nsp = guardreg(ind, sp);
       /* evaluate displacement, add it to ind in new reg */
-      if (bro(sum)->tag == env_offset_tag ||
-	  bro(sum)->tag == general_env_offset_tag)
+      if (next(sum)->tag == env_offset_tag ||
+	  next(sum)->tag == general_env_offset_tag)
       {
 	  is.b.base = ind;
-	  is.b.offset = frame_offset(son(bro(sum)));
+	  is.b.offset = frame_offset(child(next(sum)));
       }
       else
       {
-	 shift=no(bro(son(bro(sum))));
-	 if (bro(sum)->tag ==offset_mult_tag && bro(son(bro(sum)))->tag ==val_tag && (shift==0 || shift==2 || shift==4))
+	 shift=no(next(child(next(sum))));
+	 if (next(sum)->tag ==offset_mult_tag && next(child(next(sum)))->tag ==val_tag && (shift==0 || shift==2 || shift==4))
 	 {
-	    addend=reg_operand(son(bro(sum)),nsp);
+	    addend=reg_operand(child(next(sum)),nsp);
 	    if (dreg == 0)
 	       dreg = getreg(nsp.fixed);
 	    rrr_ins(shift==0 ? i_add :(shift==2 ? i_sh1add : i_sh2add),                           c_,addend,ind,dreg);
 	 }
 	 else
 	 {
-	    addend = reg_operand(bro(sum), nsp);
+	    addend = reg_operand(next(sum), nsp);
 
 	    if (dreg == 0)
 	       dreg = getreg(nsp.fixed);
@@ -413,12 +413,12 @@ where locate1
   case subptr_tag:		/* this is nugatory - previous transforms make
 				 * it into addptr or reff */
     {
-      exp sum = son(e);
+      exp sum = child(e);
       int ind = reg_operand(sum, sp);
       instore isa;
 
       isa.adval = 1;
-      sum = bro(sum);
+      sum = next(sum);
       if (sum->tag == val_tag)
       {
 	instore isa;
@@ -450,7 +450,7 @@ where locate1
 #endif
 
       /* answer is going to be wans displaced by no(e) */
-      wans = locate(son(e), sp, sh(son(e)), 0);
+      wans = locate(child(e), sp, sh(child(e)), 0);
 
 #if USE_BITAD
       bitfield = ((sh(e)->tag == ptrhd) && (al1(sh(e)) == 1));
@@ -538,7 +538,7 @@ where locate1
   case cont_tag:
   case contvol_tag:
     {
-      exp s = son(e);
+      exp s = child(e);
       ans ason;
       instore isa;
       int reg;
@@ -660,7 +660,7 @@ where locate1
     {
       instore isa;
 
-      wans = locate(son(e), sp, sh(son(e)), 0);
+      wans = locate(child(e), sp, sh(child(e)), 0);
 
       /*
        * answer is wans displace literally by no(e); it should always be a

@@ -40,8 +40,8 @@
 
 /* Location list information is collected for each object, held via
    fields of the 'obtain_value' exp (which is a hold_tag). last is set if the
-   object is master of a new location. bro is used to hold references to other
-   objects that share this location (as a bro list).  no is label for shared
+   object is master of a new location. next is used to hold references to other
+   objects that share this location (as a next list).  no is label for shared
    location set.  pt holds other more temporary uses (via ll_item).
 */
 
@@ -161,20 +161,20 @@ set_locdata(obj_list this_obl)
 		if (this_name->key == DGN_OBJECT) {
 			exp x = this_name->data.n_obj.obtain_val;
 			exp id;
-			if (x && (id = dw_has_location(son(x)), id)) {
+			if (x && (id = dw_has_location(child(x)), id)) {
 				if (isglob(id)) {
 					dg_name master =
-					    brog(id)->dg_name;
+					    nextg(id)->dg_name;
 					if (!master) {
-						master = brog(id)->dg_name = this_name;
+						master = nextg(id)->dg_name = this_name;
 					}
 					if (master == this_name) {
 						x->last = true;
 						no(x) = next_dwarf_label();
 					} else {
 						exp y = master->data.n_obj.obtain_val;
-						setbro(x, bro(y));
-						setbro(y,
+						setnext(x, next(y));
+						setnext(y,
 						       (exp)((void *)this_name));
 						no(x) = no(y);
 						check_taggable(master);
@@ -188,9 +188,9 @@ set_locdata(obj_list this_obl)
 						while (name) {
 							if (name->key == DGN_OBJECT) {
 								exp y = name->data.n_obj.obtain_val;
-								if (y && y->last && dw_has_location(son(y)) == id) {
-									setbro(x, bro(y));
-									setbro(y, (exp)((void *)this_name));
+								if (y && y->last && dw_has_location(child(y)) == id) {
+									setnext(x, next(y));
+									setnext(y, (exp)((void *)this_name));
 									no(x) = no(y);
 									check_taggable(name);
 									check_taggable(this_name);
@@ -252,14 +252,14 @@ find_equiv_object(exp e, int isc)
 			if (name->key == DGN_OBJECT) {
 				exp x = name->data.n_obj.obtain_val;
 				if (isc) {
-					if (x && son(x)->tag == cont_tag &&
+					if (x && child(x)->tag == cont_tag &&
 					    dw_loc_equivalence(e,
-							       son(son(x)))) {
+							       child(child(x)))) {
 						return name;
 					}
 				} else {
 					if (x && dw_loc_equivalence(e,
-								    son(x))) {
+								    child(x))) {
 						return name;
 					}
 				}
@@ -288,10 +288,10 @@ find_simple_object(exp e)
 				while (x && (x->tag == hold_tag ||
 					     x->tag == cont_tag ||
 					     x->tag == reff_tag)) {
-					x = son(x);
+					x = child(x);
 				}
 				if ((x) && x->tag == name_tag &&
-				    son(x) == son(e) &&
+				    child(x) == child(e) &&
 				    (no(x) <= no(e)) &&
 				    (no(x) + shape_size(sh(x))) >=
 				    (no(e) + shape_size(sh(e)))) {
@@ -345,7 +345,7 @@ set_optim_objects(dg_info optim, int start)
 void
 set_remval_object(dg_info rmv)
 {
-	dg_name name = find_simple_object(son(rmv->data.i_remval.var));
+	dg_name name = find_simple_object(child(rmv->data.i_remval.var));
 	if (name) {
 		ll_item *l = ll_root(name);
 		while (*l) {
@@ -373,11 +373,11 @@ set_obj_rets(retrec * rec)
 				while (x && (x->tag == hold_tag ||
 					     x->tag == cont_tag ||
 					     x->tag == reff_tag)) {
-					x = son(x);
+					x = child(x);
 				}
 				if ((x) && x->tag == name_tag &&
 				    !isdiscarded(x) &&
-				    !isglob(son(x))) {
+				    !isglob(child(x))) {
 					ll_item *l = ll_root(name);
 					while (*l) {
 						if ((*l)->open) {
@@ -465,7 +465,7 @@ complete_dw_locdata(void)
 						regitem->name = NULL;
 						break;
 					}
-					name = (dg_name)((void *)bro(name->data.n_obj.obtain_val));
+					name = (dg_name)((void *)next(name->data.n_obj.obtain_val));
 				} while (name);
 				if (!name) {
 					/* regitem not in allocation shareset */
@@ -572,7 +572,7 @@ decide_ll_type(exp x)
 {
 	/* 1 if need location list, 2 if extension list */
 	ll_item l = (ll_item)((void *)(pt(x)));
-	if ((x->last && bro(x)) || (!x->last && no(x))) {
+	if ((x->last && next(x)) || (!x->last && no(x))) {
 		/* main location is shared */
 		return 2;
 	} else {
@@ -638,7 +638,7 @@ out_obj_loclist(long l1, long l2, exp x)
 	ll_item l = (ll_item)((void *)(pt(x)));
 	startlab = l1;
 	ll_ok = 1;
-	obval = son(x);
+	obval = child(x);
 	loclist_portion(l);
 	if (ll_ok && l2 != startlab) {
 		out_loc_range(startlab, l2, 0);
@@ -696,7 +696,7 @@ void
 out_obj_extloclist(long l1, long l2, exp x)
 {
 	ll_item l = (ll_item)((void *)(pt(x)));
-	if ((x->last && bro(x)) || (!x->last && no(x))) {
+	if ((x->last && next(x)) || (!x->last && no(x))) {
 		/* main location is shared */
 		out_loc_range(l1, l2, 0);
 		dw_at_data(1, LOp_Shared);
@@ -720,11 +720,11 @@ out_obj_shared_set(dg_name dn)
 {
 	exp x = dn->data.n_obj.obtain_val;
 	ll_item l = find_ll_item(dn, LL_MASTERSHARE, 0);
-	if (x->last && (bro(x) || l)) {
+	if (x->last && (next(x) || l)) {
 		out_dwf_label(no(x), 1);
 		dw_at_ext_address(dn->more->this_tag);
-		while (bro(x)) {
-			dg_name name = (dg_name)((void *)bro(x));
+		while (next(x)) {
+			dg_name name = (dg_name)((void *)next(x));
 			dw_at_ext_address(name->more->this_tag);
 			x = name->data.n_obj.obtain_val;
 		}

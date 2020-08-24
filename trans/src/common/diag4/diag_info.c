@@ -27,15 +27,15 @@
 exp
 diag_locate(exp e)
 {
-	exp id = son(e);
+	exp id = child(e);
 
 	if (isglob(id)) {
-		if (brog(id)->var) {
-			e = f_contents(brog(id)->shape, e);
+		if (nextg(id)->var) {
+			e = f_contents(nextg(id)->shape, e);
 		}
 	} else {
 		if (isvar(id)) {
-			e = f_contents(sh(son(id)), e);
+			e = f_contents(sh(child(id)), e);
 		}
 	}
 

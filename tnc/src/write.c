@@ -58,11 +58,11 @@ print_node(node *p, int d)
 			break;
 		case SORT_bytestream:
 			/* Print a bytestream */
-			newline = print_node(p->son, d);
+			newline = print_node(p->child, d);
 			break;
 		case SORT_completion:
 			/* Print a completion */
-			newline = print_node(p->son, d);
+			newline = print_node(p->child, d);
 			break;
 		case SORT_small_tdfint:
 				/* Print a small number */
@@ -107,8 +107,8 @@ print_node(node *p, int d)
 		case SORT_option:
 			/* Print an optional argument */
 			{
-				if (p->son)
-					newline = print_node(p->son, d);
+				if (p->child)
+					newline = print_node(p->child, d);
 				else {
 					print_spaces(d);
 					IGNORE fputc('-', output);
@@ -124,7 +124,7 @@ print_node(node *p, int d)
 					IGNORE fputc('|', output);
 					newline = 1;
 				} else {
-					newline = print_node(p->son, d);
+					newline = print_node(p->child, d);
 
 					if (func_output)
 						IGNORE fputc(',', output);
@@ -144,7 +144,7 @@ print_node(node *p, int d)
 					char *f = (func_output ? "%s (\n" : "( %s\n");
 
 					IGNORE fprintf(output, f, MAKE_STRING);
-					newline = print_node(p->son, d + 1);
+					newline = print_node(p->child, d + 1);
 					IGNORE fputs(" )", output);
 				} else {
 					IGNORE fputc('"', output);
@@ -180,41 +180,41 @@ print_node(node *p, int d)
 			if (m != ENC_make_nat)
 				goto default_label;
 
-			newline = print_node(p->son, d);
+			newline = print_node(p->child, d);
 			break;
 		case SORT_signed_nat:
 			/* Print a signed_nat */
 			if (m != ENC_make_signed_nat)
 				goto default_label;
-			newline = print_node(p->son, d);
+			newline = print_node(p->child, d);
 			break;
 		case SORT_string:
 			/* Print a string */
 			if (m != ENC_make_string)
 				goto default_label;
 
-			newline = print_node(p->son, d);
+			newline = print_node(p->child, d);
 			break;
 		case SORT_al_tag:
 			/* Print an alignment tag */
-			if (verbose || m != ENC_make_al_tag || p->son == NULL)
+			if (verbose || m != ENC_make_al_tag || p->child == NULL)
 				goto default_label;
 
-			newline = print_node(p->son, d);
+			newline = print_node(p->child, d);
 			break;
 		case SORT_label:
 			/* Print a label */
-			if (verbose || m != ENC_make_label || p->son == NULL)
+			if (verbose || m != ENC_make_label || p->child == NULL)
 				goto default_label;
 
-			newline = print_node(p->son, d);
+			newline = print_node(p->child, d);
 			break;
 		case SORT_tag:
 			/* Print a tag */
-			if (verbose || m != ENC_make_tag || p->son == NULL)
+			if (verbose || m != ENC_make_tag || p->child == NULL)
 				goto default_label;
 
-			newline = print_node(p->son, d);
+			newline = print_node(p->child, d);
 			break;
 		case SORT_exp:
 			{
@@ -225,14 +225,14 @@ print_node(node *p, int d)
 					node *z = new_node();
 
 					z->cons = &exp_shape;
-					z->bro = p->bro;
-					z->son = p;
+					z->next = p->next;
+					z->child = p;
 
 					if (p->shape) {
-						z->son->bro = copy_node(p->shape);
+						z->child->next = copy_node(p->shape);
 					} else {
-						z->son->bro = new_node();
-						z->son->bro->cons = &unknown_cons;
+						z->child->next = new_node();
+						z->child->next->cons = &unknown_cons;
 					}
 
 					p->shape = &special_node;
@@ -246,16 +246,16 @@ print_node(node *p, int d)
 		default:
 default_label:
 			/* Print a simple sort */
-			if (!verbose && m == sort_tokens[s] && p->son &&
-			    p->son->cons->sortnum == SORT_token) {
-				newline = print_node(p->son, d);
+			if (!verbose && m == sort_tokens[s] && p->child &&
+			    p->child->cons->sortnum == SORT_token) {
+				newline = print_node(p->child, d);
 			} else {
 				print_spaces(d);
 
-				if (p->son) {
+				if (p->child) {
 					char *f = (func_output ? "%s (\n" : "( %s\n");
 					IGNORE fprintf(output, f, q->name);
-					newline = print_node(p->son, d + 1);
+					newline = print_node(p->child, d + 1);
 					IGNORE fputs(" )", output);
 				} else {
 					IGNORE fprintf(output, "%s", q->name);
@@ -265,7 +265,7 @@ default_label:
 			break;
 		}
 
-		p = p->bro;
+		p = p->next;
 		if (newline && p) {
 			if (func_output)
 				IGNORE fputc(',', output);
@@ -295,8 +295,8 @@ print_name(char *title, construct *p, int dec)
 
 	if (p->ename && p->ename->cons->encoding && dec) {
 		char *f = (func_output ? "\n  %s (\n" : "\n  ( %s\n");
-		if (p->ename->son->cons->sortnum == SORT_tdfstring) {
-			if (p->ename->son->bro == NULL)
+		if (p->ename->child->cons->sortnum == SORT_tdfstring) {
+			if (p->ename->child->next == NULL)
 				IGNORE fprintf(output, f, MAKE_STRING_EXTERN);
 			else
 				IGNORE fprintf(output, f, MAKE_CHAIN_EXTERN);
@@ -304,7 +304,7 @@ print_name(char *title, construct *p, int dec)
 		} else
 			IGNORE fprintf(output, f, MAKE_UNIQUE_EXTERN);
 
-		IGNORE print_node(p->ename->son, 2);
+		IGNORE print_node(p->ename->child, 2);
 
 		if (func_output)
 			IGNORE fputs(" ),\n  ", output);
@@ -398,9 +398,9 @@ print_tagdef(construct *p)
 			IGNORE fputc(',', output);
 
 		IGNORE fputc('\n', output);
-		IGNORE print_node(d->son, 1);
+		IGNORE print_node(d->child, 1);
 		IGNORE fputs((func_output ? " ) ;\n\n" : " )\n\n"), output);
-		d = d->bro;
+		d = d->next;
 	}
 }
 

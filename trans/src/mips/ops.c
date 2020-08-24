@@ -56,7 +56,7 @@ static bool
 regremoved(exp * seq, int reg)
 {
 	exp s = *seq;
-	exp t = bro(s);
+	exp t = next(s);
 
 	if (abs(regofval(s)) == reg) {
 		*seq = t;
@@ -65,7 +65,7 @@ regremoved(exp * seq, int reg)
 
 	for (;;) {
 		if (abs(regofval(t)) == reg) {
-			bro(s) = bro(t);
+			next(s) = next(t);
 			if (t->last) {
 				s->last = true;
 			}
@@ -78,7 +78,7 @@ regremoved(exp * seq, int reg)
 		}
 
 		s = t;
-		t = bro(t);
+		t = next(t);
 	}
 }
 
@@ -98,7 +98,7 @@ do_comm(exp seq, space sp, int final, char *rins)
 	/* evaluate 1st operand into a1 */
 	for (;;) {
 		nsp = guardreg(a1, sp);
-		seq = bro(seq);
+		seq = next(seq);
 
 		if (seq->tag == val_tag) {/* next operand is a constant */
 			if (seq->last) {
@@ -142,8 +142,8 @@ comm_op(exp e, space sp, where d, char *rrins)
 	switch (d.answhere.discrim) {
 	case inreg: {
 		int dest = regalt(d.answhere);
-		bool usesdest = regremoved(&son(e), dest);
-		exp seq = son(e);
+		bool usesdest = regremoved(&child(e), dest);
+		exp seq = child(e);
 
 		/*
 		 * The destination is in a register;
@@ -180,7 +180,7 @@ comm_op(exp e, space sp, where d, char *rrins)
 		space nsp;
 		bool rok = 1;
 		setregalt(a, r);
-		do_comm(son(e), sp, r, rins);
+		do_comm(child(e), sp, r, rins);
 
 		/* evaluate the expression into r ... */
 		if (d.answhere.discrim != notinreg) {
@@ -203,8 +203,8 @@ comm_op(exp e, space sp, where d, char *rrins)
 int
 non_comm_op(exp e, space sp, where dest, char *rins)
 {
-	exp l = son(e);
-	exp r = bro(l);
+	exp l = child(e);
+	exp r = next(l);
 	int a1 = reg_operand(l, sp);
 	int a2;
 	space nsp;
@@ -251,7 +251,7 @@ int
 monop(exp e, space sp, where dest, char *ins)
 {
 	int r1 = getreg(sp.fixed);
-	int a1 = reg_operand(son(e), sp);
+	int a1 = reg_operand(child(e), sp);
 
 	/* operand in reg a1 */
 	space nsp;
@@ -289,8 +289,8 @@ fop(exp e, space sp, where dest, char *ins)
 {
 	/* evaluate floating dyadic operation e
 	   using ins into dest */
-	exp l = son(e);
-	exp r = bro(l);
+	exp l = child(e);
+	exp r = next(l);
 	int a1, a2;
 	space nsp;
 	freg fr;
@@ -342,7 +342,7 @@ fop(exp e, space sp, where dest, char *ins)
 int
 fmop(exp e, space sp, where dest, char *ins)
 {
-	int a1 = freg_operand(son(e), sp);
+	int a1 = freg_operand(child(e), sp);
 	freg fr;
 
 	if (!optop(e)) {

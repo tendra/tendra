@@ -72,12 +72,12 @@ mark_unaliased(exp e)
 	bool ca = 1;
 
 	for (p = pt(e); p != NULL && ca; p = pt(p)) {
-		exp q = bro(p);
+		exp q = next(p);
 
 		if (q == NULL) {
 			ca = 0;
 		} else if (!(p->last && q->tag == cont_tag) &&
-		          !(!p->last && q->last && bro(q)->tag == ass_tag)) {
+		          !(!p->last && q->last && next(q)->tag == ass_tag)) {
 			ca = 0;
 		}
 	}
@@ -106,7 +106,7 @@ local_translate_capsule(void)
 			continue;
 		}
 
-		if ((sh(crt_exp)->tag != prokhd || (idval = son(crt_exp),
+		if ((sh(crt_exp)->tag != prokhd || (idval = child(crt_exp),
 			 idval != NULL && idval->tag != null_tag &&
 			 idval->tag != proc_tag && idval->tag != general_proc_tag)))
 		{
@@ -126,14 +126,14 @@ local_translate_capsule(void)
 
 				np = pt(p);
 				ptr = refto(father(p), p);
-				c = getexp(sh(p), bro(p), p->last, p, NULL, 0, 0, cont_tag);
+				c = getexp(sh(p), next(p), p->last, p, NULL, 0, 0, cont_tag);
 
 				setfather(c, p);
 
 				if (no(p) != 0) {
 					exp r = getexp(sh(p), c, 1, p, NULL, 0, no(p), reff_tag);
 					no(p) = 0;
-					son(c) = r;
+					child(c) = r;
 					setfather(r, p);
 				}
 
@@ -153,7 +153,7 @@ local_translate_capsule(void)
 	if (!separate_units) {
 		for (d = top_def; d != NULL; d = d->next) {
 			exp c = d->exp;
-			if (son(c) != NULL && !d->extnamed && isvar(c)) {
+			if (child(c) != NULL && !d->extnamed && isvar(c)) {
 				mark_unaliased(c);
 			}
 		}
@@ -243,7 +243,7 @@ code_const(dec *d)
 	char *name;
 
 	c = d->exp;
-	s = son(c);
+	s = child(c);
 	name = d->name;
 	di = d->diag_info;
 
@@ -269,9 +269,9 @@ code_const_list(void)
 		bool b;
 
 		t = const_list;
-		s = son(t);
+		s = child(t);
 		b = (s->tag != res_tag);
-		const_list = bro(const_list);
+		const_list = next(const_list);
 
 		if (s->tag == proc_tag || s->tag == general_proc_tag) {
 			char *name = xmalloc(30);
@@ -295,18 +295,18 @@ const_ready(exp e)
 	unsigned char n = e->tag;
 
 	if (n == env_size_tag) {
-		return brog(son(son(e)))->processed;
+		return nextg(child(child(e)))->processed;
 	}
 
 	if (n == env_offset_tag) {
-		return ismarked(son(e));
+		return ismarked(child(e));
 	}
 
-	if (n == name_tag || son(e) == NULL) {
+	if (n == name_tag || child(e) == NULL) {
 		return 1;
 	}
 
-	for (e = son(e); !e->last; e = bro(e)) {
+	for (e = child(e); !e->last; e = next(e)) {
 		if (!const_ready(e)) {
 			return 0;
 		}
@@ -393,7 +393,7 @@ output_all_exps(void)
 		}
 
 		c = d->exp;
-		s = son(c);
+		s = child(c);
 		name = d->name;
 
 		init_output();

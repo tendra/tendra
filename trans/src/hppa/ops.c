@@ -81,7 +81,7 @@ static bool
 regremoved(exp * seq, int reg)
 {
 	exp s = *seq;
-	exp t = bro(s);
+	exp t = next(s);
 
 	if (ABS(regofval(s)) == reg) {
 		*seq = t;
@@ -90,7 +90,7 @@ regremoved(exp * seq, int reg)
 
 	for (;;) {
 		if (ABS(regofval(t)) == reg) {
-			bro(s) = bro(t);
+			next(s) = next(t);
 			if (t->last) {
 				s->last = true;
 			}
@@ -102,7 +102,7 @@ regremoved(exp * seq, int reg)
 		}
 
 		s = t;
-		t = bro(t);
+		t = next(t);
 	}
 }
 
@@ -218,14 +218,14 @@ do_comm(exp seq, space sp, int final, ins_p rins)
 	space nsp;
 	int a1;
 	int a2;
-	exp next = bro(seq);
+	exp next = next(seq);
 
 	if (seq->tag == not_tag &&
 	    next->last &&
 	    rins == i_and &&
 	    next->tag != val_tag)
 	{
-		a1 = reg_operand(son(seq), sp);
+		a1 = reg_operand(child(seq), sp);
 		nsp = guardreg(a1, sp);
 		a2 = reg_operand(next, nsp);
 		rrr_ins(i_andcm, c_, a2, a1, final);
@@ -239,7 +239,7 @@ do_comm(exp seq, space sp, int final, ins_p rins)
 	{
 		a1 = reg_operand(seq, sp);
 		nsp = guardreg(a1, sp);
-		a2 = reg_operand(son(next), nsp);
+		a2 = reg_operand(child(next), nsp);
 		rrr_ins(i_andcm, c_, a1, a2, final);
 		return;
 	}
@@ -249,7 +249,7 @@ do_comm(exp seq, space sp, int final, ins_p rins)
 	    rins == i_and &&
 	    seq->tag == shr_tag)
 	{
-		exp shift = bro(son(seq));
+		exp shift = next(child(seq));
 
 		if (shift->tag == val_tag) {
 			int n, s;
@@ -259,7 +259,7 @@ do_comm(exp seq, space sp, int final, ins_p rins)
 
 			if (is_pow2((n + 1))) {
 				int p = 0;
-				a1 = reg_operand(son(seq), sp);
+				a1 = reg_operand(child(seq), sp);
 
 				while (n & (1 << p)) {
 					p++;
@@ -277,8 +277,8 @@ do_comm(exp seq, space sp, int final, ins_p rins)
 
 	/* evaluate 1st operand into a1 */
 
-	if (seq->tag == cont_tag && bro(seq)->tag == val_tag && bro(seq)->last
-	    && !(props(son(seq)) & inreg_bits)) {
+	if (seq->tag == cont_tag && next(seq)->tag == val_tag && next(seq)->last
+	    && !(child(seq)->props & inreg_bits)) {
 		reg_operand_here(seq, sp, final);
 		a1 = final;
 	} else {
@@ -294,7 +294,7 @@ do_comm(exp seq, space sp, int final, ins_p rins)
 
 	for (;;) {
 		nsp = guardreg(a1, sp);
-		seq = bro(seq);
+		seq = next(seq);
 
 		if (seq->tag == val_tag) {	/* next operand is a constant */
 			int n = no(seq);
@@ -355,8 +355,8 @@ comm_op(exp e, space sp, where d, ins_p rrins)
 	switch (discrim(d.answhere)) {
 	case inreg: {
 		int dest = regalt(d.answhere);
-		bool usesdest = regremoved(&son(e), dest);
-		exp seq = son(e);
+		bool usesdest = regremoved(&child(e), dest);
+		exp seq = child(e);
 
 		/*
 		 * the destination is in a register; take care that we dont alter it
@@ -411,7 +411,7 @@ comm_op(exp e, space sp, where d, ins_p rrins)
 		bool rok = 1;
 
 		setregalt(a, r);
-		do_comm(son(e), sp, r, rins);
+		do_comm(child(e), sp, r, rins);
 
 		/* evaluate the expression into r ... */
 		if (discrim(d.answhere) != notinreg) {
@@ -435,8 +435,8 @@ comm_op(exp e, space sp, where d, ins_p rrins)
 int
 non_comm_op(exp e, space sp, where dest, ins_p rins)
 {
-	exp l = son(e);
-	exp r = bro(l);
+	exp l = child(e);
+	exp r = next(l);
 	int a1 = reg_operand(l, sp);
 	space nsp;
 	int a2;
@@ -478,7 +478,7 @@ int
 monop(exp e, space sp, where dest, ins_p ins)
 {
 	int r1 = getreg(sp.fixed);
-	int a1 = reg_operand(son(e), sp);
+	int a1 = reg_operand(child(e), sp);
 
 	/* operand in reg a1 */
 	space nsp;
@@ -654,11 +654,11 @@ quad_op(exp e, space sp, where dest)
 			: tn == 5 ?  4
 			: 25, ARG2);
 		if (IsRev(e)) {
-			r = son(e);
-			l = bro(r);
+			r = child(e);
+			l = next(r);
 		} else {
-			l = son(e);
-			r = bro(l);
+			l = child(e);
+			r = next(l);
 		}
 
 		quad_addr(l, ARG0, sp);
@@ -677,7 +677,7 @@ quad_op(exp e, space sp, where dest)
 		long_double_lib[2].called = 1;
 		set_ins("$qfp_lit_sym$", b, ARG0);
 		sp = guardreg(ARG0, sp);
-		quad_addr(son(e), ARG1, sp);
+		quad_addr(child(e), ARG1, sp);
 		sp = guardreg(ARG1, sp);
 		stub = "ARGW0=GR,ARGW1=GR";
 		long_double_0 = 1;
@@ -688,7 +688,7 @@ quad_op(exp e, space sp, where dest)
 		s = "_U_Qfabs";
 		long_double_lib[11].called = 1;
 		stub = "ARGW0=GR";
-		quad_addr(son(e), ARG0, sp);
+		quad_addr(child(e), ARG0, sp);
 		break;
 
 	case chfl_tag: {
@@ -701,7 +701,7 @@ quad_op(exp e, space sp, where dest)
 			baseoff b;
 
 			b.base = SP;
-			l = son(e);
+			l = child(e);
 
 			if (sh(l)->tag == doublehd) {
 				return;
@@ -746,13 +746,13 @@ quad_op(exp e, space sp, where dest)
 
 			stub = "ARGW0=GR";
 			quad_ret = 0;
-			quad_addr(son(e), ARG0, sp);
+			quad_addr(child(e), ARG0, sp);
 		}
 		break;
 	}
 
 	case float_tag: {
-		exp l = son(e);
+		exp l = child(e);
 		reg_operand_here(l, sp, ARG0);
 		sp = guardreg(ARG0, sp);
 
@@ -780,7 +780,7 @@ quad_op(exp e, space sp, where dest)
 
 		stub = "ARGW0=GR";
 		quad_ret = 0;
-		quad_addr(son(e), ARG0, sp);
+		quad_addr(child(e), ARG0, sp);
 		break;
 	}
 
@@ -807,11 +807,11 @@ quad_op(exp e, space sp, where dest)
 
 		stub = "ARGW0=GR,ARGW1=GR";
 		if (IsRev(e)) {
-			r = son(e);
-			l = bro(r);
+			r = child(e);
+			l = next(r);
 		} else {
-			l = son(e);
-			r = bro(l);
+			l = child(e);
+			r = next(l);
 		}
 
 		quad_addr(l, ARG0, sp);
@@ -937,8 +937,8 @@ quad_op(exp e, space sp, where dest)
 int
 fop(exp e, space sp, where dest, ins_p ins)
 {
-	exp l = son(e);
-	exp r = bro(l);
+	exp l = child(e);
+	exp r = next(l);
 	int a1, a2, dble;
 	space nsp;
 	freg fr;

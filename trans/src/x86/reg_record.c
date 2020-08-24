@@ -80,28 +80,28 @@ static int
 inval(exp d, exp r)
 {
 	if ((d == NULL || d->tag == cont_tag) &&
-	    (r->tag == cont_tag || (r->tag == name_tag && isglob(son(r))))) {
+	    (r->tag == cont_tag || (r->tag == name_tag && isglob(child(r))))) {
 		return 1;
 	}
 
-	if ((r->tag == name_tag && !isvar(son(r))) || r->tag == cont_tag) {
+	if ((r->tag == name_tag && !isvar(child(r))) || r->tag == cont_tag) {
 		return eq_where(mw(d, 0), mw(r, 0));
 	}
 
 	if (r->tag == reff_tag) {
-		return inval(d, son(r));
+		return inval(d, child(r));
 	}
 
 	if (r->tag == addptr_tag) {
-		if (bro(son(r))->tag == offset_mult_tag) {
-			return inval(d, son(r)) || inval(d, son(bro(son(r))));
+		if (next(child(r))->tag == offset_mult_tag) {
+			return inval(d, child(r)) || inval(d, child(next(child(r))));
 		}
 
-		return inval(d, son(r)) || inval(d, bro(son(r)));
+		return inval(d, child(r)) || inval(d, next(child(r)));
 	}
 
 	if (r->tag == ident_tag) {
-		return inval(d, son(r)) || inval(d, bro(son(r)));
+		return inval(d, child(r)) || inval(d, next(child(r)));
 	}
 
 	return 0;
@@ -112,7 +112,7 @@ int
 invalidates(exp d, exp r)
 {
 	if (r->tag == cont_tag || r->tag == ass_tag) {
-		return inval(d, son(r));
+		return inval(d, child(r));
 	}
 
 	return 0;
@@ -196,9 +196,9 @@ is_aliased(exp dest)
 		return 0;
 	}
 
-	if (son(dest)->tag == name_tag &&
-	    isvar(son(son(dest))) &&
-	    iscaonly(son(son(dest)))) {
+	if (child(dest)->tag == name_tag &&
+	    isvar(child(child(dest))) &&
+	    iscaonly(child(child(dest)))) {
 		return 0;
 	}
 

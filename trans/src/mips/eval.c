@@ -129,11 +129,11 @@ evalexp(exp e)
 		return no(e);
 
 	case bitf_to_int_tag:
-		return evalexp(son(e));
+		return evalexp(child(e));
 
 	case int_to_bitf_tag: {
 		ash a;
-		long  w = evalexp(son(e));
+		long  w = evalexp(child(e));
 		a = ashof(sh(e));
 
 		if (a.ashalign != 1) {
@@ -147,18 +147,18 @@ evalexp(exp e)
 		return w;
 	}
 
-	case not_tag: return ~evalexp(son(e));
-	case and_tag: return evalexp(son(e)) &  evalexp(bro(son(e)));
-	case or_tag:  return evalexp(son(e)) |  evalexp(bro(son(e)));
-	case xor_tag: return evalexp(son(e)) ^  evalexp(bro(son(e)));
-	case shr_tag: return evalexp(son(e)) >> evalexp(bro(son(e)));
-	case shl_tag: return evalexp(son(e)) << evalexp(bro(son(e)));
+	case not_tag: return ~evalexp(child(e));
+	case and_tag: return evalexp(child(e)) &  evalexp(next(child(e)));
+	case or_tag:  return evalexp(child(e)) |  evalexp(next(child(e)));
+	case xor_tag: return evalexp(child(e)) ^  evalexp(next(child(e)));
+	case shr_tag: return evalexp(child(e)) >> evalexp(next(child(e)));
+	case shl_tag: return evalexp(child(e)) << evalexp(next(child(e)));
 
 	case concatnof_tag: {
 		ash a;
-		long  wd = evalexp(son(e));
-		a = ashof(sh(son(e)));
-		return wd | (evalexp(bro(son(e))) << a.ashsize);
+		long  wd = evalexp(child(e));
+		a = ashof(sh(child(e)));
+		return wd | (evalexp(next(child(e))) << a.ashsize);
 	}
 
 	case clear_tag: {
@@ -173,22 +173,22 @@ evalexp(exp e)
 
 	case env_offset_tag:
 	case general_env_offset_tag:
-		return frame_offset(son(e));
+		return frame_offset(child(e));
 
 	case env_size_tag: {
-		exp tag = son(son(e));
-		procrec * pr = &procrecs[no(son(tag))];
+		exp tag = child(child(e));
+		procrec * pr = &procrecs[no(child(tag))];
 		return (pr->frame_size + pr->callee_size) >> 3;
 	}
 
-	case offset_add_tag:        return evalexp(son(e)) + evalexp(bro(son(e)));
-	case offset_max_tag:        return MAX(evalexp(son(e)), evalexp(bro(son(e))));
-	case offset_pad_tag:        return rounder(evalexp(son(e)), shape_align(sh(e)));
-	case offset_mult_tag:       return evalexp(son(e)) * evalexp(bro(son(e)));
+	case offset_add_tag:        return evalexp(child(e)) + evalexp(next(child(e)));
+	case offset_max_tag:        return MAX(evalexp(child(e)), evalexp(next(child(e))));
+	case offset_pad_tag:        return rounder(evalexp(child(e)), shape_align(sh(e)));
+	case offset_mult_tag:       return evalexp(child(e)) * evalexp(next(child(e)));
 	case offset_div_tag:
-	case offset_div_by_int_tag: return evalexp(son(e)) / evalexp(bro(son(e)));
-	case offset_subtract_tag:   return evalexp(son(e)) - evalexp(bro(son(e)));
-	case offset_negate_tag:     return -evalexp(son(e));
+	case offset_div_by_int_tag: return evalexp(child(e)) / evalexp(next(child(e)));
+	case offset_subtract_tag:   return evalexp(child(e)) - evalexp(next(child(e)));
+	case offset_negate_tag:     return -evalexp(child(e));
 
 	default:
 		error(ERR_INTERNAL, "tag not in evalexp");
@@ -259,7 +259,7 @@ evalone(exp e, long rep)
 	a = ashof(sh(e));
 	switch (e->tag) {
 	case string_tag: {
-		long char_size = props(e);
+		long char_size = e->props;
 		long  strsize = shape_size(sh(e)) / char_size;
 		char *st = nostr(e);
 		long  strs = shape_size(sh(e)) >> 3;
@@ -364,16 +364,16 @@ evalone(exp e, long rep)
 	}
 
 	case name_tag: {
-		exp dc = son(e);
-		dec * globdec = brog(dc); /* must be global name */
+		exp dc = child(e);
+		dec * globdec = nextg(dc); /* must be global name */
 		char *name = globdec->name;
 		long symdef = globdec ->sym_number;
 
-		if (!isvar(dc) && son(dc) != NULL
-		    && son(dc)->tag != proc_tag && son(dc)->tag != general_proc_tag
+		if (!isvar(dc) && child(dc) != NULL
+		    && child(dc)->tag != proc_tag && child(dc)->tag != general_proc_tag
 		    && no(e) == 0
-		    && shape_size(sh(e)) == shape_size(sh(son(dc)))) {
-			evalone(son(dc), rep);
+		    && shape_size(sh(e)) == shape_size(sh(child(dc)))) {
+			evalone(child(dc), rep);
 			return;
 		}
 
@@ -391,7 +391,7 @@ evalone(exp e, long rep)
 	}
 
 	case compound_tag:  {
-		exp tup = son(e);
+		exp tup = child(e);
 		unsigned long val;
 		bool first_bits = 1;
 		long bits_start = 0;
@@ -404,11 +404,11 @@ evalone(exp e, long rep)
 
 		for (;;) {
 			ash ae;
-			ae = ashof(sh(bro(tup)));
+			ae = ashof(sh(next(tup)));
 			offs = no(tup);
 
 			if (ae.ashalign == 1) {
-				unsigned long vb = evalexp(bro(tup));
+				unsigned long vb = evalexp(next(tup));
 
 				if (ae.ashsize != 32) {
 					vb = vb & ((1 << ae.ashsize) - 1);
@@ -487,11 +487,11 @@ evalone(exp e, long rep)
 					bits_start += 8;
 				}
 
-				evalone(bro(tup), 1);
-				bits_start += shape_size(sh(bro(tup)));
+				evalone(next(tup), 1);
+				bits_start += shape_size(sh(next(tup)));
 			}
 
-			if (bro(tup)->last) {
+			if (next(tup)->last) {
 				offs += ae.ashsize;
 				offs = (offs + 7) & ~7;
 
@@ -526,12 +526,12 @@ evalone(exp e, long rep)
 				return;
 			}
 
-			tup = bro(bro(tup));
+			tup = next(next(tup));
 		}
 	}
 
 	case nof_tag: {
-		exp s = son(e);
+		exp s = child(e);
 		if (s == NULL) {
 			return;
 		}
@@ -547,19 +547,19 @@ evalone(exp e, long rep)
 				return;
 			}
 
-			s = bro(s);
+			s = next(s);
 		}
 	}
 
 	case ncopies_tag: {
-		if (son(e)->tag == compound_tag || son(e)->tag == concatnof_tag ||
-		    son(e)->tag == nof_tag) {
+		if (child(e)->tag == compound_tag || child(e)->tag == concatnof_tag ||
+		    child(e)->tag == nof_tag) {
 			int n;
 			for (n = rep * no(e); n > 0; n--) {
-				evalone(son(e), 1);
+				evalone(child(e), 1);
 			}
 		} else {
-			evalone(son(e), rep * no(e));
+			evalone(child(e), rep * no(e));
 		}
 		return;
 	}
@@ -575,8 +575,8 @@ evalone(exp e, long rep)
 			if (rep != 1) {
 				error(ERR_INTERNAL, "CAN'T REP concat");
 			}
-			evalone(son(e), 1);
-			evalone(bro(son(e)), 1);
+			evalone(child(e), 1);
+			evalone(next(child(e)), 1);
 		}
 		return;
 	}
@@ -614,8 +614,8 @@ evalone(exp e, long rep)
 	}
 
 	case seq_tag:
-		if (son(son(e))->tag == prof_tag && son(son(e))->last) {
-			evalone(bro(son(e)), rep);
+		if (child(child(e))->tag == prof_tag && child(child(e))->last) {
+			evalone(next(child(e)), rep);
 			return;
 		}
 

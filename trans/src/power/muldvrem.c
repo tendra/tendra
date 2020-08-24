@@ -6,6 +6,8 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
+
 #include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
@@ -215,7 +217,7 @@ static void mul_const_simple(int src, long constval, int dest, bool sgned)
 /* generate code for multiply using i_muls unless simple constant */
 static int do_mul_comm_const(exp seq, space sp, int final_reg, bool sgned)
 {
-  exp arg2 = bro(seq);
+  exp arg2 = next(seq);
   int lhs_reg = reg_operand(seq, sp);
 
   assert(arg2->tag == val_tag && offset_mul_const_simple(no(arg2), sgned)!= NOT_MUL_CONST_SIMPLE);
@@ -238,10 +240,10 @@ static int do_mul_comm_const(exp seq, space sp, int final_reg, bool sgned)
 static int do_div(exp seq, space sp, int final_reg, bool sgned)
 {
   exp lhs = seq;
-  exp rhs = bro(lhs);
-  exp e = bro(rhs);
+  exp rhs = next(lhs);
+  exp e = next(rhs);
 
-  int div_type=bro(rhs)->tag;
+  int div_type=next(rhs)->tag;
 
   int lhs_reg = reg_operand(lhs, sp);
   int rhs_reg;
@@ -265,7 +267,7 @@ static int do_div(exp seq, space sp, int final_reg, bool sgned)
     if (!optop(e) && constval == 0)
     {
       /* division by zero goto error jump */
-      uncond_ins(i_b,no(son(pt(e))));
+      uncond_ins(i_b,no(child(pt(e))));
       return final_reg;
     }
     if (constval>0 && is_pow2(constval))
@@ -437,10 +439,10 @@ static int do_div(exp seq, space sp, int final_reg, bool sgned)
 static int do_rem(exp seq, space sp, int final_reg, bool sgned)
 {
   exp lhs = seq;
-  exp rhs = bro(lhs);
-  exp e = bro(rhs);
+  exp rhs = next(lhs);
+  exp e = next(rhs);
   int lhs_reg;
-  int rem_type=bro(rhs)->tag;
+  int rem_type=next(rhs)->tag;
   int rhs_reg;
   assert(rhs->last);
 
@@ -627,7 +629,7 @@ static int do_rem(exp seq, space sp, int final_reg, bool sgned)
 static int find_reg_and_apply
 (exp e, space sp, where dest, bool sgned,	     int(*do_fn)(exp, space, int, bool))
 {
-  exp seq = son(e);
+  exp seq = child(e);
   ans a;
   int dest_reg;
 
@@ -663,7 +665,7 @@ static int find_reg_and_apply
 /* choose regs and generate code for multiply */
 int do_mul_comm_op(exp e, space sp, where dest, bool sgned)
 {
-  exp arg2 = bro(son(e));
+  exp arg2 = next(child(e));
 
   if (arg2->tag == val_tag &&
       offset_mul_const_simple(no(arg2), sgned)!= NOT_MUL_CONST_SIMPLE)
@@ -701,8 +703,8 @@ int do_rem_op(exp e, space sp, where dest, bool sgned)
 needs multneeds(exp *e, exp **at)
 {
   needs n = likeplus(e, at);	/* has had comm_ass() treatment */
-  exp arg1 = son(*e);
-  exp arg2 = bro(arg1);
+  exp arg1 = child(*e);
+  exp arg2 = next(arg1);
 
   /* remember that mult may have more than two args after optimisation */
 
@@ -722,8 +724,8 @@ needs multneeds(exp *e, exp **at)
 needs divneeds(exp *e, exp **at)
 {
   needs n = likeminus(e, at);
-  exp lhs = son(*e);
-  exp rhs = bro(lhs);
+  exp lhs = child(*e);
+  exp rhs = next(lhs);
   bool sgned = sh(*e)->tag & 1;
 
   assert(rhs->last);
@@ -751,8 +753,8 @@ needs divneeds(exp *e, exp **at)
 needs remneeds(exp *e, exp **at)
 {
   needs n = likeminus(e, at);
-  exp lhs = son(*e);
-  exp rhs = bro(lhs);
+  exp lhs = child(*e);
+  exp rhs = next(lhs);
   bool sgned = sh(*e)->tag & 1;
 
   assert(rhs->last);

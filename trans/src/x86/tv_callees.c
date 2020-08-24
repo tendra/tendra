@@ -38,22 +38,22 @@ transform_var_callees(void)
 	for (d = top_def; d != NULL; d = d->next) {
 		exp tag = d->exp;
 
-		if (son(tag) != NULL && son(tag)->tag == general_proc_tag
-		    && proc_has_vcallees(son(tag)))
+		if (child(tag) != NULL && child(tag)->tag == general_proc_tag
+		    && proc_has_vcallees(child(tag)))
 		{
 			shape pc_sh = f_pointer(f_callers_alignment(0));
 			int param_offset = 0;
-			exp gp_body = son(son(tag));
+			exp gp_body = child(child(tag));
 			exp newdec = getexp(sh(gp_body), NULL, 1, NULL, NULL, 0, 0, ident_tag);
 			exp newlist = NULL;
-			son(newdec) = getexp(pc_sh, NULL, 0, NULL, NULL, 0, 0, formal_callee_tag);
+			child(newdec) = getexp(pc_sh, NULL, 0, NULL, NULL, 0, 0, formal_callee_tag);
 
 			while (gp_body->tag == ident_tag && isparam(gp_body)
-			       && son(gp_body)->tag != formal_callee_tag)
+			       && child(gp_body)->tag != formal_callee_tag)
 			{
 				exp arg_id = gp_body;
 				exp oldlist = pt(arg_id);
-				gp_body = bro(son(gp_body));
+				gp_body = next(child(gp_body));
 
 				while (oldlist != NULL) {
 					exp this_n = oldlist;
@@ -64,14 +64,14 @@ transform_var_callees(void)
 
 					if (isvar(arg_id)) {
 						this_n->tag = reff_tag;
-						son(this_n) = new_n;
+						child(this_n) = new_n;
 						no(this_n) += param_offset;
 					} else {
-						exp r = getexp(f_pointer(f_alignment(sh(son(arg_id)))),
+						exp r = getexp(f_pointer(f_alignment(sh(child(arg_id)))),
 						               this_n, 1, new_n, NULL, 0, no(this_n) + param_offset, reff_tag);
-						bro(new_n) = r;
+						next(new_n) = r;
 						this_n->tag = cont_tag;
-						son(this_n) = r;
+						child(this_n) = r;
 					}
 
 					pt(this_n) = NULL;
@@ -82,33 +82,33 @@ transform_var_callees(void)
 				arg_id->tag = 0;
 
 				no(arg_id) = param_offset;
-				bro(arg_id) = NULL;
+				next(arg_id) = NULL;
 				pt(arg_id) = NULL;
-				param_offset = rounder(param_offset + shape_size(sh(son(arg_id))), param_align);
-				retcell(son(arg_id));
-				son(arg_id) = NULL;
+				param_offset = rounder(param_offset + shape_size(sh(child(arg_id))), param_align);
+				retcell(child(arg_id));
+				child(arg_id) = NULL;
 			}
 
 			{
 				setparam (newdec);	/* not var */
 				setcaonly(newdec);
-				bro(son(newdec)) = gp_body;
+				next(child(newdec)) = gp_body;
 				setfather(newdec, gp_body);
 				gp_body = newdec;
 			}
 
-			son(son(tag)) = gp_body;
-			setfather(son(tag), gp_body);
+			child(child(tag)) = gp_body;
+			setfather(child(tag), gp_body);
 		}
 
-		if (son(tag) != NULL &&
-		    (son(tag)->tag == proc_tag || son(tag)->tag == general_proc_tag))
+		if (child(tag) != NULL &&
+		    (child(tag)->tag == proc_tag || child(tag)->tag == general_proc_tag))
 		{
 			exp nlist = pt(tag);
 			while (nlist != NULL) {
-				if (nlist->tag == name_tag && nlist->last && bro(nlist) != NULL &&
-				    bro(nlist)->tag == env_size_tag) {
-					set_proc_needs_envsize(son(tag));
+				if (nlist->tag == name_tag && nlist->last && next(nlist) != NULL &&
+				    next(nlist)->tag == env_size_tag) {
+					set_proc_needs_envsize(child(tag));
 				}
 				nlist = pt(nlist);
 			}

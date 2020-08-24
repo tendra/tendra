@@ -102,9 +102,9 @@ read_token(node *p, sortname s)
     adjust_token(v);
 
     /* Decode arguments */
-    p->son = new_node();
-    p->son->cons = v;
-    if (ra)p->son->son = read_node(ra);
+    p->child = new_node();
+    p->child->cons = v;
+    if (ra)p->child->child = read_node(ra);
 
     /* Check end */
     if (in_brackets) {
@@ -115,13 +115,13 @@ read_token(node *p, sortname s)
 	    looked_ahead = 1;
 	}
     } else {
-	if (p->son->son) {
+	if (p->child->child) {
 	    is_fatal = 0;
 	    input_error("Token %s construct should be in brackets",
 			  v->name);
 	}
     }
-    if (do_check)IGNORE set_token_args(info->pars, p->son->son, 0);
+    if (do_check)IGNORE set_token_args(info->pars, p->child->child, 0);
     return;
 }
 
@@ -176,8 +176,8 @@ read_token_name(sortname s)
     p = new_node();
     p->cons = v;
     if (!text_output) {
-	p->son = new_node();
-	p->son->cons = &token_cons;
+	p->child = new_node();
+	p->child->cons = &token_cons;
     }
     return p;
 }
@@ -281,28 +281,28 @@ void
 read_seq_node(node *p)
 {
     node *q = read_node("*[x]?[x]");
-    if (q->bro->son) {
-	node *r = q->bro->son;
-	q->bro = r;
-	p->son = q;
+    if (q->next->child) {
+	node *r = q->next->child;
+	q->next = r;
+	p->child = q;
 	return;
     }
-    q->bro = NULL;
+    q->next = NULL;
     if (q->cons->encoding == 0) {
 	is_fatal = 0;
 	input_error("exp expected");
 	return;
     }
    (q->cons->encoding) --;
-    p->son = q;
-    q = q->son;
-    if (q->bro == NULL) {
-	p->son->son = NULL;
-	p->son->bro = q;
+    p->child = q;
+    q = q->child;
+    if (q->next == NULL) {
+	p->child->child = NULL;
+	p->child->next = q;
     } else {
-	while (q->bro->bro)q = q->bro;
-	p->son->bro = q->bro;
-	q->bro = NULL;
+	while (q->next->next)q = q->next;
+	p->child->next = q->next;
+	q->next = NULL;
     }
     return;
 }
@@ -407,7 +407,7 @@ read_node_aux(char *str, int strict)
 		}
 		p = new_node();
 		p->cons = &string_cons;
-		p->son = read_node("i*[i]");
+		p->child = read_node("i*[i]");
 		read_word();
 		if (word_type != INPUT_CLOSE) {
 		    input_error("End of multibyte string expected");
@@ -447,7 +447,7 @@ read_node_aux(char *str, int strict)
 	    case SORT_tdfbool: {
 		node *q = new_node();
 		q->cons = (negate ? &true_cons : &false_cons);
-		q->bro = p;
+		q->next = p;
 		return q;
 	    }
 	    case SORT_nat: {
@@ -457,15 +457,15 @@ read_node_aux(char *str, int strict)
 		    input_error("Negative nat");
 		}
 		q->cons = cons_no(SORT_nat, ENC_make_nat);
-		q->son = p;
+		q->child = p;
 		return q;
 	    }
 	    case SORT_signed_nat: {
 		node *q = new_node();
 		q->cons = cons_no(SORT_signed_nat, ENC_make_signed_nat);
-		q->son = new_node();
-		q->son->cons = (negate ? &true_cons : &false_cons);
-		q->son->bro = p;
+		q->child = new_node();
+		q->child->cons = (negate ? &true_cons : &false_cons);
+		q->child->next = p;
 		return q;
 	    }
 	    default : {
@@ -487,7 +487,7 @@ read_node_aux(char *str, int strict)
 	    p->cons->next = NULL;
 	    q = new_node();
 	    q->cons = cons_no(SORT_string, ENC_make_string);
-	    q->son = p;
+	    q->child = p;
 	    return q;
 	}
     }
@@ -527,14 +527,14 @@ read_node_aux(char *str, int strict)
 	node *q;
 	p = new_node();
 	p->cons = &string_cons;
-	p->son = read_node("i*[i]");
+	p->child = read_node("i*[i]");
 	read_word();
 	if (word_type != INPUT_CLOSE) {
 	    input_error("End of multibyte string expected");
 	}
 	q = new_node();
 	q->cons = cons_no(SORT_string, ENC_make_string);
-	q->son = p;
+	q->child = p;
 	return q;
     }
 
@@ -542,7 +542,7 @@ read_node_aux(char *str, int strict)
     cons = search_cons_hash(wtemp, s);
     if (cons) {
 	p = fn(cons->encoding);
-	ps = p->son;
+	ps = p->child;
     } else {
 	bool do_check_tag = 0;
 	if (!in_brackets && (s == SORT_al_tag || s == SORT_label ||
@@ -573,12 +573,12 @@ read_node_aux(char *str, int strict)
 	    adjust_token(cons);
 	    p = new_node();
 	    p->cons = cons_no(s, sort_tokens[s]);
-	    p->son = new_node();
-	    p->son->cons = cons;
-	    if (ra)p->son->son = read_node(ra);
-	    ps = p->son->son;
+	    p->child = new_node();
+	    p->child->cons = cons;
+	    if (ra)p->child->child = read_node(ra);
+	    ps = p->child->child;
 	    if (do_check) {
-		IGNORE set_token_args(info->pars, p->son->son, 0);
+		IGNORE set_token_args(info->pars, p->child->child, 0);
 		if (s == SORT_exp)check_exp(p);
 	    }
 	} else {
@@ -590,8 +590,8 @@ read_node_aux(char *str, int strict)
 		long mk = make_obj(s);
 		p = new_node();
 		p->cons = cons_no(s, mk);
-		p->son = new_node();
-		p->son->cons = cons;
+		p->child = new_node();
+		p->child->cons = cons;
 		ps = NULL;
 	    } else {
 		if (strict) {
@@ -639,7 +639,7 @@ adjust_scope(node *p, int end)
 	    case SORT_repeat:
 	    case SORT_option: {
 		/* Scan repeated and optional arguments */
-		if (p->son)adjust_scope(p->son, end);
+		if (p->child)adjust_scope(p->child, end);
 		break;
 	    }
 
@@ -648,7 +648,7 @@ adjust_scope(node *p, int end)
 	    case SORT_tag: {
 		/* Variable found - adjust scope */
 		if (v->encoding == make_obj(s)) {
-		    construct *u = p->son->cons;
+		    construct *u = p->child->cons;
 		    if (end) {
 			if (s == SORT_tag) {
 			    /* Visible tags aren't removed */
@@ -664,7 +664,7 @@ adjust_scope(node *p, int end)
 			if (do_check && s == SORT_tag) {
 			    /* Fill in shape of tag */
 			    node *ts;
-			    node *p1 = p->bro;
+			    node *p1 = p->next;
 			    tag_info *info = get_tag_info(u);
 			    if (p1 && p1->cons->sortnum == SORT_exp) {
 				/* identity and variable have "t&x" */
@@ -679,16 +679,16 @@ adjust_scope(node *p, int end)
 			    /* Declaration = ?[u]?[X]S from 4.0 */
 			    info->dec = new_node();
 			    info->dec->cons = &false_cons;
-			    info->dec->bro = new_node();
-			    info->dec->bro->cons = &false_cons;
-			    info->dec->bro->bro = ts;
+			    info->dec->next = new_node();
+			    info->dec->next->cons = &false_cons;
+			    info->dec->next->next = ts;
 			}
 		    }
 		}
 		break;
 	    }
 	}
-	p = p->bro;
+	p = p->next;
     }
     return;
 }
@@ -793,22 +793,22 @@ read_node(char *str)
 			    /* Allow for optionals */
 			    node *pt = pr;
 			    if (pt && str[1]!= ']') {
-				pt->bro = read_node(str + 1);
+				pt->next = read_node(str + 1);
 			    }
 			    pr = new_node();
 			    pr->cons = &optional_cons;
-			    pr->son = pt;
+			    pr->child = pt;
 			}
 			if (sr[1]!= ']') {
-			    pr->bro = read_node(sr + 1);
+			    pr->next = read_node(sr + 1);
 			}
 			if (pe == NULL) {
-			    p->son = pr;
+			    p->child = pr;
 			} else {
-			    pe->bro = pr;
+			    pe->next = pr;
 			}
 			pe = pr;
-			while (pe->bro)pe = pe->bro;
+			while (pe->next)pe = pe->next;
 			n++;
 		    } else {
 			if (word_type == INPUT_BAR_FIRST) {
@@ -829,7 +829,7 @@ read_node(char *str)
 		    node *pt = p;
 		    p = new_node();
 		    p->cons = &optional_cons;
-		    if (n)p->son = pt;
+		    if (n)p->child = pt;
 		}
 		break;
 	    }
@@ -851,7 +851,7 @@ read_node(char *str)
 		if (po) {
 		    if (func_input)check_comma();
 		    if (str[1]!= ']') {
-			po->bro = read_node(str + 1);
+			po->next = read_node(str + 1);
 		    }
 		} else {
 		    if (word_type == INPUT_BLANK_FIRST) {
@@ -862,7 +862,7 @@ read_node(char *str)
 		}
 		p = new_node();
 		p->cons = &optional_cons;
-		p->son = po;
+		p->child = po;
 		str = skip_text(str);
 		break;
 	    }
@@ -872,7 +872,7 @@ read_node(char *str)
 		str += 2;
 		p = new_node();
 		p->cons = &bytestream_cons;
-		p->son = read_node(str);
+		p->child = read_node(str);
 		str = skip_text(str);
 		break;
 	    }
@@ -896,10 +896,10 @@ read_node(char *str)
 	    if (qe == NULL) {
 		q = p;
 	    } else {
-		qe->bro = p;
+		qe->next = p;
 	    }
 	    qe = p;
-	    while (qe->bro)qe = qe->bro;
+	    while (qe->next)qe = qe->next;
 	    intro_var = 0;
 	}
 	str++;

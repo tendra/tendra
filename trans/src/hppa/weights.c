@@ -206,7 +206,7 @@ add_wlist(double scale, exp re)
 
 	w = weightsv(scale, r);
 	do {
-		r = bro(r);
+		r = next(r);
 		w1 = weightsv(scale, r);
 		w = add_weights(&w, &w1);
 	} while (!r->last);
@@ -234,7 +234,7 @@ tailrecurse:
 
 	switch (n) {
 	case name_tag: {
-		exp s = son(e);
+		exp s = child(e);
 
 		if (s->tag == ident_tag && !isglob(s)) {
 			if (is_floating(sh(e)->tag) && sh(e)->tag != shrealhd) {
@@ -244,7 +244,7 @@ tailrecurse:
 			}
 		}
 
-		/* usage of tag stored in number of son of load_name (decl) */
+		/* usage of tag stored in number of child of load_name (decl) */
 		return zeroweights;
 	}
 
@@ -254,7 +254,7 @@ tailrecurse:
 		weights wbody;
 		long noe;
 
-		if (son(e) == NULL) {
+		if (child(e) == NULL) {
 			return zeroweights;
 		}
 
@@ -267,29 +267,29 @@ tailrecurse:
 			wdef_set = 0;
 		} else
 #endif
-			if (son(e)->tag == clear_tag || props(e) & defer_bit) {
+			if (child(e)->tag == clear_tag || e->props & defer_bit) {
 				wdef = zeroweights;
 				fno(e) = 0.0;
 				wdef_set = 0;
 			} else {
 				/* maybe needs a store to initialise */
-				if (is_floating(sh(son(e))->tag) && sh(son(e))->tag != shrealhd) {
+				if (is_floating(sh(child(e))->tag) && sh(child(e))->tag != shrealhd) {
 					fno(e) = scale * 2.0;
 				} else {
 					fno(e) = scale;
 				}
-				wdef = weightsv(scale, son(e));
+				wdef = weightsv(scale, child(e));
 				wdef_set = 1;
 			}
 		/* weights for initialisation of dec */
 
-		wbody = weightsv(scale, bro(son(e)));
+		wbody = weightsv(scale, next(child(e)));
 		/* weights of body of scan */
 
-		if (props(e) & defer_bit) {
+		if (e->props & defer_bit) {
 			/* declaration will be treated transparently
 			 * in code production */
-			exp t = son(e);
+			exp t = child(e);
 			exp s;
 
 			if ((t->tag == val_tag) || (t->tag == real_tag)) { /* +++ string_tag too */
@@ -297,20 +297,20 @@ tailrecurse:
 			}
 
 			while (t->tag != name_tag) {
-				t = son(t);
+				t = child(t);
 			}
 
-			s = son(t);
+			s = child(t);
 			if (s->tag == ident_tag && !isglob(t)) {
 				fno(s) += fno(e);
 			}
-			/* usage of tag stored in number of son of load_name (decl) */
+			/* usage of tag stored in number of child of load_name (decl) */
 
 			return wbody;
 		}
 		/* end deferred */
 
-		if ((props(e) & inreg_bits) == 0 && fixregable(e)) {
+		if ((e->props & inreg_bits) == 0 && fixregable(e)) {
 			wp p;
 
 			p = max_weights(fno(e) - 2.0 * scale, &wbody, 1);
@@ -321,7 +321,7 @@ tailrecurse:
 			} else {
 				return p.wp_weights;
 			}
-		} else if ((props(e) & infreg_bits) == 0 && floatregable(e)) {
+		} else if ((e->props & infreg_bits) == 0 && floatregable(e)) {
 			wp p;
 
 			p = max_weights(fno(e) - 3.0 * scale, &wbody, 0);
@@ -347,16 +347,16 @@ tailrecurse:
 	}
 
 	case rep_tag:
-		e = bro(son(e));
+		e = next(child(e));
 		goto tailrecurse;
 
 	case case_tag:
-		e = son(e);
+		e = child(e);
 		goto tailrecurse;
 
 	case labst_tag:
 		scale = fno(e) * scale;
-		e = bro(son(e));
+		e = next(child(e));
 		goto tailrecurse;
 
 	case val_tag:
@@ -364,7 +364,7 @@ tailrecurse:
 
 	case ncopies_tag:
 		scale = no(e) * scale;
-		e = son(e);
+		e = child(e);
 		goto tailrecurse;
 
 	case env_offset_tag:
@@ -372,16 +372,16 @@ tailrecurse:
 		return zeroweights;
 
 	default:
-		if (son(e) == NULL) {
+		if (child(e) == NULL) {
 			return zeroweights;
 		}
 
-		if (son(e)->last) {
-			e = son(e);
+		if (child(e)->last) {
+			e = child(e);
 			goto tailrecurse;
 		}
 
-		return add_wlist(scale, son(e));
+		return add_wlist(scale, child(e));
 	}
 }
 

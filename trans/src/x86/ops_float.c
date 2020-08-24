@@ -77,22 +77,22 @@ in_fl_reg(exp e)
 {
 	unsigned char  ne = e->tag;
 
-	if (ne == name_tag && ptno(son(e)) == reg_pl) {
-		int n = no(son(e));
+	if (ne == name_tag && ptno(child(e)) == reg_pl) {
+		int n = no(child(e));
 		return n > 0x80 ? n : 0;
 	}
 
-	if (ne == cont_tag && son(e)->tag == name_tag &&
-	    isvar(son(son(e))) &&
-	    ptno(son(son(e))) == reg_pl) {
-		int n = no(son(son(e)));
+	if (ne == cont_tag && child(e)->tag == name_tag &&
+	    isvar(child(child(e))) &&
+	    ptno(child(child(e))) == reg_pl) {
+		int n = no(child(child(e)));
 		return n > 0x80 ? n : 0;
 	}
 
-	if (ne == ass_tag && son(e)->tag == name_tag &&
-	    isvar(son(son(e))) &&
-	    ptno(son(son(e))) == reg_pl) {
-		int n = no(son(son(e)));
+	if (ne == ass_tag && child(e)->tag == name_tag &&
+	    isvar(child(child(e))) &&
+	    ptno(child(child(e))) == reg_pl) {
+		int n = no(child(child(e)));
 		return n > 0x80 ? n : 0;
 	}
 
@@ -122,7 +122,7 @@ in_fstack(exp e)
 static void
 fopm(shape sha, unsigned char op, int rev, where wh)
 {
-	exp hold = son(wh.where_exp);
+	exp hold = child(wh.where_exp);
 	contop(wh.where_exp, 0, reg0);
 
 	/* floats */
@@ -131,7 +131,7 @@ fopm(shape sha, unsigned char op, int rev, where wh)
 		case fplus_tag:
 			ins1(fadds,  32, wh);
 			end_contop();
-			son(wh.where_exp) = hold;
+			child(wh.where_exp) = hold;
 			return;
 
 		case fminus_tag:
@@ -141,13 +141,13 @@ fopm(shape sha, unsigned char op, int rev, where wh)
 				ins1(fsubs,  32, wh);
 			}
 			end_contop();
-			son(wh.where_exp) = hold;
+			child(wh.where_exp) = hold;
 			return;
 
 		case fmult_tag:
 			ins1(fmuls,  32, wh);
 			end_contop();
-			son(wh.where_exp) = hold;
+			child(wh.where_exp) = hold;
 			return;
 
 		case fdiv_tag:
@@ -157,13 +157,13 @@ fopm(shape sha, unsigned char op, int rev, where wh)
 				ins1(fdivs,  32, wh);
 			}
 			end_contop();
-			son(wh.where_exp) = hold;
+			child(wh.where_exp) = hold;
 			return;
 
 		default:
 			error(ERR_INTERNAL, "illegal floating point operation");
 			end_contop();
-			son(wh.where_exp) = hold;
+			child(wh.where_exp) = hold;
 			return;
 		}
 	}
@@ -173,7 +173,7 @@ fopm(shape sha, unsigned char op, int rev, where wh)
 	case fplus_tag:
 		ins1(faddl,  64, wh);
 		end_contop();
-		son(wh.where_exp) = hold;
+		child(wh.where_exp) = hold;
 		return;
 
 	case fminus_tag:
@@ -183,13 +183,13 @@ fopm(shape sha, unsigned char op, int rev, where wh)
 			ins1(fsubl,  64, wh);
 		}
 		end_contop();
-		son(wh.where_exp) = hold;
+		child(wh.where_exp) = hold;
 		return;
 
 	case fmult_tag:
 		ins1(fmull,  64, wh);
 		end_contop();
-		son(wh.where_exp) = hold;
+		child(wh.where_exp) = hold;
 		return;
 
 	case fdiv_tag:
@@ -199,13 +199,13 @@ fopm(shape sha, unsigned char op, int rev, where wh)
 			ins1(fdivl,  64, wh);
 		}
 		end_contop();
-		son(wh.where_exp) = hold;
+		child(wh.where_exp) = hold;
 		return;
 
 	default:
 		error(ERR_INTERNAL, "illegal floating point operation");
 		end_contop();
-		son(wh.where_exp) = hold;
+		child(wh.where_exp) = hold;
 		return;
 	}
 }
@@ -452,7 +452,7 @@ void
 fl_multop(unsigned char op, shape sha, exp arglist, where dest)
 {
 	exp arg1 = arglist;
-	exp arg2 = bro(arg1);
+	exp arg2 = next(arg1);
 
 	if (arg1->last) {
 		/* only one arg, so just move to dest */
@@ -485,7 +485,7 @@ fl_multop(unsigned char op, shape sha, exp arglist, where dest)
 			break;
 		}
 
-		arg2 = bro(arg2);
+		arg2 = next(arg2);
 	}
 
 	move(sha, flstack, dest);
@@ -675,7 +675,7 @@ floater(shape sha, where from, where to)
 		}
 	}
 
-	holdfe = son(from.where_exp);
+	holdfe = child(from.where_exp);
 	contop(from.where_exp, 0, reg0);
 	ins1((szf == 64 ? fildll : fildl), szf, from);
 	if (shfrom->tag == ulonghd || shfrom->tag == u64hd) {
@@ -698,7 +698,7 @@ floater(shape sha, where from, where to)
 
 	push_fl;
 	move(sha, flstack, to);
-	son(from.where_exp) = holdfe;
+	child(from.where_exp) = holdfe;
 }
 
 /*
@@ -922,7 +922,7 @@ test_fl_ovfl(exp e, where dest)
 #endif
 		}
 
-		branch(f_equal, pt(son(pt(e))), 0, scharhd);
+		branch(f_equal, pt(child(pt(e))), 0, scharhd);
 		invalidate_dest(reg0);
 	}
 }

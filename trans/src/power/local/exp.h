@@ -27,7 +27,7 @@
  * PROPERTIES OF STRING CONSTRUCT
  */
 
-#define string_char_size( x )           props( x )
+#define string_char_size( x )           (x)->props
 
 
 /*
@@ -65,8 +65,8 @@
 
 #define IS_A_PROC( x )         ( x->tag==proc_tag || x->tag==general_proc_tag)
 /* These are used in TDF 3.1 for general_env_offset */
-#define frame_al_of_ptr(x) (x)->son.ald->al.frame
-#define frame_al1_of_offset(x) (x)->son.ald->al.frame
+#define frame_al_of_ptr(x) (x)->child.ald->al.frame
+#define frame_al1_of_offset(x) (x)->child.ald->al.frame
 #define includes_vcallees(x) (((x) & 16) != 0)
 #define l_or_cees(x) (((x) &25) !=0)
 #define i_reckon_its_a_general_proc(x) ( ((x)&24 )!=0)

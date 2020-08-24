@@ -124,9 +124,9 @@ item_present(dg_name item)
 			return 1;
 	while (x && (x->tag == hold_tag || x->tag == name_tag ||
 		     x->tag == cont_tag || x->tag == reff_tag))
-		x = son(x);
+		x = child(x);
 	if (x && x->tag == ident_tag)
-		x = son(x);
+		x = child(x);
 	if (x) return 1;
 	return 0;
 #endif

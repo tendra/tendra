@@ -56,27 +56,27 @@ trace_uses ( exp e, exp id ){
   if ( APPLYLIKE ( e ) ) {
     int u = nouses ;
     int p = 1 ;
-    exp l = son ( e ) ;
+    exp l = child ( e ) ;
     while ( p == 1 ) {
       p = trace_uses ( l, id ) ;
       if ( u != nouses || p == 2 ) useinpar = 1 ;
       if ( p == 0 ) nouses = u ;
       if ( l -> last ) break ;
-      l = bro ( l ) ;
+      l = next ( l ) ;
     }
     return 0;
   }
   switch ( e->tag ) {
   case env_offset_tag :
   case name_tag : {
-    nouses -= ( son ( e ) == id ? 1 : 0 ) ;
+    nouses -= ( child ( e ) == id ? 1 : 0 ) ;
     return 1;
   }
   case ident_tag : {
-    exp f = son ( e ) ;
-    exp s = bro ( f ) ;
+    exp f = child ( e ) ;
+    exp s = next ( f ) ;
     int a ;
-    if ( ( props ( e ) & defer_bit ) != 0 ) {
+    if ( ( (e)->props & defer_bit ) != 0 ) {
       exp t = f ;
       f = s ;
       s = t ;
@@ -86,7 +86,7 @@ trace_uses ( exp e, exp id ){
     return trace_uses ( s, id ) ;
   }
   case case_tag : {
-    ( void ) trace_uses ( son ( e ), id ) ;
+    ( void ) trace_uses ( child ( e ), id ) ;
     return 0;
   }
   case current_env_tag :
@@ -94,32 +94,32 @@ trace_uses ( exp e, exp id ){
     return 0;
   }
   case seq_tag : {
-    exp s = son ( son ( e ) ) ;
+    exp s = child ( child ( e ) ) ;
     for ( ; ; ) {
       int el = trace_uses ( s, id ) ;
       if ( el != 1 ) return el;
       if ( s -> last ) {
-	return trace_uses ( bro ( son ( e ) ), id ) ;
+	return trace_uses ( next ( child ( e ) ), id ) ;
       }
-      s = bro ( s ) ;
+      s = next ( s ) ;
     }
 
     UNREACHED;
   }
   case ass_tag : {
-    if ( isvar ( id ) && son ( e ) -> tag == name_tag &&
-	 son ( son ( e ) ) == id ) {
-      ( void ) trace_uses ( bro ( son ( e ) ), id ) ;
+    if ( isvar ( id ) && child ( e ) -> tag == name_tag &&
+	 child ( child ( e ) ) == id ) {
+      ( void ) trace_uses ( next ( child ( e ) ), id ) ;
       return 2;
-    } else if ( APPLYLIKE ( bro ( son ( e ) ) ) ) {
-      return trace_uses ( bro ( son ( e ) ), id ) ;
+    } else if ( APPLYLIKE ( next ( child ( e ) ) ) ) {
+      return trace_uses ( next ( child ( e ) ), id ) ;
     }
 
 	FALL_THROUGH;
   }
 
   default : {
-    exp s = son ( e ) ;
+    exp s = child ( e ) ;
     int nu = nouses ;	 /* s list can be done in any order ... */
     if ( s == NULL ) return 1;
     for ( ; ; ) {
@@ -130,7 +130,7 @@ trace_uses ( exp e, exp id ){
 	return el ;
       }
       if ( s -> last ) return 1;
-      s = bro ( s ) ;
+      s = next ( s ) ;
     }
 
     UNREACHED;
@@ -165,8 +165,8 @@ after_a ( exp a, exp id ){
       }
       return ;
     }
-    for ( l = a ; ! l -> last ; l = bro ( l ) ){
-      int u = trace_uses ( bro ( l ), id ) ;
+    for ( l = a ; ! l -> last ; l = next ( l ) ){
+      int u = trace_uses ( next ( l ), id ) ;
       if ( u != 1 || nouses == 0 ) return ;
     }
     a = dad ;
@@ -217,9 +217,9 @@ tempdec ( exp e, bool enoughs ){
       if (isdiaginfo(p))
 	continue ;
 #endif
-      if ( ! p -> last && bro ( p ) -> last &&
-	   bro ( bro ( p ) ) -> tag == ass_tag ) {
-	if ( !simple_seq ( bro ( bro ( p ) ), e ) ) return  ( 0 ) ;
+      if ( ! p -> last && next ( p ) -> last &&
+	   next ( next ( p ) ) -> tag == ass_tag ) {
+	if ( !simple_seq ( next ( next ( p ) ), e ) ) return  ( 0 ) ;
 	/* ... in simple sequence */
 	continue ;
       }
@@ -233,8 +233,8 @@ tempdec ( exp e, bool enoughs ){
      id to find if all uses occur before unpredictable change of 
      control (or another assignment to id ) */
   
-  if ( son ( e ) -> tag != clear_tag || isparam ( e ) ) {
-    after_a ( son ( e ), e ) ;
+  if ( child ( e ) -> tag != clear_tag || isparam ( e ) ) {
+    after_a ( child ( e ), e ) ;
   }
   if ( isvar ( e ) ) {
     for ( p = pt ( e ) ; p != NULL ; p = pt ( p ) ) {
@@ -242,9 +242,9 @@ tempdec ( exp e, bool enoughs ){
       if (isdiaginfo(p))
 	continue ;
 #endif
-      if ( ! p -> last && bro ( p ) -> last &&
-	   bro ( bro ( p ) ) -> tag == ass_tag ) {
-	after_a ( bro ( bro ( p ) ), e ) ;
+      if ( ! p -> last && next ( p ) -> last &&
+	   next ( next ( p ) ) -> tag == ass_tag ) {
+	after_a ( next ( next ( p ) ), e ) ;
       }
     }
   }

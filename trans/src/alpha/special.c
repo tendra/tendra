@@ -62,9 +62,9 @@ specialneeds(int i)
 int
 specialfn(exp fn)
 {
-	if (fn->tag == name_tag && son(fn)->tag == ident_tag &&
-	    isglob(son(fn)) && son(son(fn)) == NULL) {
-		char *extname = brog(son (fn))->name;
+	if (fn->tag == name_tag && child(fn)->tag == ident_tag &&
+	    isglob(child(fn)) && child(child(fn)) == NULL) {
+		char *extname = nextg(child (fn))->name;
 		return specno(extname);
 	}
 

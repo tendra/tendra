@@ -305,9 +305,9 @@ void index_opnd
 (where whmain, where wh, int sc)
 {
   exp m = whmain.where_exp;
-  if ((m->tag == name_tag && ptno(son(m)) == reg_pl) ||
-     (m->tag == cont_tag && son(m)->tag == name_tag &&
-	isvar(son(son(m))) && ptno(son(son(m))) == reg_pl))
+  if ((m->tag == name_tag && ptno(child(m)) == reg_pl) ||
+     (m->tag == cont_tag && child(m)->tag == name_tag &&
+	isvar(child(child(m))) && ptno(child(child(m))) == reg_pl))
     asm_printf("(");
   operand(32, whmain, 0, 0);
   asm_printf(",");
@@ -324,7 +324,7 @@ void extn
 {
   dec * et;
 
-  et = brog(id);
+  et = nextg(id);
 
   if (PIC_code)
    {
@@ -387,7 +387,7 @@ void proc_extn
   if (PIC_code)
    {
      dec * et;
-     et = brog(id);
+     et = nextg(id);
      if (off == 0)
        asm_printf("%s", et -> name);
      else {
@@ -460,7 +460,7 @@ void envoff_operand
 void envsize_operand
 (exp e)
 {
-  dec * et = brog(e);
+  dec * et = nextg(e);
   asm_printf("%sESZ%s", local_prefix, et->name);
 }
 
@@ -551,7 +551,7 @@ void set_label
  *
  *  pt   - label;
  *  last - forward;
- *  son  - stack_dec;
+ *  child  - stack_dec;
  *  prop - floating stack position
  */
 void discard_fstack
@@ -592,9 +592,9 @@ void jump
     fstack_pos = good_fs;
   }
 
-  if (sonno(jr) > stack_dec) {
-    add(slongsh, mw(zeroe,(sonno(jr) -stack_dec) / 8), sp, sp);
-    stack_dec = sonno(jr);
+  if (childno(jr) > stack_dec) {
+    add(slongsh, mw(zeroe,(childno(jr) -stack_dec) / 8), sp, sp);
+    stack_dec = childno(jr);
   }
 
   reset_fpucon();
@@ -735,7 +735,7 @@ void branch
   int  good_fpucon = fpucon;
   if (fs_dest < first_fl_reg)
     error(ERR_INTERNAL, "floating point stack level not set");
-  if (fstack_pos > fs_dest || sonno(jr)!= stack_dec || fpucon != normal_fpucon
+  if (fstack_pos > fs_dest || childno(jr)!= stack_dec || fpucon != normal_fpucon
 	|| cmp_64hilab >= 0) {
 	/* floating point stack or call stack need attention */
     int  nl = next_lab();
@@ -764,7 +764,7 @@ void branch
       int nl2 = ptno(jr);
       if (shnm != s64hd)
 	error(ERR_INTERNAL, "uncompleted 64-bit comparison");
-      if (fstack_pos > fs_dest || sonno(jr)!= stack_dec || fpucon != normal_fpucon) {
+      if (fstack_pos > fs_dest || childno(jr)!= stack_dec || fpucon != normal_fpucon) {
 	nl2 = next_lab();
 	simplest_set_lab(nl2);
       }
@@ -836,7 +836,7 @@ void jmp_overflow
   int  good_fpucon = fpucon;
   if (fs_dest < first_fl_reg)
     error(ERR_INTERNAL, "floating point stack level not set");
-  if (fstack_pos > fs_dest || sonno(jr)!= stack_dec || fpucon != normal_fpucon) {
+  if (fstack_pos > fs_dest || childno(jr)!= stack_dec || fpucon != normal_fpucon) {
 	/* floating point stack or call stack need attention */
     int  nl = next_lab();
     if (sg)
@@ -978,7 +978,7 @@ void caseins
   if (next != NULL && next->tag ==goto_tag)
   {
     exp lab=final_dest(pt(next));
-    absent=ptno(pt(son(lab)));
+    absent=ptno(pt(child(lab)));
   }
   else
   {
@@ -1077,7 +1077,7 @@ exp make_extn
           setvar(id);
 	}
   }
-  brog(id) = g;
+  nextg(id) = g;
   if (prefix_length != 0) {
     int nl = (int)strlen(n);
     int j;

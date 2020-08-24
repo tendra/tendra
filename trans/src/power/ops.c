@@ -45,7 +45,7 @@ tidyshort(int r, exp e)
 
 	switch (e->tag) {
 	case and_tag: {
-		exp r = bro(son(e)); /* could be a val_tag */
+		exp r = next(child(e)); /* could be a val_tag */
 
 		if (s->tag == ucharhd && r->tag == val_tag && ((no(r) & 0xff  ) == no(r))) {
 			return;
@@ -73,7 +73,7 @@ static bool
 regremoved(exp * seq, int reg)
 {
 	exp s = *seq;
-	exp t = bro(s);
+	exp t = next(s);
 
 	if (ABS(regofval(s)) == reg) {
 		*seq = t;
@@ -82,7 +82,7 @@ regremoved(exp * seq, int reg)
 
 	for (;;) {
 		if (ABS(regofval(t)) == reg) {
-			bro(s) = bro(t);
+			next(s) = next(t);
 			if (t->last) {
 				s->last = true;
 			}
@@ -95,7 +95,7 @@ regremoved(exp * seq, int reg)
 		}
 
 		s = t;
-		t = bro(t);
+		t = next(t);
 	}
 }
 
@@ -112,14 +112,14 @@ do_comm(exp seq, space sp, int final, Instruction_P rins)
 	int a2;
 
 	/* should have been optimised in scan... */
-	assert(!(rins == i_a && seq->tag == neg_tag && bro(seq)->tag != val_tag));
+	assert(!(rins == i_a && seq->tag == neg_tag && next(seq)->tag != val_tag));
 
 	/* evaluate 1st operand into a1 */
 	a1 = reg_operand(seq, sp);
 
 	for (;;) {
 		nsp = guardreg(a1, sp);
-		seq = bro(seq);
+		seq = next(seq);
 
 		if (seq->tag == val_tag) {	/* next operand is a constant */
 			if (seq->last) {
@@ -164,8 +164,8 @@ comm_op(exp e, space sp, where d, Instruction_P rrins)
 	switch (d.answhere.discrim) {
 	case inreg: {
 		int dest = regalt(d.answhere);
-		bool usesdest = regremoved(&son(e), dest);
-		exp seq = son(e);
+		bool usesdest = regremoved(&child(e), dest);
+		exp seq = child(e);
 
 		/*
 		 * the destination is in a register; take care that we don't alter it
@@ -202,7 +202,7 @@ comm_op(exp e, space sp, where d, Instruction_P rrins)
 		space nsp;
 		bool rok = 1;
 		setregalt(a, r);
-		do_comm(son(e), sp, r, rins);
+		do_comm(child(e), sp, r, rins);
 
 		/* Evaluate the expression into r */
 		if (d.answhere.discrim != notinreg) {
@@ -223,8 +223,8 @@ comm_op(exp e, space sp, where d, Instruction_P rrins)
 int
 non_comm_op(exp e, space sp, where dest, Instruction_P ins)
 {
-	exp l = son(e);
-	exp r = bro(l);
+	exp l = child(e);
+	exp r = next(l);
 
 	/* we can use sfi instruction */
 	bool sf_imm = l->tag == val_tag && ins == i_s && IMM_SIZE(no(l));
@@ -280,8 +280,8 @@ non_comm_op(exp e, space sp, where dest, Instruction_P ins)
 int
 fop(exp e, space sp, where dest, Instruction_P ins)
 {
-	exp l = son(e);
-	exp r = bro(l);
+	exp l = child(e);
+	exp r = next(l);
 	int a1;
 	int a2;
 	space nsp;
@@ -347,7 +347,7 @@ fop(exp e, space sp, where dest, Instruction_P ins)
 int
 fmop(exp e, space sp, where dest, Instruction_P ins)
 {
-	int a1 = freg_operand(son(e), sp, getfreg(sp.flt));
+	int a1 = freg_operand(child(e), sp, getfreg(sp.flt));
 
 	switch (dest.answhere.discrim) {
 	case infreg: {

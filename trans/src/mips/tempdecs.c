@@ -37,29 +37,29 @@ trace_uses(exp e, exp id)
 
      switch (e->tag) {
 	case name_tag: {
-	    nouses -=(son(e)==id);
+	    nouses -=(child(e)==id);
 	    return 1;
 	}
 	case apply_tag: case apply_general_tag:{
 	    int u = nouses;
 	    int p = 1;
-	    exp l = son(e);
+	    exp l = child(e);
 	    while( p==1 ) {
 	    	p = trace_uses(l, id);
 	    	if (u!=nouses || p==2) { useinpar=1; }
 	    	if (p==0) nouses = u;
 	    	if (l->last) break;
-	    	l = bro(l);
+	    	l = next(l);
 	    }
 
 	    return 0;
 	}
 
 	case ident_tag: {
-	     exp f = son(e);
-	     exp s = bro(f);
+	     exp f = child(e);
+	     exp s = next(f);
 	     int a;
-	     if ( ( props(e) & defer_bit) != 0 ) {
+	     if ( ( e->props & defer_bit) != 0 ) {
 		exp t = f;
 		f = s;
 	  	s = t;
@@ -71,32 +71,32 @@ trace_uses(exp e, exp id)
 
 
 	case case_tag: case res_tag: {
-	      trace_uses(son(e), id);
+	      trace_uses(child(e), id);
 	      return 0;
 	}
 
 	case labst_tag: return 0;
 
 	case seq_tag: {
-		exp s = son(son(e));
+		exp s = child(child(e));
 		for(;;) {
 			int el = trace_uses(s, id);
 			if (el!=1 ) return el;
-			if (s->last) return trace_uses(bro(son(e)),id);
-			s = bro(s);
+			if (s->last) return trace_uses(next(child(e)),id);
+			s = next(s);
 		}
 
 	}
 
 	case ass_tag: {
-	    if (isvar(id) && son(e)->tag==name_tag && son(son(e))==id) {
-		trace_uses(bro(son(e)),id);
+	    if (isvar(id) && child(e)->tag==name_tag && child(child(e))==id) {
+		trace_uses(next(child(e)),id);
 	 	return 2;
 	    }
 	    else {
 		int nu = nouses;
-		if (trace_uses(son(e),id) != 1 ||
-				trace_uses(bro(son(e)), id) !=1 ){
+		if (trace_uses(child(e),id) != 1 ||
+				trace_uses(next(child(e)), id) !=1 ){
 			nouses = nu;
 			return 0;
 		}
@@ -105,27 +105,27 @@ trace_uses(exp e, exp id)
 	}
         case goto_lv_tag:{
 		int nu = nouses;
-		if (trace_uses(son(e),id) != 1) {
+		if (trace_uses(child(e),id) != 1) {
 			nouses = nu;
 		}
 		return 0;
 	}
 	case test_tag:{
 		int nu = nouses;
-		if (trace_uses(son(e),id) != 1 ||
-				trace_uses(bro(son(e)), id) !=1 ){
+		if (trace_uses(child(e),id) != 1 ||
+				trace_uses(next(child(e)), id) !=1 ){
 			nouses = nu;
 		}
 		return 0;
 	}
 	case solve_tag: case cond_tag: {
-		return trace_uses(son(e), id);
+		return trace_uses(child(e), id);
 	}
 
 	case goto_tag: case rep_tag: case env_offset_tag: return 0;
 
 	default: {
-	     exp s = son(e);
+	     exp s = child(e);
 	     int nu = nouses; /* s list can be done in any order ...*/
 	     if (s == NULL) return 1;
 	     for(;;) {
@@ -135,7 +135,7 @@ trace_uses(exp e, exp id)
 			 return el;
 		}
 		if (s->last) return 1;
-		s = bro(s);
+		s = next(s);
 	     }
 	}
 
@@ -162,8 +162,8 @@ after_a(exp a, exp id)
 	}
 
 
-	for (l=a; !l->last; l=bro(l)) {
-	    int u = trace_uses(bro(l), id);
+	for (l=a; !l->last; l=next(l)) {
+	    int u = trace_uses(next(l), id);
 	    if (u!=1|| nouses==0) return;
 	}
 	a = dad;
@@ -186,7 +186,7 @@ tempdec(exp e, bool enoughs)
 	if (isvar(e) ) {
 	   for (p=pt(e); p!=NULL; p =pt(p)) {
 	    /* find no of uses which are not assignments to id ... */
-	    if (!p->last && bro(p)->last && bro(bro(p))->tag == ass_tag ) {
+	    if (!p->last && next(p)->last && next(next(p))->tag == ass_tag ) {
 		continue;
 	    }
 	    nouses++;
@@ -200,18 +200,18 @@ tempdec(exp e, bool enoughs)
 
 	if (nouses>30) return 0; /* takes too long */
 
-	if (son(e)->tag != clear_tag || isparam(e)) { after_a(son(e), e); }
+	if (child(e)->tag != clear_tag || isparam(e)) { after_a(child(e), e); }
 
 	if (isvar(e)) {
 	  for (p=pt(e); p!=NULL; p =pt(p)) {
-	    if (!p->last && bro(p)->last && bro(bro(p))->tag == ass_tag ) {
-		after_a(bro(bro(p)), e);
+	    if (!p->last && next(p)->last && next(next(p))->tag == ass_tag ) {
+		after_a(next(next(p)), e);
 	    }
 	  }
 	}
 
 	if (nouses ==0 &&(enoughs || !useinpar) ) {
-	     if (useinpar) props(e) |= notparreg; /* don't allocate this into par reg */
+	     if (useinpar) e->props |= notparreg; /* don't allocate this into par reg */
 	     return 1;
 	}
 	return 0;

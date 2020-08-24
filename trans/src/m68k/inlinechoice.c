@@ -43,8 +43,8 @@ inlinechoice(exp t, exp def, int total_uses)
 	UNUSED(total_uses);
 
 	/* only uses are applications */
-	apars = bro(t);
-	fpars = son(def);
+	apars = next(t);
+	fpars = child(def);
 
 	for (;;) {
 		if (fpars->tag != ident_tag || !isparam(fpars)) {
@@ -62,8 +62,8 @@ inlinechoice(exp t, exp def, int total_uses)
 			break;
 
 		case cont_tag:
-			if (son(apars)->tag == name_tag &&
-			    isvar(son(son(apars))) &&
+			if (child(apars)->tag == name_tag &&
+			    isvar(child(child(apars))) &&
 			    !isvar(fpars)) {
 				break;
 			}
@@ -74,12 +74,12 @@ inlinechoice(exp t, exp def, int total_uses)
 			newdecs++;
 		}
 
-		fpars = bro(son(fpars));
+		fpars = next(child(fpars));
 		if (apars->last) {
 			break;
 		}
 
-		apars = bro(apars);
+		apars = next(apars);
 	}
 
 	/*

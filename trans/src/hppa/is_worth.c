@@ -30,7 +30,7 @@ is_worth(exp c)
 	}
 
 #if 0
-	if (cnam == name_tag && father(c)->tag == addptr_tag && isglob(son(c))) {
+	if (cnam == name_tag && father(c)->tag == addptr_tag && isglob(child(c))) {
 		return true;
 	}
 #endif
@@ -46,23 +46,23 @@ is_worth(exp c)
 	}
 
 	if ( cnam == cont_tag ) {
-		exp s = son ( c ) ;
-		if ( isflt && ( s->tag != name_tag || isglob ( son ( s ) ) ) ) {
+		exp s = child ( c ) ;
+		if ( isflt && ( s->tag != name_tag || isglob ( child ( s ) ) ) ) {
 			return true;
 		}
 
 		if ( s->tag == reff_tag && no ( s ) == 0 ) {
-			s = son ( s ) ;
+			s = child ( s ) ;
 		}
 
-		if ( s->tag == name_tag && isglob ( son ( s ) ) ) {
+		if ( s->tag == name_tag && isglob ( child ( s ) ) ) {
 			return true;
 		}
 
 		if ( s->tag == cont_tag ) {
-			exp ss = son ( s ) ;
+			exp ss = child ( s ) ;
 			if ( ss->tag == reff_tag && no ( ss ) == 0 ) {
-				ss = son ( ss ) ;
+				ss = child ( ss ) ;
 			}
 			if ( ss->tag == name_tag ) {
 				return true;
@@ -72,7 +72,7 @@ is_worth(exp c)
 	}
 
 #if 0
-	if ( sh ( c ) -> tag == ptrhd && isglob(son(c)) ) {
+	if ( sh ( c ) -> tag == ptrhd && isglob(child(c)) ) {
 		return true;
 	}
 #endif
@@ -103,11 +103,11 @@ is_worth(exp c)
 			exp grandad = father ( dad ) ;
 
 			if ( (grandad->tag == test_tag && ( n & ( n - 1 ) ) == 0
-			      && ( props ( grandad ) == 5 || props ( grandad ) == 6 )
-			      && ( bro ( son ( grandad ) ) -> tag == val_tag
-			           && no ( bro ( son ( grandad ) ) ) == 0 ))
-			     || ( son ( grandad ) -> tag == val_tag
-			          && no ( son ( grandad ) ) == 0 ) ) {
+			      && ( grandad->props == 5 || grandad->props == 6 )
+			      && ( next ( child ( grandad ) ) -> tag == val_tag
+			           && no ( next ( child ( grandad ) ) ) == 0 ))
+			     || ( child ( grandad ) -> tag == val_tag
+			          && no ( child ( grandad ) ) == 0 ) ) {
 				/* a & 2^n == 0 is transformed into a shift */
 				return false;
 			}
