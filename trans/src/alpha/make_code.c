@@ -1908,7 +1908,8 @@ tailrecurse:
 			return mka;
 		}
 
-		if ((test = testlast(first, second)) /* I mean it */ ) {
+		test = testlast(first, second);
+		if (test) {
 			/* effectively an empty then part */
 			int   l = (exitlab != 0) ? exitlab : new_label();
 			bool rev = IsRev(test);
