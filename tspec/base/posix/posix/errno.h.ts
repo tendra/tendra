@@ -3,8 +3,7 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
-+FUNC (extern) int *__errno_location(void);
-+DEFINE errno %% (*__errno_location ()) %%;
++IMPLEMENT "c/c89", "errno.h.ts" ;
 
 +SUBSET "enums" := {
     +IMPLEMENT "c/c89", "errno.h.ts", "enums" ;
