@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 
 #include <shared/check.h>
 #include <shared/error.h>
@@ -126,7 +127,7 @@ error_msg(enum error_severity e, const char *fn, int ln, const char *s, va_list 
 
 	if (e == ERR_FATAL || e == ERR_USAGE) {
 		if (exiting)
-			_Exit(exit_status);
+			_exit(exit_status);
 		else
 			exit(exit_status);
 	}
