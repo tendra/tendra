@@ -4,6 +4,7 @@
  * See doc/copyright/ for the full copyright terms.
  */
 
+#include <assert.h>
 #include <string.h>
 #include <stdio.h>
 #include <time.h>
