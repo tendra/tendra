@@ -80,5 +80,5 @@ for incfile in bits/alltypes.h math.h ; do
 done && \
 ( \
   cp -r ${CURDIR}/gcc-libs/lib/gcc/x86_64-pc-linux-gnu/10.2.0/32/libgcc.a ${CURDIR}/gcc-libs/musl-1.1.5/usr/lib && \
-  cp -r ${CURDIR}/gcc-libs/musl-1.1.5 ./osdep/libc
+  cp -r ${CURDIR}/gcc-libs/musl-1.1.5 ${CURDIR}/../osdep/libc
 )
