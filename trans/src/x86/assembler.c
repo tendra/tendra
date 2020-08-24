@@ -9,11 +9,13 @@
 
 #include <shared/bool.h>
 #include <shared/check.h>
+#include <shared/error.h>
 #include <shared/xalloc.h>
 
 #include <local/out.h>
 #include <local/cpu.h>
 
+#include <main/flags.h>
 #include <main/print.h>
 
 #include <reader/exp.h>
@@ -159,15 +161,26 @@ out_dot_comm(char *name, shape sha)
 void
 out_dot_lcomm(char *name, shape sha)
 {
-	asm_printf(".lcomm %s, %ld\n",
-		name, (long) (((shape_size(sha) / 8) + 3) / 4) * 4);
-}
+	switch (assembler) {
+	case ASM_SUN:
+		/*
+		 * This .bss syntax with operands is not supported by GAS on x86;
+		 * I believe this was for Solaris on x86, and perhaps also SCO.
+		 * But this is unclear, due to how often this code was copied around.
+		 */
+		asm_printf(".bss %s, %ld\n",
+			name, (long) (((shape_size(sha) / 8) + 3) / 4) * 4);
+		break;
 
-void
-out_bss(char *name, shape sha)
-{
-	asm_printf(".bss %s, %ld\n",
-		name, (long) (((shape_size(sha) / 8) + 3) / 4) * 4);
+	case ASM_GAS:
+		asm_printf(".lcomm %s, %ld\n",
+			name, (long) (((shape_size(sha) / 8) + 3) / 4) * 4);
+		break;
+
+	default:
+		error(ERR_SERIOUS, "unsupported assembler dialect");
+		return;
+	}
 }
 
 void

@@ -813,7 +813,8 @@
 				<term>&N.opt;</term>
 
 				<listitem>
-					<para>Produce PROM code (avoiding <code>.data</code>).</para>
+					<para>Produce PROM code (avoiding <code>.data</code>).
+						This implies &Y.opt;.</para>
 				</listitem>
 			</varlistentry>
 
@@ -1109,7 +1110,8 @@
 				<term>&Y.opt;</term>
 
 				<listitem>
-					<para>Produce calls for dynamic initialisation.</para>
+					<para>Produce calls for dynamic initialisation.
+						&Y.opt; is set automatically when &N.opt; is used.</para>
 				</listitem>
 			</varlistentry>
 

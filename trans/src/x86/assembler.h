@@ -23,7 +23,6 @@ void eval_postlude(char *s, exp c);
 void out_readonly_section(void);
 void out_dot_comm(char *name, shape sha);
 void out_dot_lcomm(char *name, shape sha);
-void out_bss(char *name, shape sha);
 
 void pic_prelude(void);
 

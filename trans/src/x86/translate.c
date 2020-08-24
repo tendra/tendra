@@ -264,7 +264,8 @@ code_def(dec *d)
 							asm_printf(".globl %s\n", name);
 						}
 
-						out_bss(name, sh(child(tag)));
+						out_dot_lcomm(name, sh(child(tag)));
+
 #ifdef DWARF2
 						if (diag == DIAG_DWARF2) {
 							note_data(name);
