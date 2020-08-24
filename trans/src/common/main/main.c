@@ -244,6 +244,11 @@ main(int argc, char *argv[])
 		return 0;
 	}
 
+	/* PROM code depends on emitting dynamic initialisers */
+	if (do_prom) {
+		dyn_init = 1;
+	}
+
 	{
 		size_t i;
 
