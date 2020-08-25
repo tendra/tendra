@@ -8,6 +8,7 @@ jobs:
       matrix:
         os: [ubuntu-16.04, ubuntu-latest] # macos-latest
         target: [x32_64] # x86_32
+        cc: [gcc, clang]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout main
@@ -22,4 +23,4 @@ jobs:
 #        run: brew install gcc bmake
 
       - name: Build
-        run: bmake TARGETARCH=${{ matrix.target }}
+        run: bmake CC=${{ matrix.cc }} TARGETARCH=${{ matrix.target }}
