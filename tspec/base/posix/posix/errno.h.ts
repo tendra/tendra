@@ -3,7 +3,13 @@
 #
 # See doc/copyright/ for the full copyright terms.
 
-+IMPLEMENT "c/c89", "errno.h.ts" ;
++IF %% __STRICT_POSIX %%
+%%
+extern int errno ;
+%%
++ELSE
++EXP lvalue int errno ;
++ENDIF
 
 +SUBSET "enums" := {
     +IMPLEMENT "c/c89", "errno.h.ts", "enums" ;
