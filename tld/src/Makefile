@@ -11,7 +11,9 @@ PARTS+=	src/frontend
 .include <tendra.partial.mk>
 
 
-TCCOPTS=	-Yposix -Xs
+TCCOPTS=	-Xs
+
+TCCOPTS.file-name.c+=	-Yposix
 
 CCOPTS+=	-I .
 

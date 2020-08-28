@@ -11,7 +11,14 @@ PARTS+=	src/shared
 .include <tendra.partial.mk>
 
 
-TCCOPTS=	-Yposix -Xp
+TCCOPTS=	-Xp
+
+TCCOPTS.archive.c	+= -Yposix
+TCCOPTS.environ.c	+= -Yposix
+TCCOPTS.execute.c	+= -Yposix
+TCCOPTS.filename.c	+= -Yposix
+TCCOPTS.main.c	+= -Yposix
+TCCOPTS.hash.c	+= -Yposix
 
 CCOPTS+=                                   \
 	-DEXECFORMAT='"${EXECFORMAT}"'         \

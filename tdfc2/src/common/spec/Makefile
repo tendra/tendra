@@ -12,6 +12,8 @@ CCOPTS+=	-I ../../common/obj_c
 CCOPTS+=	-I ../../common/parse
 CCOPTS+=	-I ../../common
 
+TCCOPTS.load.c+=	-Yposix
+
 SRCS+=	load.c
 SRCS+=	save.c
 
