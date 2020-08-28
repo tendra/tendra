@@ -364,8 +364,6 @@ eval_delayed_const_list(void)
 				code_const(d);
 				d->processed = 1;
 			}
-
-			done = false;
 		}
 
 		done = processed == count;
