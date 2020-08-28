@@ -344,15 +344,20 @@ eval_delayed_const_list(void)
 	bool done = false;
 
 	while (!done) {
+		int processed = 0;
+		int count = 0;
+
 		for (p = delayed_const_list; p != NULL; p = p->next) {
 			dec *d;
 			exp c;
 
+			count++;
+
 			d = p->This;
 			if (d->processed) {
+				processed++;
 				continue;
 			}
-
 
 			c = d->exp;
 			if (const_ready(c)) {
@@ -362,6 +367,8 @@ eval_delayed_const_list(void)
 
 			done = false;
 		}
+
+		done = processed == count;
 	}
 }
 
