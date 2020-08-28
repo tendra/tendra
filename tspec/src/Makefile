@@ -11,7 +11,7 @@ PARTS+=	src/out
 
 CCOPTS+= -I .
 
-TCCOPTS+= -Yposix
+TCCOPTS.utility.c+=	-Yposix
 
 SRCS+=	hash.c
 SRCS+=	lex.c

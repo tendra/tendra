@@ -1,7 +1,5 @@
 # $Id$
 
-TCCOPTS=      -Yposix
-
 .include "Makefile.inc"
 
 

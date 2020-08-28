@@ -25,18 +25,30 @@ OBJS+=  ${SRCS:S/.cc/.o/:S/.c/.o/:C/^/${OBJ_SDIR}\//}
 CCOPTS+=	-I ${BASE_DIR}/include
 .endif
 
+# XXX: I don't like this being here much; in particular to have a special case
+# for ${TCC} outside of tendra.compiler.mk. But this depends on ${SRC}, which
+# likewise doesn't belong in that .mk file.
+# Meanwhile I hope we can eventually be rid of any special case flags here.
+.if defined(TCC)
+. for src in ${SRCS:M*.c}
+.  if defined(TCCOPTS.${src})
+CCOPTS.${src}+=	${TCCOPTS.${src}}
+.  endif
+. endfor
+.endif
+
 .for src in ${SRCS:M*.c}
 ${OBJ_SDIR}/${src:S/.c/.o/}: ${src}
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Compiling ${WRKDIR}/${src}"
-	${CC} ${CFLAGS} ${CCOPTS} -c ${.ALLSRC} -o ${.TARGET}
+	${CC} ${CFLAGS} ${CCOPTS} ${CCOPTS.${src}} -c ${.ALLSRC} -o ${.TARGET}
 .endfor
 
 .for src in ${SRCS:M*.cc}
 ${OBJ_SDIR}/${src:S/.cc/.o/}: ${src}
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Compiling ${WRKDIR}/${src}"
-	${CXX} ${CXXFLAGS} ${CCOPTS} -c ${.ALLSRC} -o ${.TARGET}
+	${CXX} ${CXXFLAGS} ${CCOPTS} ${CCOPTS.${src}} -c ${.ALLSRC} -o ${.TARGET}
 .endfor
 
 

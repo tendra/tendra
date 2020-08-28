@@ -15,6 +15,8 @@ CCOPTS+=	-I ../../common/obj_c
 CCOPTS+=	-I ../../common/output
 CCOPTS+=	-I ../../common
 
+TCCOPTS.file.c	+= -Yposix
+
 SRCS!=	ls -1 psyntax*.c
 
 SRCS+=	char.c

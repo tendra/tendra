@@ -54,7 +54,7 @@ PARTS+= src/common/main
 .include <tendra.partial.mk>
 
 
-#TCCOPTS=	-Xc -Y32bit -Yposix
+#TCCOPTS=	-Xc -Y32bit
 
 CCOPTS+=	${TRANS_CFLAGS}
 

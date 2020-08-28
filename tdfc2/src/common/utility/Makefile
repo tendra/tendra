@@ -9,7 +9,7 @@ CCOPTS+=	-I ../../common/output
 CCOPTS+=	-I ../../common/parse
 CCOPTS+=	-I ../../common
 
-TCCOPTS+= -Yposix
+TCCOPTS.system.c+=	-Yposix
 
 SRCS+=	buffer.c
 SRCS+=	catalog.c

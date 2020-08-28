@@ -10,8 +10,6 @@ CCOPTS+=	-I output
 CCOPTS+=	-I spec
 CCOPTS+=	-I .
 
-TCCOPTS+= -Yposix
-
 SRCS+=	main.c
 
 .include <tendra.obj.mk>
