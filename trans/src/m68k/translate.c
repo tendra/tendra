@@ -341,12 +341,10 @@ static void
 eval_delayed_const_list(void)
 {
 	delayed_const *p;
-	bool done = false;
+	bool done = 0;
 
 	while (!done) {
-		int processed = 0;
-		int count = 0;
-
+		done = 1;
 		for (p = delayed_const_list; p != NULL; p = p->next) {
 			dec *d;
 			exp c;
@@ -364,9 +362,9 @@ eval_delayed_const_list(void)
 				code_const(d);
 				d->processed = 1;
 			}
-		}
 
-		done = processed == count;
+			done = 0;
+		}
 	}
 }
 
