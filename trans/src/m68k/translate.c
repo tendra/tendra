@@ -349,11 +349,8 @@ eval_delayed_const_list(void)
 			dec *d;
 			exp c;
 
-			count++;
-
 			d = p->This;
 			if (d->processed) {
-				processed++;
 				continue;
 			}
 
