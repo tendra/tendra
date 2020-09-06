@@ -49,6 +49,7 @@
 #include <construct/destroy.h>
 #include <construct/exception.h>
 #include <construct/expression.h>
+#include <construct/field_iter.h>
 #include <construct/function.h>
 #include <construct/identifier.h>
 #include <construct/initialise.h>
@@ -1370,13 +1371,6 @@ init_direct(TYPE t, EXP a, ERROR *err)
 
 
 /*
-    This buffer is used to build up field names for use in error reporting.
-*/
-
-BUFFER field_buff = NULL_buff;
-
-
-/*
     Because aggregate initialisers may be spread over several lines each
     component is embedded in a location expression.  This routine gets
     the first element of the aggregate list p, setting the current location
@@ -1408,7 +1402,6 @@ get_aggr_elem(LIST(EXP) p, unsigned *ptag)
 	return a;
 }
 
-
 /*
     This routine checks the aggregate initialiser expression list pointed
     to by r against the type t.  The argument start is 1 to indicate the
@@ -1419,28 +1412,27 @@ get_aggr_elem(LIST(EXP) p, unsigned *ptag)
 */
 
 static EXP
-init_aggr_aux(TYPE t, CV_SPEC cv, LIST(EXP) *r, int start, IDENTIFIER id,
+init_aggr_aux(FieldIterator_t *sf_iter, TYPE t, CV_SPEC cv, LIST(EXP) *r, int start, IDENTIFIER id,
 	      ERROR *err)
 {
 	EXP e;
 	LIST(EXP) p = *r;
 	ERROR cerr = NULL_err;
 	CLASS_INFO ci = cinfo_none;
-	unsigned tag = TAG_type(t);
+	int tag = TAG_type(t);
+
 	switch (tag) {
 	case type_array_tag: {
 		/* Array types */
-		NAT nc;
+		field_iterator_init(sf_iter, t, cv);
 		LIST(EXP) a = NULL_list(EXP);
+
 		TYPE s = DEREF_type(type_array_sub(t));
 		int str = is_char_array(s);
-		BUFFER *bf = &field_buff;
-		unsigned boff = (unsigned)(bf->posn - bf->start);
 
 		/* Find the array size */
 		NAT n = DEREF_nat(type_array_size(t));
 		unsigned long m = get_nat_value(n);
-		unsigned long c = 0;
 
 		/* Report partially bracketed initialisers */
 		if (!start) {
@@ -1459,13 +1451,10 @@ init_aggr_aux(TYPE t, CV_SPEC cv, LIST(EXP) *r, int start, IDENTIFIER id,
 		}
 
 		/* Loop through at most m initialisers */
-		while (!IS_NULL_list(p) && c != m) {
+		while (!IS_NULL_list(p) && field_iterator_next(sf_iter)) {
 			LIST(EXP) p0 = p;
 			ERROR serr = NULL_err;
 			unsigned et = null_tag;
-
-			/* Build up the field name */
-			bfprintf(bf, " [%lu]", c);
 
 			/* Check first element of aggregate */
 			e = get_aggr_elem(p, &et);
@@ -1482,26 +1471,26 @@ init_aggr_aux(TYPE t, CV_SPEC cv, LIST(EXP) *r, int start, IDENTIFIER id,
 				/* Check for sub-aggregates */
 				LIST(EXP) q;
 				q = DEREF_list(exp_aggregate_args(e));
-				e = init_aggr_aux(s, cv, &q, 1, id, &serr);
+				field_iterator_push(sf_iter, s, cv);
+				e = init_aggr_aux(sf_iter, s, cv, &q, 1, id, &serr);
+				field_iterator_pop(sf_iter);
 				p = TAIL_list(p);
 			} else {
 				/* Otherwise read constituents from p */
-				e = init_aggr_aux(s, cv, &p, 0, id, &serr);
+				field_iterator_push(sf_iter, s, cv);
+				e = init_aggr_aux(sf_iter, s, cv, &p, 0, id, &serr);
+				field_iterator_pop(sf_iter);
 			}
 
 			/* Report any errors for this member */
 			if (!IS_NULL_err(serr)) {
-				ERROR ferr = ERR_dcl_init_decl(id, bf->start);
+				ERROR ferr = ERR_dcl_init_decl(id, sf_iter->bf->start);
 				serr = concat_error(ferr, serr);
 				report(crt_loc, serr);
 			}
 
 			/* Check for dynamic initialisers */
-			e = dynamic_init(id, bf->start, e);
-
-			/* Restore the field name */
-			bf->posn = bf->start + boff;
-			bf->posn[0] = 0;
+			e = dynamic_init(id, sf_iter->bf->start, e);
 
 			/* Check that some initialisers were used up */
 			if (EQ_list(p, p0)) {
@@ -1510,12 +1499,11 @@ init_aggr_aux(TYPE t, CV_SPEC cv, LIST(EXP) *r, int start, IDENTIFIER id,
 
 			/* Build up the result (in reverse order) */
 			CONS_exp(e, a, a);
-			c++;
 		}
 
 		/* Construct the result */
 		a = REVERSE_list(a);
-		nc = make_nat_value(c);
+		NAT nc = make_nat_value(field_iterator_get_index(sf_iter));
 		MAKE_type_array(cv_none, s, nc, s);
 		MAKE_exp_aggregate(s, a, NULL_list(OFFSET), e);
 
@@ -1531,7 +1519,7 @@ init_aggr_aux(TYPE t, CV_SPEC cv, LIST(EXP) *r, int start, IDENTIFIER id,
 		TYPE s = DEREF_type(type_ref_sub(t));
 		e = init_ref_rvalue(s, NULL_exp, err);
 		if (IS_NULL_exp(e)) {
-			e = init_aggr_aux(s, cv, r, start, id, err);
+			e = init_aggr_aux(sf_iter, s, cv, r, start, id, err);
 			e = make_temporary(s, e, NULL_exp, 1, err);
 			e = make_ref_init(t, e);
 		}
@@ -1539,17 +1527,10 @@ init_aggr_aux(TYPE t, CV_SPEC cv, LIST(EXP) *r, int start, IDENTIFIER id,
 	}
 	case type_compound_tag: {
 		/* Compound types */
-		MEMBER mem;
-		NAMESPACE ns;
 		unsigned long pads = 0;
 		LIST(EXP) a = NULL_list(EXP);
 		LIST(OFFSET)b = NULL_list(OFFSET);
-		CV_SPEC cv1 = (DEREF_cv(type_qual(t)) | cv);
 		CLASS_TYPE ct = DEREF_ctype(type_compound_defn(t));
-		GRAPH gr = DEREF_graph(ctype_base(ct));
-		LIST(GRAPH) br = DEREF_list(graph_tails(gr));
-		BUFFER *bf = &field_buff;
-		unsigned boff = (unsigned)(bf->posn - bf->start);
 
 		/* Check for non-aggregate classes */
 		ci = DEREF_cinfo(ctype_info(ct));
@@ -1595,138 +1576,64 @@ init_aggr_aux(TYPE t, CV_SPEC cv, LIST(EXP) *r, int start, IDENTIFIER id,
 			add_error(err, ERR_dcl_init_aggr_partial());
 		}
 
-		/* Loop through base classes */
-		while (!IS_NULL_list(br)) {
+		/* Loop through base classes and members */
+		while (field_iterator_next(sf_iter)) {
 			ERROR serr = NULL_err;
-			GRAPH gs = DEREF_graph(HEAD_list(br));
-			OFFSET off = DEREF_off(graph_off(gs));
-			CLASS_TYPE cs = DEREF_ctype(graph_head(gs));
-			TYPE s = make_class_type(cs);
-
-			/* Build up field name */
-			IDENTIFIER sid = DEREF_id(ctype_name(cs));
-			HASHID snm = DEREF_hashid(id_name(sid));
-			if (!IS_hashid_anon(snm)) {
-				bfputc(bf, '.');
-				IGNORE print_hashid(snm, 1, 0, bf, 0);
-			}
+			TYPE s = field_iterator_get_subtype(sf_iter);
+			DECL_SPEC ds = field_iterator_get_decl_spec(sf_iter);
+			FieldIteratorStage_t stage = field_iterator_get_stage(sf_iter);
+			CV_SPEC local_cv = field_iterator_get_effective_cv_spec(sf_iter);
 
 			/* Check next initialiser */
 			if (!IS_NULL_list(p)) {
 				unsigned et = null_tag;
 				e = get_aggr_elem(p, &et);
-				if (et == exp_aggregate_tag && start) {
-					/* Check for sub-aggregates */
-					LIST(EXP) q;
-					q = DEREF_list(exp_aggregate_args(e));
-					e = init_aggr_aux(s, cv1, &q, 1, id,
-							  &serr);
-					p = TAIL_list(p);
-				} else {
-					/* Otherwise read constituents from p */
-					e = init_aggr_aux(s, cv1, &p, 0, id,
-							  &serr);
-				}
-			} else {
-				e = init_empty(s, cv1, 1, &serr);
-				pads++;
-			}
-
-			/* Report any errors for this field */
-			if (!IS_NULL_err(serr)) {
-				ERROR ferr = ERR_dcl_init_decl(id, bf->start);
-				serr = concat_error(ferr, serr);
-				report(crt_loc, serr);
-			}
-
-			/* Check for dynamic initialisers */
-			e = dynamic_init(id, bf->start, e);
-
-			/* Restore field name */
-			bf->posn = bf->start + boff;
-			bf->posn[0] = 0;
-
-			/* Build up the result (in reverse order) */
-			CONS_exp(e, a, a);
-			CONS_off(off, b, b);
-			br = TAIL_list(br);
-		}
-
-		/* Find list of class members */
-		ns = DEREF_nspace(ctype_member(ct));
-		mem = DEREF_member(nspace_ctype_first(ns));
-		mem = next_data_member(mem, 0);
-
-		/* Loop through structure members */
-		while (!IS_NULL_member(mem)) {
-			ERROR serr = NULL_err;
-			CV_SPEC cv2 = cv1;
-			IDENTIFIER sid = DEREF_id(member_id(mem));
-			TYPE s = DEREF_type(id_member_type(sid));
-			DECL_SPEC ds = DEREF_dspec(id_storage(sid));
-			OFFSET off = DEREF_off(id_member_off(sid));
-
-			/* Build up field name */
-			HASHID snm = DEREF_hashid(id_name(sid));
-			if (!IS_hashid_anon(snm)) {
-				bfputc(bf, '.');
-				IGNORE print_hashid(snm, 1, 0, bf, 0);
-			}
-
-			/* Adjust cv-qualifiers */
-			if (ds & dspec_mutable)cv2 = cv_none;
-
-			/* Check next initialiser */
-			if (!IS_NULL_list(p)) {
-				unsigned et = null_tag;
-				e = get_aggr_elem(p, &et);
-				if (et == exp_string_lit_tag &&
-				    is_char_array(s)) {
+				if (et == exp_string_lit_tag && is_char_array(s)) {
 					/* Check for string literals */
-					e = init_array(s, cv2, e, 0, &serr);
+					e = init_array(s, local_cv, e, 0, &serr);
 					p = TAIL_list(p);
 				} else if (et == exp_aggregate_tag && start) {
 					/* Check for sub-aggregates */
 					LIST(EXP) q;
 					q = DEREF_list(exp_aggregate_args(e));
-					e = init_aggr_aux(s, cv2, &q, 1, id,
-							  &serr);
+					field_iterator_push(sf_iter, s, cv);
+					e = init_aggr_aux(sf_iter, s, local_cv, &q, 1, id,
+								&serr);
+					field_iterator_pop(sf_iter);
 					p = TAIL_list(p);
 				} else {
 					/* Otherwise read constituents from p */
-					e = init_aggr_aux(s, cv2, &p, 0, id,
-							  &serr);
+					field_iterator_push(sf_iter, s, cv);
+					e = init_aggr_aux(sf_iter, s, local_cv, &p, 0, id,
+								&serr);
+					field_iterator_pop(sf_iter);
 				}
 			} else {
 				/* Pad rest of structure */
-				e = init_empty(s, cv2, 1, &serr);
+				e = init_empty(s, local_cv, 1, &serr);
 				pads++;
 			}
 
 			/* Report any errors for this field */
 			if (!IS_NULL_err(serr)) {
-				ERROR ferr = ERR_dcl_init_decl(id, bf->start);
+				ERROR ferr = ERR_dcl_init_decl(id, sf_iter->bf->start);
 				serr = concat_error(ferr, serr);
 				report(crt_loc, serr);
 			}
 
 			/* Check for dynamic initialisers */
-			e = dynamic_init(id, bf->start, e);
+			e = dynamic_init(id, sf_iter->bf->start, e);
 
-			/* Restore field name */
-			bf->posn = bf->start + boff;
-			bf->posn[0] = 0;
+			/* Examine next member */
+			if (stage == IS_AggregateMembers && ci & cinfo_union) {
+				break;
+			}
 
 			/* Build up the result (in reverse order) */
 			CONS_exp(e, a, a);
-			CONS_off(off, b, b);
-
-			/* Examine next member */
-			if (ci & cinfo_union) {
-				break;
+			if (stage == IS_AggregateMembers) {
+				CONS_off(field_iterator_get_offset(sf_iter), b, b);
 			}
-			mem = DEREF_member(member_next(mem));
-			mem = next_data_member(mem, 0);
 		}
 
 		/* Report padded structures */
@@ -1758,7 +1665,7 @@ init_aggr_aux(TYPE t, CV_SPEC cv, LIST(EXP) *r, int start, IDENTIFIER id,
 			if (et == exp_aggregate_tag) {
 				LIST(EXP)q;
 				q = DEREF_list(exp_aggregate_args(e));
-				e = init_aggr_aux(t, cv, &q, 1, id, err);
+				e = init_aggr_aux(sf_iter, t, cv, &q, 1, id, err);
 			} else {
 				ERROR ferr = NULL_err;
 				if (start == 1) {
@@ -1784,7 +1691,9 @@ token_lab: {
 		   if (EQ_type(s, t)) {
 			   goto non_aggregate_lab;
 		   }
-		   e = init_aggr_aux(s, cv, r, start, id, err);
+		   field_iterator_push(sf_iter, s, cv);
+		   e = init_aggr_aux(sf_iter, s, cv, r, start, id, err);
+		   field_iterator_pop(sf_iter);
 		   return e;
 	   }
 	case type_top_tag:
@@ -1830,7 +1739,7 @@ non_aggregate_lab:
 		   if (et == exp_aggregate_tag) {
 			   LIST(EXP) q;
 			   q = DEREF_list(exp_aggregate_args(e));
-			   e = init_aggr_aux(t, cv, &q, 1, id, err);
+			   e = init_aggr_aux(sf_iter, t, cv, &q, 1, id, err);
 		   } else {
 			   e = convert_reference(e, REF_ASSIGN);
 			   if (tag == type_token_tag && is_zero_exp(e)) {
@@ -1857,7 +1766,10 @@ non_aggregate_lab:
 		report(crt_loc, ferr);
 		p = NULL_list(EXP);
 	}
+
+	/* Report used initializers up the chain */
 	*r = p;
+
 	return e;
 }
 
@@ -1871,6 +1783,11 @@ EXP
 init_aggregate(TYPE t, EXP e, IDENTIFIER id, ERROR *err)
 {
 	LOCATION loc;
+	BUFFER field_buffer = { 0 };
+	FieldIterator_t sf_iter = { &field_buffer };
+
+	field_buffer.posn = extend_buffer(&field_buffer, field_buffer.posn);
+
 	LIST(EXP) args = DEREF_list(exp_aggregate_args(e));
 	if (IS_NULL_list(args)) {
 		/* Report empty aggregate initialisers */
@@ -1878,10 +1795,13 @@ init_aggregate(TYPE t, EXP e, IDENTIFIER id, ERROR *err)
 	}
 	bad_crt_loc++;
 	loc = crt_loc;
-	IGNORE clear_buffer(&field_buff, NIL(FILE));
-	e = init_aggr_aux(t, cv_none, &args, 2, id, err);
+	field_iterator_init(&sf_iter, t, cv_none);
+	e = init_aggr_aux(&sf_iter, t, cv_none, &args, 2, id, err);
+	field_iterator_free(&sf_iter);
+	free_buffer(&field_buffer);
 	crt_loc = loc;
 	bad_crt_loc--;
+
 	return e;
 }
 
@@ -2461,6 +2381,5 @@ allow_initialiser(IDENTIFIER id)
 void
 init_initialise(void)
 {
-	field_buff.posn = extend_buffer(&field_buff, field_buff.posn);
 	return;
 }
