@@ -24,6 +24,7 @@ SRCS+=	derive.c
 SRCS+=	destroy.c
 SRCS+=	exception.c
 SRCS+=	expression.c
+SRCS+=	field_iter.c
 SRCS+=	function.c
 SRCS+=	identifier.c
 SRCS+=	initialise.c

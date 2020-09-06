@@ -838,7 +838,6 @@ static void
 term_main(void)
 {
     free_candidates(&candidates);
-    free_buffer(&field_buff);
     free_buffer(&token_buff);
     term_macros();
     term_input();
