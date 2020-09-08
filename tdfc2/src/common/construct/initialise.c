@@ -1419,7 +1419,7 @@ init_aggr_aux(FieldIterator_t *sf_iter, TYPE t, CV_SPEC cv, LIST(EXP) *r, int st
 	LIST(EXP) p = *r;
 	ERROR cerr = NULL_err;
 	CLASS_INFO ci = cinfo_none;
-	int tag = TAG_type(t);
+	unsigned tag = TAG_type(t);
 
 	switch (tag) {
 	case type_array_tag: {
