@@ -177,11 +177,11 @@ nstring_ci_equal(NStringT *nstring1, NStringT *nstring2)
 		char c2;
 
 		do {
-			c1 = toupper((unsigned char) *tmp1++);
-			c2 = toupper((unsigned char) *tmp2++);
 			if (length-- == 0) {
 				return true;
 			}
+			c1 = toupper((unsigned char) *tmp1++);
+			c2 = toupper((unsigned char) *tmp2++);
 		} while (c1 == c2);
 	}
 
