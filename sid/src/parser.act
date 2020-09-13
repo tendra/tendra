@@ -176,7 +176,7 @@
 	#include "grammar.h"
 	#include "lexer.h"
 
-	LexerStreamT *  sid_current_stream;
+	extern LexerStreamT *  sid_current_stream;
 
 @};
 

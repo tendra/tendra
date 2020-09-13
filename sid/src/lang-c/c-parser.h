@@ -9,8 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 150 "c-parser.act"
-
+#line 119 "c-parser.act"
 
 
 	/*
@@ -32,20 +31,20 @@
 	#include "c-lexer.h"
 	#include "c-out-info.h"
 
-	CLexerStreamT *c_current_stream;
-	COutputInfoT  *c_current_out_info;
-	TableT        *c_current_table;
+	extern CLexerStreamT *c_current_stream;
+	extern COutputInfoT  *c_current_out_info;
+	extern TableT        *c_current_table;
 
-#line 41 "c-parser.h"
+#line 39 "c-parser.h"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
 extern void c_parse_grammar(void);
 /* BEGINNING OF TRAILER */
 
-#line 1122 "c-parser.act"
+#line 1114 "c-parser.act"
 
 
-#line 51 "c-parser.h"
+#line 49 "c-parser.h"
 
 /* END OF FILE */

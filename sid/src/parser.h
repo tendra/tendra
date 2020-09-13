@@ -9,8 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 187 "parser.act"
-
+#line 160 "parser.act"
 
 
 	/*
@@ -30,18 +29,18 @@
 	#include "grammar.h"
 	#include "lexer.h"
 
-	LexerStreamT *  sid_current_stream;
+	extern LexerStreamT *  sid_current_stream;
 
-#line 37 "parser.h"
+#line 35 "parser.h"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
 extern void sid_parse_grammar(GrammarP);
 /* BEGINNING OF TRAILER */
 
-#line 2121 "parser.act"
+#line 2113 "parser.act"
 
 
-#line 47 "parser.h"
+#line 45 "parser.h"
 
 /* END OF FILE */
