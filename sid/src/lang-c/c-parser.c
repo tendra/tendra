@@ -9,8 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 55 "c-parser.act"
-
+#line 26 "c-parser.act"
 
 
 	/*
@@ -104,7 +103,7 @@
 			field, (void *) key, (void *) a, (void *) b);
 	}
 
-#line 109 "c-parser.c"
+#line 107 "c-parser.c"
 
 
 #ifndef ERROR_TERMINAL
@@ -192,11 +191,11 @@ ZL2_179:;
 			}
 			/* BEGINNING OF ACTION: skip-recover */
 			{
-#line 1110 "c-parser.act"
+#line 1102 "c-parser.act"
 
 		c_propagating_error = false;
 	
-#line 201 "c-parser.c"
+#line 199 "c-parser.c"
 			}
 			/* END OF ACTION: skip-recover */
 			/* BEGINNING OF INLINE: c-parse-grammar::result-assign-list */
@@ -260,11 +259,11 @@ ZL2_186:;
 			}
 			/* BEGINNING OF ACTION: skip-recover */
 			{
-#line 1110 "c-parser.act"
+#line 1102 "c-parser.act"
 
 		c_propagating_error = false;
 	
-#line 269 "c-parser.c"
+#line 267 "c-parser.c"
 			}
 			/* END OF ACTION: skip-recover */
 			/* BEGINNING OF INLINE: c-parse-grammar::terminal-list */
@@ -298,11 +297,11 @@ ZR113(CCodeP *ZO112)
 		case (C_TOK_ACT_HCODESTART):
 			/* BEGINNING OF EXTRACT: ACT-CODESTART */
 			{
-#line 209 "c-parser.act"
+#line 202 "c-parser.act"
 
 		ZI121 = c_lexer_stream_line(c_current_stream);
 	
-#line 307 "c-parser.c"
+#line 305 "c-parser.c"
 			}
 			/* END OF EXTRACT: ACT-CODESTART */
 			break;
@@ -312,11 +311,11 @@ ZR113(CCodeP *ZO112)
 		ADVANCE_LEXER;
 		/* BEGINNING OF ACTION: ccode-init */
 		{
-#line 741 "c-parser.act"
+#line 734 "c-parser.act"
 
 		(ZI112) = c_code_create(istream_name(&c_lexer_stream->istream), (ZI121));
 	
-#line 321 "c-parser.c"
+#line 319 "c-parser.c"
 		}
 		/* END OF ACTION: ccode-init */
 		ZR119 (ZI112);
@@ -355,11 +354,11 @@ ZR132(void)
 				{
 					/* BEGINNING OF EXTRACT: C-IDENTIFIER */
 					{
-#line 173 "c-parser.act"
+#line 166 "c-parser.act"
 
 		nstring_assign(&ZI134, c_lexer_string_value(c_current_stream));
 	
-#line 364 "c-parser.c"
+#line 362 "c-parser.c"
 					}
 					/* END OF EXTRACT: C-IDENTIFIER */
 					ADVANCE_LEXER;
@@ -369,11 +368,11 @@ ZR132(void)
 				{
 					/* BEGINNING OF EXTRACT: SID-IDENTIFIER */
 					{
-#line 177 "c-parser.act"
+#line 170 "c-parser.act"
 
 		nstring_assign(&ZI134, c_lexer_string_value(c_current_stream));
 	
-#line 378 "c-parser.c"
+#line 376 "c-parser.c"
 					}
 					/* END OF EXTRACT: SID-IDENTIFIER */
 					ADVANCE_LEXER;
@@ -386,7 +385,7 @@ ZR132(void)
 		/* END OF INLINE: c-parse-grammar::identifier */
 		/* BEGINNING OF ACTION: set-map */
 		{
-#line 279 "c-parser.act"
+#line 272 "c-parser.act"
 
 		c_current_entry = table_get_entry(c_current_table, (&ZI134));
 		if (c_current_entry == NULL) {
@@ -416,7 +415,7 @@ ZR132(void)
 		}
 		nstring_destroy(&(ZI134));
 	
-#line 421 "c-parser.c"
+#line 419 "c-parser.c"
 		}
 		/* END OF ACTION: set-map */
 		ZR163 ();
@@ -433,11 +432,11 @@ ZR132(void)
 				case (C_TOK_C_HIDENTIFIER):
 					/* BEGINNING OF EXTRACT: C-IDENTIFIER */
 					{
-#line 173 "c-parser.act"
+#line 166 "c-parser.act"
 
 		nstring_assign(&ZI137, c_lexer_string_value(c_current_stream));
 	
-#line 442 "c-parser.c"
+#line 440 "c-parser.c"
 					}
 					/* END OF EXTRACT: C-IDENTIFIER */
 					break;
@@ -447,7 +446,7 @@ ZR132(void)
 				ADVANCE_LEXER;
 				/* BEGINNING OF ACTION: x-set-map */
 				{
-#line 310 "c-parser.act"
+#line 302 "c-parser.act"
 
 		if (c_current_entry) {
 			entry_set_mapping(c_current_entry, &(ZI137));
@@ -455,7 +454,7 @@ ZR132(void)
 			nstring_destroy(&(ZI137));
 		}
 	
-#line 460 "c-parser.c"
+#line 458 "c-parser.c"
 				}
 				/* END OF ACTION: x-set-map */
 				ZR223 ();
@@ -469,18 +468,18 @@ ZR132(void)
 			{
 				/* BEGINNING OF ACTION: expected-c-identifier */
 				{
-#line 811 "c-parser.act"
+#line 801 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("C identifier");
 		}
 	
-#line 480 "c-parser.c"
+#line 478 "c-parser.c"
 				}
 				/* END OF ACTION: expected-c-identifier */
 				/* BEGINNING OF ACTION: skip-to-end-of-map */
 				{
-#line 954 "c-parser.act"
+#line 947 "c-parser.act"
 
 		while (CURRENT_TERMINAL != (C_TOK_EOF)
 			&& CURRENT_TERMINAL != (C_TOK_TERMINATOR)
@@ -508,7 +507,7 @@ ZR132(void)
 
 		c_propagating_error = true;
 	
-#line 513 "c-parser.c"
+#line 511 "c-parser.c"
 				}
 				/* END OF ACTION: skip-to-end-of-map */
 			}
@@ -542,13 +541,13 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: expected-arrow */
 		{
-#line 835 "c-parser.act"
+#line 825 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("'->'");
 		}
 	
-#line 553 "c-parser.c"
+#line 551 "c-parser.c"
 		}
 		/* END OF ACTION: expected-arrow */
 	}
@@ -570,11 +569,11 @@ ZR166(void)
 				{
 					/* BEGINNING OF EXTRACT: C-IDENTIFIER */
 					{
-#line 173 "c-parser.act"
+#line 166 "c-parser.act"
 
 		nstring_assign(&ZI109, c_lexer_string_value(c_current_stream));
 	
-#line 579 "c-parser.c"
+#line 577 "c-parser.c"
 					}
 					/* END OF EXTRACT: C-IDENTIFIER */
 					ADVANCE_LEXER;
@@ -584,11 +583,11 @@ ZR166(void)
 				{
 					/* BEGINNING OF EXTRACT: SID-IDENTIFIER */
 					{
-#line 177 "c-parser.act"
+#line 170 "c-parser.act"
 
 		nstring_assign(&ZI109, c_lexer_string_value(c_current_stream));
 	
-#line 593 "c-parser.c"
+#line 591 "c-parser.c"
 					}
 					/* END OF EXTRACT: SID-IDENTIFIER */
 					ADVANCE_LEXER;
@@ -601,7 +600,7 @@ ZR166(void)
 		/* END OF INLINE: c-parse-grammar::identifier */
 		/* BEGINNING OF ACTION: assign */
 		{
-#line 377 "c-parser.act"
+#line 370 "c-parser.act"
 
 		c_current_entry = table_get_type(c_current_table, (&ZI109));
 		if (c_current_entry == NULL) {
@@ -613,7 +612,7 @@ ZR166(void)
 		}
 		nstring_destroy(&(ZI109));
 	
-#line 618 "c-parser.c"
+#line 616 "c-parser.c"
 		}
 		/* END OF ACTION: assign */
 		ZR147 ();
@@ -634,7 +633,7 @@ ZR166(void)
 				}
 				/* BEGINNING OF ACTION: x-assign */
 				{
-#line 426 "c-parser.act"
+#line 382 "c-parser.act"
 
 		if (c_current_entry) {
 			bool  errored = false;
@@ -688,7 +687,7 @@ ZR166(void)
 			c_code_deallocate((ZI170));
 		}
 	
-#line 693 "c-parser.c"
+#line 691 "c-parser.c"
 				}
 				/* END OF ACTION: x-assign */
 				ZR223 ();
@@ -702,18 +701,18 @@ ZR166(void)
 			{
 				/* BEGINNING OF ACTION: expected-code */
 				{
-#line 859 "c-parser.act"
+#line 849 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("code block");
 		}
 	
-#line 713 "c-parser.c"
+#line 711 "c-parser.c"
 				}
 				/* END OF ACTION: expected-code */
 				/* BEGINNING OF ACTION: skip-to-end-of-assignment */
 				{
-#line 982 "c-parser.act"
+#line 975 "c-parser.act"
 
 		while (CURRENT_TERMINAL != (C_TOK_EOF)
 			&& CURRENT_TERMINAL != (C_TOK_TERMINATOR)
@@ -740,7 +739,7 @@ ZR166(void)
 
 		c_propagating_error = true;
 	
-#line 745 "c-parser.c"
+#line 743 "c-parser.c"
 				}
 				/* END OF ACTION: skip-to-end-of-assignment */
 			}
@@ -780,11 +779,11 @@ ZR195(void)
 						{
 							/* BEGINNING OF EXTRACT: C-IDENTIFIER */
 							{
-#line 173 "c-parser.act"
+#line 166 "c-parser.act"
 
 		nstring_assign(&ZI109, c_lexer_string_value(c_current_stream));
 	
-#line 789 "c-parser.c"
+#line 787 "c-parser.c"
 							}
 							/* END OF EXTRACT: C-IDENTIFIER */
 							ADVANCE_LEXER;
@@ -794,11 +793,11 @@ ZR195(void)
 						{
 							/* BEGINNING OF EXTRACT: SID-IDENTIFIER */
 							{
-#line 177 "c-parser.act"
+#line 170 "c-parser.act"
 
 		nstring_assign(&ZI109, c_lexer_string_value(c_current_stream));
 	
-#line 803 "c-parser.c"
+#line 801 "c-parser.c"
 							}
 							/* END OF EXTRACT: SID-IDENTIFIER */
 							ADVANCE_LEXER;
@@ -811,7 +810,7 @@ ZR195(void)
 				/* END OF INLINE: c-parse-grammar::identifier */
 				/* BEGINNING OF ACTION: set-action */
 				{
-#line 656 "c-parser.act"
+#line 649 "c-parser.act"
 
 		c_current_entry = table_get_action(c_current_table, (&ZI109));
 		if (c_current_entry == NULL) {
@@ -829,7 +828,7 @@ ZR195(void)
 		}
 		nstring_destroy(&(ZI109));
 	
-#line 834 "c-parser.c"
+#line 832 "c-parser.c"
 				}
 				/* END OF ACTION: set-action */
 				/* BEGINNING OF INLINE: 198 */
@@ -848,13 +847,13 @@ ZR195(void)
 					{
 						/* BEGINNING OF ACTION: expected-end-action */
 						{
-#line 847 "c-parser.act"
+#line 837 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("'>'");
 		}
 	
-#line 859 "c-parser.c"
+#line 857 "c-parser.c"
 						}
 						/* END OF ACTION: expected-end-action */
 					}
@@ -879,7 +878,7 @@ ZR195(void)
 						}
 						/* BEGINNING OF ACTION: x-set-action */
 						{
-#line 711 "c-parser.act"
+#line 667 "c-parser.act"
 
 		if (c_current_entry) {
 			ActionT    *action  = entry_get_action(c_current_entry);
@@ -931,7 +930,7 @@ ZR195(void)
 			c_code_deallocate((ZI170));
 		}
 	
-#line 936 "c-parser.c"
+#line 934 "c-parser.c"
 						}
 						/* END OF ACTION: x-set-action */
 						ZR223 ();
@@ -945,18 +944,18 @@ ZR195(void)
 					{
 						/* BEGINNING OF ACTION: expected-code */
 						{
-#line 859 "c-parser.act"
+#line 849 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("code block");
 		}
 	
-#line 956 "c-parser.c"
+#line 954 "c-parser.c"
 						}
 						/* END OF ACTION: expected-code */
 						/* BEGINNING OF ACTION: skip-to-end-of-action */
 						{
-#line 1085 "c-parser.act"
+#line 1078 "c-parser.act"
 
 		while (CURRENT_TERMINAL != (C_TOK_EOF)
 			&& CURRENT_TERMINAL != (C_TOK_TERMINATOR)
@@ -980,7 +979,7 @@ ZR195(void)
 
 		c_propagating_error = true;
 	
-#line 985 "c-parser.c"
+#line 983 "c-parser.c"
 						}
 						/* END OF ACTION: skip-to-end-of-action */
 					}
@@ -993,18 +992,18 @@ ZR195(void)
 			{
 				/* BEGINNING OF ACTION: expected-identifier */
 				{
-#line 805 "c-parser.act"
+#line 795 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("identifier");
 		}
 	
-#line 1004 "c-parser.c"
+#line 1002 "c-parser.c"
 				}
 				/* END OF ACTION: expected-identifier */
 				/* BEGINNING OF ACTION: skip-to-end-of-action */
 				{
-#line 1085 "c-parser.act"
+#line 1078 "c-parser.act"
 
 		while (CURRENT_TERMINAL != (C_TOK_EOF)
 			&& CURRENT_TERMINAL != (C_TOK_TERMINATOR)
@@ -1028,7 +1027,7 @@ ZR195(void)
 
 		c_propagating_error = true;
 	
-#line 1033 "c-parser.c"
+#line 1031 "c-parser.c"
 				}
 				/* END OF ACTION: skip-to-end-of-action */
 			}
@@ -1060,13 +1059,13 @@ ZL2_154:;
 			{
 				/* BEGINNING OF ACTION: is-close-tuple-or-skipped-or-eof */
 				{
-#line 1113 "c-parser.act"
+#line 1106 "c-parser.act"
 
 		(ZI0) = (CURRENT_TERMINAL == (C_TOK_CLOSE_HTUPLE)
 			|| CURRENT_TERMINAL == (C_TOK_EOF)
 			|| c_propagating_error);
 	
-#line 1071 "c-parser.c"
+#line 1069 "c-parser.c"
 				}
 				/* END OF ACTION: is-close-tuple-or-skipped-or-eof */
 				if (!ZI0)
@@ -1092,13 +1091,13 @@ ZL2_154:;
 			{
 				/* BEGINNING OF ACTION: expected-separator */
 				{
-#line 817 "c-parser.act"
+#line 807 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("','");
 		}
 	
-#line 1103 "c-parser.c"
+#line 1101 "c-parser.c"
 				}
 				/* END OF ACTION: expected-separator */
 				/* BEGINNING OF INLINE: c-parse-grammar::function-type-defn::tuple-defn-list-1 */
@@ -1130,11 +1129,11 @@ ZL2_193:;
 			}
 			/* BEGINNING OF ACTION: skip-recover */
 			{
-#line 1110 "c-parser.act"
+#line 1102 "c-parser.act"
 
 		c_propagating_error = false;
 	
-#line 1139 "c-parser.c"
+#line 1137 "c-parser.c"
 			}
 			/* END OF ACTION: skip-recover */
 			/* BEGINNING OF INLINE: c-parse-grammar::action-list */
@@ -1169,11 +1168,11 @@ ZR174(void)
 				{
 					/* BEGINNING OF EXTRACT: C-IDENTIFIER */
 					{
-#line 173 "c-parser.act"
+#line 166 "c-parser.act"
 
 		nstring_assign(&ZI109, c_lexer_string_value(c_current_stream));
 	
-#line 1178 "c-parser.c"
+#line 1176 "c-parser.c"
 					}
 					/* END OF EXTRACT: C-IDENTIFIER */
 					ADVANCE_LEXER;
@@ -1183,11 +1182,11 @@ ZR174(void)
 				{
 					/* BEGINNING OF EXTRACT: SID-IDENTIFIER */
 					{
-#line 177 "c-parser.act"
+#line 170 "c-parser.act"
 
 		nstring_assign(&ZI109, c_lexer_string_value(c_current_stream));
 	
-#line 1192 "c-parser.c"
+#line 1190 "c-parser.c"
 					}
 					/* END OF EXTRACT: SID-IDENTIFIER */
 					ADVANCE_LEXER;
@@ -1200,7 +1199,7 @@ ZR174(void)
 		/* END OF INLINE: c-parse-grammar::identifier */
 		/* BEGINNING OF ACTION: passign */
 		{
-#line 443 "c-parser.act"
+#line 436 "c-parser.act"
 
 		c_current_entry = table_get_type(c_current_table, (&ZI109));
 		if (c_current_entry == NULL) {
@@ -1212,7 +1211,7 @@ ZR174(void)
 		}
 		nstring_destroy(&(ZI109));
 	
-#line 1217 "c-parser.c"
+#line 1215 "c-parser.c"
 		}
 		/* END OF ACTION: passign */
 		ZR147 ();
@@ -1233,7 +1232,7 @@ ZR174(void)
 				}
 				/* BEGINNING OF ACTION: x-passign */
 				{
-#line 491 "c-parser.act"
+#line 448 "c-parser.act"
 
 		if (c_current_entry) {
 			bool  errored = false;
@@ -1286,7 +1285,7 @@ ZR174(void)
 			c_code_deallocate((ZI170));
 		}
 	
-#line 1291 "c-parser.c"
+#line 1289 "c-parser.c"
 				}
 				/* END OF ACTION: x-passign */
 				ZR223 ();
@@ -1300,18 +1299,18 @@ ZR174(void)
 			{
 				/* BEGINNING OF ACTION: expected-code */
 				{
-#line 859 "c-parser.act"
+#line 849 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("code block");
 		}
 	
-#line 1311 "c-parser.c"
+#line 1309 "c-parser.c"
 				}
 				/* END OF ACTION: expected-code */
 				/* BEGINNING OF ACTION: skip-to-end-of-param-assign */
 				{
-#line 1009 "c-parser.act"
+#line 1002 "c-parser.act"
 
 		while (CURRENT_TERMINAL != (C_TOK_EOF)
 			&& CURRENT_TERMINAL != (C_TOK_TERMINATOR)
@@ -1338,7 +1337,7 @@ ZR174(void)
 
 		c_propagating_error = true;
 	
-#line 1343 "c-parser.c"
+#line 1341 "c-parser.c"
 				}
 				/* END OF ACTION: skip-to-end-of-param-assign */
 			}
@@ -1366,11 +1365,11 @@ ZL2_122:;
 			}
 			/* BEGINNING OF ACTION: skip-recover */
 			{
-#line 1110 "c-parser.act"
+#line 1102 "c-parser.act"
 
 		c_propagating_error = false;
 	
-#line 1375 "c-parser.c"
+#line 1373 "c-parser.c"
 			}
 			/* END OF ACTION: skip-recover */
 			/* BEGINNING OF INLINE: c-parse-grammar::prefix-list */
@@ -1398,11 +1397,11 @@ ZR115(CCodeP ZI112)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: append-ccode-advance */
 			{
-#line 759 "c-parser.act"
+#line 752 "c-parser.act"
 
 		c_code_append_advance((ZI112));
 	
-#line 1407 "c-parser.c"
+#line 1405 "c-parser.c"
 			}
 			/* END OF ACTION: append-ccode-advance */
 		}
@@ -1412,13 +1411,13 @@ ZR115(CCodeP ZI112)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: append-ccode-at */
 			{
-#line 746 "c-parser.act"
+#line 738 "c-parser.act"
 
 		NStringT ns;
 		nstring_copy_cstring(&ns, "@");	/* TODO append '@' to code buffer? */
 		c_code_append_string((ZI112), &ns);	/* TODO really append_label()? */
 	
-#line 1423 "c-parser.c"
+#line 1421 "c-parser.c"
 			}
 			/* END OF ACTION: append-ccode-at */
 		}
@@ -1429,21 +1428,21 @@ ZR115(CCodeP ZI112)
 
 			/* BEGINNING OF EXTRACT: ACT-BASIC */
 			{
-#line 185 "c-parser.act"
+#line 178 "c-parser.act"
 
 		nstring_assign(&ZI117, c_lexer_string_value(c_current_stream));
 	
-#line 1438 "c-parser.c"
+#line 1436 "c-parser.c"
 			}
 			/* END OF EXTRACT: ACT-BASIC */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: append-ccode-basic */
 			{
-#line 763 "c-parser.act"
+#line 756 "c-parser.act"
 
 		c_code_append_basic((ZI112), &(ZI117));
 	
-#line 1448 "c-parser.c"
+#line 1446 "c-parser.c"
 			}
 			/* END OF ACTION: append-ccode-basic */
 		}
@@ -1454,22 +1453,22 @@ ZR115(CCodeP ZI112)
 
 			/* BEGINNING OF EXTRACT: ACT-CODESTRING */
 			{
-#line 205 "c-parser.act"
+#line 198 "c-parser.act"
 
 		nstring_assign(&ZI118, c_lexer_string_value(c_current_stream));
 	
-#line 1463 "c-parser.c"
+#line 1461 "c-parser.c"
 			}
 			/* END OF EXTRACT: ACT-CODESTRING */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: append-ccode-codestring */
 			{
-#line 783 "c-parser.act"
+#line 776 "c-parser.act"
 
 		assert(!nstring_contains(&(ZI118), '@'));	/* XXX '@'? */
 		c_code_append_string((ZI112), &(ZI118));
 	
-#line 1474 "c-parser.c"
+#line 1472 "c-parser.c"
 			}
 			/* END OF ACTION: append-ccode-codestring */
 		}
@@ -1479,12 +1478,12 @@ ZR115(CCodeP ZI112)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: E-eof-in-code-block */
 			{
-#line 790 "c-parser.act"
+#line 781 "c-parser.act"
 
 		error_posn(ERR_SERIOUS, istream_name(&c_lexer_stream->istream), (int) istream_line(&c_lexer_stream->istream),
 			"end of file in C code block");
 	
-#line 1489 "c-parser.c"
+#line 1487 "c-parser.c"
 			}
 			/* END OF ACTION: E-eof-in-code-block */
 		}
@@ -1494,11 +1493,11 @@ ZR115(CCodeP ZI112)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: append-ccode-exception */
 			{
-#line 751 "c-parser.act"
+#line 744 "c-parser.act"
 
 		c_code_append_exception((ZI112));
 	
-#line 1503 "c-parser.c"
+#line 1501 "c-parser.c"
 			}
 			/* END OF ACTION: append-ccode-exception */
 		}
@@ -1509,21 +1508,21 @@ ZR115(CCodeP ZI112)
 
 			/* BEGINNING OF EXTRACT: ACT-IDENTIFIER */
 			{
-#line 197 "c-parser.act"
+#line 190 "c-parser.act"
 
 		nstring_assign(&ZI117, c_lexer_string_value(c_current_stream));
 	
-#line 1518 "c-parser.c"
+#line 1516 "c-parser.c"
 			}
 			/* END OF EXTRACT: ACT-IDENTIFIER */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: append-ccode-identifier */
 			{
-#line 775 "c-parser.act"
+#line 768 "c-parser.act"
 
 		c_code_append_identifier((ZI112), &(ZI117));
 	
-#line 1528 "c-parser.c"
+#line 1526 "c-parser.c"
 			}
 			/* END OF ACTION: append-ccode-identifier */
 		}
@@ -1534,21 +1533,21 @@ ZR115(CCodeP ZI112)
 
 			/* BEGINNING OF EXTRACT: ACT-LABEL */
 			{
-#line 189 "c-parser.act"
+#line 182 "c-parser.act"
 
 		nstring_assign(&ZI117, c_lexer_string_value(c_current_stream));
 	
-#line 1543 "c-parser.c"
+#line 1541 "c-parser.c"
 			}
 			/* END OF EXTRACT: ACT-LABEL */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: append-ccode-label */
 			{
-#line 767 "c-parser.act"
+#line 760 "c-parser.act"
 
 		c_code_append_label((ZI112), &(ZI117));
 	
-#line 1553 "c-parser.c"
+#line 1551 "c-parser.c"
 			}
 			/* END OF ACTION: append-ccode-label */
 		}
@@ -1559,21 +1558,21 @@ ZR115(CCodeP ZI112)
 
 			/* BEGINNING OF EXTRACT: ACT-MODIFIABLE */
 			{
-#line 201 "c-parser.act"
+#line 194 "c-parser.act"
 
 		nstring_assign(&ZI117, c_lexer_string_value(c_current_stream));
 	
-#line 1568 "c-parser.c"
+#line 1566 "c-parser.c"
 			}
 			/* END OF EXTRACT: ACT-MODIFIABLE */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: append-ccode-modifiable */
 			{
-#line 779 "c-parser.act"
+#line 772 "c-parser.act"
 
 		c_code_append_modifiable((ZI112), &(ZI117));
 	
-#line 1578 "c-parser.c"
+#line 1576 "c-parser.c"
 			}
 			/* END OF ACTION: append-ccode-modifiable */
 		}
@@ -1584,21 +1583,21 @@ ZR115(CCodeP ZI112)
 
 			/* BEGINNING OF EXTRACT: ACT-REFERENCE */
 			{
-#line 193 "c-parser.act"
+#line 186 "c-parser.act"
 
 		nstring_assign(&ZI117, c_lexer_string_value(c_current_stream));
 	
-#line 1593 "c-parser.c"
+#line 1591 "c-parser.c"
 			}
 			/* END OF EXTRACT: ACT-REFERENCE */
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: append-ccode-reference */
 			{
-#line 771 "c-parser.act"
+#line 764 "c-parser.act"
 
 		c_code_append_reference((ZI112), &(ZI117));
 	
-#line 1603 "c-parser.c"
+#line 1601 "c-parser.c"
 			}
 			/* END OF ACTION: append-ccode-reference */
 		}
@@ -1608,11 +1607,11 @@ ZR115(CCodeP ZI112)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: append-ccode-terminal */
 			{
-#line 755 "c-parser.act"
+#line 748 "c-parser.act"
 
 		c_code_append_terminal((ZI112));
 	
-#line 1617 "c-parser.c"
+#line 1615 "c-parser.c"
 			}
 			/* END OF ACTION: append-ccode-terminal */
 		}
@@ -1644,11 +1643,11 @@ ZR124(void)
 				{
 					/* BEGINNING OF EXTRACT: C-IDENTIFIER */
 					{
-#line 173 "c-parser.act"
+#line 166 "c-parser.act"
 
 		nstring_assign(&ZI125, c_lexer_string_value(c_current_stream));
 	
-#line 1653 "c-parser.c"
+#line 1651 "c-parser.c"
 					}
 					/* END OF EXTRACT: C-IDENTIFIER */
 					ADVANCE_LEXER;
@@ -1658,11 +1657,11 @@ ZR124(void)
 				{
 					/* BEGINNING OF EXTRACT: SID-IDENTIFIER */
 					{
-#line 177 "c-parser.act"
+#line 170 "c-parser.act"
 
 		nstring_assign(&ZI125, c_lexer_string_value(c_current_stream));
 	
-#line 1667 "c-parser.c"
+#line 1665 "c-parser.c"
 					}
 					/* END OF EXTRACT: SID-IDENTIFIER */
 					ADVANCE_LEXER;
@@ -1675,7 +1674,7 @@ ZR124(void)
 		/* END OF INLINE: c-parse-grammar::identifier */
 		/* BEGINNING OF ACTION: set-prefix */
 		{
-#line 233 "c-parser.act"
+#line 212 "c-parser.act"
 
 		int prefix;
 
@@ -1702,7 +1701,7 @@ ZR124(void)
 		}
 		nstring_destroy(&(ZI125));
 	
-#line 1707 "c-parser.c"
+#line 1705 "c-parser.c"
 		}
 		/* END OF ACTION: set-prefix */
 		ZR126 ();
@@ -1719,11 +1718,11 @@ ZR124(void)
 				case (C_TOK_C_HIDENTIFIER):
 					/* BEGINNING OF EXTRACT: C-IDENTIFIER */
 					{
-#line 173 "c-parser.act"
+#line 166 "c-parser.act"
 
 		nstring_assign(&ZI128, c_lexer_string_value(c_current_stream));
 	
-#line 1728 "c-parser.c"
+#line 1726 "c-parser.c"
 					}
 					/* END OF EXTRACT: C-IDENTIFIER */
 					break;
@@ -1733,7 +1732,7 @@ ZR124(void)
 				ADVANCE_LEXER;
 				/* BEGINNING OF ACTION: x-set-prefix */
 				{
-#line 247 "c-parser.act"
+#line 239 "c-parser.act"
 
 		if (c_current_prefix == CPFX_NUM_PREFIXES) {
 			nstring_destroy(&(ZI128));
@@ -1744,7 +1743,7 @@ ZR124(void)
 			nstring_assign(prefix, &(ZI128));
 		}
 	
-#line 1749 "c-parser.c"
+#line 1747 "c-parser.c"
 				}
 				/* END OF ACTION: x-set-prefix */
 				ZR223 ();
@@ -1758,18 +1757,18 @@ ZR124(void)
 			{
 				/* BEGINNING OF ACTION: expected-c-identifier */
 				{
-#line 811 "c-parser.act"
+#line 801 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("C identifier");
 		}
 	
-#line 1769 "c-parser.c"
+#line 1767 "c-parser.c"
 				}
 				/* END OF ACTION: expected-c-identifier */
 				/* BEGINNING OF ACTION: skip-to-end-of-prefix */
 				{
-#line 925 "c-parser.act"
+#line 918 "c-parser.act"
 
 		while (CURRENT_TERMINAL != (C_TOK_EOF)
 			&& CURRENT_TERMINAL != (C_TOK_TERMINATOR)
@@ -1798,7 +1797,7 @@ ZR124(void)
 
 		c_propagating_error = true;
 	
-#line 1803 "c-parser.c"
+#line 1801 "c-parser.c"
 				}
 				/* END OF ACTION: skip-to-end-of-prefix */
 			}
@@ -1889,13 +1888,13 @@ c_parse_grammar(void)
 			{
 				/* BEGINNING OF ACTION: expected-blt-header */
 				{
-#line 865 "c-parser.act"
+#line 855 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("'%header%'");
 		}
 	
-#line 1900 "c-parser.c"
+#line 1898 "c-parser.c"
 				}
 				/* END OF ACTION: expected-blt-header */
 			}
@@ -1914,12 +1913,12 @@ c_parse_grammar(void)
 				}
 				/* BEGINNING OF ACTION: set-header1 */
 				{
-#line 322 "c-parser.act"
+#line 315 "c-parser.act"
 
 		c_code_check((ZI207), false, false, false, NULL, NULL, c_current_table);
 		c_out_info_set_header1(c_current_out_info, (ZI207));
 	
-#line 1924 "c-parser.c"
+#line 1922 "c-parser.c"
 				}
 				/* END OF ACTION: set-header1 */
 			}
@@ -1928,13 +1927,13 @@ c_parse_grammar(void)
 			{
 				/* BEGINNING OF ACTION: expected-code */
 				{
-#line 859 "c-parser.act"
+#line 849 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("code block");
 		}
 	
-#line 1939 "c-parser.c"
+#line 1937 "c-parser.c"
 				}
 				/* END OF ACTION: expected-code */
 			}
@@ -1958,12 +1957,12 @@ c_parse_grammar(void)
 				}
 				/* BEGINNING OF ACTION: set-header2 */
 				{
-#line 327 "c-parser.act"
+#line 320 "c-parser.act"
 
 		c_code_check((ZI210), false, false, false, NULL, NULL, c_current_table);
 		c_out_info_set_header2(c_current_out_info, (ZI210));
 	
-#line 1968 "c-parser.c"
+#line 1966 "c-parser.c"
 				}
 				/* END OF ACTION: set-header2 */
 			}
@@ -1972,13 +1971,13 @@ c_parse_grammar(void)
 			{
 				/* BEGINNING OF ACTION: expected-code */
 				{
-#line 859 "c-parser.act"
+#line 849 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("code block");
 		}
 	
-#line 1983 "c-parser.c"
+#line 1981 "c-parser.c"
 				}
 				/* END OF ACTION: expected-code */
 			}
@@ -2059,13 +2058,13 @@ c_parse_grammar(void)
 			{
 				/* BEGINNING OF ACTION: expected-blt-terminals */
 				{
-#line 871 "c-parser.act"
+#line 861 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("'%terminals%'");
 		}
 	
-#line 2070 "c-parser.c"
+#line 2068 "c-parser.c"
 				}
 				/* END OF ACTION: expected-blt-terminals */
 			}
@@ -2093,13 +2092,13 @@ c_parse_grammar(void)
 			{
 				/* BEGINNING OF ACTION: expected-blt-actions */
 				{
-#line 877 "c-parser.act"
+#line 867 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("'%actions%'");
 		}
 	
-#line 2104 "c-parser.c"
+#line 2102 "c-parser.c"
 				}
 				/* END OF ACTION: expected-blt-actions */
 			}
@@ -2127,13 +2126,13 @@ c_parse_grammar(void)
 			{
 				/* BEGINNING OF ACTION: expected-blt-trailer */
 				{
-#line 883 "c-parser.act"
+#line 873 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("'%trailer%'");
 		}
 	
-#line 2138 "c-parser.c"
+#line 2136 "c-parser.c"
 				}
 				/* END OF ACTION: expected-blt-trailer */
 			}
@@ -2152,12 +2151,12 @@ c_parse_grammar(void)
 				}
 				/* BEGINNING OF ACTION: set-trailer1 */
 				{
-#line 726 "c-parser.act"
+#line 719 "c-parser.act"
 
 		c_code_check((ZI219), false, false, false, NULL, NULL, c_current_table);
 		c_out_info_set_trailer1 (c_current_out_info, (ZI219));
 	
-#line 2162 "c-parser.c"
+#line 2160 "c-parser.c"
 				}
 				/* END OF ACTION: set-trailer1 */
 			}
@@ -2166,13 +2165,13 @@ c_parse_grammar(void)
 			{
 				/* BEGINNING OF ACTION: expected-code */
 				{
-#line 859 "c-parser.act"
+#line 849 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("code block");
 		}
 	
-#line 2177 "c-parser.c"
+#line 2175 "c-parser.c"
 				}
 				/* END OF ACTION: expected-code */
 			}
@@ -2196,12 +2195,12 @@ c_parse_grammar(void)
 				}
 				/* BEGINNING OF ACTION: set-trailer2 */
 				{
-#line 731 "c-parser.act"
+#line 724 "c-parser.act"
 
 		c_code_check((ZI222), false, false, false, NULL, NULL, c_current_table);
 		c_out_info_set_trailer2(c_current_out_info, (ZI222));
 	
-#line 2206 "c-parser.c"
+#line 2204 "c-parser.c"
 				}
 				/* END OF ACTION: set-trailer2 */
 			}
@@ -2210,13 +2209,13 @@ c_parse_grammar(void)
 			{
 				/* BEGINNING OF ACTION: expected-code */
 				{
-#line 859 "c-parser.act"
+#line 849 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("code block");
 		}
 	
-#line 2221 "c-parser.c"
+#line 2219 "c-parser.c"
 				}
 				/* END OF ACTION: expected-code */
 			}
@@ -2244,13 +2243,13 @@ c_parse_grammar(void)
 			{
 				/* BEGINNING OF ACTION: expected-eof */
 				{
-#line 889 "c-parser.act"
+#line 879 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("end of file");
 		}
 	
-#line 2255 "c-parser.c"
+#line 2253 "c-parser.c"
 				}
 				/* END OF ACTION: expected-eof */
 			}
@@ -2263,11 +2262,11 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: unhandled-syntax-error */
 		{
-#line 799 "c-parser.act"
+#line 791 "c-parser.act"
 
 		UNREACHED;
 	
-#line 2272 "c-parser.c"
+#line 2270 "c-parser.c"
 		}
 		/* END OF ACTION: unhandled-syntax-error */
 	}
@@ -2306,11 +2305,11 @@ ZR159(void)
 	{
 		/* BEGINNING OF ACTION: init-tuple */
 		{
-#line 347 "c-parser.act"
+#line 339 "c-parser.act"
 
 		types_init(&c_current_type);
 	
-#line 2315 "c-parser.c"
+#line 2313 "c-parser.c"
 		}
 		/* END OF ACTION: init-tuple */
 		/* BEGINNING OF INLINE: 161 */
@@ -2329,13 +2328,13 @@ ZR159(void)
 			{
 				/* BEGINNING OF ACTION: expected-open-tuple */
 				{
-#line 823 "c-parser.act"
+#line 813 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("'('");
 		}
 	
-#line 2340 "c-parser.c"
+#line 2338 "c-parser.c"
 				}
 				/* END OF ACTION: expected-open-tuple */
 			}
@@ -2349,11 +2348,11 @@ ZR159(void)
 		}
 		/* BEGINNING OF ACTION: skip-recover */
 		{
-#line 1110 "c-parser.act"
+#line 1102 "c-parser.act"
 
 		c_propagating_error = false;
 	
-#line 2358 "c-parser.c"
+#line 2356 "c-parser.c"
 		}
 		/* END OF ACTION: skip-recover */
 		/* BEGINNING OF INLINE: 162 */
@@ -2372,13 +2371,13 @@ ZR159(void)
 			{
 				/* BEGINNING OF ACTION: expected-close-tuple */
 				{
-#line 829 "c-parser.act"
+#line 819 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("')'");
 		}
 	
-#line 2383 "c-parser.c"
+#line 2381 "c-parser.c"
 				}
 				/* END OF ACTION: expected-close-tuple */
 			}
@@ -2409,11 +2408,11 @@ ZR141(void)
 				case (C_TOK_C_HIDENTIFIER):
 					/* BEGINNING OF EXTRACT: C-IDENTIFIER */
 					{
-#line 173 "c-parser.act"
+#line 166 "c-parser.act"
 
 		nstring_assign(&ZI128, c_lexer_string_value(c_current_stream));
 	
-#line 2418 "c-parser.c"
+#line 2416 "c-parser.c"
 					}
 					/* END OF EXTRACT: C-IDENTIFIER */
 					break;
@@ -2427,22 +2426,22 @@ ZR141(void)
 			{
 				/* BEGINNING OF ACTION: empty-string */
 				{
-#line 270 "c-parser.act"
+#line 263 "c-parser.act"
 
 		nstring_init(&(ZI128));
 	
-#line 2436 "c-parser.c"
+#line 2434 "c-parser.c"
 				}
 				/* END OF ACTION: empty-string */
 				/* BEGINNING OF ACTION: expected-c-identifier */
 				{
-#line 811 "c-parser.act"
+#line 801 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("C identifier");
 		}
 	
-#line 2447 "c-parser.c"
+#line 2445 "c-parser.c"
 				}
 				/* END OF ACTION: expected-c-identifier */
 			}
@@ -2463,11 +2462,11 @@ ZR141(void)
 				case (C_TOK_C_HIDENTIFIER):
 					/* BEGINNING OF EXTRACT: C-IDENTIFIER */
 					{
-#line 173 "c-parser.act"
+#line 166 "c-parser.act"
 
 		nstring_assign(&ZI145, c_lexer_string_value(c_current_stream));
 	
-#line 2472 "c-parser.c"
+#line 2470 "c-parser.c"
 					}
 					/* END OF EXTRACT: C-IDENTIFIER */
 					break;
@@ -2481,22 +2480,22 @@ ZR141(void)
 			{
 				/* BEGINNING OF ACTION: empty-string */
 				{
-#line 270 "c-parser.act"
+#line 263 "c-parser.act"
 
 		nstring_init(&(ZI145));
 	
-#line 2490 "c-parser.c"
+#line 2488 "c-parser.c"
 				}
 				/* END OF ACTION: empty-string */
 				/* BEGINNING OF ACTION: expected-identifier */
 				{
-#line 805 "c-parser.act"
+#line 795 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("identifier");
 		}
 	
-#line 2501 "c-parser.c"
+#line 2499 "c-parser.c"
 				}
 				/* END OF ACTION: expected-identifier */
 			}
@@ -2505,7 +2504,7 @@ ZR141(void)
 		/* END OF INLINE: 144 */
 		/* BEGINNING OF ACTION: set-persistent */
 		{
-#line 257 "c-parser.act"
+#line 250 "c-parser.act"
 
 		if(persistent_list_find(c_out_info_persistents(c_current_out_info), (&ZI128)) == NULL) {
 			PersistentT *p;
@@ -2518,7 +2517,7 @@ ZR141(void)
 			/* TODO error out E_c_persistent_variable_name_conflict((&ZI128))) ;*/
 		}
 	
-#line 2523 "c-parser.c"
+#line 2521 "c-parser.c"
 		}
 		/* END OF ACTION: set-persistent */
 		ZR223 ();
@@ -2549,11 +2548,11 @@ ZR181(void)
 				{
 					/* BEGINNING OF EXTRACT: C-IDENTIFIER */
 					{
-#line 173 "c-parser.act"
+#line 166 "c-parser.act"
 
 		nstring_assign(&ZI109, c_lexer_string_value(c_current_stream));
 	
-#line 2558 "c-parser.c"
+#line 2556 "c-parser.c"
 					}
 					/* END OF EXTRACT: C-IDENTIFIER */
 					ADVANCE_LEXER;
@@ -2563,11 +2562,11 @@ ZR181(void)
 				{
 					/* BEGINNING OF EXTRACT: SID-IDENTIFIER */
 					{
-#line 177 "c-parser.act"
+#line 170 "c-parser.act"
 
 		nstring_assign(&ZI109, c_lexer_string_value(c_current_stream));
 	
-#line 2572 "c-parser.c"
+#line 2570 "c-parser.c"
 					}
 					/* END OF EXTRACT: SID-IDENTIFIER */
 					ADVANCE_LEXER;
@@ -2580,7 +2579,7 @@ ZR181(void)
 		/* END OF INLINE: c-parse-grammar::identifier */
 		/* BEGINNING OF ACTION: rassign */
 		{
-#line 508 "c-parser.act"
+#line 501 "c-parser.act"
 
 		c_current_entry = table_get_type(c_current_table, (&ZI109));
 		if (c_current_entry == NULL) {
@@ -2592,7 +2591,7 @@ ZR181(void)
 		}
 		nstring_destroy(&(ZI109));
 	
-#line 2597 "c-parser.c"
+#line 2595 "c-parser.c"
 		}
 		/* END OF ACTION: rassign */
 		ZR147 ();
@@ -2613,7 +2612,7 @@ ZR181(void)
 				}
 				/* BEGINNING OF ACTION: x-rassign */
 				{
-#line 556 "c-parser.act"
+#line 513 "c-parser.act"
 
 		if (c_current_entry) {
 			bool  errored = false;
@@ -2666,7 +2665,7 @@ ZR181(void)
 			c_code_deallocate((ZI170));
 		}
 	
-#line 2671 "c-parser.c"
+#line 2669 "c-parser.c"
 				}
 				/* END OF ACTION: x-rassign */
 				ZR223 ();
@@ -2680,18 +2679,18 @@ ZR181(void)
 			{
 				/* BEGINNING OF ACTION: expected-code */
 				{
-#line 859 "c-parser.act"
+#line 849 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("code block");
 		}
 	
-#line 2691 "c-parser.c"
+#line 2689 "c-parser.c"
 				}
 				/* END OF ACTION: expected-code */
 				/* BEGINNING OF ACTION: skip-to-end-of-result-assign */
 				{
-#line 1036 "c-parser.act"
+#line 1029 "c-parser.act"
 
 		while (CURRENT_TERMINAL != (C_TOK_EOF)
 			&& CURRENT_TERMINAL != (C_TOK_TERMINATOR)
@@ -2716,7 +2715,7 @@ ZR181(void)
 
 		c_propagating_error = true;
 	
-#line 2721 "c-parser.c"
+#line 2719 "c-parser.c"
 				}
 				/* END OF ACTION: skip-to-end-of-result-assign */
 			}
@@ -2750,13 +2749,13 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: expected-separator */
 		{
-#line 817 "c-parser.act"
+#line 807 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("','");
 		}
 	
-#line 2761 "c-parser.c"
+#line 2759 "c-parser.c"
 		}
 		/* END OF ACTION: expected-separator */
 	}
@@ -2775,11 +2774,11 @@ ZR149(void)
 		case (C_TOK_C_HIDENTIFIER):
 			/* BEGINNING OF EXTRACT: C-IDENTIFIER */
 			{
-#line 173 "c-parser.act"
+#line 166 "c-parser.act"
 
 		nstring_assign(&ZI128, c_lexer_string_value(c_current_stream));
 	
-#line 2784 "c-parser.c"
+#line 2782 "c-parser.c"
 			}
 			/* END OF EXTRACT: C-IDENTIFIER */
 			break;
@@ -2805,11 +2804,11 @@ ZR149(void)
 									{
 										/* BEGINNING OF EXTRACT: C-IDENTIFIER */
 										{
-#line 173 "c-parser.act"
+#line 166 "c-parser.act"
 
 		nstring_assign(&ZI145, c_lexer_string_value(c_current_stream));
 	
-#line 2814 "c-parser.c"
+#line 2812 "c-parser.c"
 										}
 										/* END OF EXTRACT: C-IDENTIFIER */
 										ADVANCE_LEXER;
@@ -2819,11 +2818,11 @@ ZR149(void)
 									{
 										/* BEGINNING OF EXTRACT: SID-IDENTIFIER */
 										{
-#line 177 "c-parser.act"
+#line 170 "c-parser.act"
 
 		nstring_assign(&ZI145, c_lexer_string_value(c_current_stream));
 	
-#line 2828 "c-parser.c"
+#line 2826 "c-parser.c"
 										}
 										/* END OF EXTRACT: SID-IDENTIFIER */
 										ADVANCE_LEXER;
@@ -2842,7 +2841,7 @@ ZR149(void)
 										ADVANCE_LEXER;
 										/* BEGINNING OF ACTION: tuple-ref-type */
 										{
-#line 359 "c-parser.act"
+#line 352 "c-parser.act"
 
 		if (!types_add_typed_name(&c_current_type, c_current_table, &(ZI128),
 			(&ZI145), true)) {
@@ -2851,7 +2850,7 @@ ZR149(void)
 		}
 		nstring_destroy(&(ZI145));
 	
-#line 2856 "c-parser.c"
+#line 2854 "c-parser.c"
 										}
 										/* END OF ACTION: tuple-ref-type */
 									}
@@ -2860,7 +2859,7 @@ ZR149(void)
 									{
 										/* BEGINNING OF ACTION: tuple-type */
 										{
-#line 350 "c-parser.act"
+#line 343 "c-parser.act"
 
 		if (!types_add_typed_name(&c_current_type, c_current_table, &(ZI128),
 			(&ZI145), false)) {
@@ -2869,7 +2868,7 @@ ZR149(void)
 		}
 		nstring_destroy(&(ZI145));
 	
-#line 2874 "c-parser.c"
+#line 2872 "c-parser.c"
 										}
 										/* END OF ACTION: tuple-type */
 									}
@@ -2883,27 +2882,27 @@ ZR149(void)
 						{
 							/* BEGINNING OF ACTION: expected-identifier */
 							{
-#line 805 "c-parser.act"
+#line 795 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("identifier");
 		}
 	
-#line 2894 "c-parser.c"
+#line 2892 "c-parser.c"
 							}
 							/* END OF ACTION: expected-identifier */
 							/* BEGINNING OF ACTION: destroy-string */
 							{
-#line 892 "c-parser.act"
+#line 885 "c-parser.act"
 
 		nstring_destroy(&(ZI128));
 	
-#line 2903 "c-parser.c"
+#line 2901 "c-parser.c"
 							}
 							/* END OF ACTION: destroy-string */
 							/* BEGINNING OF ACTION: skip-to-end-of-tuple-defn */
 							{
-#line 896 "c-parser.act"
+#line 889 "c-parser.act"
 
 		while (CURRENT_TERMINAL != (C_TOK_EOF)
 			&& CURRENT_TERMINAL != (C_TOK_DEFINE)
@@ -2932,7 +2931,7 @@ ZR149(void)
 
 		c_propagating_error = true;
 	
-#line 2937 "c-parser.c"
+#line 2935 "c-parser.c"
 							}
 							/* END OF ACTION: skip-to-end-of-tuple-defn */
 						}
@@ -2945,11 +2944,11 @@ ZR149(void)
 				{
 					/* BEGINNING OF ACTION: tuple-name */
 					{
-#line 368 "c-parser.act"
+#line 361 "c-parser.act"
 
 		types_add_name(&c_current_type, c_current_table, &(ZI128), false);
 	
-#line 2954 "c-parser.c"
+#line 2952 "c-parser.c"
 					}
 					/* END OF ACTION: tuple-name */
 				}
@@ -2963,18 +2962,18 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: expected-identifier */
 		{
-#line 805 "c-parser.act"
+#line 795 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("identifier");
 		}
 	
-#line 2974 "c-parser.c"
+#line 2972 "c-parser.c"
 		}
 		/* END OF ACTION: expected-identifier */
 		/* BEGINNING OF ACTION: skip-to-end-of-tuple-defn */
 		{
-#line 896 "c-parser.act"
+#line 889 "c-parser.act"
 
 		while (CURRENT_TERMINAL != (C_TOK_EOF)
 			&& CURRENT_TERMINAL != (C_TOK_DEFINE)
@@ -3003,7 +3002,7 @@ ZL1:;
 
 		c_propagating_error = true;
 	
-#line 3008 "c-parser.c"
+#line 3006 "c-parser.c"
 		}
 		/* END OF ACTION: skip-to-end-of-tuple-defn */
 	}
@@ -3029,13 +3028,13 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: expected-terminator */
 		{
-#line 841 "c-parser.act"
+#line 831 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("';'");
 		}
 	
-#line 3040 "c-parser.c"
+#line 3038 "c-parser.c"
 		}
 		/* END OF ACTION: expected-terminator */
 	}
@@ -3057,11 +3056,11 @@ ZR188(void)
 				{
 					/* BEGINNING OF EXTRACT: C-IDENTIFIER */
 					{
-#line 173 "c-parser.act"
+#line 166 "c-parser.act"
 
 		nstring_assign(&ZI109, c_lexer_string_value(c_current_stream));
 	
-#line 3066 "c-parser.c"
+#line 3064 "c-parser.c"
 					}
 					/* END OF EXTRACT: C-IDENTIFIER */
 					ADVANCE_LEXER;
@@ -3071,11 +3070,11 @@ ZR188(void)
 				{
 					/* BEGINNING OF EXTRACT: SID-IDENTIFIER */
 					{
-#line 177 "c-parser.act"
+#line 170 "c-parser.act"
 
 		nstring_assign(&ZI109, c_lexer_string_value(c_current_stream));
 	
-#line 3080 "c-parser.c"
+#line 3078 "c-parser.c"
 					}
 					/* END OF EXTRACT: SID-IDENTIFIER */
 					ADVANCE_LEXER;
@@ -3088,7 +3087,7 @@ ZR188(void)
 		/* END OF INLINE: c-parse-grammar::identifier */
 		/* BEGINNING OF ACTION: set-terminal */
 		{
-#line 578 "c-parser.act"
+#line 571 "c-parser.act"
 
 		c_current_entry = table_get_basic(c_current_table, (&ZI109));
 		if (c_current_entry == NULL) {
@@ -3108,7 +3107,7 @@ ZR188(void)
 		}
 		nstring_destroy(&(ZI109));
 	
-#line 3113 "c-parser.c"
+#line 3111 "c-parser.c"
 		}
 		/* END OF ACTION: set-terminal */
 		ZR147 ();
@@ -3129,7 +3128,7 @@ ZR188(void)
 				}
 				/* BEGINNING OF ACTION: x-set-terminal */
 				{
-#line 636 "c-parser.act"
+#line 592 "c-parser.act"
 
 		if (c_current_entry) {
 			BasicT     *basic   = entry_get_basic(c_current_entry);
@@ -3181,7 +3180,7 @@ ZR188(void)
 			c_code_deallocate((ZI170));
 		}
 	
-#line 3186 "c-parser.c"
+#line 3184 "c-parser.c"
 				}
 				/* END OF ACTION: x-set-terminal */
 				ZR223 ();
@@ -3195,18 +3194,18 @@ ZR188(void)
 			{
 				/* BEGINNING OF ACTION: expected-code */
 				{
-#line 859 "c-parser.act"
+#line 849 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("code block");
 		}
 	
-#line 3206 "c-parser.c"
+#line 3204 "c-parser.c"
 				}
 				/* END OF ACTION: expected-code */
 				/* BEGINNING OF ACTION: skip-to-end-of-terminal */
 				{
-#line 1061 "c-parser.act"
+#line 1054 "c-parser.act"
 
 		while (CURRENT_TERMINAL != (C_TOK_EOF)
 			&& CURRENT_TERMINAL != (C_TOK_TERMINATOR)
@@ -3230,7 +3229,7 @@ ZR188(void)
 
 		c_propagating_error = true;
 	
-#line 3235 "c-parser.c"
+#line 3233 "c-parser.c"
 				}
 				/* END OF ACTION: skip-to-end-of-terminal */
 			}
@@ -3258,11 +3257,11 @@ ZL2_130:;
 			}
 			/* BEGINNING OF ACTION: skip-recover */
 			{
-#line 1110 "c-parser.act"
+#line 1102 "c-parser.act"
 
 		c_propagating_error = false;
 	
-#line 3267 "c-parser.c"
+#line 3265 "c-parser.c"
 			}
 			/* END OF ACTION: skip-recover */
 			/* BEGINNING OF INLINE: c-parse-grammar::map-list */
@@ -3295,11 +3294,11 @@ ZR147(void)
 			}
 			/* BEGINNING OF ACTION: save-tuple */
 			{
-#line 338 "c-parser.act"
+#line 330 "c-parser.act"
 
 		types_assign(&c_saved_type, &c_current_type);
 	
-#line 3304 "c-parser.c"
+#line 3302 "c-parser.c"
 			}
 			/* END OF ACTION: save-tuple */
 			ZR163 ();
@@ -3314,12 +3313,12 @@ ZR147(void)
 		{
 			/* BEGINNING OF ACTION: null-type */
 			{
-#line 343 "c-parser.act"
+#line 334 "c-parser.act"
 
 		types_init(&c_saved_type);
 		types_init(&c_current_type);
 	
-#line 3324 "c-parser.c"
+#line 3322 "c-parser.c"
 			}
 			/* END OF ACTION: null-type */
 		}
@@ -3347,11 +3346,11 @@ ZL2_164:;
 			}
 			/* BEGINNING OF ACTION: skip-recover */
 			{
-#line 1110 "c-parser.act"
+#line 1102 "c-parser.act"
 
 		c_propagating_error = false;
 	
-#line 3356 "c-parser.c"
+#line 3354 "c-parser.c"
 			}
 			/* END OF ACTION: skip-recover */
 			/* BEGINNING OF INLINE: c-parse-grammar::assignment-list */
@@ -3384,11 +3383,11 @@ ZL2_172:;
 			}
 			/* BEGINNING OF ACTION: skip-recover */
 			{
-#line 1110 "c-parser.act"
+#line 1102 "c-parser.act"
 
 		c_propagating_error = false;
 	
-#line 3393 "c-parser.c"
+#line 3391 "c-parser.c"
 			}
 			/* END OF ACTION: skip-recover */
 			/* BEGINNING OF INLINE: c-parse-grammar::param-assign-list */
@@ -3427,13 +3426,13 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: expected-define */
 		{
-#line 853 "c-parser.act"
+#line 843 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("'='");
 		}
 	
-#line 3438 "c-parser.c"
+#line 3436 "c-parser.c"
 		}
 		/* END OF ACTION: expected-define */
 	}
@@ -3441,9 +3440,9 @@ ZL1:;
 
 /* BEGINNING OF TRAILER */
 
-#line 1120 "c-parser.act"
+#line 1112 "c-parser.act"
 
 
-#line 3449 "c-parser.c"
+#line 3447 "c-parser.c"
 
 /* END OF FILE */

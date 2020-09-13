@@ -137,9 +137,9 @@
 	#include "c-lexer.h"
 	#include "c-out-info.h"
 
-	CLexerStreamT *c_current_stream;
-	COutputInfoT  *c_current_out_info;
-	TableT        *c_current_table;
+	extern CLexerStreamT *c_current_stream;
+	extern COutputInfoT  *c_current_out_info;
+	extern TableT        *c_current_table;
 
 @};
 

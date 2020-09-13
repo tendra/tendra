@@ -20,7 +20,7 @@
 #include <exds/istream.h>
 #include  "lexi_lexer.h"
 
-struct lexi_state lexi_current_state ;
+extern struct lexi_state lexi_current_state ;
 
 /*
  * Note:
@@ -93,6 +93,6 @@ int read_builtin(void);
 int lexi_unknown_token(int c0);
 
 /* XXX remove once lexi provides opaque pointers */
-LexerStreamT *lexer_stream;
+extern LexerStreamT *lexer_stream;
 
 #endif /* !defined (H_LEXER) */
