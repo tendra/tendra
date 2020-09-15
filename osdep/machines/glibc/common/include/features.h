@@ -4,7 +4,8 @@
 #if defined(_GLIBC2_12) || defined(_GLIBC2_14) || defined(_GLIBC2_15) \
 	|| defined(_GLIBC2_17) || defined(_GLIBC2_18) || defined(_GLIBC2_19) \
 	|| defined(_GLIBC2_23) || defined(_GLIBC2_27) \
-	|| defined(_GLIBC2_30) || defined(_GLIBC2_31)
+	|| defined(_GLIBC2_30) || defined(_GLIBC2_31) \
+	|| defined(_GLIBC2_32)
 #pragma TenDRA begin
 #pragma TenDRA directive warning allow
 #endif
@@ -14,7 +15,8 @@
 #if defined(_GLIBC2_12) || defined(_GLIBC2_14) || defined(_GLIBC2_15) \
 	|| defined(_GLIBC2_17) || defined(_GLIBC2_18) || defined(_GLIBC2_19) \
 	|| defined(_GLIBC2_23) || defined(_GLIBC2_27) \
-	|| defined(_GLIBC2_30) || defined(_GLIBC2_31)
+	|| defined(_GLIBC2_30) || defined(_GLIBC2_31) \
+	|| defined(_GLIBC2_32)
 #pragma TenDRA end
 #endif
 
