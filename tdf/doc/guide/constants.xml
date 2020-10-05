@@ -53,7 +53,7 @@
 		<programlisting language="tdf">control: EXP INTEGER(v)
 e1:      BITSTREAM EXP x
 e2:      BITSTREAM EXP y
-         -&gt; EXP x or EXP y</programlisting>
+ -&gt; EXP x or EXP y</programlisting>
   
 		<para>The constant, <code>control</code>, is evaluated at translate time.
 			If it is not zero the entire construction is replaced by the EXP in
@@ -72,7 +72,7 @@ e2:      BITSTREAM EXP y
 
 		<programlisting language="tdf">v:     VARIETY
 value: SIGNED_NAT
-       -&gt; EXP INTEGER(v)</programlisting>
+ -&gt; EXP INTEGER(v)</programlisting>
           
 		<para>The SIGNED_NAT <code>value</code> is an encoding of the binary value
 			required for the integer; this value must lie within the limits
@@ -87,7 +87,7 @@ value: SIGNED_NAT
 		<programlisting language="tdf">
 v:   VARIETY
 str: STRING(k, n)
-     -&gt; EXP NOF(n, INTEGER(v))</programlisting>
+ -&gt; EXP NOF(n, INTEGER(v))</programlisting>
 
 		<para>Each unsigned integer in <code>str</code> must lie in the variety
 			<code>v</code> and the result is the constant array whose elements
@@ -107,7 +107,7 @@ sign:     BOOL
 mantissa: STRING(k, n)
 base:     NAT
 exponent: SIGNED_NAT
-          -&gt; EXP FLOATING(f)</programlisting>
+ -&gt; EXP FLOATING(f)</programlisting>
 
 		<para>For a normal floating point number, each integer in
 			<code>mantissa</code> is either the ASCII `.'-symbol or the ASCII

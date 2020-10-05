@@ -30,7 +30,7 @@
 
 		<programlisting language="tdf">s:    SHAPE
 arg1: EXP POINTER(x)
-      -&gt; EXP s</programlisting>
+ -&gt; EXP s</programlisting>
 
 		<para>It delivers the value of SHAPE <code>s</code>, pointed at by the
 			evaluation of <code>arg1</code>. The alignment of <code>s</code>
@@ -46,7 +46,7 @@ arg1: EXP POINTER(x)
 
 		<programlisting language="tdf">arg1: EXP POINTER(x)
 arg2: EXP y
-      -&gt; EXP TOP</programlisting>
+ -&gt; EXP TOP</programlisting>
 
 		<para>The EXPs <code>arg1</code> and <code>arg2</code> are evaluated (no
 			ordering implied) and the value of SHAPE <varname>y</varname> given by
@@ -98,7 +98,7 @@ arg2: EXP y
 arg1: EXP POINTER x
 arg2: EXP POINTER y
 arg3: EXP OFFSET(z, t)
-      -&gt; EXP TOP</programlisting>
+ -&gt; EXP TOP</programlisting>
 
 		<para>The EXP <code>arg1</code> is the destination pointer, and
 			<code>arg2</code> is a source pointer. The amount moved is given by
@@ -122,7 +122,7 @@ arg3: EXP OFFSET(z, t)
 		<programlisting language="tdf">md:   TRANSFER_MODE
 s:    SHAPE
 arg1: EXP POINTER(x)
-      -&gt; EXP s</programlisting>
+ -&gt; EXP s</programlisting>
 
 		<para>Here, the only significant TRANSFER_MODE constructors
 			<code>md</code> are trap_on_nil and volatile. The latter is
@@ -147,7 +147,7 @@ arg1: EXP POINTER(x)
 		<programlisting language="tdf">v:    BITFIELD_VARIETY
 arg1: EXP POINTER(x)
 arg2: EXP OFFSET(y,z)
-      -&gt; EXP bitfield(v)</programlisting>
+ -&gt; EXP bitfield(v)</programlisting>
 
 		<para>Here <code>arg1</code> is a pointer to an alignment
 			<code>x</code> which includes <code>v</code>, the required
@@ -197,7 +197,7 @@ arg2: EXP OFFSET(y,z)
 		<programlisting language="tdf">arg1: EXP POINTER(x)
 arg2: EXP OFFSET(y,z)
 arg3: EXP BITFIELD_VARIETY(v)
--&gt; EXP TOP</programlisting>
+ -&gt; EXP TOP</programlisting>
 	</section>
 </chapter>
 

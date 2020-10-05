@@ -89,8 +89,8 @@
 
 		<programlisting language="tdf">arg1: EXP POINTER(y xc8 A)
 arg2: EXP OFFSET(y, z)
-      -&gt; EXP POINTER(z)
-      ... for any ALIGNMENT A</programlisting>
+ -&gt; EXP POINTER(z)
+ ... for any ALIGNMENT A</programlisting>
 
 		<para>one sees that <code>arg2</code> can measure an OFFSET from a value of
 			a "smaller" alignment than the value pointed at by <code>arg1</code>.
@@ -165,7 +165,7 @@ arg2: EXP OFFSET(y, z)
 		<programlisting language="tdf">~Bitfield_offset_zero:
 n:        NAT
 issigned: BOOL
-          -&gt; EXP OFFSET(A, bfvar_bits(issigned, n))</programlisting>
+ -&gt; EXP OFFSET(A, bfvar_bits(issigned, n))</programlisting>
           
 		<para>Here the result is a zero offset to the bitfield with &ldquo;minimum&rdquo;
 			integer variety alignment A.</para>
@@ -174,7 +174,7 @@ issigned: BOOL
 n:        NAT
 issigned: BOOL
 sh:       SHAPE
-          -&gt; EXP OFFSET(alignment(sh) xc8  A, bfvar_bits(issigned, n))</programlisting>
+ -&gt; EXP OFFSET(alignment(sh) xc8  A, bfvar_bits(issigned, n))</programlisting>
           
 		<para>Here the result is the shape_offset of <code>sh</code> padded with
 			the `minimum' alignment A so that it can accomodate the bitfield.
@@ -186,7 +186,7 @@ sh:       SHAPE
 n:        NAT
 issigned: BOOL
 ind:      EXP INTEGER(v)
-          -&gt; EXP OFFSET(A, bfvar_bits(issigned, n))</programlisting>
+ -&gt; EXP OFFSET(A, bfvar_bits(issigned, n))</programlisting>
           
 		<para>Here the result is an offset which gives the displacement of
 			<code>ind</code>th element of an array of <code>n</code>-bit

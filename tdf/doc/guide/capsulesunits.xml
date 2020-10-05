@@ -212,15 +212,15 @@
 			the parameters and result of the TOKEN using token:</para>
 
 		<programlisting language="tdf">params: LIST(SORTNAME)
-		result: SORTNAME
-		-&gt; SORTNAME</programlisting>
+result: SORTNAME
+ -&gt; SORTNAME</programlisting>
 
 		<para>Taking make_tagdefs as a paradigm for PROPS, we have:</para>
 
 		<programlisting language="tdf">
 no_labels: TDFINT
 tds:       SLIST(TAGDEF)
-           -&gt; TAGDEF_PROPS</programlisting>
+ -&gt; TAGDEF_PROPS</programlisting>
 
 		<para>The <code>no_labels</code> parameter introduces the size of yet
 			another name-space local to the PROPS, this time for the LABELs used
@@ -237,7 +237,7 @@ tds:       SLIST(TAGDEF)
 t:         TDFINT
 signature: OPTION(STRING)
 e:         EXP x
-           -&gt; TAGDEF</programlisting>
+ -&gt; TAGDEF</programlisting>
 
 		<para>Here, <code>t</code> is the tag name and the evaluation of
 			<code>e</code> will be the value of SHAPE <code>x</code> of an
@@ -259,7 +259,7 @@ t:          TDFINT
 opt_access: OPTION(ACCESS)
 signature:  OPTION(STRING)
 e:          EXP x
-            -&gt; TAGDEF</programlisting>
+ -&gt; TAGDEF</programlisting>
 
 		<para>Once again <code>t</code> is tag name but now <code>e</code> is
 			initialisation of the variable <code>t</code>. A use of
@@ -286,7 +286,7 @@ e:          EXP x
 
 		<programlisting language="tdf">
 init: EXP s
-      -&gt; EXP s</programlisting>
+ -&gt; EXP s</programlisting>
 
 		<para>The translator will arrange that <code>init</code> will be evaluated
 			once only before any procedure application, other than those
@@ -312,7 +312,7 @@ t_intro:   TDFINT
 acc:       OPTION(ACCESS)
 signature: OPTION(STRING)
 x:         SHAPE
-           -&gt; TAGDEC</programlisting>
+ -&gt; TAGDEC</programlisting>
 
 			<para>Here the tagname is given by <code>t_intro</code>; the SHAPE
 				<code>x</code> will defined the space and alignment required for the
@@ -386,13 +386,13 @@ x:         SHAPE
 				integers,each of k bits, using make_string:</para>
 
 			<programlisting language="tdf">arg: TDFSTRING(k, n)
-     -&gt; STRING(k, n)</programlisting>
+ -&gt; STRING(k, n)</programlisting>
 
 			<para>STRINGs may be concatenated using concat_string:</para>
 
 			<programlisting language="tdf">arg1: STRING(k, n)
 arg2: STRING(k,m)
-      -&gt; STRING(k, n + m)</programlisting>
+ -&gt; STRING(k, n + m)</programlisting>
   
 			<para>Being able to compose strings, including token applications etc,
 				means that late-binding is possible in <code>signature</code>

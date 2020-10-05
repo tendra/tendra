@@ -723,16 +723,16 @@ sign(p M2 q) = sign(p)
 				one point to make concerning <replaceable>offset_max</replaceable>, which has
 				the following arguments and result.</para>
 
-			<programlisting language="tdf">arg1:						EXP OFFSET(x, y)
-arg2:						EXP OFFSET(z, y)
-					 -&gt; EXP OFFSET(unite_alignments(x, z), y)</programlisting>
+			<programlisting language="tdf">arg1: EXP OFFSET(x, y)
+arg2: EXP OFFSET(z, y)
+ -&gt; EXP OFFSET(unite_alignments(x, z), y)</programlisting>
 
 			<para>The <code>SHAPE</code>s could have been chosen to be:</para>
 
-			<programlisting language="tdf">arg1:						EXP OFFSET(x, y)
-arg2:						EXP OFFSET(z, t)
-					 -&gt; EXP OFFSET(unite_alignments(x, z),
-												 intersect_alignments(y, t))</programlisting>
+			<programlisting language="tdf">arg1: EXP OFFSET(x, y)
+arg2: EXP OFFSET(z, t)
+ -&gt; EXP OFFSET(unite_alignments(x, z),
+               intersect_alignments(y, t))</programlisting>
 
 			<para>where <replaceable>unite_alignments</replaceable> is set union and
 				<replaceable>intersect_alignments</replaceable> is set intersection. This

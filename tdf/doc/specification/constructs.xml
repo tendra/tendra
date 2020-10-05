@@ -35,9 +35,9 @@
 				<tr> <td>Encoding number</td> <td>1</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">token_value:		 TOKEN
-token_args:			BITSTREAM param_sorts(token_value)
-								 -&gt; ACCESS</programlisting>
+			<programlisting language="tdf">token_value: TOKEN
+token_args:  BITSTREAM param_sorts(token_value)
+ -&gt; ACCESS</programlisting>
 
 			<para>The token is applied to the arguments encoded in the
 				<code>BITSTREAM</code> <replaceable>token_args</replaceable> to give an
@@ -61,9 +61,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
-e1:							BITSTREAM ACCESS
-e2:							BITSTREAM ACCESS
-								 -&gt; ACCESS</programlisting>
+e1:      BITSTREAM ACCESS
+e2:      BITSTREAM ACCESS
+ -&gt; ACCESS</programlisting>
 
 			<para><replaceable>control</replaceable> is evaluated. It will be a constant at
 				install time under the constant evaluation rules. If it is non-zero,
@@ -81,9 +81,9 @@ e2:							BITSTREAM ACCESS
 				<tr> <td>Encoding number</td> <td>3</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">a1:							ACCESS
-a2:							ACCESS
-								 -&gt; ACCESS</programlisting>
+			<programlisting language="tdf">a1: ACCESS
+a2: ACCESS
+ -&gt; ACCESS</programlisting>
 
 			<para>A construction qualified with <replaceable>add_accesses</replaceable> has both
 				<code>ACCESS</code> properties <replaceable>a1</replaceable> and
@@ -288,9 +288,9 @@ a2:							ACCESS
 				<tr> <td>Encoding number</td> <td>2</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">token_value:		 TOKEN
-token_args:			BITSTREAM param_sorts(token_value)
-								 -&gt; AL_TAG</programlisting>
+			<programlisting language="tdf">token_value: TOKEN
+token_args:  BITSTREAM param_sorts(token_value)
+ -&gt; AL_TAG</programlisting>
 
 			<para>The token is applied to the arguments encoded in the
 				<code>BITSTREAM</code> <replaceable>token_args</replaceable> to give an
@@ -309,8 +309,8 @@ token_args:			BITSTREAM param_sorts(token_value)
 				<tr> <td>Encoding number</td> <td>1</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">al_tagno:				TDFINT
-								 -&gt; AL_TAG</programlisting>
+			<programlisting language="tdf">al_tagno: TDFINT
+ -&gt; AL_TAG</programlisting>
 
 			<para><replaceable>make_al_tag</replaceable> constructs an <code>AL_TAG</code>
 				identified by <replaceable>al_tagno</replaceable>.</para>
@@ -335,9 +335,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 				<tr> <td>Encoding number</td> <td>1</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">t:							 TDFINT
-a:							 ALIGNMENT
-								 -&gt; AL_TAGDEF</programlisting>
+			<programlisting language="tdf">t: TDFINT
+a: ALIGNMENT
+ -&gt; AL_TAGDEF</programlisting>
 
 			<para>The <code>AL_TAG</code> identified by <replaceable>t</replaceable> is defined
 				to stand for the <code>ALIGNMENT</code> <replaceable>a</replaceable>. All the
@@ -378,9 +378,9 @@ a:							 ALIGNMENT
 				<tr> <td>Encoding number</td> <td>0</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">no_labels:			 TDFINT
-tds:						 SLIST(AL_TAGDEF)
-								 -&gt; AL_TAGDEF_PROPS</programlisting>
+			<programlisting language="tdf">no_labels: TDFINT
+tds:       SLIST(AL_TAGDEF)
+ -&gt; AL_TAGDEF_PROPS</programlisting>
 
 			<para><replaceable>no_labels</replaceable> is the number of local
 				<code>LABEL</code>s used in <replaceable>tds</replaceable>.
@@ -453,9 +453,9 @@ tds:						 SLIST(AL_TAGDEF)
 				<tr> <td>Encoding number</td> <td>1</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">token_value:		 TOKEN
-token_args:			BITSTREAM param_sorts(token_value)
-								 -&gt; ALIGNMENT</programlisting>
+			<programlisting language="tdf">token_value: TOKEN
+token_args:  BITSTREAM param_sorts(token_value)
+ -&gt; ALIGNMENT</programlisting>
 
 			<para>The token is applied to the arguments encoded in the
 				<code>BITSTREAM</code> <replaceable>token_args</replaceable> to give an
@@ -475,9 +475,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
-e1:							BITSTREAM ALIGNMENT
-e2:							BITSTREAM ALIGNMENT
-								 -&gt; ALIGNMENT</programlisting>
+e1:      BITSTREAM ALIGNMENT
+e2:      BITSTREAM ALIGNMENT
+ -&gt; ALIGNMENT</programlisting>
 
 			<para><replaceable>control</replaceable> is evaluated. It will be a constant at
 				install time under the constant evaluation rules. If it is non-zero,
@@ -495,8 +495,8 @@ e2:							BITSTREAM ALIGNMENT
 				<tr> <td>Encoding number</td> <td>3</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">sha:						 SHAPE
-								 -&gt; ALIGNMENT</programlisting>
+			<programlisting language="tdf">sha: SHAPE
+ -&gt; ALIGNMENT</programlisting>
 
 			<para>The <replaceable>alignment</replaceable> construct is defined as follows:</para>
 
@@ -582,8 +582,8 @@ e2:							BITSTREAM ALIGNMENT
 				<tr> <td>Encoding number</td> <td>5</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">var:						 BOOL
-								 -&gt; ALIGNMENT</programlisting>
+			<programlisting language="tdf">var: BOOL
+ -&gt; ALIGNMENT</programlisting>
 
 			<para>If <replaceable>var</replaceable> is <replaceable>true</replaceable> the
 				<code>ALIGNMENT</code> is that of callee parameters qualified by the
@@ -607,8 +607,8 @@ e2:							BITSTREAM ALIGNMENT
 				<tr> <td>Encoding number</td> <td>6</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">var:						 BOOL
-								 -&gt; ALIGNMENT</programlisting>
+			<programlisting language="tdf">var: BOOL
+ -&gt; ALIGNMENT</programlisting>
 
 			<para>If <replaceable>var</replaceable> is <replaceable>true</replaceable> the
 				<code>ALIGNMENT</code> is that of caller parameters qualified by the
@@ -662,8 +662,8 @@ e2:							BITSTREAM ALIGNMENT
 				<tr> <td>Encoding number</td> <td>9</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">at:							AL_TAG
-								 -&gt; ALIGNMENT</programlisting>
+			<programlisting language="tdf">at: AL_TAG
+ -&gt; ALIGNMENT</programlisting>
 
 			<para><replaceable>obtain_al_tag</replaceable> produces the <code>ALIGNMENT</code>
 				with which the <code>AL_TAG</code> <replaceable>at</replaceable> is bound.</para>
@@ -676,8 +676,8 @@ e2:							BITSTREAM ALIGNMENT
 				<tr> <td>Encoding number</td> <td>10</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">sha:						 SHAPE
-								 -&gt; ALIGNMENT</programlisting>
+			<programlisting language="tdf">sha: SHAPE
+ -&gt; ALIGNMENT</programlisting>
 
 			<para>Delivers the <code>ALIGNMENT</code> of a parameter of a procedure of
 				<code>SHAPE</code> <replaceable>sha</replaceable>.</para>
@@ -690,9 +690,9 @@ e2:							BITSTREAM ALIGNMENT
 				<tr> <td>Encoding number</td> <td>11</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">a1:							ALIGNMENT
-a2:							ALIGNMENT
-								 -&gt; ALIGNMENT</programlisting>
+			<programlisting language="tdf">a1: ALIGNMENT
+a2: ALIGNMENT
+ -&gt; ALIGNMENT</programlisting>
 
 			<para><replaceable>unite_alignments</replaceable> produces the alignment at which
 				all the members of the <code>ALIGNMENT</code> sets
@@ -738,9 +738,9 @@ a2:							ALIGNMENT
 				<tr> <td>Encoding number</td> <td>1</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">token_value:		 TOKEN
-token_args:			BITSTREAM param_sorts(token_value)
-								 -&gt; BITFIELD_VARIETY</programlisting>
+			<programlisting language="tdf">token_value: TOKEN
+token_args:  BITSTREAM param_sorts(token_value)
+ -&gt; BITFIELD_VARIETY</programlisting>
 
 			<para>The token is applied to the arguments encoded in the
 				<code>BITSTREAM</code> <replaceable>token_args</replaceable> to give a
@@ -760,9 +760,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
-e1:							BITSTREAM BITFIELD_VARIETY
-e2:							BITSTREAM BITFIELD_VARIETY
-								 -&gt; BITFIELD_VARIETY</programlisting>
+e1:      BITSTREAM BITFIELD_VARIETY
+e2:      BITSTREAM BITFIELD_VARIETY
+ -&gt; BITFIELD_VARIETY</programlisting>
 
 			<para><replaceable>control</replaceable> is evaluated. It will be a constant at
 				install time under the constant evaluation rules. If it is non-zero,
@@ -780,9 +780,9 @@ e2:							BITSTREAM BITFIELD_VARIETY
 				<tr> <td>Encoding number</td> <td>3</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">issigned:				BOOL
-bits:						NAT
-								 -&gt; BITFIELD_VARIETY</programlisting>
+			<programlisting language="tdf">issigned: BOOL
+bits:     NAT
+ -&gt; BITFIELD_VARIETY</programlisting>
 
 			<para><replaceable>bfvar_bits</replaceable> constructs a
 				<code>BITFIELD_VARIETY</code> describing a pattern of
@@ -827,9 +827,9 @@ twos-complement signed number: otherwise it is considered to be
 				<tr> <td>Encoding number</td> <td>1</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">token_value:		 TOKEN
-token_args:			BITSTREAM param_sorts(token_value)
-								 -&gt; BOOL</programlisting>
+			<programlisting language="tdf">token_value: TOKEN
+token_args:  BITSTREAM param_sorts(token_value)
+ -&gt; BOOL</programlisting>
 
 			<para>The token is applied to the arguments encoded in the
 				<code>BITSTREAM</code> <replaceable>token_args</replaceable> to give a
@@ -849,9 +849,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
-e1:							BITSTREAM BOOL
-e2:							BITSTREAM BOOL
-								 -&gt; BOOL</programlisting>
+e1:      BITSTREAM BOOL
+e2:      BITSTREAM BOOL
+ -&gt; BOOL</programlisting>
 
 			<para><replaceable>control</replaceable> is evaluated. It will be a constant at
 				install time under the constant evaluation rules. If it is non-zero,
@@ -915,8 +915,8 @@ e2:							BITSTREAM BOOL
 				<tr> <td>Encoding number</td> <td>1</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">args:						LIST(EXP)
-								 -&gt; CALLEES</programlisting>
+			<programlisting language="tdf">args: LIST(EXP)
+ -&gt; CALLEES</programlisting>
 
 			<para>The list of <code>EXP</code>s <replaceable>args</replaceable> are evaluated in
 				any interleaved order and the resulting list of values form the actual
@@ -930,9 +930,9 @@ e2:							BITSTREAM BOOL
 				<tr> <td>Encoding number</td> <td>2</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">ptr:						 EXP POINTER(x)
-sze:						 EXP OFFSET(x, y)
-								 -&gt; CALLEES</programlisting>
+			<programlisting language="tdf">ptr: EXP POINTER(x)
+sze: EXP OFFSET(x, y)
+ -&gt; CALLEES</programlisting>
 
 			<para>The value of size <replaceable>sze</replaceable> pointed at by
 				<replaceable>ptr</replaceable> forms the actual callee parameters of the call.</para>
@@ -993,11 +993,11 @@ sze:						 EXP OFFSET(x, y)
 				<tr> <td>Encoding number</td> <td>0</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">prop_names:			SLIST(TDFIDENT)
-cap_linking:		 SLIST(CAPSULE_LINK)
-ext_linkage:		 SLIST(EXTERN_LINK)
-groups:					SLIST(GROUP)
-								 -&gt; CAPSULE</programlisting>
+			<programlisting language="tdf">prop_names:  SLIST(TDFIDENT)
+cap_linking: SLIST(CAPSULE_LINK)
+ext_linkage: SLIST(EXTERN_LINK)
+groups:      SLIST(GROUP)
+ -&gt; CAPSULE</programlisting>
 
 			<para><replaceable>make_capsule</replaceable> brings together <code>UNIT</code>s and
 				linking and naming information. See <link linkend="overall-structure">The Overall
@@ -1067,9 +1067,9 @@ groups:					SLIST(GROUP)
 				<tr> <td>Encoding number</td> <td>0</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">sn:							TDFIDENT
-n:							 TDFINT
-								 -&gt; CAPSULE_LINK</programlisting>
+			<programlisting language="tdf">sn: TDFIDENT
+n:  TDFINT
+ -&gt; CAPSULE_LINK</programlisting>
 
 			<para><replaceable>n</replaceable> is the number of <code>CAPSULE</code> level
 				linkable entities (numbered from 0 to <replaceable>n</replaceable>-1) of the
@@ -1097,10 +1097,10 @@ n:							 TDFINT
 				<tr> <td>Encoding number</td> <td>0</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">branch:					LABEL
-lower:					 SIGNED_NAT
-upper:					 SIGNED_NAT
-								 -&gt; CASELIM</programlisting>
+			<programlisting language="tdf">branch: LABEL
+lower:  SIGNED_NAT
+upper:  SIGNED_NAT
+ -&gt; CASELIM</programlisting>
 
 			<para>Makes a triple of destination and limits. The <replaceable>case</replaceable>
 				construction uses a list of <code>CASELIM</code>s. If the control
@@ -1183,9 +1183,9 @@ upper:					 SIGNED_NAT
 				<tr> <td>Encoding number</td> <td>1</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">token_value:		 TOKEN
-token_args:			BITSTREAM param_sorts(token_value)
-								 -&gt; ERROR_TREATMENT</programlisting>
+			<programlisting language="tdf">token_value: TOKEN
+token_args:  BITSTREAM param_sorts(token_value)
+ -&gt; ERROR_TREATMENT</programlisting>
 
 			<para>The token is applied to the arguments encoded in the
 				<code>BITSTREAM</code> <replaceable>token_args</replaceable> to give an
@@ -1205,9 +1205,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
-e1:							BITSTREAM ERROR_TREATMENT
-e2:							BITSTREAM ERROR_TREATMENT
-								 -&gt; ERROR_TREATMENT</programlisting>
+e1:      BITSTREAM ERROR_TREATMENT
+e2:      BITSTREAM ERROR_TREATMENT
+ -&gt; ERROR_TREATMENT</programlisting>
 
 			<para><replaceable>control</replaceable> is evaluated. It will be a constant at
 				install time under the constant evaluation rules. If it is non-zero,
@@ -1240,8 +1240,8 @@ e2:							BITSTREAM ERROR_TREATMENT
 				<tr> <td>Encoding number</td> <td>4</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">lab:						 LABEL
-								 -&gt; ERROR_TREATMENT</programlisting>
+			<programlisting language="tdf">lab: LABEL
+ -&gt; ERROR_TREATMENT</programlisting>
 
 			<para><replaceable>error_jump</replaceable> produces an <code>ERROR_TREATMENT</code>
 				which requires that control be passed to <replaceable>lab</replaceable> if it
@@ -1266,8 +1266,8 @@ e2:							BITSTREAM ERROR_TREATMENT
 				<tr> <td>Encoding number</td> <td>5</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">trap_list:			 LIST(ERROR_code)
-								 -&gt; ERROR_TREATMENT</programlisting>
+			<programlisting language="tdf">trap_list: LIST(ERROR_code)
+ -&gt; ERROR_TREATMENT</programlisting>
 
 			<para>The list of <code>ERROR_codeS</code> in <replaceable>trap_list</replaceable>
 				specifies a set of possible exceptional behaviours. If any of these
@@ -1340,9 +1340,9 @@ primitive <code>EXP</code>s: most of the constructions take arguments
 				<tr> <td>Encoding number</td> <td>1</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">token_value:		 TOKEN
-token_args:			BITSTREAM param_sorts(token_value)
-								 -&gt; EXP x</programlisting>
+			<programlisting language="tdf">token_value: TOKEN
+token_args:  BITSTREAM param_sorts(token_value)
+ -&gt; EXP x</programlisting>
 
 			<para>The token is applied to the arguments encoded in the
 				<code>BITSTREAM</code> <replaceable>token_args</replaceable> to give an
@@ -1362,8 +1362,8 @@ token_args:			BITSTREAM param_sorts(token_value)
 			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
-e1:							BITSTREAM EXP x
-e2:							BITSTREAM EXP y
+e1:      BITSTREAM EXP x
+e2:      BITSTREAM EXP y
  -&gt; EXP (control ? x : y)</programlisting>
 
 			<para><replaceable>control</replaceable> is evaluated. It will be a constant at
@@ -1382,9 +1382,9 @@ e2:							BITSTREAM EXP y
 				<tr> <td>Encoding number</td> <td>3</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">ov_err:					ERROR_TREATMENT
-arg1:						EXP INTEGER(v)
-								 -&gt; EXP INTEGER(v)</programlisting>
+			<programlisting language="tdf">ov_err: ERROR_TREATMENT
+arg1:   EXP INTEGER(v)
+ -&gt; EXP INTEGER(v)</programlisting>
 
 			<para>The absolute value of the result produced by <replaceable>arg1</replaceable>
 				is delivered.</para>
@@ -1401,9 +1401,9 @@ arg1:						EXP INTEGER(v)
 				<tr> <td>Encoding number</td> <td>4</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						EXP POINTER(x)
-arg2:						EXP OFFSET(y, z)
-								 -&gt; EXP POINTER(z)</programlisting>
+			<programlisting language="tdf">arg1: EXP POINTER(x)
+arg2: EXP OFFSET(y, z)
+ -&gt; EXP POINTER(z)</programlisting>
 
 			<para><replaceable>arg1</replaceable> is evaluated, giving <replaceable>p</replaceable>,
 				and <replaceable>arg2</replaceable> is evaluated and the results are added to
@@ -1442,9 +1442,9 @@ arg2:						EXP OFFSET(y, z)
 				<tr> <td>Encoding number</td> <td>5</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						EXP INTEGER(v)
-arg2:						EXP INTEGER(v)
-								 -&gt; EXP INTEGER(v)</programlisting>
+			<programlisting language="tdf">arg1: EXP INTEGER(v)
+arg2: EXP INTEGER(v)
+ -&gt; EXP INTEGER(v)</programlisting>
 
 			<para>The arguments are evaluated producing integer values of the same
 				<code>VARIETY</code>, <replaceable>v</replaceable>. The result is the bitwise
@@ -1462,11 +1462,11 @@ arg2:						EXP INTEGER(v)
 				<tr> <td>Encoding number</td> <td>6</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">result_shape:		SHAPE
-p:							 EXP PROC
-params:					LIST(EXP)
-var_param:			 OPTION(EXP)
-								 -&gt; EXP result_shape</programlisting>
+			<programlisting language="tdf">result_shape: SHAPE
+p:            EXP PROC
+params:       LIST(EXP)
+var_param:    OPTION(EXP)
+ -&gt; EXP result_shape</programlisting>
 
 			<para><replaceable>p, params</replaceable> and <replaceable>var_param</replaceable> (if
 				present) are evaluated in any interleaved order. The procedure,
@@ -1515,13 +1515,13 @@ var_param:			 OPTION(EXP)
 				<tr> <td>Encoding number</td> <td>7</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">result_shape:		SHAPE
-prcprops:				OPTION(PROCPROPS)
-p:							 EXP PROC
-callers_intro:	 LIST(OTAGEXP)
-callee_pars:		 CALLEES
-postlude:				EXP TOP
-								 -&gt; EXP result_shape</programlisting>
+			<programlisting language="tdf">result_shape:  SHAPE
+prcprops:      OPTION(PROCPROPS)
+p:             EXP PROC
+callers_intro: LIST(OTAGEXP)
+callee_pars:   CALLEES
+postlude:      EXP TOP
+ -&gt; EXP result_shape</programlisting>
 
 			<para><replaceable>p</replaceable>, <replaceable>callers_intro</replaceable> and
 				<replaceable>callee_pars</replaceable> are evaluated in any order. The
@@ -1626,9 +1626,9 @@ present, the inlining process is modified by: The binding of P is
 				<tr> <td>Encoding number</td> <td>8</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						EXP POINTER(x)
-arg2:						EXP y
-								 -&gt; EXP TOP</programlisting>
+			<programlisting language="tdf">arg1: EXP POINTER(x)
+arg2: EXP y
+ -&gt; EXP TOP</programlisting>
 
 			<para>The value produced by <replaceable>arg2</replaceable> will be put in the space
 				indicated by <replaceable>arg1</replaceable>.</para>
@@ -1660,10 +1660,10 @@ arg2:						EXP y
 				<tr> <td>Encoding number</td> <td>9</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">md:							TRANSFER_MODE
-arg1:						EXP POINTER(x)
-arg2:						EXP y
-								 -&gt; EXP TOP</programlisting>
+			<programlisting language="tdf">md:   TRANSFER_MODE
+arg1: EXP POINTER(x)
+arg2: EXP y
+ -&gt; EXP TOP</programlisting>
 
 			<para>The value produced by <replaceable>arg2</replaceable> will be put in the space
 				indicated by <replaceable>arg1</replaceable>. The assignment will be carried
@@ -1696,10 +1696,10 @@ arg2:						EXP y
 				<tr> <td>Encoding number</td> <td>10</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						EXP POINTER(x)
-arg2:						EXP OFFSET(y, z)
-arg3:						EXP BITFIELD(v)
-								 -&gt; EXP TOP</programlisting>
+			<programlisting language="tdf">arg1: EXP POINTER(x)
+arg2: EXP OFFSET(y, z)
+arg3: EXP BITFIELD(v)
+ -&gt; EXP TOP</programlisting>
 
 			<para>The value delivered by <replaceable>arg3</replaceable> is assigned at a
 				displacement given by <replaceable>arg2</replaceable> from the pointer
@@ -1719,11 +1719,11 @@ arg3:						EXP BITFIELD(v)
 				<tr> <td>Encoding number</td> <td>11</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">md:							TRANSFER_MODE
-arg1:						EXP POINTER(x)
-arg2:						EXP OFFSET(y, z)
-arg3:						EXP BITFIELD(v)
-								 -&gt; EXP TOP</programlisting>
+			<programlisting language="tdf">md:   TRANSFER_MODE
+arg1: EXP POINTER(x)
+arg2: EXP OFFSET(y, z)
+arg3: EXP BITFIELD(v)
+ -&gt; EXP TOP</programlisting>
 
 			<para>The value delivered by <replaceable>arg3</replaceable> is assigned at a
 				displacement given by <replaceable>arg2</replaceable> from the pointer
@@ -1746,10 +1746,10 @@ arg3:						EXP BITFIELD(v)
 				<tr> <td>Encoding number</td> <td>12</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">v:							 BITFIELD_VARIETY
-arg1:						EXP POINTER(x)
-arg2:						EXP OFFSET(y, z)
-								 -&gt; EXP BITFIELD(v)</programlisting>
+			<programlisting language="tdf">v:    BITFIELD_VARIETY
+arg1: EXP POINTER(x)
+arg2: EXP OFFSET(y, z)
+ -&gt; EXP BITFIELD(v)</programlisting>
 
 			<para>The bitfield of <code>BITFIELD_VARIETY</code> <replaceable>v</replaceable>,
 				located at the displacement delivered by <replaceable>arg2</replaceable> from
@@ -1770,11 +1770,11 @@ arg2:						EXP OFFSET(y, z)
 				<tr> <td>Encoding number</td> <td>13</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">md:							TRANSFER_MODE
-v:							 BITFIELD_VARIETY
-arg1:						EXP POINTER(x)
-arg2:						EXP OFFSET(y, z)
-								 -&gt; EXP BITFIELD(v)</programlisting>
+			<programlisting language="tdf">md:   TRANSFER_MODE
+v:    BITFIELD_VARIETY
+arg1: EXP POINTER(x)
+arg2: EXP OFFSET(y, z)
+ -&gt; EXP BITFIELD(v)</programlisting>
 
 			<para>The bitfield of <code>BITFIELD_VARIETY </code><replaceable>v</replaceable>,
 				located at the displacement delivered by <replaceable>arg2</replaceable> from
@@ -1801,9 +1801,9 @@ arg2:						EXP OFFSET(y, z)
 				<tr> <td>Encoding number</td> <td>14</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">exhaustive:			BOOL
-control: EXP INTEGER(v)
-branches:				LIST(CASELIM)
+			<programlisting language="tdf">exhaustive: BOOL
+control:    EXP INTEGER(v)
+branches:   LIST(CASELIM)
  -&gt; EXP (exhaustive ? BOTTOM : TOP)</programlisting>
 
 			<para><replaceable>control</replaceable> is evaluated to produce an integer value,
@@ -1832,9 +1832,9 @@ branches:				LIST(CASELIM)
 				<tr> <td>Encoding number</td> <td>15</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">v:							 VARIETY
-arg1:						EXP BITFIELD(bv)
-								 -&gt; EXP INTEGER(v)</programlisting>
+			<programlisting language="tdf">v:    VARIETY
+arg1: EXP BITFIELD(bv)
+ -&gt; EXP INTEGER(v)</programlisting>
 
 			<para><replaceable>arg1</replaceable> is evaluated and converted to a
 				<code>INTEGER</code>(<replaceable>v</replaceable>).</para>
@@ -1850,10 +1850,10 @@ arg1:						EXP BITFIELD(bv)
 				<tr> <td>Encoding number</td> <td>16</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">flpt_err:				ERROR_TREATMENT
-r:							 FLOATING_VARIETY
-arg1:						EXP FLOATING(f)
-								 -&gt; EXP FLOATING(r)</programlisting>
+			<programlisting language="tdf">flpt_err: ERROR_TREATMENT
+r:        FLOATING_VARIETY
+arg1:     EXP FLOATING(f)
+ -&gt; EXP FLOATING(r)</programlisting>
 
 			<para><replaceable>arg1</replaceable> is evaluated and will produce floating point
 				value, <replaceable>fp</replaceable>. The value <replaceable>fp</replaceable> is
@@ -1876,10 +1876,10 @@ arg1:						EXP FLOATING(f)
 				<tr> <td>Encoding number</td> <td>17</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">ov_err:					ERROR_TREATMENT
-r:							 VARIETY
-arg1:						EXP INTEGER(v)
-								 -&gt; EXP INTEGER(r)</programlisting>
+			<programlisting language="tdf">ov_err: ERROR_TREATMENT
+r:      VARIETY
+arg1:   EXP INTEGER(v)
+ -&gt; EXP INTEGER(r)</programlisting>
 
 			<para><replaceable>arg1</replaceable> is evaluated and will produce an integer
 				value, <replaceable>a</replaceable>.	The value <replaceable>a</replaceable> is
@@ -1898,9 +1898,9 @@ arg1:						EXP INTEGER(v)
 				<tr> <td>Encoding number</td> <td>18</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">bv:							BITFIELD_VARIETY
-arg1:						EXP INTEGER(v)
-								 -&gt; EXP BITFIELD(bv)</programlisting>
+			<programlisting language="tdf">bv:   BITFIELD_VARIETY
+arg1: EXP INTEGER(v)
+ -&gt; EXP BITFIELD(bv)</programlisting>
 
 			<para><replaceable>arg1</replaceable> is evaluated and converted to a
 				<code>BITFIELD</code>(<replaceable>bv</replaceable>).</para>
@@ -1916,8 +1916,8 @@ arg1:						EXP INTEGER(v)
 				<tr> <td>Encoding number</td> <td>19</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">c:							 EXP FLOATING(cv)
-								 -&gt; EXP FLOATING(cv)</programlisting>
+			<programlisting language="tdf">c: EXP FLOATING(cv)
+ -&gt; EXP FLOATING(cv)</programlisting>
 
 			<para>Delivers the complex conjugate of <replaceable>c</replaceable>.</para>
 
@@ -1931,10 +1931,10 @@ arg1:						EXP INTEGER(v)
 				<tr> <td>Encoding number</td> <td>20</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">sha:						 SHAPE
-arg1:						EXP COMPOUND(EXP OFFSET(x, y))
-arg2:						EXP OFFSET(x, alignment(sha))
-								 -&gt; EXP sha</programlisting>
+			<programlisting language="tdf">sha:  SHAPE
+arg1: EXP COMPOUND(EXP OFFSET(x, y))
+arg2: EXP OFFSET(x, alignment(sha))
+ -&gt; EXP sha</programlisting>
 
 			<para><replaceable>arg1</replaceable> is evaluated to produce a
 				<code>COMPOUND</code> value.	The component of this value at the
@@ -1956,9 +1956,9 @@ arg2:						EXP OFFSET(x, alignment(sha))
 				<tr> <td>Encoding number</td> <td>21</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						EXP NOF(n, s)
-arg2:						EXP NOF(m, s)
-								 -&gt; EXP NOF(n+m, s)</programlisting>
+			<programlisting language="tdf">arg1: EXP NOF(n, s)
+arg2: EXP NOF(m, s)
+ -&gt; EXP NOF(n+m, s)</programlisting>
 
 			<para><replaceable>arg1</replaceable> and <replaceable>arg2</replaceable> are evaluated
 				and their results concatenated. In the result the components derived
@@ -1973,10 +1973,10 @@ arg2:						EXP NOF(m, s)
 				<tr> <td>Encoding number</td> <td>22</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">altlab_intro:		LABEL
-first:					 EXP x
-alt:						 EXP z
-								 -&gt; EXP (x LUB z)</programlisting>
+			<programlisting language="tdf">altlab_intro: LABEL
+first:        EXP x
+alt:          EXP z
+ -&gt; EXP (x LUB z)</programlisting>
 
 			<para><replaceable>first</replaceable> is evaluated. If <replaceable>first</replaceable>
 				produces a result, <replaceable>f</replaceable>, this value is delivered as
@@ -2010,9 +2010,9 @@ alt:						 EXP z
 				<tr> <td>Encoding number</td> <td>23</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">s:							 SHAPE
-arg1:						EXP POINTER(x)
-								 -&gt; EXP s</programlisting>
+			<programlisting language="tdf">s:    SHAPE
+arg1: EXP POINTER(x)
+ -&gt; EXP s</programlisting>
 
 			<para>A value of <code>SHAPE</code> <replaceable>s</replaceable> will be extracted
 				from the start of the space indicated by the pointer, and this is
@@ -2043,10 +2043,10 @@ arg1:						EXP POINTER(x)
 				<tr> <td>Encoding number</td> <td>24</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">md:							TRANSFER_MODE
-s:							 SHAPE
-arg1:						EXP POINTER(x)
-								 -&gt; EXP s</programlisting>
+			<programlisting language="tdf">md:   TRANSFER_MODE
+s:    SHAPE
+arg1: EXP POINTER(x)
+ -&gt; EXP s</programlisting>
 
 			<para>A value of <code>SHAPE</code> <replaceable>s</replaceable> will be extracted
 				from the start of the space indicated by the pointer, and this is
@@ -2123,11 +2123,11 @@ arg1:						EXP POINTER(x)
 				<tr> <td>Encoding number</td> <td>26</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">div_by_0_err:		ERROR_TREATMENT
-ov_err:					ERROR_TREATMENT
-arg1:						EXP INTEGER(v)
-arg2:						EXP INTEGER(v)
-								 -&gt; EXP INTEGER(v)</programlisting>
+			<programlisting language="tdf">div_by_0_err: ERROR_TREATMENT
+ov_err:       ERROR_TREATMENT
+arg1:         EXP INTEGER(v)
+arg2:         EXP INTEGER(v)
+ -&gt; EXP INTEGER(v)</programlisting>
 
 			<para><replaceable>arg1</replaceable> and <replaceable>arg2</replaceable> are evaluated
 				and will produce integer values, <replaceable>a</replaceable> and
@@ -2161,11 +2161,11 @@ arg2:						EXP INTEGER(v)
 				<tr> <td>Encoding number</td> <td>27</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">div_by_0_err:		ERROR_TREATMENT
-ov_err:					ERROR_TREATMENT
-arg1:						EXP INTEGER(v)
-arg2:						EXP INTEGER(v)
-								 -&gt; EXP INTEGER(v)</programlisting>
+			<programlisting language="tdf">div_by_0_err: ERROR_TREATMENT
+ov_err:       ERROR_TREATMENT
+arg1:         EXP INTEGER(v)
+arg2:         EXP INTEGER(v)
+ -&gt; EXP INTEGER(v)</programlisting>
 
 			<para><replaceable>arg1</replaceable> and <replaceable>arg2</replaceable> are evaluated
 				and will produce integer values, <replaceable>a</replaceable> and
@@ -2196,11 +2196,11 @@ arg2:						EXP INTEGER(v)
 				<tr> <td>Encoding number</td> <td>28</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">div_by_0_err:		ERROR_TREATMENT
-ov_err:					ERROR_TREATMENT
-arg1:						EXP INTEGER(v)
-arg2:						EXP INTEGER(v)
-								 -&gt; EXP INTEGER(v)</programlisting>
+			<programlisting language="tdf">div_by_0_err: ERROR_TREATMENT
+ov_err:       ERROR_TREATMENT
+arg1:         EXP INTEGER(v)
+arg2:         EXP INTEGER(v)
+ -&gt; EXP INTEGER(v)</programlisting>
 
 			<para><replaceable>arg1</replaceable> and <replaceable>arg2</replaceable> are evaluated
 				and will produce integer values, <replaceable>a</replaceable> and
@@ -2232,10 +2232,10 @@ arg2:						EXP INTEGER(v)
 				<tr> <td>Encoding number</td> <td>29</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">fa:							ALIGNMENT
-y:							 ALIGNMENT
-t:							 TAG x
-								 -&gt; EXP OFFSET(fa, y)</programlisting>
+			<programlisting language="tdf">fa: ALIGNMENT
+y:  ALIGNMENT
+t:  TAG x
+ -&gt; EXP OFFSET(fa, y)</programlisting>
 
 			<para><replaceable>t</replaceable> will be the tag of a
 				<replaceable>variable</replaceable>, <replaceable>identify</replaceable> or
@@ -2285,7 +2285,7 @@ t:							 TAG x
 			</informaltable>
 
 			<programlisting language="tdf">proctag: TAG PROC
-								 -&gt; EXP OFFSET(locals_alignment, {})</programlisting>
+ -&gt; EXP OFFSET(locals_alignment, {})</programlisting>
 
 			<para>Delivers an <code>OFFSET</code> of a space sufficient to contain all the
 				variables and identifications, explicit or implicit in the procedure
@@ -2307,7 +2307,7 @@ t:							 TAG x
 			</informaltable>
 
 			<programlisting language="tdf">message: STRING(k, n)
-								 -&gt; EXP BOTTOM</programlisting>
+ -&gt; EXP BOTTOM</programlisting>
 
 			<para>Any attempt to use this operation to produce code will result in a
 				failure of the installation process. <replaceable>message</replaceable> will
@@ -2322,10 +2322,10 @@ t:							 TAG x
 				<tr> <td>Encoding number</td> <td>32</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">flpt_err:				ERROR_TREATMENT
-f:							 FLOATING_VARIETY
-arg1:						EXP INTEGER(v)
-								 -&gt; EXP FLOATING(f)</programlisting>
+			<programlisting language="tdf">flpt_err: ERROR_TREATMENT
+f:        FLOATING_VARIETY
+arg1:     EXP INTEGER(v)
+ -&gt; EXP FLOATING(f)</programlisting>
 
 			<para><replaceable>arg1</replaceable> is evaluated to produce an integer value,
 				which is converted to the representation of <replaceable>f</replaceable> and
@@ -2347,9 +2347,9 @@ arg1:						EXP INTEGER(v)
 				<tr> <td>Encoding number</td> <td>33</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">flpt_err:				ERROR_TREATMENT
-arg1:						EXP FLOATING(f)
-								 -&gt; EXP FLOATING(f)</programlisting>
+			<programlisting language="tdf">flpt_err: ERROR_TREATMENT
+arg1:     EXP FLOATING(f)
+ -&gt; EXP FLOATING(f)</programlisting>
 
 			<para><replaceable>arg1</replaceable> is evaluated and will produce a floating point
 				value, <replaceable>a</replaceable>, of the <code>FLOATING_VARIETY</code>,
@@ -2373,10 +2373,10 @@ arg1:						EXP FLOATING(f)
 				<tr> <td>Encoding number</td> <td>34</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">flpt_err:				ERROR_TREATMENT
-arg1:						EXP FLOATING(f)
-arg2:						EXP FLOATING(f)
-								 -&gt; EXP FLOATING(f)</programlisting>
+			<programlisting language="tdf">flpt_err: ERROR_TREATMENT
+arg1:     EXP FLOATING(f)
+arg2:     EXP FLOATING(f)
+ -&gt; EXP FLOATING(f)</programlisting>
 
 			<para><replaceable>arg1</replaceable> and <replaceable>arg2</replaceable> are evaluated
 				and will produce floating point values, <replaceable>a</replaceable> and
@@ -2399,10 +2399,10 @@ arg2:						EXP FLOATING(f)
 				<tr> <td>Encoding number</td> <td>35</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">flpt_err:				ERROR_TREATMENT
-arg1:						EXP FLOATING(f)
-arg2:						EXP FLOATING(f)
-								 -&gt; EXP FLOATING(f)</programlisting>
+			<programlisting language="tdf">flpt_err: ERROR_TREATMENT
+arg1:     EXP FLOATING(f)
+arg2:     EXP FLOATING(f)
+ -&gt; EXP FLOATING(f)</programlisting>
 
 			<para><replaceable>arg1</replaceable> and <replaceable>arg2</replaceable> are evaluated
 				and will produce floating point values, <replaceable>a</replaceable> and
@@ -2425,10 +2425,10 @@ arg2:						EXP FLOATING(f)
 				<tr> <td>Encoding number</td> <td>36</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">flpt_err:				ERROR_TREATMENT
-arg1:						EXP FLOATING(f)
-arg2:						EXP FLOATING(f)
-								 -&gt; EXP FLOATING(f)</programlisting>
+			<programlisting language="tdf">flpt_err: ERROR_TREATMENT
+arg1:     EXP FLOATING(f)
+arg2:     EXP FLOATING(f)
+ -&gt; EXP FLOATING(f)</programlisting>
 
 			<para>The maximum of the values delivered by <replaceable>arg1</replaceable> and
 				<replaceable>arg2</replaceable> is the result. <replaceable>f</replaceable> will not
@@ -2448,10 +2448,10 @@ arg2:						EXP FLOATING(f)
 				<tr> <td>Encoding number</td> <td>37</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">flpt_err:				ERROR_TREATMENT
-arg1:						EXP FLOATING(f)
-arg2:						EXP FLOATING(f)
-								 -&gt; EXP FLOATING(f)</programlisting>
+			<programlisting language="tdf">flpt_err: ERROR_TREATMENT
+arg1:     EXP FLOATING(f)
+arg2:     EXP FLOATING(f)
+ -&gt; EXP FLOATING(f)</programlisting>
 
 			<para>The minimum of the values delivered by <replaceable>arg1</replaceable> and
 				<replaceable>arg2</replaceable> is the result. <replaceable>f</replaceable> will not
@@ -2471,9 +2471,9 @@ arg2:						EXP FLOATING(f)
 				<tr> <td>Encoding number</td> <td>38</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">flpt_err:				ERROR_TREATMENT
-arg1:						LIST(EXP)
-								 -&gt; EXP FLOATING(f)</programlisting>
+			<programlisting language="tdf">flpt_err: ERROR_TREATMENT
+arg1:     LIST(EXP)
+ -&gt; EXP FLOATING(f)</programlisting>
 
 			<para>The arguments, <replaceable>arg1</replaceable>, are evaluated producing
 				floating point values all of the same <code>FLOATING_VARIETY</code>,
@@ -2507,9 +2507,9 @@ arg1:						LIST(EXP)
 				<tr> <td>Encoding number</td> <td>39</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">flpt_err:				ERROR_TREATMENT
-arg1:						EXP FLOATING(f)
-								 -&gt; EXP FLOATING(f)</programlisting>
+			<programlisting language="tdf">flpt_err: ERROR_TREATMENT
+arg1:     EXP FLOATING(f)
+ -&gt; EXP FLOATING(f)</programlisting>
 
 			<para><replaceable>arg1</replaceable> is evaluated and will produce a floating point
 				value, <replaceable>a</replaceable>, of the <code>FLOATING_VARIETY</code>,
@@ -2532,9 +2532,9 @@ arg1:						EXP FLOATING(f)
 				<tr> <td>Encoding number</td> <td>40</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">flpt_err:				ERROR_TREATMENT
-arg1:						LIST(EXP)
-								 -&gt; EXP FLOATING(f)</programlisting>
+			<programlisting language="tdf">flpt_err: ERROR_TREATMENT
+arg1:     LIST(EXP)
+ -&gt; EXP FLOATING(f)</programlisting>
 
 			<para>The arguments, <replaceable>arg1</replaceable>, are evaluated producing
 				floating point values, all of the same <code>FLOATING_VARIETY</code>,
@@ -2568,10 +2568,10 @@ arg1:						LIST(EXP)
 				<tr> <td>Encoding number</td> <td>41</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">flpt_err:				ERROR_TREATMENT
-arg1:						EXP FLOATING(f)
-arg2:						EXP INTEGER(v)
-								 -&gt; EXP FLOATING(f)</programlisting>
+			<programlisting language="tdf">flpt_err: ERROR_TREATMENT
+arg1:     EXP FLOATING(f)
+arg2:     EXP INTEGER(v)
+ -&gt; EXP FLOATING(f)</programlisting>
 
 			<para>The result of <replaceable>arg1</replaceable> is raised to the power given by
 				<replaceable>arg2</replaceable>.</para>
@@ -2591,13 +2591,13 @@ arg2:						EXP INTEGER(v)
 				<tr> <td>Encoding number</td> <td>42</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">prob:						OPTION(NAT)
-flpt_err:				ERROR_TREATMENT
-nt:							NTEST
-dest:						LABEL
-arg1:						EXP FLOATING(f)
-arg2:						EXP FLOATING(f)
-								 -&gt; EXP TOP</programlisting>
+			<programlisting language="tdf">prob:     OPTION(NAT)
+flpt_err: ERROR_TREATMENT
+nt:       NTEST
+dest:     LABEL
+arg1:     EXP FLOATING(f)
+arg2:     EXP FLOATING(f)
+ -&gt; EXP TOP</programlisting>
 
 			<para><replaceable>arg1</replaceable> and <replaceable>arg2</replaceable> are evaluated
 				and will produce floating point values, <replaceable>a</replaceable> and
@@ -2631,8 +2631,8 @@ arg2:						EXP FLOATING(f)
 				<tr> <td>Encoding number</td> <td>43</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">dest:						LABEL
-								 -&gt; EXP BOTTOM</programlisting>
+			<programlisting language="tdf">dest: LABEL
+ -&gt; EXP BOTTOM</programlisting>
 
 			<para>Control passes to the <code>EXP</code> labelled
 				<replaceable>dest</replaceable>. This construct will only be used where
@@ -2646,8 +2646,8 @@ arg2:						EXP FLOATING(f)
 				<tr> <td>Encoding number</td> <td>44</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						EXP POINTER({code})
-								 -&gt; EXP BOTTOM</programlisting>
+			<programlisting language="tdf">arg1: EXP POINTER({code})
+ -&gt; EXP BOTTOM</programlisting>
 
 			<para><replaceable>arg1</replaceable> is evaluated. The label from which the value
 				delivered by <replaceable>arg1</replaceable> was created will be within its
@@ -2668,11 +2668,11 @@ arg2:						EXP FLOATING(f)
 				<tr> <td>Encoding number</td> <td>45</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">opt_access:			OPTION(ACCESS)
-name_intro:			TAG x
-definition:			EXP x
-body:						EXP y
-								 -&gt; EXP y</programlisting>
+			<programlisting language="tdf">opt_access: OPTION(ACCESS)
+name_intro: TAG x
+definition: EXP x
+body: EXP y
+ -&gt; EXP y</programlisting>
 
 			<para><replaceable>definition</replaceable> is evaluated to produce a value,
 				<replaceable>v</replaceable>. Then <replaceable>body</replaceable> is evaluated.
@@ -2714,8 +2714,8 @@ of one <code>TAG</code> by another are given: this will not happen. The
 				<tr> <td>Encoding number</td> <td>46</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						EXP x
-								 -&gt; EXP x</programlisting>
+			<programlisting language="tdf">arg1: EXP x
+ -&gt; EXP x</programlisting>
 
 			<para>If the result of this construction is discarded,
 				<replaceable>arg1</replaceable> need not be evaluated, though evaluation is
@@ -2730,8 +2730,8 @@ of one <code>TAG</code> by another are given: this will not happen. The
 				<tr> <td>Encoding number</td> <td>47</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						EXP c
-								 -&gt; EXP FLOATING (float_of_complex(c))</programlisting>
+			<programlisting language="tdf">arg1: EXP c
+ -&gt; EXP FLOATING (float_of_complex(c))</programlisting>
 
 			<para><replaceable>c</replaceable> will be complex. Delivers the imaginary part of
 				the value produced by <replaceable>arg1</replaceable>.</para>
@@ -2745,8 +2745,8 @@ of one <code>TAG</code> by another are given: this will not happen. The
 				<tr> <td>Encoding number</td> <td>48</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">init:						EXP s
-								 -&gt; EXP s</programlisting>
+			<programlisting language="tdf">init: EXP s
+ -&gt; EXP s</programlisting>
 
 			<para>Any tag used as an argument of an <replaceable>obtain_tag</replaceable> in
 				<replaceable>init</replaceable> will be global or defined within
@@ -2774,12 +2774,12 @@ of one <code>TAG</code> by another are given: this will not happen. The
 				<tr> <td>Encoding number</td> <td>49</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">prob:						OPTION(NAT)
-nt:							NTEST
-dest:						LABEL
-arg1:						EXP INTEGER(v)
-arg2:						EXP INTEGER(v)
-								 -&gt; EXP TOP</programlisting>
+			<programlisting language="tdf">prob: OPTION(NAT)
+nt:   NTEST
+dest: LABEL
+arg1: EXP INTEGER(v)
+arg2: EXP INTEGER(v)
+ -&gt; EXP TOP</programlisting>
 
 			<para><replaceable>arg1</replaceable> and <replaceable>arg2</replaceable> are evaluated
 				and will produce integer values, <replaceable>a</replaceable> and
@@ -2803,10 +2803,10 @@ arg2:						EXP INTEGER(v)
 				<tr> <td>Encoding number</td> <td>50</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">labs_intro:			LIST(LABEL)
-starter: EXP x
-places:					LIST(EXP)
-								 -&gt; EXP w</programlisting>
+			<programlisting language="tdf">labs_intro: LIST(LABEL)
+starter:    EXP x
+places:     LIST(EXP)
+ -&gt; EXP w</programlisting>
 
 			<para>The lists <replaceable>labs_intro</replaceable> and
 				<replaceable>places</replaceable> shall have the same number of elements.</para>
@@ -2851,8 +2851,8 @@ places:					LIST(EXP)
 				<tr> <td>Encoding number</td> <td>51</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">x:							 EXP OFFSET(y, z)
-								 -&gt; EXP POINTER(alloca_alignment)</programlisting>
+			<programlisting language="tdf">x: EXP OFFSET(y, z)
+ -&gt; EXP POINTER(alloca_alignment)</programlisting>
 
 			<para>If the last use of <replaceable>local_alloc</replaceable> in the current
 				activation of the current procedure was after the last use of
@@ -2878,8 +2878,8 @@ places:					LIST(EXP)
 				<tr> <td>Encoding number</td> <td>52</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						EXP OFFSET(x, y)
-								 -&gt; EXP POINTER(alloca_alignment)</programlisting>
+			<programlisting language="tdf">arg1: EXP OFFSET(x, y)
+ -&gt; EXP POINTER(alloca_alignment)</programlisting>
 
 			<para>The <replaceable>arg1</replaceable> expression is evaluated and space is
 				allocated sufficient to hold a value of the given size. The result is an
@@ -2927,8 +2927,8 @@ places:					LIST(EXP)
 				<tr> <td>Encoding number</td> <td>53</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						EXP OFFSET(x, y)
-								 -&gt; EXP POINTER(alloca_alignment)</programlisting>
+			<programlisting language="tdf">arg1: EXP OFFSET(x, y)
+ -&gt; EXP POINTER(alloca_alignment)</programlisting>
 
 			<para>If the <code>OFFSET</code> <replaceable>arg1</replaceable> can be accomodated
 				within the limit of the local_alloc stack (see <link linkend="set_stack_limit">section 5.16.108</link>), the action is precisely
@@ -2945,9 +2945,9 @@ places:					LIST(EXP)
 				<tr> <td>Encoding number</td> <td>54</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">a:							 EXP OFFSET(x, y)
-p:							 EXP POINTER(alloca_alignment)
-								 -&gt; EXP TOP</programlisting>
+			<programlisting language="tdf">a: EXP OFFSET(x, y)
+p: EXP POINTER(alloca_alignment)
+ -&gt; EXP TOP</programlisting>
 
 			<para>The <code>POINTER</code>, <replaceable>p</replaceable>, will be an original
 				pointer to space allocated by <replaceable>local_alloc</replaceable> within
@@ -2988,9 +2988,9 @@ p:							 EXP POINTER(alloca_alignment)
 				<tr> <td>Encoding number</td> <td>56</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						EXP POINTER(fa)
-arg2:						EXP POINTER({code})
-								 -&gt; EXP BOTTOM</programlisting>
+			<programlisting language="tdf">arg1: EXP POINTER(fa)
+arg2: EXP POINTER({code})
+ -&gt; EXP BOTTOM</programlisting>
 
 			<para><replaceable>arg1</replaceable> will be a pointer produced by an application
 				of <replaceable>curent_env</replaceable> in a currently active procedure.</para>
@@ -3015,10 +3015,10 @@ arg2:						EXP POINTER({code})
 				<tr> <td>Encoding number</td> <td>57</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">c:							 FLOATING_VARIETY
-arg1:						EXP FLOATING(f)
-arg2:						EXP FLOATING(f)
-								 -&gt; EXP FLOATING(c)</programlisting>
+			<programlisting language="tdf">c:    FLOATING_VARIETY
+arg1: EXP FLOATING(f)
+arg2: EXP FLOATING(f)
+ -&gt; EXP FLOATING(c)</programlisting>
 
 			<para><replaceable>c</replaceable> will be complex and derived from the same
 				parameters as <replaceable>f</replaceable>.</para>
@@ -3034,9 +3034,9 @@ arg2:						EXP FLOATING(f)
 				<tr> <td>Encoding number</td> <td>58</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						EXP OFFSET(base, y)
-arg2:						LIST(EXP)
-								 -&gt; EXP COMPOUND(arg1)</programlisting>
+			<programlisting language="tdf">arg1: EXP OFFSET(base, y)
+arg2: LIST(EXP)
+ -&gt; EXP COMPOUND(arg1)</programlisting>
 
 			<para>Let the <replaceable>i</replaceable>th component (<replaceable>i</replaceable>
 				starts at one) of <replaceable>arg2</replaceable> be
@@ -3084,13 +3084,13 @@ arg2:						LIST(EXP)
 				<tr> <td>Encoding number</td> <td>59</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">f:							 FLOATING_VARIETY
-rm:							ROUNDING_MODE
-negative:				BOOL
-mantissa:				STRING(k, n)
-base:						NAT
-exponent:				SIGNED_NAT
-								 -&gt; EXP FLOATING(f)</programlisting>
+			<programlisting language="tdf">f:        FLOATING_VARIETY
+rm:       ROUNDING_MODE
+negative: BOOL
+mantissa: STRING(k, n)
+base:     NAT
+exponent: SIGNED_NAT
+ -&gt; EXP FLOATING(f)</programlisting>
 
 			<para><replaceable>f</replaceable> will not be complex.</para>
 
@@ -3125,12 +3125,12 @@ exponent:				SIGNED_NAT
 				<tr> <td>Encoding number</td> <td>60</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">result_shape:		SHAPE
-prcprops:				OPTION(PROCPROPS)
-caller_intro:		LIST(TAGSHACC)
-callee_intro:		LIST(TAGSHACC)
-body:						EXP BOTTOM
-								 -&gt; EXP PROC</programlisting>
+			<programlisting language="tdf">result_shape: SHAPE
+prcprops:     OPTION(PROCPROPS)
+caller_intro: LIST(TAGSHACC)
+callee_intro: LIST(TAGSHACC)
+body:         EXP BOTTOM
+ -&gt; EXP PROC</programlisting>
 
 			<para>Evaluation of <replaceable>make_general_proc</replaceable> delivers a
 				<code>PROC</code>. When this procedure is applied to parameters using
@@ -3209,9 +3209,9 @@ body:						EXP BOTTOM
 				<tr> <td>Encoding number</td> <td>61</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">v:							 VARIETY
-value:					 SIGNED_NAT
-								 -&gt; EXP INTEGER(v)</programlisting>
+			<programlisting language="tdf">v:     VARIETY
+value: SIGNED_NAT
+ -&gt; EXP INTEGER(v)</programlisting>
 
 			<para>An integer value is delivered of which the value is given by
 				<replaceable>value</replaceable>, and the <code>VARIETY</code> by
@@ -3227,8 +3227,8 @@ value:					 SIGNED_NAT
 				<tr> <td>Encoding number</td> <td>62</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">lab:						 LABEL
-								 -&gt; EXP POINTER({code})</programlisting>
+			<programlisting language="tdf">lab: LABEL
+ -&gt; EXP POINTER({code})</programlisting>
 
 			<para>A <code>POINTER(</code><replaceable>{code</replaceable><code>})</code>
 				<replaceable>lv</replaceable> is created and delivered. It can be used as an
@@ -3245,8 +3245,8 @@ value:					 SIGNED_NAT
 				<tr> <td>Encoding number</td> <td>63</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						LIST(EXP)
-								 -&gt; EXP NOF(n, s)</programlisting>
+			<programlisting language="tdf">arg1: LIST(EXP)
+ -&gt; EXP NOF(n, s)</programlisting>
 
 			<para>Creates an array of <replaceable>n</replaceable> values of <code>SHAPE</code>
 				<replaceable>s</replaceable>, containing the given values produced by
@@ -3263,9 +3263,9 @@ value:					 SIGNED_NAT
 				<tr> <td>Encoding number</td> <td>64</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">v:							 VARIETY
-str:						 STRING(k, n)
-								 -&gt; EXP NOF(n, INTEGER(v))</programlisting>
+			<programlisting language="tdf">v:   VARIETY
+str: STRING(k, n)
+ -&gt; EXP NOF(n, INTEGER(v))</programlisting>
 
 			<para>An <code>NOF INTEGER</code> is delivered. The conversions are carried
 				out as if the elements of <replaceable>str</replaceable> were
@@ -3317,8 +3317,8 @@ str:						 STRING(k, n)
 				<tr> <td>Encoding number</td> <td>67</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">a:							 ALIGNMENT
-								 -&gt; EXP POINTER(a)</programlisting>
+			<programlisting language="tdf">a: ALIGNMENT
+ -&gt; EXP POINTER(a)</programlisting>
 
 			<para>A null <code>POINTER</code>(<replaceable>a</replaceable>) is created and
 				delivered. The null <code>POINTER</code> may be tested for by
@@ -3338,11 +3338,11 @@ str:						 STRING(k, n)
 				<tr> <td>Encoding number</td> <td>68</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">result_shape:		SHAPE
-params_intro:		LIST(TAGSHACC)
-var_intro:			 OPTION(TAGACC)
-body:						EXP BOTTOM
-								 -&gt; EXP PROC</programlisting>
+			<programlisting language="tdf">result_shape: SHAPE
+params_intro: LIST(TAGSHACC)
+var_intro:    OPTION(TAGACC)
+body:         EXP BOTTOM
+ -&gt; EXP PROC</programlisting>
 
 			<para>Evaluation of <replaceable>make_proc</replaceable> delivers a
 				<code>PROC</code>. When this procedure is applied to parameters using
@@ -3409,10 +3409,10 @@ body:						EXP BOTTOM
 				<tr> <td>Encoding number</td> <td>116</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">stack_base:			EXP POINTER(fa)
-frame_size:			EXP OFFSET(locals_alignment, x)
-alloc_size:			EXP OFFSET(alloca_alignment, y)
-								 -&gt; EXP POINTER(fb)</programlisting>
+			<programlisting language="tdf">stack_base: EXP POINTER(fa)
+frame_size: EXP OFFSET(locals_alignment, x)
+alloc_size: EXP OFFSET(alloca_alignment, y)
+ -&gt; EXP POINTER(fb)</programlisting>
 
 			<para>This creates a POINTER suitable for use with
 				<replaceable>set_stack_limit</replaceable>.</para>
@@ -3466,8 +3466,8 @@ alloc_size:			EXP OFFSET(alloca_alignment, y)
 				<tr> <td>Encoding number</td> <td>70</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">s:							 SHAPE
-								 -&gt; EXP s</programlisting>
+			<programlisting language="tdf">s: SHAPE
+ -&gt; EXP s</programlisting>
 
 			<para>This <code>EXP</code> creates some value with the representation of the
 				<code>SHAPE</code> <replaceable>s</replaceable>. This value will have the
@@ -3497,9 +3497,9 @@ alloc_size:			EXP OFFSET(alloca_alignment, y)
 				<tr> <td>Encoding number</td> <td>71</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						EXP INTEGER(v)
-arg2:						EXP INTEGER(v)
-								 -&gt; EXP INTEGER(v)</programlisting>
+			<programlisting language="tdf">arg1: EXP INTEGER(v)
+arg2: EXP INTEGER(v)
+ -&gt; EXP INTEGER(v)</programlisting>
 
 			<para>The arguments will be evaluated and the maximum of the values delivered
 				is the result.</para>
@@ -3512,9 +3512,9 @@ arg2:						EXP INTEGER(v)
 				<tr> <td>Encoding number</td> <td>72</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						EXP INTEGER(v)
-arg2:						EXP INTEGER(v)
-								 -&gt; EXP INTEGER(v)</programlisting>
+			<programlisting language="tdf">arg1: EXP INTEGER(v)
+arg2: EXP INTEGER(v)
+ -&gt; EXP INTEGER(v)</programlisting>
 
 			<para>The arguments will be evaluated and the minimum of the values delivered
 				is the result.</para>
@@ -3527,10 +3527,10 @@ arg2:						EXP INTEGER(v)
 				<tr> <td>Encoding number</td> <td>73</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">ov_err:					ERROR_TREATMENT
-arg1:						EXP INTEGER(v)
-arg2:						EXP INTEGER(v)
-								 -&gt; EXP INTEGER(v)</programlisting>
+			<programlisting language="tdf">ov_err: ERROR_TREATMENT
+arg1:   EXP INTEGER(v)
+arg2:   EXP INTEGER(v)
+ -&gt; EXP INTEGER(v)</programlisting>
 
 			<para><replaceable>arg1</replaceable> and <replaceable>arg2</replaceable> are evaluated
 				and will produce integer values, <replaceable>a</replaceable> and
@@ -3551,11 +3551,11 @@ arg2:						EXP INTEGER(v)
 				<tr> <td>Encoding number</td> <td>74</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">md:							TRANSFER_MODE
-arg1:						EXP POINTER(x)
-arg2:						EXP POINTER(y)
-arg3:						EXP OFFSET(z, t)
-								 -&gt; EXP TOP</programlisting>
+			<programlisting language="tdf">md:   TRANSFER_MODE
+arg1: EXP POINTER(x)
+arg2: EXP POINTER(y)
+arg3: EXP OFFSET(z, t)
+ -&gt; EXP TOP</programlisting>
 
 			<para>The arguments are evaluated to produce <replaceable>p1</replaceable>,
 				<replaceable>p2</replaceable>, and <replaceable>sz</replaceable> respectively. A
@@ -3588,10 +3588,10 @@ arg3:						EXP OFFSET(z, t)
 				<tr> <td>Encoding number</td> <td>75</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">ov_err:					ERROR_TREATMENT
-arg1:						EXP INTEGER(v)
-arg2:						EXP INTEGER(v)
-								 -&gt; EXP INTEGER(v)</programlisting>
+			<programlisting language="tdf">ov_err: ERROR_TREATMENT
+arg1:   EXP INTEGER(v)
+arg2:   EXP INTEGER(v)
+ -&gt; EXP INTEGER(v)</programlisting>
 
 			<para><replaceable>arg1</replaceable> and <replaceable>arg2</replaceable> are evaluated
 				and will produce integer values, <replaceable>a</replaceable> and
@@ -3612,9 +3612,9 @@ arg2:						EXP INTEGER(v)
 				<tr> <td>Encoding number</td> <td>76</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">n:							 NAT
-arg1:						EXP x
-								 -&gt; EXP NOF(n, x)</programlisting>
+			<programlisting language="tdf">n:    NAT
+arg1: EXP x
+ -&gt; EXP NOF(n, x)</programlisting>
 
 			<para><replaceable>arg1</replaceable> is evaluated and an <code>NOF</code> value is
 				delivered which contains <replaceable>n</replaceable> copies of this value.
@@ -3631,9 +3631,9 @@ arg1:						EXP x
 				<tr> <td>Encoding number</td> <td>78</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">ov_err:					ERROR_TREATMENT
-arg1:						EXP INTEGER(v)
-								 -&gt; EXP INTEGER(v)</programlisting>
+			<programlisting language="tdf">ov_err: ERROR_TREATMENT
+arg1:   EXP INTEGER(v)
+ -&gt; EXP INTEGER(v)</programlisting>
 
 			<para><replaceable>arg1</replaceable> is evaluated and will produce an integer
 				value, <replaceable>a</replaceable>. The value -<replaceable>a</replaceable> is
@@ -3652,8 +3652,8 @@ arg1:						EXP INTEGER(v)
 				<tr> <td>Encoding number</td> <td>78</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						EXP INTEGER(v)
-								 -&gt; EXP INTEGER(v)</programlisting>
+			<programlisting language="tdf">arg1: EXP INTEGER(v)
+ -&gt; EXP INTEGER(v)</programlisting>
 
 			<para>The argument is evaluated producing an integer value, of
 				<code>VARIETY</code>, <replaceable>v</replaceable>. The result is the bitwise
@@ -3671,8 +3671,8 @@ arg1:						EXP INTEGER(v)
 				<tr> <td>Encoding number</td> <td>79</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">t:							 TAG x
-								 -&gt; EXP x</programlisting>
+			<programlisting language="tdf">t: TAG x
+ -&gt; EXP x</programlisting>
 
 			<para>The value with which the <code>TAG</code> <replaceable>t</replaceable> is
 				bound is delivered. The <code>SHAPE</code> of the result is the
@@ -3687,9 +3687,9 @@ arg1:						EXP INTEGER(v)
 				<tr> <td>Encoding number</td> <td>80</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						EXP OFFSET(x, y)
-arg2:						EXP OFFSET(z, t)
-								 -&gt; EXP OFFSET(x, t)</programlisting>
+			<programlisting language="tdf">arg1: EXP OFFSET(x, y)
+arg2: EXP OFFSET(z, t)
+ -&gt; EXP OFFSET(x, t)</programlisting>
 
 			<para>The two arguments deliver <code>OFFSET</code>s. The result is the sum of
 				these <code>OFFSET</code>s, as an <code>OFFSET</code>.</para>
@@ -3711,10 +3711,10 @@ arg2:						EXP OFFSET(z, t)
 				<tr> <td>Encoding number</td> <td>81</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">v:							 VARIETY
-arg1:						EXP OFFSET(x, x)
-arg2:						EXP OFFSET(x, x)
-								 -&gt; EXP INTEGER(v)</programlisting>
+			<programlisting language="tdf">v:    VARIETY
+arg1: EXP OFFSET(x, x)
+arg2: EXP OFFSET(x, x)
+ -&gt; EXP INTEGER(v)</programlisting>
 
 			<para>The two arguments deliver <code>OFFSET</code>s, <replaceable>a</replaceable>
 				and <replaceable>b</replaceable>.	The result is <replaceable>a/b</replaceable>, as
@@ -3732,9 +3732,9 @@ arg2:						EXP OFFSET(x, x)
 				<tr> <td>Encoding number</td> <td>82</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						EXP OFFSET(x, x)
-arg2:						EXP INTEGER(v)
-								 -&gt; EXP OFFSET(x, x)</programlisting>
+			<programlisting language="tdf">arg1: EXP OFFSET(x, x)
+arg2: EXP INTEGER(v)
+ -&gt; EXP OFFSET(x, x)</programlisting>
 
 			<para>The result is the <code>OFFSET</code> produced by
 				<replaceable>arg1</replaceable> divided by <replaceable>arg2</replaceable>, as an
@@ -3756,9 +3756,9 @@ arg2:						EXP INTEGER(v)
 				<tr> <td>Encoding number</td> <td>83</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						EXP OFFSET(x, y)
-arg2:						EXP OFFSET(z, y)
-								 -&gt; EXP OFFSET(unite_alignments(x, z), y)</programlisting>
+			<programlisting language="tdf">arg1: EXP OFFSET(x, y)
+arg2: EXP OFFSET(z, y)
+ -&gt; EXP OFFSET(unite_alignments(x, z), y)</programlisting>
 
 			<para>The two arguments deliver <code>OFFSET</code>s. The result is the
 				maximum of these <code>OFFSET</code>s, as an <code>OFFSET</code>.</para>
@@ -3778,9 +3778,9 @@ arg2:						EXP OFFSET(z, y)
 				<tr> <td>Encoding number</td> <td>84</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						EXP OFFSET(x, x)
-arg2:						EXP INTEGER(v)
-								 -&gt; EXP OFFSET(x, x)</programlisting>
+			<programlisting language="tdf">arg1: EXP OFFSET(x, x)
+arg2: EXP INTEGER(v)
+ -&gt; EXP OFFSET(x, x)</programlisting>
 
 			<para>The first argument gives an <code>OFFSET</code>,
 				<replaceable>off</replaceable>, and the second an integer,
@@ -3798,8 +3798,8 @@ arg2:						EXP INTEGER(v)
 				<tr> <td>Encoding number</td> <td>85</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						EXP OFFSET(x, x)
-								 -&gt; EXP OFFSET(x, x)</programlisting>
+			<programlisting language="tdf">arg1: EXP OFFSET(x, x)
+ -&gt; EXP OFFSET(x, x)</programlisting>
 
 			<para>The inverse of the argument is delivered.</para>
 
@@ -3814,9 +3814,9 @@ arg2:						EXP INTEGER(v)
 				<tr> <td>Encoding number</td> <td>86</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">a:							 ALIGNMENT
-arg1:						EXP OFFSET(z, t)
-								 -&gt; EXP OFFSET(unite_alignments(z, a), a)</programlisting>
+			<programlisting language="tdf">a:    ALIGNMENT
+arg1: EXP OFFSET(z, t)
+ -&gt; EXP OFFSET(unite_alignments(z, a), a)</programlisting>
 
 			<para><replaceable>arg1</replaceable> is evaluated giving <replaceable>off</replaceable>.
 				The next greater or equal <code>OFFSET</code> at which a value of
@@ -3844,9 +3844,9 @@ arg1:						EXP OFFSET(z, t)
 				<tr> <td>Encoding number</td> <td>87</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						EXP OFFSET(x, y)
-arg2:						EXP OFFSET(x, z)
-								 -&gt; EXP OFFSET(z, y)</programlisting>
+			<programlisting language="tdf">arg1: EXP OFFSET(x, y)
+arg2: EXP OFFSET(x, z)
+ -&gt; EXP OFFSET(z, y)</programlisting>
 
 			<para>The two arguments deliver offsets, <replaceable>p</replaceable> and
 				<replaceable>q</replaceable>. The result is
@@ -3869,12 +3869,12 @@ arg2:						EXP OFFSET(x, z)
 				<tr> <td>Encoding number</td> <td>88</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">prob:						OPTION(NAT)
-nt:							NTEST
-dest:						LABEL
-arg1:						EXP OFFSET(x, y)
-arg2:						EXP OFFSET(x, y)
-								 -&gt; EXP TOP</programlisting>
+			<programlisting language="tdf">prob: OPTION(NAT)
+nt:   NTEST
+dest: LABEL
+arg1: EXP OFFSET(x, y)
+arg2: EXP OFFSET(x, y)
+ -&gt; EXP TOP</programlisting>
 
 			<para><replaceable>arg1</replaceable> and <replaceable>arg2</replaceable> are evaluated
 				and will produce offset values, <replaceable>a</replaceable> and
@@ -3905,8 +3905,8 @@ arg2:						EXP OFFSET(x, y)
 				<tr> <td>Encoding number</td> <td>89</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">a:							 ALIGNMENT
-								 -&gt; EXP OFFSET(a, a)</programlisting>
+			<programlisting language="tdf">a: ALIGNMENT
+ -&gt; EXP OFFSET(a, a)</programlisting>
 
 			<para>A zero offset of <code>SHAPE OFFSET</code>(<replaceable>a</replaceable>,
 				<replaceable>a</replaceable>).</para>
@@ -3925,9 +3925,9 @@ arg2:						EXP OFFSET(x, y)
 				<tr> <td>Encoding number</td> <td>90</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						EXP INTEGER(v)
-arg2:						EXP INTEGER(v)
-								 -&gt; EXP INTEGER(v)</programlisting>
+			<programlisting language="tdf">arg1: EXP INTEGER(v)
+arg2: EXP INTEGER(v)
+ -&gt; EXP INTEGER(v)</programlisting>
 
 			<para>The arguments are evaluated producing integer values of the same
 				<code>VARIETY</code>, <replaceable>v</replaceable>. The result is the bitwise
@@ -3945,10 +3945,10 @@ arg2:						EXP INTEGER(v)
 				<tr> <td>Encoding number</td> <td>91</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">ov_err:					ERROR_TREATMENT
-arg1:						EXP INTEGER(v)
-arg2:						EXP INTEGER(v)
-								 -&gt; EXP INTEGER(v)</programlisting>
+			<programlisting language="tdf">ov_err: ERROR_TREATMENT
+arg1:   EXP INTEGER(v)
+arg2:   EXP INTEGER(v)
+ -&gt; EXP INTEGER(v)</programlisting>
 
 			<para><replaceable>arg1</replaceable> and <replaceable>arg2</replaceable> are evaluated
 				and will produce integer values, <replaceable>a</replaceable> and
@@ -3969,12 +3969,12 @@ arg2:						EXP INTEGER(v)
 				<tr> <td>Encoding number</td> <td>92</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">prob:						OPTION(NAT)
-nt:							NTEST
-dest:						LABEL
-arg1:						EXP POINTER(x)
-arg2:						EXP POINTER(x)
-								 -&gt; EXP TOP</programlisting>
+			<programlisting language="tdf">prob: OPTION(NAT)
+nt:   NTEST
+dest: LABEL
+arg1: EXP POINTER(x)
+arg2: EXP POINTER(x)
+ -&gt; EXP TOP</programlisting>
 
 			<para><replaceable>arg1</replaceable> and <replaceable>arg2</replaceable> are evaluated
 				and will produce pointer values, <replaceable>a</replaceable> and
@@ -4008,10 +4008,10 @@ arg2:						EXP POINTER(x)
 				<tr> <td>Encoding number</td> <td>93</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">ov_err:					ERROR_TREATMENT
-arg1:						EXP INTEGER(v)
-arg2:						EXP INTEGER(w)
-								 -&gt; EXP INTEGER(v)</programlisting>
+			<programlisting language="tdf">ov_err: ERROR_TREATMENT
+arg1:   EXP INTEGER(v)
+arg2:   EXP INTEGER(w)
+ -&gt; EXP INTEGER(v)</programlisting>
 
 			<para><replaceable>arg2</replaceable> will be non-negative. The result is the result
 				of <replaceable>arg1</replaceable> raised to the power given by
@@ -4029,12 +4029,12 @@ arg2:						EXP INTEGER(w)
 				<tr> <td>Encoding number</td> <td>94</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">prob:						OPTION(NAT)
-nt:							NTEST
-dest:						LABEL
-arg1:						EXP PROC
-arg2:						EXP PROC
-								 -&gt; EXP TOP</programlisting>
+			<programlisting language="tdf">prob: OPTION(NAT)
+nt:   NTEST
+dest: LABEL
+arg1: EXP PROC
+arg2: EXP PROC
+ -&gt; EXP TOP</programlisting>
 
 			<para><replaceable>arg1</replaceable> and <replaceable>arg2</replaceable> are evaluated
 				and will produce <code>PROC</code> values, <replaceable>a</replaceable> and
@@ -4064,8 +4064,8 @@ arg2:						EXP PROC
 				<tr> <td>Encoding number</td> <td>95</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">uses:						NAT
-								 -&gt; EXP TOP</programlisting>
+			<programlisting language="tdf">uses: NAT
+ -&gt; EXP TOP</programlisting>
 
 			<para>The integer <replaceable>uses</replaceable> gives the number of times which
 				this construct is expected to be evaluated.</para>
@@ -4081,8 +4081,8 @@ arg2:						EXP PROC
 				<tr> <td>Encoding number</td> <td>96</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						EXP c
-								 -&gt; EXP FLOATING (float_of_complex(c))</programlisting>
+			<programlisting language="tdf">arg1: EXP c
+ -&gt; EXP FLOATING (float_of_complex(c))</programlisting>
 
 			<para><replaceable>c</replaceable> will be complex. Delivers the real part of the
 				value produced by <replaceable>arg1</replaceable>.</para>
@@ -4095,11 +4095,11 @@ arg2:						EXP PROC
 				<tr> <td>Encoding number</td> <td>97</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">div_by_0_err:		ERROR_TREATMENT
-ov_err:					ERROR_TREATMENT
-arg1:						EXP INTEGER(v)
-arg2:						EXP INTEGER(v)
-								 -&gt; EXP INTEGER(v)</programlisting>
+			<programlisting language="tdf">div_by_0_err: ERROR_TREATMENT
+ov_err:       ERROR_TREATMENT
+arg1:         EXP INTEGER(v)
+arg2:         EXP INTEGER(v)
+ -&gt; EXP INTEGER(v)</programlisting>
 
 			<para><replaceable>arg1</replaceable> and <replaceable>arg2</replaceable> are evaluated
 				and will produce integer values, <replaceable>a</replaceable> and
@@ -4142,11 +4142,11 @@ arg2:						EXP INTEGER(v)
 				<tr> <td>Encoding number</td> <td>98</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">div_by_0_err:		ERROR_TREATMENT
-ov_err:					ERROR_TREATMENT
-arg1:						EXP INTEGER(v)
-arg2:						EXP INTEGER(v)
-								 -&gt; EXP INTEGER(v)</programlisting>
+			<programlisting language="tdf">div_by_0_err: ERROR_TREATMENT
+ov_err:       ERROR_TREATMENT
+arg1:         EXP INTEGER(v)
+arg2:         EXP INTEGER(v)
+ -&gt; EXP INTEGER(v)</programlisting>
 
 			<para><replaceable>arg1</replaceable> and <replaceable>arg2</replaceable> are evaluated
 				and will produce integer values, <replaceable>a</replaceable> and
@@ -4178,11 +4178,11 @@ arg2:						EXP INTEGER(v)
 				<tr> <td>Encoding number</td> <td>99</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">div_by_0_err:		ERROR_TREATMENT
-ov_err:					ERROR_TREATMENT
-arg1:						EXP INTEGER(v)
-arg2:						EXP INTEGER(v)
-								 -&gt; EXP INTEGER(v)</programlisting>
+			<programlisting language="tdf">div_by_0_err: ERROR_TREATMENT
+ov_err:       ERROR_TREATMENT
+arg1:         EXP INTEGER(v)
+arg2:         EXP INTEGER(v)
+ -&gt; EXP INTEGER(v)</programlisting>
 
 			<para><replaceable>arg1</replaceable> and <replaceable>arg2</replaceable> are evaluated
 				and will produce integer values, <replaceable>a</replaceable> and
@@ -4215,10 +4215,10 @@ arg2:						EXP INTEGER(v)
 				<tr> <td>Encoding number</td> <td>100</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">replab_intro:		LABEL
-start:					 EXP TOP
-body:						EXP y
-								 -&gt; EXP y</programlisting>
+			<programlisting language="tdf">replab_intro: LABEL
+start:        EXP TOP
+body:         EXP y
+ -&gt; EXP y</programlisting>
 
 			<para><replaceable>start</replaceable> is evaluated. Then <replaceable>body</replaceable>
 				is evaluated.</para>
@@ -4246,8 +4246,8 @@ body:						EXP y
 				<tr> <td>Encoding number</td> <td>101</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						EXP x
-								 -&gt; EXP BOTTOM</programlisting>
+			<programlisting language="tdf">arg1: EXP x
+ -&gt; EXP BOTTOM</programlisting>
 
 			<para><replaceable>arg1</replaceable> is evaluated to produce a value,
 				<replaceable>v</replaceable>. The evaluation of the immediately enclosing
@@ -4271,7 +4271,7 @@ body:						EXP y
 			</informaltable>
 
 			<programlisting language="tdf">lab_val: EXP POINTER code_alignment
-								 -&gt; EXP BOTTOM</programlisting>
+ -&gt; EXP BOTTOM</programlisting>
 
 			<para><replaceable>lab_val</replaceable> will be a label value in the calling
 				procedure.</para>
@@ -4288,11 +4288,11 @@ body:						EXP y
 				<tr> <td>Encoding number</td> <td>103</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">flpt_err:				ERROR_TREATMENT
-mode:						ROUNDING_MODE
-r:							 VARIETY
-arg1:						EXP FLOATING(f)
-								 -&gt; EXP INTEGER(r)</programlisting>
+			<programlisting language="tdf">flpt_err: ERROR_TREATMENT
+mode:     ROUNDING_MODE
+r:        VARIETY
+arg1:     EXP FLOATING(f)
+ -&gt; EXP INTEGER(r)</programlisting>
 
 			<para><replaceable>arg</replaceable> is evaluated to produce a floating point value,
 				<replaceable>v</replaceable>. This is rounded to an integer of
@@ -4315,9 +4315,9 @@ arg1:						EXP FLOATING(f)
 				<tr> <td>Encoding number</td> <td>104</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						EXP INTEGER(v)
-arg2:						EXP INTEGER(w)
-								 -&gt; EXP INTEGER(v)</programlisting>
+			<programlisting language="tdf">arg1: EXP INTEGER(v)
+arg2: EXP INTEGER(w)
+ -&gt; EXP INTEGER(v)</programlisting>
 
 			<para>The value delivered by <replaceable>arg1</replaceable> is rotated left
 				<replaceable>arg2</replaceable> places.</para>
@@ -4336,9 +4336,9 @@ arg2:						EXP INTEGER(w)
 				<tr> <td>Encoding number</td> <td>105</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						EXP INTEGER(v)
-arg2:						EXP INTEGER(w)
-								 -&gt; EXP INTEGER(v)</programlisting>
+			<programlisting language="tdf">arg1: EXP INTEGER(v)
+arg2: EXP INTEGER(w)
+ -&gt; EXP INTEGER(v)</programlisting>
 
 			<para>The value delivered by <replaceable>arg1</replaceable> is rotated right
 				<replaceable>arg2</replaceable> places.</para>
@@ -4357,9 +4357,9 @@ arg2:						EXP INTEGER(w)
 				<tr> <td>Encoding number</td> <td>106</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">statements:			LIST(EXP)
-result:					EXP x
-								 -&gt; EXP x</programlisting>
+			<programlisting language="tdf">statements: LIST(EXP)
+result:     EXP x
+ -&gt; EXP x</programlisting>
 
 			<para>The statements are evaluated in the same order as the list,
 				<replaceable>statements</replaceable>, and their results are discarded. Then
@@ -4389,8 +4389,8 @@ result:					EXP x
 				<tr> <td>Encoding number</td> <td>107</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">lim:						 EXP POINTER({locals_alignment, alloca_alignment})
-								 -&gt; EXP TOP</programlisting>
+			<programlisting language="tdf">lim: EXP POINTER({locals_alignment, alloca_alignment})
+ -&gt; EXP TOP</programlisting>
 
 			<para><replaceable>set_stack_limit</replaceable> sets the limits of remaining free
 				stack space to <replaceable>lim</replaceable>. This include both the frame
@@ -4420,8 +4420,8 @@ result:					EXP x
 				<tr> <td>Encoding number</td> <td>108</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">s:							 SHAPE
-								 -&gt; EXP OFFSET(alignment(s), {})</programlisting>
+			<programlisting language="tdf">s: SHAPE
+ -&gt; EXP OFFSET(alignment(s), {})</programlisting>
 
 			<para>This construction delivers the &ldquo;size&rdquo; of a value of the
 				given <code>SHAPE</code>.</para>
@@ -4453,10 +4453,10 @@ result:					EXP x
 				<tr> <td>Encoding number</td> <td>109</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">ov_err:					ERROR_TREATMENT
-arg1:						EXP INTEGER(v)
-arg2:						EXP INTEGER(w)
-								 -&gt; EXP INTEGER(v)</programlisting>
+			<programlisting language="tdf">ov_err: ERROR_TREATMENT
+arg1:   EXP INTEGER(v)
+arg2:   EXP INTEGER(w)
+ -&gt; EXP INTEGER(v)</programlisting>
 
 			<para><replaceable>arg1</replaceable> and <replaceable>arg2</replaceable> are evaluated
 				and will produce integer values, <replaceable>a</replaceable> and
@@ -4482,9 +4482,9 @@ arg2:						EXP INTEGER(w)
 				<tr> <td>Encoding number</td> <td>110</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						EXP INTEGER(v)
-arg2:						EXP INTEGER(w)
-								 -&gt; EXP INTEGER(v)</programlisting>
+			<programlisting language="tdf">arg1: EXP INTEGER(v)
+arg2: EXP INTEGER(w)
+ -&gt; EXP INTEGER(v)</programlisting>
 
 			<para><replaceable>arg1</replaceable> and <replaceable>arg2</replaceable> are evaluated
 				and will produce integer values, <replaceable>a</replaceable> and
@@ -4507,9 +4507,9 @@ arg2:						EXP INTEGER(w)
 				<tr> <td>Encoding number</td> <td>111</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						EXP POINTER(y)
-arg2:						EXP POINTER(x)
-								 -&gt; EXP OFFSET(x, y)</programlisting>
+			<programlisting language="tdf">arg1: EXP POINTER(y)
+arg2: EXP POINTER(x)
+ -&gt; EXP OFFSET(x, y)</programlisting>
 
 			<para><replaceable>arg1</replaceable> and <replaceable>arg2</replaceable> are evaluated to
 				produce pointers <replaceable>p1</replaceable> and <replaceable>p2</replaceable>,
@@ -4529,10 +4529,10 @@ arg2:						EXP POINTER(x)
 				<tr> <td>Encoding number</td> <td>112</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">prcprops:				OPTION(PROCPROPS)
-p:							 EXP PROC
-callee_pars:		 CALLEES
-								 -&gt; EXP BOTTOM</programlisting>
+			<programlisting language="tdf">prcprops:    OPTION(PROCPROPS)
+p:           EXP PROC
+callee_pars: CALLEES
+ -&gt; EXP BOTTOM</programlisting>
 
 			<para><replaceable>p</replaceable> is called in the sense of
 				<replaceable>apply_general_proc</replaceable> with the caller parameters of
@@ -4559,8 +4559,8 @@ callee_pars:		 CALLEES
 				<tr> <td>Encoding number</td> <td>113</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						EXP x
-								 -&gt; EXP BOTTOM</programlisting>
+			<programlisting language="tdf">arg1: EXP x
+ -&gt; EXP BOTTOM</programlisting>
 
 			<para><replaceable>arg1</replaceable> is evaluated to produce a value,
 				<replaceable>v</replaceable>. The evaluation of the immediately enclosing
@@ -4580,11 +4580,11 @@ callee_pars:		 CALLEES
 				<tr> <td>Encoding number</td> <td>114</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">opt_access:			OPTION(ACCESS)
-name_intro:			TAG POINTER(alignment(x))
-init:						EXP x
-body:						EXP y
-								 -&gt; EXP y</programlisting>
+			<programlisting language="tdf">opt_access: OPTION(ACCESS)
+name_intro: TAG POINTER(alignment(x))
+init:       EXP x
+body:       EXP y
+ -&gt; EXP y</programlisting>
 
 			<para><replaceable>init</replaceable> is evaluated to produce a value,
 				<replaceable>v</replaceable>. Space is allocated to hold a value of
@@ -4632,9 +4632,9 @@ of one <code>TAG</code> by another are given: this will not happen.</para>
 				<tr> <td>Encoding number</td> <td>115</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						EXP INTEGER(v)
-arg2:						EXP INTEGER(v)
-								 -&gt; EXP INTEGER(v)</programlisting>
+			<programlisting language="tdf">arg1: EXP INTEGER(v)
+arg2: EXP INTEGER(v)
+ -&gt; EXP INTEGER(v)</programlisting>
 
 			<para>The arguments are evaluated producing integer values of the same
 				<code>VARIETY</code>, <replaceable>v</replaceable>. The result is the bitwise
@@ -4665,8 +4665,8 @@ arg2:						EXP INTEGER(v)
 				<tr> <td>Encoding number</td> <td>1</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">s:							 BYTE_ALIGN TDFIDENT(n)
-								 -&gt; EXTERNAL</programlisting>
+			<programlisting language="tdf">s: BYTE_ALIGN TDFIDENT(n)
+ -&gt; EXTERNAL</programlisting>
 
 			<para><replaceable>string_extern</replaceable> produces an <code>EXTERNAL</code>
 				identified by the <code>TDFIDENT</code> <replaceable>s</replaceable>.</para>
@@ -4679,8 +4679,8 @@ arg2:						EXP INTEGER(v)
 				<tr> <td>Encoding number</td> <td>2</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">u:							 BYTE_ALIGN UNIQUE
-								 -&gt; EXTERNAL</programlisting>
+			<programlisting language="tdf">u: BYTE_ALIGN UNIQUE
+ -&gt; EXTERNAL</programlisting>
 
 			<para><replaceable>unique_extern</replaceable> produces an <code>EXTERNAL</code>
 				identified by the <code>UNIQUE</code> <replaceable>u</replaceable>.</para>
@@ -4693,9 +4693,9 @@ arg2:						EXP INTEGER(v)
 				<tr> <td>Encoding number</td> <td>3</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">s:							 BYTE_ALIGN TDFIDENT
-prev:						TDFINT
-								 -&gt; EXTERNAL</programlisting>
+			<programlisting language="tdf">s:    BYTE_ALIGN TDFIDENT
+prev: TDFINT
+ -&gt; EXTERNAL</programlisting>
 
 			<para>This construct is redundant and should not be used.</para>
 		</section>
@@ -4720,8 +4720,8 @@ prev:						TDFINT
 				<tr> <td>Encoding number</td> <td>0</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">el:							SLIST(LINKEXTERN)
-								 -&gt; EXTERN_LINK</programlisting>
+			<programlisting language="tdf">el: SLIST(LINKEXTERN)
+ -&gt; EXTERN_LINK</programlisting>
 
 			<para><replaceable>make_capsule</replaceable> requires a
 				<code>SLIST</code>(<code>EXTERN_LINK</code>) to express the links
@@ -4747,9 +4747,9 @@ prev:						TDFINT
 				<tr> <td>Encoding number</td> <td>1</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">token_value:		 TOKEN
-token_args:			BITSTREAM param_sorts(token_value)
-								 -&gt; FLOATING_VARIETY</programlisting>
+			<programlisting language="tdf">token_value: TOKEN
+token_args:  BITSTREAM param_sorts(token_value)
+ -&gt; FLOATING_VARIETY</programlisting>
 
 			<para>The token is applied to the arguments to give a
 				<code>FLOATING_VARIETY</code>
@@ -4769,9 +4769,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
-e1:							BITSTREAM FLOATING_VARIETY
-e2:							BITSTREAM FLOATING_VARIETY
-								 -&gt; FLOATING_VARIETY</programlisting>
+e1:      BITSTREAM FLOATING_VARIETY
+e2:      BITSTREAM FLOATING_VARIETY
+ -&gt; FLOATING_VARIETY</programlisting>
 
 			<para>The <replaceable>control</replaceable> is evaluated. It will be a constant at
 				install time under the constant evaluation rules. If it is non-zero,
@@ -4789,11 +4789,11 @@ e2:							BITSTREAM FLOATING_VARIETY
 				<tr> <td>Encoding number</td> <td>3</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">base:						NAT
-mantissa_digs:	 NAT
-min_exponent:		NAT
-max_exponent:		NAT
-								 -&gt; FLOATING_VARIETY</programlisting>
+			<programlisting language="tdf">base:          NAT
+mantissa_digs: NAT
+min_exponent:  NAT
+max_exponent:  NAT
+ -&gt; FLOATING_VARIETY</programlisting>
 
 			<para><replaceable>base</replaceable> is the base with respect to which the
 				remaining numbers refer. <replaceable>base</replaceable> will be a power of 2.</para>
@@ -4838,11 +4838,11 @@ max_exponent:		NAT
 				<tr> <td>Encoding number</td> <td>4</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">base:						NAT
-mantissa_digs:	 NAT
-min_exponent:		NAT
-max_exponent:		NAT
-								 -&gt; FLOATING_VARIETY</programlisting>
+			<programlisting language="tdf">base:          NAT
+mantissa_digs: NAT
+min_exponent:  NAT
+max_exponent:  NAT
+ -&gt; FLOATING_VARIETY</programlisting>
 
 			<para>A <code>FLOATING_VARIETY</code> described by
 				<replaceable>complex_parms</replaceable> holds a complex number which is
@@ -4858,8 +4858,8 @@ max_exponent:		NAT
 				<tr> <td>Encoding number</td> <td>5</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">csh:						 SHAPE
-								 -&gt; FLOATING_VARIETY</programlisting>
+			<programlisting language="tdf">csh: SHAPE
+ -&gt; FLOATING_VARIETY</programlisting>
 
 			<para><replaceable>csh</replaceable> will be a complex <code>SHAPE</code>.</para>
 
@@ -4875,8 +4875,8 @@ max_exponent:		NAT
 				<tr> <td>Encoding number</td> <td>6</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">fsh:						 SHAPE
-								 -&gt; FLOATING_VARIETY</programlisting>
+			<programlisting language="tdf">fsh: SHAPE
+ -&gt; FLOATING_VARIETY</programlisting>
 
 			<para><replaceable>fsh</replaceable> will be a floating <code>SHAPE</code>.</para>
 
@@ -4904,8 +4904,8 @@ max_exponent:		NAT
 				<tr> <td>Encoding number</td> <td>0</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">us:							SLIST(UNIT)
-								 -&gt; GROUP</programlisting>
+			<programlisting language="tdf">us: SLIST(UNIT)
+ -&gt; GROUP</programlisting>
 
 			<para><replaceable>make_capsule</replaceable> contains a list of
 				<code>GROUPS</code>. Each member of this list has a different unit
@@ -4933,9 +4933,9 @@ max_exponent:		NAT
 				<tr> <td>Encoding number</td> <td>2</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">token_value:		 TOKEN
-token_args:			BITSTREAM param_sorts(token_value)
-								 -&gt; LABEL x</programlisting>
+			<programlisting language="tdf">token_value: TOKEN
+token_args:  BITSTREAM param_sorts(token_value)
+ -&gt; LABEL x</programlisting>
 
 			<para>The token is applied to the arguments to give a <code>LABEL</code>.</para>
 
@@ -4953,7 +4953,7 @@ token_args:			BITSTREAM param_sorts(token_value)
 			</informaltable>
 
 			<programlisting language="tdf">labelno: TDFINT
-								 -&gt; LABEL</programlisting>
+ -&gt; LABEL</programlisting>
 
 			<para>Labels are represented in TDF by integers, but they are not linkable.
 				Hence the definition and all uses of a <code>LABEL</code> occur in the
@@ -4979,9 +4979,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 				<tr> <td>Encoding number</td> <td>0</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">unit_name:			 TDFINT
-capsule_name:		TDFINT
-								 -&gt; LINK</programlisting>
+			<programlisting language="tdf">unit_name:    TDFINT
+capsule_name: TDFINT
+ -&gt; LINK</programlisting>
 
 			<para>A <code>LINK</code> defines a linkable entity declared inside a
 				<code>UNIT</code> as <replaceable>unit_name</replaceable> to correspond to a
@@ -5014,9 +5014,9 @@ capsule_name:		TDFINT
 				<tr> <td>Encoding number</td> <td>0</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">internal:				TDFINT
-ext:						 EXTERNAL
-								 -&gt; LINKEXTERN</programlisting>
+			<programlisting language="tdf">internal: TDFINT
+ext:      EXTERNAL
+ -&gt; LINKEXTERN</programlisting>
 
 			<para><replaceable>make_linkextern</replaceable> produces a <code>LINKEXTERN</code>
 				connecting an object identified within a <code>CAPSULE</code> by a
@@ -5043,8 +5043,8 @@ ext:						 EXTERNAL
 				<tr> <td>Encoding number</td> <td>0</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">ls:							SLIST(LINK)
-								 -&gt; LINKS</programlisting>
+			<programlisting language="tdf">ls: SLIST(LINK)
+ -&gt; LINKS</programlisting>
 
 			<para><replaceable>make_unit</replaceable> uses a
 				<code>SLIST</code>(<code>LINKS</code>) to define which linkable entities
@@ -5071,9 +5071,9 @@ ext:						 EXTERNAL
 				<tr> <td>Encoding number</td> <td>1</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">token_value:		 TOKEN
-token_args:			BITSTREAM param_sorts(token_value)
-								 -&gt; NAT</programlisting>
+			<programlisting language="tdf">token_value: TOKEN
+token_args:  BITSTREAM param_sorts(token_value)
+ -&gt; NAT</programlisting>
 
 			<para>The token is applied to the arguments to give a <code>NAT</code>.</para>
 
@@ -5091,9 +5091,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
-e1:							BITSTREAM NAT
-e2:							BITSTREAM NAT
-								 -&gt; NAT</programlisting>
+e1:      BITSTREAM NAT
+e2:      BITSTREAM NAT
+ -&gt; NAT</programlisting>
 
 			<para>The <replaceable>control</replaceable> is evaluated. It will be a constant at
 				install time under the constant evaluation rules. If it is non-zero,
@@ -5111,8 +5111,8 @@ e2:							BITSTREAM NAT
 				<tr> <td>Encoding number</td> <td>3</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg:						 EXP INTEGER(v)
-								 -&gt; NAT</programlisting>
+			<programlisting language="tdf">arg: EXP INTEGER(v)
+ -&gt; NAT</programlisting>
 
 			<para><replaceable>arg</replaceable> will be an install-time non-negative constant.
 				The result is that constant.</para>
@@ -5125,8 +5125,8 @@ e2:							BITSTREAM NAT
 				<tr> <td>Encoding number</td> <td>4</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">err:						 ERROR_code
-								 -&gt; NAT</programlisting>
+			<programlisting language="tdf">err: ERROR_code
+ -&gt; NAT</programlisting>
 
 			<para>Gives the <code>NAT</code> corresponding to the <code>ERROR_code</code>
 				<replaceable>err</replaceable>. Each distinct <code>ERROR_code</code> will
@@ -5140,8 +5140,8 @@ e2:							BITSTREAM NAT
 				<tr> <td>Encoding number</td> <td>5</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">n:							 TDFINT
-								 -&gt; NAT</programlisting>
+			<programlisting language="tdf">n: TDFINT
+ -&gt; NAT</programlisting>
 
 			<para><replaceable>n</replaceable> is a non-negative integer of unbounded magnitude.</para>
 		</section>
@@ -5168,9 +5168,9 @@ e2:							BITSTREAM NAT
 				<tr> <td>Encoding number</td> <td>1</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">token_value:		 TOKEN
-token_args:			BITSTREAM param_sorts(token_value)
-								 -&gt; NTEST</programlisting>
+			<programlisting language="tdf">token_value: TOKEN
+token_args:  BITSTREAM param_sorts(token_value)
+ -&gt; NTEST</programlisting>
 
 			<para>The token is applied to the arguments to give a <code>NTEST</code>.</para>
 
@@ -5188,9 +5188,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
-e1:							BITSTREAM NTEST
-e2:							BITSTREAM NTEST
-								 -&gt; NTEST</programlisting>
+e1:      BITSTREAM NTEST
+e2:      BITSTREAM NTEST
+ -&gt; NTEST</programlisting>
 
 			<para>The <replaceable>control</replaceable> is evaluated. It will be a constant at
 				install time under the constant evaluation rules. If it is non-zero,
@@ -5394,9 +5394,9 @@ e2:							BITSTREAM NTEST
 				<tr> <td>Encoding number</td> <td>0</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">tgopt:					 OPTION(TAG x)
-e:							 EXP x
-								 -&gt; OTAGEXP</programlisting>
+			<programlisting language="tdf">tgopt: OPTION(TAG x)
+e:     EXP x
+ -&gt; OTAGEXP</programlisting>
 
 			<para><replaceable>e</replaceable> is evaluated and its value is the actual caller
 				parameter. If <replaceable>tgopt</replaceable> is present, the
@@ -5424,9 +5424,9 @@ e:							 EXP x
 				<tr> <td>Encoding number</td> <td>1</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">token_value:		 TOKEN
-token_args:			BITSTREAM param_sorts(token_value)
-								 -&gt; PROCPROPS</programlisting>
+			<programlisting language="tdf">token_value: TOKEN
+token_args:  BITSTREAM param_sorts(token_value)
+ -&gt; PROCPROPS</programlisting>
 
 			<para>The token is applied to the arguments to give a <code>PROCPROPS</code>.</para>
 
@@ -5444,9 +5444,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
-e1:							BITSTREAM PROCPROPS
-e2:							BITSTREAM PROCPROPS
-								 -&gt; PROCPROPS</programlisting>
+e1:      BITSTREAM PROCPROPS
+e2:      BITSTREAM PROCPROPS
+ -&gt; PROCPROPS</programlisting>
 
 			<para>The <replaceable>control</replaceable> is evaluated. It will be a constant at
 				install time under the constant evaluation rules. If it is non-zero,
@@ -5464,9 +5464,9 @@ e2:							BITSTREAM PROCPROPS
 				<tr> <td>Encoding number</td> <td>3</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						PROCPROPS
-arg2:						PROCPROPS
-								 -&gt; PROCPROPS</programlisting>
+			<programlisting language="tdf">arg1: PROCPROPS
+arg2: PROCPROPS
+ -&gt; PROCPROPS</programlisting>
 
 			<para>Delivers the join of <replaceable>arg1</replaceable> and <replaceable>arg2</replaceable>.</para>
 		</section>
@@ -5625,9 +5625,9 @@ These are:</para>
 				<tr> <td>Encoding number</td> <td>1</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">token_value:		 TOKEN
-token_args:			BITSTREAM param_sorts(token_value)
-								 -&gt; ROUNDING_MODE</programlisting>
+			<programlisting language="tdf">token_value: TOKEN
+token_args:  BITSTREAM param_sorts(token_value)
+ -&gt; ROUNDING_MODE</programlisting>
 
 			<para>The token is applied to the arguments to give a
 				<code>ROUNDING_MODE</code>.</para>
@@ -5646,9 +5646,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
-e1:							BITSTREAM ROUNDING_MODE
-e2:							BITSTREAM ROUNDING_MODE
-								 -&gt; ROUNDING_MODE</programlisting>
+e1:      BITSTREAM ROUNDING_MODE
+e2:      BITSTREAM ROUNDING_MODE
+ -&gt; ROUNDING_MODE</programlisting>
 
 			<para>The <replaceable>control</replaceable> is evaluated. It will be a constant at
 				install time under the constant evaluation rules. If it is non-zero,
@@ -5743,9 +5743,9 @@ e2:							BITSTREAM ROUNDING_MODE
 				<tr> <td>Encoding number</td> <td>1</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">token_value:		 TOKEN
-token_args:			BITSTREAM param_sorts(token_value)
-								 -&gt; SHAPE</programlisting>
+			<programlisting language="tdf">token_value: TOKEN
+token_args:  BITSTREAM param_sorts(token_value)
+ -&gt; SHAPE</programlisting>
 
 			<para>The token is applied to the arguments to give a <code>SHAPE</code>.</para>
 
@@ -5763,9 +5763,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
-e1:							BITSTREAM SHAPE
-e2:							BITSTREAM SHAPE
-								 -&gt; SHAPE</programlisting>
+e1:      BITSTREAM SHAPE
+e2:      BITSTREAM SHAPE
+ -&gt; SHAPE</programlisting>
 
 			<para>The <replaceable>control</replaceable> is evaluated. It will be a constant at
 				install time under the constant evaluation rules. If it is non-zero,
@@ -5783,8 +5783,8 @@ e2:							BITSTREAM SHAPE
 				<tr> <td>Encoding number</td> <td>3</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">bf_var:					BITFIELD_VARIETY
-								 -&gt; SHAPE</programlisting>
+			<programlisting language="tdf">bf_var: BITFIELD_VARIETY
+ -&gt; SHAPE</programlisting>
 
 			<para>A <code>BITFIELD</code> is used to represent a pattern of bits which
 				will be packed, provided that the <replaceable>variety_enclosed</replaceable>
@@ -5827,8 +5827,8 @@ e2:							BITSTREAM SHAPE
 				<tr> <td>Encoding number</td> <td>5</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">sz:							EXP OFFSET(x, y)
-								 -&gt; SHAPE</programlisting>
+			<programlisting language="tdf">sz: EXP OFFSET(x, y)
+ -&gt; SHAPE</programlisting>
 
 			<para>The <code>SHAPE</code> constructor <code>COMPOUND</code> describes
 				cartesian products and unions.</para>
@@ -5851,8 +5851,8 @@ e2:							BITSTREAM SHAPE
 				<tr> <td>Encoding number</td> <td>6</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">fv:							FLOATING_VARIETY
-								 -&gt; SHAPE</programlisting>
+			<programlisting language="tdf">fv: FLOATING_VARIETY
+ -&gt; SHAPE</programlisting>
 
 			<para>Most of the floating point arithmetic operations,
 				<replaceable>floating_plus</replaceable>, <replaceable>floating_minus</replaceable>
@@ -5876,8 +5876,8 @@ e2:							BITSTREAM SHAPE
 				<tr> <td>Encoding number</td> <td>7</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">var:						 VARIETY
-								 -&gt; SHAPE</programlisting>
+			<programlisting language="tdf">var: VARIETY
+ -&gt; SHAPE</programlisting>
 
 			<para>The different kinds of <code>INTEGER</code> are distinguished by having
 				different <code>VARIETY</code>s. A fundamental <code>VARIETY</code> (not
@@ -5920,9 +5920,9 @@ attempted to add two values whose <code>SHAPE</code>s were:</para>
 				<tr> <td>Encoding number</td> <td>8</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">n:							 NAT
-s:							 SHAPE
-								 -&gt; SHAPE</programlisting>
+			<programlisting language="tdf">n: NAT
+s: SHAPE
+ -&gt; SHAPE</programlisting>
 
 			<para>The <code>NOF</code> constructor describes the <code>SHAPE</code> of a
 				value consisting of an array of <replaceable>n</replaceable> values of the
@@ -5936,9 +5936,9 @@ s:							 SHAPE
 				<tr> <td>Encoding number</td> <td>9</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						ALIGNMENT
-arg2:						ALIGNMENT
-								 -&gt; SHAPE</programlisting>
+			<programlisting language="tdf">arg1: ALIGNMENT
+arg2: ALIGNMENT
+ -&gt; SHAPE</programlisting>
 
 			<para>The <code>SHAPE</code> constructor <code>OFFSET</code> describes values
 				which represent the differences between <code>POINTER</code>s, that is
@@ -5971,8 +5971,8 @@ arg2:						ALIGNMENT
 				<tr> <td>Encoding number</td> <td>10</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg:						 ALIGNMENT
-								 -&gt; SHAPE</programlisting>
+			<programlisting language="tdf">arg: ALIGNMENT
+ -&gt; SHAPE</programlisting>
 
 			<para>A <code>POINTER</code> is a value which points to space allocated in a
 				computer's memory. The <code>POINTER</code> constructor takes an
@@ -6026,9 +6026,9 @@ program which return no useful value. assign is an example: it performs
 				<tr> <td>Encoding number</td> <td>1</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">token_value:		 TOKEN
-token_args:			BITSTREAM param_sorts(token_value)
-								 -&gt; SIGNED_NAT</programlisting>
+			<programlisting language="tdf">token_value: TOKEN
+token_args:  BITSTREAM param_sorts(token_value)
+ -&gt; SIGNED_NAT</programlisting>
 
 			<para>The token is applied to the arguments to give a <code>SIGNED_NAT</code>.</para>
 
@@ -6046,9 +6046,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
-e1:							BITSTREAM SIGNED_NAT
-e2:							BITSTREAM SIGNED_NAT
-								 -&gt; SIGNED_NAT</programlisting>
+e1:      BITSTREAM SIGNED_NAT
+e2:      BITSTREAM SIGNED_NAT
+ -&gt; SIGNED_NAT</programlisting>
 
 			<para>The <replaceable>control</replaceable> is evaluated. It will be a constant at
 				install time under the constant evaluation rules. If it is non-zero,
@@ -6066,8 +6066,8 @@ e2:							BITSTREAM SIGNED_NAT
 				<tr> <td>Encoding number</td> <td>3</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg:						 EXP INTEGER(v)
-								 -&gt; SIGNED_NAT</programlisting>
+			<programlisting language="tdf">arg: EXP INTEGER(v)
+ -&gt; SIGNED_NAT</programlisting>
 
 			<para><replaceable>arg</replaceable> will be an install-time constant. The result is
 				that constant.</para>
@@ -6080,9 +6080,9 @@ e2:							BITSTREAM SIGNED_NAT
 				<tr> <td>Encoding number</td> <td>4</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">neg:						 TDFBOOL
-n:							 TDFINT
-								 -&gt; SIGNED_NAT</programlisting>
+			<programlisting language="tdf">neg: TDFBOOL
+n:   TDFINT
+ -&gt; SIGNED_NAT</programlisting>
 
 			<para><replaceable>n</replaceable> is a non-negative integer of unbounded magnitude.
 				The result is negative if and only if <replaceable>neg</replaceable> is true.</para>
@@ -6095,9 +6095,9 @@ n:							 TDFINT
 				<tr> <td>Encoding number</td> <td>5</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">neg:						 BOOL
-n:							 NAT
-								 -&gt; SIGNED_NAT</programlisting>
+			<programlisting language="tdf">neg: BOOL
+n:   NAT
+ -&gt; SIGNED_NAT</programlisting>
 
 			<para>The result is negated if and only if <replaceable>neg</replaceable> is true.</para>
 		</section>
@@ -6201,8 +6201,8 @@ n:							 NAT
 				<tr> <td>Encoding number</td> <td>9</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">foreign_name:		STRING(k, n)
-								 -&gt; SORTNAME</programlisting>
+			<programlisting language="tdf">foreign_name: STRING(k, n)
+ -&gt; SORTNAME</programlisting>
 
 			<para>This <code>SORT</code> enables unanticipated kinds of information to be
 				placed in TDF.</para>
@@ -6317,10 +6317,9 @@ n:							 NAT
 				<tr> <td>Encoding number</td> <td>20</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">result:					SORTNAME
-params:					LIST(SORTNAME)
-								 -&gt; SORTNAME
-			</programlisting>
+			<programlisting language="tdf">result: SORTNAME
+params: LIST(SORTNAME)
+ -&gt; SORTNAME</programlisting>
 
 			<para>The <code>SORTNAME</code> of a <code>TOKEN</code>. Note that it can have
 				tokens as parameters, but not as result.</para>
@@ -6333,8 +6332,7 @@ params:					LIST(SORTNAME)
 				<tr> <td>Encoding number</td> <td>21</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf"> -&gt; SORTNAME
-			</programlisting>
+			<programlisting language="tdf"> -&gt; SORTNAME</programlisting>
 		</section>
 	</section>
 
@@ -6353,9 +6351,9 @@ params:					LIST(SORTNAME)
 				<tr> <td>Encoding number</td> <td>1</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">token_value:		 TOKEN
-token_args:			BITSTREAM param_sorts(token_value)
-								 -&gt; STRING(k, n)</programlisting>
+			<programlisting language="tdf">token_value: TOKEN
+token_args:  BITSTREAM param_sorts(token_value)
+ -&gt; STRING(k, n)</programlisting>
 
 			<para>The token is applied to the arguments to give a <code>STRING</code></para>
 
@@ -6373,9 +6371,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
-e1:							BITSTREAM STRING
-e2:							BITSTREAM STRING
-								 -&gt; STRING(k, n)</programlisting>
+e1:      BITSTREAM STRING
+e2:      BITSTREAM STRING
+ -&gt; STRING(k, n)</programlisting>
 
 			<para>The <replaceable>control</replaceable> is evaluated. It will be a constant at
 				install time under the constant evaluation rules. If it is non-zero,
@@ -6393,9 +6391,9 @@ e2:							BITSTREAM STRING
 				<tr> <td>Encoding number</td> <td>3</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg1:						STRING(k, n)
-arg2:						STRING(k, m)
-								 -&gt; STRING(k, n+m)</programlisting>
+			<programlisting language="tdf">arg1: STRING(k, n)
+arg2: STRING(k, m)
+ -&gt; STRING(k, n+m)</programlisting>
 
 			<para>Gives a <code>STRING</code> which is the concatenation of
 				<replaceable>arg1</replaceable> with <replaceable>arg2</replaceable>.</para>
@@ -6408,8 +6406,8 @@ arg2:						STRING(k, m)
 				<tr> <td>Encoding number</td> <td>4</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">arg:						 TDFSTRING(k, n)
-								 -&gt; STRING(k, n)</programlisting>
+			<programlisting language="tdf">arg: TDFSTRING(k, n)
+ -&gt; STRING(k, n)</programlisting>
 
 			<para>Delivers the <code>STRING</code> identical to the
 				<replaceable>arg</replaceable>.</para>
@@ -6434,9 +6432,9 @@ arg2:						STRING(k, m)
 				<tr> <td>Encoding number</td> <td>2</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">token_value:		 TOKEN
-token_args:			BITSTREAM param_sorts(token_value)
-								 -&gt; TAG x</programlisting>
+			<programlisting language="tdf">token_value: TOKEN
+token_args:  BITSTREAM param_sorts(token_value)
+ -&gt; TAG x</programlisting>
 
 			<para>The token is applied to the arguments to give a <code>TAG</code>.</para>
 
@@ -6453,8 +6451,8 @@ token_args:			BITSTREAM param_sorts(token_value)
 				<tr> <td>Encoding number</td> <td>1</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">tagno:					 TDFINT
-								 -&gt; TAG x</programlisting>
+			<programlisting language="tdf">tagno: TDFINT
+ -&gt; TAG x</programlisting>
 
 			<para><replaceable>make_tag</replaceable> produces a <code>TAG</code> identified by
 				<replaceable>tagno</replaceable>.</para>
@@ -6479,9 +6477,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 				<tr> <td>Encoding number</td> <td>0</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">tg:							TAG POINTER var_param_alignment
-acc:						 OPTION(ACCESS)
-								 -&gt; TAGACC</programlisting>
+			<programlisting language="tdf">tg:  TAG POINTER var_param_alignment
+acc: OPTION(ACCESS)
+ -&gt; TAGACC</programlisting>
 
 			<para>Constructs the pair for <replaceable>make_proc</replaceable>.</para>
 		</section>
@@ -6505,11 +6503,11 @@ acc:						 OPTION(ACCESS)
 				<tr> <td>Encoding number</td> <td>1</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">t_intro: TDFINT
-acc:						 OPTION(ACCESS)
-signature:			 OPTION(STRING)
-x:							 SHAPE
-								 -&gt; TAGDEC</programlisting>
+			<programlisting language="tdf">t_intro:   TDFINT
+acc:       OPTION(ACCESS)
+signature: OPTION(STRING)
+x:         SHAPE
+ -&gt; TAGDEC</programlisting>
 
 			<para>A <code>TAGDEC</code> announcing that the <code>TAG</code>
 				<replaceable>t_intro</replaceable> identifies an <code>EXP</code> of
@@ -6537,11 +6535,11 @@ x:							 SHAPE
 				<tr> <td>Encoding number</td> <td>2</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">t_intro: TDFINT
-acc:						 OPTION(ACCESS)
-signature:			 OPTION(STRING)
-x:							 SHAPE
-								 -&gt; TAGDEC</programlisting>
+			<programlisting language="tdf">t_intro:   TDFINT
+acc:       OPTION(ACCESS)
+signature: OPTION(STRING)
+x:         SHAPE
+ -&gt; TAGDEC</programlisting>
 
 			<para>A <code>TAGDEC</code> announcing that the <code>TAG</code>
 				<replaceable>t_intro</replaceable> identifies an <code>EXP</code> of
@@ -6571,11 +6569,11 @@ x:							 SHAPE
 				<tr> <td>Encoding number</td> <td>3</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">t_intro: TDFINT
-acc:						 OPTION(ACCESS)
-signature:			 OPTION(STRING)
-x:							 SHAPE
-								 -&gt; TAGDEC</programlisting>
+			<programlisting language="tdf">t_intro:   TDFINT
+acc:       OPTION(ACCESS)
+signature: OPTION(STRING)
+x:         SHAPE
+ -&gt; TAGDEC</programlisting>
 
 			<para>A <code>TAGDEC</code> announcing that the <code>TAG</code>
 				<replaceable>t_intro</replaceable> identifies an <code>EXP</code> of
@@ -6651,9 +6649,9 @@ is defined as follows:
 				<tr> <td>Encoding number</td> <td>0</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">no_labels:			 TDFINT
-tds:						 SLIST(TAGDEC)
-								 -&gt; TAGDEC_PROPS</programlisting>
+			<programlisting language="tdf">no_labels: TDFINT
+tds:       SLIST(TAGDEC)
+ -&gt; TAGDEC_PROPS</programlisting>
 
 			<para><replaceable>no_labels</replaceable> is the number of local
 				<code>LABEL</code>s used in <replaceable>tds</replaceable>.
@@ -6680,10 +6678,10 @@ tds:						 SLIST(TAGDEC)
 				<tr> <td>Encoding number</td> <td>1</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">t:							 TDFINT
-signature:			 OPTION(STRING)
-e:							 EXP x
-								 -&gt; TAGDEF</programlisting>
+			<programlisting language="tdf">t:         TDFINT
+signature: OPTION(STRING)
+e:         EXP x
+ -&gt; TAGDEF</programlisting>
 
 			<para><replaceable>make_id_tagdef</replaceable> produces a <code>TAGDEF</code>
 				defining the <code>TAG</code> <replaceable>x</replaceable> constructed from
@@ -6716,11 +6714,11 @@ e:							 EXP x
 				<tr> <td>Encoding number</td> <td>2</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">t:							 TDFINT
-opt_access:			OPTION(ACCESS)
-signature:			 OPTION(STRING)
-e:							 EXP x
-								 -&gt; TAGDEF</programlisting>
+			<programlisting language="tdf">t:          TDFINT
+opt_access: OPTION(ACCESS)
+signature:  OPTION(STRING)
+e:          EXP x
+ -&gt; TAGDEF</programlisting>
 
 			<para><replaceable>make_var_tagdef</replaceable> produces a <code>TAGDEF</code>
 				defining the <code>TAG POINTER</code>(<replaceable>alignment(x)</replaceable>)
@@ -6757,11 +6755,11 @@ e:							 EXP x
 				<tr> <td>Encoding number</td> <td>3</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">t:							 TDFINT
-opt_access:			OPTION(ACCESS)
-signature:			 OPTION(STRING)
-e:							 EXP x
-								 -&gt; TAGDEF</programlisting>
+			<programlisting language="tdf">t:          TDFINT
+opt_access: OPTION(ACCESS)
+signature:  OPTION(STRING)
+e:          EXP x
+ -&gt; TAGDEF</programlisting>
 
 			<para><replaceable>common_tagdef</replaceable> produces a <code>TAGDEF</code>
 				defining the <code>TAG</code>
@@ -6866,9 +6864,9 @@ follows:
 				<tr> <td>Encoding number</td> <td>0</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">no_labels:			 TDFINT
-tds:						 SLIST(TAGDEF)
-								 -&gt; TAGDEF_PROPS</programlisting>
+			<programlisting language="tdf">no_labels: TDFINT
+tds:       SLIST(TAGDEF)
+ -&gt; TAGDEF_PROPS</programlisting>
 
 			<para><replaceable>no_labels</replaceable> is the number of local
 				<code>LABEL</code>s used in <replaceable>tds</replaceable>.
@@ -6893,10 +6891,10 @@ tds:						 SLIST(TAGDEF)
 				<tr> <td>Encoding number</td> <td>0</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">sha:						 SHAPE
-opt_access:			OPTION(ACCESS)
-tg_intro:				TAG
-								 -&gt; TAGSHACC</programlisting>
+			<programlisting language="tdf">sha:        SHAPE
+opt_access: OPTION(ACCESS)
+tg_intro:   TAG
+ -&gt; TAGSHACC</programlisting>
 
 			<para>This is an auxiliary construction to make the elements of
 				<replaceable>params_intro</replaceable> in <replaceable>make_proc</replaceable>.</para>
@@ -6954,10 +6952,10 @@ tg_intro:				TAG
 				<tr> <td>Encoding number</td> <td>1</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">tok:						 TDFINT
-signature:			 OPTION(STRING)
-s:							 SORTNAME
-								 -&gt; TOKDEC</programlisting>
+			<programlisting language="tdf">tok:       TDFINT
+signature: OPTION(STRING)
+s:         SORTNAME
+ -&gt; TOKDEC</programlisting>
 
 			<para>The sort of the token <replaceable>tok</replaceable> is declared to be
 				<replaceable>s</replaceable>. Note that <replaceable>s</replaceable> will always be
@@ -6990,8 +6988,8 @@ s:							 SORTNAME
 				<tr> <td>Encoding number</td> <td>0</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">tds:						 SLIST(TOKDEC)
-								 -&gt; TOKDEC_PROPS</programlisting>
+			<programlisting language="tdf">tds: SLIST(TOKDEC)
+ -&gt; TOKDEC_PROPS</programlisting>
 
 			<para><replaceable>tds</replaceable> is a list of <code>TOKDEC</code>s which gives
 				the sorts associated with <code>TOKEN</code>s.</para>
@@ -7016,10 +7014,10 @@ s:							 SORTNAME
 				<tr> <td>Encoding number</td> <td>1</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">tok:						 TDFINT
-signature:			 OPTION(STRING)
-def:						 BITSTREAM TOKEN_DEFN
-								 -&gt; TOKDEF</programlisting>
+			<programlisting language="tdf">tok:       TDFINT
+signature: OPTION(STRING)
+def:       BITSTREAM TOKEN_DEFN
+ -&gt; TOKDEF</programlisting>
 
 			<para>A <code>TOKDEF</code> is constructed which defines the
 				<code>TOKEN</code> <replaceable>tok</replaceable> to stand for the fragment of
@@ -7062,9 +7060,9 @@ def:						 BITSTREAM TOKEN_DEFN
 				<tr> <td>Encoding number</td> <td>0</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">no_labels:			 TDFINT
-tds:						 SLIST(TOKDEF)
-								 -&gt; TOKDEF_PROPS</programlisting>
+			<programlisting language="tdf">no_labels: TDFINT
+tds:       SLIST(TOKDEF)
+ -&gt; TOKDEF_PROPS</programlisting>
 
 			<para><replaceable>no_labels</replaceable> is the number of local
 				<code>LABEL</code>s used in <replaceable>tds</replaceable>.
@@ -7092,9 +7090,9 @@ tds:						 SLIST(TOKDEF)
 				<tr> <td>Encoding number</td> <td>1</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">token_value:		 TOKEN
-token_args:			BITSTREAM param_sorts(token_value)
-								 -&gt; TOKEN</programlisting>
+			<programlisting language="tdf">token_value: TOKEN
+token_args:  BITSTREAM param_sorts(token_value)
+ -&gt; TOKEN</programlisting>
 
 			<para>The token is applied to the arguments to give a <code>TOKEN</code>.</para>
 
@@ -7111,8 +7109,8 @@ token_args:			BITSTREAM param_sorts(token_value)
 				<tr> <td>Encoding number</td> <td>2</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">tokno:					 TDFINT
-								 -&gt; TOKEN</programlisting>
+			<programlisting language="tdf">tokno: TDFINT
+ -&gt; TOKEN</programlisting>
 
 			<para><replaceable>make_tok</replaceable> constructs a <code>TOKEN</code> identified
 				by <replaceable>tokno</replaceable>.</para>
@@ -7125,8 +7123,8 @@ token_args:			BITSTREAM param_sorts(token_value)
 				<tr> <td>Encoding number</td> <td>3</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">tdef:						BITSTREAM TOKEN_DEFN
-								 -&gt; TOKEN</programlisting>
+			<programlisting language="tdf">tdef: BITSTREAM TOKEN_DEFN
+ -&gt; TOKEN</programlisting>
 
 			<para><replaceable>tdef</replaceable> is used to supply the definition, as in
 				<replaceable>make_tokdef</replaceable>. Note that <code>TOKEN</code>s are only
@@ -7152,10 +7150,10 @@ token_args:			BITSTREAM param_sorts(token_value)
 				<tr> <td>Encoding number</td> <td>1</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">result_sort:		 SORTNAME
-tok_params:			LIST(TOKFORMALS)
-body:						result_sort
-								 -&gt; TOKEN_DEFN</programlisting>
+			<programlisting language="tdf">result_sort: SORTNAME
+tok_params:  LIST(TOKFORMALS)
+body:        result_sort
+ -&gt; TOKEN_DEFN</programlisting>
 
 			<para>Makes a token definition. <replaceable>result_sort</replaceable> is the
 				<code>SORT</code> of body. <replaceable>tok_params</replaceable> is a list of
@@ -7228,9 +7226,9 @@ body:						result_sort
 				<tr> <td>Encoding number</td> <td>0</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">sn:							SORTNAME
-tk:							TDFINT
-								 -&gt; TOKFORMALS</programlisting>
+			<programlisting language="tdf">sn: SORTNAME
+tk: TDFINT
+ -&gt; TOKFORMALS</programlisting>
 
 			<para>An auxiliary construction to make up the elements of the lists in
 				<replaceable>token_definition</replaceable>.</para>
@@ -7263,9 +7261,9 @@ tk:							TDFINT
 				<tr> <td>Encoding number</td> <td>1</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">token_value:		 TOKEN
-token_args:			BITSTREAM param_sorts(token_value)
-								 -&gt; TRANSFER_MODE</programlisting>
+			<programlisting language="tdf">token_value: TOKEN
+token_args:  BITSTREAM param_sorts(token_value)
+ -&gt; TRANSFER_MODE</programlisting>
 
 			<para>The token is applied to the arguments encoded in the
 				<code>BITSTREAM</code> <replaceable>token_args</replaceable> to give a
@@ -7289,9 +7287,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
-e1:							BITSTREAM TRANSFER_MODE
-e2:							BITSTREAM TRANSFER_MODE
-								 -&gt; TRANSFER_MODE</programlisting>
+e1:      BITSTREAM TRANSFER_MODE
+e2:      BITSTREAM TRANSFER_MODE
+ -&gt; TRANSFER_MODE</programlisting>
 
 			<para><replaceable>control</replaceable> is evaluated. It will be a constant at
 				install time under the constant evaluation rules. If it is non-zero,
@@ -7309,9 +7307,9 @@ e2:							BITSTREAM TRANSFER_MODE
 				<tr> <td>Encoding number</td> <td>3</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">md1:						 TRANSFER_MODE
-md2:						 TRANSFER_MODE
-								 -&gt; TRANSFER_MODE</programlisting>
+			<programlisting language="tdf">md1: TRANSFER_MODE
+md2: TRANSFER_MODE
+ -&gt; TRANSFER_MODE</programlisting>
 
 			<para>A construction qualified by <replaceable>add_modes</replaceable> has both
 				<code>TRANSFER_MODES</code> <replaceable>md1</replaceable> and
@@ -7422,8 +7420,8 @@ md2:						 TRANSFER_MODE
 				<tr> <td>Encoding number</td> <td>0</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">text:						SLIST(TDFIDENT)
-								 -&gt; UNIQUE</programlisting>
+			<programlisting language="tdf">text: SLIST(TDFIDENT)
+ -&gt; UNIQUE</programlisting>
 
 			<para>Two <code>UNIQUE</code> values are equal if and only if they were
 				constructed with equal arguments.</para>
@@ -7450,10 +7448,10 @@ md2:						 TRANSFER_MODE
 				<tr> <td>Encoding number</td> <td>0</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">local_vars:			SLIST(TDFINT)
-lks:						 SLIST(LINKS)
-properties:			BYTESTREAM PROPS
-								 -&gt; UNIT</programlisting>
+			<programlisting language="tdf">local_vars:  SLIST(TDFINT)
+lks:         SLIST(LINKS)
+properties:  BYTESTREAM PROPS
+ -&gt; UNIT</programlisting>
 
 			<para><replaceable>local_vars</replaceable> gives the number of linkable entities of
 				each kind. These numbers correspond (in the same order) to the variable
@@ -7498,9 +7496,9 @@ properties:			BYTESTREAM PROPS
 				<tr> <td>Encoding number</td> <td>1</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">token_value:		 TOKEN
-token_args:			BITSTREAM param_sorts(token_value)
-								 -&gt; VARIETY</programlisting>
+			<programlisting language="tdf">token_value: TOKEN
+token_args:  BITSTREAM param_sorts(token_value)
+ -&gt; VARIETY</programlisting>
 
 			<para>The token is applied to the arguments to give a <code>VARIETY</code>.</para>
 
@@ -7518,9 +7516,9 @@ token_args:			BITSTREAM param_sorts(token_value)
 			</informaltable>
 
 			<programlisting language="tdf">control: EXP INTEGER(v)
-e1:							BITSTREAM VARIETY
-e2:							BITSTREAM VARIETY
-								 -&gt; VARIETY</programlisting>
+e1:      BITSTREAM VARIETY
+e2:      BITSTREAM VARIETY
+ -&gt; VARIETY</programlisting>
 
 			<para>The <replaceable>control</replaceable> is evaluated. It will be a constant at
 				install time under the constant evaluation rules. If it is non-zero,
@@ -7538,9 +7536,9 @@ e2:							BITSTREAM VARIETY
 				<tr> <td>Encoding number</td> <td>3</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">lower_bound:		 SIGNED_NAT
-upper_bound:		 SIGNED_NAT
-								 -&gt; VARIETY</programlisting>
+			<programlisting language="tdf">lower_bound: SIGNED_NAT
+upper_bound: SIGNED_NAT
+ -&gt; VARIETY</programlisting>
 
 			<para><replaceable>lower_bound</replaceable> is the lower limit (inclusive) of the
 				range of values which shall be representable in the resulting
@@ -7555,9 +7553,9 @@ upper_bound:		 SIGNED_NAT
 				<tr> <td>Encoding number</td> <td>4</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">signed_width:		BOOL
-width:					 NAT
-								 -&gt; VARIETY</programlisting>
+			<programlisting language="tdf">signed_width: BOOL
+width:        NAT
+ -&gt; VARIETY</programlisting>
 
 			<para>If <replaceable>signed_width</replaceable> is <replaceable>true</replaceable> then
 				this construction is equivalent to
@@ -7588,8 +7586,8 @@ width:					 NAT
 				<tr> <td>Encoding number</td> <td>0</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">version_info:		SLIST(VERSION)
-								 -&gt; VERSION_PROPS</programlisting>
+			<programlisting language="tdf">version_info: SLIST(VERSION)
+ -&gt; VERSION_PROPS</programlisting>
 
 			<para>Contains version information.</para>
 		</section>
@@ -7610,9 +7608,9 @@ width:					 NAT
 				<tr> <td>Encoding number</td> <td>1</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">major_version:	 TDFINT
-minor_version:	 TDFINT
-								 -&gt; VERSION</programlisting>
+			<programlisting language="tdf">major_version: TDFINT
+minor_version: TDFINT
+ -&gt; VERSION</programlisting>
 
 			<para>The major and minor version numbers of the TDF used. An increase in
 				minor version number means an extension of facilities, an increase in
@@ -7634,8 +7632,8 @@ minor_version:	 TDFINT
 				<tr> <td>Encoding number</td> <td>2</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">information:		 STRING(k, n)
-								 -&gt; VERSION</programlisting>
+			<programlisting language="tdf">information: STRING(k, n)
+ -&gt; VERSION</programlisting>
 
 			<para>This is (usually character) information included in the TDF for
 				labelling purposes.</para>

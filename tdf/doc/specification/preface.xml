@@ -20,11 +20,11 @@
 			and also may be used as names external to the TDF system. For example, the
 			signature of <replaceable>make_id_tagdec</replaceable> is now:</para>
 
-		<programlisting language="tdf">t_intro:        TDFINT
-acc:            OPTION(ACCESS)
-signature:      OPTION(STRING)
-x:              SHAPE
-          -&gt; TAGDEC</programlisting>
+		<programlisting language="tdf">t_intro:   TDFINT
+acc:       OPTION(ACCESS)
+signature: OPTION(STRING)
+x:         SHAPE
+ -&gt; TAGDEC</programlisting>
 
 		<para>A new <code>EXP</code> constructor, <replaceable>initial_value</replaceable>, is
 			introduced to allow dynamic initialisation of global tags.</para>

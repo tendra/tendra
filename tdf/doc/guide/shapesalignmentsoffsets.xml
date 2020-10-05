@@ -182,7 +182,7 @@
 
 			<programlisting language="tdf">signed_width: BOOL
 width:        NAT
--&gt; VARIETY</programlisting>
+ -&gt; VARIETY</programlisting>
 		</section>
 
 		<section>
@@ -194,12 +194,11 @@ width:        NAT
 			<para>A FLOATING_VARIETY for a real number is constructed using
 				fvar_parms:</para>
 
-			<programlisting language="tdf">
-base:              NAT
+			<programlisting language="tdf">base:              NAT
 mantissa_digits:   NAT
 minimum_exponent:  NAT
 maximum_exponent:: NAT
-   -&gt; FLOATING_VARIETY</programlisting>
+ -&gt; FLOATING_VARIETY</programlisting>
 
 			<para>A FLOATING_VARIETY specifies the base, number of mantissa
 				digits, and maximum and minimum exponent. Once again, it is
@@ -398,7 +397,7 @@ maximum_exponent:: NAT
 
 			<programlisting language="tdf">a:    ALIGNMENT
 arg1: EXP OFFSET(z, t)
--&gt; EXP OFFSET(z xc8 a, a)</programlisting>
+ -&gt; EXP OFFSET(z xc8 a, a)</programlisting>
 
 			<para>This gives the next OFFSET greater or equal to <code>arg1</code>
 				at which an object of ALIGNMENT <code>a</code> can be
@@ -425,7 +424,7 @@ arg1: EXP OFFSET(z, t)
 
 		<programlisting language="tdf">n: NAT
 s: SHAPE
--&gt; SHAPE</programlisting>
+ -&gt; SHAPE</programlisting>
 
 		<para>This SHAPE describes an array of <code>n</code> values all of SHAPE
 			<code>s</code>; note that <code>n</code> is a natural number and
@@ -437,7 +436,7 @@ s: SHAPE
 		<para>The other compound SHAPEs are produced using compound:</para>
 
 		<programlisting language="tdf">sz: EXP OFFSET(x, y)
--&gt; SHAPE</programlisting>
+ -&gt; SHAPE</programlisting>
 
 		<para>The <code>sz</code> parameter gives the minimum size which can
 			accommodate the SHAPE.</para>
@@ -495,7 +494,7 @@ s: SHAPE
 
 			<programlisting language="tdf">arg1: EXP OFFSET(x, x)
 arg2: EXP INTEGER(v)
--&gt; EXP OFFSET(x, x)</programlisting>
+ -&gt; EXP OFFSET(x, x)</programlisting>
 
 			<para>and using add_to_ptr with a pointer expression giving the base of
 				the array with the resulting OFFSET.</para>

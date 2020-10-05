@@ -8,14 +8,14 @@
 		document. The first is the construct <link linkend="floating">
 		<replaceable>floating</replaceable></link>:</para>
 
-	<programlisting language="tdf">fv:              FLOATING_VARIETY
-                  -&gt; SHAPE</programlisting>
+	<programlisting language="tdf">fv: FLOATING_VARIETY
+ -&gt; SHAPE</programlisting>
 
 	<para>The constructs' arguments (one in this case) precede the
 		&ldquo;<replaceable>-&gt;</replaceable>&rdquo; and the result follows it. Each
 		argument is shown as follows:</para>
 
-    <programlisting language="tdf">name:            SORT</programlisting>
+    <programlisting language="tdf">name: SORT</programlisting>
 
 	<para>The name standing before the colon is for use in the accompanying English
 		description within the specification. It has no other significance.</para>
@@ -34,9 +34,9 @@
 		states that it has an <code>EXP</code> argument and an <code>EXP</code>
 		result:</para>
 
-    <programlisting language="tdf">flpt_err:         ERROR_TREATMENT
-arg1:            EXP FLOATING(f)
-           -&gt; EXP FLOATING(f)</programlisting>
+    <programlisting language="tdf">flpt_err: ERROR_TREATMENT
+arg1:     EXP FLOATING(f)
+ -&gt; EXP FLOATING(f)</programlisting>
 
 	<para>it also supplies additional information about those <code>EXP</code>s.	It
 		specifies that these expressions will be floating point numbers of the same
@@ -45,11 +45,11 @@ arg1:            EXP FLOATING(f)
 	<para>Some construct's arguments are optional. This is denoted as follows (from
 		<link linkend="apply_proc"><replaceable>apply_proc</replaceable></link>):</para>
 
-    <programlisting language="tdf">result_shape:    SHAPE
-p:               EXP PROC
-params:          LIST(EXP)
-var_param:       OPTION(EXP)
-           -&gt; EXP result_shape</programlisting>
+    <programlisting language="tdf">result_shape: SHAPE
+p:            EXP PROC
+params:       LIST(EXP)
+var_param:    OPTION(EXP)
+ -&gt; EXP result_shape</programlisting>
 
 	<para><replaceable>var_param</replaceable> is an optional argument to the
 		<replaceable>apply_proc</replaceable> construct shown above.</para>
@@ -64,10 +64,10 @@ var_param:       OPTION(EXP)
 		specification of the <link linkend="case"><replaceable>case</replaceable></link> construct
 		shown below:</para>
 
-    <programlisting language="tdf">exhaustive:      BOOL
-control: EXP INTEGER(v)
-branches:        LIST(CASELIM)
-           -&gt; EXP (exhaustive ? BOTTOM : TOP)</programlisting>
+    <programlisting language="tdf">exhaustive: BOOL
+control:    EXP INTEGER(v)
+branches:   LIST(CASELIM)
+ -&gt; EXP (exhaustive ? BOTTOM : TOP)</programlisting>
 
 	<para>If <replaceable>exhaustive</replaceable> is true, the resulting <code>EXP</code>
 		has the <code>SHAPE BOTTOM</code>: otherwise it is <code>TOP</code>.</para>

@@ -12,11 +12,10 @@
     <section id="exp_to_source">
       <title>~exp_to_source</title>
   
-      <programlisting language="tdf">
-<varname>body</varname>:            EXP sh
-<varname>from</varname>:            SOURCEMARK
-<varname>to</varname>:              SOURCEMARK
-           -&gt; EXP sh</programlisting>
+      <programlisting language="tdf"><varname>body</varname>: EXP sh
+<varname>from</varname>: SOURCEMARK
+<varname>to</varname>:   SOURCEMARK
+ -&gt; EXP sh</programlisting>
 
       <para>Records that the <code>EXP</code> <varname>body</varname> arose
         from translating program between <code>SOURCEMARK</code>
@@ -27,12 +26,11 @@
     <section id="diag_id_source">
       <title>~diag_id_source</title>
       
-      <programlisting language="tdf">
-<varname>body</varname>:            EXP sh
-<varname>name</varname>:            TDFSTRING(k, n)
-<varname>access</varname>:          EXP POINTER(al)
-<varname>type</varname>:            DIAG_TYPE
-           -&gt; EXP sh</programlisting>
+      <programlisting language="tdf"><varname>body</varname>:   EXP sh
+<varname>name</varname>:   TDFSTRING(k, n)
+<varname>access</varname>: EXP POINTER(al)
+<varname>type</varname>:   DIAG_TYPE
+ -&gt; EXP sh</programlisting>
 
       <para>Within the <code>EXP</code> <varname>body</varname> a variable
         named <varname> name</varname> of <code>DIAG_TYPE</code>
@@ -43,11 +41,10 @@
     <section id="diag_type_scope">
       <title>~diag_type_scope</title>
   
-      <programlisting language="tdf">
-<varname>body</varname>:            EXP sh
-<varname>name</varname>:            TDFSTRING(k, n)
-<varname>type</varname>:            DIAG_TYPE
-           -&gt; EXP sh</programlisting>
+      <programlisting language="tdf"><varname>body</varname>: EXP sh
+<varname>name</varname>: TDFSTRING(k, n)
+<varname>type</varname>: DIAG_TYPE
+ -&gt; EXP sh</programlisting>
   
       <para>Within the <code>EXP</code> <varname>body</varname> a source
         language type named <varname>name</varname> of <code>DIAG_TYPE</code>
@@ -57,11 +54,10 @@
     <section id="diag_tag_scope">
       <title>~diag_tag_scope</title>
   
-      <programlisting language="tdf">
-<varname>body</varname>:            EXP sh
-<varname>name</varname>:            TDFSTRING(k, n)
-<varname>type</varname>:            DIAG_TYPE
-           -&gt; EXP sh</programlisting>
+      <programlisting language="tdf"><varname>body</varname>: EXP sh
+<varname>name</varname>: TDFSTRING(k, n)
+<varname>type</varname>: DIAG_TYPE
+ -&gt; EXP sh</programlisting>
 
       <para>This <code>TOKEN</code> is obsolete.</para>	<!-- TODO: note -->
     </section>
