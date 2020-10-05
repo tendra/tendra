@@ -37,7 +37,7 @@ _TENDRA_SUBDIR_MK_=1
 .PHONY: ${SUBDIR}
 
 # Proceed to subdirs.
-. for target in all clean install regen regen-clean test
+. for target in all clean install regen regen-clean test touch-generated-sid
 ${target}::
 .  for entry in ${SUBDIR}
 	@cd ${.CURDIR}/${entry}; ${MAKE} ${.TARGET}
