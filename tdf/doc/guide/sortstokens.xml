@@ -186,7 +186,7 @@
 
 		<programlisting language="tdf">token_value: TOKEN
 token_args:  BITSTREAM param_sorts(token_value)
-             -&gt; EXP x</programlisting>
+ -&gt; EXP x</programlisting>
 
 		<para>we are confronted by the mysterious BITSTREAM where one might
 			expect to find the actual parameters of the TOKEN.</para>
@@ -230,7 +230,7 @@ token_args:  BITSTREAM param_sorts(token_value)
 		<programlisting language="tdf">result_sort: SORTNAME
 tok_params:  LIST(TOKFORMALS)
 body:        result_sort
-             -&gt; TOKEN_DEFN</programlisting>
+ -&gt; TOKEN_DEFN</programlisting>
 
 			<para>The <code>result_sort</code> is the SORT of the construction of
 				<code> body</code>; e.g. if <code>result_sort</code> is formed from
@@ -242,7 +242,7 @@ body:        result_sort
 
 			<programlisting language="tdf">sn: SORTNAME
 tk: TDFINT
-    -&gt; TOKFORMALS</programlisting>
+ -&gt; TOKFORMALS</programlisting>
 
 		<para>The TDFINT <code>tk</code> will be the integer representation of
 			the formal parameter expressed as a TOKEN whose result sort is
@@ -264,7 +264,7 @@ tk: TDFINT
 		<programlisting language="tdf">tok:       TDFINT
 signature: OPTION(STRING)
 def:       BITSTREAM TOKEN_DEFN
-           -&gt; TOKDEF</programlisting>
+ -&gt; TOKDEF</programlisting>
 
 		<para>Here, <code>tok</code> gives the name that will be used to
 			identify the TOKEN whose expansion is given by <code>def</code>. Any
@@ -283,13 +283,13 @@ def:       BITSTREAM TOKEN_DEFN
 		<programlisting language="tdf">tok:       TDFINT
 signature: OPTION(STRING)
 s:         SORTNAME
-           -&gt; TOKDEC</programlisting>
+ -&gt; TOKDEC</programlisting>
 
 		<para>Here the SORTNAME, <code>s</code>, is given by token:</para>
 
 		<programlisting language="tdf">result: SORTNAME
-				params: LIST(SORTNAME)
-						-&gt; SORTNAME</programlisting>
+params: LIST(SORTNAME)
+ -&gt; SORTNAME</programlisting>
 
 		<para>which gives the result and parameter SORTs of
 			<code>tok</code>.</para>
@@ -299,7 +299,7 @@ s:         SORTNAME
 			parameter. To do this one simply uses use_tokdef:</para>
 
 		<programlisting language="tdf">tdef: BITSTREAM TOKEN_DEFN
-      -&gt; TOKEN</programlisting>
+ -&gt; TOKEN</programlisting>
 	</section>
 
 	<section>

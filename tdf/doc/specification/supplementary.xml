@@ -23,9 +23,9 @@
 				<tr> <td>Encoding number</td> <td>0</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">no_labels:       TDFINT
-tds:             SLIST(LINKINFO)
-		   -&gt; LINKINFO_PROPS</programlisting>
+			<programlisting language="tdf">no_labels: TDFINT
+tds:       SLIST(LINKINFO)
+ -&gt; LINKINFO_PROPS</programlisting>
 
 			<para>Makes the <code>UNIT</code>.</para>
 		</section>
@@ -46,9 +46,9 @@ tds:             SLIST(LINKINFO)
 				<tr> <td>Encoding number</td> <td>1</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">assexp:          EXP POINTER x
-id:              TDFSTRING(k, n)
-		   -&gt; LINKINFO</programlisting>
+			<programlisting language="tdf">assexp: EXP POINTER x
+id:     TDFSTRING(k, n)
+ -&gt; LINKINFO</programlisting>
 
 			<para><replaceable>assexp</replaceable> will be an <replaceable>obtain_tag</replaceable>
 				construction which refers to a <code>TAG</code> which is defined with
@@ -74,8 +74,8 @@ id:              TDFSTRING(k, n)
 				<tr> <td>Encoding number</td> <td>2</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">n:               TDFSTRING(k, n)
-		   -&gt; LINKINFO</programlisting>
+			<programlisting language="tdf">n: TDFSTRING(k, n)
+ -&gt; LINKINFO</programlisting>
 
 			<para><replaceable>n</replaceable> shall be incorporated into the object file as a
 				comment, if this facility exists. Otherwise the construct is ignored.</para>
@@ -88,9 +88,9 @@ id:              TDFSTRING(k, n)
 				<tr> <td>Encoding number</td> <td>3</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">namer:           EXP POINTER x
-val:             EXP POINTER y
-		   -&gt; LINKINFO</programlisting>
+			<programlisting language="tdf">namer: EXP POINTER x
+val:   EXP POINTER y
+ -&gt; LINKINFO</programlisting>
 
 			<para><replaceable>namer</replaceable> and <replaceable>val</replaceable> will be
 				<replaceable>obtain_tag</replaceable> constructions which refer to
@@ -107,9 +107,9 @@ val:             EXP POINTER y
 				<tr> <td>Encoding number</td> <td>4</td> </tr>
 			</informaltable>
 
-			<programlisting language="tdf">id:              TDFSTRING(k, n)
-val:             EXP POINTER x
-		   -&gt; LINKINFO</programlisting>
+			<programlisting language="tdf">id:  TDFSTRING(k, n)
+val: EXP POINTER x
+ -&gt; LINKINFO</programlisting>
 
 			<para><replaceable>val</replaceable> will be an <replaceable>obtain_tag</replaceable>
 				construction which refers to a <code>TAG</code> which is defined with

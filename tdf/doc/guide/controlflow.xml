@@ -15,7 +15,7 @@
 
 			<programlisting language="tdf">statements: LIST(EXP)
 result:     EXP x
-            -&gt; EXP x</programlisting>
+ -&gt; EXP x</programlisting>
 
 			<para>Each of the <code>statements</code> are evaluated in order,
 				throwing away their results. Then, <code>result</code> is
@@ -49,7 +49,7 @@ result:     EXP x
 			<programlisting language="tdf">placelabs_intro: LIST(LABEL)
 starter:         EXP x
 places:          LIST(EXP)
-                 -&gt; EXP w</programlisting>
+ -&gt; EXP w</programlisting>
 
 			<para>Each of the EXPs in <code>places</code> is labelled by the
 				corresponding LABEL in <code>placelabs_intro</code>; these LABELs
@@ -111,7 +111,7 @@ places:          LIST(EXP)
 dest: LABEL
 arg1: EXP INTEGER(v)
 arg2: EXP INTEGER(v)
-      -&gt; EXP TOP</programlisting>
+ -&gt; EXP TOP</programlisting>
 
 			<para>The NTEST <code>nt</code> chooses a dyadic test (e.g. =, &ge;,
 				&lt;, etc.) that is to be applied to the results of evaluating
@@ -140,14 +140,14 @@ arg2: EXP INTEGER(v)
 			<programlisting language="tdf">exhaustive: BOOL
 control:    EXP INTEGER(v)
 branches:   LIST(CASELIM)
-            -&gt; EXP (exhaustive ? BOTTOM : TOP)</programlisting>
+ -&gt; EXP (exhaustive ? BOTTOM : TOP)</programlisting>
 
 			<para>Each CASELIM is constructed using make_caselim:</para>
 
 			<programlisting language="tdf">branch: LABEL
 lower:  SIGNED_NAT
 upper:  SIGNED_NAT
-        -&gt; CASELIM</programlisting>
+ -&gt; CASELIM</programlisting>
 
 			<para>In the case construction, the <code>control</code> EXP is
 				evaluated and tested to see whether its value lies inclusively
@@ -175,7 +175,7 @@ upper:  SIGNED_NAT
 			<programlisting language="tdf">alt_label_intro: LABEL
 first:           EXP x
 alt:             EXP y
-                 -&gt; EXP(LUB(x, y))</programlisting>
+ -&gt; EXP(LUB(x, y))</programlisting>
 
 			<para>Here <code>first</code> is evaluated; if it terminates normally,
 				its result is the result of the conditional. If a jump to
@@ -204,7 +204,7 @@ alt:             EXP y
 			<programlisting language="tdf">repeat_label_intro: LABEL
 start:              EXP TOP
 body:               EXP y
-                    -&gt; EXP y</programlisting>
+ -&gt; EXP y</programlisting>
 
 			<para>The EXP <code>start</code> is evaluated, followed by
 				<code>body</code> which is labelled by
