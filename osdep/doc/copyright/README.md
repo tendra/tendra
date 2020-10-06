@@ -1,1 +1,1 @@
-../../../shared/copyright/README
+../../../shared/copyright/README.md
