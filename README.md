@@ -86,6 +86,15 @@ Build with:
 
 If all goes well, this should give you a working compiler in ./obj.$host-bootstrap/bin
 
+### Building with docker
+
+The Dockerfile defines a base system that can compile the compiler.  You will need
+to build the docker image first, but thereafter you can just run it (without the --build
+parameter).
+
+To build and run the docker image:
+    % ./run-docker.sh --build
+
 
 ## Notes on x86_64
 
