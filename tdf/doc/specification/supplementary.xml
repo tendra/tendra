@@ -61,10 +61,10 @@ id:     TDFSTRING(k, n)
 				<replaceable>static</replaceable>) to identify the definition for subsequent
 				linking.</para>
 
-			<para><replaceable>This construction is likely to be needed for profiling, so
+			<para>This construction is likely to be needed for profiling, so
 				that useful names appear for statically defined objects. It may also be
 				needed when C++ is translated into C, in order to identify global
-				initialisers.</replaceable></para>
+				initialisers.</para>
 		</section>
 
 		<section id="make_comment">

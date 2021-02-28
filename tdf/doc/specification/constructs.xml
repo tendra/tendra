@@ -275,10 +275,12 @@ a2: ACCESS
 			circular definitions can be written in TDF. However, because of the
 			definition of alignments, intrinsic circularities cannot occur.</para>
 
-		<para><replaceable>For example, the following equation has a circular form x =
-			alignment(pointer(alignment(x))) and it or a similar equation might
-			occur in TDF. But since alignment(pointer(x)) is {pointer}, this reduces
-			to x = {pointer}.</replaceable>
+		<para>For example, the following equation has a circular form
+			<replaceable>x = alignment(pointer(alignment(x)))</replaceable> and it
+			or a similar equation might occur in TDF. But since
+			<replaceable>alignment(pointer(x))</replaceable> is
+			<replaceable>{pointer}</replaceable>, this reduces to
+			<replaceable>x = {pointer}</replaceable>.
 		</para>
 
 		<section id="al_tag_apply_token">
@@ -1252,10 +1254,10 @@ e2:      BITSTREAM ERROR_TREATMENT
 				specifies only that the jump occurs after evaluating the construction.
 				It is not specified how many further constructions are evaluated.</para>
 
-			<para><replaceable>This rule implies that a further construction is needed to
+			<para>This rule implies that a further construction is needed to
 				guarantee that errors have been processed. This is not yet included.
 				The effect of nearby procedure calls or exits also needs
-				definition.</replaceable>
+				definition.
 			</para>
 		</section>
 
@@ -1428,10 +1430,10 @@ arg2: EXP OFFSET(y, z)
 				<replaceable>p</replaceable> is derived and the size of the space allocated
 				for the original pointer.</para>
 
-			<para><replaceable>In the simple representation of <code>POINTER</code>
+			<para>In the simple representation of <code>POINTER</code>
 				arithmetic (see <link linkend="memory-model">Memory Model</link>) add_to_ptr is
 				represented by addition. The constraint &ldquo;x includes y&rdquo;
-				ensures that no padding has to be inserted in this case.</replaceable>
+				ensures that no padding has to be inserted in this case.
 			</para>
 		</section>
 
@@ -1647,9 +1649,9 @@ arg2: EXP y
 
 			<para>See <link linkend="overlapping">Overlapping</link> and <link linkend="incomplete-assignment">Incomplete assignment</link>.</para>
 
-			<para><replaceable>The constraint &ldquo;x will include alignment(y)&rdquo;
+			<para>The constraint &ldquo;x will include alignment(y)&rdquo;
 				ensures in the simple memory model that no change is needed to the
-				<code>POINTER</code>.</replaceable>
+				<code>POINTER</code>.
 			</para>
 		</section>
 
@@ -2030,9 +2032,9 @@ arg1: EXP POINTER(x)
 			<para>If the value delivered by <replaceable>arg1</replaceable> is a null pointer
 				the effect is undefined.</para>
 
-			<para><replaceable>The constraint &ldquo;x will include alignment(s)&rdquo;
+			<para>The constraint &ldquo;x will include alignment(s)&rdquo;
 				ensures in the simple memory model that no change is needed to the
-				<code>POINTER</code>.</replaceable>
+				<code>POINTER</code>.
 			</para>
 		</section>
 
@@ -2485,11 +2487,11 @@ arg1:     LIST(EXP)
 				<replaceable>flpt_err</replaceable>. See <link linkend="float-errors">Floating point
 				errors</link>.</para>
 
-			<para><replaceable>Note that separate floating_mult operations cannot in general
+			<para>Note that separate floating_mult operations cannot in general
 				be combined, because rounding errors need to be controlled.	The reason
 				for allowing floating_mult to take a variable number of arguments is to
 				make it possible to specify that a number of multiplications can be
-				re-ordered.</replaceable>
+				re-ordered.
 			</para>
 
 			<para>If <replaceable>arg1</replaceable> contains one element the result is the
@@ -2546,11 +2548,11 @@ arg1:     LIST(EXP)
 				<replaceable>flpt_err</replaceable>.	See <link linkend="float-errors">Floating point
 				errors</link>.</para>
 
-			<para><replaceable>Note that separate floating_plus operations cannot in general
+			<para>Note that separate floating_plus operations cannot in general
 				be combined, because rounding errors need to be controlled.	The reason
 				for allowing floating_plus to take a variable number of arguments is to
 				make it possible to specify that a number of multiplications can be
-				re-ordered.</replaceable>
+				re-ordered.
 			</para>
 
 			<para>If <replaceable>arg1</replaceable> contains one element the result is the
@@ -3696,11 +3698,11 @@ arg2: EXP OFFSET(z, t)
 
 			<para><replaceable>y</replaceable> will include <replaceable>z</replaceable>.</para>
 
-			<para><replaceable>The effect of the constraint &ldquo;y will include z&rdquo;
+			<para>The effect of the constraint &ldquo;y will include z&rdquo;
 				is that, in the simple representation of pointer arithmetic, this
 				operation can be represented by addition. offset_add can lose
 				information, so that offset_subtract does not have the usual relation
-				with it.</replaceable>
+				with it.
 			</para>
 		</section>
 
@@ -3765,10 +3767,10 @@ arg2: EXP OFFSET(z, y)
 
 			<para>See <link linkend="pointers-and-offsets">Comparison of pointers and offsets</link>.</para>
 
-			<para><replaceable>In the simple memory model this operation is represented by
+			<para>In the simple memory model this operation is represented by
 				maximum. The constraint that the second <code>ALIGNMENT</code>
 				parameters are both y is to permit the representation of
-				<code>OFFSET</code>s in installers by a simple homomorphism.</replaceable></para>
+				<code>OFFSET</code>s in installers by a simple homomorphism.</para>
 		</section>
 
 		<section id="offset_mult">
@@ -3803,8 +3805,8 @@ arg2: EXP INTEGER(v)
 
 			<para>The inverse of the argument is delivered.</para>
 
-			<para><replaceable>In the simple memory model this can be represented by
-				negate.</replaceable> </para>
+			<para>In the simple memory model this can be represented by
+				negate.</para>
 		</section>
 
 		<section id="offset_pad">
@@ -3831,10 +3833,11 @@ arg1: EXP OFFSET(z, t)
 				of the same <code>SHAPE</code> in the sense of
 				<replaceable>offset_test</replaceable>.</para>
 
-			<para><replaceable>In the simple memory model this operation can be represented
-				by ((off + a - 1) / a) * a. In the simple model this is the only
+			<para>In the simple memory model this operation can be represented
+				by <replaceable>((off + a - 1) / a) * a</replaceable>.
+				In the simple model this is the only
 				operation which is not represented by a simple corresponding integer
-				operation.</replaceable></para>
+				operation.</para>
 		</section>
 
 		<section id="offset_subtract">
@@ -3857,9 +3860,10 @@ arg2: EXP OFFSET(x, z)
 				<replaceable>z</replaceable> will include <replaceable>y</replaceable>, by the
 				constraints on <code>OFFSET</code>s.</para>
 
-			<para><replaceable>offset_subtract and offset_add do not have the conventional
+			<para><replaceable>offset_subtract</replaceable> and <replaceable>offset_add</replaceable>
+				do not have the conventional
 				relationship because offset_add can lose information, which cannot be
-				regenerated by offset_subtract.</replaceable></para>
+				regenerated by offset_subtract.</para>
 		</section>
 
 		<section id="offset_test">
@@ -7202,11 +7206,11 @@ body:        result_sort
 				of the <code>TOKEN_DEFN</code>, together with the global names of the
 				enclosing UNIT as before.</para>
 
-			<para><replaceable>Previous versions of the specification limited token
+			<para>Previous versions of the specification limited token
 				definitions to be non-recursive. There is no intrinsic reason for the
 				limitation on recursive <code>TOKEN</code>s. Since the UNIT structure
 				implies different namespaces, there is very little implementation
-				advantage to be gained from retaining the limitation.</replaceable>
+				advantage to be gained from retaining the limitation.
 			</para>
 		</section>
 	</section>
@@ -7380,9 +7384,9 @@ md2: TRANSFER_MODE
 			<para>If <replaceable>volatile</replaceable> is used to qualify a construction it
 				shall not be optimised away.</para>
 
-			<para><replaceable>This is intended to implement ANSI C's volatile construction.
+			<para>This is intended to implement ANSI C's volatile construction.
 			In this use, any volatile identifier should be declared as a
-				<code>TAG</code> with used_as_volatile <code>ACCESS</code>.</replaceable>
+				<code>TAG</code> with used_as_volatile <code>ACCESS</code>.
 			</para>
 		</section>
 
