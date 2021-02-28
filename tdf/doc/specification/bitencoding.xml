@@ -368,8 +368,8 @@
 
 		<para>Other file formats introduced should follow a similar pattern.</para>
 
-		<para><replaceable>The TDF linker will refuse to link TDF files with different
+		<para>The TDF linker will refuse to link TDF files with different
 			major version numbers. The resulting minor version number is the maximum
-			of component minor version numbers.</replaceable></para>
+			of component minor version numbers.</para>
 	</section>
 </chapter>

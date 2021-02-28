@@ -561,11 +561,11 @@ sign(p M2 q) = sign(p)
 			<replaceable>error_jump</replaceable> will not change the
 			<replaceable>alloca</replaceable> stack.</para>
 
-		<para><replaceable>If an installer implements identify and variable by creating
+		<para>If an installer implements identify and variable by creating
 			space on a stack when they come into existence, rather than doing the
 			allocation for identify and variable at the start of a procedure
 			activation, then it may have to consider making the alloca stack into a
-			second stack.</replaceable></para>
+			second stack.</para>
 	</section>
 
 	<section id="memory-model">
@@ -827,10 +827,10 @@ arg2: EXP OFFSET(z, t)
 				part of the installer specification. It shall be capable of representing
 				the numbers 0 to 127.</para>
 
-			<para><replaceable>Note that it is not necessary for this to be the same
+			<para>Note that it is not necessary for this to be the same
 				<code>VARIETY</code> on each machine. Normal practice will be to use a
 				<code>TOKEN</code> for this <code>VARIETY</code> and choose the
-				definition of the <code>TOKEN</code> on the target machine.</replaceable></para>
+				definition of the <code>TOKEN</code> on the target machine.</para>
 		</section>
 	</section>
 
