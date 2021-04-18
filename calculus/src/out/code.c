@@ -191,6 +191,7 @@ print_proto(void)
 void
 print_include(void)
 {
+	output("#include <stdlib.h>");
 	output("#include \"%s%s\"\n", MAIN_PREFIX, MAIN_SUFFIX);
 	LOOP_UNION output("#include \"%UM%s\"\n", OPS_SUFFIX);
 	output("\n");
