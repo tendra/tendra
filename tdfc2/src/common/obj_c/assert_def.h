@@ -13,6 +13,8 @@
 #ifndef ASSERT_DEF_H_INCLUDED
 #define ASSERT_DEF_H_INCLUDED
 
+#include <stdlib.h>
+
 /* Assertion function definitions */
 
 #ifndef assert_c_class
