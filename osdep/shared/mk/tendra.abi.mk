@@ -67,7 +67,7 @@ _TENDRA_WORK_ABI_MK_=1
 
 .if !defined(ABI_VA)
 .BEGIN:
-	@${ECHO} '$${ABI_STACK} must be set'
+	@${ECHO} '$${ABI_VA} must be set'
 	@${EXIT} 1;
 .endif
 
