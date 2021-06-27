@@ -1,0 +1,11 @@
+
+fill 0..255 in 0..255;
+
+reverse 65..77;
+reverse 78..90;
+reverse 65..90;
+
+reverse 97..109;
+reverse 110..122;
+reverse 97..122;
+
