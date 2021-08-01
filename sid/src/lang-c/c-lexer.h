@@ -23,7 +23,7 @@
 #include "c-lexi_lexer.h"
 
 
-struct c_lexi_state c_lexer_current_state ;
+extern struct c_lexi_state c_lexer_current_state ;
 
 /*
  * Note:
@@ -111,6 +111,6 @@ void		c_lexer_save_terminal(CLexerStreamT *, CTokenT);
 void		c_lexer_restore_terminal(CLexerStreamT *);
 
 /* XXX remove once lexi provides opaque pointers */
-CLexerStreamT *c_lexer_stream;
+extern CLexerStreamT *c_lexer_stream;
 
 #endif /* !defined (H_C_LEXER) */

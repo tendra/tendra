@@ -51,7 +51,7 @@
 params_intro: LIST(TAGSHACC)
 var_intro:    OPTION(TAGACC)
 body:         EXP BOTTOM
-              -&gt; EXP PROC</programlisting>
+ -&gt; EXP PROC</programlisting>
   
 		<para>The <code>params_intro</code> and <code>var_intro</code> parameters
 			introduce the formal parameters of the procedure which may be used
@@ -68,7 +68,7 @@ body:         EXP BOTTOM
 		<programlisting language="tdf">sha:        SHAPE
 opt_access: OPTION(LIST(ACCESS))
 tg_intro:   TAG POINTER(alignment(sha))
-            -&gt; TAGSHACC</programlisting>
+ -&gt; TAGSHACC</programlisting>
 
 		<para>Within <code>body</code>, the formal will be accessed using
 			<code>tg_intro</code>; it is always considered to be a pointer to
@@ -93,7 +93,7 @@ tg_intro:   TAG POINTER(alignment(sha))
 			will usually terminate and deliver its result with a return:</para>
 
 		<programlisting language="tdf">arg1: EXP x
-		-&gt; EXP BOTTOM</programlisting>
+ -&gt; EXP BOTTOM</programlisting>
 
 		<para>Here <varname>x</varname> must be identical to the
 			<code>result_shape</code> of the call of the procedure There may be
@@ -114,7 +114,7 @@ tg_intro:   TAG POINTER(alignment(sha))
 arg1:         EXP PROC
 arg2:         LIST(EXP)
 varparam:     OPTION(EXP)
-              -&gt; EXP result_shape</programlisting>
+ -&gt; EXP result_shape</programlisting>
 
 		<para>Here <code>arg1</code> is the procedure to be called and
 			<code>arg2</code> gives the actual parameters. There must be at least
@@ -173,7 +173,7 @@ prcprops:     OPTION(PROCPROPS)
 caller_intro: LIST(TAGSHACC)
 callee_intro: LIST(TAGSHACC)
 body:         EXP BOTTOM
-              -&gt; EXP PROC</programlisting>
+ -&gt; EXP PROC</programlisting>
       
 		<para>Here the formal parameters are split into two sets,
 			<code>caller_intro</code> and <code>callee_intro</code>, each given
@@ -205,7 +205,7 @@ p:             EXP PROC
 caller_params: LIST(OTAGEXP)
 callee_params: CALLEES
 postlude:      EXP TOP
-               -&gt; EXP result_shape</programlisting>
+ -&gt; EXP result_shape</programlisting>
 
 		<para>The actual caller parameters are given by
 			<code>caller_params</code> as a list of OTAGEXPs constructed using
@@ -213,7 +213,7 @@ postlude:      EXP TOP
 
 		<programlisting language="tdf">tgopt: OPTION(TAG x / i>)
 e:     EXP x / i>
-       -&gt; OTAGEXP</programlisting>
+ -&gt; OTAGEXP</programlisting>
   
 		<para>Here, <code>e</code> is the value of the parameter and
 			<code>tgopt</code>, if present, is a TAG which will bound to the
@@ -280,7 +280,7 @@ e:     EXP x / i>
 			<programlisting language="tdf">prcprops:      OPTION(PROCPROPS)
 p:             EXP PROC
 callee_params: CALLEES
-               -&gt; EXP BOTTOM</programlisting>
+ -&gt; EXP BOTTOM</programlisting>
 
 			<para>The procedure p will be called with the same caller parameters as
 				the current procedure and the new <code>callee_params</code> and
@@ -356,7 +356,7 @@ callee_params: CALLEES
 name_intro: TAG x
 definition: EXP x
 body:       EXP y
-            -&gt; EXP y</programlisting>
+ -&gt; EXP y</programlisting>
             
 			<para>The <code>definition</code> is evaluated and its result is
 				identified with the TAG given by <code>name_intro</code> within
@@ -372,7 +372,7 @@ body:       EXP y
 name_intro: TAG x
 init:       EXP x
 body:       EXP y
-            -&gt; EXP y</programlisting>
+ -&gt; EXP y</programlisting>
             
 			<para>Here the <code>init</code> EXP is evaluated and its result serves
 				as an initialisation of space of SHAPE <varname>x</varname> local
@@ -490,7 +490,7 @@ body:       EXP y
 fa: ALIGNMENT
 y:  ALIGNMENT
 t:  TAG x
-    -&gt; EXP OFFSET(fa, y)</programlisting>
+ -&gt; EXP OFFSET(fa, y)</programlisting>
             
 			<para>The frame ALIGNMENT <code>fa</code> will be the appropriate one
 				for the TAG <code>t</code>; i.e. if <code>t</code> is a local then
@@ -544,7 +544,7 @@ t:  TAG x
 				part of the frame. These are produced by local_alloc:</para>
 
 			<programlisting language="tdf">arg1: EXP OFFSET(x, y)
-      -&gt; EXP POINTER(alloca_alignment)</programlisting>
+ -&gt; EXP POINTER(alloca_alignment)</programlisting>
 
 			<para>The operand <code>arg1</code> gives the size of the new object
 				required and the result is a pointer to the space for this object
@@ -574,7 +574,7 @@ t:  TAG x
 
 			<programlisting language="tdf">a: EXP OFFSET(x, y)
 p: EXP POINTER(alloca_alignment)
-   -&gt; EXP TOP</programlisting>
+ -&gt; EXP TOP</programlisting>
 
 			<para>Here <code>p</code> must evaluate to a pointer generated either by
 				local_alloc or last_local . The effect is to free all of the space

@@ -17,8 +17,8 @@
 		<section>
 			<title><code>~Throw</code></title>
 
-			<programlisting language="tdf"><code>n</code>:	NAT
-	-&gt; EXP BOTTOM</programlisting>
+			<programlisting language="tdf"><code>n</code>: NAT
+ -&gt; EXP BOTTOM</programlisting>
 
 			<para>The <code>EXP</code> <code>e</code> defined as the body of this token will
 				be evaluated on occurrence of any error whose <code>ERROR_TREATMENT</code>
@@ -81,9 +81,9 @@
 			<title><code>~exp_to_source</code>, <code>~diag_id_scope</code>,
 				<code>~diag_type_scope</code>, <code>~diag_tag_scope</code></title>
 
-			<programlisting language="tdf"><code>bdy</code>:	EXP
-... :	 ...
-	-&gt; EXP</programlisting>
+			<programlisting language="tdf"><code>bdy</code>:  EXP
+... : ...
+ -&gt; EXP</programlisting>
 
 			<para>Each of these four tokens has several arguments of which the first,
 				<code>bdy</code>, is an <code>EXP</code>. In each case the default definition
@@ -114,8 +114,8 @@
 		<section>
 			<title><code>~__va_start</code></title>
 
-			<programlisting language="tdf"><code>p</code>:	EXP POINTER var_param_alignment
-	-&gt; EXP ~va_list</programlisting>
+			<programlisting language="tdf"><code>p</code>: EXP POINTER var_param_alignment
+ -&gt; EXP ~va_list</programlisting>
 
 			<para>If <code>t</code> is the <code>TAG</code> introduced by <code>var_intro</code>
 				<code>OPTION(TAGACC)</code> in <code>make_proc</code>, then the token application
@@ -129,9 +129,9 @@
 		<section>
 			<title><code>~va_arg</code></title>
 
-			<programlisting language="tdf"><code>v</code>:	EXP POINTER (alignment(~va_list))
-<code>s</code>:	SHAPE
-	-&gt; EXP <code>s</code></programlisting>
+			<programlisting language="tdf"><code>v</code>: EXP POINTER (alignment(~va_list))
+<code>s</code>: SHAPE
+ -&gt; EXP <code>s</code></programlisting>
 
 			<para>If <code>v</code> is the variable initialised by <code>~__va_start </code>(see
 				above), then successive token applications  <code>~va_arg(v,s)</code>
@@ -143,8 +143,8 @@
 		<section>
 			<title><code>~va_end</code></title>
 
-			<programlisting language="tdf"><code>v</code>:	EXP POINTER (alignment(~va_list))
-	-&gt; EXP TOP</programlisting>
+			<programlisting language="tdf"><code>v</code>: EXP POINTER (alignment(~va_list))
+ -&gt; EXP TOP</programlisting>
 
 			<para>If <code>v</code> is a variable initialised by <code>~__va_start</code>, the token
 				application <code>~va_end(v)</code> indicates that no further use will be
@@ -154,10 +154,10 @@
 		<section>
 			<title><code>~next_caller_offset</code></title>
 
-			<programlisting language="tdf"><code>o1</code>:	EXP OFFSET (<code>fa</code>,parameter_alignment(<code>s1</code>))
-<code>s1</code>:	SHAPE
-<code>s2</code>:	SHAPE
-	-&gt; EXP OFFSET (<code>fa</code>,parameter_alignment(<code>s2</code>))</programlisting>
+			<programlisting language="tdf"><code>o1</code>: EXP OFFSET (<code>fa</code>,parameter_alignment(<code>s1</code>))
+<code>s1</code>: SHAPE
+<code>s2</code>: SHAPE
+ -&gt; EXP OFFSET (<code>fa</code>,parameter_alignment(<code>s2</code>))</programlisting>
 
 			<para><code>~next_caller_offset</code> is used to provide access to successive
 				elements of the <code>caller_params</code> of an <code>apply_general_proc</code>,
@@ -179,10 +179,10 @@
 		<section>
 			<title><code>~next_callee_offset</code></title>
 
-			<programlisting language="tdf"><code>o1</code>:	EXP OFFSET (<code>fa</code>,parameter_alignment(<code>s1</code>))
-<code>s1</code>:	SHAPE
-<code>s2</code>:	SHAPE
-	-&gt; EXP OFFSET (<code>fa</code>,parameter_alignment(<code>s2</code>))</programlisting>
+			<programlisting language="tdf"><code>o1</code>: EXP OFFSET (<code>fa</code>,parameter_alignment(<code>s1</code>))
+<code>s1</code>: SHAPE
+<code>s2</code>: SHAPE
+ -&gt; EXP OFFSET (<code>fa</code>,parameter_alignment(<code>s2</code>))</programlisting>
 
 			<para><code>~next_callee_offset</code> is used to provide access to successive
 				elements of the <code>CALLEES</code> of an <code>apply_general_proc</code>

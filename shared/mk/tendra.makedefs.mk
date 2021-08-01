@@ -59,7 +59,7 @@ LDD_VER!=                        \
     | { read v && case "$$v" in  \
         *GNU\ libc*)  echo "$$v" | sed -n 's/^ldd (\(GNU libc\|.* E\?GLIBC .*\)) //p';; \
         *GLIBC*)  echo "$$v" | sed -n 's/^ldd (\(GNU libc\|.* E\?GLIBC .*\)) //p';; \
-        *GNU\ C*) echo "$$v" | sed -n 's/^.*version \(.*\), .*/\1/p' | printf '2';;              \
+        *GNU\ C*) echo "$$v" | sed -n 's/^.*version \(.*\), .*/\1/p';;              \
         MUSL)     echo "$$v" | sed -n 's/^Version \(.*\)/\1/p';;                    \
         *)        echo unknown;; \
     esac }                       \
@@ -194,6 +194,7 @@ MD_LIBCVER!=                              \
         GLIBC_2_27*)   echo GLIBC2_27;;   \
         GLIBC_2_30*)   echo GLIBC2_30;;   \
         GLIBC_2_31*)   echo GLIBC2_31;;   \
+        GLIBC_2_32*)   echo GLIBC2_32;;   \
         MUSL_1_1_5)    echo MUSL1_1_5;;   \
         *)             echo ${MD_OSVER};; \
     esac;

@@ -23,7 +23,7 @@ jobs:
 #        run: brew install gcc bmake
 
       - name: Build
-        run: bmake CC=${{ matrix.cc }} TARGETARCH=${{ matrix.target }} -DALLARCH
+        run: bmake -r CC=${{ matrix.cc }} TARGETARCH=${{ matrix.target }} -DALLARCH
 
       - name: Rebuild
         run: bmake TARGETARCH=${{ matrix.target }} bootstrap-rebuild

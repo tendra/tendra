@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 
 #include <shared/check.h>
 #include <shared/error.h>
@@ -17,6 +18,7 @@
 const char *progname = NULL;
 const char *progvers = NULL;
 
+int exiting = 0;
 int exit_status = EXIT_SUCCESS;
 unsigned long maximum_errors = 20;
 unsigned long number_errors = 0;
@@ -124,7 +126,10 @@ error_msg(enum error_severity e, const char *fn, int ln, const char *s, va_list 
 	IGNORE fprintf(stderr, "\n");
 
 	if (e == ERR_FATAL || e == ERR_USAGE) {
-		exit(exit_status);
+		if (exiting)
+			_exit(exit_status);
+		else
+			exit(exit_status);
 	}
 
 	if (number_errors >= maximum_errors && maximum_errors) {

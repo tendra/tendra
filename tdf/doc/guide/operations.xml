@@ -64,7 +64,7 @@
 			<programlisting language="tdf">ov_err: ERROR_TREATMENT
 arg1:   EXP INTEGER(v)
 arg2:   EXP INTEGER(v)
-        -&gt; EXP INTEGER(v)</programlisting>
+ -&gt; EXP INTEGER(v)</programlisting>
 
 		<para>The result of the addition has the same integer VARIETY as its
 			parameters.  If the representational bounds of
@@ -87,7 +87,7 @@ arg2:   EXP INTEGER(v)
 			to a label is error_jump:</para>
 
 		<programlisting language="tdf">lab: LABEL
-     -&gt; ERROR_TREATMENT</programlisting>
+ -&gt; ERROR_TREATMENT</programlisting>
 
 		<para>A branch to <code>lab</code> will occur if the result
 			overflows.</para>
@@ -108,7 +108,7 @@ arg2:   EXP INTEGER(v)
 ov_err:            ERROR_TREATMENT
 arg1:              EXP INTEGER(v)
 arg2:              EXP INTEGER(v)
-                   -&gt; EXP INTEGER(v)</programlisting>
+ -&gt; EXP INTEGER(v)</programlisting>
 
 		<para>There are two different kinds of division operators (with
 			corresponding remainder operators) defined. The operators div2 and
@@ -136,7 +136,7 @@ arg2:              EXP INTEGER(v)
 		<programlisting language="tdf">ov_err: ERROR_TREATMENT
 r:      VARIETY
 arg1:   EXP INTEGER(v)
-        -&gt; EXP INTEGER(r)</programlisting>
+ -&gt; EXP INTEGER(r)</programlisting>
 
 		<para>If the value <code>arg1</code> is outside the limits of the
 			representational variety of <code>r</code>, then the ERROR_TREATMENT
@@ -197,7 +197,7 @@ arg1:   EXP INTEGER(v)
 
 		<programlisting language="tdf">arg1: EXP OFFSET(base, y)
 arg2: LIST(EXP)
-      -&gt; EXP COMPOUND(sz)</programlisting>
+ -&gt; EXP COMPOUND(sz)</programlisting>
 
 		<para>The OFFSET <code>arg1</code> is evaluated as a translate-time
 			constant to give <code>sz</code>, the size of the compound

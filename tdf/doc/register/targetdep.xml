@@ -34,8 +34,8 @@
 		<section>
 			<title><code>.~rep_var_width</code></title>
 
-			<programlisting language="tdf"><code>w</code>:	NAT
-	-&gt; NAT</programlisting>
+			<programlisting language="tdf"><code>w</code>: NAT
+ -&gt; NAT</programlisting>
 
 			<para>If <code>w </code>lies within the range of <code>VARIETY</code> sizes supported
 				by the associated installer, <code>rep_var_width</code>(<code>w</code>) will be
@@ -80,8 +80,8 @@
 		<section>
 			<title><code>.~rep_fv</code></title>
 
-			<programlisting language="tdf"><code>n</code>:	NAT
-	-&gt; FLOATING_VARIETY</programlisting>
+			<programlisting language="tdf"><code>n</code>: NAT
+ -&gt; FLOATING_VARIETY</programlisting>
 
 			<para><code>.~rep_fv</code>(<code>n</code>) will be the <code>FLOATING_VARIETY</code>
 				whose representation is the <code>n</code>th of the sequence of supported
@@ -91,8 +91,8 @@
 		<section>
 			<title><code>.~rep_fv_width</code></title>
 
-			<programlisting language="tdf"><code>n</code>:	NAT
-	-&gt; NAT</programlisting>
+			<programlisting language="tdf"><code>n</code>: NAT
+ -&gt; NAT</programlisting>
 
 			<para>If <code>n</code> lies within the sequence range of supported floating point
 				representations, <code>.~rep_fv_width</code>(<code>n</code>) will be the number
@@ -106,8 +106,8 @@
 		<section>
 			<title><code>.~rep_fv_radix</code></title>
 
-			<programlisting language="tdf"><code>n</code>:	NAT
-	-&gt; NAT</programlisting>
+			<programlisting language="tdf"><code>n</code>: NAT
+ -&gt; NAT</programlisting>
 
 			<para><code>.~rep_fv_radix</code>(<code>n</code>) will be the radix used in the representation
 				of values of <code>FLOATING_VARIETY</code> <code>.~rep_fv</code>(<code>n</code>).</para>
@@ -116,8 +116,8 @@
 		<section>
 			<title><code>.~rep_fv_mantissa</code></title>
 
-			<programlisting language="tdf"><code>n</code>:	NAT
-	-&gt; NAT</programlisting>
+			<programlisting language="tdf"><code>n</code>: NAT
+ -&gt; NAT</programlisting>
 
 			<para><code>.~rep_fv_mantissa</code>(<code>n</code>) will be the number of base
 				<code>.~rep_fv_radix</code>(<code>n</code>) digits in the mantissa representation
@@ -127,8 +127,8 @@
 		<section>
 			<title><code>.~rep_fv_min_exp</code></title>
 
-			<programlisting language="tdf"><code>n</code>:	NAT
-	-&gt; NAT</programlisting>
+			<programlisting language="tdf"><code>n</code>: NAT
+ -&gt; NAT</programlisting>
 
 			<para><code>.~rep_fv_min_exp</code>(<code>n</code>) will be the maximum integer
 				<code>m</code> such that (<code>.~rep_fv_radix</code>(<code>n</code>))<code>-m</code>
@@ -139,8 +139,8 @@
 		<section>
 			<title><code>.~rep_fv_max_exp</code></title>
 
-			<programlisting language="tdf"><code>n</code>:	NAT
-	-&gt; NAT</programlisting>
+			<programlisting language="tdf"><code>n</code>: NAT
+ -&gt; NAT</programlisting>
 
 			<para><code>.~rep_fv_max_exp</code>(<code>n</code>) will be the maximum integer
 				<code>m</code> such that (<code>.~rep_fv_radix</code>(<code>n</code>))<code>m</code>
@@ -151,8 +151,8 @@
 		<section>
 			<title><code>.~rep_fv_epsilon</code></title>
 
-			<programlisting language="tdf"><code>n</code>:	NAT
-	-&gt; EXP FLOATING .~rep_fv(<code>n</code>)</programlisting>
+			<programlisting language="tdf"><code>n</code>: NAT
+ -&gt; EXP FLOATING .~rep_fv(<code>n</code>)</programlisting>
 
 			<para><code>.~rep_fv_epsilon</code>(<code>n</code>) will be the smallest strictly positive
 				real <code>x </code>such that (1.0 + <code>x</code>) is exactly representable
@@ -162,8 +162,8 @@
 		<section>
 			<title><code>.~rep_fv_min_val</code></title>
 
-			<programlisting language="tdf"><code>n</code>:	NAT
-	-&gt; EXP FLOATING .~rep_fv(<code>n</code>)</programlisting>
+			<programlisting language="tdf"><code>n</code>: NAT
+ -&gt; EXP FLOATING .~rep_fv(<code>n</code>)</programlisting>
 
 			<para><code>.~rep_fv_min_val</code>(<code>n</code>) will be the smallest strictly positive
 				real number that is exactly representable (though not necessarily
@@ -173,8 +173,8 @@
 		<section>
 			<title><code>.~rep_fv_max_val</code></title>
 
-			<programlisting language="tdf"><code>n</code>:	NAT
-	-&gt; EXP FLOATING .~rep_fv(<code>n</code>)</programlisting>
+			<programlisting language="tdf"><code>n</code>: NAT
+ -&gt; EXP FLOATING .~rep_fv(<code>n</code>)</programlisting>
 
 			<para><code>.~rep_fv_max_val</code>(<code>n</code>) will be the largest real number
 				that is exactly representable by the <code>FLOATING_VARIETY</code>
@@ -184,8 +184,8 @@
 		<section>
 			<title><code>.~rep_fv_dig</code></title>
 
-			<programlisting language="tdf"><code>n</code>:	NAT
-	-&gt; EXP</programlisting>
+			<programlisting language="tdf"><code>n</code>: NAT
+ -&gt; EXP</programlisting>
 
 			<para><code>.~rep_fv_dig</code>(<code>n</code>) is
 				the number of decimal digits, <code>q</code>,
@@ -201,8 +201,8 @@
 		<section>
 			<title><code>.~rep_fv_max_10_exp</code></title>
 
-			<programlisting language="tdf"><code>n</code>:	NAT
-	-&gt; EXP</programlisting>
+			<programlisting language="tdf"><code>n</code>: NAT
+ -&gt; EXP</programlisting>
 
 			<para><code>.~rep_fv_max_10_exp</code>(<code>n</code>) is
 				the maximum integer such that 10 raised to that power is in
@@ -213,8 +213,8 @@
 		<section>
 			<title><code>.~rep_fv_min_norm_val</code></title>
 
-			<programlisting language="tdf"><code>n</code>:	NAT
-	-&gt; EXP</programlisting>
+			<programlisting language="tdf"><code>n</code>: NAT
+ -&gt; EXP</programlisting>
 
 			<para><code>.~rep_fv_min_norm_val</code>(<code>n</code>)
 				is the minimum negative integer such that
@@ -290,10 +290,10 @@
 		<section>
 			<title><code>.~ptr_to_ptr</code></title>
 
-			<programlisting language="tdf"><code>a1</code>:	ALIGNMENT
-<code>a2</code>:	ALIGNMENT
-<code>p</code>:	EXP POINTER(<code>a1</code>)
-	-&gt; EXP POINTER(<code>a2</code>)</programlisting>
+			<programlisting language="tdf"><code>a1</code>: ALIGNMENT
+<code>a2</code>: ALIGNMENT
+<code>p</code>:  EXP POINTER(<code>a1</code>)
+ -&gt; EXP POINTER(<code>a2</code>)</programlisting>
 
 			<para><code>.~ptr_to_ptr</code> converts pointers from one pointer shape to another.</para>
 
@@ -308,10 +308,10 @@
 		<section>
 			<title><code>.~ptr_to_int</code></title>
 
-			<programlisting language="tdf"><code>a</code>:	ALIGNMENT
-<code>v</code>:	VARIETY
-<code>p</code>:	EXP POINTER(<code>a</code>)
-	-&gt; EXP INTEGER(<code>v</code>)</programlisting>
+			<programlisting language="tdf"><code>a</code>: ALIGNMENT
+<code>v</code>: VARIETY
+<code>p</code>: EXP POINTER(<code>a</code>)
+ -&gt; EXP INTEGER(<code>v</code>)</programlisting>
 
 			<para><code>.~ptr_to_int</code> converts a pointer to an integer. The result is
 				undefined if the <code>VARIETY</code> v is insufficient to distinguish
@@ -321,10 +321,10 @@
 		<section>
 			<title><code>.~int_to_ptr</code></title>
 
-			<programlisting language="tdf"><code>v</code>:	VARIETY
-<code>a</code>:	ALIGNMENT
-<code>i</code>:	EXP INTEGER(<code>v</code>)
-	-&gt; EXP POINTER(<code>a</code>)</programlisting>
+			<programlisting language="tdf"><code>v</code>: VARIETY
+<code>a</code>: ALIGNMENT
+<code>i</code>: EXP INTEGER(<code>v</code>)
+ -&gt; EXP POINTER(<code>a</code>)</programlisting>
 
 			<para><code>.~int_to_ptr</code> converts an integer to a pointer. The result is
 				undefined unless the integer i was obtained without modification from
@@ -341,9 +341,9 @@
 		<section>
 			<title><code>.~f_to_ptr</code></title>
 
-			<programlisting language="tdf"><code>a</code>:	ALIGNMENT
-<code>fn</code>:	EXP PROC
-	-&gt; EXP POINTER(<code>a</code>)</programlisting>
+			<programlisting language="tdf"><code>a</code>:  ALIGNMENT
+<code>fn</code>: EXP PROC
+ -&gt; EXP POINTER(<code>a</code>)</programlisting>
 
 			<para><code>.~f_to_ptr</code> converts a procedure to a pointer. The result is
 				undefined except as required for consistency with <code>.~ptr_to_f</code>.</para>
@@ -352,9 +352,9 @@
 		<section>
 			<title><code>.~ptr_to_f</code></title>
 
-			<programlisting language="tdf"><code>a</code>:	ALIGNMENT
-<code>p</code>:	EXP POINTER(<code>a</code>)
-	-&gt; EXP PROC</programlisting>
+			<programlisting language="tdf"><code>a</code>: ALIGNMENT
+<code>p</code>: EXP POINTER(<code>a</code>)
+ -&gt; EXP PROC</programlisting>
 
 			<para><code>.~ptr_to_f</code> converts a pointer to a procedure. The result is
 				undefined unless the pointer p was obtained without modification from

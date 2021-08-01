@@ -47,8 +47,8 @@
 
 		<para><code>c89<code>.</code></code><replaceable>header</replaceable><code>.</code><replaceable>function</replaceable></para>
 
-		<programlisting language="tdf">... :	 ...
-	-&gt; EXP</programlisting>
+		<programlisting language="tdf">... : ...
+ -&gt; EXP</programlisting>
 
 		<para>Tokens are defined for all cases where <code>header</code> is ctype or string
 			or math or stdlib, and <code>function</code> is the name of a non-ellipsis
@@ -71,8 +71,8 @@
 		<section>
 			<title><code>c89.setjmp.setjmp</code></title>
 
-			<programlisting language="tdf"><code>jb</code>:	EXP
-	-&gt; EXP</programlisting>
+			<programlisting language="tdf"><code>jb</code>: EXP
+ -&gt; EXP</programlisting>
 
 			<para><code>c89.setjmp.setjmp</code> is a token which has the semantics and argument
 				and result implementation shapes corresponding to the ANSI C macro
@@ -82,9 +82,9 @@
 		<section>
 			<title><code>c89.setjmp.longjmp</code></title>
 
-			<programlisting language="tdf"><code>jb</code>:	EXP
-<code>v</code>:	EXP
-	-&gt; EXP</programlisting>
+			<programlisting language="tdf"><code>jb</code>: EXP
+<code>v</code>:  EXP
+ -&gt; EXP</programlisting>
 
 			<para><code>c89.setjmp.longjmp</code> is a token which has the semantics and
 				argument implementation shapes corresponding to the ANSI C macro <code>longjmp
@@ -95,8 +95,8 @@
 		<section>
 			<title><code>~alloca</code></title>
 
-			<programlisting language="tdf"><code>i</code>:	EXP
-	-&gt; EXP</programlisting>
+			<programlisting language="tdf"><code>i</code>: EXP
+ -&gt; EXP</programlisting>
 
 			<para><code>~alloca</code> is a token which has the semantics and argument and
 				result implementation shapes corresponding to the BSD specified function

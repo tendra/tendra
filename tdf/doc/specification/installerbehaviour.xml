@@ -71,10 +71,10 @@
 			are made in this specification of the form &ldquo;such and such an
 			optimisation is permitted&rdquo;.</para>
 
-		<para><replaceable>Fortran90 has a notion of mathematical equivalence which is not
+		<para>Fortran90 has a notion of mathematical equivalence which is not
 			the same as TDF equivalence. It can be applied to transform programs
 			provided parentheses in the text are not crossed. TDF does not acknowledge
 			this concept. Such transformations would have to be applied in a context
-			where the permitted changes are known.</replaceable></para>
+			where the permitted changes are known.</para>
 	</section>
 </chapter>
