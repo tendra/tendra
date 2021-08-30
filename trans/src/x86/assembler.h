@@ -20,7 +20,8 @@ void outlong(void);
 
 void align_label(int f, exp jr);
 void eval_postlude(char *s, exp c);
-void out_readonly_section(void);
+void out_sect(const char *sect);
+void out_linkage(const char *linkage, const char *name);
 void out_dot_comm(char *name, shape sha);
 void out_dot_lcomm(char *name, shape sha);
 

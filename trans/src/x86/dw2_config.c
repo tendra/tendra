@@ -19,6 +19,7 @@
 #include <main/print.h>
 
 #include "localtypes.h"
+#include "assembler.h"
 
 long dwarf_lab_num = 0;
 
@@ -93,7 +94,7 @@ out_dwf_labdiff(long lo, long hi)
 void
 out_ext_label(char *s)
 {
-  asm_label(".globl %s", s);
+  out_linkage("globl", s);
 }
 
 void
@@ -129,17 +130,17 @@ dw2_data_aranges(void)
   if (first_data) {
     lab_data = next_dwarf_label();
     if (do_prom) {
-      asm_printf(".bss ");
+      out_sect("bss");
       out_dwf_label(lab_data, 0);
       asm_printf(", 0\n");
     } else {
-      asm_printf(".data\n");
+      out_sect("data");
       out_dwf_label(lab_data, 1);
     }
   }
   if (first_ro) {
     lab_ro = next_dwarf_label();
-    out_readonly_section();
+    out_sect("rodata");
     asm_printf("\n");
     out_dwf_label(lab_ro, 1);
   }

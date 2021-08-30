@@ -10,6 +10,7 @@
 #include <shared/bool.h>
 #include <shared/check.h>
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include <local/out.h>
@@ -142,13 +143,23 @@ eval_postlude(char *s, exp c)
 }
 
 void
-out_readonly_section(void)
+out_sect(const char *sect)
 {
-	if (format == FORMAT_ELF) {
-		asm_printf(".section .rodata");
-	} else {
-		asm_printf(".text");
+	if (streq(sect, "rodata") && format != FORMAT_ELF) {
+		sect = "text";
 	}
+
+	if (streq(sect, "bss") || streq(sect, "data") || streq(sect, "text")) {
+		asm_printf(".%s\n", sect);
+	} else {
+		asm_printf(".section .%s\n", sect);
+	}
+}
+ 
+void
+out_linkage(const char *linkage, const char *name)  
+{
+	asm_printf(".%s %s\n", linkage, name);
 }
 
 void
@@ -303,14 +314,14 @@ outend(void)
 		return;
 	}
 
-	asm_printf(".text\n");
+	out_sect("text");
 	dot_align(16);
 	asm_printf("\n");
 	asm_label("___tdf_end");
 
 	/* TODO: linux-specific? */
 	if (format == FORMAT_ELF) {
-		asm_printf(".section .note.GNU-stack,\"\",@progbits\n");
+		out_sect("note.GNU-stack,\"\",@progbits\n");
 	}
 }
 
@@ -335,7 +346,7 @@ void
 out_initialiser(char *name)
 {
 	if (format == FORMAT_ELF) {
-		asm_printf(".section .init\n");
+		out_sect("init");
 
 		asm_printf("\tcall %s", name);
 
@@ -382,7 +393,7 @@ out_main_postlude(void) /* FORMAT_AOUT */
 	strcpy(pdummy, local_prefix);
 	strcat(pdummy, sdummy);
 
-	asm_printf(".text\n");
+	out_sect("text");
 	asm_label("%s", pdummy);
 	asm_printop("ret");
 	out_initialiser(pdummy);

@@ -406,7 +406,7 @@ cproc(exp p, char *pname, int cname, int global
 	body = t;
 
 	if (global) {
-		asm_printf(".globl %s\n", pname);
+		out_linkage("globl", pname);
 	}
 
 	if (cpu & CPU_80486) {
@@ -530,11 +530,11 @@ cproc(exp p, char *pname, int cname, int global
 
 	if (do_profile) {
 		int  labl = next_lab ();	/* output profile procedure header */
-		asm_printf(".data\n");
+		out_sect("data");
 		dot_align(4);
 		asm_label("%sP%d", local_prefix, labl);
 		asm_printop(".long 0");
-		asm_printf(".text\n");
+		out_sect("text");
 		asm_printop("leal %sP%d,%s", local_prefix, labl, "%edx");
 		asm_printop("call _mcount");
 	}

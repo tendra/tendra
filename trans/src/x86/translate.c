@@ -111,24 +111,20 @@ eval_if_ready(exp t, int now)
 
 	if (!isglob(t)) {
 		if (!writable_strings && child(t)->tag != res_tag) {
-			out_readonly_section();
-			asm_printf("\n");
+			out_sect("rodata");
 		} else {
 			if (do_prom) {
 				error(ERR_INTERNAL, "prom data");
 			}
-			asm_printf(".data\n");
+			out_sect("data");
 		}
 
 		evaluate(child(t), no(t), NULL, (child(t)->tag != res_tag), 0, NULL);
 	} else {
 		dec *d = ptg(t);
 
-		if (!writable_strings &&
-			(!isvar(t) || (d->acc & f_constant)) &&
-			!PIC_code) {
-			out_readonly_section();
-			asm_printf("\n");
+		if (!writable_strings && (!isvar(t) || (d->acc & f_constant)) && !PIC_code) {
+			out_sect("rodata");
 #ifdef DWARF2
 			if (diag == DIAG_DWARF2) {
 				note_ro(d->name);
@@ -138,7 +134,7 @@ eval_if_ready(exp t, int now)
 			if (do_prom) {
 				error(ERR_INTERNAL, "prom data");
 			}
-			asm_printf(".data\n");
+			out_sect("data");
 #ifdef DWARF2
 			if (diag == DIAG_DWARF2) {
 				note_data(d->name);
@@ -174,7 +170,7 @@ code_def(dec *d)
 		}
 
 		check_asm_seq(child(child(tag)), 1);
-		asm_printf(".text\n");
+		out_sect("text");
 		make_code(zero, stack, child(tag));
 		asm_printf("\n");
 	}
@@ -186,12 +182,12 @@ code_def(dec *d)
 				set_proc_uses_external (child (tag));	/* for PIC_code, should be done in install_fns? */
 			}
 
-			asm_printf(".text\n");
+			out_sect("text");
 			if (isvar(tag)) {
 				char *new = make_local_name();
 				if (d->extnamed) {
 					d->extnamed = 0;
-					asm_printf(".globl %s\n", name);
+					out_linkage("globl", name);
 				}
 
 				dot_align(4);
@@ -228,11 +224,11 @@ code_def(dec *d)
 
 			if (shape_size(sh(child(tag))) == 0) {
 				if (d->extnamed) {
-					asm_printf(".globl %s\n", name);
+					out_linkage("globl", name);
 				} else if (assembler == ASM_SUN) {
-					asm_printf(".local %s\n", name);
+					out_linkage("local", name);
 				} else if (assembler == ASM_GAS) {
-					asm_printf(".data\n");
+					out_sect("data");
 					asm_printf("%s:\n", name);
 				} else {
 					asm_printf(".set %s, 0\n", name);
@@ -240,9 +236,9 @@ code_def(dec *d)
 			} else if (!PIC_code && !isvar(tag) && child(tag)->tag == null_tag &&
 			           sh(child(tag))->tag == prokhd) {
 				if (d->extnamed) {
-					asm_printf(".globl %s\n", name);
+					out_linkage("globl", name);
 				} else if (assembler == ASM_SUN) {
-					asm_printf(".local %s\n", name);
+					out_linkage("local", name);
 				}
 				asm_printf(".set %s, %ld\n", name, (long) no(child(tag)));
 			} else {
@@ -261,7 +257,7 @@ code_def(dec *d)
 					if (child(tag)->tag == clear_tag && no(child(tag)) == -1) {
 						/* prom global data */
 						if (is_ext) {
-							asm_printf(".globl %s\n", name);
+							out_linkage("globl", name);
 						}
 
 						out_dot_lcomm(name, sh(child(tag)));
@@ -433,7 +429,7 @@ local_translate_capsule(void)
 
 #ifdef DWARF2
 	if (diag == DIAG_DWARF2) {
-		asm_printf(".text\n");
+		out_sect("text");
 		if (dump_abbrev) {
 			do_abbreviations();
 		}
@@ -461,7 +457,7 @@ local_translate_capsule(void)
 		eval_if_ready(t, 1);
 	}
 
-	asm_printf(".text\n");
+	out_sect("text");
 
 #ifdef DWARF2
 	if (diag == DIAG_DWARF2) {

@@ -494,7 +494,7 @@ evaluate(exp c, int cname, char *s, int isconst, int global
 	int al = shape_align(sh(c));
 
 	if (global && cname == -1) {
-		asm_printf(".globl %s\n", s);
+		out_linkage("globl", s);
 	}
 
 	if (sh(c)->tag == realhd ||
