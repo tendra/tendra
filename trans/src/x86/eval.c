@@ -48,9 +48,9 @@ static
 void outsize(int n)
 {
 	switch ((n + 7) / 8) {
-	case 1:  outbyte();  break;
-	case 2:  outshort(); break;
-	default: outlong();  break;
+	case 1:  out_byte();  break;
+	case 2:  out_short(); break;
+	default: out_long();  break;
 	}
 }
 
@@ -198,17 +198,17 @@ evalval(exp e)
 	}
 
 	if (n == reff_tag && child(e)->tag == name_tag && isglob(child(child(e)))) {
-		outopenbr();
+		out_openbr();
 		asm_printf("%s + %ld", nextg(child(child(e))) -> name, (no(e) + no(child(e))) / 8);
-		outclosebr();
+		out_closebr();
 		return;
 	}
 
 	if (n == name_tag) {
 		if (no(e) != 0) {
-			outopenbr();
+			out_openbr();
 			asm_printf("%s + %ld", nextg(child(e)) -> name, no(e) / 8);
-			outclosebr();
+			out_closebr();
 		} else {
 			asm_printf("%s", nextg(child(e)) -> name);
 		}
@@ -241,13 +241,13 @@ clear_out(int n, int isconst, int al)
 	}
 
 	while (al >= 32 && n >= 4) {
-		outlong();
+		out_long();
 		asm_printf("0\n");
 		n -= 4;
 	}
 
 	while (n > 0) {
-		outbyte();
+		out_byte();
 		asm_printf("0\n");
 		--n;
 	}
@@ -281,7 +281,7 @@ evalaux(exp e, int isconst, int al)
 
 			if (bits_left &&
 			    off >= (crt_off + 8)) {
-				outbyte();
+				out_byte();
 				asm_printf("%d\n", work & 0xff);
 				crt_off += 8;
 				work = 0;
@@ -307,7 +307,7 @@ evalaux(exp e, int isconst, int al)
 				bits_left = offn + sz;
 				if ((offn + sz) <= 32) {
 					while ((offn + sz) >= 8) {
-						outbyte();
+						out_byte();
 						asm_printf("%d\n", work & 0xff);
 						crt_off += 8;
 						work >>= 8;
@@ -317,7 +317,7 @@ evalaux(exp e, int isconst, int al)
 					work &= ((1 << bits_left) - 1);
 				} else {
 					for (i = 0; i < 4; ++i) {
-						outbyte();
+						out_byte();
 						asm_printf("%d\n", work & 0xff);
 						crt_off += 8;
 						work >>= 8;
@@ -331,7 +331,7 @@ evalaux(exp e, int isconst, int al)
 			if (val->last) {
 				/* CLEAR OUT SHAPE size_shape(e) - crt_off */
 				if (bits_left) {
-					outbyte();
+					out_byte();
 					asm_printf("%d\n", work & 0xff);
 					crt_off += 8;
 				}
@@ -374,10 +374,10 @@ evalaux(exp e, int isconst, int al)
 		/* 10 chars per line */
 		for (i = 0; goon; i += 10) {
 			switch (char_size) {
-			case 8:  outbyte();  break;
-			case 16: outshort(); break;
-			case 32: outlong();  break;
-			case 64: outlong();  break;
+			case 8:  out_byte();  break;
+			case 16: out_short(); break;
+			case 32: out_long();  break;
+			case 64: out_long();  break;
 			}
 
 			for (j = i; goon && j < i + 10; ++j) {
@@ -450,7 +450,7 @@ evalaux(exp e, int isconst, int al)
 			}
 
 			t = next(t);
-			dot_align((shape_align(sh(t)) <= 8) ? 1 : shape_align(sh(t)) / 8);
+			out_align((shape_align(sh(t)) <= 8) ? 1 : shape_align(sh(t)) / 8);
 		}
 	}
 
@@ -504,9 +504,9 @@ evaluate(exp c, int cname, char *s, int isconst, int global
 	}
 
 	if (al <= 8) {
-		dot_align(4);
+		out_align(4);
 	} else {
-		dot_align(al / 8);
+		out_align(al / 8);
 	}
 
 	if (diag_props) {
@@ -529,7 +529,7 @@ evaluate(exp c, int cname, char *s, int isconst, int global
 	evalaux(c, isconst, al);
 
 	if (global) {
-		eval_postlude(s, c);
+		out_eval_postlude(s, c);
 	}
 
 	asm_printf("\n");

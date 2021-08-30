@@ -190,7 +190,7 @@ code_def(dec *d)
 					out_linkage("globl", name);
 				}
 
-				dot_align(4);
+				out_align(4);
 				asm_label("%s", name);
 				asm_printf(".long %s\n", new);
 				name = new;

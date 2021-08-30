@@ -37,7 +37,7 @@
 static int pic_label;
 
 void
-dot_align(int n)
+out_align(int n)
 {
 	if (format == FORMAT_ELF) {
 		asm_printf(".align %d\n", n);
@@ -59,25 +59,25 @@ dot_align(int n)
 }
 
 void
-outbyte(void)
+out_byte(void)
 {
 	asm_printf(".byte ");
 }
 
 void
-outshort(void)
+out_short(void)
 {
 	asm_printf(".value ");
 }
 
 void
-outlong(void)
+out_long(void)
 {
 	asm_printf(".long ");
 }
 
 void
-align_label(int f, exp jr)
+out_align_label(int f, exp jr)
 {
 	UNUSED(jr);
 
@@ -133,7 +133,7 @@ align_label(int f, exp jr)
 }
 
 void
-eval_postlude(char *s, exp c)
+out_eval_postlude(char *s, exp c)
 {
 	if (format == FORMAT_AOUT) {
 		return;
@@ -196,7 +196,7 @@ out_dot_lcomm(char *name, shape sha)
 }
 
 void
-pic_prelude(void)
+out_pic_prelude(void)
 {
 	if (PIC_code) {
 		int n = next_lab();
@@ -262,7 +262,7 @@ out_switch_table(int tab, int min, int max, int *v, int absent)
 {
 	int i;
 
-	dot_align(4);
+	out_align(4);
 	asm_printf("\n");
 
 	asm_label("%s%d", local_prefix, tab);
@@ -295,28 +295,28 @@ out_switch_table(int tab, int min, int max, int *v, int absent)
 }
 
 void
-proc_size(char *s)
+out_proc_size(char *s)
 {
 	asm_printf(".align 4\n");
 	asm_printf(".size %s, .-%s\n", s, s);
 }
 
 void
-proc_type(char *s)
+out_proc_type(char *s)
 {
 	asm_printf(".type %s,@function\n", s);
 }
 
 void
-outend(void)
+out_end(void)
 {
 	if (assembler == ASM_SUN) {
-		dot_align(16);
+		out_align(16);
 		return;
 	}
 
 	out_sect("text");
-	dot_align(16);
+	out_align(16);
 	asm_printf("\n");
 	asm_label("___tdf_end");
 
@@ -327,7 +327,7 @@ outend(void)
 }
 
 void
-outopenbr(void)
+out_openbr(void)
 {
 	if (assembler == ASM_SUN) {
 		asm_printf("[");
@@ -336,7 +336,7 @@ outopenbr(void)
 
 
 void
-outclosebr(void)
+out_closebr(void)
 {
 	if (assembler == ASM_SUN) {
 		asm_printf("]");

@@ -222,7 +222,7 @@ cleanup(void)
 #endif
 		}
 
-		outend();
+		out_end();
 }
 
 struct driver driver = {

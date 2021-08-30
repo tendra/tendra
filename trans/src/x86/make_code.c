@@ -819,7 +819,7 @@ solve(exp s, exp l, where dest, exp jr, ash stack)
 			}
 			/* only put in jump if needed */
 			t = next(t);
-			align_label(2, pt(child(t)));
+			out_align_label(2, pt(child(t)));
 			set_label(pt(child(t)));
 			make_code(dest, stack, t);
 			reset_fpucon();
@@ -1199,13 +1199,13 @@ make_code1(where dest, ash stack, exp e)
 		if (next(child(alt))->tag == top_tag && !is_loaded_lv(alt)) {
 			/* if alt is only load top, do nothing but set the label */
 			if (sh(first)->tag == bothd && no(child(alt)) != 0) {
-				align_label(2, record);
+				out_align_label(2, record);
 			}
 
 			if (first->tag == seq_tag &&
 			    next(child(first))->tag == seq_tag &&
 			    next(child(next(child(first))))->tag == apply_tag) {
-				align_label(0, record);
+				out_align_label(0, record);
 			}
 
 			set_label(record);
@@ -1236,7 +1236,7 @@ make_code1(where dest, ash stack, exp e)
 
 		if (no(child(alt)) != 0 || next(child(alt))->tag != goto_tag) {
 			if (no(child(alt)) != 0) {
-				align_label(2, record);
+				out_align_label(2, record);
 			}
 
 			set_label (record);	/* the label for the start of alt */
@@ -1249,7 +1249,7 @@ make_code1(where dest, ash stack, exp e)
 				/* Set the label for the end of the construction if first needed it. */
 				SET(jr);
 				if (sh(alt)->tag == bothd) {
-					align_label(2, jr);
+					out_align_label(2, jr);
 				}
 				set_label(jr);
 
@@ -1317,7 +1317,7 @@ make_code1(where dest, ash stack, exp e)
 		fstack_pos_of(record) = (prop)fstack_pos;
 		cond1_set = false;
 		cond2_set = false;
-		align_label(1, record);
+		out_align_label(1, record);
 		set_label (record);	/* set the label at the start of body */
 		pt(child(body)) = record;
 		old_scale = scale;
@@ -2365,7 +2365,7 @@ make_code1(where dest, ash stack, exp e)
 		solve(child(e), child(e), dest, jr, stack);
 
 		if (sh(e)->tag != bothd) {
-			align_label(0, jr);
+			out_align_label(0, jr);
 			set_label(jr);
 #ifdef DWARF2
 			if (diag == DIAG_DWARF2) {

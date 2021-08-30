@@ -14,29 +14,29 @@
 
 #include <main/flags.h>
 
-void outbyte(void);
-void outshort(void);
-void outlong(void);
+void out_byte(void);
+void out_short(void);
+void out_long(void);
 
-void align_label(int f, exp jr);
-void eval_postlude(char *s, exp c);
+void out_align(int n);
+void out_align_label(int f, exp jr);
+void out_eval_postlude(char *s, exp c);
 void out_sect(const char *sect);
 void out_linkage(const char *linkage, const char *name);
 void out_dot_comm(char *name, shape sha);
 void out_dot_lcomm(char *name, shape sha);
 
-void pic_prelude(void);
+void out_pic_prelude(void);
 
 void out_switch_jump(int tab, where a, int min);
 void out_switch_table (int tab, int min, int max, int *v, int absent);
 
-void proc_size(char *s);
-void proc_type(char *s);
-void dot_align(int n);
-void outend(void);
+void out_proc_size(char *s);
+void out_proc_type(char *s);
+void out_end(void);
 
-void outopenbr(void);
-void outclosebr(void);
+void out_openbr(void);
+void out_closebr(void);
 
 void out_initialiser(char *name);
 void out_main_prelude(void);

@@ -851,7 +851,7 @@ void dw2_cie
   out8(); asm_printf("%d", DW_CFA_offset + retaddr);
 	asm_printf(", "); uleb128 ((unsigned long)0);	/* return address */
 	asm_printf("\n");
-  dot_align(PTR_SZ/8);
+  out_align(PTR_SZ/8);
   out_dwf_label(cie_end, 1);
   exit_section();
 }
@@ -1133,7 +1133,7 @@ void dw2_complete_fde
 {
   out_dwf_label(proc_end, 1);
   enter_section("debug_frame");
-  dot_align(PTR_SZ/8);
+  out_align(PTR_SZ/8);
   out_dwf_label(fde_end, 1);
   exit_section();
 }

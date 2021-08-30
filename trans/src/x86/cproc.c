@@ -99,7 +99,7 @@ add_odd_bits(outofline *r)
 
 	current_odd_bit = r;
 	if (cpu & CPU_80486) {
-		dot_align(4);
+		out_align(4);
 	}
 
 	simple_set_label(r->labno);
@@ -323,7 +323,7 @@ cproc(exp p, char *pname, int cname, int global
 	request_align_8byte = permit_8byte_align && useful_double;
 
 	if (pname[0] != local_prefix[0]) {
-		proc_type(pname);
+		out_proc_type(pname);
 	}
 
 	has_alloca = proc_has_alloca(p);
@@ -410,9 +410,9 @@ cproc(exp p, char *pname, int cname, int global
 	}
 
 	if (cpu & CPU_80486) {
-		dot_align(16);
+		out_align(16);
 	} else {
-		dot_align(4);
+		out_align(4);
 	}
 
 	if (diag != DIAG_NONE) {
@@ -531,7 +531,7 @@ cproc(exp p, char *pname, int cname, int global
 	if (do_profile) {
 		int  labl = next_lab ();	/* output profile procedure header */
 		out_sect("data");
-		dot_align(4);
+		out_align(4);
 		asm_label("%sP%d", local_prefix, labl);
 		asm_printop(".long 0");
 		out_sect("text");
@@ -542,7 +542,7 @@ cproc(exp p, char *pname, int cname, int global
 	if (PIC_code && proc_uses_external(p)) {
 		regsinuse |= GLOBALTABLEMASK;
 		min_rfree |= GLOBALTABLEMASK;
-		pic_prelude();
+		out_pic_prelude();
 	}
 
 	need_preserve_stack = false;
@@ -748,7 +748,7 @@ cproc(exp p, char *pname, int cname, int global
 	out_set_pos(this_pos);
 
 	if (pname[0] != local_prefix[0]) {
-		proc_size(pname);
+		out_proc_size(pname);
 	}
 
 	if (proc_needs_envsize(p)) {
