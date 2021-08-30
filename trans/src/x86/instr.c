@@ -562,14 +562,14 @@ set_label(exp jr)
 void
 discard_fstack(void)
 {
-	asm_printop("fstp %s(0)", "%st");
+	asm_printop("%s %s(0)", fstp, "%st");
 	pop_fl;
 }
 
 void
 discard_st1(void)
 {
-	asm_printop("fstp %s(1)", "%st");
+	asm_printop("%s %s(1)", fstp, "%st");
 	pop_fl;
 }
 
@@ -997,7 +997,7 @@ const_intnl(int addr, int lab, int off)
 void
 load_stack0(void)
 {
-	asm_printop("fld %s(0)", "%st");
+	asm_printop("%s %s(0)", fld, "%st");
 }
 
 void
@@ -1015,7 +1015,7 @@ set_stack_from_bp(void)
 void
 testah(int mask)
 {
-	asm_printop("testb $%d,%s", mask, "%ah");
+	asm_printop("%s $%d,%s", testb, mask, "%ah");
 }
 
 exp

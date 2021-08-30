@@ -28,6 +28,7 @@
 
 #include "localtypes.h"
 #include "instr.h"
+#include "instrs.h"
 #include "ops.h"
 #include "operand.h"
 #include "make_code.h"
@@ -200,11 +201,11 @@ pic_prelude(void)
 	if (PIC_code) {
 		int n = next_lab();
 		pic_label = n;
-		asm_printop("call %s%d", local_prefix, n);
+		asm_printop("%s %s%d", call, local_prefix, n);
 		asm_label("%s%d", local_prefix, n);
-		asm_printop("popl %s", "%ebx");
-		asm_printop("addl $_GLOBAL_OFFSET_TABLE_+ [.-%s%d],%s",
-			local_prefix, n, "%ebx");
+		asm_printop("%s %s", popl, "%ebx");
+		asm_printop("%s $_GLOBAL_OFFSET_TABLE_+ [.-%s%d],%s",
+			addl, local_prefix, n, "%ebx");
 	}
 }
 
@@ -225,10 +226,10 @@ out_switch_jump(int tab, where a, int min)
 		operand(32, a, 1, 0);
 		asm_printf(",4),%s\n", "%eax");
 
-		asm_printop("movl -%d(%s),%s", 4 * min, "%eax", "%eax");
-		asm_printop("addl %s,%s", "%ebx", "%eax");
-		asm_printop("subl $_GLOBAL_OFFSET_TABLE_+ [.-.L%d],%s", pic_label, "%eax");
-		asm_printop("jmp *%s", "%eax");
+		asm_printop("%s -%d(%s),%s", movl, 4 * min, "%eax", "%eax");
+		asm_printop("%s %s,%s", addl, "%ebx", "%eax");
+		asm_printop("%s $_GLOBAL_OFFSET_TABLE_+ [.-.L%d],%s", subl, pic_label, "%eax");
+		asm_printop("%s *%s", jmp, "%eax");
 		/* MODIFY FOR NEW CASE !!!!! */
 		return;
 	}
@@ -241,7 +242,7 @@ out_switch_jump(int tab, where a, int min)
 	if (eq_where(a, reg0)) {
 		asm_printf("\tmovl ");
 	} else {
-		asm_printop("movl %s,%s", "%ebx", "%eax");
+		asm_printop("%s %s,%s", movl, "%ebx", "%eax");
 		asm_printf("\tsubl ");
 	}
 	asm_printf("%s%d@GOTOFF(%s,", local_prefix, tab, "%ebx");
@@ -249,11 +250,11 @@ out_switch_jump(int tab, where a, int min)
 	asm_printf(",4),%s\n", "%eax");
 
 	if (eq_where(a, reg0)) {
-		asm_printop("subl %s,%s", "%ebx", "%eax");
-		asm_printop("negl %s", "%eax");
+		asm_printop("%s %s,%s", subl, "%ebx", "%eax");
+		asm_printop("%s %s", negl, "%eax");
 	}
 
-	asm_printop("jmp *%s", "%eax");
+	asm_printop("%s *%s", jmp, "%eax");
 }
 
 void
@@ -371,14 +372,14 @@ out_main_prelude(void) /* FORMAT_AOUT */
 
 	min_rfree |= 0x8;
 
-	asm_printop("\tmovl $___TDFI_LIST__+4, %s", "%ebx");
+	asm_printop("%s $___TDFI_LIST__+4, %s", movl, "%ebx");
 	asm_label("%s%d", local_prefix, nl1);
 
-	asm_printop("movl (%s),%s", "%ebx", "%eax");
-	asm_printop("cmpl $0,%s", "%eax");
+	asm_printop("%s (%s),%s", movl, "%ebx", "%eax");
+	asm_printop("%s $0,%s", cmpl, "%eax");
 	simple_branch("je", nl2);
-	asm_printop("call *%s", "%eax");
-	asm_printop("addl $4,%s", "%ebx");
+	asm_printop("%s *%s", call, "%eax");
+	asm_printop("%s $4,%s", addl, "%ebx");
 	simple_branch("jmp", nl1);
 
 	asm_label("%s%d", local_prefix, nl2);
@@ -395,7 +396,7 @@ out_main_postlude(void) /* FORMAT_AOUT */
 
 	out_sect("text");
 	asm_label("%s", pdummy);
-	asm_printop("ret");
+	asm_printop("%s", ret);
 	out_initialiser(pdummy);
 }
 
