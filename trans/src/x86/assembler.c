@@ -280,7 +280,7 @@ out_switch_table(int tab, int min, int max, int *v, int absent)
 		}
 
 		if (absent == -1) {
-			asm_printop(".long 0");
+			asm_printop(".long %d", 0);
 		} else {
 			if (PIC_code) {
 				asm_printop(".long _GLOBAL_OFFSET_TABLE_+ [.-%s%d]",
@@ -376,10 +376,10 @@ out_main_prelude(void) /* FORMAT_AOUT */
 	asm_label("%s%d", local_prefix, nl1);
 
 	asm_printop("%s (%s),%s", movl, "%ebx", "%eax");
-	asm_printop("%s $0,%s", cmpl, "%eax");
+	asm_printop("%s $%d,%s", cmpl, 0, "%eax");
 	simple_branch("je", nl2);
 	asm_printop("%s *%s", call, "%eax");
-	asm_printop("%s $4,%s", addl, "%ebx");
+	asm_printop("%s $%d,%s", addl, 4, "%ebx");
 	simple_branch("jmp", nl1);
 
 	asm_label("%s%d", local_prefix, nl2);

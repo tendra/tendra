@@ -315,19 +315,19 @@ push_cees(exp src, exp siz, int vc, ash stack)
 
 		if (siz == NULL) {
 			/* calculate size from calling proc callees */
-			asm_printop("%s 8(%s),%s", movl, "%ebp", "%eax");
+			asm_printop("%s %d(%s),%s", movl, 8, "%ebp", "%eax");
 			asm_printop("%s %s,%s", subl, "%ebp", "%eax");
-			asm_printop("%s $12,%s", subl, "%eax");
+			asm_printop("%s $%d,%s", subl, 12, "%eax");
 		} else {
 			make_code(reg0, stack, siz);
 			if (al2(sh(siz)) < param_align) {
 				if (al2(sh(siz)) == 1) {
-					asm_printop("%s $31,%s", addl, "%eax");
-					asm_printop("%s $3,%s", shrl, "%eax");
+					asm_printop("%s $%d,%s", addl, 31, "%eax");
+					asm_printop("%s $%d,%s", shrl, 3, "%eax");
 				} else {
-					asm_printop("%s $3,%s", addl, "%eax");
+					asm_printop("%s $%d,%s", addl, 3, "%eax");
 				}
-				asm_printop("%s $-4,%s", addl, "%eax");
+				asm_printop("%s $%d,%s", addl, -4, "%eax");
 			}
 		}
 
@@ -337,9 +337,9 @@ push_cees(exp src, exp siz, int vc, ash stack)
 
 	if (src == NULL) {
 		if (callee_size >= 0) {
-			asm_printop("%s 8(%s),%s", leal, "%ebp", "%eax");
+			asm_printop("%s %d(%s),%s", leal, 8, "%ebp", "%eax");
 		} else {
-			asm_printop("%s 12(%s),%s", leal, "%ebp", "%eax");
+			asm_printop("%s %d(%s),%s", leal, 12, "%ebp", "%eax");
 		}
 	} else {
 		make_code(reg0, stack, src);
@@ -356,7 +356,7 @@ push_cees(exp src, exp siz, int vc, ash stack)
 		}
 
 		asm_printop("%s %s,%s", subl, "%ecx", "%esp");
-		asm_printop("%s $2,%s", shrl, "%ecx");
+		asm_printop("%s $%d,%s", shrl, 2, "%ecx");
 
 		if (vc) {
 			asm_printop("%s %s", pushl, "%eax");
@@ -379,7 +379,7 @@ push_cees(exp src, exp siz, int vc, ash stack)
 
 	move(slongsh, reg4, reg0);
 	if (vc) {
-		asm_printop("%s 4(%s),%s", leal, "%esp", "%edi");
+		asm_printop("%s %d(%s),%s", leal, 4, "%esp", "%edi");
 	} else {
 		asm_printop("%s %s,%s", movl, "%esp", "%edi");
 	}
@@ -2072,12 +2072,12 @@ make_code1(where dest, ash stack, exp e)
 				move(slongsh, mw(sz, 0), reg2);
 				if (al2(sh(sz)) < param_align) {
 					if (al2(sh(sz)) == 1) {
-						asm_printop("%s $31,%s", addl, "%ecx");
-						asm_printop("%s $3,%s", shrl, "%ecx");
+						asm_printop("%s $%d,%s", addl, 31, "%ecx");
+						asm_printop("%s $%d,%s", shrl, 3, "%ecx");
 					} else {
-						asm_printop("%s $3,%s", addl, "%ecx");
+						asm_printop("%s $%d,%s", addl, 3, "%ecx");
 					}
-					asm_printop("%s $-4,%s", andl, "%ecx");
+					asm_printop("%s $%d,%s", andl, -4, "%ecx");
 				}
 			}
 
@@ -2102,27 +2102,27 @@ make_code1(where dest, ash stack, exp e)
 			asm_printop("%s %s", pushl, "%esi");
 			asm_printop("%s %s", pushl, "%edi");
 			if (call_has_vcallees(cees)) {
-				asm_printop("%s 16(%s),%s", movl, "%esp", "%edi");
+				asm_printop("%s %d(%s),%s", movl, 16, "%esp", "%edi");
 			} else {
 				asm_printop("%s %s,%s", movl, "%eax", "%edi");
 			}
 
 			if (longs < 0) {
 				asm_printop("%s $%d, %s", addl, call_has_vcallees(cees) ? 20 : 16, "%ecx");
-				asm_printop("%s -4(%s),%s", leal, "%esp", "%esi");
+				asm_printop("%s %d(%s),%s", leal, -4, "%esp", "%esi");
 				asm_printop("%s %s,%s", addl, "%ecx", "%esi");
-				asm_printop("%s $2,%s", shrl, "%ecx");
+				asm_printop("%s $%d,%s", shrl, 2, "%ecx");
 			} else {
 				asm_printop("%s $%d,%s",    movl, longs / 32 + (call_has_vcallees(cees) ?  5 :  4), "%ecx");
 				asm_printop("%s %d(%s),%s", leal, longs /  8 + (call_has_vcallees(cees) ? 16 : 12), "%esp", "%esi");
 			}
 
-			asm_printop("%s $4,%s", subl, "%edi");
+			asm_printop("%s $%d,%s", subl, 4, "%edi");
 			asm_printop("%s", std);
 			asm_printop("%s", rep);
 			asm_printop("%s", movsl);
 			asm_printop("%s", cld);
-			asm_printop("%s 4(%s),%s", leal, "%edi", "%esp");
+			asm_printop("%s %d(%s),%s", leal, 4, "%edi", "%esp");
 			asm_printop("%s %s", popl, "%edi");
 			asm_printop("%s %s", popl, "%esi");
 			asm_printop("%s", ret);

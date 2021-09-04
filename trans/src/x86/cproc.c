@@ -259,7 +259,7 @@ out_untidy_pops(int tot_sp, int push_space)
 			asm_printop("%s %d(%s),%s", movl, fm_offset, "%ebp", "%ebx");
 			/* fm_offset += 4; */
 		}
-		asm_printop("%s 0(%s),%s", movl, "%ebp", "%ebp");
+		asm_printop("%s %d(%s),%s", movl, 0, "%ebp", "%ebp");
 	}
 }
 
@@ -514,7 +514,7 @@ cproc(exp p, char *pname, int cname, int global
 #endif
 
 	if (stack_aligned_8byte) {
-		asm_printop("%s $-8,%s", andl, "%esp");
+		asm_printop("%s $%d,%s", andl, -8, "%esp");
 	}
 
 	old_pos9 = out_tell_pos();
@@ -533,7 +533,7 @@ cproc(exp p, char *pname, int cname, int global
 		out_sect("data");
 		out_align(4);
 		asm_label("%sP%d", local_prefix, labl);
-		asm_printop(".long 0");
+		asm_printop(".long %d", 0);
 		out_sect("text");
 		asm_printop("%s %sP%d,%s", leal, local_prefix, labl, "%edx");
 		asm_printop("%s _mcount", call);
