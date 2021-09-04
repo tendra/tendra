@@ -297,18 +297,14 @@ regn(int regs, int rdisp, exp ldname, int le)
 void
 ind_reg(int regs, int rdisp, int offset, exp ldname, int b)
 {
-	if (regs == 128)
-	offset += extra_stack;
-
-	if (offset == 0) {
-	asm_printf("(");
-	regn(regs, rdisp, ldname, 32);
-	if (b)
-		asm_printf(")");
-		return;
+	if (regs == 128) {
+		offset += extra_stack;
 	}
 
-	asm_printf("%d(", offset / 8);
+	if (offset != 0) {
+		asm_printf("%d", offset / 8);
+	}
+	asm_printf("(");
 	regn(regs, rdisp, ldname, 32);
 	if (b) {
 		asm_printf(")");
