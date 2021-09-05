@@ -16,7 +16,9 @@ jobs:
 
       - name: Install dependencies (ubuntu)
         if: startsWith(matrix.os, 'ubuntu')
-        run: sudo apt-get install -y gcc-multilib bmake libc6-dev-i386
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-multilib bmake libc6-dev-i386
 
 #      - name: Install dependencies (macos)
 #        if: startsWith(matrix.os, 'macos')
