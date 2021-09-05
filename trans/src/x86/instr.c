@@ -1186,7 +1186,7 @@ rotshift64(int shft, int sig, where wshift)
 			check_stack_max;
 			ins0(pushedx);
 #ifdef DWARF2
-			if (diag == DIAG_DWARF2 && no_frame)a {
+			if (diag == DIAG_DWARF2 && no_frame) {
 				dw2_track_push();
 			}
 #endif
