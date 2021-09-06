@@ -19,12 +19,12 @@
 	typedef FILE *FILE_P_lct;
 
 	extern char lct_tokbuf[];
-	int curr_lct_token;
-	int saved_lct_token;
-	struct lct_ast lct_ast;
+	extern int curr_lct_token;
+	extern int saved_lct_token;
+	extern struct lct_ast lct_ast;
 
-	struct lct_state lct_state;
-	char *lct_token_string;
+	extern struct lct_state lct_state;
+	extern char *lct_token_string;
 
 	#define CURRENT_LCT_TERMINAL curr_lct_token
 	#define ADVANCE_LCT_LEXER    curr_lct_token = lct_next(&lct_state)
