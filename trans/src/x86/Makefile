@@ -12,7 +12,7 @@ TRANS_CFLAGS+=	-I ${BASE_DIR}/src/x86
 TRANS_CFLAGS+=	-I ${BASE_DIR}/src/common
 
 
-TRANS_DEBUG?= diag3
+TRANS_DEBUG?= diag4
 
 # TODO: these are not yet selectable at runtime
 .if "${TRANS_DEBUG}" == "diag3"
@@ -30,25 +30,18 @@ PARTS+=	src/common/dwarf1
 
 SRCS+= stabs_diag3.c
 
-.elif "${TRANS_DEBUG}" == "stabs4"
-
-TRANS_CFLAGS+= -D TDF_DIAG4
-TRANS_CFLAGS+= -D STABS
-
-PARTS+= src/common/diag4
-
-SRCS+= stabs_diag4.c
-
-.elif "${TRANS_DEBUG}" == "dwarf2"
+.elif "${TRANS_DEBUG}" == "diag4"
 
 TRANS_CFLAGS+= -D TDF_DIAG4
 TRANS_CFLAGS+= -D DWARF2
+TRANS_CFLAGS+= -D STABS
 
 PARTS+= src/common/diag4
 PARTS+= src/common/dwarf2
 
 SRCS+= dw2_config.c
 SRCS+= dw2_extra.c
+SRCS+= stabs_diag4.c
 
 .else
 
