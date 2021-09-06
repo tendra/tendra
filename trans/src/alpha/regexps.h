@@ -34,7 +34,7 @@ bool dependson(exp, bool, exp);
 bool eq_sze(shape,shape);
 void clear_freg(int);
 
-regpeep regexps[64];
+extern regpeep regexps[64];
 
 #endif
 

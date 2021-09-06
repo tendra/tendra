@@ -45,6 +45,7 @@ long locals_space;
 long frame_sz;
 long stackerr_lab;
 long aritherr_lab;
+int EP;
 
 baseoff MEM_TEMP_BOFF;
 baseoff LONG_RESULT_BOFF;

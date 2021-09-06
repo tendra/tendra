@@ -16,8 +16,9 @@ int next_dlab_sym(void);
 mm maxmin(shape s);
 instore evaluated(exp e, long l, dec * dc);
 int outfloat(flpt f);
-char *fltrepr;
-int data_lab;
+
+extern char *fltrepr;
+extern int data_lab;
 
 #endif
 

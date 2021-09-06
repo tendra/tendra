@@ -11,7 +11,7 @@
 #include <reader/exp.h>
 
 spacereq regalloc(exp, int, int, long);
-int real_reg[16];
+extern int real_reg[16];
 
 #endif
 

@@ -68,11 +68,11 @@ HEADERS = @{
 @}, @{
 
 	extern char tokbuf[];
-	char *token_end;
-	int curr_lex_token;
-	int saved_lex_token;
-	unsigned int numbuf;
-	struct lxi_state lxi_state;
+	extern char *token_end;
+	extern int curr_lex_token;
+	extern int saved_lex_token;
+	extern unsigned int numbuf;
+	extern struct lxi_state lxi_state;
 
 	typedef FILE *FILE_P;
 

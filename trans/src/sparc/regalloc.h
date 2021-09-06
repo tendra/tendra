@@ -12,7 +12,7 @@
 
 #include <construct/installtypes.h>
 
-bool avoid_L7;
+extern bool avoid_L7;
 spacereq regalloc(exp, int, int, long);
 
 #endif

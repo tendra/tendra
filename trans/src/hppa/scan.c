@@ -83,6 +83,8 @@ static bool has_tail_call;
 
 int maxfix, maxfloat; /* the maximum number of t-regs */
 
+int hppabuiltin;
+
 
 /* advance declaration of scan */
 needs scan(exp *, exp **);

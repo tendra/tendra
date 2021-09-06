@@ -15,7 +15,7 @@
 #include "addr.h"
 
 int next_dlab_sym(void);
-int data_lab;
+extern int data_lab;
 
 mm maxmin(shape);
 

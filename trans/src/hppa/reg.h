@@ -85,7 +85,7 @@
  * EP is a register which holds the frames original stack pointer.
  * EP=GR3, if has_vsp==1, or SP otherwise (c.f. frames.c).
  */
-int EP;
+extern int EP;
 
 /* Range of all fixed registers */
 #define R_FIRST  0

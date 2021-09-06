@@ -96,6 +96,7 @@ bool Has_vcallees = 0;
 bool Has_no_vcallers = 0;
 bool in_general_proc = 0;
 bool May_have_callees = 0;
+int callee_size = 0;
 
 static bool in_postlude = 0;
 

@@ -156,7 +156,6 @@ int nexps;
 
 extern int res_label;
 
-FILE *as_file = NULL; /* assembler output file */
 dec **main_globals;
 static int main_globals_index;
 

@@ -10,9 +10,9 @@
 
 #include "mach.h"
 
-bool convert_floats;
+extern bool convert_floats;
+extern exp const_list;
 
-exp const_list;
 long *realrep(exp);
 void evaluate(exp, long, char *, int, int, diag_descriptor *);
 

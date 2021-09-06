@@ -23,8 +23,6 @@ typedef struct {
   int callee_size;
 } needs ;
 
-int callee_size;
-
 
 /*
   TYPE REPRESENTING REGISTER WEIGHTS

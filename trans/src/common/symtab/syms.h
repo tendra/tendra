@@ -10,8 +10,8 @@
 
 #include <construct/installtypes.h>
 
-int *symnos;
-int *tempsnos;
+extern int *symnos;
+extern int *tempsnos;
 
 int symnoforext(dec * t, int filen);
 int symnoforstart(int i, int filen);

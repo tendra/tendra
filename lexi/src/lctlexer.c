@@ -22,7 +22,7 @@
 
 	typedef int ZTTERMINAL;
 
-	int crt_lct_token;
+	int curr_lct_token;
 	int saved_lct_token;
 
 	char lct_tokbuf[2000];

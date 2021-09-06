@@ -16,6 +16,6 @@ extern needs likediv(exp *, exp **);
 
 extern int maxfix, maxfloat;
 
-int hppabuiltin;
+extern int hppabuiltin;
 
 #endif /* NEEDSCAN_INCLUDED */

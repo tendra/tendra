@@ -158,6 +158,9 @@ static const char space_reg_name_tab[8][5] =
 
 static ins_p NOCOND=0;
 
+pIn *pCode;
+int *labIntro;
+int line,lines,nLabels;
 
 const char *
 reg_name(int r)

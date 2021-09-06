@@ -73,7 +73,7 @@ extern void call_ins(ins_p, char*, int, char*);
 extern void outlab(char*, int);
 extern void bl_in(ins_p, char*, int);
 
-int line,lines,nLabels;
+extern int line,lines,nLabels;
 
 typedef fpos_t FILE_POSN;
 #define SET_FILE_POSN(A, B)		fsetpos((A), & (B))
@@ -94,9 +94,9 @@ typedef psuedoIn *pIn;
 #define BLOCK 65536
 #define INCR  4096
 
-pIn *pCode;
-int *labIntro;  /*  `labIntro[lab]' will record the line number on
-                     which label `lab' was introduced. */
+extern pIn *pCode;
+extern int *labIntro;  /*  `labIntro[lab]' will record the line number on
+                           which label `lab' was introduced. */
 
 
 
