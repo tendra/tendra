@@ -40,7 +40,7 @@ asm_vfprintf(FILE *f, const char *fmt, va_list ap)
 	assert(file != NULL);
 	assert(fmt != NULL);
 
-#if defined(TRANS_x86)
+#if defined(TRANS_X86)
 	if (f == file) {
 		const char *p;
 
@@ -156,7 +156,7 @@ asm_vfcomment(FILE *f, const char *m, const char *fmt, va_list ap)
 		return;
 	}
 
-#if defined(TRANS_alpha) || defined(TRANS_mips)
+#if defined(TRANS_ALPHA) || defined(TRANS_MIPS)
 	if (f == NULL) {
 		/* we're doing binasm output only */
 		return;
