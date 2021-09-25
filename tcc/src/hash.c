@@ -152,7 +152,7 @@ envvar_set(struct hash **h, const char *name, const char *value,
 	/* Case 2.  Update with a value */
 	switch (order) {
 	case HASH_ASSIGN:
-		n->value = value;
+		n->value = xstrdup(value);
 		break;
 
 	case HASH_APPEND:
