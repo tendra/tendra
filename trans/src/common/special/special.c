@@ -91,7 +91,7 @@ special_token(const struct special_tok a[], size_t count,
 	}
 
 	for (i = 0; i < count; i++) {
-		if (a[i].mask && (builtin & ~a[i].mask)) {
+		if (a[i].mask && (~builtin & a[i].mask)) {
 			continue;
 		}
 
