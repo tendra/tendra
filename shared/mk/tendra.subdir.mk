@@ -15,7 +15,7 @@ _TENDRA_SUBDIR_MK_=1
 	@${EXIT} 1;
 .endif
 
-.if ${SUBDIR:Munknown}
+.if ! empty(${SUBDIR:Munknown})
 .BEGIN:
 	@${ECHO} '$${SUBDIR} contains "unknown"; possibly you have an unsupported system.'
 	@${ECHO} 'See shared/mk/tendra.makedefs.mk for supported systems.'
