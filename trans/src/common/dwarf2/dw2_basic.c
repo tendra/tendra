@@ -73,7 +73,7 @@ sleb128(long value)
 		if (negative) {
 			/* sign extend, since C doesn't imply arithmetic
 			 * shift */
-			value |= - (1 << ((sizeof(value) * 8) - 7));
+			value |= - (1L << (((sizeof value) * 8) - 7));
 		}
 		/* sign bit of byte is 2nd high order bit (0x40) */
 		if (value == - (long)((byt & 0x40) != 0)) {
@@ -97,7 +97,7 @@ sleb128_length(long value)
 		if (negative) {
 			/* sign extend, since C doesn't imply arithmetic
 			 * shift */
-			value |= - (1 << ((sizeof(value) * 8) - 7));
+			value |= - (1L << (((sizeof value) * 8) - 7));
 		}
 		if (value == - (long)((byt & 0x40) != 0)) {
 			return op;
