@@ -128,6 +128,6 @@ kate@tendra.org
 
 
 [1] Orientation Guide: /doc/doc/developer/guides/orientation  
-[2] Porting TenDRA to Different Operating Systems: /osdep/doc/devguides/porting  
+[2] Porting TenDRA to Different Operating Systems: /osdep/doc/porting  
 [3] IRC: #tendra on irc.libera.chat
 
