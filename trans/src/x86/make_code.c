@@ -767,7 +767,7 @@ def_where(exp e, exp def, ash stack)
 /*
  * Solve produces the code for the solve construction.
  *
- *  s is the whole list of braches
+ *  s is the whole list of branches
  *  l is the branches of which the label record have not been created.
  *  dest is the destination for the value produced by each branch
  *  jr is the jump record for the end of the construction.
