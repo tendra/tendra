@@ -19,6 +19,10 @@
 #include <main/flags.h>
 #include <main/print.h>
 
+#if defined(TRANS_X86)
+#include <local/out.h>
+#endif
+
 static FILE *file;
 
 static const char *margin = "\t"; /* left indent before instructions */
