@@ -7,5 +7,9 @@
 SUBDIR+=	doc
 .endif
 
+.if ${.MAKE.LEVEL} == 0
+SUBDIR+=	doc
+.endif
+
 .include <tendra.subdir.mk>
 
