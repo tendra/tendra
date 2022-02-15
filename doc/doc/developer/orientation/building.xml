@@ -29,7 +29,7 @@
 			respective standards represent. For example, <code>size_t</code>
 			for the C89 &api; is defined to be an unsigned arithmetic
 			type, but exactly which type is left to the implementation.
-			See <dt:doc name="tspecguide"/> for details on specifying
+			See &tspec.doc; for details on specifying
 			&api;s.</para>
 
 		<para>These abstract specifications are converted by &tspec; into
@@ -150,7 +150,7 @@ int main(void) {
 			have a different implementation of the &api;s used.
 			As long as the target system provides the same subset in its
 			<code>$api.tl</code>, the code will link and execute as expected.
-			For details on this, see <dt:doc name="tdfandportability"/>.</para>
+			For details on this, see &tdf-portability.doc;.</para>
 	</section>
 
 	<section>
