@@ -32,6 +32,7 @@
 
 <!-- TenDRA section 1 -->
 <!ENTITY tcc        "<citerefentry><refentrytitle>tcc</refentrytitle>       %vol.1;</citerefentry>">
+<!ENTITY tchk        "<citerefentry><refentrytitle>tchk</refentrytitle>       %vol.1;</citerefentry>">
 <!ENTITY tnc        "<citerefentry><refentrytitle>tnc</refentrytitle>       %vol.1;</citerefentry>">
 <!ENTITY tld        "<citerefentry><refentrytitle>tld</refentrytitle>       %vol.1;</citerefentry>">
 <!ENTITY tpl        "<citerefentry><refentrytitle>tpl</refentrytitle>       %vol.1;</citerefentry>">
