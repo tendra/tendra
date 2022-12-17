@@ -2,6 +2,7 @@
 
 
 SUBDIR+=	env
+SUBDIR+=	src
 
 .include <tendra.subdir.mk>
 

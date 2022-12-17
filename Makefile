@@ -66,6 +66,13 @@ build-allarch:
 	    OBJ_DIR=${OBJ_APREFIX}/${project}
 . endfor
 
+install-allarch:
+	@echo "===> installing translations for all architectures into ${OBJ_RPREFIX}"
+	cd ${.CURDIR}/trans && ${MAKE} -DALLARCH \
+	    OBJ_DIR=${OBJ_APREFIX}/trans \
+		PREFIX=${OBJ_RPREFIX} \
+		install
+
 # for automated builds
 build-docs:
 	${MAKE} build-doc
