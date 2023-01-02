@@ -138,7 +138,11 @@ typedef struct ArgUsageT {
  * Because of union initialisation problems, the latter arguments of this
  * function are untyped.
  */
-typedef void(*ArgProcP)(char *, ArgUsageT *, void *, ...);
+typedef void(*ArgProcP)(char *, ArgUsageT *, void *);
+typedef void(*ArgProcPSw)(char *, ArgUsageT *, void *, bool);
+typedef void(*ArgProcP1)(char *, ArgUsageT *, void *, char *);
+typedef void(*ArgProcP2)(char *, ArgUsageT *, void *, char *, char *);
+typedef void(*ArgProcP3)(char *, ArgUsageT *, void *, char *, char *, char *);
 
 /*
  * This is the type of an entry in an option list.  A vector of such entries
