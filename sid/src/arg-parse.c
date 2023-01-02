@@ -108,12 +108,12 @@ arg_parse_arguments(ArgListT *arg_list, EStringT *usage, int argc, char **argv)
 					break;
 
 				case AT_PROC_SWITCH:
-					chosen->proc(option, &closure, chosen->closure, c == '-');
+					((ArgProcPSw)(chosen->proc))(option, &closure, chosen->closure, c == '-');
 					break;
 
 				case AT_IMMEDIATE:
 					if (immediate != NULL) {
-						chosen->proc(option, &closure, chosen->closure, immediate);
+						((ArgProcP1)(chosen->proc))(option, &closure, chosen->closure, immediate);
 					} else {
 						error(ERR_FATAL, "unknown option '%s'", option);
 						UNREACHED;
@@ -123,12 +123,12 @@ arg_parse_arguments(ArgListT *arg_list, EStringT *usage, int argc, char **argv)
 				case AT_EITHER:
 					if (immediate != NULL) {
 						if (immediate[0]!= '\0') {
-							chosen->proc(option, &closure,
+							((ArgProcP1)(chosen->proc))(option, &closure,
 							chosen->closure, immediate);
 						} else if (tmp_argc > 1) {
 							tmp_argv++;
 							tmp_argc--;
-							chosen->proc(option, &closure,
+							((ArgProcP1)(chosen->proc))(option, &closure,
 							chosen->closure, tmp_argv[0]);
 						} else {
 							error(ERR_FATAL, "missing argument for option '%s'", option);
@@ -144,7 +144,7 @@ arg_parse_arguments(ArgListT *arg_list, EStringT *usage, int argc, char **argv)
 					if (tmp_argc > 1) {
 						tmp_argv++;
 						tmp_argc--;
-						chosen->proc(option, &closure, chosen->closure,
+						((ArgProcP1)(chosen->proc))(option, &closure, chosen->closure,
 						tmp_argv[0]);
 					} else {
 						error(ERR_FATAL, "missing argument for option '%s'", option);
@@ -160,7 +160,7 @@ arg_parse_arguments(ArgListT *arg_list, EStringT *usage, int argc, char **argv)
 					if (tmp_argc > 2) {
 						tmp_argv += 2;
 						tmp_argc -= 2;
-						chosen->proc(option, &closure, chosen->closure,
+						((ArgProcP2)(chosen->proc))(option, &closure, chosen->closure,
 						tmp_argv[-1], tmp_argv[0]);
 					} else {
 						error(ERR_FATAL, "missing argument for option '%s'", option);
@@ -172,7 +172,7 @@ arg_parse_arguments(ArgListT *arg_list, EStringT *usage, int argc, char **argv)
 					if (tmp_argc > 3) {
 						tmp_argv += 3;
 						tmp_argc -= 3;
-						chosen->proc(option, &closure, chosen->closure,
+						((ArgProcP3)(chosen->proc))(option, &closure, chosen->closure,
 						tmp_argv[-2], tmp_argv[-1],
 						tmp_argv[0]);
 					} else {
@@ -214,21 +214,21 @@ arg_parse_arguments(ArgListT *arg_list, EStringT *usage, int argc, char **argv)
 						break;
 
 					case AT_PROC_SWITCH:
-						chosen->proc(opt, &closure, chosen->closure, c == '-');
+						((ArgProcPSw)(chosen->proc))(opt, &closure, chosen->closure, c == '-');
 						break;
 
 					case AT_IMMEDIATE:
-						chosen->proc(opt, &closure, chosen->closure, opt + 1);
+						((ArgProcP1)(chosen->proc))(opt, &closure, chosen->closure, opt + 1);
 						opt = NULL;
 						break;
 
 					case AT_EITHER:
 						if (opt[1]!= '\0') {
-							chosen->proc(opt, &closure, chosen->closure, opt + 1);
+							((ArgProcP1)(chosen->proc))(opt, &closure, chosen->closure, opt + 1);
 						} else if (tmp_argc > 1) {
 							tmp_argv++;
 							tmp_argc--;
-							chosen->proc(opt, &closure, chosen->closure, tmp_argv[0]);
+							((ArgProcP1)(chosen->proc))(opt, &closure, chosen->closure, tmp_argv[0]);
 						} else {
 							error(ERR_FATAL, "missing argument for option '%s' at '%s'", option, opt);
 							UNREACHED;
@@ -240,7 +240,7 @@ arg_parse_arguments(ArgListT *arg_list, EStringT *usage, int argc, char **argv)
 						if (tmp_argc > 1) {
 							tmp_argv++;
 							tmp_argc--;
-							chosen->proc(opt, &closure, chosen->closure,
+							((ArgProcP1)(chosen->proc))(opt, &closure, chosen->closure,
 							tmp_argv[0]);
 						} else {
 							error(ERR_FATAL, "missing argument for option '%s' at '%s'", option, opt);
@@ -256,7 +256,7 @@ arg_parse_arguments(ArgListT *arg_list, EStringT *usage, int argc, char **argv)
 						if (tmp_argc > 2) {
 							tmp_argv += 2;
 							tmp_argc -= 2;
-							chosen->proc(opt, &closure, chosen->closure,
+							((ArgProcP2)(chosen->proc))(opt, &closure, chosen->closure,
 							tmp_argv[-1], tmp_argv[0]);
 						} else {
 							error(ERR_FATAL, "missing argument for option '%s' at '%s'", option, opt);
@@ -268,7 +268,7 @@ arg_parse_arguments(ArgListT *arg_list, EStringT *usage, int argc, char **argv)
 						if (tmp_argc > 3) {
 							tmp_argv += 3;
 							tmp_argc -= 3;
-							chosen->proc(opt, &closure, chosen->closure,
+							((ArgProcP3)(chosen->proc))(opt, &closure, chosen->closure,
 								tmp_argv[-2], tmp_argv[-1], tmp_argv[0]);
 						} else {
 							error(ERR_FATAL, "missing argument for option '%s' at '%s'", option, opt);
