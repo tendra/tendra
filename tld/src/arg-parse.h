@@ -123,6 +123,8 @@ typedef enum {
 	AT_FOLLOWING3
 } ArgTypeT;
 
+struct ArgListT;
+
 /*
  * This is the type of argument to be passed to ``write_arg_usage''.
  */
