@@ -36,7 +36,7 @@
 #include <exds/ostream.h>
 
 /*
- * This is the type of the an option.  The constants have the following
+ * This is the type of an option.  The constants have the following
  * meanings:
  *
  *	AT_SWITCH
