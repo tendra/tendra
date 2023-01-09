@@ -150,8 +150,8 @@ typedef void(*ArgProcP)(char *, ArgUsageT *, void *, ...);
  * field (a pointer to some arbritary data used by the procedure), and a
  * description field (the name of a named string that describes how the option
  * is used - see the file "error.h" for more information on named strings).
- * The description field should be surrounded by braces for union initialisation.
- * The named strings used in the description fields
+ * The description field should be surrounded by braces for union
+ * initialisation.  The named strings used in the description fields
  * should themselves be interned before the ``arg_parse_arguments'' function
  * is called.  A typical argument list definition would be something like the
  * following:
@@ -169,14 +169,14 @@ typedef void(*ArgProcP)(char *, ArgUsageT *, void *, ...);
  * illegal for an option to have neither a long form or a short form.
  */
 typedef struct ArgListT {
-    char *			name;
-    char			short_name;
-    ArgTypeT			type;
-    ArgProcP			proc;
-    void *			closure;
+    char           *name;
+    char            short_name;
+    ArgTypeT        type;
+    ArgProcP        proc;
+    void           *closure;
     union {
-	char *		name;
-	EStringT *	message;
+	char       *name;
+	EStringT   *message;
     } u;
 } ArgListT;
 
@@ -220,7 +220,7 @@ extern void			write_arg_usage
  * This macro should be used to terminate an option list.
  */
 #define ARG_PARSE_END_LIST \
-{NULL, '\0',(ArgTypeT)0, NULL, NULL, \
- { NULL } }
+{NULL, '\0', (ArgTypeT)0, NULL, NULL, \
+ { NULL }}
 
 #endif /* !defined (H_ARG_PARSE) */
