@@ -189,8 +189,7 @@ typedef struct ArgListT {
  * called once on each list.  The named strings used should be interned before
  * this function is called.
  */
-extern void			arg_parse_intern_descriptions
-(ArgListT *);
+void		arg_parse_intern_descriptions(ArgListT *arg_list);
 
 /*
  * Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
@@ -204,8 +203,7 @@ extern void			arg_parse_intern_descriptions
  * this function.  The function returns the number of elements of the list
  * that it parsed.
  */
-extern int			arg_parse_arguments
-(ArgListT *, EStringT *, int, char **);
+int		arg_parse_arguments(ArgListT *, EStringT *, int, char **);
 
 /*
  * Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
@@ -213,8 +211,7 @@ extern int			arg_parse_arguments
  * This function can be used to write out a usage message based upon the usage
  * information supplied.
  */
-extern void			write_arg_usage
-(OStreamT *, ArgUsageT *);
+void		write_arg_usage(OStreamT *, ArgUsageT *);
 
 /*
  * This macro should be used to terminate an option list.
