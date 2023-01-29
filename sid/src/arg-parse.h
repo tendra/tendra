@@ -36,7 +36,7 @@
 #include <exds/ostream.h>
 
 /*
- * This is the type of the an option.  The constants have the following
+ * This is the type of an option.  The constants have the following
  * meanings:
  *
  *	AT_SWITCH
@@ -138,7 +138,11 @@ typedef struct ArgUsageT {
  * Because of union initialisation problems, the latter arguments of this
  * function are untyped.
  */
-typedef void(*ArgProcP)(char *, ArgUsageT *, void *, ...);
+typedef void(*ArgProcP)(char *, ArgUsageT *, void *);
+typedef void(*ArgProcPSw)(char *, ArgUsageT *, void *, bool);
+typedef void(*ArgProcP1)(char *, ArgUsageT *, void *, char *);
+typedef void(*ArgProcP2)(char *, ArgUsageT *, void *, char *, char *);
+typedef void(*ArgProcP3)(char *, ArgUsageT *, void *, char *, char *, char *);
 
 /*
  * This is the type of an entry in an option list.  A vector of such entries
@@ -169,14 +173,14 @@ typedef void(*ArgProcP)(char *, ArgUsageT *, void *, ...);
  * illegal for an option to have neither a long form or a short form.
  */
 typedef struct ArgListT {
-    char *          name;
+    char           *name;
     char            short_name;
-    ArgTypeT            type;
-    ArgProcP            proc;
-    void *          closure;
+    ArgTypeT        type;
+    ArgProcP        proc;
+    void           *closure;
     union {
-    char *      name;
-    EStringT *        message;
+	char       *name;
+	EStringT   *message;
     } u;
 } ArgListT;
 
@@ -189,7 +193,7 @@ typedef struct ArgListT {
  * called once on each list.  The named strings used should be interned before
  * this function is called.
  */
-void		arg_parse_intern_descriptions(ArgListT * arg_list);
+void		arg_parse_intern_descriptions(ArgListT *arg_list);
 
 /*
  * Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error

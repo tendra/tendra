@@ -36,90 +36,94 @@
 #include <exds/ostream.h>
 
 /*
- * This is the type of an option.
+ * This is the type of an option.  The constants have the following
+ * meanings:
+ *
+ *	AT_SWITCH
+ *
+ * This is the type of a switch option.  The procedure value should be null.
+ * The closure should be a pointer to a boolean.  If the option character is a
+ * '-' then the boolean is set.  If the option character is '+' then the
+ * boolean is reset.
+ *
+ *	AT_NEG_SWITCH
+ *
+ * This is the type of a negated switch option. The procedure value should be
+ * null. The closure should be a pointer to a boolean.  If the option
+ * character is a '-' then the boolean is reset.  If the option character is
+ * '+' then the boolean is set.
+ *
+ *	AT_PROC_SWITCH
+ *
+ * This is the type of a switch option that needs some extra work to be
+ * performed.  The procedure will be called with the option that was selected,
+ * the error closure, the option closure, and a boolean (true if the option
+ * character is '-', false otherwise).
+ *
+ *	AT_IMMEDIATE
+ *
+ * This is the type of an option with one immediate argument.  No shortest
+ * prefix matching will be used for immediate arguments.  The procedure will
+ * be called with the option that was selected, the error closure, the option
+ * closure, and the argument to the option.  This type of argument should
+ * appear at the end of the argument list that is passed to the
+ * ``arg_parse_arguments'' function, as it may cause problems with shortest
+ * prefix matching otherwise.
+ *
+ *	AT_EITHER
+ *
+ * This is the type of an option with one argument. If an immediate argument
+ * exists, then that is used.  If no immediate argument exists, then the
+ * following argument is used.  No shortest prefix matching will be used for
+ * either arguments.  The procedure will be called with the option that was
+ * selected, the error closure, the option closure, and the argument to the
+ * option.  This type of argument should appear at the end of the argument
+ * list that is passed to the ``arg_parse_arguments'' function, as it may
+ * cause problems with shortest prefix matching otherwise.
+ *
+ *	AT_FOLLOWING
+ *
+ * This is the type of an option with one following argument.  The procedure
+ * will be called with the option that was selected, the error closure, the
+ * option closure, and the argument to the option.
+ *
+ *	AT_EMPTY
+ *
+ * This is the type of an option with no argument.  The procedure will be
+ * called with the option that was selected, the error closure, and the option
+ * closure.
+ *
+ *	AT_FOLLOWING2
+ *
+ * This is the type of an option with two following arguments.  The procedure
+ * will be called with the option that was selected, the error closure, the
+ * option closure, and the arguments to the option.
+ *
+ *	AT_FOLLOWING3
+ *
+ * This is the type of an option with three following arguments.  The
+ * procedure will be called with the option that was selected, the error
+ * closure, the option closure, and the arguments to the option.
+ *
+ * Note that if a matched option is a short option, then the current position
+ * is passed to the option handling procedure as the option name.  For long
+ * options, the entire option string is passed.  If the handler is interested
+ * in the option name, it should check the start of this string: if it is '-'
+ * or '+' it should be a long option; otherwise it should be a short option.
  */
 typedef enum {
-	/*
-	 * This is the type of a switch option.  The procedure value should be null.
-	 * The closure should be a pointer to a boolean.  If the option character is a
-	 * '-' then the boolean is set.  If the option character is '+' then the
-	 * boolean is reset.
-	 */
 	AT_SWITCH,
-
-	/*
-	 * This is the type of a negated switch option. The procedure value should be
-	 * null. The closure should be a pointer to a boolean.  If the option
-	 * character is a '-' then the boolean is reset.  If the option character is
-	 * '+' then the boolean is set.
-	 */
 	AT_NEG_SWITCH,
-
-	/*
-	 * This is the type of a switch option that needs some extra work to be
-	 * performed.  The procedure will be called with the option that was selected,
-	 * the error closure, the option closure, and a boolean (true if the option
-	 * character is '-', false otherwise).
-	 */
 	AT_PROC_SWITCH,
-
-	/*
-	 * This is the type of an option with one immediate argument.  No shortest
-	 * prefix matching will be used for immediate arguments.  The procedure will
-	 * be called with the option that was selected, the error closure, the option
-	 * closure, and the argument to the option.  This type of argument should
-	 * appear at the end of the argument list that is passed to the
-	 * ``arg_parse_arguments'' function, as it may cause problems with shortest
-	 * prefix matching otherwise.
-	 */
 	AT_IMMEDIATE,
-
-	/*
-	 * This is the type of an option with one argument. If an immediate argument
-	 * exists, then that is used.  If no immediate argument exists, then the
-	 * following argument is used.  No shortest prefix matching will be used for
-	 * either arguments.  The procedure will be called with the option that was
-	 * selected, the error closure, the option closure, and the argument to the
-	 * option.  This type of argument should appear at the end of the argument
-	 * list that is passed to the ``arg_parse_arguments'' function, as it may
-	 * cause problems with shortest prefix matching otherwise.
-	 */
 	AT_EITHER,
-
-	/*
-	 * This is the type of an option with one following argument.  The procedure
-	 * will be called with the option that was selected, the error closure, the
-	 * option closure, and the argument to the option.
-	 */
 	AT_FOLLOWING,
-
-	/*
-	 * This is the type of an option with no argument.  The procedure will be
-	 * called with the option that was selected, the error closure, and the option
-	 * closure.
-	 */
 	AT_EMPTY,
-
-	/*
-	 * This is the type of an option with two following arguments.  The procedure
-	 * will be called with the option that was selected, the error closure, the
-	 * option closure, and the arguments to the option.
-	 */
 	AT_FOLLOWING2,
-
-	/*
-	 * This is the type of an option with three following arguments.  The
-	 * procedure will be called with the option that was selected, the error
-	 * closure, the option closure, and the arguments to the option.
-	 *
-	 * Note that if a matched option is a short option, then the current position
-	 * is passed to the option handling procedure as the option name.  For long
-	 * options, the entire option string is passed.  If the handler is interested
-	 * in the option name, it should check the start of this string: if it is '-'
-	 * or '+' it should be a long option; otherwise it should be a short option.
-	 */
 	AT_FOLLOWING3
 } ArgTypeT;
+
+struct ArgListT;
 
 /*
  * This is the type of argument to be passed to ``write_arg_usage''.
@@ -134,7 +138,11 @@ typedef struct ArgUsageT {
  * Because of union initialisation problems, the latter arguments of this
  * function are untyped.
  */
-typedef void(*ArgProcP)(char *, ArgUsageT *, void *, ...);
+typedef void(*ArgProcP)(char *, ArgUsageT *, void *);
+typedef void(*ArgProcPSw)(char *, ArgUsageT *, void *, bool);
+typedef void(*ArgProcP1)(char *, ArgUsageT *, void *, char *);
+typedef void(*ArgProcP2)(char *, ArgUsageT *, void *, char *, char *);
+typedef void(*ArgProcP3)(char *, ArgUsageT *, void *, char *, char *, char *);
 
 /*
  * This is the type of an entry in an option list.  A vector of such entries
@@ -146,8 +154,8 @@ typedef void(*ArgProcP)(char *, ArgUsageT *, void *, ...);
  * field (a pointer to some arbritary data used by the procedure), and a
  * description field (the name of a named string that describes how the option
  * is used - see the file "error.h" for more information on named strings).
- * The description field should be surrounded by braces for union initialisation.
- * The named strings used in the description fields
+ * The description field should be surrounded by braces for union
+ * initialisation.  The named strings used in the description fields
  * should themselves be interned before the ``arg_parse_arguments'' function
  * is called.  A typical argument list definition would be something like the
  * following:
@@ -165,14 +173,14 @@ typedef void(*ArgProcP)(char *, ArgUsageT *, void *, ...);
  * illegal for an option to have neither a long form or a short form.
  */
 typedef struct ArgListT {
-    char *			name;
-    char			short_name;
-    ArgTypeT			type;
-    ArgProcP			proc;
-    void *			closure;
+    char           *name;
+    char            short_name;
+    ArgTypeT        type;
+    ArgProcP        proc;
+    void           *closure;
     union {
-	char *		name;
-	EStringT *	message;
+	char       *name;
+	EStringT   *message;
     } u;
 } ArgListT;
 
@@ -185,8 +193,7 @@ typedef struct ArgListT {
  * called once on each list.  The named strings used should be interned before
  * this function is called.
  */
-extern void			arg_parse_intern_descriptions
-(ArgListT *);
+void		arg_parse_intern_descriptions(ArgListT *arg_list);
 
 /*
  * Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
@@ -200,8 +207,7 @@ extern void			arg_parse_intern_descriptions
  * this function.  The function returns the number of elements of the list
  * that it parsed.
  */
-extern int			arg_parse_arguments
-(ArgListT *, EStringT *, int, char **);
+int		arg_parse_arguments(ArgListT *, EStringT *, int, char **);
 
 /*
  * Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
@@ -209,14 +215,13 @@ extern int			arg_parse_arguments
  * This function can be used to write out a usage message based upon the usage
  * information supplied.
  */
-extern void			write_arg_usage
-(OStreamT *, ArgUsageT *);
+void		write_arg_usage(OStreamT *, ArgUsageT *);
 
 /*
  * This macro should be used to terminate an option list.
  */
 #define ARG_PARSE_END_LIST \
-{NULL, '\0',(ArgTypeT)0, NULL, NULL, \
- { NULL } }
+{NULL, '\0', (ArgTypeT)0, NULL, NULL, \
+ { NULL }}
 
 #endif /* !defined (H_ARG_PARSE) */
