@@ -51,6 +51,9 @@ clean::
 	    OBJ_SDIR=${OBJ_SDIR}/_partial/${part} \
 		clean
 
+touch-generated-sid::
+	@cd ${BASE_DIR}/${part} && ${MAKE} touch-generated-sid
+
 .endfor
 
 

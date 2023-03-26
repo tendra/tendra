@@ -11,7 +11,7 @@ _TENDRA_BASE_MK_=1
 .MAIN: all
 
 # Ensure existence of basic targets.
-.for target in all clean install regen regen-clean test
+.for target in all clean install regen regen-clean test touch-generated-sid
 ${target}:: .PHONY
 .endfor
 
@@ -57,6 +57,7 @@ COPY?=		cp
 ECHO?=		echo
 ECHODIR?=	echo
 EXIT?=		exit
+FALSE?=		false
 FIND?=		find
 INSTALL?=	install
 LEXI?=		lexi
@@ -74,6 +75,7 @@ SHELL=		/bin/sh
 TEST?=		test
 TLD?=		tld
 TNC?=		tnc
+TOUCH?=		touch
 TPL?=		tpl
 TR?=		tr
 TSPEC?=		tspec
