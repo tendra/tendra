@@ -12,7 +12,7 @@
 #endif
 #endif
 
-#if defined(_GLIBC2_27) || defined(_GLIBC2_30) \
+#if defined(_GLIBC2_27) || defined(_GLIBC2_28) || defined(_GLIBC2_30) \
 	|| defined(_GLIBC2_31) || defined(_GLIBC2_32)
 #pragma TenDRA begin
 #pragma TenDRA directive warning allow
@@ -20,7 +20,7 @@
 
 #include_next <math.h>
 
-#if defined(_GLIBC2_27) || defined(_GLIBC2_30) \
+#if defined(_GLIBC2_27) || defined(_GLIBC2_28) || defined(_GLIBC2_30) \
 	|| defined(_GLIBC2_31) || defined(_GLIBC2_32)
 #pragma TenDRA end
 #endif

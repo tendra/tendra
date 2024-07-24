@@ -192,6 +192,7 @@ MD_LIBCVER!=                              \
         GLIBC_2_19*)   echo GLIBC2_19;;   \
         GLIBC_2_23*)   echo GLIBC2_23;;   \
         GLIBC_2_27*)   echo GLIBC2_27;;   \
+        GLIBC_2_28*)   echo GLIBC2_28;;   \
         GLIBC_2_30*)   echo GLIBC2_30;;   \
         GLIBC_2_31*)   echo GLIBC2_31;;   \
         GLIBC_2_32*)   echo GLIBC2_32;;   \
