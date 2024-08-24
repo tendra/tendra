@@ -26,3 +26,6 @@ jobs:
 
       - name: Build
         run: bmake -r CC=${{ matrix.cc }} TARGETARCH=${{ matrix.target }} -DALLARCH
+
+      - name: Rebuild
+        run: bmake TARGETARCH=${{ matrix.target }} bootstrap-rebuild

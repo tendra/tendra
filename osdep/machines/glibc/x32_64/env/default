@@ -2,10 +2,11 @@
 
 +LIB_LDSO	"/lib/ld-linux.so.2"
 
-/* XXX: or /usr/lib32/crt?.o for eglibc? */
-+LIB_CRT0	"/usr/lib/i386-linux-gnu/crt1.o"
-+LIB_CRTI	"/usr/lib/i386-linux-gnu/crti.o"
-+LIB_CRTN	"/usr/lib/i386-linux-gnu/crtn.o"
++LIB_CRT0	"/usr/lib32/crt1.o"
++LIB_CRTI	"/usr/lib32/crti.o"
++LIB_CRTN	"/usr/lib32/crtn.o"
++LIB_CRTBEGIN	"<PREFIX_LIB>/<MD_TRANSARCH>/crtbegin.o"
+
 
 /* for -lc */
 <FLAG_LINK  "-L /lib32"

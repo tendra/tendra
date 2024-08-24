@@ -708,6 +708,7 @@ linker_options(filename *input, filename *output)
 			cmd_env("CRTP_N");
 			cmd_env("CRTN");
 		}
+		cmd_env("LIB_CRTBEGIN");
 	}
 	dl_state++;
 }
