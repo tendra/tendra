@@ -1,0 +1,12 @@
+/* $Id$ */
+
++MUSL_INSTALL	"<PREFIX_SYS>/libc/musl-1.1.5"
+<SYS_LINK	"-L<MUSL_INSTALL>/usr/lib"
+>SYS_LIBC	"<MUSL_INSTALL>/usr/lib/libgcc.a"
+
++LIB_LDSO	"<MUSL_INSTALL>/usr/lib/ld-musl-i386.so.1"
+
++LIB_CRT0	"<MUSL_INSTALL>/usr/lib/crt1.o"
++LIB_CRTI	"<MUSL_INSTALL>/usr/lib/crti.o"
++LIB_CRTN	"<MUSL_INSTALL>/usr/lib/crtn.o"
+

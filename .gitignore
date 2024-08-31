@@ -1,1 +1,5 @@
 obj*
+osdep/machines/musl/x32_64/env/default
+osdep/machines/musl/x32_64/env/tcc_prof
+osdep/machines/musl/x86_32/env/default
+osdep/machines/musl/x86_32/env/tcc_prof
