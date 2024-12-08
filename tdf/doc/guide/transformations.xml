@@ -81,7 +81,8 @@
 			generic transformations which can often help to answer knotty
 			questions.  Here, E[X \ Y] denotes an EXP E with all internal
 			occurrences of X replaced by Y.</para>
-
+		<itemizedlist>
+		<listitem>
 		<para>If F is any non order-specifying <footnote>
 				<para>The order-specifying constructors are conditional,
 					identify, repeat, labelled, sequence and
@@ -89,8 +90,10 @@
 			</footnote>
 			EXP constructor and E is one of the EXP operands of F, then:</para>
 
-		<programlisting language="tdf">F(..., E, ...) xde identify(empty, newtag, E, F(..., obtain_tag(newtag), ...))</programlisting>
+		<programlisting language="tdf">F(..., E, ...) → identify(empty, newtag, E, F(..., obtain_tag(newtag), ...))</programlisting>
+		</listitem>
 
+		<listitem>
 		<para>If E is a non side-effecting <footnote>
 				<para>A sufficient condition for not side-effecting in this sense
 					is that there are no apply_procs or local_allocs in E; that any
@@ -99,90 +102,133 @@
 					E.</para>
 			</footnote>
 			EXP and none of the variables used in E are assigned to in B:
-			identify(v, tag, E, B) xde B[obtain_tag(tag) \ E]</para>
+			identify(v, tag, E, B) → B[obtain_tag(tag) \ E]</para>
+		</listitem>
 
+		<listitem>
 		<para>If all uses of tg in B are of the form contents(shape(E),
 			obtain_tag(tg)):</para>
 
 		<programlisting language="tdf">
-variable(v, tg, E, B) xde identify(v, nt, E, B[contents(shape(E), obtain_tag(tg)) \ obtain_tag(nt)])
+variable(v, tg, E, B) → identify(v, nt, E, B[contents(shape(E), obtain_tag(tg)) \ obtain_tag(nt)])</programlisting>
+		</listitem>
+
+		<listitem>
+		<programlisting language="tdf">
 sequence((S<subscript>1</subscript>, ..., S<subscript>n</subscript>),
-         sequence((P<subscript>1</subscript>, ..., P<subscript>m</subscript>), R) xdb
+         sequence((P<subscript>1</subscript>, ..., P<subscript>m</subscript>), R) ↔
          sequence((S<subscript>1</subscript>, ..., S<subscript>n</subscript>, P<subscript>1</subscript>, ..., P<subscript>m</subscript>), R)</programlisting>
-          
+ 		</listitem>
+
+		<listitem>
 		<para>If S<subscript>i</subscript> =
 			sequence((P<subscript>1</subscript>, ...,
 			P<subscript>m</subscript>), R):</para>
 
-		<programlisting language="tdf">sequence((S<subscript>1</subscript>, ..., S<subscript>n</subscript>), T) xdb
+		<programlisting language="tdf">sequence((S<subscript>1</subscript>, ..., S<subscript>n</subscript>), T) ↔
          sequence((S<subscript>1</subscript>, ...,
                   S<subscript>i-1</subscript>, P<subscript>1</subscript>, ..., P<subscript>m</subscript>, R,
-                  S<subscript>i+1</subscript>, ..., S<subscript>n</subscript>), T) E xdb sequence((), E)</programlisting>
-          
+                  S<subscript>i+1</subscript>, ..., S<subscript>n</subscript>), T)</programlisting>
+ 		</listitem>
+
+		<listitem>
+		<programlisting language="tdf">E ↔ sequence((), E)</programlisting>
+ 		</listitem>
+
+		<listitem>
 		<para>If D is either identify or variable:</para>
 
-		<programlisting language="tdf">D(v, tag, sequence((S<subscript>1</subscript>, ..., S<subscript>n</subscript>), R), B) xde
+		<programlisting language="tdf">D(v, tag, sequence((S<subscript>1</subscript>, ..., S<subscript>n</subscript>), R), B) →
                    sequence((S<subscript>1</subscript>, ..., S<subscript>n</subscript>), D(v, tag, R, B))</programlisting>
-          
+ 		</listitem>
+
+		<listitem>
 		<para>If S<subscript>i</subscript> is an EXP BOTTOM, then:</para>
 
-		<programlisting language="tdf">sequence((S<subscript>1</subscript>, S<subscript>2</subscript>, ... S<subscript>n</subscript>), R) xde
+		<programlisting language="tdf">sequence((S<subscript>1</subscript>, S<subscript>2</subscript>, ... S<subscript>n</subscript>), R) →
 sequence((S<subscript>1</subscript>, ...  S<subscript>i - 1</subscript>), S<subscript>i</subscript>)</programlisting>
           
-          
+ 		</listitem>
+
+		<listitem>
 		<para>If E is an EXP BOTTOM, and if D is either identify or variable:</para>
 
-		<programlisting language="tdf">D(v, tag, E, B) xde E</programlisting>
+		<programlisting language="tdf">D(v, tag, E, B) → E</programlisting>
+ 		</listitem>
 
+		<listitem>
 		<para>If S<subscript>i</subscript> is make_top(), then:</para>
 
 		<programlisting language="tdf">sequence((S<subscript>1</subscript>,
-S<subscript>2</subscript>, ...  S<subscript>n</subscript>), R) xdb
+S<subscript>2</subscript>, ...  S<subscript>n</subscript>), R) ↔
 sequence((S<subscript>1</subscript>, ...  S<subscript>i - 1</subscript>,
 S<subscript>i + 1</subscript>, ...S<subscript>n</subscript>), R)</programlisting>
-          
+ 		</listitem>
+
+		<listitem>
 		<para>If S<subscript>n</subscript> is an EXP TOP:</para>
 
 		<programlisting language="tdf">sequence((S<subscript>1</subscript>, ...
-          S<subscript>n</subscript>), make_top()) xdb sequence((S<subscript>1</subscript>, ...,
+          S<subscript>n</subscript>), make_top()) ↔ sequence((S<subscript>1</subscript>, ...,
           S<subscript>n - 1</subscript>), S<subscript>n</subscript>)</programlisting>
-          
+ 		</listitem>
+
+		<listitem>
 		<para>If E is an EXP TOP and E is not side-effecting then:</para>
 
-		<programlisting language="tdf">E xde make_top()</programlisting>
+		<programlisting language="tdf">E → make_top()</programlisting>
+ 		</listitem>
 
+		<listitem>
 		<para>If C is some non order-specifying and non side-effecting
 			constructor, and S<subscript>i</subscript> is C(P<subscript>1</subscript>,...,
 			P<subscript>m</subscript>) where P<subscript>1..m</subscript> are the EXP operands of C:</para>
 
-		<programlisting language="tdf">sequence((S<subscript>1</subscript>, ..., S<subscript>n</subscript>), R) xde
+		<programlisting language="tdf">sequence((S<subscript>1</subscript>, ..., S<subscript>n</subscript>), R) →
 sequence((S<subscript>1</subscript>, ..., S<subscript>i - 1</subscript>, P<subscript>1</subscript>,
           ..., P<subscript>m</subscript>, S<subscript>i + 1</subscript>, ..., S<subscript>n</subscript>), R)</programlisting>
-          
+ 		</listitem>
+
+		<listitem>
 		<para>If none of the S<subscript>i</subscript> use the label L:</para>
 
 		<programlisting language="tdf">conditional(L,
-            sequence((S<subscript>1</subscript>, ..., S<subscript>n</subscript>), R), A) xde
+            sequence((S<subscript>1</subscript>, ..., S<subscript>n</subscript>), R), A) →
             sequence((S<subscript>1</subscript>, ..., S<subscript>n</subscript>), conditional(L, R, A))</programlisting>
-          
+ 		</listitem>
+
+		<listitem>
 		<para>If there are no uses of L in X: <footnote>
 				<para>There are analogous rules for labelled and repeat with
 					unused LABELs.</para>
 			</footnote></para>
 
-		<programlisting language="tdf">conditional(L, X, Y) xde X conditional(L, E, goto(Z)) xde E[L \ Z]</programlisting>
+		<programlisting language="tdf">conditional(L, X, Y) → X</programlisting>
+ 		</listitem>
 
+		<listitem>
+		<programlisting language="tdf">conditional(L, E, goto(Z)) → E[L \ Z]</programlisting>
+ 		</listitem>
+
+		<listitem>
 		<para>If EXP X contains no use of the LABEL L:</para>
 
-		<programlisting language="tdf">conditional(L, conditional(M, X, Y), Z) xde conditional(M, X, conditional(L, Y, Z))
-repeat(L, I, E) xde sequence((I), repeat(L, make_top(), E))
-repeat(L, make_top(), E) xde conditional(Z, E[L \ Z], repeat(L, make_top(), E))</programlisting>
-          
+		<programlisting language="tdf">conditional(L, conditional(M, X, Y), Z) → conditional(M, X, conditional(L, Y, Z))</programlisting>
+ 		</listitem>
+
+		<listitem>
+		<programlisting language="tdf">repeat(L, I, E) → sequence((I), repeat(L, make_top(), E))
+repeat(L, make_top(), E) → conditional(Z, E[L \ Z], repeat(L, make_top(), E))</programlisting>
+ 		</listitem>
+
+		<listitem>
 		<para>If there are no uses of L in E:</para>
 
-		<programlisting language="tdf">repeat(L, make_top(), sequence((S, E), make_top())) xde
+		<programlisting language="tdf">repeat(L, make_top(), sequence((S, E), make_top())) →
 conditional(Z, S[L \ Z], repeat(L, make_top(), sequence((E, S), make_top())))</programlisting>
+ 		</listitem>
 
+		<listitem>
 		<para>If f is a procedure defined <footnote>
 					<para>This has to be modified if B contains any uses of
 						local_free_all or last_local.</para>
@@ -199,7 +245,7 @@ conditional(Z, S[L \ Z], repeat(L, make_top(), sequence((E, S), make_top())))</p
 		<para>and B is an EXP with all of its internal return constructors indicated
 			parametrically then:</para>
 
-		<programlisting language="tdf">if Ai has SHAPE si apply_proc(rshape, f, (A1, ..., An), V) xde
+		<programlisting language="tdf">if Ai has SHAPE si apply_proc(rshape, f, (A1, ..., An), V) →
 variable(empty, newtag, make_value((rshape=BOTTOM) ?  TOP : rshape),
          labelled((L), variable(v1, tg1, A1, ...,
                   variable(vn, tgn, An,
@@ -207,15 +253,32 @@ variable(empty, newtag, make_value((rshape=BOTTOM) ?  TOP : rshape),
                   B(sequence(assign(obtain_tag(newtag), R1), goto(L)),
                     ...,
                     sequence(assign(obtain_tag(newtag), Rm), goto(L))))),
-                  contents(rshape, obtain_tag(newtag))))
-assign(E, make_top()) xde sequence((E), make_top())
-contents(TOP, E) xde sequence((E), make_top())
-make_value(TOP) xde make_top()
-component(s, contents(COMPOUND(S), E), D) xde contents(s, add_to_ptr(E, D))
-make_compound(S, ((E1, D1), ..., (En, Dn))) xde variable(empty, nt, make_value(COMPOUND(S)),
+                  contents(rshape, obtain_tag(newtag))))</programlisting>
+ 		</listitem>
+
+		<listitem>
+		<programlisting language="tdf">assign(E, make_top()) → sequence((E), make_top())</programlisting>
+ 		</listitem>
+
+		<listitem>
+		<programlisting language="tdf">contents(TOP, E) → sequence((E), make_top())</programlisting>
+ 		</listitem>
+
+		<listitem>
+		<programlisting language="tdf">make_value(TOP) → make_top()</programlisting>
+ 		</listitem>
+
+		<listitem>
+		<programlisting language="tdf">component(s, contents(COMPOUND(S), E), D) → contents(s, add_to_ptr(E, D))</programlisting>
+ 		</listitem>
+
+		<listitem>
+		<programlisting language="tdf">make_compound(S, ((E1, D1), ..., (En, Dn))) → variable(empty, nt, make_value(COMPOUND(S)),
     sequence((assign(add_to_ptr(obtain_tag(nt), D1), E1), ...,
               assign(add_to_ptr(obtain_tag(nt), Dn), En)),
              contents(S, obtain_tag(nt))))</programlisting>
+ 		</listitem>
+		</itemizedlist>
 	</section>
 
 	<section id="examples-of-transformations">

@@ -4824,12 +4824,17 @@ max_exponent:  NAT
 				will choose one to minimise space requirements or maximise the speed of
 				operations.</para>
 
-			<para>All numbers of the form xb1	M*<replaceable>base N+1-q</replaceable> are
-				required to be represented exactly where M and N are integers such
-			that <replaceable>base</replaceable><replaceable>q-1</replaceable>	M &lt;
-			<replaceable>base</replaceable><replaceable>q</replaceable>
-				-<replaceable>min_exponent</replaceable>	N <replaceable>max_exponent</replaceable>
+			<para>All numbers of the form M*<replaceable>base</replaceable><superscript>N+1-q</superscript> are
+				required to be represented exactly where M and N are integers such that
 			</para>
+			<itemizedlist>
+				<listitem>
+					<para><replaceable>base<superscript>q-1</superscript></replaceable> ≤ M &lt; <replaceable>base<superscript>q</superscript></replaceable></para>
+				</listitem>
+				<listitem>
+					<para>-<replaceable>min_exponent</replaceable> ≤ N ≤ <replaceable>max_exponent</replaceable></para>
+				</listitem>
+			</itemizedlist>
 
 			<para>Zero will also be represented exactly in any
 				<code>FLOATING_VARIETY</code>.</para>

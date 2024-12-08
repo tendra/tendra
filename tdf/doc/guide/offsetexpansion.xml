@@ -69,7 +69,7 @@
 		<para>From the definition, we find that:</para>
 
 		<programlisting language="tdf">S_c = shape_offset(SH_mystruct)
-			i.e. an OFFSET(alignment(sh_int) xc8  alignment(sh_char) xc8  alignment(sh_double), {})</programlisting>
+			i.e. an OFFSET(alignment(sh_int) ∪  alignment(sh_char) ∪  alignment(sh_double), {})</programlisting>
 
 		<para>This would not be the OFFSET required to describe
 			<code>sizeof(mystruct)</code> in C, since this is defined to be the
@@ -87,7 +87,7 @@
 			address of a structure or array element. Looking again at its
 			signature in a slightly different form:</para>
 
-		<programlisting language="tdf">arg1: EXP POINTER(y xc8 A)
+		<programlisting language="tdf">arg1: EXP POINTER(y ∪ A)
 arg2: EXP OFFSET(y, z)
  -&gt; EXP POINTER(z)
  ... for any ALIGNMENT A</programlisting>
@@ -174,7 +174,7 @@ issigned: BOOL
 n:        NAT
 issigned: BOOL
 sh:       SHAPE
- -&gt; EXP OFFSET(alignment(sh) xc8  A, bfvar_bits(issigned, n))</programlisting>
+ -&gt; EXP OFFSET(alignment(sh) ∪  A, bfvar_bits(issigned, n))</programlisting>
           
 		<para>Here the result is the shape_offset of <code>sh</code> padded with
 			the `minimum' alignment A so that it can accomodate the bitfield.
