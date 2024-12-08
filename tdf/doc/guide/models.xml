@@ -72,18 +72,18 @@ REPR[{short_variety}] = 16</programlisting>
             
 			<para>The representation of a compound ALIGNMENT is given by:</para>
             
-			<programlisting language="tdf">REPR[A xc8 B] = Max(REPR[A], REPR[B])
+			<programlisting language="tdf">REPR[A ∪ B] = Max(REPR[A], REPR[B])
 i.e. MAP[unite_alignment] = Max</programlisting>
             
 			<para>while the ALIGNMENT inclusion predicate is given by:</para>
 
-			<programlisting language="tdf">REPR[A ... B]= REPR[A] xb3 REPR[B]</programlisting>
+			<programlisting language="tdf">REPR[A ... B]= REPR[A] ⊃ REPR[B]</programlisting>
 
 			<para>All the constructions which make ALIGNMENTs are represented here
 				and they will always reduce to an integer known at translate-time.
-				Note that the mappings for xc8 and ... must preserve the basic
+				Note that the mappings for ∪ and ... must preserve the basic
 				algebraic properties derived from sets; for example the mapping of
-				xc8 must be idempotent, commutative and associative, which is true
+				∪ must be idempotent, commutative and associative, which is true
 				for Max.</para>
 		</section>
 
@@ -92,7 +92,7 @@ i.e. MAP[unite_alignment] = Max</programlisting>
 
 			<para>Most standard architectures use byte addressing; to address
 				bits requires more complication. Hence, a value with SHAPE
-				POINTER(A) where REPR[A)]xb9 1 is represented by a 32-bit byte
+				POINTER(A) where REPR[A] ≠ 1 is represented by a 32-bit byte
 				address.</para>
 
 			<para>We are not allowed to construct pointers where REPR[A] = 1,
@@ -100,7 +100,7 @@ i.e. MAP[unite_alignment] = Max</programlisting>
 				Thus a offsets to bitfield are represented differently to offsets
 				to other alignments:</para>
 
-			<para>A value with SHAPE OFFSET(A, B) where REPR(B) xb9 1 is
+			<para>A value with SHAPE OFFSET(A, B) where REPR(B) ≠ 1 is
 				represented by a 32-bit byte-offset.</para>
 
 			<para>A value with SHAPE OFFSET(A, B) where REPR(B) = 1 is
@@ -134,7 +134,7 @@ REPR[offset_zero(A)] = 0             for all A
 
 REPR[offset_pad(A, X:OFFSET(C, D)) =
     ((REPR[X] + REPR[A] - 1) / (REPR[A])) * REPR[A] / 8
-        if REPR[A] xb9 1 xd9 REPR[D] =1</programlisting>
+        if REPR[A] ≠ 1 Λ REPR[D] =1</programlisting>
 
 			<para>Otherwise:</para>
 
@@ -143,7 +143,7 @@ REPR[offset_pad(A, X:OFFSET(C, D)) =
     ((REPR[X] + REPR[A] - 1) / (REPR[A])) * REPR[A]
 
 REPR[offset_add(X:OFFSET(A, B), Y:OFFSET(C, D))] = REPR[X] * 8 + REPR[Y]
-        if REPR[B] xb9 1 xd9 REPR[D] = 1</programlisting>
+        if REPR[B] ≠ 1 Λ REPR[D] = 1</programlisting>
 
             <para>Otherwise:</para>
 
@@ -151,9 +151,9 @@ REPR[offset_add(X:OFFSET(A, B), Y:OFFSET(C, D))] = REPR[X] * 8 + REPR[Y]
 REPR[offset_add(X, Y)] = REPR[X] + REPR[Y]
 
 REPR[offset_max(X:OFFSET(A, B), Y:OFFSET(C, D))] = Max(REPR[X], 8 * REPR[Y]
-        if REPR[B] = 1 xd9 REPR[D] xb9 1
+        if REPR[B] = 1 Λ REPR[D] ≠ 1
 REPR[offset_max(X:OFFSET(A, B), Y:OFFSET(C, D))] = Max(8 * REPR[X], REPR[Y]
-        if REPR[D] = 1 xd9 REPR[B] xb9 1</programlisting>
+        if REPR[D] = 1 Λ REPR[B] ≠ 1</programlisting>
 
 			<para>Otherwise:</para>
 
@@ -166,7 +166,7 @@ REPR[offset_mult(X, E)] = REPR[X] * REPR[E]</programlisting>
 				integers and their inclusion constraints into numerical
 				comparisons.  As a result, it will correctly allow many OFFSETs
 				which are disallowed in general; for example, OFFSET({pointer},
-				{char_variety}) is allowed since REPR[{pointer}] xb3
+				{char_variety}) is allowed since REPR[{pointer}] ⊃
 				REPR[{char_variety}]. Rather fewer of these extra relationships
 				are allowed in the next model considered.</para>
 		</section>
@@ -213,11 +213,11 @@ REPR[alignment({local_label_value})] = (s:32, b:TRUE)</programlisting>
 
 			<para>The representation of a compound ALIGNMENT is given by:</para>
 
-			<programlisting language="tdf">REPR[A xc8 B] = (s:Max(REPR[A].s, REPR[B].s), b:REPR[A].b xda REPR[B].b)</programlisting>
+			<programlisting language="tdf">REPR[A ∪ B] = (s:Max(REPR[A].s, REPR[B].s), b:REPR[A].b V REPR[B].b)</programlisting>
 		  
 			<para>and their inclusion relationship is given by:</para>
 
-			<programlisting language="tdf">REPR[A ... B] = (REPR[A].s xb3 REPR[B].s) xd9 (REPR[A].b xda REPR[B].b)</programlisting>
+			<programlisting language="tdf">REPR[A ... B] = (REPR[A].s ⊃ REPR[B].s) Λ (REPR[A].b V REPR[B].b)</programlisting>
 		</section>
 
 		<section>
@@ -273,41 +273,41 @@ REPR[shape_offset(top)] = 0</programlisting>
 REPR[offset_zero(A)] = (sd: 0, ad: 0) if REPR[A].b
 
 REPR[offset_add(X:OFFSET(A, B), Y:OFFSET(C, D))] = REPR[X] + REPR[Y]
-        if REPR[A].b xd9 REPR[C].b
+        if REPR[A].b Λ REPR[C].b
 REPR[offset_add(X:OFFSET(A, B), Y:OFFSET(C, D))] =
     (sd:REPR[X].sd + REPR[Y].sd, ad: REPR[X].ad + REPR[Y].ad)
-        if REPR[A].b xd9 REPR[C].b
+        if REPR[A].b Λ REPR[C].b
 REPR[offset_add(X:OFFSET(A, B), Y:OFFSET(C, D))] =
     (sd:REPR[X].sd + REPR[Y], ad:REPR[X].ad)
-        if REPR[A].b xd9 REPR[C].b
+        if REPR[A].b Λ REPR[C].b
 
 REPR[offset_pad(A, Y:OFFSET(C, D))] = (REPR[Y] + REPR[A].s - 1) / REPR[A].s
-        if REPR[A].b xd9 REPR[C].b
+        if REPR[A].b Λ REPR[C].b
 REPR[offset_pad(A, Y:OFFSET(C, D))] =
     (sd:(REPR[Y] + REPR[A].s - 1) / REPR[A].s, ad:REPR[Y].ad)
         if REPR[C].b
 REPR[offset_pad(A, Y: OFFSET(C, D))] =
     (sd:(REPR[Y] + REPR[A].s - 1) / REPR[A].s, ad:0)
-        if REPR[A].b xd9 REPR[C].b
+        if REPR[A].b Λ REPR[C].b
 REPR[offset_max(X:OFFSET(A, B), Y:OFFSET(C, D))] = Max(REPR[X], REPR[Y])
-        if REPR[A].b xd9 REPR[C].b
+        if REPR[A].b Λ REPR[C].b
 REPR[offset_max(X:OFFSET(A, B), Y:OFFSET(C, D))] =
     (sd:Max(REPR[X].sd, REPR[Y].sd), ad:Max(REPR[X].a, REPR[Y].ad))
-        if REPR[A].b xd9 REPR[C].b
+        if REPR[A].b Λ REPR[C].b
 REPR[offset_max(X:OFFSET(A, B), Y:OFFSET(C, D))] =
     (sd:Max(REPR[X].sd, REPR[Y]), ad:REPR[X].ad)
-        if REPR[A].b xd9 REPR[C].b
+        if REPR[A].b Λ REPR[C].b
 REPR[offset_max(X:OFFSET(A, B), Y:OFFSET(C, D))] =
     (sd:Max(REPR[Y].sd, REPR[X]), ad: REPR[Y].ad)
-        if REPR[C].b xd9 REPR[A].b
+        if REPR[C].b Λ REPR[A].b
 
 REPR[offset_subtract(X:OFFSET(A, B), Y:OFFSET(C, D))] = REPR[X] - REPR[Y]
-        if REPR[A].b xd9 REPR[C].b
+        if REPR[A].b Λ REPR[C].b
 REPR[offset_subtract(X:OFFSET(A,B), Y:OFFSET(C, D))] =
     (sd:REPR[X].sd - REPR[Y].sd, ad:REPR[X].ad - REPR[Y].ad)
-        if REPR[A].b xd9 REPR[C].b
+        if REPR[A].b Λ REPR[C].b
 REPR[offset_add(X:OFFSET(A, B), Y:OFFSET(C, D))] = REPR[X].sd - REPR[Y]
-        if REPR[A].b xd9 REPR[C].b
+        if REPR[A].b Λ REPR[C].b
 .... and so on.</programlisting>
             
 		<para>Unlike the previous one, this model of ALIGNMENTs would reject

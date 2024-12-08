@@ -397,7 +397,7 @@ maximum_exponent:: NAT
 
 			<programlisting language="tdf">a:    ALIGNMENT
 arg1: EXP OFFSET(z, t)
- -&gt; EXP OFFSET(z xc8 a, a)</programlisting>
+ -&gt; EXP OFFSET(z ∪ a, a)</programlisting>
 
 			<para>This gives the next OFFSET greater or equal to <code>arg1</code>
 				at which an object of ALIGNMENT <code>a</code> can be
@@ -507,9 +507,9 @@ arg2: EXP INTEGER(v)
 				alignment qualifiers, as given by offset_test and offset_max
 				having properties like:</para>
 
-			<programlisting language="tdf">shape_offset(S) xb3  offset_zero(alignment(S))
-A xb3  B        iff offset_max(A,B) = A
-offset_add(A, B) xb3  A         where B xb3  offset_zero(some compatible alignment)</programlisting>
+			<programlisting language="tdf">shape_offset(S) ≥ offset_zero(alignment(S))
+A ≥ B        iff offset_max(A,B) = A
+offset_add(A, B) ≥ A         where B ≥ offset_zero(some compatible alignment)</programlisting>
 
 			<para>In most machines, OFFSETs would be represented as single integer
 				values with the OFFSET ordering corresponding to simple integer

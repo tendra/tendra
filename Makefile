@@ -248,7 +248,7 @@ test-doc:
 # XXX: need the per-project prefix that -DWEBSITE uses
 build-doc:
 	@echo "===> building documents"
-.for project in calculus trans lexi \
+.for project in calculus lexi \
 	osdep tdf tdfc2 sid tcc doc tld tnc tpl tspec
 	cd ${.CURDIR}/${project}/doc && ${MAKE} \
 	    -DDEVELOPER OBJ_DIR=${OBJ_DOC}/${project}
